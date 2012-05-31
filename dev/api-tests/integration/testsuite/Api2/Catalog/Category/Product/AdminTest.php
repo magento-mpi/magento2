@@ -102,8 +102,8 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * Test successful products assign to category
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation category_product::create
      */
     public function testPost()
@@ -135,7 +135,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * Test unsuccessful product assign to category
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderForPostInvalidData
      * @param array $testData
      * @resourceOperation category_product::create
@@ -208,7 +208,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * In addition check if float position is saved correctly
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::create
      */
     public function testPostWithStoreSpecified()
@@ -234,7 +234,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * Test unsuccessful product assign to category with store. If product is not assigned to specified store
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_on_new_website.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::create
      */
     public function testPostInStoreWithNotAssignedProduct()
@@ -258,7 +258,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * Test unsuccessful product assign to category with store. If category is not assigned to specified store
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_on_new_website.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::create
      */
     public function testPostInStoreWithNotAssignedCategory()
@@ -304,7 +304,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test put associated products with invalid category ID specified
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::update
      */
     public function testPutInvalidCategory()
@@ -363,7 +363,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * Test unsuccessful product position in category update
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::update
      */
     public function testPutUnassignedProduct()
@@ -406,7 +406,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test unassign associated products with invalid category ID specified
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::delete
      */
     public function testDeleteInvalidCategory()
@@ -438,7 +438,7 @@ class Api2_Catalog_Category_Product_AdminTest extends Magento_Test_Webservice_Re
      * Test unsuccessful product unassign from category in case when it is not assigned to the specified category
      *
      * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation category_product::delete
      */
     public function testDeleteUnassignedProduct()

@@ -17,7 +17,7 @@ $attributeSet = Magento_Test_Webservice::getFixture('attribute_set_with_one_attr
 $attribute = Magento_Test_Webservice::getFixture('eav_configurable_attribute');
 $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
 /** @var $simpleProduct Mage_Catalog_Model_Product */
-$simpleProduct = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$simpleProduct = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 $simpleProduct->setAttributeSetId($attributeSet->getId())
     ->setData($attribute->getAttributeCode(), $attributeSourceOptions[0]['value'])
     ->save();

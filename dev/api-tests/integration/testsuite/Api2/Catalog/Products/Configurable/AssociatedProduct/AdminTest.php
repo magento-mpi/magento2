@@ -34,7 +34,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
     /**
      * Test unsuccessful assigned products list get from non-configurable product
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::multiget
      */
     public function testMultiGetFromProductOfInvalidType()
@@ -171,7 +171,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
      * Simple and configurable products are from different attribute sets
      *
      * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateWithInvalidAttributeSet()
@@ -302,7 +302,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
     /**
      * Test unsuccessful product unassign from non-configurable product
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteFromProductOfInvalidType()
@@ -317,7 +317,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
     /**
      * Test unsuccessful product unassign from the configurable one. Invalid configurable product ID specified
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteInvalidConfigurableProductId()
@@ -349,7 +349,7 @@ class Api2_Catalog_Products_Configurable_AssociatedProduct_AdminTest extends Mag
      * The specified product is not assigned to the configurable one
      *
      * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteUnassignedProduct()

@@ -26,10 +26,10 @@
  */
 
 /* @var $customerFixture Mage_Customer_Model_Customer */
-$customerFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Customer.php';
+$customerFixture = require TEST_FIXTURE_DIR . '/_block/Customer/Customer.php';
 
 /* @var $customerAddressFixture Mage_Customer_Model_Address */
-$customerAddressFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Address.php';
+$customerAddressFixture = require TEST_FIXTURE_DIR . '/_block/Customer/Address.php';
 $customerFixture->save();
 
 // Get address eav required attributes

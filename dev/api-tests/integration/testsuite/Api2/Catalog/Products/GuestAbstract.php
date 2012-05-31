@@ -27,7 +27,7 @@ abstract class Api2_Catalog_Products_GuestAbstract extends Api2_Catalog_Products
     {
         parent::setUpBeforeClass();
 
-        require TESTS_FIXTURES_DIRECTORY . '/Acl/guest_acl.php';
+        require TEST_FIXTURE_DIR . '/Acl/guest_acl.php';
     }
 
     /**

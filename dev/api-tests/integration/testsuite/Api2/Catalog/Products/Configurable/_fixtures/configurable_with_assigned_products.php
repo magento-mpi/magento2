@@ -16,7 +16,7 @@ $configurableProduct = Magento_Test_Webservice::getFixture('product_configurable
 $productsToAssignIds = array();
 for ($i = 0; $i < CONFIGURABLE_ASSIGNED_PRODUCTS_COUNT; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+    $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
     $product->setName("Assigned product #$i")
         ->setAttributeSetId($configurableProduct->getAttributeSetId())
         ->setWebsiteIds($configurableProduct->getWebsiteIds());

@@ -14,7 +14,7 @@ define('WEBSITES_COUNT_TEST_STORES', 2);
 
 // Product (MUST be created before created not assigned Websites)
 /* @var $productFixture Mage_Catalog_Model_Product */
-$product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 $product->save(); // the save method MUST be called till setWebsiteIds
 
 // Assigned Websites
@@ -24,20 +24,20 @@ $storeGroups = array();
 $stores = array();
 for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
     /* @var $websiteAssignedToProduct Mage_Core_Model_Website */
-    $websiteAssignedToProduct = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Website.php';
+    $websiteAssignedToProduct = require TEST_FIXTURE_DIR . '/_block/Core/Website.php';
     $websiteAssignedToProduct->save();
     $websitesAssignedToProduct[] = $websiteAssignedToProduct;
     $websiteAssignedToProductIds[] = $websiteAssignedToProduct->getId();
 
     // Category
     /* @var $category Mage_Catalog_Model_Category */
-    $category = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Category.php';
+    $category = require TEST_FIXTURE_DIR . '/_block/Catalog/Category.php';
     $category->save();
     $categories[] = $category;
 
     // Store Group
     /* @var $storeGroup Mage_Core_Model_Store_Group */
-    $storeGroup = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Store/Group.php';
+    $storeGroup = require TEST_FIXTURE_DIR . '/_block/Core/Store/Group.php';
     $storeGroup->addData(array(
         'website_id' => $websiteAssignedToProduct->getId(),
         'root_category_id' => $category->getId()
@@ -48,7 +48,7 @@ for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
     // Stores
     for ($j = 0; $j < WEBSITES_COUNT_TEST_STORES; $j++) {
         /* @var $store Mage_Core_Model_Store */
-        $store = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Store.php';
+        $store = require TEST_FIXTURE_DIR . '/_block/Core/Store.php';
         $store->addData(array(
             'group_id' => $storeGroup->getId(),
             'website_id' => $websiteAssignedToProduct->getId()
@@ -73,19 +73,19 @@ Mage::getModel('Mage_Catalog_Model_Product')
 $websitesNotAssignedToProduct = array();
 for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
     /* @var $websiteNotAssignedToProduct Mage_Core_Model_Website */
-    $websiteNotAssignedToProduct = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Website.php';
+    $websiteNotAssignedToProduct = require TEST_FIXTURE_DIR . '/_block/Core/Website.php';
     $websiteNotAssignedToProduct->save();
     $websitesNotAssignedToProduct[] = $websiteNotAssignedToProduct;
 
     // Category
     /* @var $category Mage_Catalog_Model_Category */
-    $category = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Category.php';
+    $category = require TEST_FIXTURE_DIR . '/_block/Catalog/Category.php';
     $category->save();
     $categories[] = $category;
 
     // Store Group
     /* @var $storeGroup Mage_Core_Model_Store_Group */
-    $storeGroup = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Store/Group.php';
+    $storeGroup = require TEST_FIXTURE_DIR . '/_block/Core/Store/Group.php';
     $storeGroup->addData(array(
         'website_id' => $websiteNotAssignedToProduct->getId(),
         'root_category_id' => $category->getId()
@@ -96,7 +96,7 @@ for ($i = 0; $i < WEBSITES_COUNT_TEST_WEBSITES; $i++) {
     // Stores
     for ($j = 0; $j < WEBSITES_COUNT_TEST_STORES; $j++) {
         /* @var $store Mage_Core_Model_Store */
-        $store = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Store.php';
+        $store = require TEST_FIXTURE_DIR . '/_block/Core/Store.php';
         $store->addData(array(
             'group_id' => $storeGroup->getId(),
             'website_id' => $websiteNotAssignedToProduct->getId()

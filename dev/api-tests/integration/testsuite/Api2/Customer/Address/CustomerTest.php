@@ -518,7 +518,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     protected function _getAddressData()
     {
         /* @var $customerAddressFixture Mage_Customer_Model_Address */
-        $customerAddressFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Customer/Address.php';
+        $customerAddressFixture = require TEST_FIXTURE_DIR . '/_block/Customer/Address.php';
         $data = array_intersect_key($customerAddressFixture->getData(), array_flip(array(
             'city', 'country_id', 'firstname', 'lastname', 'postcode', 'region', 'street', 'telephone'
         )));

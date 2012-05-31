@@ -27,7 +27,7 @@ abstract class Api2_Catalog_Products_CustomerAbstract extends Api2_Catalog_Produ
     {
         parent::setUpBeforeClass();
 
-        require TESTS_FIXTURES_DIRECTORY . '/Acl/customer_acl.php';
+        require TEST_FIXTURE_DIR . '/Acl/customer_acl.php';
     }
 
     /**

@@ -21,7 +21,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test successful product get
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGet()
@@ -66,7 +66,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test successful product get with tax applied
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_taxes.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple_taxes.php
      * @resourceOperation product::get
      */
     public function testGetWithTaxCalculation()
@@ -116,7 +116,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test successful get with filter by attributes
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetWithAttributeFilter()
@@ -158,7 +158,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = Mage::getModel('Mage_Catalog_Model_Product');
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $product->addData($productData)
             ->setStoreId(0)
             ->setStockData(array('use_config_manage_stock' => 1))
@@ -173,7 +173,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test unsuccessful get with stock availability 'out of stock'
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetOutOfStockProduct()
@@ -192,7 +192,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test product get for store that product is not assigned to
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @magentoDataFixture Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
@@ -211,7 +211,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test with filter by invalid store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetFilterByInvalidStore()
@@ -227,7 +227,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test unsuccessful product delete
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::delete
      */
     public function testDelete()
@@ -245,7 +245,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
      */
     public function testPost()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
@@ -253,8 +253,8 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test successful product collection get
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/products_collection.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGet()
@@ -277,7 +277,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
     /**
      * Test successful product collection get with specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @magentoDataFixture Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()
@@ -298,7 +298,7 @@ class Api2_Catalog_Products_Simple_CustomerTest extends Api2_Catalog_Products_Cu
         $store = $this->getFixture('store_on_new_website');
         $firstProduct->load($firstProduct->getId());
         $firstProduct->setStoreId($store->getId());
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductUpdateData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         unset($productDataForUpdate['stock_data']);

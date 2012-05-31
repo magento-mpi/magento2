@@ -175,7 +175,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryData.php';
 
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+        $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'])
             ->save();
@@ -214,7 +214,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+        $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();
@@ -253,7 +253,7 @@ class Api2_Catalog_Products_Categories_AdminTest extends Magento_Test_Webservice
         $categoryCreatedData = require dirname(__FILE__) . '/_fixtures/Backend/ProductCategoryCreatedData.php';
 
         /* @var $productFixture Mage_Catalog_Model_Product */
-        $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+        $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
         $product->setStoreId(0)
             ->setCategoryIds($categoryData['category_id'] . ',' . $categoryCreatedData['category_id'])
             ->save();

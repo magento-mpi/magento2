@@ -16,7 +16,7 @@ $assignedProductsFixture = array();
 $assignedProducts = array();
 for ($i = 0; $i <= 2; $i++) {
     /* @var $product Mage_Catalog_Model_Product */
-    $product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+    $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 //    if ($i == 3) {
 //        // disabled product
 //        $product->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED);

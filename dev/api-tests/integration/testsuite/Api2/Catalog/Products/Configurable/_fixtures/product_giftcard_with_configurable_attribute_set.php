@@ -12,7 +12,7 @@
 include "attribute_set.php";
 /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
 $attributeSet = Magento_Test_Webservice::getFixture('attribute_set_with_configurable');
-$giftcard = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$giftcard = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 $giftcard->setAttributeSetId($attributeSet->getId())
     ->setName('Giftcard Product')
     ->setSku('giftcard-product-' . microtime())

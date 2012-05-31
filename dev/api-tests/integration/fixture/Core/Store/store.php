@@ -12,7 +12,7 @@
 if (!Magento_Test_Webservice::getFixture('store')) {
     $defaultWebsite = Mage::app()->getWebsite();
     /** @var $storeFixture Mage_Core_Model_Store */
-    $storeFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Core/Store.php';
+    $storeFixture = require TEST_FIXTURE_DIR . '/_block/Core/Store.php';
     $storeFixture->setWebsiteId($defaultWebsite->getId())->setGroupId($defaultWebsite->getDefaultGroupId())->save();
     Magento_Test_Webservice::setFixture('store', $storeFixture);
     Mage::app()->reinitStores();

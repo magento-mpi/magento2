@@ -22,8 +22,8 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
     /**
      * Test get product price with and without taxes with applied catalog price rule
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/catalog_price_rule.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture CatalogRule/Rule/catalog_price_rule.php
      * @resourceOperation product::get
      */
     public function testGetWithCatalogPriceRule()
@@ -91,7 +91,7 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
      */
     public function testPost()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
@@ -99,8 +99,8 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
     /**
      * Test successful product collection get
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/products_collection.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGet()
@@ -123,7 +123,7 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
     /**
      * Test successful product collection get with specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @magentoDataFixture Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()
@@ -144,7 +144,7 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
         $store = $this->getFixture('store_on_new_website');
         $firstProduct->load($firstProduct->getId());
         $firstProduct->setStoreId($store->getId());
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductUpdateData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         unset($productDataForUpdate['stock_data']);

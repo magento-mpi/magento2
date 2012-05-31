@@ -12,10 +12,10 @@
 define('COUNT_STOCK_ITEMS_LIST', 3);
 
 /* @var $product Mage_Catalog_Model_Product */
-$productFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$productFixture = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 
 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-$stockItemFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/CatalogInventory/Stock/Item.php';
+$stockItemFixture = require TEST_FIXTURE_DIR . '/_block/CatalogInventory/Stock/Item.php';
 
 $products = array();
 $stockItems = array();

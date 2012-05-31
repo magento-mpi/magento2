@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$productData = require dirname(__FILE__) . '/Backend/SimpleProductAllFieldsData.php';
+$productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductAllFieldsData.php';
 $product = new Mage_Catalog_Model_Product();
 $product->setStoreId(0);
 $productData['stock_data']['use_config_manage_stock'] = 0;

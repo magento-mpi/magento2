@@ -10,16 +10,16 @@
  */
 
 /* @var $productFixture Mage_Catalog_Model_Product */
-$productFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$productFixture = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 
 /* @var $quote Mage_Sales_Model_Quote */
-$quote = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Quote.php';
+$quote = require TEST_FIXTURE_DIR . '/_block/Sales/Quote/Quote.php';
 
 /* @var $address Mage_Sales_Model_Quote_Address */
-$address = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Address.php';
+$address = require TEST_FIXTURE_DIR . '/_block/Sales/Quote/Address.php';
 
 /* @var $rateFixture Mage_Sales_Model_Quote_Address_Rate */
-$rateFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/Sales/Quote/Rate.php';
+$rateFixture = require TEST_FIXTURE_DIR . '/_block/Sales/Quote/Rate.php';
 
 /* @var $customer Mage_Customer_Model_Customer */
 $customer = Mage::getModel('Mage_Customer_Model_Customer');

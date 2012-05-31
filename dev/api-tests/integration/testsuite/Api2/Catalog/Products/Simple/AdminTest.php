@@ -112,7 +112,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostSimpleRequiredFieldsOnly()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -174,9 +174,9 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function dataProviderTestPostSimpleAllFieldsValid()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsData.php';
-        $productDataSpecialChars = require dirname(__FILE__)
-            . '/../../_fixtures/Backend/SimpleProductSpecialCharsData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductAllFieldsData.php';
+        $productDataSpecialChars = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductSpecialCharsData.php';
 
         return array(
             array($productDataSpecialChars),
@@ -192,7 +192,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostSimpleAllFieldsInvalid()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductAllFieldsInvalidData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -265,7 +265,8 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostInvalidQtyUsesDecimals()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductInvalidQtyUsesDecimals.php';
+        $productData = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductInvalidQtyUsesDecimals.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "is_qty_decimal" value in the "stock_data" set.');
@@ -279,7 +280,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostInvalidManageStock()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductInvalidManageStock.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductInvalidManageStock.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "manage_stock" value in the "stock_data" set.');
@@ -293,7 +294,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostWeightOutOfRange()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductWeightOutOfRange.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->_checkErrorMessagesInResponse($restResponse, 'The "weight" value is not within the specified range.');
@@ -310,7 +311,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $productData['sku'] = $product->getSku();
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
@@ -350,9 +351,9 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function dataProvidertestPostEmptyRequiredFields()
     {
-        $productDataEmpty = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductEmptyRequired.php';
-        $productDataStringsEmptySpaces = require dirname(__FILE__)
-            . '/../../_fixtures/Backend/SimpleProductEmptySpacesRequired.php';
+        $productDataEmpty = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductEmptyRequired.php';
+        $productDataStringsEmptySpaces = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductEmptySpacesRequired.php';
 
         return array(
             array($productDataEmpty),
@@ -367,7 +368,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostInventoryUseConfigValues()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductInventoryUseConfig.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductInventoryUseConfig.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -395,7 +396,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostInventoryManageStockUseConfig()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductManageStockUseConfig.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductManageStockUseConfig.php';
 
         $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
 
@@ -421,7 +422,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostInventoryManageStockNo()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductManageStockNo.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductManageStockNo.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -446,7 +447,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostGiftOptionsUseConfigValues()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductGiftOptionsUseConfig.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductGiftOptionsUseConfig.php';
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -493,7 +494,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      *
      * @dataProvider dataProviderTestUpdateGroupPrice
      * @magentoDataFixture Core/Store/store_on_new_website.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation product::update
      * @param string $priceField
      * @param int $websiteId
@@ -569,7 +570,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test update attributes with souces. Basicly, check type casting during data validation
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderTestUpdateAttributeWithSource
      * @resourceOperation product::update
      * @param string $attributeName
@@ -620,7 +621,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test gift options update with "use_config_..." attributes
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderTestUpdateGiftOptionsUseConfig
      * @resourceOperation product::update
      * @param string $attributeName
@@ -673,7 +674,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test successful product update
      *
      * @param array $productDataForUpdate
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderTestUpdateSuccessful
      * @resourceOperation product::update
      */
@@ -706,9 +707,9 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function dataProviderTestUpdateSuccessful()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsData.php';
-        $productDataSpecialChars = require dirname(__FILE__)
-            . '/../../_fixtures/Backend/SimpleProductSpecialCharsData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductAllFieldsData.php';
+        $productDataSpecialChars = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductSpecialCharsData.php';
         $productDataZeroValidValuesAsStrings = array(
             'tax_class_id' => '0',
             'sku' => '0',
@@ -816,12 +817,12 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test successful product update on specified store
      *
      * @magentoDataFixture Core/Store/store_on_new_website.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation product::update
      */
     public function testUpdateOnSpecifiedStoreSuccessful()
     {
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductUpdateData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         /** @var $product Mage_Catalog_Model_Product */
@@ -864,8 +865,8 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product update resource with not unique sku value
      * Negative test.
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple_all_fields.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation product::update
      */
     public function testUpdateNotUniqueSku()
@@ -874,7 +875,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
         $product = $this->getFixture('product_simple');
         /** @var $updateProduct Mage_Catalog_Model_Product */
         $updateProduct = $this->getFixture('product_simple_all_fields');
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $productDataForUpdate['sku'] = $product->getSku();
 
         $restResponse = $this->callPut($this->_getResourcePath($updateProduct->getId()), $productDataForUpdate);
@@ -885,14 +886,15 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test update with invalid store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateWithInvalidStore()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductAllFieldsData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductAllFieldsData.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId(), 'INVALID_STORE'),
             $productDataForUpdate);
@@ -904,14 +906,15 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product update with empty required fields
      * Negative test.
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateEmptyRequiredFields()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductEmptyRequired.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductEmptyRequired.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
         unset($productDataForUpdate['type_id']);
@@ -931,15 +934,15 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product resource post with all invalid fields
      * Negative test.
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateAllFieldsInvalid()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__)
-            . '/../../_fixtures/Backend/SimpleProductAllFieldsInvalidData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductAllFieldsInvalidData.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
 
@@ -1001,15 +1004,15 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product update resource with invalid manage stock value
      * Negative test.
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateInvalidManageStock()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__)
-            . '/../../_fixtures/Backend/SimpleProductInvalidManageStock.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductInvalidManageStock.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
         $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "manage_stock" value in the "stock_data" set.');
@@ -1019,15 +1022,15 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product update resource with invalid weight value
      * Negative test.
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/product_simple.php
+     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateWeightOutOfRange()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productDataForUpdate = require dirname(__FILE__)
-            . '/../../_fixtures/Backend/SimpleProductWeightOutOfRange.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR
+            . '/_data/Catalog/Product/Simple/SimpleProductWeightOutOfRange.php';
 
         $restResponse = $this->callPut($this->_getResourcePath($product->getId()), $productDataForUpdate);
         $this->_checkErrorMessagesInResponse($restResponse, 'The "weight" value is not within the specified range.');
@@ -1036,7 +1039,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test successful product collection get
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @magentoDataFixture Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGet()
@@ -1050,7 +1053,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test successful product collection get with specified store
      *
-     * @magentoDataFixture Api2/Catalog/_fixtures/products_collection.php
+     * @magentoDataFixture Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()
@@ -1063,7 +1066,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store_on_new_website');
         $firstProduct->setStoreId($store->getId())->load();
-        $productDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductUpdateData.php';
+        $productDataForUpdate = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductUpdateData.php';
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         unset($productDataForUpdate['stock_data']);
@@ -1101,7 +1104,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      */
     public function testPostMediaAttributesDefaultValue()
     {
-        $productData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
 

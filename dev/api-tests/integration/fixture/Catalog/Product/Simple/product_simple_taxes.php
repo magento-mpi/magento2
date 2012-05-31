@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$productData = require dirname(__FILE__) . '/Backend/SimpleProductData.php';
+$productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
 $product = new Mage_Catalog_Model_Product();
 $product->addData($productData)
     ->setStoreId(0)

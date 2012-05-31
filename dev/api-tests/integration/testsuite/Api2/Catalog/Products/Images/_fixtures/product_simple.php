@@ -11,7 +11,7 @@
 
 
 /* @var $productFixture Mage_Catalog_Model_Product */
-$product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 $product->setStoreId(0)
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))
     ->save();

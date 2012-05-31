@@ -10,7 +10,7 @@
  */
 
 /* @var $ruleFixture Mage_CatalogRule_Model_Rule */
-$ruleFixture = require TESTS_FIXTURES_DIRECTORY . '/_block/CatalogRule/Rule.php';
+$ruleFixture = require TEST_FIXTURE_DIR . '/_block/CatalogRule/Rule.php';
 
 $rule = clone $ruleFixture;
 $rule->save();

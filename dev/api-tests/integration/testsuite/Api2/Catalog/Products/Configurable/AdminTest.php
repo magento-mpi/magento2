@@ -398,7 +398,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
 
         /** @var $simpleProduct Mage_Catalog_Model_Product */
         $simpleProduct = $this->getFixture('simple_product_for_configurable');
-        $newSimpleProductData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $newSimpleProductData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $newSimpleProductData['attribute_set_id'] = $attributeSet->getId();
         $newSimpleProductData[$attribute->getAttributeCode()] = $attributeSourceOptions[1]['value'];
         $productData['configurable_associated_product'] = array(
@@ -482,7 +482,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
         /** @var $simpleProduct Mage_Catalog_Model_Product */
         $simpleProduct = $this->getFixture('simple_product_for_configurable');
         // New simple product data is invalid for configurable product because wrong attribute set id specified.
-        $newSimpleProductData = require dirname(__FILE__) . '/../../_fixtures/Backend/SimpleProductData.php';
+        $newSimpleProductData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
         $productData['configurable_associated_product'] = array(
             array(
                 'product_id' => $simpleProduct->getId()

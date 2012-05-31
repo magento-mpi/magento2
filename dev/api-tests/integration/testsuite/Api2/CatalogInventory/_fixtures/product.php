@@ -10,11 +10,11 @@
  */
 
 /* @var $product Mage_Catalog_Model_Product */
-$product = require TESTS_FIXTURES_DIRECTORY . '/_block/Catalog/Product.php';
+$product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 $product->save();
 
 /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
-$stockItem = require TESTS_FIXTURES_DIRECTORY . '/_block/CatalogInventory/Stock/Item.php';
+$stockItem = require TEST_FIXTURE_DIR . '/_block/CatalogInventory/Stock/Item.php';
 $stockItem->setProductId($product->getId())
     ->save();
 
