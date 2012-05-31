@@ -379,7 +379,7 @@ system_configuration:
                                         pps_debug_mode: //select[@id='payment_settings_payments_standart_advanced_debug']
                                         pps_enable_ssl_verification: //select[@id='payment_settings_payments_standart_advanced_verify_peer']
                             -
-                        #PayPal Payment Gateways
+                        #PayPal Payment Gateways //Start andrii semenenko changes 30.05.2012
                                 paypal_payment_gateways:
                                     xpath: //div[fieldset[@id='payment_paypal_payment_gateways']]
                                     links:
@@ -392,6 +392,272 @@ system_configuration:
                                         pfp_close: //button[@id='payment_paypal_verisign_with_express_checkout-head'][@class='button open']
                                         pfl_configure: //button[@id='payment_payflow_link-head'][@class='button']
                                         pfl_close: //button[@id='payment_payflow_link-head'][@class='button open']
+                            -
+                         #PayPal Payment Gateways ==> Payflow Pro (Includes Express Checkout) ==> Required PayPal Settings
+                                pfp_required_settings:
+                                  xpath: //div[fieldset[@id='payment_paypal_payflow_required']]
+                                  links:
+                                    pfp_required_settings_section: //a[@id='payment_paypal_payflow_required-head']
+                                  dropdown:
+                                    pfp_enable: //select[@id='payment_paypal_payflow_required_enable_paypal_payflow']
+                            -
+                            #PayPal Payment Gateways ==> Payflow Pro (Includes Express Checkout) ==> Required PayPal Settings ==> Payflow Pro and Express Checkout
+                                pfp_fp_required_settings:
+                                    xpath: //div[fieldset[@id='payment_paypal_payflow_api_settings']]
+                                    links:
+                                        ppa_pa_required_settings_section: //a[@id='payment_paypal_payflow_api_settings-head']
+                                    fields:
+                                        pfp_fp_partner: //input[@id='payment_paypal_payflow_api_settings_partner']
+                                        pfp_fp_vendor: //input[@id='payment_paypal_payflow_api_settings_vendor']
+                                        pfp_fp_user: //input[@id='payment_paypal_payflow_api_settings_user']
+                                        pfp_fp_password: //input[@id='payment_paypal_payflow_api_settings_pwd']
+                                        pfp_fp_proxy_host: //input[@id='payment_paypal_payflow_api_settings_proxy_host']
+                                        pfp_fp_proxy_port: //input[@id='payment_paypal_payflow_api_settings_proxy_port']
+                                    dropdowns:
+                                        pfp_fp_use_proxy: //select[@id='payment_paypal_payflow_api_settings_use_proxy']
+                                        pfp_fp_test_mode: //select[@id='payment_paypal_payflow_api_settings_sandbox_flag']
+                            -
+                                #PayPal Payment Gateways ==> Payflow Pro (Includes Express Checkout) => Basic Settings - PayPal Payflow Pro
+                                pfp_basic_settings:
+                                    xpath: //div[fieldset[@id='payment_settings_paypal_payflow']]
+                                    links:
+                                        ppa_basic_settings_section: //a[@id='payment_settings_paypal_payflow-head']
+                                    fields:
+                                        pfp_fp_title: //input[@id='payment_settings_paypal_payflow_title']
+                                        pfp_fp_sort_order: //input[@id='payment_settings_paypal_payflow_sort_order']
+                                    dropdowns:
+                                        pfp_fp_payment_action: //select[@id='payment_settings_paypal_payflow_payment_action']
+                                    multiselects:
+                                        pfp_fp_allowed_credit_card: //select[@id='payment_settings_paypal_payflow_cctypes']
+                            -
+                                   #PayPal Payment Gateways ==> Payflow Pro (Includes Express Checkout) ==> Basic Settings - PayPal Payflow Pro ==> Advanced Settings
+                                pfp_basic_settings_advanced:
+                                    xpath: //div[div/a/@id='payment_settings_paypal_payflow_advanced-head']
+                                    links:
+                                        pfp_basic_settings_advanced_section: //a[@id='payment_settings_paypal_payflow_advanced-head']
+                                    dropdowns:
+                                        pfp_fp_payment_applicable_from: //select[@id='payment_settings_paypal_payflow_advanced_allowspecific']
+                                        pfp_fp_debug_mode: //select[@id='payment_settings_paypal_payflow_advanced_debug']
+                                        pfp_fp_enable_ssl_verification: //select[@id='payment_settings_paypal_payflow_advanced_verify_peer']
+                                        pfp_fp_cvv_entry_is_editable: //select[@id='payment_settings_payments_advanced_advanced_csc_editable']
+                                        pfp_fp_require_cvv_entry: //select[@id='payment_settings_paypal_payflow_advanced_useccv']
+                                    multiselects:
+                                        pfp_fp_specific_countries_applicable_from: //select[@id='payment_settings_paypal_payflow_advanced_specificcountry']
+                            -
+                                     #PayPal Payment Gateways ==> Payflow Pro(Includes Express Checkout) ==> Basic Settings - PayPal Payflow Pro ==> Advanced Settings ==> Settlement Report Settings
+                                pfp_settlement_report_settings:
+                                    xpath: //div[fieldset[@id='payment_paypal_payflow_settlement_report']]
+                                    links:
+                                        pfp_settlement_report_settings_section: //a[@id='payment_paypal_payflow_settlement_report-head']
+                                    fields:
+                                        pfp_sr_login: //input[@id='payment_paypal_payflow_settlement_report_settlement_reports_ftp_login']
+                                        pfp_sr_password: //input[@id='payment_paypal_payflow_settlement_report_settlement_reports_ftp_password']
+                                        pfp_sr_custom_endpoint: //input[@id='payment_paypal_payflow_settlement_report_settlement_reports_ftp_ip']
+                                        pfp_sr_custom_path: //input[@id='payment_paypal_payflow_settlement_report_settlement_reports_ftp_path']
+                                    dropdowns:
+                                        pfp_sr_sandbox_mode: //select[@id='payment_paypal_payflow_settlement_report_settlement_reports_ftp_sandbox']
+                                        pfp_sr_enable_automatic_fetching: //select[@id='payment_paypal_payflow_settlement_report_settlement_reports_active']
+                                        pfp_sr_schedule: //select[@id='payment_paypal_payflow_settlement_report_settlement_reports_schedule']
+                                        pfp_sr_time_of_day_hour: //tr[@id='row_payment_paypal_payflow_settlement_report_settlement_reports_time']//select[1]
+                                        pfp_sr_time_of_day_min: //tr[@id='row_payment_paypal_payflow_settlement_report_settlement_reports_time']//select[2]
+                                        pfp_sr_time_of_day_sec: //tr[@id='row_payment_paypal_payflow_settlement_report_settlement_reports_time']//select[3]
+                            -
+                                 #PayPal Payment Gateways ==> Payflow Pro(Includes Express Checkout) ==> Basic Settings - PayPal Payflow Pro ==> Advanced Settings ==> Frontend Experience Settings
+                                pfp_frontend_experience_settings:
+                                    xpath: //div[fieldset[@id='payment_paypal_payflow_frontend']]
+                                    links:
+                                        pfp_frontend_experience_settings_section: //a[@id='payment_paypal_payflow_frontend-head']
+                                    fields:
+                                        pfp_page_style: //input[@id='payment_paypal_payflow_frontend_page_style']
+                                        pfp_header_image_url: //input[@id='payment_paypal_payflow_frontend_paypal_hdrimg']
+                                        pfp_header_background_color: //input[@id='payment_paypal_payflow_frontend_paypal_hdrbackcolor']
+                                        pfp_header_border_color: //input[@id='payment_paypal_payflow_frontend_paypal_hdrbordercolor']
+                                        pfp_page_background_color: //input[@id='payment_paypal_payflow_frontend_paypal_payflowcolor']
+                                    dropdowns:
+                                        pfp_product_logo: //select[@id='payment_paypal_payflow_frontend_logo']
+                            -
+                                #PayPal Payment Gateways ==> Payflow Pro(Includes Express Checkout) ==> Basic Settings - PayPal Express Checkout
+                                pfp_basic_settings_express_checkout:
+                                    xpath: //div[fieldset[@id='payment_paypal_payflow_express_checkout']]
+                                    links:
+                                        pfp_basic_settings_express_checkout_section: //a[@id='payment_paypal_payflow_express_checkout-head']
+                                    fields:
+                                        pfp_ec_title: //input[@id='payment_paypal_payflow_express_checkout_title']
+                                        pfp_ec_sort_order: //input[@id='payment_paypal_payflow_express_checkout_sort_order']
+                                    dropdowns:
+                                        pfp_ec_payment_action: //select[@id='payment_paypal_payflow_express_checkout_payment_action']
+                                        pfp_ec_shortcut_on_cart: //select[@id='payment_paypal_payflow_express_checkout_visible_on_cart']
+                                        pfp_ec_shortcut_on_product: //select[@id='payment_paypal_payflow_express_checkout_visible_on_product']
+                            -
+                                    #PayPal Payment Gateways ==> Payflow Pro(Includes Express Checkout) ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings
+                                pfp_basic_settings_express_checkout_advanced:
+                                    xpath: //div[div/a/@id='payment_paypal_payflow_express_checkout_advanced-head']
+                                    links:
+                                        pfp_basic_settings_express_checkout_advanced_section: //a[@id='payment_paypal_payflow_express_checkout_advanced-head']
+                                    dropdowns:
+                                        pfp_ec_payment_applicable_from: //select[@id='payment_paypal_payflow_express_checkout_advanced_allowspecific']
+                                        pfp_ec_debug_mode: //select[@id='payment_paypal_payflow_express_checkout_advanced_debug']
+                                        pfp_ec_enable_ssl_verification: //select[@id='payment_paypal_payflow_express_checkout_advanced_verify_peer']
+                                        pfp_ec_transfer_cart_line_items: //select[@id='payment_paypal_payflow_express_checkout_advanced_line_items_enabled']
+                                    multiselects:
+                                        pfp_ec_specific_countries_applicable_from: //select[@id='payment_paypal_payflow_express_checkout_advanced_specificcountry']
+                            -
+                                #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Required PayPal Settings
+                                pfl_required_settings:
+                                    xpath: //div[fieldset[@id='payment_payflow_link_required']]
+                                    links:
+                                        pfl_required_settings_section: //a[@id='payment_payflow_link_required-head']
+                                    dropdowns:
+                                        pfl_pl_enable: //select[@id='payment_payflow_link_required_enable_payflow_link']
+                                        pfl_ec_enable: //select[@id='payment_payflow_link_required_enable_express_checkout']
+                            -
+                                    #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Required PayPal Settings ==> Payflow Link
+                                pfl_pl_required_settings:
+                                    xpath: //div[fieldset[@id='payment_payflow_link_payflow_link']]
+                                    links:
+                                        pfp_pl_required_settings_section: //a[@id='payment_payflow_link_payflow_link-head']
+                                    fields:
+                                        pfl_pl_partner: //input[@id='payment_payflow_link_payflow_link_partner']
+                                        pfl_pl_vendor: //input[@id='payment_payflow_link_payflow_link_vendor']
+                                        pfl_pl_user: //input[@id='payment_payflow_link_payflow_link_user']
+                                        pfl_pl_password: //input[@id='payment_payflow_link_payflow_link_pwd']
+                                        pfl_pl_proxy_host: //input[@id='payment_payflow_link_payflow_link_proxy_host']
+                                        pfl_pl_proxy_port: //input[@id='payment_payflow_link_payflow_link_proxy_port']
+                                    dropdowns:
+                                        pfl_pl_use_proxy: //select[@id='payment_payflow_link_payflow_link_use_proxy']
+                                        pfl_pl_test_mode: //select[@id='payment_payflow_link_payflow_link_sandbox_flag']
+                            -
+                                    #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Required PayPal Settings ==> Express Checkout
+                                pfl_ec_required_settings:
+                                    xpath: //div[fieldset[@id='payment_payflow_link_express_checkout']]
+                                    links:
+                                        pfl_ec_required_settings_section: //a[@id='payment_payflow_link_express_checkout-head']
+                                    buttons:
+                                    fields:
+                                        pfl_ec_merchant_email_account: //input[@id='payment_payflow_link_express_checkout_business_account']
+                                        pfl_ec_api_username: //input[@id='payment_payflow_link_express_checkout_api_username']
+                                        pfl_ec_api_password: //input[@id='payment_payflow_link_express_checkout_api_password']
+                                        pfl_ec_api_signature: //input[@id='payment_payflow_link_express_checkout_api_signature']
+                                        pfl_ec_api_certificate: //input[@id='payment_payflow_link_express_checkout_api_cert']
+                                        pfl_ec_proxy_host: //input[@id='payment_payflow_link_express_checkout_proxy_host']
+                                        pfl_ec_proxy_port: //input[@id='payment_payflow_link_express_checkout_proxy_port']
+                                    dropdowns:
+                                        pfl_ec_api_authentication_method: //select[@id='payment_express_api_authentication']
+                                        pfl_ec_sandbox_mode: //select[@id='payment_payflow_link_express_checkout_sandbox_flag']
+                                        pfl_ec_use_proxy: //select[@id='payment_payflow_link_express_checkout_use_proxy']
+                            -
+                                #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Payflow Link
+                                pfl_basic_settings:
+                                    xpath: //div[fieldset[@id='payment_settings_payflow_link']]
+                                    links:
+                                        pfl_basic_settings_section: //a[@id='payment_settings_payflow_link-head']
+                                    fields:
+                                        pfl_pl_title: //input[@id='payment_settings_payflow_link_title']
+                                        pfl_pl_sort_order: //input[@id='payment_settings_payflow_link_sort_order']
+                                    dropdowns:
+                                        pfl_pl_payment_action: //select[@id='payment_settings_payflow_link_payment_action']
+                            -
+                                    #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Payflow Link ==> Advanced Settings
+                                pfl_basic_settings_advanced:
+                                    xpath: //div[div/a/@id='payment_settings_payflow_link_advanced-head']
+                                    links:
+                                        pfl_basic_settings_advanced_section: //a[@id='payment_settings_payflow_link_advanced-head']
+                                    dropdowns:
+                                        pfl_pl_payment_applicable_from: //select[@id='payment_settings_payflow_link_advanced_allowspecific']
+                                        pfl_pl_debug_mode: //select[@id='payment_settings_payflow_link_advanced_debug']
+                                        pfl_pl_enable_ssl_verification: //select[@id='payment_settings_payflow_link_advanced_verify_peer']
+                                        pfl_pl_cvv_entry_is_editable: //select[@id='payment_settings_payflow_link_advanced_csc_editable']
+                                        pfl_pl_require_cvv_entry: //select[@id='ppayment_settings_payflow_link_advanced_csc_required']
+                                        pfl_pl_send_email_confirmation: //select[@id='payment_settings_payflow_link_advanced_email_confirmation']
+                                        pfl_pl_url_method_for_cancel_and_return: //select[@id='payment_settings_payflow_link_advanced_url_method']
+                                    multiselects:
+                                        pfl_pl_specific_countries_applicable_from: //select[@id='payment_settings_payflow_link_advanced_specificcountry']                            
+                                        
+                            -
+                                        #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Payflow Link ==> Advanced Settings ==> Settlement Report Settings
+                                pfl_settlement_report_settings:
+                                    xpath: //div[fieldset[@id='payment_payflow_link_settlement_report']]
+                                    links:
+                                        pfl_settlement_report_settings_section: //a[@id='payment_payflow_link_settlement_report-head']
+                                    fields:
+                                        pfl_sr_login: //input[@id='payment_payflow_link_settlement_report_settlement_reports_ftp_login']
+                                        pfl_sr_password: //input[@id='payment_payflow_link_settlement_report_settlement_reports_ftp_password']
+                                        pfl_sr_custom_endpoint: //input[@id='payment_payflow_link_settlement_report_settlement_reports_ftp_ip']
+                                        pfl_sr_custom_path: //input[@id='payment_payflow_link_settlement_report_settlement_reports_ftp_path']
+                                    dropdowns:
+                                        pfl_sr_sandbox_mode: //select[@id='payment_payflow_link_settlement_report_settlement_reports_ftp_sandbox']
+                                        pfl_sr_enable_automatic_fetching: //select[@id='payment_payflow_link_settlement_report_settlement_reports_active']
+                                        pfl_sr_schedule: //select[@id='payment_payflow_link_settlement_report_settlement_reports_schedule']
+                                        pfl_sr_time_of_day_hour: //tr[@id='row_payment_payflow_link_settlement_report_settlement_reports_time']//select[1]
+                                        pfl_sr_time_of_day_min: //tr[@id='row_payment_payflow_link_settlement_report_settlement_reports_time']//select[2]
+                                        pfl_sr_time_of_day_sec: //tr[@id='row_payment_payflow_link_settlement_report_settlement_reports_time']//select[3]
+                            -
+                                       #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Payflow Link ==> Advanced Settings ==> Frontend Experience Settings
+                                pfl_frontend_experience_settings:
+                                    xpath: //div[fieldset[@id='payment_payflow_link_frontend']]
+                                    links:
+                                        pfl_frontend_experience_settings_section: //a[@id='payment_payflow_link_frontend-head']
+                                    fields:
+                                        pfl_page_style: //input[@id='payment_payflow_link_frontend_page_style']
+                                        pfl_header_image_url: //input[@id='payment_payflow_link_frontend_paypal_hdrimg']
+                                        pfl_header_background_color: //input[@id='payment_payflow_link_frontend_paypal_hdrbackcolor']
+                                        pfl_header_border_color: //input[@id='payment_payflow_link_frontend_paypal_hdrbordercolor']
+                                        pfl_page_background_color: //input[@id='payment_payflow_link_frontend_paypal_payflowcolor']
+                                    dropdowns:
+                                        pfl_product_logo: //select[@id='payment_payflow_link_frontend_logo']
+                            -
+                                #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Express Checkout
+                                pfl_basic_settings_express_checkout:
+                                    xpath: //div[fieldset[@id='payment_settings_payflow_link_express_checkout']]
+                                    links:
+                                        pfl_basic_settings_express_checkout_section: //a[@id='payment_settings_payflow_link_express_checkout-head']
+                                    fields:
+                                        pfl_ec_title: //input[@id='payment_settings_payflow_link_express_checkout_title']
+                                        pfl_ec_sort_order: //input[@id='payment_settings_payflow_link_express_checkout_sort_order']
+                                        pfl_ec_authorization_honor_period: //input[@id='payment_settings_payflow_link_express_checkout_authorization_honor_period']
+                                        pfl_ec_order_valid_period: //input[@id='payment_settings_payflow_link_express_checkout_order_valid_period']
+                                        pfl_ec_number_of_child_authorizations: //input[@id='payment_settings_payflow_link_express_checkout_child_authorization_number']
+                                    dropdowns:
+                                        pfl_ec_payment_action: //select[@id='payment_settings_payflow_link_express_checkout_payment_action']
+                                        pfl_ec_shortcut_on_cart: //select[@id='payment_settings_payflow_link_express_checkout_visible_on_cart']
+                                        pfl_ec_shortcut_on_product: //select[@id='payment_settings_payflow_link_express_checkout_visible_on_product']
+                            -
+                                    #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings
+                                pfl_basic_settings_express_checkout_advanced:
+                                    xpath: //div[div/a/@id='payment_settings_payflow_link_express_checkout_advanced']
+                                    links:
+                                        ppa_basic_settings_express_checkout_advanced_section: //a[@id='payment_settings_payflow_link_express_checkout_advanced-head']
+                                    dropdowns:
+                                        pfl_ec_payment_applicable_from: //select[@id='payment_settings_payflow_link_express_checkout_advanced_allowspecific']
+                                        pfl_ec_debug_mode: //select[@id='payment_settings_payflow_link_express_checkout_advanced_debug']
+                                        pfl_ec_enable_ssl_verification: //select[@id='payment_settings_payflow_link_express_checkout_advanced_verify_peer']
+                                        pfl_ec_transfer_cart_line_items: //select[@id='payment_settings_payflow_link_express_checkout_advanced_line_items_enabled']
+                                        pfl_ec_transfer_shipping_options: //select[@id='payment_settings_payflow_link_express_checkout_advanced_transfer_shipping_options']
+                                        pfl_ec_shortcut_buttons_flavor: //select[@id='payment_settings_payflow_link_express_checkout_advanced_button_flavor']
+                                        pfl_ec_enable_guest_checkout: //select[@id='payment_settings_payflow_link_express_checkout_advanced_solution_type']
+                                        pfl_ec_require_customer_billing_address: //select[@id='payment_settings_payflow_link_express_checkout_advanced_require_billing_address']
+                                        pfl_ec_billing_agreement_signup: //select[@id='payment_settings_payflow_link_express_checkout_advanced_allow_ba_signup']
+                                    multiselects:
+                                        pfl_ec_specific_countries_applicable_from: //select[@id='payment_settings_payflow_link_express_checkout_advanced_specificcountry']
+                            -
+                                        #PayPal Payment Gateways ==> Payflow Link (Includes Express Checkout) ==> Basic Settings - PayPal Payflow Link ==> Advanced Settings ==> PayPal Billing Agreement Settings
+                                ppa_billing_agreement_settings:
+                                    xpath: //div[fieldset[@id='payment_payflow_link_billing_agreement-head']]
+                                    links:
+                                        ppa_billing_agreement_settings_section: //a[@id='payment_payflow_link_billing_agreement-head']
+                                    fields:
+                                        ppa_ba_title: //input[@id='payment_payflow_link_billing_agreement_title']
+                                        ppa_ba_sort_order: //input[@id='payment_payflow_link_billing_agreement_sort_order']
+                                    dropdowns:
+                                        ppa_ba_enable: //select[@id='payment_payflow_link_billing_agreement_active']
+                                        ppa_ba_payment_action: //select[@id='payment_payflow_link_billing_agreement_payment_action']
+                                        ppa_ba_payment_applicable_from: //select[@id='payment_payflow_link_billing_agreement_allowspecific']
+                                        ppa_ba_debug_mode: //select[@id='payment_payflow_link_billing_agreement_debug']
+                                        ppa_ba_transfer_cart_line_items: //select[@id='ppayment_payflow_link_billing_agreement_line_items_enabled']
+                                        ppa_ba_allow_in_agreement_wizard: //select[@id='payment_payflow_link_billing_agreement_allow_billing_agreement_wizard']
+                                    multiselects:
+                                        ppa_ba_specific_countries_applicable_from: //select[@id='payment_billing_agreement_specificcountry']
+                        # End of Andrii Semenenko changes 30.05.2012
                             -
                         #PayPal Express Checkout
                                 paypal_express_checkout:
