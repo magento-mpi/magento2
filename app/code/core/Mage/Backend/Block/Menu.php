@@ -86,10 +86,6 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
         if (isset($childAttributes['module'])) {
             $helperName     = (string)$childAttributes['module'];
         }
-//        if (isset($childAttributes['translate'])) {
-//            $titleNodeName  = (string)$childAttributes['translate'];
-//        }
-
         return Mage::helper($helperName)->__((string)$child->$titleNodeName);
     }
 
@@ -101,7 +97,11 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     protected function _afterToHtml($html)
     {
-        $html = preg_replace_callback('#'.Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME.'/\$([^\/].*)/([^\$].*)\$#U', array($this, '_callbackSecretKey'), $html);
+        $html = preg_replace_callback(
+            '#'.Mage_Backend_Model_Url::SECRET_KEY_PARAM_NAME.'/\$([^\/].*)/([^\$].*)\$#U',
+            array($this, '_callbackSecretKey'),
+            $html
+        );
 
         return $html;
     }
@@ -119,60 +119,9 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     }
 
     /**
-     * Render HTML menu recursively starting from the specified level
-     *
-     * @deprecated ?
-     * @param array $menu
-     * @param int $level
-     * @return string
+     * Get menu config model
+     * @return Mage_Backend_Model_Menu
      */
-    protected function _renderMenuLevel(array $menu, $level = 0)
-    {
-        $result = '<ul' . (!$level ? ' id="nav"' : '') . '>';
-        foreach ($menu as $item) {
-            $hasChildren = !empty($item['children']);
-            $cssClasses = array('level' . $level);
-            if (!$level && !empty($item['active'])) {
-                $cssClasses[] = 'active';
-            }
-            if ($hasChildren) {
-                $cssClasses[] = 'parent';
-            }
-            if (!empty($level) && !empty($item['last'])) {
-                $cssClasses[] = 'last';
-            }
-            $result .= '<li'
-                . ($hasChildren ? ' onmouseover="Element.addClassName(this,\'over\')"' : '')
-                . ($hasChildren ? ' onmouseout="Element.removeClassName(this,\'over\')"' : '')
-                . ' class="' . implode(' ', $cssClasses) . '">'
-                . '<a'
-                . ' href="' . $item['url'] . '"'
-                . (!empty($item['title']) ? ' title="' . $item['title'] . '"' : '')
-                . (!empty($item['click']) ? ' onclick="' . $item['click'] . '"' : '')
-                . ($level === 0 && !empty($item['active']) ? ' class="active"' : '')
-                . '>'
-                . '<span>' . Mage::helper('Mage_Backend_Helper_Data')->escapeHtml($item['label']) . '</span>'
-                . '</a>'
-            ;
-            if ($hasChildren) {
-                $result .= $this->_renderMenuLevel($item['children'], $level + 1);
-            }
-            $result .= '</li>';
-        }
-        $result .= '</ul>';
-        return $result;
-    }
-
-    /**
-     * Render HTML menu
-     * @deprecated ?
-     * @return string
-     */
-    public function renderMenu()
-    {
-        return $this->_renderMenuLevel($this->_buildMenuArray());
-    }
-
     public function getMenuModel()
     {
         return Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
@@ -185,7 +134,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      * @param int $level
      * @return string
      */
-    public function getMenuLevel(Mage_Backend_Model_Menu $menu, $level = 0)
+    public function getMenuLevelHtml(Mage_Backend_Model_Menu $menu, $level = 0)
     {
         $html = '<ul ' . (!$level ? 'id="nav"' : '') . '>' . PHP_EOL;
         foreach ($menu as $item) {
@@ -201,7 +150,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
                 . $this->escapeHtml($item->getLabel()) . '</span></a>' . PHP_EOL;
 
             if ($item->hasChildren()) {
-                $html .= $this->getMenuLevel($item->getChildren(), $level + 1);
+                $html .= $this->getMenuLevelHtml($item->getChildren(), $level + 1);
             }
             $html .= '</li>' . PHP_EOL;
         }

@@ -11,7 +11,7 @@
 
 <div class="nav-bar">
 <!-- menu start -->
-<?php echo $this->getMenuLevel($this->getMenuModel()); ?>
+<?php echo $this->getMenuLevelHtml($this->getMenuModel()); ?>
 <!-- menu end -->
 
     <a id="page-help-link" href="<?php echo Mage::helper('Mage_Backend_Helper_Data')->getPageHelpUrl() ?>"><?php echo $this->__('Get help for this page') ?></a>
