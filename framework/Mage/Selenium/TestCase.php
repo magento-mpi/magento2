@@ -276,7 +276,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param array $browser Defines what kind of driver, for a what browser will be loaded
      *
-     * @return Mage_Selenium_Driver
+     * @return \Mage_Selenium_Driver|\PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     protected function getDriver(array $browser)
     {
@@ -2516,7 +2516,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Waits for the element to appear
      *
-     * @param string|array $locator XPath locator or array of locators
+     * @param string|array $locator XPath locator or array of locator's
      * @param int $timeout Timeout period in seconds (by default = null)
      *
      * @return bool
@@ -2588,7 +2588,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     /**
      * Waits for the element(s) to be visible
      *
-     * @param string|array $locator XPath locator or array of locators
+     * @param string|array $locator XPath locator or array of locator's
      * @param int $timeout Timeout period in seconds (by default = null)
      *
      * @return bool
