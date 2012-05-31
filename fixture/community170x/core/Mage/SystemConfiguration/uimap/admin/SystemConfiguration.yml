@@ -663,17 +663,16 @@ system_configuration:
                                 paypal_express_checkout:
                                     xpath: //div[fieldset[@id='payment_paypal_alternative_payment_methods']]
                                     links:
-                                        paypal_express_checkout_section: //a[@id='payment_paypal_payment_gateways-head']
+                                        paypal_express_checkout_section: //a[@id='payment_paypal_alternative_payment_methods-head']
                                         paypal_express_checkout_help: //a[text()='Help']
                                         pec_learn_more: //strong[contains(text(),'Express Checkout')]//a[@class='link-more']
                                     buttons:
                                         pec_configure: //button[@id='payment_express_checkout-head'][@class='button']
                                         pec_close: //button[@id='payment_express_checkout-head'][@class='button open']
-
                             -
                             #PayPal Express Checkout ==> Required PayPal Settings
                                 pec_required_settings:
-                                    xpath: //div[fieldset[@id='payment_required_settings']]
+                                    xpath: //div[fieldset[@id='payment_express_checkout_required']]
                                     links:
                                         pec_required_settings_section: //a[@id='payment_express_checkout_required-head']
                                     dropdowns:
@@ -683,7 +682,7 @@ system_configuration:
                                 pec_ec_required_settings:
                                     xpath: //div[fieldset[@id='payment_express_checkout_required_express_checkout']]
                                     links:
-                                        pec_required_settings_section: //a[@id='payment_express_checkout_required_express_checkout-head']
+                                        pec_ec_required_settings_section: //a[@id='payment_express_checkout_required_express_checkout-head']
                                     buttons:
                                     fields:
                                         pec_merchant_email_account: //input[@id='payment_express_checkout_required_express_checkout_business_account']
@@ -699,10 +698,10 @@ system_configuration:
                                         pec_use_proxy: //select[@id='payment_express_checkout_required_express_checkout_use_proxy']
                             -
                             #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout
-                                pec_basic_settings_express_checkout:
+                                pec_ec_basic_settings:
                                     xpath: //div[fieldset[@id='payment_settings_ec']]
                                     links:
-                                        pec_basic_settings_express_checkout_section: //a[@id='payment_settings_ec-head']
+                                        pec_ec_basic_settings_section: //a[@id='payment_settings_ec-head']
                                     fields:
                                         pec_title: //input[@id='payment_settings_ec_title']
                                         pec_sort_order: //input[@id='payment_settings_ec_sort_order']
@@ -715,10 +714,10 @@ system_configuration:
                                         pec_shortcut_on_product: //select[@id='payment_settings_ec_visible_on_product']
                             -
                                 #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings
-                                pec_basic_settings_express_checkout_advanced:
+                                pec_ec_basic_settings_advanced:
                                     xpath: //div[div/a/@id='payment_settings_ec_advanced-head']
                                     links:
-                                        pec_basic_settings_express_checkout_advanced_section: //a[@id='payment_settings_ec_advanced-head']
+                                        pec_ec_basic_settings_advanced_section: //a[@id='payment_settings_ec_advanced-head']
                                     dropdowns:
                                         pec_payment_applicable_from: //select[@id='payment_settings_ec_advanced_allowspecific']
                                         pec_debug_mode: //select[@id='payment_settings_ec_advanced_debug']
@@ -733,10 +732,10 @@ system_configuration:
                                         pec_specific_countries_applicable_from: //select[@id='payment_settings_ec_advanced_specificcountry']
                             -
                                     #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings ==> PayPal Billing Agreement Settings
-                                pec_billing_agreement_settings:
+                                pec_ba_settings:
                                     xpath: //div[fieldset[@id='payment_express_checkout_billing_agreement']]
                                     links:
-                                        pec_billing_agreement_settings_section: //a[@id='payment_express_checkout_billing_agreement-head']
+                                        pec_ba_settings_section: //a[@id='payment_express_checkout_billing_agreement-head']
                                     fields:
                                         pec_ba_title: //input[@id='payment_express_checkout_billing_agreement_title']
                                         pec_ba_sort_order: //input[@id='payment_express_checkout_billing_agreement_sort_order']
@@ -751,10 +750,10 @@ system_configuration:
                                         pec_ba_specific_countries_applicable_from: //select[@id='payment_express_checkout_billing_agreement_specificcountry']
                             -
                                     #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings ==> Settlement Report Settings
-                                pec_settlement_report_settings:
+                                pec_sr_settings:
                                     xpath: //div[fieldset[@id='payment_express_checkout_settlement_report']]
                                     links:
-                                        pec_settlement_report_settings_section: //a[@id='payment_express_checkout_settlement_report-head']
+                                        pec_sr_settings_section: //a[@id='payment_express_checkout_settlement_report-head']
                                     fields:
                                         pec_sr_login: //input[@id='payment_express_checkout_settlement_report_settlement_reports_ftp_login']
                                         pec_sr_password: //input[@id='payment_express_checkout_settlement_report_settlement_reports_ftp_password']
@@ -769,10 +768,10 @@ system_configuration:
                                         pec_sr_time_of_day_sec: //tr[@id='row_payment_express_checkout_settlement_report_settlement_reports_time']//select[3]
                             -
                                     #PayPal Express Checkout ==> Basic Settings - PayPal Express Checkout ==> Advanced Settings ==> Frontend Experience Settings
-                                pec_frontend_experience_settings:
+                                pec_fe_settings:
                                     xpath: //div[fieldset[@id='payment_express_checkout_frontend']]
                                     links:
-                                        pec_frontend_experience_settings_section: //a[@id='payment_express_checkout_frontend-head']
+                                        pec_fe_settings_section: //a[@id='payment_express_checkout_frontend-head']
                                     fields:
                                         pec_page_style: //input[@id='payment_express_checkout_frontend_page_style']
                                         pec_header_image_url: //input[@id='payment_express_checkout_frontend_paypal_hdrimg']
@@ -789,4 +788,7 @@ system_configuration_website:
     uimap: *system_configuration_uimap
 
 system_configuration_store:
+    uimap: *system_configuration_uimap
+
+system_configuration_country:
     uimap: *system_configuration_uimap

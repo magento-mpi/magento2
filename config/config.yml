@@ -165,4 +165,22 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
+    community170x: &community170x
+        fallbackOrderFixture: 'community170x, default'
+        fallbackOrderHelper: 'Community170x, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento_community170x/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento_community170x/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
     default: *enterprise

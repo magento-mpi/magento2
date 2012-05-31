@@ -1,0 +1,108 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+express_checkout_all_us:
+    configuration_scope: Default Config
+    merchant_country: United States
+    configuration:
+        payment_1:
+            payment_name: pec
+            general_fieldset: paypal_express_checkout
+            fieldset_1:
+                path: pec_required_settings/pec_ec_required_settings
+                data:
+                    pec_merchant_email_account: test@mail.ru
+                    pec_api_authentication_method: API Signature
+                    pec_api_username: test
+                    pec_api_password: test
+                    pec_api_signature: test
+                    pec_sandbox_mode: Yes
+                    pec_use_proxy: Yes #No
+                    pec_proxy_host: test
+                    pec_proxy_port: test
+            fieldset_2:
+                path: pec_required_settings
+                data:
+                    pec_enable: Yes
+            fieldset_3:
+                path: pec_ec_basic_settings
+                data:
+                    pec_title: PayPal Express Checkout
+                    pec_sort_order: 1
+                    pec_payment_action: Order
+                    pec_shortcut_on_cart: Yes
+                    pec_shortcut_on_product: Yes
+                    pec_authorization_honor_period: 4
+                    pec_order_valid_period: 30
+                    pec_child_authorization_number: 2
+            fieldset_4:
+                path: pec_ec_basic_settings/pec_ec_basic_settings_advanced
+                data:
+                    pec_payment_applicable_from: All Allowed Countries
+                    pec_specific_countries_applicable_from: %noValue%
+                    pec_debug_mode: Yes
+                    pec_enable_ssl_verification: Yes
+                    pec_transfer_cart_line_items: Yes
+                    pec_transfer_shipping_options: No
+                    pec_shortcut_buttons_flavor: Dynamic
+                    pec_enable_guest_checkout: No
+                    pec_require_customer_billing_address: No
+                    pec_billing_agreement_signup: Never
+            fieldset_5:
+                path: pec_ec_basic_settings/pec_ec_basic_settings_advanced/pec_ba_settings
+                data:
+                    pec_ba_enable: Yes
+                    pec_ba_title: PayPal Billing Agreement
+                    pec_ba_sort_order: 2
+                    pec_ba_payment_action: Authorization
+                    pec_ba_payment_applicable_from: All Allowed Countries
+                    pec_ba_specific_countries_applicable_from: %noValue%
+                    pec_ba_debug_mode: Yes
+                    pec_ba_transfer_cart_line_items: No
+                    pec_ba_allow_in_agreement_wizard: Yes
+            fieldset_6:
+                path: pec_ec_basic_settings/pec_ec_basic_settings_advanced/pec_sr_settings
+                data:
+                    pec_sr_login: test
+                    pec_sr_password: test
+                    pec_sr_sandbox_mode: No
+                    pec_sr_custom_endpoint: test
+                    pec_sr_custom_path: test
+                    pec_sr_enable_automatic_fetching: No
+                    pec_sr_schedule: Daily
+                    pec_sr_time_of_day_hour: 23
+                    pec_sr_time_of_day_min: 59
+                    pec_sr_time_of_day_sec: 59
+            fieldset_7:
+                path: pec_ec_basic_settings/pec_ec_basic_settings_advanced/pec_fe_settings
+                data:
+                    pec_product_logo: Now accepting PayPal (150 X 40)
+                    pec_page_style: test
+                    pec_header_image_url: test
+                    pec_header_background_color: test
+                    pec_header_border_color: test
+                    pec_page_background_color: test
