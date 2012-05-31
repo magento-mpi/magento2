@@ -463,4 +463,15 @@ abstract class Api2_Catalog_Products_Abstract extends Magento_Test_Webservice_Re
         }
         return $path;
     }
+
+    /**
+     * Load simple product fixture data
+     *
+     * @param string $fixtureName
+     * @return array
+     */
+    protected function _loadSimpleProductFixtureData($fixtureName)
+    {
+        return require TEST_FIXTURE_DIR . "/_data/Catalog/Product/Simple/{$fixtureName}.php";
+    }
 }

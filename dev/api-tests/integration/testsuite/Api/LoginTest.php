@@ -98,7 +98,7 @@ class Api_LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        $requestXml = file_get_contents('_files/request_invalid_structure.xml');
+        $requestXml = file_get_contents(__DIR__ . '/_files/request_invalid_structure.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;
@@ -127,7 +127,7 @@ class Api_LoginTest extends Magento_Test_Webservice
             return;
         }
 
-        $requestXml = file_get_contents('_files/request_invalid_namespace.xml');
+        $requestXml = file_get_contents(__DIR__ . '/_files/request_invalid_namespace.xml');
         $location = TESTS_WEBSERVICE_URL . '/index.php/api/soap/index/';
         $action = 'urn:Mage_Api_Model_Server_HandlerAction';
         $version = 1;

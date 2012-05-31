@@ -91,7 +91,7 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
      */
     public function testPost()
     {
-        $productData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
+        $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_FORBIDDEN, $restResponse->getStatus());
     }
@@ -144,7 +144,7 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
         $store = $this->getFixture('store_on_new_website');
         $firstProduct->load($firstProduct->getId());
         $firstProduct->setStoreId($store->getId());
-        $productDataForUpdate = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductUpdateData.php';
+        $productDataForUpdate = $this->_loadSimpleProductFixtureData('simple_product_update_data');
         unset($productDataForUpdate['type_id']);
         unset($productDataForUpdate['attribute_set_id']);
         unset($productDataForUpdate['stock_data']);

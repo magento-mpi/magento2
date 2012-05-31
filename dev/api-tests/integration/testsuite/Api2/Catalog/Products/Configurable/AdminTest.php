@@ -21,7 +21,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
     /**
      * Test successful configurable product single GET. Check received configurable attributes
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_with_assigned_products.php
+     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @resourceOperation product::get
      */
     public function testGet()
@@ -43,7 +43,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
     /**
      * Test successful configurable product single GET. Check received configurable attributes on specified store
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_with_assigned_products.php
+     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @magentoDataFixture Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
@@ -65,7 +65,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Make sure that unnecessary fields are not present in the response result for the configurable product.
      * All other behavior is the same as for the simple product
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_with_assigned_products.php
+     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @resourceOperation product::multiget
      */
     public function testMultiGet()
@@ -94,7 +94,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Load product and assert it was created correctly.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/attribute_set.php
+     * @magentoDataFixture Catalog/Product/Configurable/attribute_set.php
      * @resourceOperation product::create
      */
     public function testCreate()
@@ -184,7 +184,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/attribute_set_with_invalid_attribute.php
+     * @magentoDataFixture Catalog/Product/Configurable/attribute_set_with_invalid_attribute.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidAttribute()
@@ -222,7 +222,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/attribute_set_with_one_attribute.php
+     * @magentoDataFixture Catalog/Product/Configurable/attribute_set_with_one_attribute.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidAttributePrice()
@@ -278,7 +278,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/attribute_set_with_one_attribute.php
+     * @magentoDataFixture Catalog/Product/Configurable/attribute_set_with_one_attribute.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidAttributeOptionValue()
@@ -320,7 +320,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/attribute_set.php
+     * @magentoDataFixture Catalog/Product/Configurable/attribute_set.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidFrontendLabel()
@@ -365,7 +365,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Assert that created configurable product has two simple products assigned to it.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/multicall.php
+     * @magentoDataFixture Catalog/Product/Configurable/multicall.php
      * @resourceOperation product::create
      */
     public function testCreateMulticall()
@@ -398,7 +398,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
 
         /** @var $simpleProduct Mage_Catalog_Model_Product */
         $simpleProduct = $this->getFixture('simple_product_for_configurable');
-        $newSimpleProductData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
+        $newSimpleProductData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/simple_product_data.php';
         $newSimpleProductData['attribute_set_id'] = $attributeSet->getId();
         $newSimpleProductData[$attribute->getAttributeCode()] = $attributeSourceOptions[1]['value'];
         $productData['configurable_associated_product'] = array(
@@ -448,7 +448,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Assert that correct HTTP status was returned and that only one product was assigned to configurable product.
      * Assert that invalid simple product was deleted from system when assigning failed.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/multicall.php
+     * @magentoDataFixture Catalog/Product/Configurable/multicall.php
      * @resourceOperation product::create
      */
     public function testCreateMulticallPartialSuccess()
@@ -482,7 +482,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
         /** @var $simpleProduct Mage_Catalog_Model_Product */
         $simpleProduct = $this->getFixture('simple_product_for_configurable');
         // New simple product data is invalid for configurable product because wrong attribute set id specified.
-        $newSimpleProductData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/SimpleProductData.php';
+        $newSimpleProductData = require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Simple/simple_product_data.php';
         $productData['configurable_associated_product'] = array(
             array(
                 'product_id' => $simpleProduct->getId()
@@ -524,7 +524,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Load product and assert it was updated correctly.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_with_assigned_products.php
+     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @resourceOperation product::update
      */
     public function testUpdate()
@@ -579,7 +579,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_with_assigned_products.php
+     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @resourceOperation product::update
      */
     public function testUpdatePreValidation()
@@ -650,7 +650,7 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      * Expected result:
      * Load product and assert it was updated correctly on test store and not on default store.
      *
-     * @magentoDataFixture Api2/Catalog/Products/Configurable/_fixtures/configurable_on_new_store.php
+     * @magentoDataFixture Catalog/Product/Configurable/configurable_on_new_store.php
      * @resourceOperation product::update
      */
     public function testUpdateOnStore()
@@ -890,6 +890,6 @@ class Api2_Catalog_Products_Configurable_AdminTest extends Api2_Catalog_Products
      */
     protected function _getValidProductPostData()
     {
-        return require dirname(__FILE__) . '/_fixtures/DataProvider/ProductConfigurableAllFields.php';
+        return require TEST_FIXTURE_DIR . '/_data/Catalog/Product/Configurable/product_configurable_all_fields.php';
     }
 }
