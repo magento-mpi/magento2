@@ -18,12 +18,16 @@ class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Men
     );
 
    /**
-     * Add misssing data to item
+     * Add missing data to item
      *
-     * @param Mage_Backend_Model_Menu_Item $item
+     * @param array $itemParams
+     * @return array
      */
-    protected function _execute(Mage_Backend_Model_Menu_Item $item)
+    protected function _execute(array $itemParams)
     {
-        $item->addData($this->_data);
+        foreach($this->_data as $key => $value) {
+            $itemParams[$key] = isset($itemParams[$key]) ? $itemParams[$key] : $value;
+        }
+        return $itemParams;
     }
 }

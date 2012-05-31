@@ -73,23 +73,6 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     }
 
     /**
-     * Retrieve Title value for menu node
-     *
-     * @param Varien_Simplexml_Element $child
-     * @return string
-     */
-    protected function _getHelperValue(Varien_Simplexml_Element $child)
-    {
-        $helperName         = 'Mage_Backend_Helper_Data';
-        $titleNodeName      = 'title';
-        $childAttributes    = $child->attributes();
-        if (isset($childAttributes['module'])) {
-            $helperName     = (string)$childAttributes['module'];
-        }
-        return Mage::helper($helperName)->__((string)$child->$titleNodeName);
-    }
-
-    /**
      * Processing block html after rendering
      *
      * @param   string $html
@@ -144,10 +127,10 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
                 . ($item->hasChildren() ? ' parent' : '')
                 . (!empty($level) && $menu->isLast($item) ? ' last' : '')
                 . ' level' . $level . '"> <a href="' . $item->getUrl() . '" '
-                . ($item->hasTitle() ? 'title="' . $item->getTitle() . '"' : '') . ' '
+                . ($item->hasTooltip() ? 'title="' . $item->getModuleHelper()->__($item->getTooltip()) . '"' : '') . ' '
                 . ($item->hasClickCallback() ? 'onclick="' . $item->getClickCallback() . '"' : '') . ' class="'
                 . ($level === 0 && $item->isActive() ? 'active' : '') . '"><span>'
-                . $this->escapeHtml($item->getLabel()) . '</span></a>' . PHP_EOL;
+                . $this->escapeHtml($item->getModuleHelper()->__($item->getTitle())) . '</span></a>' . PHP_EOL;
 
             if ($item->hasChildren()) {
                 $html .= $this->getMenuLevelHtml($item->getChildren(), $level + 1);

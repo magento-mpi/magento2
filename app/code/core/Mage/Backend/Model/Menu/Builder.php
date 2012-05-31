@@ -7,12 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_BuilderAbstract
+abstract class Mage_Backend_Model_Menu_Builder
 {
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Backend_Model_Menu_Builder_CommandAbstract[]
      */
-    protected $_factory;
+    protected $_commands = array();
+
+    /**
+     * @var Mage_Backend_Model_Menu_Item_Factory
+     */
+    protected $_itemFactory;
 
     /**
      * Root menu
@@ -23,15 +28,31 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
 
     public function __construct(array $data = array())
     {
-        if (!isset($data['factory'])) {
+        if (!isset($data['itemFactory']) || !($data['itemFactory'] instanceof Mage_Backend_Model_Menu_Item_Factory)) {
             throw new InvalidArgumentException();
         }
-        $this->_factory = $data['factory'];
+        $this->_itemFactory = $data['itemFactory'];
 
         if (!isset($data['menu']) || !($data['menu'] instanceof Mage_Backend_Model_Menu)) {
             throw new InvalidArgumentException();
         }
         $this->_menu = $data['menu'];
+    }
+
+    /**
+     * Process provided command object
+     *
+     * @param Mage_Backend_Model_Menu_Builder_CommandAbstract $command
+     * @return Mage_Backend_Model_Menu_BuilderAbstract
+     */
+    public function processCommand(Mage_Backend_Model_Menu_Builder_CommandAbstract $command)
+    {
+        if (!isset($this->_commands[$command->getId()])) {
+            $this->_commands[$command->getId()] = $command;
+        } else {
+            $this->_commands[$command->getId()]->chain($command);
+        }
+        return $this;
     }
 
     /**
@@ -42,7 +63,7 @@ class Mage_Backend_Model_Menu_Builder_Simplexml extends Mage_Backend_Model_Menu_
         /** @var $items Mage_Backend_Model_Menu_Item[] */
         $items = array();
         foreach ($this->_commands as $command) {
-            $item = $command->execute($this->_factory->getModelInstance('Mage_Backend_Model_Menu_Item'));
+            $item = $this->_itemFactory->createFromArray($command->execute(array()));
             $items[$item->getId()] = $item;
         }
 

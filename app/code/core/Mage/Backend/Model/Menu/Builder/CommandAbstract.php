@@ -78,22 +78,23 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
     /**
      * Execute command actions and pass control to chained commands
      *
-     * @param Mage_Backend_Model_Menu_Item $item
+     * @param array $itemParams
+     * @return array
      */
-    public function execute(Mage_Backend_Model_Menu_Item $item)
+    public function execute(array $itemParams = array())
     {
-        $this->_execute($item);
+        $this->_execute($itemParams);
         if (!is_null($this->_next)) {
-            $this->_next->execute($item);
+            $itemParams = $this->_next->execute($itemParams);
         }
-        return $item;
+        return $itemParams;
     }
 
     /**
      * Execute internal command actions
      *
-     * @param Mage_Backend_Model_Menu_Item $item
-     * @return Mage_Backend_Model_Menu_Item
+     * @param array $itemParams
+     * @return array
      */
-    protected abstract function _execute(Mage_Backend_Model_Menu_Item $item);
+    protected abstract function _execute(array $itemParams);
 }

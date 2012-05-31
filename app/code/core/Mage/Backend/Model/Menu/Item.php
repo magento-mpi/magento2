@@ -10,13 +10,6 @@
 class Mage_Backend_Model_Menu_Item
 {
     /**
-     * Submenu item list
-     *
-     * @var Mage_Backend_Model_Menu
-     */
-    protected $_submenu;
-
-    /**
      * Menu item id
      *
      * @var string
@@ -24,25 +17,18 @@ class Mage_Backend_Model_Menu_Item
     protected $_id;
 
     /**
-     * Parent menu item id
+     * Menu item title
      *
      * @var string
      */
-    protected $_parentId = null;
+    protected $_title;
 
     /**
-     * Menu item action
+     * Module of menu item
      *
      * @var string
      */
-    protected $_action = null;
-
-    /**
-     * Path from root element in tree
-     *
-     * @var string
-     */
-    protected $_path = '';
+    protected $_moduleHelper;
 
     /**
      * Menu item sort index in list
@@ -52,19 +38,95 @@ class Mage_Backend_Model_Menu_Item
     protected $_sortIndex = null;
 
     /**
+     * Menu item action
+     *
+     * @var string
+     */
+    protected $_action = null;
+
+    /**
+     * Parent menu item id
+     *
+     * @var string
+     */
+    protected $_parentId = null;
+
+    /**
+     * Acl resource of menu item
+     *
+     * @var string
+     */
+    protected $_resource;
+
+    /**
+     * Item tooltip text
+     *
+     * @var string
+     */
+    protected $_tooltip;
+
+    /**
+     * Path from root element in tree
+     *
+     * @var string
+     */
+    protected $_path = '';
+
+    /**
+     * Acl
+     *
      * @var Mage_Backend_Model_Auth_Session
      */
     protected $_acl;
 
     /**
-     * @param array $data
+     * Module that item is dependent on
+     *
+     * @var string|null
      */
-    protected function __construct(array $data = array())
+    protected $_dependsOnModule;
+
+    /**
+     * Global config option that item is dependent on
+     *
+     * @var string|null
+     */
+    protected $_dependsOnConfig;
+
+    /**
+     * Submenu item list
+     *
+     * @var Mage_Backend_Model_Menu
+     */
+    protected $_submenu;
+
+    /**
+     * @param array $data
+     * @throws InvalidArgumentException
+     */
+    public function __construct(array $data = array())
     {
-        if (!isset($data['acl']) || !$data['acl'] instanceof Mage_Backend_Model_Auth_Session) {
+        if (!isset($data['acl'])
+            || !$data['acl'] instanceof Mage_Backend_Model_Auth_Session
+            || !isset($data['id']) || !isset($data['title']) || !isset($data['module']) || !isset($data['sortOrder'])
+            || !isset($data['action']) || !isset($data['parent'])
+        ) {
             throw new InvalidArgumentException();
         }
+
         $this->_acl = $data['acl'];
+
+        $this->_id = $data['id'];
+        $this->_title = $data['title'];
+        $this->_moduleHelper = $data['module'];
+        $this->_sortIndex = $data['sortOrder'];
+        $this->_action = $data['action'];
+        $this->_parentId = $data['parent'];
+        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        $this->_dependsOnModule = isset($data['dependsOnModule']) ? $data['dependsOnModule'] : null;
+        $this->_dependsOnConfig = isset($data['dependsOnConfig']) ? $data['dependsOnConfig'] : null;
+        $this->_tooltip = isset($data['toolTip']) ? $data['toolTip'] : '';
+
     }
 
     /**
@@ -123,12 +185,6 @@ class Mage_Backend_Model_Menu_Item
         return $this->_submenu;
     }
 
-    public function isActive()
-    {
-        return ($this->getActive()==$path.$childName)
-            || (strpos($this->getActive(), $path.$childName.'/')===0);
-    }
-
     /**
      * Retrieve full path from root element
      *
@@ -139,6 +195,11 @@ class Mage_Backend_Model_Menu_Item
         return $this->_path . $this->_id;
     }
 
+    /**
+     * Retrieve menu item url
+     *
+     * @return string
+     */
     public function getUrl()
     {
         if ((bool) $this->_action) {
@@ -147,20 +208,6 @@ class Mage_Backend_Model_Menu_Item
         return '#';
     }
 
-    public function hasTitle()
-    {
-
-    }
-
-    public function getTitle()
-    {
-
-    }
-
-    public function getLevel()
-    {
-
-    }
     /**
      * Chechk whether item has javascript callback on click
      *
@@ -184,26 +231,55 @@ class Mage_Backend_Model_Menu_Item
         return '';
     }
 
-    public function getLabel()
+    /**
+     * Retrieve tooltip text title
+     *
+     * @return string
+     */
+    public function getTitle()
     {
-        $helperName         = isset($this->_data['module']) ? $this->_data['module'] : 'Mage_Backend_Helper_Data';
-        $titleNodeName      = 'title';
-        $childAttributes    = $child->attributes();
-        if (isset($childAttributes['module'])) {
-            $helperName     = (string)$childAttributes['module'];
-        }
-//        if (isset($childAttributes['translate'])) {
-//            $titleNodeName  = (string)$childAttributes['translate'];
-//        }
-
-        return Mage::helper($helperName)->__((string)$child->$titleNodeName);
+        return $this->_title;
     }
 
+    /**
+     * Check whether item has tooltip text
+     *
+     * @return bool
+     */
+    public function hasTooltip()
+    {
+        return (bool) $this->_tooltip;
+    }
+
+    /**
+     * Retrieve item tooltip text
+     *
+     * @return string
+     */
+    public function getTooltip()
+    {
+        return $this->_tooltip;
+    }
+
+
+    /**
+     * @return bool
+     */
     public function isDisabled()
     {
-        if (!$this->_isEnabledModuleOutput($child) || $child->depends && !$this->_checkDepends($child->depends)) {
+        if (!$this->_isEnabledModuleOutput() || !$this->_isDependenciesAvailable()) {
             return false;
         }
+    }
+
+    /**
+     * Check whether module output is enabled
+     *
+     * @return bool
+     */
+    protected function _isEnabledModuleOutput()
+    {
+        return $this->_moduleHelper->isModuleOutputEnabled();
     }
 
     /**
@@ -212,11 +288,11 @@ class Mage_Backend_Model_Menu_Item
      * @param Varien_Simplexml_Element $depends
      * @return bool
      */
-    protected function _checkDepends(Varien_Simplexml_Element $depends)
+    protected function _isDependenciesAvailable()
     {
         if ($this->_dependsOnModule) {
             $module = $this->_dependsOnModule;
-            $modulesConfig = Mage::getConfig()->getNode('modules');
+            $modulesConfig = $this->_appConfig->getNode('modules');
             if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
                     return false;
             }
@@ -230,45 +306,42 @@ class Mage_Backend_Model_Menu_Item
         return true;
     }
 
+    /**
+     * Check whether item is allowed to the user
+     *
+     * @return bool
+     */
     public function isAllowed()
     {
-        $aclResource = 'admin/' . ($this->_resource ? (string)$this->_resource : $this->getFullPath());
         try {
-            $res =  $this->_acl->isAllowed($resource);
+            $aclResource = 'admin/' . ($this->_resource ? (string)$this->_resource : $this->getFullPath());
+            return $this->_acl->isAllowed($aclResource);
         } catch (Exception $e) {
             return false;
         }
-        return $res;
-        if (!$this->_checkAcl($aclResource)){
-            return true;
-        }
     }
 
+    /**
+     * Add child to submenu
+     *
+     * @param Mage_Backend_Model_Menu_Item $item
+     */
     public function addChild(Mage_Backend_Model_Menu_Item $item)
     {
         if (!$this->_submenu) {
-            $this->_submenu = new Mage_Backend_Model_Menu();
+            $this->_submenu = $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu');
         }
         $this->_submenu->addChild($item);
     }
 
+    /**
+     * Add item to tree structure
+     *
+     * @param Mage_Backend_Model_Menu $menu
+     */
     public function setParent(Mage_Backend_Model_Menu $menu)
     {
         $this->_path = $menu->getFullPath();
     }
-    /**
-     * @param array $data
-     */
-    public function addData(array $data)
-    {
-        $this->_id = $data['id'];
-        $this->_parentId = isset($data['parent']) ? $data['parent'] : null;
-    }
 
-    /**
-     * @param array $data
-     */
-    public function updateData(array $data)
-    {
-    }
 }

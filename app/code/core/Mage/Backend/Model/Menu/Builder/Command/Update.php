@@ -12,10 +12,14 @@ class Mage_Backend_Model_Menu_Builder_Command_Update extends Mage_Backend_Model_
     /**
      * Update item data
      *
-     * @param Mage_Backend_Model_Menu_Item $item
+     * @param array $itemParams
+     * @return array
      */
-    protected function _execute(Mage_Backend_Model_Menu_Item $item)
+    protected function _execute(array $itemParams)
     {
-        $item->updateData($this->_data);
+        foreach ($this->_data as $key => $value) {
+            $itemParams[$key] = $value;
+        }
+        return $itemParams;
     }
 }

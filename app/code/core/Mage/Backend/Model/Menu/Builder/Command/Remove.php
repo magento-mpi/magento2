@@ -12,10 +12,12 @@ class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Men
     /**
      * Mark item as removed
      *
-     * @param Mage_Backend_Model_Menu_Item $item
+     * @param array $itemParams
+     * @return array
      */
-    protected function _execute(Mage_Backend_Model_Menu_Item $item)
+    protected function _execute(array $itemParams)
     {
-        $item->setIsRemoved(true);
+        $itemParams['removed'] = true;
+        return $itemParams;
     }
 }

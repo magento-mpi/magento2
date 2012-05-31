@@ -29,7 +29,7 @@ class Mage_Backend_Model_Menu extends ArrayIterator
 
     public function addChild(Mage_Backend_Model_Menu_Item $item, $index = null)
     {
-        $index = !is_null($index) ? $index : ($item->hasSortIndex() ? $this->getSortIndex() : $this->_sortIndex++);
+        $index = !is_null($index) ? $index : ($item->hasSortIndex() ? $item->getSortIndex() : $this->_sortIndex++);
         if (!isset($this[$index])) {
             $this->offsetSet($index, $item);
             $item->setParent($this);
