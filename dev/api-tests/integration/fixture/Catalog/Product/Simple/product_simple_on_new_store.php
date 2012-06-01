@@ -11,7 +11,7 @@
 
 require TEST_FIXTURE_DIR . '/Catalog/Category/category_on_new_store.php';
 
-/* @var $productFixture Mage_Catalog_Model_Product */
+/* @var $product Mage_Catalog_Model_Product */
 $product = require TEST_FIXTURE_DIR . '/_block/Catalog/Product.php';
 $product->setStoreId(0)
     ->setWebsiteIds(array(Mage::app()->getDefaultStoreView()->getWebsiteId()))

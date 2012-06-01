@@ -40,7 +40,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test get stock item
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     * @magentoDataFixture Api2/CatalogInventory/_fixture/product.php
      * @resourceOperation stock_item::get
      */
     public function testGetStockItem()
@@ -73,7 +73,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test get stock items
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
+     * @magentoDataFixture CatalogInventory/Stock/Item/stock_items_list.php
      * @resourceOperation stock_item::multiget
      */
     public function testGetStockItems()
@@ -98,7 +98,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock item update
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     * @magentoDataFixture Api2/CatalogInventory/_fixture/product.php
      * @resourceOperation stock_item::update
      */
     public function testUpdateStockItem()
@@ -106,7 +106,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
 
-        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+        $dataForUpdate  = $this->_loadStockItemData();
 
         $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
@@ -133,15 +133,14 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock items update with invalid data
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/product.php
+     * @magentoDataFixture Api2/CatalogInventory/_fixture/product.php
      * @resourceOperation stock_item::update
      */
     public function testUpdateStockItemWithInvalidData()
     {
         /* @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
         $stockItem = $this->getFixture('stockItem');
-        $dataForUpdate  = require dirname(__FILE__) . '/../../_fixtures/stock_item_invalid_data.php';
-
+        $dataForUpdate  = require TEST_FIXTURE_DIR . '/_data/CatalogInventory/Stock/Item/stock_item_invalid_data.php';
         $restResponse = $this->callPut('stockitems/' . $stockItem->getId(), $dataForUpdate);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
 
@@ -155,7 +154,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock items update
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
+     * @magentoDataFixture CatalogInventory/Stock/Item/stock_items_list.php
      * @resourceOperation stock_item::multiupdate
      */
     public function testUpdateStockItems()
@@ -163,7 +162,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         $dataForUpdate = array();
         $fixtureItems = $this->getFixture('cataloginventory_stock_items');
         foreach ($fixtureItems as $fixtureItem) {
-            $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+            $singleItemDataForUpdate = $this->_loadStockItemData();
             $singleItemDataForUpdate['item_id'] = $fixtureItem->getId();
             $dataForUpdate[] = $singleItemDataForUpdate;
         }
@@ -222,7 +221,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testUpdateStockItemsWithMissingItemId()
     {
-        $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+        $singleItemDataForUpdate = $this->_loadStockItemData();
         unset($singleItemDataForUpdate['item_id']); // missing item_id
         $dataForUpdate = array($singleItemDataForUpdate);
 
@@ -248,7 +247,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
      */
     public function testUpdateStockItemsWithInvalidItemId()
     {
-        $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_data.php';
+        $singleItemDataForUpdate = $this->_loadStockItemData();
         $singleItemDataForUpdate['item_id'] = 'invalid_id'; // wrong item_id
         $dataForUpdate = array($singleItemDataForUpdate);
 
@@ -271,14 +270,15 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock items update with invalid data
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixtures/stock_items_list.php
+     * @magentoDataFixture CatalogInventory/Stock/Item/stock_items_list.php
      * @resourceOperation stock_item::multiupdate
      */
     public function testUpdateStockItemsWithInvalidData()
     {
         $dataForUpdate = array();
         $fixtureItems = $this->getFixture('cataloginventory_stock_items');
-        $singleItemDataForUpdate = require dirname(__FILE__) . '/../../_fixtures/stock_item_invalid_data.php';
+        $singleItemDataForUpdate  = require TEST_FIXTURE_DIR
+            . '/_data/CatalogInventory/Stock/Item/stock_item_invalid_data.php';
         foreach ($fixtureItems as $fixtureItem) {
             $singleItemDataForUpdate['item_id'] = $fixtureItem->getId();
             $dataForUpdate[] = $singleItemDataForUpdate;
@@ -293,5 +293,15 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
         $countOfErrorsInSingleItemDataForUpdate = count($singleItemDataForUpdate) - 1;
         // Several errors can be returned because of one invalid position
         $this->assertGreaterThanOrEqual(count($fixtureItems) * $countOfErrorsInSingleItemDataForUpdate, count($errors));
+    }
+
+    /**
+     * Load valid stock item data
+     *
+     * @return array
+     */
+    protected function _loadStockItemData()
+    {
+        return require TEST_FIXTURE_DIR . '/_data/CatalogInventory/Stock/Item/stock_item_data.php';
     }
 }
