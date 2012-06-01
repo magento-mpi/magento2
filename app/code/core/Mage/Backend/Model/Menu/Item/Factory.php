@@ -29,6 +29,11 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_helpers = array();
 
     /**
+     * @var Mage_Backend_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException
      */
@@ -44,10 +49,14 @@ class Mage_Backend_Model_Menu_Item_Factory
         }
         $this->_objectFactory = $data['objectFactory'];
 
+        if (!isset($data['urlModel']) || !$data['urlModel'] instanceof Mage_Backend_Model_Url) {
+            throw new InvalidArgumentException();
+        }
+        $this->_urlModel = $data['urlModel'];
+
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];
         }
-
     }
 
     /**
@@ -69,6 +78,9 @@ class Mage_Backend_Model_Menu_Item_Factory
                 $this->_helpers[$data['dependsOnModule']] :
                 Mage::helper($data['dependsOnModule']);
         }
+        $data['acl'] = $this->_acl;
+        $data['objectFactory'] = $this->_objectFactory;
+        $data['urlModel'] = $this->_urlModel;
         return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Item', $data);
     }
 }

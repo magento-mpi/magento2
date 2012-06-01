@@ -43,7 +43,7 @@ class Mage_Backend_Model_Menu_Builder
      * Process provided command object
      *
      * @param Mage_Backend_Model_Menu_Builder_CommandAbstract $command
-     * @return Mage_Backend_Model_Menu_BuilderAbstract
+     * @return Mage_Backend_Model_Menu_Builder
      */
     public function processCommand(Mage_Backend_Model_Menu_Builder_CommandAbstract $command)
     {

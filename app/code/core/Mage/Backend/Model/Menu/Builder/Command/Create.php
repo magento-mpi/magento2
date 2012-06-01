@@ -7,17 +7,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-class Mage_Backend_Model_Menu_Builder_Command_Remove extends Mage_Backend_Model_Menu_Builder_CommandAbstract
+class Mage_Backend_Model_Menu_Builder_Command_Create extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
+    protected $_requiredParams = array(
+        "id",
+    );
+
     /**
-     * Mark item as removed
+     * Create root element
      *
      * @param array $itemParams
      * @return array
      */
     protected function _execute(array $itemParams)
     {
-        $itemParams['removed'] = true;
+        foreach($this->_data as $key => $value) {
+            $itemParams[$key] = $value;
+        }
         return $itemParams;
     }
 }

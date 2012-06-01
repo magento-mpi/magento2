@@ -129,7 +129,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
                 . ' level' . $level . '"> <a href="' . $item->getUrl() . '" '
                 . ($item->hasTooltip() ? 'title="' . $item->getModuleHelper()->__($item->getTooltip()) . '"' : '') . ' '
                 . ($item->hasClickCallback() ? 'onclick="' . $item->getClickCallback() . '"' : '') . ' class="'
-                . ($level === 0 && $item->isActive() ? 'active' : '') . '"><span>'
+                . ($level === 0 && $this->_isItemActive($item) ? 'active' : '') . '"><span>'
                 . $this->escapeHtml($item->getModuleHelper()->__($item->getTitle())) . '</span></a>' . PHP_EOL;
 
             if ($item->hasChildren()) {
@@ -150,7 +150,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     public function _isItemActive(Mage_Backend_Model_Menu_Item $item)
     {
-        return ($this->getActive() == $item->getPath())
-            || (strpos($this->getActive(), $item->getPath().'/')===0);
+        return ($this->getActive() == $item->getFullPath())
+            || (strpos($this->getActive(), $item->getFullPath().'/')===0);
     }
 }

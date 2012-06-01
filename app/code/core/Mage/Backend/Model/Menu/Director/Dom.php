@@ -76,24 +76,31 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
     protected function _getCommand($data)
     {
         switch ($data['type']) {
+            case 'item' : {
+                $command = $this->_factory->getModelInstance(
+                    'Mage_Backend_Model_Menu_Builder_Command_Create',
+                    $data
+                );
+                } break;
+
             case 'update' : {
                 $command = $this->_factory->getModelInstance(
                     'Mage_Backend_Model_Menu_Builder_Command_Update',
-                    array($data)
+                    $data
                 );
             } break;
 
             case 'remove' : {
                 $command = $this->_factory->getModelInstance(
                     'Mage_Backend_Model_Menu_Builder_Command_Remove',
-                    array($data)
+                    $data
                 );
             } break;
 
             default : {
                 $command = $this->_factory->getModelInstance(
                     'Mage_Backend_Model_Menu_Builder_Command_Add',
-                    array($data)
+                    $data
                 );
             } break;
         }

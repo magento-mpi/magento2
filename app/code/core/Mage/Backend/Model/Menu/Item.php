@@ -101,6 +101,16 @@ class Mage_Backend_Model_Menu_Item
     protected $_submenu;
 
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+    /**
+     * @var Mage_Backend_Model_Url
+     */
+    protected $_urlModel;
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException
      */
@@ -108,25 +118,53 @@ class Mage_Backend_Model_Menu_Item
     {
         if (!isset($data['acl'])
             || !$data['acl'] instanceof Mage_Backend_Model_Auth_Session
-            || !isset($data['id']) || !isset($data['title']) || !isset($data['module']) || !isset($data['sortOrder'])
-            || !isset($data['action']) || !isset($data['parent'])
         ) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Wrong acl object provided');
+        }
+
+        if (!isset($data['objectFactory'])
+            || !$data['objectFactory'] instanceof Mage_Core_Model_Config
+        ) {
+            throw new InvalidArgumentException('Wrong object factory provided');
+        }
+
+        if (!isset($data['urlModel'])
+            || !$data['urlModel'] instanceof Mage_Backend_Model_Url
+        ) {
+            throw new InvalidArgumentException('Wrong url model provided');
         }
 
         $this->_acl = $data['acl'];
+        $this->_objectFactory = $data['objectFactory'];
+        $this->_urlModel = $data['urlModel'];
+
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];
         $this->_moduleHelper = $data['module'];
-        $this->_sortIndex = $data['sortOrder'];
-        $this->_action = $data['action'];
         $this->_parentId = $data['parent'];
+        $this->_sortIndex = isset($data['sortOrder']) ? $data['sortOrder'] : null;
+        $this->_action = isset($data['action']) ? $data['action'] : null;
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
         $this->_dependsOnModule = isset($data['dependsOnModule']) ? $data['dependsOnModule'] : null;
         $this->_dependsOnConfig = isset($data['dependsOnConfig']) ? $data['dependsOnConfig'] : null;
         $this->_tooltip = isset($data['toolTip']) ? $data['toolTip'] : '';
+    }
 
+    /**
+     * @return bool
+     */
+    public function hasSortIndex()
+    {
+        return (bool) $this->_sortIndex;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSortIndex()
+    {
+        return $this->_sortIndex;
     }
 
     /**
@@ -156,25 +194,9 @@ class Mage_Backend_Model_Menu_Item
     /**
      * @return bool
      */
-    public function hasSortIndex()
-    {
-        return (bool) $this->_sortIndex;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSortIndex()
-    {
-        return $this->_sortIndex;
-    }
-
-    /**
-     * @return bool
-     */
     public function hasChildren()
     {
-        return (bool) $this->_submenu->count();
+        return !is_null($this->_submenu) && (bool) $this->_submenu->count();
     }
 
     /**
@@ -203,7 +225,7 @@ class Mage_Backend_Model_Menu_Item
     public function getUrl()
     {
         if ((bool) $this->_action) {
-            return $this->_url->getUrl((string)$this->_action, array('_cache_secret_key' => true));
+            return $this->_urlModel->getUrl((string)$this->_action, array('_cache_secret_key' => true));
         }
         return '#';
     }
@@ -261,7 +283,13 @@ class Mage_Backend_Model_Menu_Item
         return $this->_tooltip;
     }
 
-
+    /**
+     * @return Mage_Core_Model_Helper
+     */
+    public function getModuleHelper()
+    {
+        return $this->_moduleHelper;
+    }
     /**
      * @return bool
      */
@@ -292,16 +320,18 @@ class Mage_Backend_Model_Menu_Item
     {
         if ($this->_dependsOnModule) {
             $module = $this->_dependsOnModule;
-            $modulesConfig = $this->_appConfig->getNode('modules');
+            /*$modulesConfig = $this->_appConfig->getNode('modules');
             if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
                     return false;
-            }
+            }*/
         }
 
         if ($this->_dependsOnConfig) {
+            /**
             if (!Mage::getStoreConfigFlag((string)$this->_dependsOnConfig)) {
                 return false;
             }
+             */
         }
         return true;
     }
@@ -329,7 +359,10 @@ class Mage_Backend_Model_Menu_Item
     public function addChild(Mage_Backend_Model_Menu_Item $item)
     {
         if (!$this->_submenu) {
-            $this->_submenu = $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu');
+            $this->_submenu = $this->_objectFactory->getModelInstance(
+                'Mage_Backend_Model_Menu',
+                array('path' => $this->getFullPath())
+            );
         }
         $this->_submenu->addChild($item);
     }
@@ -342,6 +375,22 @@ class Mage_Backend_Model_Menu_Item
     public function setParent(Mage_Backend_Model_Menu $menu)
     {
         $this->_path = $menu->getFullPath();
+        if ($this->_submenu) {
+            $this->_submenu->setPath($this->getFullPath());
+        }
     }
 
+    /**
+     * Retrieve first allowed to user leaf menu item
+     *
+     * @return string
+     */
+    public function getFirstAvailableChild()
+    {
+        $action = null;
+        if ($this->_submenu) {
+            $action = $this->_submenu->getFirstAvailableChild();
+        }
+        return $action ? $action : $this->_action;
+    }
 }
