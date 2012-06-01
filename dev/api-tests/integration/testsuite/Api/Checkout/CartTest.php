@@ -243,7 +243,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     /**
      * Test for product list from shopping cart API method
      *
-     * @magentoDataFixture Api/Checkout/_fixtures/order.php
+     * @magentoDataFixture Api/Checkout/_fixture/order.php
      */
     public function testCreateOrder()
     {
@@ -278,7 +278,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     /**
      * Test order creation with payment method
      *
-     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     * @magentoDataFixture Api/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithPayment()
     {
@@ -309,7 +309,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     /**
      * Test order creation with not available payment method
      *
-     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     * @magentoDataFixture Api/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithNotAvailablePayment()
     {
@@ -345,7 +345,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     /**
      * Test order creation with payment method data empty
      *
-     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     * @magentoDataFixture Api/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithEmptyPaymentData()
     {
@@ -370,7 +370,7 @@ class Api_Checkout_CartTest extends Magento_Test_Webservice
     /**
      * Test order creation with invalid payment method data
      *
-     * @magentoDataFixture Api/Checkout/_fixtures/order_with_payment_method.php
+     * @magentoDataFixture Api/Checkout/_fixture/order_with_payment_method.php
      */
     public function testCreateOrderWithInvalidPaymentData()
     {
