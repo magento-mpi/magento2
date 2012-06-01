@@ -70,7 +70,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Open image for processing
      *
-     * @throws RuntimeException
+     * @throws Exception
      * @param string $filename
      */
     public function open($filename)
@@ -82,7 +82,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         try {
             $this->_imageHandler = new Imagick($this->_fileName);
         } catch (ImagickException $e) {
-            throw new RuntimeException('Unsupported image format.', $e->getCode(), $e);
+            throw new Exception('Unsupported image format.', $e->getCode(), $e);
         }
 
         $this->backgroundColor();
@@ -142,6 +142,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      *
      * @param int $frameWidth
      * @param int $frameHeight
+     * @throws Exception
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
@@ -190,6 +191,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * Rotate image on specific angle
      *
      * @param int $angle
+     * @throws Exception
      */
     public function rotate($angle)
     {
@@ -235,7 +237,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * @param int $positionX
      * @param int $positionY
      * @param bool $tile
-     * @throws RuntimeException
+     * @throws Exception
      */
     public function watermark($imagePath, $positionX = 0, $positionY = 0, $tile = false)
     {
@@ -318,7 +320,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 );
             }
         } catch (ImagickException $e) {
-            throw new RuntimeException('Unable to create watermark.', $e->getCode(), $e);
+            throw new Exception('Unable to create watermark.', $e->getCode(), $e);
         }
 
         // merge layers
