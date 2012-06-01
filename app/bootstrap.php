@@ -47,7 +47,7 @@ if (file_exists(BP . '/maintenance.flag')) {
  * Environment initialization
  */
 error_reporting(E_ALL | E_STRICT);
-#ini_set('display_errors', 1);
+ini_set('display_errors', 1);
 umask(0);
 
 /**
@@ -57,9 +57,9 @@ require_once BP . '/lib/Magento/Autoload.php';
 require_once BP . '/app/code/core/Mage/Core/functions.php';
 require_once BP . '/app/Mage.php';
 
-if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
+//if (isset($_SERVER['MAGE_IS_DEVELOPER_MODE'])) {
     Mage::setIsDeveloperMode(true);
-}
+//}
 Mage::register('original_include_path', get_include_path());
 
 $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';

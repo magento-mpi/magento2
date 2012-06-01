@@ -14,51 +14,41 @@
  */
 class Mage_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
+    protected $_configureAction = array(
+        'bundle_product' => array(
+            'fixture' => 'Mage/Checkout/_files/product_bundle.php',
+            'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
+        ),
+        'simple_product' => array(
+            'fixture' => 'Mage/Checkout/_files/product.php',
+            'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
+        ),
+        'simple_with_custom_option' => array(
+            'fixture' => 'Mage/Checkout/_files/product_with_custom_option.php',
+            'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
+        ),
+        'downloadable_product' => array(
+            'fixture' => 'Mage/Checkout/_files/product_downloadable.php',
+            'must_have' => array(
+                '<ul id="downloadable-links-list" class="options-list">',
+                '<button type="button" title="Update Cart" class="button btn-cart"')
+        ),
+        'configurable_product' => array(
+            'fixture' => 'Mage/Checkout/_files/product_configurable.php',
+            'must_have' => array(
+                '<select name="super_attribute',
+                '<button type="button" title="Update Cart" class="button btn-cart"')
+        )
+    );
 
     /**
      * Test for Mage_Catalog_ProductController::configureAction()
      */
     public function testConfigureAction()
     {
-        $testPlan = array(
-            'bundle_product' => array(
-                'fixture' => 'Mage/Checkout/_files/product_bundle.php',
-                'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
-            ),
-            'simple_product' => array(
-                'fixture' => 'Mage/Checkout/_files/product.php',
-                'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
-            ),
-            'simple_with_custom_option' => array(
-                'fixture' => 'Mage/Checkout/_files/product_with_custom_option.php',
-                'must_have' => array('<button type="button" title="Update Cart" class="button btn-cart"')
-            ),
-            'downloadable_product' => array(
-                'fixture' => 'Mage/Checkout/_files/product_downloadable.php',
-                'must_have' => array(
-                    '<ul id="downloadable-links-list" class="options-list">',
-                    '<button type="button" title="Update Cart" class="button btn-cart"')
-            ),
-            'configurable_product' => array(
-                'fixture' => 'Mage/Checkout/_files/product_configurable.php',
-                'must_have' => array(
-                    '<select name="super_attribute',
-                    '<button type="button" title="Update Cart" class="button btn-cart"')
-            ),
-            'gift_card' => array(
-                'edition' => 'Enterprise',
-                'fixture' => 'Mage/Checkout/_files/product_gift.php',
-                'must_have' => array(
-                    '<input type="text" id="giftcard_amount_input"',
-                    '<button type="button" title="Update Cart" class="button btn-cart"')
-            ),
-        );
         $this->setUp();
         $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
-        foreach ($testPlan as $testCode => $testParams) {
-            if (isset($testParams['edition']) && Mage::getEdition() != $testParams['edition']) {
-                continue;
-            }
+        foreach ($this->_configureAction as $testCode => $testParams) {
             $adapter->beginTransaction();
             require __DIR__ . '/../../../' . $testParams['fixture'];
             $quoteItemId = Mage::registry('product/quoteItemId');

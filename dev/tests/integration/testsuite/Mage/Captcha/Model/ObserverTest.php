@@ -65,7 +65,8 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
                 'wrong_password'
             );
         }
-        catch (Exception $e) {}
+        catch (Exception $e) {
+        }
 
         $this->assertTrue($captchaModel->isRequired());
     }

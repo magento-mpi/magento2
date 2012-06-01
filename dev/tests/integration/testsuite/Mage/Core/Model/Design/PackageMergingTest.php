@@ -43,7 +43,8 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
         );
 
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setDesignTheme('package/default/theme', 'frontend');
+        $this->_model->setIsFallbackSavePermitted(false)
+            ->setDesignTheme('package/default/theme', 'frontend');
     }
 
     protected function tearDown()

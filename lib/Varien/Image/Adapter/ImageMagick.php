@@ -76,9 +76,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     public function open($filename)
     {
         $this->_fileName = $filename;
-        if (!$this->_canProcess()) {
-            throw new RuntimeException('Image is not readable or file name is empty.');
-        }
+        $this->_checkCanProcess();
         $this->_getFileAttributes();
 
         try {
@@ -95,7 +93,6 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * Save image to specific path.
      * If some folders of path does not exist they will be created
      *
-     * @throws Exception  if destination path is not writable
      * @param string $destination
      * @param string $newName
      */
@@ -143,15 +140,12 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Change the image size
      *
-     * @throws Exception
      * @param int $frameWidth
      * @param int $frameHeight
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
-        if (!$this->_canProcess()) {
-            throw new Exception('Image is not readable or file name is empty.');
-        }
+        $this->_checkCanProcess();
         $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
         $newImage = new Imagick();
@@ -195,14 +189,11 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Rotate image on specific angle
      *
-     * @throws Exception
      * @param int $angle
      */
     public function rotate($angle)
     {
-        if (!$this->_canProcess()) {
-            throw new Exception('Image is not readable or file name is empty.');
-        }
+        $this->_checkCanProcess();
         // compatibility with GD2 adapter
         $angle = 360 - $angle;
         $pixel = new ImagickPixel;
@@ -240,22 +231,18 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Add watermark to image
      *
-     * @throws RuntimeException
      * @param string $imagePath
      * @param int $positionX
      * @param int $positionY
-     * @param int $watermarkImageOpacity
+     * @param int $opacity
      * @param bool $isWaterMarkTile
+     * @throws RuntimeException
      */
     public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $isWaterMarkTile = false)
     {
-        if (!$this->_canProcess()) {
-            throw new RuntimeException('Image is not readable or file name is empty.');
-        }
+        $this->_checkCanProcess();
 
-        $opacity = $this->getWatermarkImageOpacity()
-            ? $this->getWatermarkImageOpacity()
-            : $opacity;
+        $opacity = $this->getWatermarkImageOpacity();
 
         $opacity = (float)number_format($opacity / 100, 1);
         $watermark = new Imagick($imagePath);
@@ -273,17 +260,11 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         }
 
         if (method_exists($watermark, 'setImageOpacity')) {
-            // available from imagick 6.2.9
+            // available from imagick 6.3.1
             $watermark->setImageOpacity($opacity);
         } else {
             // go to each pixel and make it transparent
-            $iterator = $watermark->getPixelIterator();
-            foreach ($iterator as $y => $pixels) {
-                foreach ($pixels as $x => $pixel) {
-                    $watermark->paintTransparentImage($pixel, $opacity, 65535);
-                }
-                $iterator->syncIterator();
-            }
+            $watermark->evaluateImage(Imagick::EVALUATE_SUBTRACT, 1 - $opacity, Imagick::CHANNEL_ALPHA);
         }
 
         switch ($this->getWatermarkPosition()) {
@@ -402,5 +383,19 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         $pixel = $this->_imageHandler->getImagePixelColor($x, $y);
 
         return explode(',', $pixel->getColorAsString());
+    }
+
+    /**
+     * Check whether the adapter can work with the image
+     *
+     * @throws Exception
+     * @return bool
+     */
+    protected function _checkCanProcess()
+    {
+        if (!$this->_canProcess()) {
+            throw new Exception('Image is not readable or file name is empty.');
+        }
+        return true;
     }
 }

@@ -13,35 +13,13 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
 {
     /**
      * Checks that all important blocks are successfully created and rendered.
-     * Checks that instance of customer segment are existed in registry
-     *
-     * @magentoDataFixture Enterprise/CustomerSegment/_files/segment.php
      */
-    public function testEditAction()
+    public function testNewAction()
     {
-        /** @var $segment Enterprise_CustomerSegment_Model_Segment */
-        $segment = Mage::registry('_fixture/Enterprise_CustomerSegment_Model_Segment');
-        $this->getRequest()->setParam('id', $segment->getId());
-
-        $this->dispatch('admin/customersegment/edit/');
+        $this->dispatch('admin/customersegment/new/');
         $body = $this->getResponse()->getBody();
         $this->assertSelectCount('form#edit_form', 1, $body);
         $this->assertSelectCount('ul#enterprise_customersegment_segment_tabs', 1, $body);
-
-        /** @var $currentSegment Enterprise_CustomerSegment_Model_Segment */
-        $currentSegment = Mage::registry('current_customer_segment');
-        $this->assertInstanceOf('Enterprise_CustomerSegment_Model_Segment', $currentSegment);
-        $this->assertEquals($segment->getId(), $currentSegment->getId());
-
-        /**
-        * Delete created customer segment and try to run edit action
-        */
-        $segment->delete();
-        Mage::unregister('application_params');
-        $this->dispatch('admin/customersegment/edit/');
-        /** @var $session Mage_Adminhtml_Model_Session */
-        $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
-        $this->assertCount(1, $session->getMessages()->getErrors());
     }
 
     /**
