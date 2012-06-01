@@ -9,12 +9,11 @@
  */
 class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
-    protected $_data = array(
+    protected $_requiredParams = array(
         "id",
         "title",
         "module",
-        "sort_order",
-        "action"
+        "parent"
     );
 
    /**

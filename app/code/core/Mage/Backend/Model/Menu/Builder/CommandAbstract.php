@@ -10,11 +10,6 @@
 abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
     /**
-     * @var int
-     */
-    protected $_id;
-
-    /**
      * List of required params
      *
      * @var array
@@ -26,7 +21,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
      *
      * @var array
      */
-    protected $data = array();
+    protected $_data = array();
 
     /**
      * Next command in the chain
@@ -43,7 +38,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
     {
         foreach($this->_requiredParams as $param) {
             if (!isset($data[$param]) || is_null($data[$param])) {
-                throw new InvalidArgumentException();
+                throw new InvalidArgumentException("Missing required param " . $param);
             }
         }
         $this->_data = $data;
@@ -83,7 +78,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
      */
     public function execute(array $itemParams = array())
     {
-        $this->_execute($itemParams);
+        $itemParams = $this->_execute($itemParams);
         if (!is_null($this->_next)) {
             $itemParams = $this->_next->execute($itemParams);
         }

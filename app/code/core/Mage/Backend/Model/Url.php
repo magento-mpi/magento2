@@ -32,6 +32,11 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     protected $_adminConfig;
 
     /**
+     * @var Mage_Backend_Model_Menu
+     */
+    protected $_menu;
+
+    /**
      * Startup page url from config
      * @var string
      */
@@ -47,6 +52,8 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
         $this->_startupPageUrl = isset($data['startupPageUrl']) ?
             $data['startupPageUrl'] :
             Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
+
+        $this->_menu = isset($data['menu']) ? $data['menu'] : null;
     }
 
 
@@ -210,35 +217,22 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     /**
      * Find first menu item that user is able to access
      *
-     * @param Mage_Core_Model_Config_Element $parent
-     * @param string $path
-     * @param integer $level
      * @return string
      */
-    public function findFirstAvailableMenu($parent = null, $path = '', $level = 0)
+    public function findFirstAvailableMenu()
     {
-        if ($parent == null) {
-            $parent = $this->_adminConfig->getAdminhtmlConfig()->getNode('menu');
-        }
-        foreach ($parent->children() as $childName => $child) {
-            $aclResource = 'admin/' . $path . $childName;
-            if ($this->_getSession()->isAllowed($aclResource)) {
-                if (!$child->children) {
-                    return (string)$child->action;
-                } else if ($child->children) {
-                    $action = $this->findFirstAvailableMenu($child->children, $path . $childName . '/', $level + 1);
-                    return $action ? $action : (string)$child->action;
-                }
+        $menu = $this->_menu ? $this->_menu : Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+        $action = $menu->getFirstAvailableChild();
+        if (!$action) {
+            $user = $this->_getSession()->getUser();
+            if ($user) {
+                $user->setHasAvailableResources(false);
             }
+            $action = '*/*/denied';
         }
-        $user = $this->_getSession()->getUser();
-        if ($user) {
-            $user->setHasAvailableResources(false);
-        }
-        return '*/*/denied';
+        return $action;
+
     }
-
-
 
     /**
      * Set custom auth session
