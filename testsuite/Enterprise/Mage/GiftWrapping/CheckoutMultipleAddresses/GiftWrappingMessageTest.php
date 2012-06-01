@@ -602,9 +602,9 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     public function withGiftWrappingAndMessagePerWebsiteScope($testData)
     {
         //Data
-        $wrappingWebsite = $this->loadDataSet('GiftMessage/gift_wrapping_all_enable_on_website',
+        $wrappingWebsite = $this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable_on_website',
             array('configuration_scope' => $testData['website']));
-        $giftMessagesWebsite = $this->loadDataSet('GiftMessage/gift_message_all_enable_on_website',
+        $giftMessagesWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
             array('configuration_scope' => $testData['website']));
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'all_variants_for_gift_options',
             array('product_name'            => $testData['simple'], 'gift_wrapping_for_item'  => $testData['wrapping'],

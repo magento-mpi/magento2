@@ -648,8 +648,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         //Preconditions
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_wrapping_all_enable');
-        $this->systemConfigurationHelper()->configure('gift_options_website_price_scope');
+        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_wrapping_all_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage', 'gift_options_website_price_scope');
         //Data
         $productGiftOptions = $this->loadDataSet('GiftWrapping', 'gift_options_custom_wrapping_price');
         $productGiftOptionsSite = $this->loadDataSet('GiftWrapping',
