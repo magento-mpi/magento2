@@ -18,8 +18,13 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new Mage_Backend_Model_Menu_Item(
+        /*$this->_model = new Mage_Backend_Model_Menu_Item(
             array('id' => 'item1')
-        );
+        );*/
+    }
+
+    public function testIsActive()
+    {
+        $this->markTestIncomplete();
     }
 }

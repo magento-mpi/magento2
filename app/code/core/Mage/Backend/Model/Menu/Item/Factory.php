@@ -24,7 +24,7 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_objectFactory;
 
     /**
-     * @var Mage_Core_Model_Helper[]
+     * @var Mage_Core_Helper_Abstract[]
      */
     protected $_helpers = array();
 
@@ -40,17 +40,17 @@ class Mage_Backend_Model_Menu_Item_Factory
     public function __construct(array $data = array())
     {
         if (!isset($data['acl']) || !($data['acl'] instanceof Mage_Backend_Model_Auth_Session)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Wrong acl object provided');
         }
         $this->_acl = $data['acl'];
 
         if (!isset($data['objectFactory']) || !$data['objectFactory'] instanceof Mage_Core_Model_Config) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Wrong object factory provided');
         }
         $this->_objectFactory = $data['objectFactory'];
 
         if (!isset($data['urlModel']) || !$data['urlModel'] instanceof Mage_Backend_Model_Url) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Wrong url model provided');
         }
         $this->_urlModel = $data['urlModel'];
 

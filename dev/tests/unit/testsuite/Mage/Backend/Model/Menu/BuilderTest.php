@@ -26,14 +26,16 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $that = $this;
-        $factory = $this->getMock("Mage_Backend_Model_Menu_Item_Factory");
+        $factory = $this->getMock("Mage_Backend_Model_Menu_Item_Factory", array(), array(), '', false);
         $factory->expects($this->any())
             ->method('createFromArray')
             ->will(
-            $this->returnCallback(function($params) use ($that) {
-                return $that->getMock('Mage_Backend_Model_Menu_Item', array(), $params, '', false);
-            })
-        );
+                $this->returnCallback(
+                    function($params) use ($that) {
+                        return $that->getMock('Mage_Backend_Model_Menu_Item', array(), $params, '', false);
+                    }
+                )
+            );
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu');
 
         $this->_model = new Mage_Backend_Model_Menu_Builder(array(
@@ -44,12 +46,14 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function testProcessCommand()
     {
-        $command = $this->getMock(
-            'Mage_Backend_Model_Menu_Builder_Command_Add', array('chain'), array(array('id' => 1))
-        );
-        $command2 = $this->getMock(
-            'Mage_Backend_Model_Menu_Builder_Command_Update', array('chain'), array(array('id' => 1))
-        );
+        $command = $this->getMock('Mage_Backend_Model_Menu_Builder_Command_Add', array(), array(), '', false);
+        $command->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
+        $command2 = $this->getMock('Mage_Backend_Model_Menu_Builder_Command_Update', array(), array(), '', false);
+        $command2->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
         $command->expects($this->once())
             ->method('chain')
             ->with($this->equalTo($command2));
@@ -59,12 +63,16 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function testGetResult()
     {
-        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 1)));
+        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Create(array('id' => 1)));
         $this->_model->processCommand(
-            new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 2, 'parent' => 1))
+            new Mage_Backend_Model_Menu_Builder_Command_Add(
+                array('id' => 2, 'parent' => 1, 'title' => 'two', 'module' => 'Mage_Backend')
+            )
         );
         $this->_model->processCommand(
-            new Mage_Backend_Model_Menu_Builder_Command_Add(array('id' => 3, 'parent' => 2))
+            new Mage_Backend_Model_Menu_Builder_Command_Add(
+                array('id' => 3, 'parent' => 2, 'title' => 'three', 'module' => 'Mage_Backend')
+            )
         );
 
         $this->_menuMock->expects($this->exactly(1))

@@ -35,6 +35,7 @@ class Mage_Backend_Model_Menu extends ArrayIterator
 
     public function rewind()
     {
+        $this->ksort();
         parent::rewind();
         if ($this->valid() && (current($this)->isDisabled() || !(current($this)->isAllowed()))) {
             $this->next();

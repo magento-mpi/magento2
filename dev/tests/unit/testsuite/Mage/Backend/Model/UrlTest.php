@@ -19,6 +19,13 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     protected  $_model;
 
+    /**
+     * Menu model mock
+     *
+     * @var Mage_Backend_Model_Menu
+     */
+    protected $_menuMock;
+
     public function setUp()
     {
         $fileName = __DIR__ . '/_files/adminhtml.xml';
@@ -30,46 +37,43 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->method('getAdminhtmlConfig')
             ->will($this->returnValue($config));
 
+        $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu');
         $this->_model = new Mage_Backend_Model_Url(array(
                 'adminConfig' => $adminConfig,
                 'startupPageUrl' => 'system/acl/roles',
+                'menu' => $this->_menuMock
             )
         );
     }
 
     public function testFindFirstAvailableMenuDenied()
     {
-        /**
-         * Test to find denied action
-         */
         $user = $this->getMock('Mage_User_Model_User', array(), array(), '', false);
         $user->expects($this->once())
             ->method('setHasAvailableResources')
             ->with($this->equalTo(false));
-
         $mockSession = $this->getMock('Mage_Backend_Model_Auth_Session',
             array('getUser', 'isAllowed'),
             array(),
             '',
             false
         );
-        $mockSession->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(false));
 
         $mockSession->expects($this->any())
             ->method('getUser')
             ->will($this->returnValue($user));
 
         $this->_model->setSession($mockSession);
+
+        $this->_menuMock->expects($this->any())
+            ->method('getFirstAvailableChild')
+            ->will($this->returnValue(null));
+
         $this->assertEquals('*/*/denied', $this->_model->findFirstAvailableMenu());
     }
 
     public function testFindFirstAvailableMenu()
     {
-        /**
-         * Test to find first available menu path
-         */
         $user = $this->getMock('Mage_User_Model_User', array(), array(), '', false);
         $mockSession = $this->getMock('Mage_Backend_Model_Auth_Session',
             array('getUser', 'isAllowed'),
@@ -77,15 +81,16 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             '',
             false
         );
-        $mockSession->expects($this->any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
 
         $mockSession->expects($this->any())
             ->method('getUser')
             ->will($this->returnValue($user));
 
         $this->_model->setSession($mockSession);
+
+        $this->_menuMock->expects($this->any())
+            ->method('getFirstAvailableChild')
+            ->will($this->returnValue('adminhtml/user'));
 
         $this->assertEquals('adminhtml/user', $this->_model->findFirstAvailableMenu());
     }
