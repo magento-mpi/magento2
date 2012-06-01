@@ -26,8 +26,16 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
     public function getEntityTypesDataProvider()
     {
         return array(
-            'products'  => array('$entityType' => 'catalog_product'),
-            'customers' => array('$entityType' => 'customer')
+            'products'                   => array('$entityType' => 'catalog_product'),
+            'customers'                  => array('$entityType' => 'customer'),
+            // customer entities
+            'customers_customer'         => array('$entityType' => 'customer', '$customerEntityType' => 'customer'),
+            'customers_customer_address' => array(
+                '$entityType' => 'customer', '$customerEntityType' => 'customer_address'
+            ),
+            'customers_customer_finance' => array(
+                '$entityType' => 'customer', '$customerEntityType' => 'customer_finance'
+            ),
         );
     }
 
@@ -55,15 +63,20 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
      * @dataProvider getEntityTypesDataProvider
      *
      * @param string $entityType
+     * @param string $customerEntityType
      */
-    public function testGetFilterAction($entityType)
+    public function testGetFilterAction($entityType, $customerEntityType = null)
     {
         $this->getRequest()->setParam('isAjax', true);
 
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $this->dispatch('admin/export/getFilter/entity/' . $entityType);
+        $url = 'admin/export/getFilter/entity/' . $entityType;
+        if ($customerEntityType) {
+            $url .= '/customer_entity/' . $customerEntityType;
+        }
+        $this->dispatch($url);
 
         $this->assertContains('<div id="export_filter_grid"', $this->getResponse()->getBody());
     }

@@ -75,14 +75,6 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * EAV entity type code getter.
-     *
-     * @abstract
-     * @return string
-     */
-    abstract public function getEntityTypeCode();
-
-    /**
      * Get attributes codes which are appropriate for export.
      *
      * @return array
@@ -187,31 +179,6 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
         }
         return $collection;
     }
-
-    /**
-     * Clean up attribute collection.
-     *
-     * @param Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection
-     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
-     */
-    public function filterAttributeCollection(Mage_Eav_Model_Resource_Entity_Attribute_Collection $collection)
-    {
-        $collection->load();
-
-        foreach ($collection as $attribute) {
-            if (in_array($attribute->getAttributeCode(), $this->_disabledAttrs)) {
-                $collection->removeItemByKey($attribute->getId());
-            }
-        }
-        return $collection;
-    }
-
-    /**
-     * Entity attributes collection getter.
-     *
-     * @return Mage_Eav_Model_Resource_Entity_Attribute_Collection
-     */
-    abstract public function getAttributeCollection();
 
     /**
      * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased.

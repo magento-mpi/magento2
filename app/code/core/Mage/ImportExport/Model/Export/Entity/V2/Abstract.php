@@ -102,7 +102,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     protected $_websiteIdToCode = array();
 
     /**
-     * Constructor.
+     * Constructor
      */
     public function __construct()
     {
@@ -110,7 +110,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Initialize stores hash.
+     * Initialize stores hash
      *
      * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
      */
@@ -125,7 +125,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Initialize website values.
+     * Initialize website values
      *
      * @param bool $withDefault
      * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
@@ -140,7 +140,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Add error with corresponding current data source row number.
+     * Add error with corresponding current data source row number
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number.
@@ -156,7 +156,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Add message template for specific error code from outside.
+     * Add message template for specific error code from outside
      *
      * @param string $errorCode Error code
      * @param string $message Message template
@@ -170,14 +170,47 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Export process.
+     * Export process
      *
      * @return string
      */
     abstract public function export();
 
     /**
-     * Returns error information.
+     * Entity type code getter
+     *
+     * @abstract
+     * @return string
+     */
+    abstract public function getEntityTypeCode();
+
+    /**
+     * Entity attributes collection getter
+     *
+     * @return Varien_Data_Collection
+     */
+    abstract public function getAttributeCollection();
+
+    /**
+     * Clean up attribute collection.
+     *
+     * @param Varien_Data_Collection $collection
+     * @return Varien_Data_Collection
+     */
+    public function filterAttributeCollection(Varien_Data_Collection $collection)
+    {
+        $collection->load();
+
+        foreach ($collection as $attribute) {
+            if (in_array($attribute->getAttributeCode(), $this->_disabledAttrs)) {
+                $collection->removeItemByKey($attribute->getId());
+            }
+        }
+        return $collection;
+    }
+
+    /**
+     * Returns error information
      *
      * @return array
      */
@@ -195,7 +228,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Returns error counter value.
+     * Returns error counter value
      *
      * @return int
      */
@@ -205,7 +238,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Returns invalid rows count.
+     * Returns invalid rows count
      *
      * @return int
      */
@@ -215,7 +248,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Returns number of checked entities.
+     * Returns number of checked entities
      *
      * @return int
      */
@@ -225,7 +258,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Returns number of checked rows.
+     * Returns number of checked rows
      *
      * @return int
      */
@@ -235,7 +268,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Inner writer object getter.
+     * Inner writer object getter
      *
      * @throws Exception
      * @return Mage_ImportExport_Model_Export_Adapter_Abstract
@@ -249,7 +282,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Set parameters.
+     * Set parameters
      *
      * @param array $parameters
      * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
@@ -262,7 +295,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Writer model setter.
+     * Writer model setter
      *
      * @param Mage_ImportExport_Model_Export_Adapter_Abstract $writer
      * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract

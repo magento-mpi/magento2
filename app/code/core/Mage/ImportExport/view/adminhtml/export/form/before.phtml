@@ -142,8 +142,12 @@
         if ($('entity') && $('file_format')) {
             var form      = $('export_filter_form');
             var oldAction = form.action;
-            form.action   = oldAction + ((oldAction.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity')
+            var url = oldAction + ((oldAction.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity')
                 + '/file_format/' + $F('file_format');
+            if ($('customer_entity') && $F('customer_entity')) {
+                url += '/' + 'customer_entity/' + $F('customer_entity');
+            }
+            form.action = url;
             form.submit();
             form.action   = oldAction;
         } else {
