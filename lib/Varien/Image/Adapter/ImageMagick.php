@@ -231,14 +231,13 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Add watermark to image
      *
-     * @param string $imagePath
+     * @param $imagePath
      * @param int $positionX
      * @param int $positionY
-     * @param int $opacity
-     * @param bool $isWaterMarkTile
+     * @param bool $tile
      * @throws RuntimeException
      */
-    public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $isWaterMarkTile = false)
+    public function watermark($imagePath, $positionX = 0, $positionY = 0, $tile = false)
     {
         $this->_checkCanProcess();
 
@@ -264,6 +263,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
             $watermark->setImageOpacity($opacity);
         } else {
             // go to each pixel and make it transparent
+            $watermark->paintTransparentImage($watermark->getImagePixelColor(0, 0), 1, 65530);
             $watermark->evaluateImage(Imagick::EVALUATE_SUBTRACT, 1 - $opacity, Imagick::CHANNEL_ALPHA);
         }
 
@@ -286,12 +286,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 $positionY = $this->_imageSrcHeight - $watermark->getImageHeight();
                 break;
             case self::POSITION_TILE:
-                $isWaterMarkTile = true;
+                $positionX = 0;
+                $positionY = 0;
+                $tile = true;
                 break;
         }
 
         try {
-            if ($isWaterMarkTile) {
+            if ($tile) {
                 $offsetX = $positionX;
                 $offsetY = $positionY;
                 while($offsetY <= ($this->_imageSrcHeight + $watermark->getImageHeight())) {
