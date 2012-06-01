@@ -27,10 +27,6 @@
         </reference>
     </rss_index_index>
 
-    <rss_index_nofeed>
-        <block type="Mage_Core_Block_Template" name="root" output="toHtml" template="Mage_Rss::nofeed.phtml"/>
-    </rss_index_nofeed>
-
     <rss_index_wishlist>
         <block type="Mage_Rss_Block_Wishlist" name="rss.wishlist" output="toHtml">
             <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>Mage_Wishlist::render/item/price_msrp_rss.phtml</template></action>

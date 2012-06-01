@@ -11,45 +11,25 @@
 
 class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
-    public function testNewActionNonLoggedUser()
+    public function testNewActionAuthorizationFailed()
     {
-        $this->markTestIncomplete('Incomplete until Mage_Core_Helper_Http stops exiting script for non-logged user');
-        $this->dispatch('rss/order/new/');
+        $this->dispatch('rss/order/new');
+        $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
 
-    public function testNewActionLoggedUser()
+    /**
+     * @magentoDataFixture Mage/Sales/_files/order_commit_workaround.php
+     */
+    public function testNewAction()
     {
         $admin = new Mage_User_Model_User;
         $admin->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
-        $session = Mage::getSingleton('Mage_Rss_Model_Session');
-        $session->setAdmin($admin);
+        /** @var $session Mage_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $session->setUser($admin)->processLogin();
 
-        $adminSession = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        $adminSession->setUpdatedAt(time())
-            ->setUser($admin);
-
-        $this->dispatch('rss/order/new/');
-
-        $body = $this->getResponse()->getBody();
-        $this->assertNotEmpty($body);
-
-        $response = Mage::app()->getResponse();
-        $code = $response->getHttpResponseCode();
-        $this->assertFalse(($code >= 300) && ($code < 400));
-
-        $xmlContentType = false;
-        $headers = $response->getHeaders();
-        foreach ($headers as $header) {
-            if ($header['name'] != 'Content-Type') {
-                continue;
-            }
-            if (strpos($header['value'], 'text/xml') !== false) {
-                $xmlContentType = true;
-            }
-        }
-        $this->assertTrue($xmlContentType, 'Rss document should output xml header');
-
-        $body = $response->getBody();
-        $this->assertContains('<rss', $body);
+        $this->dispatch('rss/order/new');
+        $this->assertHeaderPcre('Content-Type', '/text\/xml/');
+        $this->assertContains('#100000001', $this->getResponse()->getBody());
     }
 }

@@ -19,75 +19,38 @@
 class Mage_Rss_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Authenticate customer on frontend
+     * Check if admin is logged in and authorized to access resource by specified ACL path
      *
-     */
-    public function authFrontend()
-    {
-        $session = Mage::getSingleton('Mage_Rss_Model_Session');
-        if ($session->isCustomerLoggedIn()) {
-            return;
-        }
-        list($username, $password) = $this->authValidate();
-        $customer = Mage::getModel('Mage_Customer_Model_Customer')->authenticate($username, $password);
-        if ($customer && $customer->getId()) {
-            Mage::getSingleton('Mage_Rss_Model_Session')->settCustomer($customer);
-        } else {
-            $this->authFailed();
-        }
-    }
-
-    /**
-     * Authenticates admin user and checks ACL. Returns user model upon successful authentication.
-     * If user authentication fails, then shows error and exits php instantly.
+     * If not authenticated, will try to do it using provided credentials
      *
-     * @param string $path
-     * @return Mage_User_Model_User
+     * @param Mage_Backend_Model_Auth_Session $session
+     * @param string $login
+     * @param string $password
+     * @param string $aclPath
+     * @return bool
      */
-    public function authAdmin($path)
+    public function isAdminAuthorized($session, $login, $password, $aclPath)
     {
-        $session = Mage::getSingleton('Mage_Rss_Model_Session');
-        if ($session->isAdminLoggedIn()) {
-            return $session->getAdmin();
+        if ($session->isLoggedIn()) {
+            return true;
         }
-
-        list($username, $password) = $this->authValidate();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->setNoSecret(true);
-
-        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
-        $auth->login($username, $password);
-        $adminSession = $auth->getAuthStorage();
-
-        $user = $adminSession->getUser();
-
-        if ($user && $user->getIsActive() == '1' && $adminSession->isAllowed($path)){
+        if (!$login || !$password) {
+            return false;
+        }
+        /** @var $auth Mage_Backend_Model_Auth */
+        $auth = Mage::getModel('Mage_Backend_Model_Auth');
+        $auth->setAuthStorage($session);
+        try {
+            $auth->login($login, $password);
+        } catch (Mage_Backend_Model_Auth_Exception $e) {
+            return false;
+        }
+        $user = $session->getUser();
+        if ($user && $user->getIsActive() == '1' && $session->isAllowed($aclPath)){
             $session->setAdmin($user);
-            return $user;
-        } else {
-            // Error is shown and exit() is called
-            Mage::helper('Mage_Core_Helper_Http')->authFailed();
+            return true;
         }
-    }
-
-    /**
-     * Validate Authenticate
-     *
-     * @param array $headers
-     * @return array
-     */
-    public function authValidate($headers=null)
-    {
-        $userPass = Mage::helper('Mage_Core_Helper_Http')->authValidate($headers);
-        return $userPass;
-    }
-
-    /**
-     * Send authenticate failed headers
-     *
-     */
-    public function authFailed()
-    {
-        Mage::helper('Mage_Core_Helper_Http')->authFailed();
+        return false;
     }
 
     /**

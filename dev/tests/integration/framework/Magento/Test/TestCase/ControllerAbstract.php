@@ -102,6 +102,28 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     }
 
     /**
+     * Analyze response object and look for header with specified name, and assert a regex towards its value
+     *
+     * @param string $headerName
+     * @param string $valueRegex
+     * @throws PHPUnit_Framework_AssertionFailedError when header not found
+     */
+    public function assertHeaderPcre($headerName, $valueRegex)
+    {
+        $headerFound = false;
+        $headers = $this->getResponse()->getHeaders();
+        foreach ($headers as $header) {
+            if ($header['name'] === $headerName) {
+                $headerFound = true;
+                $this->assertRegExp($valueRegex, $header['value']);
+            }
+        }
+        if (!$headerFound) {
+            $this->fail("Header '{$headerName}' was not found. Headers dump:\n" . var_export($headers, 1));
+        }
+    }
+
+    /**
      * Assert that there is a redirect to expected URL.
      * Omit expected URL to check that redirect to wherever has been occurred.
      *

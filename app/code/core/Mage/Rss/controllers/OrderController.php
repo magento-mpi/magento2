@@ -16,18 +16,21 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Rss_OrderController extends Mage_Rss_Controller_AdminhtmlAbstract
+class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
 {
-    /**
-     * Returns map of action to acl paths, needed to check user's access to a specific action
-     *
-     * @return array
-     */
-    protected function _getAdminAclMap()
+    public function preDispatch()
     {
-        return array(
-            'new' => 'sales/order'
-        );
+        if ('new' === $this->getRequest()->getActionName()) {
+            $this->setCurrentArea('adminhtml');
+            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            list($login, $password) = Mage::helper('Mage_Core_Helper_Http')->getHttpAuthCredentials($this->getRequest());
+            if (!Mage::helper('Mage_Rss_Helper_Data')->isAdminAuthorized($session, $login, $password, 'sales/order')) {
+                Mage::helper('Mage_Core_Helper_Http')->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
+                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+                return;
+            }
+        }
+        parent::preDispatch();
     }
 
     public function newAction()
@@ -35,17 +38,6 @@ class Mage_Rss_OrderController extends Mage_Rss_Controller_AdminhtmlAbstract
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
         $this->loadLayout(false);
         $this->renderLayout();
-    }
-
-    public function customerAction()
-    {
-        if (Mage::app()->getStore()->isCurrentlySecure()) {
-            $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
-            Mage::helper('Mage_Rss_Helper_Data')->authFrontend();
-        } else {
-            $this->_redirect('rss/order/customer', array('_secure'=>true));
-            return $this;
-        }
     }
 
     /**
