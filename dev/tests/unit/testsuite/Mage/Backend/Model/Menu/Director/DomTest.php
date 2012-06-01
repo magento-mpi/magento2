@@ -91,21 +91,12 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
     }
 
     /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testCommandWithInvalidBuilder()
-    {
-        $object = $this->getMock('StdClass');
-        $this->_model->buildMenu($object);
-    }
-
-    /**
      * Test command method with valid builder
      */
     public function testCommandWithValidBuilder()
     {
         $builder = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Menu_BuilderAbstract',
+            'Mage_Backend_Model_Menu_Builder',
             array(),
             '',
             false,

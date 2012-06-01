@@ -102,15 +102,12 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
 
     /**
      *
-     * @param Mage_Backend_Model_Menu_BuilderAbstract $builder
+     * @param Mage_Backend_Model_Menu_Builder $builder
      * @throws InvalidArgumentException if invalid builder object
      * @return Mage_Backend_Model_Menu_DirectorAbstract
      */
-    public function buildMenu($builder)
+    public function buildMenu(Mage_Backend_Model_Menu_Builder $builder)
     {
-        if (false == ($builder instanceof Mage_Backend_Model_Menu_BuilderAbstract)) {
-            throw new InvalidArgumentException('Builder is not instance of Mage_Backend_Model_Menu_BuilderAbstract');
-        }
         foreach ($this->getExtractedData() as $data) {
             $command = $this->_getCommand($data);
             $builder->processCommand($command);

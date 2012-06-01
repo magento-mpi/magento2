@@ -43,8 +43,8 @@ abstract class Mage_Backend_Model_Menu_DirectorAbstract
     /**
      * Apply menu commands to builder object
      * @abstract
-     * @param  Mage_Backend_Model_Menu_BuilderAbstract $builder
+     * @param  Mage_Backend_Model_Menu_Builder $builder
      * @return Mage_Backend_Model_Menu_DirectorAbstract
      */
-    abstract public function buildMenu($builder);
+    abstract public function buildMenu(Mage_Backend_Model_Menu_Builder $builder);
 }

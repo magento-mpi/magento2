@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-abstract class Mage_Backend_Model_Menu_Builder
+class Mage_Backend_Model_Menu_Builder
 {
     /**
      * @var Mage_Backend_Model_Menu_Builder_CommandAbstract[]
@@ -29,7 +29,7 @@ abstract class Mage_Backend_Model_Menu_Builder
     public function __construct(array $data = array())
     {
         if (!isset($data['itemFactory']) || !($data['itemFactory'] instanceof Mage_Backend_Model_Menu_Item_Factory)) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException('Wrong item factory provided');
         }
         $this->_itemFactory = $data['itemFactory'];
 

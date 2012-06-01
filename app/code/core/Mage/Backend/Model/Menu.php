@@ -22,7 +22,15 @@ class Mage_Backend_Model_Menu extends ArrayIterator
     public function next()
     {
         parent::next();
-        if ($this->current()->isDisabled() || !$this->current()->isAllowed()) {
+        if ($this->valid() && ($this->current()->isDisabled() || !$this->current()->isAllowed())) {
+            $this->next();
+        }
+    }
+
+    public function rewind()
+    {
+        parent::rewind();
+        if ($this->valid() && (current($this)->isDisabled() || !(current($this)->isAllowed()))) {
             $this->next();
         }
     }
@@ -34,7 +42,7 @@ class Mage_Backend_Model_Menu extends ArrayIterator
             $this->offsetSet($index, $item);
             $item->setParent($this);
         } else {
-            $this->addChild($item, $index);
+            $this->addChild($item, $index + 1);
         }
     }
 

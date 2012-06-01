@@ -24,10 +24,15 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_objectFactory;
 
     /**
+     * @var Mage_Core_Model_Helper[]
+     */
+    protected $_helpers = array();
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException
      */
-    public function __constructor(array $data = array())
+    public function __construct(array $data = array())
     {
         if (!isset($data['acl']) || !($data['acl'] instanceof Mage_Backend_Model_Auth_Session)) {
             throw new InvalidArgumentException();
@@ -38,6 +43,11 @@ class Mage_Backend_Model_Menu_Item_Factory
             throw new InvalidArgumentException();
         }
         $this->_objectFactory = $data['objectFactory'];
+
+        if (isset($data['helpers'])) {
+            $this->_helpers = $data['helpers'];
+        }
+
     }
 
     /**
@@ -52,10 +62,12 @@ class Mage_Backend_Model_Menu_Item_Factory
         if (isset($data['module'])) {
             $module = $data['module'];
         }
-        $data['module'] = Mage::helper($module);
 
-        if (isset($data['dependsOnConfig'])) {
-            $data['dependsOnConfig'] = Mage::helper($data['dependsOnModule']);
+        $data['module'] = isset($this->_helpers[$module]) ? $this->_helpers[$module] : Mage::helper($module);
+        if (isset($data['dependsOnModule'])) {
+            $data['dependsOnModule'] = isset($this->_helpers[$data['dependsOnModule']]) ?
+                $this->_helpers[$data['dependsOnModule']] :
+                Mage::helper($data['dependsOnModule']);
         }
         return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Item', $data);
     }
