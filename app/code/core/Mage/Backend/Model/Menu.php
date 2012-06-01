@@ -55,7 +55,7 @@ class Mage_Backend_Model_Menu extends ArrayIterator
 
     public function isLast(Mage_Backend_Model_Menu_Item $item)
     {
-        return $this->offsetExists($this->count() - 1) == $item;
+        return false;//end($this->getArrayCopy()) == $item;
     }
 
     public function setPath($path)

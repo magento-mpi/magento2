@@ -46,6 +46,8 @@ class Mage_Backend_Model_Menu_Config
                 array(
                     'acl' => Mage::getSingleton('Mage_Backend_Model_Auth_Session'),
                     'objectFactory' => $this->_appConfig,
+                    'appConfig' => $this->_appConfig,
+                    'storeConfig' => $this->_appConfig->getModelInstance('Mage_Core_Model_Store_Config'),
                     'urlModel' => Mage::getSingleton('Mage_Backend_Model_Url')
                 )
             );
