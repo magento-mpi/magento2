@@ -76,7 +76,9 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
         $this->dispatch('admin/export/index');
 
         $body = $this->getResponse()->getBody();
-        $this->assertSelectCount('div#head-export_format_version', 1, $body);
-        $this->assertSelectCount('div#export_format_version', 1, $body);
+        $this->assertSelectCount('div#head-export_format_version_fieldset', 1, $body);
+        $this->assertSelectCount('div#export_format_version_fieldset', 1, $body);
+        $this->assertSelectCount('div#head-customer_entity_fieldset', 1, $body);
+        $this->assertSelectCount('div#customer_entity_fieldset', 1, $body);
     }
 }

@@ -28,11 +28,13 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
     const FILTER_TYPE_DATE   = 'date';
     const FILTER_TYPE_NUMBER = 'number';
 
-    /**
+    /**#@+
      * Config keys.
      */
-    const CONFIG_KEY_ENTITIES = 'global/importexport/export_entities';
-    const CONFIG_KEY_FORMATS  = 'global/importexport/export_file_formats';
+    const CONFIG_KEY_ENTITIES          = 'global/importexport/export_entities';
+    const CONFIG_KEY_CUSTOMER_ENTITIES = 'global/importexport/export_customer_entities';
+    const CONFIG_KEY_FORMATS           = 'global/importexport/export_file_formats';
+    /**#@-*/
 
     /**
      * Entity adapter.
