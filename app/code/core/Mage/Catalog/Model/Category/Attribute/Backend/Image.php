@@ -30,7 +30,7 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Image extends Mage_Eav_Model
         $value = $object->getData($this->getAttribute()->getName());
 
         // if no image was set - nothing to do
-        if (empty($value)) {
+        if (empty($value) && empty($_FILES)) {
             return $this;
         }
 
