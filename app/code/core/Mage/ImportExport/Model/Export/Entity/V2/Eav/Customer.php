@@ -15,7 +15,8 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ImportExport_Model_Export_Entity_V2_Customer extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
+class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
+    extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
 {
     /**
      * Permanent column names.

@@ -31,7 +31,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_CustomerTest extends PHPUnit_Fram
             $expectedAttrCodes[] = $attribute->getAttributeCode();
         }
 
-        $model = new Mage_ImportExport_Model_Export_Entity_V2_Customer();
+        $model = new Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer();
         $model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
         $data = $model->export();
         $this->assertNotEmpty($data);
