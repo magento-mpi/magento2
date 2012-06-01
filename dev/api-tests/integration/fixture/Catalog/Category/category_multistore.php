@@ -21,7 +21,7 @@ $categoryFixture->save();
 require TEST_FIXTURE_DIR . '/Core/Store/store.php';
 /** @var $storeFixture Mage_Core_Model_Store */
 $storeFixture = Magento_Test_Webservice::getFixture('store');
-$categoryDataOnStore = require realpath(dirname(__FILE__)) . '/Backend/CategoryStoreData.php';
+$categoryDataOnStore = require TEST_FIXTURE_DIR . '/_data/Catalog/Category/category_store_data.php';
 $categoryFixture->setStoreId($storeFixture->getId())->addData($categoryDataOnStore)->save();
 
 Magento_Test_Webservice::setFixture('category', $categoryFixture, Magento_Test_Webservice::AUTO_TEAR_DOWN_DISABLED);

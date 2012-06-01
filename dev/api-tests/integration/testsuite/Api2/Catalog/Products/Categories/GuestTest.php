@@ -164,6 +164,6 @@ class Api2_Catalog_Products_Categories_GuestTest extends Magento_Test_Webservice
      */
     protected function _loadCategoryFixtureData($fixtureName)
     {
-        return require TEST_FIXTURE_DIR . "/_data/Catalog/Category/{$fixtureName}.php";
+        return require TEST_FIXTURE_DIR . "/_data/Catalog/Product/Category/{$fixtureName}.php";
     }
 }
