@@ -103,12 +103,23 @@ class Mage_Backend_Model_Menu_Item
     /**
      * @var Mage_Core_Model_Config
      */
+    protected $_appConfig;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
     protected $_objectFactory;
 
     /**
      * @var Mage_Backend_Model_Url
      */
     protected $_urlModel;
+
+    /**
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
 
     /**
      * @param array $data
@@ -120,6 +131,12 @@ class Mage_Backend_Model_Menu_Item
             || !$data['acl'] instanceof Mage_Backend_Model_Auth_Session
         ) {
             throw new InvalidArgumentException('Wrong acl object provided');
+        }
+
+        if (!isset($data['appConfig'])
+            || !$data['appConfig'] instanceof Mage_Core_Model_Config
+        ) {
+            throw new InvalidArgumentException('Wrong application config provided');
         }
 
         if (!isset($data['objectFactory'])
@@ -134,7 +151,15 @@ class Mage_Backend_Model_Menu_Item
             throw new InvalidArgumentException('Wrong url model provided');
         }
 
+        if (!isset($data['storeConfig'])
+            || !$data['storeConfig'] instanceof Mage_Core_Model_Store_Config
+        ) {
+            throw new InvalidArgumentException('Wrong store config provided');
+        }
+
         $this->_acl = $data['acl'];
+        $this->_appConfig = $data['appConfig'];
+        $this->_storeConfig = $data['storeConfig'];
         $this->_objectFactory = $data['objectFactory'];
         $this->_urlModel = $data['urlModel'];
 
@@ -297,7 +322,9 @@ class Mage_Backend_Model_Menu_Item
      */
     public function isDisabled()
     {
-        return !$this->_moduleHelper->isModuleOutputEnabled() || !$this->_isDependenciesAvailable();
+        return !$this->_moduleHelper->isModuleOutputEnabled()
+            || !$this->_isModuleDependenciesAvailable()
+            || !$this->_isConfigDependenciesAvailable();
     }
 
     /**
@@ -313,25 +340,29 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Check Depends
      *
-     * @param Varien_Simplexml_Element $depends
      * @return bool
      */
-    protected function _isDependenciesAvailable()
+    protected function _isModuleDependenciesAvailable()
     {
         if ($this->_dependsOnModule) {
             $module = $this->_dependsOnModule;
-            /*$modulesConfig = $this->_appConfig->getNode('modules');
+            $modulesConfig = $this->_appConfig->getNode('modules');
             if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
-                    return false;
-            }*/
-        }
-
-        if ($this->_dependsOnConfig) {
-            /**
-            if (!Mage::getStoreConfigFlag((string)$this->_dependsOnConfig)) {
                 return false;
             }
-             */
+        }
+        return true;
+    }
+
+    /**
+     * Check whether config dependency is available
+     *
+     * @return bool
+     */
+    protected function _isConfigDependenciesAvailable()
+    {
+        if ($this->_dependsOnConfig) {
+            return $this->_storeConfig->getConfigFlag((string)$this->_dependsOnConfig);
         }
         return true;
     }

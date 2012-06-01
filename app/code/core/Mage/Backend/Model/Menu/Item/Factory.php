@@ -34,6 +34,20 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_urlModel;
 
     /**
+     * Application Configuration
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_appConfig;
+
+    /**
+     * Store Configuration
+     *
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException
      */
@@ -48,6 +62,16 @@ class Mage_Backend_Model_Menu_Item_Factory
             throw new InvalidArgumentException('Wrong object factory provided');
         }
         $this->_objectFactory = $data['objectFactory'];
+
+        if (!isset($data['appConfig']) || !$data['appConfig'] instanceof Mage_Core_Model_Config) {
+            throw new InvalidArgumentException('Wrong application config provided');
+        }
+        $this->_appConfig = $data['appConfig'];
+
+        if (!isset($data['storeConfig']) || !$data['storeConfig'] instanceof Mage_Core_Model_Store_Config) {
+            throw new InvalidArgumentException('Wrong store config provided');
+        }
+        $this->_storeConfig = $data['storeConfig'];
 
         if (!isset($data['urlModel']) || !$data['urlModel'] instanceof Mage_Backend_Model_Url) {
             throw new InvalidArgumentException('Wrong url model provided');
@@ -73,12 +97,9 @@ class Mage_Backend_Model_Menu_Item_Factory
         }
 
         $data['module'] = isset($this->_helpers[$module]) ? $this->_helpers[$module] : Mage::helper($module);
-        if (isset($data['dependsOnModule'])) {
-            $data['dependsOnModule'] = isset($this->_helpers[$data['dependsOnModule']]) ?
-                $this->_helpers[$data['dependsOnModule']] :
-                Mage::helper($data['dependsOnModule']);
-        }
         $data['acl'] = $this->_acl;
+        $data['appConfig'] = $this->_appConfig;
+        $data['storeConfig'] = $this->_storeConfig;
         $data['objectFactory'] = $this->_objectFactory;
         $data['urlModel'] = $this->_urlModel;
         return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Item', $data);
