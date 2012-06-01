@@ -206,7 +206,6 @@ class Magento_Test_Bootstrap
             'log_dir'     => $this->_installDir . DIRECTORY_SEPARATOR . 'log',
             'session_dir' => $this->_installDir . DIRECTORY_SEPARATOR . 'session',
             'media_dir'   => $this->_installDir . DIRECTORY_SEPARATOR . 'media',
-            'skin_dir'    => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'skin',
             'upload_dir'  => $this->_installDir . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'upload',
         );
 
