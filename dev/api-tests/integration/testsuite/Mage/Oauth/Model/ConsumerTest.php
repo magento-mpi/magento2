@@ -23,7 +23,7 @@ class Mage_Oauth_Model_ConsumerTest extends Magento_TestCase
     protected function _getFixtureData()
     {
         if (null === $this->_fixture) {
-            $this->_fixture = require dirname(__FILE__) . '/_fixture/consumer_data.php';
+            $this->_fixture = require __DIR__ . '/_fixture/_data/consumer_data.php';
         }
         return $this->_fixture;
     }

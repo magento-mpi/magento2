@@ -23,7 +23,7 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
      */
     public function testDownloadableLinkCreate()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/LinkCRUD.xml');
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
         $items = self::simpleXmlToArray($tagFixture->items);
 
         $product_id = Magento_Test_Webservice::getFixture('productData')->getId();
@@ -31,12 +31,12 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
         foreach ($items as $item) {
             foreach ($item as $key => $value) {
                 if ($value['type'] == 'file') {
-                    $filePath = dirname(__FILE__) . '/_fixture/files/' . $value['file']['filename'];
+                    $filePath = dirname(__FILE__) . '/_fixture/_data/files/' . $value['file']['filename'];
                     $value['file'] = array('name' => str_replace('/', '_', $value['file']['filename']),
                         'base64_content' => base64_encode(file_get_contents($filePath)), 'type' => $value['type']);
                 }
                 if ($key == 'link' && $value['sample']['type'] == 'file') {
-                    $filePath = dirname(__FILE__) . '/_fixture/files/' . $value['sample']['file']['filename'];
+                    $filePath = dirname(__FILE__) . '/_fixture/_data/files/' . $value['sample']['file']['filename'];
                     $value['sample']['file'] = array(
                                         'name' => str_replace('/', '_',$value['sample']['file']['filename']
                                     ),
@@ -59,7 +59,7 @@ class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservi
      */
     public function testDownloadableLinkItems()
     {
-        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/LinkCRUD.xml');
+        $tagFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/_data/xml/LinkCRUD.xml');
         $fixtureItems = self::simpleXmlToArray($tagFixture->items);
 
         $product_id = Magento_Test_Webservice::getFixture('productData')->getId();

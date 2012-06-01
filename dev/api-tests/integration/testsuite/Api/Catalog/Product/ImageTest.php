@@ -106,7 +106,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
 
         // TXT file
         $requestData['file']['content'] = base64_encode(
-            file_get_contents(dirname(__FILE__) . '/_fixture/files/test.txt')
+            file_get_contents(dirname(__FILE__) . '/_fixture/_data/files/test.txt')
         );
 
         try {
@@ -163,8 +163,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
     public function invalidImageProvider()
     {
         return array(
-            array(dirname(__FILE__) . '/_fixture/files/images/test.bmp.jpg'),
-            array(dirname(__FILE__) . '/_fixture/files/images/test.php.jpg')
+            array(dirname(__FILE__) . '/_fixture/_data/files/images/test.bmp.jpg'),
+            array(dirname(__FILE__) . '/_fixture/_data/files/images/test.php.jpg')
         );
     }
 
@@ -176,8 +176,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
     public function validImageProvider()
     {
         return array(
-            array(dirname(__FILE__) . '/_fixture/files/images/test.jpg.jpg'),
-            array(dirname(__FILE__) . '/_fixture/files/images/test.png.jpg')
+            array(dirname(__FILE__) . '/_fixture/_data/files/images/test.jpg.jpg'),
+            array(dirname(__FILE__) . '/_fixture/_data/files/images/test.png.jpg')
         );
     }
 }
