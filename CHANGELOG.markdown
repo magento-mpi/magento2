@@ -3,10 +3,9 @@ Update as of 5/31/2012
 * Implemented backend authentication independent of `Mage_Adminhtml` module. Authentication can be disabled
   * Authentication logic is moved to `Mage_Backend` module and being performed in controller instead of observer
   * `Mage_Adminhtml_Controller_Action` is changed to `Mage_Backend_Controller_ActionAbstract`, `Mage_Admin_Model_Session` is changed to `Mage_Backend_Model_Auth_Session`, `Mage_User_Model_Role` and `Mage_User_Model_Roles` classes are unified into one `Mage_User_Model_Role` class
-  * Implemented Users and Roles Management Module (URMM) and moved users and roles management into it
+  * Introduced `Mage_User` module for users and roles management
 * Introduced support of minimized CSS and JS files: in production mode minimized file is used, if exists
 * Implemented resize, rotate, crop and watermark functionality for ImageMagick adapter
-* Added support of retrieving skin path separately from other media links
 * Fixed some issues:
   * Fixed absence of product without image, if ImageMagick is used
   * Fixed broken Downloadable product creation page, when developer mode is enabled
@@ -18,6 +17,7 @@ Update as of 5/31/2012
   * Fixed exception "Unable to locate skin file" at the end of installation
   * Fixed broken "Use Store Credit" functionality on checkout
   * Fixed lost MySQL connection, if it's not used for long time
+  * Fixed ability to separate CDN server setup for static and media content
   * Other small fixes
 
 Update as of 5/23/2012
