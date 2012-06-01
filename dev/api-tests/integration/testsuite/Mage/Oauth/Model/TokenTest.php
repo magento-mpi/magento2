@@ -63,7 +63,7 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
     protected function _getFixtureTokenData($key = null)
     {
         if (null == $this->_tokenData) {
-            $this->_tokenData = require dirname(__FILE__) . '/_fixtures/tokenData.php';
+            $this->_tokenData = require dirname(__FILE__) . '/_fixture/tokenData.php';
         }
         if ($key) {
             return $this->_tokenData[$key];
@@ -81,7 +81,7 @@ class Mage_Oauth_Model_TokenTest extends Magento_TestCase
     protected function _getFixtureConsumerData($key = null)
     {
         if (null == $this->_consumerData) {
-            $this->_consumerData = require dirname(__FILE__) . '/_fixtures/consumerData.php';
+            $this->_consumerData = require dirname(__FILE__) . '/_fixture/consumerData.php';
         }
         if ($key) {
             return $this->_consumerData[$key];

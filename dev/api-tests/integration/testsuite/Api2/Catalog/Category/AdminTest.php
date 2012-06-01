@@ -50,7 +50,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful category get
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @resourceOperation category::get
      */
     public function testGet()
@@ -73,7 +73,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful category get with multi store
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_multistore.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category_multistore.php
      * @resourceOperation category::get
      */
     public function testGetMultiStore()
@@ -107,7 +107,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful category tree get
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_tree.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category_tree.php
      * @resourceOperation category::multiget
      */
     public function testGetCategoriesTree()
@@ -264,7 +264,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
      * Make sure that category creation on specified website (one of its stores) is impossible
      * when parent category does not belong to this website
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_on_new_website.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category_on_new_website.php
      * @resourceOperation category::create
      */
     public function testPostRootCategoryWithInvalidParentCategory()
@@ -283,7 +283,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful category update
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @dataProvider dataProviderOfValidData
      * @resourceOperation category::update
      * @param array $categoryData
@@ -304,7 +304,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful category update with image and thumbnail
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @dataProvider dataProviderOfValidDataWithImages
      * @resourceOperation category::update
      * @param array $images
@@ -336,7 +336,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test successful category with images update using data without images
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @resourceOperation category::update
      */
     public function testPutUpdateWithoutImages()
@@ -354,7 +354,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test unsuccessful category update
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @dataProvider dataProviderForPutInvalidData
      * @resourceOperation category::update
      * @param array $testData
@@ -378,7 +378,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test category data update with 'use config' options set for eligible attributes
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @dataProvider dataProviderForPostWithUseConfig
      * @resourceOperation category::update
      * @param array $categoryData
@@ -401,7 +401,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test update category on specified store
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @magentoDataFixture Core/Store/store.php
      * @resourceOperation category::update
      */
@@ -409,7 +409,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     {
         /** @var $store Mage_Core_Model_Store */
         $store = $this->getFixture('store');
-        $categoryData = require "_fixtures/Backend/CategoryStoreData.php";
+        $categoryData = require "_fixture/Backend/CategoryStoreData.php";
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
         $categoryDataInDefaultStore = array_intersect_key($category->getData(), $categoryData);
@@ -436,7 +436,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     public function testPutTreeRootCategory()
     {
         $category = Mage::getModel('Mage_Catalog_Model_Category')->load(Mage_Catalog_Model_Category::TREE_ROOT_ID);
-        $categoryData = require "_fixtures/Backend/CategoryStoreData.php";
+        $categoryData = require "_fixture/Backend/CategoryStoreData.php";
         // any valid category should be set as parent one so as not to rise error related to 'parent_id' before ID check
         $categoryData['parent_id'] = $category->getParentId();
         $restResponse = $this->callPut($this->_getResourcePath($category->getId()), $categoryData);
@@ -448,14 +448,14 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Try to set parent_id field to be equal to id
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @resourceOperation category::update
      */
     public function testPutParentIdEqualsId()
     {
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
-        $categoryData = require "_fixtures/Backend/CategoryStoreData.php";
+        $categoryData = require "_fixture/Backend/CategoryStoreData.php";
         $categoryData['parent_id'] = $category->getId();
 
         $restResponse = $this->callPut($this->_getResourcePath($category->getId()), $categoryData);
@@ -466,14 +466,14 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Try to move non-root category to become a root one
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @resourceOperation category::update
      */
     public function testPutChangeParentToRootTree()
     {
         /** @var $category Mage_Catalog_Model_Category */
         $category = $this->getFixture('category');
-        $categoryData = require "_fixtures/Backend/CategoryStoreData.php";
+        $categoryData = require "_fixture/Backend/CategoryStoreData.php";
         $categoryData['parent_id'] = Mage_Catalog_Model_Category::TREE_ROOT_ID;
 
         $restResponse = $this->callPut($this->_getResourcePath($category->getId()), $categoryData);
@@ -484,7 +484,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test root category conversion into non-root one
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/root_category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/root_category.php
      * @resourceOperation category::update
      */
     public function testPutConvertCategoryFromRoot()
@@ -509,8 +509,8 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test category moving from one root to another
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/root_category.php
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/root_category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @resourceOperation category::update
      */
     public function testPutMoveCategoryToAnotherRoot()
@@ -536,8 +536,8 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test categories tree fragment moving
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_tree.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category_tree.php
      * @resourceOperation category::update
      */
     public function testPutMoveCategoriesTreeFragment()
@@ -567,7 +567,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test moving category to one of its children
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_tree.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category_tree.php
      * @resourceOperation category::update
      */
     public function testPutMoveCategoryToChild()
@@ -598,7 +598,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test category without subcategories delete
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category.php
      * @resourceOperation category::delete
      */
     public function testSimpleDelete()
@@ -611,7 +611,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test category without subcategories delete
      *
-     * @magentoDataFixture Api2/Catalog/Category/_fixtures/category_tree.php
+     * @magentoDataFixture Api2/Catalog/Category/_fixture/category_tree.php
      * @resourceOperation category::delete
      */
     public function testDeleteWithSubcategories()
@@ -758,7 +758,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function dataProviderOfValidDataWithImages()
     {
-        $imageFilePath = dirname(__FILE__) . '/_fixtures/image.png';
+        $imageFilePath = dirname(__FILE__) . '/_fixture/image.png';
 
         $imageAttributes = array('image', 'thumbnail');
         $imagesWithUniqueNames = array();
@@ -961,7 +961,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
                 array('pattern' => '/Invalid value ".+" provided for ".+" attribute/', 'matches_count' => 11)
             )
         );
-        $imageFilePath = dirname(__FILE__) . '/_fixtures/image.png';
+        $imageFilePath = dirname(__FILE__) . '/_fixture/image.png';
         $invalidImages['invalid_mime_type'] = array(
             'data' => array_merge($this->_getValidCategoryData(), array(
                 'thumbnail' => array(

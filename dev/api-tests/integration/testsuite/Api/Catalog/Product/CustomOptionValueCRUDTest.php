@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Api/Catalog/Product/_fixtures/CustomOptionValue.php
+ * @magentoDataFixture Api/Catalog/Product/_fixture/CustomOptionValue.php
  */
 class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webservice
 {
@@ -21,7 +21,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
      */
     public function testCustomOptionValueCRUD()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOptionValue.xml');
         $customOptionValues = self::simpleXmlToArray($valueFixture->CustomOptionValues);
 
         $store = (string) $valueFixture->store;
@@ -83,7 +83,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
      */
     public function testCustomOptionValueAddExceptionInvalidOptionId()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOptionValue.xml');
         $customOptionValues = self::simpleXmlToArray($valueFixture->CustomOptionValues);
         // for wsi complexObjectArray
         $customOptionValuesData = array(reset($customOptionValues));
@@ -113,7 +113,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
      */
     public function testCustomOptionValueUpdateExceptionValueId()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = self::simpleXmlToArray($valueFixture->CustomOptionValuesToUpdate);
 
         $this->call('product_custom_option_value.update', array(
@@ -130,7 +130,7 @@ class Api_Catalog_Product_CustomOptionValueCRUDTest extends Magento_Test_Webserv
      */
     public function testCustomOptionValueUpdateExceptionTitle()
     {
-        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionValue.xml');
+        $valueFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOptionValue.xml');
         $customOptionValuesToUpdate = self::simpleXmlToArray($valueFixture->CustomOptionValuesToUpdate);
         $customOptionValuesToUpdate['value_1']['title'] = false;
 

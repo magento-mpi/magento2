@@ -54,7 +54,7 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     /**
      * Test get order item for customer
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/customer_order.php
+     * @magentoDataFixture Sales/Order/customer_order.php
      * @resourceOperation order::get
      */
     public function testGetOrder()
@@ -89,7 +89,7 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     /**
      * Test get order if customer is not owner
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/order.php
+     * @magentoDataFixture Sales/Order/order.php
      * @resourceOperation order::get
      */
     public function testGetOrderIfCustomerIsNotOwner()
@@ -103,7 +103,7 @@ class Api2_Sales_Order_CustomerTest extends Magento_Test_Webservice_Rest_Custome
     /**
      * Test get orders for customer
      *
-     * @magentoDataFixture Api2/Sales/_fixtures/orders_list_customer.php
+     * @magentoDataFixture Sales/Order/orders_list_customer.php
      * @resourceOperation order::multiget
      */
     public function testGetOrders()

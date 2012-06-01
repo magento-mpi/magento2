@@ -21,7 +21,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test successful product get
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::get
      */
     public function testGet()
@@ -39,7 +39,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test successful get with filter by attributes
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetWithAttributeFilter()
@@ -75,7 +75,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test product get for store that product is not assigned to
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      * @magentoDataFixture Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
@@ -94,7 +94,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test with filter by invalid store
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetFilterByInvalidStore()
@@ -302,7 +302,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
      * Test product create resource with not unique sku value
      * Negative test.
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::create
      */
     public function testPostNotUniqueSku()
@@ -460,7 +460,7 @@ class Api2_Catalog_Products_Simple_AdminTest extends Api2_Catalog_Products_Admin
     /**
      * Test successful product delete
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      *
      * @resourceOperation product::delete
      */

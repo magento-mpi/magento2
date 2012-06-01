@@ -42,7 +42,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
      */
     public function testSetSpecialPrice()
     {
-        $productData  = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $productData  = require dirname(__FILE__) . '/_fixture/ProductData.php';
         $product      = new Mage_Catalog_Model_Product;
         $specialPrice = 1.99;
         $specialFrom  = '2011-12-22 00:00:00';
@@ -81,7 +81,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
      */
     public function testProductInfoByNumericSku()
     {
-        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         //generate numeric sku
         $data['create']['sku'] = rand(1000000, 99999999);
@@ -118,7 +118,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
      */
     public function testProductCrud()
     {
-        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         // create product for test
         $productId = $this->call('catalog_product.create', $data['create']);
@@ -166,7 +166,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
     public function testProductWithOptionsCrud()
     {
         list($optionValueApi, $optionValueInstaller) = $this->_addAttributes();
-        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
 
         try {
             switch (TESTS_WEBSERVICE_TYPE) {
@@ -269,7 +269,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
     {
         $this->setFixture('attributes', true);
 
-        $data = require dirname(__FILE__) . '/_fixtures/ProductAttributeData.php';
+        $data = require dirname(__FILE__) . '/_fixture/ProductAttributeData.php';
 
 
         // add product attributes via installer
@@ -330,7 +330,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
             $model->remove($attribute);
         }
 
-        $data = require dirname(__FILE__) . '/_fixtures/ProductAttributeData.php';
+        $data = require dirname(__FILE__) . '/_fixture/ProductAttributeData.php';
         $attributes = array(
             $data['create_text_installer']['code'],
             $data['create_select_installer']['code'],
@@ -349,7 +349,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
      */
     public function testProductCreateWithInvalidAttributeSet()
     {
-        $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
         $productData = $productData['create_full']['soap'];
         $productData['set'] = 'invalid';
 
@@ -406,7 +406,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         Mage::app()->reinitStores();
         $this->_getAppCache()->flush();
 
-        $data = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $data = require dirname(__FILE__) . '/_fixture/ProductData.php';
         // create product for test
         $productId = $this->call('catalog_product.create', $data['create_full']['soap']);
         $this->assertGreaterThan(0, $productId, 'Product was not created');
@@ -454,7 +454,7 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
      */
     public function testProductCreateForTestMediaAttributesDefaultValue()
     {
-        $productData = require dirname(__FILE__) . '/_fixtures/ProductData.php';
+        $productData = require dirname(__FILE__) . '/_fixture/ProductData.php';
         $productData = $productData['create'];
 
         // create product for test

@@ -44,12 +44,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image create
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::create
      */
     public function testPost()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['full_create'];
         $pathPrefix = '/' . substr($imageData['file_name'], 0, 1) . '/' . substr($imageData['file_name'], 1, 1) . '/';
         $file = $pathPrefix . $imageData['file_name'] . '.jpeg';
@@ -75,7 +75,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * @param array $imageData
      * @param array $expectedErrors
      * @dataProvider dataProviderTestPostInvalidDataError
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::create
      */
     public function testPostInvalidDataError($imageData, $expectedErrors)
@@ -197,7 +197,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * @param array $imageData
      * @param array $correctedImageData
      * @dataProvider dataProviderTestPostInvalidDataConvertedWithoutError
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::create
      */
     public function testPostInvalidDataConvertedWithoutError($imageData, $correctedImageData)
@@ -337,12 +337,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image create with invalid store id
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::create
      */
     public function testPostInvalidStoreId()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['full_create'];
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -356,12 +356,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image update
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::update
      */
     public function testPut()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $updateImageData = $imageData['data_set_2'];
         $imageData = $imageData['data_set_1'];
 
@@ -387,7 +387,7 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * @param array $updateImageData
      * @param array $correctedImageData
      * @dataProvider dataProviderTestPutInvalidData
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::update
      */
     public function testPutInvalidData($createImageData, $updateImageData, $correctedImageData)
@@ -511,12 +511,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image update for non-default store
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple_on_new_store.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple_on_new_store.php
      * @resourceOperation product_image::update
      */
     public function testPutWithStore()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $updateImageData = $imageData['data_set_2'];
         $imageData = $imageData['data_set_1'];
 
@@ -548,12 +548,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image update with invalid store id
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::create
      */
     public function testPutInvalidStoteId()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $updateImageData = $imageData['data_set_2'];
         $imageData = $imageData['data_set_1'];
 
@@ -570,12 +570,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test list images
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::multiget
      */
     public function testList()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = self::getFixture('product_simple');
@@ -608,12 +608,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image get
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGet()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -632,12 +632,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image delete
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::delete
      */
     public function testDelete()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -660,12 +660,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image delete with invalid store
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::delete
      */
     public function testDeleteWithInvalidStoreId()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -689,12 +689,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * disabled => empty (exclude => empty)
      * types    => array()
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple_on_new_store.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple_on_new_store.php
      * @resourceOperation product_image::create
      */
     public function testPostWithStore()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['full_create'];
         $pathPrefix = '/' . substr($imageData['file_name'], 0, 1) . '/' . substr($imageData['file_name'], 1, 1) . '/';
         $file = $pathPrefix . $imageData['file_name'] . '.jpeg';
@@ -731,12 +731,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image get
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple_on_new_store.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple_on_new_store.php
      * @resourceOperation product_image::get
      */
     public function testGetWithStore()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageDataAnotherStore = $imageData['data_set_2'];
         $imageData = $imageData['data_set_1'];
 
@@ -790,12 +790,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
     /**
      * Test image get
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGetWithInvalidStore()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -813,12 +813,12 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
      * Test image get for store which is not related to product
      *
      * @magentoDataFixture Catalog/Category/category_on_new_store.php
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGetWithNotAssignedStore()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
 
         /* @var $product Mage_Catalog_Model_Product */
@@ -944,8 +944,8 @@ class Api2_Catalog_Products_Images_AdminTest extends Magento_Test_Webservice_Res
         $pathPrefix = '/p/r/';
 
         $fileName = 'product_image' . uniqid() . mt_rand(10, 99) . '.jpg';
-        $fileFixture = dirname(__FILE__) . '/_fixtures/' . $fileName;
-        $this->_getIoAdapter()->cp(dirname(__FILE__) . '/_fixtures/product.jpg', $fileFixture);
+        $fileFixture = dirname(__FILE__) . '/_fixture/' . $fileName;
+        $this->_getIoAdapter()->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixture);
 
         return array($pathPrefix . $fileName,  $fileFixture);
     }

@@ -25,7 +25,7 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenControllerTest extends Magento_Test_
     protected function _getFixtureModels()
     {
         return require realpath(dirname(__FILE__) . '/../../../..') .
-                '/Model/_fixtures/tokenConsumerCreate.php';
+                '/Model/_fixture/tokenConsumerCreate.php';
     }
 
     /**

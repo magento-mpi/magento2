@@ -10,8 +10,8 @@
  */
 
 /**
- * @magentoDataFixture Api/GiftCard/_fixtures/code_pool.php
- * @magentoDataFixture Api/GiftCard/_fixtures/giftcard_account.php
+ * @magentoDataFixture Api/GiftCard/_fixture/code_pool.php
+ * @magentoDataFixture Api/GiftCard/_fixture/giftcard_account.php
  */
 class Api_GiftCard_CartTest extends Magento_Test_Webservice
 {
@@ -82,7 +82,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
      */
     public function testIncorrectDataAddException()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_cart.xml');
+        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_create);
         $this->call('cart_giftcard.add', $invalidData);
     }
@@ -95,7 +95,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
      */
     public function testIncorrectDataListException()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_cart.xml');
+        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_list);
         $this->call('cart_giftcard.list', $invalidData);
     }
@@ -108,7 +108,7 @@ class Api_GiftCard_CartTest extends Magento_Test_Webservice
      */
     public function testIncorrectDataRemoveException()
     {
-        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/giftcard_cart.xml');
+        $fixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/giftcard_cart.xml');
         $invalidData = self::simpleXmlToArray($fixture->invalid_remove);
         $this->call('cart_giftcard.remove', $invalidData);
     }

@@ -15,7 +15,7 @@
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
- * @magentoDataFixture Api/SalesOrder/_fixtures/order.php
+ * @magentoDataFixture Api/SalesOrder/_fixture/order.php
  */
 class Api_SalesOrder_ListTest extends Magento_Test_Webservice
 {

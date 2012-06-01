@@ -39,7 +39,7 @@ class Api_Catalog_Category_Attribute_AttributeTest extends Magento_Test_Webservi
     {
         parent::setUpBeforeClass();
 
-        self::$_attributeFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/attribute.xml');
+        self::$_attributeFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/attribute.xml');
         self::$_code = (string) self::$_attributeFixture->code;
         self::$_data = self::simpleXmlToArray(self::$_attributeFixture->attributeData);
         self::$_expectedData = self::simpleXmlToArray(self::$_attributeFixture->expected);

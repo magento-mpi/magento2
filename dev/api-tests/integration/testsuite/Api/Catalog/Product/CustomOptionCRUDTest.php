@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Api/Catalog/Product/_fixtures/CustomOption.php
+ * @magentoDataFixture Api/Catalog/Product/_fixture/CustomOption.php
  */
 class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 {
@@ -24,7 +24,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionCRUD()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
         $store = (string) $customOptionFixture->store;
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
@@ -124,7 +124,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionTypes()
     {
-        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOptionTypes.xml');
+        $attributeSetFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOptionTypes.xml');
         $customOptionsTypes = self::simpleXmlToArray($attributeSetFixture);
 
         $optionTypes = $this->call('product_custom_option.types', array());
@@ -161,7 +161,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionAddExceptionProductNotExists()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
@@ -184,7 +184,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     public function testCustomOptionAddExceptionAdditionalFieldsNotSet()
     {
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixture/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = $customOptions['field'];
@@ -202,7 +202,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
     public function testCustomOptionDateTimeAddExceptionStoreNotExist()
     {
         $fixtureProductId = Magento_Test_Webservice::getFixture('productData')->getId();
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOption.xml');
         $customOptions = self::simpleXmlToArray($customOptionFixture->CustomOptionsToAdd);
 
         $option = reset($customOptions);
@@ -225,7 +225,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionListExceptionProductNotExists()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__).'/_fixture/xml/CustomOption.xml');
         $store = (string) $customOptionFixture->store;
 
         $this->setExpectedException(self::DEFAULT_EXCEPTION);
@@ -259,7 +259,7 @@ class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
      */
     public function testCustomOptionUpdateExceptionInvalidType()
     {
-        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/CustomOption.xml');
+        $customOptionFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/xml/CustomOption.xml');
 
         $customOptionsToUpdate = self::simpleXmlToArray($customOptionFixture->CustomOptionsToUpdate);
         $option = reset(self::$createdOptionAfter);

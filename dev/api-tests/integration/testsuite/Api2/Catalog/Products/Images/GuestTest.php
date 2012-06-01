@@ -31,7 +31,7 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
     /**
      * Test list images
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::multiget
      */
     public function testList()
@@ -46,8 +46,8 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
         $fileFixtures = array();
         for ($i=0; $i<$imagesNumber; $i++) {
             $fileNames[$i] = 'product_image' . uniqid() . '.jpg';
-            $fileFixtures[$i] = dirname(__FILE__) . '/_fixtures/' . $fileNames[$i];
-            $ioAdapter->cp(dirname(__FILE__) . '/_fixtures/product.jpg', $fileFixtures[$i]);
+            $fileFixtures[$i] = dirname(__FILE__) . '/_fixture/' . $fileNames[$i];
+            $ioAdapter->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixtures[$i]);
             $exclude = false;
             if ($i == 0) {
                 // customer should not see excluded image
@@ -82,12 +82,12 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
     /**
      * Test image get
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGet()
     {
-        $imageData = require dirname(__FILE__) . '/_fixtures/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
         $imageData = $imageData['data_set_1'];
 
         $pathPrefix = '/p/r/';
@@ -96,8 +96,8 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
 
         $ioAdapter = new Varien_Io_File();
         $fileName = 'product_image' . uniqid() . '.jpg';
-        $fileFixture = dirname(__FILE__) . '/_fixtures/' . $fileName;
-        $ioAdapter->cp(dirname(__FILE__) . '/_fixtures/product.jpg', $fileFixture);
+        $fileFixture = dirname(__FILE__) . '/_fixture/' . $fileName;
+        $ioAdapter->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixture);
         $product->addImageToMediaGallery($fileFixture, null, false, false);
 
         $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
@@ -152,7 +152,7 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
     /**
      * Test image get for excluded image
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixtures/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGetExcluded()
@@ -163,8 +163,8 @@ class Api2_Catalog_Products_Images_GuestTest extends Magento_Test_Webservice_Res
 
         $ioAdapter = new Varien_Io_File();
         $fileName = 'product_image' . uniqid() . '.jpg';
-        $fileFixture = dirname(__FILE__) . '/_fixtures/' . $fileName;
-        $ioAdapter->cp(dirname(__FILE__) . '/_fixtures/product.jpg', $fileFixture);
+        $fileFixture = dirname(__FILE__) . '/_fixture/' . $fileName;
+        $ioAdapter->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixture);
         // add excluded image
         $product->addImageToMediaGallery($fileFixture, null, false, true);
         $product->setStoreId(0)->save();

@@ -153,7 +153,7 @@ class Api_Catalog_Category_FrontendTest extends Magento_Test_Webservice
     protected function _getFixtureData()
     {
         if (null === $this->_fixture) {
-            $this->_fixture = require dirname(__FILE__) . '/_fixtures/categoryData.php';
+            $this->_fixture = require dirname(__FILE__) . '/_fixture/categoryData.php';
         }
         return $this->_fixture;
     }

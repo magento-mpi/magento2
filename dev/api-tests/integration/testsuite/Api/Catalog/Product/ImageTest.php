@@ -24,7 +24,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     protected function setUp()
     {
-        $productFixture = require dirname(__FILE__) . '/../_fixtures/ProductData.php';
+        $productFixture = require dirname(__FILE__) . '/../_fixture/ProductData.php';
         $product        = new Mage_Catalog_Model_Product;
 
         $product->setData($productFixture['create_full_fledged']);
@@ -106,7 +106,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
 
         // TXT file
         $requestData['file']['content'] = base64_encode(
-            file_get_contents(dirname(__FILE__) . '/_fixtures/files/test.txt')
+            file_get_contents(dirname(__FILE__) . '/_fixture/files/test.txt')
         );
 
         try {
@@ -163,8 +163,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
     public function invalidImageProvider()
     {
         return array(
-            array(dirname(__FILE__) . '/_fixtures/files/images/test.bmp.jpg'),
-            array(dirname(__FILE__) . '/_fixtures/files/images/test.php.jpg')
+            array(dirname(__FILE__) . '/_fixture/files/images/test.bmp.jpg'),
+            array(dirname(__FILE__) . '/_fixture/files/images/test.php.jpg')
         );
     }
 
@@ -176,8 +176,8 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
     public function validImageProvider()
     {
         return array(
-            array(dirname(__FILE__) . '/_fixtures/files/images/test.jpg.jpg'),
-            array(dirname(__FILE__) . '/_fixtures/files/images/test.png.jpg')
+            array(dirname(__FILE__) . '/_fixture/files/images/test.jpg.jpg'),
+            array(dirname(__FILE__) . '/_fixture/files/images/test.png.jpg')
         );
     }
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Api/SalesOrder/_fixtures/shipment.php
+ * @magentoDataFixture Api/SalesOrder/_fixture/shipment.php
  */
 class Api_SalesOrder_ShipmentTest extends Magento_Test_Webservice
 {

@@ -73,7 +73,7 @@ class Api2_Catalog_Products_Simple_GuestTest extends Api2_Catalog_Products_Guest
     /**
      * Test unsuccessful product delete
      *
-     * @magentoDataFixture Api/SalesOrder/_fixtures/product_simple.php
+     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::delete
      */
     public function testDelete()

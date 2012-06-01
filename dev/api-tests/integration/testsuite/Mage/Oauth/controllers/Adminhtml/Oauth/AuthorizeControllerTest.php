@@ -37,7 +37,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizeControllerTest extends Magento_Test_Te
      */
     protected function _getFixture()
     {
-        list($this->_token, $this->_consumer) = require dirname(__FILE__).'/../../_fixtures/token.php';
+        list($this->_token, $this->_consumer) = require dirname(__FILE__).'/../../_fixture/token.php';
 
         $this->addModelToDelete($this->_consumer);
         $this->addModelToDelete($this->_token);

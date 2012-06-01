@@ -17,7 +17,7 @@
  */
 
 /**
- * @magentoDataFixture Api/CustomerBalance/_fixtures/CustomerBalance.php
+ * @magentoDataFixture Api/CustomerBalance/_fixture/CustomerBalance.php
  */
 class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
 {
@@ -40,7 +40,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
      */
     public function testCustomerBalanceBalance()
     {
-        $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/_fixtures/CustomerBalance.xml');
+        $customerBalanceFixture = simplexml_load_file(dirname(__FILE__) . '/_fixture/CustomerBalance.xml');
         $data = self::simpleXmlToArray($customerBalanceFixture);
 
         $data['input']['customerId'] = self::$customer->getId();
@@ -60,7 +60,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
     public function testCustomerBalanceBalanceExceptionBalanceNotFound()
     {
         $customerBalanceFixture = simplexml_load_file(
-            dirname(__FILE__) . '/_fixtures/CustomerBalanceExceptionBalanceNotFound.xml'
+            dirname(__FILE__) . '/_fixture/CustomerBalanceExceptionBalanceNotFound.xml'
         );
         $data = self::simpleXmlToArray($customerBalanceFixture);
 
@@ -78,7 +78,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
     public function testCustomerBalanceHistory()
     {
         $customerBalanceHistoryFixture = simplexml_load_file(
-            dirname(__FILE__) . '/_fixtures/CustomerBalanceHistory.xml'
+            dirname(__FILE__) . '/_fixture/CustomerBalanceHistory.xml'
         );
         $data = self::simpleXmlToArray($customerBalanceHistoryFixture);
 
@@ -105,7 +105,7 @@ class Api_CustomerBalance_CustomerBalanceTest extends Magento_Test_Webservice
     public function testCustomerBalanceHistoryExceptionHistoryNotFound()
     {
         $customerBalanceHistoryFixture = simplexml_load_file(
-            dirname(__FILE__) . '/_fixtures/CustomerBalanceExceptionHistoryNotFound.xml'
+            dirname(__FILE__) . '/_fixture/CustomerBalanceExceptionHistoryNotFound.xml'
         );
         $data = self::simpleXmlToArray($customerBalanceHistoryFixture);
 
