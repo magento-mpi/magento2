@@ -35,6 +35,7 @@ return array(
     'Mage_Adminhtml_Block_Api_Edituser',
     'Mage_Adminhtml_Block_Api_Tab_Userroles',
     'Mage_Adminhtml_Block_Catalog',
+    'Mage_Adminhtml_Block_Page_Menu' => array('suggestion' => 'Mage_Backend_Block_Menu'),
     'Mage_Adminhtml_Block_Permissions_User',
     'Mage_Adminhtml_Block_Permissions_User_Grid',
     'Mage_Adminhtml_Block_Permissions_User_Edit',

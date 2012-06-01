@@ -23,6 +23,6 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Cache
      * @var array
      */
     protected $_cacheTags = array(
-        Mage_Adminhtml_Block_Page_Menu::CACHE_TAGS
+        Mage_Backend_Block_Menu::CACHE_TAGS
     );
 }
