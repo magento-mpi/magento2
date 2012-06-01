@@ -50,7 +50,7 @@
         <!-- Enable/Disable transactions in fixtures. Possible values: on (default), off (req for WS tests) -->
         <const name="TESTS_FIXTURE_TRANSACTION" value="off"/>
         <!-- Webserver URL -->
-        <const name="TESTS_WEBSERVICE_URL" value="http://tests.url"/>
+        <const name="TESTS_WEBSERVICE_URL" value="http://tests.url/pub"/>
         <!-- Admin User -->
         <const name="TESTS_ADMIN_USERNAME" value="admin"/>
         <!-- Admin Password -->
