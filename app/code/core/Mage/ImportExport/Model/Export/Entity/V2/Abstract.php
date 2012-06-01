@@ -238,7 +238,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      * Inner writer object getter.
      *
      * @throws Exception
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_Adapter_Abstract
      */
     public function getWriter()
     {

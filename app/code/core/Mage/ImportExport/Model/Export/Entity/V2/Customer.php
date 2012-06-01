@@ -83,60 +83,11 @@ class Mage_ImportExport_Model_Export_Entity_V2_Customer extends Mage_ImportExpor
         );
         $validAttrCodes = $this->_getExportAttrCodes();
         $writer         = $this->getWriter();
-        $defaultAddrMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
-
-        // prepare address data
-        $addrAttributes = array();
-        $addrColNames   = array();
-        $customerAddrs  = array();
-
-        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection')
-                    ->addSystemHiddenFilter()
-                    ->addExcludeHiddenFrontendFilter() as $attribute) {
-            $options  = array();
-            $attrCode = $attribute->getAttributeCode();
-
-            if ($attribute->usesSource() && 'country_id' != $attrCode) {
-                foreach ($attribute->getSource()->getAllOptions(false) as $option) {
-                    foreach (is_array($option['value']) ? $option['value'] : array($option) as $innerOption) {
-                        if (strlen($innerOption['value'])) { // skip ' -- Please Select -- ' option
-                            $options[$innerOption['value']] = $innerOption['label'];
-                        }
-                    }
-                }
-            }
-            $addrAttributes[$attrCode] = $options;
-            $addrColNames[] = Mage_ImportExport_Model_Import_Entity_Customer_Address::getColNameForAttrCode($attrCode);
-        }
-
-        $addresses = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection')
-            ->addAttributeToSelect('*');
-        foreach ($addresses as $address) {
-            $addrRow = array();
-
-            foreach ($addrAttributes as $attrCode => $attrValues) {
-                if (null !== $address->getData($attrCode)) {
-                    $value = $address->getData($attrCode);
-
-                    if ($attrValues) {
-                        $value = $attrValues[$value];
-                    }
-                    $column = Mage_ImportExport_Model_Import_Entity_Customer_Address::getColNameForAttrCode($attrCode);
-                    $addrRow[$column] = $value;
-                }
-            }
-            $customerAddrs[$address['parent_id']][$address->getId()] = $addrRow;
-        }
 
         // create export file
-        $writer->setHeaderCols(array_merge(
-            $this->_permanentAttributes, $validAttrCodes,
-            array('password'), $addrColNames,
-            array_keys($defaultAddrMap)
-        ));
+        $writer->setHeaderCols(array_merge($this->_permanentAttributes, $validAttrCodes, array('password')));
         foreach ($collection as $itemId => $item) { // go through all customers
             $row = array();
-
             // go through all valid attribute codes
             foreach ($validAttrCodes as $attrCode) {
                 $attrValue = $item->getData($attrCode);
@@ -153,28 +104,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Customer extends Mage_ImportExpor
             $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$item['website_id']];
             $row[self::COL_STORE]   = $this->_storeIdToCode[$item['store_id']];
 
-            // addresses injection
-            $defaultAddrs = array();
-
-            foreach ($defaultAddrMap as $colName => $addrAttrCode) {
-                if (!empty($item[$addrAttrCode])) {
-                    $defaultAddrs[$item[$addrAttrCode]][] = $colName;
-                }
-            }
-            if (isset($customerAddrs[$itemId])) {
-                while (($addrRow = each($customerAddrs[$itemId]))) {
-                    if (isset($defaultAddrs[$addrRow['key']])) {
-                        foreach ($defaultAddrs[$addrRow['key']] as $colName) {
-                            $row[$colName] = 1;
-                        }
-                    }
-                    $writer->writeRow(array_merge($row, $addrRow['value']));
-
-                    $row = array();
-                }
-            } else {
-                $writer->writeRow($row);
-            }
+            $writer->writeRow($row);
         }
         return $writer->getContents();
     }
