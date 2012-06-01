@@ -165,7 +165,9 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
         } elseif (array_key_exists($dataSetName, $this->_testData)) {
             return $this->_testData[$dataSetName];
         }
-        if (array_key_exists($dataSetName, $this->_loadedTestData[$fileName])) {
+        if (isset($this->_loadedTestData[$fileName])
+            && array_key_exists($dataSetName, $this->_loadedTestData[$fileName])
+        ) {
             $this->_testData[$dataSetName] = $this->_loadedTestData[$fileName][$dataSetName];
             unset($this->_loadedTestData[$fileName][$dataSetName]);
             return $this->_testData[$dataSetName];

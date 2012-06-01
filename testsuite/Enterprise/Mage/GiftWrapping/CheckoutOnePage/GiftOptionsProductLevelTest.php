@@ -38,7 +38,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 
     public function assertPreconditions()

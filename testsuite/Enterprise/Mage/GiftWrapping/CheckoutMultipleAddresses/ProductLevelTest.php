@@ -39,7 +39,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 
     protected function assertPreConditions()
@@ -55,7 +55,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->_configHelper->getConfigAreas(true);
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 
     /**

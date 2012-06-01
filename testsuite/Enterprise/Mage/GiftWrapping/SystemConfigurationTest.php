@@ -50,7 +50,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 /**
      * <p>Creating 2 simple products</p>
@@ -112,7 +112,7 @@ class Enterprise_Mage_GiftWrapping_SystemConfigurationTest extends Mage_Selenium
      */
     public function changeGiftOptionsSettings($settings)
     {
-        $settings = $this->loadDataSet('GiftWrapping', $settings);
+        $settings = $this->loadDataSet('GiftMessage', $settings);
         $this->systemConfigurationHelper()->configure($settings);
         $this->assertTrue($this->verifyForm($settings['tab_1']['configuration']),
                                             $settings['tab_1']['tab_name']);
