@@ -36,13 +36,16 @@ category_page_before_reindex:
                     category_view:
                         xpath: //div[@class='category-products']
                         dropdowns:
-                            show_per_page: //div[@class='toolbar']//div[@class='limiter']/select
-                            sort_by: //div[@class='toolbar']//div[@class='sorter']//select
+                            show_per_page: //div[@class='toolbar']//div[@class='limiter']/select//option[contains(text(), '%showPerPage%')]
+                            show_per_page_selected: //div[@class='toolbar']//div[@class='limiter']/select//option[@selected and contains(text(), '%showPerPage%')]
+                            show_per_page_all: //div[@class='toolbar']//div[@class='limiter']/select//option[contains(text(), 'All')]
+                            sort_by: //div[@class='toolbar-bottom']//div[@class='sorter']//select//option[contains(text(), '%sortBy%')]
+                            sort_by_selected: //div[@class='toolbar-bottom']//div[@class='sorter']//select//option[@selected and contains(text(), '%sortBy%')]
                         links:
-                            list: //a[@class='list']
-                            grid: //a[@class='grid']
+                            list: //div[@class='toolbar-bottom']//*[@class='list']
+                            grid: //div[@class='toolbar-bottom']//*[@class='grid']
                             next_page: //a[@title='Next']
-                            learn_more: //li[h2/a='%productName%']//a[@class='link-learn']
+                            learn_more: //a[@title='%productName%' and @class='link-learn']
                             add_to_wishlist: //li[h2/a='%productName%']//a[@class='link-wishlist']
                             add_to_compare: //li[h2/a='%productName%']//a[@class='link-compare']
                             reviews: //a[contains(text(),'Review(s)')]
