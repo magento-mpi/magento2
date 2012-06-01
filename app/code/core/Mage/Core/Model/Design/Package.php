@@ -577,11 +577,15 @@ class Mage_Core_Model_Design_Package
         $skinFile = $this->_extractScope($skinFile, $params);
 
         $file = $this->getSkinFile($skinFile, $params);
-        if (!Mage::getIsDeveloperMode() && preg_match('/(\.css|\.js)$/', $skinFile)) {
-            $minifiedPath = preg_replace('/(.*)\.(.*)$/i', '$1.min.$2', $file);
+
+        $dotPosition = strrpos($skinFile, ".");
+        $extension = strtolower(substr($skinFile, $dotPosition + 1));
+        if (!Mage::getIsDeveloperMode() && !empty($extension) &&
+                in_array($extension, array("js", "css"))) {
+            $minifiedPath = str_replace('.' . $extension, '.min.' . $extension, $file);
             if (file_exists($minifiedPath)) {
                 $file = $minifiedPath;
-                $skinFile = preg_replace('/(.*)\.(.*)$/i', '$1.min.$2', $skinFile);
+                $skinFile = str_replace('.' . $extension, '.min.' . $extension, $skinFile);
             }
         }
 
@@ -594,7 +598,7 @@ class Mage_Core_Model_Design_Package
         }
 
         $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_skin_files_duplication');
-        $isCssFile = $this->_isCssFile($skinFile);
+        $isCssFile = ($extension === 'css');
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicSkinRedundantFilename($skinFile, $params);
         } else {
