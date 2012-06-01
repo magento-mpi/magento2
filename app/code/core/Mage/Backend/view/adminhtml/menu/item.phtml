@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<li <?php echo ($this->getItem()->hasChildren() ? 'onmouseover="Element.addClassName(this,\'over\')" onmouseout="Element.removeClassName(this,\'over\')"' : ''); ?>
+    class="<?php echo ($this->isItemActive($this->getItem()) ? 'active' : '') . ' ' . ($this->getItem()->hasChildren() ? 'parent' : '') . ' ' . ($this->isLast() ? 'last' : '') . ' ' . ('level' . $this->getLevel()); ?>">
+    <a href="<?php echo $this->getItem()->getUrl(); ?>" <?php echo ($this->getItem()->hasTooltip() ? 'title="' . $this->getItem()->getModuleHelper()->__($this->getItem()->getTooltip()) . '"' : '') . ($this->getItem()->hasClickCallback() ? ' onclick="' . $this->getItem()->getClickCallback() . '"' : ''); ?> class="<?php echo ($this->isItemActive($this->getItem()) ? 'active' : ''); ?>">
+        <span><?php echo $this->escapeHtml($this->getItem()->getModuleHelper()->__($this->getItem()->getTitle())); ?> </span>
+    </a>
+    <?php if ($this->getItem()->hasChildren()) : ?>
+        <?php echo $this->getContainerRenderer()->renderMenuContainer($this->getItem(), $this->getLevel() + 1); ?>
+    <?php endif; ?>
+</li>
+

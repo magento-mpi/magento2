@@ -107,50 +107,22 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     public function getMenuModel()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+        $menu = Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+        return $menu[0];
     }
 
     /**
-     * Get menu level HTML code
-     *
-     * @param Mage_Backend_Model_Menu $menu
-     * @param int $level
-     * @return string
+     * Render menu container
+     * @param $menu
+     * @param $level
+     * @return string HTML
      */
-    public function getMenuLevelHtml(Mage_Backend_Model_Menu $menu, $level = 0)
+    public function renderMenuContainer($menu, $level = 0)
     {
-        $html = '<ul ' . (!$level ? 'id="nav"' : '') . '>' . PHP_EOL;
-        foreach ($menu as $item) {
-            $html .= '<li ' . ($item->hasChildren() ? 'onmouseover="Element.addClassName(this,\'over\')" '
-                . 'onmouseout="Element.removeClassName(this,\'over\')"' : '') . ' class="'
-                . (!$level && $this->_isItemActive($item) ? ' active' : '') . ' '
-                . ($item->hasChildren() ? ' parent' : '')
-                . (!empty($level) && $menu->isLast($item) ? ' last' : '')
-                . ' level' . $level . '"> <a href="' . $item->getUrl() . '" '
-                . ($item->hasTooltip() ? 'title="' . $item->getModuleHelper()->__($item->getTooltip()) . '"' : '') . ' '
-                . ($item->hasClickCallback() ? 'onclick="' . $item->getClickCallback() . '"' : '') . ' class="'
-                . ($level === 0 && $this->_isItemActive($item) ? 'active' : '') . '"><span>'
-                . $this->escapeHtml($item->getModuleHelper()->__($item->getTitle())) . '</span></a>' . PHP_EOL;
-
-            if ($item->hasChildren()) {
-                $html .= $this->getMenuLevelHtml($item->getChildren(), $level + 1);
-            }
-            $html .= '</li>' . PHP_EOL;
-        }
-        $html .= '</ul>' . PHP_EOL;
-
-        return $html;
-    }
-
-    /**
-     * Check whether given item is currently selected
-     *
-     * @param Mage_Backend_Model_Menu_Item $item
-     * @return bool
-     */
-    public function _isItemActive(Mage_Backend_Model_Menu_Item $item)
-    {
-        return ($this->getActive() == $item->getFullPath())
-            || (strpos($this->getActive(), $item->getFullPath().'/')===0);
+        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Menu_Container');
+        $block->setItem($menu);
+        $block->setLevel($level);
+        $block->setContainer($this);
+        return $block->toHtml();
     }
 }
