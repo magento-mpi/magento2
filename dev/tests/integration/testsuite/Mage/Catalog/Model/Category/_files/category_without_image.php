@@ -9,12 +9,6 @@
  * @license     {license_link}
  */
 
-Mage::app()->getStore()->setConfig('dev/log/active', 1);
-Mage::app()->getStore()->setConfig('dev/log/exception_file', 'save_category_without_image.log');
-Mage::getConfig()->setNode('global/log/core/writer_model',
-    'Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream'
-);
-
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
  */

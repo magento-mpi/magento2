@@ -27,9 +27,6 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
     /** @var string */
     protected static $_oldWriterModel;
 
-    /** @var array */
-    public static $exceptions = array();
-
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
@@ -45,7 +42,7 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
         Mage::app()->getStore()->setConfig('dev/log/exception_file', self::$_oldExceptionFile);
         Mage::getConfig()->setNode('global/log/core/writer_model', self::$_oldWriterModel);
 
-        self::$exceptions = array();
+        Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream::$exceptions = array();
 
         parent::tearDownAfterClass();
     }
@@ -54,6 +51,7 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
      * Test that there is no exception '$_FILES array is empty' in Varien_File_Uploader::_setUploadFileId()
      * if category image was not set
      *
+     * @magentoDataFixture Mage/Catalog/Model/Category/_files/stub_zend_log_writer_stream.php
      * @magentoDataFixture Mage/Catalog/Model/Category/_files/category_without_image.php
      */
     public function testSaveCategoryWithoutImage()
@@ -62,18 +60,8 @@ class Mage_Catalog_Model_Category_CategoryImageTest extends PHPUnit_Framework_Te
         $category = Mage::registry('_fixture/Mage_Catalog_Model_Category');
         $this->assertNotEmpty($category->getId());
 
-        foreach (self::$exceptions as $exception) {
+        foreach (Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream::$exceptions as $exception) {
             $this->assertNotContains('$_FILES array is empty', $exception['message']);
         }
-    }
-}
-
-class Stub_Mage_Catalog_Model_CategoryTest_Zend_Log_Writer_Stream extends Zend_Log_Writer_Stream
-{
-    public function write($event)
-    {
-        Mage_Catalog_Model_Category_CategoryImageTest::$exceptions[] = $event;
-
-        parent::write($event);
     }
 }
