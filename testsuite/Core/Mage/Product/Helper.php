@@ -857,16 +857,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     /**
      * Unselect any associated product(as up_sells, cross_sells, related) to opened product
      *
-     * @param $type
+     * @param string $type
+     * @param bool $saveChanges
      */
-    public function unselectAssociatedProduct($type)
+    public function unselectAssociatedProduct($type, $saveChanges = false)
     {
         $this->openTab($type);
         $message = $this->_getControlXpath('fieldset', $type) . $this->_getMessageXpath('no_records_found');
         if (!$this->isElementPresent($message)) {
-            $this->fillFieldset(array($type . '_select_all'=> 'No'), $type);
-            $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-            $this->assertElementPresent($message, 'There are products assigned to "' . $type . '" tab');
+            $this->fillCheckbox($type . '_select_all', 'No');
+            if ($saveChanges) {
+                $this->saveAndContinueEdit('button', 'save_and_continue_edit');
+                $this->assertElementPresent($message, 'There are products assigned to "' . $type . '" tab');
+            }
         }
     }
 
