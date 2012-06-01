@@ -31,7 +31,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
     /**
      * Test list images
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Product/Image/_fixture/product_simple.php
      * @resourceOperation product_image::multiget
      */
     public function testList()
@@ -82,7 +82,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
     /**
      * Test image get
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Product/Image/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGet()
@@ -152,7 +152,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
     /**
      * Test image get for excluded image
      *
-     * @magentoDataFixture Api2/Catalog/Products/Images/_fixture/product_simple.php
+     * @magentoDataFixture Api2/Catalog/Product/Image/_fixture/product_simple.php
      * @resourceOperation product_image::get
      */
     public function testGetExcluded()

@@ -25,7 +25,7 @@ class Mage_Oauth_Customer_TokenControllerTest extends Magento_Test_TestCase_Cont
     protected function _getFixtureModels()
     {
         return $models = require realpath(dirname(__FILE__) . '/../../')
-                    . '/Model/_fixture/tokenConsumerCreate.php';
+            . '/Model/_fixture/_data/token_consumer_create.php';
     }
 
     /**
