@@ -42,7 +42,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setDesignTheme('test/default/default', 'frontend');
+        $this->_model->setIsFallbackSavePermitted(false)
+            ->setDesignTheme('test/default/default', 'frontend');
     }
 
     public function testSetGetArea()

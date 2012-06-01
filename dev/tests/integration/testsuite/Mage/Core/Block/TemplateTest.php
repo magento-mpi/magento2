@@ -40,6 +40,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testGetTemplateFile()
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        Mage::getDesign()->setIsFallbackSavePermitted(false);
 
         // with template
         $template = 'dummy.phtml';
@@ -74,6 +75,7 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     public function testAssign()
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files');
+        Mage::getDesign()->setIsFallbackSavePermitted(false);
 
         $this->_block->assign(array('varOne' => 'value1', 'varTwo' => 'value2'))
             ->setScriptPath(__DIR__ . DIRECTORY_SEPARATOR . '_files');
@@ -119,7 +121,8 @@ class Mage_Core_Block_TemplateTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_block->renderView());
         Mage::app()->getConfig()->getOptions()->setDesignDir(__DIR__ . DIRECTORY_SEPARATOR . '_files');
-        Mage::getDesign()->setDesignTheme('default/default/default');
+        Mage::getDesign()->setDesignTheme('default/default/default')
+            ->setIsFallbackSavePermitted(false);
         $this->_block->setTemplate('dummy.phtml');
         $this->assertEquals('1234567890', $this->_block->renderView());
     }

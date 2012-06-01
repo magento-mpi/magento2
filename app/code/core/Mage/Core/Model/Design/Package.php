@@ -117,9 +117,24 @@ class Mage_Core_Model_Design_Package
     /**
      * Fallback model, controlling rules of fallback and inheritance
      *
-     * @var Mage_Core_Model_Design_Fallback
+     * @var Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_Caching_Proxy
      */
     protected $_fallback;
+
+    /**
+     * Whether saving fallback map is permitted
+     *
+     * @var bool
+     */
+    protected $_isFallbackSavePermitted = true;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        register_shutdown_function(array($this, 'onShutdown'));
+    }
 
     /**
      * Set package area
@@ -264,7 +279,8 @@ class Mage_Core_Model_Design_Package
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return  $this->_getFallback()->getFilename($file, $params);
+        return  $this->_getFallback()->getFile($file, $params['area'], $params['package'], $params['theme'],
+            $params['module']);
     }
 
     /**
@@ -277,7 +293,8 @@ class Mage_Core_Model_Design_Package
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        return $this->_getFallback()->getLocaleFileName($file, $params);
+        return $this->_getFallback()->getLocaleFile($file, $params['area'], $params['package'], $params['theme'],
+            $params['locale']);
     }
 
     /**
@@ -291,15 +308,8 @@ class Mage_Core_Model_Design_Package
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return $this->_getFallback()->getSkinFile($file, $params);
-    }
-
-    protected function _getFallback()
-    {
-        if (!$this->_fallback) {
-            $this->_fallback = Mage::getModel('Mage_Core_Model_Design_Fallback', array('design' => $this));
-        }
-        return $this->_fallback;
+        return $this->_getFallback()->getSkinFile($file, $params['area'], $params['package'], $params['theme'],
+            $params['skin'], $params['locale'], $params['module']);
     }
 
     /**
@@ -324,6 +334,32 @@ class Mage_Core_Model_Design_Package
             $file = $file[1];
         }
         return $file;
+    }
+
+    /**
+     * Return most appropriate model to perform fallback
+     *
+     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_Caching_Proxy
+     */
+    protected function _getFallback()
+    {
+        if (!$this->_fallback) {
+            $model = $this->_isDeveloperMode() ?
+                'Mage_Core_Model_Design_Fallback' :
+                'Mage_Core_Model_Design_Fallback_Caching_Proxy';
+            $this->_fallback = Mage::getModel($model);
+        }
+        return $this->_fallback;
+    }
+
+    /**
+     * Return whether developer mode is turned on
+     *
+     * @return bool
+     */
+    protected function _isDeveloperMode()
+    {
+        return Mage::getIsDeveloperMode();
     }
 
     /**
@@ -529,7 +565,7 @@ class Mage_Core_Model_Design_Package
     }
 
     /**
-     * Check if requested skin file has public access or move it to public folder if necessary
+     * Check, if requested skin file has public access, and move it to public folder, if the file has no public access
      *
      * @param  string $skinFile
      * @param  array $params
@@ -553,12 +589,12 @@ class Mage_Core_Model_Design_Package
             throw new Magento_Exception("Unable to locate skin file '{$file}'.");
         }
 
-        if (!$this->_needToPublishFile($file)) {
+        if (!$this->_needToProcessFile($file)) {
             return $file;
         }
 
         $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_skin_files_duplication');
-        $isCssFile = preg_match('/\.css$/', $skinFile);
+        $isCssFile = $this->_isCssFile($skinFile);
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicSkinRedundantFilename($skinFile, $params);
         } else {
@@ -589,23 +625,47 @@ class Mage_Core_Model_Design_Package
             if (is_file($publicFile)) {
                 touch($publicFile, $fileMTime);
             }
-        } else if ($isCssFile && Mage::getIsDeveloperMode()) {
+        } else if ($isCssFile) {
             // Trigger related skin files publication, if CSS file itself has not been changed
             $this->_getPublicCssContent($file, dirname($publicFile), $skinFile, $params);
         }
-        return $publicFile;
 
+        $this->_setFileFallbackToMap($skinFile, $params, $publicFile);
+        return $publicFile;
     }
 
     /**
-     * Determine whether a file needs to be published
+     * Determine whether a file needs to be published.
+     * Js files are never processed. All other files must be processed either if they are not published already,
+     * or if they are css-files and we're working in developer mode.
+     *
+     * @param string $filePath
+     * @return bool
+     */
+    protected function _needToProcessFile($filePath)
+    {
+        $jsPath = Mage::getBaseDir('js') . DIRECTORY_SEPARATOR;
+        if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
+            return false;
+        }
+
+        $skinPath = $this->getPublicSkinDir() . DIRECTORY_SEPARATOR;
+        if (strncmp($filePath, $skinPath, strlen($skinPath)) !== 0) {
+            return true;
+        }
+
+        return $this->_isDeveloperMode() && $this->_isCssFile($filePath);
+    }
+
+    /**
+     * Check whether $file is a CSS-file
      *
      * @param string $file
      * @return bool
      */
-    protected function _needToPublishFile($file)
+    protected function _isCssFile($file)
     {
-        return (strpos($file, Mage::getBaseDir('js') . DIRECTORY_SEPARATOR) !== 0);
+        return (bool) preg_match('/\.css$/', $file);
     }
 
     /**
@@ -1155,5 +1215,47 @@ class Mage_Core_Model_Design_Package
 
         $this->_viewConfigs[$key] = $config;
         return $config;
+    }
+
+    /**
+     * Set $file's resolved file path to fallback map
+     *
+     * @param string $file
+     * @param array $params
+     * @param string $filePath
+     * @return Mage_Core_Model_Design_Package
+     */
+    protected function _setFileFallbackToMap($file, $params, $filePath)
+    {
+        $fallback = $this->_getFallback();
+        if ($fallback instanceof Mage_Core_Model_Design_Fallback_Caching_Proxy) {
+            $fallback->setFilePath($file, $params['area'], $params['package'], $params['theme'],
+                $params['skin'], $params['locale'], $params['module'], $filePath);
+        }
+        return $this;
+    }
+
+    /**
+     * Allow/forbid saving of fallback map (if fallback map is used to find file locations)
+     *
+     * @param bool $value
+     * @return Mage_Core_Model_Design_Package
+     */
+    public function setIsFallbackSavePermitted($value)
+    {
+        $this->_isFallbackSavePermitted = $value;
+        return $this;
+    }
+
+    /**
+     * Perform cache saving operations during system shutdown
+     */
+    public function onShutdown()
+    {
+        if ($this->_fallback && $this->_isFallbackSavePermitted
+            && $this->_fallback instanceof Mage_Core_Model_Design_Fallback_Caching_Proxy
+        ) {
+            $this->_fallback->saveMap();
+        }
     }
 }

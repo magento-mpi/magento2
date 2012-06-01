@@ -27,6 +27,7 @@ class Mage_DesignEditor_Block_Toolbar_SkinTest extends PHPUnit_Framework_TestCas
     public function testGetOptions()
     {
         Mage::getConfig()->getOptions()->setDesignDir(__DIR__ . '/../../../Core/Model/Design/Source/_files/design');
+        Mage::getDesign()->setIsFallbackSavePermitted(false);
         $options = $this->_block->getOptions();
 
         $this->assertInternalType('array', $options);
