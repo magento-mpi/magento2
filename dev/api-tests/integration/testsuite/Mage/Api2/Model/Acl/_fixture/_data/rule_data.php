@@ -13,7 +13,7 @@
  * Rule data fixture
  */
 
-$roleData = require 'roleData.php';
+$roleData = require 'role_data.php';
 /** @var $role Mage_Api2_Model_Acl_Global_Role */
 $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
 $role->setData($roleData['create']);

@@ -25,7 +25,7 @@ class Mage_Api2_Model_Acl_Filter_AttributeTest extends Magento_TestCase
      */
     protected function _getFixture()
     {
-        return require dirname(__FILE__) . DS . '..' . DS . '_fixture' .DS . 'attributeData.php';
+        return require dirname(__FILE__) . DS . '..' . DS . '_fixture' .DS . '_data' .DS . 'attribute_data.php';
     }
 
     /**

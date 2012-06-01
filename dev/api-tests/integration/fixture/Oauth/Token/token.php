@@ -1,7 +1,7 @@
 <?php
 
 /** @var $consumer Mage_Oauth_Model_Consumer */
-$consumer = require 'consumer.php';
+$consumer = require TEST_FIXTURE_DIR . '/Oauth/Consumer/consumer.php';
 
 /**
  * Model data

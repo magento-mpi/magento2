@@ -25,7 +25,7 @@ class Mage_Api2_Model_Acl_Global_RoleTest extends Magento_TestCase
      */
     protected function _getFixture()
     {
-        return require dirname(__FILE__) . DS . '..' . DS . '_fixture' .DS . 'roleData.php';
+        return require dirname(__FILE__) . DS . '..' . DS . '_fixture' . DS . '_data' . DS . 'role_data.php';
     }
 
     /**

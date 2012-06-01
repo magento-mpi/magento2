@@ -25,7 +25,7 @@ class Mage_Api2_Model_Resource_Acl_Filter_Attribute_CollectionTest extends Magen
      */
     protected function _getFixture()
     {
-        return require realpath(dirname(__FILE__) . '/../../../..') . '/Acl/_fixture/attributeData.php';
+        return require realpath(dirname(__FILE__) . '/../../../..') . '/Acl/_fixture/_data/attribute_data.php';
     }
 
     /**

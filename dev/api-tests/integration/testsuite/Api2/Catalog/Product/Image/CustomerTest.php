@@ -47,7 +47,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
         for ($i=0; $i<$imagesNumber; $i++) {
             $fileNames[$i] = 'product_image' . uniqid() . '.jpg';
             $fileFixtures[$i] = dirname(__FILE__) . '/_fixture/' . $fileNames[$i];
-            $ioAdapter->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixtures[$i]);
+            $ioAdapter->cp(TEST_FIXTURE_DIR . '/_data/Catalog/Product/product.jpg', $fileFixtures[$i]);
             $exclude = false;
             if ($i == 0) {
                 // customer should not see excluded image
@@ -87,7 +87,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
      */
     public function testGet()
     {
-        $imageData = require dirname(__FILE__) . '/_fixture/Backend/ImageData.php';
+        $imageData = require dirname(__FILE__) . '/_fixture/_data/image_data.php';
         $imageData = $imageData['data_set_1'];
 
         $pathPrefix = '/p/r/';
@@ -97,7 +97,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
         $ioAdapter = new Varien_Io_File();
         $fileName = 'product_image' . uniqid() . '.jpg';
         $fileFixture = dirname(__FILE__) . '/_fixture/' . $fileName;
-        $ioAdapter->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixture);
+        $ioAdapter->cp(TEST_FIXTURE_DIR . '/_data/Catalog/Product/product.jpg', $fileFixture);
         $product->addImageToMediaGallery($fileFixture, null, false, false);
 
         $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
@@ -164,7 +164,7 @@ class Api2_Catalog_Product_Image_CustomerTest extends Magento_Test_Webservice_Re
         $ioAdapter = new Varien_Io_File();
         $fileName = 'product_image' . uniqid() . '.jpg';
         $fileFixture = dirname(__FILE__) . '/_fixture/' . $fileName;
-        $ioAdapter->cp(dirname(__FILE__) . '/_fixture/product.jpg', $fileFixture);
+        $ioAdapter->cp(TEST_FIXTURE_DIR . '/_data/Catalog/Product/product.jpg', $fileFixture);
         // add excluded image
         $product->addImageToMediaGallery($fileFixture, null, false, true);
         $product->setStoreId(0)->save();

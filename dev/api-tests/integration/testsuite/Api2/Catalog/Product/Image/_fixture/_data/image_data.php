@@ -9,8 +9,8 @@
  * @license     {license_link}
  */
 
-$filepath = dirname(__FILE__) . '/../product.jpg';
-$fileContent = base64_encode(file_get_contents($filepath));
+$filePath = TEST_FIXTURE_DIR . '/_data/Catalog/Product/product.jpg';
+$fileContent = base64_encode(file_get_contents($filePath));
 return array(
     'full_create' => array(
         'file_name' => 'product_image' . uniqid(),
