@@ -74,8 +74,12 @@ export:
                         dropdowns:
                             entity_type: //select[@id='entity']
                             file_format: //select[@id='file_format']
-                            export_type: //@TBD old new
-                            export_file: //@TBD custmer , customer address 
+                -
+                    export_format:
+                        xpath: //div[@id="export_format_version"]
+                        dropdowns:
+                            export_file_version: //select[@id='file_format_version']
+                            export_file: //@TBD custmer , customer address
                 -
                     grid_and_filter:
                         xpath: //div[@id='export_filter_grid_container']
