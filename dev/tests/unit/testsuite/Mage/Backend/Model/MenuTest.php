@@ -48,6 +48,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testAddChildSortsItemsByTheirSortIndex()
     {
+        $this->markTestIncomplete();
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $item->expects($this->once())
             ->method('hasSortIndex')->will($this->returnValue(true));
@@ -108,5 +109,20 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
             $items[] = $item;
         }
         $this->assertCount(1, $items);
+    }
+
+    public function testIsLast()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testSetPathUpdatesAllChildren()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testGetFirstAvaliableChildReturnsLeafNode()
+    {
+
     }
 }

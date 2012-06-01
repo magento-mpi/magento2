@@ -26,7 +26,7 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Module of menu item
      *
-     * @var string
+     * @var Mage_Core_Helper_Abstract
      */
     protected $_moduleHelper;
 
@@ -284,20 +284,20 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * @return Mage_Core_Model_Helper
+     * @return Mage_Core_Helper_Abstract
      */
     public function getModuleHelper()
     {
         return $this->_moduleHelper;
     }
     /**
+     * Check whether item is disabled
+     *
      * @return bool
      */
     public function isDisabled()
     {
-        if (!$this->_isEnabledModuleOutput() || !$this->_isDependenciesAvailable()) {
-            return false;
-        }
+        return !$this->_moduleHelper->isModuleOutputEnabled() || !$this->_isDependenciesAvailable();
     }
 
     /**
