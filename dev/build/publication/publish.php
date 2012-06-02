@@ -54,23 +54,8 @@ try {
         echo "Assuming that 'source-point' is a commit ID." . PHP_EOL;
     }
 
-    // compare if changelog is different from the published one, compose the commit message
-    $projectRootDir = realpath(__DIR__ . '/../../../');
-    $sourceLogFile = $projectRootDir . DIRECTORY_SEPARATOR . $changelogFile;
     $targetLogFile = $targetDir . DIRECTORY_SEPARATOR . $changelogFile;
-    if (!file_exists($sourceLogFile)) {
-        throw new Exception("Changelog file '$sourceLogFile' does not exist.");
-    }
-    $sourceLog = file_get_contents($sourceLogFile);
-    if (file_exists($targetLogFile) && $sourceLog == file_get_contents($targetLogFile)) {
-        throw new Exception("Aborting attempt to publish with old changelog."
-            . " Contents of these files are not supposed to be equal: '$sourceLogFile' and '$targetLogFile'."
-        );
-    }
-    $commitMsg = trim(getTopMarkdownSection($sourceLog));
-    if (empty($commitMsg)) {
-        throw new Exception("No commit message found in the changelog file '$sourceLogFile'.");
-    }
+    $targetLog = file_exists($targetLogFile) ? file_get_contents($targetLogFile) : '';
 
     // copy new & override existing files in the working tree and index from the source repository
     execVerbose("$gitCmd checkout $sourcePoint -- .");
@@ -90,6 +75,23 @@ try {
         "$extruderDir/common_tests.txt",
         "$extruderDir/ce.txt"
     );
+
+    // compare if changelog is different from the published one, compose the commit message
+    $projectRootDir = realpath(__DIR__ . '/../../../');
+    $sourceLogFile = $projectRootDir . DIRECTORY_SEPARATOR . $changelogFile;
+    if (!file_exists($sourceLogFile)) {
+        throw new Exception("Changelog file '$sourceLogFile' does not exist.");
+    }
+    $sourceLog = file_get_contents($sourceLogFile);
+    if (!empty($targetLog) && $sourceLog == $targetLog) {
+        throw new Exception("Aborting attempt to publish with old changelog."
+                . " Contents of these files are not supposed to be equal: '$sourceLogFile' and '$targetLogFile'."
+        );
+    }
+    $commitMsg = trim(getTopMarkdownSection($sourceLog));
+    if (empty($commitMsg)) {
+        throw new Exception("No commit message found in the changelog file '$sourceLogFile'.");
+    }
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
