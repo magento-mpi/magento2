@@ -138,17 +138,6 @@
         </reference>
     </catalog_product_view>
 
-    <calendar>
-        <reference name="head">
-            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/></action>
-            <action method="addJs"><file>calendar/calendar.js</file></action>
-            <action method="addJs"><file>calendar/calendar-setup.js</file></action>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
-        </reference>
-    </calendar>
-
     <checkout_onepage_index>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>

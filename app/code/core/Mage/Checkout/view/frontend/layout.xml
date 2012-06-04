@@ -418,12 +418,4 @@ One page checkout order review block
             <block type="Mage_Checkout_Block_Onepage_Failure" name="checkout.failure" template="onepage/failure.phtml"/>
         </reference>
     </checkout_onepage_failure>
-
-    <checkout_onepage_savepayment translate="label">
-        <label>One Page Checkout Save Payment</label>
-    </checkout_onepage_savepayment>
-
-    <checkout_onepage_reorder translate="label">
-        <label>One Page Checkout Reorder</label>
-    </checkout_onepage_reorder>
 </layout>

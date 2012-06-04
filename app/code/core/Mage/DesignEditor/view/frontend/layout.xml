@@ -11,7 +11,6 @@
 -->
 <layout>
     <design_editor_toolbar>
-        <label>Design Editor Toolbar</label>
         <reference name="head">
             <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
             <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
@@ -36,7 +35,7 @@
         </block>
     </design_editor_toolbar>
 
-    <design_editor_page>
+    <design_editor_page translate="label" module="Mage_Design_Editor" type="page">
         <label>Design Editor Page Blocks Management Page</label>
         <reference name="root">
             <action method="setTemplate"><template>Mage_DesignEditor::page.phtml</template></action>

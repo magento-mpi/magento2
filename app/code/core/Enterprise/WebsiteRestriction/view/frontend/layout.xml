@@ -31,9 +31,4 @@
             <block type="Mage_Page_Block_Html_Footer" name="footer" as="footer" template="html/footer.phtml"/>
         </block>
     </restriction_index_stub>
-
-    <!-- private sales mode additional layout update -->
-    <restriction_privatesales_mode translate="label" module="Enterprise_WebsiteRestriction">
-        <label>Website Closed Private Sales Landing Page</label>
-    </restriction_privatesales_mode>
 </layout>
