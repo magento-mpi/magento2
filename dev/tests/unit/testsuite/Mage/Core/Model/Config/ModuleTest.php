@@ -39,22 +39,22 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
             'disallowed modules' => array(
                 __DIR__ . '/_files/module_input.xml',
                 __DIR__ . '/_files/module_filtered.xml',
-                array('Fixture_ModuleThree'),
+                array('Fixture_ModuleOne', 'Fixture_ModuleTwo'),
             ),
         );
     }
 
     /**
      * @param string $inputConfigFile
-     * @param string $expectedExceptionName
-     * @param string $expectedExceptionMessage
+     * @param string $expectedException
+     * @param string $expectedExceptionMsg
      * @param array $allowedModules
      * @dataProvider constructorExceptionDataProvider
      */
     public function testConstructorException(
-        $inputConfigFile, $expectedExceptionName, $expectedExceptionMessage, $allowedModules = array()
+        $inputConfigFile, $expectedException, $expectedExceptionMsg, $allowedModules = array()
     ) {
-        $this->setExpectedException($expectedExceptionName, $expectedExceptionMessage);
+        $this->setExpectedException($expectedException, $expectedExceptionMsg);
         new Mage_Core_Model_Config_Module(
             new Mage_Core_Model_Config_Base($inputConfigFile),
             $allowedModules
@@ -88,7 +88,7 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
                 __DIR__ . '/_files/module_input.xml',
                 'Mage_Core_exception',
                 'Module "Fixture_ModuleTwo" requires module "Fixture_ModuleOne".',
-                array('Fixture_ModuleOne')
+                array('Fixture_ModuleTwo', 'Fixture_ModuleThree')
             )
         );
     }
