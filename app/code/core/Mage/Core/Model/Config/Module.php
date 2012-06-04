@@ -130,7 +130,7 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Check module dependencies and sort, so that dependent modules go after ones they depend on
+     * Sort modules until dependent modules go after ones they depend on
      *
      * @param array $moduleDependencies
      * @return array
