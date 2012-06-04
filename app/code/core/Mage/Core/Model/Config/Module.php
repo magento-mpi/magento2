@@ -20,15 +20,24 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
     const DEPENDENCY_TYPE_HARD = 'hard';
 
     /**
+     * @var Mage_Core_Helper_Abstract
+     */
+    protected $_helper;
+
+    /**
      * Constructor
      *
      * @param Mage_Core_Model_Config_Base $modulesConfig Modules configuration merged from the config files
      * @param array $allowedModules When not empty, defines modules to be taken into account
+     * @param Mage_Core_Helper_Abstract $helper
      */
-    public function __construct(Mage_Core_Model_Config_Base $modulesConfig, array $allowedModules = array())
-    {
+    public function __construct(
+        Mage_Core_Model_Config_Base $modulesConfig, $allowedModules = array(), Mage_Core_Helper_Abstract $helper = null
+    ) {
         // initialize empty modules configuration
         parent::__construct('<config><modules/></config>');
+
+        $this->_helper = $helper ?: Mage::helper('Mage_Core_Helper_Data');
 
         // exclude disallowed modules
         $moduleDependencies = array();
@@ -112,7 +121,7 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
             foreach ($moduleInfo['dependencies'] as $relatedModuleName => $dependencyType) {
                 $relatedModuleActive = !empty($moduleDependencies[$relatedModuleName]['active']);
                 if (!$relatedModuleActive && $dependencyType == self::DEPENDENCY_TYPE_HARD) {
-                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
+                    Mage::throwException($this->_helper->__(
                         'Module "%1$s" requires module "%2$s".', $moduleName, $relatedModuleName
                     ));
                 }
@@ -169,7 +178,7 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
         $result = $moduleDependencies[$moduleName]['dependencies'];
         foreach (array_keys($result) as $relatedModuleName) {
             if (in_array($relatedModuleName, $usedModules)) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
+                Mage::throwException($this->_helper->__(
                     'Module "%1$s" cannot depend on "%2$s".', $moduleName, $relatedModuleName
                 ));
             }

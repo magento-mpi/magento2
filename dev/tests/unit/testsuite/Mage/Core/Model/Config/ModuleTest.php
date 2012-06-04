@@ -15,6 +15,30 @@
 class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Create and return new model instance
+     *
+     * @param string $inputConfigFile
+     * @param array $allowedModules
+     * @return Mage_Core_Model_Config_Module
+     */
+    protected function _createModel($inputConfigFile, array $allowedModules = array())
+    {
+        $translateCallback = function () {
+            $translator = new Mage_Core_Model_Translate();
+            return $translator->translate(func_get_args());
+        };
+        $helper = $this->getMock('Mage_Core_Helper_Data', array('__'));
+        $helper
+            ->expects($this->any())
+            ->method('__')
+            ->will($this->returnCallback($translateCallback))
+        ;
+        return new Mage_Core_Model_Config_Module(
+            new Mage_Core_Model_Config_Base($inputConfigFile), $allowedModules, $helper
+        );
+    }
+
+    /**
      * @param string $inputConfigFile
      * @param string $expectedConfigFile
      * @param array $allowedModules
@@ -22,10 +46,7 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor($inputConfigFile, $expectedConfigFile, $allowedModules = array())
     {
-        $model = new Mage_Core_Model_Config_Module(
-            new Mage_Core_Model_Config_Base($inputConfigFile),
-            $allowedModules
-        );
+        $model = $this->_createModel($inputConfigFile, $allowedModules);
         $this->assertXmlStringEqualsXmlFile($expectedConfigFile, $model->getXmlString());
     }
 
@@ -55,10 +76,7 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
         $inputConfigFile, $expectedException, $expectedExceptionMsg, $allowedModules = array()
     ) {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        new Mage_Core_Model_Config_Module(
-            new Mage_Core_Model_Config_Base($inputConfigFile),
-            $allowedModules
-        );
+        $this->_createModel($inputConfigFile, $allowedModules);
     }
 
     public function constructorExceptionDataProvider()
