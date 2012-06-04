@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Menu builder command
+ */
 abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
     /**
@@ -71,7 +75,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
     }
 
     /**
-     * Execute command actions and pass control to chained commands
+     * Execute command and pass control to chained commands
      *
      * @param array $itemParams
      * @return array

@@ -7,8 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Builder command to add menu items
+ */
 class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
+    /**
+     * List of params that command requires for execution
+     *
+     * @var array
+     */
     protected $_requiredParams = array(
         "id",
         "title",

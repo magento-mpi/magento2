@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Command to remove menu item
+ */
 class Mage_Backend_Model_Menu_Builder_Command_Remove extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
     /**
@@ -17,6 +21,7 @@ class Mage_Backend_Model_Menu_Builder_Command_Remove extends Mage_Backend_Model_
      */
     protected function _execute(array $itemParams)
     {
+        $itemParams['id'] = $this->getId();
         $itemParams['removed'] = true;
         return $itemParams;
     }

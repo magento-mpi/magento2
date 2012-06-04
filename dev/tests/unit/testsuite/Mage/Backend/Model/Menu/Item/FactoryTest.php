@@ -36,6 +36,16 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
      */
     protected $_helpers = array();
 
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_appConfigMock;
+
+    /**
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_storeConfigMock;
+
     public function setUp()
     {
         $this->_aclMock = $this->getMock('Mage_Backend_Model_Auth_Session', array(), array(), '', false);
@@ -45,12 +55,18 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
             'Mage_User_Helper_Data' => $this->getMock('Mage_User_Helper_Data')
         );
         $this->_urlModel = $this->getMock("Mage_Backend_Model_Url", array(), array(), '', false);
+        $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
+
         $this->_model = new Mage_Backend_Model_Menu_Item_Factory(
             array(
                 'acl' => $this->_aclMock,
                 'objectFactory' => $this->_factoryMock,
                 'helpers' => $this->_helpers,
-                'urlModel' => $this->_urlModel
+                'urlModel' => $this->_urlModel,
+                'appConfig' => $this->_appConfigMock,
+                'storeConfig' => $this->_storeConfigMock
+
             )
         );
     }
@@ -60,12 +76,14 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testConstructorRequiresAcl()
     {
-        $model = new Mage_Backend_Model_Menu_Item_Factory(
+        new Mage_Backend_Model_Menu_Item_Factory(
             array(
                 'acl' => $this->_factoryMock,
                 'objectFactory' => $this->_factoryMock,
                 'helpers' => $this->_helpers,
-                'urlModel' => $this->_urlModel
+                'urlModel' => $this->_urlModel,
+                'appConfig' => $this->_appConfigMock,
+                'storeConfig' => $this->_storeConfigMock
             )
         );
     }
@@ -75,12 +93,15 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testConstructorRequiresObjectFactory()
     {
-        $model = new Mage_Backend_Model_Menu_Item_Factory(
+        new Mage_Backend_Model_Menu_Item_Factory(
             array(
                 'acl' => $this->_aclMock,
                 'objectFactory' => $this->_aclMock,
                 'helpers' => $this->_helpers,
-                'urlModel' => $this->_urlModel
+                'urlModel' => $this->_urlModel,
+                'appConfig' => $this->_appConfigMock,
+                'storeConfig' => $this->_storeConfigMock
+
             )
         );
     }
@@ -90,11 +111,45 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
      */
     public function testConstructorRequiresUrlModel()
     {
-        $model = new Mage_Backend_Model_Menu_Item_Factory(
+        new Mage_Backend_Model_Menu_Item_Factory(
             array(
                 'acl' => $this->_aclMock,
                 'objectFactory' => $this->_factoryMock,
-                'helpers' => $this->_helpers
+                'helpers' => $this->_helpers,
+                'appConfig' => $this->_appConfigMock,
+                'storeConfig' => $this->_storeConfigMock
+            )
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorRequiresAppConfig()
+    {
+        new Mage_Backend_Model_Menu_Item_Factory(
+            array(
+                'acl' => $this->_aclMock,
+                'objectFactory' => $this->_factoryMock,
+                'helpers' => $this->_helpers,
+                'urlModel' => $this->_urlModel,
+                'storeConfig' => $this->_storeConfigMock
+            )
+        );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructorRequiresStoreConfig()
+    {
+        new Mage_Backend_Model_Menu_Item_Factory(
+            array(
+                'acl' => $this->_aclMock,
+                'objectFactory' => $this->_factoryMock,
+                'helpers' => $this->_helpers,
+                'urlModel' => $this->_urlModel,
+                'appConfig' => $this->_appConfigMock,
             )
         );
     }
@@ -107,10 +162,12 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                 $this->equalTo('Mage_Backend_Model_Menu_Item'),
                 $this->equalTo(array(
                     'module' => $this->_helpers['Mage_User_Helper_Data'],
-                    'dependsOnModule' => $this->_helpers['Mage_User_Helper_Data'],
+                    'dependsOnModule' => 'Mage_User_Helper_Data',
                     'acl' => $this->_aclMock,
                     'objectFactory' => $this->_factoryMock,
                     'urlModel' => $this->_urlModel,
+                    'appConfig' => $this->_appConfigMock,
+                    'storeConfig' => $this->_storeConfigMock
                 ))
         );
         $this->_model->createFromArray(array(
@@ -130,6 +187,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                 'acl' => $this->_aclMock,
                 'objectFactory' => $this->_factoryMock,
                 'urlModel' => $this->_urlModel,
+                'appConfig' => $this->_appConfigMock,
+                'storeConfig' => $this->_storeConfigMock
             ))
         );
         $this->_model->createFromArray(array());

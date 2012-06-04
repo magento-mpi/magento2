@@ -7,6 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Menu builder object. Retreives commands (Mage_Backend_Model_Menu_Builder_CommandAbstract)
+ * to build menu (Mage_Backend_Model_Menu)
+ */
 class Mage_Backend_Model_Menu_Builder
 {
     /**
@@ -26,6 +31,10 @@ class Mage_Backend_Model_Menu_Builder
      */
     protected $_menu;
 
+    /**
+     * @param array $data
+     * @throws InvalidArgumentException
+     */
     public function __construct(array $data = array())
     {
         if (!isset($data['itemFactory']) || !($data['itemFactory'] instanceof Mage_Backend_Model_Menu_Item_Factory)) {
@@ -68,10 +77,10 @@ class Mage_Backend_Model_Menu_Builder
         }
 
         foreach($items as $item) {
-            if (!$item->hasParent()) {
+            if (!$item->hasParentId()) {
                 $this->_menu->addChild($item);
             } else {
-                $items[$item->getParent()]->addChild($item);
+                $items[$item->getParentId()]->addChild($item);
             }
         }
         return $this->_menu;

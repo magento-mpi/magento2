@@ -7,15 +7,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Backend menu model
+ */
 class Mage_Backend_Model_Menu extends ArrayIterator
 {
     /**
+     * Sort index used to add items without sort index explicitly set
+     *
      * @var int
      */
     protected $_sortIndex = 0;
 
+    /**
+     * Max index in array
+     *
+     * @var int
+     */
+    protected $_maxIndex = 0;
+
+    /**
+     * Path in tree structure
+     *
+     * @var string
+     */
     protected $_path = '';
 
+    /**
+     * @param array $array
+     */
     public function __construct($array = array())
     {
         if (isset($array['path'])) {
@@ -25,6 +46,9 @@ class Mage_Backend_Model_Menu extends ArrayIterator
         parent::__construct($array);
     }
 
+    /**
+     * Iterate to next item in menu
+     */
     public function next()
     {
         parent::next();
@@ -33,6 +57,9 @@ class Mage_Backend_Model_Menu extends ArrayIterator
         }
     }
 
+    /**
+     * Rewind to first element
+     */
     public function rewind()
     {
         $this->ksort();
@@ -42,10 +69,17 @@ class Mage_Backend_Model_Menu extends ArrayIterator
         }
     }
 
+    /**
+     * Add child to menu item
+     *
+     * @param Mage_Backend_Model_Menu_Item $item
+     * @param int $index
+     */
     public function addChild(Mage_Backend_Model_Menu_Item $item, $index = null)
     {
         $index = !is_null($index) ? $index : ($item->hasSortIndex() ? $item->getSortIndex() : $this->_sortIndex++);
         if (!isset($this[$index])) {
+            $this->_maxIndex = $this->_maxIndex < $index ? $index : $this->_maxIndex;
             $this->offsetSet($index, $item);
             $item->setParent($this);
         } else {
@@ -53,11 +87,22 @@ class Mage_Backend_Model_Menu extends ArrayIterator
         }
     }
 
+    /**
+     * Check whether provided item is last in list
+     *
+     * @param Mage_Backend_Model_Menu_Item $item
+     * @return bool
+     */
     public function isLast(Mage_Backend_Model_Menu_Item $item)
     {
-        return false;//end($this->getArrayCopy()) == $item;
+        return $this->offsetGet($this->_maxIndex)->getId() == $item->getId();
     }
 
+    /**
+     * Set path in tree
+     *
+     * @param $path
+     */
     public function setPath($path)
     {
         $this->_path = $path . '/';
@@ -66,6 +111,11 @@ class Mage_Backend_Model_Menu extends ArrayIterator
         }
     }
 
+    /**
+     * Retrieve full path to node in tree
+     *
+     * @return string
+     */
     public function getFullPath()
     {
         return $this->_path;
@@ -74,18 +124,13 @@ class Mage_Backend_Model_Menu extends ArrayIterator
     /**
      * Find first menu item that user is able to access
      *
-     * @param Mage_Core_Model_Config_Element $parent
-     * @param string $path
-     * @param integer $level
-     * @return string|null
+     * @return Mage_Backend_Model_Menu_Item|null
      */
     public function getFirstAvailableChild()
     {
         foreach ($this as $item) {
             /** @var $item Mage_Backend_Model_Menu_Item */
-            if ($item->isAllowed()) {
-                return $item->getFirstAvailableChild();
-            }
+            return $item->getFirstAvailableChild();
         }
         return null;
     }

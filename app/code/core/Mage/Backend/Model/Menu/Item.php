@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Menu item. Should be used to create nested menu structures with Mage_Backend_Model_Menu
+ */
 class Mage_Backend_Model_Menu_Item
 {
     /**
@@ -120,7 +124,6 @@ class Mage_Backend_Model_Menu_Item
      */
     protected $_storeConfig;
 
-
     /**
      * @param array $data
      * @throws InvalidArgumentException
@@ -177,6 +180,8 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Check if item has sort index that is used to sort items in menu
+     *
      * @return bool
      */
     public function hasSortIndex()
@@ -185,6 +190,8 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Retrieve sort index that is used to sort items in menu
+     *
      * @return int
      */
     public function getSortIndex()
@@ -193,6 +200,8 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Retrieve item id
+     *
      * @return string
      */
     public function getId()
@@ -201,22 +210,28 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Check whether menu item has parent node id
+     *
      * @return bool
      */
-    public function hasParent()
+    public function hasParentId()
     {
         return (bool) $this->_parentId;
     }
 
     /**
+     * Retrieve parent node id
+     *
      * @return null|string
      */
-    public function getParent()
+    public function getParentId()
     {
         return $this->_parentId;
     }
 
     /**
+     * Check whether item has subnodes
+     *
      * @return bool
      */
     public function hasChildren()
@@ -225,6 +240,8 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Retrieve submenu
+     *
      * @return Mage_Backend_Model_Menu
      */
     public function getChildren()
@@ -254,6 +271,17 @@ class Mage_Backend_Model_Menu_Item
         }
         return '#';
     }
+
+    /**
+     * Retrieve menu item action
+     *
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->_action;
+    }
+
 
     /**
      * Chechk whether item has javascript callback on click
@@ -309,14 +337,18 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Retrieve module helper object linked to item.
+     * Should be used to translate item labels
+     *
      * @return Mage_Core_Helper_Abstract
      */
     public function getModuleHelper()
     {
         return $this->_moduleHelper;
     }
+
     /**
-     * Check whether item is disabled
+     * Check whether item is disabled. Disabled items are not shown to user
      *
      * @return bool
      */
@@ -328,17 +360,7 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * Check whether module output is enabled
-     *
-     * @return bool
-     */
-    protected function _isEnabledModuleOutput()
-    {
-        return $this->_moduleHelper->isModuleOutputEnabled();
-    }
-
-    /**
-     * Check Depends
+     * Check whether module that item depends on is active
      *
      * @return bool
      */
@@ -347,9 +369,7 @@ class Mage_Backend_Model_Menu_Item
         if ($this->_dependsOnModule) {
             $module = $this->_dependsOnModule;
             $modulesConfig = $this->_appConfig->getNode('modules');
-            if (!$modulesConfig->$module || !$modulesConfig->$module->is('active')) {
-                return false;
-            }
+            return ($modulesConfig->$module && $modulesConfig->$module->is('active'));
         }
         return true;
     }
@@ -399,7 +419,7 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * Add item to tree structure
+     * Set parent node in tree structure
      *
      * @param Mage_Backend_Model_Menu $menu
      */
@@ -412,7 +432,7 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * Retrieve first allowed to user leaf menu item
+     * Retrieve first allowed to user leaf menu item action
      *
      * @return string
      */

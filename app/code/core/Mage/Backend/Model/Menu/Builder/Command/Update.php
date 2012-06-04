@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Command to update menu item data
+ */
 class Mage_Backend_Model_Menu_Builder_Command_Update extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
     /**

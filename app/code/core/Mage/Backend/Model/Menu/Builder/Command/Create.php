@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/**
+ * Builder command to add root menu item
+ */
 class Mage_Backend_Model_Menu_Builder_Command_Create extends Mage_Backend_Model_Menu_Builder_CommandAbstract
 {
-    protected $_requiredParams = array(
-        "id",
-    );
-
     /**
      * Create root element
      *
