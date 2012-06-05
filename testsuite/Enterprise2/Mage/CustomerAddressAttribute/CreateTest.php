@@ -50,6 +50,11 @@ class Enterprise2_Mage_CustomerAddressAttribute_CreateTest extends Mage_Selenium
         $this->customerAddressAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Opening
+        $this->customerAttributeHelper()->openAttribute(
+                array('attribute_code' => $attrData['attribute_code']));
+        //Verifying
+        $this->customerAttributeHelper()->verifyAttribute($attrData);
     }
     public function allFieldsData()
     {

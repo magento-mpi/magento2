@@ -33,6 +33,9 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+/**
+ * @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
+ */
 class Enterprise2_Mage_CustomerAttribute_CreateTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -50,6 +53,11 @@ class Enterprise2_Mage_CustomerAttribute_CreateTest extends Mage_Selenium_TestCa
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Opening
+        $this->customerAttributeHelper()->openAttribute(
+                array('attribute_code' => $attrData['attribute_code']));
+        //Verifying
+        $this->customerAttributeHelper()->verifyAttribute($attrData);
     }
     public function allFieldsData()
     {
