@@ -52,7 +52,7 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
                 if ($sku) {
                     $verify[$sku] = $productQty;
                     $this->addParameter('sku', $sku);
-                    $this->fillForm(array('qty_to_ship' => $productQty));
+                    $this->fillField('qty_to_ship', $productQty);
                 }
             }
         }
@@ -77,7 +77,7 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
             $this->addParameter('shippedQty', $qty);
             $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
             $this->assertTrue($this->isElementPresent($xpathShipped),
-                    'Qty of shipped products is incorrect at the orders form');
+                'Qty of shipped products is incorrect at the orders form');
         }
     }
 }

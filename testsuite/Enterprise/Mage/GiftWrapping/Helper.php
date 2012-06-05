@@ -177,7 +177,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
             $this->click($xpathTR . "//a[text()='Edit']");
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage('edit_gift_wrapping');
-            $this->fillForm(array('gift_wrapping_status' => 'Disabled'));
+            $this->fillDropdown('gift_wrapping_status', 'Disabled');
             $this->saveForm('save');
         }
     }

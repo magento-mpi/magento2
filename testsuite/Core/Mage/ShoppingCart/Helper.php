@@ -326,8 +326,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                     $this->click($method);
                     $this->waitForAjax();
                 } else {
-                    $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
-                                                      . $shipService . '" is currently unavailable.');
+                    $this->addVerificationMessage(
+                        'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');
                 }
             } else {
                 $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
@@ -367,7 +367,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);
             if ($this->controlIsPresent('checkbox', 'move_to_wishlist')) {
-                $this->fillForm(array('move_to_wishlist' => 'Yes'));
+                $this->fillCheckbox('move_to_wishlist', 'Yes');
             } else {
                 $this->fail('Product ' . $productName . ' is not in the shopping cart.');
             }

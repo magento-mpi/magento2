@@ -63,7 +63,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $tagNameArray = $this->_convertTagsStringToArray($tagsString);
         $tagQty = count($tagNameArray);
         $this->addParameter('tagQty', $tagQty);
-        $this->fillForm(array('input_new_tags' => $tagsString));
+        $this->fillField('input_new_tags', $tagsString);
         $this->clickButton('add_tags');
     }
 
@@ -165,7 +165,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         if (!$this->isElementPresent($isSelected)) {
             $storeId = $this->getAttribute($toSelect . '/@value');
             $this->addParameter('storeId', $storeId);
-            $this->fillForm(array('switch_store' => $storeViewName));
+            $this->fillDropdown('switch_store', $storeViewName);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
         }
@@ -263,8 +263,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         foreach ($tagsSearchData as $searchData) {
             $this->searchAndChoose($searchData);
         }
-        $this->fillForm(array('tags_massaction' => 'Change status',
-                              'tags_status'     => $newStatus));
+        $this->fillForm(array('tags_massaction' => 'Change status', 'tags_status' => $newStatus));
         $this->clickButton('submit');
     }
 

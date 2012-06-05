@@ -116,7 +116,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     public function setPollState($searchPollData, $state)
     {
         $this->openPoll($searchPollData);
-        $this->fillForm(array('poll_status' => $state), 'poll_information');
+        $this->fillDropdown('poll_status', $state);
         $this->saveForm('save_poll');
     }
 
@@ -133,7 +133,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
             $this->click($xpathTR);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
-            $this->fillForm(array('poll_status' => 'Closed'), 'poll_information');
+            $this->fillDropdown('poll_status', 'Closed');
             $this->saveForm('save_poll');
         }
     }
