@@ -2343,7 +2343,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
-                $this->waitForAjax();
+                $this->pleaseWait();
             }
         }
     }
