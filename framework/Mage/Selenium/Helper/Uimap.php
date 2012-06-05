@@ -101,14 +101,17 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
                 }
             }
         }
-        $this->loadAndMergeUimaps($uimapFiles);
+        $this->loadAndMergeUimaps($uimapFiles, $includeElements);
         return $this;
     }
 
     /**
      * @param array $uimapFiles
+     * @param array $includeElements
+     *
+     * @return void
      */
-    public function loadAndMergeUimaps(array $uimapFiles)
+    public function loadAndMergeUimaps(array $uimapFiles, $includeElements)
     {
         //Uimaps loading for first project
         $codePoolNames = array_keys($uimapFiles);
@@ -167,7 +170,7 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
             }
         }
         if (!empty($uimapFiles)) {
-            $this->loadAndMergeUimaps($uimapFiles);
+            $this->loadAndMergeUimaps($uimapFiles, $includeElements);
         }
     }
 
