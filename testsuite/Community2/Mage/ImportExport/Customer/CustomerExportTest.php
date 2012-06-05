@@ -76,7 +76,13 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                 'Export File Version dropdown contains incorrect values');
         //Step 3
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForAjax();
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Verifying
+        $exportFileVersion = $this->getElementsByXpath(
+                $this->_getControlXpath('dropdown', 'export_file') . '/option',
+                'text');
+        $this->assertEquals(array('-- Please Select --','Customers Main File','Customer Addresses','Customer Finances'),
+                $exportFileVersion,
+                'Export File Version dropdown contains incorrect values');
     }
 }
