@@ -222,7 +222,7 @@ class Routine
     {
         $modulePath = str_replace('_', DS, $module);
         $root = BP;
-        $dirPath = str_replace(array('/', '\\'), DS,"{$root}/app/code/{$modulePath}/etc/{$this->_areaCode}");
+        $dirPath = str_replace(array('/', '\\'), DS, "{$root}/app/code/{$modulePath}/etc/{$this->_areaCode}");
         if (!file_exists($dirPath) || !is_dir($dirPath)) {
             mkdir($dirPath);
         }
