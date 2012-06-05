@@ -479,7 +479,13 @@ class Mage_Core_Model_Design_Package
         /* Identify public file */
         $publicFile = $this->_publishSkinFile($file, $params);
         /* Build url to public file */
-        $url = $this->_getPublicFileUrl($publicFile, $isSecure);
+        if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+            $fileMTime = filemtime($publicFile);
+            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
+            $url .= '?' . $fileMTime;
+        } else {
+            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
+        }
         return $url;
     }
 
@@ -555,7 +561,12 @@ class Mage_Core_Model_Design_Package
         $urls = array();
         if ($doMerge && count($files) > 1) {
             $file = $this->_mergeFiles($files, $type);
-            $urls[] = $this->_getPublicFileUrl($file);
+            if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+                $fileMTime = filemtime($file);
+                $urls[] = $this->_getPublicFileUrl($file) . '?' . $fileMTime;
+            } else {
+                $urls[] = $this->_getPublicFileUrl($file);
+            }
         } else {
             foreach ($files as $file) {
                 $urls[] = $this->getSkinUrl($file);
@@ -581,7 +592,10 @@ class Mage_Core_Model_Design_Package
         $dotPosition = strrpos($skinFile, ".");
         $extension = strtolower(substr($skinFile, $dotPosition + 1));
         if (!Mage::getIsDeveloperMode() && !empty($extension) &&
-                in_array($extension, array("js", "css"))) {
+            in_array($extension, array(
+                Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
+                Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS
+            ))) {
             $minifiedPath = str_replace('.' . $extension, '.min.' . $extension, $file);
             if (file_exists($minifiedPath)) {
                 $file = $minifiedPath;
@@ -598,7 +612,7 @@ class Mage_Core_Model_Design_Package
         }
 
         $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_skin_files_duplication');
-        $isCssFile = ($extension === 'css');
+        $isCssFile = ($extension === Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS);
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicSkinRedundantFilename($skinFile, $params);
         } else {
