@@ -66,7 +66,8 @@ Customer account home dashboard layout
     </sales_order_history>
 
 
-    <sales_order_view translate="label" type="page" parent="customer_account">
+    <sales_order_view translate="label" type="page" parent="default">
+        <update handle="customer_account"/>
         <label>Customer My Account Order View</label>
         <reference name="my.account.wrapper">
             <block type="Mage_Sales_Block_Order_Info" as="info" name="sales.order.info">
