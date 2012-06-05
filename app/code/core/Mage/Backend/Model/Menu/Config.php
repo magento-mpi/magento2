@@ -9,10 +9,21 @@
  */
 class Mage_Backend_Model_Menu_Config
 {
+    const CACHE_ID = 'backend_menu_config';
+
+    /**
+     * @var Mage_Core_Model_Cache
+     */
+    protected $_cache;
+
     /**
      * @var Mage_Core_Model_Config
      */
     protected $_appConfig;
+
+    protected $_acl;
+
+    protected $_urlModel;
 
     /**
      * Menu model
@@ -24,6 +35,9 @@ class Mage_Backend_Model_Menu_Config
     public function __construct(array $arguments = array())
     {
         $this->_appConfig = isset($arguments['appConfig']) ? $arguments['appConfig'] : Mage::getConfig();
+        $this->_cache = isset($arguments['cache']) ? $arguments['cache'] : Mage::app()->getCacheInstance();
+        $this->_acl = isset($arguments['acl']) ? $arguments['acl'] : Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $this->_urlModel = isset($arguments['urlModel']) ? $arguments['urlModel'] : Mage::getSingleton('Mage_Backend_Model_Url');
     }
 
     /**
@@ -44,11 +58,11 @@ class Mage_Backend_Model_Menu_Config
             $itemFactory = $this->_appConfig->getModelInstance(
                 'Mage_Backend_Model_Menu_Item_Factory',
                 array(
-                    'acl' => Mage::getSingleton('Mage_Backend_Model_Auth_Session'),
+                    'acl' => $this->_acl,
                     'objectFactory' => $this->_appConfig,
                     'appConfig' => $this->_appConfig,
                     'storeConfig' => $this->_appConfig->getModelInstance('Mage_Core_Model_Store_Config'),
-                    'urlModel' => Mage::getSingleton('Mage_Backend_Model_Url')
+                    'urlModel' => $this->_urlModel
                 )
             );
             $menu = new Mage_Backend_Model_Menu();
@@ -70,8 +84,33 @@ class Mage_Backend_Model_Menu_Config
      */
     protected function _getDom()
     {
-        $fileList = $this->getMenuConfigurationFiles();
-        return $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Config_Menu', $fileList)->getMergedConfig();
+        $mergedConfigXml = $this->_loadCache();
+        if ($mergedConfigXml) {
+            $mergedConfig = new DOMDocument();
+            $mergedConfig->loadXML($mergedConfigXml);
+        } else {
+            $fileList = $this->getMenuConfigurationFiles();
+            $mergedConfig = $this->_appConfig
+                ->getModelInstance('Mage_Backend_Model_Menu_Config_Menu', $fileList)->getMergedConfig();
+            $this->_saveCache($mergedConfig->saveXML());
+        }
+        return $mergedConfig;
+    }
+
+    protected function _loadCache()
+    {
+        if ($this->_cache->canUse('config')) {
+            return $this->_cache->load(self::CACHE_ID);
+        }
+        return false;
+    }
+
+    protected function _saveCache($xml)
+    {
+        if ($this->_cache->canUse('config')) {
+            $this->_cache->save($xml, self::CACHE_ID, array(Mage_Core_Model_Config::CACHE_TAG));
+        }
+        return $this;
     }
 
     /**
