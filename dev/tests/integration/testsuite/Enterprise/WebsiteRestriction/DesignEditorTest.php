@@ -16,7 +16,6 @@ class Enterprise_WebsiteRestriction_DesignEditorTest extends Magento_Test_TestCa
 {
     /**
      * @magentoDataFixture Mage/DesignEditor/_files/design_editor_active.php
-     * @magentoDataFixture Mage/Catalog/controllers/_files/products.php
      */
     public function testIndexStub()
     {
