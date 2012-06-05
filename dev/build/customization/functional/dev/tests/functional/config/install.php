@@ -19,6 +19,7 @@ return array(
         'locale'                     => 'en_US',
         'timezone'                   => 'America/Los_Angeles',
         'default_currency'           => 'USD',
+        'db_model'                   => '{{db_model}}',
         'db_host'                    => '{{db_host}}',
         'db_name'                    => '{{db_name}}',
         'db_user'                    => '{{db_user}}',

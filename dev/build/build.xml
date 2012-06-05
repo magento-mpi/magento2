@@ -155,6 +155,8 @@
 
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
 
+        <echo>Build directory: ${dir.build_directory}</echo>
+
         <delete dir="${dir.build_directory}" />
 
         <copy todir="${dir.build_directory}" failonerror="true">
@@ -171,6 +173,10 @@
             <fileset dir="${dir.build_directory}/pub/media"/>
             <dirset dir="${dir.build_directory}/var"/>
         </chmod>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
+                 token="{{db_model}}"
+                 value="${env.db_model}"/>
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/install.php"
                  token="{{db_host}}"
