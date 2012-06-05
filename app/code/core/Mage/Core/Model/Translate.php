@@ -120,8 +120,9 @@ class Mage_Core_Model_Translate
     /**
      * Initialization translation data
      *
-     * @param   string $area
-     * @return  Mage_Core_Model_Translate
+     * @param string $area
+     * @param bool $forceReload
+     * @return Mage_Core_Model_Translate
      */
     public function init($area, $forceReload = false)
     {

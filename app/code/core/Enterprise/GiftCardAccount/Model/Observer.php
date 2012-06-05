@@ -53,7 +53,8 @@ class Enterprise_GiftCardAccount_Model_Observer
         if (is_array($cards)) {
             foreach ($cards as $card) {
                 /** @var $giftCardAccount Enterprise_GiftCardAccount_Model_Giftcardaccount */
-                $giftCardAccount = Mage::getSingleton('Enterprise_GiftCardAccount_Model_Giftcardaccount')->load($card['i']);
+                $giftCardAccount = Mage::getSingleton('Enterprise_GiftCardAccount_Model_Giftcardaccount');
+                $giftCardAccount->load($card['i']);
                 try {
                     $giftCardAccount->isValid(true, true, false, (float)$quote->getBaseGiftCardsAmountUsed());
                 } catch (Mage_Core_Exception $e) {
@@ -134,13 +135,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     {
         $data = $observer->getEvent()->getRequest();
         $code = $observer->getEvent()->getCode();
-        if ($data->getOrder()) {
-            $order = $data->getOrder();
-        } elseif ($data->getOrderItem()->getOrder()) {
-            $order = $data->getOrderItem()->getOrder();
-        } else {
-            $order = null;
-        }
+        $order = $data->getOrder() ?: ($data->getOrderItem()->getOrder() ?: null);
 
         $model = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')
             ->setStatus(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
