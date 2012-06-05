@@ -173,4 +173,24 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('/root/system/node', $this->_model->getFirstAvailableChild());
     }
+
+    public function testOffsetGetReturnsItemById()
+    {
+        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item->expects($this->exactly(2))->method('getId')->will($this->returnValue('item1'));
+        $item->expects($this->exactly(2))->method('isDisabled')->will($this->returnValue(false));
+        $item->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($item);
+
+        $item2 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item2->expects($this->once())->method('getId')->will($this->returnValue('item2'));
+        $item2->expects($this->once())->method('isDisabled')->will($this->returnValue(false));
+        $item2->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($item2);
+
+        $this->assertEquals($item, $this->_model[0]);
+        $this->assertEquals($item2, $this->_model[1]);
+        $this->assertEquals($item, $this->_model->getById('item1'));
+        $this->assertEquals($item2, $this->_model->getById('item2'));
+    }
 }

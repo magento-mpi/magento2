@@ -70,6 +70,22 @@ class Mage_Backend_Model_Menu extends ArrayIterator
     }
 
     /**
+     * Retrieve menu item by id
+     *
+     * @param string $index
+     * @return Mage_Backend_Model_Menu_Item|null
+     */
+    public function getById($index)
+    {
+        foreach ($this as $item) {
+            if ($item->getId() == $index) {
+                return $item;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Add child to menu item
      *
      * @param Mage_Backend_Model_Menu_Item $item
