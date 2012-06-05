@@ -118,6 +118,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
      */
     public function filterAttributeCollection(Varien_Data_Collection $collection)
     {
+        /** @var $attribute Mage_Customer_Model_Attribute */
         foreach (parent::filterAttributeCollection($collection) as $attribute) {
             if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {
                 $data = $this->_attributeOverrides[$attribute->getAttributeCode()];
@@ -151,5 +152,15 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
         /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
         return $collection->getEntityTypeCode();
+    }
+
+    /**
+     * Retrieve list of overridden attributes
+     *
+     * @return array
+     */
+    public function getOverriddenAttributes()
+    {
+        return $this->_attributeOverrides;
     }
 }
