@@ -18,15 +18,6 @@
 class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
 {
     /**
-     * Initialize template
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('Mage_Backend::menu/item.phtml');
-    }
-
-    /**
      * Check whether given item is currently selected
      *
      * @param Mage_Backend_Model_Menu_Item $item
@@ -34,8 +25,8 @@ class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
      */
     public function isItemActive(Mage_Backend_Model_Menu_Item $item)
     {
-        return ($this->getActive() == $item->getAction())
-            || (strpos($this->getActive(), $item->getFullPath().'/')===0);
+        return (bool)($this->getContainerRenderer()->getActive() == $item->getId());
+
     }
 
     /**

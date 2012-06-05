@@ -22,6 +22,17 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
 {
     const CACHE_TAGS = 'BACKEND_MAINMENU';
 
+
+    /**
+     * @var string
+     */
+    protected $_containerRendererBlock;
+
+    /**
+     * @var string
+     */
+    protected $_itemRendererBlock;
+
     /**
      * Backend URL instance
      *
@@ -36,7 +47,6 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('Mage_Backend::menu.phtml');
         $this->_url = Mage::getModel('Mage_Backend_Model_Url');
         $this->setCacheTags(array(self::CACHE_TAGS));
     }
@@ -119,10 +129,50 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     public function renderMenuContainer($menu, $level = 0)
     {
-        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Menu_Container');
+        $block = $this->getLayout()->getBlock($this->getContainerRendererBlock());
         $block->setItem($menu);
         $block->setLevel($level);
         $block->setContainer($this);
         return $block->toHtml();
+    }
+
+    /**
+     * Set container renderer block name
+     * @param string $renderer
+     * @return Mage_Backend_Block_Menu
+     */
+    public function setContainerRendererBlock($renderer)
+    {
+        $this->_containerRendererBlock = $renderer;
+        return $this;
+    }
+
+    /**
+     * Get container renderer block name
+     * @return string
+     */
+    public function getContainerRendererBlock()
+    {
+        return $this->_containerRendererBlock;
+    }
+
+    /**
+     * Set item renderer block name
+     * @param string $renderer
+     * @return Mage_Backend_Block_Menu
+     */
+    public function setItemRendererBlock($renderer)
+    {
+        $this->_itemRendererBlock = $renderer;
+        return $this;
+    }
+
+    /**
+     * Get item renderer block name
+     * @return string
+     */
+    public function getItemRendererBlock()
+    {
+        return $this->_itemRendererBlock;
     }
 }

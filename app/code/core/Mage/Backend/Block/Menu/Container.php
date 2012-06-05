@@ -18,14 +18,6 @@
 class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
 {
     /**
-     * Initialize template
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('Mage_Backend::menu/container.phtml');
-    }
-    /**
      * Get menu item children
      * @return Mage_Backend_Model_Menu
      */
@@ -41,10 +33,24 @@ class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
      */
     public function renderMenuItem($menu)
     {
-        $block = $this->getLayout()->createBlock('Mage_Backend_Block_Menu_Item');
+        /**
+         * Save current level
+         */
+        $currentLevel = $this->getLevel();
+
+        /**
+         * Render child blocks
+         */
+        $block = $this->getLayout()->getBlock($this->getContainer()->getItemRendererBlock());
         $block->setItem($menu);
-        $block->setLevel($this->getLevel());
+        $block->setLevel($currentLevel);
         $block->setContainerRenderer($this->getContainer());
-        return $block->toHtml();
+        $output = $block->toHtml();
+
+        /**
+         * Set current level, because it will be changed in child block
+         */
+        $this->setLevel($currentLevel);
+        return $output;
     }
 }
