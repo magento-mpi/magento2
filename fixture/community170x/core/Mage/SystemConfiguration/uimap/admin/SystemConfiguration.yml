@@ -166,6 +166,19 @@ system_configuration:
                                         ppa_sr_time_of_day_min: //tr[@id='row_payment_settlement_report_settlement_reports_time']//select[1]
                                         ppa_sr_time_of_day_sec: //tr[@id='row_payment_settlement_report_settlement_reports_time']//select[1]
                             -
+                                ppa_frontend_experience_settings:
+                                    xpath: //div[fieldset[@id='payment_frontend']]
+                                    links:
+                                        ppa_frontend_experience_settings_section: //a[@id='payment_frontend-head']
+                                    fields:
+                                        ppa_page_style: //input[@id='payment_frontend_page_style']
+                                        ppa_header_image_url: //input[@id='payment_frontend_paypal_hdrimg']
+                                        ppa_header_background_color: //input[@id='payment_frontend_paypal_hdrbackcolor']
+                                        ppa_header_border_color: //input[@id='payment_frontend_paypal_hdrbordercolor']
+                                        ppa_page_background_color: //input[@id='payment_frontend_paypal_payflowcolor']
+                                    dropdowns:
+                                        ppa_product_logo: //select[@id='payment_frontend_logo']
+                            -
                                 #PayPal All-in-one Payment Solutions ==> Payments Advanced (Includes Express Checkout) ==> Basic Settings - PayPal Express Checkout
                                 ppa_basic_settings_express_checkout:
                                     xpath: //div[fieldset[@id='payment_settings_express_checkout']]
@@ -206,7 +219,7 @@ system_configuration:
                                     links:
                                         ppp_required_settings_section: //a[@id='payment_wpp_required_settings-head']
                                     dropdowns:
-                                        ppp_pp_enable: //select[@id='payment_wpp_required_settings_enable_wpp']
+                                        ppp_enable: //select[@id='payment_wpp_required_settings_enable_wpp']
                             -
                                 #PayPal All-in-one Payment Solutions ==> Payments Pro (Includes Express Checkout) ==> Required PayPal Settings ==> Payments Pro and Express Checkout
                                 ppp_required_settings_pp_and_ec:
@@ -215,17 +228,17 @@ system_configuration:
                                         ppp_required_settings_pp_and_ecsection: //a[@id='payment_wpp_and_express_checkout-head']
                                     buttons:
                                     fields:
-                                        ppa_ec_merchant_email_account: //input[@id='payment_wpp_and_express_checkout_business_account']
-                                        ppa_ec_api_username: //input[@id='payment_wpp_and_express_checkout_api_username']
-                                        ppa_ec_api_password: //input[@id='payment_wpp_and_express_checkout_api_password']
-                                        ppa_ec_api_signature: //input[@id='payment_wpp_and_express_checkout_api_signature']
-                                        ppa_ec_api_certificate: //input[@id='payment_wpp_and_express_checkout_api_cert']
-                                        ppa_ec_proxy_host: //input[@id='payment_wpp_and_express_checkout_proxy_host']
-                                        ppa_ec_proxy_port: //input[@id='payment_wpp_and_express_checkout_proxy_port']
+                                        ppp_merchant_email_account: //input[@id='payment_wpp_and_express_checkout_business_account']
+                                        ppp_api_username: //input[@id='payment_wpp_and_express_checkout_api_username']
+                                        ppp_api_password: //input[@id='payment_wpp_and_express_checkout_api_password']
+                                        ppp_api_signature: //input[@id='payment_wpp_and_express_checkout_api_signature']
+                                        ppp_api_certificate: //input[@id='payment_wpp_and_express_checkout_api_cert']
+                                        ppp_proxy_host: //input[@id='payment_wpp_and_express_checkout_proxy_host']
+                                        ppp_proxy_port: //input[@id='payment_wpp_and_express_checkout_proxy_port']
                                     dropdowns:
-                                        ppa_ec_api_authentication_method: //select[@id='payment_wpp_and_express_checkout_api_authentication']
-                                        ppa_ec_sandbox_mode: //select[@id='payment_wpp_and_express_checkout_sandbox_flag']
-                                        ppa_ec_use_proxy: //select[@id='payment_wpp_and_express_checkout_use_proxy']
+                                        ppp_api_authentication_method: //select[@id='payment_wpp_and_express_checkout_api_authentication']
+                                        ppp_sandbox_mode: //select[@id='payment_wpp_and_express_checkout_sandbox_flag']
+                                        ppp_use_proxy: //select[@id='payment_wpp_and_express_checkout_use_proxy']
                             -
                                 #PayPal All-in-one Payment Solutions ==> Payments Pro (Includes Express Checkout) ==> Basic Settings - PayPal Payments Pro
                                 ppp_basic_settings:
@@ -238,7 +251,7 @@ system_configuration:
                                     dropdowns:
                                         ppp_pp_payment_action: //select[@id='payment_wpp_settings_payment_action']
                                     multiselects:
-                                        ppp_pp_allowed_credit_card : //select[@id='payment_wpp_settings_cctypes']
+                                        ppp_pp_allowed_credit_card: //select[@id='payment_wpp_settings_cctypes']
                             -
                                 #PayPal All-in-one Payment Solutions ==> Payments Pro (Includes Express Checkout) ==> Basic Settings - PayPal Payments Pro ==> Advanced Settings
                                 ppp_basic_settings_advanced:
@@ -329,19 +342,19 @@ system_configuration:
                                 ppp_basic_settings_express_checkout_advanced:
                                     xpath: //div[div/a/@id='payment_wpp_settings_express_checkout_advanced-head']
                                     links:
-                                        ppa_basic_settings_express_checkout_advanced_section: //a[@id='payment_wpp_settings_express_checkout_advanced-head']
+                                        ppp_basic_settings_express_checkout_advanced_section: //a[@id='payment_wpp_settings_express_checkout_advanced-head']
                                     dropdowns:
-                                        ppa_ec_payment_applicable_from: //select[@id='payment_wpp_settings_express_checkout_advanced_allowspecific']
-                                        ppa_ec_debug_mode: //select[@id='payment_wpp_settings_express_checkout_advanced_debug']
-                                        ppa_ec_enable_ssl_verification: //select[@id='payment_wpp_settings_express_checkout_advanced_verify_peer']
-                                        ppa_ec_transfer_cart_line_items: //select[@id='payment_wpp_settings_express_checkout_advanced_line_items_enabled']
-                                        ppa_ec_transfer_shipping_options: //select[@id='payment_wpp_settings_express_checkout_advanced_transfer_shipping_options']
-                                        ppa_ec_shortcut_buttons_flavor: //select[@id='payment_wpp_settings_express_checkout_advanced_button_flavor']
-                                        ppa_ec_enable_guest_checkout: //select[@id='payment_wpp_settings_express_checkout_advanced_solution_type']
-                                        ppa_ec_require_customer_billing_address: //select[@id='payment_wpp_settings_express_checkout_advanced_require_billing_address']
-                                        ppa_ec_billing_agreement_signup: //select[@id='payment_wpp_settings_express_checkout_advanced_allow_ba_signup']
+                                        ppp_ec_payment_applicable_from: //select[@id='payment_wpp_settings_express_checkout_advanced_allowspecific']
+                                        ppp_ec_debug_mode: //select[@id='payment_wpp_settings_express_checkout_advanced_debug']
+                                        ppp_ec_enable_ssl_verification: //select[@id='payment_wpp_settings_express_checkout_advanced_verify_peer']
+                                        ppp_ec_transfer_cart_line_items: //select[@id='payment_wpp_settings_express_checkout_advanced_line_items_enabled']
+                                        ppp_ec_transfer_shipping_options: //select[@id='payment_wpp_settings_express_checkout_advanced_transfer_shipping_options']
+                                        ppp_ec_shortcut_buttons_flavor: //select[@id='payment_wpp_settings_express_checkout_advanced_button_flavor']
+                                        ppp_ec_enable_guest_checkout: //select[@id='payment_wpp_settings_express_checkout_advanced_solution_type']
+                                        ppp_ec_require_customer_billing_address: //select[@id='payment_wpp_settings_express_checkout_advanced_require_billing_address']
+                                        ppp_ec_billing_agreement_signup: //select[@id='payment_wpp_settings_express_checkout_advanced_allow_ba_signup']
                                     multiselects:
-                                        ppa_ec_specific_countries_applicable_from: //select[@id='payment_wpp_settings_express_checkout_advanced_specificcountry']
+                                        ppp_ec_specific_countries_applicable_from: //select[@id='payment_wpp_settings_express_checkout_advanced_specificcountry']
                             -
                                 #PayPal All-in-one Payment Solutions ==> Payments Standard ==> Required PayPal Settings
                                 pps_required_settings:

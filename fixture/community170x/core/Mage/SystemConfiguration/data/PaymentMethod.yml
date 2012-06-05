@@ -35,7 +35,7 @@ express_checkout_all_us:
             fieldset_1:
                 path: pec_required_settings/pec_ec_required_settings
                 data:
-                    pec_merchant_email_account: test@mail.ru
+                    pec_merchant_email_account: test@example.com
                     pec_api_authentication_method: API Signature
                     pec_api_username: test
                     pec_api_password: test
@@ -95,7 +95,7 @@ express_checkout_all_us:
                     pec_sr_enable_automatic_fetching: No
                     pec_sr_schedule: Daily
                     pec_sr_time_of_day_hour: 23
-                    pec_sr_time_of_day_min: 59
+                    pec_sr_time_of_day_min: 58
                     pec_sr_time_of_day_sec: 59
             fieldset_7:
                 path: pec_ec_basic_settings/pec_ec_basic_settings_advanced/pec_fe_settings
@@ -106,3 +106,355 @@ express_checkout_all_us:
                     pec_header_background_color: test
                     pec_header_border_color: test
                     pec_page_background_color: test
+
+# Start Andrii Semenenko changes on 01.06.2012
+paypal_all_in_one_us_ppa:
+    configuration_scope: Default Config
+    merchant_country: United States
+    configuration:
+        payment_1:
+            payment_name: ppa
+            general_fieldset: paypal_all_in_one
+            fieldset_1:
+                path: ppa_required_settings/ppa_pa_required_settings
+                data:
+                    ppa_pa_partner: partner_test_ppa
+                    ppa_pa_vendor: vendor_test_ppa
+                    ppa_pa_user: user_test_ppa
+                    ppa_pa_password: password_test_ppa
+                    ppa_pa_use_proxy: Yes #No
+                    ppa_pa_proxy_host: test_ppa
+                    ppa_pa_proxy_port: 80ppa
+                    ppa_pa_test_mode: Yes
+            fieldset_2:
+                path: ppa_required_settings/ppa_pa_required_settings
+                data:
+                    ppa_ec_merchant_email_account: test_ppa@example.com
+                    ppa_ec_api_authentication_method: API Signature
+                    ppa_ec_api_username: api_username_ppa_ec
+                    ppa_ec_api_password: api_password_ppa_ec
+                    ppa_ec_api_signature: api_signature_ppa_ec
+                    ppa_ec_sandbox_mode: Yes
+                    ppa_ec_use_proxy: Yes #No
+                    ppa_ec_proxy_host: test_ppa
+                    ppa_ec_proxy_port: 80ppa
+            fieldset_3:
+                path: ppa_required_settings
+                data:
+                    ppa_enable: Yes
+            fieldset_4:
+                path: ppa_basic_settings
+                data:
+                    ppa_pa_title: Paypal Payments Advanced
+                    ppa_pa_sort_order: 1
+                    ppa_pa_payment_action: Sale
+            fieldset_5:
+                path: ppa_basic_settings/ppa_basic_settings_advanced
+                data:
+                    ppa_pa_payment_applicable_from: All Allowed Countries
+                    ppa_pa_specific_countries_applicable_from: %noValue%
+                    ppa_pa_debug_mode: Yes
+                    ppa_pa_enable_ssl_verification: Yes
+                    ppa_pa_cvv_entry_is_editable: Yes
+                    ppa_pa_require_cvv_entry: Yes
+                    ppa_pa_send_email_confirmation: Yes
+                    ppa_pa_url_method_for_cancel_and_return: GET
+            fieldset_6:
+                path: ppa_basic_settings/ppa_basic_settings_advanced/ppa_billing_agreement_settings
+                data:
+                    ppa_ba_enable: Yes
+                    ppa_ba_title: PayPal Billing Agreement
+                    ppa_ba_sort_order: 2
+                    ppa_ba_payment_action: Authorization
+                    ppa_ba_payment_applicable_from: All Allowed Countries
+                    ppa_ba_specific_countries_applicable_from: %noValue%
+                    ppa_ba_debug_mode: Yes
+                    ppa_ba_transfer_cart_line_items: No
+                    ppa_ba_allow_in_agreement_wizard: Yes
+            fieldset_7:
+                path: ppa_basic_settings/ppa_basic_settings_advanced/ppa_settlement_report_settings
+                data:
+                    ppa_sr_login: test
+                    ppa_sr_password: test
+                    ppa_sr_sandbox_mode: No
+                    ppa_sr_custom_endpoint: test
+                    ppa_sr_custom_path: test
+                    ppa_sr_enable_automatic_fetching: No
+                    ppa_sr_schedule: Daily
+                    ppa_sr_time_of_day_hour: 23
+                    ppa_sr_time_of_day_min: 58
+                    ppa_sr_time_of_day_sec: 59
+            fieldset_8:
+                path: ppa_basic_settings/ppa_basic_settings_advanced/ppa_frontend_experience_settings
+                data:
+                    ppa_product_logo: Now accepting PayPal (150 X 40)
+                    ppa_page_style: test1
+                    ppa_header_image_url: test2
+                    ppa_header_background_color: test3
+                    ppa_header_border_color: test4
+                    ppa_page_background_color: test5
+            fieldset_9:
+                path: ppa_basic_settings_express_checkout
+                data:
+                    ppa_title: PayPal Express Checkout
+                    ppa_sort_order: 1
+                    ppa_payment_action: Order
+                    ppa_shortcut_on_cart: Yes
+                    ppa_shortcut_on_product: Yes
+                    ppa_authorization_honor_period: 4
+                    ppa_order_valid_period: 30
+                    ppa_child_authorization_number: 2
+            fieldset_10:
+                path: ppa_basic_settings_express_checkout/ppa_basic_settings_express_checkout_advanced
+                data:
+                    ppa_payment_applicable_from: All Allowed Countries
+                    ppa_specific_countries_applicable_from: %noValue%
+                    ppa_debug_mode: Yes
+                    ppa_enable_ssl_verification: Yes
+                    ppa_transfer_cart_line_items: Yes
+                    ppa_transfer_shipping_options: No
+                    ppa_shortcut_buttons_flavor: Dynamic
+                    ppa_enable_guest_checkout: No
+                    ppa_require_customer_billing_address: No
+                    ppa_billing_agreement_signup: Never
+
+
+paypal_all_in_one_us_ppp:
+    configuration_scope: Default Config
+    merchant_country: United States
+    configuration:
+        payment_1:
+            payment_name: ppp
+            general_fieldset: paypal_all_in_one
+            fieldset_1:
+                path: ppp_required_settings/ppp_required_settings_pp_and_ec
+                data:
+                    ppp_merchant_email_account: test_ppp@example.com
+                    ppp_api_authentication_method: API Signature
+                    ppp_api_username: api_username_ppp
+                    ppp_api_password: api_password_ppp
+                    ppp_api_signature: api_signature_ppp
+                    ppp_sandbox_mode: Yes
+                    ppp_use_proxy: Yes #No
+                    ppp_proxy_host: test_ppp
+                    ppp_proxy_port: 80ppp
+            fieldset_2:
+                path: ppp_required_settings
+                data:
+                    ppp_enable: Yes
+            fieldset_3:
+                path: ppp_basic_settings
+                data:
+                    ppp_pp_title: Payments Pro
+                    ppp_pp_sort_order: 1
+                    ppp_pp_payment_action: Sale
+                    ppp_pp_allowed_credit_card: %noValue%
+            fieldset_4:
+                path: ppp_basic_settings/ppp_basic_settings_advanced
+                data:
+                    ppp_pp_payment_applicable_from: All Allowed Countries
+                    ppp_pp_specific_countries_applicable_from: %noValue%
+                    ppp_pp_debug_mode: Yes
+                    ppp_pp_enable_ssl_verification: Yes
+                    ppp_pp_transfer_cart_line_items: Yes
+                    ppp_pp_require_cvv_entry: Yes
+                    ppp_pp_3d_secure_validation: Yes
+                    ppp_pp_severe_3d_secure_validation: Yes
+                    ppp_pp_advanced_centinel_api_url: test_url_pp
+            fieldset_5:
+                path: ppp_basic_settings/ppp_basic_settings_advanced/ppp_billing_agreement_settings
+                data:
+                    ppp_ba_enable: Yes
+                    ppp_ba_title: PayPal Billing Agreement
+                    ppp_ba_sort_order: 2
+                    ppp_ba_payment_action: Authorization
+                    ppp_ba_payment_applicable_from: All Allowed Countries
+                    ppp_ba_specific_countries_applicable_from: %noValue%
+                    ppp_ba_debug_mode: Yes
+                    ppp_ba_transfer_cart_line_items: No
+                    ppp_ba_allow_in_agreement_wizard: Yes
+            fieldset_6:
+                path: ppp_basic_settings/ppp_basic_settings_advanced/ppp_settlement_report_settings
+                data:
+                    ppp_sr_login: test
+                    ppp_sr_password: test
+                    ppp_sr_sandbox_mode: No
+                    ppp_sr_custom_endpoint: test
+                    ppp_sr_custom_path: test
+                    ppp_sr_enable_automatic_fetching: No
+                    ppp_sr_schedule: Daily
+                    ppp_sr_time_of_day_hour: 23
+                    ppp_sr_time_of_day_min: 58
+                    ppp_sr_time_of_day_sec: 59
+            fieldset_7:
+                path: ppp_basic_settings/ppp_basic_settings_advanced/ppp_frontend_experience_settings
+                data:
+                    ppp_product_logo: Now accepting PayPal (150 X 40)
+                    ppp_page_style: test1
+                    ppp_header_image_url: test2
+                    ppp_header_background_color: test3
+                    ppp_header_border_color: test4
+                    ppp_page_background_color: test5
+            fieldset_8:
+                path: ppp_basic_settings_express_checkout_advanced
+                data:
+                    ppp_ec_title: PayPal Express Checkout
+                    ppp_ec_sort_order: 1
+                    ppp_ec_payment_action: Order
+                    ppp_ec_shortcut_on_cart: Yes
+                    ppp_ec_shortcut_on_product: Yes
+                    ppp_ec_authorization_honor_period: 4
+                    ppp_ec_order_valid_period: 30
+                    ppp_ec_child_authorization_number: 2
+            fieldset_9:
+                path: ppp_basic_settings_express_checkout_advanced/ppp_basic_settings_express_checkout_advanced
+                data:
+                    ppp_ec_payment_applicable_from: All Allowed Countries
+                    ppp_ec_specific_countries_applicable_from: %noValue%
+                    ppp_ec_debug_mode: Yes
+                    ppp_ec_enable_ssl_verification: Yes
+                    ppp_ec_transfer_cart_line_items: Yes
+                    ppp_ec_transfer_shipping_options: No
+                    ppp_ec_shortcut_buttons_flavor: Dynamic
+                    ppp_ec_enable_guest_checkout: No
+                    ppp_ec_require_customer_billing_address: No
+                    ppp_ec_billing_agreement_signup: Never
+
+paypal_all_in_one_us_pps:
+    configuration_scope: Default Config
+    merchant_country: United States
+    configuration:
+        payment_1:
+            payment_name: pps
+            general_fieldset: paypal_all_in_one
+            fieldset_1:
+                path: pps_required_settings
+                data:
+                    pps_email_associated_with_merchant_account: test_ppp@example.com
+                    pps_enable: Yes
+            fieldset_2:
+                path: pps_basic_settings
+                data:
+                    pps_title: Payments Pro
+                    pps_sort_order: 1
+                    pps_payment_action: Sale
+            fieldset_3:
+                path: pps_basic_settings/pps_basic_settings_advanced
+                data:
+                    ppp_pp_payment_applicable_from: All Allowed Countries
+                    ppp_pp_specific_countries_applicable_from: %noValue%
+                    ppp_pp_debug_mode: Yes
+                    pps_transfer_cart_line_items: No
+                    pps_summary_text_for_aggregated_cart: test_text_pps
+                    pps_enable_ssl_verification: Yes
+
+paypal_payment_gateways_us_pfl:
+    configuration_scope: Default Config
+    merchant_country: United States
+    configuration:
+        payment_1:
+            payment_name: pfl
+            general_fieldset: paypal_payment_gateways
+            fieldset_1:
+                path: pfl_required_settings/pfl_pl_required_settings
+                data:
+                    pfl_pl_partner: partner_test_pfl
+                    pfl_pl_vendor: vendor_test_pfl
+                    pfl_pl_user: user_test_pfl
+                    pfl_pl_password: password_test_pfl
+                    pfl_pl_use_proxy: Yes #No
+                    pfl_pl_proxy_host: test_pfl
+                    pfl_pl_proxy_port: 80pfl
+                    pfl_pl_test_mode: Yes
+            fieldset_2:
+                path: pfl_required_settings/pfl_ec_required_settings
+                data:
+                    pfl_ec_merchant_email_account: test_pfl@example.com
+                    pfl_ec_api_authentication_method: API Signature
+                    pfl_ec_api_username: api_username_pfl_ec
+                    pfl_ec_api_password: api_password_pfl_ec
+                    pfl_ec_api_signature: api_signature_pfl_ec
+                    pfl_ec_sandbox_mode: Yes
+                    pfl_ec_use_proxy: Yes #No
+                    pfl_ec_proxy_host: test_pfl
+                    pfl_ec_proxy_port: 80pfl
+            fieldset_3:
+                path: pfl_required_settings
+                data:
+                    pfl_pl_enable: Yes
+                    pfl_ec_enable: Yes
+            fieldset_4:
+                path: pfl_basic_settings
+                data:
+                    pfl_pl_title: Paypal Payflow Link
+                    pfl_pl_sort_order: 1
+                    pfl_pl_payment_action: Sale
+            fieldset_5:
+                path: pfl_basic_settings/pfl_basic_settings_advanced
+                data:
+                    pfl_pl_payment_applicable_from: All Allowed Countries
+                    pfl_pl_specific_countries_applicable_from: %noValue%
+                    pfl_pl_debug_mode: Yes
+                    pfl_pl_enable_ssl_verification: Yes
+                    pfl_pl_cvv_entry_is_editable: Yes
+                    pfl_pl_require_cvv_entry: Yes
+                    pfl_pl_send_email_confirmation: Yes
+                    pfl_pl_url_method_for_cancel_and_return: GET            
+            fieldset_7:
+                path: pfl_basic_settings/pfl_basic_settings_advanced/pfl_settlement_report_settings
+                data:
+                    pfl_sr_login: test
+                    pfl_sr_password: test
+                    pfl_sr_sandbox_mode: No
+                    pfl_sr_custom_endpoint: test
+                    pfl_sr_custom_path: test
+                    pfl_sr_enable_automatic_fetching: No
+                    pfl_sr_schedule: Daily
+                    pfl_sr_time_of_day_hour: 23
+                    pfl_sr_time_of_day_min: 58
+                    pfl_sr_time_of_day_sec: 59
+            fieldset_8:
+                path: pfl_basic_settings/pfl_basic_settings_advanced/pfl_frontend_experience_settings
+                data:
+                    pfl_product_logo: Now accepting PayPal (150 X 40)
+                    pfl_page_style: test
+                    pfl_header_image_url: test
+                    pfl_header_background_color: test
+                    pfl_header_border_color: test
+                    pfl_page_background_color: test
+            fieldset_9:
+                path: pfl_basic_settings_express_checkout
+                data:
+                    pfl_ec_title: PayPal Express Checkout
+                    pfl_ec_sort_order: 1
+                    pfl_ec_payment_action: Order
+                    pfl_ec_shortcut_on_cart: Yes
+                    pfl_ec_shortcut_on_product: Yes
+                    pfl_ec_authorization_honor_period: 4
+                    pfl_ec_order_valid_period: 30
+                    pfl_ec_child_authorization_number: 2
+            fieldset_10:
+                path: pfl_basic_settings_express_checkout/pfl_basic_settings_express_checkout_advanced
+                data:
+                    pfl_ec_payment_applicable_from: All Allowed Countries
+                    pfl_ec_specific_countries_applicable_from: %noValue%
+                    pfl_ec_debug_mode: Yes
+                    pfl_ec_enable_ssl_verification: Yes
+                    pfl_ec_transfer_cart_line_items: Yes
+                    pfl_ec_transfer_shipping_options: No
+                    pfl_ec_shortcut_buttons_flavor: Dynamic
+                    pfl_ec_enable_guest_checkout: No
+                    pfl_ec_require_customer_billing_address: No
+                    pfl_ec_billing_agreement_signup: Never
+            fieldset_6:
+                path: pfl_basic_settings_express_checkout/pfl_basic_settings_express_checkout_advanced/pfl_billing_agreement_settings
+                data:
+                    pfl_ba_enable: Yes
+                    pfl_ba_title: PayPal Billing Agreement
+                    pfl_ba_sort_order: 2
+                    pfl_ba_payment_action: Authorization
+                    pfl_ba_payment_applicable_from: All Allowed Countries
+                    pfl_ba_specific_countries_applicable_from: %noValue%
+                    pfl_ba_debug_mode: Yes
+                    pfl_ba_transfer_cart_line_items: No
+                    pfl_ba_allow_in_agreement_wizard: Yes
