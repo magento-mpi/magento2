@@ -10,7 +10,7 @@
  */
 
 //Add customer
-$tagFixture = simplexml_load_file(dirname(__FILE__).'/xml/LinkCRUD.xml');
+$tagFixture = simplexml_load_file(__DIR__ . '/_data/xml/LinkCRUD.xml');
 $customerData = Magento_Test_Webservice::simpleXmlToArray($tagFixture->customer);
 $customerData['email'] = mt_rand(1000, 9999) . '.' . $customerData['email'];
 

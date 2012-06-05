@@ -758,7 +758,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
      */
     public function dataProviderOfValidDataWithImages()
     {
-        $imageFilePath = TEST_FIXTURE_DIR . '/Catalog/Category/image.png';
+        $imageFilePath = TEST_FIXTURE_DIR . '/_data/Catalog/Category/image.png';
 
         $imageAttributes = array('image', 'thumbnail');
         $imagesWithUniqueNames = array();
@@ -961,7 +961,7 @@ class Api2_Catalog_Category_AdminTest extends Magento_Test_Webservice_Rest_Admin
                 array('pattern' => '/Invalid value ".+" provided for ".+" attribute/', 'matches_count' => 11)
             )
         );
-        $imageFilePath = TEST_FIXTURE_DIR . '/Catalog/Category/image.png';
+        $imageFilePath = TEST_FIXTURE_DIR . '/_data/Catalog/Category/image.png';
         $invalidImages['invalid_mime_type'] = array(
             'data' => array_merge($this->_getValidCategoryData(), array(
                 'thumbnail' => array(

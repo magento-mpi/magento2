@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$fixture = simplexml_load_file(dirname(__FILE__).'/xml/CustomOption.xml');
+$fixture = simplexml_load_file(__DIR__ . '/_data/xml/CustomOption.xml');
 
 //Create new simple product
 $productData = Magento_Test_Webservice::simpleXmlToArray($fixture->fixtureProduct);
