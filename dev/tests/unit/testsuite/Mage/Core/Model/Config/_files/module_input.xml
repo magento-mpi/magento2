@@ -20,6 +20,7 @@
         <Fixture_ModuleTwo>
             <active>true</active>
             <depends>
+                <Fixture_InactiveModule type="soft"/>
                 <Fixture_ModuleOne type="hard"/>
             </depends>
         </Fixture_ModuleTwo>
@@ -29,5 +30,8 @@
                 <Fixture_NonExistingModule type="soft"/>
             </depends>
         </Fixture_ModuleOne>
+        <Fixture_InactiveModule>
+            <active>false</active>
+        </Fixture_InactiveModule>
     </modules>
 </config>

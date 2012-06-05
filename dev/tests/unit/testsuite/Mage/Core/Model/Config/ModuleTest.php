@@ -15,30 +15,6 @@
 class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Create and return new model instance
-     *
-     * @param string $inputConfigFile
-     * @param array $allowedModules
-     * @return Mage_Core_Model_Config_Module
-     */
-    protected function _createModel($inputConfigFile, array $allowedModules = array())
-    {
-        $translateCallback = function () {
-            $translator = new Mage_Core_Model_Translate();
-            return $translator->translate(func_get_args());
-        };
-        $helper = $this->getMock('Mage_Core_Helper_Data', array('__'));
-        $helper
-            ->expects($this->any())
-            ->method('__')
-            ->will($this->returnCallback($translateCallback))
-        ;
-        return new Mage_Core_Model_Config_Module(
-            new Mage_Core_Model_Config_Base($inputConfigFile), $allowedModules, $helper
-        );
-    }
-
-    /**
      * @param string $inputConfigFile
      * @param string $expectedConfigFile
      * @param array $allowedModules
@@ -46,7 +22,7 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructor($inputConfigFile, $expectedConfigFile, $allowedModules = array())
     {
-        $model = $this->_createModel($inputConfigFile, $allowedModules);
+        $model = new Mage_Core_Model_Config_Module(new Mage_Core_Model_Config_Base($inputConfigFile), $allowedModules);
         $this->assertXmlStringEqualsXmlFile($expectedConfigFile, $model->getXmlString());
     }
 
@@ -76,7 +52,7 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
         $inputConfigFile, $expectedException, $expectedExceptionMsg, $allowedModules = array()
     ) {
         $this->setExpectedException($expectedException, $expectedExceptionMsg);
-        $this->_createModel($inputConfigFile, $allowedModules);
+        new Mage_Core_Model_Config_Module(new Mage_Core_Model_Config_Base($inputConfigFile), $allowedModules);
     }
 
     public function constructorExceptionDataProvider()
@@ -84,29 +60,29 @@ class Mage_Core_Model_Config_ModuleTest extends PHPUnit_Framework_TestCase
         return array(
             'linear dependency' => array(
                 __DIR__ . '/_files/module_dependency_linear_input.xml',
-                'Mage_Core_exception',
-                'Module "Fixture_Module" requires module "Fixture_NonExistingModule".',
+                'Magento_Exception',
+                "Module 'Fixture_Module' requires module 'Fixture_NonExistingModule'.",
             ),
             'circular dependency' => array(
                 __DIR__ . '/_files/module_dependency_circular_input.xml',
-                'Mage_Core_exception',
-                'Module "Fixture_ModuleTwo" cannot depend on "Fixture_ModuleOne".',
+                'Magento_Exception',
+                "Module 'Fixture_ModuleTwo' cannot depend on 'Fixture_ModuleOne' since it creates circular dependency.",
             ),
             'soft circular dependency' => array(
                 __DIR__ . '/_files/module_dependency_circular_soft_input.xml',
-                'Mage_Core_exception',
-                'Module "Fixture_ModuleTwo" cannot depend on "Fixture_ModuleOne".',
+                'Magento_Exception',
+                "Module 'Fixture_ModuleTwo' cannot depend on 'Fixture_ModuleOne' since it creates circular dependency.",
             ),
             'wrong dependency type' => array(
                 __DIR__ . '/_files/module_dependency_wrong_input.xml',
                 'UnexpectedValueException',
-                'Unsupported value of the XML attribute "type".',
+                'Unknown module dependency type \'wrong\' in declaration \'<Fixture_ModuleTwo type="wrong"/>\'.',
             ),
             'dependency on disallowed module' => array(
                 __DIR__ . '/_files/module_input.xml',
-                'Mage_Core_exception',
-                'Module "Fixture_ModuleTwo" requires module "Fixture_ModuleOne".',
-                array('Fixture_ModuleTwo', 'Fixture_ModuleThree')
+                'Magento_Exception',
+                "Module 'Fixture_ModuleTwo' requires module 'Fixture_ModuleOne'.",
+                array('Fixture_ModuleTwo')
             )
         );
     }

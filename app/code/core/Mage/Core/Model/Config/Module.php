@@ -20,32 +20,17 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
     const DEPENDENCY_TYPE_HARD = 'hard';
 
     /**
-     * @var Mage_Core_Helper_Abstract
-     */
-    protected $_helper;
-
-    /**
      * Constructor
      *
      * @param Mage_Core_Model_Config_Base $modulesConfig Modules configuration merged from the config files
      * @param array $allowedModules When not empty, defines modules to be taken into account
-     * @param Mage_Core_Helper_Abstract $helper
      */
-    public function __construct(
-        Mage_Core_Model_Config_Base $modulesConfig, $allowedModules = array(), Mage_Core_Helper_Abstract $helper = null
-    ) {
+    public function __construct(Mage_Core_Model_Config_Base $modulesConfig, array $allowedModules = array())
+    {
         // initialize empty modules configuration
         parent::__construct('<config><modules/></config>');
 
-        $this->_helper = $helper ?: Mage::helper('Mage_Core_Helper_Data');
-
-        // exclude disallowed modules
-        $moduleDependencies = array();
-        foreach ($this->_loadModuleDependencies($modulesConfig) as $moduleName => $moduleInfo) {
-            if (empty($allowedModules) || in_array($moduleName, $allowedModules)) {
-                $moduleDependencies[$moduleName] = $moduleInfo;
-            }
-        }
+        $moduleDependencies = $this->_loadModuleDependencies($modulesConfig, $allowedModules);
 
         $this->_checkModuleRequirements($moduleDependencies);
 
@@ -64,15 +49,21 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Load module dependencies into an array structure
+     * Load dependencies for active & allowed modules into an array structure
      *
      * @param Mage_Core_Model_Config_Base $modulesConfig
+     * @param array $allowedModules
      * @return array
      */
-    protected function _loadModuleDependencies(Mage_Core_Model_Config_Base $modulesConfig)
+    protected function _loadModuleDependencies(Mage_Core_Model_Config_Base $modulesConfig, array $allowedModules)
     {
         $result = array();
         foreach ($modulesConfig->getNode('modules')->children() as $moduleName => $moduleNode) {
+            $isModuleActive = 'true' === (string)$moduleNode->active;
+            $isModuleAllowed = empty($allowedModules) || in_array($moduleName, $allowedModules);
+            if (!$isModuleActive || !$isModuleAllowed) {
+                continue;
+            }
             $dependencies = array();
             if ($moduleNode->depends) {
                 /** @var $dependencyNode Varien_Simplexml_Element */
@@ -83,7 +74,6 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
             }
             $result[$moduleName] = array(
                 'module'       => $moduleName,
-                'active'       => 'true' === (string)$moduleNode->active,
                 'dependencies' => $dependencies,
             );
         }
@@ -101,7 +91,10 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
     {
         $result = $dependencyNode->getAttribute('type') ?: self::DEPENDENCY_TYPE_HARD;
         if (!in_array($result, array(self::DEPENDENCY_TYPE_HARD, self::DEPENDENCY_TYPE_SOFT))) {
-            throw new UnexpectedValueException('Unsupported value of the XML attribute "type".');
+            $dependencyNodeXml = trim($dependencyNode->asNiceXml());
+            throw new UnexpectedValueException(
+                "Unknown module dependency type '$result' in declaration '$dependencyNodeXml'."
+            );
         }
         return $result;
     }
@@ -110,20 +103,15 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
      * Check whether module requirements are fulfilled
      *
      * @param array $moduleDependencies
-     * @throws Mage_Core_Exception
+     * @throws Magento_Exception
      */
     protected function _checkModuleRequirements(array $moduleDependencies)
     {
         foreach ($moduleDependencies as $moduleName => $moduleInfo) {
-            if (!$moduleInfo['active']) {
-                continue;
-            }
             foreach ($moduleInfo['dependencies'] as $relatedModuleName => $dependencyType) {
-                $relatedModuleActive = !empty($moduleDependencies[$relatedModuleName]['active']);
+                $relatedModuleActive = isset($moduleDependencies[$relatedModuleName]);
                 if (!$relatedModuleActive && $dependencyType == self::DEPENDENCY_TYPE_HARD) {
-                    Mage::throwException($this->_helper->__(
-                        'Module "%1$s" requires module "%2$s".', $moduleName, $relatedModuleName
-                    ));
+                    throw new Magento_Exception("Module '$moduleName' requires module '$relatedModuleName'.");
                 }
             }
         }
@@ -166,21 +154,20 @@ class Mage_Core_Model_Config_Module extends Mage_Core_Model_Config_Base
      * @param string $moduleName
      * @param array $usedModules Keep track of used modules to detect circular dependencies
      * @return array
-     * @throws Mage_Core_Exception
+     * @throws Magento_Exception
      */
     protected function _getAllDependencies(array $moduleDependencies, $moduleName, $usedModules = array())
     {
-        if (empty($moduleDependencies[$moduleName]['active'])) {
-            // do not take inactive modules into account, they will not be used anyway
-            return array();
-        }
         $usedModules[] = $moduleName;
         $result = $moduleDependencies[$moduleName]['dependencies'];
         foreach (array_keys($result) as $relatedModuleName) {
             if (in_array($relatedModuleName, $usedModules)) {
-                Mage::throwException($this->_helper->__(
-                    'Module "%1$s" cannot depend on "%2$s".', $moduleName, $relatedModuleName
-                ));
+                throw new Magento_Exception(
+                    "Module '$moduleName' cannot depend on '$relatedModuleName' since it creates circular dependency."
+                );
+            }
+            if (empty($moduleDependencies[$relatedModuleName])) {
+                continue;
             }
             $relatedDependencies = $this->_getAllDependencies($moduleDependencies, $relatedModuleName, $usedModules);
             $result = array_merge($result, $relatedDependencies);
