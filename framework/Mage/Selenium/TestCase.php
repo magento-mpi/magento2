@@ -2703,7 +2703,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             if (array_key_exists($message, self::$_messages)) {
                 $exclude = '';
                 foreach (self::$_messages[$message] as $messageText) {
-                    $exclude .= "[not(..//.='$messageText')]";
+                    $exclude .= "[not(normalize-space(..//.)='$messageText')]";
                 }
                 ${$message} .= $exclude;
             }
