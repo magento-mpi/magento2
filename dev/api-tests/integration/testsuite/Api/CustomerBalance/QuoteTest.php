@@ -17,7 +17,7 @@
  */
 
 /**
- * @magentoDataFixture Api/CustomerBalance/_fixture/Quote.php
+ * @magentoDataFixture testsuite/Api/CustomerBalance/_fixture/Quote.php
  */
 class Api_CustomerBalance_QuoteTest extends Magento_Test_Webservice
 {

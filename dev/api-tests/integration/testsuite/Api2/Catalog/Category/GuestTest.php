@@ -71,7 +71,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test successful category get
      *
-     * @magentoDataFixture Catalog/Category/category.php
+     * @magentoDataFixture fixture/Catalog/Category/category.php
      * @resourceOperation category::get
      */
     public function testGet()
@@ -94,7 +94,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test category get when requested category is disabled
      *
-     * @magentoDataFixture Catalog/Category/category_disabled.php
+     * @magentoDataFixture fixture/Catalog/Category/category_disabled.php
      * @resourceOperation category::get
      */
     public function testGetCategoryDisabled()
@@ -109,7 +109,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test category get when requested category is not assigned to requested store
      *
-     * @magentoDataFixture Catalog/Category/category_on_new_website.php
+     * @magentoDataFixture fixture/Catalog/Category/category_on_new_website.php
      * @resourceOperation category::get
      */
     public function testGetCategoryNotAssignedToStore()
@@ -125,7 +125,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test successful category tree get
      *
-     * @magentoDataFixture Catalog/Category/category_on_new_website.php
+     * @magentoDataFixture fixture/Catalog/Category/category_on_new_website.php
      * @resourceOperation category::multiget
      */
     public function testGetCategoriesTree()
@@ -147,7 +147,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test successful category tree get with root specified
      *
-     * @magentoDataFixture Catalog/Category/category_tree.php
+     * @magentoDataFixture fixture/Catalog/Category/category_tree.php
      * @resourceOperation category::multiget
      */
     public function testGetCategoriesTreeWithRoot()
@@ -173,7 +173,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test category tree get when requested root category is disabled
      *
-     * @magentoDataFixture Catalog/Category/category_disabled.php
+     * @magentoDataFixture fixture/Catalog/Category/category_disabled.php
      * @resourceOperation category::multiget
      */
     public function testGetCategoriesTreeRootDisabled()
@@ -188,7 +188,7 @@ class Api2_Catalog_Category_GuestTest extends Magento_Test_Webservice_Rest_Guest
     /**
      * Test category tree get when requested root category is not assigned to requested store
      *
-     * @magentoDataFixture Catalog/Category/category_on_new_website.php
+     * @magentoDataFixture fixture/Catalog/Category/category_on_new_website.php
      * @resourceOperation category::multiget
      */
     public function testGetCategoriesTreeRootNotAssignedToStore()

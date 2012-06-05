@@ -22,8 +22,8 @@ class Api2_Catalog_Product_Configurable_GuestTest extends Api2_Catalog_Product_G
      * Test successful configurable product single GET. Check received configurable attributes
      *
      * @param string $priceIncludesTax
-     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
-     * @magentoDataFixture Catalog/Product/Configurable/catalog_price_rule.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable_with_assigned_products.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/catalog_price_rule.php
      * @dataProvider dataProviderForGet
      * @resourceOperation product::get
      */

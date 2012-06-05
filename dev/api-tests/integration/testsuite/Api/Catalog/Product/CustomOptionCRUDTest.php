@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Api/Catalog/Product/_fixture/CustomOption.php
+ * @magentoDataFixture testsuite/Api/Catalog/Product/_fixture/CustomOption.php
  */
 class Api_Catalog_Product_CustomOptionCRUDTest extends Magento_Test_Webservice
 {

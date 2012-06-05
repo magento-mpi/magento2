@@ -40,7 +40,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test get stock item
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixture/product.php
+     * @magentoDataFixture testsuite/Api2/CatalogInventory/_fixture/product.php
      * @resourceOperation stock_item::get
      */
     public function testGetStockItem()
@@ -73,7 +73,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test get stock items
      *
-     * @magentoDataFixture CatalogInventory/Stock/Item/stock_items_list.php
+     * @magentoDataFixture fixture/CatalogInventory/Stock/Item/stock_items_list.php
      * @resourceOperation stock_item::multiget
      */
     public function testGetStockItems()
@@ -98,7 +98,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock item update
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixture/product.php
+     * @magentoDataFixture testsuite/Api2/CatalogInventory/_fixture/product.php
      * @resourceOperation stock_item::update
      */
     public function testUpdateStockItem()
@@ -133,7 +133,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock items update with invalid data
      *
-     * @magentoDataFixture Api2/CatalogInventory/_fixture/product.php
+     * @magentoDataFixture testsuite/Api2/CatalogInventory/_fixture/product.php
      * @resourceOperation stock_item::update
      */
     public function testUpdateStockItemWithInvalidData()
@@ -154,7 +154,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock items update
      *
-     * @magentoDataFixture CatalogInventory/Stock/Item/stock_items_list.php
+     * @magentoDataFixture fixture/CatalogInventory/Stock/Item/stock_items_list.php
      * @resourceOperation stock_item::multiupdate
      */
     public function testUpdateStockItems()
@@ -270,7 +270,7 @@ class Api2_CatalogInventory_Stock_Item_AdminTest extends Magento_Test_Webservice
     /**
      * Test successful stock items update with invalid data
      *
-     * @magentoDataFixture CatalogInventory/Stock/Item/stock_items_list.php
+     * @magentoDataFixture fixture/CatalogInventory/Stock/Item/stock_items_list.php
      * @resourceOperation stock_item::multiupdate
      */
     public function testUpdateStockItemsWithInvalidData()

@@ -10,7 +10,7 @@
  */
 
 /**
- * @magentoDataFixture Api/Catalog/Product/_fixture/LinkCRUD.php
+ * @magentoDataFixture testsuite/Api/Catalog/Product/_fixture/LinkCRUD.php
  */
 class Api_Catalog_Product_DownloadableLinkCRUDTest extends Magento_Test_Webservice
 {

@@ -38,7 +38,7 @@ class Api2_Sales_Order_Item_AdminTest extends Magento_Test_Webservice_Rest_Admin
     /**
      * Test get order items for admin
      *
-     * @magentoDataFixture Sales/Order/order.php
+     * @magentoDataFixture fixture/Sales/Order/order.php
      * @resourceOperation order_item::multiget
      */
     public function testGetOrderItems()

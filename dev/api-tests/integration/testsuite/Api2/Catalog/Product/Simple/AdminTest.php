@@ -21,7 +21,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test successful product get
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::get
      */
     public function testGet()
@@ -39,7 +39,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test successful get with filter by attributes
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetWithAttributeFilter()
@@ -75,8 +75,8 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test product get for store that product is not assigned to
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
-     * @magentoDataFixture Core/Store/store_on_new_website.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture fixture/Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
     public function testGetFilterByStore()
@@ -94,7 +94,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test with filter by invalid store
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetFilterByInvalidStore()
@@ -302,7 +302,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test product create resource with not unique sku value
      * Negative test.
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::create
      */
     public function testPostNotUniqueSku()
@@ -460,7 +460,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test successful product delete
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      *
      * @resourceOperation product::delete
      */
@@ -490,8 +490,8 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test tier and group prices update
      *
      * @dataProvider dataProviderTestUpdateGroupPrice
-     * @magentoDataFixture Core/Store/store_on_new_website.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
+     * @magentoDataFixture fixture/Core/Store/store_on_new_website.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation product::update
      * @param string $priceField
      * @param int $websiteId
@@ -567,7 +567,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test update attributes with souces. Basicly, check type casting during data validation
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderTestUpdateAttributeWithSource
      * @resourceOperation product::update
      * @param string $attributeName
@@ -618,7 +618,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test gift options update with "use_config_..." attributes
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderTestUpdateGiftOptionsUseConfig
      * @resourceOperation product::update
      * @param string $attributeName
@@ -671,7 +671,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test successful product update
      *
      * @param array $productDataForUpdate
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @dataProvider dataProviderTestUpdateSuccessful
      * @resourceOperation product::update
      */
@@ -812,8 +812,8 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test successful product update on specified store
      *
-     * @magentoDataFixture Core/Store/store_on_new_website.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
+     * @magentoDataFixture fixture/Core/Store/store_on_new_website.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation product::update
      */
     public function testUpdateOnSpecifiedStoreSuccessful()
@@ -861,8 +861,8 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test product update resource with not unique sku value
      * Negative test.
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple_all_fields.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple_all_fields.php
      * @resourceOperation product::update
      */
     public function testUpdateNotUniqueSku()
@@ -882,7 +882,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test update with invalid store
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateWithInvalidStore()
@@ -901,7 +901,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test product update with empty required fields
      * Negative test.
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateEmptyRequiredFields()
@@ -928,7 +928,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test product resource post with all invalid fields
      * Negative test.
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateAllFieldsInvalid()
@@ -997,7 +997,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test product update resource with invalid manage stock value
      * Negative test.
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateInvalidManageStock()
@@ -1014,7 +1014,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * Test product update resource with invalid weight value
      * Negative test.
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::update
      */
     public function testUpdateWeightOutOfRange()
@@ -1030,7 +1030,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test successful product collection get
      *
-     * @magentoDataFixture Catalog/Product/products_collection.php
+     * @magentoDataFixture fixture/Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGet()
@@ -1044,7 +1044,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     /**
      * Test successful product collection get with specified store
      *
-     * @magentoDataFixture Catalog/Product/products_collection.php
+     * @magentoDataFixture fixture/Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()

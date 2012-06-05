@@ -184,7 +184,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test filter data in create customer address
      *
      * @param $dataForCreate
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
      * @resourceOperation customer_address::create
      */
@@ -220,7 +220,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     /**
      * Test get customer addresses for customer
      *
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @resourceOperation customer_address::get
      */
     public function testGetCustomerAddress()
@@ -245,7 +245,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     /**
      * Test get customer addresses for customer
      *
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @resourceOperation customer_address::multiget
      */
     public function testGetCustomerAddresses()
@@ -271,7 +271,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test update customer address
      *
      * @param array $dataForUpdate
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
      * @resourceOperation customer_address::update
      */
@@ -306,7 +306,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test update customer address
      *
      * @param array $dataForUpdate
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
      * @resourceOperation customer_address::update
      */
@@ -343,7 +343,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test unsuccessful address update with empty required fields
      *
      * @param string $attributeCode
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @dataProvider providerRequiredAttributes
      * @resourceOperation customer_address::update
      */
@@ -372,7 +372,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
      * Test filter data in update customer address
      *
      * @param $dataForUpdate
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @dataProvider providerAddressData
      * @resourceOperation customer_address::update
      */
@@ -404,7 +404,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     /**
      * Test delete address
      *
-     * @magentoDataFixture Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
+     * @magentoDataFixture testsuite/Api2/Customer/Address/_fixture/add_addresses_to_current_customer.php
      * @resourceOperation customer_address::delete
      */
     public function testDeleteCustomerAddress()
@@ -422,7 +422,7 @@ class Api2_Customer_Address_CustomerTest extends Magento_Test_Webservice_Rest_Cu
     /**
      * Test actions with customer address if customer is not owner
      *
-     * @magentoDataFixture Customer/Customer/customer_with_addresses.php
+     * @magentoDataFixture fixture/Customer/Customer/customer_with_addresses.php
      * @resourceOperation customer_address::get
      * @resourceOperation customer_address::multiget
      * @resourceOperation customer_address::create

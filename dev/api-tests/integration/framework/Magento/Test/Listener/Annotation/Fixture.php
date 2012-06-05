@@ -175,12 +175,7 @@ class Magento_Test_Listener_Annotation_Fixture
             }
             $fixtureMethod = array(get_class($this->_listener->getCurrentTest()), $fixture);
             /* Define path to fixture */
-            $testsDir = dirname(__FILE__) . DS . '..' . DS . '..' . DS . '..' . DS . '..' . DS . '..';
-            $pathToLocalFixtures = realpath($testsDir . DS . 'testsuite');
-            $pathToGlobalFixtures = realpath($testsDir . DS . 'fixture');
-            $fixtureScript = file_exists($pathToLocalFixtures . DS . $fixture)
-                ? $pathToLocalFixtures . DS . $fixture
-                : $pathToGlobalFixtures . DS . $fixture;
+            $fixtureScript = realpath(TEST_FIXTURE_DIR . DS . '..') . DS . $fixture;
             /* Skip already applied fixtures */
             if (in_array($fixtureMethod, $this->_appliedFixtures, true)
                 || in_array($fixtureScript, $this->_appliedFixtures, true)

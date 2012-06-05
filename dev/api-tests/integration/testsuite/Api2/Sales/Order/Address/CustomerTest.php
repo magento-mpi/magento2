@@ -39,7 +39,7 @@ class Api2_Sales_Order_Address_CustomerTest extends Magento_Test_Webservice_Rest
     /**
      * Test get order addresses for customer
      *
-     *  @magentoDataFixture Sales/Order/order_customer_address.php
+     *  @magentoDataFixture fixture/Sales/Order/order_customer_address.php
      * @resourceOperation order_address::get
      */
     public function testGetAddress()
@@ -89,7 +89,7 @@ class Api2_Sales_Order_Address_CustomerTest extends Magento_Test_Webservice_Rest
     /**
      * Test get order address for admin
      *
-     * @magentoDataFixture Sales/Order/order_customer_address.php
+     * @magentoDataFixture fixture/Sales/Order/order_customer_address.php
      * @resourceOperation order_address::multiget
      */
     public function testGetOrderAddresses()
@@ -139,7 +139,7 @@ class Api2_Sales_Order_Address_CustomerTest extends Magento_Test_Webservice_Rest
     /**
      * Test get order items if customer is not owner
      *
-     * @magentoDataFixture Sales/Order/order.php
+     * @magentoDataFixture fixture/Sales/Order/order.php
      * @resourceOperation order_address::multiget
      */
     public function testGetOrderIfCustomerIsNotOwner()

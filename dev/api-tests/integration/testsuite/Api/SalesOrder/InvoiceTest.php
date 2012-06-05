@@ -46,7 +46,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
 
     /**
      * Test create and reaad created invoice
-     * @magentoDataFixture Api/SalesOrder/_fixture/order.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/order.php
      * @magentoAppIsolation enabled
      */
     public function testCRUD()
@@ -77,7 +77,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
     /**
      * Test credit memo create API call results
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/order.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/order.php
      * @magentoAppIsolation enabled
      */
     public function testAutoIncrementType()
@@ -121,7 +121,7 @@ class Api_SalesOrder_InvoiceTest extends Magento_Test_Webservice
     /**
      * Test order invoice list. With filters
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/invoice.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/invoice.php
      * @magentoAppIsolation enabled
      */
     public function testListWithFilters()

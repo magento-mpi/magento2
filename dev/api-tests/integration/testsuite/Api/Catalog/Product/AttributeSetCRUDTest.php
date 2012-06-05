@@ -109,7 +109,7 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
     /**
      * Test attribute CRUD in attribute set
      *
-     * @magentoDataFixture Api/Catalog/Product/_fixture/AttributeSet.php
+     * @magentoDataFixture testsuite/Api/Catalog/Product/_fixture/AttributeSet.php
      * @return void
      */
     public function testAttributeSetAttrCRUD()
@@ -134,7 +134,7 @@ class Api_Catalog_Product_AttributeSetCRUDTest extends Magento_Test_Webservice
     /**
      * Test group of attribute sets CRUD
      *
-     * @magentoDataFixture Api/Catalog/Product/_fixture/AttributeSet.php
+     * @magentoDataFixture testsuite/Api/Catalog/Product/_fixture/AttributeSet.php
      * @return void
      */
     public function testAttributeSetGroupCRUD()

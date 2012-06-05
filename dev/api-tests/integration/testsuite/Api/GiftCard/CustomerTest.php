@@ -14,8 +14,8 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
     /**
      * Test giftcard customer info by code
      *
-     * @magentoDataFixture Api/GiftCard/_fixture/code_pool.php
-     * @magentoDataFixture Api/GiftCard/_fixture/giftcard_account.php
+     * @magentoDataFixture testsuite/Api/GiftCard/_fixture/code_pool.php
+     * @magentoDataFixture testsuite/Api/GiftCard/_fixture/giftcard_account.php
      *
      * @return void
      */
@@ -34,9 +34,9 @@ class Api_GiftCard_CustomerTest extends Magento_Test_Webservice
     /**
      * Test redeem amount present on gift card to Store Credit.
      *
-     * @magentoDataFixture Api/GiftCard/_fixture/customer.php
-     * @magentoDataFixture Api/GiftCard/_fixture/code_pool.php
-     * @magentoDataFixture Api/GiftCard/_fixture/giftcard_account.php
+     * @magentoDataFixture testsuite/Api/GiftCard/_fixture/customer.php
+     * @magentoDataFixture testsuite/Api/GiftCard/_fixture/code_pool.php
+     * @magentoDataFixture testsuite/Api/GiftCard/_fixture/giftcard_account.php
      *
      * @return void
      */

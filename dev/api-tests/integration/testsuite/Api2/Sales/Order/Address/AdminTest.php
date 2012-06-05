@@ -34,7 +34,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
     /**
      * Test get order address for admin
      *
-     * @magentoDataFixture Sales/Order/order_address.php
+     * @magentoDataFixture fixture/Sales/Order/order_address.php
      * @resourceOperation order_address::get
      */
     public function testGetOrderAddress()
@@ -84,7 +84,7 @@ class Api2_Sales_Order_Address_AdminTest extends Magento_Test_Webservice_Rest_Ad
     /**
      * Test get order address for admin
      *
-     * @magentoDataFixture Sales/Order/order_address.php
+     * @magentoDataFixture fixture/Sales/Order/order_address.php
      * @resourceOperation order_address::multiget
      */
     public function testGetOrderAddresses()

@@ -21,7 +21,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test successful assigned products list with data
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @resourceOperation configurable_associated_product::multiget
      */
     public function testMultiGet()
@@ -34,7 +34,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful assigned products list get from non-configurable product
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::multiget
      */
     public function testMultiGetFromProductOfInvalidType()
@@ -49,7 +49,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful assigned products list get
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
      * @resourceOperation configurable_associated_product::multiget
      */
     public function testMultiGetWithoutAssignedProducts()
@@ -74,8 +74,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test successful simple products assign to configurable product
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreate()
@@ -91,8 +91,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test successful simple products assign to configurable product. Associated product SKU is used
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateUsingAssociatedSku()
@@ -108,8 +108,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test successful simple products assign to configurable product
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_downloadable_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_downloadable_with_configurable_attribute_set.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateWithDownloadableAssigned()
@@ -125,8 +125,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful giftcard assign to configurable product
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_giftcard_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_giftcard_with_configurable_attribute_set.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateInvalidAssociatedType()
@@ -145,9 +145,9 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful product with non-unique options set assign to the configurable product
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_downloadable_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_downloadable_with_configurable_attribute_set.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateWithNonUniqueOptions()
@@ -170,8 +170,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
      * Test unsuccessful simple product associate to the configurable.
      * Simple and configurable products are from different attribute sets
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateWithInvalidAttributeSet()
@@ -189,8 +189,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful product assign to the configurable one if the association was created earlier
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_simple_with_configurable_attribute_set.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateProductAlreadyAssigned()
@@ -222,7 +222,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful associate products to the configurable one. Invalid associated product ID specified
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateInvalidAssociatedProductId()
@@ -238,7 +238,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful associate products to the configurable one. Associated product ID is not specified
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateAssociatedProductIdNotSpecified()
@@ -254,8 +254,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful product without configurable option value assign to configurable product
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Configurable/product_simple_without_configurable_attribute.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/product_simple_without_configurable_attribute.php
      * @resourceOperation configurable_associated_product::create
      */
     public function testCreateNoConfigurableAttributeSpecified()
@@ -274,7 +274,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test successful associated product unassign from the configurable one
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable_with_assigned_products.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable_with_assigned_products.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDelete()
@@ -302,7 +302,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful product unassign from non-configurable product
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteFromProductOfInvalidType()
@@ -317,7 +317,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful product unassign from the configurable one. Invalid configurable product ID specified
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteInvalidConfigurableProductId()
@@ -332,7 +332,7 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
     /**
      * Test unsuccessful product unassign from the configurable one. Invalid associated product ID specified
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteInvalidAssociatedProductId()
@@ -348,8 +348,8 @@ class Api2_Catalog_Product_Configurable_AssociatedProduct_AdminTest extends Mage
      * Test unsuccessful product unassign from the configurable one.
      * The specified product is not assigned to the configurable one
      *
-     * @magentoDataFixture Catalog/Product/Configurable/configurable.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation configurable_associated_product::delete
      */
     public function testDeleteUnassignedProduct()

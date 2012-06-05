@@ -43,7 +43,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource post
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPost()
@@ -66,7 +66,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource post
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostMultiAssign()
@@ -94,7 +94,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource post with empty required field
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostEmptyRequiredField()
@@ -115,7 +115,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource post with invalid categoryId
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostInvalidData()
@@ -136,7 +136,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource post with nonexistent categoryId
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostCategoryNotExists()
@@ -189,7 +189,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource assigning to category tree root
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::create
      */
     public function testPostToCategoryTreeRoot()
@@ -285,7 +285,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource delete for nonexistent category
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::delete
      */
     public function testDeleteWrongCategoryId()
@@ -303,7 +303,7 @@ class Api2_Catalog_Product_Category_AdminTest extends Magento_Test_Webservice_Re
     /**
      * Test product category resource delete for unassigned category
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product_category::delete
      */
     public function testDeleteNotAssigned()

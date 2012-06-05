@@ -21,7 +21,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test successful product get
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGet()
@@ -66,7 +66,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test successful product get with tax applied
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple_taxes.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple_taxes.php
      * @resourceOperation product::get
      */
     public function testGetWithTaxCalculation()
@@ -116,7 +116,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test successful get with filter by attributes
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetWithAttributeFilter()
@@ -173,7 +173,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test unsuccessful get with stock availability 'out of stock'
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetOutOfStockProduct()
@@ -192,8 +192,8 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test product get for store that product is not assigned to
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
-     * @magentoDataFixture Core/Store/store_on_new_website.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Core/Store/store_on_new_website.php
      * @resourceOperation product::get
      */
     public function testGetFilterByStore()
@@ -211,7 +211,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test with filter by invalid store
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::get
      */
     public function testGetFilterByInvalidStore()
@@ -227,7 +227,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test unsuccessful product delete
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::delete
      */
     public function testDelete()
@@ -253,8 +253,8 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test successful product collection get
      *
-     * @magentoDataFixture Catalog/Product/products_collection.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/products_collection.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGet()
@@ -277,7 +277,7 @@ class Api2_Catalog_Product_Simple_CustomerTest extends Api2_Catalog_Product_Cust
     /**
      * Test successful product collection get with specified store
      *
-     * @magentoDataFixture Catalog/Product/products_collection.php
+     * @magentoDataFixture fixture/Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()

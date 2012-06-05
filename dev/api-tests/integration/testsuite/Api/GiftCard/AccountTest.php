@@ -14,7 +14,7 @@ class Api_GiftCard_AccountTest extends Magento_Test_Webservice
     /**
      * Test create, list, info, update, remove
      *
-     * @magentoDataFixture Api/GiftCard/_fixture/code_pool.php
+     * @magentoDataFixture testsuite/Api/GiftCard/_fixture/code_pool.php
      *
      * @return void
      */

@@ -22,8 +22,8 @@ class Api2_Catalog_Product_Simple_GuestTest extends Api2_Catalog_Product_GuestAb
     /**
      * Test get product price with and without taxes with applied catalog price rule
      *
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
-     * @magentoDataFixture CatalogRule/Rule/catalog_price_rule.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/CatalogRule/Rule/catalog_price_rule.php
      * @resourceOperation product::get
      */
     public function testGetWithCatalogPriceRule()
@@ -73,7 +73,7 @@ class Api2_Catalog_Product_Simple_GuestTest extends Api2_Catalog_Product_GuestAb
     /**
      * Test unsuccessful product delete
      *
-     * @magentoDataFixture Api/SalesOrder/_fixture/product_simple.php
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::delete
      */
     public function testDelete()
@@ -99,8 +99,8 @@ class Api2_Catalog_Product_Simple_GuestTest extends Api2_Catalog_Product_GuestAb
     /**
      * Test successful product collection get
      *
-     * @magentoDataFixture Catalog/Product/products_collection.php
-     * @magentoDataFixture Catalog/Product/Simple/product_simple.php
+     * @magentoDataFixture fixture/Catalog/Product/products_collection.php
+     * @magentoDataFixture fixture/Catalog/Product/Simple/product_simple.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGet()
@@ -123,7 +123,7 @@ class Api2_Catalog_Product_Simple_GuestTest extends Api2_Catalog_Product_GuestAb
     /**
      * Test successful product collection get with specified store
      *
-     * @magentoDataFixture Catalog/Product/products_collection.php
+     * @magentoDataFixture fixture/Catalog/Product/products_collection.php
      * @resourceOperation product::multiget
      */
     public function testCollectionGetFromSpecifiedStore()

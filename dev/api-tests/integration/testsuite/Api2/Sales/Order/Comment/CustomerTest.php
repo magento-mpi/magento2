@@ -84,7 +84,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
     /**
      * Test retrieve sales order comments collection
      *
-     * @magentoDataFixture Sales/Order/customer_order.php
+     * @magentoDataFixture fixture/Sales/Order/customer_order.php
      * @resourceOperation order_comment::multiget
      */
     public function testRetrieve()
@@ -104,7 +104,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
     /**
      * Test retrieve sales order comments collection
      *
-     * @magentoDataFixture Sales/Order/customer_order.php
+     * @magentoDataFixture fixture/Sales/Order/customer_order.php
      * @resourceOperation order_comment::multiget
      */
     public function testRetrieveVisibleOnFront()
@@ -125,7 +125,7 @@ class Api2_Sales_Order_Comment_CustomerTest extends Magento_Test_Webservice_Rest
     /**
      * Test retrieve another sales order comments collection
      *
-     * @magentoDataFixture Sales/Order/order.php
+     * @magentoDataFixture fixture/Sales/Order/order.php
      * @resourceOperation order_comment::multiget
      */
     public function testRetrieveForeignResource()

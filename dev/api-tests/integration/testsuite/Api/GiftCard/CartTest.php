@@ -10,8 +10,8 @@
  */
 
 /**
- * @magentoDataFixture Api/GiftCard/_fixture/code_pool.php
- * @magentoDataFixture Api/GiftCard/_fixture/giftcard_account.php
+ * @magentoDataFixture testsuite/Api/GiftCard/_fixture/code_pool.php
+ * @magentoDataFixture testsuite/Api/GiftCard/_fixture/giftcard_account.php
  */
 class Api_GiftCard_CartTest extends Magento_Test_Webservice
 {
