@@ -72,8 +72,11 @@ class Mage_Backend_Model_Menu_Builder
         /** @var $items Mage_Backend_Model_Menu_Item[] */
         $items = array();
         foreach ($this->_commands as $command) {
-            $item = $this->_itemFactory->createFromArray($command->execute(array()));
-            $items[$item->getId()] = $item;
+            $params = $command->execute(array());
+            if (!isset($params['removed'])) {
+                $item = $this->_itemFactory->createFromArray($command->execute($params));
+                $items[$item->getId()] = $item;
+            }
         }
 
         foreach($items as $item) {

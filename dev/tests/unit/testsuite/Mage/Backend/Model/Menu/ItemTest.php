@@ -168,7 +168,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('return false;', $item->getClickCallback());
     }
 
-    public function testGetClickCallbackReturnsEmptyStringIfItemDoesntHaveAction()
+    public function testGetClickCallbackReturnsEmptyStringIfItemHasAction()
     {
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $this->assertEquals('', $item->getClickCallback());
@@ -333,6 +333,10 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
 class Mage_Test_Module_Config
 {
+    /**
+     *
+     * @SuppressWarnings(PHPMD.ShortMethodName))
+     */
     public function is()
     {
 

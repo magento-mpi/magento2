@@ -82,4 +82,18 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_model->getResult();
     }
 
+    public function testGetResultSkipsRemovedItems()
+    {
+        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Create(array('id' => 1)));
+        $this->_model->processCommand(
+            new Mage_Backend_Model_Menu_Builder_Command_Remove(
+                array('id' => 1,)
+            )
+        );
+
+        $this->_menuMock->expects($this->never())
+            ->method('addChild');
+
+        $this->_model->getResult();
+    }
 }
