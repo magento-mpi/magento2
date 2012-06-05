@@ -55,8 +55,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
         if (!in_array($charsType, $type)
-                || ($addressType != 'billing' && $addressType != 'shipping')
-                || $symNum < 5 || !is_int($symNum)) {
+            || ($addressType != 'billing' && $addressType != 'shipping')
+            || $symNum < 5
+            || !is_int($symNum)
+        ) {
             throw new Exception('Incorrect parameters');
         }
         $return = array();
@@ -182,7 +184,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         }
 
         if ($addressChoice == 'sameAsBilling') {
-            $this->fillForm(array('shipping_same_as_billing_address' => 'yes'));
+            $this->fillCheckbox('shipping_same_as_billing_address', 'Yes');
         }
         if ($addressChoice == 'new') {
             $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
@@ -452,7 +454,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             }
             $this->selectFrame($frame);
             $this->waitForElement($xpathSubmit);
-            $this->fillForm(array('3d_password' => $password));
+            $this->fillField('3d_password', $password);
             $this->click($xpathSubmit);
             $this->waitForElement(array($incorrectPassword, $xpathContinue, $verificationSuccessful));
             if ($this->isElementPresent($xpathContinue)) {
@@ -499,8 +501,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                     $this->click($method);
                     $this->pleaseWait();
                 } elseif ($validate) {
-                    $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
-                                                  . $shipService . '" is currently unavailable.');
+                    $this->addVerificationMessage(
+                        'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');
                 }
             } elseif ($validate) {
                 //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
@@ -537,8 +539,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
         $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
         // Select a store if there is more then one default store
-        if ($this->isElementPresent($storeSelectorXpath .
-                                    "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
+        if ($this->isElementPresent(
+            $storeSelectorXpath . "[not(contains(@style,'display:') and contains(@style,'none'))]")
+        ) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
                 $this->clickControl('radiobutton', 'choose_main_store', false);
@@ -630,7 +633,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         }
 
         foreach ($coupons as $code) {
-            $this->fillForm(array('coupon_code' => $code));
+            $this->fillField('coupon_code', $code);
             $this->clickButton('apply', false);
             $this->pleaseWait();
             if ($validate) {
@@ -713,7 +716,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     protected function getRequest($subject)
     {
         $requestSubject = substr($subject, strpos($subject, '[request]'),
-                                 strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+            strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
         $requestSubject = substr($requestSubject, strpos($requestSubject, "(\n"), strpos($requestSubject, ")"));
         return $this->getParamsArray($requestSubject);
     }
@@ -728,9 +731,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     protected function getResponse($subject)
     {
         $responseSubject = substr($subject, strpos($subject, '[response]'),
-                                  strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+            strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
         $responseSubject = substr($responseSubject, strpos($responseSubject, "(\n"),
-                                  strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
+            strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
         return $this->getParamsArray($responseSubject);
     }
 
@@ -762,8 +765,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function verify3DSecureLog($verificationData)
     {
         $this->setArea('frontend');
-        $fileUrl = preg_replace('|/index.php/?|', '/',
-                                $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
+        $fileUrl =
+            preg_replace('|/index.php/?|', '/', $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if (is_array($result)) {

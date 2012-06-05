@@ -54,7 +54,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $isSelected = $toSelect . '[@selected]';
             if (!$this->isElementPresent($isSelected)) {
                 $this->defineParameters($toSelect, 'url');
-                $this->fillForm(array('current_configuration_scope' => $chooseScope));
+                $this->fillDropdown('current_configuration_scope', $chooseScope);
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                 $this->validatePage();
             }

@@ -112,7 +112,7 @@ class Mage_Selenium_Uimap_ElementsCollection extends ArrayObject
     /**
      * Get ElementsCollectionIterator object
      *
-     * @return Mage_Selenium_Uimap_ElementsCollectionIterator
+     * @return \ArrayIterator|\Mage_Selenium_Uimap_ElementsCollectionIterator|\Traversable
      */
     public function getIterator()
     {

@@ -114,7 +114,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             if (isset($value['rating_name']) && isset($value['stars'])) {
                 $this->addParameter('ratingName', $value['rating_name']);
                 $this->addParameter('stars', $value['stars']);
-                $this->fillForm(array('detailed_rating' => 'yes'));
+                $this->fillRadiobutton('detailed_rating', 'yes');
             } else {
                 $this->fail('Incorrect data to fill');
             }
@@ -203,7 +203,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             $this->addParameter('rateName', $value['rating_name']);
             $this->addParameter('rateId', $value['stars']);
             if ($this->controlIsPresent('radiobutton', 'select_rate')) {
-                $this->fillForm(array('select_rate' => 'Yes'));
+                $this->fillRadiobutton('select_rate', 'Yes');
             } else {
                 $this->addVerificationMessage('Rating with name ' . $value['rating_name'] . ' is not on the page');
             }

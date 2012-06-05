@@ -52,12 +52,12 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
                 if ($sku) {
                     $verify[$sku] = $productQty;
                     $this->addParameter('sku', $sku);
-                    $this->fillForm(array('qty_to_invoice' => $productQty));
+                    $this->fillField('qty_to_invoice', $productQty);
                 }
             }
         }
         if ($captureType) {
-            $this->fillForm(array('amount' => $captureType));
+            $this->fillDropdown('amount', $captureType);
         }
         if (!$verify) {
             $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_invoice'));
@@ -94,7 +94,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
             $this->addParameter('invoicedQty', $qty);
             $xpathInvoiced = $this->_getControlXpath('field', 'qty_invoiced');
             $this->assertTrue($this->isElementPresent($xpathInvoiced),
-                    'Qty of invoiced products is incorrect at the orders form');
+                'Qty of invoiced products is incorrect at the orders form');
         }
     }
 

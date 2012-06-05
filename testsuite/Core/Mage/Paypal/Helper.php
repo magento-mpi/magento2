@@ -35,25 +35,17 @@
  */
 class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
 {
-    public static $monthMap = array('1'  => '01 - January',
-                                    '2'  => '02 - February',
-                                    '3'  => '03 - March',
-                                    '4'  => '04 - April',
-                                    '5'  => '05 - May',
-                                    '6'  => '06 - June',
-                                    '7'  => '07 - July',
-                                    '8'  => '08 - August',
-                                    '9'  => '09 - September',
-                                    '10' => '10 - October',
-                                    '11' => '11 - November',
-                                    '12' => '12 - December');
+    public static $monthMap = array('1'  => '01 - January', '2'  => '02 - February', '3'  => '03 - March',
+                                    '4'  => '04 - April', '5'  => '05 - May', '6'  => '06 - June', '7'  => '07 - July',
+                                    '8'  => '08 - August', '9'  => '09 - September', '10' => '10 - October',
+                                    '11' => '11 - November', '12' => '12 - December');
+
     /**
      * Verify errors after order submitting. Skip tests if error from Paypal
      */
     public function verifyMagentoPayPalErrors()
     {
-        $paypalErrors = array('PayPal gateway rejected the request',
-                              'PayPal gateway has rejected request',
+        $paypalErrors = array('PayPal gateway rejected the request', 'PayPal gateway has rejected request',
                               'Unable to communicate with the PayPal gateway.',
                               'Please verify the card with the issuer bank before placing the order.',
                               'There was an error processing your order. Please contact us or try again later.');
@@ -190,8 +182,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
                 $cardData = explode(':', $value);
                 $number = preg_replace('/\D/', '', $cardData[0]);
                 list($expMonth, $expYear) = explode('/', $cardData[1]);
-                $data[$key] = array('card_type'        => $parameters['add_credit_card'],
-                                    'card_number'      => $number,
+                $data[$key] = array('card_type'        => $parameters['add_credit_card'], 'card_number' => $number,
                                     'expiration_month' => self::$monthMap[trim($expMonth)],
                                     'expiration_year'  => $expYear);
             } else {
@@ -253,7 +244,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->addParameter('accountEmail', $email);
         $this->openPaypalTab('test_accounts');
         if ($this->controlIsPresent('checkbox', 'select_account')) {
-            $this->fillForm(array('select_account' => 'Yes'));
+            $this->fillCheckbox('select_account', 'Yes');
             $this->clickButtonAndConfirm('delete_account', 'confirmation_to_delete_account', false);
             $this->waitForNewPage();
         }
