@@ -1353,20 +1353,20 @@
             <Mage_User_Model_Role/>
         </expected_models>
         <actions>
-            <adminhtml_permissions_role_editrole>
+            <adminhtml_user_role_editrole>
                 <action>view</action>
-            </adminhtml_permissions_role_editrole>
+            </adminhtml_user_role_editrole>
 
-            <adminhtml_permissions_role_saverole>
+            <adminhtml_user_role_saverole>
                 <action>save</action>
                 <skip_on_back>
-                    <adminhtml_permissions_role_editrole/>
+                    <adminhtml_user_role_editrole/>
                 </skip_on_back>
-            </adminhtml_permissions_role_saverole>
+            </adminhtml_user_role_saverole>
 
-            <adminhtml_permissions_role_delete>
+            <adminhtml_user_role_delete>
                 <action>delete</action>
-            </adminhtml_permissions_role_delete>
+            </adminhtml_user_role_delete>
         </actions>
     </adminhtml_permission_roles>
 
@@ -1382,17 +1382,17 @@
             </Mage_User_Model_User>
         </expected_models>
         <actions>
-            <adminhtml_permissions_user_edit>
+            <adminhtml_user_edit>
                 <action>view</action>
-            </adminhtml_permissions_user_edit>
+            </adminhtml_user_edit>
 
-            <adminhtml_permissions_user_save>
+            <adminhtml_user_save>
                 <action>save</action>
-            </adminhtml_permissions_user_save>
+            </adminhtml_user_save>
 
-            <adminhtml_permissions_user_delete>
+            <adminhtml_user_delete>
                 <action>delete</action>
-            </adminhtml_permissions_user_delete>
+            </adminhtml_user_delete>
         </actions>
     </adminhtml_permission_users>
 

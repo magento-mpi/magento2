@@ -86,16 +86,16 @@
 
     <!-- admin acl users edit page -->
     <adminhtml_user_edit>
-        <reference name="adminhtml.permissions.user.edit.tabs">
-            <block type="Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles" name="adminhtml.permissions.user.edit.tab.roles"/>
+        <reference name="adminhtml.user.edit.tabs">
+            <block type="Mage_Api2_Block_Adminhtml_Permissions_User_Edit_Tab_Roles" name="adminhtml.user.edit.tab.roles"/>
             <action method="addTabAfter">
                 <id>api2_roles_section</id>
-                <block>adminhtml.permissions.user.edit.tab.roles</block>
+                <block>adminhtml.user.edit.tab.roles</block>
                 <after>roles_section</after>
             </action>
         </reference>
         <reference name="js">
-            <block type="Mage_Adminhtml_Block_Template" name="adminhtml.permissions.user.edit.tab.roles.js" template="Mage_Api2::permissions/user/edit/tab/roles/js.phtml"/>
+            <block type="Mage_Adminhtml_Block_Template" name="adminhtml.user.edit.tab.roles.js" template="Mage_Api2::permissions/user/edit/tab/roles/js.phtml"/>
         </reference>
     </adminhtml_user_edit>
 

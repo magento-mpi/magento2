@@ -101,7 +101,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-        $this->getLayout()->getBlock('adminhtml.permission.role.buttons')
+        $this->getLayout()->getBlock('adminhtml.user.role.buttons')
             ->setRoleId($role->getId())
             ->setRoleInfo($role);
 

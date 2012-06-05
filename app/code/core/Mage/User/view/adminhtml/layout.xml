@@ -34,60 +34,64 @@
     <!-- admin acl roles grid page -->
     <adminhtml_user_role_index>
         <reference name="content">
-            <block type="Mage_User_Block_Role" name="adminhtml.permission.role.index" />
+            <block type="Mage_User_Block_Role" name="adminhtml.user.role.index" />
         </reference>
     </adminhtml_user_role_index>
 
     <adminhtml_user_role_rolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_Role_Grid" name="adminhtml.permission.role.grid" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_Role_Grid" name="adminhtml.user.role.grid"/>
+        </container>
     </adminhtml_user_role_rolegrid>
 
     <!-- admin acl roles edit page -->
     <adminhtml_user_role_editrole>
         <reference name="left">
-            <block type="Mage_User_Block_Role_Edit" name="adminhtml.permissions.editroles">
-                <block type="Mage_User_Block_Role_Tab_Edit" name="adminhtml.permissions.tab.rolesedit"/>
-                <action method="addTabAfter"><name>account</name><block>adminhtml.permissions.tab.rolesedit</block><after>info</after></action>
+            <block type="Mage_User_Block_Role_Edit" name="adminhtml.user.editroles">
+                <block type="Mage_User_Block_Role_Tab_Edit" name="adminhtml.user.tab.rolesedit"/>
+                <action method="addTabAfter"><name>account</name><block>adminhtml.user.tab.rolesedit</block><after>info</after></action>
             </block>
         </reference>
 
         <reference name="content">
-            <block type="Mage_Backend_Block_Template" name="adminhtml.permission.roles.users.grid.js" template="Mage_User::role/users_grid_js.phtml"/>
-            <block type="Mage_User_Block_Buttons" name="adminhtml.permission.role.buttons" template="role/info.phtml"/>
+            <block type="Mage_Backend_Block_Template" name="adminhtml.user.roles.users.grid.js" template="Mage_User::role/users_grid_js.phtml"/>
+            <block type="Mage_User_Block_Buttons" name="adminhtml.user.role.buttons" template="role/info.phtml"/>
         </reference>
     </adminhtml_user_role_editrole>
 
     <adminhtml_user_role_editrolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_Role_Grid_User" name="adminhtml.permission.role.grid.user" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_Role_Grid_User" name="adminhtml.user.role.grid.user"/>
+        </container>
     </adminhtml_user_role_editrolegrid>
 
     <adminhtml_user_index>
         <reference name="content">
-            <block type="Mage_User_Block_User" name="adminhtml.permission.user.index"/>
+            <block type="Mage_User_Block_User" name="adminhtml.user.index"/>
         </reference>
     </adminhtml_user_index>
 
     <adminhtml_user_edit>
         <reference name="left">
-            <block type="Mage_User_Block_User_Edit_Tabs" name="adminhtml.permission.user.edit.tabs"/>
+            <block type="Mage_User_Block_User_Edit_Tabs" name="adminhtml.user.edit.tabs"/>
         </reference>
         <reference name="content">
-            <block type="Mage_User_Block_User_Edit" name="adminhtml.permission.user.edit"/>
+            <block type="Mage_User_Block_User_Edit" name="adminhtml.user.edit"/>
         </reference>
         <reference name="js">
-            <block type="Mage_Backend_Block_Template" name="adminhtml.permissions.user.roles.grid.js" template="Mage_User::user/roles_grid_js.phtml"/>
+            <block type="Mage_Backend_Block_Template" name="adminhtml.user.roles.grid.js" template="Mage_User::user/roles_grid_js.phtml"/>
         </reference>
     </adminhtml_user_edit>
 
     <adminhtml_user_rolegrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_User_Grid" name="adminhtml.permission.user.rolegrid" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_User_Grid" name="adminhtml.user.rolegrid"/>
+        </container>
     </adminhtml_user_rolegrid>
 
     <adminhtml_user_rolesgrid>
-        <remove name="root"/>
-        <block type="Mage_User_Block_User_Edit_Tab_Roles" name="adminhtml.permission.user.rolesgrid" output="1"/>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_User_Block_User_Edit_Tab_Roles" name="adminhtml.user.rolesgrid"/>
+        </container>
     </adminhtml_user_rolesgrid>
  </layout>

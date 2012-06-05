@@ -249,8 +249,8 @@ class Enterprise_GiftRegistry_Model_Observer
         /** @var $collection Enterprise_GiftRegistry_Model_Resource_Item_Collection */
         $collection = $grItem->getCollection()->addProductFilter($productId);
 
-        foreach($collection->getItems() as $grItem) {
-            $grItem->delete();
+        foreach($collection->getItems() as $item) {
+            $item->delete();
         }
 
         /** @var $options Enterprise_GiftRegistry_Model_Item_Option*/

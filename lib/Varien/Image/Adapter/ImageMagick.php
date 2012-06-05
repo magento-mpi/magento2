@@ -70,21 +70,19 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Open image for processing
      *
-     * @throws RuntimeException if image format is unsupported
+     * @throws Exception
      * @param string $filename
      */
     public function open($filename)
     {
         $this->_fileName = $filename;
-        if (empty($this->_fileName) || !is_readable($this->_fileName)) {
-            throw new RuntimeException('Image file name can not be empty.');
-        }
+        $this->_checkCanProcess();
         $this->_getFileAttributes();
 
         try {
             $this->_imageHandler = new Imagick($this->_fileName);
         } catch (ImagickException $e) {
-            throw new RuntimeException('Unsupported image format.', $e->getCode(), $e);
+            throw new Exception('Unsupported image format.', $e->getCode(), $e);
         }
 
         $this->backgroundColor();
@@ -95,7 +93,6 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * Save image to specific path.
      * If some folders of path does not exist they will be created
      *
-     * @throws Exception  if destination path is not writable
      * @param string $destination
      * @param string $newName
      */
@@ -145,9 +142,11 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      *
      * @param int $frameWidth
      * @param int $frameHeight
+     * @throws Exception
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
+        $this->_checkCanProcess();
         $dims = $this->_adaptResizeValues($frameWidth, $frameHeight);
 
         $newImage = new Imagick();
@@ -192,9 +191,11 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * Rotate image on specific angle
      *
      * @param int $angle
+     * @throws Exception
      */
     public function rotate($angle)
     {
+        $this->_checkCanProcess();
         // compatibility with GD2 adapter
         $angle = 360 - $angle;
         $pixel = new ImagickPixel;
@@ -215,7 +216,9 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      */
     public function crop($top = 0, $left = 0, $right = 0, $bottom = 0)
     {
-        if ($left == 0 && $top == 0 && $right == 0 && $bottom == 0) {
+        if ($left == 0 && $top == 0 && $right == 0 && $bottom == 0
+            || !$this->_canProcess()
+        ) {
             return false;
         }
 
@@ -230,18 +233,17 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Add watermark to image
      *
-     * @throws RuntimeException
-     * @param string $imagePath
+     * @param $imagePath
      * @param int $positionX
      * @param int $positionY
-     * @param int $watermarkImageOpacity
-     * @param bool $isWaterMarkTile
+     * @param bool $tile
+     * @throws Exception
      */
-    public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $isWaterMarkTile = false)
+    public function watermark($imagePath, $positionX = 0, $positionY = 0, $tile = false)
     {
-        $opacity = $this->getWatermarkImageOpacity()
-            ? $this->getWatermarkImageOpacity()
-            : $opacity;
+        $this->_checkCanProcess();
+
+        $opacity = $this->getWatermarkImageOpacity();
 
         $opacity = (float)number_format($opacity / 100, 1);
         $watermark = new Imagick($imagePath);
@@ -259,17 +261,12 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         }
 
         if (method_exists($watermark, 'setImageOpacity')) {
-            // available from imagick 6.2.9
+            // available from imagick 6.3.1
             $watermark->setImageOpacity($opacity);
         } else {
             // go to each pixel and make it transparent
-            $iterator = $watermark->getPixelIterator();
-            foreach ($iterator as $y => $pixels) {
-                foreach ($pixels as $x => $pixel) {
-                    $watermark->paintTransparentImage($pixel, $opacity, 65535);
-                }
-                $iterator->syncIterator();
-            }
+            $watermark->paintTransparentImage($watermark->getImagePixelColor(0, 0), 1, 65530);
+            $watermark->evaluateImage(Imagick::EVALUATE_SUBTRACT, 1 - $opacity, Imagick::CHANNEL_ALPHA);
         }
 
         switch ($this->getWatermarkPosition()) {
@@ -291,12 +288,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 $positionY = $this->_imageSrcHeight - $watermark->getImageHeight();
                 break;
             case self::POSITION_TILE:
-                $isWaterMarkTile = true;
+                $positionX = 0;
+                $positionY = 0;
+                $tile = true;
                 break;
         }
 
         try {
-            if ($isWaterMarkTile) {
+            if ($tile) {
                 $offsetX = $positionX;
                 $offsetY = $positionY;
                 while($offsetY <= ($this->_imageSrcHeight + $watermark->getImageHeight())) {
@@ -321,7 +320,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 );
             }
         } catch (ImagickException $e) {
-            throw new RuntimeException('Unable to create watermark.', $e->getCode(), $e);
+            throw new Exception('Unable to create watermark.', $e->getCode(), $e);
         }
 
         // merge layers
@@ -388,5 +387,19 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         $pixel = $this->_imageHandler->getImagePixelColor($x, $y);
 
         return explode(',', $pixel->getColorAsString());
+    }
+
+    /**
+     * Check whether the adapter can work with the image
+     *
+     * @throws Exception
+     * @return bool
+     */
+    protected function _checkCanProcess()
+    {
+        if (!$this->_canProcess()) {
+            throw new Exception('Image is not readable or file name is empty.');
+        }
+        return true;
     }
 }

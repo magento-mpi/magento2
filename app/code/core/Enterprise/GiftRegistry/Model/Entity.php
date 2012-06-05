@@ -88,35 +88,35 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      *
      * @var Mage_Core_Model_Store
      */
-    protected $_store = null;
+    protected $_store;
 
     /**
      * Application instance
      *
      * @var Mage_Core_Model_App
      */
-    protected $_app = null;
+    protected $_app;
 
     /**
      * Config instance
      *
      * @var Mage_Core_Model_Config
      */
-    protected $_config = null;
+    protected $_config;
 
     /**
      * Resource instance
      *
      * @var null
      */
-    protected $_resource = null;
+    protected $_resource;
 
     /**
      * Translate instance
      *
      * @var Mage_Core_Model_Abstract
      */
-    protected $_translate = null;
+    protected $_translate;
 
     /**
      * Initialize data
@@ -128,7 +128,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
         $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
         $this->_config = isset($data['config']) ? $data['config'] : Mage::getConfig();
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
-        $this->_helpers = isset($data['helpers']) && is_array($data['helpers']) ? $data['helpers'] : array();
+        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
         $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
         $this->_translate = isset($data['translate'])
             ? $data['translate']

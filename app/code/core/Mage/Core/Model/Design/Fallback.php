@@ -14,71 +14,41 @@
 class Mage_Core_Model_Design_Fallback
 {
     /**
-     * Design model
-     *
-     * @var Mage_Core_Model_Design_Package
-     */
-    protected $_design;
-
-    /**
-     * Constructor with $params, that must contain instance of Mage_Core_Model_Design_Package at 'design' key
-     *
-     * @param array $params
-     */
-    public function __construct(array $params)
-    {
-        $this->_design = $params['design'];
-    }
-
-    /**
-     * Use this one to get existing file name with fallback to default
-     *
-     * $params['_type'] is required
+     * Get existing file name using fallback mechanism
      *
      * @param string $file
-     * @param array $params
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @param string|null $module
      * @return string
      */
-    public function getFilename($file, array $params = array())
+    public function getFile($file, $area, $package, $theme, $module = null)
     {
-        Magento_Profiler::start(__METHOD__);
-        try {
-            $dir = Mage::getBaseDir('design');
-            $dirs = array();
-            $area = $params['_area'];
-            $package = $params['_package'];
-            $theme = $params['_theme'];
-            $module = $params['_module'];
-
-            while ($theme) {
-                $dirs[] = "{$dir}/{$area}/{$package}/{$theme}";
-                list($package, $theme) = $this->getInheritedTheme($area, $package, $theme);
-            }
-
-            $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
-            Magento_Profiler::stop(__METHOD__);
-        } catch (Exception $e) {
-            Magento_Profiler::stop(__METHOD__);
-            throw $e;
+        $dir = Mage::getBaseDir('design');
+        $dirs = array();
+        while ($theme) {
+            $dirs[] = "{$dir}/{$area}/{$package}/{$theme}";
+            list($package, $theme) = $this->getInheritedTheme($area, $package, $theme);
         }
+
+        $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$area}") : array();
         return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
     /**
-     * Path getter for locale file
+     * Get locale file name using fallback mechanism
      *
      * @param string $file
-     * @param array $params
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @param string $locale
      * @return string
      */
-    public function getLocaleFileName($file, array $params=array())
+    public function getLocaleFile($file, $area, $package, $theme, $locale)
     {
-        $area = $params['_area'];
-        $package = $params['_package'];
-        $theme = $params['_theme'];
-        $locale = $params['_locale'];
         $dir = Mage::getBaseDir('design');
-
         $dirs = array();
         do {
             $dirs[] = "{$dir}/{$area}/{$package}/{$theme}/locale/{$locale}";
@@ -89,20 +59,19 @@ class Mage_Core_Model_Design_Fallback
     }
 
     /**
-     * Find a skin file using fallback mechanism
+     * Get skin file name using fallback mechanism
      *
      * @param string $file
-     * @param array $params
+     * @param string $area
+     * @param string $package
+     * @param string $theme
+     * @param string $skin
+     * @param string $locale
+     * @param string|null $module
      * @return string
      */
-    public function getSkinFile($file, $params)
+    public function getSkinFile($file, $area, $package, $theme, $skin, $locale, $module = null)
     {
-        $area = $params['_area'];
-        $package = $params['_package'];
-        $theme = $params['_theme'];
-        $skin = $params['_skin'];
-        $module = $params['_module'];
-        $locale = $params['_locale'];
         $dir = Mage::getBaseDir('design');
         $moduleDir = $module ? Mage::getConfig()->getModuleDir('view', $module) : '';
         $defaultSkin = Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME;
@@ -177,7 +146,7 @@ class Mage_Core_Model_Design_Fallback
      */
     public function getInheritedTheme($area, $package, $theme)
     {
-        $parentTheme = $this->_design->getThemeConfig($area)->getParentTheme($package, $theme);
+        $parentTheme = Mage::getDesign()->getThemeConfig($area)->getParentTheme($package, $theme);
         if (!$parentTheme) {
             return false;
         }

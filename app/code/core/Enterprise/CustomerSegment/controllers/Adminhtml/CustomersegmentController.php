@@ -83,10 +83,10 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
 
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
 
+        $this->_initAction();
+
         $block =  $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
-
-        $this->_initAction();
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)

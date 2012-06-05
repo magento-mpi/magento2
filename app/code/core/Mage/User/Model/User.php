@@ -317,6 +317,8 @@ class Mage_User_Model_User
      * @param string $password
      * @return boolean
      * @throws Mage_Core_Exception
+     * @throws Mage_Backend_Model_Auth_Exception
+     * @throws Mage_Backend_Model_Auth_Plugin_Exception
      */
     public function authenticate($username, $password)
     {
@@ -354,8 +356,7 @@ class Mage_User_Model_User
                 'user'     => $this,
                 'result'   => $result,
             ));
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             $this->unsetData();
             throw $e;
         }

@@ -13,6 +13,33 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
     const ATTRIBUTE_CODE = 'giftcard_amounts';
 
     /**
+     * Email template model instance
+     *
+     * @var Mage_Core_Model_Email_Template
+     */
+    protected $_emailTemplateModel;
+
+    /**
+     * Class constructor
+     *
+     * @param array $data
+     * @throws InvalidArgumentException
+     */
+    public function __construct(array $data = array())
+    {
+        if (isset($data['email_template_model'])) {
+            if (!$data['email_template_model'] instanceof Mage_Core_Model_Email_Template) {
+                throw new InvalidArgumentException(
+                    'Argument "email_template_model" is expected to be an instance of "Mage_Core_Model_Email_Template".'
+                );
+            }
+            $this->_emailTemplateModel = $data['email_template_model'];
+            unset($data['email_template_model']);
+        }
+        parent::__construct($data);
+    }
+
+    /**
      * Set attribute renderer on catalog product edit page
      *
      * @param Varien_Event_Observer $observer
@@ -127,7 +154,8 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         $order = $observer->getEvent()->getOrder();
         $requiredStatus = Mage::getStoreConfig(
             Enterprise_GiftCard_Model_Giftcard::XML_PATH_ORDER_ITEM_STATUS,
-            $order->getStore());
+            $order->getStore()
+        );
         $loadedInvoices = array();
 
         foreach ($order->getAllItems() as $item) {
@@ -137,30 +165,28 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
 
                 switch ($requiredStatus) {
                     case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
-                        $paidInvoiceItems = (isset($options['giftcard_paid_invoice_items'])
+                        $paidInvoiceItems = isset($options['giftcard_paid_invoice_items'])
                             ? $options['giftcard_paid_invoice_items']
-                            : array());
+                            : array();
                         // find invoice for this order item
                         $invoiceItemCollection = Mage::getResourceModel(
-                                'Mage_Sales_Model_Resource_Order_Invoice_Item_Collection'
-                            )
-                            ->addFieldToFilter('order_item_id', $item->getId());
+                            'Mage_Sales_Model_Resource_Order_Invoice_Item_Collection'
+                        )->addFieldToFilter('order_item_id', $item->getId());
 
                         foreach ($invoiceItemCollection as $invoiceItem) {
                             $invoiceId = $invoiceItem->getParentId();
                             if(isset($loadedInvoices[$invoiceId])) {
                                 $invoice = $loadedInvoices[$invoiceId];
                             } else {
-                                $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')
-                                    ->load($invoiceId);
+                                $invoice = Mage::getModel('Mage_Sales_Model_Order_Invoice')->load($invoiceId);
                                 $loadedInvoices[$invoiceId] = $invoice;
                             }
                             // check, if this order item has been paid
                             if ($invoice->getState() == Mage_Sales_Model_Order_Invoice::STATE_PAID &&
                                 !in_array($invoiceItem->getId(), $paidInvoiceItems)
                             ) {
-                                    $qty += $invoiceItem->getQty();
-                                    $paidInvoiceItems[] = $invoiceItem->getId();
+                                $qty += $invoiceItem->getQty();
+                                $paidInvoiceItems[] = $invoiceItem->getId();
                             }
                         }
                         $options['giftcard_paid_invoice_items'] = $paidInvoiceItems;
@@ -195,14 +221,14 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                         ->setIsRedeemable($isRedeemable)
                         ->setOrderItem($item);
 
-                    $codes = (isset($options['giftcard_created_codes']) ?
-                        $options['giftcard_created_codes'] : array());
+                    $codes = isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : array();
                     $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new Varien_Object();
-                            Mage::dispatchEvent('enterprise_giftcardaccount_create',
-                                array('request'=>$data, 'code'=>$code));
+                            Mage::dispatchEvent('enterprise_giftcardaccount_create', array(
+                                'request' => $data, 'code' => $code
+                            ));
                             $codes[] = $code->getCode();
                             $goodCodes++;
                         } catch (Mage_Core_Exception $e) {
@@ -222,8 +248,8 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             ->setIsRedeemable($isRedeemable)
                             ->setStore(Mage::app()->getStore($order->getStoreId()));
                         $balance = Mage::app()->getLocale()->currency(
-                            Mage::app()->getStore($order->getStoreId())
-                            ->getBaseCurrencyCode())->toCurrency($amount);
+                            Mage::app()->getStore($order->getStoreId())->getBaseCurrencyCode()
+                        )->toCurrency($amount);
 
                         $templateData = array(
                             'name'                   => $item->getProductOptionByCode('giftcard_recipient_name'),
@@ -239,13 +265,17 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = Mage::getModel('Mage_Core_Model_Email_Template')
-                            ->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
+                        $email = $this->_emailTemplateModel ?: Mage::getModel('Mage_Core_Model_Email_Template');
+                        $email->setDesignConfig(array(
+                            'area' => 'frontend',
+                            'store' => $item->getOrder()->getStoreId(),
+                        ));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
                             Mage::getStoreConfig(
                                 Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY,
-                                $item->getOrder()->getStoreId()),
+                                $item->getOrder()->getStoreId()
+                            ),
                             $item->getProductOptionByCode('giftcard_recipient_email'),
                             $item->getProductOptionByCode('giftcard_recipient_name'),
                             $templateData
