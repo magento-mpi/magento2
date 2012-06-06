@@ -34,13 +34,6 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     protected static $_attrCodes = null;
 
     /**
-     * Array of attributes codes which are disabled for export.
-     *
-     * @var array
-     */
-    protected $_disabledAttrs = array();
-
-    /**
      * Entity type id.
      *
      * @var int
@@ -122,13 +115,25 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
      */
     protected function _prepareEntityCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
     {
+        $this->filterEntityCollection($collection);
+        $this->_addAttributesToCollection($collection);
+        return $collection;
+    }
+
+    /**
+     * Apply filter to collection.
+     *
+     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    public function filterEntityCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    {
         if (!isset($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP])
             || !is_array($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP])) {
             $exportFilter = array();
         } else {
             $exportFilter = $this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP];
         }
-        $exportAttrCodes = $this->_getExportAttrCodes();
 
         foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
             $attrCode = $attribute->getAttributeCode();
@@ -173,10 +178,20 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
                     }
                 }
             }
-            if (in_array($attrCode, $exportAttrCodes)) {
-                $collection->addAttributeToSelect($attrCode);
-            }
         }
+        return $collection;
+    }
+
+    /**
+     * Add not skipped attributes to select.
+     *
+     * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
+     * @return Mage_Eav_Model_Entity_Collection_Abstract
+     */
+    protected function _addAttributesToCollection(Mage_Eav_Model_Entity_Collection_Abstract $collection)
+    {
+        $exportAttrCodes = $this->_getExportAttrCodes();
+        $collection->addAttributeToSelect($exportAttrCodes);
         return $collection;
     }
 
@@ -230,5 +245,32 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     public function getDisabledAttributes()
     {
         return $this->_disabledAttrs;
+    }
+
+    /**
+     * Fill row with attributes values
+     *
+     * @param Mage_Core_Model_Abstract $item export entity
+     * @param array $row data row
+     * @return array
+     */
+    protected function _addAttributeValuesToRow(Mage_Core_Model_Abstract $item, array $row = array())
+    {
+        $validAttrCodes = $this->_getExportAttrCodes();
+        // go through all valid attribute codes
+        foreach ($validAttrCodes as $attrCode) {
+            $attrValue = $item->getData($attrCode);
+
+            if (isset($this->_attributeValues[$attrCode])
+                && isset($this->_attributeValues[$attrCode][$attrValue])
+            ) {
+                $attrValue = $this->_attributeValues[$attrCode][$attrValue];
+            }
+            if (null !== $attrValue) {
+                $row[$attrCode] = $attrValue;
+            }
+        }
+
+        return $row;
     }
 }

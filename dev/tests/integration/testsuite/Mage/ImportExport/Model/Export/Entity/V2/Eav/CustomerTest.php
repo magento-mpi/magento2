@@ -14,7 +14,7 @@
  *
  * @group module:Mage_ImportExport
  */
-class Mage_ImportExport_Model_Export_Entity_V2_CustomerTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer

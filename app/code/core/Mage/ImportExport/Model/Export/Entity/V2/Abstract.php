@@ -18,88 +18,95 @@
 abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
 {
     /**
-     * DB connection.
+     * DB connection
      *
      * @var Varien_Db_Adapter_Pdo_Mysql
      */
     protected $_connection;
 
     /**
-     * Error codes with arrays of corresponding row numbers.
+     * Error codes with arrays of corresponding row numbers
      *
      * @var array
      */
     protected $_errors = array();
 
     /**
-     * Error counter.
+     * Error counter
      *
      * @var int
      */
     protected $_errorsCount = 0;
 
     /**
-     * Limit of errors after which pre-processing will exit.
+     * Limit of errors after which pre-processing will exit
      *
      * @var int
      */
     protected $_errorsLimit = 100;
 
     /**
-     * Validation information about processed rows.
+     * Validation information about processed rows
      *
      * @var array
      */
     protected $_invalidRows = array();
 
     /**
-     * Validation failure message template definitions.
+     * Validation failure message template definitions
      *
      * @var array
      */
     protected $_messageTemplates = array();
 
     /**
-     * Parameters.
+     * Parameters
      *
      * @var array
      */
     protected $_parameters = array();
 
     /**
-     * Number of entities processed by validation.
+     * Number of entities processed by validation
      *
      * @var int
      */
     protected $_processedEntitiesCount = 0;
 
     /**
-     * Number of rows processed by validation.
+     * Number of rows processed by validation
      *
      * @var int
      */
     protected $_processedRowsCount = 0;
 
     /**
-     * Source model.
+     * Source model
      *
      * @var Mage_ImportExport_Model_Export_Adapter_Abstract
      */
     protected $_writer;
 
     /**
-     * Array of pairs store ID to its code.
+     * Array of pairs store ID to its code
      *
      * @var array
      */
     protected $_storeIdToCode = array();
 
     /**
-     * Website ID-to-code.
+     * Website ID-to-code
      *
      * @var array
      */
     protected $_websiteIdToCode = array();
+
+    /**
+     * Disabled attributes
+     *
+     * @var array
+     */
+    protected $_disabledAttrs = array();
 
     /**
      * Constructor
@@ -143,7 +150,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      * Add error with corresponding current data source row number
      *
      * @param string $errorCode Error code or simply column name
-     * @param int $errorRowNum Row number.
+     * @param int $errorRowNum Row number
      * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
      */
     public function addRowError($errorCode, $errorRowNum)
@@ -192,7 +199,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     abstract public function getAttributeCollection();
 
     /**
-     * Clean up attribute collection.
+     * Clean up attribute collection
      *
      * @param Varien_Data_Collection $collection
      * @return Varien_Data_Collection

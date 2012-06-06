@@ -88,20 +88,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
         // create export file
         $writer->setHeaderCols(array_merge($this->_permanentAttributes, $validAttrCodes, array('password')));
         foreach ($collection as $itemId => $item) { // go through all customers
-            $row = array();
-            // go through all valid attribute codes
-            foreach ($validAttrCodes as $attrCode) {
-                $attrValue = $item->getData($attrCode);
-
-                if (isset($this->_attributeValues[$attrCode])
-                    && isset($this->_attributeValues[$attrCode][$attrValue])
-                ) {
-                    $attrValue = $this->_attributeValues[$attrCode][$attrValue];
-                }
-                if (null !== $attrValue) {
-                    $row[$attrCode] = $attrValue;
-                }
-            }
+            $row = $this->_addAttributeValuesToRow($item);
             $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$item['website_id']];
             $row[self::COL_STORE]   = $this->_storeIdToCode[$item['store_id']];
 
