@@ -227,6 +227,14 @@
         <copy file="${dir.build_directory}/app/etc/modules/XEnterprise_Enabler.xml.dist" tofile="${dir.build_directory}/app/etc/modules/XEnterprise_Enabler.xml"/>
         <replace file="${dir.build_directory}/downloader/config.ini" token="community" value="enterprise"/>
         <replace file="${dir.build_directory}/app/Mage.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{enterprise_admin_url}}"
+                 value="${env.https_host}${env.build.key}/admin"/>
+
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml"
+                 token="{{enterprise_url}}"
+                 value="${env.http_host}${env.build.key}/"/>
     </target>
 
     <!-- Community Edition source code population to the public repository -->
