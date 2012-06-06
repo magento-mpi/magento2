@@ -53,15 +53,7 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $country = (isset($parameters['merchant_country'])) ? $parameters['merchant_country'] : null;
         $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();
         if ($chooseScope) {
-            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
-            $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
-            $isSelected = $toSelect . '[@selected]';
-            if (!$this->isElementPresent($isSelected)) {
-                $this->defineParameters($toSelect, 'url');
-                $this->fillDropdown('current_configuration_scope', $chooseScope);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage();
-            }
+            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
         }
         $this->defineParameters($this->_getControlXpath('tab', 'sales_payment_methods'), 'href');
         $this->clickControl('tab', 'sales_payment_methods');
@@ -131,7 +123,36 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         }
     }
 
+    /**
+     * @return null
+     */
     public function disableAllPaypalMethods()
     {
+        $xpath = $this->_getControlXpath('button', 'active_paypal_method');
+        if (!$this->isElementPresent($xpath)) {
+            return;
+        }
+        $closePaypalFieldsetButtons = array();
+        $openedFieldsets = array();
+        foreach ($this->getCurrentUimapPage()->getAllButtons() as $key => $value) {
+            if (preg_match('/_close$/', $key)) {
+                $closePaypalFieldsetButtons[preg_replace('/_close$/', '', $key)] = $value;
+            }
+        }
+        while ($this->isElementPresent($xpath)) {
+            $idRegExp = preg_quote('@id=\'' . $this->getAttribute($xpath . '@id'));
+            foreach ($closePaypalFieldsetButtons as $name => $xpathButton) {
+                if (preg_match('/' . $idRegExp . '/', $xpathButton)) {
+                    if (in_array($name, $openedFieldsets)) {
+                        break 2;
+                    }
+                    $this->click($xpath);
+                    $openedFieldsets[] = $name;
+                    $this->fillDropdown($name . '_enable', 'No');
+                    break;
+                }
+            }
+        }
+        $this->saveForm('save_config');
     }
 }

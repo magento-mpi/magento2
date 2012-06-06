@@ -49,15 +49,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
-            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
-            $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
-            $isSelected = $toSelect . '[@selected]';
-            if (!$this->isElementPresent($isSelected)) {
-                $this->defineParameters($toSelect, 'url');
-                $this->fillDropdown('current_configuration_scope', $chooseScope);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage();
-            }
+            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
         }
         foreach ($parameters as $value) {
             if (!is_array($value)) {
@@ -82,6 +74,23 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                     $this->assertEmptyVerificationErrors();
                 }
             }
+        }
+    }
+
+    /**
+     * @param string $dropDownName
+     * @param string $fieldValue
+     */
+    public function changeConfigurationScope($dropDownName, $fieldValue)
+    {
+        $xpath = $this->_getControlXpath('dropdown', $dropDownName);
+        $toSelect = $xpath . '//option[normalize-space(text())="' . $fieldValue . '"]';
+        $isSelected = $toSelect . '[@selected]';
+        if (!$this->isElementPresent($isSelected)) {
+            $this->defineParameters($toSelect, 'url');
+            $this->fillDropdown($dropDownName, $fieldValue);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
         }
     }
 
