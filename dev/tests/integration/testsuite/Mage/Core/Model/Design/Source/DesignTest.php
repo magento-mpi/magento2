@@ -19,7 +19,6 @@ class Mage_Core_Model_Design_Source_DesignTest extends PHPUnit_Framework_TestCas
     public static function setUpBeforeClass()
     {
         Mage::getConfig()->getOptions()->setDesignDir(__DIR__ . '/_files/design');
-        Mage::getDesign()->setIsFallbackSavePermitted(false);
     }
 
     protected function setUp()

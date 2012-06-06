@@ -43,8 +43,7 @@ class Mage_Core_Model_Design_PackagePublicationTest extends PHPUnit_Framework_Te
         );
 
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setIsFallbackSavePermitted(false)
-            ->setDesignTheme('test/default/default', 'frontend');
+        $this->_model->setDesignTheme('test/default/default', 'frontend');
     }
 
     protected function tearDown()
