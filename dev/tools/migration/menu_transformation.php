@@ -125,19 +125,7 @@ class Routine
      */
     public function checkRequirements()
     {
-        if ($this->_isCreateMenuActions && (is_null($this->_areaCode) || is_null($this->_parentItemID))) {
-            return false;
-        }
-
-        if ($this->_isPrintMenuActions && is_null($this->_parentItemID)) {
-            return false;
-        }
-
-        if ($this->_isPrintMenuMap && is_null($this->_parentItemID)) {
-            return false;
-        }
-
-        if ($this->_isReplaceActiveItem && is_null($this->_parentItemID)) {
+        if ($this->_isCreateMenuActions && is_null($this->_areaCode)) {
             return false;
         }
 
@@ -540,6 +528,7 @@ class Routine
         $nodeName = ($parentItemID != $this->_parentItemID)?
                 $parentItemID . '/' . $node->getName() : $node->getName();
 
+        $moduleName = $this->_defineModuleName($moduleName);
         $item = (array) $node;
         $itemResult = array();
         if (isset($item['disabled'])) {
@@ -577,7 +566,7 @@ class Routine
     protected function _addMenuItemIntoMap($xpath, $moduleName)
     {
         if (!isset($this->_map[$xpath])) {
-            $this->_map[$xpath] = $this->_defineModuleName($moduleName) . "::" . str_replace('/', '_', $xpath);
+            $this->_map[$xpath] = $moduleName . "::" . str_replace('/', '_', $xpath);
         }
     }
 
