@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="system_crypt_key" title="Manage Encryption Key" module="Enterprise_Pci" sortOrder="75" parent="system" action="adminhtml/crypt_key" dependsOnModule="Enterprise_Pci" />
-        <add id="system_acl_locks" title="Locked Users" module="Enterprise_Pci" parent="system_acl" action="adminhtml/locks" />
+        <add id="Enterprise_Pci::system_crypt_key" title="Manage Encryption Key" module="Enterprise_Pci" sortOrder="75" parent="Mage_Adminhtml::system" action="adminhtml/crypt_key" dependsOnModule="Enterprise_Pci" />
+        <add id="Enterprise_Pci::system_acl_locks" title="Locked Users" module="Enterprise_Pci" parent="Mage_User::system_acl" action="adminhtml/locks" />
     </menu>
 </config>

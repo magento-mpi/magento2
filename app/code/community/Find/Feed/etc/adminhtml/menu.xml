@@ -11,8 +11,8 @@
 -->
 <config>
     <menu>
-        <add id="catalog_feed" title="TheFind feed" module="Find_Feed" sortOrder="5" parent="catalog" />
-        <add id="catalog_feed_import_products" title="Manage attributes" module="Find_Feed" sortOrder="5" parent="catalog_feed" action="adminhtml/codes_grid/index" />
-        <add id="catalog_feed_import_items" title="Manage items" module="Find_Feed" sortOrder="10" parent="catalog_feed" action="adminhtml/items_grid/index" />
+        <add id="Find_Feed::catalog_feed" title="TheFind feed" module="Find_Feed" sortOrder="5" parent="Mage_Catalog::catalog" />
+        <add id="Find_Feed::catalog_feed_import_products" title="Manage attributes" module="Find_Feed" sortOrder="5" parent="Find_Feed::catalog_feed" action="adminhtml/codes_grid/index" />
+        <add id="Find_Feed::catalog_feed_import_items" title="Manage items" module="Find_Feed" sortOrder="10" parent="Find_Feed::catalog_feed" action="adminhtml/items_grid/index" />
     </menu>
 </config>

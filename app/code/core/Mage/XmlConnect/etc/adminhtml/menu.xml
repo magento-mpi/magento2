@@ -11,10 +11,10 @@
 -->
 <config>
     <menu>
-        <add id="xmlconnect" title="Mobile" module="Mage_XmlConnect" sortOrder="35" />
-        <add id="xmlconnect_mobile" title="Manage Apps" module="Mage_XmlConnect" sortOrder="10" parent="xmlconnect" action="adminhtml/mobile" />
-        <add id="xmlconnect_history" title="Submission History" module="Mage_XmlConnect" sortOrder="20" parent="xmlconnect" action="adminhtml/mobile/history" />
-        <add id="xmlconnect_templates" title="Message Templates" module="Mage_XmlConnect" sortOrder="30" parent="xmlconnect" action="adminhtml/mobile/template" />
-        <add id="xmlconnect_queue" title="Message Queue" module="Mage_XmlConnect" sortOrder="40" parent="xmlconnect" action="adminhtml/mobile/queue" />
+        <add id="Mage_XmlConnect::xmlconnect" title="Mobile" module="Mage_XmlConnect" sortOrder="35" />
+        <add id="Mage_XmlConnect::xmlconnect_mobile" title="Manage Apps" module="Mage_XmlConnect" sortOrder="10" parent="Mage_XmlConnect::xmlconnect" action="adminhtml/mobile" />
+        <add id="Mage_XmlConnect::xmlconnect_history" title="Submission History" module="Mage_XmlConnect" sortOrder="20" parent="Mage_XmlConnect::xmlconnect" action="adminhtml/mobile/history" />
+        <add id="Mage_XmlConnect::xmlconnect_templates" title="Message Templates" module="Mage_XmlConnect" sortOrder="30" parent="Mage_XmlConnect::xmlconnect" action="adminhtml/mobile/template" />
+        <add id="Mage_XmlConnect::xmlconnect_queue" title="Message Queue" module="Mage_XmlConnect" sortOrder="40" parent="Mage_XmlConnect::xmlconnect" action="adminhtml/mobile/queue" />
     </menu>
 </config>

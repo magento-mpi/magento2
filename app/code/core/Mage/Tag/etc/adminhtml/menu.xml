@@ -11,12 +11,12 @@
 -->
 <config>
     <menu>
-        <add id="catalog_tag" title="Tags" module="Mage_Tag" sortOrder="60" parent="catalog" />
-        <add id="catalog_tag_all" title="All Tags" module="Mage_Tag" parent="catalog_tag" action="adminhtml/tag/index" />
-        <add id="catalog_tag_pending" title="Pending Tags" module="Mage_Tag" parent="catalog_tag" action="adminhtml/tag/pending" />
-        <add id="report_tags" title="Tags" module="Mage_Tag" sortOrder="50" parent="report" />
-        <add id="report_tags_customer" title="Customers" module="Mage_Tag" parent="report_tags" action="adminhtml/report_tag/customer" />
-        <add id="report_tags_product" title="Products" module="Mage_Tag" parent="report_tags" action="adminhtml/report_tag/product" />
-        <add id="report_tags_popular" title="Popular" module="Mage_Tag" parent="report_tags" action="adminhtml/report_tag/popular" />
+        <add id="Mage_Tag::catalog_tag" title="Tags" module="Mage_Tag" sortOrder="60" parent="Mage_Catalog::catalog" />
+        <add id="Mage_Tag::catalog_tag_all" title="All Tags" module="Mage_Tag" parent="Mage_Tag::catalog_tag" action="adminhtml/tag/index" />
+        <add id="Mage_Tag::catalog_tag_pending" title="Pending Tags" module="Mage_Tag" parent="Mage_Tag::catalog_tag" action="adminhtml/tag/pending" />
+        <add id="Mage_Tag::report_tags" title="Tags" module="Mage_Tag" sortOrder="50" parent="Mage_Reports::report" />
+        <add id="Mage_Tag::report_tags_customer" title="Customers" module="Mage_Tag" parent="Mage_Tag::report_tags" action="adminhtml/report_tag/customer" />
+        <add id="Mage_Tag::report_tags_product" title="Products" module="Mage_Tag" parent="Mage_Tag::report_tags" action="adminhtml/report_tag/product" />
+        <add id="Mage_Tag::report_tags_popular" title="Popular" module="Mage_Tag" parent="Mage_Tag::report_tags" action="adminhtml/report_tag/popular" />
     </menu>
 </config>

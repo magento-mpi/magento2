@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="system_convert_import" title="Import" module="Mage_ImportExport" sortOrder="10" parent="system_convert" action="adminhtml/import" />
-        <add id="system_convert_export" title="Export" module="Mage_ImportExport" sortOrder="20" parent="system_convert" action="adminhtml/export" />
+        <add id="Mage_ImportExport::system_convert_import" title="Import" module="Mage_ImportExport" sortOrder="10" parent="Mage_Adminhtml::system_convert" action="adminhtml/import" />
+        <add id="Mage_ImportExport::system_convert_export" title="Export" module="Mage_ImportExport" sortOrder="20" parent="Mage_Adminhtml::system_convert" action="adminhtml/export" />
     </menu>
 </config>
