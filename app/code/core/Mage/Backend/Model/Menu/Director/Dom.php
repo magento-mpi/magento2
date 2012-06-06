@@ -53,7 +53,9 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
             $node = $nodeList->item($i);
             $item['type'] = $node->nodeName;
             foreach ($attributeNamesList as $name) {
-                $item[$name] = $node->hasAttribute($name) ? $node->getAttribute($name) : null;
+                if ($node->hasAttribute($name)) {
+                    $item[$name] = $node->getAttribute($name);
+                }
             }
             $this->_extractedData[] = $item;
         }

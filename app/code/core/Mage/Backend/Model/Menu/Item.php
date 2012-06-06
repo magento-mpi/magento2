@@ -168,9 +168,9 @@ class Mage_Backend_Model_Menu_Item
 
 
         $this->_id = $data['id'];
-        $this->_title = $data['title'];
-        $this->_moduleHelper = $data['module'];
-        $this->_parentId = $data['parent'];
+        $this->_title = isset($data['title']) ? $data['title'] : null;
+        $this->_moduleHelper = isset($data['module']) ? $data['module'] : null;
+        $this->_parentId = isset($data['parent']) ? $data['parent'] : null;
         $this->_sortIndex = isset($data['sortOrder']) ? $data['sortOrder'] : null;
         $this->_action = isset($data['action']) ? $data['action'] : null;
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
