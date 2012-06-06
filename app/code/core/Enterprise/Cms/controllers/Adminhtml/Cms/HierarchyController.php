@@ -94,7 +94,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('cms/enterprise_page/hierarchy')
+            ->_setActiveMenu('Enterprise_Cms::cms_enterprise_page_hierarchy')
             ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'),
                 Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('Enterprise_Cms_Helper_Data')->__('CMS Page Trees'),

@@ -36,7 +36,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
              ->_title($this->__('Customers'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/tags/customer')
+            ->_setActiveMenu('Mage_Tag::report_tags_customer')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer'))
             ->renderLayout();
@@ -73,7 +73,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
              ->_title($this->__('Products'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/tags/product')
+            ->_setActiveMenu('Mage_Tag::report_tags_product')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Poducts Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product'))
             ->renderLayout();
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
              ->_title($this->__('Popular'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/tags/popular')
+            ->_setActiveMenu('Mage_Tag::report_tags_popular')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular'))
             ->renderLayout();
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
              ->_title($detailBlock->getHeaderText());
 
         $this->_initAction()
-            ->_setActiveMenu('report/tags')
+            ->_setActiveMenu('Mage_Tag::report_tags')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'))
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customer Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Customer Tags'))
             ->_addContent($detailBlock)
@@ -192,7 +192,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
              ->_title($detailBlock->getHeaderText());
 
         $this->_initAction()
-            ->_setActiveMenu('report/tags')
+            ->_setActiveMenu('Mage_Tag::report_tags')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Product Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Product Tags'))
             ->_addContent($detailBlock)
@@ -233,7 +233,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
              ->_title($detailBlock->getHeaderText());
 
         $this->_initAction()
-            ->_setActiveMenu('report/tags')
+            ->_setActiveMenu('Mage_Tag::report_tags')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'))
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Tag Detail'), Mage::helper('Mage_Reports_Helper_Data')->__('Tag Detail'))
             ->_addContent($detailBlock)

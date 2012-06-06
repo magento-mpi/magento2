@@ -32,7 +32,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function ordersAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/orders');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_orders');
         $this->renderLayout();
     }
 
@@ -50,7 +50,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function invoicesAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/invoices');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_invoices');
         $this->renderLayout();
     }
 
@@ -69,7 +69,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function creditmemosAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/creditmemos');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_creditmemos');
         $this->renderLayout();
     }
 
@@ -87,7 +87,7 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
     public function shipmentsAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('sales/archive/shipments');
+        $this->_setActiveMenu('Enterprise_SalesArchive::sales_archive_shipments');
         $this->renderLayout();
     }
 

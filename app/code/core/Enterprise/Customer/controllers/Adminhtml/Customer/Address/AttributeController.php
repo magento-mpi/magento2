@@ -47,7 +47,7 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/attributes/customer_address_attributes')
+            ->_setActiveMenu('Enterprise_Customer::customer_attributes_customer_address_attributes')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'),
                 Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'))

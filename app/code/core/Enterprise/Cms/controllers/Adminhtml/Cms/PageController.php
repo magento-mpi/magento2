@@ -44,7 +44,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         $this->_initLayoutMessages('Mage_Adminhtml_Model_Session');
 
         //load layout, set active menu and breadcrumbs
-        $this->_setActiveMenu('cms/page')
+        $this->_setActiveMenu('Mage_Cms::cms_page')
             ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('CMS'), Mage::helper('Mage_Cms_Helper_Data')->__('CMS'))
             ->_addBreadcrumb(Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'), Mage::helper('Mage_Cms_Helper_Data')->__('Manage Pages'));
 

@@ -25,7 +25,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/formtype')
+            ->_setActiveMenu('Enterprise_Customer::customer_formtype')
             ->_addBreadcrumb(Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'),
                 Mage::helper('Enterprise_Customer_Helper_Data')->__('Customer'))
             ->_addBreadcrumb(Mage::helper('Enterprise_Customer_Helper_Data')->__('Manage Form Types'),

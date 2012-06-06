@@ -38,7 +38,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('catalog/reviews_ratings/reviews/all');
+        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Main'));
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('catalog/reviews_ratings/reviews/pending');
+        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_pending');
 
         Mage::register('usePendingFilter', true);
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Main'));
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $this->_title($this->__('Edit Review'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('catalog/reviews_ratings/reviews/all');
+        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_all');
 
         $this->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Review_Edit'));
 
@@ -92,7 +92,7 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
         $this->_title($this->__('New Review'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('catalog/reviews_ratings/reviews/all');
+        $this->_setActiveMenu('Mage_Review::catalog_reviews_ratings_reviews_all');
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 

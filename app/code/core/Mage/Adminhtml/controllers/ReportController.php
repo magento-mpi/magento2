@@ -32,7 +32,7 @@ class Mage_Adminhtml_ReportController extends Mage_Adminhtml_Controller_Action
         Mage::dispatchEvent('on_view_report', array('report' => 'search'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/search')
+            ->_setActiveMenu('Mage_Reports::report_search')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search Terms'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Search'))
             ->renderLayout();

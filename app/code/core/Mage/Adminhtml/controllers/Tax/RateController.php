@@ -212,7 +212,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('sales/tax/rates')
+            ->_setActiveMenu('Mage_Tax::sales_tax_rates')
             ->_addBreadcrumb(Mage::helper('Mage_Tax_Helper_Data')->__('Sales'), Mage::helper('Mage_Tax_Helper_Data')->__('Sales'))
             ->_addBreadcrumb(Mage::helper('Mage_Tax_Helper_Data')->__('Tax'), Mage::helper('Mage_Tax_Helper_Data')->__('Tax'));
         return $this;
@@ -231,7 +231,7 @@ class Mage_Adminhtml_Tax_RateController extends Mage_Adminhtml_Controller_Action
         $this->_title($this->__('Import and Export Tax Rates'));
 
         $this->loadLayout()
-            ->_setActiveMenu('sales/tax/import_export')
+            ->_setActiveMenu('Mage_Tax::sales_tax_import_export')
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Tax_Rate_ImportExport'))
             ->renderLayout();
     }
