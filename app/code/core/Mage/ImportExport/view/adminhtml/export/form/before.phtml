@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 ?>
+<?php
+    $exportVersionTwo = (int) Mage_ImportExport_Model_Source_Export_Format_Version::EXPORT_VERSION_2;
+?>
 <script type="text/javascript">
 //<![CDATA[
     /**
@@ -170,12 +173,14 @@
      */
     function getFile()
     {
-        if ($('entity') && $('file_format')) {
+        if ($('entity') && $('entity')) {
             var form      = $('export_filter_form');
             var oldAction = form.action;
             var url = oldAction + ((oldAction.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity')
                 + '/file_format/' + $F('file_format');
-            if ($('customer_entity') && $F('customer_entity')) {
+            if ($F('entity') == 'customer' && $('file_format_version')
+                    && $F('file_format_version') == <?php echo $exportVersionTwo ?>
+            ) {
                 url += '/customer_entity/' + $F('customer_entity');
             }
             form.action = url;
