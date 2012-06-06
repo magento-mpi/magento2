@@ -26,16 +26,10 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
     public function getEntityTypesDataProvider()
     {
         return array(
-            'products'                   => array('$entityType' => 'catalog_product'),
-            'customers'                  => array('$entityType' => 'customer'),
+            'products'                    => array('$entityType' => 'catalog_product'),
+            'customers'                   => array('$entityType' => 'customer'),
             // customer entities
-            'customers_customer'         => array('$entityType' => 'customer', '$customerEntityType' => 'customer'),
-            'customers_customer_address' => array(
-                '$entityType' => 'customer', '$customerEntityType' => 'customer_address'
-            ),
-            'customers_customer_finance' => array(
-                '$entityType' => 'customer', '$customerEntityType' => 'customer_finance'
-            ),
+            'customers_customer_entities' => array('$entityType' => 'customer', '$customerEntityType' => 'customer'),
         );
     }
 

@@ -25,7 +25,7 @@ class Mage_ImportExport_Model_Source_Export_Customer_Entity
     public function toOptionArray()
     {
         return Mage_ImportExport_Model_Config::getModelsComboOptions(
-            Mage_ImportExport_Model_Export::CONFIG_KEY_CUSTOMER_ENTITIES, true
+            Mage_ImportExport_Model_Export::CONFIG_KEY_CUSTOMER_ENTITIES
         );
     }
 }

@@ -11,7 +11,7 @@
 <script type="text/javascript">
 //<![CDATA[
     /**
-     * Post form data and process response via AJAX.
+     * Handle value change in entity type selector
      *
      * @return void
      */
@@ -48,7 +48,7 @@
     };
 
     /**
-     * Post form data and process response via AJAX.
+     * Handle value change in export format version selector
      *
      * @return void
      */
@@ -63,8 +63,7 @@
                     this.getFilter();
                     break;
                 case '<?php echo Mage_ImportExport_Model_Source_Export_Format_Version::EXPORT_VERSION_2 ?>':
-                    $('export_filter_grid_container').update('');
-                    $('export_filter_container').hide();
+                    this.getCustomerFilter();
                     $('head-customer_entity_fieldset').show();
                     $('customer_entity_fieldset').show();
                     break;
@@ -80,7 +79,37 @@
     };
 
     /**
-     * Post form data and process response via AJAX.
+     *  Handle value change in entity type selector
+     *
+     * @return void
+     */
+    varienForm.prototype.handleCustomerEntityTypeSelector = function()
+    {
+        if (!$('customer_entity') || $F('customer_entity') == 'customer') {
+            $$('col:first-child').each(function(el) {
+                el.show();
+            });
+            $$('th.no-link:first-child').each(function(el) {
+                el.show();
+            });
+            $$('td.a-center').each(function(el) {
+                el.show();
+            });
+        } else {
+            $$('col:first-child').each(function(el) {
+                el.hide();
+            });
+            $$('th.no-link:first-child').each(function(el) {
+                el.hide();
+            });
+            $$('td.a-center').each(function(el) {
+                el.hide();
+            });
+        }
+    };
+
+    /**
+     * Post form data and process response via AJAX
      *
      * @return void
      */
@@ -112,10 +141,12 @@
      */
     varienForm.prototype.getCustomerFilter = function()
     {
-        if ($('entity') && $F('entity') && $('customer_entity') && $F('customer_entity')) {
+        if ($('entity') && $F('entity')) {
             var url = "<?php echo $this->getUrl('*/*/getFilter') ?>";
             url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity');
-            url += '/' + 'customer_entity/' + $F('customer_entity');
+            // because we didn't get instructions from UX team, we will use filter by customer attributes
+            // for all customer entity types for now
+            url += '/' + 'customer_entity/customer';
 
             new Ajax.Request(url, {
                 method:      'post',
@@ -145,7 +176,7 @@
             var url = oldAction + ((oldAction.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity')
                 + '/file_format/' + $F('file_format');
             if ($('customer_entity') && $F('customer_entity')) {
-                url += '/' + 'customer_entity/' + $F('customer_entity');
+                url += '/customer_entity/' + $F('customer_entity');
             }
             form.action = url;
             form.submit();

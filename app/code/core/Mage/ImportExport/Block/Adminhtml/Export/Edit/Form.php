@@ -72,7 +72,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
             'title'    => $helper->__('Customer Entity Type'),
             'label'    => $helper->__('Customer Entity Type'),
             'required' => false,
-            'onchange' => 'editForm.getCustomerFilter();',
+            'onchange' => 'editForm.handleCustomerEntityTypeSelector();',
             'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Export_Customer_Entity')->toOptionArray()
         ));
 
