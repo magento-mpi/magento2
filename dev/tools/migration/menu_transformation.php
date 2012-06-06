@@ -15,20 +15,22 @@ $>./menu_transformation.php -- [-a:i:nprdseh]
     -i          set parent item identifier
     -n          create new menu instructions
     -p          print new menu instructions
+    -c          replace usage of active menu item setting according to map
+    -m          print map of xpath => menu item identifier
     -r          remove menu declaration
-    -d          remove menu declaration in dry-run mode
+    -d          remove menu declaration or replace active menu item usage in dry-run mode
     -s          search for legacy code usage (print file paths)
-    -e          output with errors during removing menu declaration
+    -e          output with errors
     -h          print usage
 
     Note:
         1) option -n must be declared with options -i, -a
-        2) option -p must be declared with option -i
+        2) option -p, -c or -m must be declared with option -i
         3) option -e must be declared with option -r, -d, -p or -n
 USAGE
 );
 
-$shortOpts = 'a:i:nprdseh';
+$shortOpts = 'a:i:npcmrdseh';
 $options = getopt($shortOpts);
 
 if (isset($options['h'])) {
@@ -77,10 +79,18 @@ class Routine
     protected $_parentItemID;
     protected $_isCreateMenuActions;
     protected $_isPrintMenuActions;
+    protected $_isReplaceActiveItem;
+    protected $_isPrintMenuMap;
     protected $_isRemoveMenu;
     protected $_isDryRunMode;
     protected $_isSearchLegacyCode;
     protected $_isOutputWithErrors;
+
+    /**
+     * Map of xpath => menu item id
+     * @var array
+     */
+    protected $_map = array();
 
     /**
      * Errors
@@ -98,6 +108,9 @@ class Routine
 
         $this->_isCreateMenuActions = isset($options['n']);
         $this->_isPrintMenuActions = isset($options['p']);
+
+        $this->_isReplaceActiveItem = isset($options['c']);
+        $this->_isPrintMenuMap = isset($options['m']);
 
         $this->_isRemoveMenu = isset($options['r']);
         $this->_isDryRunMode = isset($options['d']);
@@ -122,6 +135,14 @@ class Routine
             return false;
         }
 
+        if ($this->_isPrintMenuMap && is_null($this->_parentItemID)) {
+            return false;
+        }
+
+        if ($this->_isReplaceActiveItem && is_null($this->_parentItemID)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -140,6 +161,14 @@ class Routine
             $this->_printMenuInstructions();
         }
 
+        if ($this->_isReplaceActiveItem) {
+            $this->_replaceActiveMenuItem();
+        }
+
+        if ($this->_isPrintMenuMap) {
+            $this->_printMenuMap();
+        }
+
         if ($this->_isRemoveMenu) {
             $this->_removeMenuDeclaration();
         }
@@ -156,13 +185,21 @@ class Routine
     }
 
     /**
-     * Get all configuration files
+     * Get files by type (configuration or php files)
      *
+     * @param $type
      * @return array
      */
-    protected function _getFiles()
+    protected function _getFiles($type='config')
     {
-        return array_keys(Utility_Files::init()->getConfigFiles());
+        switch ($type) {
+            case 'config':
+                return array_keys(Utility_Files::init()->getConfigFiles());
+            case 'php':
+                return array_keys(Utility_Files::init()->getPhpFiles(true, false, false));
+        }
+
+        return array();
     }
 
     /**
@@ -213,6 +250,88 @@ class Routine
     }
 
     /**
+     * Print menu items map of xpath to item identifier
+     */
+    protected function _printMenuMap()
+    {
+        $this->_parseConfigFiles();
+        if (!empty($this->_map)) {
+            echo "Defined map of xpath to item_id: \n";
+            foreach($this->_map as $xpath => $id) {
+                echo "'{$xpath}' => '{$id}',\n";
+            }
+            echo "\n";
+        }
+    }
+
+    /**
+     * Replace active menu items by xpath inside map
+     */
+    protected function _replaceActiveMenuItem()
+    {
+        $this->_parseConfigFiles();
+        if (!empty($this->_map)) {
+            foreach ($this->_getFiles('php') as $file) {
+                $fileContent = file_get_contents($file);
+                if ($fileContent === false) {
+                    $this->_addError("Unable to get content from file: {$file}");
+                    continue;
+                }
+
+                $replacement = array(
+                    array(), array()
+                );
+                foreach ($this->_searchActiveMenuItemUsage($fileContent) as $menuItemXPath => $strForReplacing) {
+                    if (isset($this->_map[$menuItemXPath])) {
+                        $replacement[0][] = $strForReplacing;
+                        $replacement[1][] = $this->_map[$menuItemXPath];
+                    }
+                }
+
+                $fileNewContent = str_replace($replacement[0], $replacement[1], $fileContent);
+                if (strcmp($fileContent, $fileNewContent) != 0) {
+                    $updatedFiles[] = $file;
+                }
+
+                if (!$this->_isDryRunMode) {
+                    if (file_put_contents($file, $fileNewContent) === false) {
+                        $this->_addError("Unable to put content into file: {$file}");
+                    }
+                }
+            }
+        }
+
+        if (!empty($updatedFiles)) {
+            echo "Active menu usage is replaced in files: \n";
+            $this->_printFiles($updatedFiles);
+            echo "\n";
+        }
+
+    }
+
+    /**
+     * Search active menu item usage in a file
+     *
+     * @param $fileContent
+     * @return array
+     */
+    protected function _searchActiveMenuItemUsage($fileContent)
+    {
+        $menuItemsForReplace = array();
+        $matches = array();
+        preg_match_all('#->_setActiveMenu\([\'"]([\w\d/_]+)[\'"]\)#Ui', $fileContent, $matches);
+        if (!empty($matches[0]) && !empty($matches[1])) {
+            foreach ($matches[1] as $index => $menuItemXPath) {
+                if (!in_array($menuItemXPath, array_keys($menuItemsForReplace))) {
+                    $menuItemsForReplace[$menuItemXPath] = $matches[0][$index];
+                }
+            }
+        }
+
+        return $menuItemsForReplace;
+    }
+
+    /**
      * Define file path of new file and make directory with areaCode if not exists
      *
      * @param $module
@@ -228,6 +347,19 @@ class Routine
         }
 
         return $dirPath . DS . "menu.xml";
+    }
+
+    /**
+     * Define module name from pool/namespace/module
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     * @param $defModule
+     * @return string
+     */
+    protected function _defineModuleName($defModule)
+    {
+        list($pool, $namespace, $module) = explode('_', $defModule);
+        return $namespace . '_' . $module;
     }
 
     /**
@@ -276,16 +408,28 @@ class Routine
     {
         $menuItemInstruction = '';
         if (isset($menuItem->disabled) && $menuItem->disabled == true) {
-            $menuItemInstruction .= "        <remove id=\"{$menuItem->id}\" />";
+            $menuItemId = $this->_getRealItemId($menuItem->id);
+            $menuItemInstruction .= "        <remove id=\"{$menuItemId}\" />";
         } else {
             $menuItemInstruction .= '        <add ';
             foreach (array_keys(get_object_vars($menuItem)) as $attributeOfMenuItem) {
-                $menuItemInstruction .= $attributeOfMenuItem . '="' . $menuItem->$attributeOfMenuItem . '" ';
+                if (in_array($attributeOfMenuItem, array('id', 'parent'), true)) {
+                    $menuItemId = $this->_getRealItemId($menuItem->$attributeOfMenuItem);
+                    $menuItemInstruction .= $attributeOfMenuItem . '="' . $menuItemId . '" ';
+                } else {
+                    $menuItemInstruction .= $attributeOfMenuItem . '="' . $menuItem->$attributeOfMenuItem . '" ';
+                }
+
             }
             $menuItemInstruction .= "/>";
         }
 
         return $menuItemInstruction;
+    }
+
+    protected function _getRealItemId($menuItemId)
+    {
+        return (isset($this->_map[$menuItemId]))? $this->_map[$menuItemId] : '';
     }
 
     /**
@@ -297,12 +441,12 @@ class Routine
     {
         $menuItemsPerModule = array();
         foreach ($this->_searchLegacyCode() as $file) {
-            $menuItems = $this->_parseConfigFile($file);
+            $moduleName = $this->_getModuleNameFromFile($file);
+            $menuItems = $this->_parseConfigFile($file, $moduleName);
             if (is_null($menuItems)) {
                 continue;
             }
 
-            $moduleName = $this->_getModuleNameFromFile($file);
             if (!isset($menuItemsPerModule[$moduleName])) {
                 $menuItemsPerModule[$moduleName] = $menuItems;
             } else {
@@ -317,9 +461,10 @@ class Routine
      * Parse a configuration file to define menu items
      *
      * @param $file
+     * @param $moduleName
      * @return array|null
      */
-    protected function _parseConfigFile($file)
+    protected function _parseConfigFile($file, $moduleName)
     {
         $xml = simplexml_load_file($file);
         if ($xml === false) {
@@ -331,7 +476,7 @@ class Routine
             return null;
         }
 
-        $menuItems = $this->_parseMenuItems($nodes, $this->_parentItemID, '');
+        $menuItems = $this->_parseMenuItems($nodes, $this->_parentItemID, $moduleName);
         return empty($menuItems)? null : $menuItems;
     }
 
@@ -350,13 +495,20 @@ class Routine
         foreach ($nodes as $node) {
             $childNodes = $node->xpath('children/*');
 
+            $currentNodeName = '';
             $item = $this->_parseMenuItem($node, $parentItemID, $moduleName);
-            $itemsResult[] = $item;
+            if (isset($item->id)) {
+                $itemsResult[] = $item;
+                $currentNodeName = $item->id;
+            } else {
+                $currentNodeName = ($parentItemID != $this->_parentItemID)?
+                                $parentItemID . '/' . $node->getName() : $node->getName();
+            }
+
             if (!empty($childNodes)) {
-                $nodeModuleName = isset($item->module)? $item->module : $moduleName;
                 $itemsResult = array_merge(
                     $itemsResult,
-                    $this->_parseMenuItems($childNodes, $item->id, $nodeModuleName)
+                    $this->_parseMenuItems($childNodes, $currentNodeName, $moduleName)
                 );
             }
         }
@@ -376,11 +528,9 @@ class Routine
     protected function _parseMenuItem($node, $parentItemID, $moduleName)
     {
         $nodeName = ($parentItemID != $this->_parentItemID)?
-                $parentItemID . '_' . $node->getName() : $node->getName();
-
+                $parentItemID . '/' . $node->getName() : $node->getName();
 
         $item = (array) $node;
-        $nodeModuleName = (isset($item["@attributes"]["module"]))? $item["@attributes"]["module"] : '';
         $itemResult = array();
         if (isset($item['disabled'])) {
             $itemResult = array (
@@ -388,10 +538,12 @@ class Routine
                             'disabled' => true
                         );
         } else if (isset($item['title'])) {
+            $this->_addMenuItemIntoMap($nodeName, $moduleName);
+            $nodeModuleName = (isset($item["@attributes"]["module"]))? $item["@attributes"]["module"] : $moduleName;
             $itemResult = array (
                             'id' => $nodeName,
                             'title' => $item['title'],
-                            'module' => ($nodeModuleName != '')? $nodeModuleName : $moduleName,
+                            'module' => $nodeModuleName,
                             'sortOrder' => (isset($item['sort_order']))? $item['sort_order'] : '',
                             'parent' => $parentItemID,
                         );
@@ -406,6 +558,17 @@ class Routine
         }
 
         return (object) $itemResult;
+    }
+
+    /**
+     * @param $xpath
+     * @param $moduleName
+     */
+    protected function _addMenuItemIntoMap($xpath, $moduleName)
+    {
+        if (!isset($this->_map[$xpath])) {
+            $this->_map[$xpath] = $this->_defineModuleName($moduleName) . "::" . str_replace('/', '_', $xpath);
+        }
     }
 
     /**
