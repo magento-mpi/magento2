@@ -78,7 +78,30 @@ create_order_for_new_customer:
                         pageelements:
                             printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
                             order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping' and contains(., 'Gift Wrapping for the Entire Order')]
-                                   
+                -
+                    sku_options: &addSkuForOrder
+                        buttons:
+                            add_products_by_sku: //button[span='Add Products By SKU']
+                            submit_sku_form: //button[span='Add to Order']
+                -
+                    order_items_ordered: &orderItemsOrdered
+                        pageelements:
+                            sku_product_added: //*[@id='order-items_grid']//div[contains(.,'%skuproduct%')]
+                            
+                -
+                    order_items_ordered_sku: &addItemsBySku                            
+                        buttons:
+                            add_by_sku_add: //*[@id='sku_container']//button[@class='scalable add']
+                            add_by_sku_del: //*[@id='sku_container']//button[@class='scalable delete']
+                            reset_upload: //button[@class='button btn-reset']
+                        fields:
+                            sku: //*[@id='sku_%row%']
+                            qty_sku: //*[@id='sku_qty_%row%']
+                            sku_upload: //*[@id='sku_upload']
+                        pageelements:
+                            note_csv: //*[@class='note']
+                        
+                                     
 edit_order:
     uimap:
         form:
@@ -95,4 +118,24 @@ edit_order:
                   gift_options:
                       xpath: //div[div/h4[contains(text(),'Gift Options for')]]
                       dropdowns:
-                          product_gift_wrapping_design: //select[@id='giftwrapping_design_item']                      
+                          product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
+
+create_order_for_new_customer_sku:
+    mca: sales_order_create/processData/
+    title: New Order / Orders / Sales / Magento Admin
+    uimap:
+        form:
+            fieldsets: &newOrderForNewCustomerFieldsets
+                -
+                    order_items_ordered: &orderItemsOrdered
+                        pageelements:
+                            sku_product_added: //*[@id='order-items_grid']//div[contains(.,'%skuproduct%')]
+                - 
+                    order_items_attention: &orderItemsAttention
+                        pageelements:
+                            sku_required_grid: //*[@id='sku_errors']
+                            sku_product_required: //*[@id='sku_errors_table']//div[contains(.,'%skuproduct%')]
+                        buttons:
+                            remove_all_invalid: //*[@id='order-errors']//*[contains(.,'Remove All')]/button
+                            remove_one_invalid: //*[@id='sku_errors_table']//tr[%row%]//button[@class='scalable delete']
+                          

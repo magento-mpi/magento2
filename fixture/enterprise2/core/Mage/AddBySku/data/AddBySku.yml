@@ -1,0 +1,78 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#*********************************************
+#*       New Order By SKU                    *
+#*********************************************
+new_order_sku:
+    store_view: Default Store View
+    associate_to_website: Main Website
+    
+#*********************************************
+#*       New Order By SKU. Products          *
+#*********************************************
+sku_product_non_exist_0:
+    general_sku: sku_product_non_exist_0
+
+sku_product_non_exist_1:
+    general_sku: sku_product_non_exist_1
+
+sku_product_non_exist_2:
+    general_sku: sku_product_non_exist_2
+
+simple_product_visible_sku:
+    product_attribute_set: Default
+    general_name: Simple Product Visible 1
+    general_description: Description for Simple Product Visible
+    general_short_description: Short Description for Simple Product Visible
+    general_sku: simple_visible_sku_1
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 12.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: %noValue%
+    
+virtual_product_visible_sku:
+    product_attribute_set: Default
+    general_name: Virtual Product Visible 1
+    general_description: Description for Virtual Product Visible
+    general_short_description: Short Description for Virtual Product Visible
+    general_sku: virtual_visible_sku_1
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 18.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: %noValue%
