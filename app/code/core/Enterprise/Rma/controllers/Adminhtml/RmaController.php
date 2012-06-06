@@ -18,7 +18,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('sales/rma');
+            ->_setActiveMenu('sales/enterprise_rma/rma');
 
         $this->_title($this->__('Sales'))->_title($this->__('Manage RMA'));
         return $this;

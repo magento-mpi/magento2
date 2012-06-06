@@ -111,7 +111,7 @@ class Mage_Adminhtml_Report_ReviewController extends Mage_Adminhtml_Controller_A
              ->_title($this->__('Details'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/review/productDetail')
+            ->_setActiveMenu('report/review')
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
             ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Product Reviews'), Mage::helper('Mage_Reports_Helper_Data')->__('Product Reviews'))
             ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Review_Detail'))

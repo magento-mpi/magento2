@@ -18,7 +18,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryController extends Mage_Admi
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/giftregistry')
+            ->_setActiveMenu('customer/enterprise_giftregistry')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry'),
                 Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Gift Registry')

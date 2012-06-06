@@ -36,7 +36,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizedTokensController extends Mage_Adminht
      */
     public function indexAction()
     {
-        $this->loadLayout()->_setActiveMenu('system/oauth');
+        $this->loadLayout()->_setActiveMenu('system/api/oauth_authorized_tokens');
         $this->renderLayout();
     }
 

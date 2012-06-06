@@ -38,7 +38,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         try {
             $this->_title($this->__('Scheduled Imports/Exports'))
                 ->loadLayout()
-                ->_setActiveMenu('system/enterprise_importexport');
+                ->_setActiveMenu('system/convert/enterprise_scheduled_operation');
         } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/scheduled_operation/index');

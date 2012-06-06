@@ -49,7 +49,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events'),
                 Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Events')
             )
-            ->_setActiveMenu('catalog/enterprise_catelogevent');
+            ->_setActiveMenu('catalog/enterprise_catalogevent');
         return $this;
     }
 

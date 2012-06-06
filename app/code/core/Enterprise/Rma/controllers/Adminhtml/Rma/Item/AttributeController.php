@@ -38,7 +38,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('sales/rma')
+            ->_setActiveMenu('sales/enterprise_rma/rma_item_attribute')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA'),
                 Mage::helper('Enterprise_Rma_Helper_Data')->__('RMA'))

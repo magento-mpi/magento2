@@ -130,7 +130,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         /**
          * Set active menu item
          */
-        $this->_setActiveMenu('customer/new');
+        $this->_setActiveMenu('customer');
 
         $this->renderLayout();
     }
