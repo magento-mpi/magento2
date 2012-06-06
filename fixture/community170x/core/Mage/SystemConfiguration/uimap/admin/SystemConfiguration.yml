@@ -917,7 +917,7 @@ system_configuration:
                                     dropdowns:
                                         pec_fe_product_logo: //select[@id='payment_express_checkout_frontend_logo']
         buttons:
-            active_paypal_method: //div[contains(@class,'section-config pp-method')][contains(@class,'enabled')]//button[@class='button']
+            active_paypal_method: //div[contains(@class,'section-config pp')][contains(@class,'enabled')]//button[@class='button']
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap
