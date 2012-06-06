@@ -298,9 +298,10 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
      * @param string $imagePath
      * @param int $positionX
      * @param int $positionY
+     * @param int $opacity
      * @param bool $tile
      */
-    public function watermark($imagePath, $positionX = 0, $positionY = 0, $tile = false)
+    public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $tile = false)
     {
         list($watermarkSrcWidth, $watermarkSrcHeight, $watermarkFileType, ) = $this->_getImageOptions($imagePath);
         $this->_getFileAttributes();

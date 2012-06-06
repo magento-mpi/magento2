@@ -236,17 +236,18 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * @param $imagePath
      * @param int $positionX
      * @param int $positionY
+     * @param int $opacity
      * @param bool $tile
      * @throws Exception
      */
-    public function watermark($imagePath, $positionX = 0, $positionY = 0, $tile = false)
+    public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $tile = false)
     {
         if (empty($imagePath) || !file_exists($imagePath)) {
             throw new Exception('Watermark Image absent.');
         }
         $this->_checkCanProcess();
 
-        $opacity = $this->getWatermarkImageOpacity();
+        $opacity = $this->getWatermarkImageOpacity() ? $this->getWatermarkImageOpacity() : $opacity;
 
         $opacity = (float)number_format($opacity / 100, 1);
         $watermark = new Imagick($imagePath);
