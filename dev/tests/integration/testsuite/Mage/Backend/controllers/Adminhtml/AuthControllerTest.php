@@ -74,7 +74,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
 
         $this->dispatch('admin/auth/login');
         $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
-        $this->assertRedirect($expected, self::MODE_START_WITH);
+        $this->assertRedirect($this->stringStartsWith($expected));
 
         $this->_logout();
     }
@@ -108,7 +108,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->_login();
         $this->dispatch('admin/auth/logout');
-        $this->assertRedirect(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl(), self::MODE_EQUALS);
+        $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logouted');
     }
 
