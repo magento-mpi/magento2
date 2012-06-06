@@ -10,7 +10,7 @@
 ?>
 
 <ul <?php echo (!$this->getLevel() ? 'id="nav"' : '') ?>>
-    <?php foreach ($this->getMenuItems() as $menuItem) : ?>
+    <?php foreach ($this->getMenu() as $menuItem) : ?>
         <?php echo $this->renderMenuItem($menuItem); ?>
     <?php endforeach; ?>
 </ul>

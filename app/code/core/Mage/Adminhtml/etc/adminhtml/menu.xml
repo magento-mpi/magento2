@@ -11,8 +11,8 @@
 -->
 <config>
     <menu>
-        <add id="dashboard" title="Dashboard" module="Mage_Adminhtml" sortOrder="10" parent="root" action="adminhtml/dashboard" />
-        <add id="system" title="System" module="Mage_Adminhtml" sortOrder="90" parent="root" />
+        <add id="dashboard" title="Dashboard" module="Mage_Adminhtml" sortOrder="10" action="adminhtml/dashboard" />
+        <add id="system" title="System" module="Mage_Adminhtml" sortOrder="90" />
         <add id="system_myaccount" title="My Account" module="Mage_Adminhtml" sortOrder="10" parent="system" action="adminhtml/system_account" />
         <add id="system_tools" title="Tools" module="Mage_Adminhtml" sortOrder="20" parent="system" />
         <add id="system_design" title="Design" module="Mage_Adminhtml" sortOrder="30" parent="system" />

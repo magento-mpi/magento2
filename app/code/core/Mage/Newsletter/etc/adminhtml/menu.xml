@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="newsletter" title="Newsletter" module="Mage_Newsletter" sortOrder="60" parent="root" />
+        <add id="newsletter" title="Newsletter" module="Mage_Newsletter" sortOrder="60" />
         <add id="newsletter_template" title="Newsletter Templates" module="Mage_Newsletter" parent="newsletter" action="adminhtml/newsletter_template/" />
         <add id="newsletter_queue" title="Newsletter Queue" module="Mage_Newsletter" parent="newsletter" action="adminhtml/newsletter_queue/" />
         <add id="newsletter_subscriber" title="Newsletter Subscribers" module="Mage_Newsletter" parent="newsletter" action="adminhtml/newsletter_subscriber/" />

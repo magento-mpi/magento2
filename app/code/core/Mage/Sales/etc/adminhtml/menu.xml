@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="sales" title="Sales" module="Mage_Sales" sortOrder="20" parent="root" dependsOnModule="Mage_Sales" />
+        <add id="sales" title="Sales" module="Mage_Sales" sortOrder="20" dependsOnModule="Mage_Sales" />
         <add id="sales_order" title="Orders" module="Mage_Sales" sortOrder="10" parent="sales" action="adminhtml/sales_order" />
         <add id="sales_invoice" title="Invoices" module="Mage_Sales" sortOrder="20" parent="sales" action="adminhtml/sales_invoice" />
         <add id="sales_shipment" title="Shipments" module="Mage_Sales" sortOrder="30" parent="sales" action="adminhtml/sales_shipment" />

@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="customer" title="Customers" module="Mage_Customer" sortOrder="40" parent="root" />
+        <add id="customer" title="Customers" module="Mage_Customer" sortOrder="40" />
         <add id="customer_manage" title="Manage Customers" module="Mage_Customer" sortOrder="0" parent="customer" action="adminhtml/customer/" />
         <add id="customer_group" title="Customer Groups" module="Mage_Customer" sortOrder="10" parent="customer" action="adminhtml/customer_group/" />
         <add id="customer_online" title="Online Customers" module="Mage_Customer" sortOrder="100" parent="customer" action="adminhtml/customer_online/" />

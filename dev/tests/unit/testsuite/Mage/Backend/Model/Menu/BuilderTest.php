@@ -63,7 +63,12 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function testGetResult()
     {
-        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Create(array('id' => 1)));
+        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Add(array(
+                'id' => 1,
+                'title' => 'Item 1',
+                'module' => 'Mage_Backend'
+            )
+        ));
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
                 array('id' => 2, 'parent' => 1, 'title' => 'two', 'module' => 'Mage_Backend')
@@ -84,7 +89,12 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function testGetResultSkipsRemovedItems()
     {
-        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Create(array('id' => 1)));
+        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Add(array(
+                'id' => 1,
+                'title' => 'Item 1',
+                'module' => 'Mage_Backend'
+            )
+        ));
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Remove(
                 array('id' => 1,)

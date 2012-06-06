@@ -104,7 +104,7 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
             true,
             array('processCommand')
         );
-        $builder->expects($this->exactly(10))->method('processCommand');
+        $builder->expects($this->exactly(8))->method('processCommand');
         $this->assertInstanceOf('Mage_Backend_Model_Menu_DirectorAbstract', $this->_model->buildMenu($builder));
     }
 }

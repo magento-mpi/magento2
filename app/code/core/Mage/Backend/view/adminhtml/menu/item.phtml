@@ -15,7 +15,7 @@
         <span><?php echo $this->escapeHtml($this->getItem()->getModuleHelper()->__($this->getItem()->getTitle())); ?> </span>
     </a>
     <?php if ($this->getItem()->hasChildren()) : ?>
-        <?php echo $this->getContainerRenderer()->renderMenuContainer($this->getItem(), $this->getLevel() + 1); ?>
+        <?php echo $this->getContainerRenderer()->renderMenuContainer($this->getItem()->getChildren(), $this->getLevel() + 1); ?>
     <?php endif; ?>
 </li>
 

@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="catalog" title="Catalog" module="Mage_Catalog" sortOrder="30" parent="root" dependsOnModule="Mage_Catalog" />
+        <add id="catalog" title="Catalog" module="Mage_Catalog" sortOrder="30" dependsOnModule="Mage_Catalog" />
         <add id="catalog_products" title="Manage Products" module="Mage_Catalog" sortOrder="0" parent="catalog" action="adminhtml/catalog_product/" />
         <add id="catalog_categories" title="Manage Categories" module="Mage_Catalog" sortOrder="10" parent="catalog" action="adminhtml/catalog_category/" />
         <add id="catalog_attributes" title="Attributes" module="Mage_Catalog" sortOrder="20" parent="catalog" />

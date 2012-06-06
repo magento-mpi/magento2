@@ -21,8 +21,7 @@ class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Men
     protected $_requiredParams = array(
         "id",
         "title",
-        "module",
-        "parent"
+        "module"
     );
 
    /**

@@ -11,10 +11,6 @@
 ?>
 <?php return array(
     array (
-        'type' => 'item',
-        'id' => 'elem_one',
-        ),
-    array (
         'type' => 'add',
         'id' => 'elem_one_zero',
         'title' => 'Title one.zero',
@@ -22,7 +18,6 @@
         'module' => 'Module_One',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'parent' => 'elem_one',
         'resource' => '/one/two',
         'dependsOnModule' => 'Module_One',
         'dependsOnConfig' => '/one/two',
@@ -35,7 +30,7 @@
         'module' => 'Module_One',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'parent' => 'elem_one',
+        'parent' => 'elem_one_zero',
         ),
     array (
         'type' => 'update',
@@ -45,15 +40,11 @@
         'module' => 'Module_One_Update',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'parent' => 'elem_one',
+        'parent' => 'elem_one_zero',
         ),
     array (
         'type' => 'remove',
         'id' => 'elem_one_one',
-        ),
-    array (
-        'type' => 'item',
-        'id' => 'elem_two',
         ),
     array (
         'type' => 'add',
@@ -63,7 +54,6 @@
         'module' => 'Module_Two',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'parent' => 'elem_two',
         ),
     array (
         'type' => 'add',
@@ -73,7 +63,7 @@
         'module' => 'Module_Two',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'parent' => 'elem_two',
+        'parent' => 'elem_two_zero',
         ),
     array (
         'type' => 'update',
@@ -83,7 +73,7 @@
         'module' => 'Module_Two_Update',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'parent' => 'elem_two',
+        'parent' => 'elem_two_zero',
         ),
     array (
         'type' => 'remove',

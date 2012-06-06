@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="report" title="Reports" module="Mage_Reports" sortOrder="80" parent="root" />
+        <add id="report" title="Reports" module="Mage_Reports" sortOrder="80" />
         <add id="report_salesroot" title="Sales" module="Mage_Reports" sortOrder="10" parent="report" />
         <add id="report_salesroot_sales" title="Orders" module="Mage_Reports" parent="report_salesroot" action="adminhtml/report_sales/sales" />
         <add id="report_salesroot_tax" title="Tax" module="Mage_Reports" parent="report_salesroot" action="adminhtml/report_sales/tax" />

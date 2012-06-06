@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="promo" title="Promotions" module="Mage_CatalogRule" sortOrder="50" parent="root" />
+        <add id="promo" title="Promotions" module="Mage_CatalogRule" sortOrder="50" />
         <add id="promo_catalog" title="Catalog Price Rules" module="Mage_CatalogRule" parent="promo" action="adminhtml/promo_catalog/" dependsOnModule="Mage_Catalog" />
     </menu>
 </config>

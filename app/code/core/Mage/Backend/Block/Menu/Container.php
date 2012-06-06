@@ -21,9 +21,9 @@ class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
      * Get menu item children
      * @return Mage_Backend_Model_Menu
      */
-    public function getMenuItems()
+    public function getMenu()
     {
-        return $this->getItem()->getChildren();
+        return $this->getItem();
     }
 
     /**

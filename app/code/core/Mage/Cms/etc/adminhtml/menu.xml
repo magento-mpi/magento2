@@ -11,7 +11,7 @@
 -->
 <config>
     <menu>
-        <add id="cms" title="CMS" module="Mage_Cms" sortOrder="70" parent="root" />
+        <add id="cms" title="CMS" module="Mage_Cms" sortOrder="70" />
         <add id="cms_page" title="Pages" module="Mage_Cms" sortOrder="0" parent="cms" action="adminhtml/cms_page" />
         <add id="cms_block" title="Static Blocks" module="Mage_Cms" sortOrder="10" parent="cms" action="adminhtml/cms_block" />
     </menu>

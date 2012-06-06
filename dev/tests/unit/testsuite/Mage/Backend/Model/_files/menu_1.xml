@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
     <menu>
-        <item id="elem_one"/>
-        <add id="elem_one_zero" toolTip='toolTip 1' title="Title one.zero" module="Module_One" sortOrder="90" action="adminhtml/system" parent="elem_one" resource="/one/two" dependsOnModule="Module_One" dependsOnConfig="/one/two"/>
-        <add id="elem_one_one" toolTip='toolTip 2' title="Title one.one" module="Module_One" sortOrder="90" action="adminhtml/system" parent="elem_one" />
-        <update id="elem_one_zero" toolTip='toolTip 3' title="Title one.zero update" module="Module_One_Update" sortOrder="90" action="adminhtml/system" parent="elem_one" />
+        <add id="elem_one_zero" toolTip='toolTip 1' title="Title one.zero" module="Module_One" sortOrder="90" action="adminhtml/system" resource="/one/two" dependsOnModule="Module_One" dependsOnConfig="/one/two"/>
+        <add id="elem_one_one" toolTip='toolTip 2' title="Title one.one" module="Module_One" sortOrder="90" action="adminhtml/system" parent="elem_one_zero" />
+        <update id="elem_one_zero" toolTip='toolTip 3' title="Title one.zero update" module="Module_One_Update" sortOrder="90" action="adminhtml/system" parent="elem_one_zero" />
         <remove id="elem_one_one" />
     </menu>
 </config>

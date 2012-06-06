@@ -117,8 +117,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     public function getMenuModel()
     {
-        $menu = Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
-        return $menu[0];
+        return Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
     }
 
     /**
