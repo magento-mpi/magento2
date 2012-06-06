@@ -18,7 +18,7 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
     }
 
     /**
-     * @magentoDataFixture Mage/Sales/_files/order_commit_workaround.php
+     * @magentoDataFixture Mage/Sales/_files/order.php
      */
     public function testNewAction()
     {
