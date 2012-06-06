@@ -223,6 +223,12 @@
                  value="${env.testsuite}"/>
     </target>
 
+    <target name="functional_tests_with_deploy_ee" description="Deploy Magento EE" depends="functional_tests_with_deploy">
+        <copy file="${dir.build_directory}/app/etc/modules/XEnterprise_Enabler.xml.dist" tofile="${dir.build_directory}/app/etc/modules/XEnterprise_Enabler.xml"/>
+        <replace file="${dir.build_directory}/downloader/config.ini" token="community" value="enterprise"/>
+        <replace file="${dir.build_directory}/app/Mage.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>
+    </target>
+
     <!-- Community Edition source code population to the public repository -->
     <target name="publish_ce">
         <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
