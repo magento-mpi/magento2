@@ -115,26 +115,12 @@ class Mage_Core_Model_Design_Package
     protected $_publicCache = array();
 
     /**
-     * Fallback model, controlling rules of fallback and inheritance
+     * Array of fallback model, controlling rules of fallback and inheritance for appropriate
+     * area, package, theme, skin, locale
      *
-     * @var Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_Caching_Proxy
+     * @var array
      */
-    protected $_fallback;
-
-    /**
-     * Whether saving fallback map is permitted
-     *
-     * @var bool
-     */
-    protected $_isFallbackSavePermitted = true;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        register_shutdown_function(array($this, 'onShutdown'));
-    }
+    protected $_fallback = array();
 
     /**
      * Set package area
@@ -279,8 +265,7 @@ class Mage_Core_Model_Design_Package
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return  $this->_getFallback()->getFile($file, $params['area'], $params['package'], $params['theme'],
-            $params['module']);
+        return  $this->_getFallback($params)->getFile($file, $params['module']);
     }
 
     /**
@@ -293,8 +278,7 @@ class Mage_Core_Model_Design_Package
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        return $this->_getFallback()->getLocaleFile($file, $params['area'], $params['package'], $params['theme'],
-            $params['locale']);
+        return $this->_getFallback($params)->getLocaleFile($file);
     }
 
     /**
@@ -308,8 +292,7 @@ class Mage_Core_Model_Design_Package
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return $this->_getFallback()->getSkinFile($file, $params['area'], $params['package'], $params['theme'],
-            $params['skin'], $params['locale'], $params['module']);
+        return $this->_getFallback($params)->getSkinFile($file, $params['module']);
     }
 
     /**
@@ -339,17 +322,24 @@ class Mage_Core_Model_Design_Package
     /**
      * Return most appropriate model to perform fallback
      *
-     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_Caching_Proxy
+     * @param array $params
+     * @return Mage_Core_Model_Design_FallbackInterface
      */
-    protected function _getFallback()
+    protected function _getFallback($params)
     {
-        if (!$this->_fallback) {
+        $cacheKey = "{$params['area']}|{$params['package']}|{$params['theme']}|{$params['skin']}|{$params['locale']}";
+        if (!isset($this->_fallback[$cacheKey])) {
+            $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
+                ->getNode('global/dev/design_fallback/allow_map_update');
+            $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
+            $params['baseDir'] = Mage::getBaseDir();
+
             $model = $this->_isDeveloperMode() ?
                 'Mage_Core_Model_Design_Fallback' :
-                'Mage_Core_Model_Design_Fallback_Caching_Proxy';
-            $this->_fallback = Mage::getModel($model);
+                'Mage_Core_Model_Design_Fallback_CachingProxy';
+            $this->_fallback[$cacheKey] = Mage::getModel($model, $params);
         }
-        return $this->_fallback;
+        return $this->_fallback[$cacheKey];
     }
 
     /**
@@ -479,7 +469,13 @@ class Mage_Core_Model_Design_Package
         /* Identify public file */
         $publicFile = $this->_publishSkinFile($file, $params);
         /* Build url to public file */
-        $url = $this->_getPublicFileUrl($publicFile, $isSecure);
+        if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+            $fileMTime = filemtime($publicFile);
+            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
+            $url .= '?' . $fileMTime;
+        } else {
+            $url = $this->_getPublicFileUrl($publicFile, $isSecure);
+        }
         return $url;
     }
 
@@ -494,7 +490,7 @@ class Mage_Core_Model_Design_Package
     protected function _getPublicFileUrl($file, $isSecure = null)
     {
         $publicDirUrlTypes = array(
-            Mage_Core_Model_Store::URL_TYPE_SKIN => Mage::getBaseDir('skin'),
+            Mage_Core_Model_Store::URL_TYPE_SKIN => Mage::getBaseDir('media') . DIRECTORY_SEPARATOR . 'skin',
             Mage_Core_Model_Store::URL_TYPE_JS    => Mage::getBaseDir('js'),
         );
         foreach ($publicDirUrlTypes as $publicUrlType => $publicDir) {
@@ -555,7 +551,12 @@ class Mage_Core_Model_Design_Package
         $urls = array();
         if ($doMerge && count($files) > 1) {
             $file = $this->_mergeFiles($files, $type);
-            $urls[] = $this->_getPublicFileUrl($file);
+            if (Mage::helper('Mage_Core_Helper_Data')->isStaticFilesSigned()) {
+                $fileMTime = filemtime($file);
+                $urls[] = $this->_getPublicFileUrl($file) . '?' . $fileMTime;
+            } else {
+                $urls[] = $this->_getPublicFileUrl($file);
+            }
         } else {
             foreach ($files as $file) {
                 $urls[] = $this->getSkinUrl($file);
@@ -577,11 +578,20 @@ class Mage_Core_Model_Design_Package
         $skinFile = $this->_extractScope($skinFile, $params);
 
         $file = $this->getSkinFile($skinFile, $params);
-        if (!Mage::getIsDeveloperMode() && preg_match('/(\.css|\.js)$/', $skinFile)) {
-            $minifiedPath = preg_replace('/(.*)\.(.*)$/i', '$1.min.$2', $file);
+
+        $dotPosition = strrpos($skinFile, '.');
+        $extension = strtolower(substr($skinFile, $dotPosition + 1));
+        $staticContentTypes = array(
+            Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
+            Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
+        );
+        if (!Mage::getIsDeveloperMode() && !empty($extension) &&
+            in_array($extension, $staticContentTypes)
+        ) {
+            $minifiedPath = str_replace('.' . $extension, '.min.' . $extension, $file);
             if (file_exists($minifiedPath)) {
                 $file = $minifiedPath;
-                $skinFile = preg_replace('/(.*)\.(.*)$/i', '$1.min.$2', $skinFile);
+                $skinFile = str_replace('.' . $extension, '.min.' . $extension, $skinFile);
             }
         }
 
@@ -594,7 +604,7 @@ class Mage_Core_Model_Design_Package
         }
 
         $isDuplicationAllowed = (string)Mage::getConfig()->getNode('default/design/theme/allow_skin_files_duplication');
-        $isCssFile = $this->_isCssFile($skinFile);
+        $isCssFile = ($extension === Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS);
         if ($isDuplicationAllowed || $isCssFile) {
             $publicFile = $this->_buildPublicSkinRedundantFilename($skinFile, $params);
         } else {
@@ -686,7 +696,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getPublicSkinDir()
     {
-        return Mage::getBaseDir('skin');
+        return Mage::getBaseDir('media')  . DIRECTORY_SEPARATOR . 'skin';
     }
 
     /**
@@ -1065,6 +1075,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getDesignEntitiesStructure($area, $addInheritedSkins = true)
     {
+        $areaThemeConfig = $this->getThemeConfig($area);
         $areaStructure = $this->_getDesignEntitiesFilesystemStructure($area);
 
         foreach ($areaStructure as $packageName => &$themes) {
@@ -1076,10 +1087,7 @@ class Mage_Core_Model_Design_Package
                 if ($addInheritedSkins) {
                     $currentPackage = $packageName;
                     $currentTheme = $themeName;
-                    $fallback = $this->_getFallback();
-                    while ($inheritedPackageTheme =
-                        $fallback->getInheritedTheme($area, $currentPackage, $currentTheme)
-                    ) {
+                    while ($inheritedPackageTheme = $areaThemeConfig->getParentTheme($currentPackage, $currentTheme)) {
                         list($inheritedPackage, $inheritedTheme) = $inheritedPackageTheme;
                         if (!isset($areaStructure[$inheritedPackage][$inheritedTheme])) {
                             break;
@@ -1227,35 +1235,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _setFileFallbackToMap($file, $params, $filePath)
     {
-        $fallback = $this->_getFallback();
-        if ($fallback instanceof Mage_Core_Model_Design_Fallback_Caching_Proxy) {
-            $fallback->setFilePath($file, $params['area'], $params['package'], $params['theme'],
-                $params['skin'], $params['locale'], $params['module'], $filePath);
-        }
+        $this->_getFallback($params)->notifySkinFilePublished($filePath, $file, $params['module']);
         return $this;
-    }
-
-    /**
-     * Allow/forbid saving of fallback map (if fallback map is used to find file locations)
-     *
-     * @param bool $value
-     * @return Mage_Core_Model_Design_Package
-     */
-    public function setIsFallbackSavePermitted($value)
-    {
-        $this->_isFallbackSavePermitted = $value;
-        return $this;
-    }
-
-    /**
-     * Perform cache saving operations during system shutdown
-     */
-    public function onShutdown()
-    {
-        if ($this->_fallback && $this->_isFallbackSavePermitted
-            && $this->_fallback instanceof Mage_Core_Model_Design_Fallback_Caching_Proxy
-        ) {
-            $this->_fallback->saveMap();
-        }
     }
 }

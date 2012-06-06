@@ -47,7 +47,9 @@ class Mage_Core_Helper_Translate extends Mage_Core_Helper_Abstract
         $localeHierarchy = array();
         foreach ($localeConfig as $locale => $localeParent) {
             $localeParents = array($localeParent);
-            while (isset($localeConfig[$localeParent]) && !in_array($localeConfig[$localeParent], $localeParents)) {
+            while (isset($localeConfig[$localeParent]) && !in_array($localeConfig[$localeParent], $localeParents)
+                && $locale != $localeConfig[$localeParent]
+            ) {
                 // inheritance chain starts with the deepest parent
                 array_unshift($localeParents, $localeConfig[$localeParent]);
                 $localeParent = $localeConfig[$localeParent];

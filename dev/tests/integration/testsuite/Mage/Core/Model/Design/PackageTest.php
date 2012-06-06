@@ -42,8 +42,7 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setIsFallbackSavePermitted(false)
-            ->setDesignTheme('test/default/default', 'frontend');
+        $this->_model->setDesignTheme('test/default/default', 'frontend');
     }
 
     public function testSetGetArea()
@@ -258,11 +257,32 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
      * @param string $result
      * @covers Mage_Core_Model_Design_Package::getSkinUrl
      * @dataProvider getSkinUrlDataProvider
+     * @magentoConfigFixture current_store dev/static/sign 0
      */
     public function testGetSkinUrl($devMode, $file, $result)
     {
         Mage::setIsDeveloperMode($devMode);
         $this->assertEquals($this->_model->getSkinUrl($file), $result);
+    }
+
+    /**
+     * @param string $file
+     * @param string $result
+     * @covers Mage_Core_Model_Design_Package::getSkinUrl
+     * @dataProvider getSkinUrlDataProvider
+     * @magentoConfigFixture current_store dev/static/sign 1
+     */
+    public function testGetSkinUrlSigned($devMode, $file, $result)
+    {
+        Mage::setIsDeveloperMode($devMode);
+        $url = $this->_model->getSkinUrl($file);
+        $this->assertEquals(strpos($url, $result), 0);
+        $lastModified = array();
+        preg_match('/.*\?(.*)$/i', $url, $lastModified);
+        $this->assertArrayHasKey(1, $lastModified);
+        $this->assertEquals(10, strlen($lastModified[1]));
+        $this->assertLessThanOrEqual(time(), $lastModified[1]);
+        $this->assertGreaterThan(1970, date('Y', $lastModified[1]));
     }
 
     /**

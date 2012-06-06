@@ -29,8 +29,7 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $this->_model = new Mage_Core_Model_Design_Package();
-        $this->_model->setDesignTheme('test/default/default', 'frontend')
-            ->setIsFallbackSavePermitted(false);
+        $this->_model->setDesignTheme('test/default/default', 'frontend');
     }
 
     public function testGetFilename()
@@ -70,38 +69,5 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
         $expected = str_replace('/', DIRECTORY_SEPARATOR, $expected);
         $this->assertStringMatchesFormat($expected, $actual);
         $this->assertFileExists($actual);
-    }
-
-    /**
-     * @covers Mage_Core_Model_Design_PackageFallbackTest::setIsFallbackSavePermitted
-     */
-    public function testOnShutdown()
-    {
-        if (Mage::getIsDeveloperMode()) {
-            $this->markTestSkipped('Valid in non-developer mode only');
-        }
-
-        $mapsDir = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
-        $exception = null;
-        try {
-            $this->assertEmpty(glob($mapsDir . '/*.*'));
-
-            $this->_model->getLocaleFileName('translate.csv', array());
-
-            $this->_model->onShutdown();
-            $this->assertEmpty(glob($mapsDir . '/*.*'));
-
-            $this->_model->setIsFallbackSavePermitted(true)
-                ->onShutdown();
-            $this->assertNotEmpty(glob($mapsDir . '/*.*'));
-        } catch (Exception $exception) {
-        }
-
-        $this->_model->setIsFallbackSavePermitted(false);
-        Varien_Io_File::rmdirRecursive($mapsDir);
-
-        if ($exception) {
-            throw $exception;
-        }
     }
 }

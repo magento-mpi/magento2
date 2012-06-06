@@ -73,7 +73,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Randomly returns fixtures image path by pattern
+     * Returns fixtures image path by pattern
      *
      * @param string $pattern
      * @return string|null
@@ -84,8 +84,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $data = glob($dir . $pattern);
 
         if (!empty($data)) {
-            $index = isset($data[1]) ? array_rand($data) : 0;
-            return $data[$index];
+            return $data[0];
         }
 
         return null;
@@ -403,7 +402,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         return $this->_prepareData(array(
             array(
                 $this->_getFixture('image_adapters_test.png'),
-                $this->_getFixture('watermark.*'),
+                $this->_getFixture('watermark.png'),
                 50,
                 50,
                 100,
@@ -413,7 +412,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 $this->_getFixture('image_adapters_test.png'),
-                $this->_getFixture('watermark.*'),
+                $this->_getFixture('watermark.png'),
                 100,
                 70,
                 100,
@@ -423,7 +422,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 $this->_getFixture('image_adapters_test.png'),
-                $this->_getFixture('watermark.*'),
+                $this->_getFixture('watermark.png'),
                 100,
                 70,
                 100,
@@ -433,19 +432,39 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 $this->_getFixture('image_adapters_test.png'),
-                $this->_getFixture('watermark.*'),
+                $this->_getFixture('watermark.png'),
                 100,
                 100,
                 100,
                 Varien_Image_Adapter_Abstract::POSITION_STRETCH,
                 10,
                 10
-            )
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                $this->_getFixture('watermark.jpg'),
+                50,
+                50,
+                100,
+                Varien_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT,
+                10,
+                10
+            ),
+            array(
+                $this->_getFixture('image_adapters_test.png'),
+                $this->_getFixture('watermark.gif'),
+                50,
+                50,
+                100,
+                Varien_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT,
+                10,
+                10
+            ),
         ));
     }
 
     /**
-     * Randomly set colorX and colorY coordinates according image width and height
+     * Sets colorX and colorY coordinates according image width and height
      *
      * @param array $pixel ('x' => ..., 'y' => ...)
      * @param string $position
@@ -456,25 +475,25 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         switch ($position) {
             case Varien_Image_Adapter_Abstract::POSITION_BOTTOM_RIGHT:
-                $pixel['x'] = $adapter->getOriginalWidth()  - mt_rand(1, 49);
-                $pixel['y'] = $adapter->getOriginalHeight() - mt_rand(1, 49);
+                $pixel['x'] = $adapter->getOriginalWidth()  - 1;
+                $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_BOTTOM_LEFT:
-                $pixel['x'] = mt_rand(1, 49);
-                $pixel['y'] = $adapter->getOriginalHeight() - mt_rand(1, 49);
+                $pixel['x'] = 1;
+                $pixel['y'] = $adapter->getOriginalHeight() - 1;
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_TOP_LEFT:
-                $pixel['x'] = mt_rand(1, 49);
-                $pixel['y'] = mt_rand(1, 49);
+                $pixel['x'] = 1;
+                $pixel['y'] = 1;
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_TOP_RIGHT:
-                $pixel['x'] = $adapter->getOriginalWidth() - mt_rand(0, 49);
-                $pixel['y'] = mt_rand(1, 49);
+                $pixel['x'] = $adapter->getOriginalWidth() - 1;
+                $pixel['y'] = 1;
                 break;
             case Varien_Image_Adapter_Abstract::POSITION_STRETCH:
             case Varien_Image_Adapter_Abstract::POSITION_TILE:
-                $pixel['x'] = mt_rand(1, $adapter->getOriginalWidth() - 1);
-                $pixel['y'] = mt_rand(1, $adapter->getOriginalHeight() - 1);
+                $pixel['x'] = round($adapter->getOriginalWidth() / 3);
+                $pixel['y'] = round($adapter->getOriginalHeight() / 3);
                 break;
         }
         return $pixel;

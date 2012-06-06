@@ -70,7 +70,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Open image for processing
      *
-     * @throws RuntimeException
+     * @throws Exception
      * @param string $filename
      */
     public function open($filename)
@@ -82,7 +82,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
         try {
             $this->_imageHandler = new Imagick($this->_fileName);
         } catch (ImagickException $e) {
-            throw new RuntimeException('Unsupported image format.', $e->getCode(), $e);
+            throw new Exception('Unsupported image format.', $e->getCode(), $e);
         }
 
         $this->backgroundColor();
@@ -142,6 +142,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      *
      * @param int $frameWidth
      * @param int $frameHeight
+     * @throws Exception
      */
     public function resize($frameWidth = null, $frameHeight = null)
     {
@@ -190,6 +191,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
      * Rotate image on specific angle
      *
      * @param int $angle
+     * @throws Exception
      */
     public function rotate($angle)
     {
@@ -231,15 +233,17 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     /**
      * Add watermark to image
      *
-     * @param string $imagePath
+     * @param $imagePath
      * @param int $positionX
      * @param int $positionY
-     * @param int $opacity
-     * @param bool $isWaterMarkTile
-     * @throws RuntimeException
+     * @param bool $tile
+     * @throws Exception
      */
-    public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $isWaterMarkTile = false)
+    public function watermark($imagePath, $positionX = 0, $positionY = 0, $tile = false)
     {
+        if (empty($imagePath) || !file_exists($imagePath)) {
+            throw new Exception('Watermark Image absent.');
+        }
         $this->_checkCanProcess();
 
         $opacity = $this->getWatermarkImageOpacity();
@@ -264,6 +268,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
             $watermark->setImageOpacity($opacity);
         } else {
             // go to each pixel and make it transparent
+            $watermark->paintTransparentImage($watermark->getImagePixelColor(0, 0), 1, 65530);
             $watermark->evaluateImage(Imagick::EVALUATE_SUBTRACT, 1 - $opacity, Imagick::CHANNEL_ALPHA);
         }
 
@@ -286,12 +291,14 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 $positionY = $this->_imageSrcHeight - $watermark->getImageHeight();
                 break;
             case self::POSITION_TILE:
-                $isWaterMarkTile = true;
+                $positionX = 0;
+                $positionY = 0;
+                $tile = true;
                 break;
         }
 
         try {
-            if ($isWaterMarkTile) {
+            if ($tile) {
                 $offsetX = $positionX;
                 $offsetY = $positionY;
                 while($offsetY <= ($this->_imageSrcHeight + $watermark->getImageHeight())) {
@@ -316,7 +323,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
                 );
             }
         } catch (ImagickException $e) {
-            throw new RuntimeException('Unable to create watermark.', $e->getCode(), $e);
+            throw new Exception('Unable to create watermark.', $e->getCode(), $e);
         }
 
         // merge layers

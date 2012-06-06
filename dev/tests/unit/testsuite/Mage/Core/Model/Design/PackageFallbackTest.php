@@ -42,14 +42,16 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             'theme' => 'some_theme',
         );
         $file = 'Some_Module::some_file.ext';
+        $expectedParams = $params + array('module' => 'Some_Module');
         $expected = 'path/to/some_file.ext';
 
         $this->_model->expects($this->once())
             ->method('_getFallback')
+            ->with($expectedParams)
             ->will($this->returnValue($this->_fallback));
         $this->_fallback->expects($this->once())
             ->method('getFile')
-            ->with('some_file.ext', $params['area'], $params['package'], $params['theme'], 'Some_Module')
+            ->with('some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
 
         $actual = $this->_model->getFilename($file, $params);
@@ -69,10 +71,11 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
 
         $this->_model->expects($this->once())
             ->method('_getFallback')
+            ->with($params)
             ->will($this->returnValue($this->_fallback));
         $this->_fallback->expects($this->once())
             ->method('getLocaleFile')
-            ->with('some_file.ext', $params['area'], $params['package'], $params['theme'], $params['locale'])
+            ->with('some_file.ext')
             ->will($this->returnValue($expected));
 
         $actual = $this->_model->getLocaleFileName($file, $params);
@@ -89,16 +92,16 @@ class Mage_Core_Model_Design_PackageFallbackTest extends PHPUnit_Framework_TestC
             'locale' => 'some_locale'
         );
         $file = 'Some_Module::some_file.ext';
+        $expectedParams = $params + array('module' => 'Some_Module');
         $expected = 'path/to/some_file.ext';
 
         $this->_model->expects($this->once())
             ->method('_getFallback')
+            ->with($expectedParams)
             ->will($this->returnValue($this->_fallback));
         $this->_fallback->expects($this->once())
             ->method('getSkinFile')
-            ->with('some_file.ext', $params['area'], $params['package'], $params['theme'], $params['skin'],
-                $params['locale'], 'Some_Module'
-            )
+            ->with('some_file.ext', 'Some_Module')
             ->will($this->returnValue($expected));
 
         $actual = $this->_model->getSkinFile($file, $params);
