@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-require_once __DIR__ . '/../../../../../../lib/Varien/SimpleXMl/Element.php';
+require_once __DIR__ . '/../../../../../../lib/Varien/Simplexml/Element.php';
 
 /**
  * Tests entry point. Implements application installation, initialization and uninstall
