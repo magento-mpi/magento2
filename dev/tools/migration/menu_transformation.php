@@ -284,7 +284,7 @@ class Routine
                 foreach ($this->_searchActiveMenuItemUsage($fileContent) as $menuItemXPath => $strForReplacing) {
                     if (isset($this->_map[$menuItemXPath])) {
                         $replacement[0][] = $strForReplacing;
-                        $replacement[1][] = $this->_map[$menuItemXPath];
+                        $replacement[1][] = str_replace($menuItemXPath, $this->_map[$menuItemXPath], $strForReplacing);
                     }
                 }
 
@@ -427,8 +427,17 @@ class Routine
         return $menuItemInstruction;
     }
 
+    /**
+     * Get real menu item identifier according to map
+     *
+     * @param $menuItemId
+     * @return string
+     */
     protected function _getRealItemId($menuItemId)
     {
+        if ($menuItemId == $this->_parentItemID) {
+            return $menuItemId;
+        }
         return (isset($this->_map[$menuItemId]))? $this->_map[$menuItemId] : '';
     }
 
