@@ -26,6 +26,7 @@ return array(
         'db_pass'                    => '{{db_password}}',
         'use_secure'                 => 'no',
         'use_secure_admin'           => 'no',
+        'admin_no_form_key'          => 'yes',
         'use_rewrites'               => 'no',
         'admin_lastname'             => 'Admin',
         'admin_firstname'            => 'Admin',
