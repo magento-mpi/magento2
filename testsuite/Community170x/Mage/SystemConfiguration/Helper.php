@@ -65,6 +65,7 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         }
         $this->defineParameters($this->_getControlXpath('tab', 'sales_payment_methods'), 'href');
         $this->clickControl('tab', 'sales_payment_methods');
+        $this->disableAllPaypalMethods();
         if ($country) {
             $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
             $toSelect = $xpath . '//option[normalize-space(text())="' . $country . '"]';
@@ -124,5 +125,9 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
             }
             $this->assertEmptyVerificationErrors();
         }
+    }
+
+    public function disableAllPaypalMethods()
+    {
     }
 }
