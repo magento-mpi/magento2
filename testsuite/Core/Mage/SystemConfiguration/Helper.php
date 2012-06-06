@@ -133,4 +133,13 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
+
+    /**
+     * @param $parameters
+     */
+    public function configurePaypal($parameters)
+    {
+        $this->configure($parameters);
+    }
+
 }

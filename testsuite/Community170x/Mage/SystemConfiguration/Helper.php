@@ -104,7 +104,11 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                         $this->clickControl('link', $node . '_section', false);
                     }
                 }
-                $this->fillFieldset($data, end($fullPath));
+                $forFill = array();
+                foreach ($data as $key => $value) {
+                    $forFill[$paymentName . '_' . $key] = $value;
+                }
+                $this->fillFieldset($forFill, end($fullPath));
             }
         }
         $this->saveForm('save_config');

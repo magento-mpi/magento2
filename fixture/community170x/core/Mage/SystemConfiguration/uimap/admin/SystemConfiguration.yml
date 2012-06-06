@@ -91,15 +91,15 @@ system_configuration:
                                         ppa_ec_required_settings_section: //a[@id='payment_express-head']
                                     buttons:
                                     fields:
-                                        ppa_ec_merchant_email_account: //input[@id='payment_express_business_account']
-                                        ppa_ec_api_username: //input[@id='payment_express_api_username']
-                                        ppa_ec_api_password: //input[@id='payment_express_api_password']
-                                        ppa_ec_api_signature: //input[@id='payment_express_api_signature']
-                                        ppa_ec_api_certificate: //input[@id='payment_express_api_cert']
+                                        ppa_email_associated_with_paypal_merchant_account: //input[@id='payment_express_business_account']
+                                        ppa_api_username: //input[@id='payment_express_api_username']
+                                        ppa_api_password: //input[@id='payment_express_api_password']
+                                        ppa_api_signature: //input[@id='payment_express_api_signature']
+                                        ppa_api_certificate: //input[@id='payment_express_api_cert']
                                         ppa_ec_proxy_host: //input[@id='payment_express_proxy_host']
                                         ppa_ec_proxy_port: //input[@id='payment_express_proxy_port']
                                     dropdowns:
-                                        ppa_ec_api_authentication_method: //select[@id='payment_express_api_authentication']
+                                        ppa_api_authentication_methods: //select[@id='payment_express_api_authentication']
                                         ppa_ec_sandbox_mode: //select[@id='payment_express_sandbox_flag']
                                         ppa_ec_use_proxy: //select[@id='payment_express_use_proxy']
                             -
@@ -229,16 +229,16 @@ system_configuration:
                                         ppp_pp_required_settings_section: //a[@id='payment_wpp_and_express_checkout-head']
                                     buttons:
                                     fields:
-                                        ppp_ec_merchant_email_account: //input[@id='payment_wpp_and_express_checkout_business_account']
-                                        ppp_ec_api_username: //input[@id='payment_wpp_and_express_checkout_api_username']
-                                        ppp_ec_api_password: //input[@id='payment_wpp_and_express_checkout_api_password']
-                                        ppp_ec_api_signature: //input[@id='payment_wpp_and_express_checkout_api_signature']
-                                        ppp_ec_api_certificate: //input[@id='payment_wpp_and_express_checkout_api_cert']
+                                        ppp_email_associated_with_paypal_merchant_account: //input[@id='payment_wpp_and_express_checkout_business_account']
+                                        ppp_api_username: //input[@id='payment_wpp_and_express_checkout_api_username']
+                                        ppp_api_password: //input[@id='payment_wpp_and_express_checkout_api_password']
+                                        ppp_api_signature: //input[@id='payment_wpp_and_express_checkout_api_signature']
+                                        ppp_api_certificate: //input[@id='payment_wpp_and_express_checkout_api_cert']
                                         ppp_ec_proxy_host: //input[@id='payment_wpp_and_express_checkout_proxy_host']
                                         ppp_ec_proxy_port: //input[@id='payment_wpp_and_express_checkout_proxy_port']
                                     dropdowns:
                                         ppp_pp_use_payment_bridge: //select[@id='payment_wpp_and_express_checkout_using_pbridge']
-                                        ppp_ec_api_authentication_method: //select[@id='payment_wpp_and_express_checkout_api_authentication']
+                                        ppp_api_authentication_methods: //select[@id='payment_wpp_and_express_checkout_api_authentication']
                                         ppp_ec_sandbox_mode: //select[@id='payment_wpp_and_express_checkout_sandbox_flag']
                                         ppp_ec_use_proxy: //select[@id='payment_wpp_and_express_checkout_use_proxy']
                             -
@@ -422,7 +422,7 @@ system_configuration:
                                     links:
                                         pfp_fp_required_settings_section: //a[@id='payment_paypal_payflow_api_settings-head']
                                     fields:
-                                        pfp_fp_merchant_email_account: //input[@id='payment_paypal_payflow_api_settings_business_account']
+                                        pfp_fp_email_associated_with_paypal_merchant_account: //input[@id='payment_paypal_payflow_api_settings_business_account']
                                         pfp_fp_partner: //input[@id='payment_paypal_payflow_api_settings_partner']
                                         pfp_fp_vendor: //input[@id='payment_paypal_payflow_api_settings_vendor']
                                         pfp_fp_user: //input[@id='payment_paypal_payflow_api_settings_user']
@@ -555,15 +555,15 @@ system_configuration:
                                         pfl_ec_required_settings_section: //a[@id='payment_payflow_link_express_checkout-head']
                                     buttons:
                                     fields:
-                                        pfl_ec_merchant_email_account: //input[@id='payment_payflow_link_express_checkout_business_account']
-                                        pfl_ec_api_username: //input[@id='payment_payflow_link_express_checkout_api_username']
-                                        pfl_ec_api_password: //input[@id='payment_payflow_link_express_checkout_api_password']
-                                        pfl_ec_api_signature: //input[@id='payment_payflow_link_express_checkout_api_signature']
-                                        pfl_ec_api_certificate: //input[@id='payment_payflow_link_express_checkout_api_cert']
+                                        pfl_email_associated_with_paypal_merchant_account: //input[@id='payment_payflow_link_express_checkout_business_account']
+                                        pfl_api_username: //input[@id='payment_payflow_link_express_checkout_api_username']
+                                        pfl_api_password: //input[@id='payment_payflow_link_express_checkout_api_password']
+                                        pfl_api_signature: //input[@id='payment_payflow_link_express_checkout_api_signature']
+                                        pfl_api_certificate: //input[@id='payment_payflow_link_express_checkout_api_cert']
                                         pfl_ec_proxy_host: //input[@id='payment_payflow_link_express_checkout_proxy_host']
                                         pfl_ec_proxy_port: //input[@id='payment_payflow_link_express_checkout_proxy_port']
                                     dropdowns:
-                                        pfl_ec_api_authentication_method: //select[@id='payment_payflow_link_express_checkout_api_authentication']
+                                        pfl_api_authentication_methods: //select[@id='payment_payflow_link_express_checkout_api_authentication']
                                         pfl_ec_sandbox_mode: //select[@id='payment_payflow_link_express_checkout_sandbox_flag']
                                         pfl_ec_use_proxy: //select[@id='payment_payflow_link_express_checkout_use_proxy']
                             -
@@ -704,15 +704,15 @@ system_configuration:
                                         pec_ec_required_settings_section: //a[@id='payment_express_checkout_required_express_checkout-head']
                                     buttons:
                                     fields:
-                                        pec_ec_merchant_email_account: //input[@id='payment_express_checkout_required_express_checkout_business_account']
-                                        pec_ec_api_username: //input[@id='payment_express_checkout_required_express_checkout_api_username']
-                                        pec_ec_api_password: //input[@id='payment_express_checkout_required_express_checkout_api_password']
-                                        pec_ec_api_signature: //input[@id='payment_express_checkout_required_express_checkout_api_signature']
-                                        pec_ec_api_certificate: //input[@id='payment_express_checkout_required_express_checkout_api_cert']
+                                        pec_email_associated_with_paypal_merchant_account: //input[@id='payment_express_checkout_required_express_checkout_business_account']
+                                        pec_api_username: //input[@id='payment_express_checkout_required_express_checkout_api_username']
+                                        pec_api_password: //input[@id='payment_express_checkout_required_express_checkout_api_password']
+                                        pec_api_signature: //input[@id='payment_express_checkout_required_express_checkout_api_signature']
+                                        pec_api_certificate: //input[@id='payment_express_checkout_required_express_checkout_api_cert']
                                         pec_ec_proxy_host: //input[@id='payment_express_checkout_required_express_checkout_proxy_host']
                                         pec_ec_proxy_port: //input[@id='payment_express_checkout_required_express_checkout_proxy_port']
                                     dropdowns:
-                                        pec_ec_api_authentication_method: //select[@id='payment_express_checkout_required_express_checkout_api_authentication']
+                                        pec_api_authentication_methods: //select[@id='payment_express_checkout_required_express_checkout_api_authentication']
                                         pec_ec_sandbox_mode: //select[@id='payment_express_checkout_required_express_checkout_sandbox_flag']
                                         pec_ec_use_proxy: //select[@id='payment_express_checkout_required_express_checkout_use_proxy']
                             -
