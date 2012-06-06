@@ -35,8 +35,7 @@
         </block>
     </design_editor_toolbar>
 
-    <design_editor_page translate="label" module="Mage_Design_Editor" type="page">
-        <label>Design Editor Page Blocks Management Page</label>
+    <design_editor_page>
         <reference name="root">
             <action method="setTemplate"><template>Mage_DesignEditor::page.phtml</template></action>
             <block type="Mage_Page_Block_Html_Head" name="head" as="head"/>
