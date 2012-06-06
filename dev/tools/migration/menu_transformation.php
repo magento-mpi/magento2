@@ -12,7 +12,6 @@ define('USAGE', <<<USAGE
 $>./menu_transformation.php -- [-a:i:nprdseh]
     additional parameters:
     -a          set area code
-    -i          set parent item identifier
     -n          create new menu instructions
     -p          print new menu instructions
     -c          replace usage of active menu item setting according to map
@@ -24,13 +23,12 @@ $>./menu_transformation.php -- [-a:i:nprdseh]
     -h          print usage
 
     Note:
-        1) option -n must be declared with options -i, -a
-        2) option -p, -c or -m must be declared with option -i
-        3) option -e must be declared with option -r, -d, -p or -n
+        1) option -n must be declared with options -a
+        2) option -e must be declared with option -r, -d, -p or -n
 USAGE
 );
 
-$shortOpts = 'a:i:npcmrdseh';
+$shortOpts = 'a:npcmrdseh';
 $options = getopt($shortOpts);
 
 if (isset($options['h'])) {
@@ -104,7 +102,7 @@ class Routine
     public function __construct($options)
     {
         $this->_areaCode = isset($options['a'])? $options['a'] : null;
-        $this->_parentItemID = isset($options['i'])? $options['i'] : null;
+        $this->_parentItemID = '';
 
         $this->_isCreateMenuActions = isset($options['n']);
         $this->_isPrintMenuActions = isset($options['p']);
@@ -414,6 +412,9 @@ class Routine
             $menuItemInstruction .= '        <add ';
             foreach (array_keys(get_object_vars($menuItem)) as $attributeOfMenuItem) {
                 if (in_array($attributeOfMenuItem, array('id', 'parent'), true)) {
+                    if ($attributeOfMenuItem == 'parent' && $menuItem->$attributeOfMenuItem == '') {
+                        continue;
+                    }
                     $menuItemId = $this->_getRealItemId($menuItem->$attributeOfMenuItem);
                     $menuItemInstruction .= $attributeOfMenuItem . '="' . $menuItemId . '" ';
                 } else {
