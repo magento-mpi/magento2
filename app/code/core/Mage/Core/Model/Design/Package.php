@@ -579,13 +579,15 @@ class Mage_Core_Model_Design_Package
 
         $file = $this->getSkinFile($skinFile, $params);
 
-        $dotPosition = strrpos($skinFile, ".");
+        $dotPosition = strrpos($skinFile, '.');
         $extension = strtolower(substr($skinFile, $dotPosition + 1));
+        $staticContentTypes = array(
+            Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
+            Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
+        );
         if (!Mage::getIsDeveloperMode() && !empty($extension) &&
-            in_array($extension, array(
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_JS,
-                Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS
-            ))) {
+            in_array($extension, $staticContentTypes)
+        ) {
             $minifiedPath = str_replace('.' . $extension, '.min.' . $extension, $file);
             if (file_exists($minifiedPath)) {
                 $file = $minifiedPath;

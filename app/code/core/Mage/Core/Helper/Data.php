@@ -795,7 +795,7 @@ XML;
     }
 
     /**
-     * Check should we sign static files or not
+     * Check if static files have to be signed
      *
      * @return bool
      */
