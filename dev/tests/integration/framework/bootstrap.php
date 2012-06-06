@@ -49,7 +49,6 @@ if (defined('TESTS_GLOBAL_CONFIG_FILES') && TESTS_GLOBAL_CONFIG_FILES) {
 } else {
     $globalEtcFiles = "../../../app/etc/*.xml";
 }
-$globalEtcFiles .= ';etc/integration-tests-config.xml';
 
 if (defined('TESTS_MODULE_CONFIG_FILES') && TESTS_MODULE_CONFIG_FILES) {
     $moduleEtcFiles = TESTS_MODULE_CONFIG_FILES;
@@ -67,6 +66,7 @@ Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
     $localXmlFile,
     $globalEtcFiles,
     $moduleEtcFiles,
+    'etc/integration-tests-config.xml',
     "$baseDir/tmp",
     $cleanupAction,
     $developerMode

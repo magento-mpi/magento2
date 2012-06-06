@@ -11,21 +11,11 @@
 
 class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * @var Mage_Core_Model_Design_Fallback
-     */
-    protected $_model;
-
     public static function setUpBeforeClass()
     {
         Mage::app()->getConfig()->getOptions()->setDesignDir(
             dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'design'
         );
-    }
-
-    protected function setUp()
-    {
-        $this->_model = new Mage_Core_Model_Design_Fallback;
     }
 
     /**
@@ -40,8 +30,17 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFile($file, $area, $package, $theme, $module, $expectedFilename)
     {
+        $params = array(
+            'area' => $area,
+            'package' => $package,
+            'theme' => $theme,
+            'skin' => null,
+            'locale' => null
+        );
+        $model = new Mage_Core_Model_Design_Fallback($params);
+
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $this->_model->getFile($file, $area, $package, $theme, $module);
+        $actualFilename = $model->getFile($file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -91,8 +90,17 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     public function testLocaleFileFallback($file, $area, $package, $theme, $locale, $expectedFilename)
     {
+        $params = array(
+            'area' => $area,
+            'package' => $package,
+            'theme' => $theme,
+            'skin' => null,
+            'locale' => $locale
+        );
+        $model = new Mage_Core_Model_Design_Fallback($params);
+
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $this->_model->getLocaleFile($file, $area, $package, $theme, $locale);
+        $actualFilename = $model->getLocaleFile($file);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -132,8 +140,17 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
      */
     protected function _testGetSkinFile($file, $area, $package, $theme, $skin, $locale, $module, $expectedFilename)
     {
+        $params = array(
+            'area' => $area,
+            'package' => $package,
+            'theme' => $theme,
+            'skin' => $skin,
+            'locale' => $locale
+        );
+        $model = new Mage_Core_Model_Design_Fallback($params);
+
         $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
-        $actualFilename = $this->_model->getSkinFile($file, $area, $package, $theme, $skin, $locale, $module);
+        $actualFilename = $model->getSkinFile($file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
             $this->assertFileExists($actualFilename);
@@ -269,36 +286,6 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
                 'mage/jquery-no-conflict.js', 'frontend', 'package', 'custom_theme', 'default',
                 '%s/pub/js/mage/jquery-no-conflict.js',
             ),
-        );
-    }
-
-    /**
-     * @param string $area
-     * @param string $package
-     * @param string $theme
-     * @param array $expected
-     *
-     * @dataProvider getInheritedThemeDataProvider
-     */
-    public function testGetInheritedTheme($area, $package, $theme, $expected)
-    {
-        $actual = $this->_model->getInheritedTheme($area, $package, $theme);
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return array
-     */
-    public function getInheritedThemeDataProvider()
-    {
-        return array(
-            'standalone_theme' => array('frontend', 'package', 'standalone_theme', false),
-            'descendant_theme' => array(
-                'frontend', 'package', 'custom_theme_descendant', array('package', 'custom_theme')
-            ),
-            'external_package_descendant_theme' => array(
-                'frontend', 'test', 'external_package_descendant', array('package', 'custom_theme')
-            )
         );
     }
 }

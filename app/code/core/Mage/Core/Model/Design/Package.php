@@ -115,26 +115,12 @@ class Mage_Core_Model_Design_Package
     protected $_publicCache = array();
 
     /**
-     * Fallback model, controlling rules of fallback and inheritance
+     * Array of fallback model, controlling rules of fallback and inheritance for appropriate
+     * area, package, theme, skin, locale
      *
-     * @var Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_Caching_Proxy
+     * @var array
      */
-    protected $_fallback;
-
-    /**
-     * Whether saving fallback map is permitted
-     *
-     * @var bool
-     */
-    protected $_isFallbackSavePermitted = true;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        register_shutdown_function(array($this, 'onShutdown'));
-    }
+    protected $_fallback = array();
 
     /**
      * Set package area
@@ -279,8 +265,7 @@ class Mage_Core_Model_Design_Package
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return  $this->_getFallback()->getFile($file, $params['area'], $params['package'], $params['theme'],
-            $params['module']);
+        return  $this->_getFallback($params)->getFile($file, $params['module']);
     }
 
     /**
@@ -293,8 +278,7 @@ class Mage_Core_Model_Design_Package
     public function getLocaleFileName($file, array $params = array())
     {
         $this->_updateParamDefaults($params);
-        return $this->_getFallback()->getLocaleFile($file, $params['area'], $params['package'], $params['theme'],
-            $params['locale']);
+        return $this->_getFallback($params)->getLocaleFile($file);
     }
 
     /**
@@ -308,8 +292,7 @@ class Mage_Core_Model_Design_Package
     {
         $file = $this->_extractScope($file, $params);
         $this->_updateParamDefaults($params);
-        return $this->_getFallback()->getSkinFile($file, $params['area'], $params['package'], $params['theme'],
-            $params['skin'], $params['locale'], $params['module']);
+        return $this->_getFallback($params)->getSkinFile($file, $params['module']);
     }
 
     /**
@@ -339,17 +322,24 @@ class Mage_Core_Model_Design_Package
     /**
      * Return most appropriate model to perform fallback
      *
-     * @return Mage_Core_Model_Design_Fallback|Mage_Core_Model_Design_Fallback_Caching_Proxy
+     * @param array $params
+     * @return Mage_Core_Model_Design_FallbackInterface
      */
-    protected function _getFallback()
+    protected function _getFallback($params)
     {
-        if (!$this->_fallback) {
+        $cacheKey = "{$params['area']}|{$params['package']}|{$params['theme']}|{$params['skin']}|{$params['locale']}";
+        if (!isset($this->_fallback[$cacheKey])) {
+            $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
+                ->getNode('global/dev/design_fallback/allow_map_update');
+            $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
+            $params['baseDir'] = Mage::getBaseDir();
+
             $model = $this->_isDeveloperMode() ?
                 'Mage_Core_Model_Design_Fallback' :
-                'Mage_Core_Model_Design_Fallback_Caching_Proxy';
-            $this->_fallback = Mage::getModel($model);
+                'Mage_Core_Model_Design_Fallback_CachingProxy';
+            $this->_fallback[$cacheKey] = Mage::getModel($model, $params);
         }
-        return $this->_fallback;
+        return $this->_fallback[$cacheKey];
     }
 
     /**
@@ -1083,6 +1073,7 @@ class Mage_Core_Model_Design_Package
      */
     public function getDesignEntitiesStructure($area, $addInheritedSkins = true)
     {
+        $areaThemeConfig = $this->getThemeConfig($area);
         $areaStructure = $this->_getDesignEntitiesFilesystemStructure($area);
 
         foreach ($areaStructure as $packageName => &$themes) {
@@ -1094,10 +1085,7 @@ class Mage_Core_Model_Design_Package
                 if ($addInheritedSkins) {
                     $currentPackage = $packageName;
                     $currentTheme = $themeName;
-                    $fallback = $this->_getFallback();
-                    while ($inheritedPackageTheme =
-                        $fallback->getInheritedTheme($area, $currentPackage, $currentTheme)
-                    ) {
+                    while ($inheritedPackageTheme = $areaThemeConfig->getParentTheme($currentPackage, $currentTheme)) {
                         list($inheritedPackage, $inheritedTheme) = $inheritedPackageTheme;
                         if (!isset($areaStructure[$inheritedPackage][$inheritedTheme])) {
                             break;
@@ -1245,35 +1233,7 @@ class Mage_Core_Model_Design_Package
      */
     protected function _setFileFallbackToMap($file, $params, $filePath)
     {
-        $fallback = $this->_getFallback();
-        if ($fallback instanceof Mage_Core_Model_Design_Fallback_Caching_Proxy) {
-            $fallback->setFilePath($file, $params['area'], $params['package'], $params['theme'],
-                $params['skin'], $params['locale'], $params['module'], $filePath);
-        }
+        $this->_getFallback($params)->notifySkinFilePublished($filePath, $file, $params['module']);
         return $this;
-    }
-
-    /**
-     * Allow/forbid saving of fallback map (if fallback map is used to find file locations)
-     *
-     * @param bool $value
-     * @return Mage_Core_Model_Design_Package
-     */
-    public function setIsFallbackSavePermitted($value)
-    {
-        $this->_isFallbackSavePermitted = $value;
-        return $this;
-    }
-
-    /**
-     * Perform cache saving operations during system shutdown
-     */
-    public function onShutdown()
-    {
-        if ($this->_fallback && $this->_isFallbackSavePermitted
-            && $this->_fallback instanceof Mage_Core_Model_Design_Fallback_Caching_Proxy
-        ) {
-            $this->_fallback->saveMap();
-        }
     }
 }
