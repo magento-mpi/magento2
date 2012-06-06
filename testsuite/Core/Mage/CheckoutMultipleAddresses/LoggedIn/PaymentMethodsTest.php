@@ -131,7 +131,11 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
         }
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
@@ -193,7 +197,12 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
             $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
-        $this->navigate('system_configuration');
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->systemConfigurationHelper()->configure($paymentConfig);
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);

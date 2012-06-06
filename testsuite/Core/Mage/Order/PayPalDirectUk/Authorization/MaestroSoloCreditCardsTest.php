@@ -42,10 +42,9 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
 
     protected function tearDownAfterTestClass()
     {
-        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
     }
 
     /**
@@ -56,16 +55,14 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
-        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_with_3Dsecure');
-        $currency = $this->loadDataSet('Currency', 'enable_gbp');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($settings);
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->configurePaypal('PaymentMethod/paypaldirectuk_with_3Dsecure');
+        $this->systemConfigurationHelper()->configure('Currency/enable_gbp');
 
         return $productData['general_sku'];
     }

@@ -121,7 +121,11 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
         }
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -188,7 +192,12 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');

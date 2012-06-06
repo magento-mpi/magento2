@@ -121,7 +121,11 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
         }
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -185,7 +189,12 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->logoutCustomer();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
