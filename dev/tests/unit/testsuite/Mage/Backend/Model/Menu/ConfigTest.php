@@ -15,22 +15,22 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     /**
      * @var DOMDocument
      */
-    protected $_DOMDocumentMock;
+    protected $_domDocumentMock;
 
     /**
      * @var Mage_Backend_Model_Menu_Director_Dom
      */
-    protected $_menuDirectorDomMock;
+    protected $_directorDomMock;
 
     /**
      * @var Mage_Backend_Model_Menu_Config_Menu
      */
-    protected $_menuConfigMenuMock;
+    protected $_configMenuMock;
 
     /**
      * @var Mage_Backend_Model_Menu_Builder
      */
-    protected $_menuBuilderMock;
+    protected $_builderMock;
 
     /**
      * @var Mage_Backend_Model_Menu_Config
@@ -46,13 +46,13 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_cacheInstanceMock = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
 
-        $this->_menuDirectorDomMock = $this->getMock('Mage_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
+        $this->_directorDomMock = $this->getMock('Mage_Backend_Model_Menu_Director_Dom', array(), array(), '', false);
 
-        $this->_menuBuilderMock = $this->getMock('Mage_Backend_Model_Menu_Builder', array(), array(), '', false);
+        $this->_builderMock = $this->getMock('Mage_Backend_Model_Menu_Builder', array(), array(), '', false);
 
-        $this->_menuConfigMenuMock = $this->getMock('Mage_Backend_Model_Menu_Config_Menu', array(), array(), '', false);
+        $this->_configMenuMock = $this->getMock('Mage_Backend_Model_Menu_Config_Menu', array(), array(), '', false);
 
-        $this->_DOMDocumentMock = $this->getMock('DOMDocument', array(), array(), '', false);
+        $this->_domDocumentMock = $this->getMock('DOMDocument', array(), array(), '', false);
 
         $this->_model = new Mage_Backend_Model_Menu_Config(array(
             'appConfig' => $this->_appConfigMock,
@@ -90,11 +90,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue($xmlString));
 
-        $this->_menuDirectorDomMock->expects($this->exactly(1))
+        $this->_directorDomMock->expects($this->exactly(1))
             ->method('buildMenu')
             ->with($this->isInstanceOf('Mage_Backend_Model_Menu_Builder'));
 
-        $this->_menuBuilderMock->expects($this->exactly(1))
+        $this->_builderMock->expects($this->exactly(1))
             ->method('getResult')
             ->will($this->returnValue($this->getMock('Mage_Backend_Model_Menu')));
 
@@ -115,11 +115,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('canUse')
             ->will($this->returnValue(false));
 
-        $this->_menuConfigMenuMock->expects($this->exactly(1))
+        $this->_configMenuMock->expects($this->exactly(1))
             ->method('getMergedConfig')
-            ->will($this->returnValue($this->_DOMDocumentMock));
+            ->will($this->returnValue($this->_domDocumentMock));
 
-        $this->_DOMDocumentMock->expects($this->exactly(1))
+        $this->_domDocumentMock->expects($this->exactly(1))
             ->method('saveXML')
             ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>'));
 
@@ -145,13 +145,13 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue(null));
 
-        $this->_DOMDocumentMock->expects($this->exactly(1))
+        $this->_domDocumentMock->expects($this->exactly(1))
             ->method('saveXML')
             ->will($this->returnValue('<?xml version="1.0" encoding="utf-8"?><config><menu></menu></config>'));
 
-        $this->_menuConfigMenuMock->expects($this->exactly(1))
+        $this->_configMenuMock->expects($this->exactly(1))
             ->method('getMergedConfig')
-            ->will($this->returnValue($this->_DOMDocumentMock));
+            ->will($this->returnValue($this->_domDocumentMock));
 
         $this->_cacheInstanceMock->expects($this->exactly(1))
             ->method('save')
@@ -170,11 +170,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     public function getModelInstance($model, $arguments)
     {
         if ($model == 'Mage_Backend_Model_Menu_Director_Dom') {
-            return $this->_menuDirectorDomMock;
+            return $this->_directorDomMock;
         } elseif ($model == 'Mage_Backend_Model_Menu_Builder') {
-            return $this->_menuBuilderMock;
+            return $this->_builderMock;
         } elseif ($model == 'Mage_Backend_Model_Menu_Config_Menu') {
-            return $this->_menuConfigMenuMock;
+            return $this->_configMenuMock;
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
         }
