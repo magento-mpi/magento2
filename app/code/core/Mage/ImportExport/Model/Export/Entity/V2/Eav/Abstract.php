@@ -238,16 +238,6 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Retrieve list of disabled attributes codes.
-     *
-     * @return array
-     */
-    public function getDisabledAttributes()
-    {
-        return $this->_disabledAttrs;
-    }
-
-    /**
      * Fill row with attributes values
      *
      * @param Mage_Core_Model_Abstract $item export entity

@@ -69,7 +69,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
 
         $this->_initAttrValues()
             ->_initStores()
-            ->_initWebsites();
+            ->_initWebsites(true);
     }
 
     /**
@@ -87,7 +87,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
 
         // create export file
         $writer->setHeaderCols(array_merge($this->_permanentAttributes, $validAttrCodes, array('password')));
-        foreach ($collection as $itemId => $item) { // go through all customers
+        foreach ($collection as $item) { // go through all customers
             $row = $this->_addAttributeValuesToRow($item);
             $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$item['website_id']];
             $row[self::COL_STORE]   = $this->_storeIdToCode[$item['store_id']];

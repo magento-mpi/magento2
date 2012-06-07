@@ -57,7 +57,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
         $customers = Mage::registry('_fixture/Mage_ImportExport_Customer_Collection');
         foreach ($customers as $key => $customer) {
             foreach ($expectedAttrCodes as $code) {
-                if (!in_array($code, $this->_model->getDisabledAttributes())) {
+                if (!in_array($code, $this->_model->getDisabledAttributes()) && isset($lines[$key][$code])) {
                     $this->assertEquals(
                         $customer->getData($code),
                         $lines[$key][$code],
