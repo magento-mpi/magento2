@@ -201,7 +201,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/root/system/node', $this->_model->getFirstAvailableChild());
     }
 
-    public function testOffsetGetReturnsItemById()
+    public function testGetById()
     {
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $item->expects($this->exactly(2))->method('getId')->will($this->returnValue('item1'));
@@ -219,5 +219,81 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($item2, $this->_model[1]);
         $this->assertEquals($item, $this->_model->getById('item1'));
         $this->assertEquals($item2, $this->_model->getById('item2'));
+    }
+
+    public function testGetByIdRecursive()
+    {
+        $menuItem1 = new Mage_Backend_Model_Menu();
+        $menuItem2 = new Mage_Backend_Model_Menu();
+
+        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item->expects($this->any())->method('getId')->will($this->returnValue('item1'));
+        $item->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $item->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
+        $item->expects($this->any())->method('getChildren')->will($this->returnValue($menuItem1));
+        $this->_model->addChild($item);
+
+        $item2 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item2->expects($this->any())->method('getId')->will($this->returnValue('item2'));
+        $item2->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item2->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $item2->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
+        $item2->expects($this->any())->method('getChildren')->will($this->returnValue($menuItem2));
+        $menuItem1->addChild($item2);
+
+
+        $item3 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item3->expects($this->any())->method('getId')->will($this->returnValue('item3'));
+        $item3->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item3->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $item3->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
+        $menuItem2->addChild($item3);
+
+        $this->assertEquals($item, $this->_model->getById('item1', true));
+        $this->assertEquals($item2, $this->_model->getById('item2', true));
+        $this->assertEquals($item2, $this->_model->getById('item3', true));
+
+        $this->assertEquals($item, $this->_model->getById('item1'));
+        $this->assertNull($this->_model->getById('item2'));
+        $this->assertNull($this->_model->getById('item3'));
+    }
+
+    /**
+     * Test reset iterator to first element before each foreach
+     */
+    public function testNestedLoop()
+    {
+        $item1 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item1->expects($this->exactly(4))->method('getId')->will($this->returnValue('item1'));
+        $item1->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item1->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($item1);
+        
+        $item2 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item2->expects($this->exactly(4))->method('getId')->will($this->returnValue('item2'));
+        $item2->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item2->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($item2);
+
+        $item3 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item3->expects($this->exactly(4))->method('getId')->will($this->returnValue('item3'));
+        $item3->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item3->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($item3);
+
+        $expected = array(
+            'item1' => array('item1', 'item2', 'item3'),
+            'item2' => array('item1', 'item2', 'item3'),
+            'item3' => array('item1', 'item2', 'item3'),
+        );
+        $actual = array();
+        foreach ($this->_model as $valLoop1) {
+            $keyLevel1 = $valLoop1->getId();
+            foreach ($this->_model as $valLoop2) {
+                $actual[$keyLevel1][] = $valLoop2->getId();
+            }
+        }
+        $this->assertEquals($expected, $actual);
     }
 }

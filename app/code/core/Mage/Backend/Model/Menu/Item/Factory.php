@@ -114,6 +114,7 @@ class Mage_Backend_Model_Menu_Item_Factory
         $data['storeConfig'] = $this->_storeConfig;
         $data['objectFactory'] = $this->_objectFactory;
         $data['urlModel'] = $this->_urlModel;
+        $data['validator'] = $this->_validator;
         return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Item', $data);
     }
 }

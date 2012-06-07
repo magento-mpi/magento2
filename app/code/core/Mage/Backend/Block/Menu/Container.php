@@ -40,6 +40,7 @@ class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
 
         /**
          * Render child blocks
+         * @var Mage_Backend_Block_Menu_Item
          */
         $block = $this->getLayout()->getBlock($this->getContainer()->getItemRendererBlock());
         $block->setItem($menu);

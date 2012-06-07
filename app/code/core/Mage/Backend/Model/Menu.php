@@ -11,7 +11,7 @@
 /**
  * Backend menu model
  */
-class Mage_Backend_Model_Menu extends ArrayIterator
+class Mage_Backend_Model_Menu extends ArrayObject
 {
     /**
      * Sort index used to add items without sort index explicitly set
@@ -43,6 +43,7 @@ class Mage_Backend_Model_Menu extends ArrayIterator
             $this->_path = $array['path'] . '/';
             unset($array['path']);
         }
+        $this->setIteratorClass('Mage_Backend_Model_Menu_Iterator');
         parent::__construct($array);
     }
 
@@ -73,16 +74,31 @@ class Mage_Backend_Model_Menu extends ArrayIterator
      * Retrieve menu item by id
      *
      * @param string $index
+     * @param bool $searchRecursive search item recursive
      * @return Mage_Backend_Model_Menu_Item|null
      */
-    public function getById($index)
+    public function getById($index, $searchRecursive = false)
     {
+        $result = null;
+        //$key = $this->key();
+
+        //reset($this);
         foreach ($this as $item) {
             if ($item->getId() == $index) {
-                return $item;
+                $result = $item;
+                break;
+            }
+
+            if ($searchRecursive &&
+                $item->hasChildren() &&
+                ($result = $item->getChildren()->getById($index, $searchRecursive))
+            ) {
+                break;
             }
         }
-        return null;
+
+        //$this->seek($key);
+        return $result;
     }
 
     /**

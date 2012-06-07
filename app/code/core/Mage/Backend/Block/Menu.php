@@ -41,6 +41,13 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     protected $_url;
 
     /**
+     * Current selected item
+     *
+     * @var Mage_Backend_Model_Menu_Item|null|bool
+     */
+    protected $_activeItemModel = null;
+
+    /**
      * Initialize template and cache settings
      *
      */
@@ -173,5 +180,21 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     public function getItemRendererBlock()
     {
         return $this->_itemRendererBlock;
+    }
+
+    /**
+     * Get current selected menu item
+     *
+     * @return Mage_Backend_Model_Menu_Item|null|bool
+     */
+    public function getActiveItemModel()
+    {
+        if (is_null($this->_activeItemModel)) {
+            $this->_activeItemModel = $this->getMenuModel()->getById($this->getActive(), true);
+            if (false == ($this->_activeItemModel instanceof Mage_Backend_Model_Menu_Item)) {
+                $this->_activeItemModel = false;
+            }
+        }
+        return $this->_activeItemModel;
     }
 }
