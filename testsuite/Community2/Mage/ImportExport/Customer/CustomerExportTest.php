@@ -85,4 +85,35 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                 $exportFileVersion,
                 'Export File Version dropdown contains incorrect values');
     }
+    /**
+     * <p>Search by attribute label Master File</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "New Export"</p>
+     * <p>4. Select Master File Type</p>
+     * <p>5. Enter any existing attribute name in the "Attribute Label" field</p>
+     * <p>6. Press "Search" button</p>
+     * <p>7. SPress "Reset Filter" button</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5482
+     */
+    public function SearchByAttributeLabel()
+    {
+        //Step 1
+        $this->navigate('export');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForElementVisible($this->_getControlXpath('fildset', 'grid_and_filter'));
+        //Step 5
+        $this->SearchByAttributeLabel();
+
+    }
 }
