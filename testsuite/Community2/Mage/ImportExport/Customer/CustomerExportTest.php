@@ -35,10 +35,17 @@
  */
 class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_TestCase
 {
-     public function setUpBeforeTests()
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to System -> Export/p>
+     */
+    protected function assertPreConditions()
     {
         //logged in once for all tests
         $this->loginAdminUser();
+        //Step 1
+        $this->navigate('export');
     }
     /**
      * <p>Export Settings General View</p>
@@ -52,8 +59,6 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function exportSettingsGeneralView()
     {
-        //Step 1
-        $this->navigate('export');
         //Verifying
         $entityTypes = $this->getElementsByXpath(
                 $this->_getControlXpath('dropdown', 'entity_type') . '/option',
@@ -81,10 +86,67 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $exportFileVersion = $this->getElementsByXpath(
                 $this->_getControlXpath('dropdown', 'export_file') . '/option',
                 'text');
-        $this->assertEquals(array('-- Please Select --','Customers Main File','Customer Addresses','Customer Finances'),
+        $this->assertEquals(array('Customers Main File','Customer Addresses','Customer Finances'),
                 $exportFileVersion,
                 'Export File Version dropdown contains incorrect values');
     }
+     /**
+      * @test
+      */
+     public function simpleExport()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
+        $this->waitForAjax();
+        $report = $this->ImportExportHelper()->export();
+     }
+     /**
+      * @test
+      */
+     public function simpleExportCustomer()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForAjax();
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        $customersMain = $this->ImportExportHelper()->export();
+        $this->fillDropdown('export_file', 'Customer Addresses');
+        $this->waitForAjax();
+        $customerAddresses = $this->ImportExportHelper()->export();
+        $this->fillDropdown('export_file', 'Customer Finances');
+        $this->waitForAjax();
+        $customerFinances = $this->ImportExportHelper()->export();
+     }
+     /**
+      * @test
+      */
+     public function simpleAttributeFilterAndSearch()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForAjax();
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        $this->ImportExportHelper()->customerFilterAttributes(
+                array(
+                    'attribute_label' => 'Created At',
+                    'attribute_code' => 'created_at')
+                );
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+                array(
+                    'attribute_label' => 'Created At',
+                    'attribute_code' => 'created_at'),
+                'grid_and_filter'
+                );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+     }
     /**
      * <p>Search by attribute label Master File</p>
      * <p>Steps</p>
@@ -101,8 +163,6 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function SearchByAttributeLabel()
     {
-        //Step 1
-        $this->navigate('export');
         //Step 2
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
@@ -111,9 +171,20 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Step 4
         $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForElementVisible($this->_getControlXpath('fildset', 'grid_and_filter'));
+        $this->waitForAjax();
         //Step 5
-        $this->SearchByAttributeLabel();
-
+        $this->ImportExportHelper()->customerFilterAttributes(
+                array(
+                    'attribute_label' => 'Created At'));
+        //Step 6
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array(
+                'attribute_label' => 'Created At'),
+            'grid_and_filter'
+        );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        //Step 7
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
     }
 }
