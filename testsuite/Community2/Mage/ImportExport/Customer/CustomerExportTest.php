@@ -54,7 +54,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
      * <p>3. Select "New Export"</p>
      *
-     * test
+     * @test
      * @TestlinkId TL-MAGE-5479
      */
     public function exportSettingsGeneralView()
@@ -92,6 +92,19 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     }
 
     /**
+     * @test
+     */
+    public function simpleExport()
+    {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
+        $this->waitForAjax();
+        $report = $this->ImportExportHelper()->export();
+    }
+
+    /**
      * <p>Simple Export Master file</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
@@ -100,6 +113,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>4. Choose Customer (Master) file to export</p>
      * <p>5. Click on the Continue button</p>
      * <p>6. Save file to your computer</p>
+     * <p>7. Open it.</p>
      * <p>Expected: Check that among all customers your customer with attribute is present</p>
      *
      * @test
@@ -121,28 +135,14 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
         //Step 3
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_type'));
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Step4
-        $this->fillDropdown('export_file_type', 'Customers Main File');
+        $this->fillDropdown('export_file', 'Customers Main File');
         $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
         //Step5-6
-        $this->clickButton('continue', false);
-        sleep(1);
+        $report = $this->ImportExportHelper()->export();
         //Verifying
-        $csv = $this->importExportHelper()->readCsvFile("C:\\Users\\ibabenko\\Downloads\\customer_20120606_160102.csv");
-        $this->assertNotNull($this->importExportHelper()->lookForEntity($userData, $csv),
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file");
     }
-     /**
-      * @test
-      */
-     public function simpleExport()
-     {
-        //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
-        $this->waitForAjax();
-        $report = $this->ImportExportHelper()->export();
-     }
 }

@@ -215,4 +215,116 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //convert Csv to array
        return $this->csvToArray($report);
     }
+
+    /**
+     * @param string $fileType File type (master|address|finance)
+     * @param array $needleData Customer/Address/Finance
+     * @param array $fileLines Array from csv files
+     * @return int
+     */
+    public function lookForEntity($fileType, $needleData, $fileLines)
+    {
+        switch ($fileType) {
+            case 'master':
+                $needleData = $this->prepareMasterData($needleData);
+                break;
+            case 'address':
+                $needleData = $this->prepareAddressData($needleData);
+                break;
+            case 'finance':
+                $needleData = $this->prepareFinanceData($needleData);
+                break;
+        }
+
+        $fieldsToCompare = count($needleData);
+
+        foreach ($fileLines as $lineIndex => $line) {
+            $i = 0;
+            foreach ($needleData as $name => $val) {
+                if ($line[$name] != $val) {
+                    break;
+                }
+                $i++;
+            }
+            if ($i + 1 == $fieldsToCompare) {
+                return $lineIndex;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param $rawData
+     * @return array
+     */
+    public function prepareMasterData($rawData)
+    {
+        $excludeFromComparison = array(
+            'associate_to_website',
+            'group',
+            'send_welcome_email',
+            'send_from',
+            'send_from',
+            'password',
+            'auto_generated_password'
+        );
+
+        $convertToNumeric = array(
+            'Yes' => 1,
+            'Enabled' => 1,
+            'In Stock' => 1,
+            'No' => 0,
+            '%noValue%' => 0
+        );
+        $ctnKeys = array_keys($convertToNumeric);
+
+        $customerToCsvKeys = array(
+            'prefix' => 'prefix',
+            'first_name' => "firstname",
+            'middle_name' => "middlename",
+            'last_name' => "lastname",
+            'email' => 'email',
+            'gender' => 'gender',
+            'date_of_birth' => "dob",
+            'tax_vat_number' => "taxvat"
+        );
+
+        $tastyData = array();
+
+        foreach ($excludeFromComparison as $excludeField) {
+            if (array_key_exists($excludeField, $rawData)) {
+                unset($rawData[$excludeField]);
+            }
+        }
+
+        // converting Yes/No/noValue to numeric 1 or 0
+        foreach ($rawData as &$value) {
+            if (isset($convertToNumeric[$value])) {
+                $value = $convertToNumeric[$value];
+            }
+        }
+
+        // keys exchange and copying values
+        foreach ($rawData as $key => $value) {
+            $tastyData[$customerToCsvKeys[$key]] = $value;
+        }
+
+        return $tastyData;
+    }
+
+    /**
+     * @param $rawData
+     * @return array
+     */
+    public function prepareAddressData($rawData) {
+        //TODO
+    }
+
+    /**
+     * @param $rawData
+     * @return array
+     */
+    public function prepareFinanceData($rawData) {
+        //TODO
+    }
 }
