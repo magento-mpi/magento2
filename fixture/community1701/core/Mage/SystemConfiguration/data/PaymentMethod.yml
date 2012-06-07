@@ -673,7 +673,7 @@ paypaldirect_with_3Dsecure:
             fieldset_6: *ppp_ec_basic_settings_advanced
 
 #<-------------PayPal Direct Payment Payflow Edition------------------------>
-paypaldirectuk_without_3Dsecure
+paypaldirectuk_without_3Dsecure:
     configuration_scope: Default Config
     merchant_country: United Kingdom
     configuration:
