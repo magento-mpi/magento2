@@ -125,7 +125,7 @@ return array(
     'aggregate' => array('class_scope' => 'Mage_Tag_Model_Resource_Tag'),
     'aggregate' => array('class_scope' => 'Mage_Tag_Model_Tag'),
     'applyDesign' => array('class_scope' => 'Mage_Catalog_Model_Design'),
-    'authAdmin' => array('suggestion' => 'Mage_Rss_Helper_Data::isAdminAuthorized()'),
+    'authAdmin',
     'authFailed' => array('suggestion' => 'Mage_Core_Helper_Http::failHttpAuthentication()'),
     'authFrontend',
     'authValidate' => array('suggestion' => 'Mage_Core_Helper_Http::getHttpAuthCredentials()'),
