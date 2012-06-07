@@ -72,6 +72,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
 
     /**
      * Test for method _getExportAttrCodes()
+     *
+     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract::_getExportAttrCodes
      */
     public function testGetExportAttrCodes()
     {
