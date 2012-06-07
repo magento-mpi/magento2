@@ -346,4 +346,12 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
+
+    /**
+     * @test
+     * @TODO temporary fix for tearDownAfterTestClass()
+     */
+    public function temporaryFixTearDownAfterTestClass()
+    {
+    }
 }
