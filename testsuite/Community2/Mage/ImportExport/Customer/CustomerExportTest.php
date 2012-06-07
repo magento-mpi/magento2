@@ -173,31 +173,112 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
       */
      public function simpleAttributeFilterAndSearch()
      {
-        //Step 1
+         //Step 1
+         $this->fillDropdown('entity_type', 'Customers');
+         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+         $this->waitForAjax();
+         $this->fillDropdown('export_file', 'Customers Main File');
+         $this->waitForAjax();
+         $this->ImportExportHelper()->customerFilterAttributes(
+             array(
+                 'attribute_label' => 'Created At',
+                 'attribute_code' => 'created_at')
+         );
+
+         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+             array(
+                 'attribute_label' => 'Created At',
+                 'attribute_code' => 'created_at'),
+             'grid_and_filter'
+         );
+         $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+         //mark attribute as skipped
+         $this->ImportExportHelper()->customerSkipAttribute(
+             array(
+                 'attribute_label' => 'Created At',
+                 'attribute_code' => 'created_at'),
+             'grid_and_filter'
+         );
+     }
+    /**
+     * <p>Search by attribute label Master File</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "New Export"</p>
+     * <p>4. Select Master File Type</p>
+     * <p>5. Enter any existing attribute name in the "Attribute Label" field</p>
+     * <p>6. Press "Search" button</p>
+     * <p>7. SPress "Reset Filter" button</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5482
+     */
+    public function SearchByAttributeLabel()
+    {
+        //Step 2
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForAjax();
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
         $this->fillDropdown('export_file', 'Customers Main File');
         $this->waitForAjax();
+        //Step 5
         $this->ImportExportHelper()->customerFilterAttributes(
-                array(
-                    'attribute_label' => 'Created At',
-                    'attribute_code' => 'created_at')
-                );
+            array(
+                'attribute_label' => 'Created At'));
+        //Step 6
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
-                array(
-                    'attribute_label' => 'Created At',
-                    'attribute_code' => 'created_at'),
-                'grid_and_filter'
-                );
+            array(
+                'attribute_label' => 'Created At'),
+            'grid_and_filter'
+        );
         $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
-        //mark attribute as skipped
-        $this->ImportExportHelper()->customerSkipAttribute(
-                array(
-                    'attribute_label' => 'Created At',
-                    'attribute_code' => 'created_at'),
-                'grid_and_filter'
-                );
-     }
+        //Step 7
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
+    }
+    /**
+     * <p>Search by attribute label Master File</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "New Export"</p>
+     * <p>4. Select Master File Type</p>
+     * <p>5. Enter any existing attribute name in the "Attribute Code" field</p>
+     * <p>6. Press "Search" button</p>
+     * <p>7. SPress "Reset Filter" button</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5483
+     */
+    public function SearchByAttributeCode()
+    {
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        //Step 5
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array(
+                'attribute_code' => 'email'));
+        //Step 6
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array(
+                'attribute_code' => 'email'),
+            'grid_and_filter'
+        );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        //Step 7
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
+    }
 }
