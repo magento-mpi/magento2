@@ -69,8 +69,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
 
         return array('products' => array('product_1' => $simple1['simple']['product_name'],
-                                         'product_2' => $simple2['simple']['product_name']),
-                     'api'      => $api,
+                                         'product_2' => $simple2['simple']['product_name']), 'api' => $api,
                      'visa'     => $accounts['visa']['credit_card']);
     }
 
@@ -107,16 +106,13 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
-                                           array('payment' => $paymentData),
-                                           $testData['products']);
-        if ($payment != 'checkmoney') {
-            if ($payment != 'payflowpro') {
-                $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
-            }
-            $payment .= '_without_3Dsecure';
+            array('payment' => $paymentData), $testData['products']);
+        $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
+        if ($payment != 'payflowpro') {
+            $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
-        if (preg_match('/^paypaldirect_/', $payment)) {
+        if ($payment == 'paypaldirect') {
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps
@@ -178,8 +174,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
-                                           array('payment' => $paymentData),
-                                           $testData['products']);
+            array('payment' => $paymentData), $testData['products']);
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {

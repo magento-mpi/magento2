@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConfiguration_Helper
+class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConfiguration_Helper
 {
     /**
      * PayPal System Configuration
@@ -59,6 +59,7 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $this->clickControl('tab', 'sales_payment_methods');
         $this->disableAllPaypalMethods();
         if ($country) {
+            $this->saveForm('save_config');
             $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
             $toSelect = $xpath . '//option[normalize-space(text())="' . $country . '"]';
             $isSelected = $toSelect . '[@selected]';
@@ -148,11 +149,13 @@ class Community170x_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                     }
                     $this->click($xpath);
                     $openedFieldsets[] = $name;
-                    $this->fillDropdown($name . '_enable', 'No');
+                    $dropdownXpath = $this->_getControlXpath('dropdown', $name . '_enable');
+                    if ($this->isEditable($dropdownXpath)) {
+                        $this->fillDropdown($name . '_enable', 'No', $dropdownXpath);
+                    }
                     break;
                 }
             }
         }
-        $this->saveForm('save_config');
     }
 }
