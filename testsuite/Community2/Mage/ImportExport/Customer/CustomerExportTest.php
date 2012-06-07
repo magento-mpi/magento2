@@ -146,5 +146,12 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                 'grid_and_filter'
                 );
         $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        //mark attribute as skipped
+        $this->ImportExportHelper()->customerSkipAttribute(
+                array(
+                    'attribute_label' => 'Created At',
+                    'attribute_code' => 'created_at'),
+                'grid_and_filter'
+                );
      }
 }
