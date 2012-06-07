@@ -1,0 +1,15 @@
+// Files that are not published with Magento EE
+// ---------------------------------------------------
+LICENSE_PRO.html
+LICENSE_PRO.txt
+app/design/adminhtml/default/default/skin/pro/
+app/design/frontend/pro/
+app/design/install/default/pro/
+dev/tests/integration/testsuite/Theme/Pro
+pub/errors/pro
+app/code/core/Mage/PageCache
+app/etc/modules/Mage_PageCache.xml
+downloader/Maged/Model/Config/Community.php
+downloader/Maged/Model/Config/Professional.php
+downloader/template/professional/
+downloader/skin/install/images/professional.gif
