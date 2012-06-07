@@ -68,6 +68,11 @@ if (!$routine->proceed()) {
 
 exit(0);
 
+/**
+ * Routine class for processing with menu transformation
+ *
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ */
 class Routine
 {
     /**
@@ -135,6 +140,7 @@ class Routine
     /**
      * Instructions running method
      *
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      * @return bool
      */
     public function proceed()
@@ -243,7 +249,7 @@ class Routine
         $this->_parseConfigFiles();
         if (!empty($this->_map)) {
             echo "Defined map of xpath to item_id: \n";
-            foreach($this->_map as $xpath => $id) {
+            foreach ($this->_map as $xpath => $id) {
                 echo "'{$xpath}' => '{$id}',\n";
             }
             echo "\n";
@@ -252,6 +258,8 @@ class Routine
 
     /**
      * Replace active menu items by xpath inside map
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _replaceActiveMenuItem()
     {
