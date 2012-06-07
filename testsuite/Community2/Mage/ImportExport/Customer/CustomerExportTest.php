@@ -35,10 +35,17 @@
  */
 class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_TestCase
 {
-     public function setUpBeforeTests()
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to System -> Export/p>
+     */
+    protected function assertPreConditions()
     {
         //logged in once for all tests
         $this->loginAdminUser();
+        //Step 1
+        $this->navigate('export');
     }
     /**
      * <p>Export Settings General View</p>
@@ -52,8 +59,6 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function exportSettingsGeneralView()
     {
-        //Step 1
-        $this->navigate('export');
         //Verifying
         $entityTypes = $this->getElementsByXpath(
                 $this->_getControlXpath('dropdown', 'entity_type') . '/option',
@@ -81,8 +86,20 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $exportFileVersion = $this->getElementsByXpath(
                 $this->_getControlXpath('dropdown', 'export_file') . '/option',
                 'text');
-        $this->assertEquals(array('-- Please Select --','Customers Main File','Customer Addresses','Customer Finances'),
+        $this->assertEquals(array('Customers Main File','Customer Addresses','Customer Finances'),
                 $exportFileVersion,
                 'Export File Version dropdown contains incorrect values');
     }
+     /**
+      * @test
+      */
+     public function simpleExport()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
+        $this->waitForAjax();
+        $report = $this->ImportExportHelper()->export();
+     }
 }
