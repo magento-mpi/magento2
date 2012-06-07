@@ -323,6 +323,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton('continue_to_billing_information', false);
         $this->waitForElement($waitCondition);
+        $this->assertMessageNotPresent('error');
         $this->validatePage('checkout_multishipping_payment_methods');
     }
 
