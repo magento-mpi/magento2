@@ -19,8 +19,6 @@ class Mage_Core_Model_App_EmulationTest extends PHPUnit_Framework_TestCase
     /**
      * @covers Mage_Core_Model_App_Emulation::startEnvironmentEmulation
      * @covers Mage_Core_Model_App_Emulation::stopEnvironmentEmulation
-     *
-     * @magentoAppIsolation enabled
      */
     public function testEnvironmentEmulation()
     {
