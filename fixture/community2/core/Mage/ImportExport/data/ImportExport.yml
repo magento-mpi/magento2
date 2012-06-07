@@ -26,9 +26,7 @@
 #
 ---
 
-#*******************************************************
-#*       Test data for customer creation(Backend)      *
-#*******************************************************
+#Test data for Customer Master file export
 generic_customer_account:
     associate_to_website: Main Website
     group: General
@@ -45,3 +43,23 @@ generic_customer_account:
     send_from: %noValue%
     password: 123123q
     auto_generated_password: %noValue%
+
+#Test data for Customer Addresses file export
+generic_address:
+    prefix: %noValue%
+    first_name: Ronald
+    middle_name: J.
+    last_name: Jackson
+    suffix: %noValue%
+    company: Earl Abel's
+    street_address_line_1: 209 Capitol Avenue
+    street_address_line_2: Suite 200
+    city: Mccordsville
+    country: United States
+    state: Indiana
+    region: %noValue%
+    zip_code: 46055
+    telephone: 765-531-8811
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%

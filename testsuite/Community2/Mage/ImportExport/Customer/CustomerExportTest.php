@@ -145,4 +145,46 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file");
     }
+
+    /**
+     * <p>Simple Export Address file</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
+     * <p>3. Select new Export flow</p>
+     * <p>4. Choose Customer Address file to export</p>
+     * <p>5. Click on the Continue button</p>
+     * <p>6. Save file to your computer</p>
+     * <p>7. Open it.</p>
+     * <p>Expected: Check that among all customers addresses your customer address with attribute is present</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5487
+     */
+    public function simpleExportAddressFile()
+    {
+        //Precondition: create customer
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //Step 1
+        $this->admin('export');
+        $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step4
+        $this->fillDropdown('export_file', 'Customer Addresses');
+        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Step5-6
+        $report = $this->ImportExportHelper()->export();
+        //Verifying
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $userData, $report),
+            "Customer address not found in csv file");
+    }
 }
