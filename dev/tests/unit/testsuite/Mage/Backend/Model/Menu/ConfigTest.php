@@ -58,7 +58,8 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
             'appConfig' => $this->_appConfigMock,
             'cache' => $this->_cacheInstanceMock,
             'acl' => $this->getMock('Mage_Backend_Model_Auth_Session', array(), array(), '', false),
-            'urlModel' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false)
+            'urlModel' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
+            'itemValidator' => $this->getMock('Mage_Backend_Model_Menu_Item_Validator', array(), array(), '', false)
         ));
     }
 

@@ -48,6 +48,13 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_storeConfig;
 
     /**
+     * Menu item parameter validator
+     *
+     * @var Mage_Backend_Model_Menu_Item_Validator
+     */
+    protected $_validator;
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException
      */
@@ -77,6 +84,11 @@ class Mage_Backend_Model_Menu_Item_Factory
             throw new InvalidArgumentException('Wrong url model provided');
         }
         $this->_urlModel = $data['urlModel'];
+
+        if (!isset($data['validator']) || !$data['validator'] instanceof Mage_Backend_Model_Menu_Item_Validator) {
+            throw new InvalidArgumentException('Wrong item validator model provided');
+        }
+        $this->_validator = $data['validator'];
 
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];
