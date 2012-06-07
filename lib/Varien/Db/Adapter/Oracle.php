@@ -533,7 +533,7 @@ class Varien_Db_Adapter_Oracle extends Zend_Db_Adapter_Oracle implements Varien_
      */
     public function getQuoteIdentifierSymbol()
     {
-        return '';
+        return '"';
     }
 
     /**
