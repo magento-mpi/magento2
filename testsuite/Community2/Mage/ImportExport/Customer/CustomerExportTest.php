@@ -35,10 +35,17 @@
  */
 class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_TestCase
 {
-     public function setUpBeforeTests()
+    /**
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to System -> Export/p>
+     */
+    protected function assertPreConditions()
     {
         //logged in once for all tests
         $this->loginAdminUser();
+        //Step 1
+        $this->navigate('export');
     }
     /**
      * <p>Export Settings General View</p>
@@ -52,8 +59,6 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function exportSettingsGeneralView()
     {
-        //Step 1
-        $this->navigate('export');
         //Verifying
         $entityTypes = $this->getElementsByXpath(
                 $this->_getControlXpath('dropdown', 'entity_type') . '/option',
@@ -76,8 +81,14 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                 'Export File Version dropdown contains incorrect values');
         //Step 3
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForAjax();
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Verifying
+        $exportFileVersion = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'export_file') . '/option',
+            'text');
+        $this->assertEquals(array('Customers Main File','Customer Addresses','Customer Finances'),
+            $exportFileVersion,
+            'Export File Version dropdown contains incorrect values');
     }
 
     /**
@@ -122,4 +133,26 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->assertNotNull($this->importExportHelper()->lookForEntity($userData, $csv),
             "Customer not found in csv file");
     }
+     /**
+      * @test
+      */
+     public function simpleExport()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
+        $this->waitForAjax();
+        //make export page Url
+        $pageUrl = $this->ImportExportHelper()->getUrl($this->getCurrentUimapPage()->getMca());
+        //make export file Url
+        $exportUrl = $pageUrl . '/export/entity/customer/file_format/csv';
+        //prepare parameters array
+        $parameters = $this->ImportExportHelper()->_prepareParameters();
+        $parameters = $this->ImportExportHelper()->_prepareSkipAttributes($parameters);
+        //get CSV file
+        $report = $this->ImportExportHelper()->getFile($pageUrl,$exportUrl,$parameters);
+        //convert Csv to array
+        $report = $this->ImportExportHelper()->csvToArray($report);
+     }
 }

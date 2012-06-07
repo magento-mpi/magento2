@@ -35,5 +35,9 @@
  */
  class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_TestCase
 {
-    
+     public function setUpBeforeTests()
+    {
+        //logged in once for all tests
+        $this->loginAdminUser();
+    }
 }
