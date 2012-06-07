@@ -230,7 +230,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     public function customerFilterAttributes(array $fieldParams) {
         //fill filter fields
         $this->fillForm($fieldParams);
-                ;
         //perform search
         $this->clickButton('search', false);
         $this->waitForAjax();
@@ -256,5 +255,32 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']';
         return $this->getElementByXpath($rowXPath);
+    }
+    /**
+     * Mark attribute as skipped
+     *
+     * @param array $fieldParams
+     * @param string $fieldset
+     * @param bool $skip
+     *
+     */
+    public function customerSkipAttribute(array $fieldParams, $fieldset, $skip = true) {
+        $sets = $this->getCurrentUimapPage()->getMainForm()->getAllFieldsets();
+        $gridFieldSet = $sets[$fieldset];
+        $gridXpath = $gridFieldSet->getXPath();
+        $conditions = array();
+        if (array_key_exists('attribute_label', $fieldParams)) {
+            $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
+        }
+        if (array_key_exists('attribute_code', $fieldParams)) {
+            $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
+        }
+        $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']/td/input[@name="skip_attr[]"]';
+        if ($this->isElementPresent($rowXPath) && $this->isVisible($rowXPath)){
+            $currentStatus = $this->isChecked($rowXPath);
+            if (($currentStatus && !$skip) || (!$currentStatus && $skip)){
+                $this->click($rowXPath);
+            }
+        }
     }
 }
