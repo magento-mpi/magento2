@@ -12,9 +12,32 @@
 class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Temp directory for the model to store maps
+     *
      * @var string
      */
     protected static $_tmpDir;
+
+    /**
+     * Base dir as passed to the model
+     *
+     * @var string
+     */
+    protected $_baseDir;
+
+    /**
+     * Mock of the model to be tested. Operates the mocked fallback object.
+     *
+     * @var Mage_Core_Model_Design_Fallback_CachingProxy|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_model;
+
+    /**
+     * Mocked fallback object, with file resolution methods ready to be substituted.
+     *
+     * @var Mage_Core_Model_Design_Fallback|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_fallback;
 
     public static function setUpBeforeClass()
     {
@@ -32,144 +55,136 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         rmdir(self::$_tmpDir);
     }
 
+    public function setUp()
+    {
+        $this->_baseDir = DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR . 'dir';
+        $params = array(
+            'area' => 'frontend',
+            'package' => 'package',
+            'theme' => 'theme',
+            'skin' => 'skin',
+            'locale' => 'en_US',
+            'canSaveMap' => false,
+            'mapDir' => self::$_tmpDir,
+            'baseDir' => $this->_baseDir
+        );
+
+        $this->_fallback = $this->getMock(
+            'Mage_Core_Model_Design_Fallback',
+            array('getFile', 'getLocaleFile', 'getSkinFile'),
+            array($params)
+        );
+
+        $this->_model = $this->getMock(
+            'Mage_Core_Model_Design_Fallback_CachingProxy',
+            array('_getFallback'),
+            array($params)
+        );
+        $this->_model->expects($this->any())
+            ->method('_getFallback')
+            ->will($this->returnValue($this->_fallback));
+    }
+
     public function tearDown()
     {
         Magento_Test_Environment::getInstance()->cleanDir(self::$_tmpDir);
     }
 
     /**
-     * Test that proxy, if entry is not found in a map,
-     * a) successfully delegates its resolution to a Fallback model
-     * b) puts into a cached map, and subsequent calls do not use Fallback model
-     *
-     * Every call is repeated twice to verify, that fallback is used only once and next time a proper value is returned
-     * by cached map.
+     * Calls are repeated twice to verify, that fallback is used only once, and next time a proper value is returned
+     * via cached map.
      */
-    public function testOperations()
+    public function testGetFile()
     {
-        $fallback = $this->getMock('Mage_Core_Model_Design_Fallback', array('getFile', 'getLocaleFile', 'getSkinFile'),
-            array(), '', false);
-
-        /** @var $model Mage_Core_Model_Design_Fallback_CachingProxy */
-        $params = array(
-            'area' => 'frontend',
-            'package' => 'package',
-            'theme' => 'theme',
-            'skin' => 'skin',
-            'locale' => 'en_US',
-            'canSaveMap' => false,
-            'mapDir' => self::$_tmpDir,
-            'baseDir' => DIRECTORY_SEPARATOR . 'base' . DIRECTORY_SEPARATOR . 'dir'
-        );
-        $model = $this->getMock(
-            'Mage_Core_Model_Design_Fallback_CachingProxy',
-            array('_getFallback'),
-            array($params)
-        );
-        $model->expects($this->any())
-            ->method('_getFallback')
-            ->will($this->returnValue($fallback));
-
         $module = 'Some_Module';
-
-        // getFile()
-        $expected = '/base/dir/path/to/theme_file.ext';
+        $expected = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'theme_file.ext';
         $expected = str_replace('/', DIRECTORY_SEPARATOR, $expected);
-        $fallback->expects($this->once())
+        $this->_fallback->expects($this->once())
             ->method('getFile')
             ->with('file.ext', $module)
             ->will($this->returnValue($expected));
 
-        $actual = $model->getFile('file.ext', $module);
+        $actual = $this->_model->getFile('file.ext', $module);
         $this->assertEquals($expected, $actual);
-        $actual = $model->getFile('file.ext', $module);
+        $actual = $this->_model->getFile('file.ext', $module);
         $this->assertEquals($expected, $actual);
+    }
 
-        // getLocaleFile()
-        $expected = '/base/dir/path/to/locale_file.ext';
-        $expected = str_replace('/', DIRECTORY_SEPARATOR, $expected);
-        $fallback->expects($this->once())
+    /**
+     * Calls are repeated twice to verify, that fallback is used only once, and next time a proper value is returned
+     * via cached map.
+     */
+    public function testGetLocaleFile()
+    {
+        $expected = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'locale_file.ext';
+        $this->_fallback->expects($this->once())
             ->method('getLocaleFile')
             ->with('file.ext')
             ->will($this->returnValue($expected));
 
-        $actual = $model->getLocaleFile('file.ext');
+        $actual = $this->_model->getLocaleFile('file.ext');
         $this->assertEquals($expected, $actual);
-        $actual = $model->getLocaleFile('file.ext');
+        $actual = $this->_model->getLocaleFile('file.ext');
         $this->assertEquals($expected, $actual);
+    }
 
-        // getSkinFile()
-        $expected = '/base/dir/path/to/skin_file.ext';
-        $expected = str_replace('/', DIRECTORY_SEPARATOR, $expected);
-        $fallback->expects($this->once())
+    /**
+     * Calls are repeated twice to verify, that fallback is used only once, and next time a proper value is returned
+     * via cached map.
+     */
+    public function testGetSkinFile()
+    {
+        $module = 'Some_Module';
+        $expected = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'skin_file.ext';
+        $this->_fallback->expects($this->once())
             ->method('getSkinFile')
             ->with('file.ext', $module)
             ->will($this->returnValue($expected));
 
-        $actual = $model->getSkinFile('file.ext', $module);
+        $actual = $this->_model->getSkinFile('file.ext', $module);
         $this->assertEquals($expected, $actual);
-        $actual = $model->getSkinFile('file.ext', $module);
+        $actual = $this->_model->getSkinFile('file.ext', $module);
         $this->assertEquals($expected, $actual);
     }
 
     /**
      * Test that proxy caches published skin path, and further calls do not use fallback model
+     * @depends testGetSkinFile
      */
     public function testNotifySkinFilePublished()
     {
         $module = 'Some_Module';
-        $file = 'path/to/file.xml';
+        $file = $this->_baseDir . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'file.ext';
 
-        $fallback = $this->getMock('Mage_Core_Model_Design_Fallback', array('getSkinFile'), array(), '', false);
-        $fallback->expects($this->once())
+        $this->_fallback->expects($this->once())
             ->method('getSkinFile')
             ->with($file, $module)
             ->will($this->returnValue(null));
 
-        /** @var $model Mage_Core_Model_Design_Fallback_CachingProxy */
-        $params = array(
-            'area' => 'frontend',
-            'package' => 'package',
-            'theme' => 'theme',
-            'skin' => 'skin',
-            'locale' => 'en_US',
-            'canSaveMap' => false,
-            'mapDir' => self::$_tmpDir,
-            'baseDir' => ''
-        );
-        $model = $this->getMock(
-            'Mage_Core_Model_Design_Fallback_CachingProxy',
-            array('_getFallback'),
-            array($params)
-        );
-        $model->expects($this->any())
-            ->method('_getFallback')
-            ->will($this->returnValue($fallback));
-
         // Empty at first
-        $this->assertNull($model->getSkinFile($file, $module));
+        $this->assertNull($this->_model->getSkinFile($file, $module));
 
         // Store something
-        $publicFilePath = 'public/path/to/file.xml';
-        $result = $model->notifySkinFilePublished($publicFilePath, $file, $module);
-        $this->assertSame($model, $result);
+        $publicFilePath = $this->_baseDir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'file.ext';
+        $result = $this->_model->notifySkinFilePublished($publicFilePath, $file, $module);
+        $this->assertSame($this->_model, $result);
 
         // Stored successfully
-        $storedFilePath = $model->getSkinFile($file, $module);
+        $storedFilePath = $this->_model->getSkinFile($file, $module);
         $this->assertEquals($publicFilePath, $storedFilePath);
     }
 
     /**
      * Tests that proxy saves data between instantiations
      *
-     * @depends testOperations
+     * @depends testGetSkinFile
      * @depends testNotifySkinFilePublished
      */
     public function testSaving()
     {
         $module = 'Some_Module';
-        $file = 'a/skin_file.ext';
-        $expectedPublicFile = '/path/to/skin_file.ext';
+        $file = 'internal/path/to/skin_file.ext';
+        $expectedPublicFile = 'public/path/to/skin_file.ext';
 
         $params = array(
             'area' => 'frontend',
@@ -181,7 +196,6 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             'mapDir' => self::$_tmpDir,
             'baseDir' => ''
         );
-
         $model = new Mage_Core_Model_Design_Fallback_CachingProxy($params);
         $model->notifySkinFilePublished($expectedPublicFile, $file, $module);
 
@@ -190,20 +204,14 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
         unset($model);
         $this->assertNotEmpty(glob($globPath));
 
-        $fallback = $this->getMock('Mage_Core_Model_Design_Fallback', array('getSkinFile'),
-            array(), '', false);
-        $fallback->expects($this->never())
-            ->method('getSkinFile');
-
         /** @var $model Mage_Core_Model_Design_Fallback_CachingProxy */
         $model = $this->getMock(
             'Mage_Core_Model_Design_Fallback_CachingProxy',
             array('_getFallback'),
             array($params)
         );
-        $model->expects($this->any())
-            ->method('_getFallback')
-            ->will($this->returnValue($fallback));
+        $model->expects($this->never())
+            ->method('_getFallback');
 
         $actualPublicFile = $model->getSkinFile($file, $module);
         $this->assertEquals($expectedPublicFile, $actualPublicFile);
