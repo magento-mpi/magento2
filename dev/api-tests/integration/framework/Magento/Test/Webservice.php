@@ -176,4 +176,17 @@ class Magento_Test_Webservice extends Magento_TestCase
         }
         parent::setExpectedException($exceptionName, $exceptionMessage, $exceptionCode);
     }
+
+    /**
+    * Assert that two products are equal.
+    *
+    * @param Mage_Catalog_Model_Product $expected
+    * @param Mage_Catalog_Model_Product $actual
+    */
+    public function assertProductEquals(Mage_Catalog_Model_Product $expected, Mage_Catalog_Model_Product $actual) {
+        foreach ($expected->getData() as $attribute => $value) {
+            $this->assertEquals($value, $actual->getData($attribute),
+                sprintf('Attribute "%s" value does not equal to expected "%s".', $attribute, $value));
+        }
+    }
 }
