@@ -59,11 +59,11 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $this->clickControl('tab', 'sales_payment_methods');
         $this->disableAllPaypalMethods();
         if ($country) {
-            $this->saveForm('save_config');
             $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
             $toSelect = $xpath . '//option[normalize-space(text())="' . $country . '"]';
             $isSelected = $toSelect . '[@selected]';
             if (!$this->isElementPresent($isSelected)) {
+                $this->saveForm('save_config');
                 $this->addParameter('country', $this->getValue($toSelect));
                 $this->fillDropdown('merchant_country', $country);
                 $this->waitForPageToLoad($this->_browserTimeoutPeriod);

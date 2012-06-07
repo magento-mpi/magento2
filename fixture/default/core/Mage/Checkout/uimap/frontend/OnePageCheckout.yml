@@ -132,7 +132,7 @@ onepage_checkout:
                             payment_method_continue: //button[span='Continue']
                         radiobuttons:
                             check_payment_method: //input[@title='%paymentTitle%']
-                            selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
+                            selected_one_payment: //*[normalize-space(label)='%paymentTitle%']
                         fields:
                             name_on_card: //input[@id='%paymentId%_cc_owner']
                             card_number: //input[@id='%paymentId%_cc_number']
