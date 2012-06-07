@@ -102,4 +102,24 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->waitForAjax();
         $report = $this->ImportExportHelper()->export();
      }
+     /**
+      * @test
+      */
+     public function simpleExportCustomer()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForAjax();
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        $customersMain = $this->ImportExportHelper()->export();
+        $this->fillDropdown('export_file', 'Customer Addresses');
+        $this->waitForAjax();
+        $customerAddresses = $this->ImportExportHelper()->export();
+        $this->fillDropdown('export_file', 'Customer Finances');
+        $this->waitForAjax();
+        $customerFinances = $this->ImportExportHelper()->export();
+     }
 }

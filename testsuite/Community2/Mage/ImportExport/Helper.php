@@ -198,6 +198,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         return $data;
     }
     /**
+     * Perform export with current selected options
+     * 
      * @return array
      */
     public function export() {
