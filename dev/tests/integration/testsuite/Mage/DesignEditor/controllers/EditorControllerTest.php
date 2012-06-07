@@ -136,6 +136,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
             Mage::helper('Mage_Core_Helper_Data')->urlEncode($expectedRedirectUrl)
         );
         $this->dispatch('design/editor/skin');
-        $this->assertRedirect($expectedRedirectUrl);
+        $this->assertRedirect($this->equalTo($expectedRedirectUrl));
     }
 }

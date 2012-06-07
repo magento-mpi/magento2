@@ -640,7 +640,7 @@ class Mage_Core_Model_Design_Package
             $this->_getPublicCssContent($file, dirname($publicFile), $skinFile, $params);
         }
 
-        $this->_setFileFallbackToMap($skinFile, $params, $publicFile);
+        $this->_getFallback($params)->notifySkinFilePublished($publicFile, $skinFile, $params['module']);
         return $publicFile;
     }
 
@@ -1223,19 +1223,5 @@ class Mage_Core_Model_Design_Package
 
         $this->_viewConfigs[$key] = $config;
         return $config;
-    }
-
-    /**
-     * Set $file's resolved file path to fallback map
-     *
-     * @param string $file
-     * @param array $params
-     * @param string $filePath
-     * @return Mage_Core_Model_Design_Package
-     */
-    protected function _setFileFallbackToMap($file, $params, $filePath)
-    {
-        $this->_getFallback($params)->notifySkinFilePublished($filePath, $file, $params['module']);
-        return $this;
     }
 }

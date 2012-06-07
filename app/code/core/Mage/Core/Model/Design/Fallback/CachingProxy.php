@@ -164,18 +164,26 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
     }
 
     /**
-     * Sets file to map
+     * Sets file to map. The file path must be within baseDir path.
      *
-     * @param string $filePath
      * @param string $prefix
      * @param string $file
      * @param string|null $module
+     * @param string $filePath
      * @return Mage_Core_Model_Design_Fallback_CachingProxy
+     * @throws Mage_Core_Exception
      */
-    protected function _setToMap($filePath, $prefix, $file, $module = null)
+    protected function _setToMap($prefix, $file, $module, $filePath)
     {
+        $basePathLen = strlen($this->_basePath);
+        if (((string)$filePath !== '') && strncmp($filePath, $this->_basePath, $basePathLen)) {
+            throw new Mage_Core_Exception(
+                "Attempt to store fallback path '{$filePath}', which is not within '{$this->_basePath}'"
+            );
+        }
+
         $mapKey = "$prefix|$file|$module";
-        $this->_map[$mapKey] = substr($filePath, strlen($this->_basePath));
+        $this->_map[$mapKey] = substr($filePath, $basePathLen);
         $this->_isMapChanged = true;
         return $this;
     }
@@ -192,7 +200,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
         $result = $this->_getFromMap('theme', $file, $module);
         if (!$result) {
             $result = $this->_getFallback()->getFile($file, $module);
-            $this->_setToMap($result, 'theme', $file, $module);
+            $this->_setToMap('theme', $file, $module, $result);
         }
         return $result;
     }
@@ -208,7 +216,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
         $result = $this->_getFromMap('locale', $file);
         if (!$result) {
             $result = $this->_getFallback()->getLocaleFile($file);
-            $this->_setToMap($result, 'locale', $file);
+            $this->_setToMap('locale', $file, null, $result);
         }
         return $result;
     }
@@ -225,7 +233,7 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
         $result = $this->_getFromMap('skin', $file, $module);
         if (!$result) {
             $result = $this->_getFallback()->getSkinFile($file, $module);
-            $this->_setToMap($result, 'skin', $file, $module);
+            $this->_setToMap('skin', $file, $module, $result);
         }
         return $result;
     }
@@ -240,6 +248,6 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
      */
     public function notifySkinFilePublished($publicFilePath, $file, $module = null)
     {
-        return $this->_setToMap($publicFilePath, 'skin', $file, $module);
+        return $this->_setToMap('skin', $file, $module, $publicFilePath);
     }
 }
