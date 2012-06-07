@@ -31,8 +31,6 @@ generic_rest_role:
   rest_role_name: Rest Role name %randomize%
   #rest_role_resources:
   resource_access: Custom
-#search_rest_role:
-#    rest_role_name: %noValue%
 search_rest_role:
   #rest_role_grid:
   role_id: %noValue%

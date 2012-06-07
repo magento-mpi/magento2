@@ -50,8 +50,6 @@ class Oauth_Consumer_DeleteTest extends Mage_Selenium_TestCase
      * @test
      */
 
-    //Failed because https://jira.magento.com/browse/APIA-199
-
     public function deleteConsumer()
     {
         //Data

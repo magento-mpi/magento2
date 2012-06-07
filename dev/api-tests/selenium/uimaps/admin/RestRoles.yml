@@ -46,7 +46,7 @@ manage_rest_roles:
                         links:
                             select_by_rest_role_name: //table[@id="rolesGrid_table"]//td[normalize-space(text())="%restRoleName%"]
         buttons:
-            add_new_rest_role: //button[span='Add Role']
+            add_new_rest_role: //button[span='Add Admin Role']
         messages:
             success_delete_rest_role: //div[@id='messages']//li[span='Role has been deleted.']
 
@@ -81,7 +81,7 @@ new_rest_role:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_role: //button[span='Save Role']
-        messages:            
+        messages:
             error_required_field_role_name: //div[@id='advice-required-entry-role_name']
 
 # 'Edit REST Role' page
