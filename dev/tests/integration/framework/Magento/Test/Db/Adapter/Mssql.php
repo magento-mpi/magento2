@@ -12,7 +12,8 @@
 /**
  * See Magento_Test_Db_TransactionInterface
  */
-class Magento_Test_Db_Adapter_Mssql extends Varien_Db_Adapter_Pdo_Mssql implements Magento_Test_Db_TransactionInterface
+class Magento_Test_Db_Adapter_Mssql extends Varien_Db_Adapter_Pdo_Mssql
+    implements Magento_Test_Db_Adapter_TransactionInterface
 {
     /**
      * @var int
@@ -20,7 +21,7 @@ class Magento_Test_Db_Adapter_Mssql extends Varien_Db_Adapter_Pdo_Mssql implemen
     protected $_transparentLevel = 0;
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Mssql
      */
@@ -31,7 +32,7 @@ class Magento_Test_Db_Adapter_Mssql extends Varien_Db_Adapter_Pdo_Mssql implemen
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Mssql
      */
@@ -42,7 +43,7 @@ class Magento_Test_Db_Adapter_Mssql extends Varien_Db_Adapter_Pdo_Mssql implemen
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Mssql
      */
@@ -53,7 +54,7 @@ class Magento_Test_Db_Adapter_Mssql extends Varien_Db_Adapter_Pdo_Mssql implemen
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * Adjust transaction level with "transparent" counter
      *
      * @return int
      */

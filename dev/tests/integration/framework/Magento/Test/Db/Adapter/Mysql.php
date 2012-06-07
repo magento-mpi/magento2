@@ -12,7 +12,8 @@
 /**
  * See Magento_Test_Db_TransactionInterface
  */
-class Magento_Test_Db_Adapter_Mysql extends Varien_Db_Adapter_Pdo_Mysql implements Magento_Test_Db_TransactionInterface
+class Magento_Test_Db_Adapter_Mysql extends Varien_Db_Adapter_Pdo_Mysql
+    implements Magento_Test_Db_Adapter_TransactionInterface
 {
     /**
      * @var int
@@ -20,7 +21,7 @@ class Magento_Test_Db_Adapter_Mysql extends Varien_Db_Adapter_Pdo_Mysql implemen
     protected $_transparentLevel = 0;
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Mysql
      */
@@ -31,7 +32,7 @@ class Magento_Test_Db_Adapter_Mysql extends Varien_Db_Adapter_Pdo_Mysql implemen
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Mysql
      */
@@ -42,7 +43,7 @@ class Magento_Test_Db_Adapter_Mysql extends Varien_Db_Adapter_Pdo_Mysql implemen
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Mysql
      */
@@ -53,7 +54,7 @@ class Magento_Test_Db_Adapter_Mysql extends Varien_Db_Adapter_Pdo_Mysql implemen
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * Adjust transaction level with "transparent" counter
      *
      * @return int
      */

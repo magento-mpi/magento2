@@ -12,7 +12,7 @@
 /**
  * "Transparent" DB transaction hack for integration tests
  */
-interface Magento_Test_Db_TransactionInterface
+interface Magento_Test_Db_Adapter_TransactionInterface
 {
     /**
      * Increment "transparent" transaction counter and start real transaction
@@ -34,10 +34,4 @@ interface Magento_Test_Db_TransactionInterface
      * @return Zend_Db_Adapter_Abstract
      */
     public function rollbackTransparentTransaction();
-
-    /**
-     * Adjust transaction level with "transparent" counter
-     * @return int
-     */
-    public function getTransactionLevel();
 }

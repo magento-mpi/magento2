@@ -12,7 +12,8 @@
 /**
  * See Magento_Test_Db_TransactionInterface
  */
-class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle implements Magento_Test_Db_TransactionInterface
+class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle
+    implements Magento_Test_Db_Adapter_TransactionInterface
 {
     /**
      * @var int
@@ -20,7 +21,7 @@ class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle implements
     protected $_transparentLevel = 0;
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Oracle
      */
@@ -31,7 +32,7 @@ class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle implements
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Oracle
      */
@@ -42,7 +43,7 @@ class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle implements
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * See Magento_Test_Db_Adapter_TransactionInterface
      *
      * @return Magento_Test_Db_Adapter_Oracle
      */
@@ -53,7 +54,7 @@ class Magento_Test_Db_Adapter_Oracle extends Varien_Db_Adapter_Oracle implements
     }
 
     /**
-     * See Magento_Test_Db_TransactionInterface
+     * Adjust transaction level with "transparent" counter
      *
      * @return int
      */
