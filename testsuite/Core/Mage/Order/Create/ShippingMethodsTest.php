@@ -40,12 +40,10 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
      */
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('ShippingSettings', 'store_information');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('ShippingSettings/store_information');
     }
 
     protected function assertPreConditions()
@@ -55,14 +53,11 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTestClass()
     {
-        //Data
-        $config = $this->loadDataSet('ShippingMethod', 'shipping_disable');
-        $settings = $this->loadDataSet('ShippingSettings', 'shipping_settings_default');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
-        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configure('ShippingMethod/shipping_disable');
+        $this->systemConfigurationHelper()->configure('ShippingSettings/shipping_settings_default');
     }
 
     /**
@@ -114,14 +109,13 @@ class Core_Mage_Order_Create_ShippingMethodsTest extends Mage_Selenium_TestCase
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_' . $shippingDestination,
                                         array('filter_sku'    => $simpleSku,
                                               'shipping_data' => $shippingData));
-        $shipmentEnable = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Steps And Verifying
         $this->navigate('system_configuration');
         if ($shippingOrigin) {
-            $config = $this->loadDataSet('ShippingSettings', 'shipping_settings_' . strtolower($shippingOrigin));
-            $this->systemConfigurationHelper()->configure($config);
+            $this->systemConfigurationHelper()->configure(
+                'ShippingSettings/shipping_settings_' . strtolower($shippingOrigin));
         }
-        $this->systemConfigurationHelper()->configure($shipmentEnable);
+        $this->systemConfigurationHelper()->configure('ShippingMethod/' . $shipment . '_enable');
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');

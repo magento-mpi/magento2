@@ -67,9 +67,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->useHttps('admin', 'yes');
         $this->systemConfigurationHelper()->configurePaypal($settings);
         $this->systemConfigurationHelper()->configure('Currency/enable_gbp');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
 
         return array('api' => $api,
                      'sku' => $productData['general_sku']);
