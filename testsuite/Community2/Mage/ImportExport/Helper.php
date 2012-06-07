@@ -161,6 +161,20 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
             return $parameters;
     }
+    public function _getExportFileUrl() {
+        $entity_type = $this->getSelectedValue(
+                $this->_getControlXpath('dropdown','entity_type'));
+        $path = '/export/entity/' . $entity_type;
+        $path = $path . '/file_format/' .
+                $this->getSelectedValue(
+                        $this->_getControlXpath('dropdown','file_format'));
+        if ($this->controlIsVisible('dropdown', 'export_file')){
+           $path = $path . "/{$entity_type}_entity/" .
+                   $this->getSelectedValue(
+                           $this->_getControlXpath('dropdown','export_file'));
+        }
+        return $path;
+    }
     /**
      * Convert CSV string to array
      *
@@ -182,5 +196,23 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
         return $data;
+    }
+    /**
+     * Perform export with current selected options
+     * 
+     * @return array
+     */
+    public function export() {
+       //get export page full Url
+       $pageUrl = $this->getUrl($this->getCurrentUimapPage()->getMca());
+       //get export file full url
+       $exportUrl = $pageUrl . $this->_getExportFileUrl();
+               //prepare parameters array
+       $parameters = $this->_prepareParameters();
+       $parameters = $this->_prepareSkipAttributes($parameters);
+       //get CSV file
+       $report = $this->getFile($pageUrl,$exportUrl,$parameters);
+        //convert Csv to array
+       return $this->csvToArray($report);
     }
 }

@@ -143,16 +143,6 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
         $this->fillDropdown('export_file_version', 'Magento 1.7 format');
         $this->waitForAjax();
-        //make export page Url
-        $pageUrl = $this->ImportExportHelper()->getUrl($this->getCurrentUimapPage()->getMca());
-        //make export file Url
-        $exportUrl = $pageUrl . '/export/entity/customer/file_format/csv';
-        //prepare parameters array
-        $parameters = $this->ImportExportHelper()->_prepareParameters();
-        $parameters = $this->ImportExportHelper()->_prepareSkipAttributes($parameters);
-        //get CSV file
-        $report = $this->ImportExportHelper()->getFile($pageUrl,$exportUrl,$parameters);
-        //convert Csv to array
-        $report = $this->ImportExportHelper()->csvToArray($report);
+        $report = $this->ImportExportHelper()->export();
      }
 }
