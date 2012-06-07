@@ -15,7 +15,7 @@ class Mage_Backend_Model_Menu_Item_Validator
      * @var array
      */
     protected $_required = array(
-        'acl', 'appConfig', 'objectFactory', 'urlModel', 'storeConfig', 'id', 'title', 'moduleHelper'
+        'acl', 'appConfig', 'objectFactory', 'urlModel', 'storeConfig', 'id', 'title', 'module'
     );
 
     /**
@@ -29,7 +29,7 @@ class Mage_Backend_Model_Menu_Item_Validator
         'objectFactory' => 'Mage_Core_Model_Config',
         'urlModel' => 'Mage_Backend_Model_Url',
         'storeConfig' => 'Mage_Core_Model_Store_Config',
-        'moduleHelper' => 'Mage_Core_Helper_Abstract'
+        'module' => 'Mage_Core_Helper_Abstract'
     );
 
     /**
@@ -43,7 +43,7 @@ class Mage_Backend_Model_Menu_Item_Validator
     {
         $idValidator = new Zend_Validate();
         $idValidator->addValidator(new Zend_Validate_StringLength(array('min' => 3)));
-        $idValidator->addValidator(new Zend_Validate_Regex('/^[A-Za-z0-9\/_]+$/'));
+        $idValidator->addValidator(new Zend_Validate_Regex('/^[A-Za-z0-9\/:_]+$/'));
 
         $textValidator = new Zend_Validate_StringLength(array('min' => 3, 'max' => 50));
 
