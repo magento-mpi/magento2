@@ -47,6 +47,11 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     protected $_helperMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_validatorMock;
+
+    /**
      * @var array
      */
     protected $_params = array(
@@ -69,6 +74,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $this->_validatorMock = $this->getMock('Mage_Backend_Model_Menu_Item_Validator');
 
         $this->_params['module'] = $this->_helperMock;
         $this->_params['acl'] = $this->_aclMock;
@@ -76,50 +82,26 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_params['storeConfig'] = $this->_storeConfigMock;
         $this->_params['objectFactory'] = $this->_objectFactoryMock;
         $this->_params['urlModel'] = $this->_urlModelMock;
+        $this->_params['validator'] = $this->_validatorMock;
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testConstructorRequiresAcl()
+    public function testConstructorRequiresValidator()
     {
-        unset($this->_params['acl']);
+        unset($this->_params['validator']);
         new Mage_Backend_Model_Menu_Item($this->_params);
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException BadMethodCallException
      */
-    public function testConstructorRequiresObjectFactory()
+    public function testConstructorValidatesData()
     {
-        unset($this->_params['objectFactory']);
-        new Mage_Backend_Model_Menu_Item($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresUrlModel()
-    {
-        unset($this->_params['urlModel']);
-        new Mage_Backend_Model_Menu_Item($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresAppConfig()
-    {
-        unset($this->_params['appConfig']);
-        new Mage_Backend_Model_Menu_Item($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresStoreConfig()
-    {
-        unset($this->_params['storeConfig']);
+        $this->_validatorMock->expects($this->once())
+            ->method('validate')
+            ->will($this->throwException(new BadMethodCallException()));
         new Mage_Backend_Model_Menu_Item($this->_params);
     }
 

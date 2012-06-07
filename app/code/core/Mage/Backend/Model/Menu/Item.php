@@ -127,45 +127,22 @@ class Mage_Backend_Model_Menu_Item
     /**
      * @param array $data
      * @throws InvalidArgumentException
+     * @throws BadMethodCallException
      */
     public function __construct(array $data = array())
     {
-        if (!isset($data['acl'])
-            || !$data['acl'] instanceof Mage_Backend_Model_Auth_Session
-        ) {
-            throw new InvalidArgumentException('Wrong acl object provided');
+        if (!isset($data['validator'])
+            || !$data['validator'] instanceof Mage_Backend_Model_Menu_Item_Validator) {
+            throw new InvalidArgumentException('Wrong validator object provided');
         }
 
-        if (!isset($data['appConfig'])
-            || !$data['appConfig'] instanceof Mage_Core_Model_Config
-        ) {
-            throw new InvalidArgumentException('Wrong application config provided');
-        }
-
-        if (!isset($data['objectFactory'])
-            || !$data['objectFactory'] instanceof Mage_Core_Model_Config
-        ) {
-            throw new InvalidArgumentException('Wrong object factory provided');
-        }
-
-        if (!isset($data['urlModel'])
-            || !$data['urlModel'] instanceof Mage_Backend_Model_Url
-        ) {
-            throw new InvalidArgumentException('Wrong url model provided');
-        }
-
-        if (!isset($data['storeConfig'])
-            || !$data['storeConfig'] instanceof Mage_Core_Model_Store_Config
-        ) {
-            throw new InvalidArgumentException('Wrong store config provided');
-        }
+        $data['validator']->validate($data);
 
         $this->_acl = $data['acl'];
         $this->_appConfig = $data['appConfig'];
         $this->_storeConfig = $data['storeConfig'];
         $this->_objectFactory = $data['objectFactory'];
         $this->_urlModel = $data['urlModel'];
-
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];

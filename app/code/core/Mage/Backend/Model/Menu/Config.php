@@ -21,9 +21,20 @@ class Mage_Backend_Model_Menu_Config
      */
     protected $_appConfig;
 
+    /**
+     * @var Mage_Backend_Model_Auth_Session
+     */
     protected $_acl;
 
+    /**
+     * @var Mage_Backend_Model_Url
+     */
     protected $_urlModel;
+
+    /**
+     * @var Mage_Backend_Model_Menu_Item_Validator
+     */
+    protected $_itemValidator;
 
     /**
      * Menu model
@@ -36,8 +47,15 @@ class Mage_Backend_Model_Menu_Config
     {
         $this->_appConfig = isset($arguments['appConfig']) ? $arguments['appConfig'] : Mage::getConfig();
         $this->_cache = isset($arguments['cache']) ? $arguments['cache'] : Mage::app()->getCacheInstance();
-        $this->_acl = isset($arguments['acl']) ? $arguments['acl'] : Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        $this->_urlModel = isset($arguments['urlModel']) ? $arguments['urlModel'] : Mage::getSingleton('Mage_Backend_Model_Url');
+        $this->_acl = isset($arguments['acl'])
+            ? $arguments['acl']
+            : Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        $this->_urlModel = isset($arguments['urlModel'])
+            ? $arguments['urlModel']
+            : Mage::getSingleton('Mage_Backend_Model_Url');
+        $this->_itemValidator = isset($arguments['itemValidator'])
+            ? $arguments['itemValidator']
+            : Mage::getSingleton('Mage_Backend_Model_Menu_Item_Validator');
     }
 
     /**
@@ -62,7 +80,8 @@ class Mage_Backend_Model_Menu_Config
                     'objectFactory' => $this->_appConfig,
                     'appConfig' => $this->_appConfig,
                     'storeConfig' => $this->_appConfig->getModelInstance('Mage_Core_Model_Store_Config'),
-                    'urlModel' => $this->_urlModel
+                    'urlModel' => $this->_urlModel,
+                    'validator' => $this->_itemValidator
                 )
             );
             $menu = new Mage_Backend_Model_Menu();

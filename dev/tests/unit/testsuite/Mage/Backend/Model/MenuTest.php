@@ -96,22 +96,49 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->addChild($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
         $this->_model->addChild($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
-        $item->expects($this->once())
-            ->method('isDisabled')
-            ->will($this->returnValue(false));
 
-        $item->expects($this->once())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-        $this->_model->addChild($item);
+        $valid = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $valid->expects($this->once())->method('isDisabled')->will($this->returnValue(false));
+        $valid->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($valid);
+
         $this->_model->addChild($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
         $this->_model->addChild($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
+
         $items = array();
         foreach ($this->_model as $item) {
             $items[] = $item;
         }
         $this->assertCount(1, $items);
+    }
+
+    public function testMultipleIterationsWorkProperly()
+    {
+        $this->_model->addChild($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
+        $this->_model->addChild($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
+
+        $valid1 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $valid1->expects($this->exactly(2))->method('isDisabled')->will($this->returnValue(false));
+        $valid1->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(true));
+        $valid1->expects($this->exactly(2))->method('getId')->will($this->returnValue(1));
+        $this->_model->addChild($valid1);
+
+        $valid2 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $valid2->expects($this->exactly(2))->method('isDisabled')->will($this->returnValue(false));
+        $valid2->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(true));
+        $valid2->expects($this->exactly(2))->method('getId')->will($this->returnValue(2));
+        $this->_model->addChild($valid2);
+
+        $items = array();
+        foreach ($this->_model as $item) {
+            $items[] = $item->getId();
+        }
+
+        $items2 = array();
+        foreach ($this->_model as $item) {
+            $items2[] = $item->getId();
+        }
+        $this->assertEquals($items, $items2);
     }
 
     public function testIsLast()
