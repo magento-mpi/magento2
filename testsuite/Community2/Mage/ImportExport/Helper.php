@@ -155,7 +155,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      */
     public function getFileSavePath()
     {
-        $this->setDirectorySeparator();
+        //$this->setDirectorySeparator();
         $appConfig = $this->_configHelper->getApplicationConfig();;
         $file = $this->getExportFileName();
         if (NULL == $file) {
@@ -167,6 +167,18 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
 
         return $appConfig['application']['downloadDir'] . DIRECTORY_SEPARATOR . $file;
+    }
+
+    /**
+     * Override system DIRECTORY_SEPARATOR if it was mentioned in config
+     */
+    public  function setDirectorySeparator()
+    {
+        if (!defined('DS')) {
+            $appConfig = $this->_configHelper->getApplicationConfig();
+            define('DS', array_key_exists('overrideDS', $appConfig['application']) ?
+                $appConfig['application']['overrideDS'] : DIRECTORY_SEPARATOR);
+        }
     }
 
     /**
@@ -405,14 +417,16 @@ CODE;
      * @param $rawData
      * @return array
      */
-    public function prepareProductData($rawData)
+    public function prepareMasterData($rawData)
     {
         $excludeFromComparison = array(
-            'general_tax_class',
-            'images',
-            'custom_options_data',
-            'websites',
-            'categories'
+            'associate_to_website',
+            'group',
+            'send_welcome_email',
+            'send_from',
+            'send_from',
+            'password',
+            'auto_generated_password'
         );
 
         $convertToNumeric = array(
@@ -424,19 +438,15 @@ CODE;
         );
         $ctnKeys = array_keys($convertToNumeric);
 
-        $productToCsvKeys = array(
-            'product_attribute_set' => "_attribute_set",
-            'general_name' => "name",
-            'description_full_description' => "description",
-            'description_short_description' => "short_description",
-            'general_sku' => "sku",
-            'general_weight' => "weight",
-            'general_status' => "status",
-            'prices_price' => "price",
-            'inventory_manage_stock_default' => "use_config_manage_stock", // numeric in CSV
-            'inventory_manage_stock' => "manage_stock", // numeric in CSV
-            'inventory_qty' => "qty",
-            'inventory_stock_availability' => 'is_in_stock',
+        $customerToCsvKeys = array(
+            'prefix' => 'prefix',
+            'first_name' => "firstname",
+            'middle_name' => "middlename",
+            'last_name' => "lastname",
+            'email' => 'email',
+            'gender' => 'gender',
+            'date_of_birth' => "dob",
+            'tax_vat_number' => "taxvat"
         );
 
         $tastyData = array();
@@ -456,7 +466,7 @@ CODE;
 
         // keys exchange and copying values
         foreach ($rawData as $key => $value) {
-            $tastyData[$productToCsvKeys[$key]] = $value;
+            $tastyData[$customerToCsvKeys[$key]] = $value;
         }
 
         return $tastyData;
@@ -465,11 +475,11 @@ CODE;
     /**
      * @param array $needleData
      * @param array $fileLines
-     * @return bool|int
+     * @return int
      */
     public function lookForEntity($needleData, $fileLines)
     {
-        $needleData = $this->prepareProductData($needleData);
+        $needleData = $this->prepareMasterData($needleData);
         $fieldsToCompare = count($needleData);
 
         foreach ($fileLines as $lineIndex => $line) {
@@ -484,7 +494,7 @@ CODE;
                 return $lineIndex;
             }
         }
-        return FALSE;
+        return null;
     }
 
     /**
@@ -505,6 +515,17 @@ CODE;
                 }
             }
         }
+    }
+
+    /**
+     * Returns directory name where csv files are downloaded
+     */
+    public function getCsvDownloadsDirectory()
+    {
+        $projectPath = substr(getcwd(), 0, strpos(getcwd(), 'testsuite'));
+        $downloadPath = $projectPath . 'fixture' . DIRECTORY_SEPARATOR . 'community2' . DIRECTORY_SEPARATOR . 'core'
+            . DIRECTORY_SEPARATOR . 'Mage' . DIRECTORY_SEPARATOR . 'ImportExport';
+        echo $downloadPath;
     }
 
     /**

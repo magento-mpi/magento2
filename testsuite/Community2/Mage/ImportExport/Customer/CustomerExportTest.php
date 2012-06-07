@@ -47,7 +47,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
      * <p>3. Select "New Export"</p>
      *
-     * @test
+     * test
      * @TestlinkId TL-MAGE-5479
      */
     public function exportSettingsGeneralView()
@@ -78,5 +78,48 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
         $this->waitForAjax();
         //Verifying
+    }
+
+    /**
+     * <p>Simple Export Master file</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
+     * <p>3. Select new Export flow</p>
+     * <p>4. Choose Customer (Master) file to export</p>
+     * <p>5. Click on the Continue button</p>
+     * <p>6. Save file to your computer</p>
+     * <p>Expected: Check that among all customers your customer with attribute is present</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5487
+     */
+    public function simpleExportMasterFile()
+    {
+        //Precondition: create customer
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //Step 1
+        $this->admin('export');
+        $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_type'));
+        //Step4
+        $this->fillDropdown('export_file_type', 'Customers Main File');
+        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Step5-6
+        $this->clickButton('continue', false);
+        sleep(1);
+        //Verifying
+        $csv = $this->importExportHelper()->readCsvFile("C:\\Users\\ibabenko\\Downloads\\customer_20120606_160102.csv");
+        $this->assertNotNull($this->importExportHelper()->lookForEntity($userData, $csv),
+            "Customer not found in csv file");
     }
 }
