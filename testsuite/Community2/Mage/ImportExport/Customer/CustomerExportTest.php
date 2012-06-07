@@ -122,4 +122,29 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->waitForAjax();
         $customerFinances = $this->ImportExportHelper()->export();
      }
+     /**
+      * @test
+      */
+     public function simpleAttributeFilterAndSearch()
+     {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForAjax();
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        $this->ImportExportHelper()->customerFilterAttributes(
+                array(
+                    'attribute_label' => 'Created At',
+                    'attribute_code' => 'created_at')
+                );
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+                array(
+                    'attribute_label' => 'Created At',
+                    'attribute_code' => 'created_at'),
+                'grid_and_filter'
+                );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+     }
 }

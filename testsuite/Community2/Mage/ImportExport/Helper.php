@@ -192,14 +192,19 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             if (!$header){
                 $header = $row;
             } else {
-                $data[] = array_combine($header, $row);
+                try {
+                   $data[] = array_combine($header, $row);
+                } catch(Exception $ee) {
+                   //it will prevent incorrect csv format
+                   return null;
+                }
             }
         }
         return $data;
     }
     /**
      * Perform export with current selected options
-     * 
+     *
      * @return array
      */
     public function export() {
@@ -214,5 +219,42 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
        $report = $this->getFile($pageUrl,$exportUrl,$parameters);
         //convert Csv to array
        return $this->csvToArray($report);
+    }
+    /**
+     * Apply customer attributes filter
+     * @param array $fieldParams
+     *            example:
+     *             array('attribute_label' => 'text_label', 'attribute_code' => 'text_code')))
+     * @return void
+     */
+    public function customerFilterAttributes(array $fieldParams) {
+        //fill filter fields
+        $this->fillForm($fieldParams);
+                ;
+        //perform search
+        $this->clickButton('search', false);
+        $this->waitForAjax();
+    }
+    /**
+     * Search attribute in grid and return attribute xPath
+     *
+     * @param array $fieldParams
+     * @param string $fieldset
+     *
+     * @return array|null
+     */
+    public function customerSearchAttributes(array $fieldParams, $fieldset) {
+        $sets = $this->getCurrentUimapPage()->getMainForm()->getAllFieldsets();
+        $gridFieldSet = $sets[$fieldset];
+        $gridXpath = $gridFieldSet->getXPath();
+        $conditions = array();
+        if (array_key_exists('attribute_label', $fieldParams)) {
+            $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
+        }
+        if (array_key_exists('attribute_code', $fieldParams)) {
+            $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
+        }
+        $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']';
+        return $this->getElementByXpath($rowXPath);
     }
 }
