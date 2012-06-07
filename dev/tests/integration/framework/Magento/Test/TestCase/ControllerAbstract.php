@@ -27,7 +27,15 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     protected $_runCode     = '';
     protected $_runScope    = 'store';
     protected $_runOptions  = array();
+
+    /**
+     * @var Magento_Test_Request
+     */
     protected $_request;
+
+    /**
+     * @var Magento_Test_Response
+     */
     protected $_response;
 
     /**
@@ -69,7 +77,7 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     /**
      * Request getter
      *
-     * @return Mage_Core_Controller_Request_Http
+     * @return Magento_Test_Request
      */
     public function getRequest()
     {

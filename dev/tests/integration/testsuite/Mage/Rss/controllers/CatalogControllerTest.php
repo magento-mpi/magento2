@@ -146,10 +146,9 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     protected function _loginAdmin()
     {
-        $admin = new Mage_User_Model_User;
-        $admin->loadByUsername(Magento_Test_Bootstrap::ADMIN_NAME);
-        /** @var $session Mage_Backend_Model_Auth_Session */
-        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        $session->setUser($admin)->processLogin();
+        $this->getRequest()->setServer(array(
+            'PHP_AUTH_USER' => Magento_Test_Bootstrap::ADMIN_NAME,
+            'PHP_AUTH_PW' => Magento_Test_Bootstrap::ADMIN_PASSWORD
+        ));
     }
 }

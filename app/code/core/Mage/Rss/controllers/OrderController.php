@@ -22,15 +22,46 @@ class Mage_Rss_OrderController extends Mage_Core_Controller_Front_Action
     {
         if ('new' === $this->getRequest()->getActionName()) {
             $this->setCurrentArea('adminhtml');
-            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-            list($login, $password) = Mage::helper('Mage_Core_Helper_Http')->getHttpAuthCredentials($this->getRequest());
-            if (!Mage::helper('Mage_Rss_Helper_Data')->isAdminAuthorized($session, $login, $password, 'sales/order')) {
-                Mage::helper('Mage_Core_Helper_Http')->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            if (!self::authenticateAndAuthorizeAdmin($this, 'sales/order')) {
                 return;
             }
         }
         parent::preDispatch();
+    }
+
+    /**
+     * Check if admin is logged in and authorized to access resource by specified ACL path
+     *
+     * If not authenticated, will try to do it using credentials from HTTP-request
+     *
+     * @param Mage_Core_Controller_Front_Action $controller
+     * @param string $aclResource
+     * @return bool
+     */
+    public static function authenticateAndAuthorizeAdmin(Mage_Core_Controller_Front_Action $controller, $aclResource)
+    {
+        /** @var $auth Mage_Backend_Model_Auth */
+        $auth = Mage::getModel('Mage_Backend_Model_Auth');
+        $session = $auth->getAuthStorage();
+
+        // try to login using HTTP-authentication
+        if (!$session->isLoggedIn()) {
+            list($login, $password) = Mage::helper('Mage_Core_Helper_Http')
+                ->getHttpAuthCredentials($controller->getRequest());
+            try {
+                $auth->login($login, $password);
+            } catch (Mage_Backend_Model_Auth_Exception $e) {
+                Mage::logException($e);
+            }
+        }
+
+        // verify if logged in and authorized
+        if (!$session->isLoggedIn() || !$session->isAllowed($aclResource)) {
+            Mage::helper('Mage_Core_Helper_Http')->failHttpAuthentication($controller->getResponse(), 'RSS Feeds');
+            $controller->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return false;
+        }
+        return true;
     }
 
     public function newAction()

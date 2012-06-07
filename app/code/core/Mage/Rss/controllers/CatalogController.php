@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+require_once __DIR__ . '/OrderController.php';
+
 /**
  * Customer reviews controller
  *
@@ -15,7 +17,6 @@
  * @package    Mage_Rss
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
 {
     /**
@@ -27,11 +28,7 @@ class Mage_Rss_CatalogController extends Mage_Core_Controller_Front_Action
         $acl = array('notifystock' => 'catalog/products', 'review' => 'catalog/reviews_ratings');
         if (isset($acl[$action])) {
             $this->setCurrentArea('adminhtml');
-            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-            list($login, $password) = Mage::helper('Mage_Core_Helper_Http')->getHttpAuthCredentials($this->getRequest());
-            if (!Mage::helper('Mage_Rss_Helper_Data')->isAdminAuthorized($session, $login, $password, $acl[$action])) {
-                Mage::helper('Mage_Core_Helper_Http')->failHttpAuthentication($this->getResponse(), 'RSS Feeds');
-                $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            if (Mage_Rss_OrderController::authenticateAndAuthorizeAdmin($this, $acl[$action])) {
                 return;
             }
         }
