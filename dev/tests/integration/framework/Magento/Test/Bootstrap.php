@@ -333,8 +333,9 @@ class Magento_Test_Bootstrap
         $this->_localXml = simplexml_load_string(file_get_contents($this->_localXmlFile),
             'Varien_Simplexml_Element');
         if ($this->_customXmlFile) {
-            $additionalOptions = simplexml_load_string(file_get_contents($this->_customXmlFile),
-                'Varien_Simplexml_Element');
+            $additionalOptions = simplexml_load_string(
+                file_get_contents($this->_customXmlFile), 'Varien_Simplexml_Element'
+            );
             $this->_localXml->extend($additionalOptions);
         }
 
