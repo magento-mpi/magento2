@@ -183,8 +183,6 @@ create_order_for_new_customer:
                             product_table_head: //table[@class='data order-tables']/thead
                             product_table_tfoot: //*[@id='order-items_grid']/table/tfoot
                             product_line:  //table[@class='data order-tables']/tbody
-                        tabs:
-                            items_ordered: //table[@class='data order-tables']
                         buttons:
                             add_products: //button[span='Add Products']
                             configure: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
@@ -403,7 +401,6 @@ create_order_for_existing_customer:
                         xpath: //div[@id='order-sidebar']
                         buttons:
                             update_changes_top: //button[span='Update Changes']
-                            some_btn: //button[span='Test']
                 -
                     sidebar_shopping_cart:
                         xpath: //div[@id='sidebar_data_cart']
