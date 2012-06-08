@@ -118,7 +118,7 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Simple
             $this->_validateStockData($data);
             $this->_validateAttributes($data, $productEntity);
             if ($this->isValid()) {
-                // perform native validation only if custom validation succeed to prevent duplicate erorr messages
+                // perform native validation only if custom validation succeed to prevent duplicate error messages
                 $this->_getProduct()->validate();
             }
             $this->_validateProductTypeSpecificData($data);

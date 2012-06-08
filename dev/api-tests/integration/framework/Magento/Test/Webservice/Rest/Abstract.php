@@ -144,25 +144,10 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
         if (isset($testData['message_patterns'])) {
             $this->_checkErrorMessagesByPattern($testData['message_patterns'], $errorMessages);
         } else if (isset($testData['messages'])) {
-            $this->_checkMessagesForExactMatch($testData['messages'], $errorMessages);
+            $this->assertMessagesEqual($testData['messages'], $errorMessages);
         } else {
             throw new LogicException("Data set seems to be invalid as no error messages checks are performed");
         }
-    }
-
-    /**
-     * Check if all received error messages are expected ones
-     *
-     * @param array $expectedMessages
-     * @param array $receivedMessages
-     */
-    protected function _checkMessagesForExactMatch($expectedMessages, $receivedMessages)
-    {
-        foreach ($receivedMessages as $message) {
-            $this->assertContains($message, $expectedMessages, "Unexpected message: '$message'");
-        }
-        $expectedErrorsCount = count($expectedMessages);
-        $this->assertCount($expectedErrorsCount, $receivedMessages, 'Invalid messages quantity received');
     }
 
     /**
@@ -225,7 +210,7 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
         foreach($body['messages']['error'] as $error) {
             $receivedMessages[] = $error['message'];
         }
-        $this->_checkMessagesForExactMatch($expectedMessages, $receivedMessages);
+        $this->assertMessagesEqual($expectedMessages, $receivedMessages);
     }
 
     /**
@@ -243,6 +228,6 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
         foreach($body['messages']['success'] as $success) {
             $receivedMessages[] = $success['message'];
         }
-        $this->_checkMessagesForExactMatch($expectedMessages, $receivedMessages);
+        $this->assertMessagesEqual($expectedMessages, $receivedMessages);
     }
 }

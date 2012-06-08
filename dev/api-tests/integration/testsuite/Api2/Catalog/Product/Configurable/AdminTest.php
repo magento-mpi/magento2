@@ -19,6 +19,20 @@
 class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_AdminAbstract
 {
     /**
+     * @var Helper_Catalog_Product_Configurable
+     */
+    static protected $_configurableHelper;
+
+    /**
+     * Initialize helpers
+     */
+    public static function setUpBeforeClass()
+    {
+        self::$_configurableHelper = new Helper_Catalog_Product_Configurable();
+        parent::setUpBeforeClass();
+    }
+
+    /**
      * Test successful configurable product single GET. Check received configurable attributes
      *
      * @magentoDataFixture fixture/Catalog/Product/Configurable/configurable_with_assigned_products.php
@@ -94,57 +108,24 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
      * Expected result:
      * Load product and assert it was created correctly.
      *
-     * @magentoDataFixture fixture/Catalog/Product/Configurable/attribute_set.php
      * @resourceOperation product::create
      */
     public function testCreate()
     {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_configurable');
-        /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeOne = $this->getFixture('eav_configurable_attribute_1');
-        /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $attributeOneSource Mage_Eav_Model_Entity_Attribute_Source_Table */
-        $attributeOneSource = $attributeOne->getSource();
-        $attributeOnePrices = array();
-        foreach ($attributeOneSource->getAllOptions(false) as $option) {
-            $attributeOnePrices[] = array(
-                'option_value' => $option['value'],
-                'price' => rand(1, 50),
-                'price_type' => rand(0, 1) ? 'percent' : 'fixed' // is percentage used
-            );
-        }
-        $productData['configurable_attributes'] = array(
-            array(
-                'attribute_code' => $attributeOne->getAttributeCode(),
-                'prices' => $attributeOnePrices,
-                'frontend_label' => "Must not be used",
-                'frontend_label_use_default' => 1,
-                'position' => 2
-            ),
-            array(
-                'attribute_code' => $attributeTwo->getAttributeCode(),
-                'frontend_label' => "Custom Label",
-                'position' => '4'
-            )
-        );
-
+        $productData = self::$_configurableHelper->getValidCreateData();
         // Exercise SUT
         $productId = $this->_createProductWithApi($productData);
 
         /** @var $actual Mage_Catalog_Model_Product */
         $actual = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $this->addModelToDelete($actual, true);
-        $this->_checkConfigurableAttributesData($actual, $productData['configurable_attributes'], false);
+        self::$_configurableHelper->checkConfigurableAttributesData($actual, $productData['configurable_attributes'],
+            false);
         // Validate outcome
         unset($productData['configurable_attributes']);
         $expected = new Mage_Catalog_Model_Product();
         $expected->setData($productData);
-        $this->assertProductsEquals($expected, $actual);
+        $this->assertProductEquals($expected, $actual);
     }
 
     /**
@@ -159,18 +140,13 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
      */
     public function testCreateInvalidAttributeSet()
     {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $entityType Mage_Eav_Model_Entity_Type */
-        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
-        $productData['attribute_set_id'] = $entityType->getDefaultAttributeSetId();
-
+        $productData = self::$_configurableHelper->getCreateDataWithInvalidAttributeSet();
         // Exercise SUT
         $response = $this->_tryToCreateProductWithApi($productData);
-
         // Validate outcome
-        $this->_checkErrorMessagesInResponse($response,
-            "The specified attribute set does not contain attributes which can be used for the configurable product.");
+        $expectedMessage = "The specified attribute set does not contain attributes which can be used for "
+            . "the configurable product.";
+        $this->_checkErrorMessagesInResponse($response, $expectedMessage);
     }
 
     /**
@@ -184,32 +160,23 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture fixture/Catalog/Product/Configurable/attribute_set_with_invalid_attribute.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidAttribute()
     {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_invalid_attribute');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $invalidAttribute = $this->getFixture('eav_invalid_configurable_attribute');
-        $productData['configurable_attributes'] = array(
-            array('attribute_code' => $invalidAttribute->getAttributeCode()),
-            array('attribute_code' => 'NOT_EXISTING_ATTRIBUTE')
-        );
-
-        // Exercise SUT
+        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableAttribute();
+        // Exercise SUT_tryToCreateProductWithApi
         $response = $this->_tryToCreateProductWithApi($productData);
 
         // Validate outcome
-        $this->_checkErrorMessagesInResponse($response, array(
+        /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        $invalidAttribute = $this->getFixture('eav_invalid_configurable_attribute');
+        $expectedMessages = array(
             sprintf('The attribute with code "%s" cannot be used to create a configurable product.',
                 $invalidAttribute->getAttributeCode()),
             'The attribute with code "NOT_EXISTING_ATTRIBUTE" cannot be used to create a configurable product.'
-        ));
+        );
+        $this->_checkErrorMessagesInResponse($response, $expectedMessages);
     }
 
     /**
@@ -222,50 +189,29 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture fixture/Catalog/Product/Configurable/attribute_set_with_one_attribute.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidAttributePrice()
     {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_one_attribute');
-        $productData['attribute_set_id'] = $attributeSet->getId();
+        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableOptionPrice();
+        // Exercise SUT
+        $response = $this->_tryToCreateProductWithApi($productData);
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $this->getFixture('eav_configurable_attribute');
         $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
-        $productData['configurable_attributes'] = array(array(
-            'attribute_code' => $attribute->getAttributeCode(),
-            'frontend_label' => $attribute->getFrontendLabel(),
-            'prices' => array(
-                array(
-                    'option_value' => $attributeSourceOptions[0]['value'],
-                    'price' => 'invalid',
-                    'price_type' => 'invalid!@#~%^&*'
-                ),
-                array(
-                    'option_value' => $attributeSourceOptions[1]['value'],
-                    'price' => 5
-                )
-            )
-        ));
-
-        // Exercise SUT
-        $response = $this->_tryToCreateProductWithApi($productData);
-
-        // Validate outcome
-        $this->_checkErrorMessagesInResponse($response, array(
+        $expectedMessages = array(
             sprintf('The "price" value for the option value "%s" in the "prices" '
-                . 'array for the configurable attribute with code "%s" is invalid.',
+                    . 'array for the configurable attribute with code "%s" is invalid.',
                 $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
             sprintf('The "price_type" value for the option value "%s" in the '
-                . '"prices" array for the configurable attribute with code "%s" is invalid.',
+                    . '"prices" array for the configurable attribute with code "%s" is invalid.',
                 $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
             sprintf('The "price_type" value for the option value "%s" in the '
-                . '"prices" array for the configurable attribute with code "%s" is invalid.',
+                    . '"prices" array for the configurable attribute with code "%s" is invalid.',
                 $attributeSourceOptions[1]['value'], $attribute->getAttributeCode())
-        ));
+        );
+        // Validate outcome
+        $this->_checkErrorMessagesInResponse($response, $expectedMessages);
     }
 
     /**
@@ -278,37 +224,23 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture fixture/Catalog/Product/Configurable/attribute_set_with_one_attribute.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidAttributeOptionValue()
     {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_one_attribute');
-        $productData['attribute_set_id'] = $attributeSet->getId();
-        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attribute = $this->getFixture('eav_configurable_attribute');
-        $productData['configurable_attributes'] = array(array(
-            'attribute_code' => $attribute->getAttributeCode(),
-            'frontend_label' => $attribute->getFrontendLabel(),
-            'prices' => array(
-                array(
-                    'option_value' => 'invalid_option_value',
-                ),
-            )
-        ));
-
+        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableOptionValue();
         // Exercise SUT
         $response = $this->_tryToCreateProductWithApi($productData);
-
+        /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        $attribute = $this->getFixture('eav_configurable_attribute');
         // Validate outcome
-        $this->_checkErrorMessagesInResponse($response, array(
+        $expectedMessages = array(
             "The \"option_value\" value \"invalid_option_value\" for the configurable attribute"
-            ." with code \"{$attribute->getAttributeCode()}\" is invalid."
-        ));
+                . " with code \"{$attribute->getAttributeCode()}\" is invalid."
+        );
+        $this->_checkErrorMessagesInResponse($response, $expectedMessages);
     }
+
     /**
      * Test configurable product POST pre-validation.
      * Scenario:
@@ -320,40 +252,25 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
      * Expected result:
      * Assert that correct error messages were returned in the response.
      *
-     * @magentoDataFixture fixture/Catalog/Product/Configurable/attribute_set.php
      * @resourceOperation product::create
      */
     public function testCreateInvalidFrontendLabel()
     {
-        // Prepare fixture
-        $productData = $this->_getValidProductPostData();
-        /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
-        $attributeSet = $this->getFixture('attribute_set_with_configurable');
-        $productData['attribute_set_id'] = $attributeSet->getId();
+        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableOptionLabel();
+        // Exercise SUT
+        $response = $this->_tryToCreateProductWithApi($productData);
         /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
         $attributeOne = $this->getFixture('eav_configurable_attribute_1');
         /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
         $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
-        $productData['configurable_attributes'] = array(
-            array(
-                'attribute_code' => $attributeOne->getAttributeCode(),
-                'frontend_label' => '  ',
-            ),
-            array(
-                'attribute_code' => $attributeTwo->getAttributeCode(),
-            )
-        );
-
-        // Exercise SUT
-        $response = $this->_tryToCreateProductWithApi($productData);
-
         // Validate outcome
-        $this->_checkErrorMessagesInResponse($response, array(
+        $expectedMessages = array(
             sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
                 . 'is required.', $attributeOne->getAttributeCode()),
             sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
                 . 'is required.', $attributeTwo->getAttributeCode()),
-        ));
+        );
+        $this->_checkErrorMessagesInResponse($response, $expectedMessages);
     }
 
     /**
@@ -415,7 +332,8 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         /** @var $configurableProduct Mage_Catalog_Model_Product */
         $configurableProduct = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $this->addModelToDelete($configurableProduct, true);
-        $this->_checkConfigurableAttributesData($configurableProduct, $productData['configurable_attributes']);
+        self::$_configurableHelper->checkConfigurableAttributesData($configurableProduct,
+            $productData['configurable_attributes']);
         $associatedproducts = array();
         $newSimpleProduct = null;
         /** @var $actualProduct Mage_Catalog_Model_Product */
@@ -435,7 +353,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
             'Created simple product was not found in configurable assigned products.');
         $expectedProduct = new Mage_Catalog_Model_Product();
         $expectedProduct->setData($newSimpleProductData);
-        $this->assertProductsEquals($expectedProduct, $newSimpleProduct);
+        $this->assertProductEquals($expectedProduct, $newSimpleProduct);
     }
 
     /**
@@ -567,7 +485,8 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         // Validate outcome
         /** @var $productAfterUpdate Mage_Catalog_Model_Product */
         $productAfterUpdate = Mage::getModel('Mage_Catalog_Model_Product')->load($configurable->getId());
-        $this->_checkConfigurableAttributesData($productAfterUpdate, $productData['configurable_attributes']);
+        self::$_configurableHelper->checkConfigurableAttributesData($productAfterUpdate,
+            $productData['configurable_attributes']);
     }
 
     /**
@@ -707,79 +626,14 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         /** @var $productOnTestStore Mage_Catalog_Model_Product */
         $productOnTestStore = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId($testStore->getId())
             ->load($configurable->getId());
-        $this->_checkConfigurableAttributesData($productOnTestStore,
+        self::$_configurableHelper->checkConfigurableAttributesData($productOnTestStore,
             $productDataOnTestStore['configurable_attributes']);
 
         /** @var $productOnDefaultStore Mage_Catalog_Model_Product */
-        $productOnDefaultStore = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)->load($configurable->getId());
-        $this->_checkConfigurableAttributesData($productOnDefaultStore,
+        $productOnDefaultStore = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(0)
+            ->load($configurable->getId());
+        self::$_configurableHelper->checkConfigurableAttributesData($productOnDefaultStore,
             $productDataOnDefaultStore['configurable_attributes']);
-    }
-
-    /**
-     * Check if the configurable attributes' data was saved correctly during create
-     *
-     * @param Mage_Catalog_Model_Product $configurable
-     * @param array $expectedConfigurableData
-     * @param bool $validatePrices
-     */
-    protected function _checkConfigurableAttributesData($configurable, $expectedConfigurableData,
-        $validatePrices = true)
-    {
-        /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-        $configurableType = $configurable->getTypeInstance(true);
-        $actualConfigurableData = $configurableType->getConfigurableAttributesAsArray($configurable);
-        foreach ($expectedConfigurableData as $expectedData) {
-            $attributeCode = $expectedData['attribute_code'];
-            $attributeDataFound = false;
-            foreach ($actualConfigurableData as $actualData) {
-                if ($actualData['attribute_code'] == $attributeCode) {
-                    if (isset($expectedData['position'])) {
-                        $this->assertEquals($expectedData['position'], $actualData['position'], "Position is invalid.");
-                    }
-                    if (isset($expectedData['frontend_label_use_default'])
-                        && $expectedData['frontend_label_use_default'] == 1) {
-                        $this->assertEquals($expectedData['frontend_label_use_default'], $actualData['use_default'],
-                            "The value of 'use default frontend label' is invalid.");
-                        if (isset($expectedData['frontend_label'])) {
-                            $this->assertNotEquals($expectedData['frontend_label'], $actualData['label'],
-                                "Default frontend label must be used.");
-                        }
-                    } else {
-                        if (isset($expectedData['frontend_label'])) {
-                            $this->assertEquals($expectedData['frontend_label'], $actualData['label'],
-                                "Frontend label is invalid.");
-                        }
-                    }
-                    if ($validatePrices && isset($expectedData['prices']) && is_array($expectedData['prices'])) {
-                        $values = array();
-                        foreach ($actualData['values'] as $value) {
-                            $values[$value['value_index']] = $value;
-                        }
-                        foreach ($expectedData['prices'] as $expectedValue) {
-                            if (isset($expectedValue['option_value'])) {
-                                $this->assertArrayHasKey($expectedValue['option_value'], $values,
-                                    'Expected price value not found in actual values.');
-                                $actualValue = $values[$expectedValue['option_value']];
-                                if (isset($expectedValue['price'])) {
-                                    $this->assertEquals($expectedValue['price'], $actualValue['pricing_value'],
-                                        'Option price does not match.');
-                                }
-                                if (isset($expectedValue['price_type'])) {
-                                    $isPercent = ($expectedValue['price_type'] == 'percent') ? 1 : 0;
-                                    $this->assertEquals($isPercent, $actualValue['is_percent'],
-                                        'Option price type does not match.');
-                                }
-                            }
-                        }
-                    }
-                    $attributeDataFound = true;
-                    break;
-                }
-            }
-            $this->assertTrue($attributeDataFound,
-                "Attribute with code $attributeCode is not used as a configurable one.");
-        }
     }
 
     /**
@@ -794,7 +648,8 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus(), "Response status is invalid.");
         $responseData = $restResponse->getBody();
         $this->assertNotEmpty($responseData);
-        $configurable = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId($store->getId())->load($configurable->getId());
+        $configurable = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId($store->getId())
+            ->load($configurable->getId());
         $fieldsMap = $fieldsMap = array('frontend_label_use_default' => 'use_default',
             'frontend_label' => 'label', 'position' => 'position');
         $this->_checkConfigurableAttributesInGet($configurable, $responseData, $fieldsMap);

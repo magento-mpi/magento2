@@ -189,4 +189,19 @@ class Magento_Test_Webservice extends Magento_TestCase
                 sprintf('Attribute "%s" value does not equal to expected "%s".', $attribute, $value));
         }
     }
+
+    /**
+     * Check if all error messages are expected ones
+     *
+     * @param array $expectedMessages
+     * @param array $receivedMessages
+     */
+    public function assertMessagesEqual($expectedMessages, $receivedMessages)
+    {
+        foreach ($receivedMessages as $message) {
+            $this->assertContains($message, $expectedMessages, "Unexpected message: '$message'");
+        }
+        $expectedErrorsCount = count($expectedMessages);
+        $this->assertCount($expectedErrorsCount, $receivedMessages, 'Invalid messages quantity received');
+    }
 }
