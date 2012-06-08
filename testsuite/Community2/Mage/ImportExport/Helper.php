@@ -292,28 +292,21 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
 
-        $customerToCsvKeys = $rawData;
+        // adjust attribute keys
+        foreach ($rawData as $key => $value) {
+            $customerToCsvKeys[$key] = $value;
+        }
         foreach ($customerToCsvKeys as $key => $value) {
             $customerToCsvKeys[$key] = $key;
         }
         $customerToCsvKeys['first_name'] = "firstname";
         $customerToCsvKeys['middle_name'] = 'middlename';
         $customerToCsvKeys['last_name'] = 'lastname';
-
-/*        $customerToCsvKeys = array(
-            'prefix' => 'prefix',
-            'first_name' => "firstname",
-            'middle_name' => "middlename",
-            'last_name' => "lastname",
-            'email' => 'email',
-            'gender' => 'gender',
-            'date_of_birth' => "dob",
-            'tax_vat_number' => "taxvat"
-        );*/
+        $customerToCsvKeys['date_of_birth'] = 'dob';
+        $customerToCsvKeys['tax_vat_number'] = 'taxvat';
 
         // keys exchange and copying values
-
-        foreach ($rawData as $key => $value) {
+       foreach ($rawData as $key => $value) {
             $tastyData[$customerToCsvKeys[$key]] = $value;
         }
         return $tastyData;
