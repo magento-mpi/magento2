@@ -12,7 +12,6 @@
 class Mage_Sales_Model_Order_InvoiceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoAppIsolation enabled
      * @magentoConfigFixture sales_email/invoice/enabled 1
      * @magentoConfigFixture current_store design/theme/full_name default/default/default
      * @magentoDataFixture Mage/Sales/_files/order_commit_workaround.php

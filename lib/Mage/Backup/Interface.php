@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category     Mage
- * @package      Mage_Backup
+ * @category    Mage
+ * @package     Mage_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
