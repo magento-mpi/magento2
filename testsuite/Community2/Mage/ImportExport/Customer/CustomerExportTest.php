@@ -54,6 +54,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>1. Go to System -> Import/ Export -> Export</p>
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
      * <p>3. Select "New Export"</p>
+     * <p>Expected: dropdowns contain correct values</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5479
@@ -87,7 +88,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $exportFileVersion = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'export_file') . '/option',
             'text');
-        $this->assertEquals(array('Customers Main File','Customer Addresses','Customer Finances'),
+        $this->assertEquals(array('Customers Main File','Customer Addresses'),
             $exportFileVersion,
             'Export File Version dropdown contains incorrect values');
     }
@@ -103,6 +104,48 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->fillDropdown('export_file_version', 'Magento 1.7 format');
         $this->waitForAjax();
         $report = $this->ImportExportHelper()->export();
+    }
+
+    /**
+     * <p>Simple Export Master file</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
+     * <p>3. Select new Export flow</p>
+     * <p>4. Choose Customer (Master) file to export</p>
+     * <p>5. Click on the Continue button</p>
+     * <p>6. Save file to your computer</p>
+     * <p>7. Open it.</p>
+     * <p>Expected: Check that among all customers your customer with attribute is present</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5487
+     */
+    public function simpleExportMasterFile()
+    {
+        //Precondition: create customer
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //Step 1
+        $this->admin('export');
+        $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Step5-6
+        $report = $this->ImportExportHelper()->export();
+        //Verifying
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
+            "Customer not found in csv file");
     }
 
     /**
