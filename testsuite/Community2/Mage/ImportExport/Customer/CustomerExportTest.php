@@ -47,7 +47,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         //Step 1
         $this->navigate('export');
     }
-    
+
     /**
      * <p>Export Settings General View</p>
      * <p>Steps</p>
@@ -62,24 +62,24 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     {
         //Verifying
         $entityTypes = $this->getElementsByXpath(
-                $this->_getControlXpath('dropdown', 'entity_type') . '/option',
-                'text');
+            $this->_getControlXpath('dropdown', 'entity_type') . '/option',
+            'text');
         $this->assertEquals(array('-- Please Select --','Products','Customers'),$entityTypes,
-                'Entity Type dropdown contains incorrect values');
+            'Entity Type dropdown contains incorrect values');
         $fileFormat = $this->getElementsByXpath(
-                $this->_getControlXpath('dropdown', 'file_format') . '/option',
-                'text');
+            $this->_getControlXpath('dropdown', 'file_format') . '/option',
+            'text');
         $this->assertEquals(array('CSV'),$fileFormat,
-                'Export File Format dropdown contains incorrect values');
+            'Export File Format dropdown contains incorrect values');
         //Step 2
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
         //Verifying
         $exportFileVersion = $this->getElementsByXpath(
-                $this->_getControlXpath('dropdown', 'export_file_version') . '/option',
-                'text');
+            $this->_getControlXpath('dropdown', 'export_file_version') . '/option',
+            'text');
         $this->assertEquals(array('-- Please Select --','Magento 1.7 format','Magento 2.0 format'),$exportFileVersion,
-                'Export File Version dropdown contains incorrect values');
+            'Export File Version dropdown contains incorrect values');
         //Step 3
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
@@ -147,11 +147,11 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
             "Customer not found in csv file");
     }
 
-     /**
-      * @test
-      */
-     public function simpleExportCustomer()
-     {
+    /**
+     * @test
+     */
+    public function simpleExportCustomer()
+    {
         //Step 1
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
@@ -166,48 +166,48 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->fillDropdown('export_file', 'Customer Finances');
         $this->waitForAjax();
         $customerFinances = $this->ImportExportHelper()->export();
-     }
+    }
 
-     /**
-      * @test
-      */
-     public function simpleAttributeFilterAndSearch()
-     {
-         //Step 1
-         $this->fillDropdown('entity_type', 'Customers');
-         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-         $this->waitForAjax();
-         $this->fillDropdown('export_file', 'Customers Main File');
-         $this->waitForAjax();
-         $this->ImportExportHelper()->customerFilterAttributes(
-             array(
-                 'attribute_label' => 'Created At',
-                 'attribute_code' => 'created_at')
-         );
-
-         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
-             array(
-                 'attribute_label' => 'Created At',
-                 'attribute_code' => 'created_at'),
-             'grid_and_filter'
-         );
-         $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
-         //mark attribute as skipped
-         $this->ImportExportHelper()->customerSkipAttribute(
-             array(
-                 'attribute_label' => 'Created At',
-                 'attribute_code' => 'created_at'),
-             'grid_and_filter'
-         );
-     }
     /**
-    * <p>Precondition1:</p>
-    * <p>1 Verify the search by fields "Attribute Label" and "Attribute Code"</p>
-    * <p>2 This search should work with each file type </p>
-    * @test
-    * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
-    */
+     * @test
+     */
+    public function simpleAttributeFilterAndSearch()
+    {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForAjax();
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array(
+                'attribute_label' => 'Created At',
+                'attribute_code' => 'created_at')
+        );
+
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array(
+                'attribute_label' => 'Created At',
+                'attribute_code' => 'created_at'),
+            'grid_and_filter'
+        );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        //mark attribute as skipped
+        $this->ImportExportHelper()->customerSkipAttribute(
+            array(
+                'attribute_label' => 'Created At',
+                'attribute_code' => 'created_at'),
+            'grid_and_filter'
+        );
+    }
+    /**
+     * <p>Precondition1:</p>
+     * <p>1 Verify the search by fields "Attribute Label" and "Attribute Code"</p>
+     * <p>2 This search should work with each file type </p>
+     * @test
+     * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
+     */
     public function searchByAttributeLabelCode()
     {
         //Step 1
