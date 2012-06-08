@@ -400,6 +400,9 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             if (($currentStatus && !$skip) || (!$currentStatus && $skip)){
                 $this->click($rowXPath);
             }
-        }
+        } else {
+            return false;        }
+        return true;
+
     }
 }
