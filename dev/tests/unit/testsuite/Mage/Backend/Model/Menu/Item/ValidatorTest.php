@@ -74,7 +74,7 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
 
         $this->_params['acl'] = $this->_aclMock;
         $this->_params['objectFactory'] = $this->_factoryMock;
-        $this->_params['moduleHelper'] = $this->_helperMock;
+        $this->_params['module'] = $this->_helperMock;
         $this->_params['urlModel'] = $this->_urlModelMock;
         $this->_params['appConfig'] = $this->_appConfigMock;
         $this->_params['storeConfig'] = $this->_storeConfigMock;
@@ -108,7 +108,7 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
             array('storeConfig'),
             array('id'),
             array('title'),
-            array('moduleHelper')
+            array('module')
         );
     }
 

@@ -149,7 +149,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                     'objectFactory' => $this->_factoryMock,
                     'urlModel' => $this->_urlModelMock,
                     'appConfig' => $this->_appConfigMock,
-                    'storeConfig' => $this->_storeConfigMock
+                    'storeConfig' => $this->_storeConfigMock,
+                    'validator' => $this->_itemValidatorMock
                 ))
         );
         $model = new Mage_Backend_Model_Menu_Item_Factory($this->_params);
@@ -171,7 +172,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                 'objectFactory' => $this->_factoryMock,
                 'urlModel' => $this->_urlModelMock,
                 'appConfig' => $this->_appConfigMock,
-                'storeConfig' => $this->_storeConfigMock
+                'storeConfig' => $this->_storeConfigMock,
+                'validator' => $this->_itemValidatorMock
             ))
         );
         $model = new Mage_Backend_Model_Menu_Item_Factory($this->_params);
