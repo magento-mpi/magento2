@@ -30,9 +30,7 @@ if (!isset($args['build_properties_file'])) {
     echo SYNOPSIS;
     exit(1);
 }
-//print_r($args); exit(0);
 $baseDir = realpath(__DIR__ . '/../../../');
-//$configFile = __DIR__ . '/config.php';
 $configFile = $args['build_properties_file'];
 $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
 $config = require($configFile);
