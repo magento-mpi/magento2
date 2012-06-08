@@ -125,6 +125,11 @@ class Mage_Backend_Model_Menu_Item
     protected $_storeConfig;
 
     /**
+     * @var Mage_Backend_Model_Menu_Item_Validator
+     */
+    protected $_validator;
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException
      * @throws BadMethodCallException
@@ -136,7 +141,8 @@ class Mage_Backend_Model_Menu_Item
             throw new InvalidArgumentException('Wrong validator object provided');
         }
 
-        $data['validator']->validate($data);
+        $this->_validator = $data['validator'];
+        $this->_validator->validate($data);
 
         $this->_acl = $data['acl'];
         $this->_appConfig = $data['appConfig'];
@@ -259,6 +265,19 @@ class Mage_Backend_Model_Menu_Item
         return $this->_action;
     }
 
+    /**
+     * Set Item action
+     *
+     * @param string $action
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setAction($action)
+    {
+        $this->_validator->validateParam('action', $action);
+        $this->_action = $action;
+        return $this;
+    }
 
     /**
      * Chechk whether item has javascript callback on click
@@ -294,6 +313,20 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Set Item title
+     *
+     * @param string $title
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setTitle($title)
+    {
+        $this->_validator->validateParam('title', $title);
+        $this->_title = $title;
+        return $this;
+    }
+
+    /**
      * Check whether item has tooltip text
      *
      * @return bool
@@ -314,6 +347,20 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Set Item tooltip
+     *
+     * @param string $tooltip
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setTooltip($tooltip)
+    {
+        $this->_validator->validateParam('tooltip', $tooltip);
+        $this->_tooltip = $tooltip;
+        return $this;
+    }
+
+    /**
      * Retrieve module helper object linked to item.
      * Should be used to translate item labels
      *
@@ -322,6 +369,48 @@ class Mage_Backend_Model_Menu_Item
     public function getModuleHelper()
     {
         return $this->_moduleHelper;
+    }
+
+    /**
+     * Set Item module
+     *
+     * @param Mage_Core_Helper_Abstract $helper
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setModuleHelper(Mage_Core_Helper_Abstract $helper)
+    {
+        $this->_validator->validateParam('module', $helper);
+        $this->_moduleHelper = $helper;
+        return $this;
+    }
+
+    /**
+     * Set Item module dependency
+     *
+     * @param string $moduleName
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setModuleDependency($moduleName)
+    {
+        $this->_validator->validateParam('dependsOnModule', $moduleName);
+        $this->_dependsOnModule = $moduleName;
+        return $this;
+    }
+
+    /**
+     * Set Item config dependency
+     *
+     * @param string $configPath
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setConfigDependency($configPath)
+    {
+        $this->_validator->validateParam('depenedsOnConfig', $configPath);
+        $this->_dependsOnConfig = $configPath;
+        return $this;
     }
 
     /**

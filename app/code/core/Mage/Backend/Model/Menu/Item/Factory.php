@@ -60,35 +60,39 @@ class Mage_Backend_Model_Menu_Item_Factory
      */
     public function __construct(array $data = array())
     {
-        if (!isset($data['acl']) || !($data['acl'] instanceof Mage_Backend_Model_Auth_Session)) {
+        $this->_acl = isset($data['acl']) ? $data['acl'] : Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+        if (!($this->_acl instanceof Mage_Backend_Model_Auth_Session)) {
             throw new InvalidArgumentException('Wrong acl object provided');
         }
-        $this->_acl = $data['acl'];
 
-        if (!isset($data['objectFactory']) || !$data['objectFactory'] instanceof Mage_Core_Model_Config) {
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory']: Mage::getConfig();
+        if (!($this->_objectFactory instanceof Mage_Core_Model_Config)) {
             throw new InvalidArgumentException('Wrong object factory provided');
         }
-        $this->_objectFactory = $data['objectFactory'];
 
-        if (!isset($data['appConfig']) || !$data['appConfig'] instanceof Mage_Core_Model_Config) {
+        $this->_appConfig = isset($data['appConfig']) ? $data['appConfig']: Mage::getConfig();
+        if (!($this->_appConfig instanceof Mage_Core_Model_Config)) {
             throw new InvalidArgumentException('Wrong application config provided');
         }
-        $this->_appConfig = $data['appConfig'];
 
-        if (!isset($data['storeConfig']) || !$data['storeConfig'] instanceof Mage_Core_Model_Store_Config) {
+        $this->_storeConfig = isset($data['storeConfig'])
+            ? $data['storeConfig']
+            : Mage::getSingleton('Mage_Core_Model_Store_Config');
+        if (!($this->_storeConfig instanceof Mage_Core_Model_Store_Config)) {
             throw new InvalidArgumentException('Wrong store config provided');
         }
-        $this->_storeConfig = $data['storeConfig'];
 
-        if (!isset($data['urlModel']) || !$data['urlModel'] instanceof Mage_Backend_Model_Url) {
+        $this->_urlModel = isset($data['urlModel']) ? $data['urlModel'] : Mage::getSingleton('Mage_Backend_Model_Url');
+        if (!($this->_urlModel instanceof Mage_Backend_Model_Url)) {
             throw new InvalidArgumentException('Wrong url model provided');
         }
-        $this->_urlModel = $data['urlModel'];
 
-        if (!isset($data['validator']) || !$data['validator'] instanceof Mage_Backend_Model_Menu_Item_Validator) {
+        $this->_validator = isset($data['validator'])
+            ? $data['validator']
+            : Mage::getSingleton('Mage_Backend_Model_Menu_Item_Validator');
+        if (!($this->_validator instanceof Mage_Backend_Model_Menu_Item_Validator)) {
             throw new InvalidArgumentException('Wrong item validator model provided');
         }
-        $this->_validator = $data['validator'];
 
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];

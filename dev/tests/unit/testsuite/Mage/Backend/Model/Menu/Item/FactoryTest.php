@@ -84,56 +84,24 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
 
     /**
      * @expectedException InvalidArgumentException
+     * @dataProvider invalidArgumentsProvider
      */
-    public function testConstructorRequiresAcl()
+    public function testConstructorWithWrongParameterTypesThrowsException($param)
     {
-        unset($this->_params['acl']);
+        $this->_params[$param] = new Varien_Object();
         new Mage_Backend_Model_Menu_Item_Factory($this->_params);
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresObjectFactory()
+    public function invalidArgumentsProvider()
     {
-        unset($this->_params['objectFactory']);
-        new Mage_Backend_Model_Menu_Item_Factory($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresUrlModel()
-    {
-        unset($this->_params['urlModel']);
-        new Mage_Backend_Model_Menu_Item_Factory($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresAppConfig()
-    {
-        unset($this->_params['appConfig']);
-        new Mage_Backend_Model_Menu_Item_Factory($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresStoreConfig()
-    {
-        unset($this->_params['storeConfig']);
-        new Mage_Backend_Model_Menu_Item_Factory($this->_params);
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testConstructorRequiresItemValidator()
-    {
-        unset($this->_params['validator']);
-        new Mage_Backend_Model_Menu_Item_Factory($this->_params);
+        return array(
+            array('acl'),
+            array('objectFactory'),
+            array('urlModel'),
+            array('appConfig'),
+            array('storeConfig'),
+            array('validator')
+        );
     }
 
     public function testCreateFromArray()

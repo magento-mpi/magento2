@@ -22,20 +22,14 @@ class Mage_Backend_Model_Menu_Config
     protected $_appConfig;
 
     /**
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Core_Model_Event_Manager
      */
-    protected $_acl;
+    protected $_eventManager;
 
     /**
-     * @var Mage_Backend_Model_Url
+     * @var Mage_Backend_Model_Menu_Builder
      */
-    protected $_urlModel;
-
-    /**
-     * @var Mage_Backend_Model_Menu_Item_Validator
-     */
-    protected $_itemValidator;
-
+    protected $_menuBuilder;
     /**
      * Menu model
      *
@@ -45,17 +39,18 @@ class Mage_Backend_Model_Menu_Config
 
     public function __construct(array $arguments = array())
     {
-        $this->_appConfig = isset($arguments['appConfig']) ? $arguments['appConfig'] : Mage::getConfig();
         $this->_cache = isset($arguments['cache']) ? $arguments['cache'] : Mage::app()->getCacheInstance();
-        $this->_acl = isset($arguments['acl'])
-            ? $arguments['acl']
-            : Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        $this->_urlModel = isset($arguments['urlModel'])
-            ? $arguments['urlModel']
-            : Mage::getSingleton('Mage_Backend_Model_Url');
-        $this->_itemValidator = isset($arguments['itemValidator'])
-            ? $arguments['itemValidator']
-            : Mage::getSingleton('Mage_Backend_Model_Menu_Item_Validator');
+        $this->_appConfig = isset($arguments['appConfig']) ? $arguments['appConfig'] : Mage::getConfig();
+        $this->_eventManager = isset($arguments['eventManager'])
+            ? $arguments['eventManager']
+            : Mage::getSingleton('Mage_Core_Model_Event_Manager');
+
+        $this->_menuBuilder = isset($arguments['menuBuilder'])
+            ? $arguments['menuBuilder']
+            : Mage::getSingleton('Mage_Backend_Model_Menu_Builder', array(
+                'menu' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu'),
+                'itemFactory' => Mage::getSingleton('Mage_Backend_Model_Menu_Item_Factory'),
+            ));
     }
 
     /**
@@ -66,6 +61,7 @@ class Mage_Backend_Model_Menu_Config
     public function getMenu()
     {
         if (!$this->_menu) {
+            /* @var $director Mage_Backend_Model_Menu_Director_Dom */
             $director = $this->_appConfig->getModelInstance(
                 'Mage_Backend_Model_Menu_Director_Dom',
                 array(
@@ -73,27 +69,9 @@ class Mage_Backend_Model_Menu_Config
                     'factory' => $this->_appConfig
                 )
             );
-            $itemFactory = $this->_appConfig->getModelInstance(
-                'Mage_Backend_Model_Menu_Item_Factory',
-                array(
-                    'acl' => $this->_acl,
-                    'objectFactory' => $this->_appConfig,
-                    'appConfig' => $this->_appConfig,
-                    'storeConfig' => $this->_appConfig->getModelInstance('Mage_Core_Model_Store_Config'),
-                    'urlModel' => $this->_urlModel,
-                    'validator' => $this->_itemValidator
-                )
-            );
-            $menu = new Mage_Backend_Model_Menu();
-            $builder = $this->_appConfig->getModelInstance(
-                'Mage_Backend_Model_Menu_Builder',
-                array(
-                    'menu' => $menu,
-                    'itemFactory' => $itemFactory,
-                )
-            );
-            $director->buildMenu($builder);
-            $this->_menu = $builder->getResult();
+            $director->buildMenu($this->_menuBuilder);
+            $this->_menu = $this->_menuBuilder->getResult();
+            $this->_eventManager->dispatch('backend_menu_load_after', array('object' => $this->_menu));
         }
         return $this->_menu;
     }

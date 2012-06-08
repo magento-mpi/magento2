@@ -89,4 +89,23 @@ class Mage_Backend_Model_Menu_Item_Validator
             }
         }
     }
+
+    public function validateParam($param, $value)
+    {
+        if (isset($this->_required[$param])){
+            throw new InvalidArgumentException('Parameter ' . $param . ' is required');
+        }
+        if (isset($this->_requiredTypes[$param]) && !($value instanceof $this->_requiredTypes[$param])) {
+            throw new InvalidArgumentException(
+                'Wrong param ' . $param . ': Expected ' . $this->_requiredTypes[$param] . ', received '
+                    . get_class($value)
+            );
+        }
+        if (isset($this->_validators[$param]) && !$this->_validators[$param]->isValid($value)) {
+            throw new InvalidArgumentException(
+                "Param " . $param . " doesn't pass validation: "
+                    . implode('; ', $this->_validators[$param]->getMessages())
+            );
+        }
+    }
 }

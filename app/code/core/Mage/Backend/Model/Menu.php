@@ -48,60 +48,6 @@ class Mage_Backend_Model_Menu extends ArrayObject
     }
 
     /**
-     * Iterate to next item in menu
-     */
-    public function next()
-    {
-        parent::next();
-        if ($this->valid() && ($this->current()->isDisabled() || !$this->current()->isAllowed())) {
-            $this->next();
-        }
-    }
-
-    /**
-     * Rewind to first element
-     */
-    public function rewind()
-    {
-        $this->ksort();
-        parent::rewind();
-        if ($this->valid() && (current($this)->isDisabled() || !(current($this)->isAllowed()))) {
-            $this->next();
-        }
-    }
-
-    /**
-     * Retrieve menu item by id
-     *
-     * @param string $index
-     * @param bool $searchRecursive search item recursive
-     * @return Mage_Backend_Model_Menu_Item|null
-     */
-    public function getById($index, $searchRecursive = false)
-    {
-        $result = null;
-        //$key = $this->key();
-
-        //reset($this);
-        foreach ($this as $item) {
-            if ($item->getId() == $index) {
-                $result = $item;
-                break;
-            }
-
-            if ($searchRecursive &&
-                $item->hasChildren() &&
-                ($result = $item->getChildren()->getById($index, $searchRecursive))
-            ) {
-                break;
-            }
-        }
-
-        //$this->seek($key);
-        return $result;
-    }
-
-    /**
      * Add child to menu item
      *
      * @param Mage_Backend_Model_Menu_Item $item
@@ -120,12 +66,76 @@ class Mage_Backend_Model_Menu extends ArrayObject
     }
 
     /**
+     * Retrieve menu item by id
+     *
+     * @param string $itemId
+     * @param bool $searchRecursive search item recursive
+     * @return Mage_Backend_Model_Menu_Item|null
+     */
+    public function getChildById($itemId, $searchRecursive = false)
+    {
+        $result = null;
+        foreach ($this as $item) {
+            if ($item->getId() == $itemId) {
+                $result = $item;
+                break;
+            }
+
+            if ($searchRecursive &&
+                $item->hasChildren() &&
+                ($result = $item->getChildren()->getChildById($itemId, $searchRecursive))
+            ) {
+                break;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Remove menu item by id
+     *
+     * @param string $itemId
+     * @return bool
+     */
+    public function removeChildById($itemId)
+    {
+        $result = false;
+        foreach ($this as $key => $item) {
+            if ($item->getId() == $itemId) {
+                unset($this[$key]);
+                $result = true;
+                break;
+            }
+
+            if ($item->hasChildren() && ($result = $item->getChildren()->removeChildById($itemId))) {
+                break;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $itemId
+     * @param int $position
+     */
+    public function reorderChildById($itemId, $position)
+    {
+        foreach ($this as $key => $item) {
+            if ($item->getId() == $itemId) {
+                unset($this[$key]);
+                $this->addChild($item, $position);
+                break;
+            }
+        }
+    }
+
+    /**
      * Check whether provided item is last in list
      *
      * @param Mage_Backend_Model_Menu_Item $item
      * @return bool
      */
-    public function isLast(Mage_Backend_Model_Menu_Item $item)
+    public function isChildLast(Mage_Backend_Model_Menu_Item $item)
     {
         return $this->offsetGet($this->_maxIndex)->getId() == $item->getId();
     }

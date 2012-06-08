@@ -141,7 +141,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($items, $items2);
     }
 
-    public function testIsLast()
+    public function testisChildLast()
     {
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $item->expects($this->any())->method('getId')->will($this->returnValue(1));
@@ -161,8 +161,8 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $item3->expects($this->once())->method('getSortIndex')->will($this->returnValue(15));
         $this->_model->addChild($item3);
 
-        $this->assertTrue($this->_model->isLast($item2));
-        $this->assertFalse($this->_model->isLast($item3));
+        $this->assertTrue($this->_model->isChildLast($item2));
+        $this->assertFalse($this->_model->isChildLast($item3));
     }
 
     public function testSetPathUpdatesAllChildren()
@@ -201,7 +201,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/root/system/node', $this->_model->getFirstAvailableChild());
     }
 
-    public function testGetById()
+    public function testgetChildById()
     {
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $item->expects($this->exactly(2))->method('getId')->will($this->returnValue('item1'));
@@ -217,11 +217,11 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($item, $this->_model[0]);
         $this->assertEquals($item2, $this->_model[1]);
-        $this->assertEquals($item, $this->_model->getById('item1'));
-        $this->assertEquals($item2, $this->_model->getById('item2'));
+        $this->assertEquals($item, $this->_model->getChildById('item1'));
+        $this->assertEquals($item2, $this->_model->getChildById('item2'));
     }
 
-    public function testGetByIdRecursive()
+    public function testGetChildByIdRecursive()
     {
         $menuItem1 = new Mage_Backend_Model_Menu();
         $menuItem2 = new Mage_Backend_Model_Menu();
@@ -250,13 +250,13 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $item3->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
         $menuItem2->addChild($item3);
 
-        $this->assertEquals($item, $this->_model->getById('item1', true));
-        $this->assertEquals($item2, $this->_model->getById('item2', true));
-        $this->assertEquals($item2, $this->_model->getById('item3', true));
+        $this->assertEquals($item, $this->_model->getChildById('item1', true));
+        $this->assertEquals($item2, $this->_model->getChildById('item2', true));
+        $this->assertEquals($item2, $this->_model->getChildById('item3', true));
 
-        $this->assertEquals($item, $this->_model->getById('item1'));
-        $this->assertNull($this->_model->getById('item2'));
-        $this->assertNull($this->_model->getById('item3'));
+        $this->assertEquals($item, $this->_model->getChildById('item1'));
+        $this->assertNull($this->_model->getChildById('item2'));
+        $this->assertNull($this->_model->getChildById('item3'));
     }
 
     /**
@@ -295,5 +295,63 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
             }
         }
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testRemoveChildByIdRemovesMenuItem()
+    {
+        $item1 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item1->expects($this->any())->method('getId')->will($this->returnValue('item1'));
+        $item1->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item1->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_model->addChild($item1);
+
+        $this->assertCount(1, $this->_model);
+        $this->assertEquals($item1, $this->_model->getChildById('item1'));
+
+        $this->_model->removeChildById('item1');
+        $this->assertCount(0, $this->_model);
+        $this->assertNull($this->_model->getChildById('item1'));
+    }
+
+    public function testRemoveChildByIdRemovesMenuItemRecursively()
+    {
+        $menuMock = $this->getMock('Mage_Backend_Model_Menu');
+        $menuMock->expects($this->once())
+            ->method('removeChildById')
+            ->with($this->equalTo('item2'));
+
+        $item1 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item1->expects($this->any())->method('getId')->will($this->returnValue('item1'));
+        $item1->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item1->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $item1->expects($this->any())->method('hasChildren')->will($this->returnValue($menuMock));
+        $item1->expects($this->any())->method('getChildren')->will($this->returnValue($menuMock));
+        $this->_model->addChild($item1);
+
+        $this->_model->removeChildById('item2');
+    }
+
+    public function testMoveChildById()
+    {
+        $item1 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item1->expects($this->once())->method('getId')->will($this->returnValue('item1'));
+        $item1->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item1->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $item1->expects($this->any())->method('hasSortIndex')->will($this->returnValue(true));
+        $item1->expects($this->any())->method('getSortIndex')->will($this->returnValue(10));
+        $this->_model->addChild($item1);
+
+        $item2 = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item2->expects($this->once())->method('getId')->will($this->returnValue('item2'));
+        $item2->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
+        $item2->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $item2->expects($this->any())->method('hasSortIndex')->will($this->returnValue(true));
+        $item2->expects($this->any())->method('getSortIndex')->will($this->returnValue(20));
+        $this->_model->addChild($item2);
+
+        $this->assertEquals($item2, $this->_model[20]);
+        $this->_model->moveChildById('item2', 5);
+        $this->assertEquals($item2, $this->_model[5]);
+        $this->assertFalse(isset($this->_model[20]));
     }
 }

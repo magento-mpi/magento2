@@ -33,6 +33,16 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_builderMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_eventManagerMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_itemFactoryMock;
+
+    /**
      * @var Mage_Backend_Model_Menu_Config
      */
     protected $_model;
@@ -54,12 +64,13 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_domDocumentMock = $this->getMock('DOMDocument', array(), array(), '', false);
 
+        $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager');
+
         $this->_model = new Mage_Backend_Model_Menu_Config(array(
             'appConfig' => $this->_appConfigMock,
             'cache' => $this->_cacheInstanceMock,
-            'acl' => $this->getMock('Mage_Backend_Model_Auth_Session', array(), array(), '', false),
-            'urlModel' => $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false),
-            'itemValidator' => $this->getMock('Mage_Backend_Model_Menu_Item_Validator', array(), array(), '', false)
+            'eventManager' => $this->_eventManagerMock,
+            'menuBuilder' => $this->_builderMock
         ));
     }
 
@@ -161,6 +172,25 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         $this->_model->getMenu();
     }
 
+    public function testGetMenuTriggersEventOnlyOnceAfterMenuIsCreated()
+    {
+        $menuMock = new Varien_Object();
+        $this->_eventManagerMock->expects($this->once())
+            ->method('dispatch')
+            ->with($this->equalTo('backend_menu_load_after'), $this->equalTo(array('object' => $menuMock)));
+
+        $this->_builderMock->expects($this->once())
+            ->method('getResult')
+            ->will($this->returnValue($menuMock));
+
+        $this->_configMenuMock->expects($this->once())
+            ->method('getMergedConfig')
+            ->will($this->returnValue($this->_domDocumentMock));
+
+        $this->_model->getMenu();
+        $this->_model->getMenu();
+    }
+
     /**
      * Callback method for mock object Mage_Core_Model_Config object
      *
@@ -172,8 +202,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     {
         if ($model == 'Mage_Backend_Model_Menu_Director_Dom') {
             return $this->_directorDomMock;
-        } elseif ($model == 'Mage_Backend_Model_Menu_Builder') {
-            return $this->_builderMock;
         } elseif ($model == 'Mage_Backend_Model_Menu_Config_Menu') {
             return $this->_configMenuMock;
         } else {
