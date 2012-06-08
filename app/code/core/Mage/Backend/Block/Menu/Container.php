@@ -18,20 +18,37 @@
 class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
 {
     /**
-     * Get menu item children
+     * @var Mage_Backend_Model_Menu
+     */
+    protected $_menu;
+
+    /**
+     * Set menu model
      * @return Mage_Backend_Model_Menu
      */
     public function getMenu()
     {
-        return $this->getItem();
+        return $this->_menu;
+    }
+
+    /**
+     * Get menu model
+     *
+     * @param Mage_Backend_Model_Menu $menu
+     * @return Mage_Backend_Block_Menu_Container
+     */
+    public function setMenu(Mage_Backend_Model_Menu $menu)
+    {
+        $this->_menu = $menu;
+        return $this;
     }
 
     /**
      * Render menu item element
-     * @param $menu
+     * @param Mage_Backend_Model_Menu_Item $menuItem
      * @return string
      */
-    public function renderMenuItem($menu)
+    public function renderMenuItem(Mage_Backend_Model_Menu_Item $menuItem)
     {
         /**
          * Save current level
@@ -42,10 +59,10 @@ class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
          * Render child blocks
          * @var Mage_Backend_Block_Menu_Item
          */
-        $block = $this->getLayout()->getBlock($this->getContainer()->getItemRendererBlock());
-        $block->setItem($menu);
+        $block = $this->getMenuBlock()->getChildBlock($this->getMenuBlock()->getItemRendererBlock());
+        $block->setMenuItem($menuItem);
         $block->setLevel($currentLevel);
-        $block->setContainerRenderer($this->getContainer());
+        $block->setContainerRenderer($this->getMenuBlock());
         $output = $block->toHtml();
 
         /**

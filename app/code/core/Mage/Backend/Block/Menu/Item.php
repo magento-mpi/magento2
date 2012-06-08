@@ -21,6 +21,33 @@ class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
      * @var Mage_Backend_Block_Menu
      */
     protected $_containerRenderer;
+
+    /**
+     * @var Mage_Backend_Model_Menu_Item
+     */
+    protected $_menuItem;
+
+    /**
+     * Set menu model
+     * @return Mage_Backend_Model_Menu_Item
+     */
+    public function getMenuItem()
+    {
+        return $this->_menuItem;
+    }
+
+    /**
+     * Get menu item model
+     *
+     * @param Mage_Backend_Model_Menu_Item $menuItem
+     * @return Mage_Backend_Block_Menu_Item
+     */
+    public function setMenuItem(Mage_Backend_Model_Menu_Item $menuItem)
+    {
+        $this->_menuItem = $menuItem;
+        return $this;
+    }
+
     /**
      * Check whether given item is currently selected
      *
@@ -46,7 +73,8 @@ class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
      */
     public function isLast()
     {
-        return $this->getLevel() == 0 && (int)$this->getContainerRenderer()->getMenuModel()->isLast($this->getItem());
+        return ($this->getLevel() == 0 &&
+            (bool)$this->getContainerRenderer()->getMenuModel()->isLast($this->getMenuItem()));
     }
 
     /**

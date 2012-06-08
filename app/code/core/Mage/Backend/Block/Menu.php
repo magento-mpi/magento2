@@ -135,10 +135,10 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
      */
     public function renderMenuContainer($menu, $level = 0)
     {
-        $block = $this->getLayout()->getBlock($this->getContainerRendererBlock());
-        $block->setItem($menu);
+        $block = $this->getChildBlock($this->getContainerRendererBlock());
+        $block->setMenu($menu);
         $block->setLevel($level);
-        $block->setContainer($this);
+        $block->setMenuBlock($this);
         return $block->toHtml();
     }
 
