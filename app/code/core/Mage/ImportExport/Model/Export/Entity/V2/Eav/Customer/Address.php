@@ -18,15 +18,16 @@
 class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
     extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
 {
-    /**
+    /**#@+
      * Permanent column names.
      *
-     * Names that begins with underscore is not an attribute. This name convention is for
-     * to avoid interference with same attribute name.
+     * Names that begins with underscore is not an attribute.
+     * This name convention is for to avoid interference with same attribute name.
      */
     const COL_EMAIL   = '_email';
     const COL_WEBSITE = '_website';
     const COL_ADDRESS_ID = '_entity_id';
+    /**#@-*/
 
     /**
      * Constructor
@@ -70,36 +71,35 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
         $customerCollection = $exportCustomer->filterEntityCollection($customerCollection);
 
         // Get customer default addresses column name to customer attribute mapping array.
-        $defaultAddrMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
-        $customerCollection->addAttributeToSelect($defaultAddrMap);
+        $defaultAddressMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
+        $customerCollection->addAttributeToSelect($defaultAddressMap);
 
         $customers = $customerCollection->getItems();
 
         $collection->setCustomerFilter(array_keys($customers));
 
-        $validAttrCodes = $this->_getExportAttributeCodes();
+        $validAttributeCodes = $this->_getExportAttributeCodes();
 
         // prepare headers
         $writer->setHeaderCols(
             array_merge(
                 $this->_permanentAttributes,
-                $validAttrCodes,
-                array_keys($defaultAddrMap)
+                $validAttributeCodes,
+                array_keys($defaultAddressMap)
             )
         );
 
         /** @var $item Mage_Customer_Model_Address */
         foreach ($collection as $item) {
-
             $row = $this->_addAttributeValuesToRow($item);
 
             /** @var $customer Mage_Customer_Model_Customer */
             $customer = $customers[$item->getParentId()];
 
             // Fill row with default address attributes values
-            foreach ($defaultAddrMap as $colName => $addrAttrCode) {
-                if (!empty($customer[$addrAttrCode]) && ($customer[$addrAttrCode] == $item->getId())) {
-                    $row[$colName] =  1;
+            foreach ($defaultAddressMap as $columnName => $attributeCode) {
+                if (!empty($customer[$attributeCode]) && ($customer[$attributeCode] == $item->getId())) {
+                    $row[$columnName] =  1;
                 }
             }
 

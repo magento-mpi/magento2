@@ -38,12 +38,13 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
         foreach (Mage::app()->getWebsites(true) as $website) {
             $this->_websites[$website->getId()] = $website->getCode();
         }
-
     }
 
     protected function tearDown()
     {
         unset($this->_model);
+        unset($this->_websites);
+
         parent::tearDown();
     }
 
@@ -56,24 +57,24 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
         $emailCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_EMAIL;
         $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_ADDRESS_ID;
 
-        $expectedAttrCodes = array();
+        $expectedAttributes = array();
         /** @var $collection Mage_Customer_Model_Resource_Address_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection');
         /** @var $attribute Mage_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
-            $expectedAttrCodes[] = $attribute->getAttributeCode();
+            $expectedAttributes[] = $attribute->getAttributeCode();
         }
 
         // Get customer default addresses column name to customer attribute mapping array.
-        $defaultAddrMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
+        $defaultAddressMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
 
         $data = $this->_csvToArray($this->_model->export(), $entityIdCode);
 
         $this->assertEquals(
-            count($expectedAttrCodes),
-            count(array_intersect($expectedAttrCodes, $data['header'])),
+            count($expectedAttributes),
+            count(array_intersect($expectedAttributes, $data['header'])),
             'Expected attribute codes were not exported'
         );
 
@@ -83,6 +84,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
         /** @var $customers Mage_Customer_Model_Customer[] */
         $customers = Mage::registry('_fixture/Mage_ImportExport_Customers_Array');
         foreach ($customers as $customer) {
+            /** @var $address Mage_Customer_Model_Address */
             foreach ($customer->getAddresses() as $address) {
                 // Check unique key
                 $data['data'][$address->getId()][$websiteCode] = $this->_websites[$customer->getWebsiteId()];
@@ -90,7 +92,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
                 $data['data'][$address->getId()][$entityIdCode] = $address->getId();
 
                 // Check by expected attributes
-                foreach ($expectedAttrCodes as $code) {
+                foreach ($expectedAttributes as $code) {
                     if (!in_array($code, $this->_model->getDisabledAttributes())) {
                         $this->assertEquals(
                             $address->getData($code),
@@ -101,7 +103,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
                 }
 
                 // Check customer default addresses column name to customer attribute mapping array
-                foreach ($defaultAddrMap as $exportCode => $code) {
+                foreach ($defaultAddressMap as $exportCode => $code) {
                     $this->assertEquals(
                         $address->getData($code),
                         (int) $data['data'][$address->getId()][$exportCode],
@@ -120,7 +122,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
     public function getGenderFilterValueDataProvider()
     {
         return array(
-            'male' => array('$genderFilterValue' => 1),
+            'male'   => array('$genderFilterValue' => 1),
             'female' => array('$genderFilterValue' => 2)
         );
     }
@@ -175,7 +177,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
     public function testGetAttributeCollection()
     {
         $this->assertInstanceOf('Mage_Customer_Model_Resource_Address_Attribute_Collection',
-            $this->_model->getAttributeCollection());
+            $this->_model->getAttributeCollection()
+        );
     }
 
     /**

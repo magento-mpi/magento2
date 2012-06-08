@@ -23,7 +23,16 @@ class Mage_Customer_Model_Resource_Address_CollectionTest extends PHPUnit_Framew
 
     public function setUp()
     {
+        parent::setUp();
+
         $this->_collection = new Mage_Customer_Model_Resource_Address_Collection();
+    }
+
+    public function tearDown()
+    {
+        unset($this->_collection);
+
+        parent::tearDown();
     }
 
     /**
