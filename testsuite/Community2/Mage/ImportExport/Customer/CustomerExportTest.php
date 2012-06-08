@@ -208,48 +208,47 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     * @test
     * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
     */
-    public function SearchByAttributeLabelCode()
-{
-    //Step 1
-    $this->fillDropdown('entity_type', 'Customers');
-    $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-    //Step 2
-    $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-    $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-    //Step 3
-    $arr = array('Customers Main File', 'Customer Addresses');
-    foreach($arr as $value) {
-
-        $this->fillDropdown('export_file', $value);
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
-     //Step 4
-     $this->ImportExportHelper()->customerFilterAttributes(
-            array(
-                'attribute_code' => 'email'));
-     //Step 5
-     $isFound = $this->ImportExportHelper()->customerSearchAttributes(
-            array(
-                'attribute_code' => 'email'),
-            'grid_and_filter'
-        );
-     $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
-     //Step 6
-     $this->clickButton('reset_filter', false);
-     $this->waitForAjax();
-     //Step 7
-     $this->ImportExportHelper()->customerFilterAttributes(
-         array(
-             'attribute_label' => 'Email'));
-     //Step 8
-     $isFound = $this->ImportExportHelper()->customerSearchAttributes(
-         array(
-             'attribute_label' => 'Email'),
-         'grid_and_filter'
-     );
-     $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
-     //Step 9
-     $this->clickButton('reset_filter', false);
-     $this->waitForAjax();
+    public function searchByAttributeLabelCode()
+    {
+        //Step 1
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 2
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 3
+        $arr = array('Customers Main File', 'Customer Addresses');
+        foreach($arr as $value) {
+            $this->fillDropdown('export_file', $value);
+            $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+            //Step 4
+            $this->ImportExportHelper()->customerFilterAttributes(
+                array(
+                    'attribute_code' => 'email'));
+            //Step 5
+            $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+                array(
+                    'attribute_code' => 'email'),
+                'grid_and_filter'
+            );
+            $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+            //Step 6
+            $this->clickButton('reset_filter', false);
+            $this->waitForAjax();
+            //Step 7
+            $this->ImportExportHelper()->customerFilterAttributes(
+                array(
+                    'attribute_label' => 'Email'));
+            //Step 8
+            $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+                array(
+                    'attribute_label' => 'Email'),
+                'grid_and_filter'
+            );
+            $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+            //Step 9
+            $this->clickButton('reset_filter', false);
+            $this->waitForAjax();
+        }
     }
-}
 }
