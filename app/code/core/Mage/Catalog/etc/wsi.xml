@@ -30,6 +30,33 @@
                     <xsd:element name="additional_attributes" type="typens:ArrayOfString" minOccurs="0" />
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="catalogProductConfigurableAttributesEntity">
+                <xsd:sequence>
+                    <xsd:element name="attribute_code" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="frontend_label" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="frontend_label_use_default" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                    <xsd:element name="position" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                    <xsd:element name="prices" type="typens:catalogProductConfigurableOptionPricesEntityArray" minOccurs="0" maxOccurs="1" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="catalogProductConfigurableAttributesEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:catalogProductConfigurableAttributesEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="catalogProductConfigurableOptionPricesEntity">
+                <xsd:sequence>
+                    <xsd:element name="option_value" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="price" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="price_type" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="use_default_value" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="catalogProductConfigurableOptionPricesEntityArray">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="typens:catalogProductConfigurableOptionPricesEntity" />
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="catalogProductReturnEntity">
                 <xsd:sequence>
                     <xsd:element name="product_id" type="xsd:string" minOccurs="0" />
@@ -95,6 +122,7 @@
                     <xsd:element name="custom_design" type="xsd:string" minOccurs="0" />
                     <xsd:element name="custom_layout_update" type="xsd:string" minOccurs="0" />
                     <xsd:element name="additional_attributes" type="typens:associativeArray" minOccurs="0" />
+                    <xsd:element name="configurable_attributes" type="typens:catalogProductConfigurableAttributesEntityArray" minOccurs="0"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="catalogProductAttributeSetEntity">
@@ -340,8 +368,8 @@
             </xsd:complexType>
             <xsd:complexType name="catalogProductAttributeFrontendLabelEntity">
                 <xsd:sequence>
-                    <element name="store_id" type="xsd:string" />
-                    <element name="label" type="xsd:string" />
+                    <xsd:element name="store_id" type="xsd:string" />
+                    <xsd:element name="label" type="xsd:string" />
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="catalogProductAttributeFrontendLabelArray">

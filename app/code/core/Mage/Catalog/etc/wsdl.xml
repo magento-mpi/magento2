@@ -21,6 +21,37 @@
                     <element name="single_data" type="typens:associativeArray" minOccurs="0" />
                 </all>
             </complexType>
+            <complexType name="catalogProductConfigurableAttributesEntity">
+                <all>
+                    <element name="attribute_code" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="frontend_label" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="frontend_label_use_default" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                    <element name="position" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                    <element name="prices" type="typens:catalogProductConfigurableOptionPricesEntityArray" minOccurs="0" maxOccurs="1" />
+                </all>
+            </complexType>
+            <complexType name="catalogProductConfigurableAttributesEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogProductConfigurableAttributesEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="catalogProductConfigurableOptionPricesEntity">
+                <all>
+                    <element name="option_value" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="price" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="price_type" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <element name="use_default_value" type="xsd:int" minOccurs="0" maxOccurs="1" />
+                </all>
+            </complexType>
+            <complexType name="catalogProductConfigurableOptionPricesEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:catalogProductConfigurableOptionPricesEntity[]"/>
+                    </restriction>
+                </complexContent>
+            </complexType>
             <complexType name="catalogProductEntity">
                 <all>
                     <element name="product_id" type="xsd:string"/>
@@ -103,6 +134,7 @@
                     <element name="custom_design" type="xsd:string" minOccurs="0"/>
                     <element name="custom_layout_update" type="xsd:string" minOccurs="0"/>
                     <element name="additional_attributes" type="typens:catalogProductAdditionalAttributesEntity" minOccurs="0"/>
+                    <element name="configurable_attributes" type="typens:catalogProductConfigurableAttributesEntityArray" minOccurs="0"/>
                 </all>
             </complexType>
             <complexType name="catalogProductAttributeSetEntity">

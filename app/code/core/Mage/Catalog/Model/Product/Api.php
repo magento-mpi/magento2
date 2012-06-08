@@ -311,6 +311,80 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
                  ->prepareTierPrices($product, $productData['tier_price']);
              $product->setData(Mage_Catalog_Model_Product_Attribute_Tierprice_Api::ATTRIBUTE_CODE, $tierPrices);
         }
+        $this->_prepareConfigurableAttributes($product, $productData);
+    }
+
+    /**
+     * Process configurable attributes
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareConfigurableAttributes(Mage_Catalog_Model_Product $product, array $saveData)
+    {
+        if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE) {
+            if ($product->isObjectNew()) {
+                $this->_prepareConfigurableAttributesForCreate($product, $saveData);
+            } else {
+                // TODO: Implement part related to product update
+            }
+        }
+    }
+
+    /**
+     * Process configurable attributes for product create
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $saveData
+     */
+    protected function _prepareConfigurableAttributesForCreate(Mage_Catalog_Model_Product $product, array $saveData)
+    {
+        $usedConfigurableAttributeIds = array();
+        $configurableAttributesData = array();
+        if (isset($saveData['configurable_attributes']) && is_array($saveData['configurable_attributes'])) {
+            foreach ($saveData['configurable_attributes'] as $configurableData) {
+                if (!isset($configurableData['attribute_code'])) {
+                    continue;
+                }
+                /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                $attribute = Mage::getResourceModel('Mage_Catalog_Model_Resource_Eav_Attribute');
+                $attribute->load($configurableData['attribute_code'], 'attribute_code');
+                if ($attribute->getId()) {
+                    $usedConfigurableAttributeIds[] = $attribute->getId();
+                    $configurableAttributesData[$attribute->getAttributeCode()] = array(
+                        'attribute_id' => $attribute->getId(),
+                        'attribute_code' => $attribute->getAttributeCode(),
+                        'label' => (isset($configurableData['frontend_label']) && $configurableData['frontend_label'])
+                            ? trim((string) $configurableData['frontend_label']) : null,
+                        'use_default' => (isset($configurableData['frontend_label_use_default'])
+                            && $configurableData['frontend_label_use_default']) ? 1 : 0,
+                        'position' => (isset($configurableData['position']) && $configurableData['position'])
+                            ? (int) $configurableData['position'] : 0,
+                    );
+
+                    // save information about configurable options' prices
+                    if (isset($configurableData['prices']) && is_array($configurableData['prices'])) {
+                        $formattedOptions = array();
+                        foreach ($configurableData['prices'] as $optionPrice) {
+                            if (isset($optionPrice['option_value']) && isset($optionPrice['price'])
+                                && isset($optionPrice['price_type'])
+                            ) {
+                                $formattedOptions[] = array(
+                                    'value_index' => $optionPrice['option_value'],
+                                    'pricing_value' => $optionPrice['price'],
+                                    'is_percent' => ($optionPrice['price_type'] == 'percent')
+                                );
+                            }
+                        }
+                        $configurableAttributesData[$attribute->getAttributeCode()]['values'] = $formattedOptions;
+                    }
+                }
+            }
+        }
+        $product->setConfigurableAttributesData($configurableAttributesData);
+        /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
+        $configurableType = $product->getTypeInstance();
+        $configurableType->setUsedProductAttributeIds($usedConfigurableAttributeIds, $product);
     }
 
     /**

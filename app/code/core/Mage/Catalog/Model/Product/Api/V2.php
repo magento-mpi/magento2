@@ -317,6 +317,12 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
                  ->prepareTierPrices($product, $productData->tier_price);
              $product->setData(Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2::ATTRIBUTE_CODE, $tierPrices);
         }
+
+        /** @var $helper Mage_Api_Helper_Data */
+        $helper = Mage::helper('Mage_Api_Helper_Data');
+        $helper->v2AssociativeArrayUnpacker($productData);
+        $helper->toArray($productData);
+        $this->_prepareConfigurableAttributes($product, $productData);
     }
 
     /**

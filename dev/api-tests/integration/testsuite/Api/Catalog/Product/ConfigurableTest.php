@@ -211,10 +211,10 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
     protected function _tryToCreateProductWithApi($productData)
     {
         $dataFormattedForRequest = array(
-            $productData['type_ida'],
-            $productData['attribute_set_id'],
-            $productData['sku'],
-            $productData
+            'type' => $productData['type_id'],
+            'set' => $productData['attribute_set_id'],
+            'sku' => $productData['sku'],
+            'productData' => $productData
         );
         $response = $this->call('product.create', $dataFormattedForRequest);
         return $response;
