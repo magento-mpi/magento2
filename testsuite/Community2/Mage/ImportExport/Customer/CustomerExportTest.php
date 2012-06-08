@@ -282,4 +282,152 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
     }
+    /**
+     * <p>Add customer attribute</p>
+     * <p>Steps</p>
+     * <p>1. Admin is logged in at backend</p>
+     * <p>2. New Customers Attribute is created in Customers -> Attributes -> Manage Customers Attributes</p>
+     * <p>3. In System-> Import/Export-> Export select "Customers" entity type</p>
+     * <p>4. Select "Magento2.0" format and "Master Type" file</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5484
+     */
+    public function addCustomerAttribute($attrData)
+    {
+        //step1
+        $this->admin('manage_customer_attributes');
+        $this->loadDataSet('ImportExport','generic_customer_attribute');
+        $this->customerAttributeHelper()->createAttribute($attrData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Step 2
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        //Step 5
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array(
+                'attribute_code' => $attrData['attribute_code']));
+        //Step 6
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array(
+                'attribute_code' => $attrData['attribute_code']),
+            'grid_and_filter'
+        );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        //Step 7
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
+        return $attrData;
+    }
+    /**
+     * <p>Edit customer attribute</p>
+     * <p>Steps</p>
+     * <p>1. Admin is logged in at backend</p>
+     * <p>2. In Customers -> Attributes -> Manage Customers Attributes change a info in the field "Attribute Label" for existing Customer Attribute</p>
+     * <p>3. In System-> Import/Export-> Export select "Customers" entity type</p>
+     * <p>4. Select "Magento2.0" format and "Master Type" file</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5485
+     * @depends addCustomerAttribute
+     */
+    public function editCustomerAttribute($attrData)
+    {
+        //step1
+        $this->admin('manage_customer_attributes');
+        $this->customerAttributeHelper()->openAttribute($attrData);
+        //Change label
+        $attrData['admin_title'] = 'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
+        $this->customerAttributeHelper()->fillForm($attrData, 'manage_labels_options');
+        $this->customerAttributeHelper()->saveForm($attrData, 'save_attribute');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Step 2
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        //Step 5
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array(
+                'attribute_code' => $attrData['attribute_code'],
+                'attribute_label' => $attrData['attribute_label'])
+            );
+        //Step 6
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array(
+                'attribute_code' => $attrData['attribute_code'],
+                'attribute_label' => $attrData['attribute_label']),
+            'grid_and_filter'
+            );
+        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        //Step 7
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
+        return $attrData;
+    }
+    /**
+     * <p>Edit customer attribute</p>
+     * <p>Steps</p>
+     * <p>1. Admin is logged in at backend</p>
+     * <p>2. Create new customer attribute in Customers -> Attributes -> Manage Customers Attributes</p>
+     * <p>3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customers Attributes</p>
+     * <p>4. In System-> Import/Export-> Export select "Customers" entity type</p>
+     * <p>5. Select "Magento2.0" format and "Master Type" file</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5486
+     * @depends editCustomerAttribute
+     */
+    public function deleteCustomerAttribute($attrData)
+    {
+        //step1
+        $this->admin('manage_customer_attributes');
+        $this->customerAttributeHelper()->openAttribute($attrData);
+        //Delete attribute
+        $this->clickButtonAndConfirm('delete_attribute','Are you sure you want to do this?');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_attribute');
+        //Step 2
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        //Step 5
+        $this->ImportExportHelper()->customerFilterAttributes(
+            array(
+                'attribute_code' => $attrData['attribute_code'],
+                'attribute_label' => $attrData['attribute_label'])
+        );
+        //Step 6
+        $isFound = $this->ImportExportHelper()->customerSearchAttributes(
+            array(
+                'attribute_code' => $attrData['attribute_code'],
+                'attribute_label' => $attrData['attribute_label']),
+            'grid_and_filter'
+        );
+        $this->assertTrue(is_null($isFound), 'Attribute was found after deleting');
+        //Step 7
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
+    }
+
 }
