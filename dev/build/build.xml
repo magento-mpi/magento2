@@ -10,7 +10,7 @@
  */
 -->
 <project name="Magento2" basedir="../../" default="init">
-    <property file='build.properties' />
+    <property file="dev/build/build.properties" />
     <property environment="env"/>
     <tstamp>
         <format property="timestamp" pattern="yyyyMMdd"/>
