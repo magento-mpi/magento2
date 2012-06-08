@@ -31,7 +31,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
      *
      * @var array
      */
-    protected static $_attrCodes = null;
+    protected $_attributeCodes = null;
 
     /**
      * Entity type id.
@@ -74,7 +74,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
      */
     protected function _getExportAttrCodes()
     {
-        if (null === self::$_attrCodes) {
+        if (null === $this->_attributeCodes) {
             if (!empty($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP])
                 && is_array($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP])) {
                 $skipAttr = array_flip($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP]);
@@ -89,9 +89,9 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
                     $attrCodes[] = $attribute->getAttributeCode();
                 }
             }
-            self::$_attrCodes = $attrCodes;
+            $this->_attributeCodes = $attrCodes;
         }
-        return self::$_attrCodes;
+        return $this->_attributeCodes;
     }
 
     /**
