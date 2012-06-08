@@ -371,6 +371,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @TestlinkId TL-MAGE-5378
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
      */
     public function reorderPendingOrder($orderData)
     {

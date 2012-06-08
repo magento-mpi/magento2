@@ -380,6 +380,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3595
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
      */
     public function billingAddressLongValues($field, $fieldName, $simpleSku)
     {
@@ -416,6 +417,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5311
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
      */
     public function shippingAddressLongValues($field, $fieldName, $simpleSku)
     {
