@@ -48,13 +48,14 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
     }
 
     /**
-     * Get seccess operation save message
+     * Get success operation save message
      *
      * @param string $type   operation type
      * @return string
      */
     public function getSuccessSaveMessage($type)
     {
+        $message = '';
         switch ($type) {
             case 'import':
                 $message = $this->__('The scheduled import has been saved.');
@@ -68,13 +69,14 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
     }
 
     /**
-     * Get seccess operation delete message
+     * Get success operation delete message
      *
      * @param string $type   operation type
      * @return string
      */
     public function getSuccessDeleteMessage($type)
     {
+        $message = '';
         switch ($type) {
             case 'import':
                 $message = $this->__('The scheduled import has been deleted.');
@@ -95,6 +97,7 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
      */
     public function getConfirmationDeleteMessage($type)
     {
+        $message = '';
         switch ($type) {
             case 'import':
                 $message = $this->__('Are you sure you want to delete this scheduled import?');
@@ -121,5 +124,33 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
             $message = $this->__('Total size of the file must not exceed %s', $maxUploadSize);
         }
         return $message;
+    }
+
+    /**
+     * Is reward points enabled
+     *
+     * @return bool
+     */
+    public function isRewardPointsEnabled()
+    {
+        /** @var $rewardPointsHelper Enterprise_Reward_Helper_Data */
+        $rewardPointsHelper = Mage::helper('Enterprise_Reward_Helper_Data');
+
+        return $this->isModuleEnabled('Enterprise_Reward') &&
+            $rewardPointsHelper->isEnabled();
+    }
+
+    /**
+     * Is store credit enabled
+     *
+     * @return bool
+     */
+    public function isCustomerBalanceEnabled()
+    {
+        /** @var $customerBalanceHelper Enterprise_CustomerBalance_Helper_Data */
+        $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
+
+        return $this->isModuleEnabled('Enterprise_CustomerBalance') &&
+            $customerBalanceHelper->isEnabled();
     }
 }

@@ -290,6 +290,10 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
      */
     public function getFileName()
     {
-        return $this->getEntity() . '_' . date('Ymd_His') .  '.' . $this->_getWriter()->getFileExtension();
+        $fileName = $this->_getEntityAdapter()->getFileName();
+        if (!$fileName) {
+            $fileName = $this->getEntity();
+        }
+        return $fileName . '_' . date('Ymd_His') .  '.' . $this->_getWriter()->getFileExtension();
     }
 }

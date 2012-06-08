@@ -109,6 +109,13 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     protected $_disabledAttributes = array();
 
     /**
+     * Export file name
+     *
+     * @var string|null
+     */
+    protected $_fileName = null;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -314,6 +321,26 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
         $this->_writer = $writer;
 
         return $this;
+    }
+
+    /**
+     * Set export file name
+     *
+     * @param null|string $fileName
+     */
+    public function setFileName($fileName)
+    {
+        $this->_fileName = $fileName;
+    }
+
+    /**
+     * Get export file name
+     *
+     * @return null|string
+     */
+    public function getFileName()
+    {
+        return $this->_fileName;
     }
 
     /**
