@@ -261,12 +261,13 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      *
      * @test
      * @TestlinkId TL-MAGE-5484
+     * @return array
      */
-    public function addCustomerAttribute($attrData)
+    public function addCustomerAttribute()
     {
         //step1
         $this->admin('manage_customer_attributes');
-        $this->loadDataSet('ImportExport','generic_customer_attribute');
+        $attrData = $this->loadDataSet('ImportExport','generic_customer_attribute');
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -305,18 +306,21 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>4. Select "Magento2.0" format and "Master Type" file</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5485
+     * @param array $attrData
      * @depends addCustomerAttribute
+     * @TestlinkId TL-MAGE-5485
      */
     public function editCustomerAttribute($attrData)
     {
         //step1
         $this->admin('manage_customer_attributes');
-        $this->customerAttributeHelper()->openAttribute($attrData);
+        $this->customerAttributeHelper()->openAttribute(
+            array(
+                'attribute_code'=>$attrData['attribute_code']));
         //Change label
         $attrData['admin_title'] = 'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
         $this->customerAttributeHelper()->fillForm($attrData, 'manage_labels_options');
-        $this->customerAttributeHelper()->saveForm($attrData, 'save_attribute');
+        $this->customerAttributeHelper()->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 2
@@ -358,16 +362,19 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>5. Select "Magento2.0" format and "Master Type" file</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5486
+     * @param array $attrData
      * @depends editCustomerAttribute
+     * @TestlinkId TL-MAGE-5486
      */
     public function deleteCustomerAttribute($attrData)
     {
         //step1
         $this->admin('manage_customer_attributes');
-        $this->customerAttributeHelper()->openAttribute($attrData);
+        $this->customerAttributeHelper()->openAttribute(
+            array(
+                'attribute_code'=>$attrData['attribute_code']));
         //Delete attribute
-        $this->clickButtonAndConfirm('delete_attribute','Are you sure you want to do this?');
+        $this->clickButtonAndConfirm('delete_attribute','delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
         //Step 2
@@ -398,5 +405,4 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
     }
-
 }
