@@ -49,6 +49,7 @@ class Enterprise2_Mage_WebsiteRestrictions extends Mage_Selenium_TestCase
      
     public function navigationTest()
     {
+        //test comit push
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->openTab('general_general');
