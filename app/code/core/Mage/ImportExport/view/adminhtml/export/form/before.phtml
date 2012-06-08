@@ -30,7 +30,7 @@
 
             switch ($F('entity')) {
                 case 'customer':
-                    $('export_filter_grid_container').update('');
+                    $('export_filter_grid_container').update();
                     $('export_filter_container').hide();
                     $('head-export_format_version_fieldset').show();
                     $('export_format_version_fieldset').show();
@@ -124,7 +124,6 @@
 
             new Ajax.Request(url, {
                 method:      'post',
-                //parameters:  $(this.formId).serialize(),
                 evalScripts: true,
                 onComplete:  function(transport) {
                     var responseText = transport.responseText.replace(/>\s+</g, '><');
@@ -153,7 +152,6 @@
 
             new Ajax.Request(url, {
                 method:      'post',
-                //parameters:  $(this.formId).serialize(),
                 evalScripts: true,
                 onComplete:  function(transport) {
                     var responseText = transport.responseText.replace(/>\s+</g, '><');
