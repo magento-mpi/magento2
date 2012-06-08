@@ -31,24 +31,25 @@
 #                                                                              #
 ################################################################################
 browsers:
-    googlechrome: &googlechrome
-         name: 'Google Chrome'
-         browser: '*googlechrome'
-         host: '{{selenium_host}}'
-         port: {{selenium_port}}
-         timeout: 40
+#    googlechrome: &googlechrome
+#         name: 'Google Chrome'
+#         browser: '*googlechrome'
+#         host: '{{selenium_host}}'
+#         port: {{selenium_port}}
+#         timeout: 40
     firefox: &firefox
          name: 'Firefox'
-         browser: '*chrome'
+         browser: '*firefox'
          host: '{{selenium_host}}'
          port: {{selenium_port}}
-         timeout: 40
-    iexplorer: &iexplorer
-         name: 'Internet Explorer'
-         browser: '*iexplore'
-         host: '{{selenium_host}}'
-         port: {{selenium_port}}
-         timeout: 60
+         timeout: 100
+         restartBrowser: false
+#    iexplorer: &iexplorer
+#         name: 'Internet Explorer'
+#         browser: '*iexplore'
+#         host: '{{selenium_host}}'
+#         port: {{selenium_port}}
+#         timeout: 60
     default: *firefox
 ################################################################################
 #                                                                              #
@@ -66,6 +67,7 @@ framework:
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: true
+    load_all_fixtures: true
     cache:
         frontend:
             name: 'core'
@@ -75,8 +77,8 @@ framework:
                 automatic_serialization: true
         backend:
             name: 'file'
-            options:
-                cache_dir: 'var/cache'
+            options: ''
+            cache_dir: 'var/cache'
 ################################################################################
 #                                                                              #
 #                  Applications for running tests                              #
@@ -109,8 +111,8 @@ applications:
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'ashugayev@ebay.com'
-                password: 'magento123'
+                login: 'ssergunin@ebay.com'
+                password: 'magentoTAF1'
     enterprise: &enterprise
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
