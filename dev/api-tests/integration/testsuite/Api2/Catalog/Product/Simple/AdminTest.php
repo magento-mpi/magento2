@@ -12,12 +12,21 @@
 /**
  * Test simple product resource as admin role
  *
+ * @method Helper_Catalog_Product_Simple _getHelper()
+ *
  * @category    Magento
  * @package     Magento_Test
  * @author      Magento Api Team <api-team@magento.com>
  */
 class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAbstract
 {
+    /**
+     * Default helper for current test suite
+     *
+     * @var string
+     */
+    protected $_defaultHelper = 'Helper_Catalog_Product_Simple';
+
     /**
      * Test successful product get
      *
@@ -110,69 +119,47 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostSimpleRequiredFieldsOnly()
+    public function testCreateSimpleRequiredFieldsOnly()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
+        $productId = $this->_createProductWithApi($productData);
 
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
+        $actualProduct = new Mage_Catalog_Model_Product();
+        $actualProduct->load($productId);
+        $this->assertNotNull($actualProduct->getId());
+        $this->addModelToDelete($actualProduct, true);
+        $expectedProduct = new Mage_Catalog_Model_Product();
+        $expectedProduct->setData($productData);
 
-        $location = $restResponse->getHeader('Location');
-        list($productId) = array_reverse(explode('/', $location));
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
-        $this->assertNotNull($product->getId());
-        $this->_deleteProductAfterTest($product);
-        foreach ($productData as $attribute => $value) {
-            $this->assertEquals($product->getData($attribute), $value);
-        }
+        $this->assertProductEquals($expectedProduct, $actualProduct);
     }
 
     /**
      * Test product resource post with all fields
      *
      * @param array $productData
-     * @dataProvider dataProviderTestPostSimpleAllFieldsValid
+     * @dataProvider dataProviderTestCreateSimpleAllFieldsValid
      * @resourceOperation product::create
      */
-    public function testPostSimpleAllFieldsValid($productData)
+    public function testCreateSimpleAllFieldsValid($productData)
     {
         $productId = $this->_createProductWithApi($productData);
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->_deleteProductAfterTest($product);
+        $this->addModelToDelete($product, true);
 
-        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
-            'custom_design_from', 'custom_design_to');
-        foreach ($dateAttributes as $attribute) {
-            $this->assertEquals(strtotime($productData[$attribute]), strtotime($product->getData($attribute)));
-        }
-
-        $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data',
-            'url_key', 'url_key_create_redirect'));
-        // Validate URL Key - all special chars should be replaced with dash sign
-        $this->assertEquals('123-abc', $product->getUrlKey());
-        $productAttributes = array_diff_key($productData, array_flip($exclude));
-        foreach ($productAttributes as $attribute => $value) {
-            $this->assertEquals($value, $product->getData($attribute));
-        }
-
-        if (isset($productData['stock_data'])) {
-            $stockItem = $product->getStockItem();
-            foreach ($productData['stock_data'] as $attribute => $value) {
-                $this->assertEquals($value, $stockItem->getData($attribute));
-            }
-        }
+        $this->_getHelper()->checkSimpleAttributesData($product, $productData);
     }
 
     /**
-     * Data provider for testPostSimpleAllFieldsValid
+     * Data provider for testCreateSimpleAllFieldsValid
      *
      * @dataSetNumber 2
      * @return array
      */
-    public function dataProviderTestPostSimpleAllFieldsValid()
+    public function dataProviderTestCreateSimpleAllFieldsValid()
     {
         $productData = $this->_loadSimpleProductFixtureData('simple_product_all_fields_data');
         $productDataSpecialChars = $this->_loadSimpleProductFixtureData('simple_product_special_chars_data');
@@ -189,19 +176,11 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostSimpleAllFieldsInvalid()
+    public function testCreateSimpleAllFieldsInvalid()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_all_fields_invalid_data');
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_all_fields_invalid_data');
+        $restResponse = $this->_tryToCreateProductWithApi($productData);
         $this->assertEquals(Mage_Api2_Model_Server::HTTP_BAD_REQUEST, $restResponse->getStatus());
-
-        $body = $restResponse->getBody();
-        $errors = $body['messages']['error'];
-        $errorsPlain = array();
-        foreach ($errors as $error) {
-            $errorsPlain[] = $error['message'];
-        }
-        $this->assertNotEmpty($errors);
 
         $expectedErrors = array(
             'SKU length should be 64 characters maximum.',
@@ -262,9 +241,9 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostInvalidQtyUsesDecimals()
+    public function testCreateInvalidQtyUsesDecimals()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_invalid_qty_uses_decimals');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_invalid_qty_uses_decimals');
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "is_qty_decimal" value in the "stock_data" set.');
@@ -276,9 +255,9 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostInvalidManageStock()
+    public function testCreateInvalidManageStock()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_invalid_manage_stock');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_invalid_manage_stock');
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->_checkErrorMessagesInResponse($restResponse, 'Invalid "manage_stock" value in the "stock_data" set.');
@@ -290,9 +269,9 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostWeightOutOfRange()
+    public function testCreateWeightOutOfRange()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_weight_out_of_range');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_weight_out_of_range');
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
         $this->_checkErrorMessagesInResponse($restResponse, 'The "weight" value is not within the specified range.');
@@ -305,11 +284,11 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
      * @resourceOperation product::create
      */
-    public function testPostNotUniqueSku()
+    public function testCreateNotUniqueSku()
     {
         /** @var $product Mage_Catalog_Model_Product */
         $product = $this->getFixture('product_simple');
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
         $productData['sku'] = $product->getSku();
 
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
@@ -323,34 +302,33 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @param array $productData
      * @resourceOperation product::create
-     * @dataProvider dataProvidertestPostEmptyRequiredFields
+     * @dataProvider dataProviderTestCreateEmptyRequiredFields
      */
-    public function testPostEmptyRequiredFields($productData)
+    public function testCreateEmptyRequiredFields($productData)
     {
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        unset($productData['type_id']);
-        unset($productData['attribute_set_id']);
-        unset($productData['sku']);
-        unset($productData['stock_data']);
         $expectedErrors = array(
             'Please enter a valid number in the "qty" field in the "stock_data" set.'
         );
-        foreach ($productData as $key => $value) {
+        $errorFields = array_diff_key($productData, array_flip(
+            array('type_id', 'attribute_set_id', 'sku', 'stock_data')));
+        foreach ($errorFields as $key => $value) {
             $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
         }
         $this->_checkErrorMessagesInResponse($restResponse, $expectedErrors);
     }
 
     /**
-     * Data provider for testPostEmptyRequiredFields
+     * Data provider for testCreateEmptyRequiredFields
      *
      * @dataSetNumber 2
      * @return array
      */
-    public function dataProvidertestPostEmptyRequiredFields()
+    public function dataProviderTestCreateEmptyRequiredFields()
     {
-        $productDataEmpty = $this->_loadSimpleProductFixtureData('simple_product_empty_required');
-        $productDataStringsEmptySpaces = $this->_loadSimpleProductFixtureData('simple_product_empty_spaces_required');
+        $productDataEmpty = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_empty_required');
+        $productDataStringsEmptySpaces = $this->_getHelper()
+            ->loadSimpleProductFixtureData('simple_product_empty_spaces_required');
 
         return array(
             array($productDataEmpty),
@@ -363,27 +341,17 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostInventoryUseConfigValues()
+    public function testCreateInventoryUseConfigValues()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_inventory_use_config');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_inventory_use_config');
+        $productId = $this->_createProductWithApi($productData);
 
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
-        $location = $restResponse->getHeader('Location');
-        list($productId) = array_reverse(explode('/', $location));
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->_deleteProductAfterTest($product);
+        $this->addModelToDelete($product, true);
 
-        $stockItem = $product->getStockItem();
-        $this->assertNotNull($stockItem);
-        $fields = array('use_config_min_qty', 'use_config_min_sale_qty', 'use_config_max_sale_qty',
-            'use_config_backorders', 'use_config_notify_stock_qty', 'use_config_enable_qty_inc');
-        foreach ($fields as $field) {
-            $this->assertEquals(1, $stockItem->getData($field), $field . ' is not set to 1');
-        }
+        $this->_getHelper()->checkStockItemDataUseDefault($product);
     }
 
     /**
@@ -391,21 +359,17 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostInventoryManageStockUseConfig()
+    public function testCreateInventoryManageStockUseConfig()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_manage_stock_use_config');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_use_config');
 
         $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
 
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
-        $location = $restResponse->getHeader('Location');
-        list($productId) = array_reverse(explode('/', $location));
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $productId = $this->_createProductWithApi($productData);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->_deleteProductAfterTest($product);
+        $this->addModelToDelete($product, true);
 
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
@@ -417,19 +381,15 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostInventoryManageStockNo()
+    public function testCreateInventoryManageStockNo()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_manage_stock_no');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_no');
 
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
-        $location = $restResponse->getHeader('Location');
-        list($productId) = array_reverse(explode('/', $location));
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $productId = $this->_createProductWithApi($productData);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->_deleteProductAfterTest($product);
+        $this->addModelToDelete($product, true);
 
         $stockItem = $product->getStockItem();
         $this->assertNotNull($stockItem);
@@ -442,19 +402,15 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostGiftOptionsUseConfigValues()
+    public function testCreateGiftOptionsUseConfigValues()
     {
-        $productData = $this->_loadSimpleProductFixtureData('simple_product_gift_options_use_config');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_gift_options_use_config');
 
-        $restResponse = $this->callPost($this->_getResourcePath(), $productData);
-        $this->assertEquals(Mage_Api2_Model_Server::HTTP_OK, $restResponse->getStatus());
-
-        $location = $restResponse->getHeader('Location');
-        list($productId) = array_reverse(explode('/', $location));
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
+        $productId = $this->_createProductWithApi($productData);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
         $this->assertNotNull($product->getId());
-        $this->_deleteProductAfterTest($product);
+        $this->addModelToDelete($product, true);
     }
 
     /**
@@ -697,7 +653,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
     }
 
     /**
-     * Data provider for testPostSimpleAllFieldsValid
+     * Data provider for testCreateSimpleAllFieldsValid
      *
      * @dataSetNumber 6
      * @return array
@@ -1093,7 +1049,7 @@ class Api2_Catalog_Product_Simple_AdminTest extends Api2_Catalog_Product_AdminAb
      *
      * @resourceOperation product::create
      */
-    public function testPostMediaAttributesDefaultValue()
+    public function testCreateMediaAttributesDefaultValue()
     {
         $productData = $this->_loadSimpleProductFixtureData('simple_product_data');
         $restResponse = $this->callPost($this->_getResourcePath(), $productData);

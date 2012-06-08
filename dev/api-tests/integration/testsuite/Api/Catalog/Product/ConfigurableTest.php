@@ -11,22 +11,17 @@
 
 /**
  * Test configurable product API
+ *
+ * @method Helper_Catalog_Product_Configurable _getHelper()
  */
-class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
+class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
 {
     /**
-     * @var Helper_Catalog_Product_Configurable
+     * Default helper for current test suite
+     *
+     * @var string
      */
-    static protected $_configurableHelper;
-
-    /**
-     * Initialize helpers
-     */
-    public static function setUpBeforeClass()
-    {
-        self::$_configurableHelper = new Helper_Catalog_Product_Configurable();
-        parent::setUpBeforeClass();
-    }
+    protected $_defaultHelper = 'Helper_Catalog_Product_Configurable';
 
     /**
      * Test successful configurable product create.
@@ -38,13 +33,13 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
      */
     public function testCreate()
     {
-        $productData = self::$_configurableHelper->getValidCreateData();
+        $productData = $this->_getHelper()->getValidCreateData();
         $productId = $this->_createProductWithApi($productData);
         // Validate outcome
         /** @var $actual Mage_Catalog_Model_Product */
         $actual = Mage::getModel('Mage_Catalog_Model_Product')->load($productId);
         $this->addModelToDelete($actual, true);
-        self::$_configurableHelper->checkConfigurableAttributesData($actual, $productData['configurable_attributes'],
+        $this->_getHelper()->checkConfigurableAttributesData($actual, $productData['configurable_attributes'],
             false);
         unset($productData['configurable_attributes']);
         $expected = new Mage_Catalog_Model_Product();
@@ -62,7 +57,7 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidAttributeSet()
     {
-        $productData = self::$_configurableHelper->getCreateDataWithInvalidAttributeSet();
+        $productData = $this->_getHelper()->getCreateDataWithInvalidAttributeSet();
         $expectedMessage = "The specified attribute set does not contain attributes which "
             . "can be used for the configurable product.";
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessage);
@@ -81,7 +76,7 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidAttribute()
     {
-        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableAttribute();
+        $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableAttribute();
         /** @var $invalidAttribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $invalidAttribute = $this->getFixture('eav_invalid_configurable_attribute');
         $expectedMessages = array(
@@ -104,7 +99,7 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidAttributePrice()
     {
-        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableOptionPrice();
+        $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionPrice();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $this->getFixture('eav_configurable_attribute');
         $attributeSourceOptions = $attribute->getSource()->getAllOptions(false);
@@ -134,7 +129,7 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidAttributeOptionValue()
     {
-        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableOptionValue();
+        $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionValue();
         /** @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $this->getFixture('eav_configurable_attribute');
         // Validate outcome
@@ -158,7 +153,7 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
      */
     public function testCreateInvalidFrontendLabel()
     {
-        $productData = self::$_configurableHelper->getCreateDataWithInvalidConfigurableOptionLabel();
+        $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionLabel();
         /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
         $attributeOne = $this->getFixture('eav_configurable_attribute_1');
         /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -171,67 +166,5 @@ class Api_Catalog_Product_ConfigurableTest extends Magento_Test_Webservice
                 . 'is required.', $attributeTwo->getAttributeCode()),
         );
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
-    }
-
-    /**
-     * Try to create product using API and check received error messages
-     *
-     * @param array $productData
-     * @param array|string $expectedMessages
-     */
-    protected function _createProductWithErrorMessagesCheck($productData, $expectedMessages)
-    {
-        try {
-            $this->_tryToCreateProductWithApi($productData);
-            $this->fail('SoapFault exception was expected to be raised.');
-        } catch (SoapFault $e) {
-            $this->_checkErrorMessagesInResponse($e, $expectedMessages);
-        }
-    }
-
-    /**
-     * Create product with API
-     *
-     * @param array $productData
-     * @return int
-     */
-    protected function _createProductWithApi($productData)
-    {
-        $productId = (int)$this->_tryToCreateProductWithApi($productData);
-        $this->assertGreaterThan(0, $productId, 'Response does not contain valid product ID.');
-        return $productId;
-    }
-
-    /**
-     * Try to create product with API request
-     *
-     * @param array $productData
-     * @return int
-     */
-    protected function _tryToCreateProductWithApi($productData)
-    {
-        $dataFormattedForRequest = array(
-            'type' => $productData['type_id'],
-            'set' => $productData['attribute_set_id'],
-            'sku' => $productData['sku'],
-            'productData' => $productData
-        );
-        $response = $this->call('product.create', $dataFormattedForRequest);
-        return $response;
-    }
-
-    /**
-     * Check if expected messages contained in the SoapFault exception
-     *
-     * @param SoapFault $e
-     * @param array|string $expectedMessages
-     */
-    protected function _checkErrorMessagesInResponse(SoapFault $e, $expectedMessages)
-    {
-        $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
-        $receivedMessages = array();
-        // TODO: Change implementation below when multiple error messages in API response will be possible
-        $receivedMessages[] = $e->getMessage();
-        $this->assertMessagesEqual($expectedMessages, $receivedMessages);
     }
 }

@@ -41,6 +41,35 @@ class Magento_Test_Webservice extends Magento_TestCase
     );
 
     /**
+     * Default helper for current test suite
+     *
+     * @var string
+     */
+    protected $_defaultHelper = 'Helper_Catalog_Product_Simple';
+
+    /** @var array */
+    protected $_helpers = array();
+
+    /**
+     * Get current test suite helper if class name not specified.
+     *
+     * @param string|null $helperClass
+     * @return mixed
+     */
+    protected function _getHelper($helperClass = null)
+    {
+        if (is_null($helperClass)) {
+            $helperClass = $this->_defaultHelper;
+        }
+
+        if (!isset($this->_helpers[$helperClass])) {
+            $this->_helpers[$helperClass] = new $helperClass;
+        }
+
+        return $this->_helpers[$helperClass];
+    }
+
+    /**
      * Modify config settings on systen been tested for specified webservice type
      *
      * @param string $webserviceType Webservice type. One of self::TYPE_... constant

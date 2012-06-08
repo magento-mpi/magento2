@@ -11,8 +11,10 @@
 
 /**
  * Test Product CRUD operations
+ *
+ * @method Helper_Catalog_Product_Simple _getHelper()
  */
-class Api_Catalog_ProductTest extends Magento_Test_Webservice
+class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 {
 
     /**
@@ -21,6 +23,13 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
      * @var Mage_Core_Model_Store
      */
     protected $_store;
+
+    /**
+     * Default helper for current test suite
+     *
+     * @var string
+     */
+    protected $_defaultHelper = 'Helper_Catalog_Product_Simple';
 
     /**
      * Tear down
@@ -35,6 +44,303 @@ class Api_Catalog_ProductTest extends Magento_Test_Webservice
         $this->callModelDelete($this->_store, true);
 
         parent::tearDown();
+    }
+
+    /**
+     * Test product resource post
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateSimpleRequiredFieldsOnly()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
+        $productId = $this->_createProductWithApi($productData);
+
+        $actualProduct = new Mage_Catalog_Model_Product();
+        $actualProduct->load($productId);
+        $this->assertNotNull($actualProduct->getId());
+        $this->addModelToDelete($actualProduct, true);
+        $expectedProduct = new Mage_Catalog_Model_Product();
+        $expectedProduct->setData($productData);
+
+        $this->assertProductEquals($expectedProduct, $actualProduct);
+    }
+
+    /**
+     * Test product resource post with all fields
+     *
+     * @param array $productData
+     * @dataProvider dataProviderTestCreateSimpleAllFieldsValid
+     * @resourceOperation product::create
+     */
+    public function testCreateSimpleAllFieldsValid($productData)
+    {
+        $productId = $this->_createProductWithApi($productData);
+
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->addModelToDelete($product, true);
+
+        $this->_getHelper()->checkSimpleAttributesData($product, $productData);
+    }
+
+    /**
+     * Data provider for testCreateSimpleAllFieldsValid
+     *
+     * @dataSetNumber 2
+     * @return array
+     */
+    public function dataProviderTestCreateSimpleAllFieldsValid()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_all_fields_data');
+        $productDataSpecialChars = $this->_getHelper()
+            ->loadSimpleProductFixtureData('simple_product_special_chars_data');
+
+        return array(
+            array($productDataSpecialChars),
+            array($productData),
+        );
+    }
+
+    /**
+     * Test product resource post with all invalid fields
+     * Negative test.
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateSimpleAllFieldsInvalid()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_all_fields_invalid_data');
+
+        $expectedErrors = array(
+            'SKU length should be 64 characters maximum.',
+            'Invalid "cust_group" value in the "group_price:0" set',
+            'Please enter a number 0 or greater in the "price" field in the "group_price:1" set.',
+            'Invalid "website_id" value in the "group_price:2" set.',
+            'Invalid "website_id" value in the "group_price:3" set.',
+            'The "cust_group" value in the "group_price:3" set is a required field.',
+            'The "website_id" value in the "group_price:4" set is a required field.',
+            'Invalid "website_id" value in the "group_price:5" set.',
+            'The "price" value in the "group_price:5" set is a required field.',
+            'Invalid "cust_group" value in the "tier_price:0" set',
+            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:1" set.',
+            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:2" set.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:3" set.',
+            'Invalid "website_id" value in the "tier_price:4" set.',
+            'Invalid "website_id" value in the "tier_price:5" set.',
+            'The "price_qty" value in the "tier_price:7" set is a required field.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:7" set.',
+            'Please enter a number greater than 0 in the "price" field in the "tier_price:8" set.',
+            'Please enter a valid number in the "qty" field in the "stock_data" set.',
+            'Please enter a valid number in the "notify_stock_qty" field in the "stock_data" set.',
+            'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
+            'Invalid "is_decimal_divided" value in the "stock_data" set.',
+            'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
+            . 'Please avoid spaces or other non numeric characters.',
+            'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
+            . 'Please avoid spaces or other non numeric characters.',
+            'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
+            . 'Please avoid spaces or other non numeric characters.',
+            'Invalid "backorders" value in the "stock_data" set.',
+            'Invalid "is_in_stock" value in the "stock_data" set.',
+            'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
+            'Invalid "cust_group" value in the "group_price:4" set',
+            'Invalid "cust_group" value in the "tier_price:6" set',
+        );
+        $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
+            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'gift_message_available',
+            'gift_wrapping_available');
+        foreach ($invalidValueAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".', $productData[$attribute], $attribute);
+        }
+        $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
+            'custom_design_from', 'custom_design_to');
+        foreach ($dateAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Invalid date in the "%s" field.', $attribute);
+        }
+        $positiveNumberAttributes = array('weight', 'price', 'special_price', 'msrp');
+        foreach ($positiveNumberAttributes as $attribute) {
+            $expectedErrors[] = sprintf('Please enter a number 0 or greater in the "%s" field.', $attribute);
+        }
+
+        $this->_createProductWithErrorMessagesCheck($productData, $expectedErrors);
+    }
+
+    /**
+     * Test product create resource with invalid qty uses decimals value
+     * Negative test.
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateInvalidQtyUsesDecimals()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_invalid_qty_uses_decimals');
+
+        $this->_createProductWithErrorMessagesCheck($productData,
+            'Invalid "is_qty_decimal" value in the "stock_data" set.');
+    }
+
+    /**
+     * Test product create resource with invalid manage stock value
+     * Negative test.
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateInvalidManageStock()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_invalid_manage_stock');
+
+        $this->_createProductWithErrorMessagesCheck($productData,
+            'Invalid "manage_stock" value in the "stock_data" set.');
+    }
+
+    /**
+     * Test product create resource with invalid weight value
+     * Negative test.
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateWeightOutOfRange()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_weight_out_of_range');
+
+        $this->_createProductWithErrorMessagesCheck($productData,
+            'The "weight" value is not within the specified range.');
+    }
+
+    /**
+     * Test product create resource with not unique sku value
+     * Negative test.
+     *
+     * @magentoDataFixture testsuite/Api/SalesOrder/_fixture/product_simple.php
+     * @resourceOperation product::create
+     */
+    public function testCreateNotUniqueSku()
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = $this->getFixture('product_simple');
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_data');
+        $productData['sku'] = $product->getSku();
+
+        $this->_createProductWithErrorMessagesCheck($productData,
+            'Invalid attribute "sku": The value of attribute "SKU" must be unique');
+    }
+
+    /**
+     * Test product create resource with empty required fields
+     * Negative test.
+     *
+     * @param array $productData
+     * @resourceOperation product::create
+     * @dataProvider dataProviderTestCreateEmptyRequiredFields
+     */
+    public function testCreateEmptyRequiredFields($productData)
+    {
+        $expectedErrors = array(
+            'Please enter a valid number in the "qty" field in the "stock_data" set.'
+        );
+        $errorFields = array_diff_key($productData, array_flip(
+            array('type_id', 'attribute_set_id', 'sku', 'stock_data')));
+        foreach ($errorFields as $key => $value) {
+            $expectedErrors[] = sprintf('Empty value for "%s" in request.', $key);
+        }
+        $this->_createProductWithErrorMessagesCheck($productData, $expectedErrors);
+    }
+
+    /**
+     * Data provider for testCreateEmptyRequiredFields
+     *
+     * @dataSetNumber 2
+     * @return array
+     */
+    public function dataProviderTestCreateEmptyRequiredFields()
+    {
+        $productDataEmpty = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_empty_required');
+        $productDataStringsEmptySpaces = $this->_getHelper()
+            ->loadSimpleProductFixtureData('simple_product_empty_spaces_required');
+
+        return array(
+            array($productDataEmpty),
+            array($productDataStringsEmptySpaces),
+        );
+    }
+
+    /**
+     * Test product resource post using config values in inventory
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateInventoryUseConfigValues()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_inventory_use_config');
+        $productId = $this->_createProductWithApi($productData);
+
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->addModelToDelete($product, true);
+
+        $this->_getHelper()->checkStockItemDataUseDefault($product);
+    }
+
+    /**
+     * Test product resource post using config values in inventory manage stock field
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateInventoryManageStockUseConfig()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_use_config');
+
+        $this->_updateAppConfig('cataloginventory/item_options/manage_stock', 0, true, true);
+
+        $productId = $this->_createProductWithApi($productData);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->addModelToDelete($product, true);
+
+        $stockItem = $product->getStockItem();
+        $this->assertNotNull($stockItem);
+        $this->assertEquals(0, $stockItem->getManageStock());
+    }
+
+    /**
+     * Test product resource post when manage_stock set to no and inventory data is sent in request
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateInventoryManageStockNo()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_manage_stock_no');
+
+        $productId = $this->_createProductWithApi($productData);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->addModelToDelete($product, true);
+
+        $stockItem = $product->getStockItem();
+        $this->assertNotNull($stockItem);
+        $this->assertEquals(0, $stockItem->getManageStock());
+        $this->assertEquals(0, $stockItem->getQty());
+    }
+
+    /**
+     * Test product resource post using config values in gift options
+     *
+     * @resourceOperation product::create
+     */
+    public function testCreateGiftOptionsUseConfigValues()
+    {
+        $productData = $this->_getHelper()->loadSimpleProductFixtureData('simple_product_gift_options_use_config');
+
+        $productId = $this->_createProductWithApi($productData);
+        $product = new Mage_Catalog_Model_Product();
+        $product->load($productId);
+        $this->assertNotNull($product->getId());
+        $this->addModelToDelete($product, true);
     }
 
     /**
