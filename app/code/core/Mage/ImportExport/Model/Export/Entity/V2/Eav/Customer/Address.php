@@ -77,7 +77,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
 
         $collection->setCustomerFilter(array_keys($customers));
 
-        $validAttrCodes = $this->_getExportAttrCodes();
+        $validAttrCodes = $this->_getExportAttributeCodes();
 
         // prepare headers
         $writer->setHeaderCols(

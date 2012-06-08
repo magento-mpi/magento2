@@ -21,7 +21,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     protected $_model;
 
-
     protected function setUp()
     {
         parent::setUp();
@@ -52,14 +51,21 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
 
     /**
      * Check methods which provide ability to manage writer object
-     *
-     * @expectedException Mage_Core_Exception
      */
     public function testGetWriter()
     {
-        $this->_model->getWriter();
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
         $this->assertInstanceOf('Mage_ImportExport_Model_Export_Adapter_Csv', $this->_model->getWriter());
+    }
+
+    /**
+     * Check that method throw exception when writer was not defined
+     *
+     * @expectedException Mage_Core_Exception
+     */
+    public function testGetWriterThrowsException()
+    {
+        $this->_model->getWriter();
     }
 
     /**
@@ -74,16 +80,16 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
-        $existedAttrs = array();
+        $existedAttributes = array();
         /** @var $attribute Mage_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
-            $existedAttrs[] = $attribute->getAttributeCode();
+            $existedAttributes[] = $attribute->getAttributeCode();
         }
-        $disabledAttrs = $model->getDisabledAttributes();
-        foreach ($disabledAttrs as $attributeCode) {
+        $disabledAttributes = $model->getDisabledAttributes();
+        foreach ($disabledAttributes as $attributeCode) {
             $this->assertNotContains(
                 $attributeCode,
-                $existedAttrs,
+                $existedAttributes,
                 'Disabled attribute "' . $attributeCode . '" existed in collection'
             );
         }

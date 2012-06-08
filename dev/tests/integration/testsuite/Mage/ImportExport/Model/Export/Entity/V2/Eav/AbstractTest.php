@@ -21,11 +21,13 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
      *
      * @var array
      */
-    protected static $_skippedAttrs = array('confirmation', 'lastname');
+    protected static $_skippedAttributes = array('confirmation', 'lastname');
+
     /**
      * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
      */
     protected $_model;
+
     /**
      * Entity code
      *
@@ -37,8 +39,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     {
         parent::setUp();
 
-        /** @var $customerAttrs Mage_Customer_Model_Resource_Attribute_Collection */
-        $customerAttrs = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        /** @var $customerAttributes Mage_Customer_Model_Resource_Attribute_Collection */
+        $customerAttributes = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
 
         $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract', array(),
             '', false);
@@ -47,7 +49,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
             ->will($this->returnValue($this->_entityCode));
         $this->_model->expects($this->any())
             ->method('getAttributeCollection')
-            ->will($this->returnValue($customerAttrs));
+            ->will($this->returnValue($customerAttributes));
         $this->_model->__construct();
     }
 
@@ -77,14 +79,14 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
      */
     public function testGetExportAttrCodes()
     {
-        $this->_checkReflectionAccessible();
+        $this->_checkReflectionMethodSetAccessibleExists();
 
         $this->_model->setParameters($this->_getSkippedAttributes());
-        $exportAttrsMethod = new ReflectionMethod($this->_model, '_getExportAttrCodes');
-        $exportAttrsMethod->setAccessible(true);
-        $exportAttrs = $exportAttrsMethod->invoke($this->_model);
-        foreach (self::$_skippedAttrs as $code) {
-            $this->assertNotContains($code, $exportAttrs);
+        $method = new ReflectionMethod($this->_model, '_getExportAttributeCodes');
+        $method->setAccessible(true);
+        $attributes = $method->invoke($this->_model);
+        foreach (self::$_skippedAttributes as $code) {
+            $this->assertNotContains($code, $attributes);
         }
     }
 
@@ -105,13 +107,13 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
         /**
          * Change type of created_at attribute. In this case we have possibility to test date rage filter
          */
-        /** @var $attrsCollection Mage_Customer_Model_Resource_Attribute_Collection */
-        $attrsCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
-        $attrsCollection->addFieldToFilter('attribute_code', 'created_at');
-        /** @var $createdAtAttr Mage_Customer_Model_Attribute */
-        $createdAtAttr = $attrsCollection->getFirstItem();
-        $createdAtAttr->setBackendType('datetime');
-        $createdAtAttr->save();
+        /** @var $attributeCollection Mage_Customer_Model_Resource_Attribute_Collection */
+        $attributeCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
+        /** @var $createdAtAttribute Mage_Customer_Model_Attribute */
+        $createdAtAttribute = $attributeCollection->getFirstItem();
+        $createdAtAttribute->setBackendType('datetime');
+        $createdAtAttribute->save();
         /**
          * Prepare filter.
          */
@@ -137,10 +139,11 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
      */
     public function testGetAttributeOptions()
     {
-        /** @var $attrsCollection Mage_Customer_Model_Resource_Attribute_Collection */
-        $attrsCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
-        $attrsCollection->addFieldToFilter('attribute_code', 'gender');
-        $attribute = $attrsCollection->getFirstItem();
+        /** @var $attributeCollection Mage_Customer_Model_Resource_Attribute_Collection */
+        $attributeCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection->addFieldToFilter('attribute_code', 'gender');
+        /** @var $attribute Mage_Customer_Model_Attribute */
+        $attribute = $attributeCollection->getFirstItem();
 
         $expectedOptions = array();
         foreach ($attribute->getSource()->getAllOptions(false) as $option) {
@@ -158,24 +161,24 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
      */
     protected function _getSkippedAttributes()
     {
-        /** @var $attrsCollection Mage_Customer_Model_Resource_Attribute_Collection */
-        $attrsCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
-        $attrsCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttrs));
-        $skippedAttrs = array();
+        /** @var $attributeCollection Mage_Customer_Model_Resource_Attribute_Collection */
+        $attributeCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
+        $attributeCollection->addFieldToFilter('attribute_code', array('in' => self::$_skippedAttributes));
+        $skippedAttributes = array();
         /** @var $attribute  Mage_Customer_Model_Attribute */
-        foreach ($attrsCollection as $attribute) {
-            $skippedAttrs[$attribute->getAttributeCode()] = $attribute->getId();
+        foreach ($attributeCollection as $attribute) {
+            $skippedAttributes[$attribute->getAttributeCode()] = $attribute->getId();
         }
 
         return array(
-            Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP => $skippedAttrs
+            Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP => $skippedAttributes
         );
     }
 
     /**
      * Check that method ReflectionMethod::setAccessible exists
      */
-    protected function _checkReflectionAccessible()
+    protected function _checkReflectionMethodSetAccessibleExists()
     {
         if (!method_exists('ReflectionMethod', 'setAccessible')) {
             $this->markTestSkipped('Test requires ReflectionMethod::setAccessible (PHP 5 >= 5.3.2).');

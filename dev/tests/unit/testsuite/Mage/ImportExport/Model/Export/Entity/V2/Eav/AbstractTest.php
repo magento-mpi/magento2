@@ -17,22 +17,23 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
      * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
+
     /**
      * Attribute codes for tests
      *
      * @var array
      */
-    protected $_expectedAttrs = array('firstname', 'lastname');
+    protected $_expectedAttributes = array('firstname', 'lastname');
 
     public function setUp()
     {
         parent::setUp();
         $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract', array(),
-            '', false, true, true, array('_getExportAttrCodes', 'getAttributeCollection', 'getAttributeOptions'));
+            '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
 
         $this->_model->expects($this->once())
-            ->method('_getExportAttrCodes')
-            ->will($this->returnValue($this->_expectedAttrs));
+            ->method('_getExportAttributeCodes')
+            ->will($this->returnValue($this->_expectedAttributes));
     }
 
     public function tearDown()
@@ -53,7 +54,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
         $stubCollection = new Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection();
         $stubCollection = $method->invoke($this->_model, $stubCollection);
 
-        $this->assertEquals($this->_expectedAttrs, $stubCollection->getSelectedAttributes());
+        $this->assertEquals($this->_expectedAttributes, $stubCollection->getSelectedAttributes());
     }
 
     /**
@@ -86,7 +87,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
             ->method('getData')
             ->will($this->returnValue($testAttributeValue));
 
-        $method = new ReflectionMethod($this->_model, '_initAttrValues');
+        $method = new ReflectionMethod($this->_model, '_initAttributeValues');
         $method->setAccessible(true);
         $method->invoke($this->_model);
 
@@ -97,7 +98,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
          *  Prepare expected data
          */
         $expected = array();
-        foreach ($this->_expectedAttrs as $code) {
+        foreach ($this->_expectedAttributes as $code) {
             $expected[$code] = $testAttributeValue;
             if ($code == $testAttributeCode) {
                 $expected[$code] = $testAttributeOptions[$expected[$code]];
@@ -117,7 +118,8 @@ class Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection extends Mage_Eav_M
      *
      * @var array|int|Mage_Core_Model_Config_Element|string
      */
-    protected $_selectedAttrs;
+    protected $_selectedAttributes;
+
     /**
      * Join type
      *
@@ -127,7 +129,6 @@ class Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection extends Mage_Eav_M
 
     public function __construct()
     {
-
     }
 
     /**
@@ -139,7 +140,7 @@ class Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection extends Mage_Eav_M
      */
     public function addAttributeToSelect($attribute, $joinType = false)
     {
-        $this->_selectedAttrs = $attribute;
+        $this->_selectedAttributes = $attribute;
         $this->_joinType = $joinType;
         return $this;
     }
@@ -151,6 +152,6 @@ class Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection extends Mage_Eav_M
      */
     public function getSelectedAttributes()
     {
-        return $this->_selectedAttrs;
+        return $this->_selectedAttributes;
     }
 }

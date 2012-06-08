@@ -18,7 +18,7 @@
 class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
     extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
 {
-    /**
+    /**#@+
      * Permanent column names.
      *
      * Names that begins with underscore is not an attribute. This name convention is for
@@ -27,6 +27,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
     const COL_EMAIL   = 'email';
     const COL_WEBSITE = '_website';
     const COL_STORE   = '_store';
+    /**#@-*/
 
     /**
      * Overriden attributes parameters.
@@ -67,7 +68,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
     {
         parent::__construct();
 
-        $this->_initAttrValues()
+        $this->_initAttributeValues()
             ->_initStores()
             ->_initWebsites(true);
     }
@@ -82,15 +83,15 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
         $collection     = $this->_prepareEntityCollection(
             Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
         );
-        $validAttrCodes = $this->_getExportAttrCodes();
+        $validAttributeCodes = $this->_getExportAttributeCodes();
         $writer         = $this->getWriter();
 
         // create export file
-        $writer->setHeaderCols(array_merge($this->_permanentAttributes, $validAttrCodes, array('password')));
+        $writer->setHeaderCols(array_merge($this->_permanentAttributes, $validAttributeCodes, array('password')));
         foreach ($collection as $item) { // go through all customers
             $row = $this->_addAttributeValuesToRow($item);
-            $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$item['website_id']];
-            $row[self::COL_STORE]   = $this->_storeIdToCode[$item['store_id']];
+            $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$item->getWebsiteId()];
+            $row[self::COL_STORE]   = $this->_storeIdToCode[$item->getStoreId()];
 
             $writer->writeRow($row);
         }
@@ -136,9 +137,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
      */
     public function getEntityTypeCode()
     {
-        /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
-        return $collection->getEntityTypeCode();
+        return $this->getAttributeCollection()->getEntityTypeCode();
     }
 
     /**

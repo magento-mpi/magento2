@@ -106,14 +106,14 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      *
      * @var array
      */
-    protected $_disabledAttrs = array();
+    protected $_disabledAttributes = array();
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->_connection   = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+        $this->_connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
     }
 
     /**
@@ -123,6 +123,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      */
     protected function _initStores()
     {
+        /** @var $store Mage_Core_Model_Store */
         foreach (Mage::app()->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
@@ -157,7 +158,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     {
         $this->_errors[$errorCode][] = $errorRowNum + 1; // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
-        $this->_errorsCount ++;
+        $this->_errorsCount++;
 
         return $this;
     }
@@ -208,8 +209,9 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     {
         $collection->load();
 
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
         foreach ($collection as $attribute) {
-            if (in_array($attribute->getAttributeCode(), $this->_disabledAttrs)) {
+            if (in_array($attribute->getAttributeCode(), $this->_disabledAttributes)) {
                 $collection->removeItemByKey($attribute->getId());
             }
         }
@@ -315,12 +317,12 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     }
 
     /**
-     * Retrieve list of disabled attributes codes.
+     * Retrieve list of disabled attributes codes
      *
      * @return array
      */
     public function getDisabledAttributes()
     {
-        return $this->_disabledAttrs;
+        return $this->_disabledAttributes;
     }
 }

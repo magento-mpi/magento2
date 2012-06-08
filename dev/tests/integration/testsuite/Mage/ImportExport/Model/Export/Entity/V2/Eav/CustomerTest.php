@@ -40,23 +40,32 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
      */
     public function testExport()
     {
-        $expectedAttrCodes = array();
+        $expectedAttributes = array();
         /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
         /** @var $attribute Mage_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
-            $expectedAttrCodes[] = $attribute->getAttributeCode();
+            $expectedAttributes[] = $attribute->getAttributeCode();
         }
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
         $data = $this->_model->export();
         $this->assertNotEmpty($data);
 
-        $lines = $this->_csvToAssoc($data);
+        $lines = $this->_csvToArray($data, 'email');
+
+        $this->assertEquals(
+            count($expectedAttributes),
+            count(array_intersect($expectedAttributes, $lines['header'])),
+            'Expected attribute codes were not exported'
+        );
+
+        $this->assertNotEmpty($data['data'], 'No data was exported');
+
         /** @var $customers Mage_Customer_Model_Customer[] */
         $customers = Mage::registry('_fixture/Mage_ImportExport_Customer_Collection');
         foreach ($customers as $key => $customer) {
-            foreach ($expectedAttrCodes as $code) {
+            foreach ($expectedAttributes as $code) {
                 if (!in_array($code, $this->_model->getDisabledAttributes()) && isset($lines[$key][$code])) {
                     $this->assertEquals(
                         $customer->getData($code),
@@ -82,7 +91,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
     public function testGetAttributeCollection()
     {
         $this->assertInstanceOf('Mage_Customer_Model_Resource_Attribute_Collection',
-            $this->_model->getAttributeCollection());
+            $this->_model->getAttributeCollection()
+        );
     }
 
     /**
@@ -96,26 +106,27 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
-        $existedAttrs = array();
+        $existedAttributes = array();
         /** @var $attribute Mage_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
-            $existedAttrs[] = $attribute->getAttributeCode();
+            $existedAttributes[] = $attribute->getAttributeCode();
         }
-        $disabledAttrs = $this->_model->getDisabledAttributes();
-        foreach ($disabledAttrs as $attributeCode) {
+        $disabledAttributes = $this->_model->getDisabledAttributes();
+        foreach ($disabledAttributes as $attributeCode) {
             $this->assertNotContains(
                 $attributeCode,
-                $existedAttrs,
+                $existedAttributes,
                 'Disabled attribute "' . $attributeCode . '" existed in collection'
             );
         }
         /**
          * Check that all overridden attributes were affected during filtering process
          */
-        $overriddenAttrs = $this->_model->getOverriddenAttributes();
+        $overriddenAttributes = $this->_model->getOverriddenAttributes();
+        /** @var $attribute Mage_Customer_Model_Attribute */
         foreach ($collection as $attribute) {
-            if (isset($overriddenAttrs[$attribute->getAttributeCode()])) {
-                foreach ($overriddenAttrs[$attribute->getAttributeCode()] as $propertyKey => $property) {
+            if (isset($overriddenAttributes[$attribute->getAttributeCode()])) {
+                foreach ($overriddenAttributes[$attribute->getAttributeCode()] as $propertyKey => $property) {
                     $this->assertEquals(
                         $property,
                         $attribute->getData($propertyKey),
@@ -129,31 +140,30 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
     /**
      * Export CSV string to array
      *
-     * @param $content
+     * @param string $content
+     * @param mixed $entityId
      * @return array
      */
-    protected function _csvToAssoc($content)
+    protected function _csvToArray($content, $entityId = null)
     {
-        $tempFile = tempnam(Mage::getBaseDir('tmp'), 'export_');
-        $tempFileHandler = fopen($tempFile, 'w+');
-        fputs($tempFileHandler, $content);
-        fclose($tempFileHandler);
+        $data = array(
+            'header' => array(),
+            'data'   => array()
+        );
 
-        $tempFileHandler = fopen($tempFile, 'r');
-        $lines = array();
-        while ($line = fgetcsv($tempFileHandler)) {
-            $lines[] = $line;
-        }
-
-        $result = array();
-        for ($i = 1; $i < count($lines); $i++) {
-            $row = array();
-            foreach ($lines[$i] as $key => $value) {
-                $row[$lines[0][$key]] = $value;
+        $lines = str_getcsv($content, "\n");
+        foreach ($lines as $index => $line) {
+            if ($index == 0) {
+                $data['header'] = str_getcsv($line);
+            } else {
+                $row = array_combine($data['header'], str_getcsv($line));
+                if (!is_null($entityId) && !empty($row[$entityId])) {
+                    $data['data'][$row[$entityId]] = $row;
+                } else {
+                    $data['data'][] = $row;
+                }
             }
-            $result[] = $row;
         }
-
-        return $result;
+        return $data;
     }
 }
