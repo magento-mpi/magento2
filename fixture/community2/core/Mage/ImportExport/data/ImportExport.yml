@@ -45,19 +45,37 @@ generic_customer_account:
     send_from: %noValue%
     password: 123123q
     auto_generated_password: %noValue%
+
 generic_customer_attribute:
-   input_type: Text Field
-   attribute_code: attr_%randomize%
-   default_text_field_value: attr_default_%randomize%
-   values_required: Yes
-   input_validation: None
-   min_text_length: 1
-   max_text_length: 255
-   input_filter: None
-   used_for_customer_segment: No
-   visible_on_frontend: Yes
-   sort_order: 1
-   used_in_forms: Customer Account Edit, Customer Registration
-   admin_title: Text_Field_Admin_%randomize%
-   store_view_titles:
-        Default Store View: Text_Field_StoreView
+    input_type: Text Field
+    attribute_code: attr_%randomize%
+    default_text_field_value: attr_default_%randomize%
+    values_required: Yes
+    input_validation: None
+    min_text_length: 1
+    max_text_length: 255
+    input_filter: None
+    used_for_customer_segment: No
+    visible_on_frontend: No
+    sort_order: 1
+    used_in_forms: Customer Account Edit, Customer Registration
+    admin_title: Text_Field_Admin_attr_%randomize%
+    store_view_titles: %noValue%
+
+customer_account_with_attribute:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+    custom_attribute: custom_attr_%randomize%
