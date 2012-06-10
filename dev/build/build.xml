@@ -185,7 +185,7 @@
 
         <antcall target="prepare-installation" inheritAll="true" />
 
-        <replace file="${dir.build_directory}/${env.build_customization_dir}/config/install.php">
+        <replace file="${dir.build_directory}/dev/tests/functional/config/install.php">
             <replacefilter token="{{db_model}}" value="${env.db_model}"/>
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
             <replacefilter token="{{db_name}}" value="${env.db_name}"/>
@@ -196,7 +196,7 @@
         </replace>
 
 
-        <replace file="${dir.build_directory}/${env.build_customization_dir}/config/config.yml">
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
             <replacefilter token="{{admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}"/>
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
@@ -206,7 +206,7 @@
     </target>
 
     <target name="functional_tests_with_deploy_ee" depends="functional_tests_with_deploy,prepare-ee">
-        <replace file="${dir.build_directory}/${env.build_customization_dir}/config/config.yml">
+        <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
             <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
             <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/"/>
         </replace>
