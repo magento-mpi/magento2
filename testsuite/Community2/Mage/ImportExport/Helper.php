@@ -107,6 +107,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         curl_close($ch);
         return $body;
     }
+
     /**
      * Prepare parameters array for getFile method and Export functionality
      *
@@ -137,6 +138,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
             return $parameters;
     }
+
     /**
      * Prepare skip attributes for getFile method and Export functionality
      *
@@ -151,8 +153,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             for($i=0;$i<$size;$i++){
             if ($this->isChecked($tablePath . ":nth({$i})")){
                 //get attribute id
-                $attID = $this->getValue($tablePath . ":nth({$i})");
-                //save ittribute id, invers saving
+                $attID = $this->getAttribute($tablePath . ":nth({$i})" . '@value');
+                //save attribute id, invers saving
                 $parameters['skip_attr[]'][]=$attID;
             }
             }
@@ -175,6 +177,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $path;
     }
+
     /**
      * Convert CSV string to array
      *
@@ -184,22 +187,29 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      */
     function csvToArray($input, $delimiter=',')
     {
+        $temp = tmpfile();
+        fwrite($temp, $input);
+        fseek($temp,0);
         $data = array();
         $header = null;
-        $csvData = str_getcsv($input, "\n");
-        foreach($csvData as $csvLine){
-            $row = str_getcsv($csvLine, $delimiter);
+        while (($line = fgetcsv($temp, 1000, $delimiter, '"', '\\')) !== FALSE)
+        {
             if (!$header){
-                $header = $row;
+                $header = $line;
             } else {
-                $data[] = array_combine($header, $row);
+                try {
+                   $data[] = array_combine($header, $line);
+                } catch(Exception $e){
+                   //invalid format
+                   return null;
+                }
             }
         }
         return $data;
     }
     /**
      * Perform export with current selected options
-     * 
+     *
      * @return array
      */
     public function export() {
@@ -217,9 +227,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Search customer/address/finance line in exported array
+     * Returns line index
+     *
      * @param string $fileType File type (master|address|finance)
-     * @param array $needleData Customer/Address/Finance
-     * @param array $fileLines Array from csv files
+     * @param array $needleData Main/Address/Finance line data
+     * @param array $fileLines Array from csv file
      * @return int
      */
     public function lookForEntity($fileType, $needleData, $fileLines)
@@ -254,6 +267,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Converts customer data to format comparable with csv data
+     *
      * @param $rawData
      * @return array
      */
@@ -276,18 +291,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             'No' => 0,
             '%noValue%' => 0
         );
-        $ctnKeys = array_keys($convertToNumeric);
-
-        $customerToCsvKeys = array(
-            'prefix' => 'prefix',
-            'first_name' => "firstname",
-            'middle_name' => "middlename",
-            'last_name' => "lastname",
-            'email' => 'email',
-            'gender' => 'gender',
-            'date_of_birth' => "dob",
-            'tax_vat_number' => "taxvat"
-        );
 
         $tastyData = array();
 
@@ -304,15 +307,30 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
 
-        // keys exchange and copying values
+        // adjust attribute keys
         foreach ($rawData as $key => $value) {
+            $customerToCsvKeys[$key] = $value;
+        }
+        foreach ($customerToCsvKeys as $key => $value) {
+            $customerToCsvKeys[$key] = $key;
+        }
+        $customerToCsvKeys['first_name'] = "firstname";
+        $customerToCsvKeys['middle_name'] = 'middlename';
+        $customerToCsvKeys['last_name'] = 'lastname';
+        $customerToCsvKeys['date_of_birth'] = 'dob';
+        $customerToCsvKeys['tax_vat_number'] = 'taxvat';
+
+        // keys exchange and copying values
+       foreach ($rawData as $key => $value) {
             $tastyData[$customerToCsvKeys[$key]] = $value;
         }
-
         return $tastyData;
+
     }
 
     /**
+     * * Converts address data to format comparable with csv data
+     *
      * @param $rawData
      * @return array
      */
@@ -321,10 +339,90 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Converts finance data to format comparable with csv data
+     *
      * @param $rawData
      * @return array
      */
     public function prepareFinanceData($rawData) {
         //TODO
+    }
+
+    /**
+     * Apply customer attributes filter
+     * @param array $fieldParams
+     *            example:
+     *             array('attribute_label' => 'text_label', 'attribute_code' => 'text_code')))
+     * @return void
+     */
+    public function customerFilterAttributes(array $fieldParams) {
+        //fill filter fields
+        $this->fillForm($fieldParams);
+        //perform search
+        $this->clickButton('search', false);
+        $this->waitForAjax();
+    }
+
+    /**
+     * Search attribute in grid and return attribute xPath
+     *
+     * @param array $fieldParams
+     * @param string $fieldset
+     *
+     * @return array|null
+     */
+    public function customerSearchAttributes(array $fieldParams, $fieldset) {
+        $sets = $this->getCurrentUimapPage()->getMainForm()->getAllFieldsets();
+        $gridFieldSet = $sets[$fieldset];
+        $gridXpath = $gridFieldSet->getXPath();
+        $conditions = array();
+        if (array_key_exists('attribute_label', $fieldParams)) {
+            $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
+        }
+        if (array_key_exists('attribute_code', $fieldParams)) {
+            $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
+        }
+        $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']';
+        return $this->getElementByXpath($rowXPath);
+    }
+
+    /**
+     * Mark attribute as skipped
+     *
+     * @param array $fieldParams
+     * @param string $fieldset
+     * @param bool $skip
+     *
+     */
+    public function customerSkipAttribute(array $fieldParams, $fieldset, $skip = true) {
+        $sets = $this->getCurrentUimapPage()->getMainForm()->getAllFieldsets();
+        $gridFieldSet = $sets[$fieldset];
+        $gridXpath = $gridFieldSet->getXPath();
+        $conditions = array();
+        if (array_key_exists('attribute_label', $fieldParams)) {
+            $conditions[] = "td[2][contains(text(),'{$fieldParams['attribute_label']}')]";
+        }
+        if (array_key_exists('attribute_code', $fieldParams)) {
+            $conditions[] = "td[3][contains(text(),'{$fieldParams['attribute_code']}')]";
+        }
+        $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']/td/input[@name="skip_attr[]"]';
+        if ($this->isElementPresent($rowXPath) && $this->isVisible($rowXPath)){
+            $currentStatus = $this->isChecked($rowXPath);
+            if (($currentStatus && !$skip) || (!$currentStatus && $skip)){
+                $this->click($rowXPath);
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get list of Customer Entity Types specific for Magento versions
+     *
+     * @return array
+     */
+    public function getCustomerEntityType(){
+        return array('Customers Main File', 'Customer Addresses');
     }
 }

@@ -47,6 +47,7 @@ class Enterprise2_Mage_CustomerAttribute_Helper extends Mage_Selenium_TestCase
         $this->fillForm($attrData, 'properties');
         $this->fillForm($attrData, 'manage_labels_options');
         $this->storeViewTitles($attrData);
+        $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
     }
 
@@ -128,6 +129,51 @@ class Enterprise2_Mage_CustomerAttribute_Helper extends Mage_Selenium_TestCase
                     }
                 } else {
                     $this->fail('Cannot find specified Store View with name \'' . $storeViewName . '\'');
+                }
+            }
+        }
+    }
+    /**
+     * Fill or Verify Options for Dropdown and Multiple Select Attributes
+     *
+     * @param array $attrData
+     * @param string $action
+     */
+    public function attributeOptions($attrData, $action = 'fill')
+    {
+        $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
+
+        if ($action == 'verify') {
+            $option = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
+            $num = 1;
+        }
+
+        foreach ($attrData as $fKey => $dValue) {
+            if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
+                if ($this->isElementPresent($fieldSetXpath)) {
+                    $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
+
+                    switch ($action) {
+                        case 'fill':
+                            $this->addParameter('fieldOptionNumber', $optionCount);
+                            $this->clickButton('add_option', false);
+                            $this->storeViewTitles($attrData[$fKey], 'manage_options');
+                            $this->fillForm($attrData[$fKey], 'manage_labels_options');
+                            break;
+                        case 'verify':
+                            if ($option > 0) {
+                                $fieldOptionNumber = $this->getAttribute($fieldSetXpath
+                                    . "//tr[contains(@class,'option-row')][" . $num
+                                    . "]//input[@class='input-radio']/@value");
+                                $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
+                                $this->assertTrue($this->verifyForm($attrData[$fKey], 'manage_labels_options'),
+                                    $this->getParsedMessages());
+                                $this->storeViewTitles($attrData[$fKey], 'manage_options', 'verify');
+                                $num++;
+                                $option--;
+                            }
+                            break;
+                    }
                 }
             }
         }

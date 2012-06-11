@@ -86,8 +86,16 @@ new_customer_attribute:
                                     fields:
                                         attribute_code: //input[@id='attribute_code']
                                         default_text_field_value: "//tr[not(@style='display: none;')]//input[@id='default_value_text']"
+                                        default_value_textarea: "//tr[not(@style='display: none;')]//input[@id='default_value_textarea']"
+                                        default_value_date: "//tr[not(@style='display: none;')]//input[@id='default_value_date']"
                                         min_text_length: "//tr[not(@style='display: none;')]//input[@id='min_text_length']"
                                         max_text_length: "//tr[not(@style='display: none;')]//input[@id='max_text_length']"
+                                        date_range_min: "//tr[not(@style='display: none;')]//input[@id='date_range_min']"
+                                        date_range_min: "//tr[not(@style='display: none;')]//input[@id='date_range_max']"
+                                        multiline_count: "//tr[not(@style='display: none;')]//input[@id='multiline_count']"
+                                        default_value_text: "//tr[not(@style='display: none;')]//input[@id='default_value_text']"
+                                    selects:
+                                        default_value_yesno: "//tr[not(@style='display: none;')]//select[@id='default_value_yesno']"
                                     required: [attribute_code, input_type]
                             -
                                 frontend_properties:
@@ -109,6 +117,19 @@ new_customer_attribute:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
+                            -
+                                manage_options:
+                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    buttons:
+                                        add_option: //button[@id='add_new_option_button']
+                                        delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
+                                    checkboxes:
+                                        is_default: //input[@name='default[]' and @value='option_%fieldOptionNumber%']
+                                    fields:
+                                        admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
+                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
+                                        titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    required: [admin_option]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -136,6 +157,20 @@ edit_customer_attribute:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
+                            -
+                                manage_options:
+                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    buttons:
+                                        add_option: //button[@id='add_new_option_button']
+                                        delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button
+                                    checkboxes:
+                                        is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
+                                    fields:
+                                        admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
+                                        option_position: //input[@name='option[order][%fieldOptionNumber%]']
+                                        titles_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    required: [admin_option]
+
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
