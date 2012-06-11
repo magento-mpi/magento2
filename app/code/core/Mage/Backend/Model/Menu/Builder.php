@@ -77,6 +77,7 @@ class Mage_Backend_Model_Menu_Builder
             if (!isset($params[$id]['removed'])) {
                 $item = $this->_itemFactory->createFromArray($params[$id]);
                 $items[$item->getId()] = $item;
+            } else {
                 unset($params[$id]);
             }
         }

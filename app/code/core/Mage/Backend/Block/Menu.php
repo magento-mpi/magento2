@@ -190,7 +190,7 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     public function getActiveItemModel()
     {
         if (is_null($this->_activeItemModel)) {
-            $this->_activeItemModel = $this->getMenuModel()->getChildById($this->getActive(), true);
+            $this->_activeItemModel = $this->getMenuModel()->get($this->getActive());
             if (false == ($this->_activeItemModel instanceof Mage_Backend_Model_Menu_Item)) {
                 $this->_activeItemModel = false;
             }

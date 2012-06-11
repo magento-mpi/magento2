@@ -76,7 +76,7 @@ class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
     public function isLast()
     {
         return ($this->getLevel() == 0
-            && (bool)$this->getContainerRenderer()->getMenuModel()->isChildLast($this->getMenuItem()));
+            && (bool)$this->getContainerRenderer()->getMenuModel()->isLast($this->getMenuItem()));
     }
 
     /**
