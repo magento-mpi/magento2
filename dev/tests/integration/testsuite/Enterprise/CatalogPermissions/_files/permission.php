@@ -11,9 +11,9 @@
 
 /** @var $permission Enterprise_CatalogPermissions_Model_Permission */
 $permission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission');
-$permission
-    ->setWebsiteId(Mage::app()->getWebsite()->getId())
+$permission->setWebsiteId(Mage::app()->getWebsite()->getId())
     ->setCategoryId(6)
+    ->setCustomerGroupId(1)
     ->setGrantCatalogCategoryView(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY)
     ->setGrantCatalogProductPrice(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY)
     ->setGrantCheckoutItems(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY)

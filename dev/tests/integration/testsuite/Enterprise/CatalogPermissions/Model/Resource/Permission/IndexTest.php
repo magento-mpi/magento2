@@ -24,31 +24,22 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
     }
 
     /**
-     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Catalog/_files/categories.php
-     * @magentoDataFixture Enterprise/CatalogPermissions/_files/permissions.php
+     * @magentoDataFixture Enterprise/CatalogPermissions/_files/permission.php
      */
-    public function testCategoryPermissionsIndexingReturnsSuccess()
+    public function testCategoryPermissionsReindex()
     {
-        /** @var $fixturePermission Enterprise_CatalogPermissions_Model_Permission */
         $fixturePermission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission')->load(1);
+        unset($fixturePermission['permission_id']);
+
+        $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);
+        $this->assertEquals(array(), $permissions);
 
         $this->_indexModel->reindex('1/2/6');
+        $permissions = $this->_indexModel->getIndexForCategory(6, 1, 1);
 
-        $permissions = $this->_indexModel->getIndexForCategory(
-            $fixturePermission->getCategoryId(),
-            $fixturePermission->getCustomerGroupId(),
-            $fixturePermission->getWebsiteId()
-        );
-
-        $permission = array_shift($permissions);
-
-        $this->assertTrue(
-            $permission['category_id'] == $fixturePermission->getCategoryId()
-            && $permission['website_id'] == $fixturePermission->getWebsiteId()
-            && $permission['grant_catalog_category_view'] == $fixturePermission->getGrantCatalogCategoryView()
-            && $permission['grant_catalog_product_price'] == $fixturePermission->getGrantCatalogProductPrice()
-            && $permission['grant_checkout_items'] == $fixturePermission->getGrantCheckoutItems()
-        );
+        $this->assertArrayHasKey(6, $permissions);
+        $this->assertEquals(1, count($permissions));
+        $this->assertEquals($fixturePermission->getData(), reset($permissions));
     }
 }
