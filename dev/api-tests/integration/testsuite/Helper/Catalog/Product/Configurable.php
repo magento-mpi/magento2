@@ -119,7 +119,8 @@ class Helper_Catalog_Product_Configurable extends Magento_Test_Webservice
                 ),
                 array(
                     'option_value' => $attributeSourceOptions[1]['value'],
-                    'price' => 5
+                    'price_type' => 'fixed',
+                    'price' => rand(1, 100)
                 )
             )
         ));
@@ -147,6 +148,8 @@ class Helper_Catalog_Product_Configurable extends Magento_Test_Webservice
             'prices' => array(
                 array(
                     'option_value' => 'invalid_option_value',
+                    'price_type' => 'fixed',
+                    'price' => rand(1, 100)
                 ),
             )
         ));

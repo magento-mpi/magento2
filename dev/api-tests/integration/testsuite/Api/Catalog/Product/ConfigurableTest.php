@@ -110,9 +110,6 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
             sprintf('The "price_type" value for the option value "%s" in the '
                     . '"prices" array for the configurable attribute with code "%s" is invalid.',
                 $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
-            sprintf('The "price_type" value for the option value "%s" in the '
-                    . '"prices" array for the configurable attribute with code "%s" is invalid.',
-                $attributeSourceOptions[1]['value'], $attribute->getAttributeCode())
         );
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
     }
@@ -154,7 +151,17 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
     public function testCreateInvalidFrontendLabel()
     {
         $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionLabel();
-        $expectedMessages = "SOAP-ERROR: Encoding: object has no 'frontend_label' property";
+        /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
+        $attributeOne = $this->getFixture('eav_configurable_attribute_1');
+        /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
+        $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
+        // Validate outcome
+        $expectedMessages = array(
+            sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
+                . 'is required.', $attributeOne->getAttributeCode()),
+            sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
+                . 'is required.', $attributeTwo->getAttributeCode()),
+        );
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
     }
 }

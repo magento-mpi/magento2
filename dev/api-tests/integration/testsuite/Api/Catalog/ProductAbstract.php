@@ -110,7 +110,7 @@ abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
     protected function _checkErrorMessagesInResponse(SoapFault $e, $expectedMessages)
     {
         $expectedMessages = is_array($expectedMessages) ? $expectedMessages : array($expectedMessages);
-        $receivedMessages = explode('\n', $e->getMessage());
+        $receivedMessages = explode("\n", $e->getMessage());
         $this->assertMessagesEqual($expectedMessages, $receivedMessages);
     }
 }

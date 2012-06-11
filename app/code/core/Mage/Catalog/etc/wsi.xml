@@ -33,7 +33,7 @@
             <xsd:complexType name="catalogProductConfigurableAttributesEntity">
                 <xsd:sequence>
                     <xsd:element name="attribute_code" type="xsd:string" minOccurs="1" maxOccurs="1" />
-                    <xsd:element name="frontend_label" type="xsd:string" minOccurs="1" maxOccurs="1" />
+                    <xsd:element name="frontend_label" type="xsd:string" minOccurs="0" maxOccurs="1" />
                     <xsd:element name="frontend_label_use_default" type="xsd:int" minOccurs="0" maxOccurs="1" />
                     <xsd:element name="position" type="xsd:int" minOccurs="0" maxOccurs="1" />
                     <xsd:element name="prices" type="typens:catalogProductConfigurableOptionPricesEntityArray" minOccurs="0" maxOccurs="1" />
