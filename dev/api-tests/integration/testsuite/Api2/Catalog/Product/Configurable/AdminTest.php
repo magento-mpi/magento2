@@ -205,10 +205,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
                 $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
             sprintf('The "price_type" value for the option value "%s" in the '
                     . '"prices" array for the configurable attribute with code "%s" is invalid.',
-                $attributeSourceOptions[0]['value'], $attribute->getAttributeCode()),
-            sprintf('The "price_type" value for the option value "%s" in the '
-                    . '"prices" array for the configurable attribute with code "%s" is invalid.',
-                $attributeSourceOptions[1]['value'], $attribute->getAttributeCode())
+                $attributeSourceOptions[0]['value'], $attribute->getAttributeCode())
         );
         // Validate outcome
         $this->_checkErrorMessagesInResponse($response, $expectedMessages);
