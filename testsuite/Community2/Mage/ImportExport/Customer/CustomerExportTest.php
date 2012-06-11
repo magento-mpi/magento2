@@ -54,6 +54,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>1. Go to System -> Import/ Export -> Export</p>
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
      * <p>3. Select "New Export"</p>
+     * <p>Expected: dropdowns contain correct values</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5479
@@ -87,7 +88,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $exportFileVersion = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'export_file') . '/option',
             'text');
-        $this->assertEquals(array('Customers Main File','Customer Addresses','Customer Finances'),
+        $this->assertEquals(array('Customers Main File','Customer Addresses'),
             $exportFileVersion,
             'Export File Version dropdown contains incorrect values');
     }
@@ -163,6 +164,51 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     }
 
     /**
+     * <p>Customer Master file export with using some filters</p>
+     * <p>Steps</p>
+     * <p>1. On backend in System -> Import/ Export -> Export select "Customers" entity type</p>
+     * <p>2. Select the export version "Magento 2.0" and "Master Type File"</p>
+     * <p>3. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
+     * <p>4. Press "Continue" button and save current file</p>
+     * <p>5. Open file</p>
+     * <p>Expected: In generated file just your customer with selected option of attribute is present</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5488
+     */
+    public function exportMasterFileWithFilters()
+    {
+        //Precondition: create attribute, create new customer, fill created attribute
+        $this->navigate('manage_customer_attributes');
+        $attrData = $this->loadDataSet('ImportExport.yml', 'generic_customer_attribute');
+        $this->customerAttributeHelper()->createAttribute($attrData);
+        $this->addParameter('attribute_name', $attrData['attribute_code']);
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('ImportExport.yml', 'customer_account_with_attribute');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+       //Step 1
+        $this->admin('export');
+        $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step4
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Step5-6
+        $report = $this->ImportExportHelper()->export();
+        //Verifying
+        $userData[$attrData['attribute_code']] = $userData['custom_attribute'];
+        unset($userData['custom_attribute']);
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
+            "Customer not found in csv file");
+    }
+
+    /**
      * @test
      */
     public function simpleExportCustomer()
@@ -217,9 +263,18 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         );
     }
     /**
-     * <p>Precondition1:</p>
-     * <p>1 Verify the search by fields "Attribute Label" and "Attribute Code"</p>
-     * <p>2 This search should work with each file type </p>
+     * <p>Verify the search by fields "Attribute Label" and "Attribute Code"</p>
+     * <p>This search should work with each file type</p>
+     * <p>Steps:</p>
+     * <p>1. In System-> Import/Export-> Export select "Customers" entity type</p>
+     * <p>2. Select "Magento2.0" format</p>
+     * <p>3. Select file type (Customers Main File/Customer Addresses)</p>
+     * <p>4. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button</p>
+     * <p>5. Verify that attribute is found</p>
+     * <p>6. Click 'Reset filter' button</p>
+     * <p>7. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button</p>
+     * <p>8. Verify that attribute is found</p>
+     * <p>6. Click 'Reset filter' button</p>
      * @test
      * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
      */
