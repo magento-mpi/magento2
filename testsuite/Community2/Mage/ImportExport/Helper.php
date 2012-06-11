@@ -231,7 +231,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * Returns line index
      *
      * @param string $fileType File type (master|address|finance)
-     * @param array $needleData Customer/Address/Finance line data
+     * @param array $needleData Main/Address/Finance line data
      * @param array $fileLines Array from csv file
      * @return int
      */
