@@ -13,12 +13,6 @@
 #                                                                              #
 ################################################################################
 browsers:
-#    googlechrome: &googlechrome
-#         name: 'Google Chrome'
-#         browser: '*googlechrome'
-#         host: '{{selenium_host}}'
-#         port: {{selenium_port}}
-#         timeout: 40
     firefox: &firefox
          name: 'Firefox'
          browser: '*firefox'
@@ -26,12 +20,6 @@ browsers:
          port: {{selenium_port}}
          timeout: 100
          restartBrowser: false
-#    iexplorer: &iexplorer
-#         name: 'Internet Explorer'
-#         browser: '*iexplore'
-#         host: '{{selenium_host}}'
-#         port: {{selenium_port}}
-#         timeout: 60
     default: *firefox
 ################################################################################
 #                                                                              #
