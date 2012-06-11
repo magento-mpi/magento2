@@ -173,7 +173,11 @@ class Mage_ImportExport_Model_Import_Entity_CustomerTest extends PHPUnit_Framewo
 
     public function testScopeAddressFirst()
     {
-        $customerAddressData = array();
+        $customerAddressData = array(
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_EMAIL => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_WEBSITE => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_STORE => '',
+        );
         $this->_model->validateRow($customerAddressData, 0);
         $this->assertTrue($this->_errorWas);
         $this->assertEquals(Mage_ImportExport_Model_Import_Entity_Customer::ERROR_EMAIL_IS_EMPTY,
@@ -218,7 +222,11 @@ class Mage_ImportExport_Model_Import_Entity_CustomerTest extends PHPUnit_Framewo
         $errorWas = false;
         $errors = array();
 
-        $customerAddressData = array();
+        $customerAddressData = array(
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_EMAIL => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_WEBSITE => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_STORE => '',
+        );
         $model->validateRow($customerAddressData, 1);
         $this->assertTrue($errorWas);
         $this->assertEquals(Mage_ImportExport_Model_Import_Entity_Customer::ERROR_ROW_IS_ORPHAN,

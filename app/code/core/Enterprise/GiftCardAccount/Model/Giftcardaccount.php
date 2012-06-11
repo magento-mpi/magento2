@@ -77,8 +77,8 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
         if (!$this->getId()) {
             $now = Mage::app()->getLocale()->date()
-                    ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
-                    ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
+                ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
+                ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
             if (!$this->hasCode()) {

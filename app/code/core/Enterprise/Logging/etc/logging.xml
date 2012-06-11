@@ -337,13 +337,13 @@
     <admin_login translate="label">
         <label>Admin Sign In</label>
         <actions>
-            <adminhtml_index_forgotpassword>
+            <adminhtml_auth_forgotpassword>
                 <action>forgotpassword</action>
                 <expected_models>
-                    <Mage_Admin_Model_User/>
+                    <Mage_User_Model_User/>
                 </expected_models>
                 <post_dispatch>postDispatchForgotPassword</post_dispatch>
-            </adminhtml_index_forgotpassword>
+            </adminhtml_auth_forgotpassword>
         </actions>
     </admin_login>
 
@@ -909,13 +909,13 @@
     <adminhtml_system_account translate="label">
         <label>Admin My Account</label>
         <expected_models>
-            <Mage_Admin_Model_User>
+            <Mage_User_Model_User>
                 <skip_data>
                     <password/>
                     <new_password/>
                     <password_confirmation/>
                 </skip_data>
-            </Mage_Admin_Model_User>
+            </Mage_User_Model_User>
         </expected_models>
         <actions>
             <adminhtml_system_account_index>
@@ -1350,49 +1350,49 @@
     <adminhtml_permission_roles translate="label">
         <label>Admin Permission Roles</label>
         <expected_models>
-            <Mage_Admin_Model_Roles/>
+            <Mage_User_Model_Role/>
         </expected_models>
         <actions>
-            <adminhtml_permissions_role_editrole>
+            <adminhtml_user_role_editrole>
                 <action>view</action>
-            </adminhtml_permissions_role_editrole>
+            </adminhtml_user_role_editrole>
 
-            <adminhtml_permissions_role_saverole>
+            <adminhtml_user_role_saverole>
                 <action>save</action>
                 <skip_on_back>
-                    <adminhtml_permissions_role_editrole/>
+                    <adminhtml_user_role_editrole/>
                 </skip_on_back>
-            </adminhtml_permissions_role_saverole>
+            </adminhtml_user_role_saverole>
 
-            <adminhtml_permissions_role_delete>
+            <adminhtml_user_role_delete>
                 <action>delete</action>
-            </adminhtml_permissions_role_delete>
+            </adminhtml_user_role_delete>
         </actions>
     </adminhtml_permission_roles>
 
     <adminhtml_permission_users translate="label">
         <label>Admin Permission Users</label>
         <expected_models>
-            <Mage_Admin_Model_User>
+            <Mage_User_Model_User>
                 <skip_data>
                     <password/>
                     <new_password/>
                     <password_confirmation/>
                 </skip_data>
-            </Mage_Admin_Model_User>
+            </Mage_User_Model_User>
         </expected_models>
         <actions>
-            <adminhtml_permissions_user_edit>
+            <adminhtml_user_edit>
                 <action>view</action>
-            </adminhtml_permissions_user_edit>
+            </adminhtml_user_edit>
 
-            <adminhtml_permissions_user_save>
+            <adminhtml_user_save>
                 <action>save</action>
-            </adminhtml_permissions_user_save>
+            </adminhtml_user_save>
 
-            <adminhtml_permissions_user_delete>
+            <adminhtml_user_delete>
                 <action>delete</action>
-            </adminhtml_permissions_user_delete>
+            </adminhtml_user_delete>
         </actions>
     </adminhtml_permission_users>
 

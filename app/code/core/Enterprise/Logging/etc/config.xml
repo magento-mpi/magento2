@@ -67,22 +67,22 @@
                     </enterprise_logging>
                 </observers>
             </model_load_after>
-            <admin_session_user_login_success>
+            <backend_auth_user_login_success>
                 <observers>
                     <enterprise_logging>
                         <class>Enterprise_Logging_Model_Observer</class>
                         <method>adminSessionLoginSuccess</method>
                     </enterprise_logging>
                 </observers>
-            </admin_session_user_login_success>
-            <admin_session_user_login_failed>
+            </backend_auth_user_login_success>
+            <backend_auth_user_login_failed>
                 <observers>
                     <enterprise_logging>
                         <class>Enterprise_Logging_Model_Observer</class>
                         <method>adminSessionLoginFailed</method>
                     </enterprise_logging>
                 </observers>
-            </admin_session_user_login_failed>
+            </backend_auth_user_login_failed>
         </events>
         <layout>
             <updates>

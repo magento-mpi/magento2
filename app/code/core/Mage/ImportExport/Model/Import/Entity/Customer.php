@@ -513,6 +513,9 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     public function getRowScope(array $rowData)
     {
+        if (!isset($rowData[self::COL_EMAIL])) {
+            return self::SCOPE_ADDRESS;
+        }
         return strlen(trim($rowData[self::COL_EMAIL])) ? self::SCOPE_DEFAULT : self::SCOPE_ADDRESS;
     }
 

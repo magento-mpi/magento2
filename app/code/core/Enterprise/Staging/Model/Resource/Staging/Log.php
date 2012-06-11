@@ -41,7 +41,7 @@ class Enterprise_Staging_Model_Resource_Staging_Log extends Mage_Core_Model_Reso
             $object->setCreatedAt($value);
         }
 
-        $user = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
+        $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
         if ($user) {
             $object->setUserId($user->getId());
             $object->setUsername($user->getName());

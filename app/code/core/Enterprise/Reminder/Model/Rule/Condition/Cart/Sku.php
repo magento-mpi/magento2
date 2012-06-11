@@ -51,7 +51,7 @@ class Enterprise_Reminder_Model_Rule_Condition_Cart_Sku
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getStoreOptionHash());
+        $this->setValueOption(Mage::getSingleton('Mage_Core_Model_System_Store')->getStoreOptionHash());
         return $this;
     }
 

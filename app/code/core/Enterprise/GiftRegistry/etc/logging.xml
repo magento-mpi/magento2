@@ -29,7 +29,7 @@
 
             <adminhtml_giftregistry_save>
                 <action>save</action>
-                <post_dispatch>enterprise_giftregistry/type::postDispatchTypeSave</post_dispatch>
+                <post_dispatch>Enterprise_GiftRegistry_Model_Type::postDispatchTypeSave</post_dispatch>
             </adminhtml_giftregistry_save>
 
             <adminhtml_giftregistry_delete>
@@ -56,7 +56,7 @@
 
             <adminhtml_giftregistry_customer_share>
                 <action>share</action>
-                <post_dispatch>enterprise_giftregistry/entity::postDispatchShare</post_dispatch>
+                <post_dispatch>Enterprise_GiftRegistry_Model_Entity::postDispatchShare</post_dispatch>
             </adminhtml_giftregistry_customer_share>
 
             <adminhtml_giftregistry_customer_delete>

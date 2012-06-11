@@ -278,8 +278,7 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
 
         try {
             /** @var $entity Enterprise_GiftRegistry_Model_Entity */
-            $entity = $this->_initEntity()
-                ->setData($this->getRequest()->getPost());
+            $entity = $this->_initEntity()->setData($this->getRequest()->getPost());
 
             $result = $entity->sendShareRegistryEmails();
 

@@ -75,7 +75,7 @@ $event = $this->getCurrentEvent();
                         <th><?php echo $this->__('Admin User Name'); ?></th>
                         <td>
                         <?php if ($this->getEventUser()){ ?>
-                        <a href="<?php echo $this->getUrl('adminhtml/permissions_user/edit', array('user_id' => $event->getUserId())); ?>"><?php echo $this->escapeHtml($event->getUser()); ?></a>
+                        <a href="<?php echo $this->getUrl('adminhtml/user/edit', array('user_id' => $event->getUserId())); ?>"><?php echo $this->escapeHtml($event->getUser()); ?></a>
                         <?php } else { ?>
                         <?php echo $this->escapeHtml($event->getUser()); ?>
                         <?php } ?>

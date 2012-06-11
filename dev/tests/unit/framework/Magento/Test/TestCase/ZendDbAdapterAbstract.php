@@ -20,9 +20,9 @@ class Magento_Test_TestCase_ZendDbAdapterAbstract extends PHPUnit_Framework_Test
      * @return Zend_Db_Adapter_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getAdapterMock($adapterClass, $mockMethods, $constructArgs = array(),
-                                       $mockStatementMethods = 'execute'
+        $mockStatementMethods = 'execute'
     ) {
-        if (null == $constructArgs) {
+        if (empty($constructArgs)) {
             $adapter = $this->getMock($adapterClass, $mockMethods, array(), '', false);
         } else {
             $adapter = $this->getMock($adapterClass, $mockMethods, $constructArgs);

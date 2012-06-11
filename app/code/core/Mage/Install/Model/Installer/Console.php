@@ -353,12 +353,30 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             $this->addError('Database uninstall is supported for the MySQL only.');
             return false;
         }
+
+        /* Cleanup database */
         $resourceModel = new Mage_Core_Model_Resource;
         $dbConnection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $dbConnection->query("DROP DATABASE `$dbConfig->dbname`");
         $dbConnection->query("CREATE DATABASE `$dbConfig->dbname`");
-        unlink(Mage::app()->getConfig()->getOptions()->getEtcDir() . '/local.xml');
-        Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getCacheDir());
+
+
+        /* Remove temporary directories */
+        $configOptions = Mage::app()->getConfig()->getOptions();
+        $dirsToRemove = array(
+            $configOptions->getCacheDir(),
+            $configOptions->getSessionDir(),
+            $configOptions->getExportDir(),
+            $configOptions->getLogDir(),
+            $configOptions->getVarDir() . '/report',
+            $configOptions->getMediaDir() . '/skin',
+        );
+        foreach ($dirsToRemove as $dir) {
+            Varien_Io_File::rmdirRecursive($dir);
+        }
+
+        /* Remove local configuration */
+        unlink($configOptions->getEtcDir() . '/local.xml');
         return true;
     }
 

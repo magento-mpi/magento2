@@ -97,18 +97,26 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends PHPUnit_Framewor
     /**
      * Assert that there is a redirect to expected URL.
      * Omit expected URL to check that redirect to wherever has been occurred.
+     * Examples of usage:
+     * $this->assertRedirect($this->equalTo($expectedUrl));
+     * $this->assertRedirect($this->stringStartsWith($expectedUrlPrefix));
+     * $this->assertRedirect($this->stringEndsWith($expectedUrlSuffix));
+     * $this->assertRedirect($this->stringContains($expectedUrlSubstring));
      *
-     * @param string|null $expectedUrl
+     * @param PHPUnit_Framework_Constraint|null $urlConstraint
      */
-    public function assertRedirect($expectedUrl = null)
+    public function assertRedirect(PHPUnit_Framework_Constraint $urlConstraint = null)
     {
         $this->assertTrue($this->getResponse()->isRedirect());
-        if ($expectedUrl) {
-            $this->assertContains(array(
-                'name'    => 'Location',
-                'value'   => $expectedUrl,
-                'replace' => true,
-            ), $this->getResponse()->getHeaders());
+        if ($urlConstraint) {
+            $actualUrl = '';
+            foreach ($this->getResponse()->getHeaders() as $header) {
+                if ($header['name'] == 'Location') {
+                    $actualUrl = $header['value'];
+                    break;
+                }
+            }
+            $this->assertThat($actualUrl, $urlConstraint, 'Redirection URL does not match expectations');
         }
     }
 }

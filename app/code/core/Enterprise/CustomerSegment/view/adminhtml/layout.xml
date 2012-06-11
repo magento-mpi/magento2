@@ -24,12 +24,12 @@
 
     <!-- segment ajax grid -->
     <adminhtml_customersegment_grid>
-        <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid" name="root"/>
+        <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid" name="root" output="1"/>
     </adminhtml_customersegment_grid>
 
     <!-- segment chooser ajax grid -->
     <adminhtml_customersegment_choosergrid>
-        <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser" name="root"/>
+        <block type="Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid_Chooser" name="root" output="1"/>
     </adminhtml_customersegment_choosergrid>
 
     <adminhtml_report_customer_customersegment_detail>

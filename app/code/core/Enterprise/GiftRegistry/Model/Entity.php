@@ -88,7 +88,35 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      *
      * @var Mage_Core_Model_Store
      */
-    protected $_store = null;
+    protected $_store;
+
+    /**
+     * Application instance
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Config instance
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Resource instance
+     *
+     * @var null
+     */
+    protected $_resource;
+
+    /**
+     * Translate instance
+     *
+     * @var Mage_Core_Model_Abstract
+     */
+    protected $_translate;
 
     /**
      * Initialize data
@@ -97,11 +125,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      */
     public function __construct(array $data= array())
     {
-        $this->_app = (isset($data['app'])) ? $data['app'] : Mage::app();
-        $this->_config = (isset($data['config'])) ? $data['config'] : Mage::getConfig();
-        $this->_resource = (isset($data['resource'])) ? $data['resource'] : null;
-        $this->_helpers = (isset($data['helpers']) && is_array($data['helpers'])) ? $data['helpers'] : array();
-        $this->_store = (isset($data['store'])) ? $data['store'] : Mage::app()->getStore();
+        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
+        $this->_config = isset($data['config']) ? $data['config'] : Mage::getConfig();
+        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
+        $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
         $this->_translate = isset($data['translate'])
             ? $data['translate']
             : Mage::getSingleton('Mage_Core_Model_Translate');
@@ -114,6 +142,19 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     protected function _construct() {
         $this->_init('Enterprise_GiftRegistry_Model_Resource_Entity');
         parent::_construct();
+    }
+
+    /**
+     * Get resource instance
+     *
+     * @return Mage_Core_Model_Resource_Db_Abstract
+     */
+    protected function _getResource()
+    {
+        if (is_null($this->_resource)) {
+            return parent::_getResource();
+        }
+        return $this->_resource;
     }
 
     /**
@@ -147,8 +188,9 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Add new product to registry
      *
      * @param int|Mage_Sales_Model_Quote_Item $itemToAdd
-     * @param Varien_Object $request
-     * @return Enterprise_GiftRegistry_Model_Item
+     * @param null|Varien_Object $request
+     * @return false|Enterprise_GiftRegistry_Model_Item
+     * @throws Mage_Core_Exception
      */
     public function addItem($itemToAdd, $request = null)
     {
@@ -228,7 +270,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Send share email
      *
      * @param string $recipient
-     * @param int $storeId
+     * @param int|null $storeId
      * @param string $message
      * @param null|array $sender
      * @return bool
@@ -263,7 +305,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             'entity' => $this,
             'message' => $message,
             'recipient_name' => $recipientName,
-            'url' => $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
+            'url' => $this->_helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
         );
 
         $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
@@ -291,19 +333,19 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     public function sendShareRegistryEmails()
     {
         $senderMessage = $this->getSenderMessage();
-        $senderName = htmlspecialchars($this->getSenderName());
-        $senderEmail = htmlspecialchars($this->getSenderEmail());
+        $senderName = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderName());
+        $senderEmail = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($this->getSenderEmail());
         $result = new Varien_Object(array('is_success' => false));
 
         if (empty($senderName) || empty($senderMessage) || empty($senderEmail)) {
             return $result->setErrorMessage(
-                $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->__('Sender data can\'t be empty.')
+                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Sender data can\'t be empty.')
             );
         }
 
         if (!Zend_Validate::is($senderEmail, 'EmailAddress')) {
             return $result->setErrorMessage(
-                $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid sender email address.')
+                $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid sender email address.')
             );
         }
 
@@ -312,14 +354,14 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             $recipientEmail = trim($recipient['email']);
             if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
                 return $result->setErrorMessage(
-                    $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid recipient email address.')
+                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid recipient email address.')
                 );
             }
 
-            $recipient['name'] = htmlspecialchars($recipient['name']);
+            $recipient['name'] = $this->_helper('Enterprise_GiftRegistry_Helper_Data')->escapeHtml($recipient['name']);
             if (empty($recipient['name'])) {
                 return $result->setErrorMessage(
-                    $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a recipient name.')
+                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a recipient name.')
                 );
             }
             $emails[] = $recipient;
@@ -329,7 +371,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             $count = 0;
             $storeId = $this->_store->getId();
 
-            foreach($emails as $recipient) {
+            foreach ($emails as $recipient) {
                 $sender = array('name' => $senderName, 'email' => $senderEmail);
                 if ($this->sendShareRegistryEmail($recipient, $storeId, $senderMessage, $sender)) {
                     $count++;
@@ -338,11 +380,11 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             if ($count > 0) {
                 $result->setIsSuccess(true)
                     ->setSuccessMessage(
-                    $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->__('The gift registry has been shared for %d emails.', $count)
-                );
+                        $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('The gift registry has been shared for %d emails.', $count)
+                    );
             } else {
                 $result->setErrorMessage(
-                    $this->_getHelper('Enterprise_GiftRegistry_Helper_Data')->__('Failed to share gift registry.')
+                    $this->_helper('Enterprise_GiftRegistry_Helper_Data')->__('Failed to share gift registry.')
                 );
             }
         }
@@ -719,8 +761,8 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
     /**
      * Retrieve item product instance
      *
-     * @throws Mage_Core_Exception
-     * @return Mage_Catalog_Model_Product
+     * @param int $productId
+     * @return Mage_Catalog_Model_Product|mixed
      */
     public function getProduct($productId)
     {
@@ -865,6 +907,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * Validate gift registry items
      *
      * @param array $items
+     * @throws Mage_Exception
      */
     protected function _validateItems($items)
     {
@@ -916,7 +959,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      * @param string $name
      * @return Mage_Core_Helper_Abstract
      */
-    protected function _getHelper($name)
+    protected function _helper($name)
     {
         if (!isset($this->_helpers[$name])) {
             $this->_helpers[$name] = Mage::helper($name);

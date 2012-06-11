@@ -219,8 +219,8 @@ abstract class Enterprise_Pbridge_Block_Iframe_Abstract extends Mage_Payment_Blo
         // lookup each file basing on current theme configuration
         foreach ($skinItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name, array('_type' => 'skin'))
-                    : $designPackage->getSkinUrl($name, array());
+                $items[$params][] = $mergeCallback ? $designPackage->getFilename($name)
+                    : $designPackage->getSkinUrl($name);
             }
         }
 

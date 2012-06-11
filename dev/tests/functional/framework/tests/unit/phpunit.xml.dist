@@ -27,7 +27,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<phpunit bootstrap="./framework/bootstrap.php" colors="true" syntaxCheck="true">
+<phpunit bootstrap="./framework/bootstrap.php" syntaxCheck="true">
     <testsuite name="Mage Selenium Unit Tests">
         <directory>./testsuite</directory>
 	<!--<directory suffix="DataGeneratorTest.php">./tests/Mage/Selenium</directory>-->

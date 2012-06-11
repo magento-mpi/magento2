@@ -27,5 +27,6 @@ $order->setIncrementId('100000001')
     ->setCustomerIsGuest(true)
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
-    ->setPayment($payment);
+    ->setPayment($payment)
+;
 $order->save();

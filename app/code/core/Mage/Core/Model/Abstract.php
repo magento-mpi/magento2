@@ -85,8 +85,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      *
      * By default is looking for first argument as array and assigns it as object attributes
      * This behavior may change in child classes
+     *
+     * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
         parent::__construct($data);
         $this->_construct();
@@ -97,7 +99,6 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _construct()
     {
-
     }
 
     /**
@@ -137,14 +138,11 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _getResource()
     {
-        if (!$this->_resource instanceof Mage_Core_Model_Resource_Db_Abstract) {
-            if (empty($this->_resourceName)) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Resource is not set.'));
-            }
-            $this->_resource = Mage::getResourceSingleton($this->_resourceName);
+        if (empty($this->_resourceName)) {
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Resource is not set.'));
         }
 
-        return $this->_resource;
+        return Mage::getResourceSingleton($this->_resourceName);
     }
 
     /**
@@ -273,7 +271,6 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             return $this;
         }
         $this->_getResource()->beginTransaction();
-        $dataCommited = false;
         try {
             $this->_beforeSave();
             if ($this->_dataSaveAllowed) {
@@ -283,14 +280,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             $this->_getResource()->addCommitCallback(array($this, 'afterCommitCallback'))
                 ->commit();
             $this->_hasDataChanges = false;
-            $dataCommited = true;
         } catch (Exception $e) {
             $this->_getResource()->rollBack();
             $this->_hasDataChanges = true;
             throw $e;
-        }
-        if ($dataCommited) {
-            $this->afterCommitCallback();
         }
         return $this;
     }
