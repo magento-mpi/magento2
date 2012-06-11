@@ -27,7 +27,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/CatalogPermissions/_files/permission.php
      */
-    public function testCategoryPermissionsReindex()
+    public function testReindex()
     {
         $fixturePermission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission')->load(1);
         unset($fixturePermission['permission_id']);
