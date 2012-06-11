@@ -69,26 +69,22 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
         $categoryData['is_anchor'] = 'Yes';
         $this->categoryHelper()->createCategory($categoryData);
         // Creating subcategory
-        $categoryName = $rootCategoryName. '/' . $categoryData['name'];
+        $categoryName = $rootCategoryName . '/' . $categoryData['name'];
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required',
             array('parent_category'=> $categoryName));
         $this->categoryHelper()->createCategory($subCategoryData);
-        $subCategoryName = $categoryName. '/' . $subCategoryData['name'];
-
+        $subCategoryName = $categoryName . '/' . $subCategoryData['name'];
         // Creating non-anchor category (due to framework limitation)
         $nonAnchorCategoryData = $this->loadDataSet('Category', 'sub_category_required',
             array('parent_category'=> $rootCategoryName));
         $this->categoryHelper()->createCategory($nonAnchorCategoryData);
-        $nonAnchorCategoryName = $rootCategoryName. '/' . $nonAnchorCategoryData['name'];
-
+        $nonAnchorCategoryName = $rootCategoryName . '/' . $nonAnchorCategoryData['name'];
         // Creating subcategory for non-anchor category
         $subCategoryForNonAnchorCategoryData = $this->loadDataSet('Category',
             'sub_category_required', array('parent_category'=> $nonAnchorCategoryName));
         $this->categoryHelper()->createCategory($subCategoryForNonAnchorCategoryData);
-
-        // creating products
+        // Creating products
         $this->navigate('manage_products');
-        //$this->addParameter('id', '0');
         $simple1 = $this->loadDataSet('Product', 'simple_product_visible', array ('categories' => $subCategoryName));
         $this->productHelper()->createProduct($simple1);
         $this->navigate('manage_products');
@@ -111,9 +107,10 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
      * <p>Expected Result:</p>
      * <p>Layered Navigation block should be present on the page</p>
      *
-     * @param $data
+     * @param array $data
      * @depends preconditionsForTests
      * @test
+     * @TestLinkId
      */
     public function checkLayeredNavigationOnAnchorCategoryPage($data)
     {
@@ -132,17 +129,19 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
      * <p>Expected Result:</p>
      * <p>Subcategory selected, products assigned to this subcategory displays in product grid</p>
      *
-     * @param $data
+     * @param array $data
      * @depends preconditionsForTests
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
      */
     public function selectCategoryAnchor($data)
     {
+        //Steps
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['acategory']);
         $this->layeredNavigationHelper()->setCategoryIdFromLink($data['subcategory']);
         $this->clickControl('link', 'category_name');
+        //Verification
         $this->assertTrue($this->isElementPresent(
                 $this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
@@ -176,7 +175,9 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
      */
     public function removeSelectedCategoryAnchor($data)
     {
+        //Steps
         $this->clickControl('button', 'remove_this_item');
+        //Verification
         $this->assertFalse($this->isElementPresent(
                 $this->_getControlXpath('button', 'remove_this_item')),
             'remove_this_item button still present in layered navigation block');
@@ -212,8 +213,10 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
      */
     public function removeSelectedCategoryAnchorClearAll($data)
     {
+        //Steps
         $this->layeredNavigationHelper()->setCategoryIdFromLink($data['subcategory']);
         $this->clickControl('link', 'category_name');
+        //Verification
         $this->assertTrue($this->isElementPresent(
                 $this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
@@ -247,17 +250,18 @@ class Core_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Selenium_Te
      * <p>Expected Result:</p>
      * <p>Layered Navigation block should be present on the page</p>
      *
-     * @param $data
+     * @param array $data
      * @depends preconditionsForTests
      * @test
      */
     public function checkLayeredNavigationOnNonAnchorCategoryPage($data)
     {
+        //Steps
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['nacategory']);
+        //Verification
         $this->assertTrue($this->isElementPresent(
                 $this->_getControlXpath('fieldset', 'layered_navigation')),
             'There is no LN block on the' . $data['nacategory'] . 'non-anchor category page');
     }
-
 }

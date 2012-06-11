@@ -34,23 +34,23 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Set category ID from link into UImap
- * @param string $categoryName
- * @return string
- */
-
-
 class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
 {
+    /**
+     * Set category ID from link into UImap
+     * @param string $categoryName
+     */
     public function setCategoryIdFromLink($categoryName)
     {
         $this->addParameter('categoryName', $categoryName);
         $linkXpath = $this->_getControlXpath('link', 'category_name');
-        $link = $this->getAttribute($linkXpath . '/@href');
+        $link = $this->getAttribute($linkXpath . '@href');
         // parse link received from xpath
         $parsedLink = parse_url($link);
-        $getIdFromLink = parse_str($parsedLink['query']);
+        parse_str($parsedLink['query']);
+        if(!isset($cat)){
+            $this->fail('Impossible to define variable');
+        }
         $this->addParameter('catid', $cat);
     }
 }
