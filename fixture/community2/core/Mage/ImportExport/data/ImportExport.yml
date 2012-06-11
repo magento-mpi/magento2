@@ -61,3 +61,21 @@ generic_customer_attribute:
    admin_title: Text_Field_Admin_%randomize%
    store_view_titles:
         Default Store View: Text_Field_StoreView
+
+customer_account_with_attribute:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+    custom_attribute: custom_attr_%randomize%
