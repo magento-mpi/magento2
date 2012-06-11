@@ -76,10 +76,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
             $emails[] = $item->getEmail();
         }
 
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_cb'), $emails));
-        $this->assertFalse(in_array(Mage::registry('customer_finance_email'), $emails));
+        $this->assertContains(Mage::registry('customer_finance_email_rp_cb'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email_rp'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email_cb'), $emails);
+        $this->assertNotContains(Mage::registry('customer_finance_email'), $emails);
     }
 
     /**
@@ -100,10 +100,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
             $emails[] = $item->getEmail();
         }
 
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp'), $emails));
-        $this->assertFalse(in_array(Mage::registry('customer_finance_email_cb'), $emails));
-        $this->assertFalse(in_array(Mage::registry('customer_finance_email'), $emails));
+        $this->assertContains(Mage::registry('customer_finance_email_rp_cb'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email_rp'), $emails);
+        $this->assertNotContains(Mage::registry('customer_finance_email_cb'), $emails);
+        $this->assertNotContains(Mage::registry('customer_finance_email'), $emails);
     }
 
     /**
@@ -124,10 +124,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
             $emails[] = $item->getEmail();
         }
 
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
-        $this->assertFalse(in_array(Mage::registry('customer_finance_email_rp'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_cb'), $emails));
-        $this->assertFalse(in_array(Mage::registry('customer_finance_email'), $emails));
+        $this->assertContains(Mage::registry('customer_finance_email_rp_cb'), $emails);
+        $this->assertNotContains(Mage::registry('customer_finance_email_rp'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email_cb'), $emails);
+        $this->assertNotContains(Mage::registry('customer_finance_email'), $emails);
     }
 
     /**
@@ -147,9 +147,9 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
             $emails[] = $item->getEmail();
         }
 
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email_cb'), $emails));
-        $this->assertTrue(in_array(Mage::registry('customer_finance_email'), $emails));
+        $this->assertContains(Mage::registry('customer_finance_email_rp_cb'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email_rp'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email_cb'), $emails);
+        $this->assertContains(Mage::registry('customer_finance_email'), $emails);
     }
 }
