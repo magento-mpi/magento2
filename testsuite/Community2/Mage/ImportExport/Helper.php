@@ -187,25 +187,26 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      */
     function csvToArray($input, $delimiter=',')
     {
+        $temp = tmpfile();
+        fwrite($temp, $input);
+        fseek($temp,0);
         $data = array();
         $header = null;
-        $csvData = str_getcsv($input, "\n");
-        foreach($csvData as $csvLine){
-            $row = str_getcsv($csvLine, $delimiter);
+        while (($line = fgetcsv($temp, 1000, $delimiter, '"', '\\')) !== FALSE)
+        {
             if (!$header){
-                $header = $row;
+                $header = $line;
             } else {
                 try {
-                   $data[] = array_combine($header, $row);
-                } catch(Exception $ee) {
-                   //it will prevent incorrect csv format
+                   $data[] = array_combine($header, $line);
+                } catch(Exception $e){
+                   //invalid format
                    return null;
                 }
             }
         }
         return $data;
     }
-
     /**
      * Perform export with current selected options
      *
