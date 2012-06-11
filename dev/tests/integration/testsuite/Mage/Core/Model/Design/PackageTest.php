@@ -245,10 +245,9 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     */
     public function testGetPublicSkinDir()
     {
-        $this->assertTrue(strpos(
-                $this->_model->getPublicSkinDir(),
-                DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'skin'
-            ) !== false
+        $this->assertContains(
+            DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'skin',
+            $this->_model->getPublicSkinDir()
         );
     }
 
