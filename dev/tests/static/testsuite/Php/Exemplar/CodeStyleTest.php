@@ -145,10 +145,8 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
         if (!$elements) {
             return;
         }
-        $errorNode = $report->xpath('/checkstyle/file/error[@severity="error"]');
-        $warningNode = $report->xpath('/checkstyle/file/error[@severity="warning"]');
-        $numErrorsActual = is_array($errorNode) ? count($errorNode) : 0;
-        $numWarningsActual = is_array($warningNode) ? count($warningNode) : 0;
+
+        list($numErrorsActual, $numWarningsActual) = $this->_calculateCountErrors($report);
 
         $element = $elements[0];
         $attributes = $element->attributes();
@@ -168,6 +166,21 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
                 'Expecting ' . $numWarningsExpected . ' warnings, got ' . $numWarningsActual
             );
         }
+    }
+
+    /**
+     * Calculate count errors and warnings
+     *
+     * @param SimpleXMLElement $report
+     * @return array
+     */
+    protected function _calculateCountErrors($report)
+    {
+        $errorNode = $report->xpath('/checkstyle/file/error[@severity="error"]') ?: array();
+        $warningNode = $report->xpath('/checkstyle/file/error[@severity="warning"]') ?: array();
+        $numErrorsActual = count($errorNode);
+        $numWarningsActual = count($warningNode);
+        return array($numErrorsActual, $numWarningsActual);
     }
 
     /**
