@@ -407,4 +407,13 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return true;
     }
+
+    /**
+     * Get list of Customer Entity Types specific for Magento versions
+     *
+     * @return array
+     */
+    public function getCustomerEntityType(){
+        return array('Customers Main File', 'Customer Addresses');
+    }
 }

@@ -88,7 +88,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $exportFileVersion = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'export_file') . '/option',
             'text');
-        $this->assertEquals(array('Customers Main File','Customer Addresses'),
+        $this->assertEquals($this->ImportExportHelper()->getCustomerEntityType(),
             $exportFileVersion,
             'Export File Version dropdown contains incorrect values');
     }
@@ -287,7 +287,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Step 3
-        $arr = array('Customers Main File', 'Customer Addresses');
+        $arr = $this->ImportExportHelper()->getCustomerEntityType();
         foreach($arr as $value) {
             $this->fillDropdown('export_file', $value);
             $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
@@ -504,16 +504,20 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         );
         $this->assertTrue($isFound, 'Checkbox was not found');
         //Step 5
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        //Verify
-        $this->waitForElementVisible($this->_getControlXpath('fieldset','grid_and_filter'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
-        //Step 6
-        $isFound = $this->ImportExportHelper()->customerSkipAttribute(
-            array(
-                'attribute_label' => 'Created At'),
-            'grid_and_filter'
-        );
-        $this->assertFalse($isFound, 'Checkbox was not found');
+
+        $customerTypes = $this->ImportExportHelper()->getCustomerEntityType();
+        foreach (array_slice($customerTypes, 1)as $customerType){
+            $this->fillDropdown('export_file', $customerType);
+            //Verify
+            $this->waitForElementVisible($this->_getControlXpath('fieldset','grid_and_filter'));
+            $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+            //Step 6
+            $isFound = $this->ImportExportHelper()->customerSkipAttribute(
+                array(
+                    'attribute_label' => 'Created At'),
+                'grid_and_filter'
+            );
+            $this->assertFalse($isFound, 'Checkbox was found');
+        }
     }
 }
