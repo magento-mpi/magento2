@@ -290,7 +290,11 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
      */
     public function getFileName()
     {
-        $fileName = $this->_getEntityAdapter()->getFileName();
+        $fileName = null;
+        $entityAdapter = $this->_getEntityAdapter();
+        if ($entityAdapter instanceof Mage_ImportExport_Model_Export_Entity_V2_Abstract) {
+            $fileName = $entityAdapter->getFileName();
+        }
         if (!$fileName) {
             $fileName = $this->getEntity();
         }
