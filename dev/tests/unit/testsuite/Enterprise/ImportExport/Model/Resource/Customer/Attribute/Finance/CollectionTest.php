@@ -16,11 +16,27 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     extends PHPUnit_Framework_TestCase
 {
     /**
+     * Returns mock for finance collection
+     *
+     * @return Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+     */
+    protected function _getFinanceCollectionMock()
+    {
+        return $this->getMock(
+            'Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection',
+            null,
+            array(),
+            '',
+            false
+        );
+    }
+
+    /**
      * Test setOrder method
      */
     public function testSetOrder()
     {
-        $collection = new Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection();
+        $collection = $this->_getFinanceCollectionMock();
 
         $first  = new Varien_Object(array('id' => 9));
         $second = new Varien_Object(array('id' => 10));
@@ -42,9 +58,12 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
         $this->assertEquals($first->getId(), $orderSecond->getId());
     }
 
+    /**
+     * Test compare attributes method
+     */
     public function testCompareAttributes()
     {
-        $collection = new Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection();
+        $collection = $this->_getFinanceCollectionMock();
         $collection->setOrder('id');
         $first  = new Varien_Object(array('id' => 9));
         $second = new Varien_Object(array('id' => 10));
@@ -52,21 +71,5 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));
         $this->assertGreaterThan(0, $collection->compareAttributes($second, $first));
         $this->assertEquals(0, $collection->compareAttributes($first, $first));
-    }
-}
-
-/**
- * Stub for attribute finance collection
- *
- * @method int getId() getId()
- */
-class Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-    extends Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-{
-    /**
-     * Modified constructor
-     */
-    public function __construct()
-    {
     }
 }

@@ -56,4 +56,100 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
         $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
         $this->assertEquals(Mage::registry('customer_balance'), $customer->getData($key));
     }
+
+    /**
+     * Test filter with reward points and with customer balance
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     */
+    public function testFilterWithRewardPointsWithCustomerBalance()
+    {
+        /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
+        $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
+        $collection->joinWithCustomerBalance()
+            ->joinWithRewardPoints();
+        $items = $collection->getItems();
+        $this->assertCount(3, $items);
+
+        $emails = array();
+        foreach ($items as $item) {
+            $emails[] = $item->getEmail();
+        }
+
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_cb'), $emails));
+        $this->assertFalse(in_array(Mage::registry('customer_finance_email'), $emails));
+    }
+
+    /**
+     * Test filter only with reward points
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     */
+    public function testFilterWithRewardPoints()
+    {
+        /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
+        $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
+        $collection->joinWithRewardPoints();
+        $items = $collection->getItems();
+        $this->assertCount(2, $items);
+
+        $emails = array();
+        foreach ($items as $item) {
+            $emails[] = $item->getEmail();
+        }
+
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp'), $emails));
+        $this->assertFalse(in_array(Mage::registry('customer_finance_email_cb'), $emails));
+        $this->assertFalse(in_array(Mage::registry('customer_finance_email'), $emails));
+    }
+
+    /**
+     * Test filter only with customer balance
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     */
+    public function testFilterWithCustomerBalance()
+    {
+        /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
+        $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
+        $collection->joinWithCustomerBalance();
+        $items = $collection->getItems();
+        $this->assertCount(2, $items);
+
+        $emails = array();
+        foreach ($items as $item) {
+            $emails[] = $item->getEmail();
+        }
+
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
+        $this->assertFalse(in_array(Mage::registry('customer_finance_email_rp'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_cb'), $emails));
+        $this->assertFalse(in_array(Mage::registry('customer_finance_email'), $emails));
+    }
+
+    /**
+     * Test filter only without customer balance and reward points
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     */
+    public function testFilterWithoutParams()
+    {
+        /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
+        $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
+        $items = $collection->getItems();
+        $this->assertCount(4, $items);
+
+        $emails = array();
+        foreach ($items as $item) {
+            $emails[] = $item->getEmail();
+        }
+
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp_cb'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_rp'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email_cb'), $emails));
+        $this->assertTrue(in_array(Mage::registry('customer_finance_email'), $emails));
+    }
 }

@@ -133,11 +133,12 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
      */
     public function isRewardPointsEnabled()
     {
-        /** @var $rewardPointsHelper Enterprise_Reward_Helper_Data */
-        $rewardPointsHelper = Mage::helper('Enterprise_Reward_Helper_Data');
-
-        return $this->isModuleEnabled('Enterprise_Reward') &&
-            $rewardPointsHelper->isEnabled();
+        if ($this->isModuleEnabled('Enterprise_Reward')) {
+            /** @var $rewardPointsHelper Enterprise_Reward_Helper_Data */
+            $rewardPointsHelper = Mage::helper('Enterprise_Reward_Helper_Data');
+            return $rewardPointsHelper->isEnabled();
+        }
+        return false;
     }
 
     /**
@@ -147,10 +148,11 @@ class Enterprise_ImportExport_Helper_Data extends Mage_ImportExport_Helper_Data
      */
     public function isCustomerBalanceEnabled()
     {
-        /** @var $customerBalanceHelper Enterprise_CustomerBalance_Helper_Data */
-        $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
-
-        return $this->isModuleEnabled('Enterprise_CustomerBalance') &&
-            $customerBalanceHelper->isEnabled();
+        if ($this->isModuleEnabled('Enterprise_CustomerBalance')) {
+            /** @var $customerBalanceHelper Enterprise_CustomerBalance_Helper_Data */
+            $customerBalanceHelper = Mage::helper('Enterprise_CustomerBalance_Helper_Data');
+            return $customerBalanceHelper->isEnabled();
+        }
+        return false;
     }
 }

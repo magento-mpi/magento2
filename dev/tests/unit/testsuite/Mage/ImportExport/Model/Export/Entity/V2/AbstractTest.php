@@ -14,6 +14,9 @@
  */
 class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Test for setter and getter of file name property
+     */
     public function testGetFileNameAndSetFileName()
     {
         /** @var $model Mage_ImportExport_Model_Export_Entity_V2_Abstract */
