@@ -153,8 +153,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             for($i=0;$i<$size;$i++){
             if ($this->isChecked($tablePath . ":nth({$i})")){
                 //get attribute id
-                $attID = $this->getValue($tablePath . ":nth({$i})");
-                //save ittribute id, invers saving
+                $attID = $this->getAttribute($tablePath . ":nth({$i})" . '@value');
+                //save attribute id, invers saving
                 $parameters['skip_attr[]'][]=$attID;
             }
             }
