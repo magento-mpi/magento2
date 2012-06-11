@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-define('DS', DIRECTORY_SEPARATOR);
+define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 
 $includePaths = array(
     get_include_path(),

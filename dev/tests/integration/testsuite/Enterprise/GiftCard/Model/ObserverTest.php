@@ -17,7 +17,6 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Enterprise/GiftCard/_files/gift_card.php
      * @magentoDataFixture Enterprise/GiftCard/_files/order_with_gift_card_commit_workaround.php
@@ -37,7 +36,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_model->generateGiftCardAccounts($observer);
 
         $this->assertEquals(
-            array('area' => 'frontend', 'store' => 1),
+            array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),
             $emailTemplateModel->getDesignConfig()->getData()
         );
 
