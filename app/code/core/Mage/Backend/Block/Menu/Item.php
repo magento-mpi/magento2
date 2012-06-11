@@ -59,10 +59,10 @@ class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
         $itemModel = $this->getContainerRenderer()->getActiveItemModel();
         $output = false;
 
-        if ($this->getLevel() == 0 &&
-            $itemModel instanceof Mage_Backend_Model_Menu_Item &&
-            ($itemModel->getId() == $item->getId() ||
-                (strpos($itemModel->getFullPath(), $item->getFullPath() . '/') === 0))
+        if ($this->getLevel() == 0
+            && $itemModel instanceof Mage_Backend_Model_Menu_Item
+            && ($itemModel->getId() == $item->getId()
+                || (strpos($itemModel->getFullPath(), $item->getFullPath() . '/') === 0))
         ) {
             $output = true;
         }
@@ -75,8 +75,8 @@ class Mage_Backend_Block_Menu_Item extends Mage_Backend_Block_Template
      */
     public function isLast()
     {
-        return ($this->getLevel() == 0 &&
-            (bool)$this->getContainerRenderer()->getMenuModel()->isChildLast($this->getMenuItem()));
+        return ($this->getLevel() == 0
+            && (bool)$this->getContainerRenderer()->getMenuModel()->isChildLast($this->getMenuItem()));
     }
 
     /**
