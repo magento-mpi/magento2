@@ -112,6 +112,21 @@ category_page_before_reindex:
                         links:
                             tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
                             view_all_tags: //a[text()='View All Tags']
+
+                -
+                    layered_navigation_anchor:
+                        xpath: //div[@class='block block-layered-nav']
+                        pageelements:
+                            currently_shopping_by: //div[@class='currently']
+                        links:
+                            category_name: //*[@id='narrow-by-list']//a[text()='%categoryName%']
+                            clear_all: //div[@class='actions']/a
+                        buttons:
+                            remove_this_item: //*[@class='btn-remove']
+                -
+                    layered_navigation:
+                        xpath: //*[@id='narrow-by-list2']
+
         messages: &categoryPageMessages
             newsletter_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
             newsletter_required_field: //*[@id='advice-required-entry-newsletter']
@@ -140,3 +155,8 @@ category_page_index:
     uimap:
         form: *categoryPage
         messages: *categoryPageMessages
+
+category_layered_navigation:
+    mca: %categoryName%.html?cat=%catid%
+    title: %categoryTitle%
+    uimap: *categoryUIMap
