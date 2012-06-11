@@ -37,16 +37,6 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
     protected $_helperMock;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_appConfigMock;
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_storeConfigMock;
-
-    /**
      * Data to be validated
      *
      * @var array
@@ -54,12 +44,8 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
     protected $_params = array(
         'id' => 'item',
         'title' => 'Item Title',
-        'parent' => 'parent',
-        'sortOrder' => 3,
         'action' => '/system/config',
         'resource' => 'system/config',
-        'dependsOnModule' => 'Mage_Backend',
-        'dependsOnConfig' => 'system/config/isEnabled',
         'tooltip' => 'Item tooltip',
     );
 
@@ -69,15 +55,11 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
         $this->_factoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data');
         $this->_urlModelMock = $this->getMock("Mage_Backend_Model_Url", array(), array(), '', false);
-        $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
 
         $this->_params['acl'] = $this->_aclMock;
         $this->_params['objectFactory'] = $this->_factoryMock;
         $this->_params['module'] = $this->_helperMock;
         $this->_params['urlModel'] = $this->_urlModelMock;
-        $this->_params['appConfig'] = $this->_appConfigMock;
-        $this->_params['storeConfig'] = $this->_storeConfigMock;
         $this->_model = new Mage_Backend_Model_Menu_Item_Validator();
     }
 
@@ -102,10 +84,8 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
     {
         return array(
             array('acl'),
-            array('appConfig'),
             array('objectFactory'),
             array('urlModel'),
-            array('storeConfig'),
             array('id'),
             array('title'),
             array('module')
@@ -133,10 +113,8 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
     {
         return array(
             array('acl'),
-            array('appConfig'),
             array('objectFactory'),
             array('urlModel'),
-            array('storeConfig'),
             array('moduleHelper')
         );
     }
@@ -166,18 +144,10 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
             array('id', 'abc$'),
             array('title', 'a'),
             array('title', '123456789012345678901234567890123456789012345678901'),
-            array('parent', '12'),
-            array('parent', '123!'),
-            array('sortOrder', 'd'),
-            array('sortOrder', '-'),
             array('action', '1a'),
             array('action', '12b|'),
             array('resource', '1a'),
             array('resource', '12b|'),
-            array('dependsOnModule', '1a'),
-            array('dependsOnModule', '12b|'),
-            array('dependsOnConfig', '1a'),
-            array('dependsOnConfig', '12b|'),
             array('toolTip', 'a'),
             array('toolTip', '123456789012345678901234567890123456789012345678901'),
         );

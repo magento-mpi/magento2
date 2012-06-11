@@ -9,7 +9,7 @@
  */
 
 /**
- * Menu builder object. Retreives commands (Mage_Backend_Model_Menu_Builder_CommandAbstract)
+ * Menu builder object. Retrieves commands (Mage_Backend_Model_Menu_Builder_CommandAbstract)
  * to build menu (Mage_Backend_Model_Menu)
  */
 class Mage_Backend_Model_Menu_Builder
@@ -70,21 +70,23 @@ class Mage_Backend_Model_Menu_Builder
     public function getResult()
     {
         /** @var $items Mage_Backend_Model_Menu_Item[] */
+        $params = array();
         $items = array();
-        foreach ($this->_commands as $command) {
-            $params = $command->execute(array());
-            if (!isset($params['removed'])) {
-                $item = $this->_itemFactory->createFromArray($command->execute($params));
+        foreach ($this->_commands as $id => $command) {
+            $params[$id] = $command->execute(array());
+            if (!isset($params[$id]['removed'])) {
+                $item = $this->_itemFactory->createFromArray($params[$id]);
                 $items[$item->getId()] = $item;
+                unset($params[$id]);
             }
         }
 
         foreach($items as $item) {
-            if (!$item->hasParentId()) {
-                $this->_menu->addChild($item);
-            } else {
-                $items[$item->getParentId()]->addChild($item);
-            }
+            $this->_menu->add(
+                $item,
+                isset($params[$item->getId()]['parent']) ? $params[$item->getId()]['parent'] : null,
+                isset($params[$item->getId()]['sortOrder']) ? $params[$item->getId()]['sortOrder'] : null
+            );
         }
         return $this->_menu;
     }

@@ -107,22 +107,12 @@ class Mage_Backend_Model_Menu_Item
     /**
      * @var Mage_Core_Model_Config
      */
-    protected $_appConfig;
-
-    /**
-     * @var Mage_Core_Model_Config
-     */
     protected $_objectFactory;
 
     /**
      * @var Mage_Backend_Model_Url
      */
     protected $_urlModel;
-
-    /**
-     * @var Mage_Core_Model_Store_Config
-     */
-    protected $_storeConfig;
 
     /**
      * @var Mage_Backend_Model_Menu_Item_Validator
@@ -145,41 +135,15 @@ class Mage_Backend_Model_Menu_Item
         $this->_validator->validate($data);
 
         $this->_acl = $data['acl'];
-        $this->_appConfig = $data['appConfig'];
-        $this->_storeConfig = $data['storeConfig'];
         $this->_objectFactory = $data['objectFactory'];
         $this->_urlModel = $data['urlModel'];
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];
         $this->_moduleHelper = $data['module'];
-        $this->_parentId = isset($data['parent']) ? $data['parent'] : null;
-        $this->_sortIndex = isset($data['sortOrder']) ? $data['sortOrder'] : null;
         $this->_action = isset($data['action']) ? $data['action'] : null;
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
-        $this->_dependsOnModule = isset($data['dependsOnModule']) ? $data['dependsOnModule'] : null;
-        $this->_dependsOnConfig = isset($data['dependsOnConfig']) ? $data['dependsOnConfig'] : null;
         $this->_tooltip = isset($data['toolTip']) ? $data['toolTip'] : '';
-    }
-
-    /**
-     * Check if item has sort index that is used to sort items in menu
-     *
-     * @return bool
-     */
-    public function hasSortIndex()
-    {
-        return (bool) $this->_sortIndex;
-    }
-
-    /**
-     * Retrieve sort index that is used to sort items in menu
-     *
-     * @return int
-     */
-    public function getSortIndex()
-    {
-        return $this->_sortIndex;
     }
 
     /**
@@ -190,26 +154,6 @@ class Mage_Backend_Model_Menu_Item
     public function getId()
     {
         return $this->_id;
-    }
-
-    /**
-     * Check whether menu item has parent node id
-     *
-     * @return bool
-     */
-    public function hasParentId()
-    {
-        return (bool) $this->_parentId;
-    }
-
-    /**
-     * Retrieve parent node id
-     *
-     * @return null|string
-     */
-    public function getParentId()
-    {
-        return $this->_parentId;
     }
 
     /**
@@ -229,6 +173,12 @@ class Mage_Backend_Model_Menu_Item
      */
     public function getChildren()
     {
+        if (!$this->_submenu) {
+            $this->_submenu = $this->_objectFactory->getModelInstance(
+                'Mage_Backend_Model_Menu',
+                array('path' => $this->getFullPath())
+            );
+        }
         return $this->_submenu;
     }
 
@@ -386,71 +336,13 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * Set Item module dependency
-     *
-     * @param string $moduleName
-     * @return Mage_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
-     */
-    public function setModuleDependency($moduleName)
-    {
-        $this->_validator->validateParam('dependsOnModule', $moduleName);
-        $this->_dependsOnModule = $moduleName;
-        return $this;
-    }
-
-    /**
-     * Set Item config dependency
-     *
-     * @param string $configPath
-     * @return Mage_Backend_Model_Menu_Item
-     * @throws InvalidArgumentException
-     */
-    public function setConfigDependency($configPath)
-    {
-        $this->_validator->validateParam('depenedsOnConfig', $configPath);
-        $this->_dependsOnConfig = $configPath;
-        return $this;
-    }
-
-    /**
      * Check whether item is disabled. Disabled items are not shown to user
      *
      * @return bool
      */
     public function isDisabled()
     {
-        return !$this->_moduleHelper->isModuleOutputEnabled()
-            || !$this->_isModuleDependenciesAvailable()
-            || !$this->_isConfigDependenciesAvailable();
-    }
-
-    /**
-     * Check whether module that item depends on is active
-     *
-     * @return bool
-     */
-    protected function _isModuleDependenciesAvailable()
-    {
-        if ($this->_dependsOnModule) {
-            $module = $this->_dependsOnModule;
-            $modulesConfig = $this->_appConfig->getNode('modules');
-            return ($modulesConfig->$module && $modulesConfig->$module->is('active'));
-        }
-        return true;
-    }
-
-    /**
-     * Check whether config dependency is available
-     *
-     * @return bool
-     */
-    protected function _isConfigDependenciesAvailable()
-    {
-        if ($this->_dependsOnConfig) {
-            return $this->_storeConfig->getConfigFlag((string)$this->_dependsOnConfig);
-        }
-        return true;
+        return !$this->_moduleHelper->isModuleOutputEnabled();
     }
 
     /**
@@ -469,45 +361,15 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
-     * Add child to submenu
+     * Set path in structure
      *
-     * @param Mage_Backend_Model_Menu_Item $item
+     * @param string $path
      */
-    public function addChild(Mage_Backend_Model_Menu_Item $item)
+    public function setPath($path)
     {
-        if (!$this->_submenu) {
-            $this->_submenu = $this->_objectFactory->getModelInstance(
-                'Mage_Backend_Model_Menu',
-                array('path' => $this->getFullPath())
-            );
-        }
-        $this->_submenu->addChild($item);
-    }
-
-    /**
-     * Set parent node in tree structure
-     *
-     * @param Mage_Backend_Model_Menu $menu
-     */
-    public function setParent(Mage_Backend_Model_Menu $menu)
-    {
-        $this->_path = $menu->getFullPath();
+        $this->_path = $path;
         if ($this->_submenu) {
             $this->_submenu->setPath($this->getFullPath());
         }
-    }
-
-    /**
-     * Retrieve first allowed to user leaf menu item action
-     *
-     * @return string
-     */
-    public function getFirstAvailableChild()
-    {
-        $action = null;
-        if ($this->_submenu) {
-            $action = $this->_submenu->getFirstAvailableChild();
-        }
-        return $action ? $action : $this->_action;
     }
 }

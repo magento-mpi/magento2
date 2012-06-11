@@ -221,9 +221,11 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      */
     public function findFirstAvailableMenu()
     {
+        /* @var $menu Mage_Backend_Model_Menu_Item */
         $menu = $this->_menu ? $this->_menu : Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
-        $action = $menu->getFirstAvailableChild();
-        if (!$action) {
+        $item = $menu->getFirstAvailable();
+        $action = $item ? $item->getAction() : null;
+        if (!$item) {
             $user = $this->_getSession()->getUser();
             if ($user) {
                 $user->setHasAvailableResources(false);
