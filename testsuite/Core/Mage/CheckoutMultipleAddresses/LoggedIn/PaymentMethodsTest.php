@@ -191,6 +191,7 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
             $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
+        $this->navigate('system_configuration');
         if (preg_match('/^pay(pal)|(flow)/', $payment)) {
             $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
             $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
