@@ -36,13 +36,13 @@ browsers:
          browser: '*googlechrome'
          host: 'localhost'
          port: 4444
-         timeout: 40
+         timeout: 60
     firefox: &firefox
          name: 'Firefox'
          browser: '*chrome'
          host: 'localhost'
          port: 4444
-         timeout: 40
+         timeout: 60
     iexplorer: &iexplorer
          name: 'Internet Explorer'
          browser: '*iexplore'
@@ -65,7 +65,7 @@ framework:
     captureScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
-    load_all_data: true
+    load_all_data: false
     cache:
         frontend:
             name: 'core'
@@ -129,4 +129,40 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *mage
+    magento2enterprise: &magento2enterprise
+        fallbackOrderFixture: 'enterprise2, community2, default'
+        fallbackOrderHelper: 'Enterprise2, Community2, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_enterprise/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento2_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    magento2community: &magento2community
+        fallbackOrderFixture: 'community2, default'
+        fallbackOrderHelper: 'Community2, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_community/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento2_community/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    default: *enterprise

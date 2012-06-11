@@ -111,6 +111,25 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                 $xpathValue = $productLine . "[$i]//td[$value]";
                 if ($key == 'qty' && $this->isElementPresent($xpathValue . '/input/@value')) {
                     $productValues['product_' . $i][$key] = $this->getAttribute($xpathValue . '/input/@value');
+                } elseif ($key == 'product_name'
+                          && $this->isElementPresent($xpathValue . "//*[@class='item-options']")
+                ) {
+                    $name = $this->getText($xpathValue . "//*[@class='product-name']");
+                    $productValues['product_' . $i][$key] = trim($name);
+                    //@TODO get product parameters
+                    /*$optionsXpath = $xpathValue . "//*[@class='item-options']";
+                    $countOptions = $this->getXpathCount($optionsXpath . '//dt');
+                    $options = array();
+                    for ($i = 0; $i < $countOptions; $i++) {
+                        $nameXpath = $optionsXpath . '//dt[' . $i . ']';
+                        $valueXpath = $nameXpath . "/following-sibling::dd[1]";
+                        $name = trim($this->getText($nameXpath));
+                        $price = trim($this->getText($valueXpath . '/span'));
+                        $value = str_replace($price, '', trim($this->getText($valueXpath)));
+                        $options[$i]['option_name'] = $name;
+                        $options[$i]['option_price'] = $price;
+                        $options[$i]['option_parameter'] = $value;
+                    }*/
                 } else {
                     $text = $this->getText($xpathValue);
                     if (preg_match('/Excl. Tax/', $text)) {
@@ -130,8 +149,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                         $values = array_map('trim', $values);
                         foreach ($values as $k => $v) {
                             if ($k % 2 != 0 && isset($values[$k - 1])) {
-                                $productValues['product_' . $i][$key . '_'
-                                    . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]))] = $v;
+                                $newKey = $key . '_' . strtolower(preg_replace('#[^0-9a-z]+#i', '', $values[$k - 1]));
+                                $productValues['product_' . $i][$newKey] = $v;
                             }
                         }
                     } else {
@@ -190,10 +209,14 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function verifyPricesDataOnPage($productData, $orderPriceData)
     {
         if (is_string($productData)) {
-            $productData = $this->loadData($productData);
+            $elements = explode('/', $productData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $productData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         if (is_string($orderPriceData)) {
-            $orderPriceData = $this->loadData($orderPriceData);
+            $elements = explode('/', $orderPriceData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $orderPriceData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         //Get Products data and order prices data
         $actualProductData = $this->getProductInfoInTable();
@@ -269,9 +292,10 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function frontEstimateShipping($shippingAddress, $shippingMethod, $validate = true)
     {
         if (is_string($shippingAddress)) {
-            $shippingAddress = $this->loadData($shippingAddress);
+            $elements = explode('/', $shippingAddress);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $shippingAddress = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $shippingAddress = $this->arrayEmptyClear($shippingAddress);
         $this->fillForm($shippingAddress);
         $this->clickButton('get_quote');
         $this->chooseShipping($shippingMethod, $validate);
@@ -285,7 +309,9 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     public function chooseShipping($shippingMethod)
     {
         if (is_string($shippingMethod)) {
-            $shippingMethod = $this->loadData($shippingMethod);
+            $elements = explode('/', $shippingMethod);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $shippingMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
@@ -300,8 +326,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
                     $this->click($method);
                     $this->waitForAjax();
                 } else {
-                    $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
-                                                      . $shipService . '" is currently unavailable.');
+                    $this->addVerificationMessage(
+                        'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');
                 }
             } else {
                 $this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
@@ -341,7 +367,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         foreach ($productNameSet as $productName) {
             $this->addParameter('productName', $productName);
             if ($this->controlIsPresent('checkbox', 'move_to_wishlist')) {
-                $this->fillForm(array('move_to_wishlist' => 'Yes'));
+                $this->fillCheckbox('move_to_wishlist', 'Yes');
             } else {
                 $this->fail('Product ' . $productName . ' is not in the shopping cart.');
             }

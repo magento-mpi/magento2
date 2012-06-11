@@ -58,14 +58,14 @@ class Core_Mage_PriceRules_Catalog_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result: Success message appears, rule removed from the list</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3314
+     * @TestlinkId TL-MAGE-3314
      */
     public function deleteCatalogPriceRule()
     {
         //Data
-        $priceRuleData = $this->loadData('test_catalog_rule');
-        $ruleSearch = $this->loadData('search_catalog_rule',
-                array('filter_rule_name' => $priceRuleData['info']['rule_name']));
+        $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule');
+        $ruleSearch = $this->loadDataSet('CatalogPriceRule', 'search_catalog_rule',
+            array('filter_rule_name' => $priceRuleData['info']['rule_name']));
         //PreConditions
         $this->priceRulesHelper()->createRule($priceRuleData);
         //Verification

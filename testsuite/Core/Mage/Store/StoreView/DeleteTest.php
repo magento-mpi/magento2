@@ -55,20 +55,20 @@ class Core_Mage_Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      * <p>Store View is created.</p>
      * <p>Success Message is displayed</p>
      *
-     * @return array
+     * @return string
      * @test
      * @TestlinkId TL-MAGE-3486
      */
     public function creationStoreView()
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view');
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_store_view');
 
-        return $storeViewData;
+        return $storeViewData['store_view_name'];
     }
 
     /**
@@ -82,15 +82,16 @@ class Core_Mage_Store_StoreView_DeleteTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Success message appears - "The store view has been deleted."</p>
      *
-     * @param $storeViewData
+     * @param string $storeView
+     *
      * @test
      * @depends creationStoreView
-     * @TestlinkId	TL-MAGE-3487
+     * @TestlinkId TL-MAGE-3487
      */
-    public function deleteStoreViewWithoutBackup($storeViewData)
+    public function deleteStoreViewWithoutBackup($storeView)
     {
         //Data
-        $storeData = array('store_view_name' =>$storeViewData['store_view_name']);
+        $storeData = array('store_view_name' => $storeView);
         //Steps
         $this->storeHelper()->deleteStore($storeData);
     }

@@ -54,6 +54,17 @@ checkout_multishipping_shipping_methods:
                             shipping_methods_forms: /div[not(@class='buttons-set')]
                             shipping_method_address_header: /div[not(@class='buttons-set')][%number%]/preceding-sibling::h2[1]
                             shipping_method_address: /div[not(@class='buttons-set')][%number%]//address
+                -
+                    shipping_method_form:
+                        dropdowns:
+                            gift_wrapping_for_item: //li[div/h5='%productName%']//select
+                            gift_wrapping_for_order: //div[@class='gift-options-for-order']//select
+                        links:
+                            gift_message_for_item: //li[div/h5='%productName%']//a[text()='Gift Message']
+                            gift_message_for_order: //div[@class='gift-options-for-order']//a[text()='Gift Message']
+                        checkboxes:
+                            send_gift_receipt: //p[label='Send Gift Receipt']/input
+                            add_printed_card: //p[label='Add Printed Card']/input
         messages: *checkoutMessages
 
 checkout_multishipping_edit_shipment_address:
@@ -83,6 +94,27 @@ checkout_multishipping_edit_billing_address:
 
 checkout_multishipping_review_order:
     title: Review Order - Magento Enterprise Edition
+    uimap:
+        form:
+            fieldsets:
+                -
+                    billing_address:
+                        xpath: //div[contains(h3,'Billing Address')]
+                -
+                    payment_method:
+                        xpath: //div[contains(h3,'Payment Method')]
+                -
+                    shipping_address:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(h4,'Shipping To')]
+                -
+                    shipping_method:
+                        xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(h4,'Shipping Method')]
+                -
+                    shipping_address_info:
+                        pageelements:
+                            shipping_method_address_header: "[%number%]/h3"
+                            shipping_method_address: "[%number%]//address"
+        messages: *checkoutMessages
 
 checkout_multishipping_success_order:
     title: Magento Enterprise Edition

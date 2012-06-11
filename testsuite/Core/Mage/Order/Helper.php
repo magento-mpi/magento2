@@ -55,8 +55,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $type = array(':alnum:', ':alpha:', ':digit:', ':lower:', ':upper:', ':punct:');
         if (!in_array($charsType, $type)
-                || ($addressType != 'billing' && $addressType != 'shipping')
-                || $symNum < 5 || !is_int($symNum)) {
+            || ($addressType != 'billing' && $addressType != 'shipping')
+            || $symNum < 5
+            || !is_int($symNum)
+        ) {
             throw new Exception('Incorrect parameters');
         }
         $return = array();
@@ -90,13 +92,22 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * Creates order
      *
      * @param array|string $orderData Array or string with name of dataset to load
-     * @param bool $validate If $validate == TRUE 'Submit Order' button will not be pressed
+     * @param bool $validate (If $validate == false - errors will be skipped while filling order data)
      *
      * @return bool|string
      */
     public function createOrder($orderData, $validate = true)
     {
-        $orderData = $this->arrayEmptyClear($orderData);
+        $this->doAdminCheckoutSteps($orderData, $validate);
+        $this->submitOrder();
+    }
+
+    /**
+     * @param $orderData
+     * @param bool $validate
+     */
+    public function doAdminCheckoutSteps($orderData, $validate = true)
+    {
         $storeView = (isset($orderData['store_view'])) ? $orderData['store_view'] : null;
         $customer = (isset($orderData['customer_data'])) ? $orderData['customer_data'] : null;
         $account = (isset($orderData['account_data'])) ? $orderData['account_data'] : array();
@@ -142,7 +153,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         if ($verPrTotal) {
             $this->verifyProductsTotal($verPrTotal);
         }
-        $this->submitOrder();
     }
 
     /**
@@ -153,6 +163,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         $this->saveForm('submit_order', false);
         $this->defineOrderId();
         $this->validatePage();
+        //@TODO
+        //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
     }
 
     /**
@@ -165,11 +178,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function fillOrderAddress($addressData, $addressChoice = 'new', $addressType = 'billing')
     {
         if (is_string($addressData)) {
-            $addressData = $this->loadData($addressData);
+            $elements = explode('/', $addressData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $addressData = $this->loadDataSet($fileName, implode('/', $elements));
         }
 
         if ($addressChoice == 'sameAsBilling') {
-            $this->fillForm(array('shipping_same_as_billing_address' => 'yes'));
+            $this->fillCheckbox('shipping_same_as_billing_address', 'Yes');
         }
         if ($addressChoice == 'new') {
             $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
@@ -282,6 +297,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $configure = array();
         $additionalData = array();
+        $productSku = '';
         foreach ($productData as $key => $value) {
             if (!preg_match('/^filter_/', $key)) {
                 $additionalData[$key] = $value;
@@ -385,20 +401,21 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function selectPaymentMethod($paymentMethod, $validate = true)
     {
         if (is_string($paymentMethod)) {
-            $paymentMethod = $this->loadData($paymentMethod);
+            $elements = explode('/', $paymentMethod);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $paymentMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
 
         if ($payment) {
-            $result = $this->errorMessage('no_payment');
-            if ($result['success']) {
+            $this->addParameter('paymentTitle', $payment);
+            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
+            if (!$this->isElementPresent($xpath)) {
                 if ($validate) {
-                    $this->fail('No Payment Information Required');
+                    $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
                 }
             } else {
-                $this->addParameter('paymentTitle', $payment);
-                $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
                 $this->click($xpath);
                 $this->pleaseWait();
                 if ($card) {
@@ -437,7 +454,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             }
             $this->selectFrame($frame);
             $this->waitForElement($xpathSubmit);
-            $this->fillForm(array('3d_password' => $password));
+            $this->fillField('3d_password', $password);
             $this->click($xpathSubmit);
             $this->waitForElement(array($incorrectPassword, $xpathContinue, $verificationSuccessful));
             if ($this->isElementPresent($xpathContinue)) {
@@ -459,7 +476,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function selectShippingMethod($shippingMethod, $validate = true)
     {
         if (is_string($shippingMethod)) {
-            $shippingMethod = $this->loadData($shippingMethod);
+            $elements = explode('/', $shippingMethod);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $shippingMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $shipService = (isset($shippingMethod['shipping_service'])) ? $shippingMethod['shipping_service'] : null;
         $shipMethod = (isset($shippingMethod['shipping_method'])) ? $shippingMethod['shipping_method'] : null;
@@ -473,15 +492,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
                 if ($validate) {
                     //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $name = '';
-                    foreach (debug_backtrace() as $line) {
-                        if (preg_match('/Test$/', $line['class'])) {
-                            $name = time() . '-' . $line['class'] . '-' . $line['function'];
-                            break;
-                        }
-                    }
-                    $url = $this->takeScreenshot($name);
-                    $this->markTestSkipped($url . 'Shipping Service "' . $shipService . '" is currently unavailable.');
+                    $this->skipTestWithScreenshot('Shipping Service "' . $shipService . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
                 }
             } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
@@ -490,20 +501,12 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                     $this->click($method);
                     $this->pleaseWait();
                 } elseif ($validate) {
-                    $this->addVerificationMessage('Shipping Method "' . $shipMethod . '" for "'
-                                                  . $shipService . '" is currently unavailable.');
+                    $this->addVerificationMessage(
+                        'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');
                 }
             } elseif ($validate) {
                 //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                $name = '';
-                foreach (debug_backtrace() as $line) {
-                    if (preg_match('/Test$/', $line['class'])) {
-                        $name = time() . '-' . $line['class'] . '-' . $line['function'];
-                        break;
-                    }
-                }
-                $url = $this->takeScreenshot($name);
-                $this->markTestSkipped($url . $shipService . ': This shipping method is currently not displayed');
+                $this->skipTestWithScreenshot($shipService . ': This shipping method is currently not displayed');
                 //$this->addVerificationMessage($shipService . ': This shipping method is currently not displayed');
             }
         }
@@ -527,15 +530,18 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->pleaseWait();
         } else {
             if (is_string($customerData)) {
-                $customerData = $this->loadData($customerData);
+                $elements = explode('/', $customerData);
+                $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+                $customerData = $this->loadDataSet($fileName, implode('/', $elements));
             }
             $this->searchAndOpen($customerData, false, 'order_customer_grid');
         }
 
         $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
         // Select a store if there is more then one default store
-        if ($this->isElementPresent($storeSelectorXpath .
-                                    "[not(contains(@style,'display: none'))][not(contains(@style,'display:none'))]")) {
+        if ($this->isElementPresent(
+            $storeSelectorXpath . "[not(contains(@style,'display:') and contains(@style,'none'))]")
+        ) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
                 $this->clickControl('radiobutton', 'choose_main_store', false);
@@ -627,7 +633,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         }
 
         foreach ($coupons as $code) {
-            $this->fillForm(array('coupon_code' => $code));
+            $this->fillField('coupon_code', $code);
             $this->clickButton('apply', false);
             $this->pleaseWait();
             if ($validate) {
@@ -710,7 +716,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     protected function getRequest($subject)
     {
         $requestSubject = substr($subject, strpos($subject, '[request]'),
-                                 strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+            strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
         $requestSubject = substr($requestSubject, strpos($requestSubject, "(\n"), strpos($requestSubject, ")"));
         return $this->getParamsArray($requestSubject);
     }
@@ -725,9 +731,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     protected function getResponse($subject)
     {
         $responseSubject = substr($subject, strpos($subject, '[response]'),
-                                  strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
+            strpos($subject, ")\n") - strpos($subject, '[request]') + 1);
         $responseSubject = substr($responseSubject, strpos($responseSubject, "(\n"),
-                                  strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
+            strpos($responseSubject, ")") - strpos($responseSubject, "(\n"));
         return $this->getParamsArray($responseSubject);
     }
 
@@ -759,8 +765,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function verify3DSecureLog($verificationData)
     {
         $this->setArea('frontend');
-        $fileUrl = preg_replace('|/index.php/?|', '/',
-                                $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
+        $fileUrl =
+            preg_replace('|/index.php/?|', '/', $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if (is_array($result)) {

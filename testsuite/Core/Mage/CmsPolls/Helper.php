@@ -58,11 +58,9 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
      */
     public function createPoll(array $pollData)
     {
-        $pollData = $this->arrayEmptyClear($pollData);
         $answers = (isset($pollData['assigned_answers_set'])) ? $pollData['assigned_answers_set'] : array();
         $this->clickButton('add_new_poll');
-        if (!$this->controlIsPresent('multiselect', 'visible_in')
-                && isset($pollData['visible_in'])) {
+        if (!$this->controlIsPresent('multiselect', 'visible_in') && isset($pollData['visible_in'])) {
             unset($pollData['visible_in']);
         }
         $this->fillForm($pollData, 'poll_information');
@@ -77,12 +75,9 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
      */
     public function openPoll(array $searchPollData)
     {
-        $searchPollData = $this->arrayEmptyClear($searchPollData);
-        if (!$this->controlIsPresent('dropdown', 'filter_visible_in')
-                && isset($searchPollData['filter_visible_in'])) {
+        if (!$this->controlIsPresent('dropdown', 'filter_visible_in') && isset($searchPollData['filter_visible_in'])) {
             unset($searchPollData['filter_visible_in']);
         }
-
         $xpathTR = $this->search($searchPollData, 'poll_grid');
         $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
         $id = $this->getColumnIdByName('Poll Question');
@@ -97,6 +92,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
      * Check if Poll exists on frontend
      *
      * @param string $pollTitle "Poll Question"
+     *
      * @return boolean Return TRUE if poll is visible on the page
      */
     public function frontCheckPoll($pollTitle)
@@ -120,7 +116,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     public function setPollState($searchPollData, $state)
     {
         $this->openPoll($searchPollData);
-        $this->fillForm(array('poll_status' => $state), 'poll_information');
+        $this->fillDropdown('poll_status', $state);
         $this->saveForm('save_poll');
     }
 
@@ -137,7 +133,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
             $this->click($xpathTR);
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
-            $this->fillForm(array('poll_status' => 'Closed'), 'poll_information');
+            $this->fillDropdown('poll_status', 'Closed');
             $this->saveForm('save_poll');
         }
     }
@@ -149,8 +145,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
      */
     public function checkPollData($pollData)
     {
-        if (!$this->controlIsPresent('multiselect', 'visible_in')
-                && isset($pollData['visible_in'])) {
+        if (!$this->controlIsPresent('multiselect', 'visible_in') && isset($pollData['visible_in'])) {
             unset($pollData['visible_in']);
         }
         $answers = (isset($pollData['assigned_answers_set'])) ? $pollData['assigned_answers_set'] : array();
@@ -194,8 +189,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('pollTitle', $pollTitle);
         $this->addParameter('answer', $pollAnswer);
-        if ($this->controlIsPresent('pageelement', 'poll_title')
-                && $this->controlIsPresent('radiobutton', 'vote')) {
+        if ($this->controlIsPresent('pageelement', 'poll_title') && $this->controlIsPresent('radiobutton', 'vote')) {
             $this->clickControl('radiobutton', 'vote', false);
             $this->clickButton('vote');
         } else {

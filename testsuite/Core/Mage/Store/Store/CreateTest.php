@@ -59,7 +59,7 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
     public function navigation()
     {
         $this->assertTrue($this->controlIsPresent('button', 'create_store'),
-                'There is no "Create Store" button on the page');
+            'There is no "Create Store" button on the page');
         $this->clickButton('create_store');
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store'), 'There is no "Save" button on the page');
@@ -77,12 +77,12 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3618
+     * @TestlinkId TL-MAGE-3618
      */
     public function withRequiredFieldsOnly()
     {
         //Steps
-        $this->storeHelper()->createStore('generic_store', 'store');
+        $this->storeHelper()->createStore('Store/generic_store', 'store');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_store');
     }
@@ -108,7 +108,7 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        $storeData = $this->loadData('generic_store', array($emptyField => '%noValue%'));
+        $storeData = $this->loadDataSet('Store', 'generic_store', array($emptyField => '%noValue%'));
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
@@ -126,7 +126,7 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array('store_name', 'field'),
-            array('root_category', 'dropdown'),
+            array('root_category', 'dropdown')
         );
     }
 
@@ -147,8 +147,8 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
     public function withLongValues()
     {
         //Data
-        $storeData = $this->loadData('generic_store',
-                array('store_name' => $this->generate('string', 255, ':alnum:')));
+        $storeData = $this->loadDataSet('Store', 'generic_store',
+            array('store_name' => $this->generate('string', 255, ':alnum:')));
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
@@ -168,13 +168,13 @@ class Core_Mage_Store_Store_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3619
+     * @TestlinkId TL-MAGE-3619
      */
     public function withSpecialCharactersInName()
     {
         //Data
-        $storeData = $this->loadData('generic_store',
-                array('store_name' => $this->generate('string', 32, ':punct:')));
+        $storeData = $this->loadDataSet('Store', 'generic_store',
+            array('store_name' => $this->generate('string', 32, ':punct:')));
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying

@@ -51,9 +51,9 @@ index_management:
                             selected_items: //strong[@id='indexer_processes_grid_massaction-count']
                             reindex_required: //tr[normalize-space(td/span)='Reindex Required']
                             update_required: //tr[normalize-space(td/span)='Yes']
+                            index_line: //table[@id='indexer_processes_grid_table']/tbody/tr
         messages:
-            success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'Product Prices index was rebuilt.')]
+            success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'%indexName% index was rebuilt.')]
             massaction_success_reindex: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtySelected% index(es) have reindexed data.')]
         page_specific_errors:
             - There was a problem with reindexing process.
-

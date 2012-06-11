@@ -42,7 +42,6 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
      */
     public function createAdminUser($userData)
     {
-        $userData = $this->arrayEmptyClear($userData);
         $this->clickButton('add_new_admin_user');
         $this->fillForm($userData, 'user_info');
         $first = (isset($userData['first_name'])) ? $userData['first_name'] : '';
@@ -63,12 +62,11 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
      */
     public function loginAdmin($loginData)
     {
-        $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
+        $waitCondition = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                               $this->_getControlXpath('pageelement', 'admin_logo'));
         $this->fillForm($loginData);
         $this->clickButton('login', false);
-        $this->waitForElement(array($dashboardLogo,
-                                   $this->_getMessageXpath('general_error'),
-                                   $this->_getMessageXpath('general_validation')));
+        $this->waitForElement($waitCondition);
         $this->validatePage();
     }
 
@@ -79,13 +77,13 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
      */
     public function forgotPassword($emailData)
     {
+        $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
+                               $this->_getMessageXpath('general_validation'));
         $this->clickControl('link', 'forgot_password');
         $this->assertTrue($this->checkCurrentPage('forgot_password'));
         $this->fillForm($emailData);
         $this->clickButton('retrieve_password', false);
-        $this->waitForElement(array($this->_getMessageXpath('general_success'),
-                                   $this->_getMessageXpath('general_error'),
-                                   $this->_getMessageXpath('general_validation')));
+        $this->waitForElement($waitCondition);
         $this->validatePage();
     }
 }

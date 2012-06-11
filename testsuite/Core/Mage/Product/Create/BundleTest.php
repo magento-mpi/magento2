@@ -43,7 +43,6 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -64,7 +63,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function requiredFieldsForDynamicSmoke()
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required');
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -89,7 +88,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function requiredFieldsForFixedSmoke()
     {
         //Data
-        $productData = $this->loadData('fixed_bundle_required');
+        $productData = $this->loadDataSet('Product', 'fixed_bundle_required');
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -114,8 +113,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function allFieldsForDynamic()
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle');
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -144,8 +144,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function allFieldsForFixed()
     {
         //Data
-        $productData = $this->loadData('fixed_bundle');
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'fixed_bundle');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -208,7 +209,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     {
         //Data
         $field = key($emptyField);
-        $productData = $this->loadData('fixed_bundle_required', $emptyField);
+        $productData = $this->loadDataSet('Product', 'fixed_bundle_required', $emptyField);
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -253,12 +254,13 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function specialCharactersInRequiredFields()
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required',
-                                       array('general_name'             => $this->generate('string', 32, ':punct:'),
-                                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                                            'general_sku'               => $this->generate('string', 32, ':punct:')));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required',
+            array('general_name'              => $this->generate('string', 32, ':punct:'),
+                  'general_description'       => $this->generate('string', 32, ':punct:'),
+                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'general_sku'               => $this->generate('string', 32, ':punct:')));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -287,13 +289,14 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function longValuesInRequiredFields()
     {
         //Data
-        $productData = $this->loadData('fixed_bundle_required',
-                                       array('general_name'             => $this->generate('string', 255, ':alnum:'),
-                                            'general_description'       => $this->generate('string', 255, ':alnum:'),
-                                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                                            'general_weight'            => 99999999.9999));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
+            array('general_name'              => $this->generate('string', 255, ':alnum:'),
+                  'general_description'       => $this->generate('string', 255, ':alnum:'),
+                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'general_sku'               => $this->generate('string', 64, ':alnum:'),
+                  'general_weight'            => 99999999.9999));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -321,8 +324,8 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function incorrectSkuLengthInBundle()
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required',
-                                       array('general_sku' => $this->generate('string', 65, ':alnum:')));
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required',
+            array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -348,8 +351,8 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidWeightInBundle()
     {
         //Data
-        $productData = $this->loadData('fixed_bundle_required',
-                                       array('general_weight' => $this->generate('string', 9, ':punct:')));
+        $productData = $this->loadDataSet('Product', 'fixed_bundle_required',
+            array('general_weight' => $this->generate('string', 9, ':punct:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -378,7 +381,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidPriceInBundle($invalidPrice)
     {
         //Data
-        $productData = $this->loadData('fixed_bundle_required', array('prices_price' => $invalidPrice));
+        $productData = $this->loadDataSet('Product', 'fixed_bundle_required', array('prices_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -408,7 +411,8 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidSpecialPriceInBundle($invalidValue)
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required', array('prices_special_price' => $invalidValue));
+        $productData =
+            $this->loadDataSet('Product', 'dynamic_bundle_required', array('prices_special_price' => $invalidValue));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -439,9 +443,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function emptyTierPriceFieldsInBundle($emptyTierPrice)
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required');
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
-                                                                   array($emptyTierPrice => '%noValue%'));
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
+        $productData['prices_tier_price_data'][] =
+            $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -480,12 +484,10 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidTierPriceInBundle($invalidTierData)
     {
         //Data
-        $tierData = array(
-            'prices_tier_price_qty'   => $invalidTierData,
-            'prices_tier_price_price' => $invalidTierData
-        );
-        $productData = $this->loadData('dynamic_bundle_required');
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
+        $tierData = array('prices_tier_price_qty'   => $invalidTierData,
+                          'prices_tier_price_price' => $invalidTierData);
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
+        $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -516,9 +518,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function emptyBundleItemsTitle()
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
-                                                                      array('bundle_items_default_title' => '%noValue%'));
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
+        $productData['bundle_items_data']['item_1'] =
+            $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_default_title' => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -550,9 +552,9 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function invalidPositionForBundleItems($invalidPosition)
     {
         //Data
-        $productData = $this->loadData('dynamic_bundle_required');
-        $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
-                                                                      array('bundle_items_position' => $invalidPosition));
+        $productData = $this->loadDataSet('Product', 'dynamic_bundle_required');
+        $productData['bundle_items_data']['item_1'] =
+            $this->loadDataSet('Product', 'bundle_item_1', array('bundle_items_position' => $invalidPosition));
         //Steps
         $this->productHelper()->createProduct($productData, 'bundle');
         //Verifying
@@ -586,11 +588,12 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function bundleWithSimpleProduct($dataBundleType)
     {
         //Data
-        $simpleData = $this->loadData('simple_product_required');
-        $option = $this->loadData('bundle_item_2',
-                                  array('bundle_items_search_sku' => $simpleData['general_sku']));
-        $bundleData = $this->loadData($dataBundleType, array('item_1'=> $option));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
+        $simpleData = $this->loadDataSet('Product', 'simple_product_required');
+        $option = $this->loadDataSet('Product', 'bundle_item_2',
+            array('bundle_items_search_sku' => $simpleData['general_sku']));
+        $bundleData = $this->loadDataSet('Product', $dataBundleType, array('item_1'=> $option));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
         //Verifying
@@ -630,11 +633,12 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
     public function bundleWithVirtualProduct($dataBundleType)
     {
         //Data
-        $virtualData = $this->loadData('virtual_product_required');
-        $option = $this->loadData('bundle_item_2',
-                                  array('bundle_items_search_sku' => $virtualData['general_sku']));
-        $bundleData = $this->loadData($dataBundleType, array('item_1'=> $option));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $bundleData['general_sku']));
+        $virtualData = $this->loadDataSet('Product', 'virtual_product_required');
+        $option = $this->loadDataSet('Product', 'bundle_item_2',
+            array('bundle_items_search_sku' => $virtualData['general_sku']));
+        $bundleData = $this->loadDataSet('Product', $dataBundleType, array('item_1'=> $option));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($virtualData, 'virtual');
         //Verifying

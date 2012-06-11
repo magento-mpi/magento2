@@ -35,18 +35,29 @@
  */
 class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
 {
-    public static $monthMap = array('1'  => '01 - January',
-                                    '2'  => '02 - February',
-                                    '3'  => '03 - March',
-                                    '4'  => '04 - April',
-                                    '5'  => '05 - May',
-                                    '6'  => '06 - June',
-                                    '7'  => '07 - July',
-                                    '8'  => '08 - August',
-                                    '9'  => '09 - September',
-                                    '10' => '10 - October',
-                                    '11' => '11 - November',
-                                    '12' => '12 - December');
+    public static $monthMap = array('1'  => '01 - January', '2'  => '02 - February', '3'  => '03 - March',
+                                    '4'  => '04 - April', '5'  => '05 - May', '6'  => '06 - June', '7'  => '07 - July',
+                                    '8'  => '08 - August', '9'  => '09 - September', '10' => '10 - October',
+                                    '11' => '11 - November', '12' => '12 - December');
+
+    /**
+     * Verify errors after order submitting. Skip tests if error from Paypal
+     */
+    public function verifyMagentoPayPalErrors()
+    {
+        $paypalErrors = array('PayPal gateway rejected the request', 'PayPal gateway has rejected request',
+                              'Unable to communicate with the PayPal gateway.',
+                              'Please verify the card with the issuer bank before placing the order.',
+                              'There was an error processing your order. Please contact us or try again later.');
+        $submitErrors = $this->getMessagesOnPage('error,validation,verification');
+        foreach ($submitErrors as $error) {
+            foreach ($paypalErrors as $paypalError) {
+                if (strpos($error, $paypalError) !== false) {
+                    $this->skipTestWithScreenshot(self::messagesToString($this->getMessagesOnPage()));
+                }
+            }
+        }
+    }
 
     ################################################################################
     #                                                                              #
@@ -70,6 +81,15 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->setCurrentPage($page);
     }
 
+    public function waitForNewPage()
+    {
+        try {
+            parent::waitForNewPage();
+        } catch (Exception $e) {
+            $this->skipTestWithScreenshot($e->getMessage());
+        }
+    }
+
     /**
      * Open paypal tab
      *
@@ -90,7 +110,11 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
      */
     public function paypalDeveloperLogin()
     {
-        $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+        try {
+            $this->goToArea('paypal_developer', 'paypal_developer_home', false);
+        } catch (Exception $e) {
+            $this->skipTestWithScreenshot($e->getMessage());
+        }
         $loginData = array('login_email'     => $this->_configHelper->getDefaultLogin(),
                            'login_password'  => $this->_configHelper->getDefaultPassword());
         $this->validatePage();
@@ -124,7 +148,15 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->fillForm($parameters);
         $this->clickButton('create_account', false);
         $this->waitForNewPage();
-        $this->assertMessagePresent('success');
+        //If get error message after account creation
+        $error = $this->errorMessage('failed_account_creation');
+        $error1 = $this->successMessage('success_created_account_without_card');
+        if ($error['success'] || $error1['success']) {
+            $delete = $this->getPaypalSandboxAccountInfo($parameters);
+            $this->deleteAccount($delete['email']);
+            return $this->createPreconfiguredAccount($parameters);
+        }
+        $this->assertMessagePresent('success', 'success_created_account');
         $this->validatePage('developer_created_test_account_us');
 
         return $this->getPaypalSandboxAccountInfo($parameters);
@@ -150,8 +182,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
                 $cardData = explode(':', $value);
                 $number = preg_replace('/\D/', '', $cardData[0]);
                 list($expMonth, $expYear) = explode('/', $cardData[1]);
-                $data[$key] = array('card_type'        => $parameters['add_credit_card'],
-                                    'card_number'      => $number,
+                $data[$key] = array('card_type'        => $parameters['add_credit_card'], 'card_number' => $number,
                                     'expiration_month' => self::$monthMap[trim($expMonth)],
                                     'expiration_year'  => $expYear);
             } else {
@@ -213,7 +244,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->addParameter('accountEmail', $email);
         $this->openPaypalTab('test_accounts');
         if ($this->controlIsPresent('checkbox', 'select_account')) {
-            $this->fillForm(array('select_account' => 'Yes'));
+            $this->fillCheckbox('select_account', 'Yes');
             $this->clickButtonAndConfirm('delete_account', 'confirmation_to_delete_account', false);
             $this->waitForNewPage();
         }
@@ -261,7 +292,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function paypalSandboxLogin($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if ($this->isElementPresent($xpath)) {
@@ -282,7 +315,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function paypalSandboxConfigure($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $this->addParameter('pageTitle', $parameters['page_title']);
         $this->validatePage();
@@ -301,7 +336,9 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function paypalPayOrder($parameters)
     {
         if (is_string($parameters)) {
-            $parameters = $this->loadData($parameters);
+            $elements = explode('/', $parameters);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if (!$this->isElementPresent($xpath)) {

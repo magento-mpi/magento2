@@ -119,9 +119,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                                           array('shipping'  => $shippingMethod,
-                                                'email'      => $testData['email']),
-                                           $testData['products1']);
+            array('shipping' => $shippingMethod,
+                  'email'    => $testData['email']), $testData['products1']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
@@ -156,10 +155,9 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     {
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_' . $shipment);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-                                           array('shipping'  => $shippingMethod,
-                                                'email'      => $testData['email']),
-                                           $testData['products2']);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_virtual',
+            array('shipping' => $shippingMethod,
+                  'email'    => $testData['email']), $testData['products2']);
         $shippingSettings = $this->loadDataSet('ShippingMethod', $shipment . '_enable');
         //Setup
         $this->navigate('system_configuration');
@@ -183,20 +181,20 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
 
     /**
      * @param array $testData
+     * @param string $dataSet
      * @param string $productTypes
      *
      * @test
      * @dataProvider productTypesProvider
      * @depends preconditionsForTests
      */
-    public function withDhlMethod($productTypes, $testData)
+    public function withDhlMethod($productTypes, $dataSet, $testData)
     {
         //Data
         $shippingMethod = $this->loadDataSet('Shipping', 'shipping_dhl');
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login_france',
-                                           array('shipping' => $shippingMethod,
-                                                'email'     => $testData['email']),
-                                           $testData[$productTypes]);
+        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', $dataSet,
+            array('shipping'  => $shippingMethod,
+                  'email'     => $testData['email']), $testData[$productTypes]);
         $shippingSettings = $this->loadDataSet('ShippingMethod', 'dhl_enable');
         $shippingOrigin = $this->loadDataSet('ShippingSettings', 'shipping_settings_usa');
         $this->navigate('system_configuration');
@@ -210,8 +208,8 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_ShippingMethodsTest extends M
     public function productTypesProvider()
     {
         return array(
-            array('products1'),
-            array('products2'),
+            array('products1', 'multiple_with_login_france'),
+            array('products2', 'multiple_with_login_france_virtual')
         );
     }
 }

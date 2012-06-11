@@ -52,7 +52,7 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         //Data
-        $storeView = $this->loadData('generic_store_view');
+        $storeView = $this->loadDataSet('StoreView', 'generic_store_view');
         //Steps
         $this->navigate('manage_stores');
         $this->storeHelper()->createStore($storeView, 'store_view');
@@ -75,12 +75,12 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * @return array
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3474
+     * @TestlinkId TL-MAGE-3474
      */
     public function withRequiredFieldsOnly()
     {
         //Data
-        $ratingData = $this->loadData('rating_required_fields');
+        $ratingData = $this->loadDataSet('ReviewAndRating', 'rating_required_fields');
         //Steps
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($ratingData);
@@ -101,15 +101,16 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Error message appears - "This is a required field";</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3470
+     * @TestlinkId TL-MAGE-3470
      */
     public function withEmptyDefaultValue()
     {
         //Data
-        $ratingData = $this->loadData('rating_required_fields', array('default_value' => '%noValue%'));
+        $rating =
+            $this->loadDataSet('ReviewAndRating', 'rating_required_fields', array('default_value' => '%noValue%'));
         //Steps
         $this->navigate('manage_ratings');
-        $this->ratingHelper()->createRating($ratingData);
+        $this->ratingHelper()->createRating($rating);
         //Verification
         $this->addFieldIdToMessage('field', 'default_value');
         $this->assertMessagePresent('validation', 'empty_required_field');
@@ -161,8 +162,9 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      */
     public function withAllFields($storeView)
     {
-        $rating = $this->loadData('default_rating', array('visible_in' => $storeView));
-        $search = $this->loadData('search_rating', array('filter_rating_name' => $rating['default_value']));
+        $rating = $this->loadDataSet('ReviewAndRating', 'default_rating', array('visible_in' => $storeView));
+        $search = $this->loadDataSet('ReviewAndRating', 'search_rating',
+            array('filter_rating_name' => $rating['default_value']));
         //Steps
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($rating);
@@ -190,8 +192,9 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      */
     public function withLongValues($storeView)
     {
-        $rating = $this->loadData('rating_long_values', array('visible_in' => $storeView));
-        $search = $this->loadData('search_rating', array('filter_rating_name' => $rating['default_value']));
+        $rating = $this->loadDataSet('ReviewAndRating', 'rating_long_values', array('visible_in' => $storeView));
+        $search = $this->loadDataSet('ReviewAndRating', 'search_rating',
+            array('filter_rating_name' => $rating['default_value']));
         //Steps
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($rating);
@@ -212,14 +215,16 @@ class Core_Mage_Rating_CreateTest extends Mage_Selenium_TestCase
      * <p>Received the message that the rating has been saved.</p>
      *
      * @param $storeView
+     *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId	TL-MAGE-3475
+     * @TestlinkId TL-MAGE-3475
      */
     public function withSpecialCharacters($storeView)
     {
-        $rating = $this->loadData('rating_special_symbols', array('visible_in' => $storeView));
-        $search = $this->loadData('search_rating', array('filter_rating_name' => $rating['default_value']));
+        $rating = $this->loadDataSet('ReviewAndRating', 'rating_special_symbols', array('visible_in' => $storeView));
+        $search = $this->loadDataSet('ReviewAndRating', 'search_rating',
+            array('filter_rating_name' => $rating['default_value']));
         //Steps
         $this->navigate('manage_ratings');
         $this->ratingHelper()->createRating($rating);

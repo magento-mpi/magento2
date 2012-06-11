@@ -60,7 +60,7 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $customerTaxClassData = $this->loadData('new_customer_tax_class');
+        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class');
         //Steps
         $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
         //Verifying
@@ -82,9 +82,10 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Customer Tax class Core_Mage_should not be created, error message appears</p>
      *
-     * @depends withRequiredFieldsOnly
      * @param array $customerTaxClassData
+     *
      * @test
+     * @depends withRequiredFieldsOnly
      */
     public function withNameThatAlreadyExists($customerTaxClassData)
     {
@@ -103,13 +104,13 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected Result:</p>
      * <p>Customer Tax class Core_Mage_should not be created, error message appears</p>
      *
-     * @depends withRequiredFieldsOnly
      * @test
+     * @depends withRequiredFieldsOnly
      */
     public function withEmptyName()
     {
         //Data
-        $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => ''));
+        $customerTaxClassData = $this->loadDataSet('Tax', 'new_customer_tax_class', array('customer_class_name' => ''));
         //Steps
         $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
         //Verifying
@@ -127,23 +128,22 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>All fields has the same values.</p>
      *
-     * @dataProvider withSpecialValuesDataProvider
+     * @param string $specialValue
+     *
      * @test
-     *
-     * @param array $specialValue
-     *
+     * @dataProvider withSpecialValuesDataProvider
      * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
     {
         //Data
-        $customerTaxClassData = $this->loadData('new_customer_tax_class', array('customer_class_name' => $specialValue));
+        $taxClass = $this->loadDataSet('Tax', 'new_customer_tax_class', array('customer_class_name' => $specialValue));
         //Steps
-        $this->taxHelper()->createTaxItem($customerTaxClassData, 'customer_class');
+        $this->taxHelper()->createTaxItem($taxClass, 'customer_class');
         $this->assertMessagePresent('success', 'success_saved_tax_class');
         //Verifying
-        $this->taxHelper()->openTaxItem($customerTaxClassData, 'customer_class');
-        $this->assertTrue($this->verifyForm($customerTaxClassData), $this->getParsedMessages());
+        $this->taxHelper()->openTaxItem($taxClass, 'customer_class');
+        $this->assertTrue($this->verifyForm($taxClass), $this->getParsedMessages());
     }
 
     public function withSpecialValuesDataProvider()

@@ -43,7 +43,6 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_attributes');
-        $this->addParameter('id', 0);
     }
 
     /**
@@ -67,9 +66,9 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     public function deleteProductAttributeDeletable($dataName)
     {
         //Data
-        $attrData = $this->loadData($dataName, null, array('attribute_code', 'admin_title'));
-        $searchData = $this->loadData('attribute_search_data',
-                array('attribute_code' => $attrData['attribute_code']));
+        $attrData = $this->loadDataSet('ProductAttribute', $dataName);
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code' => $attrData['attribute_code']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
@@ -104,21 +103,19 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
      * <p>"Delete Attribute" button isn't present.</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3342
+     * @TestlinkId TL-MAGE-3342
      */
     public function deletedSystemAttribute()
     {
-        $searchData = $this->loadData('attribute_search_data',
-                array(
-                    'attribute_code'  => 'description',
-                    'attribute_label' => 'Description',
-                    'system'          => 'Yes'
-                ));
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code'  => 'description',
+                  'attribute_label' => 'Description',
+                  'system'          => 'Yes'));
         //Steps
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->assertFalse($this->buttonIsPresent('delete_attribute'),
-                '"Delete Attribute" button is present on the page');
+            '"Delete Attribute" button is present on the page');
     }
 
     /**
@@ -129,18 +126,14 @@ class Core_Mage_ProductAttribute_DeleteTest extends Mage_Selenium_TestCase
     public function deletedDropdownAttributeUsedInConfigurableProduct()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
-        $productData = $this->loadData('configurable_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title']),
-                array('general_sku', 'general_name'));
-        $searchData = $this->loadData('attribute_search_data',
-                array(
-                    'attribute_code'  => $attrData['attribute_code'],
-                    'attribute_label' => $attrData['admin_title']
-                ));
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('General' => $attrData['attribute_code']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required',
+            array('configurable_attribute_title' => $attrData['admin_title']));
+        $searchData = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
+            array('attribute_code'  => $attrData['attribute_code'],
+                  'attribute_label' => $attrData['admin_title']));
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying

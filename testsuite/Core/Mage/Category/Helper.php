@@ -42,6 +42,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      * @param string $catName
      * @param null|string $parentCategoryId
      * @param string $fieldsetName
+     *
      * @return array
      */
     public function defineCorrectCategory($catName, $parentCategoryId = null, $fieldsetName = 'select_category')
@@ -51,15 +52,15 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
 
         if (!$parentCategoryId) {
             $this->addParameter('rootName', $catName);
-            $catXpath = $this->_getControlXpath('link', 'root_category',
-                                                $this->_findUimapElement('fieldset', $fieldsetName));
+            $catXpath =
+                $this->_getControlXpath('link', 'root_category', $this->_findUimapElement('fieldset', $fieldsetName));
         } else {
             $this->addParameter('parentCategoryId', $parentCategoryId);
             $this->addParameter('subName', $catName);
-            $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category',
-                                                          $this->_findUimapElement('fieldset', $fieldsetName));
-            $catXpath = $this->_getControlXpath('link', 'sub_category',
-                                                $this->_findUimapElement('fieldset', $fieldsetName));
+            $isDiscloseCategory =
+                $this->_getControlXpath('link', 'expand_category', $this->_findUimapElement('fieldset', $fieldsetName));
+            $catXpath =
+                $this->_getControlXpath('link', 'sub_category', $this->_findUimapElement('fieldset', $fieldsetName));
             if ($this->isElementPresent($isDiscloseCategory)) {
                 $this->click($isDiscloseCategory);
                 $this->pleaseWait();
@@ -130,7 +131,6 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      */
     public function fillCategoryInfo(array $categoryData)
     {
-        $categoryData = $this->arrayEmptyClear($categoryData);
         $page = $this->getCurrentUimapPage();
         $tabs = $page->getAllTabs();
         foreach ($tabs as $tab => $values) {
@@ -155,24 +155,26 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
     public function createCategory($categoryData)
     {
         if (is_string($categoryData)) {
-            $categoryData = $this->loadData($categoryData);
+            $elements = explode('/', $categoryData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $categoryData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $categoryData = $this->arrayEmptyClear($categoryData);
         if (array_key_exists('parent_category', $categoryData)) {
             $this->selectCategory($categoryData['parent_category']);
-            $xpath = $this->_getControlXpath('button', 'add_sub_category',
-                                             $this->_findUimapElement('fieldset', 'select_category'));
+            $this->clickButton('add_sub_category', false);
         } else {
-            $xpath = $this->_getControlXpath('button', 'add_root_category',
-                                             $this->_findUimapElement('fieldset', 'select_category'));
+            $this->clickButton('add_root_category', false);
         }
-        $this->click($xpath);
         $this->pleaseWait();
         $this->fillCategoryInfo($categoryData);
         if (isset($categoryData['name'])) {
             $this->addParameter('elementTitle', $categoryData['name']);
         }
-        $this->saveForm('save_category');
+        $waitCondition = array("//*[@id='category-edit-container']//h3[not(contains(text(),'New'))]",
+                               $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
+        $this->clickButton('save_category', false);
+        $this->waitForElement($waitCondition);
+        $this->validatePage();
     }
 
     /**
@@ -182,12 +184,10 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('id', $this->defineIdFromUrl());
         $currentPage = $this->_findCurrentPageFromUrl();
-        if ($currentPage != 'edit_manage_categories' && $currentPage != 'manage_categories'
-            && $currentPage != 'edit_category'
-        ) {
+        if (!in_array($currentPage, array('edit_manage_categories', 'manage_categories', 'edit_category'))) {
             $this->fail("Opened the wrong page: '" . $currentPage . "' (should be: 'manage_categories')");
         }
-        $this->validatePage($currentPage);
+        $this->setCurrentPage($currentPage);
     }
 
     /**
@@ -195,6 +195,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      *
      * @param string $buttonName
      * @param string $message
+     *
      * @return bool
      */
     public function deleteCategory($buttonName, $message)
@@ -234,14 +235,16 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      * Validates product information in category
      *
      * @param array|string $productsInfo
+     *
      * @return bool
      */
     public function frontOpenCategoryAndValidateProduct($productsInfo)
     {
         if (is_string($productsInfo)) {
-            $productsInfo = $this->loadData($productsInfo);
+            $elements = explode('/', $productsInfo);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $productsInfo = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $productsInfo = $this->arrayEmptyClear($productsInfo);
         $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : NULL;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : NULL;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
@@ -261,6 +264,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      * OpenCategory
      *
      * @param string $categoryPath
+     *
      * @return boolean
      */
     public function frontOpenCategory($categoryPath)
@@ -285,7 +289,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         if ($this->isElementPresent($link)) {
             //Determine category mca parameters
             $mca = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(),
-                            $this->getAttribute($link . '@href'));
+                $this->getAttribute($link . '@href'));
             if (preg_match('/\.html$/', $mca)) {
                 if (preg_match('|/|', $mca)) {
                     $mcaNodes = explode('/', $mca);
@@ -321,6 +325,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      *
      * @param string $productName
      * @param string $category
+     *
      * @return mixed
      */
     public function frontSearchAndOpenPageWithProduct($productName, $category)
@@ -357,12 +362,12 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
             $productName = "Product with name '$productName': ";
         }
         $pageelements = $this->getCurrentUimapPage()->getAllPageelements();
-        $verificationData = $this->arrayEmptyClear($verificationData);
         foreach ($verificationData as $key => $value) {
             $this->addParameter('price', $value);
             $xpathPrice = $this->getCurrentUimapPage()->findPageelement($key);
             if (!$this->isElementPresent($xpathPrice)) {
-                $this->addVerificationMessage($productName . 'Could not find element ' . $key . ' with price ' . $value);
+                $this->addVerificationMessage(
+                    $productName . 'Could not find element ' . $key . ' with price ' . $value);
             }
             unset($pageelements['ex_' . $key]);
         }

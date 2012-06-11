@@ -43,7 +43,6 @@ class Core_Mage_CmsPolls_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('poll_manager');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -56,14 +55,14 @@ class Core_Mage_CmsPolls_DeleteTest extends Mage_Selenium_TestCase
      * <p>Received the message that the Poll has been deleted.</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3222
+     * @TestlinkId TL-MAGE-3222
      */
     public function deleteNewPoll()
     {
         //Data
-        $pollData = $this->loadData('poll_open');
-        $searchPollData = $this->loadData('search_poll',
-                array('filter_question' => $pollData['poll_question']));
+        $pollData = $this->loadDataSet('CmsPoll', 'poll_open');
+        $searchPollData = $this->loadDataSet('CmsPoll', 'search_poll',
+            array('filter_question' => $pollData['poll_question']));
         //Steps
         $this->cmsPollsHelper()->createPoll($pollData);
         //Verifying

@@ -59,7 +59,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function navigation()
     {
         $this->assertTrue($this->controlIsPresent('button', 'create_website'),
-                'There is no "Create Website" button on the page');
+            'There is no "Create Website" button on the page');
         $this->clickButton('create_website');
         $this->assertTrue($this->checkCurrentPage('new_website'), $this->getParsedMessages());
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
@@ -80,12 +80,12 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      * @return array
      * @test
      * @depends navigation
-     * @TestlinkId	TL-MAGE-3618
+     * @TestlinkId TL-MAGE-3618
      */
     public function withRequiredFieldsOnly()
     {
         //Data
-        $websiteData = $this->loadData('generic_website');
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -139,7 +139,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $websiteData = $this->loadData('generic_website', array($emptyField => '%noValue%'));
+        $websiteData = $this->loadDataSet('Website', 'generic_website', array($emptyField => '%noValue%'));
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -169,16 +169,14 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3616
+     * @TestlinkId TL-MAGE-3616
      */
     public function withLongValues()
     {
         //Data
-        $longValues = array(
-            'website_name' => $this->generate('string', 255, ':alnum:'),
-            'website_code' => $this->generate('string', 32, ':lower:')
-        );
-        $websiteData = $this->loadData('generic_website', $longValues);
+        $longValues = array('website_name' => $this->generate('string', 255, ':alnum:'),
+                            'website_code' => $this->generate('string', 32, ':lower:'));
+        $websiteData = $this->loadDataSet('Website', 'generic_website', $longValues);
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -198,13 +196,13 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3619
+     * @TestlinkId TL-MAGE-3619
      */
     public function withSpecialCharactersInName()
     {
         //Data
-        $websiteData = $this->loadData('generic_website',
-                array('website_name' => $this->generate('string', 32, ':punct:')));
+        $websiteData = $this->loadDataSet('Website', 'generic_website',
+            array('website_name' => $this->generate('string', 32, ':punct:')));
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -232,7 +230,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
     public function withInvalidCode($invalidCode)
     {
         //Data
-        $websiteData = $this->loadData('generic_website', array('website_code' => $invalidCode));
+        $websiteData = $this->loadDataSet('Website', 'generic_website', array('website_code' => $invalidCode));
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -258,13 +256,13 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-5347
+     * @TestlinkId TL-MAGE-5347
      */
     public function withSeveralStoresAssignedToOneRootCategory()
     {
         //1.1.Create website
         //Data
-        $websiteData = $this->loadData('generic_website');
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
@@ -273,7 +271,7 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
         //1.2.Create two stores
         for ($i = 1; $i <= 2; $i++) {
             //Data
-            $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
+            $storeData = $this->loadDataSet('Store', 'generic_store', array('website' => $websiteData['website_name']));
             //Steps
             $this->storeHelper()->createStore($storeData, 'store');
             //Verifying
@@ -292,20 +290,20 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-5349
+     * @TestlinkId TL-MAGE-5349
      */
     public function withSeveralStoresViewsInOneStore()
     {
         //1.1.Create website
         //Data
-        $websiteData = $this->loadData('generic_website');
+        $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_website');
         //1.2.Create store
         //Data
-        $storeData = $this->loadData('generic_store', array('website' => $websiteData['website_name']));
+        $storeData = $this->loadDataSet('Store', 'generic_store', array('website' => $websiteData['website_name']));
         //Steps
         $this->storeHelper()->createStore($storeData, 'store');
         //Verifying
@@ -314,7 +312,8 @@ class Core_Mage_Store_Website_CreateTest extends Mage_Selenium_TestCase
         //1.3.Create two store view
         for ($i = 1; $i <= 2; $i++) {
             //Data
-            $storeViewData = $this->loadData('generic_store_view', array('store_name' => $storeData['store_name']));
+            $storeViewData =
+                $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
             //Steps
             $this->storeHelper()->createStore($storeViewData, 'store_view');
             //Verifying

@@ -43,7 +43,6 @@ class Core_Mage_CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_cms_static_blocks');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -56,14 +55,14 @@ class Core_Mage_CmsStaticBlocks_DeleteTest extends Mage_Selenium_TestCase
      * <p>Received the message that the block has been deleted.</p>
      *
      * @test
-     * @TestlinkId	TL-MAGE-3228
+     * @TestlinkId TL-MAGE-3228
      */
     public function deleteNew()
     {
         //Data
-        $setData = $this->loadData('new_static_block');
-        $blockToDelete = $this->loadData('search_static_block',
-                array('filter_block_identifier' => $setData['block_identifier']));
+        $setData = $this->loadDataSet('CmsStaticBlock', 'new_static_block');
+        $blockToDelete = $this->loadDataSet('CmsStaticBlock', 'search_static_block',
+            array('filter_block_identifier' => $setData['block_identifier']));
         //Steps
         $this->cmsStaticBlocksHelper()->createStaticBlock($setData);
         //Verifying

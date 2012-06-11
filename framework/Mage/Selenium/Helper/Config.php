@@ -282,12 +282,15 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
 
     /**
      * Return all area configs for current application
+     *
+     * @param bool $loadDefault Will override current settings with default values
+     *
      * @return array
      * @throws OutOfRangeException
      */
-    public function getConfigAreas()
+    public function getConfigAreas($loadDefault = false)
     {
-        if (!$this->_configAreas) {
+        if (!$this->_configAreas || $loadDefault) {
             $config = $this->getApplicationConfig();
             if (!isset($config['areas'])) {
                 throw new OutOfRangeException('Areas for "' . $this->_application . '" application are not set');

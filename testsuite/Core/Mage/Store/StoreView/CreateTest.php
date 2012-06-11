@@ -59,12 +59,12 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function navigation()
     {
         $this->assertTrue($this->controlIsPresent('button', 'create_store_view'),
-                'There is no "Create Store View" button on the page');
+            'There is no "Create Store View" button on the page');
         $this->clickButton('create_store_view');
         $this->assertTrue($this->checkCurrentPage('new_store_view'), $this->getParsedMessages());
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_store_view'),
-                'There is no "Save" button on the page');
+            'There is no "Save" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'reset'), 'There is no "Reset" button on the page');
     }
 
@@ -86,7 +86,7 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view');
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
@@ -107,9 +107,10 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      * <p>Error Message is displayed.</p>
      *
      * @param array $storeViewData
+     *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3624
+     * @TestlinkId TL-MAGE-3624
      */
     public function withCodeThatAlreadyExists(array $storeViewData)
     {
@@ -139,7 +140,7 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view', array($emptyField => '%noValue%'));
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view', array($emptyField => '%noValue%'));
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
@@ -169,16 +170,14 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3626
+     * @TestlinkId    TL-MAGE-3626
      */
     public function withLongValues()
     {
         //Data
-        $longValues = array(
-            'store_view_name' => $this->generate('string', 255, ':alnum:'),
-            'store_view_code' => $this->generate('string', 32, ':lower:')
-        );
-        $storeViewData = $this->loadData('generic_store_view', $longValues);
+        $longValues = array('store_view_name' => $this->generate('string', 255, ':alnum:'),
+                            'store_view_code' => $this->generate('string', 32, ':lower:'));
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view', $longValues);
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
@@ -198,13 +197,13 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends withRequiredFieldsOnly
-     * @TestlinkId	TL-MAGE-3630
+     * @TestlinkId TL-MAGE-3630
      */
     public function withSpecialCharactersInName()
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view',
-                array('store_view_name' => $this->generate('string', 32, ':punct:')));
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view',
+            array('store_view_name' => $this->generate('string', 32, ':punct:')));
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
@@ -229,8 +228,8 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialCharactersInCode()
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view',
-                array('store_view_code' => $this->generate('string', 32, ':punct:')));
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view',
+            array('store_view_code' => $this->generate('string', 32, ':punct:')));
         //Steps
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         //Verifying
@@ -258,9 +257,9 @@ class Core_Mage_Store_StoreView_CreateTest extends Mage_Selenium_TestCase
     public function withInvalidCode($invalidCode)
     {
         //Data
-        $storeViewData = $this->loadData('generic_store_view', array('store_view_code' => $invalidCode));
+        $storeView = $this->loadDataSet('StoreView', 'generic_store_view', array('store_view_code' => $invalidCode));
         //Steps
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->storeHelper()->createStore($storeView, 'store_view');
         //Verifying
         $this->assertMessagePresent('error', 'wrong_store_view_code');
     }

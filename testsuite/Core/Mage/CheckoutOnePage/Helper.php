@@ -55,17 +55,31 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function frontCreateCheckout($checkoutData)
     {
         if (is_string($checkoutData)) {
-            $checkoutData = $this->loadData($checkoutData);
+            $elements = explode('/', $checkoutData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $checkoutData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $this->doOnePageCheckoutSteps($checkoutData);
         $this->frontOrderReview($checkoutData);
-        $this->clickButton('place_order', false);
-        $this->waitForAjax();
-        $this->assertTrue($this->verifyNotPresetAlert(), $this->getParsedMessages());
-        $this->waitForTextNotPresent('Submitting order information.');
-        $this->waitForTextPresent('Thank you for your purchase!');
-        $this->validatePage('onepage_checkout_success');
+        return $this->submitOnePageCheckoutOrder();
+    }
 
+    /**
+     * @return string
+     */
+    public function submitOnePageCheckoutOrder()
+    {
+        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
+        $waitConditions = array($this->_getMessageXpath('success_checkout'), $errorMessageXpath,
+                                $this->_getMessageXpath('general_validation'));
+        $this->clickButton('place_order', false);
+        $this->waitForElementOrAlert($waitConditions);
+        $this->verifyNotPresetAlert();
+        //@TODO
+        //Remove workaround for getting fails,
+        //not skipping tests if payment methods are inaccessible
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
+        $this->validatePage('onepage_checkout_success');
         $xpath = $this->_getControlXpath('link', 'order_number');
         if ($this->isElementPresent($xpath)) {
             return $this->getText($xpath);
@@ -79,7 +93,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function doOnePageCheckoutSteps($checkoutData)
     {
-        $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $customer = (isset($checkoutData['checkout_as_customer'])) ? $checkoutData['checkout_as_customer'] : array();
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
@@ -136,24 +149,24 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function goToNextOnePageCheckoutStep($fieldsetName)
     {
-        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName);
         $buttonName = $fieldsetName . '_continue';
+        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
+        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
+        $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton($buttonName, false);
-        $this->waitForAjax();
-        if ($this->verifyNotPresetAlert()) {
-            $this->waitForElement(array($setXpath . self::$notActiveTab,
-                                       $this->_getMessageXpath('general_error'),
-                                       $this->_getMessageXpath('general_validation')));
-            sleep(1);
-            if (!$this->isElementPresent($setXpath . self::$notActiveTab)) {
+        $this->waitForElementOrAlert($waitCondition);
+        if (!$this->isElementPresent($setXpath)) {
+            $error = $this->errorMessage();
+            $validation = $this->validationMessage();
+            if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
                 $messages = self::messagesToString($this->getMessagesOnPage());
-                if ($messages != null) {
-                    $this->clearMessages('verification');
-                    $this->addVerificationMessage($messages);
-                }
+                $this->clearMessages('verification');
+                $this->fail($messages);
             }
         }
-        $this->assertEmptyVerificationErrors();
+        if ($fieldsetName !== 'checkout_method') {
+            $this->waitForElement($this->_getControlXpath('link', $fieldsetName . '_change'));
+        }
     }
 
     /**
@@ -168,11 +181,11 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 
         switch ($checkoutType) {
             case 'guest':
-                $this->fillForm(array('checkout_as_guest' => 'Yes'));
+                $this->fillCheckbox('checkout_as_guest', 'Yes');
                 $this->goToNextOnePageCheckoutStep('checkout_method');
                 break;
             case 'register':
-                $this->fillForm(array('register' => 'Yes'));
+                $this->fillCheckbox('register', 'Yes');
                 $this->goToNextOnePageCheckoutStep('checkout_method');
                 break;
             case 'login':
@@ -182,8 +195,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $billingSetXpath = $this->_getControlXpath('fieldset', 'billing_information');
                 $this->clickButton('login', false);
                 $this->waitForElement(array($billingSetXpath . self::$activeTab,
-                                           $this->_getMessageXpath('general_error'),
-                                           $this->_getMessageXpath('general_validation')));
+                                            $this->_getMessageXpath('general_error'),
+                                            $this->_getMessageXpath('general_validation')));
                 break;
             default:
                 $this->goToNextOnePageCheckoutStep('checkout_method');
@@ -212,8 +225,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
                 $noShipping = $this->_getControlXpath('message', 'no_shipping');
                 if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
-                    //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped('Shipping Service "' . $service . '" is currently unavailable.');
+                    //@TODO
+                    //Remove workaround for getting fails, not skipping tests if shipping methods are not available
+                    $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
                 } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
                     $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
@@ -222,17 +236,19 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                         $this->click($methodXpath);
                         $this->waitForAjax();
                     } elseif (!$this->isElementPresent($selectedMethod)) {
-                        $this->addVerificationMessage('Shipping Method "' . $method . '" for "'
-                                                          . $service . '" is currently unavailable');
+                        $this->addVerificationMessage(
+                            'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
                     }
                 } else {
-                    //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
-                    $this->markTestSkipped($service . ': This shipping method is currently not display');
-                    //$this->addVerificationMessage($service . ': This shipping method is currently not display');
+                    //@TODO
+                    //Remove workaround for getting fails, not skipping tests if shipping methods are not available
+                    $this->skipTestWithScreenshot($service . ': This shipping method is currently not displayed');
+                    //$this->addVerificationMessage($service . ': This shipping method is currently not displayed');
                 }
             }
 
             if (array_key_exists('add_gift_options', $shipMethod)) {
+                $this->fillForm($shipMethod['add_gift_options']);
                 $this->frontAddGiftMessage($shipMethod['add_gift_options']);
             }
 
@@ -252,7 +268,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $this->fillForm($giftOptions['entire_order']);
         }
         if (array_key_exists('individual_items', $giftOptions)) {
-            $this->fillForm(array('gift_option_for_individual_items' => 'Yes'));
+            $this->fillCheckbox('gift_option_for_individual_items', 'Yes');
             foreach ($giftOptions['individual_items'] as $dataset) {
                 if (isset($dataset['product_name'])) {
                     $this->addParameter('productName', $dataset['product_name']);
@@ -266,6 +282,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      * Selecting payment method
      *
      * @param array $paymentMethod
+     *
+     * @return bool
      */
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
@@ -281,6 +299,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $this->click($xpath);
             } elseif (!$this->isElementPresent($selectedPayment)) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
+                return false;
             }
             if ($card) {
                 $paymentId = $this->getAttribute($xpath . '/@value');
@@ -289,6 +308,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
         }
         $this->goToNextOnePageCheckoutStep('payment_method');
+        return true;
     }
 
     /**
@@ -312,7 +332,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
             $this->selectFrame($frame);
             $this->waitForElement($xpathSubmit);
-            $this->fillForm(array('3d_password' => $password));
+            $this->fillField('3d_password', $password);
             $this->click($xpathSubmit);
             $this->waitForElement(array($incorrectPassword, $xpathContinue, $xpath . "[@style='display: none;']"));
             if ($this->isElementPresent($xpathContinue)) {
@@ -342,7 +362,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 break;
             case 'exist':
                 $addressLine = $this->orderHelper()->defineAddressToChoose($addressData, $addressType);
-                $this->fillForm(array($addressType . '_address_choice' => $addressLine));
+                $this->fillDropdown($addressType . '_address_choice', $addressLine);
                 break;
             default:
                 $this->fail('Incorrect ' . $addressType . ' address type');
@@ -421,7 +441,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->assertOnePageCheckoutTabOpened('order_review');
         $this->frontValidate3dSecure();
 
-        $checkoutData = $this->arrayEmptyClear($checkoutData);
         $products = (isset($checkoutData['products_to_add'])) ? $checkoutData['products_to_add'] : array();
         $billing = (isset($checkoutData['billing_address_data'])) ? $checkoutData['billing_address_data'] : array();
         $shipping = (isset($checkoutData['shipping_address_data'])) ? $checkoutData['shipping_address_data'] : array();
@@ -440,9 +459,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
 
         if ($billing) {
-            $skipBilling = array('billing_address_choice', 'billing_email', 'ship_to_this_address',
-                                 'billing_street_address_2', 'ship_to_different_address', 'billing_password',
-                                 'billing_confirm_password');
+            $skipBilling =
+                array('billing_address_choice', 'billing_email', 'ship_to_this_address', 'billing_street_address_2',
+                      'ship_to_different_address', 'billing_password', 'billing_confirm_password');
             if (isset($shipping['use_billing_address']) && $shipping['use_billing_address'] == 'Yes') {
                 foreach ($billing as $key => $value) {
                     if (!in_array($key, $skipBilling)) {
@@ -454,8 +473,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
 
         if ($shipping) {
-            $skipShipping = array('shipping_street_address_2', 'shipping_address_choice',
-                                  'shipping_save_in_address_book', 'use_billing_address');
+            $skipShipping =
+                array('shipping_street_address_2', 'shipping_address_choice', 'shipping_save_in_address_book',
+                      'use_billing_address');
             $this->frontVerifyTypedAddress($shipping, $skipShipping, 'shipping');
         }
 
@@ -478,8 +498,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             }
             $text = $this->getText($xpathPayMethod);
             if (strcmp($text, $payMethod['payment_method']) != 0) {
-                $this->addVerificationMessage('Payment method should be: ' . $payMethod['payment_method']
-                                                  . ' but now ' . $text);
+                $this->addVerificationMessage(
+                    'Payment method should be: ' . $payMethod['payment_method'] . ' but now ' . $text);
             }
         }
 
@@ -515,8 +535,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         if (array_key_exists($type . '_first_name', $addressData)
             && array_key_exists($type . '_last_name', $addressData)
         ) {
-            $addressData[$type . '_name'] = $addressData[$type . '_first_name']
-                . ' ' . $addressData[$type . '_last_name'];
+            $addressData[$type . '_name'] =
+                $addressData[$type . '_first_name'] . ' ' . $addressData[$type . '_last_name'];
             $skipFields[] = $type . '_first_name';
             $skipFields[] = $type . '_last_name';
         }
@@ -526,8 +546,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 continue;
             }
             if (!in_array($value, $actualAddress)) {
-                $this->addVerificationMessage($field . ' with value ' . $value
-                                                  . ' is not shown on the checkout progress bar');
+                $this->addVerificationMessage(
+                    $field . ' with value ' . $value . ' is not shown on the checkout progress bar');
             }
         }
     }

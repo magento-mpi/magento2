@@ -43,7 +43,6 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -64,7 +63,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function requiredFieldsInDownloadable()
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required', null, array('general_name', 'general_sku'));
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -92,8 +91,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function allFieldsInDownloadable()
     {
         //Data
-        $productData = $this->loadData('downloadable_product', null, array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'downloadable_product');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -162,7 +162,7 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         } else {
             $overrideData = array($emptyField => '%noValue%');
         }
-        $productData = $this->loadData('downloadable_product_required', $overrideData, 'general_sku');
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required', $overrideData);
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -205,14 +205,13 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function specialCharactersInRequiredFields()
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required',
-                                       array(
-                                            'general_name'              => $this->generate('string', 32, ':punct:'),
-                                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                                            'general_sku'               => $this->generate('string', 32, ':punct:')
-                                       ));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('general_name'              => $this->generate('string', 32, ':punct:'),
+                  'general_description'       => $this->generate('string', 32, ':punct:'),
+                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'general_sku'               => $this->generate('string', 32, ':punct:')));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -242,14 +241,13 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function longValuesInRequiredFields()
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required',
-                                       array(
-                                            'general_name'              => $this->generate('string', 255, ':alnum:'),
-                                            'general_description'       => $this->generate('string', 255, ':alnum:'),
-                                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                                            'general_sku'               => $this->generate('string', 64, ':alnum:'),
-                                       ));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('general_name'              => $this->generate('string', 255, ':alnum:'),
+                  'general_description'       => $this->generate('string', 255, ':alnum:'),
+                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'general_sku'               => $this->generate('string', 64, ':alnum:'),));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -279,8 +277,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function incorrectSkuLengthInDownloadable()
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required',
-                                       array('general_sku' => $this->generate('string', 65, ':alnum:')));
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -309,8 +307,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function invalidPriceInDownloadable($invalidPrice)
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required', array('prices_price' => $invalidPrice),
-                                       'general_sku');
+        $productData =
+            $this->loadDataSet('Product', 'downloadable_product_required', array('prices_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -340,8 +338,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function invalidSpecialPriceInDownloadable($invalidValue)
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required', array('prices_special_price' => $invalidValue),
-                                       'general_sku');
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required',
+            array('prices_special_price' => $invalidValue));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -372,9 +370,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function emptyTierPriceFields($emptyTierPrice)
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
-                                                                   array($emptyTierPrice => '%noValue%'));
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required');
+        $productData['prices_tier_price_data'][] =
+            $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -413,12 +411,10 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function invalidTierPriceInDownloadable($invalidTierData)
     {
         //Data
-        $tierData = array(
-            'prices_tier_price_qty'   => $invalidTierData,
-            'prices_tier_price_price' => $invalidTierData
-        );
-        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
+        $tierData = array('prices_tier_price_qty'   => $invalidTierData,
+                          'prices_tier_price_price' => $invalidTierData);
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required');
+        $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -450,8 +446,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function invalidQtyInDownloadable($invalidQty)
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required', array('inventory_qty' => $invalidQty),
-                                       'general_sku');
+        $productData =
+            $this->loadDataSet('Product', 'downloadable_product_required', array('inventory_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -491,9 +487,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function emptyFieldForSamples($emptyField)
     {
         // Data
-        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_sample_1'] =
-            $this->loadData('downloadable_samples', array($emptyField => '%noValue%'));
+            $this->loadDataSet('Product', 'downloadable_samples', array($emptyField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
 
@@ -538,9 +534,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function emptyFieldForLinks($emptyField)
     {
         // Data
-        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_link_1'] =
-            $this->loadData('downloadable_links', array($emptyField => '%noValue%'));
+            $this->loadDataSet('Product', 'downloadable_links', array($emptyField => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying
@@ -582,9 +578,9 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
     public function invalidLinksPriceInDownloadable($invalidValue)
     {
         //Data
-        $productData = $this->loadData('downloadable_product_required', null, 'general_sku');
+        $productData = $this->loadDataSet('Product', 'downloadable_product_required');
         $productData['downloadable_information_data']['downloadable_link_1'] =
-            $this->loadData('downloadable_links', array('downloadable_link_row_price' => $invalidValue));
+            $this->loadDataSet('Product', 'downloadable_links', array('downloadable_link_row_price' => $invalidValue));
         //Steps
         $this->productHelper()->createProduct($productData, 'downloadable');
         //Verifying

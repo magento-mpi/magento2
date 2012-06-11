@@ -59,9 +59,10 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     public function fillTabs($ruleData)
     {
         if (is_string($ruleData)) {
-            $ruleData = $this->loadData($ruleData);
+            $elements = explode('/', $ruleData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $ruleData = $this->arrayEmptyClear($ruleData);
         $ruleInfo = (isset($ruleData['info'])) ? $ruleData['info'] : array();
         $ruleConditions = (isset($ruleData['conditions'])) ? $ruleData['conditions'] : array();
         $ruleActions = (isset($ruleData['actions'])) ? $ruleData['actions'] : array();
@@ -250,7 +251,6 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
      */
     public function openRule(array $ruleSearch)
     {
-        $ruleSearch = $this->arrayEmptyClear($ruleSearch);
         $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
         $this->assertNotNull($xpathTR, 'Rule with next search criteria:' . "\n"
             . implode(' and ', $ruleSearch) . "\n" . 'is not found');
@@ -297,9 +297,10 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     public function verifyRuleData($ruleData)
     {
         if (is_string($ruleData)) {
-            $ruleData = $this->loadData($ruleData);
+            $elements = explode('/', $ruleData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $ruleData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $ruleData = $this->arrayEmptyClear($ruleData);
         $simpleVerify = array();
         $specialVerify = array();
         foreach ($ruleData as $tabData) {

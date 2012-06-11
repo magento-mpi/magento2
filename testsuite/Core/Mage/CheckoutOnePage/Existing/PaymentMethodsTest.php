@@ -104,12 +104,11 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
-                                           array('general_name' => $testData['sku'],
-                                                'email_address' => $userData['email'],
-                                                'payment_data'  => $this->loadDataSet('Payment',
-                                                                                      'payment_' . $payment)));
+            array('general_name'  => $testData['sku'],
+                  'email_address' => $userData['email'],
+                  'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
         if ($payment != 'checkmoney') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
@@ -123,22 +122,13 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
-        $this->logoutCustomer();
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_registration');
-        //Steps
-        $this->logoutCustomer();
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_checkout');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_checkout')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function differentPaymentMethodsWithout3DDataProvider()
@@ -186,12 +176,11 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
-                                           array('general_name' => $testData['sku'],
-                                                'email_address' => $userData['email'],
-                                                'payment_data'  => $this->loadDataSet('Payment',
-                                                                                      'payment_' . $payment)));
+            array('general_name'  => $testData['sku'],
+                  'email_address' => $userData['email'],
+                  'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
@@ -200,22 +189,13 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
         }
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
-        $this->logoutCustomer();
-        $this->navigate('customer_login');
-        $this->customerHelper()->registerCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_registration');
-        //Steps
-        $this->logoutCustomer();
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
-        //@TODO Uncomment and remove workaround for getting fails, not skipping tests if payment methods are inaccessible
-        //$this->assertMessagePresent('success', 'success_checkout');
-        //Workaround start
-        if (!$this->controlIsPresent('message', 'success_checkout')) {
-            $this->markTestSkipped("Messages on the page:\n" . self::messagesToString($this->getMessagesOnPage()));
-        }
-        //Workaround finish
+        $this->assertMessagePresent('success', 'success_checkout');
     }
 
     public function differentPaymentMethodsWith3DDataProvider()

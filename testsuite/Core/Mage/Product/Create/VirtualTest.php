@@ -43,7 +43,6 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -64,8 +63,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function onlyRequiredFieldsInVirtual()
     {
         //Data
-        $productData = $this->loadData('virtual_product_required', null,
-                                       array('general_name', 'general_sku'));
+        $productData = $this->loadDataSet('Product', 'virtual_product_required');
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -93,16 +91,16 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function allFieldsInVirtual()
     {
         //Data
-        $productData = $this->loadData('virtual_product', null, array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $product = $this->loadDataSet('Product', 'virtual_product');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
+        $this->productHelper()->createProduct($product, 'virtual');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData);
+        $this->productHelper()->verifyProductInfo($product);
     }
 
     /**
@@ -156,21 +154,16 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
         //Data
-        if ($emptyField == 'general_sku') {
-            $productData = $this->loadData('virtual_product_required',
-                                           array($emptyField => '%noValue%'));
-        } elseif ($emptyField == 'general_visibility') {
-            $productData = $this->loadData('virtual_product_required',
-                                           array($emptyField => '-- Please Select --'), 'general_sku');
+        if ($emptyField == 'general_visibility') {
+            $product =
+                $this->loadDataSet('Product', 'virtual_product_required', array($emptyField => '-- Please Select --'));
         } elseif ($emptyField == 'inventory_qty') {
-            $productData = $this->loadData('virtual_product_required', array($emptyField => ''),
-                                           'general_sku');
+            $product = $this->loadDataSet('Product', 'virtual_product_required', array($emptyField => ''));
         } else {
-            $productData = $this->loadData('virtual_product_required',
-                                           array($emptyField => '%noValue%'), 'general_sku');
+            $product = $this->loadDataSet('Product', 'virtual_product_required', array($emptyField => '%noValue%'));
         }
         //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
+        $this->productHelper()->createProduct($product, 'virtual');
         //Verifying
         $this->addFieldIdToMessage($fieldType, $emptyField);
         $this->assertMessagePresent('validation', 'empty_required_field');
@@ -211,23 +204,20 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function specialCharactersInRequiredFields()
     {
         //Data
-        $productData = $this->loadData('virtual_product_required',
-                                       array(
-                                            'general_name'              => $this->generate('string', 32, ':punct:'),
-                                            'general_description'       => $this->generate('string', 32, ':punct:'),
-                                            'general_short_description' => $this->generate('string', 32, ':punct:'),
-                                            'general_sku'               => $this->generate('string', 32, ':punct:')
-                                       ));
-        $productSearch = $this->loadData('product_search',
-                                         array('product_sku' => $productData['general_sku']));
+        $product = $this->loadDataSet('Product', 'virtual_product_required',
+            array('general_name'              => $this->generate('string', 32, ':punct:'),
+                  'general_description'       => $this->generate('string', 32, ':punct:'),
+                  'general_short_description' => $this->generate('string', 32, ':punct:'),
+                  'general_sku'               => $this->generate('string', 32, ':punct:')));
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $product['general_sku']));
         //Steps
-        $this->productHelper()->createProduct($productData, 'virtual');
+        $this->productHelper()->createProduct($product, 'virtual');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         //Verifying
-        $this->productHelper()->verifyProductInfo($productData);
+        $this->productHelper()->verifyProductInfo($product);
     }
 
     /**
@@ -247,15 +237,13 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function longValuesInRequiredFields()
     {
         //Data
-        $productData = $this->loadData('virtual_product_required',
-                                       array(
-                                            'general_name'              => $this->generate('string', 255, ':alnum:'),
-                                            'general_description'       => $this->generate('string', 255, ':alnum:'),
-                                            'general_short_description' => $this->generate('string', 255, ':alnum:'),
-                                            'general_sku'               => $this->generate('string', 64, ':alnum:')
-                                       ));
-        $productSearch = $this->loadData('product_search',
-                                         array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', 'virtual_product_required',
+            array('general_name'              => $this->generate('string', 255, ':alnum:'),
+                  'general_description'       => $this->generate('string', 255, ':alnum:'),
+                  'general_short_description' => $this->generate('string', 255, ':alnum:'),
+                  'general_sku'               => $this->generate('string', 64, ':alnum:')));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -285,8 +273,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function incorrectSkuLengthInVirtual()
     {
         //Data
-        $productData = $this->loadData('virtual_product_required',
-                                       array('general_sku' => $this->generate('string', 65, ':alnum:')));
+        $productData = $this->loadDataSet('Product', 'virtual_product_required',
+            array('general_sku' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -314,8 +302,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function invalidPriceInVirtual($invalidPrice)
     {
         //Data
-        $productData = $this->loadData('virtual_product_required',
-                                       array('prices_price' => $invalidPrice), 'general_sku');
+        $productData =
+            $this->loadDataSet('Product', 'virtual_product_required', array('prices_price' => $invalidPrice));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -345,8 +333,8 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function invalidSpecialPriceInVirtual($invalidValue)
     {
         //Data
-        $productData = $this->loadData('virtual_product_required',
-                                       array('prices_special_price' => $invalidValue), 'general_sku');
+        $productData =
+            $this->loadDataSet('Product', 'virtual_product_required', array('prices_special_price' => $invalidValue));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -377,9 +365,9 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function emptyTierPriceFields($emptyTierPrice)
     {
         //Data
-        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1',
-                                                                   array($emptyTierPrice => '%noValue%'));
+        $productData = $this->loadDataSet('Product', 'virtual_product_required');
+        $productData['prices_tier_price_data'][] =
+            $this->loadDataSet('Product', 'prices_tier_price_1', array($emptyTierPrice => '%noValue%'));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -392,7 +380,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     {
         return array(
             array('prices_tier_price_qty'),
-            array('prices_tier_price_price'),
+            array('prices_tier_price_price')
         );
     }
 
@@ -418,12 +406,10 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function invalidTierPriceInVirtual($invalidTierData)
     {
         //Data
-        $tierData = array(
-            'prices_tier_price_qty'   => $invalidTierData,
-            'prices_tier_price_price' => $invalidTierData
-        );
-        $productData = $this->loadData('virtual_product_required', null, 'general_sku');
-        $productData['prices_tier_price_data'][] = $this->loadData('prices_tier_price_1', $tierData);
+        $tierData = array('prices_tier_price_qty'   => $invalidTierData,
+                          'prices_tier_price_price' => $invalidTierData);
+        $productData = $this->loadDataSet('Product', 'virtual_product_required');
+        $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying
@@ -455,8 +441,7 @@ class Core_Mage_Product_Create_VirtualTest extends Mage_Selenium_TestCase
     public function invalidQtyInVirtual($invalidQty)
     {
         //Data
-        $productData = $this->loadData('virtual_product_required',
-                                       array('inventory_qty' => $invalidQty), 'general_sku');
+        $productData = $this->loadDataSet('Product', 'virtual_product_required', array('inventory_qty' => $invalidQty));
         //Steps
         $this->productHelper()->createProduct($productData, 'virtual');
         //Verifying

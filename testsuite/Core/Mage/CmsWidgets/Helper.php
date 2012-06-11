@@ -43,9 +43,10 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
     public function createWidget($widgetData)
     {
         if (is_string($widgetData)) {
-            $widgetData = $this->loadData($widgetData);
+            $elements = explode('/', $widgetData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $widgetData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $widgetData = $this->arrayEmptyClear($widgetData);
         $settings = (isset($widgetData['settings'])) ? $widgetData['settings'] : array();
         $frontProperties = (isset($widgetData['frontend_properties'])) ? $widgetData['frontend_properties'] : array();
         $layoutUpdates = (isset($widgetData['layout_updates'])) ? $widgetData['layout_updates'] : array();
@@ -54,7 +55,8 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->clickButton('add_new_widget_instance');
         $this->fillWidgetSettings($settings);
         if (array_key_exists('assign_to_store_views', $frontProperties)
-                && !$this->controlIsPresent('multiselect', 'assign_to_store_views')) {
+            && !$this->controlIsPresent('multiselect', 'assign_to_store_views')
+        ) {
             unset($frontProperties['assign_to_store_views']);
         }
         $this->fillForm($frontProperties, 'frontend_properties');
@@ -169,7 +171,6 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
      */
     public function openWidget(array $searchWidget)
     {
-        $searchWidget = $this->arrayEmptyClear($searchWidget);
         $xpathTR = $this->search($searchWidget, 'cms_widgets_grid');
         $this->assertNotEquals(null, $xpathTR, 'Widget is not found');
         $cellId = $this->getColumnIdByName('Widget Instance Title');

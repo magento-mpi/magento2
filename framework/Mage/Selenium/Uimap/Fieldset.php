@@ -68,6 +68,15 @@ class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
     }
 
     /**
+     * Get Fieldset ID
+     * @return string
+     */
+    public function getFieldsetId()
+    {
+        return $this->_fieldsetId;
+    }
+
+    /**
      * Get Fieldset elements
      * @return array
      */

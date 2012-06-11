@@ -1,0 +1,61 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# System - Content Staging - Log
+manage_staging_operations_log:
+    mca: staging_log/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'staging_log/')]
+    title: Log / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    staging_operations_log_grid:
+                        xpath: //div[@id='enterpriseStagingHistoryGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            filter_id_from: //input[@id='enterpriseStagingHistoryGrid_filter_log_id_from']
+                            filter_id_to: //input[@id='enterpriseStagingHistoryGrid_filter_log_id_to']
+                            filter_logged_at_from: //input[@name='created_at[from]']
+                            filter_logged_at_to: //input[@name='created_at[to]']
+                            filter_website_from: //input[@id='enterpriseStagingHistoryGrid_filter_from']
+                            filter_website_to: //input[@id='enterpriseStagingHistoryGrid_filter_to']
+                            page: //input[@name='page']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_action: //select[@id='enterpriseStagingHistoryGrid_filter_action']
+                            filter_result: //select[@id='enterpriseStagingHistoryGrid_filter_status']
+                        pageelements:
+                            grid_head: //table[@id='enterpriseStagingManageGrid_table']//tr[@class='headings']
+
+
+view_staging_log:
+    mca: staging_log/view/id/%id%/
+    title: Log Entry / Log / Content Staging / System / Magento Admin
+
