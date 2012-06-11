@@ -17,6 +17,12 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     const BLUR_FACTOR = 0.7;
 
     /**
+     * Error messages
+     */
+    const ERROR_WATERMARK_IMAGE_ABSENT = 'Watermark Image absent.';
+    const ERROR_WRONG_IMAGE = 'Image is not readable or file name is empty.';
+
+    /**
      * Options Container
      *
      * @var array
@@ -243,7 +249,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity = 30, $tile = false)
     {
         if (empty($imagePath) || !file_exists($imagePath)) {
-            throw new Exception('Watermark Image absent.');
+            throw new Exception(self::ERROR_WATERMARK_IMAGE_ABSENT);
         }
         $this->_checkCanProcess();
 
@@ -402,7 +408,7 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     protected function _checkCanProcess()
     {
         if (!$this->_canProcess()) {
-            throw new Exception('Image is not readable or file name is empty.');
+            throw new Exception(self::ERROR_WRONG_IMAGE);
         }
         return true;
     }
