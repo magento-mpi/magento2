@@ -154,17 +154,7 @@ class Api_Catalog_Product_ConfigurableTest extends Api_Catalog_ProductAbstract
     public function testCreateInvalidFrontendLabel()
     {
         $productData = $this->_getHelper()->getCreateDataWithInvalidConfigurableOptionLabel();
-        /** @var $attributeOne Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeOne = $this->getFixture('eav_configurable_attribute_1');
-        /** @var $attributeTwo Mage_Catalog_Model_Resource_Eav_Attribute */
-        $attributeTwo = $this->getFixture('eav_configurable_attribute_2');
-        // Validate outcome
-        $expectedMessages = array(
-            sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
-                . 'is required.', $attributeOne->getAttributeCode()),
-            sprintf('The "frontend_label" value for the configurable attribute with code "%s" '
-                . 'is required.', $attributeTwo->getAttributeCode()),
-        );
+        $expectedMessages = "SOAP-ERROR: Encoding: object has no 'frontend_label' property";
         $this->_createProductWithErrorMessagesCheck($productData, $expectedMessages);
     }
 }

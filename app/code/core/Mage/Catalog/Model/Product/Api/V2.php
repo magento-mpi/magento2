@@ -173,22 +173,12 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
 
         $this->_prepareDataForSave($product, $productData);
 
+        // TODO: Temporary validation solution before global architectural changes
+        $validator = Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract::getValidatorByProductType($type);
+        if (!$validator->isValidForCreate($product, $this->_prepareDataForValidator($product, $productData))) {
+            $this->_processValidationErrors($validator);
+        }
         try {
-            /**
-             * @todo implement full validation process with errors returning which are ignoring now
-             * @todo see Mage_Catalog_Model_Product::validate()
-             */
-            if (is_array($errors = $product->validate())) {
-                $strErrors = array();
-                foreach($errors as $code => $error) {
-                    if ($error === true) {
-                        $error = Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute "%s" is invalid.', $code);
-                    }
-                    $strErrors[] = $error;
-                }
-                $this->_fault('data_invalid', implode("\n", $strErrors));
-            }
-
             $product->save();
         } catch (Mage_Core_Exception $e) {
             $this->_fault('data_invalid', $e->getMessage());
@@ -366,4 +356,35 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         );
     }
 
+    /**
+     * Fetch validation errors from validator object and set them to rest response
+     *
+     * @param Mage_Api2_Model_Resource_Validator $validator
+     */
+    protected function _processValidationErrors(Mage_Api2_Model_Resource_Validator $validator)
+    {
+        $errors = $validator->getErrors();
+        $this->_fault('data_invalid', implode("\n", $errors));
+    }
+
+    /**
+     * Prepare data for validation
+     * TODO: Temporary validation solution before global architectural changes
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param object $productData
+     * @return array
+     */
+    protected function _prepareDataForValidator($product, $productData)
+    {
+        /** @var $helper Mage_Api_Helper_Data */
+        $helper = Mage::helper('Mage_Api_Helper_Data');
+        $helper->v2AssociativeArrayUnpacker($productData);
+        $helper->toArray($productData);
+        $data = $productData;
+        $data['type_id'] = $product->getTypeId();
+        $data['sku'] = $product->getSku();
+        $data['attribute_set_id'] = $product->getAttributeSetId();
+        return $data;
+    }
 }

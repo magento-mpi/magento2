@@ -161,7 +161,8 @@ class Mage_Catalog_Model_Api2_Product_Rest_Admin_V1 extends Mage_Catalog_Model_A
         $this->_prevalidateRequiredFields($data);
         $type = $data['type_id'];
         /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::getModel('Mage_Catalog_Model_Product')->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
+        $product = Mage::getModel('Mage_Catalog_Model_Product')
+            ->setStoreId(Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID)
             ->setAttributeSetId($data['attribute_set_id'])->setTypeId($type)->setSku($data['sku']);
         foreach ($product->getMediaAttributes() as $mediaAttribute) {
             $mediaAttrCode = $mediaAttribute->getAttributeCode();
