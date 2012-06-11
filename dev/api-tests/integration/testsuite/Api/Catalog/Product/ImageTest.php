@@ -24,7 +24,7 @@ class Api_Catalog_Product_ImageTest extends Magento_Test_Webservice
      */
     protected function setUp()
     {
-        $productFixture = require dirname(__FILE__) . '/../Product/_fixture/ProductData.php';
+        $productFixture = require dirname(__FILE__) . '_fixture/ProductData.php';
         $product        = new Mage_Catalog_Model_Product;
 
         $product->setData($productFixture['create_full_fledged']);
