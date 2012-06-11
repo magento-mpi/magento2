@@ -520,4 +520,40 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
             $this->assertFalse($isFound, 'Checkbox was found');
         }
     }
+    /**
+     * <p>Export with skipped some attributes</p>
+     * <p>Steps</p>
+     * <p>1. Admin is logged in at backend</p>
+     * <p>2. Select the export version "Magento 2.0" and "Master Type File"</p>
+     * <p>3. Select  "SKIP" checkbox for the row with the attribute Date of Birth (for example)</p>
+     * <p>4. Press "Continue" button and save file to your computer</p>
+     * <p>5. Verify exported file</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5489
+     */
+    public function exportCustomerWithSkippedAttribute()
+    {
+       //Step 1,2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 2
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        $this->fillDropdown('export_file', 'Customers Main File');
+        $this->waitForAjax();
+        //Step 3
+        $isFound = $this->ImportExportHelper()->customerSkipAttribute(
+            array(
+                'attribute_label' => 'Date Of Birth'),
+            'grid_and_filter'
+        );
+        $this->assertTrue($isFound, 'Date of Birth attribute was not found');
+        //Step 4
+        $report = $this->ImportExportHelper()->export();
+        //Verifying
+        //search in array key = 'dob'
+        $this->assertFalse(array_key_exists('dob', $report[0]),
+            'Skipped attribute was found in export file. Attribute Code: dob');
+    }
 }
