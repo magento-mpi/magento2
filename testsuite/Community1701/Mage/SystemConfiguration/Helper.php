@@ -76,10 +76,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
             if (is_null($paymentName) || is_null($generalSection)) {
                 throw new RuntimeException('Error');
             }
-            $class = $this->getAttribute($this->_getControlXpath('fieldset', $generalSection) . '@class');
-            if (!preg_match('/active/', $class)) {
-                $this->clickControl('link', $generalSection . '_section', false);
-            }
+            $this->disclosePaypalFieldset($generalSection);
             if ($this->controlIsVisible('button', $paymentName . '_configure')) {
                 $this->clickButton($paymentName . '_configure', false);
             }
@@ -87,18 +84,9 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                 if (!is_array($dataSet)) {
                     continue;
                 }
-                $fullPath = explode('/', $dataSet['path']);
-                $fullPath = array_map('trim', $fullPath);
-                $data = $dataSet['data'];
-
-                foreach ($fullPath as $node) {
-                    $class = $this->getAttribute($this->_getControlXpath('fieldset', $node) . '@class');
-                    if (!preg_match('/active/', $class)) {
-                        $this->clickControl('link', $node . '_section', false);
-                    }
-                }
+                $this->disclosePaypalFieldset($dataSet['path']);
                 $forFill = array();
-                foreach ($data as $key => $value) {
+                foreach ($dataSet['data'] as $key => $value) {
                     $forFill[$paymentName . '_' . $key] = $value;
                 }
                 $this->fillFieldset($forFill, end($fullPath));
@@ -121,6 +109,37 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                 }
             }
             $this->assertEmptyVerificationErrors();
+        }
+    }
+
+    /**
+     * @param string $path
+     */
+    public function disclosePaypalFieldset($path)
+    {
+        $fullPath = explode('/', $path);
+        $fullPath = array_map('trim', $fullPath);
+        foreach ($fullPath as $node) {
+            $class = $this->getAttribute($this->_getControlXpath('fieldset', $node) . '@class');
+            if (!preg_match('/active/', $class)) {
+                $this->clickControl('link', $node . '_section', false);
+            }
+        }
+    }
+
+    /**
+     * @param string $country
+     */
+    public function selectPaypalCountry($country)
+    {
+        $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
+        $toSelect = $xpath . '//option[normalize-space(text())="' . $country . '"]';
+        $isSelected = $toSelect . '[@selected]';
+        if (!$this->isElementPresent($isSelected)) {
+            $this->addParameter('country', $this->getValue($toSelect));
+            $this->fillDropdown('merchant_country', $country);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
         }
     }
 
