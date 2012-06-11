@@ -19,10 +19,6 @@ class Varien_Image_Adapter_ImageMagickTest extends PHPUnit_Framework_TestCase
      */
     protected $_object;
 
-    protected function setUp()
-    {
-    }
-
     public function tearDown()
     {
         Magento_Test_Environment::getInstance()->cleanTmpDirOnShutdown();
@@ -36,6 +32,7 @@ class Varien_Image_Adapter_ImageMagickTest extends PHPUnit_Framework_TestCase
         try {
             $this->_object = new Varien_Image_Adapter_ImageMagick;
             $this->_object->watermark($imagePath);
+            $this->fail('An expected exception has not been raised.');
         } catch (Exception $e) {
             $this->assertContains($e->getMessage(), $expectedResult);
         }
