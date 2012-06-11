@@ -23,14 +23,14 @@ class Mage_Core_Model_App_EmulationTest extends PHPUnit_Framework_TestCase
     public function testEnvironmentEmulation()
     {
         $this->_model = new Mage_Core_Model_App_Emulation();
-        Mage::getDesign()->setArea('adminhtml');
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
 
         $initialEnvInfo = $this->_model->startEnvironmentEmulation(1);
         $initialDesign = $initialEnvInfo->getInitialDesign();
-        $this->assertEquals('adminhtml', $initialDesign['area']);
-        $this->assertEquals('frontend', Mage::getDesign()->getArea());
+        $this->assertEquals(Mage_Core_Model_App_Area::AREA_ADMINHTML, $initialDesign['area']);
+        $this->assertEquals(Mage_Core_Model_App_Area::AREA_FRONTEND, Mage::getDesign()->getArea());
 
         $this->_model->stopEnvironmentEmulation($initialEnvInfo);
-        $this->assertEquals('adminhtml', Mage::getDesign()->getArea());
+        $this->assertEquals(Mage_Core_Model_App_Area::AREA_ADMINHTML, Mage::getDesign()->getArea());
     }
 }

@@ -36,7 +36,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $this->_model->generateGiftCardAccounts($observer);
 
         $this->assertEquals(
-            array('area' => 'frontend', 'store' => 1),
+            array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),
             $emailTemplateModel->getDesignConfig()->getData()
         );
 
