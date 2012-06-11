@@ -145,8 +145,10 @@ class Php_Exemplar_CodeStyleTest extends PHPUnit_Framework_TestCase
         if (!$elements) {
             return;
         }
-        $numErrorsActual = count($report->xpath('/checkstyle/file/error[@severity="error"]'));
-        $numWarningsActual = count($report->xpath('/checkstyle/file/error[@severity="warning"]'));
+        $errorNode = $report->xpath('/checkstyle/file/error[@severity="error"]');
+        $warningNode = $report->xpath('/checkstyle/file/error[@severity="warning"]');
+        $numErrorsActual = is_array($errorNode) ? count($errorNode) : 0;
+        $numWarningsActual = is_array($warningNode) ? count($warningNode) : 0;
 
         $element = $elements[0];
         $attributes = $element->attributes();
