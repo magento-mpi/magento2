@@ -41,6 +41,17 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Backend_Model_Menu();
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testAddWithExistingMenuItemIdThrowsException()
+    {
+        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item->expects($this->exactly(2))->method('getId')->will($this->returnValue('item1'));
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($item);
+    }
+
     public function testAdd()
     {
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
@@ -51,7 +62,17 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testAddToItem()
     {
-        $this->markTestIncomplete();
+        $subMenu = $this->getMock("Mage_Backend_Model_Menu");
+        $subMenu->expects($this->once())
+            ->method("add")
+            ->with($this->_items['item2']);
+
+        $this->_items['item1']->expects($this->once())
+            ->method("getChildren")
+            ->will($this->returnValue($subMenu));
+
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2'], 'item1');
     }
 
     public function testAddWithSortIndexThatAlreadyExistsAddsItemOnNextAvailableIndex()

@@ -23,11 +23,16 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
      */
     protected $_menuMock;
 
+    /**
+     * @var
+     */
+    protected $_factoryMock;
+
     public function setUp()
     {
         $that = $this;
-        $factory = $this->getMock("Mage_Backend_Model_Menu_Item_Factory", array(), array(), '', false);
-        $factory->expects($this->any())
+        $this->_factoryMock = $this->getMock("Mage_Backend_Model_Menu_Item_Factory", array(), array(), '', false);
+        $this->_factoryMock->expects($this->any())
             ->method('createFromArray')
             ->will(
                 $this->returnCallback(
@@ -39,7 +44,7 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu');
 
         $this->_model = new Mage_Backend_Model_Menu_Builder(array(
-            'itemFactory' => $factory,
+            'itemFactory' => $this->_factoryMock,
             'menu' => $this->_menuMock
         ));
     }
@@ -65,23 +70,49 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
-                array('id' => 1, 'title' => 'Item 1', 'module' => 'Mage_Backend')
+                array('id' => 'item1', 'title' => 'Item 1', 'module' => 'Mage_Backend', 'sortOrder' => 2)
             )
         );
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
-                array('id' => 2, 'parent' => 1, 'title' => 'two', 'module' => 'Mage_Backend')
+                array(
+                    'id' => 'item2', 'parent' => 'item1', 'title' => 'two',
+                    'module' => 'Mage_Backend', 'sortOrder' => 4
+                )
             )
         );
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
-                array('id' => 3, 'parent' => 2, 'title' => 'three', 'module' => 'Mage_Backend')
+                array(
+                    'id' => 'item3', 'parent' => 'item2', 'title' => 'three',
+                    'module' => 'Mage_Backend', 'sortOrder' => 6
+                )
             )
         );
 
-        $this->_menuMock->expects($this->exactly(1))
+        $this->_menuMock->expects($this->at(0))
             ->method('add')
-            ->with($this->isInstanceOf('Mage_Backend_Model_Menu_Item'));
+            ->with(
+                $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
+                $this->equalTo(null),
+                $this->equalTo(2)
+            );
+
+        $this->_menuMock->expects($this->at(1))
+            ->method('add')
+            ->with(
+                $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
+                $this->equalTo('item1'),
+                $this->equalTo(4)
+            );
+
+        $this->_menuMock->expects($this->at(2))
+            ->method('add')
+            ->with(
+                $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
+                $this->equalTo('item2'),
+                $this->equalTo(6)
+            );
 
         $this->_model->getResult();
     }

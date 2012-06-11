@@ -76,18 +76,26 @@ class Mage_Backend_Model_Menu_Builder
             $params[$id] = $command->execute(array());
             if (!isset($params[$id]['removed'])) {
                 $item = $this->_itemFactory->createFromArray($params[$id]);
-                $items[$item->getId()] = $item;
+                $items[$id] = $item;
             } else {
                 unset($params[$id]);
             }
         }
 
-        foreach($items as $item) {
-            $this->_menu->add(
-                $item,
-                isset($params[$item->getId()]['parent']) ? $params[$item->getId()]['parent'] : null,
-                isset($params[$item->getId()]['sortOrder']) ? $params[$item->getId()]['sortOrder'] : null
-            );
+        foreach($items as $id => $item) {
+            if (!isset($params[$id]['parent'])) {
+                $this->_menu->add(
+                    $item,
+                    null,
+                    isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
+                );
+            } else {
+                $items[$params[$id]['parent']]->getChildren()->add(
+                    $item,
+                    isset($params[$id]['parent']) ? $params[$id]['parent'] : null,
+                    isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
+                );
+            }
         }
         return $this->_menu;
     }
