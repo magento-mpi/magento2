@@ -20,27 +20,33 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
      */
     public function testSetOrder()
     {
-        /** @var $first Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection */
-        /** @var $second Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection */
-
         $collection = new Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection();
 
+        $first  = new Varien_Object(array('id' => 9));
+        $second = new Varien_Object(array('id' => 10));
+
+        $collection->addItem($first);
+        $collection->addItem($second);
+
+        /** @var $orderFirst Varien_Object */
+        /** @var $orderSecond Varien_Object */
+
         $collection->setOrder('id', Varien_Data_Collection::SORT_ORDER_ASC);
-        list($first, $second) = array_values($collection->getItems());
-        $this->assertEquals(9, $first->getId());
-        $this->assertEquals(10, $second->getId());
+        list($orderFirst, $orderSecond) = array_values($collection->getItems());
+        $this->assertEquals($first->getId(), $orderFirst->getId());
+        $this->assertEquals($second->getId(), $orderSecond->getId());
 
         $collection->setOrder('id', Varien_Data_Collection::SORT_ORDER_DESC);
         list($first, $second) = array_values($collection->getItems());
-        $this->assertEquals(10, $first->getId());
-        $this->assertEquals(9, $second->getId());
+        $this->assertEquals($second->getId(), $orderFirst->getId());
+        $this->assertEquals($first->getId(), $orderSecond->getId());
     }
 
     public function testCompareAttributes()
     {
         $collection = new Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection();
         $collection->setOrder('id');
-        $first = new Varien_Object(array('id' => 9));
+        $first  = new Varien_Object(array('id' => 9));
         $second = new Varien_Object(array('id' => 10));
 
         $this->assertLessThan(0, $collection->compareAttributes($first, $second));
@@ -62,7 +68,5 @@ class Stub_UnitTest_Enterprise_ImportExport_Model_Resource_Customer_Attribute_Fi
      */
     public function __construct()
     {
-        $this->addItem(new Varien_Object(array('id' => 9)));
-        $this->addItem(new Varien_Object(array('id' => 10)));
     }
 }

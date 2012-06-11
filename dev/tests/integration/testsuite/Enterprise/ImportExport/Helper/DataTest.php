@@ -29,6 +29,16 @@ class Mage_ImportExport_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Unset helper
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        self::$_importExportHelper = null;
+    }
+
+    /**
      * Is reward points enabled in config - active/enabled
      *
      * @magentoConfigFixture               modules/Enterprise_Reward/active      1

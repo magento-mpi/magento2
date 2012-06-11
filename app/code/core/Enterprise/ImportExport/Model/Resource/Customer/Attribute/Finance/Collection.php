@@ -25,11 +25,11 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
     const CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS = 2;
     /**#@-*/
 
-    /**
+    /**#@+
      * Column names
      */
-    const COL_CUSTOMER_BALANCE = 'store_credit';
-    const COL_REWARD_POINTS = 'reward_points';
+    const COLUMN_CUSTOMER_BALANCE = 'store_credit';
+    const COLUMN_REWARD_POINTS = 'reward_points';
 
     /** @var string */
     protected $_orderField;
@@ -45,7 +45,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
         if ($helper->isCustomerBalanceEnabled()) {
             $storeCreditData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
-                'attribute_code' => self::COL_CUSTOMER_BALANCE,
+                'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
                 'frontend_label' => $helper->__('Store Credit'),
                 'backend_type'   => 'int',
             );
@@ -55,7 +55,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
         if ($helper->isRewardPointsEnabled()) {
             $rewardPointsData = array(
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
-                'attribute_code' => self::COL_REWARD_POINTS,
+                'attribute_code' => self::COLUMN_REWARD_POINTS,
                 'frontend_label' => $helper->__('Reward Points'),
                 'backend_type'   => 'int',
             );

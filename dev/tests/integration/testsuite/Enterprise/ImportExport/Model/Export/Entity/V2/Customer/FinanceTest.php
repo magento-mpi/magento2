@@ -10,8 +10,10 @@
  */
 
 /**
- * @magentoConfigFixture modules/Enterprise_Reward/active          1
- * @magentoConfigFixture modules/Enterprise_CustomerBalance/active 1
+ * @magentoConfigFixture                modules/Enterprise_Reward/active               1
+ * @magentoConfigFixture                modules/Enterprise_CustomerBalance/active      1
+ * @magentoConfigFixture current_store enterprise_reward/general/is_enabled            1
+ * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
  */
 class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
@@ -29,11 +31,10 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
         $customerFinance->setWriter(Mage::getModel($validWriters['csv']['model']));
         $csvExportString = $customerFinance->export();
 
-        // fixture contains only one customer record
-        list($csvHeaderString, $csvDataString) = explode("\n", $csvExportString, 2);
-        $csvHeader = explode(',', $csvHeaderString);
-        $csvData = explode(',', $csvDataString);
-        $csvData = array_combine($csvHeader, $csvData);
+        // get data from CSV file
+        list($csvHeader, $csvData) = $this->_getCsvData($csvExportString);
+        $this->assertCount(1, $csvData);
+        $csvCustomerData = reset($csvData);
 
         // prepare correct header
         $correctHeader = $customerFinance->getPermanentAttributes();
@@ -48,18 +49,19 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
         $this->assertEquals($correctHeader, $csvHeader);
 
         // prepare correct data
-        $correctData = array();
-        $correctData[Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_EMAIL] = 'test@test.com';
-        $correctData[Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_WEBSITE]
+        $correctCustomerData = array();
+        $correctCustomerData[Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_EMAIL]
+            = Mage::registry('customer_finance_email');
+        $correctCustomerData[Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_WEBSITE]
             = Mage::app()->getStore()->getWebsite()->getCode();
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COL_CUSTOMER_BALANCE;
-        $correctData[$key] = 100;
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COL_REWARD_POINTS;
-        $correctData[$key] = 50;
+        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+        $correctCustomerData[$key] = Mage::registry('customer_balance');
+        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+        $correctCustomerData[$key] = Mage::registry('reward_point_balance');
 
-        asort($csvData);
-        asort($correctData);
-        $this->assertEquals($correctHeader, $csvHeader);
+        asort($csvCustomerData);
+        asort($correctCustomerData);
+        $this->assertEquals($correctCustomerData, $csvCustomerData);
     }
 
     /**
@@ -75,5 +77,31 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
             'Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection',
             $attributeCollection
         );
+    }
+
+    /**
+     * Get CSV header and data from string as array (header, data)
+     *
+     * @param string $csvString
+     * @return array
+     */
+    protected function _getCsvData($csvString)
+    {
+        list($csvHeaderString, $csvDataString) = explode("\n", $csvString, 2);
+        $csvHeader = str_getcsv($csvHeaderString);
+
+        $csvData = explode("\n", $csvDataString);
+        foreach ($csvData as $key => $csvRecordString) {
+            $csvRecordString = trim($csvRecordString);
+            if ($csvRecordString) {
+                $csvRecord = str_getcsv($csvRecordString);
+                $csvRecord = array_combine($csvHeader, $csvRecord);
+                $csvData[$key] = $csvRecord;
+            } else {
+                unset($csvData[$key]);
+            }
+        }
+
+        return array($csvHeader, $csvData);
     }
 }

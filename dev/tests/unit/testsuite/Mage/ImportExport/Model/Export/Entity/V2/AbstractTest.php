@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Core
+ * @package     Mage_ImportExport
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -16,7 +16,14 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
 {
     public function testGetFileNameAndSetFileName()
     {
-        $model = new Stub_UnitTest_Mage_ImportExport_Model_Export_Entity_V2_TestSetAndGet();
+        /** @var $model Mage_ImportExport_Model_Export_Entity_V2_Abstract */
+        $model = $this->getMockForAbstractClass(
+            'Mage_ImportExport_Model_Export_Entity_V2_Abstract',
+            array(),
+            'Stub_UnitTest_Mage_ImportExport_Model_Export_Entity_V2_TestSetAndGet',
+            false
+        );
+
         $testFileName = 'test_file_name';
 
         $fileName = $model->getFileName();
@@ -27,40 +34,5 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
 
         $fileName = $model->getFileName();
         $this->assertEquals($testFileName, $fileName);
-    }
-}
-
-/**
- * Stub for entity adapter
- */
-class Stub_UnitTest_Mage_ImportExport_Model_Export_Entity_V2_TestSetAndGet
-    extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
-{
-    /**
-     * Disable parent constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Export process.
-     */
-    public function export()
-    {
-    }
-
-    /**
-     * Entity attributes collection getter.
-     */
-    public function getAttributeCollection()
-    {
-    }
-
-    /**
-     * EAV entity type code getter.
-     */
-    public function getEntityTypeCode()
-    {
     }
 }

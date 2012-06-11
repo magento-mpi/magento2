@@ -12,14 +12,17 @@
 /**
  * Test collection Enterprise_ImportExport_Model_Resource_Customer_Collection
  *
- * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
- * @magentoConfigFixture modules/Enterprise_Reward/active          1
- * @magentoConfigFixture modules/Enterprise_CustomerBalance/active 1
+ * @magentoConfigFixture                modules/Enterprise_Reward/active               1
+ * @magentoConfigFixture                modules/Enterprise_CustomerBalance/active      1
+ * @magentoConfigFixture current_store enterprise_reward/general/is_enabled            1
+ * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
  */
 class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test join with reward points
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
      */
     public function testJoinWithRewardPoints()
     {
@@ -31,12 +34,14 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = reset($items);
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COL_REWARD_POINTS;
-        $this->assertEquals(50, $customer->getData($key));
+        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+        $this->assertEquals(Mage::registry('reward_point_balance'), $customer->getData($key));
     }
 
     /**
      * Test join with customer balance
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
      */
     public function testJoinWithCustomerBalance()
     {
@@ -48,7 +53,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
 
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = reset($items);
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COL_CUSTOMER_BALANCE;
-        $this->assertEquals(100, $customer->getData($key));
+        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+        $this->assertEquals(Mage::registry('customer_balance'), $customer->getData($key));
     }
 }

@@ -19,8 +19,8 @@
 class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
 {
-    /**
-     * Permanent column names.
+    /**#@+
+     * Permanent column names
      *
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
@@ -29,20 +29,20 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     const COL_WEBSITE = '_website';
 
     /**
-     * Permanent entity columns.
+     * Permanent entity columns
      *
      * @var array
      */
     protected $_permanentAttributes = array(self::COL_EMAIL, self::COL_WEBSITE);
 
     /**
-     * Constructor.
+     * Constructor
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->_initWebsites();
+        $this->_initWebsites(true);
         $this->setFileName($this->getEntityTypeCode());
     }
 
@@ -57,7 +57,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     }
 
     /**
-     * Export process.
+     * Export process
      *
      * @return string
      */
@@ -84,18 +84,19 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
         }
 
         $permanentAttributes = $this->getPermanentAttributes();
-        $validAttrCodes      = $this->_getEntityAttributes();
+        $validAttributeCodes = $this->_getEntityAttributes();
         $writer              = $this->getWriter();
 
         // create export file
-        $writer->setHeaderCols(array_merge($permanentAttributes, $validAttrCodes));
+        $writer->setHeaderCols(array_merge($permanentAttributes, $validAttributeCodes));
         foreach ($customerCollection as $customer) { // go through all customers
+            /** @var $customer Mage_Customer_Model_Customer */
             $row = array();
-            foreach ($validAttrCodes as $code) {
-                $row[$code] = $customer[$code];
+            foreach ($validAttributeCodes as $code) {
+                $row[$code] = $customer->getData($code);
             }
-            $row[self::COL_EMAIL] = $customer['email'];
-            $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$customer['website_id']];
+            $row[self::COL_EMAIL] = $customer->getEmail();
+            $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$customer->getWebsiteId()];
 
             $writer->writeRow($row);
         }

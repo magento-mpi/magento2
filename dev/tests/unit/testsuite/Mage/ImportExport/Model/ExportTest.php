@@ -15,11 +15,58 @@
 class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Return mock for Mage_ImportExport_Model_Export class
+     *
+     * @return Mage_ImportExport_Model_Export
+     */
+    protected function _getMageImportExportModelExportStub()
+    {
+        /** @var $stubModelExportEntityV2Abstract Mage_ImportExport_Model_Export_Entity_V2_Abstract */
+        $stubEntityAbstract = $this->getMockForAbstractClass(
+            'Mage_ImportExport_Model_Export_Entity_V2_Abstract',
+            array(),
+            '',
+            false
+        );
+
+        /** @var $stubAdapterTest Mage_ImportExport_Model_Export_Adapter_Abstract */
+        $stubAdapterTest = $this->getMockForAbstractClass(
+            'Mage_ImportExport_Model_Export_Adapter_Abstract',
+            array(),
+            '',
+            true,
+            true,
+            true,
+            array('getFileExtension')
+        );
+        $stubAdapterTest->expects($this->any())
+            ->method('getFileExtension')
+            ->will($this->returnValue('csv'));
+
+        /** @var $stubModelExport Mage_ImportExport_Model_Export */
+        $stubModelExport = $this->getMock(
+            'Mage_ImportExport_Model_Export',
+            array('getEntityAdapter', '_getEntityAdapter', '_getWriter')
+        );
+        $stubModelExport->expects($this->any())
+            ->method('getEntityAdapter')
+            ->will($this->returnValue($stubEntityAbstract));
+        $stubModelExport->expects($this->any())
+            ->method('_getEntityAdapter')
+            ->will($this->returnValue($stubEntityAbstract));
+        $stubModelExport->expects($this->any())
+            ->method('_getWriter')
+            ->will($this->returnValue($stubAdapterTest));
+
+        return $stubModelExport;
+    }
+
+    /**
      * Test get file name with adapter file name
      */
     public function testGetFileNameWithAdapterFileName()
     {
-        $model = new Stub_UnitTest_Mage_ImportExport_Model_Export();
+        $model = $this->_getMageImportExportModelExportStub();
         $model->getEntityAdapter()->setFileName('test_file_name');
 
         $fileName = $model->getFileName();
@@ -35,7 +82,7 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFileNameWithoutAdapterFileName()
     {
-        $model = new Stub_UnitTest_Mage_ImportExport_Model_Export();
+        $model = $this->_getMageImportExportModelExportStub();
         $model->getEntityAdapter()->setFileName(null);
         $model->setEntity('test_entity');
 
@@ -60,101 +107,5 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             return $matches[1];
         }
         return null;
-    }
-}
-
-/**
- * We need this class to rewrite method _getEntityAdapter
- *
- * @method boolean setEntity() setEntity(string)
- */
-class Stub_UnitTest_Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
-{
-    /**
-     * Create instance of entity adapter and returns it.
-     *
-     * @return Stub_UnitTest_Mage_ImportExport_Model_Export_Entity_V2_Test
-     */
-    public function getEntityAdapter()
-    {
-        if (!$this->_entityAdapter) {
-            $this->_entityAdapter = new Stub_UnitTest_Mage_ImportExport_Model_Export_Entity_V2_Test();
-        }
-        return $this->_entityAdapter;
-    }
-
-    /**
-     * Get writer object.
-     *
-     * @return Stub_UnitTest_Mage_ImportExport_Model_Export_Adapter_Test
-     */
-    protected function _getWriter()
-    {
-        if (!$this->_writer) {
-            $this->_writer = new Stub_UnitTest_Mage_ImportExport_Model_Export_Adapter_Test();
-        }
-        return $this->_writer;
-    }
-}
-
-/**
- * Stub for entity adapter
- */
-class Stub_UnitTest_Mage_ImportExport_Model_Export_Entity_V2_Test
-    extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
-{
-    /**
-     * Disable parent constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Export process.
-     */
-    public function export()
-    {
-    }
-
-    /**
-     * Entity attributes collection getter.
-     */
-    public function getAttributeCollection()
-    {
-    }
-
-    /**
-     * EAV entity type code getter.
-     */
-    public function getEntityTypeCode()
-    {
-    }
-}
-
-/**
- * Stub for export adapter
- */
-class Stub_UnitTest_Mage_ImportExport_Model_Export_Adapter_Test
-    extends Mage_ImportExport_Model_Export_Adapter_Abstract
-{
-    /**
-     * Write one row
-     *
-     * @param array $rowData
-     */
-    public function writeRow(array $rowData)
-    {
-        return $rowData;
-    }
-
-    /**
-     * Get file extension
-     *
-     * @return string
-     */
-    public function getFileExtension()
-    {
-        return 'csv';
     }
 }
