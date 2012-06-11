@@ -51,17 +51,27 @@ class Mage_Backend_Model_Menu extends ArrayObject
      * Add child to menu item
      *
      * @param Mage_Backend_Model_Menu_Item $item
+     * @param string $parentId
      * @param int $index
+     * @throws InvalidArgumentException
      */
-    public function addChild(Mage_Backend_Model_Menu_Item $item, $index = null)
+    public function add(Mage_Backend_Model_Menu_Item $item, $parentId = null, $index = null)
     {
-        $index = !is_null($index) ? $index : ($item->hasSortIndex() ? $item->getSortIndex() : $this->_sortIndex++);
-        if (!isset($this[$index])) {
-            $this->_maxIndex = $this->_maxIndex < $index ? $index : $this->_maxIndex;
-            $this->offsetSet($index, $item);
-            $item->setParent($this);
+        if ($this->get($item->getId())) {
+            throw new InvalidArgumentException('Item with id ' . $item->getId() . ' already exists in tree');
+        }
+        echo $parentId;
+        if ($parentId) {
+            $this->get($parentId)->getChildren()->add($item, null, $index);
         } else {
-            $this->addChild($item, $index + 1);
+            $index = !is_null($index) ? $index : $this->_sortIndex++;
+            if (!isset($this[$index])) {
+                $this->_maxIndex = $this->_maxIndex < $index ? $index : $this->_maxIndex;
+                $this->offsetSet($index, $item);
+                $item->setPath($this->getFullPath());
+            } else {
+                $this->add($item, $parentId, $index + 1);
+            }
         }
     }
 
@@ -69,26 +79,37 @@ class Mage_Backend_Model_Menu extends ArrayObject
      * Retrieve menu item by id
      *
      * @param string $itemId
-     * @param bool $searchRecursive search item recursive
      * @return Mage_Backend_Model_Menu_Item|null
      */
-    public function getChildById($itemId, $searchRecursive = false)
+    public function get($itemId)
     {
         $result = null;
         foreach ($this as $item) {
+            /** @var $item Mage_Backend_Model_Menu_Item */
             if ($item->getId() == $itemId) {
                 $result = $item;
                 break;
             }
 
-            if ($searchRecursive &&
-                $item->hasChildren() &&
-                ($result = $item->getChildren()->getChildById($itemId, $searchRecursive))
-            ) {
+            if ($item->hasChildren() && ($result = $item->getChildren()->get($itemId))) {
                 break;
             }
         }
         return $result;
+    }
+
+    /**
+     * Move menu item
+     *
+     * @param string $itemId
+     * @param string $toItemId
+     * @param int $sortIndex
+     */
+    public function move($itemId, $toItemId, $sortIndex = null)
+    {
+        $item = $this->get($itemId);
+        $this->remove($itemId);
+        $this->add($item, $toItemId, $sortIndex);
     }
 
     /**
@@ -97,17 +118,18 @@ class Mage_Backend_Model_Menu extends ArrayObject
      * @param string $itemId
      * @return bool
      */
-    public function removeChildById($itemId)
+    public function remove($itemId)
     {
         $result = false;
         foreach ($this as $key => $item) {
+            /** @var $item Mage_Backend_Model_Menu_Item */
             if ($item->getId() == $itemId) {
                 unset($this[$key]);
                 $result = true;
                 break;
             }
 
-            if ($item->hasChildren() && ($result = $item->getChildren()->removeChildById($itemId))) {
+            if ($item->hasChildren() && ($result = $item->getChildren()->remove($itemId))) {
                 break;
             }
         }
@@ -115,18 +137,27 @@ class Mage_Backend_Model_Menu extends ArrayObject
     }
 
     /**
+     * Change order of an item in its parent menu
+     *
      * @param string $itemId
      * @param int $position
+     * @return bool
      */
-    public function reorderChildById($itemId, $position)
+    public function reorder($itemId, $position)
     {
+        $result = false;
         foreach ($this as $key => $item) {
+            /** @var $item Mage_Backend_Model_Menu_Item */
             if ($item->getId() == $itemId) {
                 unset($this[$key]);
-                $this->addChild($item, $position);
+                $this->add($item, null, $position);
+                $result = true;
+                break;
+            } else if ($item->hasChildren() && $result = $item->getChildren()->reorder($itemId, $position)) {
                 break;
             }
         }
+        return $result;
     }
 
     /**
@@ -135,7 +166,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
      * @param Mage_Backend_Model_Menu_Item $item
      * @return bool
      */
-    public function isChildLast(Mage_Backend_Model_Menu_Item $item)
+    public function isLast(Mage_Backend_Model_Menu_Item $item)
     {
         return $this->offsetGet($this->_maxIndex)->getId() == $item->getId();
     }
@@ -149,7 +180,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
     {
         $this->_path = $path . '/';
         foreach ($this as $child) {
-            $child->setParent($this);
+            $child->setPath($this->getFullPath());
         }
     }
 
@@ -168,12 +199,18 @@ class Mage_Backend_Model_Menu extends ArrayObject
      *
      * @return Mage_Backend_Model_Menu_Item|null
      */
-    public function getFirstAvailableChild()
+    public function getFirstAvailable()
     {
+        $result = null;
         foreach ($this as $item) {
             /** @var $item Mage_Backend_Model_Menu_Item */
-            return $item->getFirstAvailableChild();
+            if ($item->hasChildren() && $result = $item->getChildren()->getFirstAvailable()) {
+                break;
+            } else {
+                $result = $item;
+                break;
+            }
         }
-        return null;
+        return $result;
     }
 }

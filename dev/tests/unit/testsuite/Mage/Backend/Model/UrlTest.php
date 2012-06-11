@@ -88,9 +88,11 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
         $this->_model->setSession($mockSession);
 
+        $itemMock = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $itemMock->expects($this->once())->method('getAction')->will($this->returnValue('adminhtml/user'));
         $this->_menuMock->expects($this->any())
-            ->method('getFirstAvailableChild')
-            ->will($this->returnValue('adminhtml/user'));
+            ->method('getFirstAvailable')
+            ->will($this->returnValue($itemMock));
 
         $this->assertEquals('adminhtml/user', $this->_model->findFirstAvailableMenu());
     }
