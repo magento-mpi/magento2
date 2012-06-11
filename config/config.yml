@@ -167,7 +167,7 @@ applications:
             paypal_developer: *paypalDeveloper
     community1701: &ce1701
         fallbackOrderFixture: 'community1701, default'
-        fallbackOrderHelper: 'community1701, Core'
+        fallbackOrderHelper: 'Community1701, Core'
         areas:
             admin:
                 url: 'http://www.localhost.com/magento_community1701/control/'
