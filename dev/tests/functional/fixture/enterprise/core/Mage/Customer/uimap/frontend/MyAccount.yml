@@ -27,7 +27,7 @@
 ---
 #
 customer_account:
-    uimap:
+    uimap: &customerAccount
         form:
             fieldsets:
                 -
@@ -36,3 +36,8 @@ customer_account:
                 -
                     my_recent_reviews:
                         xpath: //div[@class='reviews']
+
+customer_account_no_cache:
+    mca: customer/account/index/?no_cache=
+    title: My Account
+    uimap: *customerAccount

@@ -44,13 +44,14 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
     public function createStaticBlock(array $blockData)
     {
         if (is_string($blockData)) {
-            $blockData = $this->loadData($blockData);
+            $elements = explode('/', $blockData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $blockData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $blockData = $this->arrayEmptyClear($blockData);
         $content = (isset($blockData['content'])) ? $blockData['content'] : array();
         $this->clickButton('add_new_block');
         if (array_key_exists('store_view', $blockData) && !$this->controlIsPresent('multiselect', 'store_view')) {
-            unset($pageInfo['store_view']);
+            unset($blockData['store_view']);
         }
         $this->fillForm($blockData);
         if ($content) {
@@ -74,9 +75,9 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
      */
     public function openStaticBlock(array $searchData)
     {
-        $searchData = $this->arrayEmptyClear($searchData);
         if (array_key_exists('filter_store_view', $searchData)
-                && !$this->controlIsPresent('dropdown', 'filter_store_view')) {
+            && !$this->controlIsPresent('dropdown', 'filter_store_view')
+        ) {
             unset($searchData['filter_store_view']);
         }
         $xpathTR = $this->search($searchData, 'static_blocks_grid');

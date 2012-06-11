@@ -375,7 +375,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                              'card_verification_number' => 'field');
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         foreach ($emptyFields as $fieldName => $fieldType) {
             $xpath = $this->_getControlXpath($fieldType, $fieldName);
@@ -403,7 +403,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                                              'name_on_card' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         $xpath = $this->_getControlXpath('field', 'name_on_card');
         $this->addParameter('fieldXpath', $xpath);
@@ -429,7 +429,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                                              'card_type'    => ''));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
@@ -458,7 +458,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                                              'card_number'  => ''));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'card_type');
         $this->addParameter('fieldXpath', $xpath);
@@ -484,7 +484,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                                              'expiration_year' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         $xpath = $this->_getControlXpath('dropdown', 'expiration_year');
         $this->addParameter('fieldXpath', $xpath);
@@ -510,7 +510,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                                              'card_verification_number' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         $xpath = $this->_getControlXpath('field', 'card_verification_number');
         $this->addParameter('fieldXpath', $xpath);
@@ -536,7 +536,7 @@ class Core_Mage_Order_Create_CheckingValidationTest extends Mage_Selenium_TestCa
                                              'expiration_month' => ''));
         //Steps
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData, false);
+        $this->orderHelper()->createOrder($orderData);
         //Verifying
         $this->assertMessagePresent('error', 'invalid_exp_date');
     }

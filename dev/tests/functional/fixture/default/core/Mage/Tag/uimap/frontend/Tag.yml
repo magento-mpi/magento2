@@ -28,7 +28,7 @@
 #
 all_tags:
     mca: tag/list
-    title:
+    title: Magento Commerce
     uimap:
         form:
             fieldsets:

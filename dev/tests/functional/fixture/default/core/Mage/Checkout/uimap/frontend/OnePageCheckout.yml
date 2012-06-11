@@ -188,10 +188,10 @@ onepage_checkout:
                             shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]
                             payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]
                         links:
-                            billing_address_change_link: "//dt[contains(.,'Billing Address')]/a[@href='#billing']"
-                            shipping_address_change_link: "//dt[contains(.,'Shipping Address')]/a[@href='#payment']"
-                            shipping_method_change_link: "//dt[contains(.,'Shipping Method')]/a[@href='#shipping_method']"
-                            payment_method_change_link: "//dt[contains(.,'Payment Method')]/a[@href='#payment']"
+                            billing_information_change: "//dt[contains(.,'Billing Address')]/a[@href='#billing']"
+                            shipping_information_change: "//dt[contains(.,'Shipping Address')]/a[@href='#payment']"
+                            shipping_method_change: "//dt[contains(.,'Shipping Method')]/a[@href='#shipping_method']"
+                            payment_method_change: "//dt[contains(.,'Payment Method')]/a[@href='#payment']"
             links:
                 order_number: //a[contains(@href, '/sales/order/view/order_id/')]
             messages: &checkoutMessages

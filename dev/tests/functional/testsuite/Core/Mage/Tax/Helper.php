@@ -39,6 +39,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      * Define Store View id in Table by name
      *
      * @param string $storeView
+     *
      * @return integer
      */
     public function findTaxTitleByName($storeView)
@@ -63,19 +64,20 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
     public function createTaxItem($taxItemData, $type)
     {
         if (is_string($taxItemData)) {
-            $taxItemData = $this->loadData($taxItemData);
+            $elements = explode('/', $taxItemData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $taxItemData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $taxItemData = $this->arrayEmptyClear($taxItemData);
         $this->clickButton('add_' . $type);
         $this->fillForm($taxItemData);
 
         $rateTitles = (isset($taxItemData['tax_titles'])) ? $taxItemData['tax_titles'] : array();
         if ($rateTitles && $type == 'rate') {
             $this->assertTrue($this->controlIsPresent('fieldset', 'tax_titles'),
-                    'Tax Titles for store views are defined, but cannot be set.');
+                'Tax Titles for store views are defined, but cannot be set.');
             foreach ($rateTitles as $key => $value) {
                 $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
-                $this->fillForm(array('tax_title' => $value));
+                $this->fillField('tax_title', $value);
             }
         }
         $this->saveForm('save_' . $type);
@@ -86,10 +88,11 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      *
      * @param array $taxSearchData Data for search
      * @param string $type search type rate|rule|customer_class|product_class
+     *
+     * @throws OutOfRangeException
      */
     public function openTaxItem(array $taxSearchData, $type)
     {
-        $taxSearchData = $this->arrayEmptyClear($taxSearchData);
         $xpathTR = $this->search($taxSearchData, 'manage_tax_' . $type);
         $this->assertNotNull($xpathTR, 'Search item is not found');
         $url = $this->getValue($xpathTR . '/@title');
@@ -107,6 +110,9 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
                 $cellId = $this->getColumnIdByName('class Core_Mage_Name');
                 $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
                 break;
+            default:
+                throw new OutOfRangeException('Unsupported value for parameter $type');
+                break;
         }
         $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->click($xpathTR);
@@ -119,6 +125,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      *
      * @param array $taxSearchData Data for search
      * @param string $type search type rate|rule|customer_class|product_class
+     *
      * @return boolean
      */
     public function deleteTaxItem(array $taxSearchData, $type)
@@ -144,8 +151,8 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
                 $rules[] = $rule;
             }
         }
-        foreach($rules as $rule) {
-            $this->deleteTaxItem(array('filter_name' => $rule),'rule');
+        foreach ($rules as $rule) {
+            $this->deleteTaxItem(array('filter_name' => $rule), 'rule');
         }
     }
 }

@@ -42,7 +42,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
      */
     public function frontSubscribe($email)
     {
-        $this->fillForm(array('sign_up_newsletter' => $email));
+        $this->fillField('sign_up_newsletter', $email);
         $this->saveForm('subscribe');
     }
 
@@ -58,7 +58,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
             $this->searchAndChoose($searchData);
         }
         $this->addParameter('qtyOfRecords', count($searchDataSet));
-        $this->fillForm(array('subscribers_massaction' => ucfirst(strtolower($action))));
+        $this->fillDropdown('subscribers_massaction', ucfirst(strtolower($action)));
         $this->clickButton('submit');
     }
 
@@ -73,7 +73,6 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
     public function checkStatus($status, $searchData)
     {
         $searchData['filter_status'] = ucfirst(strtolower($status));
-        $searchData = $this->arrayEmptyClear($searchData);
         return !is_null($this->search($searchData));
     }
 }

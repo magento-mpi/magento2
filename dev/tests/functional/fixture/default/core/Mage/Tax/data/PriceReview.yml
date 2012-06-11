@@ -28,10 +28,10 @@
 #<-----------------------------Preconditions----------------------------------->
 simple_product_for_prices_validation_1:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation
+    general_name: Simple Product For Prices Validation(%randomize%)
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation
+    general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -46,10 +46,10 @@ simple_product_for_prices_validation_1:
 
 simple_product_for_prices_validation_2:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation
+    general_name: Simple Product For Prices Validation(%randomize%)
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation
+    general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search
@@ -64,10 +64,10 @@ simple_product_for_prices_validation_2:
 
 simple_product_for_prices_validation_3:
     product_attribute_set: Default
-    general_name: Simple Product For Prices Validation
+    general_name: Simple Product For Prices Validation(%randomize%)
     general_description: Description for Simple Product
     general_short_description: Short Description for Simple Product
-    general_sku: simple_sku_price_validation
+    general_sku: simple_sku_price_validation_%randomize%
     general_weight: 18.56
     general_status: Enabled
     general_visibility: Catalog, Search

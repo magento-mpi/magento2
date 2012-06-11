@@ -56,7 +56,7 @@ test_catalog_rule:
         websites: Main Website
         customer_groups: NOT LOGGED IN
         from_date: %currentDate%
-        to_date: %currentDate%
+        to_date: %nextWeek%
         priority: %noValue%
     conditions: %noValue%
     actions:

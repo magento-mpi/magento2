@@ -67,7 +67,6 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
      */
     public function openRating(array $ratingSearch)
     {
-        $ratingSearch = $this->arrayEmptyClear($ratingSearch);
         $xpathTR = $this->search($ratingSearch, 'manage_ratings_grid');
         $this->assertNotEquals(null, $xpathTR, 'Rating is not found');
         $param = $this->getText($xpathTR . '/td[' . $this->getColumnIdByName('Rating Name') . ']');
@@ -86,9 +85,10 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
     public function fillTabs($ratingData)
     {
         if (is_string($ratingData)) {
-            $ratingData = $this->loadData($ratingData);
+            $elements = explode('/', $ratingData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $ratingData = $this->arrayEmptyClear($ratingData);
         $this->fillForm($ratingData);
         if (isset($ratingData['store_view_titles'])) {
             $this->fillRatingTitles($ratingData['store_view_titles']);
@@ -105,7 +105,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
         foreach ($storeViewTitles as $value) {
             if (isset($value['store_view_name']) && isset($value['store_view_title'])) {
                 $this->addParameter('storeViewName', $value['store_view_name']);
-                $this->fillForm(array('store_view_title' => $value['store_view_title']));
+                $this->fillField('store_view_title', $value['store_view_title']);
             } else {
                 $this->fail('Incorrect data to fill');
             }
@@ -131,9 +131,10 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
     public function verifyRatingData($ratingData)
     {
         if (is_string($ratingData)) {
-            $ratingData = $this->loadData($ratingData);
+            $elements = explode('/', $ratingData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $ratingData = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $ratingData = $this->arrayEmptyClear($ratingData);
         $titles = (isset($ratingData['store_view_titles'])) ? $ratingData['store_view_titles'] : array();
         $this->verifyForm($ratingData);
 

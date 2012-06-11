@@ -33,7 +33,7 @@ license_agreement:
             fieldsets:
                 -
                     license_agreement:
-                        xpath: //div[@id='main']/form
+                        xpath: //div[@id='main']
                         buttons:
                             continue: //button[span='Continue']
                         checkboxes:
@@ -67,11 +67,11 @@ configuration:
                         dropdowns:
                             database_type: //select[@name='config[db_model]']
                         fields:
-                            host: //input[@id='host']
-                            database_name: //input[@id='dbname']
-                            user_name: //input[@id='user']
-                            user_password: //input[@id='password']
-                            tables_prefix: //input[@id='prefix']
+                            host: //div[@id='%dbType%_conn_form']//input[@id='host']
+                            database_name: //div[@id='%dbType%_conn_form']//input[@id='dbname']
+                            user_name: //div[@id='%dbType%_conn_form']//input[@id='user']
+                            user_password: //div[@id='%dbType%_conn_form']//input[@id='password']
+                            tables_prefix: //div[@id='%dbType%_conn_form']/input[@id='prefix']
                 -
                     web_access_option:
                         xpath: //fieldset[legend='Web access options']
@@ -136,5 +136,5 @@ end_installation:
     uimap:
         form: &finishInstallation
         buttons:
-            go_to_frontend: //button[span='Go to Frontend']
-            go_to_backend: //button[span='Go to Backend']
+            go_to_frontend: //button[text()='Go to Frontend']
+            go_to_backend: //button[text()='Go to Backend']

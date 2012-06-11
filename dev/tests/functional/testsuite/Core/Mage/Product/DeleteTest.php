@@ -43,7 +43,6 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->addParameter('id', '0');
     }
 
     /**
@@ -70,14 +69,14 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     public function deleteSingleProduct($type)
     {
         //Data
-        $productData = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $productData = $this->loadDataSet('Product', $type . '_product_required');
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData, $type);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_product');
@@ -111,19 +110,17 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
-     * @TestlinkId	TL-MAGE-3424
+     * @TestlinkId TL-MAGE-3424
      */
     public function deleteSingleConfigurableProduct()
     {
         //Data
-        $attrData = $this->loadData('product_attribute_dropdown_with_options', null,
-                array('admin_title', 'attribute_code'));
-        $associatedAttributes = $this->loadData('associated_attributes',
-                array('General' => $attrData['attribute_code']));
-        $productData = $this->loadData('configurable_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title']),
-                array('general_name', 'general_sku'));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $productData['general_sku']));
+        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_dropdown_with_options');
+        $associatedAttributes = $this->loadDataSet('AttributeSet', 'associated_attributes',
+            array('General' => $attrData['attribute_code']));
+        $productData = $this->loadDataSet('Product', 'configurable_product_required',
+            array('configurable_attribute_title' => $attrData['admin_title']));
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -142,7 +139,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_product');
@@ -163,15 +160,14 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     public function deleteAssociatedToConfigurable($type, $attrData)
     {
         //Data
-        $associated = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
+        $associated = $this->loadDataSet('Product', $type . '_product_required');
         $associated['general_user_attr']['dropdown'][$attrData['attribute_code']] =
-                $attrData['option_1']['admin_option_name'];
-        $configPr = $this->loadData('configurable_product_required',
-                array('configurable_attribute_title' => $attrData['admin_title']),
-                array('general_name', 'general_sku'));
-        $configPr['associated_configurable_data'] = $this->loadData('associated_configurable_data',
-                array('associated_search_sku' => $associated['general_sku']));
-        $productSearch = $this->loadData('product_search', array('product_sku' => $associated['general_sku']));
+            $attrData['option_1']['admin_option_name'];
+        $configPr = $this->loadDataSet('Product', 'configurable_product_required',
+            array('configurable_attribute_title' => $attrData['admin_title']));
+        $configPr['associated_configurable_data'] = $this->loadDataSet('Product', 'associated_configurable_data',
+            array('associated_search_sku' => $associated['general_sku']));
+        $search = $this->loadDataSet('Product', 'product_search', array('product_sku' => $associated['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associated, $type);
         //Verifying
@@ -181,7 +177,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_product');
@@ -207,18 +203,17 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
     public function deleteAssociatedProduct($associatedType, $type)
     {
         //Data
-        $associatedData = $this->loadData($associatedType . '_product_required', null,
-                array('general_name', 'general_sku'));
+        $associatedData = $this->loadDataSet('Product', $associatedType . '_product_required');
         if ($type == 'grouped') {
-            $productData = $this->loadData($type . '_product_required',
-                    array('associated_search_sku' => $associatedData['general_sku']),
-                    array('general_name', 'general_sku'));
+            $productData = $this->loadDataSet('Product', $type . '_product_required',
+                array('associated_search_sku' => $associatedData['general_sku']));
         } else {
-            $productData = $this->loadData($type . '_product_required', null, array('general_name', 'general_sku'));
-            $productData['bundle_items_data']['item_1'] = $this->loadData('bundle_item_1',
-                    array('bundle_items_sku' => $associatedData['general_sku']));
+            $productData = $this->loadDataSet('Product', $type . '_product_required');
+            $productData['bundle_items_data']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2',
+                array('bundle_items_search_sku' => $associatedData['general_sku']));
         }
-        $productSearch = $this->loadData('product_search', array('product_sku' => $associatedData['general_sku']));
+        $search =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $associatedData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($associatedData, $associatedType);
         //Verifying
@@ -228,7 +223,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->openProduct($search);
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_product');
@@ -263,8 +258,9 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
         $productQty = 2;
         for ($i = 1; $i <= $productQty; $i++) {
             //Data
-            $productData = $this->loadData('simple_product_required', null, array('general_name', 'general_sku'));
-            ${'searchData' . $i} = $this->loadData('product_search', array('email' => $productData['general_sku']));
+            $productData = $this->loadDataSet('Product', 'simple_product_required');
+            ${'searchData' . $i} =
+                $this->loadDataSet('Product', 'product_search', array('product_name' => $productData['general_sku']));
             //Steps
             $this->productHelper()->createProduct($productData);
             //Verifying

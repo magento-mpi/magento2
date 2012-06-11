@@ -38,16 +38,11 @@ class Enterprise_Mage_ShoppingCart_Helper extends Core_Mage_ShoppingCart_Helper
     /**
      * Moves products to the wishlist from Shopping Cart
      *
-     * @param string|array $productNameSet Name or array of product names to move
+     * @param string $productName
      */
-    public function frontMoveToWishlist($productNameSet)
+    public function frontMoveToWishlist($productName)
     {
-        if (is_string($productNameSet)) {
-            $productNameSet = array($productNameSet);
-        }
-        foreach ($productNameSet as $productName) {
-            $this->addParameter('productName', $productName);
-            $this->clickControl('link', 'move_to_wishlist');
-        }
+        $this->addParameter('productName', $productName);
+        $this->clickControl('link', 'move_to_wishlist');
     }
 }

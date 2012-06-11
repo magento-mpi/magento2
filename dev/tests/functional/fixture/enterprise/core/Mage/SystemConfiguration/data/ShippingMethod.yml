@@ -29,11 +29,14 @@
 dhl_common_configuration: &dhl_common_config
     dhl_enabled: Yes
     dhl_title: DHL
+    dhl_gateway_url: https://xmlpi-ea.dhl.com/XMLShippingServlet
     dhl_account_number: 799909537
-    dhl_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
-    dhl_ship_to_applicable_countries: All Allowed Countries
     dhl_content_type: Non documents
     dhl_allowed_methods_nondoc: all
+    dhl_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
+    dhl_ship_to_applicable_countries: All Allowed Countries
+    dhl_show_method_if_not_applicable: Yes
+    dhl_debug: Yes
 
 dhl_ap_enable:
     configuration_scope: Default Config

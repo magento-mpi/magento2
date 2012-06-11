@@ -36,6 +36,8 @@ all_tags:
                 -
                     tags_grid:
                         xpath: //div[@id='tag_tag_grid']
+                        links:
+                            select_all: //a[text()='Select All']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -56,12 +58,14 @@ all_tags:
         buttons:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
+            no_records_found: //tr[td='No records found.']
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
             success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]
             success_deleted_products_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been deleted.')]
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
+            confirmation_for_massaction_delete: Are you sure?
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
             required_name: //div[@id='advice-required-entry-name' and text()='This is a required field.']
 
