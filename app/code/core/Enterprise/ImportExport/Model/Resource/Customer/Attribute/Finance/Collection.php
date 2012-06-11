@@ -30,6 +30,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
      */
     const COLUMN_CUSTOMER_BALANCE = 'store_credit';
     const COLUMN_REWARD_POINTS = 'reward_points';
+    /**#@-*/
 
     /** @var string */
     protected $_orderField;

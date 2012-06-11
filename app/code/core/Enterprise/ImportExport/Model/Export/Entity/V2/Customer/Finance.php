@@ -27,6 +27,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
      */
     const COL_EMAIL   = 'email';
     const COL_WEBSITE = '_website';
+    /**#@-*/
 
     /**
      * Permanent entity columns
