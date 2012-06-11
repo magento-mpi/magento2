@@ -227,9 +227,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Search customer/address/finance line in exported array
+     * Returns line index
+     *
      * @param string $fileType File type (master|address|finance)
-     * @param array $needleData Customer/Address/Finance
-     * @param array $fileLines Array from csv files
+     * @param array $needleData Customer/Address/Finance line data
+     * @param array $fileLines Array from csv file
      * @return int
      */
     public function lookForEntity($fileType, $needleData, $fileLines)
@@ -264,6 +267,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Converts customer data to format comparable with csv data
+     *
      * @param $rawData
      * @return array
      */
@@ -324,6 +329,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * * Converts address data to format comparable with csv data
+     *
      * @param $rawData
      * @return array
      */
@@ -332,6 +339,8 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Converts finance data to format comparable with csv data
+     *
      * @param $rawData
      * @return array
      */
