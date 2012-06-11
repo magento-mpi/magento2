@@ -49,16 +49,10 @@
     </target>
 
     <target name="js-test">
-        <property name="jstestdriver.jar" location="${basedir}\dev\build\bin\jsTestDriver.jar"/>
-        <property name="jstestdriver.conf" location="${basedir}\dev\tests\js\jsTestDriver.conf"/>
-        <property name="jstestdriver.browser" location="C:\Program Files (x86)\Mozilla Firefox\firefox.exe"/>
-        <property name="jstestdriver.output" location="${basedir}\dev\tests\js\test-output"/>
-        <exec executable="cmd" dir="dev\build\bin" osfamily="windows">
-            <!--<arg value="js-test.bat -j ${jstestdriver.jar} -c ${jstestdriver.conf} -b ${jstestdriver.browser} -o ${jstestdriver.output}" />-->
+        <exec executable="cmd" dir="dev\build\bin">
             <arg value="/c"/>
             <arg value="js-test.bat"/>
             <arg value="-p"/>
-
         </exec>
     </target>
 
