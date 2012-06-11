@@ -56,6 +56,12 @@
         </exec>
     </target>
 
+    <target name="js-test-sh">
+        <exec executable="/bin/bash" dir="dev/build/bin">
+            <arg value="js-test.sh"/>
+        </exec>
+    </target>
+
     <!-- execute extruder, perform license notices replacement and sanity check -->
     <target name="sanity-ce" depends="prepare-ce">
         <exec executable="php" failonerror="true">
