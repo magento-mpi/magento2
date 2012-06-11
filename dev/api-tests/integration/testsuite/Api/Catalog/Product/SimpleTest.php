@@ -115,42 +115,19 @@ class Api_Catalog_Product_SimpleTest extends Api_Catalog_ProductAbstract
 
         $expectedErrors = array(
             'SKU length should be 64 characters maximum.',
-            'Invalid "cust_group" value in the "group_price:0" set',
-            'Please enter a number 0 or greater in the "price" field in the "group_price:1" set.',
-            'Invalid "website_id" value in the "group_price:2" set.',
-            'Invalid "website_id" value in the "group_price:3" set.',
-            'The "cust_group" value in the "group_price:3" set is a required field.',
-            'The "website_id" value in the "group_price:4" set is a required field.',
-            'Invalid "website_id" value in the "group_price:5" set.',
-            'The "price" value in the "group_price:5" set is a required field.',
-            'Invalid "cust_group" value in the "tier_price:0" set',
-            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:1" set.',
-            'Please enter a number greater than 0 in the "price_qty" field in the "tier_price:2" set.',
+            'Invalid "customer_group_id" value in the "tier_price:0" set',
+            'Please enter a number greater than 0 in the "qty" field in the "tier_price:1" set.',
+            'Please enter a number greater than 0 in the "qty" field in the "tier_price:2" set.',
             'Please enter a number greater than 0 in the "price" field in the "tier_price:3" set.',
-            'Invalid "website_id" value in the "tier_price:4" set.',
-            'Invalid "website_id" value in the "tier_price:5" set.',
-            'The "price_qty" value in the "tier_price:7" set is a required field.',
+            'Invalid "website" value in the "tier_price:4" set.',
+            'Invalid "website" value in the "tier_price:5" set.',
+            'The "qty" value in the "tier_price:7" set is a required field.',
             'Please enter a number greater than 0 in the "price" field in the "tier_price:7" set.',
             'Please enter a number greater than 0 in the "price" field in the "tier_price:8" set.',
             'Please enter a valid number in the "qty" field in the "stock_data" set.',
-            'Please enter a valid number in the "notify_stock_qty" field in the "stock_data" set.',
-            'Please enter a number 0 or greater in the "min_qty" field in the "stock_data" set.',
-            'Invalid "is_decimal_divided" value in the "stock_data" set.',
-            'Please use numbers only in the "min_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other non numeric characters.',
-            'Please use numbers only in the "max_sale_qty" field in the "stock_data" set. '
-            . 'Please avoid spaces or other non numeric characters.',
-            'Please use numbers only in the "qty_increments" field in the "stock_data" set. '
-            . 'Please avoid spaces or other non numeric characters.',
-            'Invalid "backorders" value in the "stock_data" set.',
-            'Invalid "is_in_stock" value in the "stock_data" set.',
-            'Please enter a number 0 or greater in the "gift_wrapping_price" field.',
-            'Invalid "cust_group" value in the "group_price:4" set',
-            'Invalid "cust_group" value in the "tier_price:6" set',
+            'Invalid "customer_group_id" value in the "tier_price:6" set',
         );
-        $invalidValueAttributes = array('status', 'visibility', 'msrp_enabled', 'msrp_display_actual_price_type',
-            'enable_googlecheckout', 'tax_class_id', 'custom_design', 'page_layout', 'gift_message_available',
-            'gift_wrapping_available');
+        $invalidValueAttributes = array('status', 'visibility', 'tax_class_id', 'custom_design');
         foreach ($invalidValueAttributes as $attribute) {
             $expectedErrors[] = sprintf('Invalid value "%s" for attribute "%s".', $productData[$attribute], $attribute);
         }

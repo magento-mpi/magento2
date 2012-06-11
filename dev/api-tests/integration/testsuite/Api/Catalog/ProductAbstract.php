@@ -15,6 +15,19 @@
 abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
 {
     /**
+     * Map common fixtures keys to soap wsdl.
+     *
+     * @var array
+     */
+    protected $_productAttributesArrayMap = array(
+        'tier_price' => array(
+            'website_id' => 'website',
+            'cust_group' => 'customer_group_id',
+            'price_qty'  => 'qty'
+        )
+    );
+
+    /**
      * Try to create product using API and check received error messages
      *
      * @param array $productData
@@ -51,14 +64,41 @@ abstract class Api_Catalog_ProductAbstract extends Magento_Test_Webservice
      */
     protected function _tryToCreateProductWithApi($productData)
     {
+        $dataFormattedForRequest = $this->_prepareProductDataForSoap($productData);
+        $response = $this->call('product.create', $dataFormattedForRequest);
+        return $response;
+    }
+
+    /**
+     * Map array keys in accordance to soap wsdl.
+     *
+     * @param array $productData
+     * @return array
+     */
+    protected function _prepareProductDataForSoap($productData)
+    {
         $dataFormattedForRequest = array(
             'type' => $productData['type_id'],
             'set'  => $productData['attribute_set_id'],
             'sku'  => $productData['sku'],
             'productData' => array_diff_key($productData, array_flip(array('type_id', 'attribute_set_id', 'sku')))
         );
-        $response = $this->call('product.create', $dataFormattedForRequest);
-        return $response;
+        foreach ($dataFormattedForRequest['productData'] as $attrCode => &$attrValue) {
+            if (in_array($attrCode, array_keys($this->_productAttributesArrayMap)) && is_array($attrValue)) {
+                $map = $this->_productAttributesArrayMap[$attrCode];
+                foreach ($attrValue as &$arrayItem) {
+                    foreach ($map as $arrayKey => $keyMapValue) {
+                        if (in_array($arrayKey, $arrayItem)) {
+                            $arrayItem[$keyMapValue] = $arrayItem[$arrayKey];
+                            unset($arrayItem[$arrayKey]);
+                        }
+                    }
+                }
+                unset($arrayItem);
+            }
+        }
+
+        return $dataFormattedForRequest;
     }
 
     /**
