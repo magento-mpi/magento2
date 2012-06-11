@@ -94,9 +94,18 @@ class Enterprise2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <p>1 Verify the search by fields "Attribute Label" and "Attribute Code"</p>
-     * <p>2 This search should work with each file type </p>
+     * <p>Verify the search by fields "Attribute Label" and "Attribute Code"</p>
+     * <p>This search should work with each file type</p>
+     * <p>Steps:</p>
+     * <p>1. In System-> Import/Export-> Export select "Customers" entity type</p>
+     * <p>2. Select "Magento2.0" format</p>
+     * <p>3. Select file type (Customers Main File/Customer Addresses/Customer Finances)</p>
+     * <p>4. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button</p>
+     * <p>5. Verify that attribute is found</p>
+     * <p>6. Click 'Reset filter' button</p>
+     * <p>7. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button</p>
+     * <p>8. Verify that attribute is found</p>
+     * <p>6. Click 'Reset filter' button</p>
      * @test
      * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
      */
