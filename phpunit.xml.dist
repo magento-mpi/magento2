@@ -44,6 +44,7 @@
          stopOnSkipped="false"
          testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          strict="false"
+         syntaxCheck="false"
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
