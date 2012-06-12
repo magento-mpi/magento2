@@ -171,3 +171,21 @@ customer_account_female_address:
     fax: 530-918-3581
     default_billing_address: Yes
     default_shipping_address: Yes
+
+generic_customer_address_attribute:
+   input_type: Text Field
+   attribute_code: attr_%randomize%
+   default_text_field_value: attr_default_%randomize%
+   input_validation: None
+   min_text_length: 1
+   max_text_length: 255
+   values_required: Yes
+   input_filter: None
+   is_used_for_customer_segment: No
+   is_visible: Yes
+   sort_order: 1
+   used_in_forms: Customer Address Registration, Customer Account Address
+   admin_title: Text_Field_Admin_%randomize%
+   store_view_titles:
+        Default Store View: Text_Field_StoreView
+
