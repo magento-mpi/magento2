@@ -84,7 +84,7 @@ class Enterprise2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Tes
         $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
         //Step3
         $this->ImportExportHelper()->setFilter(array(
-            $attrData['attribute_code'] => $attrData['default_text_field_value'])
+            $attrData['attribute_code'] => $userData['custom_attribute'])
         );
         //Step4-5
         $report = $this->ImportExportHelper()->export();
