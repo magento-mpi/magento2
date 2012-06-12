@@ -90,9 +90,9 @@ class Mage_Backend_Model_Menu_Builder
                     isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
                 );
             } else {
-                $items[$params[$id]['parent']]->getChildren()->add(
+                $this->_menu->add(
                     $item,
-                    null,
+                    $params[$id]['parent'],
                     isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
                 );
             }

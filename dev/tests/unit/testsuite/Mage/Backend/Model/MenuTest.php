@@ -116,19 +116,49 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_items['item3'], $this->_model->get('item3'));
     }
 
-    public function testMoveAddsItemToNewItem()
+    public function testMove()
     {
-        $this->markTestIncomplete();
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+        $this->_model->add($this->_items['item3']);
+
+        $subMenu = $this->getMock("Mage_Backend_Model_Menu");
+        $subMenu->expects($this->once())
+            ->method("add")
+            ->with($this->_items['item3']);
+
+        $this->_items['item1']->expects($this->once())
+            ->method("getChildren")
+            ->will($this->returnValue($subMenu));
+
+        $this->_model->move('item3', 'item1');
+
+        $this->assertCount(2, $this->_model);
+        $this->assertFalse(isset($this->_model[2]), "ttt");
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testMoveNonExistentItemThrowsException()
     {
-        $this->markTestIncomplete();
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+        $this->_model->add($this->_items['item3']);
+
+        $this->_model->move('item4', 'item1');
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testMoveToNonExistentItemThrowsException()
     {
-        $this->markTestIncomplete();
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+        $this->_model->add($this->_items['item3']);
+
+        $this->_model->move('item3', 'item4');
     }
 
     public function testRemoveRemovesMenuItem()
@@ -170,7 +200,25 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testReorderReordersItemOnItsLevel()
     {
-        $this->markTestIncomplete();
+        $subMenu = new Mage_Backend_Model_Menu;
+
+        $this->_items['item1']->expects($this->any())
+            ->method("hasChildren")
+            ->will($this->returnValue(true));
+
+        $this->_items['item1']->expects($this->any())
+            ->method("getChildren")
+            ->will($this->returnValue($subMenu));
+
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2'], 'item1', 10);
+        $this->_model->add($this->_items['item3'], 'item1', 20);
+
+        $this->_model->reorder('item2', 25);
+        $subMenu->reorder('item3', 30);
+
+        $this->assertEquals($this->_items['item2'], $subMenu[25]);
+        $this->assertEquals($this->_items['item3'], $subMenu[30]);
     }
 
     public function testIsLast()

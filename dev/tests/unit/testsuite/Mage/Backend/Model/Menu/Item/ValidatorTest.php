@@ -153,9 +153,72 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
         );
     }
 
-    public function testValidateWithDuplicateIdsThrowsException()
+    /**
+     *  Validate duplicated ids
+     *
+     * @param $existedItems
+     * @param $newItem
+     * @dataProvider duplicateIdsProvider
+     * @expectedException InvalidArgumentException
+     */
+    public function testValidateWithDuplicateIdsThrowsException($existedItems, $newItem)
     {
-        $this->markTestIncomplete();
+        foreach ($existedItems as $item) {
+            $item = array_merge($item, $this->_params);
+            $this->_model->validate($item);
+        }
+
+        $newItem = array_merge($newItem, $this->_params);
+        $this->_model->validate($newItem);
+    }
+
+    /**
+     * Provide items with duplicates ids
+     *
+     * @return array
+     */
+    public function duplicateIdsProvider()
+    {
+        return array(
+            array(
+                array(
+                    array(
+                        'id' => 'item1',
+                        'title' => 'Item 1',
+                        'action' => 'adminhtml/controller/item1'
+                    ),
+                    array(
+                        'id' => 'item2',
+                        'title' => 'Item 2',
+                        'action' => 'adminhtml/controller/item2'
+                    )
+                ),
+                array(
+                    'id' => 'item1',
+                    'title' => 'Item 1',
+                    'action' => 'adminhtml/controller/item1'
+                )
+            ),
+            array(
+                array(
+                    array(
+                        'id' => 'Namespace_Module::item1',
+                        'title' => 'Item 1',
+                        'action' => 'adminhtml/controller/item1'
+                    ),
+                    array(
+                        'id' => 'Namespace_Module::item2',
+                        'title' => 'Item 2',
+                        'action' => 'adminhtml/controller/item2'
+                    )
+                ),
+                array(
+                    'id' => 'Namespace_Module::item1',
+                    'title' => 'Item 1',
+                    'action' => 'adminhtml/controller/item1'
+                )
+            )
+        );
     }
 }
 
