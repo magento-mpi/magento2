@@ -224,9 +224,6 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->fillDropdown('export_file', 'Customer Addresses');
         $this->waitForAjax();
         $customerAddresses = $this->ImportExportHelper()->export();
-        $this->fillDropdown('export_file', 'Customer Finances');
-        $this->waitForAjax();
-        $customerFinances = $this->ImportExportHelper()->export();
     }
 
     /**
