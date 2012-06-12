@@ -1,0 +1,61 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage__uimapIncludes
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+all_tags:
+    mca: tag/list
+    title:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    tags:
+                        xpath: //ul[@class='tags-list']
+                        links:
+                            tag_name: //li/a[text()='%tagName%']
+
+tags_products:
+    mca: tag/product/list/tagId/%id%/
+    title: Products tagged with '%tagName%'
+    uimap:
+        form:
+            fieldsets:
+                -
+                    popular_tags:
+                        xpath: //div[@class[contains(.,'block block-tags')]]
+                        links:
+                            tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
+                            view_all_tags: //a[text()='View All Tags']
+                -
+                    product_grid:
+                        xpath: //div[@class='category-products']
+                        links:
+                            product_name: //a[@title='%productName%']
+
+enterprice_frontend_header:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    global_header:
+                        xpath: //div[@class='header-container']
+                        links:
+                            my_account: //a[@title='My Account']
+                            my_wishlist: //a[contains(@title,'My Wishlist')]
+                            my_cart: //strong[@id='cartHeader']
+                            empty_my_cart: //strong[@id='cartHeader'][.='My Cart (0)']
+                            checkout: //a[@title='Checkout']
+                            log_in: //a[@title='Log In']
+                            log_out: //a[@title='Log Out']
+                            your_language: //ul[@id='popId-languageSelect']//a[text()='%storeView%']
+                        pageelements:
+                            change_store_view: //div[@id='languageSelect']//span[text()='Change']
+                            selected_store_view: //div[@id='languageSelect']/strong[normalize-space(text())='%storeView%']
