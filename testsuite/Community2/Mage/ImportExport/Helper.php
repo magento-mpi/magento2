@@ -121,19 +121,20 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 $tablePath = "css=table#export_filter_grid_table>tbody>tr>td.last>{$elementType}[name*='export_filter']";
                 $size = $this->getXpathCount($tablePath);
                 for($i=0;$i<$size;$i++){
-                //get attributes filters and values array
-                $attName = $this->getAttribute($tablePath . ":nth({$i})@name");
-                switch ($elementType) {
-                    case 'input':
-                        $attValue = $this->getText($tablePath . ":nth({$i})");
-                        break;
-                    case 'select':
-                        break;
-                        $attValue = $this->getSelectedValue($tablePath . ":nth({$i})");
-                    default:
-                        break;
-                }
-                $parameters[trim($attName)] = $attValue;
+                    $attValue = '';
+                    //get attributes filters and values array
+                    $attName = $this->getAttribute($tablePath . ":nth({$i})@name");
+                    switch ($elementType) {
+                        case 'input':
+                            $attValue = $this->getValue($tablePath . ":nth({$i})");
+                            break;
+                        case 'select':
+                            $attValue = $this->getSelectedValue($tablePath . ":nth({$i})");
+                            break;
+                        default:
+                            break;
+                    }
+                    $parameters[trim($attName)] = $attValue;
                 }
             }
             return $parameters;
