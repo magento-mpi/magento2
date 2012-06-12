@@ -1,0 +1,92 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_StagingWebsite
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Rollback backup
+
+rollback_backup:
+    search_website:
+        filter_website_name: %noValue%
+    items_to_rollback:
+        system_configuration: Yes
+        catalog_categories: Yes
+        category_permissions: Yes
+        catalog_products: Yes
+        bundles: Yes
+        downloadable: Yes
+        gift_cards: Yes
+        catalog_inventory: Yes
+        catalog_search: Yes
+        url_rewrites: Yes
+        cms_pages: Yes
+        cms_blocks: Yes
+        shopping_cart_price_rules: Yes
+        catalog_price_rules: Yes
+        polls: Yes
+        terms_and_conditions: Yes
+
+staging_website_creation_started_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Staging Website Creation
+    filter_result: Started
+
+staging_website_creation_completed_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Staging Website Creation
+    filter_result: Completed
+
+staging_website_backup_started_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Backup
+    filter_result: Started
+
+staging_website_backup_completed_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Backup
+    filter_result: Completed
+
+staging_website_merge_started_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Instant Merger
+    filter_result: Started
+
+staging_website_merge_completed_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Instant Merger
+    filter_result: Completed
+
+staging_website_schedule_completed_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Merger Scheduling
+    filter_result: Completed
+
+staging_website_unschedule_completed_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Merger Unscheduling
+    filter_result: Completed
+
+staging_website_rollback_started_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Rollback
+    filter_result: Started
+
+staging_website_rollback_completed_log:
+    filter_website_from: %noValue%
+    filter_website_to: %noValue%
+    filter_action: Rollback
+    filter_result: Completed

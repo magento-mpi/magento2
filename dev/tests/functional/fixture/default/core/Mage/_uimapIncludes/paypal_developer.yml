@@ -1,0 +1,20 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage__uimapIncludes
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+paypal_developer:
+    uimap:
+        messages:
+            general_validation: "//*[@id='alert_content']/span[@class='details']"
+            general_success: "//*[@id='alert_content']/span[@class='message']"
+            general_error: "//*[@id='alert_content']/span[@class='error']"
+            success_created_account: "//*[@id='alert_content']/span[@class='message'][text()='You have successfully created a test account. You can view email for this account on the Test Email tab.']"
+            failed_account_creation: "//*[@id='alert_content']/span[@class='error'][text()='The account creation process failed, resulting in an incomplete account profile. Please delete this account and start over']"
+            success_created_account_without_card: "//*[@id='alert_content']/span[@class='message'][text()='Account Created Successfully but failed to Add Credit Card and Bank']"
