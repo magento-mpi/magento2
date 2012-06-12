@@ -99,3 +99,75 @@ generic_address:
     fax: %noValue%
     default_billing_address: %noValue%
     default_shipping_address: %noValue%
+
+customer_account_male:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+
+customer_account_male_address:
+    prefix: Prefix
+    first_name: Male First Name
+    middle_name: Male Middle Name
+    last_name: Male Last Name
+    suffix: Suffix
+    company: Magento
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: 530-918-3581
+    default_billing_address: Yes
+    default_shipping_address: Yes
+
+customer_account_female:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mrs.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Female
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+
+customer_account_female_address:
+    prefix: Prefix
+    first_name: Female First Name
+    middle_name: Female Middle Name
+    last_name: Female Last Name
+    suffix: Suffix
+    company: Magento
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: 530-918-3581
+    default_billing_address: Yes
+    default_shipping_address: Yes

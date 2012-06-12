@@ -40,7 +40,8 @@ class Enterprise2_Mage_ImportExport_Helper extends Community2_Mage_ImportExport_
      *
      * @return array
      */
-    public function getCustomerEntityType(){
+    public function getCustomerEntityType()
+    {
         return array('Customers Main File', 'Customer Addresses', 'Customer Finances');
     }
 }
