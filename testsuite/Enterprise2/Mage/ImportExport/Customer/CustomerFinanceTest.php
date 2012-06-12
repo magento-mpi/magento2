@@ -65,7 +65,11 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
      */
     public function simpleExportFinanceFile()
     {
-
+        $this->navigate('manage_customer_attributes');
+        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_attribute');
+        $this->customerHelper()->createCustomer($attrData);
+        $this->customerHelper()->openCustomer($attrData);
+        $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'1001'));
     }
 
 }
