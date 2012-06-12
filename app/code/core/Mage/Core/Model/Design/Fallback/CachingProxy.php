@@ -89,9 +89,19 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
     protected $_basePath;
 
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * @var Magento_Config_Theme
+     */
+    protected $_themeConfig;
+
+    /**
      * Constructor.
      * Following entries in $params are required: 'area', 'package', 'theme', 'skin', 'locale', 'canSaveMap',
-     * 'mapDir', 'baseDir'.
+     * 'config', 'themeConfig', 'mapDir', 'baseDir'.
      *
      * @param array $params
      */
@@ -102,6 +112,9 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
         $this->_theme = $params['theme'];
         $this->_skin = $params['skin'];
         $this->_locale = $params['locale'];
+        $this->_config = $params['config'];
+        $this->_themeConfig = $params['themeConfig'];
+
         $this->_canSaveMap = $params['canSaveMap'];
         $this->_mapDir = $params['mapDir'];
         $this->_basePath = $params['baseDir'] ? $params['baseDir'] . DIRECTORY_SEPARATOR : '';
@@ -135,6 +148,8 @@ class Mage_Core_Model_Design_Fallback_CachingProxy implements Mage_Core_Model_De
                 'theme' => $this->_theme,
                 'skin' => $this->_skin,
                 'locale' => $this->_locale,
+                'config' => $this->_config,
+                'themeConfig' => $this->_themeConfig
             ));
         }
         return $this->_fallback;
