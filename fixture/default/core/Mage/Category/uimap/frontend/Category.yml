@@ -119,7 +119,7 @@ category_page_before_reindex:
                         pageelements:
                             currently_shopping_by: //div[@class='currently']
                         links:
-                            category_name: //*[@id='narrow-by-list']//a[text()='%categoryName%']
+                            category_name: //[@id='narrow-by-list']//a[text()='%categoryName%']
                             clear_all: //div[@class='actions']/a
                         buttons:
                             remove_this_item: //*[@class='btn-remove']
