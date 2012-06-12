@@ -32,6 +32,15 @@ class Mage_Backend_Block_Menu_Container extends Mage_Backend_Block_Template
     }
 
     /**
+     * Get menu filter iterator
+     * @return Mage_Backend_Model_Menu_Filter_Iterator
+     */
+    public function getMenuIterator()
+    {
+        return Mage::getModel('Mage_Backend_Model_Menu_Filter_Iterator', $this->getMenu()->getIterator());
+    }
+
+    /**
      * Get menu model
      *
      * @param Mage_Backend_Model_Menu $menu

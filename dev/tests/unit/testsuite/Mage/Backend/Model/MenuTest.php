@@ -25,18 +25,12 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     {
         $this->_items['item1'] = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $this->_items['item1']->expects($this->any())->method('getId')->will($this->returnValue('item1'));
-        $this->_items['item1']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
-        $this->_items['item1']->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $this->_items['item2'] = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $this->_items['item2']->expects($this->any())->method('getId')->will($this->returnValue('item2'));
-        $this->_items['item2']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
-        $this->_items['item2']->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $this->_items['item3'] = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $this->_items['item3']->expects($this->any())->method('getId')->will($this->returnValue('item3'));
-        $this->_items['item3']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
-        $this->_items['item3']->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
         $this->_model = new Mage_Backend_Model_Menu();
     }
@@ -214,37 +208,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model->add($this->_items['item1']);
 
         $this->assertEquals('/root/system/node', $this->_model->getFirstAvailable()->getAction());
-    }
-
-    public function testNextWithAllItemsDisabledDoesntIterate()
-    {
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $items = array();
-        foreach ($this->_model as $item) {
-            $items[] = $item;
-        }
-        $this->assertCount(0, $items);
-    }
-
-    public function testNextIteratesOnlyValidItems()
-    {
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-
-        $this->_model->add($this->_items['item1']);
-
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-        $this->_model->add($this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false));
-
-        $items = array();
-        foreach ($this->_model as $item) {
-            $items[] = $item;
-        }
-        $this->assertCount(1, $items);
     }
 
     public function testMultipleIterationsWorkProperly()

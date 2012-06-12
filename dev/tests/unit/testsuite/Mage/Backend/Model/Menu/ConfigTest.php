@@ -177,7 +177,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         $menuMock = new Varien_Object();
         $this->_eventManagerMock->expects($this->once())
             ->method('dispatch')
-            ->with($this->equalTo('backend_menu_load_after'), $this->equalTo(array('object' => $menuMock)));
+            ->with($this->equalTo('backend_menu_load_after'), $this->equalTo(array('menu' => $menuMock)));
 
         $this->_builderMock->expects($this->once())
             ->method('getResult')

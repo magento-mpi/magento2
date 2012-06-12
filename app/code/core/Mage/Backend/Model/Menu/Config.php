@@ -71,7 +71,7 @@ class Mage_Backend_Model_Menu_Config
             );
             $director->buildMenu($this->_menuBuilder);
             $this->_menu = $this->_menuBuilder->getResult();
-            $this->_eventManager->dispatch('backend_menu_load_after', array('object' => $this->_menu));
+            $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
         }
         return $this->_menu;
     }
