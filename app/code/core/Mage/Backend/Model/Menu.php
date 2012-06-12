@@ -61,8 +61,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
             throw new InvalidArgumentException('Item with id ' . $item->getId() . ' already exists in tree');
         }
 
-        echo $parentId . "<br />";
-        if ($parentId) {
+        if (!is_null($parentId)) {
             $this->get($parentId)->getChildren()->add($item, null, $index);
         } else {
             $index = !is_null($index) ? $index : $this->_sortIndex++;

@@ -82,6 +82,7 @@ class Mage_Backend_Model_Menu_Builder
             }
         }
 
+
         foreach($items as $id => $item) {
             if (!isset($params[$id]['parent'])) {
                 $this->_menu->add(
@@ -92,11 +93,12 @@ class Mage_Backend_Model_Menu_Builder
             } else {
                 $items[$params[$id]['parent']]->getChildren()->add(
                     $item,
-                    isset($params[$id]['parent']) ? $params[$id]['parent'] : null,
+                    null,
                     isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
                 );
             }
         }
+
         return $this->_menu;
     }
 }
