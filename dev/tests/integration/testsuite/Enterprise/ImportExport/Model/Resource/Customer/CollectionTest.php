@@ -58,11 +58,11 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     }
 
     /**
-     * Test filter with reward points and with customer balance
+     * Test filter with reward points and customer balance
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      */
-    public function testFilterWithRewardPointsWithCustomerBalance()
+    public function testFilterWithRewardPointsAndCustomerBalance()
     {
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
@@ -135,7 +135,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      */
-    public function testFilterWithoutParams()
+    public function testFilterWithoutRewardPointsAndCustomerBalance()
     {
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');

@@ -49,15 +49,16 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
         $this->assertEquals($correctHeader, $csvHeader);
 
         // prepare correct data
-        $correctCustomerData = array();
-        $correctCustomerData[Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_EMAIL]
-            = Mage::registry('customer_finance_email');
-        $correctCustomerData[Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_WEBSITE]
-            = Mage::app()->getStore()->getWebsite()->getCode();
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
-        $correctCustomerData[$key] = Mage::registry('customer_balance');
-        $key = Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
-        $correctCustomerData[$key] = Mage::registry('reward_point_balance');
+        $correctCustomerData = array(
+            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_EMAIL
+                => Mage::registry('customer_finance_email'),
+            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_WEBSITE
+                => Mage::app()->getStore()->getWebsite()->getCode(),
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
+                => Mage::registry('customer_balance'),
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
+                => Mage::registry('reward_point_balance')
+        );
 
         asort($csvCustomerData);
         asort($correctCustomerData);

@@ -53,7 +53,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
         $this->assertEquals($second->getId(), $orderSecond->getId());
 
         $collection->setOrder('id', Varien_Data_Collection::SORT_ORDER_DESC);
-        list($first, $second) = array_values($collection->getItems());
+        list($orderFirst, $orderSecond) = array_values($collection->getItems());
         $this->assertEquals($second->getId(), $orderFirst->getId());
         $this->assertEquals($first->getId(), $orderSecond->getId());
     }

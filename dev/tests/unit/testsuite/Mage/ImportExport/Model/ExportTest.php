@@ -15,22 +15,29 @@
 class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Extension for export file
+     *
+     * @var string
+     */
+    protected $_exportFileExtension = 'csv';
+
+    /**
      * Return mock for Mage_ImportExport_Model_Export class
      *
      * @return Mage_ImportExport_Model_Export
      */
-    protected function _getMageImportExportModelExportStub()
+    protected function _getMageImportExportModelExportMock()
     {
-        /** @var $stubModelExportEntityV2Abstract Mage_ImportExport_Model_Export_Entity_V2_Abstract */
-        $stubEntityAbstract = $this->getMockForAbstractClass(
+        /** @var $mockEntityAbstract Mage_ImportExport_Model_Export_Entity_V2_Abstract */
+        $mockEntityAbstract = $this->getMockForAbstractClass(
             'Mage_ImportExport_Model_Export_Entity_V2_Abstract',
             array(),
             '',
             false
         );
 
-        /** @var $stubAdapterTest Mage_ImportExport_Model_Export_Adapter_Abstract */
-        $stubAdapterTest = $this->getMockForAbstractClass(
+        /** @var $mockAdapterTest Mage_ImportExport_Model_Export_Adapter_Abstract */
+        $mockAdapterTest = $this->getMockForAbstractClass(
             'Mage_ImportExport_Model_Export_Adapter_Abstract',
             array(),
             '',
@@ -39,26 +46,26 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             true,
             array('getFileExtension')
         );
-        $stubAdapterTest->expects($this->any())
+        $mockAdapterTest->expects($this->any())
             ->method('getFileExtension')
-            ->will($this->returnValue('csv'));
+            ->will($this->returnValue($this->_exportFileExtension));
 
-        /** @var $stubModelExport Mage_ImportExport_Model_Export */
-        $stubModelExport = $this->getMock(
+        /** @var $mockModelExport Mage_ImportExport_Model_Export */
+        $mockModelExport = $this->getMock(
             'Mage_ImportExport_Model_Export',
             array('getEntityAdapter', '_getEntityAdapter', '_getWriter')
         );
-        $stubModelExport->expects($this->any())
+        $mockModelExport->expects($this->any())
             ->method('getEntityAdapter')
-            ->will($this->returnValue($stubEntityAbstract));
-        $stubModelExport->expects($this->any())
+            ->will($this->returnValue($mockEntityAbstract));
+        $mockModelExport->expects($this->any())
             ->method('_getEntityAdapter')
-            ->will($this->returnValue($stubEntityAbstract));
-        $stubModelExport->expects($this->any())
+            ->will($this->returnValue($mockEntityAbstract));
+        $mockModelExport->expects($this->any())
             ->method('_getWriter')
-            ->will($this->returnValue($stubAdapterTest));
+            ->will($this->returnValue($mockAdapterTest));
 
-        return $stubModelExport;
+        return $mockModelExport;
     }
 
     /**
@@ -66,14 +73,15 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFileNameWithAdapterFileName()
     {
-        $model = $this->_getMageImportExportModelExportStub();
-        $model->getEntityAdapter()->setFileName('test_file_name');
+        $model = $this->_getMageImportExportModelExportMock();
+        $basicFileName = 'test_file_name';
+        $model->getEntityAdapter()->setFileName($basicFileName);
 
         $fileName = $model->getFileName();
         $correctDateTime = $this->_getCorrectDateTime($fileName);
         $this->assertNotNull($correctDateTime);
 
-        $correctFileName = 'test_file_name_' . $correctDateTime . '.csv';
+        $correctFileName = $basicFileName . '_' . $correctDateTime . '.' . $this->_exportFileExtension;
         $this->assertEquals($correctFileName, $fileName);
     }
 
@@ -82,15 +90,16 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
      */
     public function testGetFileNameWithoutAdapterFileName()
     {
-        $model = $this->_getMageImportExportModelExportStub();
+        $model = $this->_getMageImportExportModelExportMock();
         $model->getEntityAdapter()->setFileName(null);
-        $model->setEntity('test_entity');
+        $basicFileName = 'test_entity';
+        $model->setEntity($basicFileName);
 
         $fileName = $model->getFileName();
         $correctDateTime = $this->_getCorrectDateTime($fileName);
         $this->assertNotNull($correctDateTime);
 
-        $correctFileName = 'test_entity_' . $correctDateTime . '.csv';
+        $correctFileName = $basicFileName . '_' . $correctDateTime . '.' . $this->_exportFileExtension;
         $this->assertEquals($correctFileName, $fileName);
     }
 
