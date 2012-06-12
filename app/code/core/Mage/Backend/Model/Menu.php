@@ -14,20 +14,6 @@
 class Mage_Backend_Model_Menu extends ArrayObject
 {
     /**
-     * Sort index used to add items without sort index explicitly set
-     *
-     * @var int
-     */
-    protected $_sortIndex = 0;
-
-    /**
-     * Max index in array
-     *
-     * @var int
-     */
-    protected $_maxIndex = 0;
-
-    /**
      * Path in tree structure
      *
      * @var string
@@ -57,16 +43,11 @@ class Mage_Backend_Model_Menu extends ArrayObject
      */
     public function add(Mage_Backend_Model_Menu_Item $item, $parentId = null, $index = null)
     {
-        if ($this->get($item->getId())) {
-            throw new InvalidArgumentException('Item with id ' . $item->getId() . ' already exists in tree');
-        }
-
         if (!is_null($parentId)) {
             $this->get($parentId)->getChildren()->add($item, null, $index);
         } else {
-            $index = !is_null($index) ? $index : $this->_sortIndex++;
+            $index = intval($index);
             if (!isset($this[$index])) {
-                $this->_maxIndex = $this->_maxIndex < $index ? $index : $this->_maxIndex;
                 $this->offsetSet($index, $item);
                 $item->setPath($this->getFullPath());
             } else {
@@ -168,7 +149,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
      */
     public function isLast(Mage_Backend_Model_Menu_Item $item)
     {
-        return $this->offsetGet($this->_maxIndex)->getId() == $item->getId();
+        return $this->offsetGet(max(array_keys($this->getArrayCopy())))->getId() == $item->getId();
     }
 
     /**

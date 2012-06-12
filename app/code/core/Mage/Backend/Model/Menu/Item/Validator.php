@@ -31,6 +31,13 @@ class Mage_Backend_Model_Menu_Item_Validator
     );
 
     /**
+     * List of created item ids
+     *
+     * @var array
+     */
+    protected $_ids = array();
+
+    /**
      * The list of primitive validators
      *
      * @var Zend_Validate[]
@@ -64,6 +71,10 @@ class Mage_Backend_Model_Menu_Item_Validator
             if (!isset($data[$param])) {
                 throw new BadMethodCallException('Missing required param ' . $param);
             }
+        }
+
+        if (array_search($data['id'], $this->_ids) !== false) {
+            throw new InvalidArgumentException('Item with id ' . $data ['id'] . ' already exists');
         }
 
         foreach ($data as $param => $value) {

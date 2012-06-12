@@ -41,17 +41,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Backend_Model_Menu();
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
-    public function testAddWithExistingMenuItemIdThrowsException()
-    {
-        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
-        $item->expects($this->exactly(2))->method('getId')->will($this->returnValue('item1'));
-        $this->_model->add($this->_items['item1']);
-        $this->_model->add($item);
-    }
-
     public function testAdd()
     {
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
@@ -99,6 +88,132 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
             $itemsOrdered[] = $item->getId();
         }
         $this->assertEquals(array('item1', 'item3', 'item2'), $itemsOrdered);
+    }
+
+    public function testGet()
+    {
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+
+        $this->assertEquals($this->_items['item1'], $this->_model[0]);
+        $this->assertEquals($this->_items['item2'], $this->_model[1]);
+        $this->assertEquals($this->_items['item1'], $this->_model->get('item1'));
+        $this->assertEquals($this->_items['item2'], $this->_model->get('item2'));
+    }
+
+    public function testGetRecursive()
+    {
+        $menu1 = new Mage_Backend_Model_Menu();
+        $menu2 = new Mage_Backend_Model_Menu();
+
+        $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
+        $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menu1));
+        $this->_model->add($this->_items['item1']);
+
+        $this->_items['item2']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
+        $this->_items['item2']->expects($this->any())->method('getChildren')->will($this->returnValue($menu2));
+        $menu1->add($this->_items['item2']);
+
+        $this->_items['item3']->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
+        $menu2->add($this->_items['item3']);
+
+        $this->assertEquals($this->_items['item1'], $this->_model->get('item1'));
+        $this->assertEquals($this->_items['item2'], $this->_model->get('item2'));
+        $this->assertEquals($this->_items['item3'], $this->_model->get('item3'));
+    }
+
+    public function testMoveAddsItemToNewItem()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testMoveNonExistentItemThrowsException()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testMoveToNonExistentItemThrowsException()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testRemoveRemovesMenuItem()
+    {
+        $this->_model->add($this->_items['item1']);
+
+        $this->assertCount(1, $this->_model);
+        $this->assertEquals($this->_items['item1'], $this->_model->get('item1'));
+
+        $this->_model->remove('item1');
+        $this->assertCount(0, $this->_model);
+        $this->assertNull($this->_model->get('item1'));
+    }
+
+    public function testRemoveRemovesMenuItemRecursively()
+    {
+        $menuMock = $this->getMock('Mage_Backend_Model_Menu');
+        $menuMock->expects($this->once())
+            ->method('remove')
+            ->with($this->equalTo('item2'));
+
+        $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
+        $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menuMock));
+        $this->_model->add($this->_items['item1']);
+
+        $this->_model->remove('item2');
+    }
+
+    public function testReorderReordersItemOnTopLevel()
+    {
+        $this->_model->add($this->_items['item1'], null, 10);
+        $this->_model->add($this->_items['item2'], null, 20);
+
+        $this->assertEquals($this->_items['item2'], $this->_model[20]);
+        $this->_model->reorder('item2', 5);
+        $this->assertEquals($this->_items['item2'], $this->_model[5]);
+        $this->assertFalse(isset($this->_model[20]));
+    }
+
+    public function testReorderReordersItemOnItsLevel()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testIsLast()
+    {
+        $this->_model->add($this->_items['item1'], null, 10);
+        $this->_model->add($this->_items['item2'], null, 16);
+        $this->_model->add($this->_items['item3'], null, 15);
+
+        $this->assertTrue($this->_model->isLast($this->_items['item2']));
+        $this->assertFalse($this->_model->isLast($this->_items['item3']));
+    }
+
+    public function testSetPathUpdatesAllChildren()
+    {
+        $this->_items['item1']->expects($this->exactly(2))->method('setPath');
+        $this->_model->add($this->_items['item1']);
+
+        $this->_items['item2']->expects($this->exactly(2))->method('setPath');
+        $this->_model->add($this->_items['item2']);
+
+        $this->_model->setpath('root');
+    }
+
+    public function testGetFirstAvailableReturnsLeafNode()
+    {
+        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
+        $item->expects($this->once())->method('setPath');
+        $item->expects($this->exactly(1))->method('isDisabled')->will($this->returnValue(true));
+        $item->expects($this->never())->method('getFirstAvailable');
+        $this->_model->add($item);
+
+        $this->_items['item1']->expects($this->once())->method('hasChildren');
+        $this->_items['item1']->expects($this->once())->method('getAction')
+            ->will($this->returnValue('/root/system/node'));
+        $this->_model->add($this->_items['item1']);
+
+        $this->assertEquals('/root/system/node', $this->_model->getFirstAvailable()->getAction());
     }
 
     public function testNextWithAllItemsDisabledDoesntIterate()
@@ -153,76 +268,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($items, $items2);
     }
 
-    public function testIsLast()
-    {
-        $this->_model->add($this->_items['item1'], null, 10);
-        $this->_model->add($this->_items['item2'], null, 16);
-        $this->_model->add($this->_items['item3'], null, 15);
-
-        $this->assertTrue($this->_model->isLast($this->_items['item2']));
-        $this->assertFalse($this->_model->isLast($this->_items['item3']));
-    }
-
-    public function testSetPathUpdatesAllChildren()
-    {
-        $this->_items['item1']->expects($this->exactly(2))->method('setPath');
-        $this->_model->add($this->_items['item1']);
-
-        $this->_items['item2']->expects($this->exactly(2))->method('setPath');
-        $this->_model->add($this->_items['item2']);
-
-        $this->_model->setpath('root');
-    }
-
-    public function testGetFirstAvailableReturnsLeafNode()
-    {
-        $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
-        $item->expects($this->once())->method('setPath');
-        $item->expects($this->exactly(2))->method('isDisabled')->will($this->returnValue(false));
-        $item->expects($this->exactly(2))->method('isAllowed')->will($this->returnValue(false));
-        $item->expects($this->never())->method('getFirstAvailable');
-        $this->_model->add($item);
-
-        $this->_items['item1']->expects($this->once())->method('hasChildren');
-        $this->_items['item1']->expects($this->once())->method('getAction')
-            ->will($this->returnValue('/root/system/node'));
-        $this->_model->add($this->_items['item1']);
-
-        $this->assertEquals('/root/system/node', $this->_model->getFirstAvailable()->getAction());
-    }
-
-    public function testGet()
-    {
-        $this->_model->add($this->_items['item1']);
-        $this->_model->add($this->_items['item2']);
-
-        $this->assertEquals($this->_items['item1'], $this->_model[0]);
-        $this->assertEquals($this->_items['item2'], $this->_model[1]);
-        $this->assertEquals($this->_items['item1'], $this->_model->get('item1'));
-        $this->assertEquals($this->_items['item2'], $this->_model->get('item2'));
-    }
-
-    public function testGetRecursive()
-    {
-        $menu1 = new Mage_Backend_Model_Menu();
-        $menu2 = new Mage_Backend_Model_Menu();
-
-        $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
-        $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menu1));
-        $this->_model->add($this->_items['item1']);
-
-        $this->_items['item2']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
-        $this->_items['item2']->expects($this->any())->method('getChildren')->will($this->returnValue($menu2));
-        $menu1->add($this->_items['item2']);
-
-        $this->_items['item3']->expects($this->any())->method('hasChildren')->will($this->returnValue(false));
-        $menu2->add($this->_items['item3']);
-
-        $this->assertEquals($this->_items['item1'], $this->_model->get('item1'));
-        $this->assertEquals($this->_items['item2'], $this->_model->get('item2'));
-        $this->assertEquals($this->_items['item3'], $this->_model->get('item3'));
-    }
-
     /**
      * Test reset iterator to first element before each foreach
      */
@@ -245,48 +290,5 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
             }
         }
         $this->assertEquals($expected, $actual);
-    }
-
-    public function testRemoveRemovesMenuItem()
-    {
-        $this->_model->add($this->_items['item1']);
-
-        $this->assertCount(1, $this->_model);
-        $this->assertEquals($this->_items['item1'], $this->_model->get('item1'));
-
-        $this->_model->remove('item1');
-        $this->assertCount(0, $this->_model);
-        $this->assertNull($this->_model->get('item1'));
-    }
-
-    public function testRemoveRemovesMenuItemRecursively()
-    {
-        $menuMock = $this->getMock('Mage_Backend_Model_Menu');
-        $menuMock->expects($this->once())
-            ->method('remove')
-            ->with($this->equalTo('item2'));
-
-        $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
-        $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menuMock));
-        $this->_model->add($this->_items['item1']);
-
-        $this->_model->remove('item2');
-    }
-
-    public function testReorderReordersItemOnTopLevel()
-    {
-
-        $this->_model->add($this->_items['item1'], null, 10);
-        $this->_model->add($this->_items['item2'], null, 20);
-
-        $this->assertEquals($this->_items['item2'], $this->_model[20]);
-        $this->_model->reorder('item2', 5);
-        $this->assertEquals($this->_items['item2'], $this->_model[5]);
-        $this->assertFalse(isset($this->_model[20]));
-    }
-
-    public function testReorderReordersItemOnItsLevel()
-    {
-        $this->markTestIncomplete();
     }
 }

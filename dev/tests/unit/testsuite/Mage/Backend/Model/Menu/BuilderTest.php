@@ -66,7 +66,7 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_model->processCommand($command2);
     }
 
-    public function testGetResult()
+    public function testGetResultBuildsTreeStructure()
     {
         $this->markTestIncomplete();
         $this->_model->processCommand(

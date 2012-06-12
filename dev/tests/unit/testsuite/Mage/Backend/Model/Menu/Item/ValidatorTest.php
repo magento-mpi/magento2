@@ -152,5 +152,10 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
             array('toolTip', '123456789012345678901234567890123456789012345678901'),
         );
     }
+
+    public function testValidateWithDuplicateIdsThrowsException()
+    {
+        $this->markTestIncomplete();
+    }
 }
 

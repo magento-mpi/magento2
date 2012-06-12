@@ -82,7 +82,6 @@ class Mage_Backend_Model_Menu_Builder
             }
         }
 
-
         foreach($items as $id => $item) {
             if (!isset($params[$id]['parent'])) {
                 $this->_menu->add(
