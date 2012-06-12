@@ -259,7 +259,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 }
                 $i++;
             }
-            if ($i + 1 == $fieldsToCompare) {
+            if ($i == $fieldsToCompare) {
                 return $lineIndex;
             }
         }
@@ -301,16 +301,14 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
 
         // converting Yes/No/noValue to numeric 1 or 0
-        foreach ($rawData as &$value) {
+        foreach ($rawData as $value) {
             if (isset($convertToNumeric[$value])) {
                 $value = $convertToNumeric[$value];
             }
         }
 
         // adjust attribute keys
-        foreach ($rawData as $key => $value) {
-            $customerToCsvKeys[$key] = $value;
-        }
+        $customerToCsvKeys = $rawData;
         foreach ($customerToCsvKeys as $key => $value) {
             $customerToCsvKeys[$key] = $key;
         }
@@ -335,7 +333,39 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @return array
      */
     public function prepareAddressData($rawData) {
-        //TODO
+
+        // convert street
+        $rawData['street'] = $rawData['street_address_line_1'] . "\n" . $rawData['street_address_line_2'];
+
+        $excludeFromComparison = array(
+            'country',
+            'street_address_line_1',
+            'street_address_line_2'
+        );
+
+        foreach ($excludeFromComparison as $excludeField) {
+            if (array_key_exists($excludeField, $rawData)) {
+                unset($rawData[$excludeField]);
+            }
+        }
+
+        $tastyData = array();
+
+        // adjust attribute keys
+        $customerToCsvKeys = $rawData;
+        foreach ($customerToCsvKeys as $key => $value) {
+            $customerToCsvKeys[$key] = $key;
+        }
+        $customerToCsvKeys['first_name'] = "firstname";
+        $customerToCsvKeys['last_name'] = 'lastname';
+        $customerToCsvKeys['state'] = 'region';
+        $customerToCsvKeys['zip_code'] = 'postcode';
+
+        // keys exchange and copying values
+        foreach ($rawData as $key => $value) {
+            $tastyData[$customerToCsvKeys[$key]] = $value;
+        }
+        return $tastyData;
     }
 
     /**

@@ -416,7 +416,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>Expected: Check that among all customers addresses your customer address with attribute is present</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5487
+     * @TestlinkId TL-MAGE-5490
      */
     public function simpleExportAddressFile()
     {
@@ -441,7 +441,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         //Step5-6
         $report = $this->ImportExportHelper()->export();
         //Verifying
-        $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $userData, $report),
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $addressData, $report),
             "Customer address not found in csv file");
     }
 }
