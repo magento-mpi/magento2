@@ -34,14 +34,12 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Set category ID from link into UImap
- * @param string $categoryName
- */
-
-
-class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
+class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
 {
+    /**
+     * Set category ID from link into UImap
+     * @param string $categoryName
+     */
     public function setCategoryIdFromLink($categoryName)
     {
         $this->addParameter('categoryName', $categoryName);
