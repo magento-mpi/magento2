@@ -37,7 +37,6 @@
 /**
  * Set category ID from link into UImap
  * @param string $categoryName
- * @return string
  */
 
 
@@ -50,7 +49,12 @@ class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
         $link = $this->getAttribute($linkXpath . '/@href');
         // parse link received from xpath
         $parsedLink = parse_url($link);
-        $getIdFromLink = parse_str($parsedLink['query']);
-        $this->addParameter('catid', $cat);
+        parse_str($parsedLink['query']);
+        if (isset($cat)) {
+            $this->addParameter('catid', $cat);
+        }
+        else {
+            fail("There is no category ID in the parsed link");
+        }
     }
 }
