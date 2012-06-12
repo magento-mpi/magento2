@@ -76,6 +76,7 @@ class Mage_Backend_Model_Menu_Item_Validator
         if (array_search($data['id'], $this->_ids) !== false) {
             throw new InvalidArgumentException('Item with id ' . $data ['id'] . ' already exists');
         }
+        $this->_ids[] = $data['id'];
 
         foreach ($data as $param => $value) {
             if (isset($this->_requiredTypes[$param]) && !($data[$param] instanceof $this->_requiredTypes[$param])) {

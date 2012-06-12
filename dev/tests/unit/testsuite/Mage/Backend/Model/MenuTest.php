@@ -122,19 +122,49 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->_items['item3'], $this->_model->get('item3'));
     }
 
-    public function testMoveAddsItemToNewItem()
+    public function testMove()
     {
-        $this->markTestIncomplete();
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+        $this->_model->add($this->_items['item3']);
+
+        $subMenu = $this->getMock("Mage_Backend_Model_Menu");
+        $subMenu->expects($this->once())
+            ->method("add")
+            ->with($this->_items['item3']);
+
+        $this->_items['item1']->expects($this->once())
+            ->method("getChildren")
+            ->will($this->returnValue($subMenu));
+
+        $this->_model->move('item3', 'item1');
+
+        $this->assertCount(2, $this->_model);
+        $this->assertFalse(isset($this->_model[2]), "ttt");
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testMoveNonExistentItemThrowsException()
     {
-        $this->markTestIncomplete();
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+        $this->_model->add($this->_items['item3']);
+
+        $this->_model->move('item4', 'item1');
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testMoveToNonExistentItemThrowsException()
     {
-        $this->markTestIncomplete();
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2']);
+        $this->_model->add($this->_items['item3']);
+
+        $this->_model->move('item3', 'item4');
     }
 
     public function testRemoveRemovesMenuItem()
