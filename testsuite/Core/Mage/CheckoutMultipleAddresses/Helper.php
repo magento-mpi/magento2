@@ -318,11 +318,11 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-        $setXpath = $this->_getControlXpath('pageelement', 'billing_information');
+        $setXpath = $this->_getControlXpath('pageelement', 'billing_information'). self::$activeTab;
+        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
+        $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton('continue_to_billing_information', false);
-        $this->waitForElement(array($setXpath . self::$activeTab, $this->_getMessageXpath('general_error'),
-                                    $this->_getMessageXpath('general_validation')));
-        $this->assertMessageNotPresent('error');
+        $this->waitForElement($waitCondition);
         $this->validatePage('checkout_multishipping_payment_methods');
     }
 

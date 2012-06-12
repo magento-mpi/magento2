@@ -65,11 +65,33 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
      */
     public function simpleExportFinanceFile()
     {
-        $this->navigate('manage_customer_attributes');
-        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_attribute');
+        //Preconditions
+        $this->navigate('manage_customers');
+        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_account');
         $this->customerHelper()->createCustomer($attrData);
-        $this->customerHelper()->openCustomer($attrData);
-        $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'1001'));
+        $this->customerHelper()->openCustomer(array('email' => $attrData['email']));
+        $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'10011'));
+        $this->customerHelper()->openCustomer(array('email' => $attrData['email']));
+        $this->customerHelper()->updateRewardPointsBalance(array('update_balance' =>'1002'));
+        //Step 1
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 3
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 4
+        $this->fillDropdown('export_file', 'Customer Finances');
+        $this->waitForAjax();
+        $report = $this->ImportExportHelper()->export();
+        $this->assertNotNull($this->importExportHelper()->lookForEntity('finance',
+                array(
+                    'email' => $attrData['email'],
+                    'store_credit' => '10011',
+                    'reward_points' => '1002'),
+                $report),
+            "Customer with specific Store Credit and Reward Points not found in csv file");
+
     }
 
 }

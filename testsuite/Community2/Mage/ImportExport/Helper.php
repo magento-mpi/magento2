@@ -259,7 +259,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 }
                 $i++;
             }
-            if ($i + 1 == $fieldsToCompare) {
+            if ($i == $fieldsToCompare) {
                 return $lineIndex;
             }
         }
@@ -345,7 +345,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @return array
      */
     public function prepareFinanceData($rawData) {
-        //TODO
+        //convert Store Credit to float format
+        if (isset($rawData['store_credit'])){
+            $rawData['store_credit'] = (float)$rawData['store_credit'];
+            $rawData['store_credit'] = number_format($rawData['store_credit'],4,'.','');
+        }
+        return $rawData;
     }
 
     /**
