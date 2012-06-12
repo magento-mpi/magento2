@@ -179,33 +179,30 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     public function exportMasterFileWithFilters()
     {
         //Precondition: create attribute, create new customer, fill created attribute
-        $this->navigate('manage_customer_attributes');
-        $attrData = $this->loadDataSet('ImportExport.yml', 'generic_customer_attribute');
-        $this->customerAttributeHelper()->createAttribute($attrData);
-        $this->addParameter('attribute_name', $attrData['attribute_code']);
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'customer_account_with_attribute');
+        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-       //Step 1
+        //Step 1
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        //Step 2
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
+        //Step2
         $this->fillDropdown('export_file_version', 'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step4
         $this->fillDropdown('export_file', 'Customers Main File');
         $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
-        //Step5-6
+        //Step3
+        $this->ImportExportHelper()
+            ->setFilter(array('firstname' => $userData['first_name']));
+        //Step4-5
         $report = $this->ImportExportHelper()->export();
         //Verifying
-        $userData[$attrData['attribute_code']] = $userData['custom_attribute'];
-        unset($userData['custom_attribute']);
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file");
+        $this->assertEquals(0, $this->importExportHelper()->lookForEntity('master', $userData, $report),
+            "Other customers are present in csv file");
     }
 
     /**

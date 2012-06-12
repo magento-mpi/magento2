@@ -462,4 +462,28 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     public function getCustomerEntityType(){
         return array('Customers Main File', 'Customer Addresses');
     }
+
+    /**
+     * Fill filter form
+     *
+     * @param array $data array(attribute_code => attribute_value)
+     * @throws Exception
+     */
+    public function setFilter($data)
+    {
+        foreach ($data as $attr_code => $value) {
+            $this->addParameter('attr_code', $attr_code);
+            if ($this->controlIsPresent('field', 'date_filter_from')) {
+                $this->fillField('date_filter_from', $value['from']);
+                $this->fillField('date_filter_to', $value['to']);
+            } elseif ($this->controlIsPresent('field', 'input_filter')) {
+                $this->fillField('input_filter', $value);
+            } elseif ($this->controlIsPresent('dropdown', 'select_filter')) {
+                $this->fillDropdown('select_filter', $value);
+            } elseif ($this->controlIsPresent('field', 'text_filter_from')) {
+                $this->fillField('text_filter_from', $value['from']);
+                $this->fillField('text_filter_to', $value['to']);
+            }
+        }
+    }
 }

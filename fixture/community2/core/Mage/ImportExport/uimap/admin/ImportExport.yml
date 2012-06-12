@@ -90,9 +90,16 @@ export:
                         fields:
                             attribute_label: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_frontend_label']
                             attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']
+                            date_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%'][contains(@class, 'input-text-range-date')]
+                            date_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%_to'][contains(@class, 'input-text-range-date')]
+                            input_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-export-filter')]
+                            text_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
+                            text_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
                         buttons:
                             reset_filter: //table[@class='actions']//button[@title='Reset Filter']
                             search: //table[@class='actions']//button[@title='Search']
+                        dropdowns:
+                            select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
         messages:
             task_in_queue: //div[@id='messages']//*[@class='success-msg']//span[contains(text(),'Export task has been added to queue')]
         buttons:
