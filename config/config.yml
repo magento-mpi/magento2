@@ -88,13 +88,13 @@ applications:
         fallbackOrderHelper: 'Core'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento/admin/'
+                url: 'http://kq.varien.com/builds/vixit/ee_taf_build/release/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento/'
+                url: 'http://kq.varien.com/builds/vixit/ee_taf_build/release/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
@@ -165,4 +165,22 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *enterprise
+    magento17community: &magento17community
+        fallbackOrderFixture: 'community17, default'
+        fallbackOrderHelper: 'Community17, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento17community/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento17community/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    default: *mage
