@@ -35,13 +35,21 @@ class Helper_Catalog_Product_Simple extends Magento_Test_Webservice {
      *
      * @param Mage_Catalog_Model_Product $product
      * @param array $expectedProductData
+     * @param array $skipAttributes
+     * @param array $skipStockItemAttributes
      */
-    public function checkSimpleAttributesData($product, $expectedProductData)
-    {
+    public function checkSimpleAttributesData($product, $expectedProductData, $skipAttributes = array(),
+        $skipStockItemAttributes = array()
+    ) {
+        $expectedProductData = array_diff_key($expectedProductData, array_flip($skipAttributes));
+
         $dateAttributes = array('news_from_date', 'news_to_date', 'special_from_date', 'special_to_date',
             'custom_design_from', 'custom_design_to');
         foreach ($dateAttributes as $attribute) {
-            $this->assertEquals(strtotime($expectedProductData[$attribute]), strtotime($product->getData($attribute)));
+            if (isset($expectedProductData[$attribute])) {
+                $this->assertEquals(strtotime($expectedProductData[$attribute]),
+                    strtotime($product->getData($attribute)));
+            }
         }
 
         $exclude = array_merge($dateAttributes, array('group_price', 'tier_price', 'stock_data',
@@ -50,13 +58,15 @@ class Helper_Catalog_Product_Simple extends Magento_Test_Webservice {
         $this->assertEquals('123-abc', $product->getUrlKey());
         $productAttributes = array_diff_key($expectedProductData, array_flip($exclude));
         foreach ($productAttributes as $attribute => $value) {
-            $this->assertEquals($value, $product->getData($attribute));
+            $this->assertEquals($value, $product->getData($attribute), 'Invalid attribute "' . $attribute . '"');
         }
 
         if (isset($expectedProductData['stock_data'])) {
             $stockItem = $product->getStockItem();
-            foreach ($expectedProductData['stock_data'] as $attribute => $value) {
-                $this->assertEquals($value, $stockItem->getData($attribute));
+            $expectedStock = array_diff_key($expectedProductData['stock_data'], array_flip($skipStockItemAttributes));
+            foreach ($expectedStock as $attribute => $value) {
+                $this->assertEquals($value, $stockItem->getData($attribute),
+                    'Invalid stock_data attribute "' . $attribute . '"');
             }
         }
     }

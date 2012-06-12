@@ -16,7 +16,14 @@ return array(
         'set'   => 4,
         'sku'   => 'simple' . uniqid(),
         'productData'   => array(
-            'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
+            'name' => 'test',
+            'description' => 'description',
+            'short_description' => 'short description',
+            'weight' => 1,
+            'status' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+            'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            'price' => 9.99,
+            'tax_class_id' => 2,
         )
     ),
     'update'   => array(
@@ -44,6 +51,12 @@ return array(
         'productData'   => array(
             'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
             'name'          => 'Product with attributes',
+            'description' => 'description',
+            'short_description' => 'short description',
+            'weight' => 1,
+            'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            'price' => 9.99,
+            'tax_class_id' => 2,
             'additional_attributes' => array(
                 'single_data'     => array(
                     array(
@@ -74,6 +87,12 @@ return array(
         'productData'   => array(
             'status'        => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,   //required to see product on backend
             'name'          => 'Product with attributes',
+            'description' => 'description',
+            'short_description' => 'short description',
+            'weight' => 1,
+            'visibility' => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
+            'price' => 9.99,
+            'tax_class_id' => 2,
             'additional_attributes' => array(
                 'single_data'     => array(
                     'a_text_api'    => 'qqq123',
@@ -112,7 +131,8 @@ return array(
                 'price'             => 0.99,
                 'tax_class_id'      => 2,
                 'visibility'        => Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH,
-                'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED
+                'status'            => Mage_Catalog_Model_Product_Status::STATUS_ENABLED,
+                'weight'            => 1,
             )
         )
     )

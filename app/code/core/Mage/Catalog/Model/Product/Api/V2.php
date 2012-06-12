@@ -385,6 +385,22 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         $data['type_id'] = $product->getTypeId();
         $data['sku'] = $product->getSku();
         $data['attribute_set_id'] = $product->getAttributeSetId();
+
+        $tierPriceMap = array(
+            'website' => 'website_id',
+            'customer_group_id' => 'cust_group',
+            'qty'  => 'price_qty'
+        );
+        if ($data['tier_price'] && is_array($data['tier_price'])) {
+            foreach ($data['tier_price'] as &$tierPrice) {
+                foreach ($tierPriceMap as $arrayKey => $keyMapValue) {
+                    if (isset($tierPrice[$arrayKey])) {
+                        $tierPrice[$keyMapValue] = $tierPrice[$arrayKey];
+                        unset($tierPrice[$arrayKey]);
+                    }
+                }
+            }
+        }
         return $data;
     }
 }

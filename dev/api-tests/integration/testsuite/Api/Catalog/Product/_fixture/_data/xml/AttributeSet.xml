@@ -46,6 +46,10 @@
             <short_description>short description</short_description>
             <description>description</description>
             <price>222</price>
+            <weight>1</weight>
+            <status>1</status>
+            <visibility>4</visibility>
+            <tax_class_id>2</tax_class_id>
         </productData>
     </RelatedProduct>
 </root>
