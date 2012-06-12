@@ -47,8 +47,6 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
     {
         //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
-        $this->navigate('export');
     }
 
     /**
@@ -120,8 +118,63 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         // search for new custom customer address attribute
-        $this->assertArrayNotHasKey($attrData['attribute_code'], $report[0],
+        $this->assertArrayHasKey($attrData['attribute_code'], $report[0],
             'New custom customer address attribute is not present in export file'
+        );
+
+        return $attrData;
+    }
+
+    /**
+     * <p>Simple Export Address file with added address attribute (EE only)</p>
+     *
+     * <p>Preconditions:</p>
+     * <p>1. Admin is logged in at frontend</p>
+     * <p>2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes</p>
+     * <p>3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customer Address Attributes
+     * </p>
+     *
+     * <p>Steps</p>
+     * <p>1. In System-> Import/Export-> Export select "Customers" entity type</p>
+     * <p>2. Select "Magento2.0" format and "Address Type" file</p>
+     * <p>3. Click on "Continue" button, save and open CSV file.</p>
+     * <p>Expected: All customer addresses attributes are presented in opening file except new deleted attribute from
+     *    the precondition.</p>
+     *
+     * @test
+     * @param array $attrData
+     * @return array
+     * @depends simpleExportAddressFileWithCustomCustomerAddressAttribute
+     * @TestlinkId TL-MAGE-5501
+     */
+    public function simpleExportAddressFileWithDeletedCustomCustomerAddressAttribute($attrData)
+    {
+        //Precondition: delete custom address attribute
+        $this->admin('manage_customer_address_attributes');
+        $this->customerAddressAttributeHelper()->openAttribute(array('attribute_code'=> $attrData['attribute_code']));
+        //Delete attribute
+        $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_attribute');
+
+                //Step 1
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        //Step 2.1
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        //Step 2.2
+        $this->fillDropdown('export_file', 'Customer Addresses');
+        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+
+        //Step 3
+        $report = $this->ImportExportHelper()->export();
+        //Verifying
+        $this->assertNotNull($report, "Export csv file is empty");
+        // search for new custom customer address attribute
+        $this->assertArrayNotHasKey($attrData['attribute_code'], $report[0],
+            'Deleted custom customer address attribute is present in export file'
         );
     }
 }
