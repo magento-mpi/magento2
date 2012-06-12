@@ -84,12 +84,12 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                 if (!is_array($dataSet)) {
                     continue;
                 }
-                $this->disclosePaypalFieldset($dataSet['path']);
+                $fieldsetName = $this->disclosePaypalFieldset($dataSet['path']);
                 $forFill = array();
                 foreach ($dataSet['data'] as $key => $value) {
                     $forFill[$paymentName . '_' . $key] = $value;
                 }
-                $this->fillFieldset($forFill, end($fullPath));
+                $this->fillFieldset($forFill, $fieldsetName);
             }
         }
         $this->saveForm('save_config');
@@ -113,7 +113,11 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
     }
 
     /**
+     * Disclose Paypal fieldset
+     *
      * @param string $path
+     *
+     * @return string Fieldset name for filling in
      */
     public function disclosePaypalFieldset($path)
     {
@@ -125,9 +129,13 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                 $this->clickControl('link', $node . '_section', false);
             }
         }
+
+        return end($fullPath);
     }
 
     /**
+     * Select country for paypal
+     *
      * @param string $country
      */
     public function selectPaypalCountry($country)
@@ -144,6 +152,8 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
     }
 
     /**
+     * Disable all active paypal payment methods
+     *
      * @return null
      */
     public function disableAllPaypalMethods()
