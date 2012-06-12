@@ -250,8 +250,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         unset($userData['custom_attribute']);
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file");
-        $this->assertEquals(0, $this->importExportHelper()->lookForEntity('master', $userData, $report),
-            "Other customers are present in csv file");
+        $this->assertEquals(1, count($report), "Other customers are present in csv file");
     }
 
 }
