@@ -121,19 +121,20 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 $tablePath = "css=table#export_filter_grid_table>tbody>tr>td.last>{$elementType}[name*='export_filter']";
                 $size = $this->getXpathCount($tablePath);
                 for($i=0;$i<$size;$i++){
-                //get attributes filters and values array
-                $attName = $this->getAttribute($tablePath . ":nth({$i})@name");
-                switch ($elementType) {
-                    case 'input':
-                        $attValue = $this->getText($tablePath . ":nth({$i})");
-                        break;
-                    case 'select':
-                        break;
-                        $attValue = $this->getSelectedValue($tablePath . ":nth({$i})");
-                    default:
-                        break;
-                }
-                $parameters[trim($attName)] = $attValue;
+                    $attValue = '';
+                    //get attributes filters and values array
+                    $attName = $this->getAttribute($tablePath . ":nth({$i})@name");
+                    switch ($elementType) {
+                        case 'input':
+                            $attValue = $this->getValue($tablePath . ":nth({$i})");
+                            break;
+                        case 'select':
+                            $attValue = $this->getSelectedValue($tablePath . ":nth({$i})");
+                            break;
+                        default:
+                            break;
+                    }
+                    $parameters[trim($attName)] = $attValue;
                 }
             }
             return $parameters;
@@ -151,12 +152,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             $size = $this->getXpathCount($tablePath);
             $parameters['skip_attr[]'] = array();
             for($i=0;$i<$size;$i++){
-            if ($this->isChecked($tablePath . ":nth({$i})")){
-                //get attribute id
-                $attID = $this->getAttribute($tablePath . ":nth({$i})" . '@value');
-                //save attribute id, invers saving
-                $parameters['skip_attr[]'][]=$attID;
-            }
+                if ($this->isChecked($tablePath . ":nth({$i})")){
+                    //get attribute id
+                    $attID = $this->getAttribute($tablePath . ":nth({$i})" . '@value');
+                    //save attribute id, invers saving
+                    $parameters['skip_attr[]'][]=$attID;
+                }
             }
             if (count($parameters['skip_attr[]'])==0){
                 unset($parameters['skip_attr[]']);
@@ -231,7 +232,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * Returns line index
      *
      * @param string $fileType File type (master|address|finance)
-     * @param array $needleData Customer/Address/Finance line data
+     * @param array $needleData Main/Address/Finance line data
      * @param array $fileLines Array from csv file
      * @return int
      */
@@ -259,7 +260,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 }
                 $i++;
             }
-            if ($i + 1 == $fieldsToCompare) {
+            if ($i == $fieldsToCompare) {
                 return $lineIndex;
             }
         }
@@ -301,16 +302,14 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
 
         // converting Yes/No/noValue to numeric 1 or 0
-        foreach ($rawData as &$value) {
+        foreach ($rawData as $value) {
             if (isset($convertToNumeric[$value])) {
                 $value = $convertToNumeric[$value];
             }
         }
 
         // adjust attribute keys
-        foreach ($rawData as $key => $value) {
-            $customerToCsvKeys[$key] = $value;
-        }
+        $customerToCsvKeys = $rawData;
         foreach ($customerToCsvKeys as $key => $value) {
             $customerToCsvKeys[$key] = $key;
         }
@@ -335,7 +334,40 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @return array
      */
     public function prepareAddressData($rawData) {
-        //TODO
+
+        // convert street
+        $rawData['street'] = $rawData['street_address_line_1'] . "\n" . $rawData['street_address_line_2'];
+
+        $excludeFromComparison = array(
+            'country',
+            'street_address_line_1',
+            'street_address_line_2'
+        );
+
+        foreach ($excludeFromComparison as $excludeField) {
+            if (array_key_exists($excludeField, $rawData)) {
+                unset($rawData[$excludeField]);
+            }
+        }
+
+        $tastyData = array();
+
+        // adjust attribute keys
+        $customerToCsvKeys = $rawData;
+        foreach ($customerToCsvKeys as $key => $value) {
+            $customerToCsvKeys[$key] = $key;
+        }
+        $customerToCsvKeys['first_name'] = "firstname";
+        $customerToCsvKeys['last_name'] = 'lastname';
+        $customerToCsvKeys['middle_name'] = 'middlename';
+        $customerToCsvKeys['state'] = 'region';
+        $customerToCsvKeys['zip_code'] = 'postcode';
+
+        // keys exchange and copying values
+        foreach ($rawData as $key => $value) {
+            $tastyData[$customerToCsvKeys[$key]] = $value;
+        }
+        return $tastyData;
     }
 
     /**
@@ -345,7 +377,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @return array
      */
     public function prepareFinanceData($rawData) {
-        //TODO
+        //convert Store Credit to float format
+        if (isset($rawData['store_credit'])){
+            $rawData['store_credit'] = (float)$rawData['store_credit'];
+            $rawData['store_credit'] = number_format($rawData['store_credit'],4,'.','');
+        }
+        return $rawData;
     }
 
     /**

@@ -105,7 +105,7 @@ class Core_Mage_Rating_Helper extends Mage_Selenium_TestCase
         foreach ($storeViewTitles as $value) {
             if (isset($value['store_view_name']) && isset($value['store_view_title'])) {
                 $this->addParameter('storeViewName', $value['store_view_name']);
-                $this->fillForm(array('store_view_title' => $value['store_view_title']));
+                $this->fillField('store_view_title', $value['store_view_title']);
             } else {
                 $this->fail('Incorrect data to fill');
             }

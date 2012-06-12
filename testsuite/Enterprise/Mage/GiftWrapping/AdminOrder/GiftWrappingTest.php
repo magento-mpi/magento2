@@ -44,7 +44,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 
     /**
@@ -68,8 +68,8 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
 
     /**
      * Create Gift Wrapping for tests
-     * @return array $gwData
      *
+     * @return array $gwData
      * @test
      */
     public function createGiftWrappingMain()
@@ -86,8 +86,8 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
 
     /**
      * Create additional Gift Wrapping for tests
-     * @return array $gwData
      *
+     * @return array $gwData
      * @test
      */
     public function createGiftWrappingAdditional()
@@ -120,20 +120,20 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Order is placed, Order View page opened. Gift options block should contain information about Gift Message,</p>
      * <p>with the same data (From/To/Message), as specified at Step 6;</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftMessagePerOrderAllowed($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder',
-                  'gift_messages_per_order')));
+            array('filter_sku'    => $simpleSku,
+                  'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_no_message_yes');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -154,10 +154,10 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>In "Gift Options" block of Order page Gift Message prompt for entire Order should be absent</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftMessagePerOrderDisabled($simpleSku)
     {
@@ -166,7 +166,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
             array('filter_sku' => $simpleSku));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_yes_message_no');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -198,23 +198,23 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>contain information about Gift Wrapping for entire Order with price ("Gift Wrapping for Order: $10.00"</p>
      * <p>in this example) and corresponding image</p>
      *
-     * @depends createSimpleProduct
-     * @depends createGiftWrappingMain
      * @param array $simpleSku
      * @param array $gwData
      *
      * @test
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
      */
     public function giftWrappingPerOrderAllowed($simpleSku, $gwData)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku' => $simpleSku,
-                  'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
+            array('filter_sku'    => $simpleSku,
+                  'gift_messages' => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
                       array('order_gift_wrapping_design' => $gwData['gift_wrapping_design']))));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('order_gift_wrapping_yes_message_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_yes_message_no');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -238,25 +238,26 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>In "Gift Options" block of Order page dropdown "Gift Wrapping Design" should be absent</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftWrappingPerOrderDisabled($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder',
-                      'gift_messages_per_order')));
+            array('filter_sku'    => $simpleSku,
+                  'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_per_order')));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('order_gift_wrapping_no_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_no_message_yes');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'),'Cannot find the block');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'),
+            'Cannot find the block');
     }
 
     /**
@@ -273,10 +274,10 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>"Gift Options" block should be absent on create Order Page</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftOptionsPerOrderDisabled($simpleSku)
     {
@@ -285,13 +286,14 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
             array('filter_sku' => $simpleSku));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_message_and_wrapping_all_disable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_and_wrapping_all_disable');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
         //Verifying
-        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'),'Cannot find the block');
-        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'),'Cannot find the block');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_message_block'), 'Cannot find the block');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'order_gift_wrapping_block'),
+            'Cannot find the block');
     }
 
     /**
@@ -317,19 +319,21 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>10. AJAX-popup appears. Data in fields related to Gift Message for Order Item(To/From/Message) should be</p>
      * <p> present (the same, as entered when Order was placed)</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
+     *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftMessageForIndividualItemAllowed($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'gift_messages' => $this->loadDataSet('SalesOrder',
-                      'gift_messages_individual', array('sku_product' => $simpleSku))));
+            array('filter_sku'    => $simpleSku,
+                  'gift_messages' => $this->loadDataSet('SalesOrder', 'gift_messages_individual',
+                      array('sku_product' => $simpleSku))));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_yes');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -353,18 +357,18 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>There should be no Gift Message for Individual Item prompt fields (To/From/Message) in AJAX-popup</p>
      *
-     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448'
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
-     * @group skip_due_to_bug
      * @test
+     * @depends createSimpleProduct
+     * @group skip_due_to_bug
+     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448'
      */
     public function giftMessageForIndividualItemDisabled($simpleSku)
     {
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_yes_message_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_no');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
@@ -403,25 +407,25 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>8. Selected in the previous step  Gift Wrapping should remain selected in "Gift Wrapping Design" dropdown;</p>
      * <p> present (the same, as entered when Order was placed)</p>
      *
-     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448
-     * @depends createSimpleProduct
-     * @depends createGiftWrappingMain
      * @param array $simpleSku
      * @param array $gwDataMain
-     * @group skip_due_to_bug
+     *
      * @test
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
+     * @group skip_due_to_bug
+     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448
      */
     public function giftWrappingForIndividualItemAllowed($simpleSku, $gwDataMain)
     {
         //Data
         $giftWrappingData = $this->loadDataSet('SalesOrder', 'gift_wrapping_for_item',
-                array('sku_product' => $simpleSku,
-                      'product_gift_wrapping_design' => $gwDataMain['gift_wrapping_design']));
+            array('sku_product' => $simpleSku, 'product_gift_wrapping_design' => $gwDataMain['gift_wrapping_design']));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                array('filter_sku' => $simpleSku, 'gift_messages' => $giftWrappingData));
+            array('filter_sku' => $simpleSku, 'gift_messages' => $giftWrappingData));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_yes_message_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_no');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData, false);
@@ -445,16 +449,16 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>There should be no "Gift Wrapping Design" dropdown in AJAX-popup</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftWrappingPerItemDisabled($simpleSku)
     {
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_yes');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_yes');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
@@ -463,7 +467,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         $this->clickControl('link', 'gift_options', false);
         //Verifying
         $this->assertFalse($this->controlIsPresent('pageelement', 'product_gift_wrapping_block'),
-                                                   'Cannot find the block');
+            'Cannot find the block');
     }
 
     /**
@@ -479,16 +483,16 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>"Gift Options" block should be absent on create Order Page;</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function giftOptionsPerItemDisabled($simpleSku)
     {
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('ind_items_gift_wrapping_no_message_no');
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_no');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
@@ -501,6 +505,7 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
     /**
      * @TODO Move from MAUTOSEL-259 branch to here
      */
+
     /**
      * <p>TL-MAGE-914: Edit order case</p>
      * <p>Preconditions:</p>
@@ -536,22 +541,21 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Gift Message for Individual Item fields should be filled with data, entered at time, when Order was</p>
      * <p>placed;</p>
      *
-     * @depends createSimpleProduct
-     * @depends createGiftWrappingMain
      * @param array $simpleSku
      * @param array $gwDataMain
      *
      * @test
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
      */
     public function editOrderGiftWrappingAllowed($simpleSku, $gwDataMain)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
-            array('product1' => $simpleSku,
-                  'giftWrappingDesign' => $gwDataMain['gift_wrapping_design']));
+            array('product1' => $simpleSku, 'giftWrappingDesign' => $gwDataMain['gift_wrapping_design']));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_enable_all_default_config');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_default_config');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -594,22 +598,21 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Gift Wrapping for Individual Item should not be selected in "Gift Wrapping Design" dropdown</p>
      * <p>Gift Message for Individual Item field should be blank</p>
      *
-     * @depends createSimpleProduct
-     * @depends createGiftWrappingMain
      * @param array $simpleSku
      * @param array $gwDataMain
      *
      * @test
+     * @depends createSimpleProduct
+     * @depends createGiftWrappingMain
      */
     public function reorderOrderGiftWrappingAllowed($simpleSku, $gwDataMain)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_gift_options_full', null,
-            array('product1' => $simpleSku,
-                  'giftWrappingDesign' => $gwDataMain['gift_wrapping_design']));
+            array('product1' => $simpleSku, 'giftWrappingDesign' => $gwDataMain['gift_wrapping_design']));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_options_enable_all_default_config');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_enable_all_default_config');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -618,8 +621,8 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
         //Steps
         $this->clickButton('reorder');
         //Verification
-        $giftOptions = $this->loadDataSet('SalesOrder', 'reorder_empty_gift_options', null,
-            array('product1' => $simpleSku));
+        $giftOptions =
+            $this->loadDataSet('SalesOrder', 'reorder_empty_gift_options', null, array('product1' => $simpleSku));
         $this->orderHelper()->verifyGiftOptions(array('gift_messages' => $giftOptions));
     }
 
@@ -641,22 +644,21 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>7. Order is placed, Order View page opened. Gift options block should contain "Send Gift Receipt"</p>
      * <p> checkbox, and it should be checked</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function createOrderGiftReceiptAllowed($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku'     => $simpleSku,
-                  'customer_email' => $this->generate('email', 32, 'valid'),
-                  'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
+            array('filter_sku'    => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid'),
+                  'gift_messages' => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
                       array('send_gift_receipt' => 'Yes'))));
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_receipt_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -687,18 +689,17 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p> checkbox, and it should be checked. Printed Сard price should be included in Order Totals block</p>
      * <p> ("Printed Card: $1.00" for example)</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function createOrderPrintedCardAllowed($simpleSku)
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-            array('filter_sku'     => $simpleSku,
-                  'customer_email' => $this->generate('email', 32, 'valid'),
-                  'gift_messages'   => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
+            array('filter_sku'    => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid'),
+                  'gift_messages' => $this->loadDataSet('OnePageCheckout', 'order_gift_wrapping',
                       array('add_printed_card' => 'Yes'))));
         //Configuration
         $this->navigate('system_configuration');
@@ -729,16 +730,16 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>5. Checkbox "Add Printed Card" should be absent in Gift Options block of Order creation page;</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function createOrderPrintedCardNotAllowed($simpleSku)
     {
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_printed_card_disable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_printed_card_disable');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');
@@ -762,16 +763,16 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * <p>Expected result:</p>
      * <p>5. Checkbox "Send Gift Receipt" should be absent in Gift Options block of Order creation page;</p>
      *
-     * @depends createSimpleProduct
      * @param array $simpleSku
      *
      * @test
+     * @depends createSimpleProduct
      */
     public function createOrderGiftReceiptDisabled($simpleSku)
     {
         //Configuration
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('gift_receipt_disable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_disable');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->navigateToCreateOrderPage(null, 'Default Store View');

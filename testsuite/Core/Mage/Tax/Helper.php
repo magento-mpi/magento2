@@ -77,7 +77,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
                 'Tax Titles for store views are defined, but cannot be set.');
             foreach ($rateTitles as $key => $value) {
                 $this->addParameter('storeNumber', $this->findTaxTitleByName($key));
-                $this->fillForm(array('tax_title' => $value));
+                $this->fillField('tax_title', $value);
             }
         }
         $this->saveForm('save_' . $type);

@@ -39,7 +39,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
     }
 
     public function assertPreconditions()
@@ -54,7 +54,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->logoutCustomer();
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_options_disable_all'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
         $this->_configHelper->getConfigAreas(true);
     }
 
@@ -104,12 +104,9 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
 
         return array('wrappingDefault' => $wrappingDefault['gift_wrapping_design'],
-                     'simpleDefault'   => $productDefault['general_name'],
-                     'userDefault'     => $userDefault['email'],
-                     'simple'          => $product['general_name'],
-                     'user'            => $user['email'],
-                     'wrapping'        => $wrapping['gift_wrapping_design'],
-                     'website'         => $websiteName,
+                     'simpleDefault'   => $productDefault['general_name'], 'userDefault'     => $userDefault['email'],
+                     'simple'          => $product['general_name'], 'user'            => $user['email'],
+                     'wrapping'        => $wrapping['gift_wrapping_design'], 'website'         => $websiteName,
                      'code'            => $website['general_information']['staging_website_code']);
     }
 
@@ -163,24 +160,21 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
                   'gift_wrapping_for_item'  => $testData['wrappingDefault'],
                   'gift_wrapping_for_order' => $testData['wrappingDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email'           => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         $verifyPrices = $this->loadDataSet('MultipleAddressesCheckout', 'verify_prices_all_gift_options', null,
-            array('product1'         => $testData['simpleDefault'],
-                  'product2'         => $testData['simpleDefault'],
+            array('product1'         => $testData['simpleDefault'], 'product2' => $testData['simpleDefault'],
                   'product1wrapping' => $testData['wrappingDefault'],
                   'product2wrapping' => $testData['wrappingDefault']));
         $checkoutData['verify_prices'] = $verifyPrices;
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_wrapping_all_enable'));
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_message_all_enable'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_wrapping_all_enable');
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_message_all_enable');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -222,18 +216,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_yes_order',
             array('gift_wrapping_for_order' => $testData['wrappingDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'order_gift_wrapping_yes_message_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_yes_message_yes');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -277,18 +268,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $testData['wrappingDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'ind_items_gift_wrapping_yes_message_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_yes');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -327,18 +315,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_item',
             array('product_name' => $testData['simpleDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'ind_items_gift_wrapping_no_message_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_no_message_yes');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -378,18 +363,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $testData['wrappingDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'ind_items_gift_wrapping_yes_message_no'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_no');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -428,18 +410,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email'           => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'order_gift_wrapping_no_message_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_no_message_yes');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -480,18 +459,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_no_wrap_yes_order',
             array('gift_wrapping_for_order' => $testData['wrappingDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'order_gift_wrapping_yes_message_no'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_yes_message_no');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -525,17 +501,16 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     {
         //Data
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => array('add_printed_card' => 'Yes'),
-                                                            'gift_options_address2' => array('add_printed_card' => 'Yes')));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'],
+                  'gift_options_address1' => array('add_printed_card' => 'Yes'),
+                  'gift_options_address2' => array('add_printed_card' => 'Yes')));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_card_enable_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_card_enable_yes');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -568,17 +543,16 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     {
         //Data
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => array('send_gift_receipt' => 'Yes'),
-                                                            'gift_options_address2' => array('send_gift_receipt' => 'Yes')));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'],
+                  'gift_options_address1' => array('send_gift_receipt' => 'Yes'),
+                  'gift_options_address2' => array('send_gift_receipt' => 'Yes')));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_receipt_enable_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_receipt_enable_yes');
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
@@ -633,22 +607,17 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $giftMessagesWebsite = $this->loadDataSet('GiftMessage', 'gift_message_all_enable_on_website',
             array('configuration_scope' => $testData['website']));
         $forProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'all_variants_for_gift_options',
-            array('product_name'            => $testData['simple'],
-                  'gift_wrapping_for_item'  => $testData['wrapping'],
+            array('product_name'            => $testData['simple'], 'gift_wrapping_for_item'  => $testData['wrapping'],
                   'gift_wrapping_for_order' => $testData['wrapping']));
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'all_variants_for_gift_options',
-            array('product_name'            => $testData['simple'],
-                  'gift_wrapping_for_item'  => $testData['wrapping'],
+            array('product_name'            => $testData['simple'], 'gift_wrapping_for_item'  => $testData['wrapping'],
                   'gift_wrapping_for_order' => $testData['wrapping']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simple'],
-                  'product_2' => $testData['simple']));
+            array('product_1' => $testData['simple'], 'product_2' => $testData['simple']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['user'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simple'],
-                                                            'product_2'             => $testData['simple'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email'=> $testData['user'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simple'], 'product_2'             => $testData['simple'],
+                  'gift_options_address1' => $forProduct1, 'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($wrappingWebsite);
@@ -703,14 +672,12 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $reconfigureForProduct1 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $reconfigureForProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order');
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         $reconfigureShipping =
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
@@ -721,8 +688,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'order_gift_wrapping_no_message_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/order_gift_wrapping_no_message_yes');
         $this->checkoutMultipleAddressesHelper()->doMultipleCheckoutSteps($checkoutData);
         $this->clickControl('link', 'shipping_method_change');
         $this->checkoutMultipleAddressesHelper()->verifyGiftOptions($checkoutData['shipping_data']);
@@ -786,14 +752,12 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
             array('product_name'           => $testData['simpleDefault'],
                   'gift_wrapping_for_item' => $wrapping['gift_wrapping_design']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         $reconfigureShipping =
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
@@ -804,8 +768,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'ind_items_gift_wrapping_yes_message_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_yes');
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($wrapping);
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
@@ -856,12 +819,10 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
     {
         //Data
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1' => $testData['simpleDefault'],
-                                                            'product_2' => $testData['simpleDefault']));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $reconfigureShipping =
             $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login/shipping_data', null,
                 array('product_1'             => $testData['simpleDefault'],
@@ -872,7 +833,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $reconfiguredCheckout['shipping_data'] = $reconfigureShipping;
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage', 'gift_card_enable_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/gift_card_enable_yes');
         $this->checkoutMultipleAddressesHelper()->doMultipleCheckoutSteps($checkoutData);
         $this->clickControl('link', 'shipping_method_change');
         $this->checkoutMultipleAddressesHelper()->verifyGiftOptions($checkoutData['shipping_data']);
@@ -918,18 +879,15 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $forProduct2 = $this->loadDataSet('MultipleAddressesCheckout', 'mess_yes_wrap_no_order_mess_yes_wrap_no_item',
             array('product_name' => $testData['simpleDefault']));
         $productsAdd = $this->loadDataSet('MultipleAddressesCheckout', 'products_to_add_with_qty', null,
-            array('product_1' => $testData['simpleDefault'],
-                  'product_2' => $testData['simpleDefault']));
+            array('product_1' => $testData['simpleDefault'], 'product_2' => $testData['simpleDefault']));
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_login',
-            array('email'           => $testData['userDefault'],
-                  'products_to_add' => $productsAdd), array('product_1'             => $testData['simpleDefault'],
-                                                            'product_2'             => $testData['simpleDefault'],
-                                                            'gift_options_address1' => $forProduct1,
-                                                            'gift_options_address2' => $forProduct2));
+            array('email' => $testData['userDefault'], 'products_to_add' => $productsAdd),
+            array('product_1'             => $testData['simpleDefault'],
+                  'product_2'             => $testData['simpleDefault'], 'gift_options_address1' => $forProduct1,
+                  'gift_options_address2' => $forProduct2));
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('GiftMessage',
-            'ind_items_all_yes_order_all_yes'));
+        $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_all_yes_order_all_yes');
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->disableAllGiftWrapping();
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);

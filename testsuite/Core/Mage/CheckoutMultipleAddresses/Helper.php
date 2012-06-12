@@ -318,11 +318,11 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-        $setXpath = $this->_getControlXpath('pageelement', 'billing_information');
+        $setXpath = $this->_getControlXpath('pageelement', 'billing_information'). self::$activeTab;
+        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
+        $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
         $this->clickButton('continue_to_billing_information', false);
-        $this->waitForElement(array($setXpath . self::$activeTab, $this->_getMessageXpath('general_error'),
-                                    $this->_getMessageXpath('general_validation')));
-        $this->assertMessageNotPresent('error');
+        $this->waitForElement($waitCondition);
         $this->validatePage('checkout_multishipping_payment_methods');
     }
 
@@ -570,7 +570,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
         $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
         //Verify quantity orders
-        $actualQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'shipping_address_info'));
+        $actualQty = $this->getXpathCount($this->_getControlXpath('pageelement', 'shipping_method_products'));
         $this->assertEquals(count($shippings), $actualQty, 'orders quantity is wrong');
         //Verify selected Shipping addresses for orders
         $orderHeaders = array();
@@ -649,7 +649,13 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             //Get order shipping method data
             $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
             list($service, $methodAndPrice) = array_map('trim', explode('-', $shipping));
-            list($method, $price) = explode(' ', $methodAndPrice);
+            preg_match_all('/\([A-Za-z]+\. [A-Za-z]+ ([^0-9\s]+)?(([\d]+\.[\d]+)|([\d]+))\)/', $methodAndPrice, $temp);
+            $severalPrices = (isset($temp[0][0])) ? $temp[0][0] : '';
+            $methodAndPrice = trim(str_replace($severalPrices, '', $methodAndPrice));
+            preg_match_all('/([^0-9\s]+)?(([\d]+\.[\d]+)|([\d]+))/', $methodAndPrice, $temp);
+            //@TODO forming price data if Excl and Incl
+            $price = (isset($temp[0][0])) ? $temp[0][0] : '';
+            $method = trim(str_replace($price, '', $methodAndPrice));
             $addressData['shipping']['shipping_service'] = trim($service);
             $addressData['shipping']['shipping_method'] = trim($method);
             $addressData['shipping']['price'] = trim($price);

@@ -78,7 +78,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         }
         //Search
         $this->clickButton('reset_filter');
-        $this->fillForm(array($elementName => $storeData[$elementName]));
+        $this->fillField($elementName, $storeData[$elementName]);
         $this->clickButton('search');
         //Determination of found items amount
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
@@ -110,7 +110,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
             if ($this->verifyForm($storeData)) {
                 if ($this->controlIsPresent('button', 'delete_' . $element)) {
                     $this->clickButton('delete_' . $element);
-                    $this->fillForm(array('create_backup' => 'No'));
+                    $this->fillDropdown('create_backup', 'No');
                     $this->clickButton('delete_' . $element);
                     $this->assertMessagePresent('success', 'success_deleted_' . $element);
                     $this->close();
@@ -149,11 +149,10 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
                                     $storeView = 'Default Store View')
     {
         $fieldXpath = $this->_getControlXpath('dropdown', $controlName);
-        $storeViewXpath = $fieldXpath
-                          . "/optgroup[normalize-space(@label) = '$website']"
+        $storeViewXpath = $fieldXpath . "/optgroup[normalize-space(@label) = '$website']"
                           . "/following-sibling::optgroup[contains(@label,'$store')][1]"
                           . "/option[contains(text(),'$storeView')]";
-        if(!$this->isElementPresent($storeViewXpath)) {
+        if (!$this->isElementPresent($storeViewXpath)) {
             throw new PHPUnit_Framework_Exception('Cannot find option ' . $storeViewXpath);
         }
         $optionValue = $this->getValue($storeViewXpath);
