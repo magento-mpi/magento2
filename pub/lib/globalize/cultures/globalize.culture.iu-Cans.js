@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture iu-Cans
  *
  * http://github.com/jquery/globalize

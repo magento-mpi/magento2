@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture mn-Mong
  *
  * http://github.com/jquery/globalize

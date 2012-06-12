@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture smj-NO
  *
  * http://github.com/jquery/globalize

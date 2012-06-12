@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sk-SK
  *
  * http://github.com/jquery/globalize

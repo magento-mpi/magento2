@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture mi-NZ
  *
  * http://github.com/jquery/globalize

@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ps-AF
  *
  * http://github.com/jquery/globalize

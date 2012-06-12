@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture dsb-DE
  *
  * http://github.com/jquery/globalize

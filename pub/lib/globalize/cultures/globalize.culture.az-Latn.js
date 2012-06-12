@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture az-Latn
  *
  * http://github.com/jquery/globalize

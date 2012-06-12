@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture zh-CHS
  *
  * http://github.com/jquery/globalize

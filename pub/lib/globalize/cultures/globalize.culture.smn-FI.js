@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture smn-FI
  *
  * http://github.com/jquery/globalize

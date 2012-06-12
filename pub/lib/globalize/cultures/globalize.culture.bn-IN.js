@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture bn-IN
  *
  * http://github.com/jquery/globalize

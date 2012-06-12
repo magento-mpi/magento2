@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture fa-IR
  *
  * http://github.com/jquery/globalize

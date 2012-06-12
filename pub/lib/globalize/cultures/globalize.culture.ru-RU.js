@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ru-RU
  *
  * http://github.com/jquery/globalize

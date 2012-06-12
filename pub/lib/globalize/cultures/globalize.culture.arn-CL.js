@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture arn-CL
  *
  * http://github.com/jquery/globalize

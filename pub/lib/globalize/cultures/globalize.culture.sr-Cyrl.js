@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sr-Cyrl
  *
  * http://github.com/jquery/globalize

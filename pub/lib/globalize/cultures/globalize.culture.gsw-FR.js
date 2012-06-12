@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture gsw-FR
  *
  * http://github.com/jquery/globalize

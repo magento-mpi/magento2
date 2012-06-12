@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture syr-SY
  *
  * http://github.com/jquery/globalize

@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sah-RU
  *
  * http://github.com/jquery/globalize

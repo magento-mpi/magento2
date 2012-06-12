@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture xh-ZA
  *
  * http://github.com/jquery/globalize

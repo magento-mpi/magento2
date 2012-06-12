@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ne-NP
  *
  * http://github.com/jquery/globalize
