@@ -2597,6 +2597,33 @@ system_configuration:
                                         cmo_payment_from_applicable_countries_use_default: //input[@name='groups[checkmo][fields][allowspecific][inherit]']
                                         cmo_payment_from_specific_countries_use_default: //input[@name='groups[checkmo][fields][specificcountry][inherit]']
                             -
+                                cash_on_delivery_payment:
+                                    xpath: //fieldset[@id='payment_cashondelivery']
+                                    links:
+                                        bank_transfer_payment_link: //parent::div//a[@id='payment_cashondelivery-head']
+                                    fields:
+                                        cod_title: //input[@name='groups[cashondelivery][fields][title][value]']
+                                        cod_instruction: //textarea[@name='groups[cashondelivery][fields][instructions][value]']
+                                        cod_minimum_order_total: //input[@name='groups[cashondelivery][fields][min_order_total][value]']
+                                        cod_maximum_order_total: //input[@name='groups[cashondelivery][fields][max_order_total][value]']
+                                        cod_sort_order: //input[@name='groups[cashondelivery][fields][sort_order][value]']
+                                    dropdowns:
+                                        cod_enabled: //select[@name='groups[cashondelivery][fields][active][value]']
+                                        cod_new_order_status: //select[@name='groups[cashondelivery][fields][order_status][value]']
+                                        cod_payment_from_applicable_countries: //select[@name='groups[cashondelivery][fields][allowspecific][value]']
+                                    multiselects:
+                                        cod_payment_from_specific_countries: //select[@name='groups[cashondelivery][fields][specificcountry][value][]']
+                                    checkboxes:
+                                        cod_title_use_default: //input[@name='groups[cashondelivery][fields][title][inherit]']
+                                        cod_instruction_use_default: //input[@name='groups[cashondelivery][fields][instructions][inherit]']
+                                        cod_minimum_order_total_use_default: //input[@name='groups[cashondelivery][fields][min_order_total][inherit]']
+                                        cod_maximum_order_total_use_default: //input[@name='groups[cashondelivery][fields][max_order_total][inherit]']
+                                        cod_sort_order_use_default: //input[@name='groups[cashondelivery][fields][sort_order][inherit]']
+                                        cod_enabled_use_default: //input[@name='groups[cashondelivery][fields][active][inherit]']
+                                        cod_new_order_status_use_default: //input[@name='groups[cashondelivery][fields][order_status][inherit]']
+                                        cod_payment_from_applicable_countries_use_default: //input[@name='groups[cashondelivery][fields][allowspecific][inherit]']
+                                        cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
+                            -
                                 zero_subtotal_checkout:
                                     xpath: //fieldset[@id='payment_free']
                                     links:
@@ -3478,10 +3505,10 @@ system_configuration:
                                         payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_gir][fields][allowspecific][inherit]']
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_gir][fields][specificcountry][inherit]']
                             -
-                                sofortuberweisung_powered_by_moneybookers_germany:
+                                sofortüberweisung_powered_by_moneybookers_germany:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_sft']
                                     links:
-                                        sofortuberweisung_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_sft-head']
+                                        sofortüberweisung_powered_by_moneybookers_germany_link: //parent::div//a[@id='moneybookers_moneybookers_sft-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_sft][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_sft][fields][title][value]']
@@ -3687,10 +3714,10 @@ system_configuration:
                                         payment_from_applicable_countries_use_default: //input[@name='groups[moneybookers_idl][fields][allowspecific][inherit]']
                                         payment_from_specific_countries_use_default: //input[@name='groups[moneybookers_idl][fields][specificcountry][inherit]']
                             -
-                                eps_online_uberweisung_powered_by_moneybookers_austria:
+                                eps_online_überweisung_powered_by_moneybookers_austria:
                                     xpath: //fieldset[@id='moneybookers_moneybookers_npy']
                                     links:
-                                        eps_online_uberweisung_powered_by_moneybookers_austria_link: //parent::div//a[@id='moneybookers_moneybookers_npy-head']
+                                        eps_online_überweisung_powered_by_moneybookers_austria_link: //parent::div//a[@id='moneybookers_moneybookers_npy-head']
                                     fields:
                                         sort_order: //input[@name='groups[moneybookers_npy][fields][sort_order][value]']
                                         title: //input[@name='groups[moneybookers_npy][fields][title][value]']

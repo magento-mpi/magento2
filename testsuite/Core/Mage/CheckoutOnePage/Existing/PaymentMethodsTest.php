@@ -109,7 +109,7 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
             array('general_name'  => $testData['sku'],
                   'email_address' => $userData['email'],
                   'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
-        if ($payment != 'checkmoney' && $payment !='cashondelivery') {
+        if ($payment != 'checkmoney') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -134,7 +134,6 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWithout3DDataProvider()
     {
         return array(
-              array('cashondelivery'),            
               array('paypaldirect'),
               array('savedcc'),
               array('paypaldirectuk'),

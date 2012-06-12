@@ -832,6 +832,63 @@ gift_messages_with_empty_fields_expected:
             from: billing_Steven billing_Stevenson
             message: How you doing?
 
+#<------------New Customer, Cash On Delivery, FlatRate, ShippingSameAsBilling------------>
+order_newcustomer_CashOnDelivery_flatrate_usa: &orderNewCustomerCheckFlatrateUsa
+    store_view: Default Store View
+    account_data:
+        customer_group: General
+        customer_email: %noValue%
+    products_to_add:
+        product_1: &product
+            filter_sku: %noValue%
+            configurable_options: %noValue%
+            product_qty: %noValue%
+        product_2: %noValue%
+    coupons:
+        coupon_1: %noValue%
+    billing_addr_data: *billingReqUsa
+    shipping_addr_data: *shippingSameAsBilling
+    payment_data:
+        payment_method: Cash On Delivery
+    shipping_data:
+        shipping_service: Flat Rate
+        shipping_method: Fixed
+    gift_messages: %noValue%
+
+order_newcustomer_BankTransferPayment_flatrate_france:
+    <<: *orderNewCustomerCheckFlatrateUsa
+    billing_addr_data: *billingReqFrance
+
+#*********************************************
+#*           INVOICE DATA                    *
+#*********************************************
+
+products_to_invoice:
+    product_1:
+        invoice_product_sku: %noValue%
+        qty_to_invoice: 5
+    product_2: %noValue%
+
+#*********************************************
+#*           Shipment Data                   *
+#*********************************************
+
+products_to_ship:
+    product_1:
+        ship_product_sku: %noValue%
+        ship_product_qty: 5
+    product_2: %noValue%
+
+#*********************************************
+#*           CreditMemo Data                 *
+#*********************************************
+products_to_refund:
+    product_1:
+        return_filter_sku: %noValue%
+        return_to_stock: Yes
+        qty_to_refund: 5
+    product_2: %noValue%
+
 #*************************************************
 #         3D-Secure Log Verification Data        *
 #*************************************************

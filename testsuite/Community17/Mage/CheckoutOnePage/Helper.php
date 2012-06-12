@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
+class Community17_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 {
     /**
      * @staticvar string
@@ -496,7 +496,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $xpathPayMethod .= '/p/strong';
             }
             $text = $this->getText($xpathPayMethod);
-            if (strcmp($text, $payMethod['payment_method']) != 0) {
+            if (!preg_match("/" . str_replace('/', '\/', $payMethod['payment_method']) . "/", $text)) {
                 $this->addVerificationMessage('Payment method should be: ' . $payMethod['payment_method']
                                                   . ' but now ' . $text);
             }

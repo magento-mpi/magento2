@@ -109,7 +109,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
                                            array('payment' => $paymentData),
                                            $testData['products']);
-        if ($payment != 'checkmoney' && $payment !='cashondelivery') {
+        if ($payment != 'checkmoney') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -131,7 +131,6 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
     public function paymentsWithout3dDataProvider()
     {
         return array(
-            array('cashondelivery'),
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),
