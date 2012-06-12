@@ -44,6 +44,17 @@ class Enterprise2_Mage_WebsiteRestrictions extends Mage_Selenium_TestCase
         $this->navigate('system_configuration');
     }
 
+    protected function tearDownAfterTestClass()
+    {
+        //Data
+        $config = $this->loadDataSet('WebsiteRestrictions', 'disable_website_restrictions');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
+        $this->clearInvalidedCache();
+        $this->frontend();
+    }
     /**
      * <p>Check Configuration Fields</p>
      * <p>Steps:</p>

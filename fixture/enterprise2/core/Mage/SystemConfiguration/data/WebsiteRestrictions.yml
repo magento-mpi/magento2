@@ -25,6 +25,13 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+disable_website_restrictions:
+    configuration_scope: Default Config
+    tab_1:
+      tab_name: general_general
+      configuration:
+        access_restriction: No
+
 
 website_closed_response_200:
     configuration_scope: Default Config
