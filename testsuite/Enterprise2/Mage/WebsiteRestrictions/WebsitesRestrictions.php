@@ -27,8 +27,6 @@
  */
 
 /**
- *
- *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
@@ -104,7 +102,7 @@ class Enterprise2_Mage_WebsiteRestrictions extends Mage_Selenium_TestCase
         $this->clearInvalidedCache();
         //Steps
         $this->frontend('home_page', false);
-        $this->websiteRestrictionsHelper()->validateFrontendHtttpCode('home_page', '200');
+        $this->websiteRestrictionsHelper()->validateFrontendHttpCode('home_page', '200');
         $this->assertEquals($this->getTitle(), '503 Service Unavailable', "Open wrong page");
     }
 
@@ -137,7 +135,7 @@ class Enterprise2_Mage_WebsiteRestrictions extends Mage_Selenium_TestCase
         $this->clearInvalidedCache();
         //Steps
         $this->frontend('home_page', false);
-        $this->websiteRestrictionsHelper()->validateFrontendHtttpCode('home_page', '503');
+        $this->websiteRestrictionsHelper()->validateFrontendHttpCode('home_page', '503');
         $this->assertEquals($this->getTitle(), '503 Service Unavailable', "Open wrong page");
     }
 
@@ -366,7 +364,6 @@ class Enterprise2_Mage_WebsiteRestrictions extends Mage_Selenium_TestCase
         $this->validatePage('customer_login');
         $this->assertFalse($this->controlIsPresent('button', 'create_account'));
     }
-
 }
 
 

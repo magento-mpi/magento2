@@ -22,7 +22,7 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -37,20 +37,18 @@
 class Enterprise2_Mage_WebsiteRestrictions_Helper extends Mage_Selenium_TestCase
 {
     /**
-     *
+     * Validates Frontend Http Code
      *
      * @param string $page
      * @param string $code
      */
-    public function validateFrontendHtttpCode($page, $code)
+    public function validateFrontendHttpCode($page, $code)
     {
 
         $url = $this->getPageUrl('frontend', $page);
         $httpresponce = $this->getHttpResponse($url);
-        $httpcode = $httpresponce['http_code'];
-        $this->assertTrue($httpcode == $code, 'Wrong http responce code');
+        $this->assertEquals($code, $httpresponce['http_code'], 'Wrong http response code');
     }
 }
 
-?>
 
