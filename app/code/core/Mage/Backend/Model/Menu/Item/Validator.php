@@ -52,15 +52,23 @@ class Mage_Backend_Model_Menu_Item_Validator
         $idValidator->addValidator(new Zend_Validate_StringLength(array('min' => 3)));
         $idValidator->addValidator(new Zend_Validate_Regex('/^[A-Za-z0-9\/:_]+$/'));
 
+        $attributeValidator = new Zend_Validate();
+        $attributeValidator->addValidator(new Zend_Validate_StringLength(array('min' => 3)));
+        $attributeValidator->addValidator(new Zend_Validate_Regex('/^[A-Za-z0-9\/_]+$/'));
+
         $textValidator = new Zend_Validate_StringLength(array('min' => 3, 'max' => 50));
 
+        $titleValidator = $tooltipValidator = $textValidator;
+        $actionValidator = $resourceValidator = $resourceValidator = $moduleDependencyValidator
+            = $configDependencyValidator = $attributeValidator;
+
         $this->_validators['id'] = $idValidator;
-        $this->_validators['title'] = $textValidator;
-        $this->_validators['action'] = $idValidator;
-        $this->_validators['resource'] = $idValidator;
-        $this->_validators['dependsOnModule'] = $idValidator;
-        $this->_validators['dependsOnConfig'] = $idValidator;
-        $this->_validators['toolTip'] = $textValidator;
+        $this->_validators['title'] = $titleValidator;
+        $this->_validators['action'] = $actionValidator;
+        $this->_validators['resource'] = $resourceValidator;
+        $this->_validators['dependsOnModule'] = $moduleDependencyValidator;
+        $this->_validators['dependsOnConfig'] = $configDependencyValidator;
+        $this->_validators['toolTip'] = $tooltipValidator;
     }
     /**
      * Validate menu item params
@@ -80,7 +88,6 @@ class Mage_Backend_Model_Menu_Item_Validator
         if (array_search($data['id'], $this->_ids) !== false) {
             throw new InvalidArgumentException('Item with id ' . $data ['id'] . ' already exists');
         }
-        $this->_ids[] = $data['id'];
 
         foreach ($data as $param => $value) {
             if (isset($this->_requiredTypes[$param]) && !($data[$param] instanceof $this->_requiredTypes[$param])) {
@@ -98,22 +105,25 @@ class Mage_Backend_Model_Menu_Item_Validator
                 );
             }
         }
+        $this->_ids[] = $data['id'];
     }
 
+    /**
+     * Validate incoming param
+     *
+     * @param string $param
+     * @param mixed $value
+     * @throws InvalidArgumentException
+     */
     public function validateParam($param, $value)
     {
-        if (isset($this->_required[$param])){
-            throw new InvalidArgumentException('Parameter ' . $param . ' is required');
+        if (isset($this->_required[$param]) && is_null($value)) {
+            throw new InvalidArgumentException('Param ' . $param . ' is required');
         }
-        if (isset($this->_requiredTypes[$param]) && !($value instanceof $this->_requiredTypes[$param])) {
+
+        if (!is_null($value) && isset($this->_validators[$param]) && !$this->_validators[$param]->isValid($value)) {
             throw new InvalidArgumentException(
-                'Wrong param ' . $param . ': Expected ' . $this->_requiredTypes[$param] . ', received '
-                    . get_class($value)
-            );
-        }
-        if (isset($this->_validators[$param]) && !$this->_validators[$param]->isValid($value)) {
-            throw new InvalidArgumentException(
-                "Param " . $param . " doesn't pass validation: "
+                'Param ' . $param . ' doesn\'t pass validation: '
                     . implode('; ', $this->_validators[$param]->getMessages())
             );
         }

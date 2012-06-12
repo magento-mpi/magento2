@@ -167,6 +167,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
     public function setPath($path)
     {
         $this->_path = $path . '/';
+        /** @var $child Mage_Backend_Model_Menu_Item */
         foreach ($this as $child) {
             $child->setPath($this->getFullPath());
         }
@@ -190,6 +191,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
     public function getFirstAvailable()
     {
         $result = null;
+        /** @var $item Mage_Backend_Model_Menu_Item */
         foreach ($this as $item) {
             if ($item->isAllowed() || false == $item->isDisabled()) {
                 if ($item->hasChildren()) {
