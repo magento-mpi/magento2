@@ -151,12 +151,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             $size = $this->getXpathCount($tablePath);
             $parameters['skip_attr[]'] = array();
             for($i=0;$i<$size;$i++){
-            if ($this->isChecked($tablePath . ":nth({$i})")){
-                //get attribute id
-                $attID = $this->getAttribute($tablePath . ":nth({$i})" . '@value');
-                //save attribute id, invers saving
-                $parameters['skip_attr[]'][]=$attID;
-            }
+                if ($this->isChecked($tablePath . ":nth({$i})")){
+                    //get attribute id
+                    $attID = $this->getAttribute($tablePath . ":nth({$i})" . '@value');
+                    //save attribute id, invers saving
+                    $parameters['skip_attr[]'][]=$attID;
+                }
             }
             if (count($parameters['skip_attr[]'])==0){
                 unset($parameters['skip_attr[]']);
