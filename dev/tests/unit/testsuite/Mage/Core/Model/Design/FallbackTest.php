@@ -46,7 +46,7 @@ class Mage_Core_Model_Design_FallbackTest extends PHPUnit_Framework_TestCase
             'theme' => $theme,
             'skin' => $skin,
             'locale' => $locale,
-            'config' => $config,
+            'appConfig' => $config,
             'themeConfig' => $themeConfig
         );
 

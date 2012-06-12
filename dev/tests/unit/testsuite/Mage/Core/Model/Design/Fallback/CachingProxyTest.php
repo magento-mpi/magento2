@@ -64,9 +64,9 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             'theme' => 'theme',
             'skin' => 'skin',
             'locale' => 'en_US',
+            'appConfig' => false,
+            'themeConfig' => false,
             'canSaveMap' => false,
-            'config' => null,
-            'themeConfig' => null,
             'mapDir' => self::$_tmpDir,
             'baseDir' => $this->_baseDir
         );
@@ -191,8 +191,6 @@ class Mage_Core_Model_Design_Fallback_CachingProxyTest extends PHPUnit_Framework
             'skin' => 'skin',
             'locale' => 'en_US',
             'canSaveMap' => true,
-            'config' => null,
-            'themeConfig' => null,
             'mapDir' => self::$_tmpDir,
             'baseDir' => ''
         );
