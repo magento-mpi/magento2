@@ -37,19 +37,20 @@
 class Enterprise2_Mage_WebsiteRestrictions_Helper extends Mage_Selenium_TestCase
 {
     /**
-     * 
+     *
      *
      * @param string $page
      * @param string $code
      */
     public function validateFrontendHtttpCode($page, $code)
     {
-        //test comit push
-        $url=$this->getPageUrl('frontend', $page);
-        $httpresponce=$this->getHttpResponse($url);
-        $httpcode=$httpresponce['http_code'];
-        $this->assertTrue($httpcode==$code, 'Wrong http responce code');
+
+        $url = $this->getPageUrl('frontend', $page);
+        $httpresponce = $this->getHttpResponse($url);
+        $httpcode = $httpresponce['http_code'];
+        $this->assertTrue($httpcode == $code, 'Wrong http responce code');
     }
 }
+
 ?>
 
