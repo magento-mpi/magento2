@@ -44,9 +44,10 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
 {
 
     /**
-     * Defining and adding %address_number% for customer Uimap.
-     * PreConditions: Customer is opened on 'Addresses' tab.
-     * @return int
+     * Updating Customer Store Credit Balance
+     *
+     * @param array $storeCreditData Store credit Information
+     * @return void
      */
     public function updateStoreCreditBalance(array $storeCreditData)
     {
@@ -54,9 +55,10 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
          $this->saveForm('save_customer');
     }
     /**
-     * Defining and adding %address_number% for customer Uimap.
-     * PreConditions: Customer is opened on 'Addresses' tab.
-     * @return int
+     * Updating Customer Reward Points Balance
+     *
+     * @param array $rewardPointsData Store credit Information
+     * @return void
      */
     public function updateRewardPointsBalance(array $rewardPointsData)
     {
