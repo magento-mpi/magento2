@@ -30,7 +30,6 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $that = $this;
         $this->_factoryMock = $this->getMock("Mage_Backend_Model_Menu_Item_Factory", array(), array(), '', false);
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu');
 
