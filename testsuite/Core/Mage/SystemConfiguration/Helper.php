@@ -58,9 +58,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
             $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
             if ($tab) {
-                $xpath = $this->_getControlXpath('tab', $tab);
-                $this->defineParameters($xpath, 'href');
-                $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+                $this->openConfigurationTab($tab);
                 $this->fillForm($settings, $tab);
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
@@ -75,6 +73,17 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
+    }
+
+    /**
+     * Open tab on Configuration page
+     *
+     * @param string $tab
+     */
+    public function openConfigurationTab($tab)
+    {
+        $this->defineParameters($this->_getControlXpath('tab', $tab), 'href');
+        $this->clickControl('tab', $tab);
     }
 
     /**

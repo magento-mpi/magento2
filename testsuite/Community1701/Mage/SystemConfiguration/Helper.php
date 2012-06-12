@@ -55,8 +55,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         if ($chooseScope) {
             $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
         }
-        $this->defineParameters($this->_getControlXpath('tab', 'sales_payment_methods'), 'href');
-        $this->clickControl('tab', 'sales_payment_methods');
+        $this->openConfigurationTab('sales_payment_methods');
         $this->disableAllPaypalMethods();
         if ($country) {
             $xpath = $this->_getControlXpath('dropdown', 'merchant_country');
