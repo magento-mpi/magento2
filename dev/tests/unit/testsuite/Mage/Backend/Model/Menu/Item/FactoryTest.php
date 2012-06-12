@@ -39,6 +39,16 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_appConfigMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeConfigMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_itemValidatorMock;
 
     /**
@@ -57,6 +67,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
             'Mage_User_Helper_Data' => $this->getMock('Mage_User_Helper_Data')
         );
         $this->_urlModelMock = $this->getMock("Mage_Backend_Model_Url", array(), array(), '', false);
+        $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
         $this->_itemValidatorMock = $this->getMock('Mage_Backend_Model_Menu_Item_Validator');
 
         $this->_params = array(
@@ -64,6 +76,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
             'objectFactory' => $this->_factoryMock,
             'helpers' => $this->_helpers,
             'urlModel' => $this->_urlModelMock,
+            'appConfig' => $this->_appConfigMock,
+            'storeConfig' => $this->_storeConfigMock,
             'validator' => $this->_itemValidatorMock
         );
     }
@@ -84,6 +98,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
             array('acl'),
             array('objectFactory'),
             array('urlModel'),
+            array('appConfig'),
+            array('storeConfig'),
             array('validator')
         );
     }
@@ -96,17 +112,21 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                 $this->equalTo('Mage_Backend_Model_Menu_Item'),
                 $this->equalTo(array(
                     'module' => $this->_helpers['Mage_User_Helper_Data'],
+                    'dependsOnModule' => 'Mage_User_Helper_Data',
                     'title' => 'item1',
                     'acl' => $this->_aclMock,
                     'objectFactory' => $this->_factoryMock,
                     'urlModel' => $this->_urlModelMock,
+                    'appConfig' => $this->_appConfigMock,
+                    'storeConfig' => $this->_storeConfigMock,
                     'validator' => $this->_itemValidatorMock
                 ))
         );
         $model = new Mage_Backend_Model_Menu_Item_Factory($this->_params);
         $model->createFromArray(array(
             'module' => 'Mage_User_Helper_Data',
-            'title' => 'item1'
+            'title' => 'item1',
+            'dependsOnModule' => 'Mage_User_Helper_Data'
         ));
     }
 
@@ -121,6 +141,8 @@ class Mage_Backend_Model_Menu_Item_FactoryTest extends PHPUnit_Framework_TestCas
                 'acl' => $this->_aclMock,
                 'objectFactory' => $this->_factoryMock,
                 'urlModel' => $this->_urlModelMock,
+                'appConfig' => $this->_appConfigMock,
+                'storeConfig' => $this->_storeConfigMock,
                 'validator' => $this->_itemValidatorMock
             ))
         );

@@ -24,7 +24,7 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
     protected $_menuMock;
 
     /**
-     * @var
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_factoryMock;
 
@@ -32,15 +32,6 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
     {
         $that = $this;
         $this->_factoryMock = $this->getMock("Mage_Backend_Model_Menu_Item_Factory", array(), array(), '', false);
-        $this->_factoryMock->expects($this->any())
-            ->method('createFromArray')
-            ->will(
-                $this->returnCallback(
-                    function($params) use ($that) {
-                        return $that->getMock('Mage_Backend_Model_Menu_Item', array(), $params, '', false);
-                    }
-                )
-            );
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu');
 
         $this->_model = new Mage_Backend_Model_Menu_Builder(array(
@@ -68,6 +59,29 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
     public function testGetResultBuildsTreeStructure()
     {
+        $item1 = $this->getMock("Mage_Backend_Model_Menu_Item", array(), array(), '', false);
+        $item1->expects($this->once())->method('getChildren')->will($this->returnValue($this->_menuMock));
+        $this->_factoryMock->expects($this->any())->method('createFromArray')->will($this->returnValue($item1));
+
+        $item2 = $this->getMock("Mage_Backend_Model_Menu_Item", array(), array(), '', false);
+        $this->_factoryMock->expects($this->at(1))->method('createFromArray')->will($this->returnValue($item2));
+
+        $this->_menuMock->expects($this->at(0))
+            ->method('add')
+            ->with(
+            $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
+            $this->equalTo(null),
+            $this->equalTo(2)
+        );
+
+        $this->_menuMock->expects($this->at(1))
+            ->method('add')
+            ->with(
+            $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
+            $this->equalTo(null),
+            $this->equalTo(4)
+        );
+
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
                 array('id' => 'item1', 'title' => 'Item 1', 'module' => 'Mage_Backend', 'sortOrder' => 2)
@@ -81,38 +95,6 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_model->processCommand(
-            new Mage_Backend_Model_Menu_Builder_Command_Add(
-                array(
-                    'id' => 'item3', 'parent' => 'item2', 'title' => 'three',
-                    'module' => 'Mage_Backend', 'sortOrder' => 6
-                )
-            )
-        );
-
-        $this->_menuMock->expects($this->at(0))
-            ->method('add')
-            ->with(
-                $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
-                $this->equalTo(null),
-                $this->equalTo(2)
-            );
-
-        $this->_menuMock->expects($this->at(1))
-            ->method('add')
-            ->with(
-                $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
-                $this->equalTo('item1'),
-                $this->equalTo(4)
-            );
-
-        $this->_menuMock->expects($this->at(2))
-            ->method('add')
-            ->with(
-                $this->isInstanceOf('Mage_Backend_Model_Menu_Item'),
-                $this->equalTo('item2'),
-                $this->equalTo(6)
-            );
 
         $this->_model->getResult();
     }

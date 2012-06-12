@@ -107,12 +107,22 @@ class Mage_Backend_Model_Menu_Item
     /**
      * @var Mage_Core_Model_Config
      */
+    protected $_appConfig;
+
+    /**
+     * @var Mage_Core_Model_Config
+     */
     protected $_objectFactory;
 
     /**
      * @var Mage_Backend_Model_Url
      */
     protected $_urlModel;
+
+    /**
+     * @var Mage_Core_Model_Store_Config
+     */
+    protected $_storeConfig;
 
     /**
      * @var Mage_Backend_Model_Menu_Item_Validator
@@ -135,6 +145,8 @@ class Mage_Backend_Model_Menu_Item
         $this->_validator->validate($data);
 
         $this->_acl = $data['acl'];
+        $this->_appConfig = $data['appConfig'];
+        $this->_storeConfig = $data['storeConfig'];
         $this->_objectFactory = $data['objectFactory'];
         $this->_urlModel = $data['urlModel'];
 
@@ -143,6 +155,8 @@ class Mage_Backend_Model_Menu_Item
         $this->_moduleHelper = $data['module'];
         $this->_action = isset($data['action']) ? $data['action'] : null;
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        $this->_dependsOnModule = isset($data['dependsOnModule']) ? $data['dependsOnModule'] : null;
+        $this->_dependsOnConfig = isset($data['dependsOnConfig']) ? $data['dependsOnConfig'] : null;
         $this->_tooltip = isset($data['toolTip']) ? $data['toolTip'] : '';
     }
 
@@ -336,13 +350,71 @@ class Mage_Backend_Model_Menu_Item
     }
 
     /**
+     * Set Item module dependency
+     *
+     * @param string $moduleName
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setModuleDependency($moduleName)
+    {
+        $this->_validator->validateParam('dependsOnModule', $moduleName);
+        $this->_dependsOnModule = $moduleName;
+        return $this;
+    }
+
+    /**
+     * Set Item config dependency
+     *
+     * @param string $configPath
+     * @return Mage_Backend_Model_Menu_Item
+     * @throws InvalidArgumentException
+     */
+    public function setConfigDependency($configPath)
+    {
+        $this->_validator->validateParam('depenedsOnConfig', $configPath);
+        $this->_dependsOnConfig = $configPath;
+        return $this;
+    }
+
+    /**
      * Check whether item is disabled. Disabled items are not shown to user
      *
      * @return bool
      */
     public function isDisabled()
     {
-        return !$this->_moduleHelper->isModuleOutputEnabled();
+        return !$this->_moduleHelper->isModuleOutputEnabled()
+            || !$this->_isModuleDependenciesAvailable()
+            || !$this->_isConfigDependenciesAvailable();
+    }
+
+    /**
+     * Check whether module that item depends on is active
+     *
+     * @return bool
+     */
+    protected function _isModuleDependenciesAvailable()
+    {
+        if ($this->_dependsOnModule) {
+            $module = $this->_dependsOnModule;
+            $modulesConfig = $this->_appConfig->getNode('modules');
+            return ($modulesConfig->$module && $modulesConfig->$module->is('active'));
+        }
+        return true;
+    }
+
+    /**
+     * Check whether config dependency is available
+     *
+     * @return bool
+     */
+    protected function _isConfigDependenciesAvailable()
+    {
+        if ($this->_dependsOnConfig) {
+            return $this->_storeConfig->getConfigFlag((string)$this->_dependsOnConfig);
+        }
+        return true;
     }
 
     /**

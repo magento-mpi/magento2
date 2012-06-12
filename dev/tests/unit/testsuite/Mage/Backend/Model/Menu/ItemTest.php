@@ -34,6 +34,16 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
+    protected $_appConfigMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_storeConfigMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_helperMock;
 
     /**
@@ -49,12 +59,16 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         'title' => 'Item Title',
         'action' => '/system/config',
         'resource' => 'system/config',
+        'dependsOnModule' => 'Mage_Backend',
+        'dependsOnConfig' => 'system/config/isEnabled',
         'tooltip' => 'Item tooltip',
     );
 
     public function setUp()
     {
         $this->_aclMock = $this->getMock('Mage_Backend_Model_Auth_Session');
+        $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
         $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data');
@@ -62,6 +76,8 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
         $this->_params['module'] = $this->_helperMock;
         $this->_params['acl'] = $this->_aclMock;
+        $this->_params['appConfig'] = $this->_appConfigMock;
+        $this->_params['storeConfig'] = $this->_storeConfigMock;
         $this->_params['objectFactory'] = $this->_objectFactoryMock;
         $this->_params['urlModel'] = $this->_urlModelMock;
         $this->_params['validator'] = $this->_validatorMock;
@@ -147,10 +163,64 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($item->isDisabled());
     }
 
+    public function testIsDisabledReturnsTrueIfModuleDependenciesFail()
+    {
+        $this->_helperMock->expects($this->once())
+            ->method('isModuleOutputEnabled')
+            ->will($this->returnValue(true));
+
+        $moduleConfig = new stdClass();
+        $moduleConfig->{'Mage_Backend'} = $this->getMock('Mage_Test_Module_Config');
+        $moduleConfig->{'Mage_Backend'}->expects($this->once())
+            ->method('is')
+            ->will($this->returnValue(false));
+
+        $this->_appConfigMock->expects($this->once())
+            ->method('getNode')
+            ->will($this->returnValue($moduleConfig));
+
+        $item = new Mage_Backend_Model_Menu_Item($this->_params);
+        $this->assertTrue($item->isDisabled());
+    }
+
+    public function testIsDisabledReturnsTrueIfConfigDependenciesFail()
+    {
+        $this->_helperMock->expects($this->once())
+            ->method('isModuleOutputEnabled')
+            ->will($this->returnValue(true));
+
+        $moduleConfig = new stdClass();
+        $moduleConfig->{'Mage_Backend'} = $this->getMock('Mage_Test_Module_Config', array('is'));
+        $moduleConfig->{'Mage_Backend'}->expects($this->once())
+            ->method('is')
+            ->will($this->returnValue(true));
+
+        $this->_appConfigMock->expects($this->once())
+            ->method('getNode')
+            ->will($this->returnValue($moduleConfig));
+
+        $item = new Mage_Backend_Model_Menu_Item($this->_params);
+        $this->assertTrue($item->isDisabled());
+    }
+
     public function testIsDisabledReturnsFalseIfNoDependenciesFail()
     {
         $this->_helperMock->expects($this->once())
             ->method('isModuleOutputEnabled')
+            ->will($this->returnValue(true));
+
+        $moduleConfig = new stdClass();
+        $moduleConfig->{'Mage_Backend'} = $this->getMock('Mage_Test_Module_Config', array('is'));
+        $moduleConfig->{'Mage_Backend'}->expects($this->once())
+            ->method('is')
+            ->will($this->returnValue(true));
+
+        $this->_appConfigMock->expects($this->once())
+            ->method('getNode')
+            ->will($this->returnValue($moduleConfig));
+
+        $this->_storeConfigMock->expects($this->once())
+            ->method('getConfigFlag')
             ->will($this->returnValue(true));
 
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
@@ -208,5 +278,17 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $item->getChildren()->add($item);
         $item->setPath('root/');
+    }
+}
+
+class Mage_Test_Module_Config
+{
+    /**
+     *
+     * @SuppressWarnings(PHPMD.ShortMethodName))
+     */
+    public function is()
+    {
+
     }
 }

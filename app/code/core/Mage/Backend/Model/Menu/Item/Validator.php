@@ -15,7 +15,7 @@ class Mage_Backend_Model_Menu_Item_Validator
      * @var array
      */
     protected $_required = array(
-        'acl', 'objectFactory', 'urlModel', 'id', 'title', 'module'
+        'acl', 'appConfig', 'objectFactory', 'urlModel', 'storeConfig', 'id', 'title', 'module'
     );
 
     /**
@@ -25,8 +25,10 @@ class Mage_Backend_Model_Menu_Item_Validator
      */
     protected $_requiredTypes = array(
         'acl' => 'Mage_Backend_Model_Auth_Session',
+        'appConfig' => 'Mage_Core_Model_Config',
         'objectFactory' => 'Mage_Core_Model_Config',
         'urlModel' => 'Mage_Backend_Model_Url',
+        'storeConfig' => 'Mage_Core_Model_Store_Config',
         'module' => 'Mage_Core_Helper_Abstract'
     );
 
@@ -56,6 +58,8 @@ class Mage_Backend_Model_Menu_Item_Validator
         $this->_validators['title'] = $textValidator;
         $this->_validators['action'] = $idValidator;
         $this->_validators['resource'] = $idValidator;
+        $this->_validators['dependsOnModule'] = $idValidator;
+        $this->_validators['dependsOnConfig'] = $idValidator;
         $this->_validators['toolTip'] = $textValidator;
     }
     /**
