@@ -134,7 +134,9 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     public function getStatusLabel()
     {
         if (is_null(parent::getStatusLabel())){
-            $this->setStatusLabel(Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus()));
+            $this->setStatusLabel(
+                Mage::getModel('Enterprise_Rma_Model_Rma_Source_Status')->getItemLabel($this->getStatus())
+            );
         }
         return parent::getStatusLabel();
     }
@@ -315,10 +317,15 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             }
         }
 
-        $returnAddress = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress('html', array(), $this->getStoreId());
+        $returnAddress = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddress(
+            'html', array(), $this->getStoreId()
+        );
 
         foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+            $mailTemplate->setDesignConfig(array(
+                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'store' => $this->getStoreId()
+            ))
                 ->sendTransactional(
                     $template,
                     $configRmaEmail->getIdentity(),
@@ -394,19 +401,19 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
             }
         }
 
-        $preparePost['status']              = $stat;
+        $preparePost['status']             = $stat;
 
-        $preparePost['product_name']        = $realItem->getName();
-        $preparePost['product_sku']         = $realItem->getSku();
-        $preparePost['product_admin_name']  = Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($realItem);
-        $preparePost['product_admin_sku']   = Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductSku($realItem);
-        $preparePost['product_options']     = serialize($realItem->getProductOptions());
-        $preparePost['is_qty_decimal']      = $realItem->getIsQtyDecimal();
+        $preparePost['product_name']       = $realItem->getName();
+        $preparePost['product_sku']        = $realItem->getSku();
+        $preparePost['product_admin_name'] = Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductName($realItem);
+        $preparePost['product_admin_sku']  = Mage::helper('Enterprise_Rma_Helper_Data')->getAdminProductSku($realItem);
+        $preparePost['product_options']    = serialize($realItem->getProductOptions());
+        $preparePost['is_qty_decimal']     = $realItem->getIsQtyDecimal();
 
         if ($preparePost['is_qty_decimal']) {
-            $preparePost['qty_requested']   = (float)$preparePost['qty_requested'];
+            $preparePost['qty_requested']  = (float)$preparePost['qty_requested'];
         } else {
-            $preparePost['qty_requested']   = (int)$preparePost['qty_requested'];
+            $preparePost['qty_requested']  = (int)$preparePost['qty_requested'];
 
             foreach ($qtyKeys as $key) {
                 if (!empty($preparePost[$key])) {
@@ -529,7 +536,9 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
         }
 
         foreach ($itemsArray as $key=>$qty) {
-            $escapedProductName = Mage::helper('Enterprise_Rma_Helper_Data')->escapeHtml($availableItemsArray[$key]['name']);
+            $escapedProductName = Mage::helper('Enterprise_Rma_Helper_Data')->escapeHtml(
+                $availableItemsArray[$key]['name']
+            );
             if (!array_key_exists($key, $availableItemsArray)) {
                 $errors[] = Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot return %s.', $escapedProductName);
             }
@@ -806,7 +815,9 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
      */
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
-        $shippingDestinationInfo = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel($this->getStoreId());
+        $shippingDestinationInfo = Mage::helper('Enterprise_Rma_Helper_Data')->getReturnAddressModel(
+            $this->getStoreId()
+        );
 
         /** @var $request Mage_Shipping_Model_Rate_Request */
         $request = Mage::getModel('Mage_Shipping_Model_Rate_Request');

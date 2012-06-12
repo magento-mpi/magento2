@@ -82,7 +82,9 @@ class Enterprise_GiftRegistry_Model_Observer
             $model = Mage::getModel('Enterprise_GiftRegistry_Model_Entity')
                 ->loadByEntityItem($registryItemId);
             if ($model->getId()) {
-                $object->setId(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId());
+                $object->setId(
+                    Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getAddressIdPrefix() . $model->getId()
+                );
                 $object->setCustomerId($this->_getSession()->getCustomer()->getId());
                 $object->addData($model->exportAddress()->getData());
             }
@@ -110,7 +112,7 @@ class Enterprise_GiftRegistry_Model_Observer
      */
     public function addressFormatAdmin($observer)
     {
-        if (Mage::getDesign()->getArea() == 'frontend') {
+        if (Mage::getDesign()->getArea() == Mage_Core_Model_App_Area::AREA_FRONTEND) {
             $this->_addressFormat($observer);
         }
         return $this;

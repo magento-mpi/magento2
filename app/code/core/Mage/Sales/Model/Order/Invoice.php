@@ -752,7 +752,7 @@ class Mage_Sales_Model_Order_Invoice extends Mage_Sales_Model_Abstract
             $paymentBlock = $this->getPaymentInfoBlock()
                 ?: Mage::helper('Mage_Payment_Helper_Data')->getInfoBlock($order->getPayment());
             $paymentBlock->getMethod()->setStore($storeId);
-            $paymentBlockHtml = $paymentBlock->setArea('frontend')
+            $paymentBlockHtml = $paymentBlock->setArea(Mage_Core_Model_App_Area::AREA_FRONTEND)
                 ->setIsSecureMode(true)
                 ->toHtml();
         } catch (Exception $exception) {

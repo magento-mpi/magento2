@@ -48,6 +48,24 @@
         </exec>
     </target>
 
+    <target name="js-test">
+        <exec executable="cmd" dir="dev\build\bin">
+            <arg value="/c"/>
+            <arg value="js-test.bat"/>
+            <arg value="-p"/>
+        </exec>
+    </target>
+
+    <target name="js-test-sh">
+        <property name="js-test.conf" location="${basedir}/dev/tests/js/jsTestDriver.conf"/>
+        <property name="js-test.output" location="${basedir}/dev/tests/js/test-output"/>
+        <exec executable="/bin/bash" dir="dev/build/bin" failonerror="true">
+            <arg value="js-test.sh"/>
+            <arg value="${js-test.conf}"/>
+            <arg value="${js-test.output}"/>
+        </exec>
+    </target>
+
     <!-- execute extruder, perform license notices replacement and sanity check -->
     <target name="sanity-ce" depends="prepare-ce">
         <exec executable="php" failonerror="true">

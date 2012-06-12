@@ -331,6 +331,8 @@ class Mage_Core_Model_Design_Package
         if (!isset($this->_fallback[$cacheKey])) {
             $params['canSaveMap'] = (bool) (string) Mage::app()->getConfig()
                 ->getNode('global/dev/design_fallback/allow_map_update');
+            $params['config'] = Mage::getConfig();
+            $params['themeConfig'] = $this->getThemeConfig($params['area']);
             $params['mapDir'] = Mage::getConfig()->getTempVarDir() . '/maps/fallback';
             $params['baseDir'] = Mage::getBaseDir();
 

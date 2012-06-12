@@ -267,7 +267,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
 
                         $email = $this->_emailTemplateModel ?: Mage::getModel('Mage_Core_Model_Email_Template');
                         $email->setDesignConfig(array(
-                            'area' => 'frontend',
+                            'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
                             'store' => $item->getOrder()->getStoreId(),
                         ));
                         $email->sendTransactional(

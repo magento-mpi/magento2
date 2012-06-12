@@ -240,16 +240,6 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento_Config_View', $config);
         $this->assertEquals(array('var1' => 'value1', 'var2' => 'value2'), $config->getVars('Namespace_Module'));
     }
-    /*
-    * @covers Mage_Core_Model_Design_Package::getPublicSkinDir
-    */
-    public function testGetPublicSkinDir()
-    {
-        $this->assertContains(
-            DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'skin',
-            $this->_model->getPublicSkinDir()
-        );
-    }
 
     /**
      * @param string $file

@@ -308,7 +308,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             'url' => $this->_helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
         );
 
-        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $storeId));
+        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $storeId));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_SHARE_EMAIL_TEMPLATE),
             $identity,
@@ -418,7 +418,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             'entity' => $this
         );
 
-        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_UPDATE_EMAIL_TEMPLATE),
             $store->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY),
@@ -458,7 +458,7 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
             'url' => Mage::helper('Enterprise_GiftRegistry_Helper_Data')->getRegistryLink($this)
         );
 
-        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
         $mail->sendTransactional(
             $store->getConfig(self::XML_PATH_OWNER_EMAIL_TEMPLATE),
             $store->getConfig(self::XML_PATH_OWNER_EMAIL_IDENTITY),

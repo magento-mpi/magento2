@@ -171,7 +171,10 @@ class Enterprise_Reminder_Model_Rule extends Mage_Rule_Model_Abstract
                 'promotion_description' => $storeData['description']
             );
 
-            $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+            $mail->setDesignConfig(array(
+                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'store' => $store->getId()
+            ));
             $mail->sendTransactional($storeData['template_id'], $identity,
                 $customer->getEmail(), null, $templateVars, $store->getId()
             );
