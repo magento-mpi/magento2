@@ -79,3 +79,23 @@ customer_account_with_attribute:
     password: 123123q
     auto_generated_password: %noValue%
     custom_attribute: custom_attr_%randomize%
+
+#Test data for Customer Addresses file export
+generic_address:
+    prefix: %noValue%
+    first_name: Ronald
+    middle_name: J.
+    last_name: Jackson
+    suffix: %noValue%
+    company: Earl Abel's
+    street_address_line_1: 209 Capitol Avenue
+    street_address_line_2: Suite 200
+    city: Mccordsville
+    country: United States
+    state: Indiana
+    region: %noValue%
+    zip_code: 46055
+    telephone: 765-531-8811
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%
