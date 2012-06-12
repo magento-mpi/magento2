@@ -69,6 +69,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                 $this->validatePage();
             }
         }
+        $forVerify = array();
         foreach ($configuration as $payment) {
             $paymentName = (isset($payment['payment_name'])) ? $payment['payment_name'] : null;
             $generalSection = (isset($payment['general_fieldset'])) ? $payment['general_fieldset'] : null;
@@ -89,17 +90,13 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
                     $forFill[$paymentName . '_' . $key] = $value;
                 }
                 $this->fillFieldset($forFill, $fieldsetName);
+                $forVerify[$fieldsetName] = $forFill;
             }
         }
         $this->saveForm('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
-        foreach ($configuration as $data) {
-            foreach ($data as $dataSet) {
-                if (!is_array($dataSet)) {
-                    continue;
-                }
-                $this->verifyForm($dataSet['data'], 'sales_payment_methods');
-            }
+        foreach ($forVerify as $fieldsetData) {
+            $this->verifyForm($fieldsetData, 'sales_payment_methods');
         }
         if ($this->getParsedMessages('verification')) {
             foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {
