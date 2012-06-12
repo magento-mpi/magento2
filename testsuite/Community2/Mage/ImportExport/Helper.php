@@ -428,81 +428,25 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
     /**
      * Fill filter form
-     * @param array $data array(attribute_code => array(attribute_type => attribute_value))
+     *
+     * @param array $data array(attribute_code => attribute_value)
      * @throws Exception
      */
     public function setFilter($data)
     {
-        foreach ($data as $code => $params) {
-            // "input" is supposed to be default type for fields
-            $type = array_key_exists('type', $params) ? $params['type'] : 'input';
-            $tableXPath = '//table[@id="export_filter_grid_table"]';
-            switch ($type) {
-                case 'input':
-                    $rowXpath = "$tableXPath//tr[td[3][normalize-space(text())='$code']]";
-                    if (!$this->isElementPresent($rowXpath)) {
-                        throw new Exception("Field '$code' not found in a filter table");
-                    }
-                    $params['path'] = $rowXpath . '//td[4]//input';
-                    $this->_fillFormField($params);
-                    break;
-                case 'select':
-                    $rowXpath = "$tableXPath//tr[td[3][normalize-space(text())='$code']]";
-                    if (!$this->isElementPresent($rowXpath)) {
-                        throw new Exception("Field '$code'' not found in a filter table");
-                    }
-                    $params['path'] = $rowXpath . '//td[4]//select';
-                    $this->_fillFormDropdown($params);
-                    break;
-                case 'range':
-                    throw new Exception("We cannot process ranges yet"); //@TODO
-                    break;
-                default:
-                    throw new Exception("Unknown field type $type for filter");
-                    break;
+        foreach ($data as $attr_code => $value) {
+            $this->addParameter('attr_code', $attr_code);
+            if ($this->controlIsPresent('field', 'date_filter_from')) {
+                $this->fillField('date_filter_from', $value['from']);
+                $this->fillField('date_filter_to', $value['to']);
+            } elseif ($this->controlIsPresent('field', 'input_filter')) {
+                $this->fillField('input_filter', $value);
+            } elseif ($this->controlIsPresent('dropdown', 'select_filter')) {
+                $this->fillDropdown('select_filter', $value);
+            } elseif ($this->controlIsPresent('field', 'text_filter_from')) {
+                $this->fillField('text_filter_from', $value['from']);
+                $this->fillField('text_filter_to', $value['to']);
             }
-        }
-    }
-
-
-    /**
-     * Fills a text field of ('field' | 'input') control type by typing a value.
-     *
-     * @param array $fieldData Array of a 'path' to control and 'value' to type
-     *
-     * @throws PHPUnit_Framework_Exception
-     */
-    protected function _fillFormField($fieldData)
-    {
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldData['path'])) {
-            $this->type($fieldData['path'], $fieldData['input']);
-            $this->waitForAjax();
-        } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the field: {$fieldData['path']}");
-        }
-    }
-
-    /**
-     * Fills the 'dropdown' control by selecting the specified value.
-     *
-     * @param array $fieldData Array of a 'path' to control and 'value' to select
-     *
-     * @throws PHPUnit_Framework_Exception
-     */
-    protected function _fillFormDropdown($fieldData)
-    {
-        $fieldXpath = $fieldData['path'];
-        if ($this->waitForElement($fieldData['path'], 5) && $this->isEditable($fieldXpath)) {
-            if ($this->getSelectedValue($fieldXpath) != $fieldData['value']) {
-                if ($this->isElementPresent($fieldXpath . "//option[text()='" . $fieldData['value'] . "']")) {
-                    $this->select($fieldXpath, 'label=' . $fieldData['value']);
-                } else {
-                    $this->select($fieldXpath, 'regexp:' . preg_quote($fieldData['value']));
-                }
-                $this->waitForAjax();
-            }
-        } else {
-            throw new PHPUnit_Framework_Exception("Can't fill in the dropdown field: {$fieldData['path']}");
         }
     }
 }

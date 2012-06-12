@@ -83,17 +83,17 @@ class Enterprise2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Tes
         $this->fillDropdown('export_file', 'Customers Main File');
         $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
         //Step3
-        $userData[$attrData['attribute_code']] = $userData['custom_attribute'];
-        unset($userData['custom_attribute']);
-        $this->ImportExportHelper()
-            ->setFilter(array($attrData['attribute_code'] => array('input' => $userData[$attrData['attribute_code']])));
+        $this->ImportExportHelper()->setFilter(array(
+            $attrData['attribute_code'] => $attrData['default_text_field_value'])
+        );
         //Step4-5
         $report = $this->ImportExportHelper()->export();
         //Verifying
+        $userData[$attrData['attribute_code']] = $userData['custom_attribute'];
+        unset($userData['custom_attribute']);
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file");
         $this->assertEquals(0, $this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Other customers are present in csv file");
     }
-    
 }

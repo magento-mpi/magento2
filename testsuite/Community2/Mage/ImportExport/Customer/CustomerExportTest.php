@@ -195,7 +195,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
         //Step3
         $this->ImportExportHelper()
-            ->setFilter(array('firstname' => array('input' => $userData['first_name'])));
+            ->setFilter(array('firstname' => $userData['first_name']));
         //Step4-5
         $report = $this->ImportExportHelper()->export();
         //Verifying
