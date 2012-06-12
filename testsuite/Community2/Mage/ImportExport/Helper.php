@@ -358,6 +358,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         $customerToCsvKeys['first_name'] = "firstname";
         $customerToCsvKeys['last_name'] = 'lastname';
+        $customerToCsvKeys['middle_name'] = 'middlename';
         $customerToCsvKeys['state'] = 'region';
         $customerToCsvKeys['zip_code'] = 'postcode';
 
