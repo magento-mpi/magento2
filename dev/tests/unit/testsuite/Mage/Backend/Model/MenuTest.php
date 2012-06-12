@@ -176,7 +176,25 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testReorderReordersItemOnItsLevel()
     {
-        $this->markTestIncomplete();
+        $subMenu = new Mage_Backend_Model_Menu;
+
+        $this->_items['item1']->expects($this->any())
+            ->method("hasChildren")
+            ->will($this->returnValue(true));
+
+        $this->_items['item1']->expects($this->any())
+            ->method("getChildren")
+            ->will($this->returnValue($subMenu));
+
+        $this->_model->add($this->_items['item1']);
+        $this->_model->add($this->_items['item2'], 'item1', 10);
+        $this->_model->add($this->_items['item3'], 'item1', 20);
+
+        $this->_model->reorder('item2', 25);
+        $subMenu->reorder('item3', 30);
+
+        $this->assertEquals($this->_items['item2'], $subMenu[25]);
+        $this->assertEquals($this->_items['item3'], $subMenu[30]);
     }
 
     public function testIsLast()
