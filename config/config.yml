@@ -184,8 +184,8 @@ applications:
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     enterprise1201: &ee1201
-        fallbackOrderFixture: 'community1701, enterprise, default'
-        fallbackOrderHelper: 'Community1701, Enterprise, Core'
+        fallbackOrderFixture: 'enterprise1201, community1701, enterprise, default'
+        fallbackOrderHelper: 'Enterprise1201, Community1701, Enterprise, Core'
         areas:
             admin:
                 url: 'http://www.localhost.com/magento_enterprise1201/control/'
