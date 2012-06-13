@@ -22,18 +22,18 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test creation new Store.
+ * Test assign status.
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Status_AssignTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -46,7 +46,7 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
         $this->navigate('order_statuses');
     }
     
-        /**
+    /**
      * <p>Test navigation.</p>
      * <p>Steps:</p>
      * <p>1. Verify that 'Assign Status to State' button is present and click it.</p>
@@ -63,11 +63,12 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
                 'There is no "Assign Status to State" button on the page'); 
         $this->clickButton('assign_status_to_state');
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_status_assignment'), 'There is no "Save" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_status_assignment'),
+                                                  'There is no "Save" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'reset'), 'There is no "Reset" button on the page');
     }
     
-            /**
+    /**
      * <p>Create New Status. Fill in only required fields.</p>
      * <p>Steps:</p>
      * <p>1. Click 'Create New Status' button.</p>
@@ -87,7 +88,4 @@ class Core_Mage_Status_AssignTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_assigned_status');
     }
-
-    
 }
-?>
