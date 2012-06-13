@@ -2568,33 +2568,6 @@ system_configuration:
                                         scc_credit_card_type_use_default: //input[@name='groups[ccsave][fields][cctypes][inherit]']
                                         scc_payment_from_specific_countries_use_default: //input[@name='groups[ccsave][fields][specificcountry][inherit]']
                             -
-                                banktransfer_payment:
-                                    xpath: //fieldset[@id='payment_banktransfer']
-                                    links:
-                                        bank_transfer_payment_link: //parent::div//a[@id='payment_banktransfer-head']
-                                    fields:
-                                        btp_title: //input[@name='groups[banktransfer][fields][title][value]']
-                                        btp_instruction: //textarea[@name='groups[banktransfer][fields][instructions][value]']
-                                        btp_minimum_order_total: //input[@name='groups[banktransfer][fields][min_order_total][value]']
-                                        btp_maximum_order_total: //input[@name='groups[banktransfer][fields][max_order_total][value]']
-                                        btp_sort_order: //input[@name='groups[banktransfer][fields][sort_order][value]']
-                                    dropdowns:
-                                        btp_enabled: //select[@name='groups[banktransfer][fields][active][value]']
-                                        btp_new_order_status: //select[@name='groups[banktransfer][fields][order_status][value]']
-                                        btp_payment_from_applicable_countries: //select[@name='groups[banktransfer][fields][allowspecific][value]']
-                                    multiselects:
-                                        btp_payment_from_specific_countries: //select[@name='groups[banktransfer][fields][specificcountry][value][]']
-                                    checkboxes:
-                                        btp_title_use_default: //input[@name='groups[banktransfer][fields][title][inherit]']
-                                        btp_instruction_use_default: //input[@name='groups[banktransfer][fields][instructions][inherit]']
-                                        btp_minimum_order_total_use_default: //input[@name='groups[banktransfer][fields][min_order_total][inherit]']
-                                        btp_maximum_order_total_use_default: //input[@name='groups[banktransfer][fields][max_order_total][inherit]']
-                                        btp_sort_order_use_default: //input[@name='groups[banktransfer][fields][sort_order][inherit]']
-                                        btp_enabled_use_default: //input[@name='groups[banktransfer][fields][active][inherit]']
-                                        btp_new_order_status_use_default: //input[@name='groups[banktransfer][fields][order_status][inherit]']
-                                        btp_payment_from_applicable_countries_use_default: //input[@name='groups[banktransfer][fields][allowspecific][inherit]']
-                                        btp_payment_from_specific_countries_use_default: //input[@name='groups[banktransfer][fields][specificcountry][inherit]']
-                            -
                                 check_money_order:
                                     xpath: //fieldset[@id='payment_checkmo']
                                     links:
@@ -2623,6 +2596,33 @@ system_configuration:
                                         cmo_new_order_status_use_default: //input[@name='groups[checkmo][fields][order_status][inherit]']
                                         cmo_payment_from_applicable_countries_use_default: //input[@name='groups[checkmo][fields][allowspecific][inherit]']
                                         cmo_payment_from_specific_countries_use_default: //input[@name='groups[checkmo][fields][specificcountry][inherit]']
+                            -
+                                cash_on_delivery_payment:
+                                    xpath: //fieldset[@id='payment_cashondelivery']
+                                    links:
+                                        bank_transfer_payment_link: //parent::div//a[@id='payment_cashondelivery-head']
+                                    fields:
+                                        cod_title: //input[@name='groups[cashondelivery][fields][title][value]']
+                                        cod_instruction: //textarea[@name='groups[cashondelivery][fields][instructions][value]']
+                                        cod_minimum_order_total: //input[@name='groups[cashondelivery][fields][min_order_total][value]']
+                                        cod_maximum_order_total: //input[@name='groups[cashondelivery][fields][max_order_total][value]']
+                                        cod_sort_order: //input[@name='groups[cashondelivery][fields][sort_order][value]']
+                                    dropdowns:
+                                        cod_enabled: //select[@name='groups[cashondelivery][fields][active][value]']
+                                        cod_new_order_status: //select[@name='groups[cashondelivery][fields][order_status][value]']
+                                        cod_payment_from_applicable_countries: //select[@name='groups[cashondelivery][fields][allowspecific][value]']
+                                    multiselects:
+                                        cod_payment_from_specific_countries: //select[@name='groups[cashondelivery][fields][specificcountry][value][]']
+                                    checkboxes:
+                                        cod_title_use_default: //input[@name='groups[cashondelivery][fields][title][inherit]']
+                                        cod_instruction_use_default: //input[@name='groups[cashondelivery][fields][instructions][inherit]']
+                                        cod_minimum_order_total_use_default: //input[@name='groups[cashondelivery][fields][min_order_total][inherit]']
+                                        cod_maximum_order_total_use_default: //input[@name='groups[cashondelivery][fields][max_order_total][inherit]']
+                                        cod_sort_order_use_default: //input[@name='groups[cashondelivery][fields][sort_order][inherit]']
+                                        cod_enabled_use_default: //input[@name='groups[cashondelivery][fields][active][inherit]']
+                                        cod_new_order_status_use_default: //input[@name='groups[cashondelivery][fields][order_status][inherit]']
+                                        cod_payment_from_applicable_countries_use_default: //input[@name='groups[cashondelivery][fields][allowspecific][inherit]']
+                                        cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
                             -
                                 zero_subtotal_checkout:
                                     xpath: //fieldset[@id='payment_free']
