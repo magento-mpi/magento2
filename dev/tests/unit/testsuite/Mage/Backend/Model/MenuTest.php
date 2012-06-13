@@ -246,16 +246,31 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     {
         $item = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $item->expects($this->once())->method('setPath');
-        $item->expects($this->exactly(1))->method('isDisabled')->will($this->returnValue(true));
         $item->expects($this->never())->method('getFirstAvailable');
         $this->_model->add($item);
 
+        $this->_items['item1']->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
+        $this->_items['item1']->expects($this->once())->method('isDisabled')->will($this->returnValue(false));
         $this->_items['item1']->expects($this->once())->method('hasChildren');
-        $this->_items['item1']->expects($this->once())->method('getAction')
-            ->will($this->returnValue('/root/system/node'));
         $this->_model->add($this->_items['item1']);
 
-        $this->assertEquals('/root/system/node', $this->_model->getFirstAvailable()->getAction());
+        $this->assertEquals($this->_items['item1'], $this->_model->getFirstAvailable());
+    }
+
+    public function testGetFirstAvailableReturnsOnlyAllowedAndNotDisabledItem()
+    {
+        $this->_items['item1']->expects($this->exactly(1))->method('isAllowed')->will($this->returnValue(true));
+        $this->_items['item1']->expects($this->exactly(1))->method('isDisabled')->will($this->returnValue(true));
+        $this->_model->add($this->_items['item1']);
+
+        $this->_items['item2']->expects($this->exactly(1))->method('isAllowed')->will($this->returnValue(false));
+        $this->_model->add($this->_items['item2']);
+
+        $this->_items['item3']->expects($this->exactly(1))->method('isAllowed')->will($this->returnValue(true));
+        $this->_items['item3']->expects($this->exactly(1))->method('isDisabled')->will($this->returnValue(false));
+        $this->_model->add($this->_items['item3']);
+
+        $this->assertEquals($this->_items['item3'], $this->_model->getFirstAvailable());
     }
 
     public function testMultipleIterationsWorkProperly()

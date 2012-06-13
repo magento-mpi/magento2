@@ -203,7 +203,12 @@ class Mage_Backend_Model_Menu_Item
      */
     public function getFullPath()
     {
-        return $this->_path . $this->_id;
+        /*
+         * TODO: Remove id manipulation after acl is transfered to ids
+         */
+        $start = max(strrpos($this->_id, '_'), strrpos($this->_id, ':'));
+        $id = $start !== false ? substr($this->_id, $start + 1) : $this->_id;
+        return $this->_path . $id;
     }
 
     /**
