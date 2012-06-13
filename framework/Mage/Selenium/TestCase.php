@@ -199,6 +199,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     const FIELD_TYPE_INPUT = 'field';
 
+    /**
+     * Type of uimap elements
+     * @var string
+     */
+    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
+
     ################################################################################
     #                      Selenium variables(do not rename)                       #
     ################################################################################
@@ -1921,6 +1927,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $uimapFields[self::FIELD_TYPE_RADIOBUTTON] = $fieldset->getAllRadiobuttons();
                 $uimapFields[self::FIELD_TYPE_CHECKBOX] = $fieldset->getAllCheckboxes();
                 $uimapFields[self::FIELD_TYPE_INPUT] = $fieldset->getAllFields();
+                $uimapFields[self::FIELD_TYPE_PAGEELEMENT] = $fieldset->getAllPageelements();
                 foreach ($uimapFields as $fieldsType => $fieldsData) {
                     foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
                         if ($dataFieldName == $uimapFieldName) {
@@ -3184,6 +3191,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         }
                     } else {
                         $this->addVerificationMessage('Can not find field (xpath:' . $formField['path'] . ')');
+                        $resultFlag = false;
+                    }
+                    break;
+                case self::FIELD_TYPE_PAGEELEMENT:
+                    if ($this->isElementPresent($formField['path'])) {
+                        $val = trim($this->getText($formField['path']));
+                        if ($val != $formField['value']) {
+                            $this->addVerificationMessage(
+                                $formFieldName . ": The stored value is not equal to specified: ('"
+                                . $formField['value'] . "' != '" . $val . "')");
+                            $resultFlag = false;
+                        }
+                    } else {
+                        $this->addVerificationMessage('Can not find pageelement (xpath:' . $formField['path'] . ')');
                         $resultFlag = false;
                     }
                     break;
