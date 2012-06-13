@@ -39,7 +39,6 @@ $cmsPage = array(
 
 <h2>Redeeming Reward Points</h2>
 <p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>
-<p><img src="{{skin url="images/reward_points/payment.gif"}}" alt="Payment Information" /></p>
 <p><img src="{{skin url="Enterprise_Reward::images/payment.gif"}}" alt="Payment Information" /></p>
 
 <h2>Reward Points Minimums and Maximums</h2>

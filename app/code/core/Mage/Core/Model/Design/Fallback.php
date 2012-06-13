@@ -39,8 +39,20 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
     protected $_locale;
 
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_appConfig;
+
+    /**
+     * @var Magento_Config_Theme
+     */
+    protected $_themeConfig;
+
+    /**
      * Constructor.
-     * Following entries in $params are required: 'area', 'package', 'theme', 'skin', 'locale'
+     * Following entries in $params are required: 'area', 'package', 'theme', 'skin', 'locale'. The 'appConfig' and
+     * 'themeConfig' may contain application config and theme config, respectively. If these these entries are not
+     * present or null, then they will be retrieved from global application instance.
      *
      * @param array $params
      */
@@ -51,6 +63,9 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
         $this->_theme = $params['theme'];
         $this->_skin = $params['skin'];
         $this->_locale = $params['locale'];
+        $this->_appConfig = isset($params['appConfig']) ? $params['appConfig'] : Mage::getConfig();
+        $this->_themeConfig = isset($params['themeConfig']) ? $params['themeConfig']
+            : Mage::getDesign()->getThemeConfig($this->_area);
     }
 
     /**
@@ -62,7 +77,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getFile($file, $module = null)
     {
-        $dir = Mage::getBaseDir('design');
+        $dir = $this->_appConfig->getOptions()->getDesignDir();
         $dirs = array();
         $theme = $this->_theme;
         $package = $this->_package;
@@ -71,7 +86,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             list($package, $theme) = $this->_getInheritedTheme($package, $theme);
         }
 
-        $moduleDir = $module ? array(Mage::getConfig()->getModuleDir('view', $module) . "/{$this->_area}") : array();
+        $moduleDir = $module ? array($this->_appConfig->getModuleDir('view', $module) . "/{$this->_area}") : array();
         return $this->_fallback($file, $dirs, $module, $moduleDir);
     }
 
@@ -83,7 +98,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getLocaleFile($file)
     {
-        $dir = Mage::getBaseDir('design');
+        $dir = $this->_appConfig->getOptions()->getDesignDir();
         $dirs = array();
         $package = $this->_package;
         $theme = $this->_theme;
@@ -104,8 +119,8 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     public function getSkinFile($file, $module = null)
     {
-        $dir = Mage::getBaseDir('design');
-        $moduleDir = $module ? Mage::getConfig()->getModuleDir('view', $module) : '';
+        $dir = $this->_appConfig->getOptions()->getDesignDir();
+        $moduleDir = $module ? $this->_appConfig->getModuleDir('view', $module) : '';
         $defaultSkin = Mage_Core_Model_Design_Package::DEFAULT_SKIN_NAME;
 
         $dirs = array();
@@ -126,7 +141,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
             $dirs,
             $module,
             array("{$moduleDir}/{$this->_area}/locale/{$this->_locale}", "{$moduleDir}/{$this->_area}"),
-            array(Mage::getBaseDir('js'))
+            array($this->_appConfig->getOptions()->getJsDir())
         );
     }
 
@@ -144,7 +159,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _fallback($file, $themeDirs, $module = false, $moduleDirs = array(), $extraDirs = array())
     {
-        Magento_Profiler::start(__METHOD__);
         // add modules to lookup
         $dirs = $themeDirs;
         if ($module) {
@@ -162,8 +176,6 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
                 break;
             }
         }
-
-        Magento_Profiler::stop(__METHOD__);
         return $tryFile;
     }
 
@@ -179,7 +191,7 @@ class Mage_Core_Model_Design_Fallback implements Mage_Core_Model_Design_Fallback
      */
     protected function _getInheritedTheme($package, $theme)
     {
-        return Mage::getDesign()->getThemeConfig($this->_area)->getParentTheme($package, $theme);
+        return $this->_themeConfig->getParentTheme($package, $theme);
     }
 
     /**
