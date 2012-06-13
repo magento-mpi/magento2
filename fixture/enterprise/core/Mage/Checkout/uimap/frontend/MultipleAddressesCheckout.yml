@@ -111,7 +111,6 @@ checkout_multishipping_review_order:
                         xpath: //h3[text()='%addressHeader%']/following-sibling::*/div[contains(h4,'Shipping Method')]
                 -
                     shipping_address_info:
-                        xpath: //div[@class='col2-set'][not(h2='Billing Information')]
                         pageelements:
                             shipping_method_address_header: "[%number%]/h3"
                             shipping_method_address: "[%number%]//address"
