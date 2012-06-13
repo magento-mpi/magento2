@@ -338,6 +338,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
      * @group skip_due_to_bug1.12.0.1
+     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {

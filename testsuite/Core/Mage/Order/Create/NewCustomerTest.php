@@ -141,6 +141,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
      * @group skip_due_to_bug1.12.0.1
+     * @group skip_due_to_bug1.7.0.1
      */
     public function newCustomerWithAddress($simpleSku)
     {
