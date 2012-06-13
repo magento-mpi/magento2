@@ -22,29 +22,22 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Tests for payment methods. Frontend
+ * Tests for payment methods. Frontend - OnePageCheckout
  *
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
+class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->frontend();
-        $this->shoppingCartHelper()->frontClearShoppingCart();
-        $this->logoutCustomer();
     }
 
     protected function tearDownAfterTestClass()
@@ -56,31 +49,28 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
     }
 
     /**
-     * @return array
+     * <p>Creating Simple product</p>
+     *
+     * @return string
      * @test
      */
     public function preconditionsForTests()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
-        $simple1 = $this->productHelper()->createSimpleProduct();
-        $simple2 = $this->productHelper()->createSimpleProduct();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        $simple = $this->loadDataSet('Product', 'simple_product_visible');
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($simple);
+        //Verification
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-
-        return array('products' => array('product_1' => $simple1['simple']['product_name'],
-                                         'product_2' => $simple2['simple']['product_name']),
-                     'user'     => array('email'    => $userData['email'],
-                                         'password' => $userData['password']),
-                     'api'      => $api,
-                     'visa'     => $accounts['visa']['credit_card']);
+        return array('sku' => $simple['general_name'],
+                     'api' => $api,
+                     'visa'=> $accounts['visa']['credit_card']);
     }
 
     /**
@@ -92,15 +82,16 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
      * <p>Steps:</p>
      * <p>1. Open product page.</p>
      * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Fill in Select Addresses page.</p>
-     * <p>5. Click 'Continue to Shipping Information' button.</p>
-     * <p>6. Fill in Shipping Information page</p>
-     * <p>7. Click 'Continue to Billing Information' button.</p>
-     * <p>8. Select Payment Method(by data provider).</p>
-     * <p>9. Click 'Continue to Review Your Order' button.</p>
-     * <p>10. Verify information into "Place Order" page</p>
-     * <p>11. Place order.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Select "Ship to this address" option.</p>
+     * <p>6. Click 'Continue' button.</p>
+     * <p>7. Select Shipping Method.</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>9. Select Payment Method(by data provider).</p>
+     * <p>10. Click 'Continue' button.</p>
+     * <p>11. Verify information into "Order Review" tab</p>
+     * <p>12. Place order.</p>
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
@@ -108,18 +99,19 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
      * @param array $testData
      *
      * @test
-     * @dataProvider paymentsWithout3dDataProvider
+     * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5280
+     * @TestlinkId TL-MAGE-3201
      */
-    public function paymentsWithout3d($payment, $testData)
+    public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('payment' => $paymentData),
-                                           $testData['products']);
-        if ($payment != 'checkmoney') {
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+                                           array('general_name' => $testData['sku'],
+                                                'payment_data'  => $this->loadDataSet('Payment',
+                                                                                      'payment_' . $payment)));
+        if ($payment != 'checkmoney'  && $payment !='banktransfer') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -132,15 +124,21 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
         //Steps
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
-        $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $this->logoutCustomer();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_registration');
+        //Steps
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function paymentsWithout3dDataProvider()
+    public function differentPaymentMethodsWithout3DDataProvider()
     {
         return array(
+            array('banktransfer'),
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),
@@ -159,16 +157,17 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
      * <p>Steps:</p>
      * <p>1. Open product page.</p>
      * <p>2. Add product to Shopping Cart.</p>
-     * <p>3. Click "Checkout with Multiple Addresses".</p>
-     * <p>4. Fill in Select Addresses page.</p>
-     * <p>5. Click 'Continue to Shipping Information' button.</p>
-     * <p>6. Fill in Shipping Information page</p>
-     * <p>7. Click 'Continue to Billing Information' button.</p>
-     * <p>8. Select Payment Method(by data provider).</p>
-     * <p>9. Click 'Continue to Review Your Order' button.</p>
-     * <p>10. Enter 3D security code.</p>
-     * <p>11. Verify information into "Place Order" page</p>
-     * <p>12. Place order.</p>
+     * <p>3. Click "Proceed to Checkout".</p>
+     * <p>4. Fill in Billing Information tab.</p>
+     * <p>5. Select "Ship to this address" option.</p>
+     * <p>6. Click 'Continue' button.</p>
+     * <p>7. Select Shipping Method.</p>
+     * <p>8. Click 'Continue' button.</p>
+     * <p>9. Select Payment Method(by data provider).</p>
+     * <p>10. Click 'Continue' button.</p>
+     * <p>11. Enter 3D security code.</p>
+     * <p>12. Verify information into "Order Review" tab</p>
+     * <p>13. Place order.</p>
      * <p>Expected result:</p>
      * <p>Checkout is successful.</p>
      *
@@ -176,32 +175,39 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
      * @param array $testData
      *
      * @test
-     * @dataProvider paymentsWith3dDataProvider
+     * @dataProvider differentPaymentMethodsWith3DDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-5281
+     * @TestlinkId TL-MAGE-3200
      */
-    public function paymentsWith3d($payment, $testData)
+
+    public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
-        $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
-        $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
-                                           array('payment' => $paymentData),
-                                           $testData['products']);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
+                                           array('general_name' => $testData['sku'],
+                                                'payment_data'  => $this->loadDataSet('Payment',
+                                                                                      'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
             $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
-            $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
+            $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($paymentConfig);
-        $this->customerHelper()->frontLoginCustomer($testData['user']);
-        $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
+        $this->logoutCustomer();
+        $this->navigate('customer_login');
+        $this->customerHelper()->registerCustomer($userData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_registration');
+        //Steps
+        $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
     }
 
-    public function paymentsWith3dDataProvider()
+    public function differentPaymentMethodsWith3DDataProvider()
     {
         return array(
             array('paypaldirect'),

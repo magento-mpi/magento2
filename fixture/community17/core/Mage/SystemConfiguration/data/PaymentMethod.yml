@@ -249,6 +249,30 @@ savedcc_disable:
         configuration:
             scc_enabled: No
 
+#<-------------Bank Transfer Payment------------------------>
+banktransfer:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            btp_enabled: Yes
+            btp_title: Bank Transfer Payment
+            btp_instruction: Bank Transfer Instruction Data
+            btp_payment_from_applicable_countries: All Allowed Countries
+            btp_payment_from_specific_countries: %noValue%
+            btp_make_check_payable_to: %noValue%
+            btp_send_check_to: %noValue%
+            btp_minimum_order_total: %noValue%
+            btp_maximum_order_total: %noValue%
+            btp_sort_order: %noValue%
+
+banktransfer_payment_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: No
+
 #<-------------Check / Money Order------------------------>
 checkmoney:
     configuration_scope: Default Config
@@ -256,7 +280,7 @@ checkmoney:
         tab_name: sales_payment_methods
         configuration:
             cmo_enabled: Yes
-            cmo_title: Check / Money order
+            cmo_title: Check Money order
             cmo_new_order_status: %noValue%
             cmo_payment_from_applicable_countries: All Allowed Countries
             cmo_payment_from_specific_countries: %noValue%
