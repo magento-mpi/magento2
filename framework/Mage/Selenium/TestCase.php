@@ -3169,10 +3169,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     break;
                 case self::FIELD_TYPE_MULTISELECT:
                     if ($this->isElementPresent($formField['path'])) {
-                        $selectedLabels = $this->getSelectedLabels($formField['path']);
-                        $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2) . chr(0xA0)));
+                        $selectedLabels = array();
+                        try {
+                            $selectedLabels = $this->getSelectedLabels($formField['path']);
+                            $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2) . chr(0xA0)));
+                        } catch (RuntimeException $e) {
+                            if (strpos($e->getMessage(), 'No option selected') === false) {
+                                throw $e;
+                            }
+                        }
                         $expectedLabels = explode(',', $formField['value']);
                         $expectedLabels = array_map('trim', $expectedLabels);
+                        $expectedLabels = array_diff($expectedLabels, array(''));
                         foreach ($expectedLabels as $value) {
                             if (!in_array($value, $selectedLabels)) {
                                 $this->addVerificationMessage($formFieldName . ": The value '" . $value
