@@ -37,10 +37,10 @@ class Mage_Api2_Model_Resource_Acl_Global_Role_Collection extends Mage_Core_Mode
     {
         $this->getSelect()
             ->joinInner(
-                array('api2_acl_user' => $this->getTable('api2_acl_user')),
-                'main_table.entity_id = user.role_id',
-                array('admin_id' => 'user.admin_id'))
-            ->where('user.admin_id = ?', $id, Zend_Db::INT_TYPE);
+                array('api2_acl_user' => $this-q>getTable('api2_acl_user')),
+                'main_table.entity_id = api2_acl_user.role_id',
+                array('admin_id' => 'api2_acl_user.admin_id'))
+            ->where('api2_acl_user.admin_id = ?', $id, Zend_Db::INT_TYPE);
 
         return $this;
     }
