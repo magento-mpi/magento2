@@ -18,6 +18,31 @@
 class Mage_Catalog_Model_Api2_Product_Validator_Product_Configurable
     extends Mage_Catalog_Model_Api2_Product_Validator_Product_Simple
 {
+
+    /**
+     * Remove attributes used in configurable attributes from required.
+     *
+     * @param array $data
+     * @param Mage_Eav_Model_Entity_Type $productEntity
+     * @return array
+     */
+    protected function _validateAttributes($data, $productEntity)
+    {
+        $requiredAttributes = parent::_validateAttributes($data, $productEntity);
+
+        if (isset($data['configurable_attributes']) && is_array($data['configurable_attributes'])) {
+            foreach ($data['configurable_attributes'] as $configurableAttribute) {
+                if (isset($configurableAttribute['attribute_code'])
+                    && $foundKey = array_search($configurableAttribute['attribute_code'], $requiredAttributes)
+                ) {
+                    unset($requiredAttributes[$foundKey]);
+                }
+            }
+        }
+
+        return $requiredAttributes;
+    }
+
     /**
      * Validate data specific for configurable product
      *

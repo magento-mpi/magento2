@@ -30,6 +30,7 @@ if (!Magento_Test_Webservice::getFixture('attribute_set_with_configurable')) {
             ->setFrontendLabel(array(0 => 'Test Attr ' . uniqid()))
             ->setIsGlobal(true)
             ->setIsConfigurable(true)
+            ->setIsRequired(true)
             ->setFrontendInput('select')
             ->setBackendType('int')
             ->setAttributeSetId($attributeSet->getId())

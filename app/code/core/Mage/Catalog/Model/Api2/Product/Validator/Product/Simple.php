@@ -116,7 +116,8 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Simple
             $this->_validateGroupPrice($data);
             $this->_validateTierPrice($data);
             $this->_validateStockData($data);
-            $this->_validateAttributes($data, $productEntity);
+            $requiredAttributes = $this->_validateAttributes($data, $productEntity);
+            $this->_validateRequiredAttributes($data, $requiredAttributes);
             if ($this->isValid()) {
                 // perform native validation only if custom validation succeed to prevent duplicate error messages
                 $this->_getProduct()->validate();
@@ -234,6 +235,17 @@ class Mage_Catalog_Model_Api2_Product_Validator_Product_Simple
             }
         }
 
+        return $requiredAttributes;
+    }
+
+    /**
+     * Validate that required attributes are present in data.
+     *
+     * @param array $data
+     * @param array $requiredAttributes
+     */
+    protected function _validateRequiredAttributes($data, $requiredAttributes)
+    {
         foreach ($requiredAttributes as $key) {
             if (!array_key_exists($key, $data)) {
                 if (!$this->_isUpdateOperation()) {
