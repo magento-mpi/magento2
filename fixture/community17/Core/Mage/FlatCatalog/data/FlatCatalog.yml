@@ -58,3 +58,11 @@ flat_catalog_reviews:
         tab_name: catalog_catalog
         configuration:
             allow_guests_to_write_reviews: %NoValue%
+
+flat_catalog_category_excluded:
+    parent_category: Default Category
+    name: Sub Category IsIncluded(%randomize%)
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price
+    include_in_navigation_menu: No
