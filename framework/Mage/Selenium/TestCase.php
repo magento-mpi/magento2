@@ -564,6 +564,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $url = $this->takeScreenshot($name);
         $this->markTestSkipped($url . $message);
     }
+
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -767,7 +768,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $data = $this->_dataHelper->getDataValue($dataSource);
 
         if ($data === false) {
-            $dataSetName = array_shift(explode('/', $dataSource));
+            $explodedData = explode('/', $dataSource);
+            $dataSetName = array_shift($explodedData);
             $this->_dataHelper->loadTestDataSet($dataFile, $dataSetName);
             $data = $this->_dataHelper->getDataValue($dataSource);
         }
@@ -1254,8 +1256,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($xpath && $this->isElementPresent($xpath)) {
             return array("success" => true);
         }
-        return array("success" => false,
-                     "xpath"   => $xpath,
+        return array("success" => false, "xpath" => $xpath,
                      "found"   => self::messagesToString($this->getMessagesOnPage()));
     }
 
@@ -1717,10 +1718,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $mca = '';
         $currentArea = '';
         $baseUrl = '';
-        $currentUrl = preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl));
+        $currentUrl = preg_replace('|^www\.|', '',
+            preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
         foreach ($areasConfig as $area => $areaConfig) {
-            $areaUrl =
-                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
+            $areaUrl = preg_replace('|^www\.|', '',
+                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url'])));
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $baseUrl = $areaUrl;
                 $currentArea = $area;
@@ -2524,7 +2526,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function waitForElement($locator, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod/1000;
+            $timeout = $this->_browserTimeoutPeriod / 1000;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -2556,7 +2558,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function waitForElementOrAlert($messageXpath, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod/1000;
+            $timeout = $this->_browserTimeoutPeriod / 1000;
         }
         $wait = array('alert');
         if (is_array($messageXpath)) {
@@ -2596,7 +2598,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function waitForElementVisible($locator, $timeout = null)
     {
         if (is_null($timeout)) {
-            $timeout = $this->_browserTimeoutPeriod/1000;
+            $timeout = $this->_browserTimeoutPeriod / 1000;
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
@@ -2686,6 +2688,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * @param string|array $types
+     *
      * @return array|string
      */
     public function getBasicXpathMessagesExcludeCurrent($types)
@@ -3117,8 +3120,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $val = $this->getValue($formField['path']);
                         if ($val != $formField['value']) {
                             $this->addVerificationMessage(
-                                $formFieldName . ": The stored value is not equal to specified: ('" . $formField['value']
-                                . "' != '" . $val . "')");
+                                $formFieldName . ": The stored value is not equal to specified: ('"
+                                . $formField['value'] . "' != '" . $val . "')");
                             $resultFlag = false;
                         }
                     } else {
@@ -3134,11 +3137,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         if (($isChecked && $expectedVal != 'yes')
                             || (!$isChecked && !($expectedVal == 'no' || $expectedVal == ''))
                         ) {
-                            $printVal = ($isChecked)
-                                ? 'yes'
-                                : 'no';
+                            $printVal = ($isChecked) ? 'yes' : 'no';
                             $this->addVerificationMessage(
-                                $formFieldName . ": The stored value is not equal to specified: (" . $expectedVal
+                                $formFieldName . ": The stored value is not equal to specified: ('" . $expectedVal
                                 . "' != '" . $printVal . "')");
                             $resultFlag = false;
                         }
@@ -3152,8 +3153,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $label = $this->getSelectedLabel($formField['path']);
                         if ($formField['value'] != $label) {
                             $this->addVerificationMessage(
-                                $formFieldName . ": The stored value is not equal to specified: (" . $formField['value']
-                                . "' != '" . $label . "')");
+                                $formFieldName . ": The stored value is not equal to specified: ('"
+                                . $formField['value'] . "' != '" . $label . "')");
                             $resultFlag = false;
                         }
                     } else {
@@ -3492,7 +3493,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
     {
-        $this->waitForElementPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
+        //$this->waitForElementPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
+        $this->waitForAjax();
         $this->waitForElementNotPresent(self::$xpathLoadingHolder, $waitDisappear * 1000);
         /*for ($second = 0; $second < $waitAppear; $second++) {
             if ($this->isElementPresent(self::$xpathLoadingHolder)) {
@@ -3579,8 +3581,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $xpath = $this->_getControlXpath('pageelement', $value);
                 $qty = $this->getXpathCount($xpath);
                 for ($i = 1; $i < $qty + 1; $i++) {
-                    $fillData = array('path'  => $xpath . '[' . $i . ']//input',
-                                      'value' => 'Yes');
+                    $fillData = array('path' => $xpath . '[' . $i . ']//input', 'value' => 'Yes');
                     $this->_fillFormCheckbox($fillData);
                 }
             }
