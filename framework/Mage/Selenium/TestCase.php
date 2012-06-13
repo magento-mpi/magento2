@@ -767,7 +767,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $data = $this->_dataHelper->getDataValue($dataSource);
 
         if ($data === false) {
-            $dataSetName = array_shift(explode('/', $dataSource));
+            $dataSourceNameParts = explode('/', $dataSource);
+            $dataSetName = array_shift($dataSourceNameParts);
             $this->_dataHelper->loadTestDataSet($dataFile, $dataSetName);
             $data = $this->_dataHelper->getDataValue($dataSource);
         }
