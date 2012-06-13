@@ -58,7 +58,7 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
         'resource' => 'system/config',
         'dependsOnModule' => 'Mage_Backend',
         'dependsOnConfig' => 'system/config/isEnabled',
-        'tooltip' => 'Item tooltip',
+        'toolTip' => 'Item tooltip',
     );
 
     public function setUp()
@@ -243,6 +243,31 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
                 )
             )
         );
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testValidateParamWithNullForRequiredParamThrowsException()
+    {
+        $this->_model->validateParam('title', null);
+    }
+
+    public function testValidateParamWithNullForNonRequiredParamDoesntValidate()
+    {
+        try{
+            $this->_model->validateParam('toolTip', null);
+        } catch (Exception $e) {
+            $this->fail("Non required null values should not be validated");
+        }
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testValidateParamValidatesPrimitiveValues()
+    {
+        $this->_model->validateParam('toolTip', '/:');
     }
 }
 

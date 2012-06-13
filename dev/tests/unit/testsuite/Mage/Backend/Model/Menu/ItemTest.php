@@ -262,6 +262,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($menuMock));
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $item->getChildren();
+        $item->getChildren();
     }
 
     public function testSetParentUpdatesAllChildren()

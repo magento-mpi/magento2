@@ -319,7 +319,7 @@ class Mage_Backend_Model_Menu_Item
      */
     public function setTooltip($tooltip)
     {
-        $this->_validator->validateParam('tooltip', $tooltip);
+        $this->_validator->validateParam('toolTip', $tooltip);
         $this->_tooltip = $tooltip;
         return $this;
     }
