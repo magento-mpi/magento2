@@ -1694,10 +1694,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
-        $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $expectedTitle =
-                $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        if (!is_null($expectedTitle)) {
             $this->assertSame($expectedTitle, $this->getTitle(),
                 'Current url: \'' . $this->getLocation() . "\n" . 'Title for page "' . $page . '" is unexpected.');
         }

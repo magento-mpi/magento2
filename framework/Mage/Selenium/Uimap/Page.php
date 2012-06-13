@@ -83,7 +83,7 @@ class Mage_Selenium_Uimap_Page extends Mage_Selenium_Uimap_Abstract
         if (isset($pageContainer['click_xpath'])) {
             $this->_clickXpath = $pageContainer['click_xpath'];
         }
-        if (isset($pageContainer['title'])) {
+        if (array_key_exists('title', $pageContainer)) {
             $this->_title = $pageContainer['title'];
         } else {
             throw new UnexpectedValueException("'Title' parameter must be specified for '$pageId' page");
