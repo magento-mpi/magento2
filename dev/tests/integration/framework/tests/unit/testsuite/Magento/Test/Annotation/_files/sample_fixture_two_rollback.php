@@ -9,4 +9,4 @@
  * @license     {license_link}
  */
 
-// Empty texture for test purpose
+// Empty fixture rollback script for test purpose

@@ -10,26 +10,16 @@
  */
 
 /**
- * Implementation of the @magentoConfigFixture doc comment directive
+ * Implementation of the @magentoConfigFixture DocBlock annotation
  */
-class Magento_Test_Listener_Annotation_Config
+class Magento_Test_Annotation_ConfigFixture
 {
     /**
-     * @var Magento_Test_Listener
-     */
-    protected static $_listenerDefault;
-
-    /**
-     * Whether the execution is happening between 'startTest' and 'stopTest'
+     * Test instance that is available between 'startTest' and 'stopTest' events
      *
-     * @var bool
+     * @var PHPUnit_Framework_TestCase
      */
-    protected static $_isWithinTest = false;
-
-    /**
-     * @var Magento_Test_Listener
-     */
-    protected $_listener;
+    protected $_currentTest;
 
     /**
      * Original values for global configuration options that need to be restored
@@ -44,19 +34,6 @@ class Magento_Test_Listener_Annotation_Config
      * @var array
      */
     private $_storeConfigValues = array();
-
-    /**
-     * Constructor stores the first valid listener instance and uses it further if null is passed
-     *
-     * @param Magento_Test_Listener $listener
-     */
-    public function __construct($listener = null)
-    {
-        if (!self::$_listenerDefault) {
-            self::$_listenerDefault = $listener;
-        }
-        $this->_listener = ($listener ? $listener : self::$_listenerDefault);
-    }
 
     /**
      * Retrieve configuration node value
@@ -96,13 +73,12 @@ class Magento_Test_Listener_Annotation_Config
 
     /**
      * Assign required config values and save original ones
+     *
+     * @param PHPUnit_Framework_TestCase $test
      */
-    protected function _assignConfigData()
+    protected function _assignConfigData(PHPUnit_Framework_TestCase $test)
     {
-        if (!$this->_listener || !$this->_listener->getCurrentTest()) {
-            return;
-        }
-        $annotations = $this->_listener->getCurrentTest()->getAnnotations();
+        $annotations = $test->getAnnotations();
         if (!isset($annotations['method']['magentoConfigFixture'])) {
             return;
         }
@@ -151,30 +127,36 @@ class Magento_Test_Listener_Annotation_Config
 
     /**
      * Handler for 'startTest' event
+     *
+     * @param PHPUnit_Framework_TestCase $test
      */
-    public function startTest()
+    public function startTest(PHPUnit_Framework_TestCase $test)
     {
-        $this->_assignConfigData();
-        self::$_isWithinTest = true;
+        $this->_currentTest = $test;
+        $this->_assignConfigData($test);
     }
 
     /**
      * Handler for 'endTest' event
+     *
+     * @param PHPUnit_Framework_TestCase $test
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function endTest()
+    public function endTest(PHPUnit_Framework_TestCase $test)
     {
-        self::$_isWithinTest = false;
+        $this->_currentTest = null;
         $this->_restoreConfigData();
     }
 
     /**
-     * Handler for 'controller_front_init_before' event
+     * Handler for 'initFrontControllerBefore' event
      */
     public function initFrontControllerBefore()
     {
-        if (!self::$_isWithinTest) {
-            return;
+        /* process events triggered from within a test only */
+        if ($this->_currentTest) {
+            $this->_assignConfigData($this->_currentTest);
         }
-        $this->_assignConfigData();
     }
 }

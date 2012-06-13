@@ -10,31 +10,16 @@
  */
 
 /**
- * Implementation of the @magentoAppIsolation doc comment directive
+ * Implementation of the @magentoAppIsolation DocBlock annotation
  */
-class Magento_Test_Listener_Annotation_Isolation
+class Magento_Test_Annotation_AppIsolation
 {
-    /**
-     * @var Magento_Test_Listener
-     */
-    protected $_listener;
-
     /**
      * Flag to prevent an excessive test case isolation if the last test has been just isolated
      *
      * @var bool
      */
     private $_hasNonIsolatedTests = true;
-
-    /**
-     * Constructor
-     *
-     * @param Magento_Test_Listener $listener
-     */
-    public function __construct(Magento_Test_Listener $listener)
-    {
-        $this->_listener = $listener;
-    }
 
     /**
      * Isolate global application objects
@@ -84,12 +69,11 @@ class Magento_Test_Listener_Annotation_Isolation
     /**
      * Handler for 'endTest' event
      *
+     * @param PHPUnit_Framework_TestCase $test
      * @throws Magento_Exception
      */
-    public function endTest()
+    public function endTest(PHPUnit_Framework_TestCase $test)
     {
-        $test = $this->_listener->getCurrentTest();
-
         $this->_hasNonIsolatedTests = true;
 
         /* Determine an isolation from doc comment */

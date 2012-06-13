@@ -87,14 +87,21 @@ if (defined('TESTS_BAMBOO_PROFILER_FILE') && defined('TESTS_BAMBOO_PROFILER_METR
     ));
 }
 
-/* Activate custom annotations in doc comments */
+/* Activate custom DocBlock annotations */
 /*
  * Note: order of registering (and applying) annotations is important.
  * To allow config fixtures to deal with fixture stores, data fixtures should be processed before config fixtures.
  */
-Magento_Test_Listener::registerObserver('Magento_Test_Listener_Annotation_Isolation');
-Magento_Test_Listener::registerObserver('Magento_Test_Listener_Annotation_Fixture');
-Magento_Test_Listener::registerObserver('Magento_Test_Listener_Annotation_Config');
+$eventManager = new Magento_Test_EventManager(array(
+    new Magento_Test_Annotation_AppIsolation(),
+    new Magento_Test_Event_Transaction(new Magento_Test_EventManager(array(
+        new Magento_Test_Annotation_DbIsolation(),
+        new Magento_Test_Annotation_DataFixture(dirname(__DIR__) . '/testsuite'),
+    ))),
+    new Magento_Test_Annotation_ConfigFixture(),
+));
+Magento_Test_Event_PhpUnit::setDefaultEventManager($eventManager);
+Magento_Test_Event_Magento::setDefaultEventManager($eventManager);
 
 /* Unset declared global variables to release PHPUnit from maintaining their values between tests */
-unset($baseDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles);
+unset($baseDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $eventManager);

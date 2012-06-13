@@ -10,35 +10,21 @@
  */
 
 /**
- * Test class for Magento_Test_Listener_Annotation_Config.
+ * Test class for Magento_Test_Annotation_ConfigFixture.
  */
-class Magento_Test_Listener_Annotation_ConfigTest extends PHPUnit_Framework_TestCase
+class Magento_Test_Annotation_ConfigFixtureTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento_Test_Listener
+     * @var Magento_Test_Annotation_ConfigFixture|PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_listener;
-
-    /**
-     * @var Magento_Test_Listener_Annotation_Config|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_annotation;
+    protected $_object;
 
     protected function setUp()
     {
-        $this->_listener = new Magento_Test_Listener;
-        $this->_listener->startTest($this);
-
-        $this->_annotation = $this->getMock(
-            'Magento_Test_Listener_Annotation_Config',
-            array('_getConfigValue', '_setConfigValue'),
-            array($this->_listener)
+        $this->_object = $this->getMock(
+            'Magento_Test_Annotation_ConfigFixture',
+            array('_getConfigValue', '_setConfigValue')
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->_listener->endTest($this->_listener->getCurrentTest(), 0);
     }
 
     /**
@@ -46,25 +32,25 @@ class Magento_Test_Listener_Annotation_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testGlobalConfig()
     {
-        $this->_annotation
+        $this->_object
             ->expects($this->at(0))
             ->method('_getConfigValue')
             ->with('web/unsecure/base_url')
             ->will($this->returnValue('http://localhost/'))
         ;
-        $this->_annotation
+        $this->_object
             ->expects($this->at(1))
             ->method('_setConfigValue')
             ->with('web/unsecure/base_url', 'http://example.com/')
         ;
-        $this->_annotation->startTest();
+        $this->_object->startTest($this);
 
-        $this->_annotation
+        $this->_object
             ->expects($this->once())
             ->method('_setConfigValue')
             ->with('web/unsecure/base_url', 'http://localhost/')
         ;
-        $this->_annotation->endTest();
+        $this->_object->endTest($this);
     }
 
     /**
@@ -72,25 +58,25 @@ class Magento_Test_Listener_Annotation_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testCurrentStoreConfig()
     {
-        $this->_annotation
+        $this->_object
             ->expects($this->at(0))
             ->method('_getConfigValue')
             ->with('dev/restrict/allow_ips', '')
             ->will($this->returnValue('127.0.0.1'))
         ;
-        $this->_annotation
+        $this->_object
             ->expects($this->at(1))
             ->method('_setConfigValue')
             ->with('dev/restrict/allow_ips', '192.168.0.1', '')
         ;
-        $this->_annotation->startTest();
+        $this->_object->startTest($this);
 
-        $this->_annotation
+        $this->_object
             ->expects($this->once())
             ->method('_setConfigValue')
             ->with('dev/restrict/allow_ips', '127.0.0.1', '')
         ;
-        $this->_annotation->endTest();
+        $this->_object->endTest($this);
     }
 
     /**
@@ -98,25 +84,25 @@ class Magento_Test_Listener_Annotation_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testSpecificStoreConfig()
     {
-        $this->_annotation
+        $this->_object
             ->expects($this->at(0))
             ->method('_getConfigValue')
             ->with('dev/restrict/allow_ips', 'admin')
             ->will($this->returnValue('192.168.0.1'))
         ;
-        $this->_annotation
+        $this->_object
             ->expects($this->at(1))
             ->method('_setConfigValue')
             ->with('dev/restrict/allow_ips', '192.168.0.2', 'admin')
         ;
-        $this->_annotation->startTest();
+        $this->_object->startTest($this);
 
-        $this->_annotation
+        $this->_object
             ->expects($this->once())
             ->method('_setConfigValue')
             ->with('dev/restrict/allow_ips', '192.168.0.1', 'admin')
         ;
-        $this->_annotation->endTest();
+        $this->_object->endTest($this);
     }
 
     /**
@@ -124,15 +110,15 @@ class Magento_Test_Listener_Annotation_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testInitFrontControllerBeforeOutOfScope()
     {
-        $this->_annotation
+        $this->_object
             ->expects($this->never())
             ->method('_getConfigValue')
         ;
-        $this->_annotation
+        $this->_object
             ->expects($this->never())
             ->method('_setConfigValue')
         ;
-        $this->_annotation->initFrontControllerBefore();
+        $this->_object->initFrontControllerBefore();
     }
 
     /**
@@ -140,19 +126,18 @@ class Magento_Test_Listener_Annotation_ConfigTest extends PHPUnit_Framework_Test
      */
     public function testInitFrontControllerBefore()
     {
-        $this->_annotation->startTest();
-        $this->_annotation
+        $this->_object->startTest($this);
+        $this->_object
             ->expects($this->at(0))
             ->method('_getConfigValue')
             ->with('web/unsecure/base_url')
             ->will($this->returnValue('http://localhost/'))
         ;
-        $this->_annotation
+        $this->_object
             ->expects($this->at(1))
             ->method('_setConfigValue')
             ->with('web/unsecure/base_url', 'http://example.com/')
         ;
-        $this->_annotation->initFrontControllerBefore();
-        $this->_annotation->endTest();
+        $this->_object->initFrontControllerBefore();
     }
 }

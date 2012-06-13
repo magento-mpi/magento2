@@ -10,74 +10,40 @@
  */
 
 /**
- * Centralized entry point for handling PHPUnit built-in and custom events
+ * Listener of PHPUnit built-in events
  */
-class Magento_Test_Listener implements PHPUnit_Framework_TestListener
+class Magento_Test_Event_PhpUnit implements PHPUnit_Framework_TestListener
 {
     /**
-     * Registered event observers classes
+     * Used when PHPUnit framework instantiates the class on its own and passes nothing to the constructor
      *
-     * @var array
+     * @var Magento_Test_EventManager
      */
-    protected static $_observerClasses = array();
+    protected static $_defaultEventManager;
 
     /**
-     * Registered event observers
-     *
-     * @var array
+     * @var Magento_Test_EventManager
      */
-    protected $_observers = array();
+    protected $_eventManager;
 
     /**
-     * @var PHPUnit_Framework_TestCase
-     */
-    protected $_currentTest;
-
-    /**
-     * Register observer class
+     * Assign default event manager instance
      *
-     * @param string $observerClass
+     * @param Magento_Test_EventManager $eventManager
      */
-    public static function registerObserver($observerClass)
+    public static function setDefaultEventManager(Magento_Test_EventManager $eventManager)
     {
-        self::$_observerClasses[] = $observerClass;
+        self::$_defaultEventManager = $eventManager;
     }
 
     /**
-     * Constructor instantiates observers from registered classes and passes itself to constructor
-     */
-    public function __construct()
-    {
-        foreach (self::$_observerClasses as $observerClass) {
-            $this->_observers[] = new $observerClass($this);
-        }
-    }
-
-    /**
-     * Retrieve currently running test
+     * Constructor
      *
-     * @return PHPUnit_Framework_TestCase
+     * @param Magento_Test_EventManager $eventManager
      */
-    public function getCurrentTest()
+    public function __construct(Magento_Test_EventManager $eventManager = null)
     {
-        return $this->_currentTest;
-    }
-
-    /**
-     * Notify registered observers that are interested in event
-     *
-     * @param string $eventName
-     * @param bool $reverseOrder
-     */
-    protected function _notifyObservers($eventName, $reverseOrder = false)
-    {
-        $observers = ($reverseOrder ? array_reverse($this->_observers) : $this->_observers);
-        foreach ($observers as $observerInstance) {
-            $callback = array($observerInstance, $eventName);
-            if (is_callable($callback)) {
-                call_user_func($callback);
-            }
-        }
+        $this->_eventManager = $eventManager ?: self::$_defaultEventManager;
     }
 
     /**
@@ -153,7 +119,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
         if ($suite instanceof PHPUnit_Framework_TestSuite_DataProvider) {
             return;
         }
-        $this->_notifyObservers('startTestSuite');
+        $this->_eventManager->fireEvent('startTestSuite');
     }
 
     /**
@@ -167,7 +133,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
         if ($suite instanceof PHPUnit_Framework_TestSuite_DataProvider) {
             return;
         }
-        $this->_notifyObservers('endTestSuite', true);
+        $this->_eventManager->fireEvent('endTestSuite', array(), true);
     }
 
     /**
@@ -180,9 +146,7 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
         if (!($test instanceof PHPUnit_Framework_TestCase) || ($test instanceof PHPUnit_Framework_Warning)) {
             return;
         }
-        Magento_Profiler::start('integration_test');
-        $this->_currentTest = $test;
-        $this->_notifyObservers('startTest');
+        $this->_eventManager->fireEvent('startTest', array($test));
     }
 
     /**
@@ -199,8 +163,6 @@ class Magento_Test_Listener implements PHPUnit_Framework_TestListener
         if (!($test instanceof PHPUnit_Framework_TestCase) || ($test instanceof PHPUnit_Framework_Warning)) {
             return;
         }
-        $this->_notifyObservers('endTest', true);
-        $this->_currentTest = null;
-        Magento_Profiler::stop('integration_test');
+        $this->_eventManager->fireEvent('endTest', array($test), true);
     }
 }
