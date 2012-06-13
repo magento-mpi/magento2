@@ -1,4 +1,12 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 return array(
     /**

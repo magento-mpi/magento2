@@ -1,4 +1,13 @@
+#!/usr/bin/php
 <?php
+/**
+ * Magento install script
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 define('SYNOPSIS', <<<SYNOPSIS
 php -f install.php -- --build_properties_file "<path_to_file>"
