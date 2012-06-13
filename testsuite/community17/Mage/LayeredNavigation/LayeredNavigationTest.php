@@ -86,7 +86,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->categoryHelper()->createCategory($subCategoryForNonAnchorCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
 
-        // creating products
+        // Creating products
         $this->navigate('manage_products');
         $simple1 = $this->loadDataSet('Product', 'simple_product_visible', array ('categories' => $subCategoryName));
         $this->productHelper()->createProduct($simple1);
