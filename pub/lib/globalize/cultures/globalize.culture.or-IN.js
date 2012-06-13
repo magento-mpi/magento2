@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture or-IN
  *
  * http://github.com/jquery/globalize

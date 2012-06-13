@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture fil-PH
  *
  * http://github.com/jquery/globalize

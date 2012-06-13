@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture az
  *
  * http://github.com/jquery/globalize

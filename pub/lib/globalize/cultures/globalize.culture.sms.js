@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sms
  *
  * http://github.com/jquery/globalize

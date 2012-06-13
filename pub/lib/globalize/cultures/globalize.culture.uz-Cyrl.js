@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture uz-Cyrl
  *
  * http://github.com/jquery/globalize

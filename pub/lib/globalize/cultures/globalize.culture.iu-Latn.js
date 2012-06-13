@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture iu-Latn
  *
  * http://github.com/jquery/globalize

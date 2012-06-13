@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture en-PH
  *
  * http://github.com/jquery/globalize

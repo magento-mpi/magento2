@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sv-FI
  *
  * http://github.com/jquery/globalize

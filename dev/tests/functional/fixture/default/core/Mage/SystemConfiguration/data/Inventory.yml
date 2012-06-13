@@ -1,0 +1,24 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+display_out_of_stock_products:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_inventory
+        configuration:
+            display_out_of_stock_products: Yes
+
+not_display_out_of_stock_products:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_inventory
+        configuration:
+            display_out_of_stock_products: No

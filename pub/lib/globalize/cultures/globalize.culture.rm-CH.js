@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture rm-CH
  *
  * http://github.com/jquery/globalize

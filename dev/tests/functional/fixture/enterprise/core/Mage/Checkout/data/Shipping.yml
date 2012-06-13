@@ -1,0 +1,13 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+shipping_dhl:
+    shipping_service: DHL
+    shipping_method: Express worldwide

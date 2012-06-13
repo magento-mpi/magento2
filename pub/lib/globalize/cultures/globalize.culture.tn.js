@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture tn
  *
  * http://github.com/jquery/globalize

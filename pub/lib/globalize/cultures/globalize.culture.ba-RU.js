@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ba-RU
  *
  * http://github.com/jquery/globalize

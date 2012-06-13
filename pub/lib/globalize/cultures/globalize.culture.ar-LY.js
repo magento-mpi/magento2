@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ar-LY
  *
  * http://github.com/jquery/globalize

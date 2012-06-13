@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture uk-UA
  *
  * http://github.com/jquery/globalize

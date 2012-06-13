@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sr-Latn-RS
  *
  * http://github.com/jquery/globalize

@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture quz-EC
  *
  * http://github.com/jquery/globalize

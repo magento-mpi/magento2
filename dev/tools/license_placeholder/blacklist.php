@@ -44,6 +44,7 @@ return array(
     'pub/js/prototype',
     'pub/js/scriptaculous',
     'pub/js/tiny_mce',
+    'pub/lib/globalize',
     'pub/media',
     'var',
 );

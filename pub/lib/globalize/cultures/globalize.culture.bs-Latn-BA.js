@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture bs-Latn-BA
  *
  * http://github.com/jquery/globalize

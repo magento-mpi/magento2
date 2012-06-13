@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture qut-GT
  *
  * http://github.com/jquery/globalize

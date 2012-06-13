@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture mn-Cyrl
  *
  * http://github.com/jquery/globalize

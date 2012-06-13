@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ha-Latn-NG
  *
  * http://github.com/jquery/globalize
