@@ -30,6 +30,7 @@ return array(
     'lib/PEAR',
     'lib/phpseclib',
     'lib/Zend',
+    'pub/lib/globalize',
     'pub/js/calendar',
     'pub/js/extjs',
     'pub/js/firebug',
@@ -44,7 +45,6 @@ return array(
     'pub/js/prototype',
     'pub/js/scriptaculous',
     'pub/js/tiny_mce',
-    'pub/lib/globalize',
     'pub/media',
     'var',
 );
