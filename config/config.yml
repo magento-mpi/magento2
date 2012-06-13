@@ -88,13 +88,13 @@ applications:
         fallbackOrderHelper: 'Core'
         areas:
             admin:
-                url: 'http://127.0.0.1/CE2/admin/'
+                url: 'http://www.localhost.com/magento/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://127.0.0.1/CE2/'
+                url: 'http://www.localhost.com/magento/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
@@ -165,4 +165,22 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *mage
+    magento17community: &magento17community
+         fallbackOrderFixture: 'community17, default'
+         fallbackOrderHelper: 'community17, Core'
+         areas:
+            admin:
+                url: 'http://www.localhost.com/magento17_community/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento17_community/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    default: *enterprise
