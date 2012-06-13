@@ -58,7 +58,6 @@
  * @method Core_Mage_Review_Helper reviewHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper shoppingCartHelper()
  * @method Core_Mage_Store_Helper storeHelper()
- * @method Core_Mage_Status_Helper statusHelper()
  * @method Core_Mage_SystemConfiguration_Helper systemConfigurationHelper()
  * @method Core_Mage_Tags_Helper tagsHelper()
  * @method Core_Mage_Tax_Helper taxHelper()

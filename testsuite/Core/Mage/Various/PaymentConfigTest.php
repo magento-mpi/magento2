@@ -2,7 +2,6 @@
 /**
  * Magento
  *
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Open Software License (OSL 3.0)
