@@ -80,8 +80,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
 
         try {
             $model = $this->_initRule();
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -97,21 +96,17 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
 
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
-        $block =  $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit',
-            'adminhtml_reminder_edit')->setData('form_action_url', $this->getUrl('*/*/save'));
-
         $this->_initAction();
+
+        $this->getLayout()->getBlock('adminhtml_reminder_edit')
+            ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
-        $this->_addBreadcrumb(
-                $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule'),
-                $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule'))
-            ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs',
-                'adminhtml_reminder_edit_tabs'))->renderLayout();
+        $caption = $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule');
+        $this->_addBreadcrumb($caption, $caption)->renderLayout();
     }
 
     /**
