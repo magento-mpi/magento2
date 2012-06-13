@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
+class Community17_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -63,11 +63,12 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
+        //Steps
         $simple1 = $this->productHelper()->createSimpleProduct();
         $simple2 = $this->productHelper()->createSimpleProduct();
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
+        //Verification
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         $this->paypalHelper()->paypalDeveloperLogin();
@@ -118,7 +119,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
                                            array('payment' => $paymentData,
                                                 'email'    => $testData['email']),
                                            $testData['products']);
-        if ($payment != 'checkmoney' && $payment !='banktransfer') {
+        if ($payment != 'checkmoney'  && $payment !='cashondelivery') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -141,6 +142,7 @@ class Core_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest extends Ma
     {
         return array(
             array('banktransfer'),
+            array('cashondelivery'),
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),

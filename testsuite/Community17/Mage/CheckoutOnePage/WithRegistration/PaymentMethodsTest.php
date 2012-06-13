@@ -109,7 +109,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
                                            array('general_name'  => $testData['sku'],
                                                 'payment_data'   => $this->loadDataSet('Payment',
                                                                                        'payment_' . $payment)));
-        if ($payment != 'checkmoney' && $payment !='banktransfer') {
+        if ($payment != 'checkmoney' && $payment !='cashondelivery') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -133,6 +133,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extends Mage
     {
         return array(
             array('banktransfer'),
+            array('cashondelivery'),
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),

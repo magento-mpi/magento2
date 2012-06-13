@@ -109,8 +109,8 @@ class Community17_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Sel
                                            array('general_name' => $testData['sku'],
                                                 'payment_data'  => $this->loadDataSet('Payment',
                                                                                       'payment_' . $payment)));
-        if ($payment != 'checkmoney') {
-            if ($payment != 'payflowpro'  && $payment !='banktransfer') {
+        if ($payment != 'checkmoney' && $payment !='cashondelivery') {
+            if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
             $payment .= '_without_3Dsecure';
@@ -133,6 +133,7 @@ class Community17_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Sel
     {
         return array(
             array('banktransfer'),
+            array('cashondelivery'),            
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),
@@ -172,6 +173,7 @@ class Community17_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Sel
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3190
      */
+
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data

@@ -109,7 +109,7 @@ class Community17_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_
             array('general_name'  => $testData['sku'],
                   'email_address' => $userData['email'],
                   'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
-        if ($payment != 'checkmoney'  && $payment !='banktransfer') {
+        if ($payment != 'checkmoney' && $payment !='cashondelivery') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -134,13 +134,14 @@ class Community17_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_
     public function differentPaymentMethodsWithout3DDataProvider()
     {
         return array(
-              array('banktransfer'),
-              array('paypaldirect'),
-              array('savedcc'),
-              array('paypaldirectuk'),
-              array('checkmoney'),
-              array('payflowpro'),
-              array('authorizenet')
+            array('banktransfer'),
+            array('cashondelivery'),
+            array('paypaldirect'),
+            array('savedcc'),
+            array('paypaldirectuk'),
+            array('checkmoney'),
+            array('payflowpro'),
+            array('authorizenet')
         );
     }
 

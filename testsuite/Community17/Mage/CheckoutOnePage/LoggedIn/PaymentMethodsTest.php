@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
+class Community17_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -111,7 +111,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
                                            array('general_name' => $testData['sku'],
                                                 'payment_data'  => $this->loadDataSet('Payment',
                                                                                       'payment_' . $payment)));
-        if ($payment != 'checkmoney'  && $payment !='banktransfer') {
+        if ($payment != 'checkmoney' && $payment !='cashondelivery') {
             if ($payment != 'payflowpro') {
                 $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
             }
@@ -139,6 +139,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
     {
         return array(
             array('banktransfer'),
+            array('cashondelivery'),
             array('paypaldirect'),
             array('savedcc'),
             array('paypaldirectuk'),
