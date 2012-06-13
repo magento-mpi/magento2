@@ -54,7 +54,7 @@
     </customer_account_create>
     <checkout_onepage_index>
         <reference name="checkout.onepage.login">
-            <container name="form.additional.info" label="Form Additional Info">
+            <container name="login.form.additional.info" label="Form Additional Info">
                 <block type="Mage_Captcha_Block_Captcha" name="captcha">
                     <reference name="head">
                         <action method="addJs"><file>mage/captcha.js</file></action>
