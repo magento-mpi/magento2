@@ -48,3 +48,4 @@ return array(
     'pub/media',
     'var',
 );
+
