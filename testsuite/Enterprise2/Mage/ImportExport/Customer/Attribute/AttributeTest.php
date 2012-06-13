@@ -139,9 +139,9 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         //Step 6
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
-                'attribute_code' => $attrData['attribute_code'],
+                'attribute_code' => $attrData['attribute_code']),
             'grid_and_filter'
-            ));
+            );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Step 7
         $this->clickButton('reset_filter', false);
@@ -193,7 +193,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         //Step 6
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
-                'attribute_code' => $attrData['attribute_code'],
+                'attribute_code' => $attrData['attribute_code']
                 ),
             'grid_and_filter'
         );
