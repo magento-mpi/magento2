@@ -915,12 +915,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     /**
      * Retrieve order shipping address
      *
-     * @return Mage_Sales_Model_Order_Address
+     * @return Mage_Sales_Model_Order_Address|bool
      */
     public function getShippingAddress()
     {
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
+            if ($address->getAddressType() == 'shipping' && !$address->isDeleted()) {
                 return $address;
             }
         }
