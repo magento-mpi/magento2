@@ -43,6 +43,34 @@ system_configuration:
                                         startup_page: //*[@id='general_restriction_http_redirect']
                                         landing_page: //*[@id='general_restriction_cms_page']
                                         http_response: //*[@id='general_restriction_http_status']
+                -
+                    catalog_catalog:
+                        fieldsets:
+                            -
+                                category_permissions:
+                                    xpath: //fieldset[@id='catalog_enterprise_catalogpermissions']
+                                    links:
+                                        permission_link: //a[@id='catalog_enterprise_catalogpermissions-head']
+                                    dropdowns:
+                                        permission_enable: //select[@id='catalog_enterprise_catalogpermissions_enabled']
+                                        allow_browsing: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view']
+                                        landing_page: //select[@id='catalog_enterprise_catalogpermissions_restricted_landing_page']
+                                        display_prices: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price']
+                                        allow_adding_to_cart: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items']
+                                    multiselects:
+                                        disallow_catalog: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -                                                                         
+                                order_by_sku:
+                                    xpath: //fieldset[@id='sales_product_sku']
+                                    links:
+                                        sku_link: //a[@id='sales_product_sku-head']
+                                    dropdowns:
+                                        sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]'] 
+                                    multiselects:
+                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
 
 system_configuration_tabs:
     uimap: *systemConfiguration

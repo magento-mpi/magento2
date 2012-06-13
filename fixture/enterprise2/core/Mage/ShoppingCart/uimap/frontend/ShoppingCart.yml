@@ -1,0 +1,71 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#
+shopping_cart:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    products_in_cart:
+                        links:
+                            edit: //tr['%productName%']//a[@title='Edit item parameters']
+                        pageelements:
+                            item_options: //*[@class ='item-options']//dd[contains(.,'%itemName%')]
+                -
+                    products_requiring_attention:
+                        xpath: //div[@class='failed-products']
+                        fields:
+                            qty: //input[@name='cart[][qty]']
+                        pageelements:
+                            requiring_attention_title: //h2[@class='sub-title' and contains(.,'Products Requiring Attention')]
+                            sku: //*[@class="product-name product-sku" and contains(.,'%sku%')]
+                            price: //span[@class="cart-price"]
+                        links:
+                            remove_item: //*[@id='failed-products-table']//tr[%row_number%]//a[@class='btn-remove btn-remove2']
+                            specify_product: //p[@class='item-configure']/a
+                        buttons:
+                            remove_all: //button[@id='remove_all_failed_items']
+                            add_to_cart: //button[span='Add to Cart']
+        messages:
+            product_added_to_cart_by_sku: //li[contains(.,'1 product was added to your shopping cart.')]
+            products_added_to_cart_by_sku: //li[contains(.,'%number% products were added to your shopping cart.')]
+            no_product_added_by_sku: //li[contains(.,'You have not entered any product sku. Please click here to add product(s) by sku.')]
+            no_product_added_from_widget: //li[contains(.,'You have not entered any product sku.')]
+            required_attention_product: //li[contains(.,'1 product requires your attention.')]
+            items_removed: //li[normalize-space(@class)='success-msg' and contains(.,'Items were successfully removed.')]
+            item_removed: //li[normalize-space(@class)='success-msg' and contains(.,'Item was successfully removed.')]
+            sku_not_found: //div[@class='failed-products']//p[@class='item-msg error' and contains (.,'SKU not found in catalog')]
+            requested_qty: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'The product cannot be added to cart in requested quantity.')]
+            qty_not_available: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'Requested quantity is not available.')]
+            max_qty: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'The maximum quantity allowed for purchase is %qty%')]
+            min_qty: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'The minimum quantity allowed for purchase is %qty%')]
+            specify_option: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,"Please specify the product's options.")]
+            product_cannot_be_added: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'The product cannot be added to cart')]
+            out_of_stock: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,"Availability: Out of stock.")]
+            left_in_stock: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'Only %qty% left in stock')]
+            qty_increment: //div[@class='failed-products']//p[@class='item-msg error' and contains(.,'This product is available for purchase in increments of %qty% only.')]
