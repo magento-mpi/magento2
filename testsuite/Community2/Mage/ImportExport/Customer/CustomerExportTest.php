@@ -247,7 +247,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                 'attribute_code' => 'created_at'),
             'grid_and_filter'
         );
-        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //mark attribute as skipped
         $this->ImportExportHelper()->customerSkipAttribute(
             array(
@@ -295,7 +295,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                     'attribute_code' => 'email'),
                 'grid_and_filter'
             );
-            $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+            $this->assertNotNull($isFound, 'Attribute was not found after filtering');
             //Step 6
             $this->clickButton('reset_filter', false);
             $this->waitForAjax();
@@ -309,7 +309,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
                     'attribute_label' => 'Email'),
                 'grid_and_filter'
             );
-            $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+            $this->assertNotNull($isFound, 'Attribute was not found after filtering');
             //Step 9
             $this->clickButton('reset_filter', false);
             $this->waitForAjax();

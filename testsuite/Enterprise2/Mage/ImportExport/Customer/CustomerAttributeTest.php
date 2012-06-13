@@ -88,7 +88,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
                 'attribute_code' => $attrData['attribute_code']),
             'grid_and_filter'
         );
-        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Step 7
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
@@ -144,7 +144,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
                 'attribute_label' => $attrData['attribute_label']),
             'grid_and_filter'
             );
-        $this->assertTrue(!is_null($isFound), 'Attribute was not found after filtering');
+        $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Step 7
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
@@ -199,7 +199,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
                 'attribute_label' => $attrData['attribute_label']),
             'grid_and_filter'
         );
-        $this->assertTrue(is_null($isFound), 'Attribute was found after deleting');
+        $this->assertNull($isFound, 'Attribute was found after deleting');
         //Step 7
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
