@@ -44,7 +44,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
         $this->navigate('system_configuration'); // Navigate to System -> Configuration -> CATALOG -> Catalog
     }
 
-     /**
+    /**
      *<p>Preconditions for tests</p>
      *
      * @test
@@ -68,7 +68,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
                      'catName'            => $category['name'], 'catPath'            => $catPath);
     }
 
-     /**
+    /**
      * <p>Flat Catalog Category is turned</p>
      * <p>Steps:</p>
      * <p>1. Log in to  backend;</p>
@@ -271,7 +271,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('dropdown', 'sort_by_selected'));
     }
 
-     /**
+    /**
      * <p>Configure frontend setting: Allow All Products per Page(No)</p>
      * <p>Steps:</p>
      * <p>1. Navigate to System > Configuration > CATALOG > Catalog > Frontend.;</p>
@@ -341,7 +341,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
             array('products_per_page_on_list_allowed_values' => '10,20,30,40',
                   'products_per_page_on_list_default_value' => '10',
                   'list_mode' => 'List Only')
-            );
+        );
         $this->addParameter('showPerPage', '10');
         //Steps
         $this->navigate('system_configuration'); // Navigate to System -> Configuration -> CATALOG -> Catalog
@@ -396,7 +396,7 @@ class Core_Mage_FlatCatalog_FlatCatalogTest extends Mage_Selenium_TestCase
             array('products_per_page_on_grid_allowed_values' => '8,18,28',
                   'products_per_page_on_grid_default_value'  => '8',
                   'list_mode' => 'Grid Only')
-            );
+        );
         $this->addParameter('showPerPage', '8');
         //Steps
         $this->systemConfigurationHelper()->configure($flatCatalogData);
