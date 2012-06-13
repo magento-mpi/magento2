@@ -135,13 +135,11 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
                 'attribute_code' => $attrData['attribute_code'],
-                'attribute_label' => $attrData['attribute_label'])
             );
         //Step 6
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
                 'attribute_code' => $attrData['attribute_code'],
-                'attribute_label' => $attrData['attribute_label']),
             'grid_and_filter'
             );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
