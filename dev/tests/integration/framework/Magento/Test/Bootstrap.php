@@ -243,14 +243,10 @@ class Magento_Test_Bootstrap
      */
     public function initialize()
     {
-        if (!class_exists('Mage', false)) {
-            require_once $this->_magentoDir . '/app/bootstrap.php';
-        } else {
-            $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
-            $this->_resetApp();
-            if ($resource) {
-                Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
-            }
+        $resource = Mage::registry('_singleton/Mage_Core_Model_Resource');
+        $this->_resetApp();
+        if ($resource) {
+            Mage::register('_singleton/Mage_Core_Model_Resource', $resource);
         }
         Mage::setIsDeveloperMode($this->_developerMode);
         Mage::$headersSentThrowsException = false;
