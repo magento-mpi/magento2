@@ -18,7 +18,7 @@
 class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
-     * Add fieldset
+     * Add fieldsets
      *
      * @return Mage_ImportExport_Block_Adminhtml_Import_Edit_Form
      */
@@ -70,6 +70,21 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
             'required' => false,
             'onchange' => 'editForm.handleImportFormatVersionSelector();',
             'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Format_Version')->toOptionArray()
+        ));
+
+        // fieldset for customer entity
+        $fieldsets['customer'] = $form->addFieldset('customer_entity_fieldset',
+            array(
+                'legend' => $helper->__('Customer Entity Type'),
+                'style'  => 'display:none'
+            )
+        );
+        $fieldsets['customer']->addField('customer_entity', 'select', array(
+            'name'     => 'customer_entity',
+            'title'    => $helper->__('Customer Entity Type'),
+            'label'    => $helper->__('Customer Entity Type'),
+            'required' => false,
+            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Customer_Entity')->toOptionArray()
         ));
 
         $form->setUseContainer(true);
