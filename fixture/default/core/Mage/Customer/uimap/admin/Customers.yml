@@ -106,7 +106,6 @@ create_customer:
                                         email: //input[@id='_accountemail']
                                         date_of_birth: //input[@id='_accountdob']
                                         tax_vat_number: //input[@id='_accounttaxvat']
-                                        custom_attribute: //input[@id='_account%attribute_name%']
                                     required: [associate_to_website, group, first_name, last_name, email]
                             -
                                 password:
