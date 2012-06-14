@@ -53,7 +53,13 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         $this->addNewGroup($groups);
         $this->addAttributeToSet($associatedAttr);
         if ($groups || $associatedAttr) {
-            $this->saveForm('save_attribute_set');
+            $waitCondition =
+                array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                      $this->_getControlXpath('fieldset', 'attribute_sets_grid',
+                          $this->getUimapPage('admin', 'manage_attribute_sets')));
+            $this->clickButton('save_attribute_set', false);
+            $this->waitForElement($waitCondition);
+            $this->validatePage();
         }
     }
 
