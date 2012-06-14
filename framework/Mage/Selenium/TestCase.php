@@ -1913,32 +1913,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _getFormDataMap($fieldsets, $data)
     {
         $dataMap = array();
-        $uimapFields = array();
-
+        $fieldsetsElements = array();
+        foreach ($fieldsets as $fieldsetName => $fieldsetContent) {
+            $fieldsetsElements[$fieldsetName] = $fieldsetContent->getFieldsetElements();
+        }
         foreach ($data as $dataFieldName => $dataFieldValue) {
-            if ($dataFieldValue == '%noValue%') {
+            if ($dataFieldValue == '%noValue%' || is_array($dataFieldValue)) {
                 continue;
             }
-            foreach ($fieldsets as $fieldset) {
-                $uimapFields[self::FIELD_TYPE_MULTISELECT] = $fieldset->getAllMultiselects();
-                $uimapFields[self::FIELD_TYPE_DROPDOWN] = $fieldset->getAllDropdowns();
-                $uimapFields[self::FIELD_TYPE_RADIOBUTTON] = $fieldset->getAllRadiobuttons();
-                $uimapFields[self::FIELD_TYPE_CHECKBOX] = $fieldset->getAllCheckboxes();
-                $uimapFields[self::FIELD_TYPE_INPUT] = $fieldset->getAllFields();
-                $uimapFields[self::FIELD_TYPE_PAGEELEMENT] = $fieldset->getAllPageelements();
-                foreach ($uimapFields as $fieldsType => $fieldsData) {
-                    foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
-                        if ($dataFieldName == $uimapFieldName) {
-                            $dataMap[$dataFieldName] = array('type'  => $fieldsType,
-                                                             'path'  => $uimapFieldValue,
-                                                             'value' => $dataFieldValue);
-                            break 3;
-                        }
+            foreach ($fieldsetsElements as $fieldsetContent) {
+                foreach ($fieldsetContent as $fieldsType => $fieldsData) {
+                    if (array_key_exists($dataFieldName, $fieldsData)) {
+                        $dataMap[$dataFieldName] = array('type'  => $fieldsType, 'value' => $dataFieldValue,
+                                                         'path'  => $fieldsData[$dataFieldName],);
+                        break 2;
                     }
                 }
             }
         }
-
         return $dataMap;
     }
 
