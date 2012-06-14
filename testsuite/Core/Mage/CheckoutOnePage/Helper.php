@@ -282,8 +282,6 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      * Selecting payment method
      *
      * @param array $paymentMethod
-     *
-     * @return bool
      */
     public function frontSelectPaymentMethod(array $paymentMethod)
     {
@@ -297,18 +295,16 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             $selectedPayment = $this->_getControlXpath('radiobutton', 'selected_one_payment');
             if ($this->isElementPresent($xpath)) {
                 $this->click($xpath);
+                if ($card) {
+                    $paymentId = $this->getAttribute($xpath . '/@value');
+                    $this->addParameter('paymentId', $paymentId);
+                    $this->fillForm($card);
+                }
             } elseif (!$this->isElementPresent($selectedPayment)) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
-                return false;
-            }
-            if ($card) {
-                $paymentId = $this->getAttribute($xpath . '/@value');
-                $this->addParameter('paymentId', $paymentId);
-                $this->fillForm($card);
             }
         }
         $this->goToNextOnePageCheckoutStep('payment_method');
-        return true;
     }
 
     /**

@@ -41,12 +41,10 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      */
     public function setUpBeforeTests()
     {
-        //Data
-        $config = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure');
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
     }
 
     protected function assertPreConditions()
@@ -449,6 +447,8 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      * @TestlinkId TL-MAGE-3579
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
+     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
@@ -498,8 +498,7 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $config = $this->loadDataSet('PaymentMethod', 'savedcc_with_3Dsecure');
-            $this->systemConfigurationHelper()->configure($config);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_with_3Dsecure');
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

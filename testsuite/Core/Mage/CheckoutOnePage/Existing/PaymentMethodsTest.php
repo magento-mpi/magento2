@@ -39,6 +39,13 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
@@ -52,24 +59,27 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
      *
      * @return string
      * @test
+     * @skipTearDown
      */
     public function preconditionsForTests()
     {
         //Data
         $simple = $this->loadDataSet('Product', 'simple_product_visible');
-        //Steps
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        //Steps and Verification
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
-        //Verification
         $this->assertMessagePresent('success', 'success_saved_product');
 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        return array('sku' => $simple['general_name'],
-                     'api' => $api,
-                     'visa'=> $accounts['visa']['credit_card']);
+        return array('sku'  => $simple['general_name'], 'api' => $api, 'email' => $userData['email'],
+                     'visa' => $accounts['visa']['credit_card']);
     }
 
     /**
@@ -104,27 +114,24 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
-            array('general_name'  => $testData['sku'],
-                  'email_address' => $userData['email'],
-                  'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
-        if ($payment != 'checkmoney') {
-            if ($payment != 'payflowpro') {
-                $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
-            }
-            $payment .= '_without_3Dsecure';
+            array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
+                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
+        $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
+        if ($payment != 'payflowpro' && $payment != 'checkmoney') {
+            $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
-        if (preg_match('/^paypaldirect_/', $payment)) {
+        if ($payment == 'paypaldirect') {
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
@@ -176,11 +183,9 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
     public function differentPaymentMethodsWith3D($payment, $testData)
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'exist_flatrate_checkmoney',
-            array('general_name'  => $testData['sku'],
-                  'email_address' => $userData['email'],
-                  'payment_data'  => $this->loadDataSet('Payment', 'payment_' . $payment)));
+            array('general_name' => $testData['sku'], 'email_address' => $testData['email'],
+                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
@@ -188,10 +193,12 @@ class Core_Mage_CheckoutOnePage_Existing_PaymentMethodsTest extends Mage_Seleniu
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->frontend();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification

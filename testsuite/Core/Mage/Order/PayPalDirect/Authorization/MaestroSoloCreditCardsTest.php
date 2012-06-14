@@ -42,10 +42,9 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
 
     protected function tearDownAfterTestClass()
     {
-        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
         $this->paypalHelper()->paypalDeveloperLogin();
         $this->paypalHelper()->deleteAllAccounts();
     }
@@ -63,15 +62,15 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_with_3Dsecure', $api);
-        $currency = $this->loadDataSet('Currency', 'enable_gbp');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($settings);
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->useHttps('admin', 'yes');
+        $this->systemConfigurationHelper()->configurePaypal($settings);
+        $this->systemConfigurationHelper()->configure('Currency/enable_gbp');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
 
         return array('api' => $api,
                      'sku' => $productData['general_sku']);
@@ -372,6 +371,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @TestlinkId TL-MAGE-5378
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
+     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
@@ -430,5 +431,13 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //Verifying
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_voided_order');
+    }
+
+    /**
+     * @test
+     * @TODO temporary fix for tearDownAfterTestClass()
+     */
+    public function temporaryFixTearDownAfterTestClass()
+    {
     }
 }

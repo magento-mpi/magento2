@@ -40,6 +40,13 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         $this->loginAdminUser();
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->frontend();
+        $this->shoppingCartHelper()->frontClearShoppingCart();
+        $this->logoutCustomer();
+    }
+
     protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
@@ -68,9 +75,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa');
-        return array('sku' => $simple['general_name'],
-                     'api' => $api,
-                     'visa'=> $accounts['visa']['credit_card']);
+        return array('sku' => $simple['general_name'], 'api' => $api, 'visa'=> $accounts['visa']['credit_card']);
     }
 
     /**
@@ -108,22 +113,23 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
-                                           array('general_name' => $testData['sku'],
-                                                'payment_data'  => $this->loadDataSet('Payment',
-                                                                                      'payment_' . $payment)));
-        if ($payment != 'checkmoney') {
-            if ($payment != 'payflowpro') {
-                $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
-            }
-            $payment .= '_without_3Dsecure';
+            array('general_name' => $testData['sku'],
+                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
+        $configName = ($payment !== 'checkmoney') ? $payment . '_without_3Dsecure' : $payment;
+        $paymentConfig = $this->loadDataSet('PaymentMethod', $configName);
+        if ($payment != 'payflowpro' && $payment != 'checkmoney') {
+            $checkoutData = $this->overrideArrayData($testData['visa'], $checkoutData, 'byFieldKey');
         }
-        $paymentConfig = $this->loadDataSet('PaymentMethod', $payment);
-        if (preg_match('/^paypaldirect_/', $payment)) {
+        if ($payment == 'paypaldirect') {
             $paymentConfig = $this->overrideArrayData($testData['api'], $paymentConfig, 'byFieldKey');
         }
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -183,9 +189,8 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
-                                           array('general_name' => $testData['sku'],
-                                                'payment_data'  => $this->loadDataSet('Payment',
-                                                                                      'payment_' . $payment)));
+            array('general_name' => $testData['sku'],
+                  'payment_data' => $this->loadDataSet('Payment', 'payment_' . $payment)));
         $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure');
         //Steps
         if ($payment == 'paypaldirect') {
@@ -193,7 +198,12 @@ class Core_Mage_CheckoutOnePage_LoggedIn_PaymentMethodsTest extends Mage_Seleniu
             $paymentConfig = $this->loadDataSet('PaymentMethod', $payment . '_with_3Dsecure', $testData['api']);
         }
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($paymentConfig);
+        if (preg_match('/^pay(pal)|(flow)/', $payment)) {
+            $this->systemConfigurationHelper()->configurePaypal($paymentConfig);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        } else {
+            $this->systemConfigurationHelper()->configure($paymentConfig);
+        }
         $this->logoutCustomer();
         $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
