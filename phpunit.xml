@@ -27,32 +27,29 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 -->
-<phpunit backupGlobals="true"
-         backupStaticAttributes="false"
-         bootstrap="bootstrap.php"
-         cacheTokens="true"
-         colors="false"
+<phpunit bootstrap="bootstrap.php"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         forceCoversAnnotation="false"
-         mapTestClassNameToCoveredClassName="false"
-         processIsolation="false"
          stopOnError="false"
          stopOnFailure="false"
          stopOnIncomplete="false"
          stopOnSkipped="false"
-         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
          strict="false"
          verbose="true">
     <testsuites>
-        <testsuite name="All Tests">
+        <testsuite name="All Tests CE 1.6.2">
             <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Product/Create</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Product/Linking</directory>
+            <file>testsuite/Core/Mage/Product/DeleteTest.php</file>
+            <file>testsuite/Core/Mage/Product/DuplicateTest.php</file>
+            <file>testsuite/Core/Mage/Product/ReviewTest.php</file>
 
             <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>
@@ -66,14 +63,23 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
 
-            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses/Existing</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses/LoggedIn</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses/WithRegistration</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage/Existing</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage/Guest</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage/LoggedIn</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage/WithRegistration</directory>
 
-            <directory suffix="Test.php">testsuite/Core/Mage/Tax/CustomerTaxClass</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Tax/ProductTaxClass</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRate</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRule</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/PayFlowProVerisign</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/PayPalDirect</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/PayPalDirectUk</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/AuthorizeNet</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/CheckMoneyOrder</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/SavedCC</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order/Create</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
 
             <directory suffix="Test.php">testsuite/Core/Mage/Various</directory>
