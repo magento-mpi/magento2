@@ -66,6 +66,13 @@
  * @method Enterprise_Mage_StagingLog_Helper stagingLogHelper()
  * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
+ * @method Enterprise2_Mage_AddBySku_Helper addBySkuHelper()
+ * @method Enterprise2_Mage_Category_Helper categoryHelper()
+ * @method Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
+ * @method Enterprise2_Mage_WebsiteRestrictions websiteRestrictionsHelper()
+ * @method Enterprise2_Mage_Status_Helper statusHelper()
+ * @method Community2_Mage_AdminUser_Helper adminUserHelper()
+ *
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

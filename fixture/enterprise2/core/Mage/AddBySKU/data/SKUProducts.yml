@@ -1,0 +1,62 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#<----------------------Product for Order by SKU functionality----------------->
+non_existent_product:
+    sku: non_existent_product_%randomize%
+    qty: 3
+
+simple_sku:
+    product_attribute_set: Default
+    general_name: Simple Product (%randomize%)
+    general_description: Description for Simple Product
+    general_short_description: Short Description for Simple Product
+    general_sku: simple_sku_%randomize%
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 12.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_min_allowed_qty_default: %noValue%
+    inventory_min_allowed_qty: %noValue%
+    inventory_max_allowed_qty_default: %noValue%
+    inventory_max_allowed_qty: %noValue%
+    inventory_backorders_default: %noValue%
+    inventory_backorders: %noValue%
+    inventory_enable_qty_increments_default: %noValue%
+    inventory_enable_qty_increments: %noValue%
+    inventory_qty_increments_default: %noValue%
+    inventory_qty_increments: %noValue%
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: %noValue%
+
+non_exist_product_back:
+    sku: non_exist_product_back_%randomize%
+    qty_sku: 3

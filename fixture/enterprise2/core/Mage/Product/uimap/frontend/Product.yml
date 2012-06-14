@@ -1,0 +1,81 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#    
+products_failed:    
+    mca: checkout/cart/configureFailed/id/%id%/qty/%qty%/sku/%sku%/
+    title: %productName%
+    uimap:
+        form:
+            fieldsets:
+                -
+                    product_info:
+                        fields:
+                            product_qty: //input[@id='qty']
+                            grouped_subproduct_qty: //table[@id='super-product-table']//tr[./td[text()='%subproductName%']]//input[@title='Qty']
+                -
+                    product_custom_option_head:
+                        xpath: //dt[contains(label,'%title%')]
+                        pageelements:
+                            custom_option_non_select: //span[normalize-space(text())='%price%']
+                -
+                    product_custom_option_body:
+                        xpath: //dt[contains(label,'%title%')]/following-sibling::dd[1]
+                        buttons:
+                            custom_option_file: //input[@type='file']
+                        checkboxes:
+                            custom_option_check_attribute: //input
+                            custom_option_checkbox: //li[contains(.//label,'%optionTitle%')]//input[@type='checkbox']
+                        dropdowns:
+                            custom_option_select_attribute: //select
+                            custom_option_dropdown: //select
+                            custom_option_day: "//select[contains(@name,'[day]')]"
+                            custom_option_month: //select[contains(@id,'month')]
+                            custom_option_year: //select[contains(@id,'year')]
+                            custom_option_hour: //select[contains(@id,'hour')]
+                            custom_option_minute: //select[contains(@id,'minute')]
+                            custom_option_day_part: //select[contains(@id,'day_part')]
+                        fields:
+                            custom_option_field: //input[@type='text']
+                            custom_option_area: //textarea
+                            bundle_item_qty: /span[@class='qty-holder']/input
+                        links:
+                            downloadable_link: //a[text()='%linkTitle%']
+                        multiselects:
+                            custom_option_multiselect: //select[@multiple='multiple']
+                        radiobuttons:
+                            custom_option_radiobutton: //li[contains(.//label,'%optionTitle%')]//input[@type='radio']
+                        pageelements:
+                            custom_option_price: //span[@class='price' and normalize-space(text())='%price%']
+                            custom_option_select: //option[contains(text(),'%optionTitle% +%optionPrice%')]
+                            custom_option_check: //span[contains(text(),'+')]/span[@class='price' and contains(text(),'%optionPrice%')]
+                            custom_option_max_chars: //p[strong='%maxChars%']
+                            custom_option_file_ext: //p[contains(text(),'Allowed file extensions to upload') and strong='%fileExt%']
+                            custom_option_file_max_width: //p[contains(text(),'Maximum image width') and strong='%fileWidth% px.']
+                            custom_option_file_max_height: //p[contains(text(),'Maximum image height') and strong='%fileHeight% px.']
+        buttons:
+            update_cart: //button[span='Update Cart']
