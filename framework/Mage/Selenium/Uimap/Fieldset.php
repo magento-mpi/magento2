@@ -49,13 +49,14 @@ class Mage_Selenium_Uimap_Fieldset extends Mage_Selenium_Uimap_Abstract
     public function  __construct($fieldsetId, array &$fieldsetContainer)
     {
         $this->_fieldsetId = $fieldsetId;
-        $this->_xPath = isset($fieldsetContainer['xpath'])
-            ? $fieldsetContainer['xpath']
-            : '';
+        $this->_xPath = isset($fieldsetContainer['xpath']) ? $fieldsetContainer['xpath'] : '';
         $this->_parseContainerArray($fieldsetContainer);
         if ($this->_xPath != '' && isset($this->_elements)) {
             $parent = $this->_xPath;
-            foreach ($this->_elements as $elementData) {
+            foreach ($this->_elements as $elementsType => $elementData) {
+                if ($elementsType == 'required') {
+                    continue;
+                }
                 foreach ($elementData as $elementName => $elementXpath) {
                     if (preg_match('|^' . preg_quote($parent) . '|', $elementXpath)) {
                         continue;
