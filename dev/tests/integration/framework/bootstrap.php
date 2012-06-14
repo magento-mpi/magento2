@@ -9,9 +9,8 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/Magento/Test/Bootstrap.php';
-require_once __DIR__ . '/../../static/testsuite/Utility/Classes.php';
 require_once __DIR__ . '/../../../../app/bootstrap.php';
+require_once __DIR__ . '/../../static/testsuite/Utility/Classes.php';
 
 $testsBaseDir = dirname(__DIR__);
 $testsTmpDir = "$testsBaseDir/tmp";
