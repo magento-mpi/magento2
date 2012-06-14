@@ -57,6 +57,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->paypalHelper()->paypalDeveloperLogin();
         $accountInfo = $this->paypalHelper()->createPreconfiguredAccount('paypal_sandbox_new_pro_account');
         $api = $this->paypalHelper()->getApiCredentials($accountInfo['email']);
+        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_without_3Dsecure', $api);
         $accounts = $this->paypalHelper()->createBuyerAccounts('visa, mastercard, discover, amex');
         $cards = array();
         foreach ($accounts as $cardName => $info) {
@@ -64,16 +65,15 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         }
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_without_3Dsecure', $api);
-        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configurePaypal($settings);
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('api'     => $api,
-                     'cards'   => $cards,
-                     'sku'     => $productData['general_sku']);
+        return array('api'   => $api,
+                     'cards' => $cards,
+                     'sku'   => $productData['general_sku']);
     }
 
     /**
@@ -403,6 +403,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * @TestlinkId TL-MAGE-3306
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
+     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
@@ -500,7 +502,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
             $settings = $this->loadDataSet('PaymentMethod', 'paypaldirect_with_3Dsecure', $testData['api']);
-            $this->systemConfigurationHelper()->configure($settings);
+            $this->systemConfigurationHelper()->configurePaypal($settings);
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

@@ -109,8 +109,8 @@ applications:
                 url: 'https://developer.paypal.com/'
                 base_page_uimap: 'paypal_developer_home'
                 uimap_path: 'paypal_developer'
-                login: 'ashugayev@ebay.com'
-                password: 'magento123'
+                login: 'paypal_developer_login'
+                password: 'paypal_developer_password'
     enterprise: &enterprise
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
@@ -159,6 +159,42 @@ applications:
                 password: '123123q'
             frontend:
                 url: 'http://www.localhost.com/magento2_community/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    community1701: &ce1701
+        fallbackOrderFixture: 'community1701, default'
+        fallbackOrderHelper: 'Community1701, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento_community1701/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento_community1701/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    enterprise1201: &ee1201
+        fallbackOrderFixture: 'enterprise1201, community1701, enterprise, default'
+        fallbackOrderHelper: 'Enterprise1201, Community1701, Enterprise, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento_enterprise1201/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento_enterprise1201/control/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''

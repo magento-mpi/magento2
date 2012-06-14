@@ -42,10 +42,9 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
 
     protected function tearDownAfterTestClass()
     {
-        $currency = $this->loadDataSet('Currency', 'enable_usd');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->configure('Currency/enable_usd');
     }
 
     /**
@@ -56,16 +55,15 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
-        $settings = $this->loadDataSet('PaymentMethod', 'savedcc_with_3Dsecure');
-        $currency = $this->loadDataSet('Currency', 'enable_gbp');
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($settings);
-        $this->systemConfigurationHelper()->configure($currency);
+        $this->systemConfigurationHelper()->useHttps('admin', 'yes');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_with_3Dsecure');
+        $this->systemConfigurationHelper()->configure('Currency/enable_gbp');
+        $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
 
         return $productData['general_sku'];
     }
@@ -285,6 +283,8 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @TestlinkId TL-MAGE-5397
      * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
+     * @group skip_due_to_bug1.7.0.1
      */
     public function reorderPendingOrder($orderData)
     {
@@ -347,5 +347,13 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
+    }
+
+    /**
+     * @test
+     * @TODO temporary fix for tearDownAfterTestClass()
+     */
+    public function temporaryFixTearDownAfterTestClass()
+    {
     }
 }
