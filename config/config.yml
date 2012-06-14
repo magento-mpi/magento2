@@ -157,9 +157,9 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    enterprise1201: &ee1201
-        fallbackOrderFixture: 'enterprise1201, enterprise, default'
-        fallbackOrderHelper: 'Enterprise1201, Enterprise, Core'
+    enterprise11201: &ee11201
+        fallbackOrderFixture: 'enterprise11201, enterprise, default'
+        fallbackOrderHelper: 'Enterprise11201, Enterprise, Core'
         areas:
             admin:
                 url: 'http://www.localhost.com/magento_enterprise1201/control/'
