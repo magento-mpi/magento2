@@ -193,7 +193,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
         $result = null;
         /** @var $item Mage_Backend_Model_Menu_Item */
         foreach ($this as $item) {
-            if ($item->isAllowed() || false == $item->isDisabled()) {
+            if ($item->isAllowed() && !$item->isDisabled()) {
                 if ($item->hasChildren()) {
                     $result = $item->getChildren()->getFirstAvailable();
                     if (false == is_null($result)) {
