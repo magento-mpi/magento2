@@ -42,6 +42,18 @@ frontend_header:
                         dropdowns:
                             your_language: //select[@id='select-language']
                 -
+                    global_footer:
+                        xpath: //div[@class='footer']
+                        links:
+                            about_us: //a[contains(text(), 'About Us')]
+                            popular_search_terms: //a[@title='Search Terms']
+                            customer_service: //a[contains(text(), 'Customer Service')]
+                            privacy_policy: //a[contains(text(), 'Privacy Policy')]
+                            site_map: //a[@title='Site Map']
+                            advanced_search: //a[@title='Advanced Search']
+                            orders_and_returns: //a[@title='Orders and Returns']
+                            contact_us: //a[@title='Contact Us']
+                -
                     general_elements:
                         xpath:
                         pageelements:
