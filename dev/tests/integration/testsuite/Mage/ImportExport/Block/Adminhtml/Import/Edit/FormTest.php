@@ -11,8 +11,6 @@
 
 /**
  * Tests for block Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest
- *
- * @group module:Mage_ImportExport
  */
 class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
