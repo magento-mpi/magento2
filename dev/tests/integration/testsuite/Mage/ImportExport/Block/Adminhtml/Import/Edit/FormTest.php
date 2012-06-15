@@ -35,7 +35,12 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_FormTest extends PHPUnit_Fra
         $this->assertTrue($form->getUseContainer(), 'Form should use container.');
 
         // check form fieldsets
-        $formFieldsetIds = array('base_fieldset', 'import_format_version_fieldset', 'customer_entity_fieldset');
+        $formFieldsetIds = array(
+            'base_fieldset',
+            'import_format_version_fieldset',
+            'customer_entity_fieldset',
+            'upload_file_fieldset'
+        );
         $formFieldsets = array();
         $formElements = $form->getElements();
         foreach ($formElements as $element) {
