@@ -61,6 +61,7 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
     /**
      * Initialize
      *
+     * @throws SoapFault
      * @param array|null $options
      * @return Magento_Test_Webservice_SoapV2
      */
@@ -69,14 +70,16 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
         // force to not use WSDL cache it helps to avoid clean WSDL cache every time WS-I - not WS-I mode changes
         $options['cache_wsdl'] = WSDL_CACHE_NONE;
 
-        $this->_client = new Zend_Soap_Client($this->getClientUrl(), $options);
+        $this->_client = new Zend_Soap_Client($this->getClientUrl($options));
         $this->_client->setSoapVersion(SOAP_1_1);
 
         $this->_configFunction = Mage::getSingleton('Mage_Api_Model_Config')->getNode('v2/resources_function_prefix')->children();
         $this->_configAlias    = Mage::getSingleton('Mage_Api_Model_Config')->getNode('resources_alias')->children();
 
         try {
-            $sessionId = $this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY);
+            $apiUser = isset($options['api_user']) ? $options['api_user'] : TESTS_WEBSERVICE_USER;
+            $apiKey  = isset($options['api_key']) ? $options['api_key'] : TESTS_WEBSERVICE_APIKEY;
+            $sessionId = $this->login($apiUser, $apiKey);
         } catch (SoapFault $e) {
             $this->_throwExceptionBadRequest($e);
             throw $e;
