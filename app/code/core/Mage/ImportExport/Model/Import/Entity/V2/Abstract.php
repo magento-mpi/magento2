@@ -17,14 +17,14 @@
  */
 abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
 {
-    /**
+    /**#@+
      * Database constants
-     *
      */
     const DB_MAX_PACKET_COEFFICIENT = 900000;
     const DB_MAX_PACKET_DATA        = 1048576;
     const DB_MAX_VARCHAR_LENGTH     = 256;
     const DB_MAX_TEXT_LENGTH        = 65536;
+    /**#@-*/
 
     /**
      * DB connection.
@@ -188,19 +188,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     }
 
     /**
-     * Inner source object getter
-     *
-     * @return Mage_ImportExport_Model_Import_Adapter_Abstract
-     */
-    protected function _getSource()
-    {
-        if (!$this->_source) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('No source specified'));
-        }
-        return $this->_source;
-    }
-
-    /**
      * Import data rows
      *
      * @abstract
@@ -244,7 +231,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     protected function _saveValidatedBunches()
     {
-        $source            = $this->_getSource();
+        $source            = $this->getSource();
         $processedDataSize = 0;
         $bunchRows         = array();
         $startNewBunch     = false;
@@ -462,41 +449,41 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     /**
      * Check one attribute. Can be overridden in child.
      *
-     * @param string $attrCode Attribute code
-     * @param array $attrParams Attribute params
+     * @param string $attributeCode Attribute code
+     * @param array $attributeParams Attribute params
      * @param array $rowData Row data
-     * @param int $rowNum
+     * @param int $rowNumber
      * @return boolean
      */
-    public function isAttributeValid($attrCode, array $attrParams, array $rowData, $rowNum)
+    public function isAttributeValid($attributeCode, array $attributeParams, array $rowData, $rowNumber)
     {
         /** @var $coreHelper Mage_Core_Helper_String */
         $coreHelper = Mage::helper('Mage_Core_Helper_String');
 
-        switch ($attrParams['type']) {
+        switch ($attributeParams['type']) {
             case 'varchar':
-                $val   = $coreHelper->cleanString($rowData[$attrCode]);
+                $val   = $coreHelper->cleanString($rowData[$attributeCode]);
                 $valid = $coreHelper->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
-                $val   = trim($rowData[$attrCode]);
-                $valid = (float)$val == $val;
+                $val   = trim($rowData[$attributeCode]);
+                $valid = ((float)$val == $val) && is_numeric($val);
                 break;
             case 'select':
             case 'multiselect':
-                $valid = isset($attrParams['options'][strtolower($rowData[$attrCode])]);
+                $valid = isset($attributeParams['options'][strtolower($rowData[$attributeCode])]);
                 break;
             case 'int':
-                $val   = trim($rowData[$attrCode]);
-                $valid = (int)$val == $val;
+                $val   = trim($rowData[$attributeCode]);
+                $valid = ((int)$val == $val) && is_numeric($val);
                 break;
             case 'datetime':
-                $val   = trim($rowData[$attrCode]);
+                $val   = trim($rowData[$attributeCode]);
                 $valid = strtotime($val) !== false
                     || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $val);
                 break;
             case 'text':
-                $val   = $coreHelper->cleanString($rowData[$attrCode]);
+                $val   = $coreHelper->cleanString($rowData[$attributeCode]);
                 $valid = $coreHelper->strlen($val) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
@@ -508,13 +495,13 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
         $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
 
         if (!$valid) {
-            $this->addRowError($dataHelper->__("Invalid value for '%s'"), $rowNum, $attrCode);
-        } elseif (!empty($attrParams['is_unique'])) {
-            if (isset($this->_uniqueAttributes[$attrCode][$rowData[$attrCode]])) {
-                $this->addRowError($dataHelper->__("Duplicate Unique Attribute for '%s'"), $rowNum, $attrCode);
+            $this->addRowError($dataHelper->__("Invalid value for '%s'"), $rowNumber, $attributeCode);
+        } elseif (!empty($attributeParams['is_unique'])) {
+            if (isset($this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]])) {
+                $this->addRowError($dataHelper->__("Duplicate Unique Attribute for '%s'"), $rowNumber, $attributeCode);
                 return false;
             }
-            $this->_uniqueAttributes[$attrCode][$rowData[$attrCode]] = true;
+            $this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]] = true;
         }
         return (bool) $valid;
     }
@@ -600,7 +587,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
 
             // does all permanent columns exists?
-            if (($colsAbsent = array_diff($this->_permanentAttributes, $this->_getSource()->getColNames()))) {
+            if (($colsAbsent = array_diff($this->_permanentAttributes, $this->getSource()->getColNames()))) {
                 Mage::throwException(
                     $dataHelper->__('Can not find required columns: %s', implode(', ', $colsAbsent))
                 );
@@ -613,9 +600,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             // check attribute columns names validity
             $invalidColumns = array();
 
-            foreach ($this->_getSource()->getColNames() as $colName) {
-                if (!preg_match('/^[a-z][a-z0-9_]*$/', $colName) && !$this->isAttributeParticular($colName)) {
-                    $invalidColumns[] = $colName;
+            foreach ($this->getSource()->getColNames() as $columnName) {
+                if (!preg_match('/^[a-z][a-z0-9_]*$/', $columnName) && !$this->isAttributeParticular($columnName)) {
+                    $invalidColumns[] = $columnName;
                 }
             }
             if ($invalidColumns) {
