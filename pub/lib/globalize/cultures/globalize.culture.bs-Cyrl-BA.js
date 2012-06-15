@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture bs-Cyrl-BA
  *
  * http://github.com/jquery/globalize

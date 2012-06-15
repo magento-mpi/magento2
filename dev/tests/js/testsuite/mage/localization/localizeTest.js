@@ -1,3 +1,11 @@
+/**
+ * {license_notice}
+ *
+ * @category    mage.localization
+ * @package     test
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 LocalizeTest = TestCase('LocalizeTest');
 
 LocalizeTest.prototype.testInit = function() {

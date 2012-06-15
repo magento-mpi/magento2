@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ar-IQ
  *
  * http://github.com/jquery/globalize

@@ -1,3 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    localization
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 mage = {};
 
 mage.Localize = function(culture) {

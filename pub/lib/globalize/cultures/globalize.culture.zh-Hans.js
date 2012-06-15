@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture zh-Hans
  *
  * http://github.com/jquery/globalize

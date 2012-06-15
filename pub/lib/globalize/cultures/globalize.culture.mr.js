@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture mr
  *
  * http://github.com/jquery/globalize

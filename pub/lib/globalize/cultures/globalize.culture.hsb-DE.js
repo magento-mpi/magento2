@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture hsb-DE
  *
  * http://github.com/jquery/globalize

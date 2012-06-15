@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture sma-NO
  *
  * http://github.com/jquery/globalize

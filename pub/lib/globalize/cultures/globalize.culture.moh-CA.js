@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture moh-CA
  *
  * http://github.com/jquery/globalize

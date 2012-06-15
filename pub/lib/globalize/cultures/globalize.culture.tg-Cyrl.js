@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture tg-Cyrl
  *
  * http://github.com/jquery/globalize

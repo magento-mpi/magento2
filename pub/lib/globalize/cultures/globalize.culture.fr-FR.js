@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture fr-FR
  *
  * http://github.com/jquery/globalize

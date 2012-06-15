@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture nb-NO
  *
  * http://github.com/jquery/globalize

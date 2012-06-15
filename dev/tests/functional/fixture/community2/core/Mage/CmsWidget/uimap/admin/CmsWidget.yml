@@ -1,0 +1,13 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CmsWidget
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+add_widget_options:
+    mca: widget_instance/edit/type/%type%/package_theme/%package_theme%/

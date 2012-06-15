@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture kl-GL
  *
  * http://github.com/jquery/globalize

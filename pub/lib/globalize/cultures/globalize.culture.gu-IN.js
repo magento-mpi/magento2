@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture gu-IN
  *
  * http://github.com/jquery/globalize

@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ml-IN
  *
  * http://github.com/jquery/globalize

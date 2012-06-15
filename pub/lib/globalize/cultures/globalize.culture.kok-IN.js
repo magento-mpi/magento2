@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture kok-IN
  *
  * http://github.com/jquery/globalize

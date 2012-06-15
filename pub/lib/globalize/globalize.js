@@ -1,4 +1,4 @@
-/*!
+/**
  * Globalize
  *
  * http://github.com/jquery/globalize

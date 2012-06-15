@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture tzm-Latn
  *
  * http://github.com/jquery/globalize

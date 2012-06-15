@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture cy-GB
  *
  * http://github.com/jquery/globalize

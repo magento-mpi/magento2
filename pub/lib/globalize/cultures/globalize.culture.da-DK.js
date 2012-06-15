@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture da-DK
  *
  * http://github.com/jquery/globalize

@@ -1,0 +1,120 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage System Configuration
+
+# 'System Configuration' page
+system_configuration:
+    uimap: &systemConfiguration
+        form:
+            tabs:
+                -
+                    general_general:
+                        fieldsets:
+                            -
+                                staging_websites:
+                                    xpath: //fieldset[@id='general_content_staging']
+                                    links:
+                                        dhl_link: //parent::div//a[@id='general_content_staging-head']
+                                    dropdowns:
+                                        automatically_create_entry_points_for_staging_website: //select[@id='general_content_staging_create_entry_point']
+                                        close_website_during_merge_or_rollback: //select[@id='general_content_staging_block_frontend']
+                                        landing_page: //select[@id='general_content_staging_block_frontend_stub']
+                                    fields:
+                                        folder_name_for_entry_points: //input[@id='general_content_staging_entry_points_folder_name']
+                                    checkboxes:
+                                        landing_page_use_default: //input[@name='groups[content_staging][fields][block_frontend_stub][inherit]']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -
+                                gift_options:
+                                    dropdowns:
+                                        allow_gift_wrapping_on_order_level: //select[@id='sales_gift_options_wrapping_allow_order']
+                                        allow_gift_wrapping_for_order_items: //select[@id='sales_gift_options_wrapping_allow_items']
+                                        allow_gift_receipt: //select[@id='sales_gift_options_allow_gift_receipt']
+                                        allow_gift_printered_card: //select[@id='sales_gift_options_allow_printed_card']
+                                    fields:
+                                        default_price_for_printed_card: //input[@id='sales_gift_options_printed_card_price']
+                                    checkboxes:
+                                        allow_gift_wrapping_on_order_level_use_default: //input[@name='groups[gift_options][fields][wrapping_allow_order][inherit]']
+                                        allow_gift_wrapping_for_order_items_use_default: //input[@name='groups[gift_options][fields][wrapping_allow_items][inherit]']
+                                        allow_gift_receipt_use_default: //input[@name='groups[gift_options][fields][allow_gift_receipt][inherit]']
+                                        allow_gift_printered_card_use_default: //input[@name='groups[gift_options][fields][allow_printed_card][inherit]']
+                                        default_price_for_printed_card_use_default: //input[@name='groups[gift_options][fields][printed_card_price][inherit]']
+                -
+                    sales_tax:
+                        fieldsets:
+                            -
+                                tax_classes:
+                                    dropdowns:
+                                        tax_class_for_gift_options: //select[@id='tax_classes_wrapping_tax_class']
+                            -
+                                shopping_cart_display_settings:
+                                    dropdowns:
+                                        sc_display_gift_wrapping_prices: //select[@id='tax_cart_display_gift_wrapping']
+                                        sc_display_printed_card_prices: //select[@id='tax_cart_display_printed_card']
+                                    checkboxes:
+                                        sc_display_gift_wrapping_prices_use_default: //input[@id='tax_cart_display_gift_wrapping_inherit']
+                                        sc_display_printed_card_prices_use_default: //input[@id='tax_cart_display_printed_card_inherit']
+                            -
+                                orders_invoices_creditmemos_display_settings:
+                                    dropdowns:
+                                        oic_display_gift_wrapping_prices: //select[@id='tax_sales_display_gift_wrapping']
+                                        oic_display_printed_card_prices: //select[@id='tax_sales_display_printed_card']
+                                    checkboxes:
+                                        oic_display_gift_wrapping_prices_use_default: //input[@id='tax_sales_display_gift_wrapping_inherit']
+                                        oic_display_printed_card_prices_use_default: //input[@id='tax_sales_display_printed_card_inherit']
+                -
+                    sales_shipping_methods:
+                        fieldsets:
+                            -
+                                dhl:
+                                    xpath: //fieldset[@id='carriers_dhlint']
+                                    links:
+                                        dhl_link: //parent::div//a[@id='carriers_dhlint-head']
+                                    fields:
+                                        dhl_title: //input[@id='carriers_dhlint_title']
+                                        dhl_gateway_url: //input[@id='carriers_dhlint_gateway_url']
+                                        dhl_access_id: //input[@id='carriers_dhlint_id']
+                                        dhl_password: //input[@id='carriers_dhlint_password']
+                                        dhl_account_number: //input[@id='carriers_dhlint_account']
+                                        dhl_handling_fee: //input[@id='carriers_dhlint_handling_fee']
+                                        dhl_ready_time: //input[@id='carriers_dhlint_ready_time']
+                                        dhl_displayed_error_message: //textarea[@id='carriers_dhlint_specificerrmsg']
+                                        dhl_min_order_amount_for_free_shipping: //input[@id='carriers_dhlint_free_shipping_subtotal']
+                                        dhl_sort_order: //input[@id='carriers_dhlint_sort_order']
+                                    dropdowns:
+                                        dhl_enabled: //select[@id='carriers_dhlint_active']
+                                        dhl_content_type: //select[@id='carriers_dhlint_content_type']
+                                        dhl_calculate_handling_fee: //select[@id='carriers_dhlint_handling_type']
+                                        dhl_handling_applied: //select[@id='carriers_dhlint_handling_action']
+                                        dhl_divide_order_weight: //select[@id='carriers_dhlint_divide_order_weight']
+                                        dhl_weight_unit: //select[@id='carriers_dhlint_unit_of_measure']
+                                        dhl_size: //select[@id='carriers_dhlint_size']
+                                        dhl_free_method: //select[@id='carriers_dhlint_free_method_doc']
+                                        dhl_free_shipping_with_min_order_amount: //select[@id='carriers_dhlint_free_shipping_enable']
+                                        dhl_ship_to_applicable_countries: //select[@id='carriers_dhlint_sallowspecific']
+                                        dhl_show_method_if_not_applicable: //select[@id='carriers_dhlint_showmethod']
+                                        dhl_debug: //select[@id='carriers_dhlint_debug']
+                                    multiselects:
+                                        dhl_allowed_methods_doc: //select[@id='carriers_dhlint_doc_methods']
+                                        dhl_allowed_methods_nondoc: //select[@id='carriers_dhlint_nondoc_methods']
+                                        dhl_ship_to_specific_countries: //select[@id='carriers_dhlint_specificcountry']
+
+system_configuration_tabs:
+    uimap: *systemConfiguration
+
+system_configuration_website:
+    uimap: *systemConfiguration
+
+system_configuration_store:
+    uimap: *systemConfiguration

@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture kn-IN
  *
  * http://github.com/jquery/globalize

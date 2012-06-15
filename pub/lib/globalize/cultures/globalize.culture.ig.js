@@ -1,4 +1,4 @@
-/*
+/**
  * Globalize Culture ig
  *
  * http://github.com/jquery/globalize
