@@ -109,6 +109,13 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('item', $item->getFullPath());
     }
 
+    public function testGetFullPathReturnsPathWithMoudlePartTrimmed()
+    {
+        $this->_params['id'] = "Mage_Backend::new_item";
+        $item = new Mage_Backend_Model_Menu_Item($this->_params);
+        $this->assertEquals('new_item', $item->getFullPath());
+    }
+
     public function testGetUrlWithEmptyActionReturnsHashSign()
     {
         $this->_params['action'] = '';
