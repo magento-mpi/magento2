@@ -1,0 +1,28 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AdminUser
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage Users and related pages
+
+# 'Users' page
+manage_admin_users:
+    mca: user/
+    click_xpath: //ul[@id='nav']//a[span='Users']
+
+# 'New User' page
+new_admin_user:
+    mca: user/new/
+
+# 'Edit User' page
+edit_admin_user:
+    mca: user/edit/user_id/%id%/
+
+new_admin_user_with_error:
+    mca: user/edit/

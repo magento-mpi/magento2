@@ -1,0 +1,20 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Newsletter
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+search_newsletter_subscribers:
+    filter_id: %noValue%
+    filter_email: %noValue%
+    filter_type: %noValue%
+    filter_customer_first_name: %noValue%
+    filter_customer_last_name: %noValue%
+    filter_status: %noValue%
+    filter_website: %noValue%
+    filter_store: %noValue%
+    filter_store_view: %noValue%

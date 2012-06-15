@@ -169,7 +169,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         $this->makeSureCanBeSent();
         $store = Mage::app()->getStore($this->getStoreId());
         $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
-        $mail->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
+        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $this->getStoreId()))
             ->sendTransactional(
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
@@ -311,7 +311,8 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      */
     public function canBeCanceled()
     {
-        return (bool)(int)$this->getId() && !in_array($this->getStatus(), array(self::STATUS_CANCELED, self::STATUS_ACCEPTED));
+        return (bool)(int)$this->getId()
+            && !in_array($this->getStatus(), array(self::STATUS_CANCELED, self::STATUS_ACCEPTED));
     }
 
     /**

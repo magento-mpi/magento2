@@ -49,7 +49,6 @@ if (defined('TESTS_GLOBAL_CONFIG_FILES') && TESTS_GLOBAL_CONFIG_FILES) {
 } else {
     $globalEtcFiles = "../../../app/etc/*.xml";
 }
-$globalEtcFiles .= ';etc/integration-tests-config.xml';
 
 if (defined('TESTS_MODULE_CONFIG_FILES') && TESTS_MODULE_CONFIG_FILES) {
     $moduleEtcFiles = TESTS_MODULE_CONFIG_FILES;
@@ -95,7 +94,14 @@ Magento_Test_Event_Magento::setDefaultEventManager($eventManager);
 
 /* Bootstrap the application */
 Magento_Test_Bootstrap::setInstance(new Magento_Test_Bootstrap(
-    $magentoBaseDir, $localXmlFile, $globalEtcFiles, $moduleEtcFiles, $testsTmpDir, $cleanupAction, $developerMode
+    $magentoBaseDir,
+    $localXmlFile,
+    $globalEtcFiles,
+    $moduleEtcFiles,
+     'etc/integration-tests-config.xml',
+    $testsTmpDir,
+    $cleanupAction,
+    $developerMode
 ));
 
 Utility_Files::init(new Utility_Files($magentoBaseDir));

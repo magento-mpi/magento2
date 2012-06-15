@@ -23,7 +23,7 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
     {
         $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
         $this->dispatch('/admin');
-        $this->assertRedirect($expected, self::MODE_START_WITH);
+        $this->assertRedirect($this->stringStartsWith($expected));
     }
 
     /**
@@ -49,6 +49,6 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
         $this->dispatch($url);
 
         $expected = 'admin/system_account/index';
-        $this->assertRedirect($expected, self::MODE_CONTAINS);
+        $this->assertRedirect($this->stringContains($expected));
     }
 }

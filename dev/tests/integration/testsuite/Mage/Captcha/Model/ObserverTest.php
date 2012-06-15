@@ -21,6 +21,7 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
      */
     public function testBackendLoginActionWithInvalidCaptchaReturnsError()
     {
+        $this->markTestIncomplete('MAGETWO-1662');
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
 
         $post = array(
@@ -47,6 +48,7 @@ class Mage_Captcha_Model_ObserverTest extends Magento_Test_TestCase_ControllerAb
      */
     public function testCaptchaIsRequiredAfterFailedLoginAttempts()
     {
+        $this->markTestIncomplete('MAGETWO-1662');
         Mage::app()->setCurrentStore(0);
         $captchaModel = Mage::helper('Mage_Captcha_Helper_Data')->getCaptcha('backend_login');
 

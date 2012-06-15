@@ -42,7 +42,6 @@
     }
 
     Payment.prototype.switchCustomerBalanceCheckbox = function() {
-
         if (!customerBalanceSubstracted && $('use_customer_balance').checked) {
             quoteBaseGrandTotal -= <?php echo (float)$this->getBalance(); ?>;
             customerBalanceSubstracted = true;
@@ -57,20 +56,26 @@
             quoteBaseGrandTotal = checkQuoteBaseGrandTotal;
         }
         if (quoteBaseGrandTotal < 0.0001) {
-            var elements = Form.getElements(this.form);
-            for (var i=0; i<elements.length; i++) {
-                if ($('use_customer_balance').checked) {
-                    if (elements[i].name == 'payment[method]') {
+            var elements = Form.getElements(this.form), checkedFree = false;
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
+                    if ($('use_customer_balance').checked) {
+                        checkedFree = true;
+                        elements[i].checked = true;
+                        elements[i].disabled = false;
+                        $(elements[i].parentNode).hide();
+                    } else {
                         elements[i].disabled = true;
                     }
                 }
-                if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
-                    elements[i].checked = false;
-                    elements[i].disabled = true;
-                    $(elements[i].parentNode).hide();
-                }
             }
             if ($('use_customer_balance').checked) {
+                if (!checkedFree) {
+                    $(this.form).insert(new Element(
+                        'input',
+                        {type: 'hidden', 'name': 'payment[method]', 'value': 'free'}
+                    ));
+                }
                 $('checkout-payment-method-load').hide();
                 payment.switchMethod();
             }

@@ -63,8 +63,8 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
-        $this->assertRegExp(
-            '/treeInstance\.select_node\(.*"' . preg_quote($handle, '/') . '".*\)/U',
+        $this->assertContains(
+            'data-selected="li[rel=\'' . $handle . '\']"',
             $this->getResponse()->getBody(),
             'Page type control should maintain the selection of the current page handle.'
         );
@@ -136,6 +136,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
             Mage::helper('Mage_Core_Helper_Data')->urlEncode($expectedRedirectUrl)
         );
         $this->dispatch('design/editor/skin');
-        $this->assertRedirect($expectedRedirectUrl);
+        $this->assertRedirect($this->equalTo($expectedRedirectUrl));
     }
 }

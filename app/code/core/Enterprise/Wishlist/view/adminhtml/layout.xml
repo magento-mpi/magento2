@@ -15,31 +15,31 @@
     </adminhtml_customer_wishlist>
     <adminhtml_sales_order_create_index>
         <reference name="sidebar">
-            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="Enterprise_Wishlist::sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_index>
 
     <adminhtml_sales_order_create_load_block_index>
         <reference name="sidebar">
-            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="Enterprise_Wishlist::sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_index>
 
     <adminhtml_sales_order_create_load_block_data>
         <reference name="sidebar">
-            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="Enterprise_Wishlist::sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
     <adminhtml_sales_order_create_load_block_sidebar>
         <reference name="sidebar">
-            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="Enterprise_Wishlist::sales/order/create/sidebar/items.phtml" name="wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_sidebar>
 
     <adminhtml_sales_order_create_load_block_sidebar_wishlist>
         <reference name="content">
-            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="Enterprise_Wishlist::sales/order/create/sidebar/items.phtml" name="sidebar_wishlist" />
+            <block type="Enterprise_Wishlist_Block_Adminhtml_Sales_Order_Create_Sidebar_Wishlist" template="sales/order/create/sidebar/items.phtml" name="sidebar_wishlist" />
         </reference>
     </adminhtml_sales_order_create_load_block_sidebar_wishlist>
 
