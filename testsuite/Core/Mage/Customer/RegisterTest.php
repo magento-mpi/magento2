@@ -38,12 +38,8 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->frontend();
-        $this->frontend('customer_login');
-    }
-
-    public function tearDownAfterTest()
-    {
         $this->logoutCustomer();
+        $this->frontend('customer_login');
     }
 
     /**

@@ -96,9 +96,9 @@ edit_tag:
                             base_popularity: //input[@name='base_popularity']
                 -
                     products_tagged_by_admins:
-                        xpath: //dl[@id='tag_assigned_grid']
+                        xpath: //dl[contains(@id, 'tag_assigned_grid')]
                         links:
-                            prod_tag_admin_expand:  //dl[@id='tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
+                            prod_tag_admin_expand: //a[normalize-space(text())='Products Tagged by Administrators']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -121,7 +121,7 @@ edit_tag:
                     customers_submitted_tags:
                         xpath: //dd[@id='dd-tag_customer']
                         links:
-                            customers_submit_tag_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
+                            customers_submit_tag_expand: /parent::*//a[normalize-space(text())='Customers Submitted this Tag']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -133,7 +133,7 @@ edit_tag:
                     products_tagged_by_customers:
                         xpath: //dd[@id='dd-tag_product']
                         links:
-                            prod_tag_customer_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
+                            prod_tag_customer_expand: /parent::*//a[normalize-space(text())='Products Tagged by Customers']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
