@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for entity source model Mage_ImportExport_Model_Source_Import_Behavior
+ * Test class for entity source model Mage_ImportExport_Model_Source_Import_Entity
  *
  * @group module:Mage_ImportExport
  */
