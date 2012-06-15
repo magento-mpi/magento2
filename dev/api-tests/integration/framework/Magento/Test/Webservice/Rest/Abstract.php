@@ -12,43 +12,11 @@
 abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webservice
 {
     /**
-     * REST Webservice adapter instances registry
-     *
-     * @var array
-     */
-    protected static $_adapterRegistry = array();
-
-    /**
      * REST Webservice user type (admin/customer/guest)
      *
      * @var string|null
      */
     protected $_userType;
-
-    /**
-     * Get adapter instance
-     *
-     * @return Magento_Test_Webservice_Rest_Adapter
-     */
-    protected function getInstance()
-    {
-        $instance = null;
-        if (isset(self::$_adapterRegistry[$this->_userType])){
-            $instance = self::$_adapterRegistry[$this->_userType];
-        }
-
-        return $instance;
-    }
-
-    /**
-     * Set adapter instance
-     *
-     * @param Magento_Test_Webservice_Rest_Adapter $instance
-     */
-    protected function setInstance(Magento_Test_Webservice_Rest_Adapter $instance)
-    {
-        self::$_adapterRegistry[$this->_userType] = $instance;
-    }
 
     /**
      * Get webservice adapter
@@ -58,13 +26,13 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      */
     public function getWebService($options = null)
     {
-        if (null === $this->getInstance()) {
-            $this->setInstance(new Magento_Test_Webservice_Rest_Adapter());
+        if (null === $this->getInstance($this->_userType)) {
+            $this->setInstance($this->_userType, new Magento_Test_Webservice_Rest_Adapter());
             $options['type'] = $this->_userType;
-            $this->getInstance()->init($options);
+            $this->getInstance($this->_userType)->init($options);
         }
 
-        return $this->getInstance();
+        return $this->getInstance($this->_userType);
     }
 
     /**
@@ -76,11 +44,11 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      */
     public function callGet($resourceName, $params = array())
     {
-        if (null === $this->getInstance()) {
+        if (null === $this->getInstance($this->_userType)) {
             $this->getWebService();
         }
 
-        return $this->getInstance()->callGet($resourceName, $params);
+        return $this->getInstance($this->_userType)->callGet($resourceName, $params);
     }
 
     /**
@@ -92,11 +60,11 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      */
     public function callDelete($resourceName, $params = array())
     {
-        if (null === $this->getInstance()) {
+        if (null === $this->getInstance($this->_userType)) {
             $this->getWebService();
         }
 
-        return $this->getInstance()->callDelete($resourceName, $params);
+        return $this->getInstance($this->_userType)->callDelete($resourceName, $params);
     }
 
     /**
@@ -108,11 +76,11 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      */
     public function callPost($resourceName, $params)
     {
-        if (null === $this->getInstance()) {
+        if (null === $this->getInstance($this->_userType)) {
             $this->getWebService();
         }
 
-        return $this->getInstance()->callPost($resourceName, $params);
+        return $this->getInstance($this->_userType)->callPost($resourceName, $params);
     }
 
     /**
@@ -124,11 +92,11 @@ abstract class Magento_Test_Webservice_Rest_Abstract extends Magento_Test_Webser
      */
     public function callPut($resourceName, $params)
     {
-        if (null === $this->getInstance()) {
+        if (null === $this->getInstance($this->_userType)) {
             $this->getWebService();
         }
 
-        return $this->getInstance()->callPut($resourceName, $params);
+        return $this->getInstance($this->_userType)->callPut($resourceName, $params);
     }
 
     /**
