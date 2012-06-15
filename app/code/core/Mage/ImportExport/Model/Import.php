@@ -17,10 +17,12 @@
  */
 class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
 {
-    /**
-     * Key in config with entities.
+    /**#@+
+     * Config keys.
      */
-    const CONFIG_KEY_ENTITIES  = 'global/importexport/import_entities';
+    const CONFIG_KEY_ENTITIES          = 'global/importexport/import_entities';
+    const CONFIG_KEY_CUSTOMER_ENTITIES = 'global/importexport/import_customer_entities';
+    /**#@-*/
 
     /**
      * Import behavior.

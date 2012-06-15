@@ -29,12 +29,12 @@ class Mage_ImportExport_Helper_Data extends Mage_Core_Helper_Data
      * @var array
      */
     protected $_allowedCustomerBehaviours = array(
-        Mage_ImportExport_Model_Source_Import_Format_Version::IMPORT_VERSION_1 => array(
+        Mage_ImportExport_Model_Source_Format_Version::VERSION_1 => array(
             Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
             Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
             Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
         ),
-        Mage_ImportExport_Model_Source_Import_Format_Version::IMPORT_VERSION_2 => array(
+        Mage_ImportExport_Model_Source_Format_Version::VERSION_2 => array(
             Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
         ),
     );

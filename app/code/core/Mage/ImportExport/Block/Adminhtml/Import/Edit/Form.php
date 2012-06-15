@@ -49,12 +49,6 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
             'required' => true,
             'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior')->toOptionArray()
         ));
-        $fieldsets['base']->addField(Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
-            'name'     => Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,
-            'label'    => $helper->__('Select File to Import'),
-            'title'    => $helper->__('Select File to Import'),
-            'required' => true
-        ));
 
         // fieldset for format version
         $fieldsets['version'] = $form->addFieldset('import_format_version_fieldset',
@@ -67,24 +61,23 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
             'name'     => 'file_format_version',
             'title'    => $helper->__('Import Format Version'),
             'label'    => $helper->__('Import Format Version'),
-            'required' => false,
+            'required' => true,
             'onchange' => 'editForm.handleImportFormatVersionSelector();',
-            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Format_Version')->toOptionArray()
+            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Format_Version')->toOptionArray()
         ));
 
-        // fieldset for customer entity
-        $fieldsets['customer'] = $form->addFieldset('customer_entity_fieldset',
+        // fieldset for file uploading
+        $fieldsets['upload'] = $form->addFieldset('upload_file_fieldset',
             array(
-                'legend' => $helper->__('Customer Entity Type'),
+                'legend' => $helper->__('File to Import'),
                 'style'  => 'display:none'
             )
         );
-        $fieldsets['customer']->addField('customer_entity', 'select', array(
-            'name'     => 'customer_entity',
-            'title'    => $helper->__('Customer Entity Type'),
-            'label'    => $helper->__('Customer Entity Type'),
-            'required' => false,
-            'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Customer_Entity')->toOptionArray()
+        $fieldsets['upload']->addField(Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE, 'file', array(
+            'name'     => Mage_ImportExport_Model_Import::FIELD_NAME_SOURCE_FILE,
+            'label'    => $helper->__('Select File to Import'),
+            'title'    => $helper->__('Select File to Import'),
+            'required' => true
         ));
 
         $form->setUseContainer(true);

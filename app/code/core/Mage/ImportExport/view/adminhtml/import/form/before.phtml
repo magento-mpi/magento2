@@ -28,9 +28,8 @@
             $('head-import_format_version_fieldset').hide();
             $('import_format_version_fieldset').hide();
             $('file_format_version').selectedIndex = 0;
-            $('head-customer_entity_fieldset').hide();
-            $('customer_entity_fieldset').hide();
-            $('customer_entity').selectedIndex = 0;
+            $('head-upload_file_fieldset').hide();
+            $('upload_file_fieldset').hide();
             this.showAllBehaviours();
 
             switch ($F('entity')) {
@@ -38,16 +37,19 @@
                     $('head-import_format_version_fieldset').show();
                     $('import_format_version_fieldset').show();
                     break;
+                case 'catalog_product':
+                    $('head-upload_file_fieldset').show();
+                    $('upload_file_fieldset').show();
+                    break;
                 default:
                     break;
             }
         } else {
-            $('head-export_format_version_fieldset').hide();
-            $('export_format_version_fieldset').hide();
+            $('head-import_format_version_fieldset').hide();
+            $('import_format_version_fieldset').hide();
             $('file_format_version').selectedIndex = 0;
-            $('head-customer_entity_fieldset').hide();
-            $('customer_entity_fieldset').hide();
-            $('customer_entity').selectedIndex = 0;
+            $('head-upload_file_fieldset').hide();
+            $('upload_file_fieldset').hide();
             this.showAllBehaviours();
         }
     };
@@ -63,20 +65,15 @@
             var allowedBehaviours = [];
             <?php
                 $importVersion = array(
-                    1 => Mage_ImportExport_Model_Source_Import_Format_Version::IMPORT_VERSION_1,
-                    2 => Mage_ImportExport_Model_Source_Import_Format_Version::IMPORT_VERSION_2,
+                    1 => Mage_ImportExport_Model_Source_Format_Version::VERSION_1,
+                    2 => Mage_ImportExport_Model_Source_Format_Version::VERSION_2,
                 );
             ?>
             switch ($F('file_format_version')) {
                 case '<?php echo $importVersion[1] ?>':
-                    $('head-customer_entity_fieldset').hide();
-                    $('customer_entity_fieldset').hide();
-                    $('customer_entity').selectedIndex = 0;
                     allowedBehaviours = <?php echo $this->getJsAllowedCustomerBehaviours($importVersion[1]) ?>;
                     break;
                 case '<?php echo $importVersion[2] ?>':
-                    $('head-customer_entity_fieldset').show();
-                    $('customer_entity_fieldset').show();
                     allowedBehaviours = <?php echo $this->getJsAllowedCustomerBehaviours($importVersion[2]) ?>;
                     break;
                 default:
@@ -84,13 +81,14 @@
             }
 
             // hide not allowed behaviours
-            if ($('behavior') && $F('behavior')) {
+            if ($('behavior')) {
                 var behaviourLength = $('behavior').length;
                 var behaviourOptions = $('behavior').options;
+
                 for (var i = 0; i < behaviourLength; i++) {
                     if (allowedBehaviours.include(behaviourOptions[i].value)) {
                         behaviourOptions[i].show();
-                    } else {
+                    } else if (behaviourOptions[i].value != '') {
                         behaviourOptions[i].hide();
                         if (behaviourOptions[i].selected) {
                             $('behavior').selectedIndex = 0;
@@ -98,10 +96,12 @@
                     }
                 }
             }
+
+            $('head-upload_file_fieldset').show();
+            $('upload_file_fieldset').show();
         } else {
-            $('head-customer_entity_fieldset').hide();
-            $('customer_entity_fieldset').hide();
-            $('customer_entity').selectedIndex = 0;
+            $('head-upload_file_fieldset').hide();
+            $('upload_file_fieldset').hide();
         }
     };
 

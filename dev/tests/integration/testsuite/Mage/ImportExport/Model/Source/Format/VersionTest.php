@@ -10,16 +10,16 @@
  */
 
 /**
- * Test class for version source model Mage_ImportExport_Model_Source_Import_Format_Version
+ * Test class for version source model Mage_ImportExport_Model_Source_Format_Version
  *
  * @group module:Mage_ImportExport
  */
-class Mage_ImportExport_Model_Source_Import_Format_VersionTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Tested source model
      *
-     * @var Mage_ImportExport_Model_Source_Import_Format_Version
+     * @var Mage_ImportExport_Model_Source_Format_Version
      */
     public static $sourceModel;
 
@@ -30,7 +30,7 @@ class Mage_ImportExport_Model_Source_Import_Format_VersionTest extends PHPUnit_F
      */
     public static function setUpBeforeClass()
     {
-        self::$sourceModel = new Mage_ImportExport_Model_Source_Import_Format_Version();
+        self::$sourceModel = new Mage_ImportExport_Model_Source_Format_Version();
     }
 
     /**
@@ -45,7 +45,7 @@ class Mage_ImportExport_Model_Source_Import_Format_VersionTest extends PHPUnit_F
     /**
      * Is result variable an correct optional array
      */
-    public function testToVariableArray()
+    public function testToOptionArray()
     {
         $optionalArray = self::$sourceModel->toOptionArray();
         $this->assertThat($optionalArray, $this->isType('array'), 'Result variable should be an array.');
