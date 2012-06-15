@@ -49,6 +49,13 @@
  * @method Enterprise_Mage_StagingLog_Helper stagingLogHelper()
  * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
+ * @method Enterprise2_Mage_AddBySku_Helper addBySkuHelper()
+ * @method Enterprise2_Mage_Category_Helper categoryHelper()
+ * @method Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
+ * @method Enterprise2_Mage_WebsiteRestrictions websiteRestrictionsHelper()
+ * @method Enterprise2_Mage_Status_Helper statusHelper()
+ * @method Community2_Mage_AdminUser_Helper adminUserHelper()
+ *
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -181,6 +188,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var string
      */
     const FIELD_TYPE_INPUT = 'field';
+
+    /**
+     * Type of uimap elements
+     * @var string
+     */
+    const FIELD_TYPE_PAGEELEMENT = 'pageelement';
 
     ################################################################################
     #                      Selenium variables(do not rename)                       #
@@ -1671,10 +1684,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
-        $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
-        if (end($fallbackOrderHelper) == 'enterprise') {
-            $expectedTitle =
-                $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        if (!is_null($expectedTitle)) {
             $this->assertSame($expectedTitle, $this->getTitle(),
                 'Current url: \'' . $this->getLocation() . "\n" . 'Title for page "' . $page . '" is unexpected.');
         }
@@ -1892,31 +1903,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function _getFormDataMap($fieldsets, $data)
     {
         $dataMap = array();
-        $uimapFields = array();
-
+        $fieldsetsElements = array();
+        foreach ($fieldsets as $fieldsetName => $fieldsetContent) {
+            $fieldsetsElements[$fieldsetName] = $fieldsetContent->getFieldsetElements();
+        }
         foreach ($data as $dataFieldName => $dataFieldValue) {
-            if ($dataFieldValue == '%noValue%') {
+            if ($dataFieldValue == '%noValue%' || is_array($dataFieldValue)) {
                 continue;
             }
-            foreach ($fieldsets as $fieldset) {
-                $uimapFields[self::FIELD_TYPE_MULTISELECT] = $fieldset->getAllMultiselects();
-                $uimapFields[self::FIELD_TYPE_DROPDOWN] = $fieldset->getAllDropdowns();
-                $uimapFields[self::FIELD_TYPE_RADIOBUTTON] = $fieldset->getAllRadiobuttons();
-                $uimapFields[self::FIELD_TYPE_CHECKBOX] = $fieldset->getAllCheckboxes();
-                $uimapFields[self::FIELD_TYPE_INPUT] = $fieldset->getAllFields();
-                foreach ($uimapFields as $fieldsType => $fieldsData) {
-                    foreach ($fieldsData as $uimapFieldName => $uimapFieldValue) {
-                        if ($dataFieldName == $uimapFieldName) {
-                            $dataMap[$dataFieldName] = array('type'  => $fieldsType,
-                                                             'path'  => $uimapFieldValue,
-                                                             'value' => $dataFieldValue);
-                            break 3;
-                        }
+            foreach ($fieldsetsElements as $fieldsetContent) {
+                foreach ($fieldsetContent as $fieldsType => $fieldsData) {
+                    if (array_key_exists($dataFieldName, $fieldsData)) {
+                        $dataMap[$dataFieldName] = array('type'  => $fieldsType, 'value' => $dataFieldValue,
+                                                         'path'  => $fieldsData[$dataFieldName],);
+                        break 2;
                     }
                 }
             }
         }
-
         return $dataMap;
     }
 
@@ -3147,10 +3151,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     break;
                 case self::FIELD_TYPE_MULTISELECT:
                     if ($this->isElementPresent($formField['path'])) {
-                        $selectedLabels = $this->getSelectedLabels($formField['path']);
-                        $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2) . chr(0xA0)));
+                        $selectedLabels = array();
+                        try {
+                            $selectedLabels = $this->getSelectedLabels($formField['path']);
+                            $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2) . chr(0xA0)));
+                        } catch (RuntimeException $e) {
+                            if (strpos($e->getMessage(), 'No option selected') === false) {
+                                throw $e;
+                            }
+                        }
                         $expectedLabels = explode(',', $formField['value']);
                         $expectedLabels = array_map('trim', $expectedLabels);
+                        $expectedLabels = array_diff($expectedLabels, array(''));
                         foreach ($expectedLabels as $value) {
                             if (!in_array($value, $selectedLabels)) {
                                 $this->addVerificationMessage($formFieldName . ": The value '" . $value
@@ -3167,6 +3179,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         }
                     } else {
                         $this->addVerificationMessage('Can not find field (xpath:' . $formField['path'] . ')');
+                        $resultFlag = false;
+                    }
+                    break;
+                case self::FIELD_TYPE_PAGEELEMENT:
+                    if ($this->isElementPresent($formField['path'])) {
+                        $val = trim($this->getText($formField['path']));
+                        if ($val != $formField['value']) {
+                            $this->addVerificationMessage(
+                                $formFieldName . ": The stored value is not equal to specified: ('"
+                                . $formField['value'] . "' != '" . $val . "')");
+                            $resultFlag = false;
+                        }
+                    } else {
+                        $this->addVerificationMessage('Can not find pageelement (xpath:' . $formField['path'] . ')');
                         $resultFlag = false;
                     }
                     break;

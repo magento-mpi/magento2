@@ -1,0 +1,82 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Manage System Configuration
+
+# 'System Configuration' page
+system_configuration:
+    uimap: &systemConfiguration
+        form:
+            tabs:              
+                -
+                    general_general:
+                        fieldsets:
+                            -
+                                website_restriction:
+                                    xpath: //fieldset[@id='general_restriction']
+                                    dropdowns:
+                                        access_restriction: //*[@id='general_restriction_is_active']
+                                        restriction_mode: //*[@id='general_restriction_mode']
+                                        startup_page: //*[@id='general_restriction_http_redirect']
+                                        landing_page: //*[@id='general_restriction_cms_page']
+                                        http_response: //*[@id='general_restriction_http_status']
+                -
+                    catalog_catalog:
+                        fieldsets:
+                            -
+                                category_permissions:
+                                    xpath: //fieldset[@id='catalog_enterprise_catalogpermissions']
+                                    links:
+                                        permission_link: //a[@id='catalog_enterprise_catalogpermissions-head']
+                                    dropdowns:
+                                        permission_enable: //select[@id='catalog_enterprise_catalogpermissions_enabled']
+                                        allow_browsing: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view']
+                                        landing_page: //select[@id='catalog_enterprise_catalogpermissions_restricted_landing_page']
+                                        display_prices: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price']
+                                        allow_adding_to_cart: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items']
+                                    multiselects:
+                                        disallow_catalog: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -                                                                         
+                                order_by_sku:
+                                    xpath: //fieldset[@id='sales_product_sku']
+                                    links:
+                                        sku_link: //a[@id='sales_product_sku-head']
+                                    dropdowns:
+                                        sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]'] 
+                                    multiselects:
+                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
+
+system_configuration_tabs:
+    uimap: *systemConfiguration
+
+system_configuration_website:
+    uimap: *systemConfiguration
+
+system_configuration_store:
+    uimap: *systemConfiguration

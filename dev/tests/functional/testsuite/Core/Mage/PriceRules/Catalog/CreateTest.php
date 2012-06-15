@@ -148,6 +148,7 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-3312
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
      */
     public function longValues()
     {
@@ -177,6 +178,7 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @TestlinkId TL-MAGE-3310
      * @group skip_due_to_bug1.12
+     * @group skip_due_to_bug1.12.0.1
      */
     public function incorrectLengthInDiscountAmount()
     {
