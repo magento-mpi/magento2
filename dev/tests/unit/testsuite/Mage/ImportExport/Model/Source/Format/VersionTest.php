@@ -11,8 +11,6 @@
 
 /**
  * Test class for version source model Mage_ImportExport_Model_Source_Format_Version
- *
- * @group module:Mage_ImportExport
  */
 class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framework_TestCase
 {
@@ -24,13 +22,65 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
     public static $sourceModel;
 
     /**
-     * Instantiate tested source model
+     * Helper registry key
+     *
+     * @var string
+     */
+    protected static $_helperKey = '_helper/Mage_ImportExport_Helper_Data';
+
+    /**
+     * Helper property
+     *
+     * @var Mage_ImportExport_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected static $_helper;
+
+    /**
+     * Mock helper
      *
      * @static
+     *
      */
     public static function setUpBeforeClass()
     {
+        parent::setUpBeforeClass();
         self::$sourceModel = new Mage_ImportExport_Model_Source_Format_Version();
+    }
+
+    /**
+     * Unregister helper
+     *
+     * @static
+     *
+     */
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+        Mage::unregister(self::$_helperKey);
+        self::$_helper = null;
+        self::$sourceModel = null;
+    }
+
+    /**
+     * Helper initialization
+     *
+     * @return Mage_ImportExport_Helper_Data
+     */
+    protected function _initHelper()
+    {
+        if (!self::$_helper) {
+            self::$_helper = $this->getMock(
+                'Mage_ImportExport_Helper_Data',
+                array('__')
+            );
+            self::$_helper->expects($this->any())
+                ->method('__')
+                ->will($this->returnArgument(0));
+
+            Mage::unregister(self::$_helperKey);
+            Mage::register(self::$_helperKey, self::$_helper);
+        }
+        return self::$_helper;
     }
 
     /**
@@ -38,6 +88,8 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
      */
     public function testToArray()
     {
+        $this->_initHelper();
+
         $basicArray = self::$sourceModel->toArray();
         $this->assertThat($basicArray, $this->isType('array'), 'Result variable should be an array.');
     }
@@ -47,6 +99,8 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
      */
     public function testToOptionArray()
     {
+        $this->_initHelper();
+
         $optionalArray = self::$sourceModel->toOptionArray();
         $this->assertThat($optionalArray, $this->isType('array'), 'Result variable should be an array.');
 

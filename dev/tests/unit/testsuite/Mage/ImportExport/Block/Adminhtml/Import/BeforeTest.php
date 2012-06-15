@@ -11,11 +11,46 @@
 
 /**
  * Tests for block Mage_ImportExport_Block_Adminhtml_Import_BeforeTest
- *
- * @group module:Mage_ImportExport
  */
 class Mage_ImportExport_Block_Adminhtml_Import_BeforeTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Tested source model
+     *
+     * @var Mage_ImportExport_Model_Source_Format_Version
+     */
+    public static $sourceModel;
+
+    /**
+     * Helper registry key
+     *
+     * @var string
+     */
+    protected static $_helperKey = '_helper/Mage_ImportExport_Helper_Data';
+
+    /**
+     * Mock helper
+     *
+     * @static
+     */
+    public static function setUpBeforeClass()
+    {
+        parent::setUpBeforeClass();
+        Mage::unregister(self::$_helperKey);
+        Mage::register(self::$_helperKey, new Mage_ImportExport_Helper_Data());
+    }
+
+    /**
+     * Unregister helper
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        parent::tearDownAfterClass();
+        Mage::unregister(self::$_helperKey);
+    }
+
     /**
      * Test getter for JS array behaviour string
      */
