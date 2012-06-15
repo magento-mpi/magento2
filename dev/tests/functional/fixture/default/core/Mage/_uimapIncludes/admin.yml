@@ -1,0 +1,46 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage__uimapIncludes
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+admin_header:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    incoming_message:
+                        xpath: //*[@id='message-popup-window' and @class='message-popup show']
+                        buttons:
+                            close: //a[span='close']
+                -
+                    global_header:
+                        xpath: //div[contains(a/img/@class,'logo')]
+                        links:
+                            log_out: //a[@class='link-logout']
+                        pageelements:
+                            admin_logo: //img[@class='logo' and contains(@src,'logo.gif')]
+                -
+                    notification_global:
+                        xpath: //div[@class='notification-global']
+                        links:
+                            invalided_cache: //a[text()='Cache Management']
+                            invalided_index: //a[text()='Index Management']
+                            go_to_notifications: //a[text()='Go to messages inbox' or text()='Go to notifications']
+                -
+                    general_elements:
+                        xpath:
+                        pageelements:
+                            qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
+                            fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
+                            loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
+        messages:
+            general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
+            general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
+            general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"
+            general_validation: "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]"

@@ -1,0 +1,151 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Magento
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+################################################################################
+#                                                                              #
+#                      Browsers for running tests                              #
+#                                                                              #
+################################################################################
+browsers:
+    googlechrome: &googlechrome
+         name: 'Google Chrome'
+         browser: '*googlechrome'
+         host: 'localhost'
+         port: 4444
+         timeout: 60
+    firefox: &firefox
+         name: 'Firefox'
+         browser: '*chrome'
+         host: 'localhost'
+         port: 4444
+         timeout: 60
+    iexplorer: &iexplorer
+         name: 'Internet Explorer'
+         browser: '*iexplore'
+         host: 'localhost'
+         port: 4444
+         timeout: 60
+    default: *firefox
+################################################################################
+#                                                                              #
+#                     Framework configuration                                  #
+#                                                                              #
+################################################################################
+framework:
+    fixture_base_path: 'fixture'
+    testsuite_base_path: 'testsuite'
+    #work only if tests are run for single browser
+    shareSession: true
+    coverageScriptUrl: ''
+    #captureScreenshotOnFailure works only for browsers that support it: Firefox/Chrome, IE with snapsIE tool
+    captureScreenshotOnFailure: true
+    saveHtmlPageOnFailure: false
+    load_all_uimaps: true
+    load_all_data: false
+    cache:
+        frontend:
+            name: 'core'
+            options:
+                caching: false
+                cache_id_prefix: 'selenium_'
+                automatic_serialization: true
+        backend:
+            name: 'file'
+            options:
+                cache_dir: 'var/cache'
+################################################################################
+#                                                                              #
+#                  Applications for running tests                              #
+#                                                                              #
+################################################################################
+applications:
+    mage: &mage
+        fallbackOrderFixture: 'default'
+        fallbackOrderHelper: 'Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: &paypalSandbox
+                url: 'https://www.sandbox.paypal.com/'
+                base_page_uimap: 'paypal_sandbox'
+                uimap_path: 'paypal_sandbox'
+                login: 'paypal_sandbox_login'
+                password: 'paypal_sandbox_password'
+            paypal_developer: &paypalDeveloper
+                url: 'https://developer.paypal.com/'
+                base_page_uimap: 'paypal_developer_home'
+                uimap_path: 'paypal_developer'
+                login: 'ashugayev@ebay.com'
+                password: 'magento123'
+    enterprise: &enterprise
+        fallbackOrderFixture: 'enterprise, default'
+        fallbackOrderHelper: 'Enterprise, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento_enterprise/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    magento2enterprise: &magento2enterprise
+        fallbackOrderFixture: 'enterprise2, community2, default'
+        fallbackOrderHelper: 'Enterprise2, Community2, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_enterprise/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento2_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    magento2community: &magento2community
+        fallbackOrderFixture: 'community2, default'
+        fallbackOrderHelper: 'Community2, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_community/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento2_community/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    default: *enterprise

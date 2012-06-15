@@ -17,7 +17,7 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     /**
      * xpath to startup page in configuration
      */
-    const XML_PATH_STARTUP_PAGE = 'admin/startup/page';
+    const XML_PATH_STARTUP_MENU_ITEM = 'admin/startup/menu_item_id';
 
     /**
      * Authentication session
@@ -25,11 +25,6 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      * @var Mage_Backend_Model_Auth_Session
      */
     protected $_session;
-
-    /**
-     * @var Mage_Admin_Model_Config
-     */
-    protected $_adminConfig;
 
     /**
      * @var Mage_Backend_Model_Menu
@@ -40,18 +35,14 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      * Startup page url from config
      * @var string
      */
-    protected $_startupPageUrl;
+    protected $_startupMenuItemId;
 
     public function __construct(array $data = array())
     {
         parent::__construct($data);
-        $this->_adminConfig = isset($data['adminConfig']) ?
-            $data['adminConfig'] :
-            Mage::getSingleton('Mage_Admin_Model_Config');
-
-        $this->_startupPageUrl = isset($data['startupPageUrl']) ?
-            $data['startupPageUrl'] :
-            Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
+        $this->_startupMenuItemId = isset($data['startupMenuItemId']) ?
+            $data['startupMenuItemId'] :
+            Mage::getStoreConfig(self::XML_PATH_STARTUP_MENU_ITEM);
 
         $this->_menu = isset($data['menu']) ? $data['menu'] : null;
     }
@@ -203,12 +194,11 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      */
     public function getStartupPageUrl()
     {
-        $aclResource = 'admin/' . $this->_startupPageUrl;
+        $aclResource = 'admin/' . $this->_startupMenuItemId;
         if ($this->_getSession()->isAllowed($aclResource)) {
-            $nodePath = 'menu/' . join('/children/', explode('/', $this->_startupPageUrl)) . '/action';
-            $url = $this->_adminConfig->getAdminhtmlConfig()->getNode($nodePath);
-            if ($url) {
-                return $url;
+            $menuItem = $this->_getMenu()->get($this->_startupMenuItemId);
+            if ($menuItem && $menuItem->getAction()) {
+                return $menuItem->getAction();
             }
         }
         return $this->findFirstAvailableMenu();
@@ -222,7 +212,7 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     public function findFirstAvailableMenu()
     {
         /* @var $menu Mage_Backend_Model_Menu_Item */
-        $menu = $this->_menu ? $this->_menu : Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+        $menu = $this->_getMenu();
         $item = $menu->getFirstAvailable();
         $action = $item ? $item->getAction() : null;
         if (!$item) {
@@ -234,6 +224,19 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
         }
         return $action;
 
+    }
+
+    /**
+     * Get Menu model
+     *
+     * @return Mage_Backend_Model_Menu
+     */
+    protected function _getMenu()
+    {
+        if (is_null($this->_menu)) {
+            $this->_menu = Mage::getSingleton('Mage_Backend_Model_Menu_Config')->getMenu();
+        }
+        return $this->_menu;
     }
 
     /**

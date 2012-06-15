@@ -1,29 +1,12 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  Mage_Selenium
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -36,111 +19,98 @@
 class Mage_Selenium_TestConfiguration
 {
     /**
-     * Data helper instance
-     *
-     * @var Mage_Selenium_Helper_Data
+     * Configuration object instance
+     * @var Mage_Selenium_TestConfiguration|null
      */
-    protected $_dataHelper = null;
-
-    /**
-     * Data generator helper instance
-     *
-     * @var Mage_Selenium_Helper_DataGenerator
-     */
-    protected $_dataGenerator = null;
-
-    /**
-     * Page helper instance
-     *
-     * @var Mage_Selenium_Helper_Page
-     */
-    protected $_pageHelper = null;
+    private static $instance = null;
 
     /**
      * File helper instance
-     *
-     * @var Mage_Selenium_Helper_File
+     * @var Mage_Selenium_Helper_File|null
      */
     protected $_fileHelper = null;
 
     /**
-     * Application helper instance
-     *
-     * @var Mage_Selenium_Helper_Application
+     * Config helper instance
+     * @var Mage_Selenium_Helper_Config|null
      */
-    protected $_applicationHelper = null;
+    protected $_configHelper = null;
 
     /**
-     * Uimap helper instance
-     *
-     * @var Mage_Selenium_Helper_Uimap
+     * UIMap helper instance
+     * @var Mage_Selenium_Helper_Uimap|null
      */
     protected $_uimapHelper = null;
 
     /**
-     * Initialized browsers connections
-     *
-     * @var array[int]PHPUnit_Extensions_SeleniumTestCase_Driver
+     * Data helper instance
+     * @var Mage_Selenium_Helper_Data|null
      */
-    protected $_drivers = array();
+    protected $_dataHelper = null;
 
     /**
-     * Current browser connection
-     *
-     * @var PHPUnit_Extensions_SeleniumTestCase_Driver
+     * Params helper instance
+     * @var Mage_Selenium_Helper_Params|null
      */
-    public $driver = null;
+    protected $_paramsHelper = null;
 
     /**
-     * Confiration object instance
-     *
-     * @var Mage_Selenium_TestConfiguration
+     * Data generator helper instance
+     * @var Mage_Selenium_Helper_DataGenerator|null
      */
-    public static $instance = null;
+    protected $_dataGeneratorHelper = null;
 
     /**
-     * Test data
-     *
+     * Cache helper instance
+     * @var Mage_Selenium_Helper_Cache
+     */
+    protected $_cacheHelper = null;
+
+    /**
+     * Array of files paths to fixtures
      * @var array
      */
-    protected $_testData = array();
+    protected $_configFixtures = array();
 
     /**
-     * Configuration data
-     *
+     * Array of class names for test Helper files
      * @var array
      */
-    protected $_configData = array();
+    protected $_testHelperClassNames = array();
 
     /**
-     * Constructor (defined as private to implement singleton)
+     * Handle to log file
+     * @var null|resource
+     */
+    protected $_logFile = null;
+
+    /**
+     * Uimap include folder name
+     * @var string
+     */
+    const UIMAP_INCLUDE_FOLDER = '_uimapIncludes';
+
+    /**
+     * Constructor defined as private to implement singleton
      */
     private function __construct()
     {
     }
 
     /**
-     * Destructor<br>
-     * Extension: defines, browser need to be restarted or not.
+     * Clone defined as private to implement singleton
      */
-    public function  __destruct()
+    private function __clone()
     {
-        if ($this->getConfigValue('browsers/default/doNotKillBrowsers')
-            != 'true' && $this->_drivers
-        ) {
-            foreach ($this->_drivers as $driver) {
-                $driver->setContiguousSession(false);
-                $driver->stop();
-            }
-        }
     }
 
     /**
-     * Initializes test configuration
+     * Get test configuration instance
      *
+     * @static
      * @return Mage_Selenium_TestConfiguration
      */
-    public static function initInstance()
+    public static function getInstance()
     {
         if (is_null(self::$instance)) {
             self::$instance = new self();
@@ -151,187 +121,200 @@ class Mage_Selenium_TestConfiguration
 
     /**
      * Initializes test configuration instance which includes:
+     * <ul>
      * <li>Initialize configuration
-     * <li>Initialize DataSets
-     * <li>Initialize UIMap instance
-     * <li>Initialize all drivers connections from configuration
-     *
-     * @return Mage_Selenium_TestConfiguration
+     * <li>Initialize all paths to Fixture files
+     * <li>Initialize Fixtures
+     * </ul>
      */
     public function init()
     {
         $this->_initConfig();
-        $this->_initTestData();
-        $this->getUimapHelper();
-        $this->_initDrivers();
-        return $this;
-    }
-
-    /**
-     * Performs retrieving of file helper instance
-     *
-     * @return Mage_Selenium_Helper_File
-     */
-    public function getFileHelper()
-    {
-        if (is_null($this->_fileHelper)) {
-            $this->_fileHelper = new Mage_Selenium_Helper_File($this);
-        }
-        return $this->_fileHelper;
-    }
-
-    /**
-     * Performs retrieving of file helper instance
-     *
-     * @param Mage_Selenium_TestCase $testCase Current test case as object (by default = NULL)
-     * @param Mage_Selenium_Helper_Application $applicationHelper Current tested application as object (by default = NULL)
-     *
-     * @return Mage_Selenium_Helper_Page
-     */
-    public function getPageHelper($testCase=null, $applicationHelper=null)
-    {
-        if (is_null($this->_pageHelper)) {
-            $this->_pageHelper = new Mage_Selenium_Helper_Page($this);
-        }
-        if (!is_null($testCase)) {
-            $this->_pageHelper->setTestCase($testCase);
-        }
-        if (!is_null($applicationHelper)) {
-            $this->_pageHelper->setApplicationHelper($applicationHelper);
-        }
-        return $this->_pageHelper;
-    }
-
-    /**
-     * Performs retrieving of Data Generator helper instance
-     *
-     * @return Mage_Selenium_Helper_DataGenerator
-     */
-    public function getDataGenerator()
-    {
-        if (is_null($this->_dataGenerator)) {
-            $this->_dataGenerator = new Mage_Selenium_Helper_DataGenerator($this);
-        }
-        return $this->_dataGenerator;
-    }
-
-    /**
-     * Performs retrieving of Data helper instance
-     *
-     * @return Mage_Selenium_Helper_Data
-     */
-    public function getDataHelper()
-    {
-        if (is_null($this->_dataHelper)) {
-            $this->_dataHelper = new Mage_Selenium_Helper_Data($this);
-        }
-        return $this->_dataHelper;
-    }
-
-    /**
-     * Performs retrieving of Application helper instance
-     *
-     * @return Mage_Selenium_Helper_File
-     */
-    public function getApplicationHelper()
-    {
-        if (is_null($this->_applicationHelper)) {
-            $this->_applicationHelper = new Mage_Selenium_Helper_Application($this);
-        }
-        return $this->_applicationHelper;
-    }
-
-    /**
-     * Performs retrieving of UIMap helper instance
-     *
-     * @return Mage_Selenium_Helper_Uimap
-     */
-    public function getUimapHelper()
-    {
-        if (is_null($this->_uimapHelper)) {
-            $this->_uimapHelper = new Mage_Selenium_Helper_Uimap($this);
-        }
-        return $this->_uimapHelper;
+        $this->_initLogFile($this->getHelper('config')->getLogDir());
+        $this->_initFixturesPaths();
+        $this->_initTestHelperClassNames();
+        $this->_initFixtures();
     }
 
     /**
      * Initializes and loads configuration data
-     *
      * @return Mage_Selenium_TestConfiguration
      */
     protected function _initConfig()
     {
-        $this->_loadConfigData();
+        $this->getHelper('config');
         return $this;
     }
 
     /**
-     * Initializes test data from default location
+     * Initialize log file
+     *
+     * @param string $dirPath
      *
      * @return Mage_Selenium_TestConfiguration
      */
-    protected function _initTestData()
+    protected function _initLogFile($dirPath)
     {
-        $this->_loadTestData();
-        return $this;
-    }
-
-    /**
-     * Initializes all driver connections from configuration
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _initDrivers()
-    {
-        $connections = $this->getConfigValue('browsers');
-        foreach ($connections as $connection => $config) {
-            $this->_addDriverConnection($config);
+        if (is_null($this->_logFile)) {
+            $this->_logFile = fopen($dirPath . DIRECTORY_SEPARATOR
+                                        . 'selenium-rc-' . date('d-m-Y-H-i-s') . '.log', 'a+');
         }
         return $this;
     }
 
     /**
-     * Initializes new driver connection with specific configuration
-     *
-     * @param array $connectionConfig Array of configuration data to start driver's connection
-     *
+     * Initialize all paths to fixture files
      * @return Mage_Selenium_TestConfiguration
      */
-    protected function _addDriverConnection(array $connectionConfig)
+    protected function _initFixturesPaths()
     {
-        $driver = new Mage_Selenium_Driver();
-        $driver->setBrowser($connectionConfig['browser']);
-        $driver->setHost($connectionConfig['host']);
-        $driver->setPort($connectionConfig['port']);
-        $driver->setContiguousSession(true);
-        $this->_drivers[] = $driver;
-        // @TODO implement interations outside
-        $this->driver = $this->_drivers[0];
+        $this->getConfigFixtures();
         return $this;
     }
 
     /**
-     * Performs retrieving of value from Configuration
-     *
-     * @param string $path - XPath-like path to config value (by default = '')
-     *
-     * @return array
+     * Initialize all class names for test Helper files
+     * @return Mage_Selenium_TestConfiguration
      */
-    public function getConfigValue($path = '')
+    protected function _initTestHelperClassNames()
     {
-        return $this->_descend($this->_configData, $path);
+        $this->getTestHelperClassNames();
+        return $this;
     }
 
     /**
-     * Performs retrieving of value from DataSet by path
-     *
-     * @param string $path XPath-like path to DataSet value (by default = '')
-     *
-     * @return array|string
+     * Initializes and loads fixtures data
+     * @return Mage_Selenium_TestConfiguration
      */
-    public function getDataValue($path = '')
+    protected function _initFixtures()
     {
-        return $this->_descend($this->_testData, $path);
+        $this->getHelper('uimap');
+        $this->getHelper('data');
+        return $this;
+    }
+
+    /**
+     * Get log file
+     * @return null|resource
+     */
+    public function getLogFile()
+    {
+        if (empty($this->_logFile)) {
+            $this->_initLogFile($this->getHelper('config')->getLogDir());
+        }
+        return $this->_logFile;
+    }
+
+    /**
+     * Get $helperName helper instance
+     *
+     * @param string $helperName cache|config|data|dataGenerator|file|params|uimap
+     *
+     * @return Mage_Selenium_Helper_Uimap|Mage_Selenium_Helper_Params|Mage_Selenium_Helper_File|Mage_Selenium_Helper_DataGenerator|Mage_Selenium_Helper_Data|Mage_Selenium_Helper_Config|Mage_Selenium_Helper_Cache
+     * @throws OutOfRangeException
+     */
+    public function getHelper($helperName)
+    {
+        $class = 'Mage_Selenium_Helper_' . ucfirst($helperName);
+        if (!class_exists($class)) {
+            throw new OutOfRangeException($class . ' does not exist');
+        }
+        $variableName = '_' . preg_replace('/^[A-Za-z]/', strtolower($helperName[0]), $helperName) . 'Helper';
+        if (is_null($this->$variableName)) {
+            if (strtolower($helperName) !== 'params') {
+                $this->$variableName = new $class($this);
+            } else {
+                $this->$variableName = new $class();
+            }
+        }
+        return $this->$variableName;
+    }
+
+    /**
+     * Get all paths to fixture files and all paths to include uimap elements
+     * @return array
+     */
+    public function getConfigFixtures()
+    {
+        if (!empty($this->_configFixtures)) {
+            return $this->_configFixtures;
+        }
+        //Get initial path to fixtures
+        $frameworkConfig = $this->_configHelper->getConfigFramework();
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
+        //Get fixtures sequence
+        $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
+        //Get folder names where uimaps are stored for specified area
+        $uimapFolders = array();
+        $configAreas = $this->_configHelper->getConfigAreas();
+        foreach ($configAreas as $areaName => $areaConfig) {
+            $uimapFolders[$areaName] = $areaConfig['uimap_path'];
+        }
+        $separator = preg_quote(DIRECTORY_SEPARATOR);
+
+        $facade = new File_Iterator_Facade();
+        foreach ($fallbackOrderFixture as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $files = $facade->getFilesAsArray($projectPath, '.yml');
+            foreach ($files as $file) {
+                if (preg_match('|' . $separator . 'data' . $separator . '|', $file)) {
+                    $this->_configFixtures[$codePoolName]['data'][] = $file;
+                }
+                if (preg_match('|' . $separator . 'uimap' . $separator . '|', $file)) {
+                    foreach ($uimapFolders as $areaName => $uimapFolder) {
+                        $pattern = implode($separator, array('', 'uimap', $uimapFolder, ''));
+                        if (preg_match('|' . $pattern . '|', $file)) {
+                            $this->_configFixtures[$codePoolName]['uimap'][$areaName][] = $file;
+                        }
+                    }
+                }
+                if (preg_match('|' . $separator . self::UIMAP_INCLUDE_FOLDER . $separator . '|', $file)) {
+                    foreach ($uimapFolders as $areaName => $uimapFolder) {
+                        $pattern = implode($separator, array('', self::UIMAP_INCLUDE_FOLDER, $uimapFolder)) . '\.yml';
+                        if (preg_match('|' . $pattern . '|', $file)) {
+                            $this->_configFixtures['uimapInclude'][$areaName][] = $file;
+                        }
+                    }
+                }
+            }
+        }
+        return $this->_configFixtures;
+    }
+
+    /**
+     * Get all test helper class names
+     * @return array
+     */
+    public function getTestHelperClassNames()
+    {
+        if (!empty($this->_testHelperClassNames)) {
+            return $this->_testHelperClassNames;
+        }
+        //Get initial path to test helpers
+        $frameworkConfig = $this->_configHelper->getConfigFramework();
+        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['testsuite_base_path'];
+        //Get test helpers sequence
+        $fallbackOrderHelper = $this->_configHelper->getHelpersFallbackOrder();
+
+        $facade = new File_Iterator_Facade();
+        foreach ($fallbackOrderHelper as $codePoolName) {
+            $projectPath = $initialPath . DIRECTORY_SEPARATOR . $codePoolName;
+            if (!is_dir($projectPath)) {
+                continue;
+            }
+            $files = $facade->getFilesAsArray($projectPath, 'Helper.php');
+            foreach ($files as $file) {
+                $className = str_replace($initialPath . DIRECTORY_SEPARATOR, '', $file);
+                $className = str_replace(DIRECTORY_SEPARATOR, '_', str_replace('.php', '', $className));
+                $array = explode('_', str_replace('_Helper', '', $className));
+                $helperName = end($array);
+                $this->_testHelperClassNames[$helperName] = $className;
+            }
+        }
+        return $this->_testHelperClassNames;
     }
 
     /**
@@ -340,9 +323,9 @@ class Mage_Selenium_TestConfiguration
      * @param array  $data Array of Configuration|DataSet data
      * @param string $path XPath-like path to Configuration|DataSet value
      *
-     * @return array|string
+     * @return array|string|bool
      */
-    protected function _descend($data, $path)
+    public function _descend($data, $path)
     {
         $pathArr = (!empty($path)) ? explode('/', $path) : '';
         $currNode = $data;
@@ -357,33 +340,4 @@ class Mage_Selenium_TestConfiguration
         }
         return $currNode;
     }
-
-    /**
-     * Performs loading and merging of DataSet files
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _loadTestData()
-    {
-        $files = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'data'
-                . DIRECTORY_SEPARATOR . '*.yml';
-        $this->_testData = $this->getFileHelper()->loadYamlFiles($files);
-        return $this;
-    }
-
-    /**
-     * Performs loading of Configuration files
-     *
-     * @return Mage_Selenium_TestConfiguration
-     */
-    protected function _loadConfigData()
-    {
-        $config = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'browsers.yml';
-        if (!is_readable($config)) {
-            $config .= '.dist';
-        }
-        $this->_configData = $this->getFileHelper()->loadYamlFile($config);
-        return $this;
-    }
-
 }

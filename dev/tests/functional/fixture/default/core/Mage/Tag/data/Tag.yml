@@ -1,0 +1,53 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Tag
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Tags creating
+
+#*********************************************
+#*         Backend                           *
+#*********************************************
+
+backend_search_tag:
+    tag_name: %noValue%
+    products_from: %noValue%
+    products_to: %noValue%
+    customers_from: %noValue%
+    customers_to: %noValue%
+    tags_status: %noValue%
+    store_view: %noValue%
+
+backend_base_tag:
+    tag_name: tag_name
+    tag_status: Approved
+
+backend_new_tag:
+    tag_name: tag_name_%randomize%
+    tag_status: Approved
+    base_popularity: %noValue%
+    switch_store: %noValue%
+
+backend_new_tag_with_product:
+    tag_name: tag_name_%randomize%
+    tag_status: Approved
+    base_popularity: %noValue%
+    switch_store: Default Store View
+    products_tagged_by_admins:
+        prod_tag_admin_id_from: %noValue%
+        prod_tag_admin_id_to: %noValue%
+        prod_tag_admin_name: %noValue%
+        prod_tag_admin_name_in_default_sore_view: %noValue%
+        prod_tag_admin_type: %noValue%
+        prod_tag_admin_attribute_set_name: %noValue%
+        prod_tag_admin_sku: %noValue%
+        prod_tag_admin_price_from: %noValue%
+        prod_tag_admin_price_to: %noValue%
+        prod_tag_admin_price_in: %noValue%
+        prod_tag_admin_visibility: %noValue%
+        prod_tag_admin_status: %noValue%

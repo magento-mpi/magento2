@@ -1,34 +1,16 @@
 <?php
-
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  Mage_Selenium
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
- * UImap factory class
+ * UIMap factory class
  *
  * @package     selenium
  * @subpackage  Mage_Selenium
@@ -36,14 +18,13 @@
  */
 class Mage_Selenium_Uimap_Factory
 {
-
     /**
-     * Array with allowed element names
+     * Array of allowed element names
      *
      * @var array
      */
-    protected static $allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects',
-        'checkboxes', 'radiobuttons', 'required', 'pageelements', 'page_specific_errors');
+    protected static $_allowedElementNames = array('buttons', 'messages', 'links', 'fields', 'dropdowns', 'multiselects',
+                                                  'checkboxes', 'radiobuttons', 'required', 'pageelements');
 
     /**
      * Construct an Uimap_Factory
@@ -53,7 +34,7 @@ class Mage_Selenium_Uimap_Factory
     }
 
     /**
-     * Performs to create an UIMap object
+     * Creates a UIMap object
      *
      * @param string $elemKey
      * @param string|array $elemValue
@@ -70,25 +51,23 @@ class Mage_Selenium_Uimap_Factory
                 break;
             case 'tabs':
                 $elements = new Mage_Selenium_Uimap_TabsCollection();
-                foreach ($elemValue as $tabArrayKey => &$tabArrayValue) {
+                foreach ($elemValue as &$tabArrayValue) {
                     foreach ($tabArrayValue as $tabKey => &$tabValue) {
-                        $elements[$tabKey] = new Mage_Selenium_Uimap_Tab($tabKey,
-                                        $tabValue);
+                        $elements[$tabKey] = new Mage_Selenium_Uimap_Tab($tabKey, $tabValue);
                     }
                 }
                 break;
             case 'fieldsets':
                 $elements = new Mage_Selenium_Uimap_FieldsetsCollection();
-                foreach ($elemValue as $fieldsetArrayKey => &$fieldsetArrayValue) {
+                foreach ($elemValue as &$fieldsetArrayValue) {
                     foreach ($fieldsetArrayValue as $fieldsetKey => &$fieldsetValue) {
                         $elements[$fieldsetKey] =
-                                new Mage_Selenium_Uimap_Fieldset($fieldsetKey,
-                                        $fieldsetValue);
+                            new Mage_Selenium_Uimap_Fieldset($fieldsetKey, $fieldsetValue);
                     }
                 }
                 break;
             default:
-                if (in_array($elemKey, self::$allowedElementNames)) {
+                if (in_array($elemKey, self::$_allowedElementNames)) {
                     $elements = new Mage_Selenium_Uimap_ElementsCollection($elemKey,
                                     $elemValue);
                 }
