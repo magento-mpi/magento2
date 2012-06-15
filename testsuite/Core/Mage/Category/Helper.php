@@ -157,7 +157,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
                                $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
         $this->clickButton('save_category', false);
         $this->waitForElement($waitCondition);
-        $this->validatePage();
+        $this->checkCategoriesPage();
     }
 
     /**
@@ -195,6 +195,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
                     $this->click($buttonXpath);
                     $this->getConfirmation();
                     $this->pleaseWait();
+                    $this->checkCategoriesPage();
 
                     return true;
                 } else {
@@ -203,7 +204,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
             } else {
                 $this->addVerificationMessage("The confirmation does not appear");
                 $this->pleaseWait();
-                $this->validatePage();
+                $this->checkCategoriesPage();
 
                 return true;
             }

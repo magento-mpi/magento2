@@ -32,15 +32,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
-            $xpath = $this->_getControlXpath('dropdown', 'current_configuration_scope');
-            $toSelect = $xpath . '//option[normalize-space(text())="' . $chooseScope . '"]';
-            $isSelected = $toSelect . '[@selected]';
-            if (!$this->isElementPresent($isSelected)) {
-                $this->_defineParameters($toSelect, 'url');
-                $this->fillDropdown('current_configuration_scope', $chooseScope);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage();
-            }
+            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
         }
         foreach ($parameters as $value) {
             if (!is_array($value)) {
@@ -49,9 +41,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $tab = (isset($value['tab_name'])) ? $value['tab_name'] : null;
             $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
             if ($tab) {
-                $xpath = $this->_getControlXpath('tab', $tab);
-                $this->_defineParameters($xpath, 'href');
-                $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+                $this->openConfigurationTab($tab);
                 $this->fillForm($settings, $tab);
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
@@ -69,12 +59,40 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Open tab on Configuration page
+     *
+     * @param string $tab
+     */
+    public function openConfigurationTab($tab)
+    {
+        $this->defineParameters($this->_getControlXpath('tab', $tab), 'href');
+        $this->clickControl('tab', $tab);
+    }
+
+    /**
+     * @param string $dropDownName
+     * @param string $fieldValue
+     */
+    public function changeConfigurationScope($dropDownName, $fieldValue)
+    {
+        $xpath = $this->_getControlXpath('dropdown', $dropDownName);
+        $toSelect = $xpath . '//option[normalize-space(text())="' . $fieldValue . '"]';
+        $isSelected = $toSelect . '[@selected]';
+        if (!$this->isElementPresent($isSelected)) {
+            $this->defineParameters($toSelect, 'url');
+            $this->fillDropdown($dropDownName, $fieldValue);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
+        }
+    }
+
+    /**
      * Define Url Parameters for System Configuration page
      *
      * @param string $xpath
      * @param string $attribute
      */
-    private function _defineParameters($xpath, $attribute)
+    public function defineParameters($xpath, $attribute)
     {
         $params = $this->getAttribute($xpath . '/@' . $attribute);
         $params = explode('/', $params);
@@ -116,4 +134,13 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
+
+    /**
+     * @param $parameters
+     */
+    public function configurePaypal($parameters)
+    {
+        $this->configure($parameters);
+    }
+
 }

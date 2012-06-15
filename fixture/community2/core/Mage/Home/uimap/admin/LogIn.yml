@@ -9,9 +9,36 @@
 # @license     {license_link}
 #
 ---
+log_in_to_admin:
+    mca:
+    title:
+    uimap: 
+        form:
+            fieldsets:
+               -
+                   log_in:
+                       fields:
+                          captcha: //input[@id='captcha']
+        messages: &loginMessages
+            empty_captcha:  "//input[@id='captcha']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
+            inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+
 log_in_admin_page:
     mca: auth/login/
 
 # 'Forgot your user name or password?' page
 forgot_password:
     mca: auth/forgotpassword/
+    title:
+    uimap:
+        form: 
+            fieldsets:
+               -
+                   forgot_password:
+                       fields:
+                           captcha_field: //input[@id='captcha']
+        messages: *loginMessages
+          
+        

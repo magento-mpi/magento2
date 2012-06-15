@@ -73,8 +73,7 @@ paypaldirectuk_without_3Dsecure:
 
 paypaldirectuk_with_3Dsecure:
     configuration_scope: Default Config
-    tab_1: *enable3DSecure
-    tab_2:
+    tab_1:
         tab_name: sales_paypal
         configuration:
             email_associated_with_paypal_merchant_account: lindy_1201044142_biz@varien.com
@@ -119,8 +118,7 @@ paypaldirect_with_3Dsecure:
     configuration_scope: Default Config
     tab_1: *enablePaypal
     tab_2: *setPaypalApi
-    tab_3: *enable3DSecure
-    tab_4:
+    tab_3:
         tab_name: sales_paypal
         configuration:
             website_payments_pro: Yes
@@ -164,8 +162,7 @@ payflowpro_without_3Dsecure:
 
 payflowpro_with_3Dsecure:
     configuration_scope: Default Config
-    tab_1: *enable3DSecure
-    tab_2:
+    tab_1:
         tab_name: sales_paypal
         configuration:
             payflow_pro_gateway: Yes

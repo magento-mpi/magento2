@@ -1,0 +1,191 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+
+#*******************************************************
+#*       Test data for customer creation(Backend)      *
+#*******************************************************
+generic_customer_account:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+generic_customer_attribute:
+   input_type: Text Field
+   attribute_code: attr_%randomize%
+   default_text_field_value: attr_default_%randomize%
+   values_required: Yes
+   input_validation: None
+   min_text_length: 1
+   max_text_length: 255
+   input_filter: None
+   used_for_customer_segment: No
+   visible_on_frontend: Yes
+   sort_order: 1
+   used_in_forms: Customer Account Edit, Customer Registration
+   admin_title: Text_Field_Admin_%randomize%
+   store_view_titles:
+        Default Store View: Text_Field_StoreView
+
+customer_account_with_attribute:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+    custom_attribute: custom_attr_%randomize%
+
+#Test data for Customer Addresses file export
+generic_address:
+    prefix: %noValue%
+    first_name: Ronald
+    middle_name: J.
+    last_name: Jackson
+    suffix: %noValue%
+    company: Earl Abel's
+    street_address_line_1: 209 Capitol Avenue
+    street_address_line_2: Suite 200
+    city: Mccordsville
+    country: United States
+    state: Indiana
+    region: %noValue%
+    zip_code: 46055
+    telephone: 765-531-8811
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%
+
+customer_account_male:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+
+customer_account_male_address:
+    prefix: Prefix
+    first_name: Male First Name
+    middle_name: Male Middle Name
+    last_name: Male Last Name
+    suffix: Suffix
+    company: Magento
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: 530-918-3581
+    default_billing_address: Yes
+    default_shipping_address: Yes
+
+customer_account_female:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mrs.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Female
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+
+customer_account_female_address:
+    prefix: Prefix
+    first_name: Female First Name
+    middle_name: Female Middle Name
+    last_name: Female Last Name
+    suffix: Suffix
+    company: Magento
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: 530-918-3581
+    default_billing_address: Yes
+    default_shipping_address: Yes
+
+generic_customer_address_attribute:
+   input_type: Text Field
+   attribute_code: attr_%randomize%
+   default_text_field_value: attr_default_%randomize%
+   input_validation: None
+   min_text_length: 1
+   max_text_length: 255
+   values_required: Yes
+   input_filter: None
+   is_used_for_customer_segment: No
+   is_visible: Yes
+   sort_order: 1
+   used_in_forms: Customer Address Registration, Customer Account Address
+   admin_title: Text_Field_Admin_%randomize%
+   store_view_titles:
+        Default Store View: Text_Field_StoreView
+

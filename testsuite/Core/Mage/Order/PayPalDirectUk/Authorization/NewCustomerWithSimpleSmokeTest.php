@@ -38,11 +38,10 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     public function preconditionsForTests()
     {
         //Data
-        $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_without_3Dsecure');
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
         //Steps and Verifying
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($settings);
+        $this->systemConfigurationHelper()->configurePaypal('PaymentMethod/paypaldirectuk_without_3Dsecure');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -54,8 +53,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
             $cards[$cardName] = $info['credit_card'];
         }
 
-        return array('cards' => $cards,
-                     'sku'   => $productData['general_sku']);
+        return array('cards' => $cards, 'sku' => $productData['general_sku']);
     }
 
     /**
@@ -71,10 +69,9 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirectuk',
-                                          array('payment_info' => $testData['cards']['mastercard']));
+            array('payment_info' => $testData['cards']['mastercard']));
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $testData['sku'],
-                                             'payment_data' => $paymentData));
+            array('filter_sku'  => $testData['sku'], 'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -177,8 +174,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice',
-                                      array('invoice_product_sku' => $testData['sku']));
+        $invoice =
+            $this->loadDataSet('SalesOrder', 'products_to_invoice', array('invoice_product_sku' => $testData['sku']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -247,8 +244,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund',
-                                         array('return_filter_sku' => $testData['sku']));
+        $creditMemo =
+            $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $testData['sku']));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -477,8 +474,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-            $settings = $this->loadDataSet('PaymentMethod', 'paypaldirectuk_with_3Dsecure');
-            $this->systemConfigurationHelper()->configure($settings);
+            $this->systemConfigurationHelper()->configurePaypal('PaymentMethod/paypaldirectuk_with_3Dsecure');
+            $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
         }
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
