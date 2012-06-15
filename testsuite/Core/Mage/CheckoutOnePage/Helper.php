@@ -316,20 +316,20 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
         if ($this->isElementPresent($xpath . "[not(@style='display: none;')]")) {
-            $frame = $this->_getControlXpath('pageelement', '3d_secure_iframe');
             $xpathContinue = $this->_getControlXpath('button', '3d_continue');
-            $xpathSubmit = $this->_getControlXpath('button', '3d_submit');
+            $xpathPasswordField = $this->_getControlXpath('field', '3d_password');
             $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
-
-            if (!$this->isElementPresent($frame) || !$this->isVisible($frame)) {
+            if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
                 //Skipping test, but not failing
-                $this->markTestSkipped('3D Secure frame is not loaded(maybe wrong card)');
+                $this->skipTestWithScreenshot('3D Secure frame is not loaded');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
-            $this->selectFrame($frame);
-            $this->waitForElement($xpathSubmit);
+            $this->selectFrame($this->_getControlXpath('pageelement', '3d_secure_iframe'));
+            if (!$this->waitForElement($xpathPasswordField, 10)) {
+                $this->selectFrame('relative=top');
+            }
             $this->fillField('3d_password', $password);
-            $this->click($xpathSubmit);
+            $this->clickButton('3d_submit', false);
             $this->waitForElement(array($incorrectPassword, $xpathContinue, $xpath . "[@style='display: none;']"));
             if ($this->isElementPresent($xpathContinue)) {
                 $this->click($xpathContinue);
