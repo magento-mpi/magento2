@@ -58,6 +58,23 @@ class Mage_Install_Model_Installer_Db_Mssql extends Mage_Install_Model_Installer
         return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'sqlsrv' : 'dblib';
     }
 
+    /**
+     * Clean database
+     *
+     * @return Mage_Install_Model_Installer_Db_Mysql4
+     */
+    public function  cleanDatabase()
+    {
+        $connection = $this->_getConnection();
+        $config = $connection->getConfig();
+        $dbName = $connection->quoteIdentifier($config['dbname']);
 
+        $connection->query(
+            'IF EXISTS(SELECT * FROM SYS.DATABASES WHERE NAME = ' . $dbName . ') DROP DATABASE IF EXISTS ' . $dbName
+        );
+        $connection->query('CREATE DATABASE ' . $dbName);
+
+        return $this;
+    }
 }
 

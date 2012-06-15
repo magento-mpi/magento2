@@ -46,4 +46,21 @@ class Mage_Install_Model_Installer_Db_Mysql4 extends Mage_Install_Model_Installe
             ->fetchPairs('SHOW VARIABLES');
         return (!isset($variables['have_innodb']) || $variables['have_innodb'] != 'YES') ? false : true;
     }
+
+    /**
+     * Clean database
+     *
+     * @return Mage_Install_Model_Installer_Db_Mysql4
+     */
+    public  function  cleanDatabase()
+    {
+        $connection = $this->_getConnection();
+        $config = $connection->getConfig();
+        $dbName = $connection->quoteIdentifier($config['dbname']);
+
+        $connection->query('DROP DATABASE IF EXISTS ' . $dbName);
+        $connection->query('CREATE DATABASE ' . $dbName);
+
+        return $this;
+    }
 }
