@@ -92,7 +92,7 @@ class Mage_Backend_Model_Menu_Builder
                 );
             } else {
                 if (!isset($items[$params[$id]['parent']])) {
-                    throw new OutOfRangeException('Specified invalid parent id');
+                    throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $params[$id]['parent']));
                 }
                 $items[$params[$id]['parent']]->getChildren()->add(
                     $item,
