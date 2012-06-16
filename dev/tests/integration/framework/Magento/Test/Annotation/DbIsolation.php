@@ -28,9 +28,12 @@ class Magento_Test_Annotation_DbIsolation
     public function startTestTransactionRequest(
         PHPUnit_Framework_TestCase $test, Magento_Test_Event_Param_Transaction $param
     ) {
-        if (!$this->_isIsolationActive
-            && ($this->_isIsolationEnabled('method', $test) || $this->_isIsolationEnabled('class', $test))
-        ) {
+        $methodIsolation = $this->_getIsolation('method', $test);
+        if ($this->_isIsolationActive) {
+            if ($methodIsolation === false) {
+                $param->requestTransactionRollback();
+            }
+        } else if ($methodIsolation || ($methodIsolation === null && $this->_getIsolation('class', $test))) {
             $param->requestTransactionStart();
         }
     }
@@ -44,7 +47,7 @@ class Magento_Test_Annotation_DbIsolation
     public function endTestTransactionRequest(
         PHPUnit_Framework_TestCase $test, Magento_Test_Event_Param_Transaction $param
     ) {
-        if ($this->_isIsolationActive && $this->_isIsolationEnabled('method', $test)) {
+        if ($this->_isIsolationActive && $this->_getIsolation('method', $test)) {
             $param->requestTransactionRollback();
         }
     }
@@ -70,14 +73,18 @@ class Magento_Test_Annotation_DbIsolation
     }
 
     /**
-     * Whether database isolation is enabled for the current scope
+     * Retrieve database isolation annotation value for the current scope.
+     * Possible results:
+     *   NULL  - annotation is not defined
+     *   TRUE  - annotation is defined as 'enabled'
+     *   FALSE - annotation is defined as 'disabled'
      *
      * @param string $scope 'class' or 'method'
      * @param PHPUnit_Framework_TestCase $test
-     * @return bool
+     * @return bool|null Returns NULL, if isolation is not defined for the current scope
      * @throws Magento_Exception
      */
-    protected function _isIsolationEnabled($scope, PHPUnit_Framework_TestCase $test)
+    protected function _getIsolation($scope, PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
         if (isset($annotations[$scope]['magentoDbIsolation'])) {
@@ -89,6 +96,6 @@ class Magento_Test_Annotation_DbIsolation
             }
             return ($isolation === array('enabled'));
         }
-        return false;
+        return null;
     }
 }
