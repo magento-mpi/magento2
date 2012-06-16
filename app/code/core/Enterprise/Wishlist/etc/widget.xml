@@ -28,10 +28,10 @@
                 <visible>1</visible>
                 <label>Template</label>
                 <type>select</type>
-                <value>wishlist/widget/search.phtml</value>
+                <value>widget/search.phtml</value>
                 <values>
                     <default_template translate="label">
-                        <value>wishlist/widget/search.phtml</value>
+                        <value>widget/search.phtml</value>
                         <label>Wishlist Search Template</label>
                     </default_template>
                 </values>

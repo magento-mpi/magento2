@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Enterprise_GiftRegistry
+ * @category    Enterprise
+ * @package     Enterprise_WebsiteRestriction
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -35,15 +35,6 @@ class Enterprise_WebsiteRestriction_IndexControllerTest extends Magento_Test_Tes
         $body = $this->getResponse()->getBody();
         $this->assertContains('<h1>Cms Page Design Modern Title</h1>', $body);
         $this->assertContains('skin/frontend/default/modern/default/en_US/Mage_Page/favicon.ico', $body);
-
-        $headers = $this->getResponse()->getHeaders();
-        $is503 = false;
-        foreach ($headers as $header) {
-            if ($header['value'] == '503 Service Unavailable') {
-                $is503 = true;
-                break;
-            }
-        }
-        $this->assertTrue($is503);
+        $this->assertHeaderPcre('Http/1.1', '/^503 Service Unavailable$/');
     }
 }

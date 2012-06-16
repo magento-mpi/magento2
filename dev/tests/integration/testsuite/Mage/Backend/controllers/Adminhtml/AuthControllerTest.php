@@ -66,7 +66,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     /**
      * Check logged state
      * @covers Mage_Backend_Adminhtml_AuthController::loginAction
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDbIsolation enabled
      */
     public function testLoggedLoginAction()
     {
@@ -102,7 +102,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
 
     /**
      * @covers Mage_Backend_Adminhtml_AuthController::logoutAction
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDbIsolation enabled
      */
     public function testLogoutAction()
     {
@@ -115,7 +115,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     /**
      * @covers Mage_Backend_Adminhtml_AuthController::deniedJsonAction
      * @covers Mage_Backend_Adminhtml_AuthController::_getDeniedJson
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDbIsolation enabled
      */
     public function testDeniedJsonAction()
     {
@@ -133,7 +133,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     /**
      * @covers Mage_Backend_Adminhtml_AuthController::deniedIframeAction
      * @covers Mage_Backend_Adminhtml_AuthController::_getDeniedIframe
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDbIsolation enabled
      */
     public function testDeniedIframeAction()
     {
@@ -149,7 +149,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     /**
      * Test user logging process when user not assigned to any role
      * @dataProvider incorrectLoginDataProvider
-     * @magentoDataFixture userDataFixture
+     * @magentoDbIsolation enabled
      *
      * @param $params
      */
@@ -158,16 +158,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
         $this->getRequest()->setPost($params);
         $this->dispatch('admin/auth/login');
         $this->assertContains('Invalid User Name or Password', $this->getResponse()->getBody());
-    }
-
-    /**
-     * Empty data fixture to provide support of transaction
-     * @static
-     *
-     */
-    public static function emptyDataFixture()
-    {
-
     }
 
     public static function userDataFixture()
