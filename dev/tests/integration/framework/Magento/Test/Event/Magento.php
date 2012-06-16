@@ -31,7 +31,7 @@ class Magento_Test_Event_Magento
      *
      * @param Magento_Test_EventManager $eventManager
      */
-    public static function setDefaultEventManager(Magento_Test_EventManager $eventManager)
+    public static function setDefaultEventManager(Magento_Test_EventManager $eventManager = null)
     {
         self::$_defaultEventManager = $eventManager;
     }
@@ -51,7 +51,7 @@ class Magento_Test_Event_Magento
     }
 
     /**
-     * Handler for 'controller_front_init_before' event converts in into 'initFrontControllerBefore'
+     * Handler for 'controller_front_init_before' event, that converts it into 'initFrontControllerBefore'
      */
     public function initFrontControllerBefore()
     {

@@ -28,9 +28,10 @@ class Magento_Test_Annotation_DbIsolation
     public function startTestTransactionRequest(
         PHPUnit_Framework_TestCase $test, Magento_Test_Event_Param_Transaction $param
     ) {
-        $isMethodIsolated = $this->_isIsolationEnabled('method', $test);
-        if ($isMethodIsolated || (!$this->_isIsolationActive && $this->_isIsolationEnabled('class', $test))) {
-            $param->requestTransactionBegin();
+        if (!$this->_isIsolationActive
+            && ($this->_isIsolationEnabled('method', $test) || $this->_isIsolationEnabled('class', $test))
+        ) {
+            $param->requestTransactionStart();
         }
     }
 
@@ -49,13 +50,13 @@ class Magento_Test_Annotation_DbIsolation
     }
 
     /**
-     * Handler for 'beginTransaction' event
+     * Handler for 'startTransaction' event
      *
      * @param PHPUnit_Framework_TestCase $test
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beginTransaction(PHPUnit_Framework_TestCase $test)
+    public function startTransaction(PHPUnit_Framework_TestCase $test)
     {
         $this->_isIsolationActive = true;
     }
@@ -69,7 +70,7 @@ class Magento_Test_Annotation_DbIsolation
     }
 
     /**
-     * Whether database isolation is enabled for the current test or not
+     * Whether database isolation is enabled for the current scope
      *
      * @param string $scope 'class' or 'method'
      * @param PHPUnit_Framework_TestCase $test

@@ -30,12 +30,12 @@ class Magento_Test_Annotation_DbIsolationTest extends PHPUnit_Framework_TestCase
     {
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertTrue($eventParam->isTransactionBeginRequested());
+        $this->assertTrue($eventParam->isTransactionStartRequested());
 
         $eventParam = new Magento_Test_Event_Param_Transaction();
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertFalse($eventParam->isTransactionBeginRequested());
+        $this->assertFalse($eventParam->isTransactionStartRequested());
     }
 
     /**
@@ -45,12 +45,12 @@ class Magento_Test_Annotation_DbIsolationTest extends PHPUnit_Framework_TestCase
     {
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertTrue($eventParam->isTransactionBeginRequested());
+        $this->assertTrue($eventParam->isTransactionStartRequested());
 
         $eventParam = new Magento_Test_Event_Param_Transaction();
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertTrue($eventParam->isTransactionBeginRequested());
+        $this->assertTrue($eventParam->isTransactionStartRequested());
     }
 
     /**
@@ -79,13 +79,13 @@ class Magento_Test_Annotation_DbIsolationTest extends PHPUnit_Framework_TestCase
     {
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->endTestTransactionRequest($this, $eventParam);
-        $this->assertFalse($eventParam->isTransactionBeginRequested());
+        $this->assertFalse($eventParam->isTransactionStartRequested());
         $this->assertFalse($eventParam->isTransactionRollbackRequested());
 
         $eventParam = new Magento_Test_Event_Param_Transaction();
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object->endTestTransactionRequest($this, $eventParam);
-        $this->assertFalse($eventParam->isTransactionBeginRequested());
+        $this->assertFalse($eventParam->isTransactionStartRequested());
         $this->assertTrue($eventParam->isTransactionRollbackRequested());
     }
 }

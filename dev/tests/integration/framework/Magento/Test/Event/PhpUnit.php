@@ -31,7 +31,7 @@ class Magento_Test_Event_PhpUnit implements PHPUnit_Framework_TestListener
      *
      * @param Magento_Test_EventManager $eventManager
      */
-    public static function setDefaultEventManager(Magento_Test_EventManager $eventManager)
+    public static function setDefaultEventManager(Magento_Test_EventManager $eventManager = null)
     {
         self::$_defaultEventManager = $eventManager;
     }
@@ -40,10 +40,14 @@ class Magento_Test_Event_PhpUnit implements PHPUnit_Framework_TestListener
      * Constructor
      *
      * @param Magento_Test_EventManager $eventManager
+     * @throws Magento_Exception
      */
     public function __construct(Magento_Test_EventManager $eventManager = null)
     {
         $this->_eventManager = $eventManager ?: self::$_defaultEventManager;
+        if (!$this->_eventManager) {
+            throw new Magento_Exception('Instance of the event manager is required.');
+        }
     }
 
     /**

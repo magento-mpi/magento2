@@ -30,6 +30,18 @@ class Magento_Test_Event_MagentoTest extends PHPUnit_Framework_TestCase
         $this->_object = new Magento_Test_Event_Magento($this->_eventManager);
     }
 
+    protected function tearDown()
+    {
+        Magento_Test_Event_Magento::setDefaultEventManager(null);
+    }
+
+    public function testConstructorDefaultEventManager()
+    {
+        Magento_Test_Event_Magento::setDefaultEventManager($this->_eventManager);
+        $this->_object = new Magento_Test_Event_Magento();
+        $this->testInitFrontControllerBefore();
+    }
+
     /**
      * @dataProvider constructorExceptionDataProvider
      * @expectedException Magento_Exception

@@ -26,18 +26,18 @@ class Magento_Test_Event_Param_TransactionTest extends PHPUnit_Framework_TestCas
 
     public function testConstructor()
     {
-        $this->_object->requestTransactionBegin();
+        $this->_object->requestTransactionStart();
         $this->_object->requestTransactionRollback();
         $this->_object->__construct($this);
-        $this->assertFalse($this->_object->isTransactionBeginRequested());
+        $this->assertFalse($this->_object->isTransactionStartRequested());
         $this->assertFalse($this->_object->isTransactionRollbackRequested());
     }
 
-    public function testRequestTransactionBegin()
+    public function testRequestTransactionStart()
     {
-        $this->assertFalse($this->_object->isTransactionBeginRequested());
-        $this->_object->requestTransactionBegin();
-        $this->assertTrue($this->_object->isTransactionBeginRequested());
+        $this->assertFalse($this->_object->isTransactionStartRequested());
+        $this->_object->requestTransactionStart();
+        $this->assertTrue($this->_object->isTransactionStartRequested());
     }
 
     public function testRequestTransactionRollback()

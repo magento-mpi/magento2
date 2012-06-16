@@ -55,9 +55,9 @@ class Magento_Test_Annotation_DataFixture
             if ($this->_appliedFixtures) {
                 $param->requestTransactionRollback();
             }
-            $param->requestTransactionBegin();
+            $param->requestTransactionStart();
         } else if (!$this->_appliedFixtures && $this->_getFixtures('class', $test)) {
-            $param->requestTransactionBegin();
+            $param->requestTransactionStart();
         }
     }
 
@@ -77,11 +77,11 @@ class Magento_Test_Annotation_DataFixture
     }
 
     /**
-     * Handler for 'beginTransaction' event
+     * Handler for 'startTransaction' event
      *
      * @param PHPUnit_Framework_TestCase $test
      */
-    public function beginTransaction(PHPUnit_Framework_TestCase $test)
+    public function startTransaction(PHPUnit_Framework_TestCase $test)
     {
         $this->_applyFixtures($this->_getFixtures('method', $test) ?: $this->_getFixtures('class', $test));
     }

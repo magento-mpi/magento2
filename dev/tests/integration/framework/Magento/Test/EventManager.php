@@ -37,7 +37,7 @@ class Magento_Test_EventManager
     }
 
     /**
-     * Notify registered subscribers that are interested in event
+     * Notify registered subscribers, which are interested in event
      *
      * @param string $eventName
      * @param array $parameters Parameters to be passed to each subscriber

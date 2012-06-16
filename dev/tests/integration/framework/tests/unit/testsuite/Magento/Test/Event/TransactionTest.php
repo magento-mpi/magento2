@@ -52,12 +52,12 @@ class Magento_Test_Event_TransactionTest extends PHPUnit_Framework_TestCase
      *
      * @param string $eventName
      */
-    protected function _requestBeginTransaction($eventName)
+    protected function _imitateTransactionStartRequest($eventName)
     {
         $callback = function ($eventName, array $parameters) {
             /** @var $param Magento_Test_Event_Param_Transaction */
             $param = $parameters[1];
-            $param->requestTransactionBegin();
+            $param->requestTransactionStart();
         };
         $this->_eventManager
             ->expects($this->at(0))
@@ -68,16 +68,16 @@ class Magento_Test_Event_TransactionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Setup expectations for "begin transaction" use case
+     * Setup expectations for "transaction start" use case
      *
      * @param PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher
      */
-    protected function _expectBeginTransaction(PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher)
+    protected function _expectTransactionStart(PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher)
     {
         $this->_eventManager
             ->expects($invocationMatcher)
             ->method('fireEvent')
-            ->with('beginTransaction')
+            ->with('startTransaction')
         ;
         $this->_adapter
             ->expects($this->once())
@@ -90,7 +90,7 @@ class Magento_Test_Event_TransactionTest extends PHPUnit_Framework_TestCase
      *
      * @param string $eventName
      */
-    protected function _requestRollbackTransaction($eventName)
+    protected function _imitateTransactionRollbackRequest($eventName)
     {
         $callback = function ($eventName, array $parameters) {
             /** @var $param Magento_Test_Event_Param_Transaction */
@@ -106,11 +106,11 @@ class Magento_Test_Event_TransactionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Setup expectations for "rollback transaction" use case
+     * Setup expectations for "transaction rollback" use case
      *
      * @param PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher
      */
-    protected function _expectRollbackTransaction(PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher)
+    protected function _expectTransactionRollback(PHPUnit_Framework_MockObject_Matcher_Invocation $invocationMatcher)
     {
         $this->_eventManager
             ->expects($invocationMatcher)
@@ -126,25 +126,44 @@ class Magento_Test_Event_TransactionTest extends PHPUnit_Framework_TestCase
     /**
      * @param string $method
      * @param string $eventName
-     * @dataProvider beginAndRollbackTransactionDataProvider
+     * @dataProvider startAndRollbackTransactionDataProvider
      */
-    public function testBeginAndRollbackTransaction($method, $eventName)
+    public function testStartAndRollbackTransaction($method, $eventName)
     {
-        $this->_requestBeginTransaction($eventName);
-        $this->_expectBeginTransaction($this->at(1));
+        $this->_imitateTransactionStartRequest($eventName);
+        $this->_expectTransactionStart($this->at(1));
         $this->_object->$method($this);
 
-        $this->_requestRollbackTransaction($eventName);
-        $this->_expectRollbackTransaction($this->at(1));
+        $this->_imitateTransactionRollbackRequest($eventName);
+        $this->_expectTransactionRollback($this->at(1));
         $this->_object->$method($this);
     }
 
-    public function beginAndRollbackTransactionDataProvider()
+    public function startAndRollbackTransactionDataProvider()
     {
         return array(
             'method "startTest"' => array('startTest', 'startTestTransactionRequest'),
             'method "endTest"'   => array('endTest',   'endTestTransactionRequest'),
         );
+    }
+
+    /**
+     * @param string $method
+     * @param string $eventName
+     * @dataProvider startAndRollbackTransactionDataProvider
+     */
+    public function testDoNotStartAndRollbackTransaction($method, $eventName)
+    {
+        $this->_eventManager
+            ->expects($this->once())
+            ->method('fireEvent')
+            ->with($eventName)
+        ;
+        $this->_adapter
+            ->expects($this->never())
+            ->method($this->anything())
+        ;
+        $this->_object->$method($this);
     }
 
     public function testEndTestSuiteDoNothing()
@@ -162,10 +181,10 @@ class Magento_Test_Event_TransactionTest extends PHPUnit_Framework_TestCase
 
     public function testEndTestSuiteRollbackTransaction()
     {
-        $this->_requestBeginTransaction('startTestTransactionRequest');
+        $this->_imitateTransactionStartRequest('startTestTransactionRequest');
         $this->_object->startTest($this);
 
-        $this->_expectRollbackTransaction($this->once());
+        $this->_expectTransactionRollback($this->once());
         $this->_object->endTestSuite();
     }
 }

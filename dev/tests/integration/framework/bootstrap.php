@@ -85,7 +85,7 @@ $eventManager = new Magento_Test_EventManager(array(
     new Magento_Test_Annotation_AppIsolation(),
     new Magento_Test_Event_Transaction(new Magento_Test_EventManager(array(
         new Magento_Test_Annotation_DbIsolation(),
-        new Magento_Test_Annotation_DataFixture(dirname(__DIR__) . '/testsuite'),
+        new Magento_Test_Annotation_DataFixture("$testsBaseDir/testsuite"),
     ))),
     new Magento_Test_Annotation_ConfigFixture(),
 ));

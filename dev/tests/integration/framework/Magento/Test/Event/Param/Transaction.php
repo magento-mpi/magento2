@@ -17,7 +17,7 @@ class Magento_Test_Event_Param_Transaction
     /**
      * @var bool
      */
-    protected $_isBeginRequested;
+    protected $_isStartRequested;
 
     /**
      * @var bool
@@ -29,16 +29,16 @@ class Magento_Test_Event_Param_Transaction
      */
     public function __construct()
     {
-        $this->_isBeginRequested = false;
+        $this->_isStartRequested = false;
         $this->_isRollbackRequested = false;
     }
 
     /**
-     * Request to begin transaction
+     * Request to start transaction
      */
-    public function requestTransactionBegin()
+    public function requestTransactionStart()
     {
-        $this->_isBeginRequested = true;
+        $this->_isStartRequested = true;
     }
 
     /**
@@ -50,13 +50,13 @@ class Magento_Test_Event_Param_Transaction
     }
 
     /**
-     * Whether transaction begin has been requested or not
+     * Whether transaction start has been requested or not
      *
      * @return bool
      */
-    public function isTransactionBeginRequested()
+    public function isTransactionStartRequested()
     {
-        return $this->_isBeginRequested;
+        return $this->_isStartRequested;
     }
 
     /**

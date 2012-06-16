@@ -52,13 +52,13 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
     {
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertTrue($eventParam->isTransactionBeginRequested());
+        $this->assertTrue($eventParam->isTransactionStartRequested());
         $this->assertFalse($eventParam->isTransactionRollbackRequested());
 
         $eventParam = new Magento_Test_Event_Param_Transaction();
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertFalse($eventParam->isTransactionBeginRequested());
+        $this->assertFalse($eventParam->isTransactionStartRequested());
         $this->assertFalse($eventParam->isTransactionRollbackRequested());
     }
 
@@ -70,13 +70,13 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
     {
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertTrue($eventParam->isTransactionBeginRequested());
+        $this->assertTrue($eventParam->isTransactionStartRequested());
         $this->assertFalse($eventParam->isTransactionRollbackRequested());
 
         $eventParam = new Magento_Test_Event_Param_Transaction();
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object->startTestTransactionRequest($this, $eventParam);
-        $this->assertTrue($eventParam->isTransactionBeginRequested());
+        $this->assertTrue($eventParam->isTransactionStartRequested());
         $this->assertTrue($eventParam->isTransactionRollbackRequested());
     }
 
@@ -97,31 +97,31 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
     {
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->endTestTransactionRequest($this, $eventParam);
-        $this->assertFalse($eventParam->isTransactionBeginRequested());
+        $this->assertFalse($eventParam->isTransactionStartRequested());
         $this->assertFalse($eventParam->isTransactionRollbackRequested());
 
         $eventParam = new Magento_Test_Event_Param_Transaction();
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object->endTestTransactionRequest($this, $eventParam);
-        $this->assertFalse($eventParam->isTransactionBeginRequested());
+        $this->assertFalse($eventParam->isTransactionStartRequested());
         $this->assertTrue($eventParam->isTransactionRollbackRequested());
     }
 
-    public function testBeginTransactionClassAnnotation()
+    public function testStartTransactionClassAnnotation()
     {
         $this->_object
             ->expects($this->once())
             ->method('_applyOneFixture')
             ->with(array(__CLASS__, 'sampleFixtureOne'))
         ;
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
     }
 
     /**
      * @magentoDataFixture sampleFixtureTwo
      * @magentoDataFixture path/to/fixture/script.php
      */
-    public function testBeginTransactionMethodAnnotation()
+    public function testStartTransactionMethodAnnotation()
     {
         $this->_object
             ->expects($this->at(0))
@@ -133,7 +133,7 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
             ->method('_applyOneFixture')
             ->with($this->stringEndsWith('path/to/fixture/script.php'))
         ;
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
     }
 
     /**
@@ -142,7 +142,7 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
      */
     public function testRollbackTransactionRevertFixtureMethod()
     {
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object
             ->expects($this->once())
             ->method('_applyOneFixture')
@@ -158,7 +158,7 @@ class Magento_Test_Annotation_DataFixtureTest extends PHPUnit_Framework_TestCase
      */
     public function testRollbackTransactionRevertFixtureFile()
     {
-        $this->_object->beginTransaction($this);
+        $this->_object->startTransaction($this);
         $this->_object
             ->expects($this->once())
             ->method('_applyOneFixture')

@@ -80,22 +80,22 @@ class Magento_Test_Event_Transaction
         if ($param->isTransactionRollbackRequested()) {
             $this->_rollbackTransaction();
         }
-        if ($param->isTransactionBeginRequested()) {
-            $this->_beginTransaction($test);
+        if ($param->isTransactionStartRequested()) {
+            $this->_startTransaction($test);
         }
     }
 
     /**
-     * Begin transaction and fire 'beginTransaction' event
+     * Start transaction and fire 'startTransaction' event
      *
      * @param PHPUnit_Framework_TestCase $test
      */
-    protected function _beginTransaction(PHPUnit_Framework_TestCase $test)
+    protected function _startTransaction(PHPUnit_Framework_TestCase $test)
     {
         if (!$this->_isTransactionActive) {
             $this->_getAdapter()->beginTransparentTransaction();
             $this->_isTransactionActive = true;
-            $this->_eventManager->fireEvent('beginTransaction', array($test));
+            $this->_eventManager->fireEvent('startTransaction', array($test));
         }
     }
 
@@ -126,7 +126,7 @@ class Magento_Test_Event_Transaction
     }
 
     /**
-     * Retrieve transaction event parameter instance
+     * Retrieve clean instance of transaction event parameter
      *
      * @return Magento_Test_Event_Param_Transaction
      */
