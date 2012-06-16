@@ -43,6 +43,7 @@ class Magento_Test_Annotation_DbIsolationTest extends PHPUnit_Framework_TestCase
      */
     public function testStartTestTransactionRequestMethodAnnotation()
     {
+        $this->markTestIncomplete('MAGETWO-1332');
         $eventParam = new Magento_Test_Event_Param_Transaction();
         $this->_object->startTestTransactionRequest($this, $eventParam);
         $this->assertTrue($eventParam->isTransactionStartRequested());
