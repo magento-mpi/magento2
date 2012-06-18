@@ -66,6 +66,7 @@ class Mage_Backend_Model_Menu_Builder
 
     /**
      * @return Mage_Backend_Model_Menu
+     * @throws OutOfRangeException in case given parent id does not exists
      */
     public function getResult()
     {
@@ -90,6 +91,9 @@ class Mage_Backend_Model_Menu_Builder
                     isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
                 );
             } else {
+                if (!isset($items[$params[$id]['parent']])) {
+                    throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $params[$id]['parent']));
+                }
                 $items[$params[$id]['parent']]->getChildren()->add(
                     $item,
                     null,

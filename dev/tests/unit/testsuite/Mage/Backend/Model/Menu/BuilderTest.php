@@ -117,4 +117,24 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->_model->getResult();
     }
+
+    /**
+     * @expectedException OutOfRangeException
+     */
+    public function testGetResultSkipItemsWithInvalidParent()
+    {
+        $item1 = $this->getMock("Mage_Backend_Model_Menu_Item", array(), array(), '', false);
+        $this->_factoryMock->expects($this->any())->method('createFromArray')
+            ->will($this->returnValue($item1));
+
+        $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Add(array(
+                'id' => 'item1',
+                'parent' => 'not_exists',
+                'title' => 'Item 1',
+                'module' => 'Mage_Backend'
+            )
+        ));
+
+        $this->_model->getResult();
+    }
 }
