@@ -57,7 +57,8 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         self::$_prevProductId = $this->prevCall('catalog_product.create', $request);
         $expectedType = gettype(self::$_prevProductId);
         self::$_currProductId = $this->currCall('catalog_product.create', $request);
-        $this->assertInternalType($expectedType, self::$_currProductId, 'Product ID expected to be integer.');
+        $this->assertInternalType($expectedType, self::$_currProductId,
+            'Current API response type expected to be the same as in previous API.');
     }
 
     /**
@@ -82,7 +83,8 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $prevResponseSignature = array_keys($prevProductInfo);
         $currResponseSignature = array_keys($currProductInfo);
 
-        $this->assertEquals($prevResponseSignature, $currResponseSignature);
+        $this->assertEquals($prevResponseSignature, $currResponseSignature,
+            'Current API response signature expected to be the same as in previous API');
     }
 
     /**
@@ -112,7 +114,8 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
             'productData' => $productData
         ));
 
-        $this->assertInternalType(gettype($prevResponse), $currResponse);
+        $this->assertInternalType(gettype($prevResponse), $currResponse,
+            'Current API response type expected to be the same as in previous API.');
     }
 
     /**
@@ -134,6 +137,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
             'productId' => self::$_currProductId,
         ));
 
-        $this->assertInternalType(gettype($prevResponse), $currResponse);
+        $this->assertInternalType(gettype($prevResponse), $currResponse,
+            'Current API response type expected to be the same as in previous API.');
     }
 }
