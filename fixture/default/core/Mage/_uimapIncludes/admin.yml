@@ -54,8 +54,10 @@ admin_header:
                             qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
                             loadingHolder: "//div[@id='loading-mask'][not(contains(@style,'display:') and contains(@style,'none'))]"
-                            dropdown_option_text: "%dropdownXpath%/option[normalize-space(text())='%optionText%']"
-                            dropdown_option_selected: "%dropdownXpath%/option[@selected='selected']"
+                            dropdown_option: "%dropdownXpath%//option"
+                            dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
+                            dropdown_option_index: "%dropdownXpath%//option[%index%]"
+                            dropdown_option_selected: "%dropdownXpath%//option[@selected='selected']"
         messages:
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"

@@ -187,21 +187,21 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->fillCheckbox('shipping_same_as_billing_address', 'Yes');
         }
         if ($addressChoice == 'new') {
-            $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
-            if ($this->isElementPresent($xpath . "/option[@selected]")) {
-                $this->fillDropdown($addressType . '_address_choice', 'Add New Address', $xpath);
+            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', $addressType . '_address_choice'));
+            if ($this->controlIsPresent('pageelement', 'dropdown_option_selected')) {
+                $this->fillDropdown($addressType . '_address_choice', 'Add New Address');
                 if ($addressType == 'shipping') {
                     $this->pleaseWait();
                 }
             }
             if ($addressType == 'shipping') {
-                $this->fillDropdown('shipping_same_as_billing_address', 'No');
+                $this->fillCheckbox('shipping_same_as_billing_address', 'No');
             }
             $this->fillForm($addressData);
         }
         if ($addressChoice == 'exist') {
             if ($addressType == 'shipping') {
-                $this->fillDropdown('shipping_same_as_billing_address', 'No');
+                $this->fillCheckbox('shipping_same_as_billing_address', 'No');
             }
             $addressLine = $this->defineAddressToChoose($addressData, $addressType);
             $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
@@ -235,12 +235,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->fail('Data to select the address wrong');
         }
 
-        $xpathDropDown = $this->_getControlXpath('dropdown', $addressType . 'address_choice');
-        $addressCount = $this->getXpathCount($xpathDropDown . '/option');
+        $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', $addressType . 'address_choice'));
+        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'dropdown_option'));
 
         for ($i = 1; $i <= $addressCount; $i++) {
             $res = 0;
-            $addressValue = $this->getText($xpathDropDown . "/option[$i]");
+            $this->addParameter('index', $i);
+            $addressValue = $this->getControlAttribute('pageelement', 'dropdown_option_index', 'text');
             foreach ($inString as $v) {
                 if ($v == '') {
                     $res++;

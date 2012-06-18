@@ -44,10 +44,10 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      */
     public function findTaxTitleByName($storeView)
     {
-        $taxTitleXpath = $this->_getControlXpath('pageelement', 'tax_title_header');
-        $taxTitleQty = $this->getXpathCount($taxTitleXpath);
+        $taxTitleQty = $this->getXpathCount($this->_getControlXpath('pageelement', 'tax_title_header'));
         for ($i = 1; $i <= $taxTitleQty; $i++) {
-            $text = $this->getText($taxTitleXpath . "[$i]");
+            $this->addParameter('index', $i);
+            $text = $this->getControlAttribute('pageelement', 'tax_title_header_index', 'text');
             if ($text == $storeView) {
                 return $i;
             }

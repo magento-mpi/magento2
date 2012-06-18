@@ -52,11 +52,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function isAddressPresent(array $addressData)
     {
-        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
-        $addressCount = $this->getXpathCount($xpath);
+        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
         for ($i = $addressCount; $i > 0; $i--) {
-            $this->click($xpath . "[$i]");
-            $id = $this->getValue($xpath . "[$i]/@id");
+            $this->addParameter('index', $i);
+            $this->clickControl('pageelement', 'list_customer_address_index', false);
+            $id = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
             $arrayId = explode('_', $id);
             $id = end($arrayId);
             $this->addParameter('address_number', $id);

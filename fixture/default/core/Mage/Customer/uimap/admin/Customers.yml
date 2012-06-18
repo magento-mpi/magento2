@@ -129,6 +129,9 @@ create_customer:
                                     radiobuttons:
                                         default_billing_address: //input[@id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping_item%address_number%']
+                                    pageelements:
+                                        list_customer_address: //li
+                                        list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
                                     xpath: //div[@id='_item%address_number%address_fieldset']
@@ -212,6 +215,9 @@ edit_customer:
                                     radiobuttons:
                                         default_billing_address: //input[@id='address_item_billing%address_number%' or @id='address_item_billing_item%address_number%']
                                         default_shipping_address: //input[@id='address_item_shipping%address_number%' or @id='address_item_shipping_item%address_number%']
+                                    pageelements:
+                                        list_customer_address: //li
+                                        list_customer_address_index: //li[%index%]
                             -
                                 edit_address:
                                     xpath:  //div[@id='_item%address_number%address_fieldset']

@@ -222,6 +222,7 @@ create_tax_rate:
                             tax_title: //td[%storeNumber%]/input
                         pageelements:
                             tax_title_header: //table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th
+                            tax_title_header_index: //table[@class='form-list']//tbody/tr[@class='dynamic-grid']/th[%index%]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
