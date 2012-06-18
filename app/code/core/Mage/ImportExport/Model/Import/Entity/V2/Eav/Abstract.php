@@ -33,6 +33,34 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     protected $_indexValueAttributes = array();
 
     /**
+     * Website code-to-ID
+     *
+     * @var array
+     */
+    protected $_websiteCodeToId = array();
+
+    /**
+     * All stores code-ID pairs.
+     *
+     * @var array
+     */
+    protected $_storeCodeToId = array();
+
+    /**
+     * Entity attributes parameters
+     *
+     *  [attr_code_1] => array(
+     *      'options' => array(),
+     *      'type' => 'text', 'price', 'textarea', 'select', etc.
+     *      'id' => ..
+     *  ),
+     *  ...
+     *
+     * @var array
+     */
+    protected $_attributes = array();
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -44,6 +72,68 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
         $entityType = $eavConfig->getEntityType($this->getEntityTypeCode());
         $this->_entityTypeId = $entityType->getEntityTypeId();
     }
+
+    /**
+     * Initialize website values
+     *
+     * @param bool $withDefault
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+     */
+    protected function _initWebsites($withDefault = false)
+    {
+        /** @var $website Mage_Core_Model_Website */
+        foreach (Mage::app()->getWebsites($withDefault) as $website) {
+            $this->_websiteCodeToId[$website->getCode()] = $website->getId();
+        }
+        return $this;
+    }
+
+    /**
+     * Initialize stores data
+     *
+     * @param bool $withDefault
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+     */
+    protected function _initStores($withDefault = false)
+    {
+        /** @var $store Mage_Core_Model_Store */
+        foreach (Mage::app()->getStores($withDefault) as $store) {
+            $this->_storeCodeToId[$store->getCode()] = $store->getId();
+        }
+        return $this;
+    }
+
+    /**
+     * Initialize entity attributes
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+     */
+    protected function _initAttributes()
+    {
+        $collection = $this->_getAttributeCollection();
+        /** @var $attribute Mage_Eav_Model_Attribute */
+        foreach ($collection as $attribute) {
+            $this->_attributes[$attribute->getAttributeCode()] = array(
+                'id'          => $attribute->getId(),
+                'code'        => $attribute->getAttributeCode(),
+                'table'       => $attribute->getBackend()->getTable(),
+                'is_required' => $attribute->getIsRequired(),
+                'is_static'   => $attribute->isStatic(),
+                'rules'       => $attribute->getValidateRules() ? unserialize($attribute->getValidateRules()) : null,
+                'type'        => Mage_ImportExport_Model_Import::getAttributeType($attribute),
+                'options'     => $this->getAttributeOptions($attribute)
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve entity attribute EAV collection
+     *
+     * @abstract
+     * @return Mage_Eav_Model_Resource_Attribute_Collection
+     */
+    abstract protected function _getAttributeCollection();
 
     /**
      * Entity type ID getter
