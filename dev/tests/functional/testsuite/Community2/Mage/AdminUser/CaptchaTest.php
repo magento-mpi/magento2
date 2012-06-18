@@ -38,10 +38,13 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
 
     public function setUpBeforeTests()
     {
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $config = $this->loadDataSet('Captcha', 'enable_admin_captcha');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->admin('log_in_to_admin', false);
+        if (!$this->controlIsPresent('field', 'captcha')) {
+            $this->loginAdminUser();
+            $this->navigate('system_configuration');
+            $config = $this->loadDataSet('Captcha', 'enable_admin_captcha');
+            $this->systemConfigurationHelper()->configure($config);
+        }
     }
 
     protected function tearDownAfterTestClass()
@@ -49,10 +52,11 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
         if ($this->controlIsPresent('field', 'captcha')) {
             $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
                                'password'  => $this->_configHelper->getDefaultPassword(), 'captcha' => '1111');
+            $disCaptcha = $this->loadDataSet('AdminUsers', 'disable_admin_captcha');
             //Steps
             $this->adminUserHelper()->loginAdmin($loginData);
             $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('disable_admin_captcha');
+            $this->systemConfigurationHelper()->configure($disCaptcha);
             $this->logoutAdminUser();
         }
     }

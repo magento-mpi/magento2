@@ -10,9 +10,7 @@
 #
 ---
 log_in_to_admin:
-    mca:
-    title:
-    uimap: 
+    uimap:
         form:
             fieldsets:
                -
@@ -31,7 +29,6 @@ log_in_admin_page:
 # 'Forgot your user name or password?' page
 forgot_password:
     mca: auth/forgotpassword/
-    title:
     uimap:
         form: 
             fieldsets:
