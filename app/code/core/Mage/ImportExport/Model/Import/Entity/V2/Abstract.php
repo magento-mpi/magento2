@@ -27,7 +27,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     /**#@-*/
 
     /**
-     * DB connection.
+     * DB connection
      *
      * @var Varien_Db_Adapter_Interface
      */
@@ -140,7 +140,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      *
      * @var array
      */
-    protected $_rowsToSkip = array();
+    protected $_skippedRows = array();
 
     /**
      * Array of numbers of validated rows as keys and boolean TRUE as values
@@ -287,8 +287,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      * Add error with corresponding current data source row number
      *
      * @param string $errorCode Error code or simply column name
-     * @param int $errorRowNum Row number.
-     * @param string $colName OPTIONAL Column name.
+     * @param int $errorRowNum Row number
+     * @param string $colName OPTIONAL Column name
      * @return Mage_ImportExport_Model_Import_Adapter_Abstract
      */
     public function addRowError($errorCode, $errorRowNum, $colName = null)
@@ -428,7 +428,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     /**
      * Import process start
      *
-     * @return bool Result of operation.
+     * @return bool Result of operation
      */
     public function importData()
     {
@@ -447,7 +447,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     }
 
     /**
-     * Check one attribute. Can be overridden in child.
+     * Check one attribute can be overridden in child
      *
      * @param string $attributeCode Attribute code
      * @param array $attributeParams Attribute params
@@ -536,11 +536,11 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     public function isRowAllowedToImport(array $rowData, $rowNum)
     {
-        return $this->validateRow($rowData, $rowNum) && !isset($this->_rowsToSkip[$rowNum]);
+        return $this->validateRow($rowData, $rowNum) && !isset($this->_skippedRows[$rowNum]);
     }
 
     /**
-     * Validate data row.
+     * Validate data row
      *
      * @param array $rowData
      * @param int $rowNum

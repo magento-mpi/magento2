@@ -41,7 +41,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      *
      * @return Mage_ImportExport_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _createDataHeleperMock()
+    protected function _createDataHelperMock()
     {
         /** @var $helper Mage_ImportExport_Helper_Data */
         $helper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false);
@@ -85,7 +85,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testAddRowError()
     {
-        $this->_createDataHeleperMock();
+        $this->_createDataHelperMock();
 
         $errorCode = 'error_code ';
         $errorColumnName = 'error_column';
@@ -126,7 +126,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testAddMessageTemplate()
     {
-        $this->_createDataHeleperMock();
+        $this->_createDataHelperMock();
 
         $errorCode = 'test';
         $message = 'This is test error message';
@@ -159,13 +159,13 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     public function testIsRowAllowedToImport()
     {
         $rows = 4;
-        $rowsToSkip = array(
+        $skippedRows = array(
             2 => true,
             4 => true
         );
-        $property = new ReflectionProperty($this->_model, '_rowsToSkip');
+        $property = new ReflectionProperty($this->_model, '_skippedRows');
         $property->setAccessible(true);
-        $property->setValue($this->_model, $rowsToSkip);
+        $property->setValue($this->_model, $skippedRows);
 
         for ($i = 1; $i <= $rows; $i++) {
             $this->assertFalse($this->_model->isRowAllowedToImport(array(), $i));
@@ -177,8 +177,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
 
         for ($i = 1; $i <= $rows; $i++) {
             $expected = true;
-            if (isset($rowsToSkip[$i])) {
-                $expected = !$rowsToSkip[$i];
+            if (isset($skippedRows[$i])) {
+                $expected = !$skippedRows[$i];
             }
             $this->assertSame($expected, $this->_model->isRowAllowedToImport(array(), $i));
         }
@@ -247,7 +247,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     }
 
     /**
-     * Data provide which retrieve data of test attributes
+     * Data provide which retrieve data for test attributes
      *
      * @static
      * @return array
@@ -347,7 +347,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testValidateDataPermanentAttributes()
     {
-        $this->_createDataHeleperMock();
+        $this->_createDataHelperMock();
 
         $columns = array('test1', 'test2');
         $this->_createSourceAdapterMock($columns);
@@ -368,7 +368,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testValidateDataAttributeNames()
     {
-        $this->_createDataHeleperMock();
+        $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array('_test1'));
         $this->_model->validateData();
     }
