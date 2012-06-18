@@ -78,6 +78,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Form extends Mage_Adminhtml_
             'title'    => $helper->__('Customer Entity Type'),
             'label'    => $helper->__('Customer Entity Type'),
             'required' => false,
+            'disabled' => true,
             'values'   => Mage::getModel('Mage_ImportExport_Model_Source_Import_Customer_Entity')->toOptionArray()
         ));
 
