@@ -158,7 +158,7 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $optionValue = $this->getValue($storeViewXpath);
         //Try to select by value first, since there may be options with equal labels.
         if (isset($optionValue)) {
-            $this->select($fieldXpath, 'value=' . $optionValue);
+            $this->fillDropdown($controlName, $optionValue);
         } else {
             $this->select($fieldXpath, 'label=' . 'regexp:^\s+' . preg_quote($storeView));
         }

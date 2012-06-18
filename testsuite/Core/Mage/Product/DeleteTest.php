@@ -270,8 +270,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             $this->searchAndChoose(${'searchData' . $i});
         }
         $this->addParameter('qtyDeletedProducts', $productQty);
-        $xpath = $this->_getControlXpath('dropdown', 'product_massaction');
-        $this->select($xpath, 'Delete');
+        $this->fillDropdown('product_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');

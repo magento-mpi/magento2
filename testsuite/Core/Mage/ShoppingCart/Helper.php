@@ -347,7 +347,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
             $productCount = $this->getXpathCount($productLine);
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
-                $this->type($this->_getControlXpath('field', 'product_qty'), 0);
+                $this->fillField('product_qty', 0);
             }
             $this->clickButton('update_shopping_cart');
             $this->assertMessagePresent('success', 'shopping_cart_is_empty');

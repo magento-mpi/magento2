@@ -3386,6 +3386,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 if ($this->getSelectedValue($xpath) != $value) {
                     if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                         $this->select($xpath, 'label=' . $value);
+                    } elseif ($this->isElementPresent($xpath . "//option[@value='" . $value . "']")) {
+                        $this->select($xpath, 'value=' . $value);
                     } else {
                         $this->select($xpath, 'regexp:' . preg_quote($value));
                     }

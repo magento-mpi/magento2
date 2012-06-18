@@ -105,8 +105,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
             $this->searchAndChoose(${'searchData' . $i});
         }
         $this->addParameter('qtyDeletedCustomers', $customerQty);
-        $xpath = $this->_getControlXpath('dropdown', 'grid_massaction_select');
-        $this->select($xpath, 'Delete');
+        $this->fillDropdown('grid_massaction_select', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_customer_massaction');

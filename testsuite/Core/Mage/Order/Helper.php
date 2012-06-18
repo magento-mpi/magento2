@@ -189,7 +189,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         if ($addressChoice == 'new') {
             $xpath = $this->_getControlXpath('dropdown', $addressType . '_address_choice');
             if ($this->isElementPresent($xpath . "/option[@selected]")) {
-                $this->select($xpath, 'label=Add New Address');
+                $this->fillDropdown($addressType . '_address_choice', 'Add New Address', $xpath);
                 if ($addressType == 'shipping') {
                     $this->pleaseWait();
                 }

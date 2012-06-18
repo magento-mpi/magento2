@@ -47,16 +47,15 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     {
         $attributeSet = (isset($productData['product_attribute_set'])) ? $productData['product_attribute_set'] : null;
 
-        $attributeSetXpath = $this->_getControlXpath('dropdown', 'product_attribute_set');
-        $productTypeXpath = $this->_getControlXpath('dropdown', 'product_type');
-
+        $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'product_attribute_set'));
         if (!empty($attributeSet)) {
-            $this->select($attributeSetXpath, 'label=' . $attributeSet);
-            $attributeSetID = $this->getValue($attributeSetXpath . '/option[text()=\'' . $attributeSet . '\']');
+            $this->fillDropdown('product_attribute_set', $attributeSet);
+            $this->addParameter('optionText', $attributeSet);
+            $attributeSetID = $this->getValue($this->_getControlXpath('pageelement', 'dropdown_option_text'));
         } else {
-            $attributeSetID = $this->getValue($attributeSetXpath . "/option[@selected='selected']");
+            $attributeSetID = $this->getValue($this->_getControlXpath('pageelement', 'dropdown_option_selected'));
         }
-        $this->select($productTypeXpath, 'value=' . $productType);
+        $this->fillDropdown('product_type', $productType);
 
         $this->addParameter('setId', $attributeSetID);
         $this->addParameter('productType', $productType);
@@ -410,27 +409,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $userFieldData = $tabName . '_user_attr';
         if (array_key_exists($userFieldData, $productData) && is_array($productData[$userFieldData])) {
             foreach ($productData[$userFieldData] as $fieldType => $dataArray) {
-                if (is_array($dataArray)) {
-                    foreach ($dataArray as $fieldKey => $fieldValue) {
-                        $this->addParameter('attributeCode' . ucfirst(strtolower($fieldType)), $fieldKey);
-                        $xpath = $this->_getControlXpath($fieldType, $tabName . '_user_attr_' . $fieldType);
-                        switch ($fieldType) {
-                            case 'dropdown':
-                                $this->select($xpath, $fieldValue);
-                                break;
-                            case 'field':
-                                $this->type($xpath, $fieldValue);
-                                break;
-                            case 'multiselect':
-                                $this->removeAllSelections($xpath);
-                                $values = explode(',', $fieldValue);
-                                $values = array_map('trim', $values);
-                                foreach ($values as $v) {
-                                    $this->addSelection($xpath, $v);
-                                }
-                                break;
-                        }
-                    }
+                if (!is_array($dataArray)) {
+                    continue;
+                }
+                foreach ($dataArray as $fieldKey => $fieldValue) {
+                    $this->addParameter('attributeCode' . ucfirst(strtolower($fieldType)), $fieldKey);
+                    $fillFunction = 'fill' . ucfirst(strtolower($fieldType));
+                    $this->$fillFunction($tabName . '_user_attr_' . $fieldType, $fieldValue);
                 }
             }
         }

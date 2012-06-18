@@ -53,7 +53,7 @@ class Community2_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
                           . ucfirst(strtolower($theme)) . "']";
             $value = $this->getValue($xpathValue);
             $this->addParameter('package_theme', str_replace('/', '-', $value));
-            $this->select($xpath, 'value=' . $value);
+            $this->fillDropdown('design_package_theme', $value);
         }
         $waitCondition = array($this->_getMessageXpath('general_validation'),
                                $this->_getControlXpath('fieldset', 'layout_updates_header',
