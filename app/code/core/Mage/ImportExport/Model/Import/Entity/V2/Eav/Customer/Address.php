@@ -68,6 +68,20 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     );
 
     /**
+     * Constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->_initWebsites()
+            ->_initAttributes();
+    }
+
+
+    /**
      * Import data rows
      *
      * @abstract
@@ -117,4 +131,45 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     }
 
     // @codingStandardsIgnoreEnd
+
+    /**
+     * Retrieve entity attribute EAV collection
+     *
+     * @return Mage_Eav_Model_Resource_Attribute_Collection
+     */
+    protected function _getAttributeCollection()
+    {
+        /** @var $addressCollection Mage_Customer_Model_Resource_Address_Attribute_Collection */
+        $addressCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection');
+        $addressCollection->addSystemHiddenFilter()
+            ->addExcludeHiddenFrontendFilter();
+        return $addressCollection;
+    }
+
+    /**
+     * Load data of existed customer by email and website code
+     *
+     * @param $email
+     * @param $websiteCode
+     * @return Mage_Customer_Model_Customer
+     */
+    protected function _loadCustomerData($email, $websiteCode)
+    {
+        if (isset($this->_websiteCodeToId[$websiteCode])) {
+            /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+            $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+            $collection->addAttributeToFilter('email', $email)
+                ->addAttributeToFilter('website_id', $this->_websiteCodeToId[$websiteCode]);
+            $customer = $collection->getFirstItem();
+            if ($customer->getId()) {
+                return $customer;
+            } else {
+                return false;
+            }
+        } else {
+            Mage::throwException(
+                Mage::helper('Mage_ImportExport_Helper_Data')->__('Unknown website code')
+            );
+        }
+    }
 }
