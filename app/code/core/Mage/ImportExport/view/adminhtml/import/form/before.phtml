@@ -152,7 +152,8 @@
             // create dynamic frame
             if (!$(this.ifrElemName)) {
                 $('html-body').insert({
-                    bottom:'<iframe name="' + this.ifrElemName + '" id="' + this.ifrElemName + '" style="display:none;"/>'
+                    bottom:'<iframe name="' + this.ifrElemName + '" id="' + this.ifrElemName
+                        + '" style="display:none;"/>'
                 });
             }
 
@@ -162,7 +163,7 @@
             var oldTarget   = formElem.target;
             var oldAction   = formElem.action;
 
-            Element.clonePosition(loadingMask, $$('#html-body .wrapper')[0], {offsetLeft:-2})
+            Element.clonePosition(loadingMask, $$('#html-body .wrapper')[0], {offsetLeft:-2});
             toggleSelectsUnderBlock(loadingMask, false);
             loadingMask.show();
             setLoaderPosition();

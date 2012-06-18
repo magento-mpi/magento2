@@ -20,7 +20,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Before extends Mage_Backend_Block
     /**
      * Get JS array string of allowed customer behaviours
      *
-     * @param $importVersion
+     * @param string $importVersion
      * @return string
      */
     public function getJsAllowedCustomerBehaviours($importVersion)
@@ -28,10 +28,6 @@ class Mage_ImportExport_Block_Adminhtml_Import_Before extends Mage_Backend_Block
         /** @var $helper Mage_ImportExport_Helper_Data */
         $helper = Mage::helper('Mage_ImportExport_Helper_Data');
         $allowedBehaviours = $helper->getAllowedCustomerBehaviours($importVersion);
-        if ($allowedBehaviours) {
-            return '["' . implode('", "', $allowedBehaviours) . '"]';
-        } else {
-            return '[]';
-        }
+        return Zend_Json::encode($allowedBehaviours);
     }
 }

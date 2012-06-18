@@ -46,19 +46,18 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
     );
 
     /**
-     * Mock helper
+     * Init source model
      *
      * @static
      */
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        Mage::unregister(self::$_helperKey);
         self::$sourceModel = new Mage_ImportExport_Model_Source_Import_Entity();
     }
 
     /**
-     * Unregister helper
+     * Unregister source model and helper
      *
      * @static
      */
@@ -86,6 +85,7 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
                 ->method('__')
                 ->will($this->returnArgument(0));
 
+            Mage::unregister(self::$_helperKey);
             Mage::register(self::$_helperKey, self::$_helper);
         }
         return self::$_helper;
@@ -121,7 +121,7 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
 
         $optionalArray = self::$sourceModel->toOptionArray();
 
-        $this->assertThat($optionalArray, $this->isType('array'), 'Result variable must be an array.');
+        $this->assertInternalType('array', $optionalArray, 'Result variable must be an array.');
         $this->assertCount(2, $optionalArray);
 
         foreach ($optionalArray as $option) {

@@ -36,7 +36,7 @@ class Mage_ImportExport_Model_Source_Import_BehaviorTest extends PHPUnit_Framewo
     protected static $_helper;
 
     /**
-     * Mock helper
+     * Init source model
      *
      * @static
      */
@@ -47,7 +47,7 @@ class Mage_ImportExport_Model_Source_Import_BehaviorTest extends PHPUnit_Framewo
     }
 
     /**
-     * Unregister helper
+     * Unregister source model and helper
      *
      * @static
      */
@@ -89,7 +89,7 @@ class Mage_ImportExport_Model_Source_Import_BehaviorTest extends PHPUnit_Framewo
         $this->_initHelper();
 
         $optionalArray = self::$sourceModel->toOptionArray();
-        $this->assertThat($optionalArray, $this->isType('array'), 'Result variable must be an array.');
+        $this->assertInternalType('array', $optionalArray, 'Result variable must be an array.');
 
         foreach ($optionalArray as $option) {
             $this->assertArrayHasKey('label', $option, 'Option must have label property.');

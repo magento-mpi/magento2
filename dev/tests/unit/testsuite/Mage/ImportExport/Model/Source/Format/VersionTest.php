@@ -36,10 +36,9 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
     protected static $_helper;
 
     /**
-     * Mock helper
+     * Init source model
      *
      * @static
-     *
      */
     public static function setUpBeforeClass()
     {
@@ -48,10 +47,9 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
     }
 
     /**
-     * Unregister helper
+     * Unregister source model and helper
      *
      * @static
-     *
      */
     public static function tearDownAfterClass()
     {
@@ -91,7 +89,7 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
         $this->_initHelper();
 
         $basicArray = self::$sourceModel->toArray();
-        $this->assertThat($basicArray, $this->isType('array'), 'Result variable should be an array.');
+        $this->assertInternalType('array', $basicArray, 'Result variable must be an array.');
     }
 
     /**
@@ -102,7 +100,7 @@ class Mage_ImportExport_Model_Source_Format_VersionTest extends PHPUnit_Framewor
         $this->_initHelper();
 
         $optionalArray = self::$sourceModel->toOptionArray();
-        $this->assertThat($optionalArray, $this->isType('array'), 'Result variable should be an array.');
+        $this->assertInternalType('array', $optionalArray, 'Result variable must be an array.');
 
         $basicArray = self::$sourceModel->toArray();
         // count + 1 = all values + header

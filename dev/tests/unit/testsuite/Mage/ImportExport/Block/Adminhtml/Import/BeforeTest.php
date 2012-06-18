@@ -4,7 +4,7 @@
  *
  * @category    Magento
  * @package     Mage_ImportExport
- * @subpackage  integration_tests
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -69,11 +69,11 @@ class Mage_ImportExport_Block_Adminhtml_Import_BeforeTest extends PHPUnit_Framew
         $block = new Mage_ImportExport_Block_Adminhtml_Import_Before();
 
         $testJsBehaviours = $block->getJsAllowedCustomerBehaviours($existingVersion);
-        $correctJsBehaviours = '["' . implode('", "', $customerBehaviours) . '"]';
+        $correctJsBehaviours = Zend_Json::encode($customerBehaviours);
         $this->assertEquals($correctJsBehaviours, $testJsBehaviours, 'Incorrect JS array string.');
 
         $testJsBehaviours = $block->getJsAllowedCustomerBehaviours($notExistingVersion);
-        $correctJsBehaviours = '[]';
+        $correctJsBehaviours = Zend_Json::encode(array());
         $this->assertEquals($correctJsBehaviours, $testJsBehaviours, 'Incorrect JS array string.');
     }
 }
