@@ -40,6 +40,19 @@
 class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_TestCase
 {
     /**
+     * <p>set preconditions to run tests </p>
+     * <p>System settings:</p>
+     * <p>Secure Key is disabled</p>
+     * <p>HttpOnly cookies is disabled</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('disable_httponly');
+        $this->systemConfigurationHelper()->configure('disable_secret_key');
+    }
+    /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
      * <p>Navigate to System -> Export/p>
@@ -124,6 +137,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->fillDropdown('export_file', 'Customer Addresses');
         $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
         $report = $this->importExportHelper()->export();
+        $csv =  $this->importExportHelper()->arrayToCsv($report);
     }
 
     /**
