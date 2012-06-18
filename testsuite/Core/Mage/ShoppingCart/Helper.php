@@ -320,11 +320,9 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('shipService', $shipService);
             $this->addParameter('shipMethod', $shipMethod);
-            if ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
-                $method = $this->_getControlXpath('radiobutton', 'ship_method');
-                if ($this->isElementPresent($method)) {
-                    $this->click($method);
-                    $this->waitForAjax();
+            if ($this->controlIsPresent('field', 'ship_service_name')) {
+                if ($this->controlIsPresent('radiobutton', 'ship_method')) {
+                    $this->fillRadiobutton('ship_method', 'Yes');
                 } else {
                     $this->addVerificationMessage(
                         'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');

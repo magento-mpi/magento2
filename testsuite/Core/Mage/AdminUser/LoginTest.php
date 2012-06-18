@@ -37,9 +37,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
+        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->controlIsPresent('link', 'log_out')) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');
@@ -58,9 +57,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
-        $logOutXpath = $this->_getControlXpath('link', 'log_out');
         $this->admin('log_in_to_admin', false);
-        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->isElementPresent($logOutXpath)) {
+        if ($this->_findCurrentPageFromUrl() != 'log_in_to_admin' && $this->controlIsPresent('link', 'log_out')) {
             $this->logoutAdminUser();
         }
         $this->validatePage('log_in_to_admin');

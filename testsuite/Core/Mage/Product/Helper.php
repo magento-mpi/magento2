@@ -47,16 +47,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     {
         $attributeSet = (isset($productData['product_attribute_set'])) ? $productData['product_attribute_set'] : null;
 
-        $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'product_attribute_set'));
         if (!empty($attributeSet)) {
             $this->fillDropdown('product_attribute_set', $attributeSet);
-            $this->addParameter('optionText', $attributeSet);
-            $attributeSetID = $this->getValue($this->_getControlXpath('pageelement', 'dropdown_option_text'));
-        } else {
-            $attributeSetID = $this->getValue($this->_getControlXpath('pageelement', 'dropdown_option_selected'));
         }
         $this->fillDropdown('product_type', $productType);
 
+        $attributeSetID = $this->getControlAttribute('dropdown', 'product_attribute_set', 'selectedValue');
         $this->addParameter('setId', $attributeSetID);
         $this->addParameter('productType', $productType);
 
@@ -81,9 +77,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             foreach ($attributes as $attributeTitle) {
                 $this->addParameter('attributeTitle', $attributeTitle);
                 $xpath = $this->_getControlXpath('checkbox', 'configurable_attribute_title');
-                if ($this->isElementPresent($xpath)) {
+                if ($this->controlIsPresent('checkbox', 'configurable_attribute_title')) {
                     $attributesId[] = $this->getAttribute($xpath . '/@value');
-                    $this->click($xpath);
+                    $this->fillCheckbox('configurable_attribute_title', 'Yes');
                 } else {
                     $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
                 }
@@ -123,8 +119,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $needFilling = true;
         }
 
-        $tabXpath = $this->_getControlXpath('tab', $tabName);
-        if ($tabName == 'websites' && !$this->isElementPresent($tabXpath)) {
+        if ($tabName == 'websites' && !$this->controlIsPresent('tab', $tabName)) {
             $needFilling = false;
         }
 
@@ -280,20 +275,19 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     public function selectWebsite($websiteName, $action = 'select')
     {
         $this->addParameter('websiteName', $websiteName);
-        $websiteXpath = $this->_getControlXpath('checkbox', 'websites');
-        if ($this->isElementPresent($websiteXpath)) {
-            if ($this->getValue($websiteXpath) == 'off') {
-                switch ($action) {
-                    case 'select':
-                        $this->click($websiteXpath);
-                        break;
-                    case 'verify':
-                        $this->addVerificationMessage('Website with name "' . $websiteName . '" is not selected');
-                        break;
+        $this->assertTrue($this->controlIsPresent('checkbox', 'websites'),
+            'Website with name "' . $websiteName . '" does not exist');
+
+        switch ($action) {
+            case 'select':
+                $this->fillCheckbox('websites', 'Yes');
+                break;
+            case 'verify':
+                $currentValue = $this->getControlAttribute('checkbox', 'websites', 'value');
+                if ($currentValue == 'off' || $currentValue == '0') {
+                    $this->addVerificationMessage('Website with name "' . $websiteName . '" is not selected');
                 }
-            }
-        } else {
-            $this->fail('Website with name "' . $websiteName . '" does not exist');
+                break;
         }
     }
 
@@ -517,8 +511,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         }
         //Verify selected websites
         if (array_key_exists('websites', $nestedArrays)) {
-            $tabXpath = $this->_getControlXpath('tab', 'websites');
-            if ($this->isElementPresent($tabXpath)) {
+            if ($this->controlIsPresent('tab', 'websites')) {
                 $this->openTab('websites');
                 $websites = explode(',', $nestedArrays['websites']);
                 $websites = array_map('trim', $websites);
@@ -878,7 +871,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $this->frontend('product_page', false);
         $this->setCurrentPage($this->getCurrentLocationUimapPage()->getPageId());
         $this->addParameter('productName', $productName);
-        $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
+        $openedProductName = $this->getControlAttribute('pageelement', 'product_name', 'text');
         $this->assertEquals($productName, $openedProductName,
             "Product with name '$openedProductName' is opened, but should be '$productName'");
     }
@@ -893,8 +886,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         if ($dataForBuy) {
             $this->frontFillBuyInfo($dataForBuy);
         }
-        $xpathName = $this->getCurrentUimapPage()->getMainForm()->findPageelement('product_name');
-        $openedProductName = $this->getText($xpathName);
+        $openedProductName = $this->getControlAttribute('pageelement', 'product_name', 'text');
         $this->addParameter('productName', $openedProductName);
         $this->saveForm('add_to_cart');
         $this->assertMessageNotPresent('validation');

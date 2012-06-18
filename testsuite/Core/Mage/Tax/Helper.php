@@ -95,7 +95,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
     {
         $xpathTR = $this->search($taxSearchData, 'manage_tax_' . $type);
         $this->assertNotNull($xpathTR, 'Search item is not found');
-        $url = $this->getValue($xpathTR . '/@title');
+        $url = $this->getAttribute($xpathTR . '@title');
         switch ($type) {
             case 'rate':
                 $cellId = $this->getColumnIdByName('Name');

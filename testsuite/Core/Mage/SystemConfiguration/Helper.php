@@ -135,19 +135,16 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
     public function useHttps($path = 'admin', $useSecure = 'Yes')
     {
         $this->admin('system_configuration');
-        $xpath = $this->_getControlXpath('tab', 'general_web');
-        $this->addParameter('tabName', 'web');
-        $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
-        $secureBaseUrlXpath = $this->_getControlXpath('field', 'secure_base_url');
-        $url = preg_replace('/http(s)?/', 'https', $this->getValue($secureBaseUrlXpath));
-        $data = array('secure_base_url'             => $url,
+        $this->openConfigurationTab('general_web');
+        $secureBaseUrl = $this->getControlAttribute('field', 'secure_base_url', 'value');
+        $data = array('secure_base_url'             => preg_replace('/http(s)?/', 'https', $secureBaseUrl),
                       'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
         $this->fillForm($data, 'general_web');
         $this->clickButton('save_config');
         if ($this->getTitle() == 'Log into Magento Admin Page') {
             $this->loginAdminUser();
             $this->admin('system_configuration');
-            $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
+            $this->openConfigurationTab('web');
         }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }

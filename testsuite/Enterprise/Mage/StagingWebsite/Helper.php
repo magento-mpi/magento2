@@ -73,10 +73,9 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
     public function fillSettings(array $settings)
     {
         if ($settings) {
-            $xpath = $this->_getControlXpath('dropdown', 'source_website');
-            $websiteId = $this->getValue($xpath . '/option[text()="' . $settings['source_website'] . '"]');
-            $this->addParameter('id', $websiteId);
             $this->fillFieldset($settings, 'staging_website');
+            $websiteId = $this->getControlAttribute('dropdown', 'source_website', 'selectedValue');
+            $this->addParameter('id', $websiteId);
         }
         $this->clickButton('continue');
     }
@@ -144,12 +143,12 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
         if ($mergeConfig) {
             $this->fillForm($mergeConfig);
             if (isset($mergeConfig['merge_to'])) {
-                $xpathTo = $this->_getControlXpath('dropdown', 'merge_to');
-                $websiteToId = $this->getValue($xpathTo . '/option[text()="' . $mergeConfig['merge_to'] . '"]');
+                $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'merge_to'));
+                $this->addParameter('optionText', $mergeConfig['merge_to']);
+                $websiteToId = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
                 $this->addParameter('websiteToId', $websiteToId);
                 if (isset($mergeConfig['define_stores'])) {
-                    $xpathFrom = $this->_getControlXpath('pageelement', 'merge_from');
-                    $websiteFromId = $this->getValue($xpathFrom);
+                    $websiteFromId = $this->getControlAttribute('pageelement', 'merge_from', 'value');;
                     $this->addParameter('websiteFromId', $websiteFromId);
                     $i = 3;
                     foreach ($mergeConfig['define_stores'] as $storeViews) {

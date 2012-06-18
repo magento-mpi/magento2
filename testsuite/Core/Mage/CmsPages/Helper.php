@@ -121,13 +121,13 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
      */
     public function selectOptionItem($optionData)
     {
-        $buttonXpath = $this->_getControlXpath('button', 'select_option');
         $name = '';
-        if ($this->isElementPresent($buttonXpath)) {
-            $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $this->getText($buttonXpath))), '_');
-            $this->click($buttonXpath);
+        if ($this->controlIsPresent('button', 'select_option')) {
+            $text = $this->getControlAttribute('button', 'select_option', 'text');
+            $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $text)), '_');
+            $this->clickButton('select_option', false);
             $this->waitForAjax();
-            if (!$this->isElementPresent($this->_getControlXpath('fieldset', $name))) {
+            if (!$this->controlIsPresent('fieldset', $name)) {
                 $this->fail($name . ' fieldset is not loaded');
             }
         } else {
@@ -172,8 +172,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     public function checkChosenOption($option)
     {
         $this->addParameter('elementName', $option);
-        $xpathOption = $this->_getControlXpath('pageelement', 'chosen_option_verify');
-        if (!$this->isElementPresent($xpathOption)) {
+        if (!$this->controlIsPresent('pageelement', 'chosen_option_verify')) {
             $this->fail('The element ' . $option . ' was not selected');
         }
     }

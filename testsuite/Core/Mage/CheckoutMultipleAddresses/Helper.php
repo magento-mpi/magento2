@@ -124,16 +124,16 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         //not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->validatePage('checkout_multishipping_success_order');
-        $xpath = $this->_getControlXpath('link', 'all_order_number');
-        if ($this->isElementPresent($xpath)) {
-            $count = $this->getXpathCount($xpath);
+        if ($this->controlIsPresent('link', 'all_order_number')) {
+            $count = $this->getXpathCount($this->_getControlXpath('link', 'all_order_number'));
             $id = array();
             for ($i = 1; $i <= $count; $i++) {
-                $id[] = $this->getText($xpath . '[' . $i . ']');
+                $this->addParameter('index', $i);
+                $id[] = $this->getControlAttribute('link', 'all_order_number_index', 'text');
             }
             return $id;
         }
-        return $this->formOrderIdsArray($this->getText("//*[contains(text(),'Your order')]"));
+        return $this->formOrderIdsArray($this->getControlAttribute('message', 'message_with_order_ids', 'text'));
     }
 
     /**
@@ -202,7 +202,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             $this->addParameter('productName', $productName);
             $isVirtual = false;
             if (!$this->controlIsPresent('dropdown', 'is_any_address_choice')) {
-                $productInCard = $this->getAttribute($this->_getControlXpath('field', 'product_qty') . '@value');
+                $productInCard = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
                 $isVirtual = true;
             } else {
                 $productInCard = $this->getXpathCount($this->_getControlXpath('link', 'product'));
@@ -344,7 +344,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             }
             $xpath = $this->_getControlXpath('pageelement', $addressType . '_method_address') . '/text()';
             if ($addressType == 'shipping') {
-                $header = $this->getText($this->_getControlXpath('pageelement', 'shipping_method_address_header'));
+                $header = $this->getControlAttribute('pageelement', 'shipping_method_address_header', 'text');
             } else {
                 $header = $z;
             }
@@ -378,20 +378,17 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('shipService', $service);
             $this->addParameter('shipMethod', $method);
-            $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
-            $noShipping = $this->_getControlXpath('message', 'no_shipping');
-            if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
+            if ($this->controlIsPresent('message', 'ship_method_unavailable')
+                || $this->controlIsPresent('message', 'no_shipping')
+            ) {
                 //@TODO
                 //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                 $this->skipTestWithScreenshot('Shipping Service "' . $service . '" is currently unavailable.');
                 //$this->addVerificationMessage('Shipping Service "' . $service . '" is currently unavailable.');
-            } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
-                $methodXpath = $this->_getControlXpath('radiobutton', 'ship_method');
-                $selectedMethod = $this->_getControlXpath('radiobutton', 'one_method_selected');
-                if ($this->isElementPresent($methodXpath)) {
-                    $this->click($methodXpath);
-                    $this->waitForAjax();
-                } elseif (!$this->isElementPresent($selectedMethod)) {
+            } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
+                if ($this->controlIsPresent('radiobutton', 'ship_method')) {
+                    $this->fillRadiobutton('ship_method', 'Yes');
+                } elseif (!$this->controlIsPresent('radiobutton', 'one_method_selected')) {
                     $this->addVerificationMessage(
                         'Shipping Method "' . $method . '" for "' . $service . '" is currently unavailable');
                 }
@@ -456,18 +453,16 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : array();
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);
-            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
-            $selectedPayment = $this->_getControlXpath('radiobutton', 'selected_one_payment');
-            if ($this->isElementPresent($xpath)) {
-                $this->click($xpath);
-            } elseif (!$this->isElementPresent($selectedPayment)) {
+            if ($this->controlIsPresent('radiobutton', 'check_payment_method')) {
+                $this->fillRadiobutton('check_payment_method', 'Yes');
+                if ($card) {
+                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'selectedValue');
+                    $this->addParameter('paymentId', $paymentId);
+                    $this->fillFieldset($card, 'payment_method');
+                }
+            } elseif (!$this->controlIsPresent('radiobutton', 'selected_one_payment')) {
                 $this->addVerificationMessage('Payment Method "' . $payment . '" is currently unavailable.');
                 return false;
-            }
-            if ($card) {
-                $paymentId = $this->getAttribute($xpath . '@value');
-                $this->addParameter('paymentId', $paymentId);
-                $this->fillFieldset($card, 'payment_method');
             }
         }
         return true;
@@ -595,7 +590,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 'Billing Address is wrong for orders. [must be : ' . implode(',', $billing) . ']');
         }
         //Verify selected Payment Method for orders
-        $actualPayment = trim($this->getText($this->_getControlXpath('pageelement', 'payment_method')));
+        $actualPayment = $this->getControlAttribute('pageelement', 'payment_method', 'text');
         if ($actualPayment !== $expectedPayment) {
             $this->addVerificationMessage(
                 'Payment Method is wrong. [' . $actualPayment . ' selected, but must be : ' . $expectedPayment . ']');
@@ -635,7 +630,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             }
             $this->assertEquals($expected, $withoutPrices);
         } else {
-            $ordersData['grand_total'] = $this->getText($this->_getControlXpath('pageelement', 'grand_total'));
+            $ordersData['grand_total'] = $this->getControlAttribute('pageelement', 'grand_total', 'text');
             $this->assertEquals($verifyPrices, $ordersData);
         }
     }
@@ -648,7 +643,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $addressData = array();
         if ($this->getParameter('addressHeader') != 'Other Items in Your Order') {
             //Get order shipping method data
-            $shipping = trim($this->getText($this->_getControlXpath('pageelement', 'shipping_method')));
+            $shipping = $this->getControlAttribute('pageelement', 'shipping_method', 'text');
             list($service, $methodAndPrice) = array_map('trim', explode('-', $shipping));
             preg_match_all('/\([A-Za-z]+\. [A-Za-z]+ ([^0-9\s]+)?(([\d]+\.[\d]+)|([\d]+))\)/', $methodAndPrice, $temp);
             $severalPrices = (isset($temp[0][0])) ? $temp[0][0] : '';

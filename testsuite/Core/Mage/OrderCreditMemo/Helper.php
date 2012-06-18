@@ -90,8 +90,7 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
             }
             $this->addParameter('sku', $productSku);
             $this->addParameter('refundedQty', $qty);
-            $xpathShipped = $this->_getControlXpath('field', 'qty_refunded');
-            $this->assertTrue($this->isElementPresent($xpathShipped),
+            $this->assertTrue($this->controlIsPresent('field', 'qty_refunded'),
                     'Qty of refunded products is incorrect at the orders form');
         }
     }

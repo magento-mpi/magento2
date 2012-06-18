@@ -76,8 +76,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
         $this->clickControl('link', 'checkout');
         $this->validatePage('shopping_cart');
         //Verifying
-        $this->assertElementPresent($this->_getControlXpath('message', 'shopping_cart_is_empty'),
-                                    'Shopping cart is not empty');
+        $this->assertTrue($this->controlIsPresent('message', 'shopping_cart_is_empty'), 'Shopping cart is not empty');
     }
 
     /**

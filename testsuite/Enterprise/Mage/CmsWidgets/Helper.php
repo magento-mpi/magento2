@@ -43,8 +43,9 @@ class Enterprise_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
     public function fillWidgetSettings(array $settings)
     {
         if ($settings) {
-            $xpath = $this->_getControlXpath('dropdown', 'type');
-            $type = $this->getValue($xpath . '/option[text()="' . $settings['type'] . '"]');
+            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'type'));
+            $this->addParameter('optionText', $settings['type']);
+            $type = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
             $this->addParameter('type', str_replace('/', '-', $type));
             $packageTheme = array_map('trim', (explode('/', $settings['design_package_theme'])));
             $this->addParameter('package', $packageTheme[0]);

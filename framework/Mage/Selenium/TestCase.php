@@ -1878,6 +1878,65 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Get control attribute
+     *
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param string $attribute
+     *
+     * @return string
+     */
+    public function getControlAttribute($controlType, $controlName, $attribute)
+    {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        switch ($attribute) {
+            case 'selectedValue':
+                if ($controlType == 'dropdown') {
+                    $element = $this->getSelectedValue($locator);
+                } elseif ($controlType == 'multiselect') {
+                    $element = $this->getSelectedValues($locator);
+                } else {
+                    $element = $this->getAttribute($locator . '@value');
+                }
+                break;
+            case 'selectedId':
+                if ($controlType == 'dropdown') {
+                    $element = $this->getSelectedId($locator);
+                } elseif ($controlType == 'multiselect') {
+                    $element = $this->getSelectedIds($locator);
+                } else {
+                    $element = $this->getAttribute($locator . '@id');
+                }
+                break;
+            case 'selectedLabel':
+                if ($controlType == 'dropdown') {
+                    $element = $this->getSelectedLabel($locator);
+                } elseif ($controlType == 'multiselect') {
+                    $element = $this->getSelectedLabels($locator);
+                } else {
+                    $element = $this->getText($locator);
+                }
+                break;
+            case 'value':
+                $element = $this->getValue($locator);
+                break;
+            case 'text':
+                $element = $this->getText($locator);
+                break;
+            default:
+                $element = $this->getAttribute($locator . '@' . $attribute);
+                break;
+        }
+
+        if (is_array($element)) {
+            $element = array_map('trim', $element);
+        } else {
+            $element = trim($element);
+        }
+        return $element;
+    }
+
+    /**
      * Gets XPath of a message with the specified name.
      *
      * @param string $message Name of a message from UIMap
@@ -2306,6 +2365,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $xpath = $this->_getControlXpath($controlType, $controlName);
         if ($this->isElementPresent($xpath) && $this->isVisible($xpath)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     *
+     * @return bool
+     */
+    public function controlIsEditable($controlType, $controlName)
+    {
+        $xpath = $this->_getControlXpath($controlType, $controlName);
+        if ($this->isElementPresent($xpath) && $this->isEditable($xpath)) {
             return true;
         }
 

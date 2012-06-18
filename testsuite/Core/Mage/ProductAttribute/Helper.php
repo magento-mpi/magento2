@@ -191,7 +191,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
 
         foreach ($attrData as $fKey => $dValue) {
             if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
-                if ($this->isElementPresent($fieldSetXpath)) {
+                if ($this->controlIsPresent('fieldset', 'manage_options')) {
                     $optionCount = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
 
                     switch ($action) {

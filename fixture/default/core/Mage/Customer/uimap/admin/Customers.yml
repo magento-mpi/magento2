@@ -91,12 +91,12 @@ create_customer:
                                 account_info:
                                     xpath: //div[@id='_accountbase_fieldset']
                                     checkboxes:
-                                        send_welcome_email: //input[@id='_accountsendemail' and not(@disabled)]
+                                        send_welcome_email: //input[@id='_accountsendemail']
                                     dropdowns:
                                         associate_to_website: //select[@id='_accountwebsite_id']
                                         group: //select[@id='_accountgroup_id']
                                         gender: //select[@id='_accountgender']
-                                        send_from: //select[@id='_accountsendemail_store_id' and not(@disabled)]
+                                        send_from: //select[@id='_accountsendemail_store_id']
                                     fields:
                                         prefix: //input[@id='_accountprefix']
                                         first_name: //input[@id='_accountfirstname']

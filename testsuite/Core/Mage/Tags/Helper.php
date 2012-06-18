@@ -197,7 +197,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->fillForm($tagData);
         if ($prodTagAdmin) {
             // Add tag name to parameters
-            $tagName = $this->getValue($this->_getControlXpath('field', 'tag_name'));
+            $tagName = $this->getControlAttribute('field', 'tag_name', 'value');
             $this->addParameter('tagName', $tagName);
             //Fill additional options
             $this->clickButton('save_and_continue_edit');

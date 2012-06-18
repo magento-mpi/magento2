@@ -75,6 +75,7 @@ checkout_multishipping_login:
             short_passwords: //div[@id='advice-validate-password-password']
             email_exists: //li[span='There is already an account with this email address. If you are sure that it is your email address, click here to get your password and access your account.']
             shopping_cart_is_empty: //h1[contains(.,'Shopping Cart is Empty')]
+            message_with_order_ids: //*[contains(text(),'Your order')]
 
 checkout_multishipping_login_with_params:
     mca: checkout/multishipping/login/?no_cache=
@@ -449,6 +450,7 @@ checkout_multishipping_success_order:
                         xpath: //div[div/h1[text()='Order Success']]
                         links:
                             all_order_number: //a
+                            all_order_number_index: //a[%index%]
                             order_number: //a[text()='%orderId%']
                         buttons:
                             continue_shopping: //button[span='Continue Shopping']

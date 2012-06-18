@@ -129,14 +129,8 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
         //Click 'Add New Customer' button.
         $this->clickButton('add_new_customer');
         // Verify that 'send_from' field is present
-        if (array_key_exists('send_from', $userData)) {
-            $page = $this->getCurrentUimapPage();
-            $tab = $page->findTab('account_information');
-            $pattern = preg_quote(' and not(@disabled)');
-            $xpath = preg_replace("/$pattern/", '', $tab->findDropdown('send_from'));
-            if (!$this->isElementPresent($xpath)) {
-                unset($userData['send_from']);
-            }
+        if (array_key_exists('send_from', $userData) && !$this->controlIsPresent('dropdown', 'send_from')) {
+            unset($userData['send_from']);
         }
         //Fill in 'Account Information' tab
         $this->fillForm($userData, 'account_information');

@@ -195,23 +195,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 }
             }
             if ($addressType == 'shipping') {
-                $xpath = $this->_getControlXpath('checkbox', 'shipping_same_as_billing_address');
-                $value = $this->getValue($xpath);
-                if ($value == 'on') {
-                    $this->click($xpath);
-                    $this->pleaseWait();
-                }
+                $this->fillDropdown('shipping_same_as_billing_address', 'No');
             }
             $this->fillForm($addressData);
         }
         if ($addressChoice == 'exist') {
             if ($addressType == 'shipping') {
-                $xpath = $this->_getControlXpath('checkbox', 'shipping_same_as_billing_address');
-                $value = $this->getValue($xpath);
-                if ($value == 'on') {
-                    $this->click($xpath);
-                    $this->pleaseWait();
-                }
+                $this->fillDropdown('shipping_same_as_billing_address', 'No');
             }
             $addressLine = $this->defineAddressToChoose($addressData, $addressType);
             $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
@@ -410,16 +400,15 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);
-            $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
-            if (!$this->isElementPresent($xpath)) {
+            if (!$this->controlIsPresent('radiobutton', 'check_payment_method')) {
                 if ($validate) {
                     $this->fail('Payment Method "' . $payment . '" is currently unavailable.');
                 }
             } else {
-                $this->click($xpath);
+                $this->fillRadiobutton('check_payment_method', 'Yes');
                 $this->pleaseWait();
                 if ($card) {
-                    $paymentId = $this->getAttribute($xpath . '/@value');
+                    $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'selectedValue');
                     $this->addParameter('paymentId', $paymentId);
                     $this->fillForm($card);
                     $this->validate3dSecure();
@@ -449,16 +438,16 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $text = $this->getAlert();
                 $this->fail($text);
             }
-            if (!$this->isElementPresent($frame) || !$this->isVisible($frame)) {
+            if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
             $this->selectFrame($frame);
             $this->waitForElement($xpathSubmit);
             $this->fillField('3d_password', $password);
-            $this->click($xpathSubmit);
+            $this->clickButton('3d_submit', false);
             $this->waitForElement(array($incorrectPassword, $xpathContinue, $verificationSuccessful));
-            if ($this->isElementPresent($xpathContinue)) {
-                $this->click($xpathContinue);
+            if ($this->controlIsPresent('button', '3d_continue')) {
+                $this->clickButton('3d_continue', false);
                 $this->waitForElementNotPresent($xpathContinue);
                 $this->waitForElement($verificationSuccessful);
             }
@@ -487,25 +476,26 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         } else {
             $this->addParameter('shipService', $shipService);
             $this->addParameter('shipMethod', $shipMethod);
-            $methodUnavailable = $this->_getControlXpath('message', 'ship_method_unavailable');
-            $noShipping = $this->_getControlXpath('message', 'no_shipping');
-            if ($this->isElementPresent($methodUnavailable) || $this->isElementPresent($noShipping)) {
+            if ($this->controlIsPresent('message', 'ship_method_unavailable')
+                || $this->controlIsPresent('message', 'no_shipping')
+            ) {
                 if ($validate) {
-                    //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
+                    //@TODO
+                    //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                     $this->skipTestWithScreenshot('Shipping Service "' . $shipService . '" is currently unavailable.');
                     //$this->addVerificationMessage('Shipping Service "' . $shipService . '" is currently unavailable.');
                 }
-            } elseif ($this->isElementPresent($this->_getControlXpath('field', 'ship_service_name'))) {
-                $method = $this->_getControlXpath('radiobutton', 'ship_method');
-                if ($this->isElementPresent($method)) {
-                    $this->click($method);
+            } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
+                if ($this->controlIsPresent('radiobutton', 'ship_method')) {
+                    $this->fillRadiobutton('ship_method', 'Yes');
                     $this->pleaseWait();
                 } elseif ($validate) {
                     $this->addVerificationMessage(
                         'Shipping Method "' . $shipMethod . '" for "' . $shipService . '" is currently unavailable.');
                 }
             } elseif ($validate) {
-                //@TODO Remove workaround for getting fails, not skipping tests if shipping methods are not available
+                //@TODO
+                //Remove workaround for getting fails, not skipping tests if shipping methods are not available
                 $this->skipTestWithScreenshot($shipService . ': This shipping method is currently not displayed');
                 //$this->addVerificationMessage($shipService . ': This shipping method is currently not displayed');
             }
@@ -627,8 +617,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $coup[] = $coupons;
             $coupons = $coup;
         }
-        $xpath = $this->_getControlXpath('fieldset', 'order_apply_coupon_code');
-        if (!$this->isElementPresent($xpath) && $coupons) {
+        if (!$this->controlIsPresent('fieldset', 'order_apply_coupon_code') && $coupons) {
             $this->fail('Can not add coupon(Product is not added)');
         }
 
@@ -782,17 +771,17 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      */
     public function verifyIfCreditCardFieldsAreEmpty(array $cardData)
     {
-        $fieldset = $this->getCurrentUimapPage()->findFieldset('order_payment_method');
-        $emptyFields = $this->_getFormDataMap(array($fieldset), $cardData);
-        foreach ($emptyFields as $fieldName => $fieldData) {
-            $value = 'not_set';
-            if ($fieldData['type'] == 'field') {
-                $value = $this->getAttribute($fieldData['path'] . '@value');
-            } elseif ($fieldData['type'] == 'dropdown') {
-                $value = $this->getSelectedLabel($fieldData['path']);
-            }
-            if ($value == $fieldData['value']) {
-                $this->addVerificationMessage("Value for field " . $fieldName . " should be empty, but now is $value");
+        $fieldsetElements = $this->_findUimapElement('fieldset', 'order_payment_method')->getFieldsetElements();
+        foreach ($cardData as $fieldName => $fieldData) {
+            foreach ($fieldsetElements as $elementType => $elementsData) {
+                if (array_key_exists($fieldName, $elementsData)) {
+                    $selectedValue = $this->getControlAttribute($elementType, $fieldName, 'selectedValue');
+                    if ($selectedValue == $fieldData) {
+                        $this->addVerificationMessage(
+                            "Value for field " . $fieldName . " should be empty, but now is $selectedValue");
+                    }
+                    continue 1;
+                }
             }
         }
     }

@@ -75,8 +75,7 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
             }
             $this->addParameter('sku', $productSku);
             $this->addParameter('shippedQty', $qty);
-            $xpathShipped = $this->_getControlXpath('field', 'qty_shipped');
-            $this->assertTrue($this->isElementPresent($xpathShipped),
+            $this->assertTrue($this->controlIsPresent('field', 'qty_shipped'),
                 'Qty of shipped products is incorrect at the orders form');
         }
     }

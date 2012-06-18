@@ -149,8 +149,8 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
     public function verifyPageelement($elementName, $expectedValue)
     {
         $resultFlag = true;
-        $elementXpath = $this->_getControlXpath('pageelement',$elementName);
-        if ($this->isElementPresent($elementXpath)) {
+        $elementXpath = $this->_getControlXpath('pageelement', $elementName);
+        if ($this->controlIsPresent('pageelement', $elementName)) {
             $val = $this->getElementByXpath($elementXpath);
             if ($val != $expectedValue) {
                 $this->addVerificationMessage(

@@ -77,8 +77,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         }
         foreach ($attrGroup as $value) {
             $this->addParameter('folderName', $value);
-            $groupXpath = $this->_getControlXpath('link', 'group_folder');
-            if (!$this->isElementPresent($groupXpath)) {
+            if (!$this->controlIsPresent('link', 'group_folder')) {
                 $this->answerOnNextPrompt($value);
                 $this->clickButton('add_group', false);
                 $this->getPrompt();
@@ -104,16 +103,16 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
             $this->addParameter('folderName', $groupName);
             foreach ($attributeCode as $value) {
                 $this->addParameter('attributeName', $value);
-                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
-                $elTo = $this->_getControlXpath('link', 'group_folder');
-                if (!$this->isElementPresent($elTo)) {
+                if (!$this->controlIsPresent('link', 'group_folder')) {
                     $this->addNewGroup($groupName);
                 }
-                if (!$this->isElementPresent($elFrom)) {
+                if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
                     $this->fail("Attribute with title '$value' does not exist");
                 }
                 $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
                 $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups_content');
+                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
+                $elTo = $this->_getControlXpath('link', 'group_folder');
                 $this->clickAt($elFrom, '1,1');
                 $this->clickAt($elTo, '1,1');
                 $this->mouseDownAt($elFrom, '1,1');

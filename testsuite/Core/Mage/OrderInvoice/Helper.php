@@ -92,8 +92,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
             }
             $this->addParameter('sku', $productSku);
             $this->addParameter('invoicedQty', $qty);
-            $xpathInvoiced = $this->_getControlXpath('field', 'qty_invoiced');
-            $this->assertTrue($this->isElementPresent($xpathInvoiced),
+            $this->assertTrue($this->controlIsPresent('field', 'qty_invoiced'),
                 'Qty of invoiced products is incorrect at the orders form');
         }
     }

@@ -61,12 +61,11 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function chooseStoreView($storeViewName)
     {
-
         $fieldXpath = $this->_getControlXpath('dropdown', 'choose_store_view');
-        if (!$this->isElementPresent($fieldXpath) || !$this->isEditable($fieldXpath)) {
+        if (!$this->controlIsEditable('dropdown', 'choose_store_view')) {
             throw new PHPUnit_Framework_Exception($fieldXpath . ' dropdown is either not present or disabled.');
         }
-        if ($this->getSelectedValue($fieldXpath) == $storeViewName) {
+        if ($this->getControlAttribute('dropdown', 'choose_store_view', 'selectedValue') == $storeViewName) {
             return;
         }
         $complexValue = explode('/', $storeViewName);

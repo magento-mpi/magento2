@@ -150,11 +150,10 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
             if (!$this->controlIsPresent('checkbox', 'delete_image')) {
                 $this->addVerificationMessage('Checkbox  \'Delete Image\' is not on page.');
             }
-            $imageXpath = $this->_getControlXpath('pageelement', 'gift_wrapping_image');
-            if (!$this->isElementPresent($imageXpath)) {
+            if (!$this->controlIsPresent('pageelement', 'gift_wrapping_image')) {
                 $this->addVerificationMessage('Image is not uploaded.');
             } else {
-                $actualImageTitle = $this->getAttribute($imageXpath . '@title');
+                $actualImageTitle = $this->getControlAttribute('pageelement', 'gift_wrapping_image', 'title');
                 $expectedImageTitle = implode('(_(\d)+)?\.', explode('.', $image));
                 if (!preg_match("/$expectedImageTitle/", $actualImageTitle)) {
                     $this->addVerificationMessage(
