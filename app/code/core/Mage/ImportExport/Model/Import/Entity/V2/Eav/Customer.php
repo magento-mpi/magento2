@@ -56,6 +56,20 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     protected $_newCustomers = array();
 
     /**
+     * Existing customers information. In form of:
+     *
+     * [customer e-mail] => array(
+     *    [website code 1] => customer_id 1,
+     *    [website code 2] => customer_id 2,
+     *           ...       =>     ...      ,
+     *    [website code n] => customer_id n,
+     * )
+     *
+     * @var array
+     */
+    protected $_oldCustomers = array();
+
+    /**
      * Array of attribute codes which will be ignored in validation and import procedures.
      * For example, when entity attribute has own validation and import procedures
      * or just to deny this attribute processing.
@@ -79,7 +93,27 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
 
         $this->_initWebsites(true)
             ->_initStores(true)
-            ->_initAttributes();
+            ->_initAttributes()
+            ->_initCustomers();
+    }
+
+    /**
+     * Initialize existent customers data
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
+     */
+    protected function _initCustomers()
+    {
+        /** @var $customer Mage_Customer_Model_Customer */
+        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection') as $customer) {
+            $email = strtolower($customer->getEmail());
+            if (!isset($this->_oldCustomers[$email])) {
+                $this->_oldCustomers[$email] = array();
+            }
+            $this->_oldCustomers[$email][$customer->getWebsiteId()] = $customer->getId();
+        }
+
+        return $this;
     }
 
     /**
@@ -164,7 +198,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 }
                 if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                     $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                } elseif ($attributeParams['is_required'] && !$this->_loadCustomerData($email, $website)) {
+                } elseif ($attributeParams['is_required'] && !$this->_isCustomerExists($email, $website)) {
                     $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
                 }
             }
@@ -174,27 +208,17 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     }
 
     /**
-     * Load data of existed customer by email and website code
+     * Check is customer existed in database
      *
-     * @param $email
-     * @param $websiteCode
-     * @return Mage_Customer_Model_Customer|bool
+     * @param string $email
+     * @param string $websiteCode
+     * @return bool
      */
-    protected function _loadCustomerData($email, $websiteCode)
+    protected function _isCustomerExists($email, $websiteCode)
     {
         if (isset($this->_websiteCodeToId[$websiteCode])) {
-            /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-            $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-            $collection->addAttributeToFilter('email', $email)
-                ->addAttributeToFilter('website_id', $this->_websiteCodeToId[$websiteCode]);
-            $customer = $collection->getFirstItem();
-            if ($customer->getId()) {
-                return $customer;
-            }
-        } else {
-            Mage::throwException(
-                Mage::helper('Mage_ImportExport_Helper_Data')->__('Unknown website code')
-            );
+            $websiteId = $this->_websiteCodeToId[$websiteCode];
+            return isset($this->_oldCustomers[$email][$websiteId]);
         }
 
         return false;
