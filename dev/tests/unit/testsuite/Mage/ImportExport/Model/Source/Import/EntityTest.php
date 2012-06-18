@@ -96,23 +96,19 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
      */
     protected function _mockConfig()
     {
-        $configXml = '
-            <config>
-                <global>
-                    <importexport>
-                        <import_entities>
-                            <' . $this->_testEntity['node'] . ' translate="label">
-                                <model_token>Some_Class</model_token>
-                                <label>' . $this->_testEntity['label'] . '</label>
-                            </' . $this->_testEntity['node'] . '>
-                        </import_entities>
-                    </importexport>
-                </global>
-            </config>
-        ';
+        $configObject = new Mage_Core_Model_Config_Base(new Varien_Simplexml_Element('<config></config>'));
+        $configObject->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/model_token',
+            'Some_Class'
+        );
+        $configObject->setNode(
+            'global/importexport/import_entities/' . $this->_testEntity['node'] . '/label',
+            $this->_testEntity['label']
+        );
+
         $config = new ReflectionProperty('Mage', '_config');
         $config->setAccessible(true);
-        $config->setValue(null, new Mage_Core_Model_Config_Base($configXml));
+        $config->setValue(null, $configObject);
     }
 
     /**
