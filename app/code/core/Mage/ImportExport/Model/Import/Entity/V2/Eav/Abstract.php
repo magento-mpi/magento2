@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
-    extends Mage_ImportExport_Model_Import_Entity_Abstract
+    extends Mage_ImportExport_Model_Import_Entity_V2_Abstract
 {
     /**
      * Entity type id
