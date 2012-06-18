@@ -75,9 +75,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
         $this->_particularAttributes[] = self::COLUMN_STORE;
         $this->_permanentAttributes[]  = self::COLUMN_EMAIL;
         $this->_permanentAttributes[]  = self::COLUMN_WEBSITE;
+        $this->_indexValueAttributes[] ='group_id';
 
-        $this->_initWebsites()
-            ->_initStores()
+        $this->_initWebsites(true)
+            ->_initStores(true)
             ->_initAttributes();
     }
 
@@ -163,7 +164,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 }
                 if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                     $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                } elseif ($attributeParams['is_required'] && $this->_loadCustomerData($email, $website)) {
+                } elseif ($attributeParams['is_required'] && !$this->_loadCustomerData($email, $website)) {
                     $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
                 }
             }
@@ -177,7 +178,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      *
      * @param $email
      * @param $websiteCode
-     * @return Mage_Customer_Model_Customer
+     * @return Mage_Customer_Model_Customer|bool
      */
     protected function _loadCustomerData($email, $websiteCode)
     {
@@ -189,13 +190,13 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
             $customer = $collection->getFirstItem();
             if ($customer->getId()) {
                 return $customer;
-            } else {
-                return false;
             }
         } else {
             Mage::throwException(
                 Mage::helper('Mage_ImportExport_Helper_Data')->__('Unknown website code')
             );
         }
+
+        return false;
     }
 }
