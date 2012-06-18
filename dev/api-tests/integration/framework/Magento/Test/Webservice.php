@@ -33,7 +33,7 @@ class Magento_Test_Webservice extends Magento_TestCase
      *
      * @var string
      */
-    protected static $_defaultAdapter = 'default';
+    protected static $_defaultAdapterCode = 'default';
 
     /**
      * Clients class name list
@@ -131,7 +131,7 @@ class Magento_Test_Webservice extends Magento_TestCase
     public function getWebService($code = null, $options = null)
     {
         if (!$code) {
-            $code = self::$_defaultAdapter;
+            $code = self::$_defaultAdapterCode;
         }
         if (null === $this->getInstance($code)) {
             $webserviceType = strtolower(TESTS_WEBSERVICE_TYPE);
