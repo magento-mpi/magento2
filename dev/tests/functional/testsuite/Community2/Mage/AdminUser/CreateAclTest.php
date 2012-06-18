@@ -92,7 +92,7 @@ class Community2_Mage_AdminUser_CreateAclTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUsersRole', 'generic_admin_user_role_custom1',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom1',
                                           array('resource_1' => $access));
         $this->adminUserHelper()->createRole($roleSource);
         //create admin user with specific role
