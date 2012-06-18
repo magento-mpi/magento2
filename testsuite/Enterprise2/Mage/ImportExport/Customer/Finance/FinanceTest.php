@@ -88,7 +88,8 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
                 array(
                     'email' => $attrData['email'],
                     'store_credit' => '10011',
-                    'reward_points' => '1002'),
+                    'reward_points' => '1002'
+                ),
                 $report),
             "Customer with specific Store Credit and Reward Points not found in csv file");
 
