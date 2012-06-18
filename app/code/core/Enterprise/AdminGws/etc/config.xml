@@ -24,24 +24,6 @@
                 </setup>
             </enterprise_admingws_setup>
         </resources>
-        <events>
-            <rss_catalog_notify_stock_collection_select>
-                <observers>
-                    <enterprise_admingws>
-                        <class>Enterprise_AdminGws_Model_Collections</class>
-                        <method>rssCatalogNotifyStockCollectionSelect</method>
-                    </enterprise_admingws>
-                </observers>
-            </rss_catalog_notify_stock_collection_select>
-            <rss_catalog_review_collection_select>
-                <observers>
-                    <enterprise_admingws>
-                        <class>Enterprise_AdminGws_Model_Collections</class>
-                        <method>rssCatalogReviewCollectionSelect</method>
-                    </enterprise_admingws>
-                </observers>
-            </rss_catalog_review_collection_select>
-        </events>
     </global>
     <adminhtml>
         <layout>
@@ -252,6 +234,22 @@
                     </enterprise_admingws>
                 </observers>
             </catalog_product_website_update_before>
+            <rss_catalog_notify_stock_collection_select>
+                <observers>
+                    <enterprise_admingws>
+                        <class>Enterprise_AdminGws_Model_Collections</class>
+                        <method>rssCatalogNotifyStockCollectionSelect</method>
+                    </enterprise_admingws>
+                </observers>
+            </rss_catalog_notify_stock_collection_select>
+            <rss_catalog_review_collection_select>
+                <observers>
+                    <enterprise_admingws>
+                        <class>Enterprise_AdminGws_Model_Collections</class>
+                        <method>rssCatalogReviewCollectionSelect</method>
+                    </enterprise_admingws>
+                </observers>
+            </rss_catalog_review_collection_select>
             <rss_order_new_collection_select>
                 <observers>
                     <enterprise_admingws>

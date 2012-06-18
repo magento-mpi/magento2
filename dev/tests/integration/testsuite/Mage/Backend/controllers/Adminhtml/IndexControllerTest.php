@@ -54,7 +54,7 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
     /**
      * Check logged state
      * @covers Mage_Backend_Adminhtml_IndexController::indexAction
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDbIsolation enabled
      */
     public function testLoggedIndexAction()
     {
@@ -62,15 +62,5 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
         $this->dispatch('admin/index/index');
         $this->assertRedirect();
         $this->_logout();
-    }
-
-    /**
-     * Empty data fixture to provide support of transaction
-     * @static
-     *
-     */
-    public static function emptyDataFixture()
-    {
-
     }
 }

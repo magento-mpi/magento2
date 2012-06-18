@@ -26,15 +26,17 @@
             hoverClass: 'vde_container_hover',
             items: '.vde_element_wrapper.vde_draggable',
             helper: 'clone',
-            start: function( event, ui ) {
-                ui.placeholder.css( { height: $( ui.item ).outerHeight( true ) } );
-            }
+            appendTo: 'body'
         },
         _create: function() {
             var self = this;
             this.element.data( "sortable", this );
             self.options =  $.extend( {}, self.options, {
-                connectWith : $( self.options.connectWithSelector ).not( this.element ),
+                start: function( event, ui ) {
+                    ui.placeholder.css( { height: $( ui.helper ).outerHeight( true ) } );
+                    $(this).sortable('option', 'connectWith', $(self.options.connectWithSelector).not(ui.item))
+                        .sortable('refresh');
+                },
                 over: function( event, ui ) {
                     self.element.addClass( self.options.hoverClass );
                 },
@@ -109,13 +111,13 @@
         _bind: function(){
             var self = this;
             this.element
-                .on( 'highlight.vde', function(){ self._highlight(); })
-                .on( 'unhighlight.vde', function(){ self._unhighlight(); });
+                .on( 'highlightelements.vde', function(){ self._highlight(); })
+                .on( 'unhighlightelements.vde', function(){ self._unhighlight(); });
         },
         _initHighlighting: function(){
             this.options.highlightCheckboxSelector ?
                 $( this.options.highlightCheckboxSelector )
-                    .checkbox({checkedEvent:'highlight.vde', unCheckedEvent:'unhighlight.vde'}) :
+                    .checkbox({checkedEvent:'highlightelements.vde', unCheckedEvent:'unhighlightelements.vde'}) :
                 $.noop();
             this.highlightBlocks = {};
             if (Mage.Cookies.get(this.options.cookieHighlightingName) == 'off') {

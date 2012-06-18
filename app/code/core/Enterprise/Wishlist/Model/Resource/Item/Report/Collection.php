@@ -93,10 +93,11 @@ class Enterprise_Wishlist_Model_Resource_Item_Report_Collection
      */
     protected function _joinCustomerAttibute(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        $tableName = 'at_' . $attribute->getName();
+        $adapter = $this->getSelect()->getAdapter();
+        $tableName = $adapter->getTableName('at_' . $attribute->getName());
         $joinExpr = array(
             $tableName . '.entity_id = wishlist_table.customer_id',
-            $this->getSelect()->getAdapter()->quoteInto(
+            $adapter->quoteInto(
                 $tableName . '.attribute_id = ?', $attribute->getAttributeId()
             )
         );
