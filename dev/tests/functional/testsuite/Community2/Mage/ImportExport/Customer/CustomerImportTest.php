@@ -109,6 +109,76 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
     }
 
     /**
+     * <p>Validation Result block</p>
+     * <p>Verify that Validation Result block will be displayed after checking data of import customer files</p>
+     * <p>Precondition: at least one customer exists,
+     * Customer Main, Address, Finance files must be generated after export</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Customers Entity Type: Customer Main File/Customer Addresses/Customer Finances</p>
+     * <p>5. Select file to import</p>
+     * <p>6. Click "Check Data" button.</p>
+     * <p>Expected: validation and success messages are correct
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5618
+     */
+    public function mainValidationResultBlock()
+    {
+        //Precondition: create customer, add address
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //add store credit and reward points (for EE)
+        $customerTypes = $this->importExportHelper()->getCustomerEntityType();
+        if (in_array('Customer Finances', $customerTypes)) {
+            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+            $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'100'));
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+            $this->customerHelper()->updateRewardPointsBalance(array('update_balance' =>'120'));
+        }
+        //export all customer files
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        $report = array();
+        foreach ($customerTypes as $customerType) {
+            $this->fillDropdown('export_file', $customerType);
+            $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+            $report[$customerType] = $this->importExportHelper()->export();
+        }
+        //Step 1
+        $this->admin('import');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        foreach ($customerTypes as $customerType) {
+            //Step 4
+            $this->fillDropdown('import_customer_entity', $customerType);
+            //Step 5-6
+            $importData = $this->importExportHelper()->import($report[$customerType]);
+            //Verifying
+            $this->assertEquals('Checked rows: ' . count($report[$customerType]) . ', checked entities: '
+                    . count($report[$customerType])
+                    . ', invalid rows: 0, total errors: 0', $importData['validation']['validation'][0],
+                'Validation message is not correct');
+            $this->assertEquals('File is valid! To start import process press "Import" button  Import',
+                $importData['validation']['success'][0], 'Success message is not correct');
+        }
+    }
+
+    /**
      * @dataProvider importData
      * @test
      */
