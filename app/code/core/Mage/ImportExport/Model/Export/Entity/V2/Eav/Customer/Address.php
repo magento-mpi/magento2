@@ -71,7 +71,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
         $customerCollection = $exportCustomer->filterEntityCollection($customerCollection);
 
         // Get customer default addresses column name to customer attribute mapping array.
-        $defaultAddressMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
+        $defaultAddressMap = Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
+            ::getDefaultAddressAttributeMapping();
         $customerCollection->addAttributeToSelect($defaultAddressMap);
 
         $customers = $customerCollection->getItems();
