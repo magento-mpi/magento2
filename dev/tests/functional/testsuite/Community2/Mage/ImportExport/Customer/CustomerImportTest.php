@@ -52,6 +52,63 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->navigate('import');
     }
     /**
+     * <p>Export Settings General View</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "New Import" fromat</p>
+     * <p>Expected: dropdowns contain correct values</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5615
+     */
+    public function importSettingsGeneralView()
+    {
+        //Verifying
+        $entityTypes = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'entity_type') . '/option',
+            'text');
+        $this->assertEquals(array(
+                '-- Please Select --',
+                'Products',
+                'Customers'
+            ), $entityTypes,
+            'Entity Type dropdown contains incorrect values');
+        $entityBehavior = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_behavior') . '/option',
+            'text');
+        $this->assertEquals(array(
+                '-- Please Select --',
+                'Append Complex Data',
+                'Replace Existing Complex Data',
+                'Delete Entities'
+             ), $entityBehavior,
+            'Import Behavior dropdown contains incorrect values');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Verifying
+        $exportFileVersion = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_file_version') . '/option',
+            'text');
+        $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
+            $exportFileVersion,
+            'Import File Version dropdown contains incorrect values');
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        //Verifying
+        $exportFileVersion = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_customer_entity') . '/option',
+            'text');
+        $this->assertEquals($this->importExportHelper()->getCustomerEntityType(),
+            $exportFileVersion,
+            'Customer Entity Type dropdown contains incorrect values');
+        $this->assertTrue($this->controlIsVisible('field','file_to_import'),
+            'File to Import field is missing');
+    }
+
+    /**
      * @dataProvider importData
      * @test
      */
@@ -107,72 +164,4 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             )))
         );
     }
-    public function importDataCsv()
-    {
-        return array(
-            array(array(array(
-
-                'email' => 'test_admin_nhecx@unknown-domain.com',
-                '_website' => 'base',
-                '_store' => 'admin',
-                'confirmation' => '',
-                'created_at' => "2012-06-14 16:35:03",
-                'created_in' => 'Admin',
-                'disable_auto_group_change' => '0',
-                'dob' => '',
-                'firstname' => 'first_fegvq',
-                'gender' => 'Female',
-                'group_id' => '1',
-                'lastname' => 'last_uxjnf',
-                'middlename' => 'middle_xlkon',
-                'password_hash' => '6fd5584d5ef3ec324784aceeafd4f2ddc7ca930580d1ccea793e7012209af4b8:xH',
-                'prefix' => 'Mrs.',
-                'reward_update_notification' => '1',
-                'reward_warning_notification' => '1',
-                'rp_token' => '',
-                'rp_token_created_at' => '',
-                'store_id' => '0',
-                'suffix' => '',
-                'taxvat' => '',
-                'website_id' => '1',
-                'password' => '',
-                '_address_city' => "Culver City",
-                '_address_company' => 'Magento',
-                '_address_country_id' => 'US',
-                '_address_fax' => '530-918-3581',
-                '_address_firstname' => "Female First Name",
-                '_address_lastname' => "Female Last Name",
-                '_address_middlename' => "Female Middle Name",
-                '_address_postcode' => '90232',
-                '_address_prefix' => 'Prefix',
-                '_address_region' => 'California',
-                '_address_street' => "10441 Jefferson Blvd\nSuite 200",
-                '_address_suffix' => 'Suffix',
-                '_address_telephone' => '530-918-3581',
-                '_address_vat_id' => '1',
-                '_address_default_billing_' => '1',
-                '_address_default_shipping_' => '1'
-            )))
-        );
-    }
-    /**
-     * @dataProvider importDataCsv
-     * @test
-     */
-    public function generateImport($data)
-    {
-        //generate records
-        //Make tmp file
-        $tempFile = $this->_testConfig->getHelper('config')->getLogDir() . DIRECTORY_SEPARATOR .
-            'customer_' . date('Ymd_His') . '.csv';
-        $handle = fopen($tempFile, 'w+');
-        for ($i = 1; $i <= 100000; $i++) {
-                $data[0]['email'] = 'test_' . $this->generate('string', 6) . '@' . $this->generate('string', 6) . '-domain.com';
-                $dataCsv[] = $data[0];
-            }
-            $report = $this->importExportHelper()->arrayToCsv($dataCsv);
-            fwrite($handle, $report);
-        fclose($handle);
-    }
-
 }
