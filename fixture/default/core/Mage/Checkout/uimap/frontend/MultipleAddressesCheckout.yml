@@ -143,7 +143,7 @@ checkout_multishipping_addresses:
                             back_to_shopping_cart: //a[contains(text(),'Back to Shopping Cart')]
                             remove_product: //tr[.//a='%productName%']//a[contains(@href, 'removeItem')]
                         dropdowns:
-                            address_choice: //tr[.//a='%productName%'][%index%]//select
+                            address_choice: //tr[.//a='%productName%'][%productIndex%]//select
                             is_any_address_choice: //tr[.//a='%productName%']//select
                         fields:
                             product_qty: //tr[.//a='%productName%']//input[@type='text']
