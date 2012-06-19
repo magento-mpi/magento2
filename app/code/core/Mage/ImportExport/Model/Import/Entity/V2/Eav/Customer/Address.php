@@ -149,22 +149,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     }
 
     /**
-     * Check address data availability in row data
-     *
-     * @param array $rowData
-     * @return bool
-     */
-    protected function _isRowWithAddress(array $rowData)
-    {
-        foreach (array_keys($this->_attributes) as $colName) {
-            if (isset($rowData[$colName]) && strlen($rowData[$colName])) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Initialize existent addresses data
      *
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
@@ -177,7 +161,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
             if (!isset($this->_addresses[$customerId])) {
                 $this->_addresses[$customerId] = array();
             }
-            $this->_addresses[$customerId][] = $address->getId();
+            $addressId = $address->getId();
+            if (!in_array($addressId, $this->_addresses[$customerId])) {
+                $this->_addresses[$customerId][] = $addressId;
+            }
         }
 
         return $this;
@@ -232,7 +219,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
 
             foreach ($bunch as $rowNum => $rowData) {
                 // check row data
-                if (!$this->validateRow($rowData, $rowNum) || !$this->_isRowWithAddress($rowData)) {
+                if (!$this->validateRow($rowData, $rowNum)) {
                     continue;
                 }
 
@@ -305,7 +292,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 }
             }
 
-            $this->_saveAddressEntity($entityRows)
+            $this->_saveAddressEntities($entityRows)
                 ->_saveAddressAttributes($attributes)
                 ->_saveCustomerDefaults($defaults);
         }
@@ -318,7 +305,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      * @param array $entityRows Rows for insert
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      */
-    protected function _saveAddressEntity(array $entityRows)
+    protected function _saveAddressEntities(array $entityRows)
     {
         if ($entityRows) {
             $this->_connection->insertOnDuplicate($this->_entityTable, $entityRows, array('updated_at'));
