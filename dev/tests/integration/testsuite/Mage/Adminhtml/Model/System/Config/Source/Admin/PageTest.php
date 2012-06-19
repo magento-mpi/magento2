@@ -26,7 +26,7 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends Mage_Admi
         $options = $select->getElementsByTagName('option');
         $optionsCount = $options->length;
 
-        $this->assertGreaterThan(120, $optionsCount, 'Paucity count of menu items int the list');
+        $this->assertGreaterThan(99, $optionsCount, 'Paucity count of menu items in the list');
 
         $this->assertEquals('Dashboard', $options->item(0)->nodeValue, 'First element is not Dashboard');
         $this->assertContains('Configuration', $options->item($optionsCount - 1)->nodeValue);
