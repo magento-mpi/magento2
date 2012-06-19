@@ -55,4 +55,61 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
             fail("There is no category ID in the parsed link");
         }
     }
+
+    /**
+     * Set ID from link into UImap
+     * @param string $attributeName
+     * @param string $attributeCode
+     * @param string $categoryName
+     */
+    public function setAttributeIdFromLink($categoryName, $attributeCode, $attributeName = null)
+    {
+        $this->addParameter('categoryName', $categoryName);
+        $this->addParameter('attributeCode', $attributeCode);
+        if (isset($attributeName)){
+            $this->addParameter('attributeName', $attributeName);
+            $linkXpath = $this->_getControlXpath('link', 'attribute_name');
+        }
+        else {
+            $this->addParameter('priceAttributeCode', $attributeCode);
+            $linkXpath = $this->_getControlXpath('link', 'price_attribute');
+        }
+        $link = $this->getAttribute($linkXpath . '/@href');
+        // parse link received from xpath
+        $parsedLink = parse_url($link);
+        parse_str($parsedLink['query']);
+        if (isset($$attributeCode)) {
+            $this->addParameter('attributeId', $$attributeCode);
+        }
+        else {
+            fail("There is no attribute ID in the parsed link");
+        }
+    }
+
+    /**
+     * Verify page elements which should appear after selecting attribute
+     */
+    public function verifyAfterSelectingAttribute()
+    {
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
+            'There is no currently_shopping_by block in layerd navigation');
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('button', 'remove_this_item')),
+            'There is no "remove this item" button');
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('link', 'clear_all')),
+            'There is no "Clear All" link');
+    }
+
+    /**
+     * Verify page elements which should appear after selecting attribute
+     */
+    public function verifyAfterRemovingAttribute()
+    {
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('button', 'remove_this_item')),
+            'remove_this_item button still present in layered navigation block');
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('link', 'clear_all')),
+            '"Clear All" link still present in layered navigation block');
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
+            'currently_shopping_by block still present in layered navigation block');
+    }
+
 }
