@@ -114,10 +114,10 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
                 throw new OutOfRangeException('Unsupported value for parameter $type');
                 break;
         }
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $this->addParameter('elementTitle', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**

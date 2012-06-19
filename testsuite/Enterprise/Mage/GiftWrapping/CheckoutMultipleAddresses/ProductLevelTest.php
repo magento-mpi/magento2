@@ -705,7 +705,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->chooseOkOnNextConfirmation();
-        $this->storeHelper()->selectStoreView('choose_store_view', $website['staging_website_name']);
+        $storeView = $website['staging_website_name']. '/Main Website Store/Default Store View';
+        $this->selectStoreScope('dropdown', 'choose_store_view', $storeView);
         $this->productHelper()->fillTab($productGiftSettingsOnStoreView, 'gift_options');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_product');

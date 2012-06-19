@@ -1506,6 +1506,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->selectWindow(null);
         }
     }
+
     ################################################################################
     #                                                                              #
     #                                Area helper methods                           #
@@ -1720,6 +1721,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->assertTextNotPresent('was not found', 'Something was not found:)');
         $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
         $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
+        $this->assertTextNotPresent('Internal server error', 'HTTP Error 500 Internal server error');
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
         if (!is_null($expectedTitle)) {
             $this->assertSame($expectedTitle, $this->getTitle(),
@@ -3175,8 +3177,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $skipElements Array of elements that will be skipped during verification <br>
      * (default = array('password'))
      *
+     * @throws OutOfRangeException
+     * @throws RuntimeException
      * @return bool
-     * @throws InvalidArgumentException|OutOfRangeException
      */
     public function verifyForm($data, $tabId = '', $skipElements = array('password', 'password_confirmation'))
     {
@@ -3615,22 +3618,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
     {
-        //$this->waitForElementPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
         $this->waitForAjax();
         $this->waitForElementNotPresent(self::$xpathLoadingHolder, $waitDisappear * 1000);
-        /*for ($second = 0; $second < $waitAppear; $second++) {
-            if ($this->isElementPresent(self::$xpathLoadingHolder)) {
-                break;
-            }
-            sleep(1);
-        }
-
-        for ($second = 0; $second < $waitDisappear; $second++) {
-            if (!$this->isElementPresent(self::$xpathLoadingHolder)) {
-                break;
-            }
-            sleep(1);
-        }*/
 
         return $this;
     }
@@ -3848,6 +3837,66 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
         }
+    }
+
+    /**
+     * @TODO
+     * @param string $controlType
+     * @param string $controlName
+     * @param null|string $scopePath
+     * @param string $scopeName
+     *
+     * @return bool
+     */
+    public function selectStoreScope($controlType, $controlName, $scopePath = null, $scopeName = 'storeView')
+    {
+        if (is_null($scopePath)) {
+            $scopePath = 'Main Website/Main Website Store/Default Store View';
+        }
+        //Define scope parameters
+        $scopePath = explode('/', $scopePath);
+        $storeView = array_pop($scopePath);
+        $website = $store = '';
+        if (!empty($scopePath)) {
+            if (count($scopePath) == 2) {
+                list($website, $store) = $scopePath;
+            } elseif (count($scopePath) == 1) {
+                list($store) = $scopePath;
+            }
+        }
+        $method = 'fill' . ucfirst(strtolower($controlType));
+        $xpath = $this->_getControlXpath($controlType, $controlName);
+        //Select value if only Store View name specified
+        if (!$website && !$store) {
+            if (!$this->isElementPresent($xpath . "//option[normalize-space(text())='$storeView'][@selected]")) {
+                $this->$method($controlName, $storeView);
+                return true;
+            }
+            return false;
+        }
+
+        if ($website && $store) {
+            $isSelectWebsite = false;
+            if ($this->getXpathCount($xpath . '/option') > 1) {
+                $isSelectWebsite = true;
+            }
+            if ($isSelectWebsite) {
+                $websiteXpath = $xpath . "/*[normalize-space(text())='$website']";
+                $storeXpath = $websiteXpath . "/following-sibling::*[normalize-space(@label)='$store']";
+                $storeViewXpath = $storeXpath . "/option[normalize-space(text())='$storeView']";
+            } else {
+                $websiteXpath = $xpath . "/*[normalize-space(@label)='$website']";
+                $storeXpath = $websiteXpath . "/following-sibling::*[contains(@label, '$store')]";
+                $storeViewXpath = $storeXpath . "/option[contains(text(),'$storeView')]";
+            }
+            $value = $this->getAttribute($storeViewXpath . '@value');
+            if (!$this->isElementPresent($xpath . "//option[@value='$value'][@selected]")) {
+                $this->$method($controlName, $value);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     ################################################################################

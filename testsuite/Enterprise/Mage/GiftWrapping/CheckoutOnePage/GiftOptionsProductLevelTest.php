@@ -684,8 +684,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->chooseOkOnNextConfirmation();
-        $this->productHelper()->chooseStoreView($website['general_information']['staging_website_name'] .
-                                                '/Main Website Store/Default Store View');
+        $scope = $website['general_information']['staging_website_name'] . '/Main Website Store/Default Store View';
+        $this->selectStoreScope('dropdown', 'choose_store_view', $scope);
         $this->getConfirmation();
         $this->waitForPageToLoad();
         $this->productHelper()->fillTab($productGiftOptionsSite, 'gift_options');

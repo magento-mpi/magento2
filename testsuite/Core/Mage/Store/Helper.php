@@ -134,35 +134,4 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
 
         return false;
     }
-
-    /**
-     * Selects a store view from 'Choose Store View' drop-down in backend
-     *
-     * @param string $controlName Name of the dropdown from UIMaps
-     * @param string $website Default = 'Main Website'
-     * @param string $store Default = 'Main Website Store'
-     * @param string $storeView Default = 'Default Store View'
-     *
-     * @throws PHPUnit_Framework_Exception
-     */
-    public function selectStoreView($controlName, $website = 'Main Website', $store = 'Main Website Store',
-                                    $storeView = 'Default Store View')
-    {
-        $fieldXpath = $this->_getControlXpath('dropdown', $controlName);
-        $storeViewXpath = $fieldXpath . "/optgroup[normalize-space(@label) = '$website']"
-                          . "/following-sibling::optgroup[contains(@label,'$store')][1]"
-                          . "/option[contains(text(),'$storeView')]";
-        if (!$this->isElementPresent($storeViewXpath)) {
-            throw new PHPUnit_Framework_Exception('Cannot find option ' . $storeViewXpath);
-        }
-        $optionValue = $this->getValue($storeViewXpath);
-        //Try to select by value first, since there may be options with equal labels.
-        if (isset($optionValue)) {
-            $this->fillDropdown($controlName, $optionValue);
-        } else {
-            $this->select($fieldXpath, 'label=' . 'regexp:^\s+' . preg_quote($storeView));
-        }
-        $this->getConfirmation();
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-    }
 }

@@ -151,26 +151,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     }
 
     /* ----------------------------------- Backend ----------------------------------- */
-
-    /**
-     * Select store view on Create/Edit tag page
-     *
-     * @param string $storeViewName Name of the store
-     */
-    protected function selectStoreView($storeViewName)
-    {
-        $xpath = $this->_getControlXpath('dropdown', 'switch_store');
-        $toSelect = $xpath . "//option[contains(.,'" . $storeViewName . "')]";
-        $isSelected = $toSelect . '[@selected]';
-        if (!$this->isElementPresent($isSelected)) {
-            $storeId = $this->getAttribute($toSelect . '/@value');
-            $this->addParameter('storeId', $storeId);
-            $this->fillDropdown('switch_store', $storeViewName);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
-        }
-    }
-
     /**
      * Edits a tag in backend
      *
@@ -186,7 +166,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
-                $this->selectStoreView($tagData['switch_store']);
+                $this->selectStoreScope('dropdown', 'switch_store', $tagData['switch_store']);
             } else {
                 unset($tagData['switch_store']);
             }
@@ -243,11 +223,11 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'tags_grid');
         $this->assertNotNull($xpathTR, 'Tag is not found');
         $cellId = $this->getColumnIdByName('Tag');
-        $this->addParameter('tagName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $this->addParameter('tagName', $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
