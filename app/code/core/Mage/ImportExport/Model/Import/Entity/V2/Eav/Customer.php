@@ -44,25 +44,16 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     const MIN_PASSWORD_LENGTH = 6;
 
     /**
+     * Default customer group
+     */
+    const DEFAULT_GROUP_ID = 1;
+
+    /**
      * Customers information from import file
      *
      * @var array
      */
     protected $_newCustomers = array();
-
-    /**
-     * Existing customers information. In form of:
-     *
-     * [customer e-mail] => array(
-     *    [website code 1] => customer_id 1,
-     *    [website code 2] => customer_id 2,
-     *           ...       =>     ...      ,
-     *    [website code n] => customer_id n,
-     * )
-     *
-     * @var array
-     */
-    protected $_oldCustomers = array();
 
     /**
      * Array of attribute codes which will be ignored in validation and import procedures.
@@ -71,7 +62,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      *
      * @var array
      */
-    protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
+    protected $_ignoredAttributes = array('website_id', 'store_id');
+
+    /**
+     * Customer entity DB table name.
+     *
+     * @var string
+     */
+    protected $_entityTable;
 
     /**
      * Constructor
@@ -103,18 +101,166 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
 
         $this->_initStores(true)
             ->_initAttributes();
+
+        $this->_entityTable = Mage::getModel('Mage_Customer_Model_Customer')->getResource()->getEntityTable();
+    }
+
+    /**
+     * Gather and save information about customer entities.
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_Customer
+     */
+    protected function _saveCustomers()
+    {
+        /** @var $resource Mage_Customer_Model_Customer */
+        $resource = Mage::getModel('Mage_Customer_Model_Customer');
+
+        $passwordAttribute = $resource->getAttribute('password_hash');
+        $passwordAttributeId = $passwordAttribute->getId();
+        $passwordStorageTable = $passwordAttribute->getBackend()->getTable();
+
+        $dateTimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
+
+        $nextEntityId = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($this->_entityTable);
+
+        while ($bunch = $this->_dataSourceModel->getNextBunch()) {
+            $entitiesToCreate = array();
+            $entitiesToUpdate = array();
+            $attributes   = array();
+
+            foreach ($bunch as $rowNum => $rowData) {
+                if (!$this->validateRow($rowData, $rowNum)) {
+                    continue;
+                }
+
+                // entity table data
+                $entityRow = array(
+                    'group_id'   => empty($rowData['group_id'])
+                        ? self::DEFAULT_GROUP_ID : $rowData['group_id'],
+
+                    'store_id'   => empty($rowData[self::COLUMN_STORE])
+                        ? 0 : $this->_storeCodeToId[$rowData[self::COLUMN_STORE]],
+
+                    'created_at' => empty($rowData['created_at'])
+                        ? now() : gmstrftime($dateTimeFormat, strtotime($rowData['created_at'])),
+
+                    'updated_at' => now()
+                );
+
+                $emailInLowercase = strtolower($rowData[self::COLUMN_EMAIL]);
+                if ($entityId = $this->_getCustomerId($emailInLowercase, $rowData[self::COLUMN_WEBSITE])) { // edit
+                    $entityRow['entity_id'] = $entityId;
+                    $entitiesToUpdate[] = $entityRow;
+                } else { // create
+                    $entityId = $nextEntityId++;
+                    $entityRow['entity_id'] = $entityId;
+                    $entityRow['entity_type_id'] = $this->_entityTypeId;
+                    $entityRow['attribute_set_id'] = 0;
+                    $entityRow['website_id'] = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
+                    $entityRow['email'] = $emailInLowercase;
+                    $entityRow['is_active'] = 1;
+                    $entitiesToCreate[] = $entityRow;
+
+                    $this->_newCustomers[$emailInLowercase][$rowData[self::COLUMN_WEBSITE]] = $entityId;
+                }
+
+                // attribute values
+                foreach (array_intersect_key($rowData, $this->_attributes) as $attributeCode => $value) {
+                    if (!$this->_attributes[$attributeCode]['is_static'] && strlen($value)) {
+                        /** @var $attribute Mage_Customer_Model_Attribute */
+                        $attribute = $resource->getAttribute($attributeCode);
+                        $backendModel = $attribute->getBackendModel();
+                        $attributeParameters = $this->_attributes[$attributeCode];
+
+                        if ('select' == $attributeParameters['type']) {
+                            $value = $attributeParameters['options'][strtolower($value)];
+                        } elseif ('datetime' == $attributeParameters['type']) {
+                            $value = gmstrftime($dateTimeFormat, strtotime($value));
+                        } elseif ($backendModel) {
+                            $attribute->getBackend()->beforeSave($resource->setData($attributeCode, $value));
+                            $value = $resource->getData($attributeCode);
+                        }
+                        $attributes[$attribute->getBackend()->getTable()][$entityId][$attributeParameters['id']]
+                            = $value;
+
+                        // restore 'backend_model' to avoid default setting
+                        $attribute->setBackendModel($backendModel);
+                    }
+                }
+
+                // password change/set
+                if (isset($rowData['password']) && strlen($rowData['password'])) {
+                    $attributes[$passwordStorageTable][$entityId][$passwordAttributeId]
+                        = $resource->hashPassword($rowData['password']);
+                }
+            }
+
+            $this->_saveCustomerEntity($entitiesToCreate, $entitiesToUpdate)
+                ->_saveCustomerAttributes($attributes);
+        }
+        return $this;
+    }
+
+    /**
+     * Update and insert data in entity table.
+     *
+     * @param array $entitiesToCreate Rows for insert
+     * @param array $entitiesToUpdate Rows for update
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
+     */
+    protected function _saveCustomerEntity(array $entitiesToCreate, array $entitiesToUpdate)
+    {
+        if ($entitiesToCreate) {
+            $this->_connection->insertMultiple($this->_entityTable, $entitiesToCreate);
+        }
+
+        if ($entitiesToUpdate) {
+            $this->_connection->insertOnDuplicate(
+                $this->_entityTable,
+                $entitiesToUpdate,
+                array('group_id', 'store_id', 'updated_at', 'created_at')
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Save customer attributes.
+     *
+     * @param array $attributesData
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
+     */
+    protected function _saveCustomerAttributes(array $attributesData)
+    {
+        foreach ($attributesData as $tableName => $data) {
+            $tableData = array();
+
+            foreach ($data as $customerId => $attrData) {
+                foreach ($attrData as $attributeId => $value) {
+                    $tableData[] = array(
+                        'entity_id'      => $customerId,
+                        'entity_type_id' => $this->_entityTypeId,
+                        'attribute_id'   => $attributeId,
+                        'value'          => $value
+                    );
+                }
+            }
+            $this->_connection->insertOnDuplicate($tableName, $tableData, array('value'));
+        }
+        return $this;
     }
 
     /**
      * Import data rows
      *
-     * @abstract
      * @return boolean
      */
     protected function _importData()
     {
-        // TODO: need to implement
-        return false;
+        $this->_saveCustomers();
+
+        return true;
     }
 
     /**
@@ -125,7 +271,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      */
     public function getEntityTypeCode()
     {
-        return 'customer';
+        return $this->_getAttributeCollection()->getEntityTypeCode();
     }
 
     /**
