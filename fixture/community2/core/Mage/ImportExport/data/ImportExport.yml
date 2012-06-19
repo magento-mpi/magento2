@@ -220,5 +220,41 @@ import_main_file_required_fields:
    lastname: Fields
    group_id: 3
 
+import_address_file_required_fields1:
+   _email: %noValue%
+   _website: base
+   city: Lincoln
+   country_id: US
+   firstname: Jana
+   lastname: Johnson
+   postcode: 90232
+   street: "4955 Crummit\nLane"
+   telephone: "402-219-4835"
+import_address_file_required_fields2:
+   _email: %noValue%
+   _website: base
+   city: Milwaukee
+   country_id: US
+   firstname: Kim
+   lastname: Montgomery
+   postcode: 53213
+   street: "593 Grant View Drive"
+   telephone: "414-411-2378"
+import_finance_file_required_fields:
+   email: %noValue%
+   _website: base
+   city: Milwaukee
+   store_credit: 4321.0000
+   reward_points: 1234
+
+
+
+
+
+
+
+
+
+
 
 
