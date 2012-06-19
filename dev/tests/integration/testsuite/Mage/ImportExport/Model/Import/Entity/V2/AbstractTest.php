@@ -15,7 +15,7 @@
 class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test for method saveValidatedBunches()
+     * Test for method _saveValidatedBunches()
      */
     public function testSaveValidatedBunches()
     {

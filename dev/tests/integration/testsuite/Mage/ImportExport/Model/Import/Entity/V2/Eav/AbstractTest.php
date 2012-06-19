@@ -52,7 +52,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_AbstractTest extends PHPUnit_
         $attributeCollection->addFieldToFilter(
             'attribute_code',
             array(
-                'in' => array('gender', 'group_id')
+                'in' => array($indexAttributeCode, 'group_id')
             )
         );
         /** @var $attribute Mage_Customer_Model_Attribute */

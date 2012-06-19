@@ -176,9 +176,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     public function __construct()
     {
         $this->_dataSourceModel = Mage_ImportExport_Model_Import::getDataSourceModel();
-        /** @var $coreResourceHelper Mage_Core_Model_Resource */
-        $coreResourceHelper = Mage::getSingleton('Mage_Core_Model_Resource');
-        $this->_connection = $coreResourceHelper->getConnection('write');
+        /** @var $coreResourceModel Mage_Core_Model_Resource */
+        $coreResourceModel = Mage::getSingleton('Mage_Core_Model_Resource');
+        $this->_connection = $coreResourceModel->getConnection('write');
 
         $this->_availableBehaviors = array(
             Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
@@ -237,7 +237,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     /**
      * Validate data rows and save bunches to DB
      *
-     * @return Mage_ImportExport_Model_Import_Entity_Abstract
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     protected function _saveValidatedBunches()
     {
@@ -249,9 +249,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
 
         /** @var $resourceHelper Mage_ImportExport_Model_Resource_Helper_Mssql */
         $resourceHelper = Mage::getResourceHelper('Mage_ImportExport');
-        /** @var $dataHelepr  Mage_ImportExport_Helper_Data*/
-        $dataHelepr = Mage::helper('Mage_ImportExport_Helper_Data');
-        $bunchSize = $dataHelepr->getBunchSize();
+        /** @var $dataHelper  Mage_ImportExport_Helper_Data */
+        $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
+        $bunchSize = $dataHelper->getBunchSize();
 
         $source->rewind();
         $this->_dataSourceModel->cleanBunches();
@@ -273,7 +273,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             if ($source->valid()) {
                 // errors limit check
                 if ($this->_errorsCount >= $this->_errorsLimit) {
-                    return;
+                    return $this;
                 }
                 $rowData = $source->current();
                 // add row to bunch for save
@@ -303,12 +303,12 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
-     * @param string $colName OPTIONAL Column name
-     * @return Mage_ImportExport_Model_Import_Adapter_Abstract
+     * @param string $columnName OPTIONAL Column name
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
-    public function addRowError($errorCode, $errorRowNum, $colName = null)
+    public function addRowError($errorCode, $errorRowNum, $columnName = null)
     {
-        $this->_errors[$errorCode][] = array($errorRowNum + 1, $colName); // one added for human readability
+        $this->_errors[$errorCode][] = array($errorRowNum + 1, $columnName); // one added for human readability
         $this->_invalidRows[$errorRowNum] = true;
         $this->_errorsCount++;
 
@@ -472,34 +472,34 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     public function isAttributeValid($attributeCode, array $attributeParams, array $rowData, $rowNumber)
     {
-        /** @var $coreHelper Mage_Core_Helper_String */
-        $coreHelper = Mage::helper('Mage_Core_Helper_String');
+        /** @var $stringHelper Mage_Core_Helper_String */
+        $stringHelper = Mage::helper('Mage_Core_Helper_String');
 
         switch ($attributeParams['type']) {
             case 'varchar':
-                $val   = $coreHelper->cleanString($rowData[$attributeCode]);
-                $valid = $coreHelper->strlen($val) < self::DB_MAX_VARCHAR_LENGTH;
+                $value = $stringHelper->cleanString($rowData[$attributeCode]);
+                $valid = $stringHelper->strlen($value) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
-                $val   = trim($rowData[$attributeCode]);
-                $valid = ((float)$val == $val) && is_numeric($val);
+                $value = trim($rowData[$attributeCode]);
+                $valid = ((float)$value == $value) && is_numeric($value);
                 break;
             case 'select':
             case 'multiselect':
                 $valid = isset($attributeParams['options'][strtolower($rowData[$attributeCode])]);
                 break;
             case 'int':
-                $val   = trim($rowData[$attributeCode]);
-                $valid = ((int)$val == $val) && is_numeric($val);
+                $value = trim($rowData[$attributeCode]);
+                $valid = ((int)$value == $value) && is_numeric($value);
                 break;
             case 'datetime':
-                $val   = trim($rowData[$attributeCode]);
-                $valid = strtotime($val) !== false
-                    || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $val);
+                $value = trim($rowData[$attributeCode]);
+                $valid = strtotime($value) !== false
+                    || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $value);
                 break;
             case 'text':
-                $val   = $coreHelper->cleanString($rowData[$attributeCode]);
-                $valid = $coreHelper->strlen($val) < self::DB_MAX_TEXT_LENGTH;
+                $value = $stringHelper->cleanString($rowData[$attributeCode]);
+                $valid = $stringHelper->strlen($value) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;
@@ -546,32 +546,32 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      * Returns TRUE if row is valid and not in skipped rows array
      *
      * @param array $rowData
-     * @param int $rowNum
+     * @param int $rowNumber
      * @return bool
      */
-    public function isRowAllowedToImport(array $rowData, $rowNum)
+    public function isRowAllowedToImport(array $rowData, $rowNumber)
     {
-        return $this->validateRow($rowData, $rowNum) && !isset($this->_skippedRows[$rowNum]);
+        return $this->validateRow($rowData, $rowNumber) && !isset($this->_skippedRows[$rowNumber]);
     }
 
     /**
      * Validate data row
      *
      * @param array $rowData
-     * @param int $rowNum
+     * @param int $rowNumber
      * @return boolean
      */
-    abstract public function validateRow(array $rowData, $rowNum);
+    abstract public function validateRow(array $rowData, $rowNumber);
 
     /**
      * Set data from outside to change behavior
      *
-     * @param array $params
-     * @return Mage_ImportExport_Model_Import_Entity_Abstract
+     * @param array $parameters
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
-    public function setParameters(array $params)
+    public function setParameters(array $parameters)
     {
-        $this->_parameters = $params;
+        $this->_parameters = $parameters;
         return $this;
     }
 
@@ -602,9 +602,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
 
             // do all permanent columns exist?
-            if (($colsAbsent = array_diff($this->_permanentAttributes, $this->getSource()->getColNames()))) {
+            if (($columnsAbsent = array_diff($this->_permanentAttributes, $this->getSource()->getColNames()))) {
                 Mage::throwException(
-                    $dataHelper->__('Can not find required columns: %s', implode(', ', $colsAbsent))
+                    $dataHelper->__('Can not find required columns: %s', implode(', ', $columnsAbsent))
                 );
             }
 
