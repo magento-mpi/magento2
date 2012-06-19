@@ -41,31 +41,29 @@
         </reference>
     </checkout_cart_configure>
 
-    <checkout_cart_configure_type_downloadable translate="label" module="Mage_Downloadable" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item (Downloadable)</label>
-        <update handle="catalog_product_view_type_downloadable"/>
-    </checkout_cart_configure_type_downloadable>
-
     <checkout_cart_configure_type_configurable translate="label" module="Mage_Catalog" type="page" parent="checkout_cart_configure">
         <label>Configure Cart Item (Configurable)</label>
         <update handle="catalog_product_view_type_configurable"/>
     </checkout_cart_configure_type_configurable>
 
-    <checkout_cart_configure_type_bundle translate="label" module="Mage_Bundle" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item (Bundle)</label>
-        <update handle="catalog_product_view_type_bundle"/>
-        <reference name="product.info.addtocart.bundle">
-            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
-        </reference>
-    </checkout_cart_configure_type_bundle>
-
-    <checkout_cart_configurefailed translate="label" type="page" parent="checkout_cart_configure">
-        <label>Configure Cart Item Failed</label>
+    <checkout_cart_configurefailed translate="label" type="page" parent="catalog_product_view">
+        <label>Configure Cart Item</label>
         <update handle="catalog_product_view"/>
         <reference name="product.info">
             <block type="Enterprise_Checkout_Block_Cart_Item_Configure" name="checkout.cart.item.configure.block"/>
         </reference>
+        <reference name="product.info.addtocart">
+            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
+        </reference>
+        <reference name="product.info.addtocart.additional">
+            <action method="setTemplate"><template>Mage_Checkout::cart/item/configure/updatecart.phtml</template></action>
+        </reference>
     </checkout_cart_configurefailed>
+
+    <checkout_cart_configurefailed_type_configurable translate="label" module="Mage_Catalog" type="page" parent="checkout_cart_configure">
+        <label>Configure Cart Item</label>
+        <update handle="catalog_product_view_type_configurable"/>
+    </checkout_cart_configurefailed_type_configurable>
 
 <!--
 Customer Account Dashboard
