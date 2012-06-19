@@ -76,9 +76,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
 
             foreach ($attributes as $attributeTitle) {
                 $this->addParameter('attributeTitle', $attributeTitle);
-                $xpath = $this->_getControlXpath('checkbox', 'configurable_attribute_title');
                 if ($this->controlIsPresent('checkbox', 'configurable_attribute_title')) {
-                    $attributesId[] = $this->getAttribute($xpath . '/@value');
+                    $attributesId[] =
+                        $this->getControlAttribute('checkbox', 'configurable_attribute_title', 'selectedValue');
                     $this->fillCheckbox('configurable_attribute_title', 'Yes');
                 } else {
                     $this->fail("Dropdown attribute with title '$attributeTitle' is not present on the page");
@@ -310,7 +310,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         }
 
         if ($attributeTitle) {
-            $attributeCode = $this->getAttribute("//a[span[text()='$attributeTitle']]/@name");
+            $this->addParameter('cellName', $attributeTitle);
+            $attributeCode = $this->getControlAttribute('pageelement', 'table_header_cell_name', 'name');
             $this->addParameter('attributeCode', $attributeCode);
             $this->addParameter('attributeTitle', $attributeTitle);
         }
@@ -319,11 +320,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         if ($fillingData) {
             $xpathTR = $this->formSearchXpath($data);
             if ($attributeTitle) {
-                $xpath = $this->_getControlXpath('fieldset', 'associated') . '//table[@id]';
-                $number = $this->getColumnIdByName($attributeTitle, $xpath);
-                $setXpath = $this->_getControlXpath('fieldset', 'associated');
-                $attributeValue = $this->getText($setXpath . $xpathTR . "//td[$number]");
-                $this->addParameter('attributeValue', $attributeValue);
+                $number = $this->getColumnIdByName($attributeTitle,
+                    $this->_getControlXpath('pageelement', 'associated_table'));
+                $this->addParameter('tableLineXpath', $this->_getControlXpath('fieldset', 'associated') . $xpathTR);
+                $this->addParameter('cellIndex', $number);
+                $this->addParameter('attributeValue',
+                    $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text'));
             } else {
                 $this->addParameter('productXpath', $xpathTR);
             }

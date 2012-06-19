@@ -52,6 +52,7 @@ frontend_header:
                             dropdown_option_index: "%dropdownXpath%//option[%index%]"
                             dropdown_option_selected: "%dropdownXpath%//option[@selected='selected']"
                             dropdown_group_option_text: "%dropdownXpath%/optgroup[@label='%optionGroup%']/option[normalize-space(text())='%optionText%']";
+                            table_header_cell_name: //a[span[text()='%cellName%']]
                             table_line: "%tableHeadXpath%/tr"
                             table_column: "%tableHeadXpath%//th"
                             table_column_index: "%tableHeadXpath%//th[%index%]"

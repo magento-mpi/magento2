@@ -517,6 +517,8 @@ new_product:
                                         associated_search_position_to: //input[@name='position[to]']
                                         associated_product_position: %productXpath%//input[@name='position']
                                         associated_product_default_qty: %productXpath%//input[@name='qty']
+                                    pageelements:
+                                        associated_table: //table[@id]
                 -
                     downloadable_information: &downloadableInformationTab
                         xpath: //a[@title='Downloadable Information']/span
