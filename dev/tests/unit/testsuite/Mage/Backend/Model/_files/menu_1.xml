@@ -1,4 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Backend
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
 <config>
     <menu>
         <add id="elem_one_zero" toolTip='toolTip 1' title="Title one.zero" module="Module_One" sortOrder="90" action="adminhtml/system" resource="/one/two" dependsOnModule="Module_One" dependsOnConfig="/one/two"/>

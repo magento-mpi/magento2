@@ -14,7 +14,7 @@
  */
 ?>
 <?php $card = $this->getCard() ?>
-<?php if ($card->getId()): ?>
+<?php if ($card && $card->getId()): ?>
     <div class="gift-card-info">
         <p><?php echo $this->__("Gift Card: %s", '<strong class="giftcard-number">' . $card->getCode() . '</strong>'); ?></p>
         <p><?php echo $this->__('Current Balance: %s', '<strong>' . Mage::helper('Mage_Core_Helper_Data')->currency($card->getBalance()) . '</strong>'); ?></p>

@@ -22,14 +22,7 @@ class Enterprise_Cms_Model_IncrementTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Empty fixture that guarantee data isolation
-     */
-    public static function emptyFixture()
-    {
-    }
-
-    /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testGetNewIncrementId()
     {

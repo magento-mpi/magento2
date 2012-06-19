@@ -1,10 +1,42 @@
+Update as of 6/7/2012
+=====================
+* Fixed various crashes of visual design editor
+* Fixed some layouts that caused visual design editor toolbar disappearing, also fixed some confusing page type labels
+* Eliminated "after commit callback" workaround from integration tests by implementing "transparent transactions" capability in integration testing framework
+* Refactored admin authentication/authorization in RSS module. Removed program termination and covered the controllers with tests
+* Removed HTML-report feature of copy-paste detector which never worked anyway (`dev/tests/static/framework/Inspection/CopyPasteDetector/html_report.xslt` and all related code)
+* Github requests:
+** [#19](https://github.com/magento/magento2/pull/19) Implemented "soft" dependency between modules and performed several improvements in the related code, covered with tests
+
+Update as of 5/31/2012
+======================
+* Implemented backend authentication independent of `Mage_Adminhtml` module. Authentication can be disabled
+  * Authentication logic is moved to `Mage_Backend` module and being performed in controller instead of observer
+  * `Mage_Adminhtml_Controller_Action` is changed to `Mage_Backend_Controller_ActionAbstract`, `Mage_Admin_Model_Session` is changed to `Mage_Backend_Model_Auth_Session`, `Mage_User_Model_Role` and `Mage_User_Model_Roles` classes are unified into one `Mage_User_Model_Role` class
+  * Introduced `Mage_User` module for users and roles management
+* Introduced support of minimized CSS and JS files: in production mode minimized file is used, if exists
+* Implemented resize, rotate, crop and watermark functionality for ImageMagick adapter
+* Fixed some issues:
+  * Fixed absence of product without image, if ImageMagick is used
+  * Fixed broken Downloadable product creation page, when developer mode is enabled
+  * Fixed random failures of `Integrity_LayoutTest::testHandlesHierarchy` test
+  * Fixed backup creation: media directory was excluded from the backup file when it should be included and vice-versa
+  * Fixed broken product configuration page in Shopping Cart
+  * Fixed incorrect work of "After number of attempts to login" functionality for CAPTCHA: captcha was not displayed after specified number of incorrect attempts
+  * Fixed creation of User Role: resource access was set to 'Custom', when 'All' is selected
+  * Fixed exception "Unable to locate skin file" at the end of installation
+  * Fixed broken "Use Store Credit" functionality on checkout
+  * Fixed lost MySQL connection, if it's not used for long time
+  * Fixed ability to separate CDN server setup for static and media content
+  * Other small fixes
+
 Update as of 5/23/2012
 ======================
 * Published performance tests (`dev/tests/performance`)
 * Implemented support of ImageMagick library for processing images
 * Distinguished "Page Fragments" and "Pages" in layout handles declaration
 * Reduced performance drop caused by introducing containers
-* Implemented Magento_Data_Structure library which is used to handle structure of layout elements
+* Implemented `Magento_Data_Structure` library which is used to handle structure of layout elements
 * Fixed some issues:
   * Fixed error on saving newsletter template
   * Fixed some checkout issues:
@@ -65,7 +97,7 @@ Update as of 4/13/2012
 ======================
 
 * Implemented a tool for migrating factory table names from 1.x to 2.x. The tool replaces table names by list of names associations
-* Changed Unit tests suite running from usage AllTests.php in each directory to configuration in phpunit.xml.dist. Now all tests in {{testsuite}} directory are launched, there is no necessity to add new tests to the config
+* Changed Unit tests suite running from usage AllTests.php in each directory to configuration in phpunit.xml.dist. Now all tests in `testsuite` directory are launched, there is no necessity to add new tests to the config
 * Implemented in Visual Desig Editor:
   * Containers highlighting
   * Dropping of elements

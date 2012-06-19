@@ -44,8 +44,7 @@
         <update handle="customer_form_template_handle"/>
     </customer_address_form>
 
-    <customer_form_template_handle translate="label">
-        <label>Customer Form Template</label>
+    <customer_form_template_handle>
         <reference name="content">
             <block name="customer_form_template" type="Enterprise_Customer_Block_Form_Template">
                 <action method="addRenderer">

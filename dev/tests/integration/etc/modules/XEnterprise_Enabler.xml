@@ -44,5 +44,6 @@
         <Enterprise_Staging><active>false</active></Enterprise_Staging>
         <Enterprise_TargetRule><active>true</active></Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction><active>true</active></Enterprise_WebsiteRestriction>
+        <Enterprise_Wishlist><active>true</active></Enterprise_Wishlist>
     </modules>
 </config>

@@ -11,7 +11,6 @@
 
 /**
  * Test class for Mage_Backend_Controller_ActionAbstract.
- *
  */
 class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_Controller
 {
@@ -31,7 +30,7 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
      * Check login redirection
      *
      * @covers Mage_Backend_Controller_ActionAbstract::_initAuthentication
-     * @magentoDataFixture emptyDataFixture
+     * @magentoDbIsolation enabled
      */
     public function testInitAuthentication()
     {
@@ -51,15 +50,5 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
 
         $expected = 'admin/system_account/index';
         $this->assertRedirect($this->stringContains($expected));
-    }
-
-    /**
-     * Empty data fixture to provide support of transaction
-     * @static
-     *
-     */
-    public static function emptyDataFixture()
-    {
-
     }
 }
