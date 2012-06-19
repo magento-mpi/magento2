@@ -6,7 +6,7 @@
  * Time: 3:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -48,20 +48,23 @@ class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
         $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
         //Step 4
-        $arr = $this->importExportHelper()->getCustomerEntityType();
-        foreach ($arr as $value) {
-            $this->fillDropdown('import_customer_entity', $value);
+        $entityTypes = $this->importExportHelper()->getCustomerEntityType();
+        foreach ($entityTypes as $entityType) {
+            $this->fillDropdown('import_customer_entity', $entityType);
             //Step 5
             $report = $this->importExportHelper()->import($data,'example.pdf');
-            $this->assertArrayNotHasKey('error', $report, 'Not Implemented yet');
+            $this->assertArrayNotHasKey('import', $report,
+                'Incorrect file has been imported');
+            $this->assertArrayHasKey('error', $report['validation'],
+                'Error notification is missing on the Check Data');
         }
     }
     public function importData()
     {
         return array(
             array(array(array(
-                'email' => 'sdfsdf@qweqwe.cc',
-                '_website' => 'admin',
+                'email' => 'test_email@never-domain.com',
+                '_website' => 'base',
                 '_store' => 'admin',
                 'confirmation' => '',
                 'created_at' => '01.06.2012 14:35',
@@ -70,10 +73,10 @@ class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
                 'default_shipping' => '',
                 'disable_auto_group_change' => '0',
                 'dob' => '',
-                'firstname' => 'sdfsdfsd',
+                'firstname' => 'first_name',
                 'gender' => '',
                 'group_id' => '1',
-                'lastname' => 'sdfsdfs',
+                'lastname' => 'last_name',
                 'middlename' => '',
                 'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
                 'website_id' => '0',
