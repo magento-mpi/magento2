@@ -1,0 +1,25 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+product_page:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    add_tag:
+                        buttons:
+                            add_tags: //*[@data-ui-id='product-tag-list-add-button']
+                        fields:
+                            input_new_tags: //*[@data-ui-id='product-tag-list-add-input']
+        messages: &productMessages
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
+            tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"

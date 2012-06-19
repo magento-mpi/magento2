@@ -14,16 +14,16 @@
  */
 ?>
 <div id="<?php echo $this->getId(); ?>" class="buttons-group">
-    <div id="<?php echo $this->getId(); ?>_main_control" class="button <?php echo $this->getClass() ?: '' ?>">
+    <div id="<?php echo $this->getId(); ?>_main_control" class="button <?php echo $this->getClass() ?: '' ?>"<?php echo $this->getUiId(); ?>>
         <span><?php echo $this->getLabel(); ?></span>
     </div>
-    <div class="button btn-toggle" data-toggle="dropdown"><span>Select</span></div>
-    <ul class="dropdown-menu">
-        <?php foreach ($this->getOptions() as $option): ?>
+    <div class="button btn-toggle" data-toggle="dropdown" <?php echo $this->getUiId("dropdown"); ?>><span>Select</span></div>
+    <ul class="dropdown-menu" <?php echo $this->getUiId("dropdown-menu"); ?>>
+        <?php foreach ($this->getOptions() as $key => $option): ?>
         <li>
-            <span class="item<?php if($option['default']):?> item-default<?php endif; ?>" onclick="<?php echo $option['onclick']?>"><?php echo $option['label'] ?></span>
+            <span class="item<?php if($option['default']):?> item-default<?php endif; ?>" onclick="<?php echo $option['onclick']?>"><?php echo $option['label'], $this->getUiId("item", $key); ?></span>
             <?php if(isset($option['hint'])): ?>
-            <div class="tooltip">
+            <div class="tooltip" <?php echo $this->getUiId("item", $key, "tooltip"); ?>>
                 <a href="<?php echo $option['hint']['href'] ?>" class="help"><?php echo $option['hint']['label'] ?></a>
             </div>
             <?php endif; ?>

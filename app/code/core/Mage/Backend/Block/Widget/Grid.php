@@ -294,6 +294,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         if (is_array($column)) {
             $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
                 ->setData($column)
+                ->setColumnId($columnId)
                 ->setGrid($this);
         } else {
             throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong column format.'));
