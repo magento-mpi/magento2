@@ -52,6 +52,133 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->navigate('import');
     }
     /**
+     * <p>Export Settings General View</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "New Import" fromat</p>
+     * <p>Expected: dropdowns contain correct values</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5615
+     */
+    public function importSettingsGeneralView()
+    {
+        //Verifying
+        $entityTypes = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'entity_type') . '/option',
+            'text');
+        $this->assertEquals(array(
+                '-- Please Select --',
+                'Products',
+                'Customers'
+            ), $entityTypes,
+            'Entity Type dropdown contains incorrect values');
+        $entityBehavior = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_behavior') . '/option',
+            'text');
+        $this->assertEquals(array(
+                '-- Please Select --',
+                'Append Complex Data',
+                'Replace Existing Complex Data',
+                'Delete Entities'
+             ), $entityBehavior,
+            'Import Behavior dropdown contains incorrect values');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Verifying
+        $exportFileVersion = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_file_version') . '/option',
+            'text');
+        $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
+            $exportFileVersion,
+            'Import File Version dropdown contains incorrect values');
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        //Verifying
+        $exportFileVersion = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_customer_entity') . '/option',
+            'text');
+        $this->assertEquals($this->importExportHelper()->getCustomerEntityType(),
+            $exportFileVersion,
+            'Customer Entity Type dropdown contains incorrect values');
+        $this->assertTrue($this->controlIsVisible('field','file_to_import'),
+            'File to Import field is missing');
+    }
+
+    /**
+     * <p>Validation Result block</p>
+     * <p>Verify that Validation Result block will be displayed after checking data of import customer files</p>
+     * <p>Precondition: at least one customer exists,
+     * Customer Main, Address, Finance files must be generated after export</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Customers Entity Type: Customer Main File/Customer Addresses/Customer Finances</p>
+     * <p>5. Select file to import</p>
+     * <p>6. Click "Check Data" button.</p>
+     * <p>Expected: validation and success messages are correct
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5618
+     */
+    public function mainValidationResultBlock()
+    {
+        //Precondition: create customer, add address
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //add store credit and reward points (for EE)
+        $customerTypes = $this->importExportHelper()->getCustomerEntityType();
+        if (in_array('Customer Finances', $customerTypes)) {
+            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+            $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'100'));
+            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+            $this->customerHelper()->updateRewardPointsBalance(array('update_balance' =>'120'));
+        }
+        //export all customer files
+        $this->admin('export');
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
+        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
+        $report = array();
+        foreach ($customerTypes as $customerType) {
+            $this->fillDropdown('export_file', $customerType);
+            $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+            $report[$customerType] = $this->importExportHelper()->export();
+        }
+        //Step 1
+        $this->admin('import');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        foreach ($customerTypes as $customerType) {
+            //Step 4
+            $this->fillDropdown('import_customer_entity', $customerType);
+            //Step 5-6
+            $importData = $this->importExportHelper()->import($report[$customerType]);
+            //Verifying
+            $this->assertEquals('Checked rows: ' . count($report[$customerType]) . ', checked entities: '
+                    . count($report[$customerType])
+                    . ', invalid rows: 0, total errors: 0', $importData['validation']['validation'][0],
+                'Validation message is not correct');
+            $this->assertEquals('File is valid! To start import process press "Import" button  Import',
+                $importData['validation']['success'][0], 'Success message is not correct');
+        }
+    }
+
+    /**
      * @dataProvider importData
      * @test
      */
@@ -61,6 +188,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
         $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown','import_file_version'));
+        $this->fillDropdown('import_file_version', 'Magento 1.7 format');
         $report = $this->importExportHelper()->import($data);
     }
 
@@ -105,72 +234,4 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             )))
         );
     }
-    public function importDataCsv()
-    {
-        return array(
-            array(array(array(
-
-                'email' => 'test_admin_nhecx@unknown-domain.com',
-                '_website' => 'base',
-                '_store' => 'admin',
-                'confirmation' => '',
-                'created_at' => "2012-06-14 16:35:03",
-                'created_in' => 'Admin',
-                'disable_auto_group_change' => '0',
-                'dob' => '',
-                'firstname' => 'first_fegvq',
-                'gender' => 'Female',
-                'group_id' => '1',
-                'lastname' => 'last_uxjnf',
-                'middlename' => 'middle_xlkon',
-                'password_hash' => '6fd5584d5ef3ec324784aceeafd4f2ddc7ca930580d1ccea793e7012209af4b8:xH',
-                'prefix' => 'Mrs.',
-                'reward_update_notification' => '1',
-                'reward_warning_notification' => '1',
-                'rp_token' => '',
-                'rp_token_created_at' => '',
-                'store_id' => '0',
-                'suffix' => '',
-                'taxvat' => '',
-                'website_id' => '1',
-                'password' => '',
-                '_address_city' => "Culver City",
-                '_address_company' => 'Magento',
-                '_address_country_id' => 'US',
-                '_address_fax' => '530-918-3581',
-                '_address_firstname' => "Female First Name",
-                '_address_lastname' => "Female Last Name",
-                '_address_middlename' => "Female Middle Name",
-                '_address_postcode' => '90232',
-                '_address_prefix' => 'Prefix',
-                '_address_region' => 'California',
-                '_address_street' => "10441 Jefferson Blvd\nSuite 200",
-                '_address_suffix' => 'Suffix',
-                '_address_telephone' => '530-918-3581',
-                '_address_vat_id' => '1',
-                '_address_default_billing_' => '1',
-                '_address_default_shipping_' => '1'
-            )))
-        );
-    }
-    /**
-     * @dataProvider importDataCsv
-     * @test
-     */
-    public function generateImport($data)
-    {
-        //generate records
-        //Make tmp file
-        $tempFile = $this->_testConfig->getHelper('config')->getLogDir() . DIRECTORY_SEPARATOR .
-            'customer_' . date('Ymd_His') . '.csv';
-        $handle = fopen($tempFile, 'w+');
-        for ($i = 1; $i <= 100000; $i++) {
-                $data[0]['email'] = 'test_' . $this->generate('string', 6) . '@' . $this->generate('string', 6) . '-domain.com';
-                $dataCsv[] = $data[0];
-            }
-            $report = $this->importExportHelper()->arrayToCsv($dataCsv);
-            fwrite($handle, $report);
-        fclose($handle);
-    }
-
 }

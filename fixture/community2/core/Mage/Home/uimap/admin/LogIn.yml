@@ -10,9 +10,7 @@
 #
 ---
 log_in_to_admin:
-    mca:
-    title:
-    uimap: 
+    uimap:
         form:
             fieldsets:
                -
@@ -31,14 +29,13 @@ log_in_admin_page:
 # 'Forgot your user name or password?' page
 forgot_password:
     mca: auth/forgotpassword/
-    title:
     uimap:
-        form: 
+        form:
             fieldsets:
                -
                    forgot_password:
                        fields:
                            captcha_field: //input[@id='captcha']
         messages: *loginMessages
-          
-        
+
+
