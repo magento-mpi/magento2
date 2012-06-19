@@ -45,6 +45,15 @@ generic_customer_account:
     send_from: %noValue%
     password: 123123q
     auto_generated_password: %noValue%
+
+generic_customer_required_fields:
+    associate_to_website: Main Website
+    group: General
+    first_name: first_%randomize%
+    last_name: last_%randomize%
+    email: test_admin_%randomize%@unknown-domain.com
+    password: 123123q
+
 generic_customer_attribute:
    input_type: Text Field
    attribute_code: attr_%randomize%
@@ -188,4 +197,28 @@ generic_customer_address_attribute:
    admin_title: Text_Field_Admin_%randomize%
    store_view_titles:
         Default Store View: Text_Field_StoreView
+generic_customer_account:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: first_%randomize%
+    middle_name: middle_%randomize%
+    last_name: last_%randomize%
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: %noValue%
+    tax_vat_number: %noValue%
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
+import_main_file_required_fields:
+   email: %noValue%
+   _website: base
+   firstname: Violet
+   lastname: Fields
+   group_id: 3
+
+
 

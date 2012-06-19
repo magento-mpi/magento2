@@ -80,6 +80,12 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     protected function _parseResponseMessages($response)
     {
         $dom = new DOMDocument;
+        //Check fatal error
+        if (preg_match('/Fatal error/i', $response, $result) == true
+            || $response==''){
+            $this->addMessage('error', $response);
+            return;
+        };
         //parse response
         preg_match('/{"import_validation_messages":(".*")}/i', $response, $result);
         if (!isset($result[1])){
@@ -178,7 +184,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @param string\null $fileName Specific file name
      * @return array
      */
-    public function uploadFile($urlPage, $importUrl, $startUrl, $parameters = array(), $fileName)
+    public function uploadFile($urlPage, $importUrl, $startUrl, $parameters = array(), $fileName, $continueOnError = true)
     {
         $cookie = $this->getCookie();
         $ch     = curl_init();
@@ -216,20 +222,32 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $this->_parseResponseMessages($data);
         //Save Check Data messages to validation array
         $importMessages['validation'] = $this->getParsedMessages();
+        //verify validation message
+        $continueImport = false;
+        $importErrorOccurred = false;
+        foreach ($importMessages['validation']['validation'] as $validationMessage)
+              if (preg_match('/Checked rows: (\d+), checked entities: (\d+), invalid rows: (\d+), total errors: (\d+)/i',
+                  $validationMessage, $result)!== false){
+                  //compare checked and invalid rows
+                  $continueImport = intval($result[1]) > intval($result[3]);
+                  $importErrorOccurred = intval($result[1]) <> intval($result[3]);
+              }
         //Perform Import if Check Data is passed
-        if (!$this->getParsedMessages('error')){
-            //Prepare request Import Data
-            $parameters['import_file'] = "type=application/octet-stream";
-            //Request Import data
-            curl_setopt($ch, CURLOPT_URL, $startUrl . $formKey);
-            curl_setopt($ch, CURLOPT_POST, count($parameters));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
-            $data = curl_exec($ch);
-            //Parse response messages
-            $this->clearMessages();
-            $this->_parseResponseMessages($data);
-            //Save Import messages to import array
-            $importMessages['import'] = $this->getParsedMessages();
+        if ($continueImport){
+            if (!$importErrorOccurred || ($importErrorOccurred && $continueOnError)){
+                //Prepare request Import Data
+                $parameters['import_file'] = "type=application/octet-stream";
+                //Request Import data
+                curl_setopt($ch, CURLOPT_URL, $startUrl . $formKey);
+                curl_setopt($ch, CURLOPT_POST, count($parameters));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+                $data = curl_exec($ch);
+                //Parse response messages
+                $this->clearMessages();
+                $this->_parseResponseMessages($data);
+                //Save Import messages to import array
+                $importMessages['import'] = $this->getParsedMessages();
+            }
         }
         //Close curl connection
         curl_close($ch);
@@ -417,7 +435,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      * @param string $fileName File name to be used for uploading
      * @return array
      */
-    public function import(array $data, $fileName = NULL)
+    public function import(array $data, $fileName = NULL, $continueOnError = true)
     {
         //Get export page full Url
         $pageUrl = $this->getUrl($this->getCurrentUimapPage()->getMca());
@@ -429,7 +447,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Prepare parameters
         $parameters = $this->_prepareImportParameters(array('import_file' => $csv));
         //Get response
-        $report = $this->uploadFile($pageUrl, $importUrl, $startUrl, $parameters, $fileName);
+        $report = $this->uploadFile($pageUrl, $importUrl, $startUrl, $parameters, $fileName, $continueOnError);
         //Return messages array
         return $report;
     }
