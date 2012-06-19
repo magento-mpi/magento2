@@ -114,9 +114,12 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
      */
     protected function _getCustomerId($email, $websiteCode)
     {
+        $email = strtolower(trim($email));
         if (isset($this->_websiteCodeToId[$websiteCode])) {
             $websiteId = $this->_websiteCodeToId[$websiteCode];
-            return $this->_customers[$email][$websiteId];
+            if (isset($this->_customers[$email][$websiteId])) {
+                return $this->_customers[$email][$websiteId];
+            }
         }
 
         return false;
