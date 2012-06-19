@@ -65,4 +65,24 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
         $this->fillTab($rewardPointsData, 'reward_points');
         $this->saveForm('save_customer');
     }
+    /**
+     * Get Current Customer Store Credit Balance
+     *
+     * @return string
+     */
+    public function getStoreCreditBalance()
+    {
+        $this->openTab('store_credit');
+        return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
+    }
+    /**
+     * Get Current Customer Store Credit Balance
+     *
+     * @return string
+     */
+    public function getRewardPointsBalance()
+    {
+        $this->openTab('reward_points');
+        return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
+    }
 }
