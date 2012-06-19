@@ -152,8 +152,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
      * @param array $indexAttributes OPTIONAL Additional attribute codes with index values.
      * @return array
      */
-    public function getAttributeOptions(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $indexAttributes = array())
-    {
+    public function getAttributeOptions(Mage_Eav_Model_Entity_Attribute_Abstract $attribute,
+        array $indexAttributes = array()
+    ) {
         $options = array();
 
         if ($attribute->usesSource()) {

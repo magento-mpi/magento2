@@ -105,7 +105,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Validate uploaded files action.
+     * Validate uploaded files action
      *
      * @return void
      */
@@ -138,7 +138,9 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                             );
                         } elseif ($import->getErrorsCount() >= $import->getErrorsLimit()) {
                             $resultBlock->addNotice(
-                                $this->__('Errors limit (%d) reached. Please fix errors and re-upload file', $import->getErrorsLimit())
+                                $this->__('Errors limit (%d) reached. Please fix errors and re-upload file',
+                                    $import->getErrorsLimit()
+                                )
                             );
                         } else {
                             if ($import->isImportAllowed()) {
@@ -169,7 +171,12 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                         }
                     }
                     $resultBlock->addNotice($import->getNotices());
-                    $resultBlock->addNotice($this->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d', $import->getProcessedRowsCount(), $import->getProcessedEntitiesCount(), $import->getInvalidRowsCount(), $import->getErrorsCount()));
+                    $resultBlock->addNotice(
+                        $this->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+                            $import->getProcessedRowsCount(), $import->getProcessedEntitiesCount(),
+                            $import->getInvalidRowsCount(), $import->getErrorsCount()
+                        )
+                    );
                 }
             } catch (Exception $e) {
                 $resultBlock->addNotice($this->__('Please fix errors and re-upload file'))

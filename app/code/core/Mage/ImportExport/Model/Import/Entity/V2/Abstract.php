@@ -586,7 +586,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             /** @var $dataHelper Mage_ImportExport_Helper_Data */
             $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
 
-            // does all permanent columns exists?
+            // do all permanent columns exist?
             if (($colsAbsent = array_diff($this->_permanentAttributes, $this->getSource()->getColNames()))) {
                 Mage::throwException(
                     $dataHelper->__('Can not find required columns: %s', implode(', ', $colsAbsent))

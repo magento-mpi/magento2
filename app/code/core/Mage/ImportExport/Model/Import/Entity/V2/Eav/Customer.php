@@ -16,7 +16,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
-    extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+    extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
 {
     /**#@+
      * Permanent column names
@@ -25,19 +25,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      * to avoid interference with same attribute name.
      */
     const COLUMN_EMAIL   = 'email';
-    const COLUMN_WEBSITE = '_website';
     const COLUMN_STORE   = '_store';
     /**#@-*/
 
     /**#@+
      * Error codes
      */
-    const ERROR_INVALID_WEBSITE      = 'invalidWebsite';
-    const ERROR_INVALID_EMAIL        = 'invalidEmail';
     const ERROR_DUPLICATE_EMAIL_SITE = 'duplicateEmailSite';
-    const ERROR_EMAIL_IS_EMPTY       = 'emailIsEmpty';
     const ERROR_ROW_IS_ORPHAN        = 'rowIsOrphan';
-    const ERROR_VALUE_IS_REQUIRED    = 'valueIsRequired';
     const ERROR_INVALID_STORE        = 'invalidStore';
     const ERROR_EMAIL_SITE_NOT_FOUND = 'emailSiteNotFound';
     const ERROR_PASSWORD_LENGTH      = 'passwordLength';
@@ -91,29 +86,23 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
         $this->_permanentAttributes[]  = self::COLUMN_WEBSITE;
         $this->_indexValueAttributes[] ='group_id';
 
-        $this->_initWebsites(true)
-            ->_initStores(true)
-            ->_initAttributes()
-            ->_initCustomers();
-    }
+        /** @var $helper Mage_ImportExport_Helper_Data */
+        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
 
-    /**
-     * Initialize existent customers data
-     *
-     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
-     */
-    protected function _initCustomers()
-    {
-        /** @var $customer Mage_Customer_Model_Customer */
-        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection') as $customer) {
-            $email = strtolower($customer->getEmail());
-            if (!isset($this->_oldCustomers[$email])) {
-                $this->_oldCustomers[$email] = array();
-            }
-            $this->_oldCustomers[$email][$customer->getWebsiteId()] = $customer->getId();
-        }
+        $this->addMessageTemplate(self::ERROR_DUPLICATE_EMAIL_SITE, $helper->__('E-mail is duplicated in import file'));
+        $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
+            $helper->__('Orphan rows that will be skipped due default row errors')
+        );
+        $this->addMessageTemplate(self::ERROR_INVALID_STORE,
+            $helper->__('Invalid value in Store column (store does not exists?)')
+        );
+        $this->addMessageTemplate(self::ERROR_EMAIL_SITE_NOT_FOUND,
+            $helper->__('E-mail and website combination is not found')
+        );
+        $this->addMessageTemplate(self::ERROR_PASSWORD_LENGTH, $helper->__('Invalid password length'));
 
-        return $this;
+        $this->_initStores(true)
+            ->_initAttributes();
     }
 
     /**
