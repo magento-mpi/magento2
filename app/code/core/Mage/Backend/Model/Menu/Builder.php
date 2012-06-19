@@ -73,32 +73,33 @@ class Mage_Backend_Model_Menu_Builder
         /** @var $items Mage_Backend_Model_Menu_Item[] */
         $params = array();
         $items = array();
+
+        // Create menu items
         foreach ($this->_commands as $id => $command) {
             $params[$id] = $command->execute();
-            if (!isset($params[$id]['removed'])) {
-                $item = $this->_itemFactory->createFromArray($params[$id]);
-                $items[$id] = $item;
-            } else {
-                unset($params[$id]);
-            }
+            $item = $this->_itemFactory->createFromArray($params[$id]);
+            $items[$id] = $item;
         }
 
+        // Build menu tree based on "parent" param
         foreach($items as $id => $item) {
-            if (!isset($params[$id]['parent'])) {
-                $this->_menu->add(
-                    $item,
-                    null,
-                    isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
-                );
+            $sortOrder = isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null;
+            $parentId = isset($params[$id]['parent']) ? $params[$id]['parent'] : null;
+            $isRemoved = isset($params[$id]['removed']);
+
+            if ($isRemoved) {
+                continue;
+            }
+            if (!$parentId) {
+                $this->_menu->add($item, null, $sortOrder);
             } else {
-                if (!isset($items[$params[$id]['parent']])) {
+                if (!isset($items[$parentId])) {
                     throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $params[$id]['parent']));
                 }
-                $items[$params[$id]['parent']]->getChildren()->add(
-                    $item,
-                    null,
-                    isset($params[$id]['sortOrder']) ? $params[$id]['sortOrder'] : null
-                );
+                if (isset($params[$parentId]['removed'])) {
+                    continue;
+                }
+                $items[$parentId]->getChildren()->add($item, null, $sortOrder);
             }
         }
 
