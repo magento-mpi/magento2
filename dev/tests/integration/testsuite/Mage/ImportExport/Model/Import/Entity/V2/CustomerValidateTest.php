@@ -10,10 +10,11 @@
  */
 
 /**
- * @group module:Mage_ImportExport
+ * Test for class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer which covers validation logic
+ *
  * @magentoDataFixture Mage/ImportExport/_files/customers.php
  */
-class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Model object which used for tests
@@ -36,13 +37,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerTest extends PHPUnit_
     {
         parent::setUp();
 
-        $this->_model = $this->getMock('Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer',
-            array('getBehavior')
-        );
-
-        $this->_model->expects($this->any())
-            ->method('getBehavior')
-            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_APPEND));
+        $this->_model = new Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer();
 
         $propertyAccessor = new ReflectionProperty($this->_model, '_messageTemplates');
         $propertyAccessor->setAccessible(true);
@@ -59,6 +54,15 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerTest extends PHPUnit_
             'website_id' => 1,
             'password' => 'password',
         );
+    }
+
+    /**
+     * Unset created data during tests
+     */
+    protected function tearDown()
+    {
+        unset($this->_model, $this->_customerData);
+        parent::tearDown();
     }
 
     /**
