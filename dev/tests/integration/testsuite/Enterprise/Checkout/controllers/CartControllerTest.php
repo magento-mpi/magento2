@@ -12,7 +12,7 @@
 require_once __DIR__ . '/../../../Mage/Checkout/controllers/CartControllerTest.php';
 class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControllerTest
 {
-    protected $_configureFailedAction = array(
+    protected $_products = array(
         'bundle_product' => array(
             'fixture' => 'Mage/Bundle/_files/product.php',
             'expected' => array('<button type="button" title="Update Cart" class="button btn-cart"')
@@ -59,7 +59,7 @@ class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControlle
     {
         $this->setUp();
         $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
-        foreach ($this->_configureFailedAction as $testCode => $testParams) {
+        foreach ($this->_products as $testCode => $testParams) {
             $adapter->beginTransaction();
             require __DIR__ . '/../../../' . $testParams['fixture'];
             $this->getResponse()->clearBody();
