@@ -58,6 +58,16 @@ admin_header:
                             dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
                             dropdown_option_index: "%dropdownXpath%//option[%index%]"
                             dropdown_option_selected: "%dropdownXpath%//option[@selected='selected']"
+                            dropdown_group_option_text: "%dropdownXpath%/optgroup[@label='%optionGroup%']/option[normalize-space(text())='%optionText%']";
+                            table_line: "%tableHeadXpath%/tr"
+                            table_column: "%tableHeadXpath%//th"
+                            table_column_index: "%tableHeadXpath%//th[%index%]"
+                            table_column_index_colspan: "%tableHeadXpath%//th[%index%][@colspan]"
+                            table_head_first: "%tableHeadXpath%/tr[contains(@class,'first')]"
+                            table_line_index_cell_index: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]"
+                            table_line_index_cell_index_with_input_value: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]/input[@value]"
+                            table_line_index_cell_index_options: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='item-options']"
+                            table_line_index_cell_index_product_name: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='product-name']"
         messages:
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"

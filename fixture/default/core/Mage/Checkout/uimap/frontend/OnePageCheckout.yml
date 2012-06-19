@@ -166,6 +166,10 @@ onepage_checkout:
                         pageelements:
                             product_table_head: //table[@id='checkout-review-table']/thead
                             price_totals: //table[@id='checkout-review-table']/tfoot
+                            price_totals_line: //table[@id='checkout-review-table']/tfoot/descendant::tr
+                            price_totals_line_index: //table[@id='checkout-review-table']/tfoot/descendant::tr[%index%]
+                            price_totals_line_index_name: //table[@id='checkout-review-table']/tfoot/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //table[@id='checkout-review-table']/tfoot/descendant::tr[%index%]/*[2]
                             product_line:  //table[@id='checkout-review-table']/tbody/tr
                         fields:
                             product_name: //table[@id='checkout-review-table']/tbody//td[h3= '%productName%']

@@ -43,15 +43,15 @@ class Community2_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
     public function fillWidgetSettings(array $settings)
     {
         if ($settings) {
-            list($package, $theme) = array_map('trim', (explode('/', $settings['design_package_theme'])));
             $this->fillDropdown('type', $settings['type']);
             $type = $this->getControlAttribute('dropdown', 'type', 'selectedValue');
             $this->addParameter('type', $type);
 
-            $xpath = $this->_getControlXpath('dropdown', 'design_package_theme');
-            $xpathValue = $xpath . "/optgroup[@label='" . ucfirst(strtolower($package)) . "']/option[text()='"
-                          . ucfirst(strtolower($theme)) . "']";
-            $value = $this->getValue($xpathValue);
+            list($package, $theme) = array_map('trim', (explode('/', $settings['design_package_theme'])));
+            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'design_package_theme'));
+            $this->addParameter('optionGroup', ucfirst(strtolower($package)));
+            $this->addParameter('optionText', ucfirst(strtolower($theme)));
+            $value = $this->getControlAttribute('pageelement', 'dropdown_group_option_text', 'value');
             $this->addParameter('package_theme', str_replace('/', '-', $value));
             $this->fillDropdown('design_package_theme', $value);
         }

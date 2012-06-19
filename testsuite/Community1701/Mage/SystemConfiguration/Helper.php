@@ -58,16 +58,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $this->openConfigurationTab('sales_payment_methods');
         $this->disableAllPaypalMethods();
         if ($country) {
-            $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'merchant_country'));
-            $this->addParameter('optionText', $country);
-            if (!$this->controlIsPresent('pageelement', 'dropdown_option_selected')) {
-                $this->saveForm('save_config');
-                $this->addParameter('country',
-                    $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value'));
-                $this->fillDropdown('merchant_country', $country);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                $this->validatePage();
-            }
+            $this->selectPaypalCountry($country, true);
         }
         $forVerify = array();
         foreach ($configuration as $payment) {
@@ -120,7 +111,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $fullPath = explode('/', $path);
         $fullPath = array_map('trim', $fullPath);
         foreach ($fullPath as $node) {
-            $class = $this->getAttribute($this->_getControlXpath('fieldset', $node) . '@class');
+            $class = $this->getControlAttribute('fieldset', $node, 'class');
             if (!preg_match('/active/', $class)) {
                 $this->clickControl('link', $node . '_section', false);
             }
@@ -133,12 +124,18 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
      * Select country for paypal
      *
      * @param string $country
+     * @param bool $saveBeforeSelect
+     *
+     * @return void
      */
-    public function selectPaypalCountry($country)
+    public function selectPaypalCountry($country, $saveBeforeSelect = false)
     {
         $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'merchant_country'));
         $this->addParameter('optionText', $country);
         if (!$this->controlIsPresent('pageelement', 'dropdown_option_selected')) {
+            if ($saveBeforeSelect) {
+                $this->saveForm('save_config');
+            }
             $value = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
             $this->addParameter('country', $value);
             $this->fillDropdown('merchant_country', $country);

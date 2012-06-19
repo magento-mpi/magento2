@@ -125,6 +125,10 @@ create_credit_memo:
                             email_copy_of_credit_memo: //input[@name='creditmemo[send_email]']
                         pageelements:
                             price_totals: //tbody
+                            price_totals_line: //tbody/descendant::tr
+                            price_totals_line_index: //tbody/descendant::tr[%index%]
+                            price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             reset: //p[@class='form-buttons']//button[span='Reset']
@@ -177,6 +181,10 @@ view_credit_memo:
                         xpath: //div[@class='box-right entry-edit'][./div/h4='Credit Memo Totals']
                         pageelements:
                             price_totals: //tbody
+                            price_totals_line: //tbody/descendant::tr
+                            price_totals_line_index: //tbody/descendant::tr[%index%]
+                            price_totals_line_index_name: //tbody/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //tbody/descendant::tr[%index%]/*[2]
         buttons:
             back: //p[@class='form-buttons']//button[span='Back']
             send_email: //p[@class='form-buttons']//button[span='Send Email']

@@ -65,6 +65,10 @@ shopping_cart:
                         xpath: //div[@class='totals']
                         pageelements:
                             price_totals: //table[@id='shopping-cart-totals-table']
+                            price_totals_line: //table[@id='shopping-cart-totals-table']/descendant::tr
+                            price_totals_line_index: //table[@id='shopping-cart-totals-table']/descendant::tr[%index%]
+                            price_totals_line_index_name: //table[@id='shopping-cart-totals-table']/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //table[@id='shopping-cart-totals-table']/descendant::tr[%index%]/*[2]
                         buttons:
                             continue_shopping: //button[span='Proceed to Checkout']
                 -

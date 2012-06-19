@@ -409,6 +409,10 @@ checkout_multishipping_review_order:
                             product_table_head: //table/thead
                             product_line: //table/tbody/tr
                             price_totals: //table/tfoot
+                            price_totals_line: //table/tfoot/descendant::tr
+                            price_totals_line_index: //table/tfoot/descendant::tr[%index%]
+                            price_totals_line_index_name: //table/tfoot/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //table/tfoot/descendant::tr[%index%]/*[2]
                 -
                     review_order:
                         xpath: //div[div/h1[contains(text(),'Review Order')]]

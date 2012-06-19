@@ -313,6 +313,10 @@ create_order_for_new_customer:
                         xpath: //div[div/h4[contains(text(),'Order Totals')]]
                         pageelements:
                             price_totals: //*[@id='order-totals']//tbody
+                            price_totals_line: //*[@id='order-totals']//tbody/descendant::tr
+                            price_totals_line_index: //*[@id='order-totals']//tbody/descendant::tr[%index%]
+                            price_totals_line_index_name: //*[@id='order-totals']//tbody/descendant::tr[%index%]/*[1]
+                            price_totals_line_index_value: //*[@id='order-totals']//tbody/descendant::tr[%index%]/*[2]
                             total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl. Tax)']/td[span='%price%']
                             total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl. Tax)']/td[span='%price%']
                             total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
@@ -498,6 +502,10 @@ view_order:
                                     xpath: //div[@class='order-totals']
                                     pageelements:
                                         price_totals: //div[@class='order-totals']/table
+                                        price_totals_line: //div[@class='order-totals']/table/descendant::tr
+                                        price_totals_line_index: //div[@class='order-totals']/table/descendant::tr[%index%]
+                                        price_totals_line_index_name: //div[@class='order-totals']/table/descendant::tr[%index%]/*[1]
+                                        price_totals_line_index_value: //div[@class='order-totals']/table/descendant::tr[%index%]/*[2]
                                         total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
                                         total_subtotal_excl_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span='%price%']
                                         total_subtotal_incl_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span='%price%']
