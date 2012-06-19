@@ -32,12 +32,8 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
- * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
-class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -49,7 +45,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         //logged in once for all tests
         $this->loginAdminUser();
         //Step 1
-        $this->navigate('import');
+        $this->navigate('export');
     }
 
     /**
@@ -80,13 +76,18 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $this->admin('manage_customers');
         // 0.1. create customers with/o address
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account');
-        $addressData2 = $this->loadDataSet('ImportExport', 'generic_address');
-        $this->customerHelper()->createCustomer($userData2, $addressData2);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('manage_customers');
         $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->navigate('manage_customers');
+        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData2);
+        $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
+        $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '1234'));
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
+        $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '4321'));
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->admin('import');
         //Step 1
@@ -102,15 +103,17 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $this->waitForElementVisible(
             $this->_getControlXpath('dropdown', 'import_customer_entity')
         );
-        $this->fillDropdown('import_customer_entity', 'Customer Addresses File');
+        $this->fillDropdown('import_customer_entity', 'Customer Finances File');
         //Generated CSV data
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
             array(
-                '_email' => $userData1['email']
+                'email' => $userData1['email']
             ));
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields2',
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
             array(
-                '_email' => $userData2['email'],
+                'email' => $userData2['email'],
+                'store_credit' => '4321.0000',
+                'reward_points' => '1234',
             ));
         //Build CSV array
         $data = array(
@@ -133,18 +136,10 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             array(
                 'email' => $userData1['email']
             ));
-        $this->openTab('addresses');
-        $addressData1 = array();
-        $addressData1['city'] = $data[1]['city'];
-        $addressData1['first_name'] = $data[1]['firstname'];
-        $addressData1['last_name'] = $data[1]['lastname'];
-        $addressData1['zip_code'] = $data[1]['postcode'];
-        $addressData1['street_address_line_1'] = $data[1]['street'];
-        $addressData1['telephone'] = $data[1]['telephone'];
-        //Verify customer account address
-        $this->assertTrue($this->customerHelper()->isAddressPresent($addressData1),
-            'New customer address has not been created');
-        //Verify customer account
+        $this->assertEquals('$1,234.00', $this->customerHelper()->getStoreCreditBalance(),
+            'Adding customer credit score balance is failed');
+        $this->assertEquals('4321', $this->customerHelper()->getRewardPointsBalance(),
+            'Adding customer reward points balance is failed');
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name',
             $userData2['first_name'] . ' ' . $userData2['last_name']);
@@ -152,14 +147,9 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             array(
                 'email' => $userData2['email']
             ));
-        $this->openTab('addresses');
-        $addressData2['city'] = $data[1]['city'];
-        $addressData2['first_name'] = $data[1]['firstname'];
-        $addressData2['last_name'] = $data[1]['lastname'];
-        $addressData2['zip_code'] = $data[1]['postcode'];
-        $addressData2['street_address_line_1'] = $data[1]['street'];
-        $addressData2['telephone'] = $data[1]['telephone'];
-        $this->assertTrue($this->customerHelper()->isAddressPresent($addressData2),
-            'Existent customer address has not been updated');
+        $this->assertEquals('$4,321.00', $this->customerHelper()->getStoreCreditBalance(),
+            'Updating customer credit score balance is failed');
+        $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
+            'Updating customer reward points balance is failed');
     }
 }
