@@ -47,6 +47,10 @@ frontend_header:
                         pageelements:
                             qtyElementsInTable: //td[@class='pager']//span[contains(@id,'total-count')]
                             fieldNameWithValidationMessage: "/ancestor::*[1]/preceding-sibling::*[1]/descendant-or-self::*[string-length(text())>1]"
+                            dropdown_option: "%dropdownXpath%//option"
+                            dropdown_option_text: "%dropdownXpath%//option[normalize-space(text())='%optionText%']"
+                            dropdown_option_index: "%dropdownXpath%//option[%index%]"
+                            dropdown_option_selected: "%dropdownXpath%//option[@selected='selected']"
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
