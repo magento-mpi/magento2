@@ -1493,6 +1493,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $popupId;
     }
 
+    /**
+     *
+     */
+    public function closeLastWindow()
+    {
+        $windowQty = $this->getAllWindowNames();
+        $popupId = end($names);
+        if (count($windowQty) > 1 && $popupId != 'null') {
+            $this->selectWindow("name=" . $popupId);
+            $this->close();
+            $this->selectWindow(null);
+        }
+    }
     ################################################################################
     #                                                                              #
     #                                Area helper methods                           #
