@@ -106,11 +106,11 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         );
 
         $prevResponse = $this->prevCall('catalog_product.update', array(
-            'product' => self::$_prevProductId,
+            'productId' => self::$_prevProductId,
             'productData' => $productData
         ));
         $currResponse = $this->currCall('catalog_product.update', array(
-            'product' => self::$_currProductId,
+            'productId' => self::$_currProductId,
             'productData' => $productData
         ));
 
