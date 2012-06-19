@@ -89,7 +89,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     protected $_entityTable;
 
     /**
-     * Countrys and its regions
+     * Countries and regions
      *
      * array(
      *   [country_id_lowercased_1] => array(
@@ -171,19 +171,33 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     }
 
     /**
+     * Get region collection
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getRegionCollection()
+    {
+        /** @var $collection Mage_Directory_Model_Resource_Region_Collection */
+        $collection = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
+        return $collection;
+    }
+
+    /**
      * Initialize country regions hash for clever recognition
      *
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      */
     protected function _initCountryRegions()
     {
-        foreach (Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection') as $regionRow) {
-            $countryNormalized = strtolower($regionRow['country_id']);
-            $regionCode = strtolower($regionRow['code']);
-            $regionName = strtolower($regionRow['default_name']);
-            $this->_countryRegions[$countryNormalized][$regionCode] = $regionRow['region_id'];
-            $this->_countryRegions[$countryNormalized][$regionName] = $regionRow['region_id'];
-            $this->_regions[$regionRow['region_id']] = $regionRow['default_name'];
+        $collection = $this->_getRegionCollection();
+        /** @var $region Mage_Directory_Model_Region */
+        foreach ($collection->getItems() as $region) {
+            $countryNormalized = strtolower($region->getCountryId());
+            $regionCode = strtolower($region->getCode());
+            $regionName = strtolower($region->getDefaultName());
+            $this->_countryRegions[$countryNormalized][$regionCode] = $region->getId();
+            $this->_countryRegions[$countryNormalized][$regionName] = $region->getId();
+            $this->_regions[$region->getId()] = $region->getDefaultName();
         }
         return $this;
     }

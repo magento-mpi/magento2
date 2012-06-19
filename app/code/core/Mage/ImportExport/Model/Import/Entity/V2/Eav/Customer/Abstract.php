@@ -58,9 +58,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
      *
      * @var array
      */
-    protected $_ignoredAttributes = array('website_id', 'store_id', 'country_id',  'region_id', 'default_billing',
-        'default_shipping'
-    );
+    protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
 
     /**
      * Constructor
@@ -93,8 +91,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
      */
     protected function _initCustomers()
     {
+        $collection = $this->_getCustomerCollection();
         /** @var $customer Mage_Customer_Model_Customer */
-        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection') as $customer) {
+        foreach ($collection->getItems() as $customer) {
             $email = strtolower($customer->getEmail());
             if (!isset($this->_customers[$email])) {
                 $this->_customers[$email] = array();
@@ -103,6 +102,18 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Get customer collection
+     *
+     * @return Mage_Customer_Model_Resource_Customer_Collection
+     */
+    protected function _getCustomerCollection()
+    {
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        return $collection;
     }
 
     /**
