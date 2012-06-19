@@ -199,7 +199,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber);
             } elseif (!isset($this->_websiteCodeToId[$website])) {
                 $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber);
-            } elseif (!$this->_isCustomerExists($email, $website)) {
+            } elseif (!$this->_getCustomerId($email, $website)) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {
                 // check simple attributes

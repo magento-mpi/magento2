@@ -41,10 +41,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
      * Existing customers information. In form of:
      *
      * [customer e-mail] => array(
-     *    [website code 1] => customer_id 1,
-     *    [website code 2] => customer_id 2,
+     *    [website id 1] => customer_id 1,
+     *    [website id 2] => customer_id 2,
      *           ...       =>     ...      ,
-     *    [website code n] => customer_id n,
+     *    [website id n] => customer_id n,
      * )
      *
      * @var array
@@ -106,17 +106,17 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
     }
 
     /**
-     * Check whether customer exists in database
+     * Get customer id if customer is present in database
      *
      * @param string $email
      * @param string $websiteCode
-     * @return bool
+     * @return bool|int
      */
-    protected function _isCustomerExists($email, $websiteCode)
+    protected function _getCustomerId($email, $websiteCode)
     {
         if (isset($this->_websiteCodeToId[$websiteCode])) {
             $websiteId = $this->_websiteCodeToId[$websiteCode];
-            return isset($this->_customers[$email][$websiteId]);
+            return $this->_customers[$email][$websiteId];
         }
 
         return false;

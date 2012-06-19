@@ -187,29 +187,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 }
                 if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                     $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                } elseif ($attributeParams['is_required'] && !$this->_isCustomerExists($email, $website)) {
+                } elseif ($attributeParams['is_required'] && !$this->_getCustomerId($email, $website)) {
                     $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
                 }
             }
         }
 
         return !isset($this->_invalidRows[$rowNumber]);
-    }
-
-    /**
-     * Check is customer existed in database
-     *
-     * @param string $email
-     * @param string $websiteCode
-     * @return bool
-     */
-    protected function _isCustomerExists($email, $websiteCode)
-    {
-        if (isset($this->_websiteCodeToId[$websiteCode])) {
-            $websiteId = $this->_websiteCodeToId[$websiteCode];
-            return isset($this->_oldCustomers[$email][$websiteId]);
-        }
-
-        return false;
     }
 }
