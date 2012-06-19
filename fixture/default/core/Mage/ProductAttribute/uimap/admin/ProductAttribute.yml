@@ -138,8 +138,11 @@ new_product_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
                                         option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
                                     required: [admin_option]
+                                    pageelements:
+                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -178,8 +181,11 @@ edit_product_attribute:
                                     fields:
                                         admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
                                         option_position: //input[@name='option[order][%fieldOptionNumber%]']
-                                        titles_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                        options_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
                                     required: [admin_option]
+                                    pageelements:
+                                        manage_options_option: //tr[contains(@class,'option-row')]
+                                        is_default_option_index: //tr[contains(@class,'option-row')][%index%]//input[@class='input-radio']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

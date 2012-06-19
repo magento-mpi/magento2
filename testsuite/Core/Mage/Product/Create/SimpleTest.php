@@ -602,9 +602,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($data['search']);
         $this->openTab('associated');
         $this->clickButton('create_empty', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
+        $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simpleEmpty);
         $this->saveForm('save', false);
         $this->selectWindow(null);
@@ -647,9 +645,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('productId', $this->getParameter('id'));
         $this->openTab('associated');
         $this->clickButton('create_copy_from_configurable', false);
-        $names = $this->getAllWindowNames();
-        $this->waitForPopUp(end($names), '30000');
-        $this->selectWindow("name=" . end($names));
+        $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simple);
         $this->saveForm('save', false);
         $this->selectWindow(null);

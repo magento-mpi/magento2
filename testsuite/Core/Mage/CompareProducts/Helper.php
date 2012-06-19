@@ -273,10 +273,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     public function frontOpenComparePopup()
     {
         $this->clickButton('compare', false);
-        $names = $this->getAllWindowNames();
-        $popupId = end($names);
-        $this->waitForPopUp($popupId, $this->_browserTimeoutPeriod);
-        $this->selectWindow("name=" . $popupId);
+        $popupId = $this->selectLastWindow();
         $this->validatePage('compare_products');
         return $popupId;
     }

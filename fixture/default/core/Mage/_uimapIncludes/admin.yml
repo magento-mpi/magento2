@@ -64,6 +64,7 @@ admin_header:
                             table_column_index: "%tableHeadXpath%//th[%index%]"
                             table_column_index_colspan: "%tableHeadXpath%//th[%index%][@colspan]"
                             table_head_first: "%tableHeadXpath%/tr[contains(@class,'first')]"
+                            table_line_cell_index: "%tableLineXpath%//td[%cellIndex%]"
                             table_line_index_cell_index: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]"
                             table_line_index_cell_index_with_input_value: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]/input[@value]"
                             table_line_index_cell_index_options: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='item-options']"

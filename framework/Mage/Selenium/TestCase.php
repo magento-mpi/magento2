@@ -1480,6 +1480,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function selectLastWindow()
+    {
+        $names = $this->getAllWindowNames();
+        $popupId = end($names);
+        $this->waitForPopUp($popupId, $this->_browserTimeoutPeriod);
+        $this->selectWindow("name=" . $popupId);
+
+        return $popupId;
+    }
+
     ################################################################################
     #                                                                              #
     #                                Area helper methods                           #
