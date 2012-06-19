@@ -14,7 +14,7 @@
  */
 ?>
 <?php echo $this->getBeforeHtml(); ?>
-<button <?php echo $this->getAttributesHtml(); ?>>
+<button <?php echo $this->getAttributesHtml(), $this->getUiId(); ?>>
     <span><span><span><?php echo $this->getLabel(); ?></span></span></span>
 </button>
 <?php echo $this->getAfterHtml(); ?>

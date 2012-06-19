@@ -137,6 +137,26 @@ new_product:
                                     multiselects:
                                         general_user_attr_multiselect: //input[@id='%attributeCodeMultiselect%']
                 -
+                    general_min: &generalMinimalTab
+                        xpath: //a[@title='General']/span
+                        fieldsets:
+                            -
+                                product_general:
+                                    xpath: //div[contains(div/div/h4,'General')]
+                                    buttons:
+                                        create_new_attribute: //button[span='Create New Attribute']
+                                    dropdowns:
+                                        general_min_status: //select[@id='status']
+                                        general_min_visibility: //select[@id='visibility']
+                                        general_min_tax_class: //select[@id='tax_class_id']
+                                    fields:
+                                        general_min_name: //input[@id='name']
+                                        general_min_description: //textarea[@id='description']
+                                        general_min_short_description: //textarea[@id='short_description']
+                                        general_min_sku: //input[@id='sku']
+                                        general_min_price: //input[@id='price' and not(@disabled)]
+                                        general_min_weight: //input[@id='weight' and not(@disabled)]
+                -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span
                         fieldsets:
@@ -581,6 +601,8 @@ edit_product:
                     configurable_product_settings: *configurableProductsettings
                 -
                     general: *generalTab
+                -
+                    general_minimal: *generalMinimalTab
                 -
                     prices: *pricesTab
                 -

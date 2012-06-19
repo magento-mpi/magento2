@@ -64,6 +64,9 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
         }
         $this->_buttons[$level][$id] = $data;
         $this->_buttons[$level][$id]['region'] = $region;
+        if (empty($this->_buttons[$level][$id]['id'])) {
+            $this->_buttons[$level][$id]['id'] = $id;
+        }
         if ($sortOrder) {
             $this->_buttons[$level][$id]['sort_order'] = $sortOrder;
         } else {
@@ -198,7 +201,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
         if (null === $blockClassName) {
             $blockClassName = 'Mage_Backend_Block_Widget_Button';
         }
-        $block = $this->getLayout()->createBlock($blockClassName);
+        $block = $this->getLayout()->createBlock($blockClassName,  $this->getNameInLayout() . '-' . $childId);
         $this->setChild($childId, $block);
         return $block;
     }
