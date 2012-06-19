@@ -80,12 +80,11 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     protected function _parseResponseMessages($response)
     {
         $dom = new DOMDocument;
-        //parse response
-        preg_match('/{"import_validation_messages":(".*")}/i', $response, $result);
-        if (!isset($result[1])){
-            preg_match('/{"import_validation_container_header":(".*")}/i', $response, $result);
-            preg_match('/"import_validation_messages":"(.*)"/i', $result[1], $result);
-        }
+        //Check fatal error
+        if (preg_match('/Fatal error/i', $response, $result) == true || $response ==''){
+            $this->addMessage('error', $response);
+            return;
+        };
         $result = stripcslashes($result[1]);
         $dom->loadHTML($result);
         $domXPath = new DOMXPath($dom);
@@ -433,7 +432,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Return messages array
         return $report;
     }
-
     /**
      * Perform export with current selected options
      *
