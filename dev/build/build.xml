@@ -39,7 +39,7 @@
 
     <!-- setup permissions for the application installation -->
     <target name="prepare-installation" depends="prepare-build-properties">
-        <chmod perm="a+w">
+        <chmod perm="a+w" failonerror="false">
             <dirset dir="${dir.build_directory}/app/etc"/>
             <dirset dir="${dir.build_directory}/pub/media"/>
             <fileset dir="${dir.build_directory}/pub/media"/>
