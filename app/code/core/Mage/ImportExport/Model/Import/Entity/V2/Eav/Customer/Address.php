@@ -31,8 +31,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     /**#@+
      * Particular columns that contains of customer default addresses
      */
-    const COLUMN_NAME_DEFAULT_BILLING  = '_address_default_billing_';
-    const COLUMN_NAME_DEFAULT_SHIPPING = '_address_default_shipping_';
+    const COLUMN_DEFAULT_BILLING  = '_address_default_billing_';
+    const COLUMN_DEFAULT_SHIPPING = '_address_default_shipping_';
     /**#@-*/
 
     /**#@+
@@ -49,8 +49,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      * @var array
      */
     protected static $_defaultAddressAttributeMapping = array(
-        self::COLUMN_NAME_DEFAULT_BILLING  => 'default_billing',
-        self::COLUMN_NAME_DEFAULT_SHIPPING => 'default_shipping'
+        self::COLUMN_DEFAULT_BILLING  => 'default_billing',
+        self::COLUMN_DEFAULT_SHIPPING => 'default_shipping'
     );
 
     /**
@@ -122,8 +122,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         self::COLUMN_WEBSITE,
         self::COLUMN_EMAIL,
         self::COLUMN_ADDRESS_ID,
-        self::COLUMN_NAME_DEFAULT_BILLING,
-        self::COLUMN_NAME_DEFAULT_SHIPPING
+        self::COLUMN_DEFAULT_BILLING,
+        self::COLUMN_DEFAULT_SHIPPING
     );
 
     /**
@@ -211,11 +211,11 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     protected function _importData()
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer     = Mage::getModel('Mage_Customer_Model_Customer');
-        $timeFormat   = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
-        $resource     = Mage::getModel('Mage_Customer_Model_Address');
-        $table        = $resource->getResource()->getEntityTable();
-        $nextEntityId = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
+        $customer       = Mage::getModel('Mage_Customer_Model_Customer');
+        $dateTimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
+        $resource       = Mage::getModel('Mage_Customer_Model_Address');
+        $table          = $resource->getResource()->getEntityTable();
+        $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
 
         $regionColName  = 'region';
         $countryColName = 'country_id';
@@ -243,16 +243,16 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
 
                 // get address attributes
                 $addressAttributes = array();
-                foreach ($this->_attributes as $attrAlias => $attrParams) {
-                    if (!empty($rowData[$attrAlias])) {
-                        if ('select' == $attrParams['type']) {
-                            $value = $attrParams['options'][strtolower($rowData[$attrAlias])];
-                        } elseif ('datetime' == $attrParams['type']) {
-                            $value = gmstrftime($timeFormat, strtotime($rowData[$attrAlias]));
+                foreach ($this->_attributes as $attributeAlias => $attributeParams) {
+                    if (isset($rowData[$attributeAlias]) && strlen($rowData[$attributeAlias])) {
+                        if ('select' == $attributeParams['type']) {
+                            $value = $attributeParams['options'][strtolower($rowData[$attributeAlias])];
+                        } elseif ('datetime' == $attributeParams['type']) {
+                            $value = gmstrftime($dateTimeFormat, strtotime($rowData[$attributeAlias]));
                         } else {
-                            $value = $rowData[$attrAlias];
+                            $value = $rowData[$attributeAlias];
                         }
-                        $addressAttributes[$attrParams['id']] = $value;
+                        $addressAttributes[$attributeParams['id']] = $value;
                     }
                 }
 
@@ -275,10 +275,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 );
 
                 // attribute values
-                foreach ($this->_attributes as $attrParams) {
-                    if (isset($addressAttributes[$attrParams['id']])) {
-                        $attributes[$attrParams['table']][$addressId][$attrParams['id']]
-                            = $addressAttributes[$attrParams['id']];
+                foreach ($this->_attributes as $attributeParams) {
+                    if (isset($addressAttributes[$attributeParams['id']])) {
+                        $attributes[$attributeParams['table']][$addressId][$attributeParams['id']]
+                            = $addressAttributes[$attributeParams['id']];
                     }
                 }
 

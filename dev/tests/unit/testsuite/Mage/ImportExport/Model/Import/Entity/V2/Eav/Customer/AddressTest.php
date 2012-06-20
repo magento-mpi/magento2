@@ -41,6 +41,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         ),
     );
 
+    /**
+     * Init entity adapter model
+     */
     public function setUp()
     {
         parent::setUp();
@@ -48,6 +51,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $this->_model = $this->_getModelMock();
     }
 
+    /**
+     * Unset entity adapter model
+     */
     public function tearDown()
     {
         unset($this->_model);
@@ -101,5 +107,33 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
 
         $this->assertAttributeEquals($regions, '_regions', $this->_model);
         $this->assertAttributeEquals($countryRegions, '_countryRegions', $this->_model);
+    }
+
+    /**
+     * Test entity type code getter
+     */
+    public function testGetEntityTypeCode()
+    {
+        $entityTypeCode = $this->_model->getEntityTypeCode();
+        $this->assertInternalType('string', $entityTypeCode, 'Entity type code must be a string.');
+    }
+
+    /**
+     * Test default address attribute mapping array
+     */
+    public function testGetDefaultAddressAttributeMapping()
+    {
+        $attributeMapping = $this->_model->getDefaultAddressAttributeMapping();
+        $this->assertInternalType('array', $attributeMapping, 'Default address attribute mapping must be an array.');
+        $this->assertArrayHasKey(
+            Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_DEFAULT_BILLING,
+            $attributeMapping,
+            'Default address attribute mapping array must have a default billing column.'
+        );
+        $this->assertArrayHasKey(
+            Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_DEFAULT_SHIPPING,
+            $attributeMapping,
+            'Default address attribute mapping array must have a default shipping column.'
+        );
     }
 }
