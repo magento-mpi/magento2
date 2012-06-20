@@ -335,19 +335,23 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             $this->fillDropdown('import_customer_entity', $customerType);
             //Step 5-6
             $importData = $this->importExportHelper()->import($csvData[$customerType]);
-            print_r($importData);
+            //Verifying import
+            $this->assertArrayHasKey('success', $importData['import'], 'Import has not been finished successfully');
         }
         //Step7
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name', $customerData['new']['first_name']
             . ' ' . $customerData['new']['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['new']['email']));
+        //Verifying new customer
         $this->assertTrue($this->verifyForm($customerData['new'], 'account_information'),
             'New customer has not been created');
+
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name', $customerData['existing_updated']['first_name']
             . ' ' . $customerData['existing_updated']['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['existing_updated']['email']));
+        //Verifying existing customer
         $this->assertTrue($this->verifyForm($customerData['existing_updated'], 'account_information'),
             'Existing customer has not been updated');
     }
