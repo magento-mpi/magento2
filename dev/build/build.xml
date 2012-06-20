@@ -234,6 +234,23 @@
         </replace>
     </target>
 
+    <target name="functional-tests-copy-artifacts">
+        <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
+
+        <delete dir="${basedir}/dev/tests/functional/var/logs" />
+        <delete dir="${basedir}/dev/tests/functional/var/screenshots" />
+        <copy todir="${basedir}/dev/tests/functional/var" failonerror="true" overwrite="true">
+            <fileset dir="${dir.build_directory}/dev/tests/functional/var"/>
+        </copy>
+
+        <delete dir="${basedir}/dev/tests/functional/var/log" />
+        <delete dir="${basedir}/dev/tests/functional/var/report" />
+        <copy todir="${basedir}/var" failonerror="true" overwrite="true">
+            <fileset dir="${dir.build_directory}/var/log"/>
+            <fileset dir="${dir.build_directory}/var/report"/>
+        </copy>
+    </target>
+
     <!-- Community Edition source code population to the public repository -->
     <target name="publish_ce">
         <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
