@@ -1,6 +1,6 @@
 window.oldSetTimeout = window.setTimeout;
 window.setTimeout = function(func, delay){
-     window.oldSetTimeout(function() {
+     return window.oldSetTimeout(function() {
         try {
             window.onbeforeunload = function (e) {
                 var e = e || window.event;
