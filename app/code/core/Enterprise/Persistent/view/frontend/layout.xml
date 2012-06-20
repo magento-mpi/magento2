@@ -36,4 +36,10 @@
             <action method="setTemplate"><template>Enterprise_Persistent::remember_me_tooltip.phtml</template></action>
         </reference>
     </checkout_onepage_index>
+
+    <wishlist_index_index>
+        <reference name="head">
+            <action method="addJs"><file>Enterprise_Persistent::widget.js</file></action>
+        </reference>
+    </wishlist_index_index>
 </layout>
