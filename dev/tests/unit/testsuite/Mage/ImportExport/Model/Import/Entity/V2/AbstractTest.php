@@ -15,7 +15,7 @@
 class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Customer export Eav model
+     * Customer import Eav model
      *
      * @var Mage_ImportExport_Model_Import_Entity_V2_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
@@ -37,7 +37,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     }
 
     /**
-     * Create mock for data helper and push it in registry
+     * Create mock for data helper and push it to registry
      *
      * @return Mage_ImportExport_Helper_Data|PHPUnit_Framework_MockObject_MockObject
      */
@@ -94,7 +94,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());
 
         $errors = $this->_model->getErrorMessages();
-        $this->assertArrayHasKey($errorCode.$errorColumnName, $errors);
+        $this->assertArrayHasKey($errorCode . $errorColumnName, $errors);
     }
 
     /**
@@ -217,10 +217,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     /**
      * Test for method isAttributeValid()
      *
-     * @param $data
+     * @param array $data
      * @dataProvider attributeList
      */
-    public function testIsAttributeValid($data)
+    public function testIsAttributeValid(array $data)
     {
         $registryKey = '_helper/Mage_Core_Helper_String';
         if (!Mage::registry($registryKey)) {
@@ -254,11 +254,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public static function attributeList()
     {
-        $length = 20000;
-        $longString = '';
-        for ($p = 0; $p < $length; $p++) {
-            $longString .= (string) $p;
-        }
+        $longString = str_pad('', Mage_ImportExport_Model_Import_Entity_V2_Abstract::DB_MAX_TEXT_LENGTH, 'x');
 
         return array(
             array(
@@ -274,7 +270,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
                     'code'          => 'test2',
                     'type'          => 'varchar',
                     'valid_value'   => 'test string',
-                    'invalid_value' => substr($longString, 0, 257)
+                    'invalid_value' => substr($longString, 0,
+                        Mage_ImportExport_Model_Import_Entity_V2_Abstract::DB_MAX_VARCHAR_LENGTH
+                    )
                 )
             ),
             array(
@@ -342,7 +340,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     /**
      * Test for method validateData()
      *
-     * @cover Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
      * @expectedException Mage_Core_Exception
      */
     public function testValidateDataPermanentAttributes()
@@ -363,7 +361,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     /**
      * Test for method validateData()
      *
-     * @cover Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
      * @expectedException Mage_Core_Exception
      */
     public function testValidateDataAttributeNames()
@@ -374,9 +372,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     }
 
     /**
-     * Create source adapter mock and set this into model object which tested in this class
+     * Create source adapter mock and set it into model object which tested in this class
      *
-     * @param array $columns value $array $columns value which will be returned by method getColNames()
+     * @param array $columns value which will be returned by method getColNames()
      * @return Mage_ImportExport_Model_Import_Adapter_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _createSourceAdapterMock(array $columns)

@@ -70,39 +70,45 @@ class Mage_ImportExport_Model_Resource_Import_Data
     /**
      * Return behavior from import data table.
      *
-     * @throws Exception
      * @return string
      */
     public function getBehavior()
     {
-        $adapter = $this->_getReadAdapter();
-        $behaviors = array_unique($adapter->fetchCol(
-            $adapter->select()
-                ->from($this->getMainTable(), array('behavior'))
-        ));
-        if (count($behaviors) != 1) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Error in data structure: behaviors are mixed'));
-        }
-        return $behaviors[0];
+        return $this->getRequestData('behavior');
     }
 
     /**
      * Return entity type code from import data table.
      *
-     * @throws Exception
      * @return string
      */
     public function getEntityTypeCode()
     {
+        return $this->getRequestData('entity');
+    }
+
+    /**
+     * Return request data from import data table
+     *
+     * @throws Mage_Core_Exception
+     *
+     * @param string $code parameter name
+     * @return string
+     */
+    public function getRequestData($code)
+    {
         $adapter = $this->_getReadAdapter();
-        $entityCodes = array_unique($adapter->fetchCol(
+        $values = array_unique($adapter->fetchCol(
             $adapter->select()
-                ->from($this->getMainTable(), array('entity'))
+                ->from($this->getMainTable(), array($code))
         ));
-        if (count($entityCodes) != 1) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Error in data structure: entity codes are mixed'));
+
+        if (count($values) != 1) {
+            Mage::throwException(
+                Mage::helper('Mage_ImportExport_Helper_Data')->__('Error in data structure: '.$code.' values are mixed')
+            );
         }
-        return $entityCodes[0];
+        return $values[0];
     }
 
     /**
@@ -133,13 +139,19 @@ class Mage_ImportExport_Model_Resource_Import_Data
      * @param string $entity
      * @param string $behavior
      * @param array $data
+     * @param string|null $entity_subtype
      * @return int
      */
-    public function saveBunch($entity, $behavior, array $data)
+    public function saveBunch($entity, $behavior, array $data, $entity_subtype = null)
     {
         return $this->_getWriteAdapter()->insert(
             $this->getMainTable(),
-            array('behavior' => $behavior, 'entity' => $entity, 'data' => Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data))
+            array(
+                'behavior'       => $behavior,
+                'entity'         => $entity,
+                'entity_subtype' => $entity_subtype,
+                'data'           => Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data)
+            )
         );
     }
 }

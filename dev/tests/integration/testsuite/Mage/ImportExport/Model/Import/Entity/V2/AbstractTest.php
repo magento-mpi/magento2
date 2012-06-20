@@ -15,11 +15,11 @@
 class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test for method saveValidatedBunches()
+     * Test for method _saveValidatedBunches()
      */
     public function testSaveValidatedBunches()
     {
-        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/customers.csv');
+        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/customers_for_validation_test.csv');
         $expected = $source->current();
         /** @var $model Mage_ImportExport_Model_Import_Entity_V2_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Abstract');
