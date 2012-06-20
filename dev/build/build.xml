@@ -191,7 +191,9 @@
 
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
 
-        <symlink link="${dir.build_directory}" resource="${basedir}" />
+        <exec executable="ln" failonerror="true">
+            <arg line="-s ${basedir} ${dir.build_directory}"/>
+        </exec>
 
         <copy todir="${dir.build_directory}" failonerror="true" overwrite="true">
             <fileset dir="${basedir}/${env.build_customization_dir}"/>
