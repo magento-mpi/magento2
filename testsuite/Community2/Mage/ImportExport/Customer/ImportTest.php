@@ -336,7 +336,10 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             //Step 5-6
             $importData = $this->importExportHelper()->import($csvData[$customerType]);
             //Verifying import
-            $this->assertArrayHasKey('success', $importData['import'], 'Import has not been finished successfully');
+            $this->assertArrayHasKey('import', $importData,
+                "$customerType file import has not been finished successfully");
+            $this->assertArrayHasKey('success', $importData['import'],
+                "$customerType file import has not been finished successfully");
         }
         //Step7
         $this->admin('manage_customers');
