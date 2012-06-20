@@ -63,20 +63,20 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
             $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_invoice'));
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
-                $skuXpath = $this->_getControlXpath('field', 'product_sku');
                 $qtyXpath = $this->_getControlXpath('field', 'product_qty');
-                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $this->getText($skuXpath)));
+                $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
+                $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
                 if ($this->isElementPresent($qtyXpath . "/input")) {
                     $prodQty = $this->getAttribute($qtyXpath . '/input/@value');
                 } else {
-                    $prodQty = $this->getText($qtyXpath);
+                    $prodQty = $this->getControlAttribute('field', 'product_qty', 'text');
                 }
                 $verify[$prodSku] = $prodQty;
             }
         }
-        $buttonXpath = $this->_getControlXpath('button', 'update_qty');
-        if ($this->isElementPresent($buttonXpath . "[not(@disabled)]")) {
-            $this->click($buttonXpath);
+        $this->addParameter('elementXpath', $this->_getControlXpath('button', 'update_qty'));
+        if ($this->controlIsPresent('pageelement', 'element_not_disabled')) {
+            $this->clickButton('update_qty', false);
             $this->pleaseWait();
         }
         $this->clickButton('submit_invoice', false);

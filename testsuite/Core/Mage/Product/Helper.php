@@ -725,7 +725,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             return false;
         }
         $optionId = '';
-        $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
+        $this->addParameter('elementXpath', $fieldSetXpath);
+        $this->addParameter('index', 1);
+        $id = $this->getControlAttribute('pageelement', 'element_index', 'id');
         $id = explode('_', $id);
         foreach ($id as $value) {
             if (is_numeric($value)) {
