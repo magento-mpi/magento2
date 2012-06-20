@@ -38,5 +38,9 @@ import_main_file_required_fields:
    reward_update_notification: 1
    reward_warning_notification: 1
 
-
+import_finance_file_required_fields:
+   email: %noValue%
+   _website: base
+   store_credit: 4321.0000
+   reward_points: 1234
 
