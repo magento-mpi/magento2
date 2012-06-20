@@ -47,7 +47,7 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
 
         $this->clickButton('add_new_set');
         $this->fillForm($attrSet);
-        $this->addParameter('attributeName', $attrSet['set_name']);
+        $this->addParameter('elementTitle', $attrSet['set_name']);
         $this->saveForm('save_attribute_set');
 
         $this->addNewGroup($groups);

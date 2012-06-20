@@ -217,13 +217,12 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
-        $this->addParameter('invoice_id', $this->getParameter('id'));
-        $this->clickButton('credit_memo');
-        $this->clickButton($refundType);
         //Verifying
         if ($refundType != 'refund') {
+            $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType);
             $this->assertMessagePresent('success', 'success_creating_creditmemo');
         } else {
+            $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, array(), false);
             $this->assertMessagePresent('error', 'failed_authorize_online_refund');
         }
     }
@@ -258,13 +257,7 @@ class Core_Mage_Order_AuthorizeNet_Authorization_NewCustomerWithSimpleSmokeTest 
         if ($refundType != 'refund') {
             $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo);
         } else {
-            $this->addParameter('invoice_id', $this->getParameter('id'));
-            $this->clickButton('credit_memo');
-            $this->addParameter('sku', $creditMemo['product_1']['return_filter_sku']);
-            $this->fillForm($creditMemo['product_1']);
-            $this->clickButton('update_qty', false);
-            $this->pleaseWait();
-            $this->clickButton($refundType);
+            $this->orderCreditMemoHelper()->createCreditMemoAndVerifyProductQty($refundType, $creditMemo, false);
             //$this->assertMessagePresent('error', 'failed_authorize_online_refund');
             $error = $this->errorMessage('failed_authorize_online_refund');
             if (!$error['success']) {

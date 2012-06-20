@@ -40,8 +40,9 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
      *
      * @param string $refundButton
      * @param array $creditMemoData
+     * @param bool $validate
      */
-    public function createCreditMemoAndVerifyProductQty($refundButton, $creditMemoData = array())
+    public function createCreditMemoAndVerifyProductQty($refundButton, $creditMemoData = array(), $validate = true)
     {
         $verify = array();
         $this->addParameter('invoice_id', $this->getParameter('id'));
@@ -57,7 +58,7 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
                 }
             }
         }
-        if (!$verify) {
+        if (!$verify && $validate) {
             $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_refund'));
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
@@ -79,19 +80,25 @@ class Core_Mage_OrderCreditMemo_Helper extends Mage_Selenium_TestCase
         }
         $this->clickButton($refundButton, false);
         $this->waitForNewPage();
-        $this->validatePage();
         //@TODO
         //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
-        $this->assertMessagePresent('success', 'success_creating_creditmemo');
-        foreach ($verify as $productSku => $qty) {
-            if ($qty == '%noValue%') {
-                continue;
+        $orderId = $this->orderHelper()->defineOrderId();
+        if ($orderId != 0) {
+            $this->addParameter('%elementTitle%', '#' . $orderId);
+        }
+        $this->validatePage();
+        if ($validate) {
+            $this->assertMessagePresent('success', 'success_creating_creditmemo');
+            foreach ($verify as $productSku => $qty) {
+                if ($qty == '%noValue%') {
+                    continue;
+                }
+                $this->addParameter('sku', $productSku);
+                $this->addParameter('refundedQty', $qty);
+                $this->assertTrue($this->controlIsPresent('field', 'qty_refunded'),
+                    'Qty of refunded products is incorrect at the orders form');
             }
-            $this->addParameter('sku', $productSku);
-            $this->addParameter('refundedQty', $qty);
-            $this->assertTrue($this->controlIsPresent('field', 'qty_refunded'),
-                'Qty of refunded products is incorrect at the orders form');
         }
     }
 }
