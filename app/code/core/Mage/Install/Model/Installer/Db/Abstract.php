@@ -145,5 +145,5 @@ abstract class Mage_Install_Model_Installer_Db_Abstract
      *
      * @return Mage_Install_Model_Installer_Db_Abstract
      */
-    abstract public function  cleanDatabase();
+    abstract public function cleanUpDatabase();
 }
