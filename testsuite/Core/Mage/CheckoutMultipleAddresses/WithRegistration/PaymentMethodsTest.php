@@ -151,9 +151,11 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsTest ex
      * @dataProvider paymentsWith3dDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3182
+     * @group skip_due_to_bug2.0
      */
     public function paymentsWith3d($payment, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-1656');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
