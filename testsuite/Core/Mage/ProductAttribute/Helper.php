@@ -73,7 +73,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $this->getColumnIdByName('Attribute Code'));
         $text = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('attribute_code', $text);
+        $this->addParameter('elementTitle', $text);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->clickControl('pageelement', 'table_line_cell_index');
     }

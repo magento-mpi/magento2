@@ -94,12 +94,12 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      * @param array|string $orderData Array or string with name of dataset to load
      * @param bool $validate (If $validate == false - errors will be skipped while filling order data)
      *
-     * @return bool|string
+     * @return int
      */
     public function createOrder($orderData, $validate = true)
     {
         $this->doAdminCheckoutSteps($orderData, $validate);
-        $this->submitOrder();
+        return $this->submitOrder();
     }
 
     /**
@@ -157,15 +157,17 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
     /**
      * Submit Order
+     * @return int
      */
     public function submitOrder()
     {
         $this->saveForm('submit_order', false);
-        $this->defineOrderId();
-        $this->validatePage();
         //@TODO
         //Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
+        $id = $this->defineOrderId();
+        $this->validatePage();
+        return $id;
     }
 
     /**
@@ -259,7 +261,6 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             return $res;
         }
         return null;
-        //$this->fail('Can not define address');
     }
 
     /**
@@ -269,11 +270,10 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      */
     public function defineOrderId()
     {
-        $xpath = "//*[contains(@class,'head-sales-order')]";
-        if ($this->isElementPresent($xpath)) {
-            $text = $this->getText($xpath);
+        if ($this->controlIsPresent('message', 'order_id')) {
+            $text = $this->getControlAttribute('message', 'order_id', 'text');
             $orderId = trim(substr($text, strpos($text, "#") + 1, -(strpos(strrev($text), "|") + 1)));
-            $this->addParameter('order_id', '#' . $orderId);
+            $this->addParameter('elementTitle', '#' . $orderId);
             return $orderId;
         }
         return 0;
@@ -311,18 +311,17 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $xpathProduct = $this->search($productData, 'select_products_to_add');
             $this->assertNotEquals(null, $xpathProduct, 'Product is not found');
             $this->addParameter('productXpath', $xpathProduct);
+            $this->addParameter('tableLineXpath', $xpathProduct);
             $configurable = false;
-            $configureLink = $this->_getControlXpath('link', 'configure');
-            if (!$this->isElementPresent($configureLink . '[@disabled]')) {
-                $configurable = TRUE;
+            if (!$this->controlIsPresent('link', 'disabled_configure')) {
+                $configurable = true;
             }
-            $this->click($xpathProduct . "//input[@type='checkbox']");
+            $this->fillCheckbox('table_line_checkbox', 'Yes');
             if ($configurable && $configure) {
                 $this->pleaseWait();
                 $before = $this->getMessagesOnPage();
                 $this->configureProduct($configure);
-                $uimap = $this->_findUimapElement('fieldset', 'product_composite_configure_form');
-                $this->click($this->_getControlXpath('button', 'ok', $uimap));
+                $this->clickButton('composite_configure_ok', false);
                 $after = $this->getMessagesOnPage();
                 $result = array();
                 foreach ($after as $key => $value) {
@@ -352,31 +351,27 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
      */
     public function configureProduct(array $configureData)
     {
-        $set = $this->getCurrentUimapPage()->findFieldset('product_composite_configure_form');
-
-        foreach ($configureData as $value) {
-            if (is_array($value)) {
-                $optionTitle = (isset($value['title'])) ? $value['title'] : '';
-                $this->addParameter('optionTitle', $optionTitle);
-                foreach ($value as $v) {
-                    if (is_array($v)) {
-                        $type = (isset($v['fieldType'])) ? $v['fieldType'] : '';
-                        $parameter = (isset($v['fieldParameter'])) ? $v['fieldParameter'] : '';
-                        $fieldValue = (isset($v['fieldsValue'])) ? $v['fieldsValue'] : '';
-                        $this->addParameter('optionParameter', $parameter);
-                        $method = 'getAll' . ucfirst(strtolower($type));
-                        if ($method == 'getAllCheckbox') {
-                            $method .= 'es';
-                        } else {
-                            $method .= 's';
-                        }
-                        $a = $set->$method();
-                        foreach ($a as $field => $fieldXpath) {
-                            if ($this->isElementPresent($fieldXpath)) {
-                                $this->fillForm(array($field => $fieldValue));
-                                break;
-                            }
-                        }
+        $setElements = $this->_findUimapElement('fieldset', 'product_composite_configure_form')->getFieldsetElements();
+        foreach ($configureData as $optionData) {
+            if (!is_array($optionData)) {
+                continue;
+            }
+            $optionTitle = (isset($optionData['title'])) ? $optionData['title'] : null;
+            $this->addParameter('optionTitle', $optionTitle);
+            foreach ($optionData as $optionFieldData) {
+                if (!is_array($optionFieldData)) {
+                    continue;
+                }
+                $fieldType = (isset($optionFieldData['fieldType'])) ? $optionFieldData['fieldType'] : '';
+                $parameter = (isset($optionFieldData['fieldParameter'])) ? $optionFieldData['fieldParameter'] : null;
+                $fieldValue = (isset($optionFieldData['fieldsValue'])) ? $optionFieldData['fieldsValue'] : '';
+                $this->addParameter('optionParameter', $parameter);
+                $elements = (array_key_exists($fieldType, $setElements)) ? $setElements[$fieldType] : array();
+                foreach ($elements as $elementName => $elementXpath) {
+                    if ($this->controlIsPresent($fieldType, $elementName)) {
+                        $fillMethod = 'fill' . ucfirst(strtolower($fieldType));
+                        $this->$fillMethod($elementName, $fieldValue);
+                        break;
                     }
                 }
             }
@@ -434,11 +429,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
             $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
-            $this->waitForAjax();
-            if ($this->isAlertPresent()) {
-                $text = $this->getAlert();
-                $this->fail($text);
-            }
+            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
             if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
                 $this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
@@ -528,11 +519,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->searchAndOpen($customerData, false, 'order_customer_grid');
         }
 
-        $storeSelectorXpath = $this->_getControlXpath('fieldset', 'order_store_selector');
         // Select a store if there is more then one default store
-        if ($this->isElementPresent(
-            $storeSelectorXpath . "[not(contains(@style,'display:') and contains(@style,'none'))]")
-        ) {
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', 'order_store_selector'));
+        if ($this->controlIsPresent('pageelement', 'element_not_disabled_style')) {
             if ($storeView) {
                 $this->addParameter('storeName', $storeView);
                 $this->clickControl('radiobutton', 'choose_main_store', false);
@@ -644,14 +633,15 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
 
         $needColumnNames = array('Product', 'Subtotal', 'Discount', 'Row Subtotal');
         $names = $this->getTableHeadRowNames("//*[@id='order-items_grid']/table");
-        $xpath = $this->_getControlXpath('pageelement', 'product_table_tfoot');
         foreach ($needColumnNames as $value) {
             $number = array_search($value, $names);
             if ($value == 'Product') {
                 $number += 1;
             }
             $key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
-            $actualData[$key] = $this->getText($xpath . "//td[$number]");
+            $this->addParameter('tableLineXpath', $this->_getControlXpath('pageelement', 'product_table_tfoot'));
+            $this->addParameter('cellIndex', $number);
+            $actualData[$key] = $this->getTabAttribute('pageelement', 'table_line_cell_index', 'text');
         }
         $this->shoppingCartHelper()->compareArrays($actualData, $verificationData, 'Total');
 

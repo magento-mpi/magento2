@@ -138,7 +138,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $category = substr($category, strpos($category, '/') + 1);
         $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
         $this->addParameter('productName', $product);
-        $this->addParameter('categoryTitle', $category);
+        $this->addParameter('elementTitle', $category);
         $this->addParameter('categoryUrl', $url);
         foreach ($tags as $tag) {
             $this->frontend('category_page_before_reindex');

@@ -45,7 +45,7 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', self::$_customerTitleParameter);
+        $this->addParameter('elementTitle', self::$_customerTitleParameter);
     }
 
     /**

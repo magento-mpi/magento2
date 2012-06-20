@@ -110,7 +110,7 @@ new_poll:
 # Edit Poll page
 edit_poll:
     mca: poll/edit/id/%id%/
-    title: %pollName% / Polls / CMS / Magento Admin
+    title: %elementTitle% / Polls / CMS / Magento Admin
     uimap:
         form:
             tabs:

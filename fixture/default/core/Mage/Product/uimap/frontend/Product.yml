@@ -28,7 +28,7 @@
 #
 product_page:
     mca: %productUrl%.html
-    title: %productTitle%
+    title: %elementTitle%
     uimap:
         form:
             fieldsets: &productFieldsets
@@ -241,7 +241,7 @@ product_page:
 
 product_review:
     mca: review/product/list/id/%id%/
-    title: %productTitle%
+    title: %elementTitle%
     uimap: &productReview
         form:
             fieldsets:
@@ -276,10 +276,10 @@ product_review:
 
 product_review_index:
     mca: review/product/list/id/%id%/#review-form/
-    title: %productTitle%
+    title: %elementTitle%
     uimap: *productReview
 
 product_review_category:
     mca: review/product/list/id/%id%/category/%categoryId%/#review-form/
-    title: %productTitle%
+    title: %elementTitle%
     uimap: *productReview

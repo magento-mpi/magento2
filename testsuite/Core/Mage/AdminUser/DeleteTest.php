@@ -95,7 +95,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
             $searchDataCurrentUser[$key] = $this->getControlAttribute('field', $key, 'value');
         }
         $this->navigate('manage_admin_users');
-        $this->addParameter('user_first_last_name',
+        $this->addParameter('elementTitle',
             $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
         $this->searchAndOpen($searchDataCurrentUser);
         //Verifying

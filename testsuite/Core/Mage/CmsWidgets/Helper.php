@@ -176,7 +176,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
         $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('widgetName', $param);
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->clickControl('pageelement', 'table_line_cell_index');
     }

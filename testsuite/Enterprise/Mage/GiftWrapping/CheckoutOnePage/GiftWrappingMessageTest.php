@@ -230,7 +230,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftMessage($checkoutData['shipping_data']['add_gift_options']);
     }
@@ -429,7 +429,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
@@ -556,7 +556,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $priceXpath = $this->_getControlXpath('pageelement', 'printed_card_price');
         $printedCardPrice = trim($this->getElementByXpath($priceXpath), '$\t\n\r');
@@ -660,7 +660,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftMessage(array('entire_order' => array('order_send_gift_receipt' => 'Yes')));
     }
@@ -1126,7 +1126,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftMessage($vrfGiftData);
         $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);

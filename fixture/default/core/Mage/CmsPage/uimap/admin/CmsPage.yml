@@ -264,7 +264,7 @@ create_cms_page_with_sharp:
 
 edit_cms_page:
     mca: cms_page/edit/page_id/%id%/
-    title: %pageName% / Manage Content / Pages / CMS / Magento Admin
+    title: %elementTitle% / Manage Content / Pages / CMS / Magento Admin
     uimap:
         form: *createPage
         buttons:

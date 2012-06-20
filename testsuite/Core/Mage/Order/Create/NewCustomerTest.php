@@ -98,7 +98,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
                                               'customer_email' => $this->generate('email', 32, 'valid')));
         $param = $orderData['billing_addr_data']['billing_first_name']
             . ' ' . $orderData['billing_addr_data']['billing_last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        $this->addParameter('elementTitle', $param);
         $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
                                              array('email' => $orderData['account_data']['customer_email']));
         //Steps
@@ -154,7 +154,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $orderData['shipping_addr_data'] = $this->loadDataSet('SalesOrder', 'shipping_address_all');
         $param = $orderData['billing_addr_data']['billing_first_name']
             . ' ' . $orderData['billing_addr_data']['billing_last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        $this->addParameter('elementTitle', $param);
         $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
                                           array('email' => $orderData['account_data']['customer_email']));
         $addressVerify[] = $this->loadDataSet('SalesOrder', 'billing');

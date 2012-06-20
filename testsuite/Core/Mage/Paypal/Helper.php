@@ -298,7 +298,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         }
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if ($this->isElementPresent($xpath)) {
-            $this->addParameter('pageTitle', $parameters['page_title']);
+            $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
             $this->fillForm($parameters['credentials']);
             $this->clickControl('button', 'button_login');
@@ -319,7 +319,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $this->addParameter('pageTitle', $parameters['page_title']);
+        $this->addParameter('elementTitle', $parameters['page_title']);
         $this->validatePage();
         $this->fillForm($parameters['credentials']);
         $this->clickControl('button', 'button_login');
@@ -342,16 +342,16 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         }
         $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
         if (!$this->isElementPresent($xpath)) {
-            $this->addParameter('pageTitle', $parameters['page_title_pay_with']);
+            $this->addParameter('elementTitle', $parameters['page_title_pay_with']);
             $this->validatePage();
-            $this->addParameter('pageTitle', $parameters['page_title']);
+            $this->addParameter('elementTitle', $parameters['page_title']);
             $this->clickControl('link', 'have_paypal_account');
         } else {
-            $this->addParameter('pageTitle', $parameters['page_title']);
+            $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
         }
         $this->fillForm($parameters['credentials']);
-        $this->addParameter('pageTitle', $parameters['page_title_review_info']);
+        $this->addParameter('elementTitle', $parameters['page_title_review_info']);
         $this->clickControl('button', 'button_login');
         $this->clickControl('button', 'button_continue');
     }

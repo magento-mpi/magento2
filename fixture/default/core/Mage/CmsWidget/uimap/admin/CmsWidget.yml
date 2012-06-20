@@ -240,7 +240,7 @@ add_widget_options:
 
 edit_cms_widget:
     mca: widget_instance/edit/instance_id/%id%/
-    title: %widgetName% / Widgets / CMS / Magento Admin
+    title: %elementTitle% / Widgets / CMS / Magento Admin
     uimap:
         form: *addWidgetOptions
         buttons:

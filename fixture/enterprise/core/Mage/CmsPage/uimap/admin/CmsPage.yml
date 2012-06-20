@@ -32,7 +32,7 @@ create_cms_page_with_sharp:
     title: New Page / Pages / CMS / Magento Admin
 
 edit_cms_page:
-    title: %pageName% / Pages / CMS / Magento Admin
+    title: %elementTitle% / Pages / CMS / Magento Admin
 
 error_cms_page:
     title: New Page / Pages / CMS / Magento Admin

@@ -65,7 +65,7 @@ manage_cms_static_blocks:
 # 'Edit Block %blockName%' page
 edit_cms_static_block:
     mca: cms_block/edit/block_id/%id%/
-    title: %blockName% / Static Blocks / CMS / Magento Admin
+    title: %elementTitle% / Static Blocks / CMS / Magento Admin
     uimap:
         form: &editStaticBlockForm
             fieldsets:

@@ -153,7 +153,7 @@ new_product_attribute:
 # Manage Product Attributes page
 edit_product_attribute:
     mca: catalog_product_attribute/edit/attribute_id/%id%/
-    title: %attribute_code% / Manage Attributes / Attributes / Catalog / Magento Admin
+    title: %elementTitle% / Manage Attributes / Attributes / Catalog / Magento Admin
     uimap:
         form: &editProductAttributeForm
             tabs:

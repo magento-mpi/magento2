@@ -68,7 +68,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps
         $param = $userData['first_name'] . ' ' . $userData['last_name'];
-        $this->addParameter('customer_first_last_name', $param);
+        $this->addParameter('elementTitle', $param);
         $this->customerHelper()->openCustomer($searchData);
         $this->clickButtonAndConfirm('delete_customer', 'confirmation_for_delete');
         //Verifying

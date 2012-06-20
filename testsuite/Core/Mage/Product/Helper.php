@@ -873,7 +873,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         }
         $productUrl = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $productName)), '-');
         $this->addParameter('productUrl', $productUrl);
-        $this->addParameter('productTitle', $productName);
+        $this->addParameter('elementTitle', $productName);
         $this->frontend('product_page', false);
         $this->setCurrentPage($this->getCurrentLocationUimapPage()->getPageId());
         $this->addParameter('productName', $productName);

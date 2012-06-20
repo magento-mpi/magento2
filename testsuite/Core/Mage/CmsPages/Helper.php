@@ -211,7 +211,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
         $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-        $this->addParameter('pageName', $param);
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->clickControl('pageelement', 'table_line_cell_index');
     }
@@ -237,7 +237,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     {
         $this->logoutCustomer();
         $this->addParameter('url_key', $pageData['page_information']['url_key']);
-        $this->addParameter('page_title', $pageData['page_information']['page_title']);
+        $this->addParameter('elementTitle', $pageData['page_information']['page_title']);
         if (array_key_exists('content', $pageData)) {
             if (array_key_exists('content_heading', $pageData['content'])) {
                 $this->addParameter('content_heading', $pageData['content']['content_heading']);

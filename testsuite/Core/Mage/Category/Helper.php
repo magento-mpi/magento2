@@ -274,7 +274,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
                 $title .= ' - ';
             }
         }
-        $this->addParameter('categoryTitle', $title);
+        $this->addParameter('elementTitle', $title);
         //Form category xpath
         $link = '//ul[@id="nav"]';
         foreach ($nodes as $node) {

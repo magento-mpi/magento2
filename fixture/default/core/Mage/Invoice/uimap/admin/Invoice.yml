@@ -133,7 +133,7 @@ create_invoice:
 
 view_invoice:
     mca: sales_invoice/view/invoice_id/%id%/
-    title: %invoiceId% / Invoices / Sales / Magento Admin
+    title: %elementTitle% / Invoices / Sales / Magento Admin
     uimap:
         form: &viewInvoice
             fieldsets:

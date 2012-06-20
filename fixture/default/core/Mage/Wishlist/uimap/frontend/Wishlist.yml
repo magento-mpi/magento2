@@ -95,7 +95,7 @@ my_wishlist_index:
 
 wishlist_configure_product:
     mca: wishlist/index/configure/id/%id%/
-    title: %productName%
+    title: %elementTitle%
     uimap:
         form:   &productPage
             fieldsets:

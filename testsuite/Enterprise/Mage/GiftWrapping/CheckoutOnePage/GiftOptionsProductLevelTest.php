@@ -247,7 +247,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
@@ -587,7 +587,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }
@@ -701,7 +701,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_checkout');
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
-        $this->addParameter('order_id', '#' . $orderId);
+        $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId));
         $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }
