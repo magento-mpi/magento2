@@ -1499,7 +1499,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function closeLastWindow()
     {
         $windowQty = $this->getAllWindowNames();
-        $popupId = end($names);
+        $popupId = end($windowQty);
         if (count($windowQty) > 1 && $popupId != 'null') {
             $this->selectWindow("name=" . $popupId);
             $this->close();
