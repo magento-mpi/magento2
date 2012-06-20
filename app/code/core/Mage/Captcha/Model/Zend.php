@@ -161,7 +161,8 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _isOverLimitLoginAttempts($login)
     {
         if ($login != false) {
-            $countAttemptsByLogin = Mage::getResourceModel('Mage_Captcha_Model_Resource_Log')->countAttemptsByUserLogin($login);
+            $countAttemptsByLogin = Mage::getResourceModel('Mage_Captcha_Model_Resource_Log')
+                ->countAttemptsByUserLogin($login);
             return ($countAttemptsByLogin >= $this->_getAllowedAttemptsForSameLogin());
         }
         return false;
@@ -390,6 +391,12 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
     protected function _isShowAlways()
     {
         if ((string)$this->_getHelper()->getConfigNode('mode') == Mage_Captcha_Helper_Data::MODE_ALWAYS) {
+            return true;
+        }
+
+        if ((string)$this->_getHelper()->getConfigNode('mode') == Mage_Captcha_Helper_Data::MODE_AFTER_FAIL
+            && $this->_getAllowedAttemptsForSameLogin() == 0
+        ) {
             return true;
         }
 
