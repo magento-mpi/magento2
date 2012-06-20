@@ -20,6 +20,8 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
      */
     protected $_model;
 
+    protected $_loggerMock;
+
     public function setUp()
     {
         $basePath = realpath(__DIR__)  . '/../../_files/';
@@ -31,16 +33,22 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
             'Mage_Backend_Model_Menu_Builder_CommandAbstract',
             array(),
             '',
-            false
+            false,
+            true,
+            true,
+            array('getId')
         );
 
         $factory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $factory->expects($this->any())->method('getModelInstance')->will($this->returnValue($mockCommand));
 
+        $this->_loggerMock = $this->getMock('Mage_Backend_Model_Menu_Logger', array('log'));
+
         $this->_model = new Mage_Backend_Model_Menu_Director_Dom(
             array(
                 'config' => $domDocument,
-                'factory' => $factory
+                'factory' => $factory,
+                'logger' => $this->_loggerMock
             )
         );
     }
@@ -65,16 +73,60 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
     }
 
     /**
+     * Test __construct
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function testMissingLoggerInstanceException()
+    {
+        $domDocument = $this->getMock('DOMDocument');
+        $factory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $logger = null;
+        $model = new Mage_Backend_Model_Menu_Director_Dom(
+            array(
+                'config' => $domDocument,
+                'factory' => $factory,
+                'logger' => $logger
+            )
+        );
+
+        unset($model);
+    }
+
+    /**
+     * Test __construct
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidLoggerInstanceException()
+    {
+        $domDocument = $this->getMock('DOMDocument');
+        $factory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $logger = $this->getMock('StdClass');
+        $model = new Mage_Backend_Model_Menu_Director_Dom(
+            array(
+                'config' => $domDocument,
+                'factory' => $factory,
+                'logger' => $logger
+            )
+        );
+
+        unset($model);
+    }
+
+    /**
      * Test __construct if config is instance of DOMDocument
      */
     public function testValidConfigInstanceConstructor()
     {
         $domDocument = $this->getMock('DOMDocument');
         $factory = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $logger = $this->getMock('Mage_Backend_Model_Menu_Logger');
         $model = new Mage_Backend_Model_Menu_Director_Dom(
             array(
                 'config' => $domDocument,
                 'factory' => $factory,
+                'logger' => $logger
             )
         );
         unset($model);
@@ -95,16 +147,15 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
      */
     public function testCommandWithValidBuilder()
     {
-        $builder = $this->getMockForAbstractClass(
-            'Mage_Backend_Model_Menu_Builder',
-            array(),
-            '',
-            false,
-            false,
-            true,
-            array('processCommand')
-        );
+        $builder = $this->getMock('Mage_Backend_Model_Menu_Builder', array('processCommand'), array(), '', false);
         $builder->expects($this->exactly(8))->method('processCommand');
         $this->assertInstanceOf('Mage_Backend_Model_Menu_DirectorAbstract', $this->_model->buildMenu($builder));
+    }
+
+    public function testCommandLogging()
+    {
+        $this->_loggerMock->expects($this->exactly(8))->method('log');
+        $builder = $this->getMock('Mage_Backend_Model_Menu_Builder', array(), array(), '', false);
+        $this->_model->buildMenu($builder);
     }
 }

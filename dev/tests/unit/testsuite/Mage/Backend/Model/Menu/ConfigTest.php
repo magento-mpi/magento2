@@ -53,6 +53,11 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     protected $_itemFactoryMock;
 
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_logger;
+
+    /**
      * @var Mage_Backend_Model_Menu_Config
      */
     protected $_model;
@@ -76,11 +81,14 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager');
 
+        $this->_logger = $this->getMock('Mage_Backend_Model_Menu_Logger', array('logException'));
+
         $this->_model = new Mage_Backend_Model_Menu_Config(array(
             'appConfig' => $this->_appConfigMock,
             'cache' => $this->_cacheInstanceMock,
             'eventManager' => $this->_eventManagerMock,
-            'menuBuilder' => $this->_builderMock
+            'menuBuilder' => $this->_builderMock,
+            'logger' => $this->_logger
         ));
     }
 
@@ -202,6 +210,44 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetMenuInvalidArgumentExceptionLogged()
+    {
+        $this->_configMenuMock->expects($this->any())
+            ->method('getMergedConfig')
+            ->will($this->returnValue($this->_domDocumentMock));
+
+        $this->_logger->expects($this->exactly(1))->method('logException')
+            ->with($this->isInstanceOf('InvalidArgumentException'));
+
+        $this->_builderMock->expects($this->exactly(1))
+            ->method('getResult')
+            ->will($this->returnCallback(array($this, 'throwInvalidArgumentException')));
+
+        $this->_model->getMenu();
+    }
+
+    public function testGetMenuGenericExceptionIsNotLogged()
+    {
+        $this->_configMenuMock->expects($this->any())
+            ->method('getMergedConfig')
+            ->will($this->returnValue($this->_domDocumentMock));
+
+        $this->_logger->expects($this->never())->method('logException');
+
+        $this->_builderMock->expects($this->exactly(1))
+            ->method('getResult')
+            ->will($this->returnCallback(array($this, 'throwInvalidArgumentException')));
+        try {
+            $this->_model->getMenu();
+        } catch (Exception $e) {
+            return;
+        }
+        $this->fail("Generic Exception was not throwed");
+    }
+
+    /**
      * Callback method for mock object Mage_Core_Model_Config object
      *
      * @param mixed $model
@@ -217,5 +263,15 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
         }
+    }
+
+    public function throwInvalidArgumentException()
+    {
+        throw new InvalidArgumentException('InvalidArgumentException throwed');
+    }
+
+    public function throwGenericException()
+    {
+        throw new InvalidArgumentException('Generic Exception throwed');
     }
 }

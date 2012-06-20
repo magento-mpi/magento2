@@ -16,6 +16,11 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
     protected $_extractedData = array();
 
     /**
+     * @var Mage_Backend_Model_Menu_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param array $data
      * @throws InvalidArgumentException if config storage is not present in $data array
      */
@@ -25,6 +30,17 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
         if (false == ($this->_configModel instanceof DOMDocument)) {
             throw new InvalidArgumentException('Configuration storage model is not instance of DOMDocument');
         }
+
+        if (isset($data['logger'])) {
+            $this->_logger = $data['logger'];
+        } else {
+            throw new InvalidArgumentException("Logger model is required parameter");
+        }
+
+        if (false == ($this->_logger instanceof Mage_Backend_Model_Menu_Logger)) {
+            throw new InvalidArgumentException('Logger model is not an instance of Mage_Core_Model_Log');
+        }
+
         $this->_extractData();
     }
 
@@ -83,6 +99,7 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
                     'Mage_Backend_Model_Menu_Builder_Command_Update',
                     $data
                 );
+                $this->_logger->log(sprintf('Action \'update\' on item with id %s was processed', $command->getId()));
                 break;
 
             case 'remove':
@@ -90,6 +107,7 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
                     'Mage_Backend_Model_Menu_Builder_Command_Remove',
                     $data
                 );
+                $this->_logger->log(sprintf('Action \'remove\' on item with id %s was processed', $command->getId()));
                 break;
 
             default:
@@ -97,6 +115,7 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
                     'Mage_Backend_Model_Menu_Builder_Command_Add',
                     $data
                 );
+                $this->_logger->log(sprintf('Action \'add\' of item with id %s was processed', $command->getId()));
                 break;
         }
         return $command;

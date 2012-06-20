@@ -37,6 +37,11 @@ class Mage_Backend_Model_Menu_Config
      */
     protected $_menu;
 
+    /**
+     * @var Mage_Backend_Model_Menu_Logger
+     */
+    protected $_logger;
+
     public function __construct(array $arguments = array())
     {
         $this->_cache = isset($arguments['cache']) ? $arguments['cache'] : Mage::app()->getCacheInstance();
@@ -51,14 +56,36 @@ class Mage_Backend_Model_Menu_Config
                 'menu' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu'),
                 'itemFactory' => Mage::getSingleton('Mage_Backend_Model_Menu_Item_Factory'),
             ));
+
+        $this->_logger = isset($arguments['logger']) ? $arguments['logger'] : Mage::getSingleton('Mage_Backend_Model_Menu_Logger');
     }
 
     /**
      * Build menu model from config
      *
      * @return Mage_Backend_Model_Menu
+     * @throws InvalidArgumentException|BadMethodCallException|OutOfRangeException|Exception
      */
     public function getMenu()
+    {
+        try {
+            $this->_initMenu();
+            return $this->_menu;
+        } catch (InvalidArgumentException $e) {
+            $this->_logger->logException($e);
+            throw $e;
+        } catch (BadMethodCallException $e) {
+            $this->_logger->logException($e);
+            throw $e;
+        } catch (OutOfRangeException $e) {
+            $this->_logger->logException($e);
+            throw $e;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    protected function _initMenu()
     {
         if (!$this->_menu) {
             /* @var $director Mage_Backend_Model_Menu_Director_Dom */
@@ -66,14 +93,15 @@ class Mage_Backend_Model_Menu_Config
                 'Mage_Backend_Model_Menu_Director_Dom',
                 array(
                     'config' => $this->_getDom(),
-                    'factory' => $this->_appConfig
+                    'factory' => $this->_appConfig,
+                    'logger' => $this->_logger
                 )
             );
             $director->buildMenu($this->_menuBuilder);
             $this->_menu = $this->_menuBuilder->getResult();
             $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
         }
-        return $this->_menu;
+//        return $this->_menu;
     }
 
     /**
