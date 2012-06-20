@@ -108,7 +108,7 @@ public function EmptyValuesForExistingAddressAttributesInCsv($data)
                 'prefix' =>'',
                 '_address_default_billing_' => '',
                 '_address_default_shipping_' => '',
-                '_entity_id' => '1567567657'
+                '_entity_id' => $this->generate('string', 10, ':digit:')
             )))
         );
     }
