@@ -120,12 +120,12 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
      * <p>4. Select Customers Entity Type: Customer Main File/Customer Addresses/Customer Finances</p>
      * <p>5. Select file to import</p>
      * <p>6. Click "Check Data" button.</p>
-     * <p>Expected: validation and success messages are correct
+     * <p>Expected: validation and success messages are correct</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5618
+     * @TestlinkId TL-MAGE-5618, TL-MAGE-5619, TL-MAGE-5620
      */
-    public function mainValidationResultBlock()
+    public function validationResultBlock()
     {
         //Precondition: create customer, add address
         $this->navigate('manage_customers');
@@ -275,6 +275,85 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $customerData['last_name'] = $customerDataRow2['lastname'];
         $this->assertTrue($this->verifyForm($customerData, 'account_information'),
             'New customer has not been created');
+    }
+
+    /**
+     * <p>Not required columns</p>
+     * <p>Verify that all  not required values are imported.</p>
+     * <p>Precondition: at least one customer exists,
+     * csv file contains two customers: existing (with new attribute values) and new one</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Customers Entity Type: Customer Main File/Customer Addresses</p>
+     * <p>5. Choose file from precondition and click "Check Data" button</p>
+     * <p>6. Press "Import" button</p>
+     * <p>7. Goto Customer-> Manage Customers and open each of imported customers</p>
+     * <p>Expected: values of not required attributes is updated for existing customer,
+     * new customer is added with proper values of not required attributes</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
+     */
+    public function notRequiredColumns()
+    {
+        //customer data
+        $customerData['new'] = $this->loadDataSet('ImportExport.yml', 'new_customer_account_5622');
+        $customerData['existing_original'] = $this->loadDataSet('ImportExport.yml', 'existing_original_customer_5622');
+        $customerData['existing_updated'] = $this->loadDataSet('ImportExport.yml', 'existing_updated_customer_5622');
+        $customerData['existing_updated']['email'] = $customerData['existing_original']['email'];
+        //address data
+        $addressData['new'] = $this->loadDataSet('ImportExport.yml', 'new_customer_address_5622');
+        $addressData['existing_original'] = $this->loadDataSet('ImportExport.yml', 'existing_original_address_5622');
+        $addressData['existing_updated'] = $this->loadDataSet('ImportExport.yml', 'existing_updated_address_5622');
+        //Precondition
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($customerData['existing_original'], $addressData['existing_original']);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        //csv data
+        $customerTypes = array('Customers Main File', 'Customer Addresses');
+        $csvData[$customerTypes[0]]['new'] = $this->loadDataSet('ImportExport.yml', 'csv_new_master_5622');
+        $csvData[$customerTypes[0]]['new']['email'] = $customerData['new']['email'];
+        $csvData[$customerTypes[0]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_master_5622');
+        $csvData[$customerTypes[0]]['existing']['email'] = $customerData['existing_updated']['email'];
+        $csvData[$customerTypes[1]]['new'] = $this->loadDataSet('ImportExport.yml', 'csv_new_address_5622');
+        $csvData[$customerTypes[1]]['new']['email'] = $customerData['new']['email'];
+        $csvData[$customerTypes[1]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_address_5622');
+        $csvData[$customerTypes[1]]['existing']['email'] = $customerData['existing_updated']['email'];
+        //Step 1
+        $this->admin('import');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        foreach ($customerTypes as $customerType) {
+            //Step 4
+            $this->fillDropdown('import_customer_entity', $customerType);
+            //Step 5-6
+            $importData = $this->importExportHelper()->import($csvData[$customerType]);
+            //Verifying import
+            $this->assertArrayHasKey('success', $importData['import'], 'Import has not been finished successfully');
+        }
+        //Step7
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData['new']['first_name']
+            . ' ' . $customerData['new']['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData['new']['email']));
+        //Verifying new customer
+        $this->assertTrue($this->verifyForm($customerData['new'], 'account_information'),
+            'New customer has not been created');
+
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData['existing_updated']['first_name']
+            . ' ' . $customerData['existing_updated']['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData['existing_updated']['email']));
+        //Verifying existing customer
+        $this->assertTrue($this->verifyForm($customerData['existing_updated'], 'account_information'),
+            'Existing customer has not been updated');
     }
 
     /**
