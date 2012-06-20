@@ -192,7 +192,7 @@
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
 
         <exec executable="ln" failonerror="true">
-            <arg line="-s ${basedir} ${dir.build_directory}"/>
+            <arg line="-sfn ${basedir} ${dir.build_directory}"/>
         </exec>
 
         <copy todir="${dir.build_directory}" failonerror="true" overwrite="true">
