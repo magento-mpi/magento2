@@ -119,7 +119,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     }
 
     /**
-     * Test product get special price method Compatibility.
+     * Test product get special price method compatibility.
      * Scenario:
      * 1. Get special price of the product, created in 'testCreate' at previous API.
      * 2. Get special price of the product, created in 'testCreate' at current API.
@@ -128,47 +128,36 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      *
      * @depends testCreate
      */
-
     public function testGetSpecialPrice()
     {
-        $prevResponse = gettype($this->prevCall('catalog_product.getSpecialPrice', array(
-            'productId' => self::$_prevProductId,
-        )));
-        $currResponse = gettype($this->currCall('catalog_product.getSpecialPrice', array(
-            'productId' => self::$_currProductId
-        )));
+        $apiMethod = 'catalog_product.getSpecialPrice';
+        $prevResponse = $this->prevCall($apiMethod, array('productId' => self::$_prevProductId));
+        $currResponse = $this->currCall($apiMethod, array('productId' => self::$_currProductId));
 
-        $this->assertEquals($prevResponse, $currResponse,
-            'Current API response signature expected to be the same as in previous API');
+        $this->assertInternalType(gettype($prevResponse), $currResponse,
+            "The signature of $apiMethod has changed in the new API version.");
     }
 
     /**
-     * Test list of additional attributes method Compatibility.
+     * Test list of additional attributes method compatibility.
      * Scenario:
      * 1. Get the list of additional attributes at previous API.
      * 2. Get the list of additional attributes at current API.
      * Expected result:
      * Signature of current API is the same as in previous.
-     *
      */
-
     public function testListOfAdditionalAttributes()
     {
-        $prevResponse = gettype($this->prevCall('catalog_product.listOfAdditionalAttributes', array(
-            'productType' => 'simple',
-            'attributeSetId' => 4
-        )));
-        $currResponse = gettype($this->currCall('catalog_product.listOfAdditionalAttributes', array(
-            'productType' => 'simple',
-            'attributeSetId' => 4
-        )));
-
-        $this->assertEquals($prevResponse, $currResponse,
-            'Current API response signature expected to be the same as in previous API');
+        $apiMethod = 'catalog_product.listOfAdditionalAttributes';
+        $requestParams = array('productType' => 'simple', 'attributeSetId' => 4);
+        $prevResponse = $this->prevCall($apiMethod, $requestParams);
+        $currResponse = $this->currCall($apiMethod, $requestParams);
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
+
     /**
-     * Test product current store method Compatibility.
+     * Test product current store method compatibility.
      * Scenario:
      * 1. Get the current store at previous API.
      * 2. Get the current store at current API.
@@ -176,7 +165,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      * Signature of current API is the same as in previous.
      *
      */
-
     public function testProductCurrentStore()
     {
         $prevResponse = gettype($this->prevCall('catalog_product.currentStore'));
@@ -187,7 +175,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     }
 
     /**
-     * Test product list method Compatibility.
+     * Test product list method compatibility.
      * Scenario:
      * 1. Get the list of products at previous API.
      * 2. Get the list of products at current API.
@@ -195,7 +183,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      * Signature of current API is the same as in previous.
      *
      */
-
     public function testProductList()
     {
         $prevResponse = gettype($this->prevCall('catalog_product.list'));
@@ -206,7 +193,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     }
 
     /**
-     * Test product set special price method Compatibility.
+     * Test product set special price method compatibility.
      * Scenario:
      * 1. Set special price for the product, created in 'testCreate' at previous API.
      * 2. Set special price for the product, created in 'testCreate' at current API.
@@ -215,7 +202,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      *
      * @depends testCreate
      */
-
     public function testSetSpecialPrice()
     {
         $prevResponse = gettype($this->prevCall('catalog_product.setSpecialPrice', array(
@@ -256,5 +242,18 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
 
         $this->assertInternalType(gettype($prevResponse), $currResponse,
             'Current API response type expected to be the same as in previous API.');
+    }
+
+    /**
+     * Compare types of API responses (current and previous versions)
+     *
+     * @param mixed $prevResponse
+     * @param mixed $currResponse
+     * @param string $apiMethod
+     */
+    protected function _checkVersionCompatibility($prevResponse, $currResponse, $apiMethod)
+    {
+        $this->assertInternalType(gettype($prevResponse), $currResponse,
+            "The signature of $apiMethod has changed in the new API version.");
     }
 }
