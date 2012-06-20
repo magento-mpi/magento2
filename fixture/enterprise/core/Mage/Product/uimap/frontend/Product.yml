@@ -65,6 +65,8 @@ product_review:
                         pageelements:
                             review_reviewer_name: //dt[contains(.,'%reviewerName%')]
                             review_details: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]
+                            review_details_ratings: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]/table
+                            review_details_ratings_line: //dt[span='%reviewerName%']/following-sibling::dd[1]/table//th
                             review_post_date: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]/p[2]
                         links:
                             review_summary: //dt[contains(.,'%reviewerName%')]/a

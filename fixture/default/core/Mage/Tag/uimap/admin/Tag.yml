@@ -58,7 +58,6 @@ all_tags:
         buttons:
             add_new_tag: //button[span='Add New Tag']
         messages: &tagsMesssages
-            no_records_found: //tr[td='No records found.']
             success_created_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been created.')]
             success_saved_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been saved.')]
             success_deleted_tag: //li[normalize-space(@class)='success-msg' and contains(.,'The tag has been deleted.')]

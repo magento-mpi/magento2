@@ -80,12 +80,13 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
         }
         $xpathTR = $this->search($searchPollData, 'poll_grid');
         $this->assertNotEquals(null, $xpathTR, 'Poll is not found');
-        $id = $this->getColumnIdByName('Poll Question');
-        $this->addParameter('pollName', $this->getText($xpathTR . "//td[$id]"));
+        $cellId = $this->getColumnIdByName('Poll Question');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('pollName', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -126,13 +127,14 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
     public function closeAllPolls()
     {
         $xpathTR = $this->search(array('filter_status' => 'Open'));
-        $id = $this->getColumnIdByName('Poll Question');
+        $cellId = $this->getColumnIdByName('Poll Question');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
         while ($this->isElementPresent($xpathTR)) {
-            $this->addParameter('pollName', $this->getText($xpathTR . "//td[$id]"));
+            $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+            $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-            $this->click($xpathTR);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
+            $this->clickControl('pageelement', 'table_line_cell_index');
             $this->fillDropdown('poll_status', 'Closed');
             $this->saveForm('save_poll');
         }
@@ -157,7 +159,9 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
         if (count($answers) == $answersCount) {
             $i = 1;
             foreach ($answers as $value) {
-                $attId = $this->getAttribute($answersXpath . "[$i]@id");
+                $this->addParameter('index', $i);
+                $this->addParameter('elementXpath', $answersXpath);
+                $attId = $this->getControlAttribute('pageelement', 'element_index', 'id');
                 $answerId = explode("_", $attId);
                 $this->addParameter('answerId', end($answerId));
                 $this->assertTrue($this->verifyForm($value, 'poll_answers'), $this->getParsedMessages());

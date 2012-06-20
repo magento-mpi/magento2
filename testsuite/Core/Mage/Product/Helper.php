@@ -480,11 +480,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($productSearch, 'product_grid');
         $this->assertNotNull($xpathTR, 'Product is not found');
         $cellId = $this->getColumnIdByName('Name');
-        $this->addParameter('productName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . "//a[text()='Edit']");
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -693,7 +694,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                 if ($attributeTitle) {
                     $xpath = $this->_getControlXpath('fieldset', 'associated') . '//table[@id]';
                     $number = $this->getColumnIdByName($attributeTitle, $xpath);
-                    $attributeValue = $this->getText($xpathTR . "//td[$number]");
+                    $this->addParameter('tableLineXpath', $xpathTR);
+                    $this->addParameter('cellIndex', $number);
+                    $attributeValue = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
                     $this->addParameter('attributeValue', $attributeValue);
                 } else {
                     $this->addParameter('productXpath', $xpathTR);
@@ -843,12 +846,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     public function unselectAssociatedProduct($type, $saveChanges = false)
     {
         $this->openTab($type);
-        $message = $this->_getControlXpath('fieldset', $type) . $this->_getMessageXpath('no_records_found');
-        if (!$this->isElementPresent($message)) {
+        $this->addParameter('tableXpath', $this->_getControlXpath('fieldset', $type));
+        if (!$this->controlIsPresent('message', 'specific_table_no_records_found')) {
             $this->fillCheckbox($type . '_select_all', 'No');
             if ($saveChanges) {
                 $this->saveAndContinueEdit('button', 'save_and_continue_edit');
-                $this->assertElementPresent($message, 'There are products assigned to "' . $type . '" tab');
+                $this->assertTrue($this->controlIsPresent('message', 'specific_table_no_records_found'),
+                    'There are products assigned to "' . $type . '" tab');
             }
         }
     }

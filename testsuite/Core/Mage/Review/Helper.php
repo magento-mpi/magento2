@@ -154,7 +154,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         foreach ($ratings as $ratingData) {
             $this->addParameter('ratingName', $ratingData['rating_name']);
             $this->addParameter('stars', $ratingData['stars']);
-            $this->verifyChecked($this->_getControlXpath('radiobutton', 'detailed_rating'));
+            $this->verifyForm(array('detailed_rating' => 'Yes'));
         }
         $this->assertEmptyVerificationErrors();
     }
@@ -242,17 +242,17 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
                 $this->fail('Customer with nickname \'' . $nickname . '\' does not added approved review');
             }
             //Define actual review summary
-            $actualSummary = $this->getText($this->_getControlXpath('link', 'review_summary'));
+            $actualSummary = $this->getControlAttribute('link', 'review_summary', 'text');
             //Define actual review text and rating names
-            $xpathReview = $this->_getControlXpath('pageelement', 'review_details');
-            $xpathReviewDate = $this->_getControlXpath('pageelement', 'review_post_date');
-            $xpathReviewRatings = $xpathReview . '/table';
-            $text = preg_quote($this->getText($xpathReviewDate));
-            $actualReview = trim(preg_replace('#' . $text . '#', '', $this->getText($xpathReview)));
-            if ($this->isElementPresent($xpathReviewRatings)) {
-                $text = preg_quote($this->getText($xpathReviewRatings));
+            $xpathReviewRatings = $this->_getControlXpath('pageelement', 'review_details_ratings');
+            $text = preg_quote($this->getControlAttribute('pageelement', 'review_post_date', 'text'));
+            $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
+            $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview));
+            if ($this->controlIsPresent('pageelement', 'review_details_ratings')) {
+                $text = preg_quote($this->getControlAttribute('pageelement', 'review_details_ratings', 'text'));
                 $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview), " \t\n\r\0\x0B");
-                $ratingsCount = $this->getXpathCount($xpathReviewRatings . '//th');
+                $ratingsCount =
+                    $this->getXpathCount($this->_getControlXpath('pageelement', 'review_details_ratings_line'));
                 for ($i = 0; $i < $ratingsCount; $i++) {
                     $actualRatings[] = $this->getTable($xpathReviewRatings . '.' . $i . '.0');
                 }
@@ -265,8 +265,8 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             $this->assertEquals($ratingNames, $actualRatings, 'Review Rating names is not equal to specified');
             //Verification on Review Details page
             $this->clickControl('link', 'review_summary');
-            $this->verifyTextPresent($productName, $productName . ' product not display on Review Details page');
-            $this->verifyTextPresent($review, '\'' . $review . '\' review text not display on Review Details page');
+            $this->assertTextPresent($productName, $productName . ' product not display on Review Details page');
+            $this->assertTextPresent($review, '\'' . $review . '\' review text not display on Review Details page');
             $this->assertEmptyVerificationErrors();
         } else {
             $this->fail('Product does not have approved review(s)');
@@ -303,7 +303,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
      */
     public function defineCorrectParam($linkName)
     {
-        $url = $this->getAttribute($this->_getControlXpath('link', $linkName) . "/@href");
+        $url = $this->getControlAttribute('link', $linkName, 'href');
         $this->addParameter('categoryId', $this->defineParameterFromUrl('category', $url));
     }
 }

@@ -71,8 +71,11 @@ admin_header:
                             table_line_index_cell_index_with_input_value: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]/input[@value]"
                             table_line_index_cell_index_options: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='item-options']"
                             table_line_index_cell_index_product_name: "%tableLineXpath%[%lineIndex%]//td[%cellIndex%]//*[@class='product-name']"
+                            element_index: "%elementXpath%[%index%]"
         messages:
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
             general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"
             general_validation: "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]"
+            no_records_found: //td[text()='No records found.']
+            specific_table_no_records_found: %tableXpath%//td[text()='No records found.']

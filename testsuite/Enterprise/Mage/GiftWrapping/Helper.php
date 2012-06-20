@@ -104,11 +104,12 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($wrappingSearch, 'gift_wrapping_grid');
         $this->assertNotNull($xpathTR, 'Gift Wrapping is not found');
         $cellId = $this->getColumnIdByName('Gift Wrapping Design');
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . "//a[text()='Edit']");
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage('edit_gift_wrapping');
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -170,12 +171,13 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
     {
         $xpathTR = $this->search(array('filter_status' => 'Enabled'));
         $id = $this->getColumnIdByName('Gift Wrapping Design');
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $id);
         while ($this->isElementPresent($xpathTR)) {
-            $this->addParameter('elementTitle', $this->getText($xpathTR . "//td[$id]"));
+            $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+            $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-            $this->click($xpathTR . "//a[text()='Edit']");
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage('edit_gift_wrapping');
+            $this->clickControl('pageelement', 'table_line_cell_index');
             $this->fillDropdown('gift_wrapping_status', 'Disabled');
             $this->saveForm('save');
         }

@@ -83,11 +83,12 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'static_blocks_grid');
         $this->assertNotEquals(null, $xpathTR, 'Static Block is not found');
         $cellId = $this->getColumnIdByName('Title');
-        $this->addParameter('blockName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('blockName', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**

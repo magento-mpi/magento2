@@ -208,11 +208,12 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchPage, 'cms_pages_grid');
         $this->assertNotEquals(null, $xpathTR, 'CMS Page is not found');
         $cellId = $this->getColumnIdByName('Title');
-        $this->addParameter('pageName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('pageName', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**

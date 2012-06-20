@@ -56,7 +56,6 @@ manage_cms_static_blocks:
         messages: &staticBlockMessages
              success_saved_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been saved.')]
              success_deleted_block: //li[normalize-space(@class)='success-msg' and contains(.,'The block has been deleted.')]
-             no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
              confirmation_for_delete: Are you sure you want to do this?
              empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
              specify_valid_xml_identifier: "//div[@id='advice-validate-xml-identifier-block_identifier' and not(contains(@style,'display: none'))]"

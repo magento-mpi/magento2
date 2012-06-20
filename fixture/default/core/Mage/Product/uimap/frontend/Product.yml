@@ -259,6 +259,8 @@ product_review:
                             review_summary: //dt[span='%reviewerName%']/a
                         pageelements:
                             review_details: //dt[span='%reviewerName%']/following-sibling::dd[1]
+                            review_details_ratings: //dt[span='%reviewerName%']/following-sibling::dd[1]/table
+                            review_details_ratings_line: //dt[span='%reviewerName%']/following-sibling::dd[1]/table//th
                             review_rate_name: //dt[span='%reviewerName%']/following-sibling::dd[1]//th[text()='%rateName%']
                             review_rate_value: //dt[span='%reviewerName%']/following-sibling::dd[1]//tr[th='%rateName%']//div[@class='rating']
                             review_table_rate_name: //table[@id='product-review-table']//th[text()='%rateName%']

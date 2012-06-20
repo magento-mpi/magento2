@@ -67,11 +67,12 @@ class Core_Mage_CustomerGroups_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'customer_group_grid');
         $this->assertNotNull($xpathTR, 'Customer Group is not found');
         $cellId = $this->getColumnIdByName('Group Name');
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR . '//td[' . $cellId . ']');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**

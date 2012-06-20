@@ -211,7 +211,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             if ($formFieldName === 'category') {
                 $buttonName = preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_value';
                 $this->click($this->_getControlXpath('link', $buttonName, $uimapData));
-                $this->click($this->_getControlXpath('link', 'open_chosser', $uimapData));
+                $this->click($this->_getControlXpath('link', 'open_chooser', $uimapData));
                 $this->pleaseWait();
                 $categories = explode(',', $formField['value']);
                 $categories = array_map('trim', $categories);
@@ -252,14 +252,15 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
     public function openRule(array $ruleSearch)
     {
         $xpathTR = $this->search($ruleSearch, 'rule_search_grid');
-        $this->assertNotNull($xpathTR, 'Rule with next search criteria:' . "\n"
-            . implode(' and ', $ruleSearch) . "\n" . 'is not found');
+        $this->assertNotNull($xpathTR,
+            'Rule with next search criteria:' . "\n" . implode(' and ', $ruleSearch) . "\n" . 'is not found');
         $cellId = $this->getColumnIdByName('Rule Name');
-        $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('elementTitle', $param);
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-        $this->click($xpathTR);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->validatePage();
+        $this->clickControl('pageelement', 'table_line_cell_index');
     }
 
     /**
@@ -278,11 +279,14 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
      */
     public function deleteAllRules()
     {
-        $message = $this->_getMessageXpath('no_price_rules');
+        $this->addParameter('tableXpath', $this->_getControlXpath('pageelement', 'rule_grid'));
         $cellId = $this->getColumnIdByName('Rule Name');
         $xpath = $this->_getControlXpath('pageelement', 'price_rule');
-        while (!$this->isElementPresent($message)) {
-            $this->addParameter('elementTitle', $this->getText($xpath . '//td[' . $cellId . ']'));
+        $this->addParameter('tableLineXpath', $this->_getControlXpath('pageelement', 'price_rule'));
+        $this->addParameter('cellIndex', $cellId);
+        while (!$this->controlIsPresent('message', 'specific_table_no_records_found')) {
+            $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+            $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpath));
             $this->clickControl('pageelement', 'price_rule');
             $this->clickButtonAndConfirm('delete_rule', 'confirmation_for_delete');
@@ -334,11 +338,12 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         }
         $cellId = $this->getColumnIdByName('Rule Name');
         while ($this->isElementPresent($xpathTR)) {
-            $this->addParameter('elementTitle', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+            $this->addParameter('tableLineXpath', $xpathTR);
+            $this->addParameter('cellIndex', $cellId);
+            $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+            $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
-            $this->click($xpathTR);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
+            $this->clickControl('pageelement', 'table_line_cell_index');
             $this->fillTab(array('status' => 'Inactive'), 'rule_information');
             $this->saveForm('save_rule');
         }
