@@ -119,6 +119,123 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     }
 
     /**
+     * Test product get special price method Compatibility.
+     * Scenario:
+     * 1. Get special price of the product, created in 'testCreate' at previous API.
+     * 2. Get special price of the product, created in 'testCreate' at current API.
+     * Expected result:
+     * Signature of current API is the same as in previous.
+     *
+     * @depends testCreate
+     */
+
+    public function testGetSpecialPrice()
+    {
+        $prevResponse = gettype($this->prevCall('catalog_product.getSpecialPrice', array(
+            'productId' => self::$_prevProductId,
+        )));
+        $currResponse = gettype($this->currCall('catalog_product.getSpecialPrice', array(
+            'productId' => self::$_currProductId
+        )));
+
+        $this->assertEquals($prevResponse, $currResponse,
+            'Current API response signature expected to be the same as in previous API');
+    }
+
+    /**
+     * Test list of additional attributes method Compatibility.
+     * Scenario:
+     * 1. Get the list of additional attributes at previous API.
+     * 2. Get the list of additional attributes at current API.
+     * Expected result:
+     * Signature of current API is the same as in previous.
+     *
+     */
+
+    public function testListOfAdditionalAttributes()
+    {
+        $prevResponse = gettype($this->prevCall('catalog_product.listOfAdditionalAttributes', array(
+            'productType' => 'simple',
+            'attributeSetId' => 4
+        )));
+        $currResponse = gettype($this->currCall('catalog_product.listOfAdditionalAttributes', array(
+            'productType' => 'simple',
+            'attributeSetId' => 4
+        )));
+
+        $this->assertEquals($prevResponse, $currResponse,
+            'Current API response signature expected to be the same as in previous API');
+    }
+
+    /**
+     * Test product current store method Compatibility.
+     * Scenario:
+     * 1. Get the current store at previous API.
+     * 2. Get the current store at current API.
+     * Expected result:
+     * Signature of current API is the same as in previous.
+     *
+     */
+
+    public function testProductCurrentStore()
+    {
+        $prevResponse = gettype($this->prevCall('catalog_product.currentStore'));
+        $currResponse = gettype($this->currCall('catalog_product.currentStore'));
+
+        $this->assertEquals($prevResponse, $currResponse,
+            'Current API response signature expected to be the same as in previous API');
+    }
+
+    /**
+     * Test product list method Compatibility.
+     * Scenario:
+     * 1. Get the list of products at previous API.
+     * 2. Get the list of products at current API.
+     * Expected result:
+     * Signature of current API is the same as in previous.
+     *
+     */
+
+    public function testProductList()
+    {
+        $prevResponse = gettype($this->prevCall('catalog_product.list'));
+        $currResponse = gettype($this->currCall('catalog_product.list'));
+
+        $this->assertEquals($prevResponse, $currResponse,
+            'Current API response signature expected to be the same as in previous API');
+    }
+
+    /**
+     * Test product set special price method Compatibility.
+     * Scenario:
+     * 1. Set special price for the product, created in 'testCreate' at previous API.
+     * 2. Set special price for the product, created in 'testCreate' at current API.
+     * Expected result:
+     * Signature of current API is the same as in previous.
+     *
+     * @depends testCreate
+     */
+
+    public function testSetSpecialPrice()
+    {
+        $prevResponse = gettype($this->prevCall('catalog_product.setSpecialPrice', array(
+            'product' => self::$_prevProductId,
+            'specialPrice' => '77.5',
+            'fromDate' => '2012-03-29 12:30:51',
+            'toDate' => '2012-04-29 12:30:51'
+        )));
+        $currResponse = gettype($this->currCall('catalog_product.setSpecialPrice', array(
+            'product' => self::$_currProductId,
+            'specialPrice' => '77.5',
+            'fromDate' => '2012-03-29 12:30:51',
+            'toDate' => '2012-04-29 12:30:51'
+        )));
+
+        $this->assertEquals($prevResponse, $currResponse,
+            'Current API response signature expected to be the same as in previous API');
+    }
+
+    /**
      * Test product delete method compatibility.
      * Scenario:
      * 1. Delete product, created in 'testCreate' at previous API.
@@ -126,7 +243,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
-     * @depends testCreate
+     * @depends testGetSpecialPrice
      */
     public function testDelete()
     {
