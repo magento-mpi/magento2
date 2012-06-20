@@ -53,7 +53,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
         $country = (isset($parameters['merchant_country'])) ? $parameters['merchant_country'] : null;
         $configuration = (isset($parameters['configuration'])) ? $parameters['configuration'] : array();
         if ($chooseScope) {
-            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $chooseScope);
         }
         $this->openConfigurationTab('sales_payment_methods');
         $this->disableAllPaypalMethods();
@@ -132,7 +132,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
     {
         $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'merchant_country'));
         $this->addParameter('optionText', $country);
-        if (!$this->controlIsPresent('pageelement', 'dropdown_option_selected')) {
+        if (!$this->controlIsPresent('pageelement', 'dropdown_option_text_selected')) {
             if ($saveBeforeSelect) {
                 $this->saveForm('save_config');
             }

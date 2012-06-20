@@ -49,7 +49,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         }
         $chooseScope = (isset($parameters['configuration_scope'])) ? $parameters['configuration_scope'] : null;
         if ($chooseScope) {
-            $this->changeConfigurationScope('current_configuration_scope', $chooseScope);
+            $this->selectStoreScope('dropdown', 'current_configuration_scope', $chooseScope);
         }
         foreach ($parameters as $value) {
             if (!is_array($value)) {
@@ -84,23 +84,6 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
     {
         $this->defineParameters($this->_getControlXpath('tab', $tab), 'href');
         $this->clickControl('tab', $tab);
-    }
-
-    /**
-     * @param string $dropDownName
-     * @param string $fieldValue
-     */
-    public function changeConfigurationScope($dropDownName, $fieldValue)
-    {
-        $xpath = $this->_getControlXpath('dropdown', $dropDownName);
-        $toSelect = $xpath . '//option[normalize-space(text())="' . $fieldValue . '"]';
-        $isSelected = $toSelect . '[@selected]';
-        if (!$this->isElementPresent($isSelected)) {
-            $this->defineParameters($toSelect, 'url');
-            $this->fillDropdown($dropDownName, $fieldValue);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
-        }
     }
 
     /**
