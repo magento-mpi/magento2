@@ -243,9 +243,26 @@ import_address_file_required_fields2:
 import_finance_file_required_fields:
    email: %noValue%
    _website: base
-   city: Milwaukee
    store_credit: 4321.0000
    reward_points: 1234
+import_address_TL-MAGE-5640:
+    prefix: %noValue%
+    first_name: ABC_Name
+    middle_name: ABC_Middle
+    last_name: ABC_Lastname
+    suffix: %noValue%
+    company: ABC_Company
+    street_address_line_1: ABC_Address1
+    street_address_line_2: %noValue%
+    city: New York
+    country: United States
+    state: New York
+    region: %noValue%
+    zip_code: 10014
+    telephone: 55-55-55
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%
 
 
 
