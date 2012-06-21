@@ -51,21 +51,21 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
     /**
      * <p>Required columns</p>
      * <p>Steps</p>
-     * <p>Go to System -> Import / Export -> Import</p>
-     * <p>Select Entity Type: Customers</p>
-     * <p>Select Export Format Version: Magento 2.0 format</p>
-     * <p>Select Customers Entity Type: Customer Addresses File</p>
-     * <p>Choose file from precondition</p>
-     * <p>Click on Check Data</p>
-     * <p>Click on Import button</p>
-     * <p>Open Customers -> Manage Customers</p>
-     * <p>Open each of imported customers</p>
+     * <p>1. Go to System -> Import / Export -> Import</p>
+     * <p>2. Select Entity Type: Customers</p>
+     * <p>3. Select Export Format Version: Magento 2.0 format</p>
+     * <p>4. Select Customers Entity Type: Customer Finances File</p>
+     * <p>5. Choose file from precondition</p>
+     * <p>6. Click on Check Data</p>
+     * <p>7. Click on Import button</p>
+     * <p>8. Open Customers -> Manage Customers</p>
+     * <p>9. Open each of imported customers</p>
      * <p>After step 6</p>
      * <p>Verify that file is valid, the message 'File is valid!' is displayed</p>
      * <p>After step 7</p>
      * <p>Verify that import starting. The message 'Import successfully done.' is displayed</p>
      * <p>After step 9</p>
-     * <p>Verify that all Customers address information was imported</p>
+     * <p>Verify that all Customers finance information was imported</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5624
@@ -74,7 +74,7 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
     {
         //Precondition: create 2 new customers
         $this->admin('manage_customers');
-        // 0.1. create customers with/o address
+        // 0.1. create two customers
         $this->navigate('manage_customers');
         $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
@@ -103,7 +103,7 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
         $this->waitForElementVisible(
             $this->_getControlXpath('dropdown', 'import_customer_entity')
         );
-        $this->fillDropdown('import_customer_entity', 'Customer Finances File');
+        $this->fillDropdown('import_customer_entity', 'Customer Finances');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
             array(

@@ -223,6 +223,7 @@ import_main_file_required_fields:
    group_id: 3
 
 import_address_file_required_fields1:
+   _entity_id: %noValue%
    _email: %noValue%
    _website: base
    city: Lincoln
@@ -230,10 +231,11 @@ import_address_file_required_fields1:
    firstname: Jana
    lastname: Johnson
    postcode: 90232
-   street: "4955 Crummit\nLane"
+   street: 4955 Crummit\nLane
    telephone: "402-219-4835"
 
 import_address_file_required_fields2:
+   _entity_id: %noValue%
    _email: %noValue%
    _website: base
    city: Milwaukee
@@ -312,7 +314,7 @@ csv_new_address_5622:
     region: Iowa
     street: 2169 Heavner Court
     suffix: Jr.
-    telephone: 765-531-8811
+    telephone: 515-984-2685
     _address_default_billing_: 0
     _address_default_shipping_: 0
 
@@ -402,8 +404,8 @@ existing_updated_address_5622:
     zip_code: 68164
     telephone: 402-452-2581
     fax: 402-452-2581
-    default_billing_address: 1
-    default_shipping_address: 1
+    default_billing_address: 0
+    default_shipping_address: 0
 
 csv_existing_address_5622:
     _email: %noValue%
@@ -421,8 +423,8 @@ csv_existing_address_5622:
     street: 2018 Oak Way
     suffix: Sr.
     telephone: 402-452-2581
-    _address_default_billing_: 1
-    _address_default_shipping_: 1
+    _address_default_billing_: 0
+    _address_default_shipping_: 0
 
 data_valid_customer1_5635:
     associate_to_website: Main Website
