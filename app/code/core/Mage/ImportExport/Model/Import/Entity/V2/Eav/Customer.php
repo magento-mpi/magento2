@@ -102,7 +102,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
         $this->_initStores(true)
             ->_initAttributes();
 
-        $this->_entityTable = Mage::getModel('Mage_Customer_Model_Customer')->getResource()->getEntityTable();
+        /** @var $customerResource Mage_Customer_Model_Resource_Customer */
+        $customerResource = Mage::getModel('Mage_Customer_Model_Customer')->getResource();
+        $this->_entityTable = $customerResource->getEntityTable();
     }
 
     /**
@@ -128,8 +130,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
             $entitiesToUpdate = array();
             $attributes   = array();
 
-            foreach ($bunch as $rowNum => $rowData) {
-                if (!$this->validateRow($rowData, $rowNum)) {
+            foreach ($bunch as $rowNumber => $rowData) {
+                if (!$this->validateRow($rowData, $rowNumber)) {
                     continue;
                 }
 
