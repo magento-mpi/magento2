@@ -222,25 +222,25 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         /** @var $customer Mage_Customer_Model_Customer */
         $customer       = Mage::getModel('Mage_Customer_Model_Customer');
         $dateTimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
-        $resource       = Mage::getModel('Mage_Customer_Model_Address');
-        $table          = $resource->getResource()->getEntityTable();
+        $addressModel   = Mage::getModel('Mage_Customer_Model_Address');
+        $table          = $addressModel->getResource()->getEntityTable();
         $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
 
         /** @var $regionConfig Mage_Eav_Model_Config */
-        $regionConfig   = Mage::getSingleton('Mage_Eav_Model_Config');
-        /** @var $regionIdAttr Mage_Customer_Model_Attribute */
-        $regionIdAttr   = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
-        $regionIdTable  = $regionIdAttr->getBackend()->getTable();
-        $regionIdAttrId = $regionIdAttr->getId();
+        $regionConfig        = Mage::getSingleton('Mage_Eav_Model_Config');
+        /** @var $regionIdAttribute Mage_Customer_Model_Attribute */
+        $regionIdAttribute   = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
+        $regionIdTable       = $regionIdAttribute->getBackend()->getTable();
+        $regionIdAttributeId = $regionIdAttribute->getId();
 
         while ($bunch = $this->_dataSourceModel->getNextBunch()) {
             $entityRows = array();
             $attributes = array();
             $defaults   = array(); // customer default addresses (billing/shipping) data
 
-            foreach ($bunch as $rowNum => $rowData) {
+            foreach ($bunch as $rowNumber => $rowData) {
                 // check row data
-                if (!$this->validateRow($rowData, $rowNum)) {
+                if (!$this->validateRow($rowData, $rowNumber)) {
                     continue;
                 }
 
@@ -290,8 +290,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 }
 
                 // customer default addresses
-                foreach (self::getDefaultAddressAttributeMapping() as $colName => $customerAttrCode) {
-                    if (!empty($rowData[$colName])) {
+                foreach (self::getDefaultAddressAttributeMapping() as $columnName => $customerAttrCode) {
+                    if (!empty($rowData[$columnName])) {
                         /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
                         $attribute = $customer->getAttribute($customerAttrCode);
                         $defaults[$attribute->getBackend()->getTable()][$customerId][$attribute->getId()] = $addressId;
@@ -305,10 +305,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
 
                     if (isset($this->_countryRegions[$countryNormalized][$regionNormalized])) {
                         $regionId = $this->_countryRegions[$countryNormalized][$regionNormalized];
-                        $attributes[$regionIdTable][$addressId][$regionIdAttrId] = $regionId;
-                        $tbl = $this->_attributes[self::COLUMN_REGION]['table'];
-                        $regionColNameId = $this->_attributes[self::COLUMN_REGION]['id'];
-                        $attributes[$tbl][$addressId][$regionColNameId] = $this->_regions[$regionId];
+                        $attributes[$regionIdTable][$addressId][$regionIdAttributeId] = $regionId;
+                        $tableName = $this->_attributes[self::COLUMN_REGION]['table'];
+                        $regionColumnNameId = $this->_attributes[self::COLUMN_REGION]['id'];
+                        $attributes[$tableName][$addressId][$regionColumnNameId] = $this->_regions[$regionId];
                     }
                 }
             }
@@ -344,8 +344,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     {
         foreach ($attributesData as $tableName => $data) {
             $tableData = array();
-            foreach ($data as $addressId => $attrData) {
-                foreach ($attrData as $attributeId => $value) {
+            foreach ($data as $addressId => $attributeData) {
+                foreach ($attributeData as $attributeId => $value) {
                     $tableData[] = array(
                         'entity_id'      => $addressId,
                         'entity_type_id' => $this->_entityTypeId,
@@ -373,8 +373,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
 
         foreach ($defaults as $tableName => $data) {
             $tableData = array();
-            foreach ($data as $customerId => $attrData) {
-                foreach ($attrData as $attributeId => $value) {
+            foreach ($data as $customerId => $attributeData) {
+                foreach ($attributeData as $attributeId => $value) {
                     $tableData[] = array(
                         'entity_id'      => $customerId,
                         'entity_type_id' => $entityTypeId,

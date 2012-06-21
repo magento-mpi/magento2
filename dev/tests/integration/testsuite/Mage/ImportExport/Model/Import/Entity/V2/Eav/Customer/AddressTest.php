@@ -10,7 +10,7 @@
  */
 
 /**
- * Test class for Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+ * Test class for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
@@ -61,45 +61,33 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     public function testConstruct()
     {
         // check entity table
-        $entityReflection = new ReflectionProperty($this->_testClassName, '_entityTable');
-        $entityReflection->setAccessible(true);
-        $entityTable = $entityReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('string', $entityTable, 'Entity table must be a string.');
-        $this->assertNotEmpty($entityTable, 'Entity table must not be empty');
+        $this->assertAttributeInternalType('string', '_entityTable', $this->_entityAdapter,
+            'Entity table must be a string.');
+        $this->assertAttributeNotEmpty('_entityTable', $this->_entityAdapter, 'Entity table must not be empty');
 
         // check message templates
-        $templatesReflection = new ReflectionProperty($this->_testClassName, '_messageTemplates');
-        $templatesReflection->setAccessible(true);
-        $templates = $templatesReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('array', $templates, 'Templates must be an array.');
-        $this->assertNotEmpty($templates, 'Templates must not be empty.');
+        $this->assertAttributeInternalType('array', '_messageTemplates', $this->_entityAdapter,
+            'Templates must be an array.');
+        $this->assertAttributeNotEmpty('_messageTemplates', $this->_entityAdapter, 'Templates must not be empty');
 
         // check attributes
-        $attributesReflection = new ReflectionProperty($this->_testClassName, '_attributes');
-        $attributesReflection->setAccessible(true);
-        $attributes = $attributesReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('array', $attributes, 'Attributes must be an array.');
-        $this->assertNotEmpty($attributes, 'Attributes must not be empty.');
+        $this->assertAttributeInternalType('array', '_attributes', $this->_entityAdapter,
+            'Attributes must be an array.');
+        $this->assertAttributeNotEmpty('_attributes', $this->_entityAdapter, 'Attributes must not be empty');
 
         // check addresses
-        $addressesReflection = new ReflectionProperty($this->_testClassName, '_addresses');
-        $addressesReflection->setAccessible(true);
-        $addresses = $addressesReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('array', $addresses, 'Addresses must be an array.');
-        $this->assertNotEmpty($addresses, 'Addresses must not be empty.');
+        $this->assertAttributeInternalType('array', '_addresses', $this->_entityAdapter,
+            'Addresses must be an array.');
+        $this->assertAttributeNotEmpty('_addresses', $this->_entityAdapter, 'Addresses must not be empty');
 
-        // check country regions adn regions
-        $countriesReflection = new ReflectionProperty($this->_testClassName, '_countryRegions');
-        $countriesReflection->setAccessible(true);
-        $countryRegions = $countriesReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('array', $countryRegions, 'Country regions must be an array.');
-        $this->assertNotEmpty($countryRegions, 'Country regions must not be empty.');
+        // check country regions and regions
+        $this->assertAttributeInternalType('array', '_countryRegions', $this->_entityAdapter,
+            'Country regions must be an array.');
+        $this->assertAttributeNotEmpty('_countryRegions', $this->_entityAdapter, 'Country regions must not be empty');
 
-        $regionsReflection = new ReflectionProperty($this->_testClassName, '_regions');
-        $regionsReflection->setAccessible(true);
-        $regions = $regionsReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('array', $regions, 'Regions must be an array.');
-        $this->assertNotEmpty($regions, 'Regions must not be empty.');
+        $this->assertAttributeInternalType('array', '_regions', $this->_entityAdapter,
+            'Regions must be an array.');
+        $this->assertAttributeNotEmpty('_regions', $this->_entityAdapter, 'Regions must not be empty');
     }
 
     /**
@@ -127,11 +115,13 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $initAddresses->invoke($this->_entityAdapter);
 
         // check addresses
+        $this->assertAttributeInternalType('array', '_addresses', $this->_entityAdapter,
+            'Addresses must be an array.');
+        $this->assertAttributeNotEmpty('_addresses', $this->_entityAdapter, 'Addresses must not be empty');
+
         $addressesReflection = new ReflectionProperty($this->_testClassName, '_addresses');
         $addressesReflection->setAccessible(true);
         $testAddresses = $addressesReflection->getValue($this->_entityAdapter);
-        $this->assertInternalType('array', $testAddresses, 'Addresses must be an array.');
-        $this->assertNotEmpty($testAddresses, 'Addresses must not be empty.');
 
         $correctCustomerIds = array_keys($correctAddresses);
         $testCustomerIds = array_keys($testAddresses);
@@ -180,14 +170,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $customer = reset($customers);
         $customerId = $customer->getId();
 
-        /** @var $resource Mage_Customer_Model_Address */
-        $resource  = Mage::getModel('Mage_Customer_Model_Address');
-        $table     = $resource->getResource()->getEntityTable();
-        $addressId = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
+        /** @var $addressModel Mage_Customer_Model_Address */
+        $addressModel = Mage::getModel('Mage_Customer_Model_Address');
+        $tableName    = $addressModel->getResource()->getEntityTable();
+        $addressId    = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($tableName);
 
         $entityData = array(
             'entity_id'      => $addressId,
-            'entity_type_id' => $resource->getEntityTypeId(),
+            'entity_type_id' => $addressModel->getEntityTypeId(),
             'parent_id'      => $customerId,
             'created_at'     => now(),
             'updated_at'     => now()
@@ -250,8 +240,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testSaveCustomerDefaults()
     {
-        $this->_entityAdapter = Mage::getModel($this->_testClassName);
-
         // get not default address
         $customers = Mage::registry($this->_fixtureKey);
         /** @var $notDefaultAddress Mage_Customer_Model_Address */
@@ -281,9 +269,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         // set customer defaults
         $defaults = array();
         foreach (Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::getDefaultAddressAttributeMapping()
-            as $customerAttributeCode) {
+            as $attributeCode) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
-            $attribute = $addressCustomer->getAttribute($customerAttributeCode);
+            $attribute = $addressCustomer->getAttribute($attributeCode);
             $attributeTable = $attribute->getBackend()->getTable();
             $attributeId = $attribute->getId();
             $defaults[$attributeTable][$customerId][$attributeId] = $addressId;
@@ -359,20 +347,33 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $importData->setAccessible(true);
         $importData->invoke($this->_entityAdapter);
 
+        // form attribute list
+        $keyAttribute = 'postcode';
+        $requiredAttributes[] = array($keyAttribute);
+        foreach (array('update', 'remove') as $action) {
+            foreach ($csvData[$action] as $attributes) {
+                foreach ($attributes as $attributeKey => $attributeValue) {
+                    if (!in_array($attributeKey, $requiredAttributes)) {
+                        $requiredAttributes[] = $attributeKey;
+                    }
+                }
+            }
+        }
+
         // get addresses
         /** @var $addressCollection Mage_Customer_Model_Resource_Address_Collection */
         $addressCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
-        $addressCollection->addAttributeToSelect('*');
+        $addressCollection->addAttributeToSelect($requiredAttributes);
         $addresses = array();
         /** @var $address Mage_Customer_Model_Address */
         foreach ($addressCollection as $address) {
-            $addresses[$address->getData('postcode')] = $address;
+            $addresses[$address->getData($keyAttribute)] = $address;
         }
 
         // is addresses exists
-        $this->assertArrayHasKey($csvData['address']['update'], $addresses, 'Address must exists.');
-        $this->assertArrayHasKey($csvData['address']['new'], $addresses, 'Address must exists.');
-        $this->assertArrayNotHasKey($csvData['address']['no_customer'], $addresses, 'Address must not exists.');
+        $this->assertArrayHasKey($csvData['address']['update'], $addresses, 'Address must exist.');
+        $this->assertArrayHasKey($csvData['address']['new'], $addresses, 'Address must exist.');
+        $this->assertArrayNotHasKey($csvData['address']['no_customer'], $addresses, 'Address must not exist.');
 
         // is updated address fields have new values
         $updatedAddressId = $csvData['address']['update'];
@@ -383,24 +384,24 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
             $this->assertEquals($fieldValue, $updatedAddress->getData($fieldName));
         }
 
-        // is removed data fields have old values
+        // are removed data fields have old values
         $removedData = $csvData['remove'][$updatedAddressId];
         foreach ($removedData as $fieldName => $fieldValue) {
             $this->assertEquals($fieldValue, $updatedAddress->getData($fieldName));
         }
 
-        // is default billing/shipping addresses are new
+        // are default billing/shipping addresses have new value
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->load($customerId);
         $defaultsData = $csvData['default'];
         $this->assertEquals(
             $defaultsData['billing'],
-            $customer->getDefaultBillingAddress()->getData('postcode'),
+            $customer->getDefaultBillingAddress()->getData($keyAttribute),
             'Incorrect default billing address'
         );
         $this->assertEquals(
             $defaultsData['shipping'],
-            $customer->getDefaultShippingAddress()->getData('postcode'),
+            $customer->getDefaultShippingAddress()->getData($keyAttribute),
             'Incorrect default shipping address'
         );
     }
