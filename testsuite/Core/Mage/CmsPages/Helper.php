@@ -153,7 +153,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
                     $this->addParameter('cellIndex', array_search($value, $names) + 1);
                     $this->addParameter('tableLineXpath', $xpathTR);
                     $text = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
-                    if ($title != 'Not Selected') {
+                    if ($title == 'Not Selected') {
                         $title = $text;
                     } else {
                         $title = $title . ' / ' . $text;

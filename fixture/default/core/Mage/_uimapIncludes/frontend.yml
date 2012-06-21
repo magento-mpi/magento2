@@ -72,7 +72,7 @@ frontend_header:
                             element_with_disabled_style: "%elementXpath%[contains(@style,'display:') and contains(@style,'none')]"
                             element_not_disabled: "%elementXpath%[not(@disabled)]"
                             element_with_class_active: "%elementXpath%[contains(@class,'active')]"
-                            element_with_class_not_active: "%elementXpath[not(contains(@class,'active'))]%"
+                            element_with_class_not_active: "%elementXpath%[not(contains(@class,'active'))]"
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"

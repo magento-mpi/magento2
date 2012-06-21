@@ -151,8 +151,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $buttonName = $fieldsetName . '_continue';
         $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', $fieldsetName));
         $waitCondition = array($this->_getMessageXpath('general_validation'),
-                               $this->_getMessageXpath('pageelement', 'element_with_class_not_active'),
-                               $this->getBasicXpathMessagesExcludeCurrent('error'),);
+                               $this->_getControlXpath('pageelement', 'element_with_class_not_active'),
+                               $this->getBasicXpathMessagesExcludeCurrent('error'));
         $this->clickButton($buttonName, false);
         $this->waitForElementOrAlert($waitCondition);
         if (!$this->controlIsPresent('pageelement', 'element_with_class_not_active')) {
@@ -320,7 +320,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
             $this->selectFrame($this->_getControlXpath('pageelement', '3d_secure_iframe'));
-            if (!$this->waitForElement($waitCondition[0], 10)) {
+            if (!$this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10)) {
                 $this->selectFrame('relative=top');
                 $this->fail('3D Secure frame is not loaded');
             }

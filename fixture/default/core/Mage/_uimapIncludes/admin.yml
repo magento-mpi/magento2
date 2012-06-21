@@ -81,7 +81,7 @@ admin_header:
                             element_with_disabled_style: "%elementXpath%[contains(@style,'display:') and contains(@style,'none')]"
                             element_not_disabled: "%elementXpath%[not(@disabled)]"
                             element_with_class_active: "%elementXpath%[contains(@class,'active')]"
-                            element_with_class_not_active: "%elementXpath[not(contains(@class,'active'))]%"
+                            element_with_class_not_active: "%elementXpath%[not(contains(@class,'active'))]"
         messages:
             general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
             general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
