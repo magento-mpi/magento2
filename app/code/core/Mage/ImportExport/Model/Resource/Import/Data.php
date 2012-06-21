@@ -74,7 +74,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
      */
     public function getBehavior()
     {
-        return $this->getRequestData('behavior');
+        return $this->getUniqueColumnData('behavior');
     }
 
     /**
@@ -84,7 +84,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
      */
     public function getEntityTypeCode()
     {
-        return $this->getRequestData('entity');
+        return $this->getUniqueColumnData('entity');
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_ImportExport_Model_Resource_Import_Data
      * @param string $code parameter name
      * @return string
      */
-    public function getRequestData($code)
+    public function getUniqueColumnData($code)
     {
         $adapter = $this->_getReadAdapter();
         $values = array_unique($adapter->fetchCol(

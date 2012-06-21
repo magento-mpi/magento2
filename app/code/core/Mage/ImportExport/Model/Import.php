@@ -79,11 +79,11 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
             $entityTypes = Mage_ImportExport_Model_Config::getModels(self::CONFIG_KEY_ENTITIES);
             $customerEntityTypes = Mage_ImportExport_Model_Config::getModels(self::CONFIG_KEY_CUSTOMER_ENTITIES);
 
-            $customerEntityType = $this->getEntitySubtype();
-            if (!empty($customerEntityType)) {
-                if (isset($customerEntityTypes[$customerEntityType])) {
+            $entitySubtype = $this->getEntitySubtype();
+            if (!empty($entitySubtype)) {
+                if (isset($customerEntityTypes[$entitySubtype])) {
                     try {
-                        $this->_entityAdapter = Mage::getModel($customerEntityTypes[$customerEntityType]['model']);
+                        $this->_entityAdapter = Mage::getModel($customerEntityTypes[$entitySubtype]['model']);
                     } catch (Exception $e) {
                         Mage::logException($e);
                         Mage::throwException(
@@ -93,7 +93,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                     if (!$this->_entityAdapter instanceof Mage_ImportExport_Model_Import_Entity_V2_Abstract) {
                         Mage::throwException(
                             Mage::helper('Mage_ImportExport_Helper_Data')
-                                ->__('Entity adapter obejct must be an instance of %s',
+                                ->__('Entity adapter object must be an instance of %s',
                                     'Mage_ImportExport_Model_Import_Entity_V2_Abstract'
                                 )
                         );
@@ -121,7 +121,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                 if (!$this->_entityAdapter instanceof Mage_ImportExport_Model_Import_Entity_Abstract) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
-                            ->__('Entity adapter obejct must be an instance of %s',
+                            ->__('Entity adapter object must be an instance of %s',
                                 'Mage_ImportExport_Model_Import_Entity_Abstract'
                             )
                     );
@@ -346,21 +346,35 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      */
     public function importSource()
     {
+        $entitySubtype = self::getDataSourceModel()->getUniqueColumnData('entity_subtype');
         $this->setData(array(
             'entity'         => self::getDataSourceModel()->getEntityTypeCode(),
             'behavior'       => self::getDataSourceModel()->getBehavior(),
-            'entity_subtype' => self::getDataSourceModel()->getRequestData('entity_subtype')
+            'entity_subtype' => $entitySubtype
         ));
 
-        $this->addLogComment(Mage::helper('Mage_ImportExport_Helper_Data')->__('Begin import of "%s" with "%s" behavior', $this->getEntity(), $this->getBehavior()));
+        $this->addLogComment(
+            Mage::helper('Mage_ImportExport_Helper_Data')
+                ->__('Begin import of "%s" "%s" with "%s" behavior',
+                    $this->getEntity(),
+                    $entitySubtype,
+                    $this->getBehavior()
+                )
+        );
+
         $result = $this->_getEntityAdapter()->importData();
+
         $this->addLogComment(array(
-            Mage::helper('Mage_ImportExport_Helper_Data')->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
-                $this->getProcessedRowsCount(), $this->getProcessedEntitiesCount(),
-                $this->getInvalidRowsCount(), $this->getErrorsCount()
-            ),
+            Mage::helper('Mage_ImportExport_Helper_Data')
+                ->__('Checked rows: %d, checked entities: %d, invalid rows: %d, total errors: %d',
+                    $this->getProcessedRowsCount(),
+                    $this->getProcessedEntitiesCount(),
+                    $this->getInvalidRowsCount(),
+                    $this->getErrorsCount()
+                ),
             Mage::helper('Mage_ImportExport_Helper_Data')->__('Import has been done successfuly.')
         ));
+
         return $result;
     }
 
