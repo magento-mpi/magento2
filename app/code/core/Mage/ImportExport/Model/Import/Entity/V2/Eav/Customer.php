@@ -82,7 +82,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
         $this->_particularAttributes[] = self::COLUMN_STORE;
         $this->_permanentAttributes[]  = self::COLUMN_EMAIL;
         $this->_permanentAttributes[]  = self::COLUMN_WEBSITE;
-        $this->_indexValueAttributes[] ='group_id';
+        $this->_indexValueAttributes[] = 'group_id';
 
         /** @var $helper Mage_ImportExport_Helper_Data */
         $helper = Mage::helper('Mage_ImportExport_Helper_Data');
