@@ -94,6 +94,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Test _initAddresses
      *
      * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_initAddresses
      */
     public function testInitAddresses()
     {
@@ -143,6 +144,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Test _saveAddressEntity
      *
      * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_saveAddressEntities
      */
     public function testSaveAddressEntities()
     {
@@ -195,6 +197,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Test _saveAddressAttributes
      *
      * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_saveAddressAttributes
      */
     public function testSaveAddressAttributes()
     {
@@ -237,6 +240,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Test _saveCustomerDefaults
      *
      * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_saveCustomerDefaults
      */
     public function testSaveCustomerDefaults()
     {
@@ -303,6 +307,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
 
     /**
      * Test attribute collection getter
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_getAttributeCollection
      */
     public function testGetAttributeCollection()
     {
@@ -320,6 +326,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Test import data method
      *
      * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_importData
      */
     public function testImportData()
     {
@@ -343,9 +350,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $csvData = Mage::registry($fixtureCsv);
 
         // import data
-        $importData = new ReflectionMethod($this->_testClassName, '_importData');
-        $importData->setAccessible(true);
-        $importData->invoke($this->_entityAdapter);
+        $this->_entityAdapter->importData();
 
         // form attribute list
         $keyAttribute = 'postcode';
@@ -370,6 +375,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $this->assertArrayHasKey($csvData['address']['update'], $addresses, 'Address must exist.');
         $this->assertArrayHasKey($csvData['address']['new'], $addresses, 'Address must exist.');
         $this->assertArrayNotHasKey($csvData['address']['no_customer'], $addresses, 'Address must not exist.');
+        $this->assertArrayHasKey($csvData['address']['new_no_address_id'], $addresses, 'Address must exist.');
 
         // is updated address fields have new values
         $updatedAddressId = $csvData['address']['update'];

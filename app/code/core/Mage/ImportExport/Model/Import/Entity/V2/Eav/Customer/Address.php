@@ -286,10 +286,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 }
 
                 // customer default addresses
-                foreach (self::getDefaultAddressAttributeMapping() as $columnName => $customerAttrCode) {
+                foreach (self::getDefaultAddressAttributeMapping() as $columnName => $attributeCode) {
                     if (!empty($rowData[$columnName])) {
                         /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
-                        $attribute = $customer->getAttribute($customerAttrCode);
+                        $attribute = $customer->getAttribute($attributeCode);
                         $defaults[$attribute->getBackend()->getTable()][$customerId][$attribute->getId()] = $addressId;
                     }
                 }

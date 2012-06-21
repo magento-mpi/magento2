@@ -66,9 +66,10 @@ Mage::register($fixtureKey, $customer);
 // important data from address_import.csv (postcode is key)
 $csvData = array(
     'address' => array( // address records
-        'update'      => '19107',  // address with updates
-        'new'         => '85034',  // new address
-        'no_customer' => '33602',  // there is no customer with this primary key (email+website)
+        'update'            => '19107',  // address with updates
+        'new'               => '85034',  // new address
+        'no_customer'       => '33602',  // there is no customer with this primary key (email+website)
+        'new_no_address_id' => '32301',  // new address without address id
     ),
     'update'  => array( // this data is changed in CSV file
         '19107' => array(
@@ -78,7 +79,8 @@ $csvData = array(
     ),
     'remove'  => array( // this data is not set in CSV file
         '19107' => array(
-            'region'   => 'Pennsylvania',
+            'city'   => 'Philadelphia',
+            'region' => 'Pennsylvania',
         ),
     ),
     'default' => array( // new default billing/shipping addresses
