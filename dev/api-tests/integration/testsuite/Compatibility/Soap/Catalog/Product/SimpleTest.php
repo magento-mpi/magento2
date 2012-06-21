@@ -53,12 +53,10 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
                 'weight' => 1,
             )
         );
-
-        self::$_prevProductId = $this->prevCall('catalog_product.create', $request);
-        $expectedType = gettype(self::$_prevProductId);
-        self::$_currProductId = $this->currCall('catalog_product.create', $request);
-        $this->assertInternalType($expectedType, self::$_currProductId,
-            'Current API response type expected to be the same as in previous API.');
+        $apiMethod = 'catalog_product.create';
+        self::$_prevProductId = $this->prevCall($apiMethod, $request);
+        self::$_currProductId = $this->currCall($apiMethod, $request);
+        $this->_checkVersionCompatibility(self::$_prevProductId, self::$_currProductId, $apiMethod);
     }
 
     /**
@@ -73,18 +71,17 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testInfo()
     {
-        $prevProductInfo = $this->prevCall('catalog_product.info', array(
+        $apiMethod = 'catalog_product.info';
+        $prevProductInfo = $this->prevCall($apiMethod, array(
             'productId' => self::$_prevProductId,
         ));
-        $currProductInfo = $this->currCall('catalog_product.info', array(
+        $currProductInfo = $this->currCall($apiMethod, array(
             'productId' => self::$_currProductId
         ));
-
         $prevResponseSignature = array_keys($prevProductInfo);
         $currResponseSignature = array_keys($currProductInfo);
-
         $this->assertEquals($prevResponseSignature, $currResponseSignature,
-            'Current API response signature expected to be the same as in previous API');
+            "The signature of $apiMethod has changed in the new API version.");
     }
 
     /**
@@ -104,18 +101,16 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
             'description' => 'description',
             'short_description' => 'short description',
         );
-
-        $prevResponse = $this->prevCall('catalog_product.update', array(
+        $apiMethod = 'catalog_product.update';
+        $prevResponse = $this->prevCall($apiMethod, array(
             'productId' => self::$_prevProductId,
             'productData' => $productData
         ));
-        $currResponse = $this->currCall('catalog_product.update', array(
+        $currResponse = $this->currCall($apiMethod, array(
             'productId' => self::$_currProductId,
             'productData' => $productData
         ));
-
-        $this->assertInternalType(gettype($prevResponse), $currResponse,
-            'Current API response type expected to be the same as in previous API.');
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -133,9 +128,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $apiMethod = 'catalog_product.getSpecialPrice';
         $prevResponse = $this->prevCall($apiMethod, array('productId' => self::$_prevProductId));
         $currResponse = $this->currCall($apiMethod, array('productId' => self::$_currProductId));
-
-        $this->assertInternalType(gettype($prevResponse), $currResponse,
-            "The signature of $apiMethod has changed in the new API version.");
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -155,7 +148,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
-
     /**
      * Test product current store method compatibility.
      * Scenario:
@@ -167,11 +159,10 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testProductCurrentStore()
     {
-        $prevResponse = gettype($this->prevCall('catalog_product.currentStore'));
-        $currResponse = gettype($this->currCall('catalog_product.currentStore'));
-
-        $this->assertEquals($prevResponse, $currResponse,
-            'Current API response signature expected to be the same as in previous API');
+        $apiMethod = 'catalog_product.currentStore';
+        $prevResponse = $this->prevCall($apiMethod);
+        $currResponse = $this->currCall($apiMethod);
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -185,11 +176,10 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testProductList()
     {
-        $prevResponse = gettype($this->prevCall('catalog_product.list'));
-        $currResponse = gettype($this->currCall('catalog_product.list'));
-
-        $this->assertEquals($prevResponse, $currResponse,
-            'Current API response signature expected to be the same as in previous API');
+        $apiMethod = 'catalog_product.list';
+        $prevResponse = $this->prevCall($apiMethod);
+        $currResponse = $this->currCall($apiMethod);
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -204,21 +194,20 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testSetSpecialPrice()
     {
-        $prevResponse = gettype($this->prevCall('catalog_product.setSpecialPrice', array(
+        $apiMethod = 'catalog_product.setSpecialPrice';
+        $prevResponse = $this->prevCall($apiMethod, array(
             'product' => self::$_prevProductId,
             'specialPrice' => '77.5',
             'fromDate' => '2012-03-29 12:30:51',
             'toDate' => '2012-04-29 12:30:51'
-        )));
-        $currResponse = gettype($this->currCall('catalog_product.setSpecialPrice', array(
+        ));
+        $currResponse = $this->currCall($apiMethod, array(
             'product' => self::$_currProductId,
             'specialPrice' => '77.5',
             'fromDate' => '2012-03-29 12:30:51',
             'toDate' => '2012-04-29 12:30:51'
-        )));
-
-        $this->assertEquals($prevResponse, $currResponse,
-            'Current API response signature expected to be the same as in previous API');
+        ));
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -233,15 +222,14 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testDelete()
     {
-        $prevResponse = $this->prevCall('catalog_product.delete', array(
+        $apiMethod = 'catalog_product.delete';
+        $prevResponse = $this->prevCall($apiMethod, array(
             'productId' => self::$_prevProductId,
         ));
-        $currResponse = $this->currCall('catalog_product.delete', array(
+        $currResponse = $this->currCall($apiMethod, array(
             'productId' => self::$_currProductId,
         ));
-
-        $this->assertInternalType(gettype($prevResponse), $currResponse,
-            'Current API response type expected to be the same as in previous API.');
+        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
