@@ -225,13 +225,16 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //verify validation message
         $continueImport = false;
         $importErrorOccurred = false;
-        foreach ($importMessages['validation']['validation'] as $validationMessage)
-              if (preg_match('/Checked rows: (\d+), checked entities: (\d+), invalid rows: (\d+), total errors: (\d+)/i',
-                  $validationMessage, $result)!== false){
-                  //compare checked and invalid rows
-                  $continueImport = intval($result[1]) > intval($result[3]);
-                  $importErrorOccurred = intval($result[1]) <> intval($result[3]);
-              }
+        if (isset($importMessages['validation']['validation'])){
+            foreach ($importMessages['validation']['validation'] as $validationMessage)
+                if (preg_match('/Checked rows: (\d+), checked entities: (\d+), invalid rows: (\d+), total errors: (\d+)/i',
+                    $validationMessage, $result) !== false
+                ) {
+                    //compare checked and invalid rows
+                    $continueImport = intval($result[1]) > intval($result[3]);
+                    $importErrorOccurred = intval($result[1]) <> intval($result[3]);
+                }
+        }
         //Perform Import if Check Data is passed
         if ($continueImport){
             if (!$importErrorOccurred || ($importErrorOccurred && $continueOnError)){
