@@ -42,7 +42,10 @@ class Mage_Selenium_Autoloader
         $path = explode(PATH_SEPARATOR, ini_get('include_path'));
         foreach ($path as $possiblePath) {
             if (file_exists($possiblePath . DIRECTORY_SEPARATOR . $classFile)) {
-                return include_once $classFile;
+                include_once $classFile;
+                if (class_exists($className, false)) {
+                    return true;
+                }
             }
         }
         return false;
