@@ -281,9 +281,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         // set customer defaults
         $defaults = array();
         foreach (Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::getDefaultAddressAttributeMapping()
-            as $customerAttrCode) {
+            as $customerAttributeCode) {
             /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
-            $attribute = $addressCustomer->getAttribute($customerAttrCode);
+            $attribute = $addressCustomer->getAttribute($customerAttributeCode);
             $attributeTable = $attribute->getBackend()->getTable();
             $attributeId = $attribute->getId();
             $defaults[$attributeTable][$customerId][$attributeId] = $addressId;

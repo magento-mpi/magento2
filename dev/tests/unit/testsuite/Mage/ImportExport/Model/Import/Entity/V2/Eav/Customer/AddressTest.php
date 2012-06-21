@@ -115,6 +115,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     public function testGetEntityTypeCode()
     {
         $entityTypeCode = $this->_model->getEntityTypeCode();
+        $this->assertNotEmpty($entityTypeCode, 'Entity type code must exists.');
         $this->assertInternalType('string', $entityTypeCode, 'Entity type code must be a string.');
     }
 
