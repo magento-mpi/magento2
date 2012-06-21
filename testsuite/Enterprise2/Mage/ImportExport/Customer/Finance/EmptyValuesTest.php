@@ -6,7 +6,7 @@
  * Time: 1:03 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_Customer2 extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -44,7 +44,7 @@ class Community2_Mage_ImportExport_Customer2 extends Mage_Selenium_TestCase
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5644
      */
-    public function EmptyValuesForExistingFinanceFileInCsv($data)
+    public function emptyValuesAttributesInCsv($data)
     {
         //Create Customer1
         $this->navigate('manage_customers');
@@ -61,11 +61,11 @@ class Community2_Mage_ImportExport_Customer2 extends Mage_Selenium_TestCase
         $this->addParameter('customer_first_last_name', $userData1['first_name'] . ' ' . $userData1['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
 
-        $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'100'));
+        $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
         $userData1['update_balance'] = '100';
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
-        $this->customerHelper()->updateRewardPointsBalance(array('update_balance' =>'150'));
+        $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '150'));
         $userData1['update_balance'] = '150';
         $this->assertMessagePresent('success', 'success_saved_customer');
 

@@ -6,7 +6,7 @@
  * Time: 12:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_CustomerEmptyValues extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -41,7 +41,7 @@ class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
      * @dataProvider importData
      * @TestlinkId TL-MAGE-5639
      */
-    public function emptyValuesForExistingAttributesMainFile($data)
+    public function emptyValuesAttributesInCsv($data)
     {
         //Precondition: create customer
         $this->navigate('manage_customers');

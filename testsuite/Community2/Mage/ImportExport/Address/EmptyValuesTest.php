@@ -6,7 +6,7 @@
  * Time: 7:26 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_AddressEmptyValues extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -41,28 +41,29 @@ class Community2_Mage_ImportExport_Customer extends Mage_Selenium_TestCase
  * @dataProvider importData
  * @TestlinkId TL-MAGE-5640
  */
-public function EmptyValuesForExistingAddressAttributesInCsv($data)
+public function emptyValuesAttributesInCsv($data)
 {
     //Precondition: create customer, add address
     $this->navigate('manage_customers');
     $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
-    $addressData = $this->loadDataSet('ImportExport.yml', 'import_address_TL-MAGE-5640');
+    $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
     $this->customerHelper()->createCustomer($userData, $addressData);
     $this->assertMessagePresent('success', 'success_saved_customer');
 
     $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
     $this->customerHelper()->openCustomer(array('email' => $userData['email']));
     $this->openTab('addresses');
-    $this->customerHelper()->isAddressPresent($addressData);
+    $addressId = $this->customerHelper()->isAddressPresent($addressData);
     $this->customerHelper()->fillForm(array('company' => 'Test_Company'));
     $addressData['company'] = 'Test_Company';
     $this->saveForm('save_customer');
 
     $data[0]['_email'] = $userData['email'];
+    $data[0]['_entity_id'] = $addressId;
     $data[0]['city'] = $addressData['city'];
     $data[0]['country_id'] = 'US';
     $data[0]['postcode'] = $addressData['zip_code'];
-    $data[0]['street'] = $addressData['street_address_line_1'];
+    $data[0]['street'] = $addressData['street_address_line_1'] . "\n" . $addressData['street_address_line_2'];
     $data[0]['telephone'] = $addressData['telephone'];
     $data[0]['firstname'] = $addressData['first_name'];
     $data[0]['lastname'] = $addressData['last_name'];
@@ -92,6 +93,7 @@ public function EmptyValuesForExistingAddressAttributesInCsv($data)
     $this->customerHelper()->openCustomer(array('email' => $userData['email']));
     //Verify Customer Address
     $this->openTab('addresses');
+    $addressData['state'] = $data[0]['region'];
     $this->customerHelper()->isAddressPresent($addressData);
     $this->assertTrue($this->verifyForm(array('company' => 'Test_Company')),
         'Existent customer has been updated');
