@@ -21,6 +21,11 @@ class Mage_Backend_Model_Menu extends ArrayObject
     protected $_path = '';
 
     /**
+     * @var Mage_Backend_Model_Menu_Logger
+     */
+    protected $_logger;
+
+    /**
      * @param array $array
      */
     public function __construct($array = array())
@@ -28,6 +33,10 @@ class Mage_Backend_Model_Menu extends ArrayObject
         if (isset($array['path'])) {
             $this->_path = $array['path'] . '/';
             unset($array['path']);
+        }
+        if (isset($array['logger'])) {
+            $this->_logger = $array['logger'];
+            unset($array['logger']);
         }
         $this->setIteratorClass('Mage_Backend_Model_Menu_Iterator');
         parent::__construct($array);
@@ -54,6 +63,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
             if (!isset($this[$index])) {
                 $this->offsetSet($index, $item);
                 $item->setPath($this->getFullPath());
+                $this->_logger->log(sprintf('Add of item with id %s was processed', $item->getId()));
             } else {
                 $this->add($item, $parentId, $index + 1);
             }
@@ -114,6 +124,7 @@ class Mage_Backend_Model_Menu extends ArrayObject
             if ($item->getId() == $itemId) {
                 unset($this[$key]);
                 $result = true;
+                $this->_logger->log(sprintf('Remove on item with id %s was processed', $item->getId()));
                 break;
             }
 

@@ -50,14 +50,15 @@ class Mage_Backend_Model_Menu_Config
             ? $arguments['eventManager']
             : Mage::getSingleton('Mage_Core_Model_Event_Manager');
 
+        $menuFactory = new Mage_Backend_Model_Menu_Factory();
+        $this->_logger = isset($arguments['logger']) ? $arguments['logger'] : $menuFactory->getLoggerInstance();
+
         $this->_menuBuilder = isset($arguments['menuBuilder'])
             ? $arguments['menuBuilder']
             : Mage::getSingleton('Mage_Backend_Model_Menu_Builder', array(
-                'menu' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu'),
+                'menu' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu', array('logger' => $this->_logger)),
                 'itemFactory' => Mage::getSingleton('Mage_Backend_Model_Menu_Item_Factory'),
             ));
-
-        $this->_logger = isset($arguments['logger']) ? $arguments['logger'] : Mage::getSingleton('Mage_Backend_Model_Menu_Logger');
     }
 
     /**

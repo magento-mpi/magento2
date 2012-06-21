@@ -24,7 +24,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_objectFactoryMock;
+    protected $_menuFactoryMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
@@ -69,7 +69,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_aclMock = $this->getMock('Mage_Backend_Model_Auth_Session');
         $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
-        $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_menuFactoryMock = $this->getMock('Mage_Backend_Model_Menu_Factory', array(), array(), '', false);
         $this->_urlModelMock = $this->getMock('Mage_Backend_Model_Url', array(), array(), '', false);
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data');
         $this->_validatorMock = $this->getMock('Mage_Backend_Model_Menu_Item_Validator');
@@ -78,7 +78,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_params['acl'] = $this->_aclMock;
         $this->_params['appConfig'] = $this->_appConfigMock;
         $this->_params['storeConfig'] = $this->_storeConfigMock;
-        $this->_params['objectFactory'] = $this->_objectFactoryMock;
+        $this->_params['menuFactory'] = $this->_menuFactoryMock;
         $this->_params['urlModel'] = $this->_urlModelMock;
         $this->_params['validator'] = $this->_validatorMock;
     }
@@ -250,16 +250,17 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     public function testGetChildrenCreatesSubmenuOnFirstCall()
     {
         $menuMock = $this->getMock('Mage_Backend_Model_Menu');
+        $loggerMock = $this->getMock('Mage_Backend_Model_Menu_Logger');
 
-        $this->_objectFactoryMock->expects($this->once())
-            ->method('getModelInstance')
+        $this->_menuFactoryMock->expects($this->once())
+            ->method('getMenuInstance')
             ->with(
-                $this->equalTo('Mage_Backend_Model_Menu'),
-                array(
-                    'path' => 'item'
-                )
+                array('path' => 'item', 'logger' => $loggerMock)
             )
             ->will($this->returnValue($menuMock));
+        $this->_menuFactoryMock->expects($this->once())
+            ->method('getLoggerInstance')
+            ->will($this->returnValue($loggerMock));
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $item->getChildren();
         $item->getChildren();
@@ -272,8 +273,8 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
             ->method('setPath')
             ->with($this->equalTo('root/item'));
 
-        $this->_objectFactoryMock->expects($this->once())
-            ->method('getModelInstance')
+        $this->_menuFactoryMock->expects($this->once())
+            ->method('getMenuInstance')
             ->will($this->returnValue($menuMock));
 
         $item = new Mage_Backend_Model_Menu_Item($this->_params);

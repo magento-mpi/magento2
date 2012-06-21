@@ -154,7 +154,7 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
 
     public function testCommandLogging()
     {
-        $this->_loggerMock->expects($this->exactly(8))->method('log');
+        $this->_loggerMock->expects($this->exactly(4))->method('log');
         $builder = $this->getMock('Mage_Backend_Model_Menu_Builder', array(), array(), '', false);
         $this->_model->buildMenu($builder);
     }

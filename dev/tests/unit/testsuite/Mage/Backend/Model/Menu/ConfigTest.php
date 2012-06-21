@@ -238,7 +238,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_builderMock->expects($this->exactly(1))
             ->method('getResult')
-            ->will($this->returnCallback(array($this, 'throwInvalidArgumentException')));
+            ->will($this->returnCallback(array($this, 'throwGenericException')));
         try {
             $this->_model->getMenu();
         } catch (Exception $e) {
@@ -272,6 +272,6 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function throwGenericException()
     {
-        throw new InvalidArgumentException('Generic Exception throwed');
+        throw new Exception('Generic Exception throwed');
     }
 }

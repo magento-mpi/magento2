@@ -110,9 +110,9 @@ class Mage_Backend_Model_Menu_Item
     protected $_appConfig;
 
     /**
-     * @var Mage_Core_Model_Config
+     * @var Mage_Backend_Model_Menu_Factory
      */
-    protected $_objectFactory;
+    protected $_menuFactory;
 
     /**
      * @var Mage_Backend_Model_Url
@@ -147,7 +147,7 @@ class Mage_Backend_Model_Menu_Item
         $this->_acl = $data['acl'];
         $this->_appConfig = $data['appConfig'];
         $this->_storeConfig = $data['storeConfig'];
-        $this->_objectFactory = $data['objectFactory'];
+        $this->_menuFactory = $data['menuFactory'];
         $this->_urlModel = $data['urlModel'];
 
         $this->_id = $data['id'];
@@ -188,9 +188,9 @@ class Mage_Backend_Model_Menu_Item
     public function getChildren()
     {
         if (!$this->_submenu) {
-            $this->_submenu = $this->_objectFactory->getModelInstance(
-                'Mage_Backend_Model_Menu',
-                array('path' => $this->getFullPath())
+            $this->_submenu = $this->_menuFactory
+                ->getMenuInstance(
+                    array('path' => $this->getFullPath(), 'logger' => $this->_menuFactory->getLoggerInstance())
             );
         }
         return $this->_submenu;

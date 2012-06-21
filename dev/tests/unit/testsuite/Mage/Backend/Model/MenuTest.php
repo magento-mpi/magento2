@@ -17,6 +17,11 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var Mage_Backend_Model_Menu_Logger
+     */
+    protected $_logger;
+
+    /**
      * @var Mage_Backend_Model_Menu_Item[]
      */
     protected $_items = array();
@@ -32,7 +37,9 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_items['item3'] = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $this->_items['item3']->expects($this->any())->method('getId')->will($this->returnValue('item3'));
 
-        $this->_model = new Mage_Backend_Model_Menu();
+        $this->_logger = $this->getMock('Mage_Backend_Model_Menu_Logger');
+
+        $this->_model = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
     }
 
     public function testAdd()
@@ -43,9 +50,17 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($item, $this->_model[0]);
     }
 
+    public function testAddDoLogAddAction()
+    {
+        $this->_logger->expects($this->once())->method('log')
+            ->with($this->equalTo(sprintf('Add of item with id %s was processed', $this->_items['item1']->getId())));
+
+        $this->_model->add($this->_items['item1']);
+    }
+
     public function testAddToItem()
     {
-        $subMenu = $this->getMock("Mage_Backend_Model_Menu");
+        $subMenu = $this->getMock("Mage_Backend_Model_Menu", array(), array(array('logger' => $this->_logger)));
         $subMenu->expects($this->once())
             ->method("add")
             ->with($this->_items['item2']);
@@ -97,8 +112,10 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testGetRecursive()
     {
-        $menu1 = new Mage_Backend_Model_Menu();
-        $menu2 = new Mage_Backend_Model_Menu();
+        $menu1 = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
+        $menu2 = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
+
+        $this->_logger->expects($this->any())->method('log');
 
         $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menu1));
@@ -187,6 +204,16 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model->remove('item2');
     }
 
+    public function testRemoveDoLogRemoveAction()
+    {
+        $this->_model->add($this->_items['item1']);
+
+        $this->_logger->expects($this->once())->method('log')
+            ->with($this->equalTo(sprintf('Remove on item with id %s was processed', $this->_items['item1']->getId())));
+
+        $this->_model->remove('item1');
+    }
+
     public function testReorderReordersItemOnTopLevel()
     {
         $this->_model->add($this->_items['item1'], null, 10);
@@ -200,7 +227,9 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testReorderReordersItemOnItsLevel()
     {
-        $subMenu = new Mage_Backend_Model_Menu;
+        $this->_logger->expects($this->any())->method('log');
+
+        $subMenu = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
 
         $this->_items['item1']->expects($this->any())
             ->method("hasChildren")

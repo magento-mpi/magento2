@@ -99,7 +99,7 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
                     'Mage_Backend_Model_Menu_Builder_Command_Update',
                     $data
                 );
-                $this->_logger->log(sprintf('Action \'update\' on item with id %s was processed', $command->getId()));
+                $this->_logger->log(sprintf('Update on item with id %s was processed', $command->getId()));
                 break;
 
             case 'remove':
@@ -107,7 +107,7 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
                     'Mage_Backend_Model_Menu_Builder_Command_Remove',
                     $data
                 );
-                $this->_logger->log(sprintf('Action \'remove\' on item with id %s was processed', $command->getId()));
+                $this->_logger->log(sprintf('Remove on item with id %s was processed', $command->getId()));
                 break;
 
             default:
@@ -115,7 +115,6 @@ class Mage_Backend_Model_Menu_Director_Dom extends Mage_Backend_Model_Menu_Direc
                     'Mage_Backend_Model_Menu_Builder_Command_Add',
                     $data
                 );
-                $this->_logger->log(sprintf('Action \'add\' of item with id %s was processed', $command->getId()));
                 break;
         }
         return $command;

@@ -64,14 +64,14 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
     public function setUp()
     {
         $this->_aclMock = $this->getMock('Mage_Backend_Model_Auth_Session', array(), array(), '', false);
-        $this->_factoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_factoryMock = $this->getMock('Mage_Backend_Model_Menu_Factory');
         $this->_helperMock = $this->getMock('Mage_Backend_Helper_Data');
         $this->_urlModelMock = $this->getMock("Mage_Backend_Model_Url", array(), array(), '', false);
         $this->_appConfigMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_storeConfigMock = $this->getMock('Mage_Core_Model_Store_Config');
 
         $this->_params['acl'] = $this->_aclMock;
-        $this->_params['objectFactory'] = $this->_factoryMock;
+        $this->_params['menuFactory'] = $this->_factoryMock;
         $this->_params['module'] = $this->_helperMock;
         $this->_params['urlModel'] = $this->_urlModelMock;
         $this->_params['appConfig'] = $this->_appConfigMock;
@@ -101,7 +101,7 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
         return array(
             array('acl'),
             array('appConfig'),
-            array('objectFactory'),
+            array('menuFactory'),
             array('urlModel'),
             array('storeConfig'),
             array('id'),
@@ -132,7 +132,7 @@ class Mage_Backend_Model_Menu_Item_ValidatorTest extends PHPUnit_Framework_TestC
         return array(
             array('acl'),
             array('appConfig'),
-            array('objectFactory'),
+            array('menuFactory'),
             array('urlModel'),
             array('storeConfig'),
             array('moduleHelper')
