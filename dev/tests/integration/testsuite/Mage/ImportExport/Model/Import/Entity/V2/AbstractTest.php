@@ -41,5 +41,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
 
         $bunch = $dataSourceModel->getNextBunch();
         $this->assertEquals($expected, $bunch[0]);
+
+        //Delete created bunch from DB
+        $dataSourceModel->cleanBunches();
     }
 }
