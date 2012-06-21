@@ -298,7 +298,7 @@ new_customer_address_5622:
     default_shipping_address: 0
 
 csv_new_address_5622:
-    email: %noValue%
+    _email: %noValue%
     _website: base
     city: Polk City
     company: Deco Refreshments, Inc.
@@ -406,7 +406,7 @@ existing_updated_address_5622:
     default_shipping_address: 1
 
 csv_existing_address_5622:
-    email: %noValue%
+    _email: %noValue%
     _website: base
     city: Omaha
     company: Cut Rite
@@ -424,13 +424,214 @@ csv_existing_address_5622:
     _address_default_billing_: 1
     _address_default_shipping_: 1
 
+data_valid_customer1_5635:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: Aaron
+    middle_name: C.
+    last_name: Wilhite
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: 5/6/1939
+    tax_vat_number: 238-77-5918
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
 
+csv_valid_customer1_5635:
+    email: %noValue%
+    _website: base
+    _store: admin
+    created_at: %noValue%
+    created_in: Admin
+    dob: 06.05.1939 0:00
+    firstname: Aaron
+    gender: Male
+    group_id: 1
+    lastname: Wilhite
+    middlename: C.
+    password: %noValue%
+    prefix: Mr.
+    suffix: %noValue%
+    taxvat: 238-77-5918
 
+data_invalid_customer1_5635:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: William
+    middle_name: M.
+    last_name: Guin
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: 08/15/1957
+    tax_vat_number: 254-25-6306
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
 
+csv_invalid_customer1_5635:
+    email: %noValue%
+    _website: invalid
+    _store: admin
+    created_at: %noValue%
+    created_in: Admin
+    dob: 15.08.1957 0:00
+    firstname: William
+    gender: Male
+    group_id: 1
+    lastname: Guin
+    middlename: M.
+    password: %noValue%
+    prefix: Mr.
+    suffix: %noValue%
+    taxvat: 254-25-6306
 
+data_valid_customer2_5635:
+    associate_to_website: Main Website
+    group: General
+    prefix: Mr.
+    first_name: Ernie
+    middle_name: O.
+    last_name: Wannamaker
+    suffix: %noValue%
+    email: test_admin_%randomize%@unknown-domain.com
+    date_of_birth: 05/25/1946
+    tax_vat_number: 468-64-9568
+    gender: Male
+    send_welcome_email: %noValue%
+    send_from: %noValue%
+    password: 123123q
+    auto_generated_password: %noValue%
 
+csv_valid_customer2_5635:
+    email: %noValue%
+    _website: base
+    _store: admin
+    created_at: %noValue%
+    created_in: Admin
+    dob: 25.05.1946 0:00
+    firstname: Ernie
+    gender: Male
+    group_id: 1
+    lastname: Wannamaker
+    middlename: O.
+    password: %noValue%
+    prefix: Mr.
+    suffix: %noValue%
+    taxvat: 468-64-9568
 
+data_valid_address1_5636:
+    prefix: Mr.
+    first_name: Harold
+    middle_name: D.
+    last_name: Lefler
+    suffix: %noValue%
+    company: Red Owl
+    street_address_line_1: 4140 Bryan Street
+    street_address_line_2: %noValue%
+    city: High Point
+    country: United States
+    state: North Carolina
+    region: %noValue%
+    zip_code: 27260
+    telephone: 336-259-7235
+    fax: 336-259-7235
+    default_billing_address: 0
+    default_shipping_address: 0
 
+csv_valid_address1_5636:
+    _entity_id: %noValue%
+    _email: %noValue%
+    _website: base
+    city: High Point
+    company: Red Owl
+    country_id: US
+    fax: 336-259-7235
+    firstname: Harold
+    lastname: Lefler
+    middlename: D.
+    postcode: 27260
+    prefix: Mr.
+    region: North Carolina
+    street: 4140 Bryan Street
+    suffix: %noValue%
+    telephone: 336-259-7235
+    _address_default_billing_: 0
+    _address_default_shipping_: 0
 
+csv_invalid_address1_5636:
+    _entity_id: %noValue%
+    _email: %noValue%
+    _website: invalid
+    city: High Point
+    company: Red Owl
+    country_id: US
+    fax: 336-259-7235
+    firstname: Harold
+    lastname: Lefler
+    middlename: D.
+    postcode: 27260
+    prefix: Mr.
+    region: North Carolina
+    street: 4140 Bryan Street
+    suffix: %noValue%
+    telephone: 336-259-7235
+    _address_default_billing_: 0
+    _address_default_shipping_: 0
 
+data_valid_address2_5636:
+    prefix: Mr.
+    first_name: Alvin
+    middle_name: C.
+    last_name: Plyler
+    suffix: %noValue%
+    company: Food Mart
+    street_address_line_1: 539 Russell Street
+    street_address_line_2: %noValue%
+    city: Westborough
+    country: United States
+    state: Massachusetts
+    region: %noValue%
+    zip_code: 57428
+    telephone: 978-875-6394
+    fax: 978-875-6394
+    default_billing_address: 0
+    default_shipping_address: 0
 
+csv_valid_address2_5636:
+    _entity_id: %noValue%
+    _email: %noValue%
+    _website: base
+    city: Westborough
+    company: Food Mart
+    country_id: US
+    fax: 978-875-6394
+    firstname: Alvin
+    lastname: Plyler
+    middlename: C.
+    postcode: 57428
+    prefix: Mr.
+    region: Massachusetts
+    street: 539 Russell Street
+    suffix: %noValue%
+    telephone: 978-875-6394
+    _address_default_billing_: 0
+    _address_default_shipping_: 0
+
+csv_valid_finance_5633:
+    email: %noValue%
+    _website: base
+    store_credit: 100
+    reward_points: 150
+
+csv_invalid_finance_5633:
+    email: %noValue%
+    _website: base
+    store_credit: store
+    reward_points: reward

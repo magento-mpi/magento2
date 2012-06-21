@@ -162,4 +162,113 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $this->assertTrue($this->customerHelper()->isAddressPresent($addressData2),
             'Existent customer address has not been updated');
     }
+
+    /**
+     * <p>Partial Import</p>
+     * <p>Verify that if import file has some invalid data, then import will be finished partially</p>
+     * <p>Precondition: two customers created in the system. Two csv files prepared. First one contains two rows:
+     * valid customer address data, invalid customer address data (non existing website id). Second one contains two
+     * rows: valid customer address data, valid customer address data (entity id is 0)</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Customers Entity Type: Customer Addresses File </p>
+     * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>Expected: messages "Please fix errors and re-upload file or simply press "Import" button to skip rows with
+     * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1" are displayed</p>
+     * <p>6. Choose second file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>Expected: messages "Customer address id is not specified in rows: 2" and "Please fix errors and re-upload
+     * file or simply press "Import" button to skip rows with errors", "Checked rows: 2, checked entities: 2, invalid
+     * rows: 1, total errors: 1" are displayed</p>
+     * <p>7. Open customers</p>
+     * <p>Expected: valid address data information was imported correctly</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5636
+     */
+    public function partialImport()
+    {
+        //Precondition
+        $customerData[0] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
+        $customerData[1] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($customerData[0]);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->customerHelper()->createCustomer($customerData[1]);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $addressData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_address1_5636');
+        $addressData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_address2_5636');
+        $csvData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_address1_5636');
+        $csvData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_address1_5636');
+        $csvData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_address2_5636');
+        foreach($csvData as $key => $value) {
+                foreach($csvData[$key] as $key2 => $value2) {
+                    $csvData[$key][$key2]['_entity_id'] = $this->generate('string', 10, ':digit:');
+                    $csvData[$key][$key2]['_email'] = $customerData[0]['email'];
+                }
+        }
+        $csvData[1]['valid']['_email'] = $customerData[1]['email'];
+        $csvData[1]['invalid'] = $csvData[1]['valid'];
+        $csvData[1]['invalid']['_entity_id'] = '0';
+        //Step 1
+        $this->admin('import');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        //Step 4
+        $this->fillDropdown('import_customer_entity', 'Customer Addresses');
+        //Step 5
+        $importData = $this->importExportHelper()->import($csvData[0]);
+        //Verifying
+        $this->assertEquals(
+            'Invalid value in Website column (website does not exists?) in rows: 2',
+            $importData['validation']['error'][0], 'Message about invalid website is absent'
+        );
+        $this->assertEquals(
+            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
+            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
+        );
+        $this->assertEquals(
+            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            $importData['validation']['validation'][1], 'No message checked rows number'
+        );
+        //Step 6
+        $importData = $this->importExportHelper()->import($csvData[1]);
+        //Verifying messages (second file)
+        $this->assertEquals(
+            'Customer address id is not specified in rows: 2',
+            $importData['validation']['error'][0], 'Message about duplication is absent'
+        );
+        $this->assertEquals(
+            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
+            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
+        );
+        $this->assertEquals(
+            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            $importData['validation']['validation'][1], 'No message checked rows number'
+        );
+        //Step 7
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData[0]['first_name'] . ' '
+            . $customerData[0]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData[0]['email']));
+        $this->openTab('addresses');
+        //Verifying if new address is present (first file)
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData[0]['valid']),
+            'New customer address has not been created');
+
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData[1]['first_name'] . ' '
+            . $customerData[1]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData[1]['email']));
+        $this->openTab('addresses');
+        //Verifying if new address is present (second file)
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData[1]['valid']),
+            'New customer address has not been created');
+    }
 }
