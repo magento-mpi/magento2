@@ -180,15 +180,15 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
     /**
      * <p>Required columns</p>
      * <p>Steps</p>
-     * <p>Go to System -> Import / Export -> Import</p>
-     * <p>Select Entity Type: Customers</p>
-     * <p>Select Export Format Version: Magento 2.0 format</p>
-     * <p>Select Customers Entity Type: Customers Main File</p>
-     * <p>Choose file from precondition</p>
-     * <p>Click on Check Data</p>
-     * <p>Click on Import button</p>
-     * <p>Open Customers -> Manage Customers</p>
-     * <p>Open each of imported customers</p>
+     * <p>1. Go to System -> Import / Export -> Import</p>
+     * <p>2. Select Entity Type: Customers</p>
+     * <p>3. Select Export Format Version: Magento 2.0 format</p>
+     * <p>4. Select Customers Entity Type: Customers Main File</p>
+     * <p>5. Choose file from precondition</p>
+     * <p>6. Click on Check Data</p>
+     * <p>7. Click on Import button</p>
+     * <p>8. Open Customers -> Manage Customers</p>
+     * <p>9. Open each of imported customers</p>
      * <p>Expected: </p>
      * <p>After step 6</p>
      * <p>Verify that file is valid, the message 'File is valid!' is displayed</p>
@@ -204,7 +204,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
      */
     public function importWithRequiredColumns()
     {
-        //Precondition: create 2 new customers
+        //Precondition: create new customer
         $this->admin('manage_customers');
         // 0.1. create customer
         $customerData = $this->loadDataSet('ImportExport', 'generic_customer_required_fields');
@@ -240,7 +240,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             $customerDataRow2
         );
         //Import file with default flow
-        $report = $this->importExportHelper()->import($data) ;
+        $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:' .
             print_r($report) . print_r($data));
@@ -311,6 +311,12 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($customerData['existing_original'], $addressData['existing_original']);
         $this->assertMessagePresent('success', 'success_saved_customer');
+        //Get existing address id to use in csv file
+        $this->addParameter('customer_first_last_name', $customerData['existing_original']['first_name']
+            . ' ' . $customerData['existing_original']['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData['existing_original']['email']));
+        $this->openTab('addresses');
+        $addressIdExisting = $this->customerHelper()->isAddressPresent($addressData['existing_original']);
         //csv data
         $customerTypes = array('Customers Main File', 'Customer Addresses');
         $csvData[$customerTypes[0]]['new'] = $this->loadDataSet('ImportExport.yml', 'csv_new_master_5622');
@@ -322,7 +328,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $csvData[$customerTypes[1]]['new']['_entity_id'] = $this->generate('string', 10, ':digit:');
         $csvData[$customerTypes[1]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_address_5622');
         $csvData[$customerTypes[1]]['existing']['_email'] = $customerData['existing_updated']['email'];
-        $csvData[$customerTypes[1]]['existing']['_entity_id'] = $this->generate('string', 10, ':digit:');
+        $csvData[$customerTypes[1]]['existing']['_entity_id'] = $addressIdExisting;
         //Step 1
         $this->admin('import');
         //Step 2
@@ -351,6 +357,9 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         //Verifying new customer
         $this->assertTrue($this->verifyForm($customerData['new'], 'account_information'),
             'New customer has not been created');
+        $this->openTab('addresses');
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData['new']),
+            'New customer address has not been added');
 
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name', $customerData['existing_updated']['first_name']
@@ -359,6 +368,9 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         //Verifying existing customer
         $this->assertTrue($this->verifyForm($customerData['existing_updated'], 'account_information'),
             'Existing customer has not been updated');
+        $this->openTab('addresses');
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData['existing_updated']),
+            'Customer address has not been updated');
     }
 
     /**

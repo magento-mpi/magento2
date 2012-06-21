@@ -55,15 +55,15 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
     /**
      * <p>Required columns</p>
      * <p>Steps</p>
-     * <p>Go to System -> Import / Export -> Import</p>
-     * <p>Select Entity Type: Customers</p>
-     * <p>Select Export Format Version: Magento 2.0 format</p>
-     * <p>Select Customers Entity Type: Customer Addresses File</p>
-     * <p>Choose file from precondition</p>
-     * <p>Click on Check Data</p>
-     * <p>Click on Import button</p>
-     * <p>Open Customers -> Manage Customers</p>
-     * <p>Open each of imported customers</p>
+     * <p>1. Go to System -> Import / Export -> Import</p>
+     * <p>2. Select Entity Type: Customers</p>
+     * <p>3. Select Export Format Version: Magento 2.0 format</p>
+     * <p>4. Select Customers Entity Type: Customer Addresses File</p>
+     * <p>5. Choose file from precondition</p>
+     * <p>6. Click on Check Data</p>
+     * <p>7. Click on Import button</p>
+     * <p>8. Open Customers -> Manage Customers</p>
+     * <p>9. Open each of imported customers</p>
      * <p>After step 6</p>
      * <p>Verify that file is valid, the message 'File is valid!' is displayed</p>
      * <p>After step 7</p>
@@ -84,6 +84,11 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $addressData2 = $this->loadDataSet('ImportExport', 'generic_address');
         $this->customerHelper()->createCustomer($userData2, $addressData2);
         $this->assertMessagePresent('success', 'success_saved_customer');
+        //Get existing address id to use in csv file
+        $this->addParameter('customer_first_last_name', $userData2['first_name']. ' ' . $userData2['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
+        $this->openTab('addresses');
+        $addressIdExisting = $this->customerHelper()->isAddressPresent($addressData2);
         $this->navigate('manage_customers');
         $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
@@ -106,10 +111,14 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
             array(
-                '_email' => $userData1['email']
+                '_entity_id' => $this->generate('string', 10, ':digit:'),
+                '_email' => $userData1['email'],
             ));
+        $unformattedStreet1 = $customerDataRow1['street'];
+        $customerDataRow1['street'] = stripcslashes($customerDataRow1['street']);
         $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields2',
             array(
+                '_entity_id' => $addressIdExisting,
                 '_email' => $userData2['email'],
             ));
         //Build CSV array
@@ -135,14 +144,16 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             ));
         $this->openTab('addresses');
         $addressData1 = array();
-        $addressData1['city']       = $data[1]['city'];
-        $addressData1['first_name'] = $data[1]['firstname'];
-        $addressData1['last_name']  = $data[1]['lastname'];
-        $addressData1['zip_code']   = $data[1]['postcode'];
-        $addressData1['street_address_line_1'] = $data[1]['street'];
-        $addressData1['telephone']  = $data[1]['telephone'];
+        $addressData1['city']       = $data[0]['city'];
+        $addressData1['first_name'] = $data[0]['firstname'];
+        $addressData1['last_name']  = $data[0]['lastname'];
+        $addressData1['zip_code']   = $data[0]['postcode'];
+        $addressData1['street_address_line_1'] = substr($unformattedStreet1, 0, strpos($unformattedStreet1, '\n'));
+        $addressData1['street_address_line_2'] = substr($unformattedStreet1, strpos($unformattedStreet1, '\n') + 2);
+        $addressData1['telephone']  = $data[0]['telephone'];
+        print_r($addressData1);
         //Verify customer account address
-        $this->assertTrue($this->customerHelper()->isAddressPresent($addressData1),
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData1),
             'New customer address has not been created');
         //Verify customer account
         $this->admin('manage_customers');
@@ -158,8 +169,9 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $addressData2['last_name']  = $data[1]['lastname'];
         $addressData2['zip_code']   = $data[1]['postcode'];
         $addressData2['street_address_line_1'] = $data[1]['street'];
+        $addressData2['street_address_line_2'] = '';
         $addressData2['telephone']  = $data[1]['telephone'];
-        $this->assertTrue($this->customerHelper()->isAddressPresent($addressData2),
+        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData2),
             'Existent customer address has not been updated');
     }
 
