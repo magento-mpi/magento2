@@ -144,7 +144,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         /** @var $helper Mage_ImportExport_Helper_Data */
         $helper = Mage::helper('Mage_ImportExport_Helper_Data');
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
-            $helper->__('Customer address id column is absent specified')
+            $helper->__('Customer address id column is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_REGION, $helper->__('Region is invalid'));
 
