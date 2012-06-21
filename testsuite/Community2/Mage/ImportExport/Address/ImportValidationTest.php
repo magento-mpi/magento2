@@ -44,7 +44,7 @@ class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_T
      *
      * @test
      * @dataProvider importDataInvalid
-     * @TestlinkId TL-MAGE-5631
+     * @TestlinkId TL-MAGE-5631, TL-MAGE-5626
      */
     public function importAddressFileWithInvalidData($addressData, array $validationMessage)
     {
@@ -117,6 +117,13 @@ class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_T
         $customerDataRow5['_email'] = '%realEmail%';
         $customerDataRow5['_entity_id'] = 'home';
         $customerDataRow5['region'] = 'California1';
+        $customerDataRow6 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+            array(
+                '_email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
+                'lastname' => 'last_' . $this->generate('string',10),
+                'firstname' => 'last_' . $this->generate('string',10)
+            ));
+        $customerDataRow6['_entity_id'] = 'home';
         return array(
             array($customerDataRow1, array('validation' => array(
                 'error' => array(
@@ -167,6 +174,16 @@ class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_T
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
                     )
                 )
+            ),
+            array($customerDataRow6, array('validation' => array(
+                'error' => array(
+                    "Customer with such email and website code doesn't exist in rows: 1"
+                ),
+                'validation' => array(
+                    "File is totally invalid. Please fix errors and re-upload file",
+                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
+            )
+            )
             )
         );
     }

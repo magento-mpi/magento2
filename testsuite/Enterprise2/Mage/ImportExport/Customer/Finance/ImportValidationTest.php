@@ -44,7 +44,7 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
      *
      * @test
      * @dataProvider importDataInvalid
-     * @TestlinkId TL-MAGE-5643
+     * @TestlinkId TL-MAGE-5643, TL-MAGE-5628
      */
     public function importFinanceFileWithInvalidData($financeData, array $validationMessage)
     {
@@ -108,6 +108,11 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
         $customerDataRow5['email'] = '%realEmail%';
         unset($customerDataRow5['credit_score']);
         unset($customerDataRow5['store_points']);
+        $customerDataRow6 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+            array(
+                'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com'
+            ));
+
         return array(
             array($customerDataRow1, array('validation' => array(
                 'error' => array(
@@ -158,6 +163,16 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
                     )
                 )
+            ),
+            array($customerDataRow6, array('validation' => array(
+                'error' => array(
+                    "Customer with such email and website code doesn't exist in rows: 1"
+                ),
+                'validation' => array(
+                    "File is totally invalid. Please fix errors and re-upload file",
+                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
+            )
+            )
             )
         );
     }
