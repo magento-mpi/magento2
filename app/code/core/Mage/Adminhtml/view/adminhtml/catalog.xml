@@ -87,6 +87,7 @@
     </adminhtml_catalog_product_options>
 
     <adminhtml_catalog_product_grid>
+        <update handle="formkey"/>
         <container name="root" label="Root" output="1">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Grid" name="admin.product.grid"/>
         </container>
