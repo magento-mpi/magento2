@@ -102,7 +102,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $this->waitForElementVisible(
             $this->_getControlXpath('dropdown', 'import_customer_entity')
         );
-        $this->fillDropdown('import_customer_entity', 'Customer Addresses File');
+        $this->fillDropdown('import_customer_entity', 'Customer Addresses');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
             array(

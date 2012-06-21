@@ -197,6 +197,7 @@ generic_customer_address_attribute:
    admin_title: Text_Field_Admin_%randomize%
    store_view_titles:
         Default Store View: Text_Field_StoreView
+
 generic_customer_account:
     associate_to_website: Main Website
     group: General
@@ -213,6 +214,7 @@ generic_customer_account:
     send_from: %noValue%
     password: 123123q
     auto_generated_password: %noValue%
+
 import_main_file_required_fields:
    email: %noValue%
    _website: base
@@ -230,6 +232,7 @@ import_address_file_required_fields1:
    postcode: 90232
    street: "4955 Crummit\nLane"
    telephone: "402-219-4835"
+
 import_address_file_required_fields2:
    _email: %noValue%
    _website: base
@@ -240,12 +243,6 @@ import_address_file_required_fields2:
    postcode: 53213
    street: "593 Grant View Drive"
    telephone: "414-411-2378"
-import_finance_file_required_fields:
-   email: %noValue%
-   _website: base
-   city: Milwaukee
-   store_credit: 4321.0000
-   reward_points: 1234
 
 new_customer_account_5622:
     associate_to_website: Main Website
