@@ -331,7 +331,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     /**
      * Test import data method
      *
-     * @magentoDataFixture Mage/ImportExport/Model/Import/Entity/V2/_files/customers_for_address_import.php
+     * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
      */
     public function testImportData()
     {
