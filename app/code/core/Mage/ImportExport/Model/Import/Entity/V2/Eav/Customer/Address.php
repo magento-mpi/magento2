@@ -29,6 +29,13 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     /**#@-*/
 
     /**#@+
+     * Required column names
+     */
+    const COLUMN_REGION     = 'region';
+    const COLUMN_COUNTRY_ID = 'country_id';
+    /**#@-*/
+
+    /**#@+
      * Particular columns that contains of customer default addresses
      */
     const COLUMN_DEFAULT_BILLING  = '_address_default_billing_';
@@ -79,7 +86,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      *
      * @var array
      */
-    protected $_indexValueAttributes = array('country_id');
+    protected $_indexValueAttributes = array(self::COLUMN_COUNTRY_ID);
 
     /**
      * Customer entity DB table name
@@ -137,7 +144,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
 
         /** @var $helper Mage_ImportExport_Helper_Data */
         $helper = Mage::helper('Mage_ImportExport_Helper_Data');
-        $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY, $helper->__('Customer address id is not specified'));
+        $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
+            $helper->__('Customer address id column is absent specified')
+        );
         $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
             $helper->__("Customer with such email and website code doesn't exist")
         );
@@ -217,8 +226,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         $table          = $resource->getResource()->getEntityTable();
         $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
 
-        $regionColName  = 'region';
-        $countryColName = 'country_id';
         /** @var $regionConfig Mage_Eav_Model_Config */
         $regionConfig   = Mage::getSingleton('Mage_Eav_Model_Config');
         /** @var $regionIdAttr Mage_Customer_Model_Attribute */
@@ -292,15 +299,15 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 }
 
                 // let's try to find region ID
-                if (!empty($rowData[$regionColName])) {
-                    $countryNormalized = strtolower($rowData[$countryColName]);
-                    $regionNormalized  = strtolower($rowData[$regionColName]);
+                if (!empty($rowData[self::COLUMN_REGION])) {
+                    $countryNormalized = strtolower($rowData[self::COLUMN_COUNTRY_ID]);
+                    $regionNormalized  = strtolower($rowData[self::COLUMN_REGION]);
 
                     if (isset($this->_countryRegions[$countryNormalized][$regionNormalized])) {
                         $regionId = $this->_countryRegions[$countryNormalized][$regionNormalized];
                         $attributes[$regionIdTable][$addressId][$regionIdAttrId] = $regionId;
-                        $tbl = $this->_attributes[$regionColName]['table'];
-                        $regionColNameId = $this->_attributes[$regionColName]['id'];
+                        $tbl = $this->_attributes[self::COLUMN_REGION]['table'];
+                        $regionColNameId = $this->_attributes[self::COLUMN_REGION]['id'];
                         $attributes[$tbl][$addressId][$regionColNameId] = $this->_regions[$regionId];
                     }
                 }
@@ -418,23 +425,27 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         $this->_validatedRows[$rowNumber] = true;
         $this->_processedEntitiesCount++;
 
-        if (empty($rowData[self::COLUMN_ADDRESS_ID])) {
-            $this->addRowError(self::ERROR_ADDRESS_ID_IS_EMPTY, $rowNumber);
+        if (!isset($rowData[self::COLUMN_ADDRESS_ID])) {
+            $this->addRowError(self::ERROR_ADDRESS_ID_IS_EMPTY, $rowNumber, self::COLUMN_ADDRESS_ID);
         } elseif (empty($rowData[self::COLUMN_WEBSITE])) {
-            $this->addRowError(self::ERROR_WEBSITE_IS_EMPTY, $rowNumber);
+            $this->addRowError(self::ERROR_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_WEBSITE);
         } elseif (empty($rowData[self::COLUMN_EMAIL])) {
-            $this->addRowError(self::ERROR_EMAIL_IS_EMPTY, $rowNumber);
+            $this->addRowError(self::ERROR_EMAIL_IS_EMPTY, $rowNumber, self::COLUMN_EMAIL);
         } else {
             $email   = strtolower($rowData[self::COLUMN_EMAIL]);
             $website = $rowData[self::COLUMN_WEBSITE];
+            $addressId  = $rowData[self::COLUMN_ADDRESS_ID];
 
             if (!Zend_Validate::is($email, 'EmailAddress')) {
-                $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber);
+                $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber, self::COLUMN_EMAIL);
             } elseif (!isset($this->_websiteCodeToId[$website])) {
-                $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber);
+                $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber, self::COLUMN_WEBSITE);
             } elseif (!$this->_getCustomerId($email, $website)) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {
+                $websiteId  = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
+                $customerId = $this->_customers[$email][$websiteId];
+
                 // check simple attributes
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
                     if (in_array($attributeCode, $this->_ignoredAttributes)) {
@@ -442,20 +453,24 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                     }
                     if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                         $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                    } elseif ($attributeParams['is_required']) {
+                    } elseif ($attributeParams['is_required'] && (!isset($this->_addresses[$customerId])
+                        || !in_array($addressId, $this->_addresses[$customerId]))
+                    ) {
                         $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
                     }
                 }
 
-                $countryRegions = isset($this->_countryRegions[strtolower($rowData['country_id'])])
-                    ? $this->_countryRegions[strtolower($rowData['country_id'])]
-                    : array();
+                if (isset($rowData[self::COLUMN_COUNTRY_ID]) && isset($rowData[self::COLUMN_REGION])) {
+                    $countryRegions = isset($this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])])
+                        ? $this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])]
+                        : array();
 
-                if (!empty($rowData['region'])
-                    && !empty($countryRegions)
-                    && !isset($countryRegions[strtolower($rowData['region'])])
-                ) {
-                    $this->addRowError(self::ERROR_INVALID_REGION, $rowNumber);
+                    if (!empty($rowData[self::COLUMN_REGION])
+                        && !empty($countryRegions)
+                        && !isset($countryRegions[strtolower($rowData[self::COLUMN_REGION])])
+                    ) {
+                        $this->addRowError(self::ERROR_INVALID_REGION, $rowNumber, self::COLUMN_REGION);
+                    }
                 }
             }
         }
