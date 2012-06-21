@@ -180,7 +180,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
      * <p>Verify that if import file has some invalid data, then import will be finished partially</p>
      * <p>Precondition: two customers created in the system. Two csv files prepared. First one contains two rows:
      * valid customer address data, invalid customer address data (non existing website id). Second one contains two
-     * rows: valid customer address data, valid customer address data (entity id is 0)</p>
+     * rows: valid customer address data, valid customer address data (email is empty)</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
@@ -190,7 +190,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
      * <p>Expected: messages "Please fix errors and re-upload file or simply press "Import" button to skip rows with
      * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1" are displayed</p>
      * <p>6. Choose second file from precondition, click "Check Data" button, Press "Import" button</p>
-     * <p>Expected: messages "Customer address id is not specified in rows: 2" and "Please fix errors and re-upload
+     * <p>Expected: messages "E-mail is not specified in rows: 2" and "Please fix errors and re-upload
      * file or simply press "Import" button to skip rows with errors", "Checked rows: 2, checked entities: 2, invalid
      * rows: 1, total errors: 1" are displayed</p>
      * <p>7. Open customers</p>
@@ -222,7 +222,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         }
         $csvData[1]['valid']['_email'] = $customerData[1]['email'];
         $csvData[1]['invalid'] = $csvData[1]['valid'];
-        $csvData[1]['invalid']['_entity_id'] = '0';
+        $csvData[1]['invalid']['_email'] = '';
         //Step 1
         $this->admin('import');
         //Step 2
@@ -253,7 +253,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $importData = $this->importExportHelper()->import($csvData[1]);
         //Verifying messages (second file)
         $this->assertEquals(
-            'Customer address id is not specified in rows: 2',
+            'E-mail is not specified in rows: 2',
             $importData['validation']['error'][0], 'Message about duplication is absent'
         );
         $this->assertEquals(
