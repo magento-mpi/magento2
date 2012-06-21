@@ -15,7 +15,7 @@
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Abstract customer export model
+     * Abstract customer address export model
      *
      * @var Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
      */
@@ -327,7 +327,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Test Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow() with different values
      *
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow()
-     * @magentoDataFixture Mage/ImportExport/Model/Import/Entity/V2/Eav/Customer/_files/row_data.php
      * @dataProvider validateRowDataProvider
      * @depends testInitCountryRegions
      *
@@ -350,9 +349,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testGetEntityTypeCode()
     {
-        $entityTypeCode = $this->_model->getEntityTypeCode();
-        $this->assertNotEmpty($entityTypeCode, 'Entity type code must exist.');
-        $this->assertInternalType('string', $entityTypeCode, 'Entity type code must be a string.');
+        $this->assertEquals('customer_address', $this->_model->getEntityTypeCode());
     }
 
     /**
