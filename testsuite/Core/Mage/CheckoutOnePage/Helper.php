@@ -84,7 +84,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
             return $this->getControlAttribute('link', 'order_number', 'text');
         }
 
-        return preg_replace('/[^0-9]/', '', $this->getText("//*[contains(text(),'Your order')]"));
+        return preg_replace('/[^0-9]/', '', $this->getControlAttribute('message', 'success_checkout_guest', 'text'));
     }
 
     /**
@@ -137,8 +137,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function assertOnePageCheckoutTabOpened($fieldsetName)
     {
-        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName);
-        if (!$this->isElementPresent($setXpath . self::$activeTab)) {
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', $fieldsetName));
+        if (!$this->controlIsPresent('pageelement', 'element_with_class_active')) {
             $this->fail("'" . $fieldsetName . "' step is not selected but there is no any message on the page");
         }
     }
@@ -149,12 +149,13 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function goToNextOnePageCheckoutStep($fieldsetName)
     {
         $buttonName = $fieldsetName . '_continue';
-        $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
-        $setXpath = $this->_getControlXpath('fieldset', $fieldsetName) . self::$notActiveTab;
-        $waitCondition = array($this->_getMessageXpath('general_validation'), $errorMessageXpath, $setXpath);
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', $fieldsetName));
+        $waitCondition = array($this->_getMessageXpath('general_validation'),
+                               $this->_getMessageXpath('pageelement', 'element_with_class_not_active'),
+                               $this->getBasicXpathMessagesExcludeCurrent('error'),);
         $this->clickButton($buttonName, false);
         $this->waitForElementOrAlert($waitCondition);
-        if (!$this->isElementPresent($setXpath)) {
+        if (!$this->controlIsPresent('pageelement', 'element_with_class_not_active')) {
             $error = $this->errorMessage();
             $validation = $this->validationMessage();
             if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
@@ -308,26 +309,27 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function frontValidate3dSecure($password = '1234')
     {
-        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation');
-        if ($this->isElementPresent($xpath . "[not(@style='display: none;')]")) {
-            $xpathContinue = $this->_getControlXpath('button', '3d_continue');
-            $xpathPasswordField = $this->_getControlXpath('field', '3d_password');
-            $incorrectPassword = $this->_getControlXpath('pageelement', 'incorrect_password');
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
+        if ($this->controlIsPresent('pageelement', 'element_not_disabled_style')) {
+            $waitCondition = array($this->_getControlXpath('button', '3d_continue'),
+                                   $this->_getControlXpath('pageelement', 'incorrect_password'),
+                                   $this->_getControlXpath('pageelement', 'element_with_disabled_style'));
             if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
                 //Skipping test, but not failing
                 $this->skipTestWithScreenshot('3D Secure frame is not loaded');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
             $this->selectFrame($this->_getControlXpath('pageelement', '3d_secure_iframe'));
-            if (!$this->waitForElement($xpathPasswordField, 10)) {
+            if (!$this->waitForElement($waitCondition[0], 10)) {
                 $this->selectFrame('relative=top');
+                $this->fail('3D Secure frame is not loaded');
             }
             $this->fillField('3d_password', $password);
             $this->clickButton('3d_submit', false);
-            $this->waitForElement(array($incorrectPassword, $xpathContinue, $xpath . "[@style='display: none;']"));
+            $this->waitForElement($waitCondition);
             if ($this->controlIsPresent('button', '3d_continue')) {
                 $this->clickButton('3d_continue', false);
-                $this->waitForElementNotPresent($xpathContinue);
+                $this->waitForElementNotPresent($this->_getControlXpath('button', '3d_continue'));
             }
             $this->selectFrame('relative=top');
         }
@@ -467,9 +469,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
 
         if ($shipMethod && isset($shipMethod['shipping_service']) && isset($shipMethod['shipping_method'])) {
-            $xpathShipMethod = $this->_getControlXpath('field', 'shipping_method_checkout');
             $text = $this->getControlAttribute('field', 'shipping_method_checkout', 'text');
-            $price = $this->getText($xpathShipMethod . '/span');
+            $price = $this->getControlAttribute('field', 'shipping_method_checkout_price', 'text');
             $text = trim(preg_replace('/' . preg_quote($price) . '/', '', $text));
             $text = trim(preg_replace('/\(\w+\. Tax \$[0-9\.]+\)/', '', $text));
             $expectedMethod = $shipMethod['shipping_service'] . ' - ' . $shipMethod['shipping_method'];
@@ -479,11 +480,11 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         }
 
         if ($payMethod && isset($payMethod['payment_method'])) {
-            $xpathPayMethod = $this->_getControlXpath('field', 'payment_method_checkout');
-            if ($this->isElementPresent($xpathPayMethod . '/p/strong')) {
-                $xpathPayMethod .= '/p/strong';
+            if ($this->controlIsPresent('field', 'payment_method_checkout_credit_card')) {
+                $text = $this->getControlAttribute('field', 'payment_method_checkout_credit_card', 'text');
+            } else {
+                $text = $this->getControlAttribute('field', 'payment_method_checkout', 'text');
             }
-            $text = $this->getText($xpathPayMethod);
             if (strcmp($text, $payMethod['payment_method']) != 0) {
                 $this->addVerificationMessage(
                     'Payment method should be: ' . $payMethod['payment_method'] . ' but now ' . $text);

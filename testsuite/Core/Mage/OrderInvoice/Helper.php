@@ -66,8 +66,9 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
                 $qtyXpath = $this->_getControlXpath('field', 'product_qty');
                 $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');
                 $prodSku = trim(preg_replace('/SKU:|\\n/', '', $prodSku));
-                if ($this->isElementPresent($qtyXpath . "/input")) {
-                    $prodQty = $this->getAttribute($qtyXpath . '/input/@value');
+                $this->addParameter('tableLineXpath', $qtyXpath);
+                if ($this->controlIsPresent('pageelement', 'table_line_input')) {
+                    $prodQty = $this->getControlAttribute('pageelement', 'table_line_input', 'selectedValue');
                 } else {
                     $prodQty = $this->getControlAttribute('field', 'product_qty', 'text');
                 }

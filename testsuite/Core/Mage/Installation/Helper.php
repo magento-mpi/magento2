@@ -92,8 +92,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
         $fields = array('locale', 'timezone', 'currency');
         $config = '?';
         foreach ($fields as $number => $field) {
-            $xpath = $this->_getControlXpath('dropdown', $field);
-            $selected = $this->getSelectedValue($xpath);
+            $selected = $this->getControlAttribute('dropdown', $field, 'selectedValue');
             $config .= 'config[' . $field . ']=' . $selected;
             if (array_key_exists($number + 1, $fields)) {
                 $config .= '&';
@@ -106,9 +105,9 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
         // 'Configuration' page
         $this->validatePage('configuration');
         $db = (isset($configuration['database_type'])) ? $configuration['database_type'] : '';
-        $xpath = $this->_getControlXpath('dropdown', 'database_type');
-        $this->fillDropdown('database_type', $db, $xpath);
-        $this->addParameter('dbType', strtolower($this->getSelectedValue($xpath)));
+        $this->fillDropdown('database_type', $db);
+        $this->addParameter('dbType',
+            strtolower($this->getControlAttribute('dropdown', 'database_type', 'selectedValue')));
         $this->fillForm($configuration);
         $this->clickButton('continue', false);
         $this->assertMessageNotPresent('validation');

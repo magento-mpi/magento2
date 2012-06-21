@@ -82,19 +82,22 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
      */
     public function openConfigurationTab($tab)
     {
-        $this->defineParameters($this->_getControlXpath('tab', $tab), 'href');
+        $this->defineParameters('tab', $tab, 'href');
         $this->clickControl('tab', $tab);
     }
 
     /**
      * Define Url Parameters for System Configuration page
      *
-     * @param string $xpath
+     * @param string $controlType
+     * @param string $controlName
      * @param string $attribute
+     *
+     * @return void
      */
-    public function defineParameters($xpath, $attribute)
+    public function defineParameters($controlType, $controlName, $attribute)
     {
-        $params = $this->getAttribute($xpath . '/@' . $attribute);
+        $params = $this->getControlAttribute($controlType, $controlName, $attribute);
         $params = explode('/', $params);
         foreach ($params as $key => $value) {
             if ($value == 'section' && isset($params[$key + 1])) {

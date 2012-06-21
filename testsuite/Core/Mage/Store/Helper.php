@@ -81,9 +81,8 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->fillField($elementName, $storeData[$elementName]);
         $this->clickButton('search');
         //Determination of found items amount
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
-        $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
+        $this->addParameter('tableHeadXpath', $this->_getControlXpath('fieldset', 'manage_stores'));
+        $foundItems = $this->getControlAttribute('pageelement', 'qty_elements_in_specific_table', 'text');
         if ($foundItems == 0) {
             $this->fail('No records found.');
         }
@@ -98,8 +97,9 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->addParameter('elementTitle', $storeData[$elementName]);
         for ($i = 1; $i <= $foundItems; $i++) {
             //Definition element url
-            $xpath = $fieldsetXpath . '//table[@id]/tbody' . '/tr[' . $i . ']/td[' . $number . ']/a';
-            $url = $this->getAttribute($xpath . '@href');
+            $this->addParameter('rowIndex', $i);
+            $this->addParameter('cellIndex', $number);
+            $url = $this->getControlAttribute('pageelement', 'cell_store_link', 'href');
             //Open element
             $this->addParameter('id', $this->defineIdFromUrl($url));
             $this->openWindow($url, 'edit');
@@ -113,18 +113,15 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
                     $this->fillDropdown('create_backup', 'No');
                     $this->clickButton('delete_' . $element);
                     $this->assertMessagePresent('success', 'success_deleted_' . $element);
-                    $this->close();
-                    $this->selectWindow(null);
+                    $this->closeWindow();
 
                     return true;
                 } else {
                     $error = true;
-                    $this->close();
-                    $this->selectWindow(null);
+                    $this->closeWindow();
                 }
             } else {
-                $this->close();
-                $this->selectWindow(null);
+                $this->closeWindow();
             }
         }
 
@@ -133,5 +130,14 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         }
 
         return false;
+    }
+
+    /**
+     *  Close Window
+     */
+    public function closeWindow()
+    {
+        $this->close();
+        $this->selectWindow(null);
     }
 }

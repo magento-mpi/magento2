@@ -190,7 +190,9 @@ onepage_checkout:
                             billing_address_checkout: //dt[contains(.,'Billing Address')]/following-sibling::dd[1]/address
                             shipping_address_checkout: //dt[contains(.,'Shipping Address')]/following-sibling::dd[1]/address
                             shipping_method_checkout: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]
+                            shipping_method_checkout_price: //dt[contains(.,'Shipping Method')]/following-sibling::dd[1]/span
                             payment_method_checkout: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]
+                            payment_method_checkout_credit_card: //dt[contains(.,'Payment Method')]/following-sibling::dd[1]/p/strong
                         links:
                             billing_information_change: "//dt[contains(.,'Billing Address')]/a[@href='#billing']"
                             shipping_information_change: "//dt[contains(.,'Shipping Address')]/a[@href='#payment']"
@@ -227,5 +229,6 @@ onepage_checkout_success:
         form: &successForm
         messages:
             success_checkout: //h1[contains(.,'Your order has been received')]
+            success_checkout_guest: //*[contains(text(),'Your order')]
         links:
             order_number: //a[contains(@href, '/sales/order/view/order_id/')]

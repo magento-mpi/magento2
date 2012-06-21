@@ -189,7 +189,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
                 $data[$key] = $value;
             }
         }
-        $data['email'] = trim($this->getText($this->_getControlXpath('pageelement', 'email_account')));
+        $data['email'] = $this->getControlAttribute('pageelement', 'email_account', 'text');
         return $data;
     }
 

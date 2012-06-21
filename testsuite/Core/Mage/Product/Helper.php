@@ -470,6 +470,26 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Define attribute set ID that used in product
+     *
+     * @param array $productSearchData
+     *
+     * @return string
+     */
+    public function defineAttributeSetUsedInProduct(array $productSearchData)
+    {
+        $productXpath = $this->search($productSearchData['search']);
+        $this->assertNotEquals(null, $productXpath);
+        $columnId = $this->getColumnIdByName('Attrib. Set Name');
+        $this->addParameter('cellIndex', $columnId);
+        $this->addParameter('tableLineXpath', $productXpath);
+        $value = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+        $this->addParameter('optionText', $value);
+
+        return $this->getControlAttribute('pageelement', 'table_head_cell_index_option_text', 'value');
+    }
+
+    /**
      * Open product.
      *
      * @param array $productSearch
@@ -1090,10 +1110,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             if (array_key_exists('custom_options_image_size_y', $value)) {
                 $this->addParameter('fileHeight', $value['custom_options_image_size_y']);
                 $xpathExt = $this->_getControlXpath('pageelement', 'custom_option_file_max_height');
-                $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpathExt;
+                $xpathArray['custom_options']['option_' . $i]['xpath_' . $count] = $xpathExt;
             }
         } else {
-            $xpathArray['custom_options']['option_' . $i]['xpath_' . $count++] = $xpath;
+            $xpathArray['custom_options']['option_' . $i]['xpath_' . $count] = $xpath;
         }
         return $xpathArray;
     }
@@ -1156,11 +1176,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->categoryHelper()->checkCategoriesPage();
             $this->categoryHelper()->createCategory($category);
             $this->assertMessagePresent('success', 'success_saved_category');
-            $returnCategory = array('name' => $category['name'],
-                                    'path' => $catPath);
+            $returnCategory = array('name' => $category['name'], 'path' => $catPath);
         } else {
-            $returnCategory = array('name' => 'Default Category',
-                                    'path' => 'Default Category');
+            $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
         $productCat = array('categories' => $returnCategory['path']);
@@ -1182,8 +1200,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $configurable = $this->loadDataSet('SalesOrder', 'configurable_product_for_order',
             array('configurable_attribute_title' => $attrData['admin_title'],
                   'categories'                   => $returnCategory['path']),
-            array('associated_1' => $simple['general_sku'],
-                  'associated_2' => $virtual['general_sku'],
+            array('associated_1' => $simple['general_sku'], 'associated_2' => $virtual['general_sku'],
                   'associated_3' => $download['general_sku']));
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->createAttribute($attrData);
@@ -1242,11 +1259,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->categoryHelper()->checkCategoriesPage();
             $this->categoryHelper()->createCategory($category);
             $this->assertMessagePresent('success', 'success_saved_category');
-            $returnCategory = array('name' => $category['name'],
-                                    'path' => $catPath);
+            $returnCategory = array('name' => $category['name'], 'path' => $catPath);
         } else {
-            $returnCategory = array('name' => 'Default Category',
-                                    'path' => 'Default Category');
+            $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
         $productCat = array('categories' => $returnCategory['path']);
@@ -1256,8 +1271,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             array('downloadable_links_purchased_separately' => 'No',
                   'categories'                              => $returnCategory['path']));
         $grouped = $this->loadDataSet('SalesOrder', 'grouped_product_for_order', $productCat,
-            array('associated_1' => $simple['general_sku'],
-                  'associated_2' => $virtual['general_sku'],
+            array('associated_1' => $simple['general_sku'], 'associated_2' => $virtual['general_sku'],
                   'associated_3' => $download['general_sku']));
         $this->navigate('manage_products');
         $this->createProduct($simple);
@@ -1300,21 +1314,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->categoryHelper()->checkCategoriesPage();
             $this->categoryHelper()->createCategory($category);
             $this->assertMessagePresent('success', 'success_saved_category');
-            $returnCategory = array('name' => $category['name'],
-                                    'path' => $catPath);
+            $returnCategory = array('name' => $category['name'], 'path' => $catPath);
         } else {
-            $returnCategory = array('name' => 'Default Category',
-                                    'path' => 'Default Category');
+            $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
         $productCat = array('categories' => $returnCategory['path']);
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $virtual = $this->loadDataSet('Product', 'virtual_product_visible', $productCat);
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', $productCat,
-            array('add_product_1'   => $simple['general_sku'],
-                  'price_product_1' => 0.99,
-                  'price_product_2' => 1.24,
-                  'add_product_2'   => $virtual['general_sku']));
+            array('add_product_1' => $simple['general_sku'], 'price_product_1' => 0.99, 'price_product_2' => 1.24,
+                  'add_product_2' => $virtual['general_sku']));
         $this->navigate('manage_products');
         $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -1353,11 +1363,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->categoryHelper()->checkCategoriesPage();
             $this->categoryHelper()->createCategory($category);
             $this->assertMessagePresent('success', 'success_saved_category');
-            $returnCategory = array('name' => $category['name'],
-                                    'path' => $catPath);
+            $returnCategory = array('name' => $category['name'], 'path' => $catPath);
         } else {
-            $returnCategory = array('name' => 'Default Category',
-                                    'path' => 'Default Category');
+            $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
         $assignCategory = array('categories' => $returnCategory['path']);
@@ -1369,8 +1377,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('downloadable'       => array('product_name' => $downloadable['general_name'],
                                                    'product_sku'  => $downloadable['general_sku']),
-                     'downloadableOption' => array('title'       => $linksTitle,
-                                                   'optionTitle' => $link),
+                     'downloadableOption' => array('title' => $linksTitle, 'optionTitle' => $link),
                      'category'           => $returnCategory);
     }
 
@@ -1391,11 +1398,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->categoryHelper()->checkCategoriesPage();
             $this->categoryHelper()->createCategory($category);
             $this->assertMessagePresent('success', 'success_saved_category');
-            $returnCategory = array('name' => $category['name'],
-                                    'path' => $catPath);
+            $returnCategory = array('name' => $category['name'], 'path' => $catPath);
         } else {
-            $returnCategory = array('name' => 'Default Category',
-                                    'path' => 'Default Category');
+            $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
         $assignCategory = array('categories' => $returnCategory['path']);
@@ -1404,8 +1409,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $this->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('simple'  => array('product_name' => $simple['general_name'],
-                                        'product_sku'  => $simple['general_sku']),
-                     'category'=> $returnCategory);
+                                        'product_sku'  => $simple['general_sku']), 'category'=> $returnCategory);
     }
 
     /**
@@ -1425,11 +1429,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->categoryHelper()->checkCategoriesPage();
             $this->categoryHelper()->createCategory($category);
             $this->assertMessagePresent('success', 'success_saved_category');
-            $returnCategory = array('name' => $category['name'],
-                                    'path' => $catPath);
+            $returnCategory = array('name' => $category['name'], 'path' => $catPath);
         } else {
-            $returnCategory = array('name' => 'Default Category',
-                                    'path' => 'Default Category');
+            $returnCategory = array('name' => 'Default Category', 'path' => 'Default Category');
         }
         //Create product
         $assignCategory = array('categories' => $returnCategory['path']);
@@ -1438,7 +1440,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $this->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('virtual'  => array('product_name' => $virtual['general_name'],
-                                         'product_sku'  => $virtual['general_sku']),
-                     'category' => $returnCategory);
+                                         'product_sku'  => $virtual['general_sku']), 'category' => $returnCategory);
     }
 }

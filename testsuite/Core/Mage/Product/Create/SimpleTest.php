@@ -425,7 +425,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     {
         return array(
             array('prices_tier_price_qty'),
-            array('prices_tier_price_price'),
+            array('prices_tier_price_price')
         );
     }
 
@@ -452,8 +452,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
     public function invalidTierPriceInSimple($invalidTierData)
     {
         //Data
-        $tierData = array('prices_tier_price_qty'   => $invalidTierData,
-                          'prices_tier_price_price' => $invalidTierData);
+        $tierData = array('prices_tier_price_qty' => $invalidTierData, 'prices_tier_price_price' => $invalidTierData);
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['prices_tier_price_data'][] = $this->loadDataSet('Product', 'prices_tier_price_1', $tierData);
         //Steps
@@ -561,8 +560,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_created_product');
 
-        return array('search' => $productSearch,
-                     'attr'   => $attrData);
+        return array('search' => $productSearch, 'attr' => $attrData);
     }
 
     /**
@@ -587,11 +585,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
-        $productXpath = $this->search($data['search']);
-        $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->getColumnIdByName('Attrib. Set Name');
-        $value = $this->getText($productXpath . "/td[$columnId]");
-        $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);
@@ -619,8 +613,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         //Data
         $searchAttr = $this->loadDataSet('ProductAttribute', 'attribute_search_data',
             array('attribute_code' => $data['attr']['attribute_code']));
-        $simple = array('general_weight' => '3.21',
-                        'general_sku'    => $this->generate('string', 15, ':alnum:'));
+        $simple = array('general_weight' => '3.21', 'general_sku' => $this->generate('string', 15, ':alnum:'));
         $simple['general_user_attr']['dropdown'][$data['attr']['attribute_code']] =
             $data['attr']['option_3']['admin_option_name'];
         //Steps
@@ -629,11 +622,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->addParameter('attrId', $attrId);
         //2.Define attribute set ID that used in product
         $this->navigate('manage_products');
-        $productXpath = $this->search($data['search']);
-        $this->assertNotEquals(null, $productXpath);
-        $columnId = $this->getColumnIdByName('Attrib. Set Name');
-        $value = $this->getText($productXpath . "/td[$columnId]");
-        $setId = $this->getValue("//tr[@class='filter']/th[$columnId]//option[text()='$value']");
+        $setId = $this->productHelper()->defineAttributeSetUsedInProduct($data['search']);
         $this->addParameter('setId', $setId);
         //3. Open product and create simple product
         $this->productHelper()->openProduct($data['search']);

@@ -73,26 +73,27 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function addAddressNumber()
     {
-        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses');
-        $addressCount = $this->getXpathCount($xpath . '//li');
-        $param = preg_replace('/(\D)+/', '', $this->getAttribute($xpath . "//li[$addressCount]@id"));
-        $this->addParameter('address_number', $param);
+        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
+        $this->addParameter('index', $addressCount);
+        $param = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
+        $this->addParameter('address_number', preg_replace('/(\D)+/', '', $param));
     }
 
     public function deleteAllAddresses($searchData)
     {
         $this->openCustomer($searchData);
         $this->openTab('addresses');
-        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
-        $addressCount = $this->getXpathCount($xpath);
+        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
         if ($addressCount > 0) {
-            $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$addressCount]@id"));
-            $this->addParameter('address_number', $param);
+            $this->addParameter('index', $addressCount);
+            $param = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
+            $this->addParameter('address_number', preg_replace('/[a-zA-z]+_/', '', $param));
             $this->fillRadiobutton('default_billing_address', 'Yes');
             $this->fillRadiobutton('default_shipping_address', 'Yes');
             for ($i = 1; $i <= $addressCount; $i++) {
-                $param = preg_replace('/[a-zA-z]+_/', '', $this->getAttribute($xpath . "[$i]@id"));
-                $this->addParameter('address_number', $param);
+                $this->addParameter('index', $i);
+                $param = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
+                $this->addParameter('address_number', preg_replace('/[a-zA-z]+_/', '', $param));
                 $this->clickControlAndConfirm('button', 'delete_address', 'confirmation_for_delete_address', false);
             }
             $this->saveForm('save_customer');
@@ -157,13 +158,16 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      * PreConditions: 'Login or Create an Account' page is opened.
      *
      * @param array $registerData
+     * @param bool $disableCaptcha
+     *
+     * @return void
      */
-    public function registerCustomer(array $registerData)
+    public function registerCustomer(array $registerData, $disableCaptcha = true)
     {
         $currentPage = $this->getCurrentPage();
         $this->clickButton('create_account');
         // Disable CAPTCHA if present
-        if ($this->controlIsPresent('pageelement', 'captcha')) {
+        if ($disableCaptcha && $this->controlIsPresent('pageelement', 'captcha')) {
             $this->loginAdminUser();
             $this->navigate('system_configuration');
             $this->systemConfigurationHelper()->configure('disable_customer_captcha');
@@ -171,7 +175,11 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
             $this->clickButton('create_account');
         }
         $this->fillForm($registerData);
-        $this->saveForm('submit');
+        $waitConditions = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                                $this->_getControlXpath('link', 'log_out'));
+        $this->clickButton('submit', false);
+        $this->waitForElement($waitConditions);
+        $this->validatePage();
     }
 
     /**
@@ -182,19 +190,13 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
     public function frontLoginCustomer(array $loginData)
     {
         $this->frontend();
-        $this->navigate('customer_account', false);
-        $this->validatePage();
-        if ($this->getCurrentPage() == 'customer_account') {
-            $this->clickControl('link', 'log_out', false);
-            $this->waitForTextPresent('You are now logged out');
-            $this->waitForTextNotPresent('You are now logged out');
-            $this->deleteAllVisibleCookies();
-            $this->validatePage('home_page');
-        }
+        $this->logoutCustomer();
         $this->clickControl('link', 'log_in');
         $this->fillFieldset($loginData, 'log_in_customer');
+        $waitConditions = array($this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'),
+                                $this->_getControlXpath('link', 'log_out'));
         $this->clickButton('login', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForElement($waitConditions);
         $this->validatePage('customer_account');
     }
 }

@@ -150,11 +150,13 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
             $names = $this->getTableHeadRowNames("//div[@id='widget-chooser_content']//table[@id]");
             foreach ($rowNames as $value) {
                 if (in_array($value, $names)) {
-                    $nameXpath = $xpathTR . '//td[' . (array_search($value, $names) + 1) . ']';
-                    if ($title == 'Not Selected') {
-                        $title = $this->getText($nameXpath);
+                    $this->addParameter('cellIndex', array_search($value, $names) + 1);
+                    $this->addParameter('tableLineXpath', $xpathTR);
+                    $text = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
+                    if ($title != 'Not Selected') {
+                        $title = $text;
                     } else {
-                        $title = $title . ' / ' . $this->getText($nameXpath);
+                        $title = $title . ' / ' . $text;
                     }
                     break;
                 }
@@ -202,7 +204,8 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     public function openCmsPage(array $searchPage)
     {
         if (array_key_exists('filter_store_view', $searchPage)
-                && !$this->controlIsPresent('dropdown', 'filter_store_view')) {
+            && !$this->controlIsPresent('dropdown', 'filter_store_view')
+        ) {
             unset($searchPage['filter_store_view']);
         }
         $xpathTR = $this->search($searchPage, 'cms_pages_grid');
@@ -227,7 +230,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         $this->clickButtonAndConfirm('delete_page', 'confirmation_for_delete');
     }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////@TODO
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////TODO
     /**
      * Validates page after creation
      *
@@ -254,16 +257,14 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
      * Count elements for validation
      *
      * @param array $pageData
+     *
      * @return array
      */
     public function countElements(array $pageData)
     {
-        $map = array(
-            'CMS Page Link' => 'widget_cms_link',
-            'CMS Static Block' => 'widget_static_block',
-            'Catalog Category Link' => 'widget_category_link',
-            'Catalog Product Link' => 'widget_product_link'
-        );
+        $map = array('CMS Page Link'         => 'widget_cms_link', 'CMS Static Block' => 'widget_static_block',
+                     'Catalog Category Link' => 'widget_category_link',
+                     'Catalog Product Link'  => 'widget_product_link');
         $resultArray = array();
         foreach ($map as $key => $value) {
             $resultArray[$value] = count($this->searchArray($pageData, $key));
@@ -276,15 +277,17 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
      *
      * @param array $pageData
      * @param string $key
+     *
      * @return array
      */
     function searchArray($pageData, $key = null)
     {
-        $found = ($key !== null ? array_keys($pageData, $key) : array_keys($pageData));
+        $found = ($key !== null) ? array_keys($pageData, $key) : array_keys($pageData);
         foreach ($pageData as $value) {
             if (is_array($value)) {
-                $found = ($key !== null ? array_merge($found, $this->searchArray($value, $key)) : array_merge($found,
-                                        $this->searchArray($value)));
+                $found = ($key !== null)
+                    ? array_merge($found, $this->searchArray($value, $key))
+                    : array_merge($found, $this->searchArray($value));
             }
         }
         return $found;
