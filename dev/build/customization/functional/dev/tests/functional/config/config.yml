@@ -18,7 +18,7 @@ browsers:
          browser: '*firefox'
          host: '{{selenium_host}}'
          port: {{selenium_port}}
-         timeout: 100
+         timeout: 180
          restartBrowser: false
     default: *firefox
 ################################################################################

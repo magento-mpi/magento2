@@ -63,7 +63,7 @@ class Mage_Install_Model_Installer_Db_Mssql extends Mage_Install_Model_Installer
      *
      * @return Mage_Install_Model_Installer_Db_Mysql4
      */
-    public function  cleanDatabase()
+    public function cleanUpDatabase()
     {
         $connection = $this->_getConnection();
         $config = $connection->getConfig();

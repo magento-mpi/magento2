@@ -25,6 +25,13 @@ class Mage_Selenium_TestConfiguration
     private static $instance = null;
 
     /**
+     * Initial options
+     *
+     * @var array
+     */
+    protected $_initialOptions = array();
+
+    /**
      * File helper instance
      * @var Mage_Selenium_Helper_File|null
      */
@@ -108,15 +115,46 @@ class Mage_Selenium_TestConfiguration
      * Get test configuration instance
      *
      * @static
-     * @return Mage_Selenium_TestConfiguration
+     * @param null|array $options
+     * @return Mage_Selenium_TestConfiguration|null
+     * @throws RuntimeException
      */
-    public static function getInstance()
+    public static function getInstance($options = null)
     {
         if (is_null(self::$instance)) {
             self::$instance = new self();
+            if (is_array($options)) {
+                self::$instance->setInitialOptions($options);
+            }
             self::$instance->init();
+        } else {
+            if (!is_null($options)) {
+                throw new RuntimeException('Cannot redeclare initial options on existed instance.');
+            }
         }
         return self::$instance;
+    }
+
+    /**
+     * Set initial options
+     *
+     * @param array $options
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public function setInitialOptions(array $options)
+    {
+        $this->_initialOptions = $options;
+        return $this;
+    }
+
+    /**
+     * Retrieve initial options
+     *
+     * @return array
+     */
+    public function getInitialOptions()
+    {
+        return $this->_initialOptions;
     }
 
     /**
@@ -244,6 +282,12 @@ class Mage_Selenium_TestConfiguration
         $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
         //Get fixtures sequence
         $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
+
+        $initialOptions = $this->getInitialOptions();
+        if (isset($initialOptions['fallbackOrderFixture'])) {
+            $fallbackOrderFixture = $initialOptions['fallbackOrderFixture'];
+        }
+
         //Get folder names where uimaps are stored for specified area
         $uimapFolders = array();
         $configAreas = $this->_configHelper->getConfigAreas();

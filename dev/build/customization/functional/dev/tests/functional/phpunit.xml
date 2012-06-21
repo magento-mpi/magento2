@@ -59,7 +59,6 @@
 
             <directory suffix="Test.php">testsuite/Core/Mage/Various</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
-            <directory suffix="Test.php">testsuite</directory>
         </testsuite>
     </testsuites>
     <php>
@@ -71,6 +70,8 @@
     <groups>
         <exclude>
             <group>skip_due_to_bug</group>
+            <group>skip_due_to_bug1.12</group>
+            <group>skip_due_to_bug2.0</group>
         </exclude>
     </groups>
     <logging>
