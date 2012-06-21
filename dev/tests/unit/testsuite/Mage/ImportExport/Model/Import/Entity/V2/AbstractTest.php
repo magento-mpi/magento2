@@ -389,4 +389,17 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
 
         return $source;
     }
+
+    /**
+     * Test entity subtype getter
+     */
+    public function testGetEntitySubtype()
+    {
+        $this->assertNull($this->_model->getEntitySubtype());
+
+        $entitySubtype = 'customers';
+        $this->_model->setParameters(array('entity_subtype' => $entitySubtype));
+
+        $this->assertEquals($entitySubtype, $this->_model->getEntitySubtype());
+    }
 }

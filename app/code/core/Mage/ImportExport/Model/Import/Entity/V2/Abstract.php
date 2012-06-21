@@ -210,7 +210,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     public function getEntitySubtype()
     {
-        return $this->_parameters['entity_subtype'];
+        return !empty($this->_parameters['entity_subtype']) ? $this->_parameters['entity_subtype'] : null;
     }
 
     /**
