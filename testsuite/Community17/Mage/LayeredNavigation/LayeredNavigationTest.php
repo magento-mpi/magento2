@@ -67,23 +67,23 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->categoryHelper()->createCategory($categoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
         // Creating subcategory for anchor category
-        $categoryName = $rootCategoryName. '/' . $categoryData['name'];
+        $categoryName = $rootCategoryName . '/' . $categoryData['name'];
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required',
-            array('parent_category'=> $categoryName));
+            array('parent_category' => $categoryName));
         $this->categoryHelper()->createCategory($subCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
-        $subCategoryName = $categoryName. '/' . $subCategoryData['name'];
+        $subCategoryName = $categoryName . '/' . $subCategoryData['name'];
 
         // Creating non-anchor category
         $nonAnchorCategoryData = $this->loadDataSet('Category', 'sub_category_required',
-            array('parent_category'=> $rootCategoryName));
+            array('parent_category' => $rootCategoryName));
         $this->categoryHelper()->createCategory($nonAnchorCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
-        $nonAnchorCategoryName = $rootCategoryName. '/' . $nonAnchorCategoryData['name'];
+        $nonAnchorCategoryName = $rootCategoryName . '/' . $nonAnchorCategoryData['name'];
 
         // Creating subcategory for non-anchor category
         $subCategoryForNonAnchorCategoryData = $this->loadDataSet('Category',
-            'sub_category_required', array('parent_category'=> $nonAnchorCategoryName));
+            'sub_category_required', array('parent_category' => $nonAnchorCategoryName));
         $this->categoryHelper()->createCategory($subCategoryForNonAnchorCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
 
@@ -105,18 +105,17 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
 
         // Creating attribute set
         $this->navigate('manage_attribute_sets');
-        $attrSetData = $this->loadDataSet('AttributeSet', 'attribute_set');
+        $attr = array($dropdownAttrData['attribute_code'], $multiselectAttrData['attribute_code'],
+            $priceAttrData['attribute_code']);
+        $attrSetData = $this->loadDataSet('AttributeSet', 'attribute_set',
+            array('associated_attributes' => array('General' => $attr)));
         $this->attributeSetHelper()->createAttributeSet($attrSetData);
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
-        $this->attributeSetHelper()->addAttributeToSet(array('General' => $dropdownAttrData['attribute_code']));
-        $this->attributeSetHelper()->addAttributeToSet(array('General' => $multiselectAttrData['attribute_code']));
-        $this->attributeSetHelper()->addAttributeToSet(array('General' => $priceAttrData['attribute_code']));
-        $this->saveForm('save_attribute_set');
 
         // Creating products
         $this->navigate('manage_products');
         $simple1attr = $this->loadDataSet('Product', 'simple_product_visible_with_user_attributes',
-            array ('categories' => $subCategoryName, 'product_attribute_set' => $attrSetData['set_name'],
+            array('categories' => $subCategoryName, 'product_attribute_set' => $attrSetData['set_name'],
                 'general_user_attr_dropdown' => $dropdownOption1, 'general_user_attr_multiselect' => $multiselectOption2));
         $this->addParameter('attributeCodeDropdown', $dropdownAttrData['attribute_code']);
         $this->addParameter('attributeCodeMultiselect', $multiselectAttrData['attribute_code']);
@@ -124,12 +123,12 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->productHelper()->createProduct($simple1attr);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        $simple2 = $this->loadDataSet('Product', 'simple_product_visible', array ('categories' => $categoryName));
+        $simple2 = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $categoryName));
         $this->productHelper()->createProduct($simple2);
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array(
-            'simple1attr'  => $simple1attr['general_name'],
+            'simple1attr' => $simple1attr['general_name'],
             'simple1dropdownOptionName' => $dropdownAttrData['option_1']['store_view_titles']['Default Store View'],
             'simple1dropdownCode' => $dropdownAttrData['attribute_code'],
             'simple1mselectOptionName' => $multiselectAttrData['option_2']['store_view_titles']['Default Store View'],
@@ -161,8 +160,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($data['nacategory']);
         //Verifying
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('fieldset', 'layered_navigation')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('fieldset', 'layered_navigation')),
             'There is no LN block on the' . $data['nacategory'] . 'non-anchor category page');
     }
 
@@ -215,12 +213,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'Product assigned to category page displays after filtering');
     }
 
@@ -245,12 +241,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -274,19 +268,16 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Steps
         $this->layeredNavigationHelper()->setCategoryIdFromLink($data['subcategory']);
         $this->clickControl('link', 'category_name');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'currently_shopping_by')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -315,12 +306,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'Product assigned to category page displays after filtering');
     }
 
@@ -345,12 +334,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -375,19 +362,16 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->layeredNavigationHelper()->setAttributeIdFromLink($data['acategory'], $data['simple1dropdownCode'],
             $data['simple1dropdownOptionName']);
         $this->clickControl('link', 'attribute_name');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'currently_shopping_by')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -416,12 +400,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertFalse($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'Product assigned to category page displays after filtering');
     }
 
@@ -446,12 +428,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -476,19 +456,16 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->layeredNavigationHelper()->setAttributeIdFromLink($data['acategory'], $data['simple1mselectCode'],
             $data['simple1mselectOptionName']);
         $this->clickControl('link', 'attribute_name');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'currently_shopping_by')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -516,12 +493,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-            $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertFalse($this->isElementPresent(
-            $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertFalse($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'Product assigned to category page displays after filtering');
     }
 
@@ -546,12 +521,10 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 
@@ -575,19 +548,16 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Steps
         $this->layeredNavigationHelper()->setAttributeIdFromLink($data['acategory'], $data['simple1mselectCode']);
         $this->clickControl('link', 'price_attribute');
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'currently_shopping_by')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
         $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
         $this->addParameter('productName', $data['simple2']);
-        $this->assertTrue($this->isElementPresent(
-                $this->_getControlXpath('pageelement', 'product_name_header')),
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no' . $data['simple2'] . 'product on the page');
     }
 }
