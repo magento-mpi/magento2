@@ -152,4 +152,67 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
         $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
             'Updating customer reward points balance is failed');
     }
+
+    /**
+     * <p>Partial Import</p>
+     * <p>Verify that if import file has some invalid data, then import will be finished partially</p>
+     * <p>Precondition: one customer exists in the system. Csv file contains two rows: valid customer finances data,
+     * invalid customer finances data (store credit in text format)</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Customers Entity Type: Customer Finances File </p>
+     * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>Expected: messages "Please fix errors and re-upload file or simply press "Import" button to skip rows with
+     * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1" are displayed</p>
+     * <p>6. Open customers</p>
+     * <p>Expected: valid finance data information was imported correctly</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5633
+     */
+    public function partialImport()
+    {
+        //Precondition
+        $customerData = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($customerData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $csvData['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_finance_5633');
+        $csvData['valid']['email'] = $customerData['email'];
+        $csvData['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_finance_5633');
+        $csvData['invalid']['email'] = $customerData['email'];
+        //Step 1
+        $this->admin('import');
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        //Step 4
+        $this->fillDropdown('import_customer_entity', 'Customer Finances');
+        //Step 5
+        $importData = $this->importExportHelper()->import($csvData);
+        //Verifying
+        $this->assertEquals(
+            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
+            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
+        );
+        $this->assertEquals(
+            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            $importData['validation']['validation'][1], 'No message checked rows number'
+        );
+        //Step 6
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' '. $customerData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
+        //Verifying finance data
+        $this->assertEquals($csvData['valid']['store_credit'], $this->customerHelper()->getStoreCreditBalance(),
+            'Store credit has not been added');
+        $this->assertEquals($csvData['valid']['reward_points'], $this->customerHelper()->getRewardPointsBalance(),
+            'Reward points have not been added');
+    }
 }

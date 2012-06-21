@@ -318,9 +318,11 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $csvData[$customerTypes[0]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_master_5622');
         $csvData[$customerTypes[0]]['existing']['email'] = $customerData['existing_updated']['email'];
         $csvData[$customerTypes[1]]['new'] = $this->loadDataSet('ImportExport.yml', 'csv_new_address_5622');
-        $csvData[$customerTypes[1]]['new']['email'] = $customerData['new']['email'];
+        $csvData[$customerTypes[1]]['new']['_email'] = $customerData['new']['email'];
+        $csvData[$customerTypes[1]]['new']['_entity_id'] = $this->generate('string', 10, ':digit:');
         $csvData[$customerTypes[1]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_address_5622');
-        $csvData[$customerTypes[1]]['existing']['email'] = $customerData['existing_updated']['email'];
+        $csvData[$customerTypes[1]]['existing']['_email'] = $customerData['existing_updated']['email'];
+        $csvData[$customerTypes[1]]['existing']['_entity_id'] = $this->generate('string', 10, ':digit:');
         //Step 1
         $this->admin('import');
         //Step 2
@@ -357,6 +359,110 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         //Verifying existing customer
         $this->assertTrue($this->verifyForm($customerData['existing_updated'], 'account_information'),
             'Existing customer has not been updated');
+    }
+
+    /**
+     * <p>Partial Import (Main file)</p>
+     * <p>Verify that if import file has some invalid data, then import will be finished partially</p>
+     * <p>Precondition: two csv files prepared. First one contains two rows: valid customer data (new customer),
+     * invalid customer data (non existing website id). Second one contains two rows: valid customer data (new
+     * customer), valid customer data (email and website id is the same as in first row)</p>
+     * <p>Steps</p>
+     * <p>1. Go to System -> Import/ Export -> Import</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Customers Entity Type: Customers Main File</p>
+     * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>Expected: messages "Invalid value in Website column (website does not exists?) in rows: 2", "Please fix
+     * errors and re-upload file or simply press "Import" button to skip rows with errors" and "Checked rows: 2,
+     * checked entities: 2, invalid rows: 1, total errors: 1"
+     * are displayed</p>
+     * <p>6. Choose second file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>Expected: messages "E-mail is duplicated in import file in rows: 2" and "Please fix errors and re-upload
+     * file or simply press "Import" button to skip rows with errors", "Checked rows: 2, checked entities: 2, invalid
+     * rows: 1, total errors: 1" are displayed</p>
+     * <p>7. Open imported customers</p>
+     * <p>Expected: valid data information was imported correctly</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5635
+     */
+    public function partialImport()
+    {
+        //test data
+        $customerData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
+        $customerData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'data_invalid_customer1_5635');
+        $csvData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_customer1_5635');
+        $csvData[0]['valid']['email'] = $customerData[0]['valid']['email'];
+        $csvData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_customer1_5635');
+        $csvData[0]['invalid']['email'] = $customerData[0]['invalid']['email'];
+        $customerData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer2_5635');
+        $customerData[1]['invalid'] = $customerData[0]['valid'];
+        $csvData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_customer2_5635');
+        $csvData[1]['valid']['email'] = $customerData[1]['valid']['email'];
+        $csvData[1]['invalid'] = $csvData[1]['valid'];
+        //Step 2
+        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('import_behavior', 'Append Complex Data');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+        //Step 3
+        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
+        //Step 4
+        $this->fillDropdown('import_customer_entity', 'Customers Main File');
+        //Step 5
+        $importData = $this->importExportHelper()->import($csvData[0]);
+        //Verifying
+        $this->assertEquals(
+            'Invalid value in Website column (website does not exists?) in rows: 2',
+            $importData['validation']['error'][0], 'Message about invalid website is absent'
+        );
+        $this->assertEquals(
+            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
+            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
+        );
+        $this->assertEquals(
+            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            $importData['validation']['validation'][1], 'No message checked rows number'
+        );
+        //Step 6
+        $importData = $this->importExportHelper()->import($csvData[1]);
+        //Verifying messages (second file)
+        $this->assertEquals(
+            'E-mail is duplicated in import file in rows: 2',
+            $importData['validation']['error'][0], 'Message about duplication is absent'
+        );
+        $this->assertEquals(
+            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
+            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
+        );
+        $this->assertEquals(
+            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            $importData['validation']['validation'][1], 'No message checked rows number'
+        );
+        //Step 7
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData[0]['valid']['first_name']
+            . ' ' . $customerData[0]['valid']['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData[0]['valid']['email']));
+        //Verifying that new customer is created from valid csv row (first file)
+        $this->assertTrue($this->verifyForm($customerData[0]['valid'], 'account_information'),
+            'New customer has not been created');
+
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData[0]['invalid']['first_name']
+            . ' ' . $customerData[0]['invalid']['last_name']);
+        // Verifying that no customer is created from invalid csv row (first file)
+        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError');
+        $this->customerHelper()->openCustomer(array('email' => $customerData[0]['invalid']['email']));
+
+        $this->admin('manage_customers');
+        $this->addParameter('customer_first_last_name', $customerData[0]['valid']['first_name']
+            . ' ' . $customerData[0]['valid']['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $customerData[1]['valid']['email']));
+        //Verifying that new customer is created from valid csv row (second file)
+        $this->assertTrue($this->verifyForm($customerData[1]['valid'], 'account_information'),
+            'New customer has not been created');
     }
 
     /**
