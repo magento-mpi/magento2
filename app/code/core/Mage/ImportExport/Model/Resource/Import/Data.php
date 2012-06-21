@@ -139,17 +139,17 @@ class Mage_ImportExport_Model_Resource_Import_Data
      * @param string $entity
      * @param string $behavior
      * @param array $data
-     * @param string|null $entity_subtype
+     * @param string|null $entitySubtype
      * @return int
      */
-    public function saveBunch($entity, $behavior, array $data, $entity_subtype = null)
+    public function saveBunch($entity, $behavior, array $data, $entitySubtype = null)
     {
         return $this->_getWriteAdapter()->insert(
             $this->getMainTable(),
             array(
                 'behavior'       => $behavior,
                 'entity'         => $entity,
-                'entity_subtype' => $entity_subtype,
+                'entity_subtype' => $entitySubtype,
                 'data'           => Mage::helper('Mage_Core_Helper_Data')->jsonEncode($data)
             )
         );

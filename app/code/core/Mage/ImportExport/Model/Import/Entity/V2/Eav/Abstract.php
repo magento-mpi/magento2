@@ -61,19 +61,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     protected $_attributes = array();
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        /** @var $eavConfig Mage_Eav_Model_Config */
-        $eavConfig = Mage::getSingleton('Mage_Eav_Model_Config');
-        $entityType = $eavConfig->getEntityType($this->getEntityTypeCode());
-        $this->_entityTypeId = $entityType->getEntityTypeId();
-    }
-
-    /**
      * Initialize website values
      *
      * @param bool $withDefault
@@ -142,6 +129,13 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
      */
     public function getEntityTypeId()
     {
+        if ($this->_entityTypeId == null) {
+            /** @var $eavConfig Mage_Eav_Model_Config */
+            $eavConfig = Mage::getSingleton('Mage_Eav_Model_Config');
+            $entityType = $eavConfig->getEntityType($this->getEntityTypeCode());
+            $this->_entityTypeId = $entityType->getEntityTypeId();
+        }
+
         return $this->_entityTypeId;
     }
 

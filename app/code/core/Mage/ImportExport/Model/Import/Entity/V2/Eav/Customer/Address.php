@@ -46,7 +46,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      * Error codes
      */
     const ERROR_ADDRESS_ID_IS_EMPTY = 'addressIdIsEmpty';
-    const ERROR_CUSTOMER_NOT_FOUND  = 'customerNotFound';
     const ERROR_INVALID_REGION      = 'invalidRegion';
     /**#@-*/
 
@@ -146,9 +145,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         $helper = Mage::helper('Mage_ImportExport_Helper_Data');
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
             $helper->__('Customer address id column is absent specified')
-        );
-        $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
-            $helper->__("Customer with such email and website code doesn't exist")
         );
         $this->addMessageTemplate(self::ERROR_INVALID_REGION, $helper->__('Region is invalid'));
 
@@ -275,7 +271,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 // entity table data
                 $entityRows[] = array(
                     'entity_id'      => $addressId,
-                    'entity_type_id' => $this->_entityTypeId,
+                    'entity_type_id' => $this->getEntityTypeId(),
                     'parent_id'      => $customerId,
                     'created_at'     => now(),
                     'updated_at'     => now()
@@ -348,7 +344,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 foreach ($attributeData as $attributeId => $value) {
                     $tableData[] = array(
                         'entity_id'      => $addressId,
-                        'entity_type_id' => $this->_entityTypeId,
+                        'entity_type_id' => $this->getEntityTypeId(),
                         'attribute_id'   => $attributeId,
                         'value'          => $value
                     );

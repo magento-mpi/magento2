@@ -30,11 +30,12 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
     /**#@+
      * Error codes
      */
-    const ERROR_WEBSITE_IS_EMPTY  = 'websiteIsEmpty';
-    const ERROR_EMAIL_IS_EMPTY    = 'emailIsEmpty';
-    const ERROR_INVALID_WEBSITE   = 'invalidWebsite';
-    const ERROR_INVALID_EMAIL     = 'invalidEmail';
-    const ERROR_VALUE_IS_REQUIRED = 'valueIsRequired';
+    const ERROR_WEBSITE_IS_EMPTY   = 'websiteIsEmpty';
+    const ERROR_EMAIL_IS_EMPTY     = 'emailIsEmpty';
+    const ERROR_INVALID_WEBSITE    = 'invalidWebsite';
+    const ERROR_INVALID_EMAIL      = 'invalidEmail';
+    const ERROR_VALUE_IS_REQUIRED  = 'valueIsRequired';
+    const ERROR_CUSTOMER_NOT_FOUND = 'customerNotFound';
     /**#@-*/
 
     /**
@@ -78,6 +79,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
         $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, $helper->__('E-mail is invalid'));
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
             $helper->__("Required attribute '%s' has an empty value")
+        );
+        $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
+            $helper->__("Customer with such email and website code doesn't exist")
         );
 
         $this->_initCustomers()
