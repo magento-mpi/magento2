@@ -173,13 +173,18 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      * Expected result:
      * Signature of current API is the same as in previous.
      *
+     * @depends testCreate
      */
     public function testProductList()
     {
         $apiMethod = 'catalog_product.list';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+
+        $prevResponseSignature = array_keys($prevResponse[0]);
+        $currResponseSignature = array_keys($currResponse[0]);
+        $this->assertEquals($prevResponseSignature, $currResponseSignature,
+            "The signature of $apiMethod has changed in the new API version.");
     }
 
     /**
