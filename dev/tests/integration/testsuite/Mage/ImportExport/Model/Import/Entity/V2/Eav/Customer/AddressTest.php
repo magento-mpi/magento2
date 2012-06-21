@@ -352,11 +352,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $requiredAttributes[] = array($keyAttribute);
         foreach (array('update', 'remove') as $action) {
             foreach ($csvData[$action] as $attributes) {
-                foreach ($attributes as $attributeKey => $attributeValue) {
-                    if (!in_array($attributeKey, $requiredAttributes)) {
-                        $requiredAttributes[] = $attributeKey;
-                    }
-                }
+                $requiredAttributes = array_merge($requiredAttributes, array_keys($attributes));
             }
         }
 
