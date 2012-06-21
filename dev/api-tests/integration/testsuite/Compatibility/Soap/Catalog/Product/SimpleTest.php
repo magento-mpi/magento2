@@ -180,7 +180,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $apiMethod = 'catalog_product.list';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-
         $prevResponseSignature = array_keys($prevResponse[0]);
         $currResponseSignature = array_keys($currResponse[0]);
         $this->assertEquals($prevResponseSignature, $currResponseSignature,
