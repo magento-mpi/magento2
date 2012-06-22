@@ -34,6 +34,7 @@ return array(
         'admin_username'             => 'admin',
         'admin_password'             => '123123q', // must be at least of 7 both numeric and alphanumeric characters
         'url'                        => '{{url}}',
-        'secure_base_url'            => '{{secure_url}}'
+        'secure_base_url'            => '{{secure_url}}',
+        'session_save'               => 'db',
     )
 );
