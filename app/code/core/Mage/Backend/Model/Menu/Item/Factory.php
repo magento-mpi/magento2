@@ -17,8 +17,6 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_acl;
 
     /**
-     * Object factory
-     *
      * @var Mage_Core_Model_Config
      */
     protected $_objectFactory;
@@ -70,7 +68,14 @@ class Mage_Backend_Model_Menu_Item_Factory
             throw new InvalidArgumentException('Wrong acl object provided');
         }
 
-        $this->_menuFactory = isset($data['menuFactory']) ? $data['menuFactory'] : new Mage_Backend_Model_Menu_Factory();
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
+        if (!($this->_objectFactory instanceof Mage_Core_Model_Config)) {
+            throw new InvalidArgumentException('Wrong object factory provided');
+        }
+
+        $this->_menuFactory = isset($data['menuFactory'])
+            ? $data['menuFactory']
+            : Mage::getModel('Mage_Backend_Model_Menu_Factory');
         if (!($this->_menuFactory instanceof Mage_Backend_Model_Menu_Factory)) {
             throw new InvalidArgumentException('Wrong menu factory provided');
         }
@@ -124,6 +129,6 @@ class Mage_Backend_Model_Menu_Item_Factory
         $data['menuFactory'] = $this->_menuFactory;
         $data['urlModel'] = $this->_urlModel;
         $data['validator'] = $this->_validator;
-        return $this->_menuFactory->getMenuItemInstance($data);
+        return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Item', $data);
     }
 }

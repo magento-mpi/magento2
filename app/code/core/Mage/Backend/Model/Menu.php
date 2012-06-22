@@ -37,6 +37,8 @@ class Mage_Backend_Model_Menu extends ArrayObject
         if (isset($array['logger'])) {
             $this->_logger = $array['logger'];
             unset($array['logger']);
+        } else {
+            throw new InvalidArgumentException('Logger object is a required parameter');
         }
         $this->setIteratorClass('Mage_Backend_Model_Menu_Iterator');
         parent::__construct($array);

@@ -190,7 +190,7 @@ class Mage_Backend_Model_Menu_Item
         if (!$this->_submenu) {
             $this->_submenu = $this->_menuFactory
                 ->getMenuInstance(
-                    array('path' => $this->getFullPath(), 'logger' => $this->_menuFactory->getLoggerInstance())
+                    array('path' => $this->getFullPath())
             );
         }
         return $this->_submenu;
