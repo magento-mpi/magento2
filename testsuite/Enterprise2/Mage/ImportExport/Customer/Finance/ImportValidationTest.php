@@ -126,7 +126,7 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
             ),
             array($customerDataRow2, array('validation' => array(
                 'error' => array(
-                    "Website is not specified in rows: 1"
+                    "Can not find required columns: _website"
                     ),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",

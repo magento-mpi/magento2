@@ -107,11 +107,13 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
             array(
-                'email' => $userData1['email']
+                'email' => $userData1['email'],
+                '_finance_website' => 'base'
             ));
         $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
             array(
                 'email' => $userData2['email'],
+                '_finance_website' => 'base',
                 'store_credit' => '4321.0000',
                 'reward_points' => '1234',
             ));
@@ -181,8 +183,10 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
         $csvData['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_finance_5633');
         $csvData['valid']['email'] = $customerData['email'];
+        $csvData['valid']['_finance_website'] = 'base';
         $csvData['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_finance_5633');
         $csvData['invalid']['email'] = $customerData['email'];
+        $csvData['invalid']['_finance_website'] = 'base';
         //Step 1
         $this->admin('import');
         //Step 2
