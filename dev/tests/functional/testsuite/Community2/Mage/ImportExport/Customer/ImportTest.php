@@ -437,6 +437,9 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
+        //Verifying import
+        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
+        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
         //Step 6
         $importData = $this->importExportHelper()->import($csvData[1]);
         //Verifying messages (second file)
@@ -452,6 +455,9 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
+        //Verifying import
+        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
+        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
         //Step 7
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name', $customerData[0]['valid']['first_name']

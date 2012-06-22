@@ -205,6 +205,9 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
             'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
+        //Verifying import
+        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
+        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
         //Step 6
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' '. $customerData['last_name']);
