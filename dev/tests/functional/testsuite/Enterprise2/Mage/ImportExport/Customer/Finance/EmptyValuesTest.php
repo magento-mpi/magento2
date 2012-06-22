@@ -113,24 +113,20 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
         $this->addParameter('customer_first_last_name', $userData1['first_name'] . ' ' . $userData1['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
         //Verify customer account
-        $this->openTab('store_credit');
-        $this->assertTrue($this->verifyForm(array('store_credit' => '100')),
-            'Existent customer has been updated');
-        $this->openTab('reward_points');
-        $this->assertTrue($this->verifyForm(array('reward_points' => '150')),
-            'Existent customer has been updated');
+        $this->assertEquals('$100.00', $this->customerHelper()->getStoreCreditBalance(),
+            'Adding customer credit score balance is failed');
+        $this->assertEquals('150', $this->customerHelper()->getRewardPointsBalance(),
+            'Adding customer reward points balance is failed');
         //Step 9. Second Customer
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
         //Verify customer account
         $this->openTab('store_credit');
-        $this->assertTrue($this->verifyForm(array('update_balance' => '0')),
-            'Existent customer has not been updated');
-        $this->openTab('reward_points');
-        $this->assertTrue($this->verifyForm(array('update_balance' => '0')),
-            'Existent customer has not been updated');
-
+        $this->assertEquals('$200.00', $this->customerHelper()->getStoreCreditBalance(),
+            'Adding customer credit score balance is failed');
+        $this->assertEquals('250', $this->customerHelper()->getRewardPointsBalance(),
+            'Adding customer reward points balance is failed');
     }
     public function importData()
     {

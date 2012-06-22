@@ -43,9 +43,13 @@ edit_customer:
                                     fields:
                                         update_balance: //input[@id='_customerbalanceamount_delta']
                                         comment: //input[@id='_customerbalancecomment']
-                                        current_balance: //table[@id='balanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
                                     checkboxes:
                                         notify_by_email: //input[@id='_customerbalancenotify_by_email']
+                            -
+                                current_store_balance:
+                                    xpath: //div[@id='balanceGrid']
+                                    fields:
+                                        current_balance: //table[@id='balanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[1]
                 -
                     reward_points:
                         xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
@@ -56,6 +60,10 @@ edit_customer:
                                     fields:
                                         update_balance: //input[@id='reward_points_delta']
                                         comment: //input[@id='reward_comment']
+                            -
+                                current_reward_balance:
+                                    xpath: //div[@id='rewardPointsBalanceGrid']
+                                    fields:
                                         current_balance: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[2]
         buttons:
             manage_shopping_cart: //button[span='Manage Shopping Cart']

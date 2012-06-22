@@ -48,8 +48,8 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
      */
     public function importFinanceFileWithInvalidData($financeData, array $validationMessage)
     {
-        if (isset($financeData['_email']) && $financeData['_email']=='%realEmail%'){
-            $financeData['_email'] = self::$customerEmail;
+        if (isset($financeData['email']) && $financeData['email']=='%realEmail%'){
+            $financeData['email'] = self::$customerEmail;
         }
         $this->admin('import');
         //Step 1
@@ -97,7 +97,7 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
         $customerDataRow4 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
             array(
                 'email' => '%realEmail%',
-                'credit_score' => 'incorrect_value',
+                'store_credit' => 'incorrect_value',
                 'reward_points' => 'incorrect_value'
             ));
         $customerDataRow4['email'] = '%realEmail%';
@@ -126,7 +126,7 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
             ),
             array($customerDataRow2, array('validation' => array(
                 'error' => array(
-                    "Required attribute 'firstname' has an empty value in rows: 1"
+                    "Website is not specified in rows: 1"
                     ),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
@@ -146,23 +146,29 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
             ),
             array($customerDataRow4, array('validation' => array(
                 'error' => array(
-                    "E-mail is invalid in rows: 1"
+                    "Invalid value for 'store_credit' in rows: 1",
+                    "Invalid value for 'reward_points' in rows: 1"
                     ),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
+                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 2")
                     )
                 )
             ),
             array($customerDataRow5, array('validation' => array(
-                'error' => array(
-                    "Region is invalid in rows: 1"
-                    ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
+                    "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"
+                 ),
+                'success' => array(
+                    "File is valid! To start import process press \"Import\" button  Import"
                 )
+                    )
+                ,
+                'import' => array(
+                    'success' => array(
+                        "Import successfully done."
+                    )
+                ))
             ),
             array($customerDataRow6, array('validation' => array(
                 'error' => array(

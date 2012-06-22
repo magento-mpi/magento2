@@ -66,7 +66,7 @@ manage_customer_address_attributes:
 # Add New Customer Address Attribute page
 new_customer_address_attribute:
     mca: customer_address_attribute/new/
-    title: New Attribute /Manage Customer Address Attributes / Magento Admin
+    title: New Attribute / Manage Customer Address Attributes / Magento Admin
     uimap:
         form: &newCustomerAddressAttributeForm
             tabs:

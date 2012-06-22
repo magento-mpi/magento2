@@ -66,7 +66,7 @@ manage_customer_attributes:
 # Add New Customer Attribute page
 new_customer_attribute:
     mca: customer_attribute/new/
-    title: New Attribute /Manage Customer Attributes / Magento Admin
+    title: New Attribute / Manage Customer Attributes / Magento Admin
     uimap:
         form: &newCustomerAttributeForm
             tabs:
