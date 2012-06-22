@@ -57,7 +57,7 @@ class Mage_Backend_Model_Menu_Config
         $this->_menuBuilder = isset($arguments['menuBuilder'])
             ? $arguments['menuBuilder']
             : Mage::getSingleton('Mage_Backend_Model_Menu_Builder', array(
-                'menu' => Mage::getSingleton('Mage_Baclend_Model_Menu_Factory')->getMenuInstance(),
+                'menu' => Mage::getSingleton('Mage_Backend_Model_Menu_Factory')->getMenuInstance(),
                 'itemFactory' => Mage::getSingleton('Mage_Backend_Model_Menu_Item_Factory'),
             ));
     }
