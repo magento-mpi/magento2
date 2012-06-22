@@ -55,7 +55,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * @test
      */
 
-    public function setUpBeforeTestClass()
+    public function preconditionsForTests()
     {
         $this->loginAdminUser();
         $this->navigate('manage_categories', false);
@@ -114,27 +114,28 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
 
         // Creating products
         $this->navigate('manage_products');
-        $simple1attr = $this->loadDataSet('Product', 'simple_product_visible_with_user_attributes',
+        $simpleProduct1WithAttributes = $this->loadDataSet('Product', 'simple_product_visible_with_user_attributes',
             array('categories' => $subCategoryName, 'product_attribute_set' => $attrSetData['set_name'],
-                'general_user_attr_dropdown' => $dropdownOption1, 'general_user_attr_multiselect' => $multiselectOption2));
+                'general_user_attr_dropdown' => $dropdownOption1,
+                'general_user_attr_multiselect' => $multiselectOption2));
         $this->addParameter('attributeCodeDropdown', $dropdownAttrData['attribute_code']);
         $this->addParameter('attributeCodeMultiselect', $multiselectAttrData['attribute_code']);
         $this->addParameter('attributeCodeField', $priceAttrData['attribute_code']);
-        $this->productHelper()->createProduct($simple1attr);
+        $this->productHelper()->createProduct($simpleProduct1WithAttributes);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        $simple2 = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $categoryName));
-        $this->productHelper()->createProduct($simple2);
+        $simpleProduct2 = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $categoryName));
+        $this->productHelper()->createProduct($simpleProduct2);
         $this->assertMessagePresent('success', 'success_saved_product');
 
         return array(
-            'simple1attr' => $simple1attr['general_name'],
+            'simple1attr' => $simpleProduct1WithAttributes['general_name'],
             'simple1dropdownOptionName' => $dropdownAttrData['option_1']['store_view_titles']['Default Store View'],
             'simple1dropdownCode' => $dropdownAttrData['attribute_code'],
             'simple1mselectOptionName' => $multiselectAttrData['option_2']['store_view_titles']['Default Store View'],
             'simple1mselectCode' => $multiselectAttrData['attribute_code'],
             'simple1priceAttr' => $priceAttrData['attribute_code'],
-            'simple2' => $simple2['general_name'],
+            'simple2' => $simpleProduct2['general_name'],
             'acategory' => $categoryData['name'],
             'subcategory' => $subCategoryData['name'],
             'nacategory' => $nonAnchorCategoryData['name']);
@@ -150,7 +151,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Layered Navigation block should be present on the page</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @test
      * @TestlinkId TL-MAGE-5610
      */
@@ -174,7 +175,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Layered Navigation block (with link to subcategory) should be present on the page</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @test
      * @TestlinkId TL-MAGE-5606
      */
@@ -198,7 +199,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Subcategory selected, products assigned to this subcategory displays in product grid</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
      * @TestlinkId TL-MAGE-5607
@@ -211,7 +212,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->layeredNavigationHelper()->setCategoryIdFromLink($data['subcategory']);
         $this->clickControl('link', 'category_name');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
@@ -228,7 +229,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Subcategory removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectCategoryAnchor
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -239,7 +240,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -257,7 +258,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Subcategory removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectCategoryAnchor
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -272,7 +273,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -291,7 +292,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Only product with selected dropdown attribute displays in product grid</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @test
      * @TestlinkId TL-MAGE-5649
      */
@@ -304,7 +305,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
             $data['simple1dropdownOptionName']);
         $this->clickControl('link', 'attribute_name');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
@@ -321,7 +322,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Dropdown attribute removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectDropdownAttribute
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -332,7 +333,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -350,7 +351,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Dropdown attribute removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectDropdownAttribute
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -366,7 +367,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -385,7 +386,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Only product with selected multiselect attribute displays in product grid</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @test
      * @TestlinkId TL-MAGE-5649
      */
@@ -398,7 +399,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
             $data['simple1mselectOptionName']);
         $this->clickControl('link', 'attribute_name');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
@@ -415,7 +416,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>multiselect attribute removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectMultiselectAttribute
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -426,7 +427,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -444,7 +445,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Dropdown attribute removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectMultiselectAttribute
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -460,7 +461,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -479,7 +480,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Only product with selected price attribute displays in product grid</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @test
      * @TestlinkId TL-MAGE-5649
      */
@@ -491,7 +492,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         $this->layeredNavigationHelper()->setAttributeIdFromLink($data['acategory'], $data['simple1mselectCode']);
         $this->clickControl('link', 'price_attribute');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterSelectingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterSelectingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no product assigned to subcategory on the page');
@@ -508,7 +509,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>price attribute removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectPriceAttribute
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -519,7 +520,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
         //Steps
         $this->clickControl('button', 'remove_this_item');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');
@@ -537,7 +538,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
      * <p>Price attribute removed from currently_shooping_by block</p>
      *
      * @param array $data
-     * @depends setUpBeforeTestClass
+     * @depends preconditionsForTests
      * @depends selectPriceAttribute
      * @depends checkLayeredNavigationOnAnchorCategoryPage
      * @test
@@ -552,7 +553,7 @@ class Community17_Mage_LayeredNavigation_LayeredNavigationTest extends Mage_Sele
             'There is no currently_shopping_by block in layerd navigation');
         $this->clickControl('link', 'clear_all');
         //Verifying
-        $this->layeredNavigationHelper()->verifyAfterRemovingAttribute();
+        $this->layeredNavigationHelper()->frontVerifyAfterRemovingAttribute();
         $this->addParameter('productName', $data['simple1attr']);
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'product_name_header')),
             'There is no ' . $data['simple1attr'] . 'product on the page');

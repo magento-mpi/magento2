@@ -50,9 +50,8 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
         parse_str($parsedLink['query']);
         if (isset($cat)) {
             $this->addParameter('catid', $cat);
-        }
-        else {
-            fail("There is no category ID in the parsed link");
+        } else {
+            $this->fail("There is no category ID in the parsed link");
         }
     }
 
@@ -66,11 +65,10 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('categoryName', $categoryName);
         $this->addParameter('attributeCode', $attributeCode);
-        if (isset($attributeName)){
+        if (isset($attributeName)) {
             $this->addParameter('attributeName', $attributeName);
             $linkXpath = $this->_getControlXpath('link', 'attribute_name');
-        }
-        else {
+        } else {
             $this->addParameter('priceAttributeCode', $attributeCode);
             $linkXpath = $this->_getControlXpath('link', 'price_attribute');
         }
@@ -80,16 +78,15 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
         parse_str($parsedLink['query']);
         if (isset($$attributeCode)) {
             $this->addParameter('attributeId', $$attributeCode);
-        }
-        else {
-            fail("There is no attribute ID in the parsed link");
+        } else {
+            $this->fail("There is no attribute ID in the parsed link");
         }
     }
 
     /**
      * Verify page elements which should appear after selecting attribute
      */
-    public function verifyAfterSelectingAttribute()
+    public function frontVerifyAfterSelectingAttribute()
     {
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'currently_shopping_by')),
             'There is no currently_shopping_by block in layerd navigation');
@@ -102,7 +99,7 @@ class Community17_Mage_LayeredNavigation_Helper extends Mage_Selenium_TestCase
     /**
      * Verify page elements which should appear after selecting attribute
      */
-    public function verifyAfterRemovingAttribute()
+    public function frontVerifyAfterRemovingAttribute()
     {
         $this->assertFalse($this->isElementPresent($this->_getControlXpath('button', 'remove_this_item')),
             'remove_this_item button still present in layered navigation block');
