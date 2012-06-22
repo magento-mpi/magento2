@@ -152,48 +152,6 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Verifies that a guest cannot open My Wishlist.</p>
-     * <p>Steps:</p>
-     * <p>1. Logout customer</p>
-     * <p>2. Navigate to My Wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Guest is redirected to login/register page.</p>
-     *
-     * @test
-     */
-    public function guestCannotOpenWishlist()
-    {
-        //Steps
-        $this->logoutCustomer();
-        $this->clickControl('link', 'my_wishlist');
-        //Verify
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-    }
-
-    /**
-     * <p>Verifies that a guest cannot add a product to a wishlist.</p>
-     * <p>Steps:</p>
-     * <p>1. Logout customer</p>
-     * <p>2. Open a product</p>
-     * <p>3. Add products to the wishlist</p>
-     * <p>Expected result:</p>
-     * <p>Guest is redirected to login/register page.</p>
-     *
-     * @param array $testData
-     *
-     * @test
-     * @depends preconditionsForTests
-     */
-    public function guestCannotAddProductToWishlist($testData)
-    {
-        //Steps
-        $this->frontend();
-        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($testData['productNames']['simple']);
-        //Verify
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-    }
-
-    /**
      * <p>Opens My Wishlist using the link in quick access bar</p>
      * <p>Steps:</p>
      * <p>1. Open home page</p>
@@ -748,5 +706,47 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->navigate('my_wishlist');
         $this->assertTrue($this->wishlistHelper()->frontWishlistHasProducts($productName),
             'Product ' . $productName . ' is not in the wishlist.');
+    }
+
+    /**
+     * <p>Verifies that a guest cannot open My Wishlist.</p>
+     * <p>Steps:</p>
+     * <p>1. Logout customer</p>
+     * <p>2. Navigate to My Wishlist</p>
+     * <p>Expected result:</p>
+     * <p>Guest is redirected to login/register page.</p>
+     *
+     * @test
+     */
+    public function guestCannotOpenWishlist()
+    {
+        //Steps
+        $this->logoutCustomer();
+        $this->clickControl('link', 'my_wishlist');
+        //Verify
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
+    }
+
+    /**
+     * <p>Verifies that a guest cannot add a product to a wishlist.</p>
+     * <p>Steps:</p>
+     * <p>1. Logout customer</p>
+     * <p>2. Open a product</p>
+     * <p>3. Add products to the wishlist</p>
+     * <p>Expected result:</p>
+     * <p>Guest is redirected to login/register page.</p>
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     */
+    public function guestCannotAddProductToWishlist($testData)
+    {
+        //Steps
+        $this->frontend();
+        $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($testData['productNames']['simple']);
+        //Verify
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
     }
 }
