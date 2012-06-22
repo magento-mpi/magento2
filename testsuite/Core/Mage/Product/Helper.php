@@ -716,7 +716,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                     $attributeValue = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
                     $this->addParameter('attributeValue', $attributeValue);
                 } else {
-                    $this->addParameter('productXpath', $xpathTR);
+                    $fieldsetXpath = $this->_getControlXpath('fieldset', $fieldSetName);
+                    $this->addParameter('productXpath', str_replace($fieldsetXpath, '', $xpathTR));
                 }
                 $this->verifyForm($fillingData, $fieldSetName);
             }

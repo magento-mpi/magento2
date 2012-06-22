@@ -198,7 +198,6 @@ create_cms_page:
                                         select_product_category_text: %categoryXpath%/div/a/span
                                         select_product_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         select_product_category_index_link: %categoryXpath%[%index%]/div/a
-                                    pageelements:
                                         product_table_head: //div[@id='widget-chooser_content']//table/thead/tr[@class='headings']
                             -
                                 file_insertion:

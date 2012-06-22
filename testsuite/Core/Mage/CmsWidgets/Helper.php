@@ -103,7 +103,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
         $count = 0;
         foreach ($layoutData as $value) {
             $this->clickButton('add_layout_update', false);
-            $this->addParameter('index', $count);
+            $this->addParameter('layoutIndex', $count);
             $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', 'select_display_on'));
             $this->addParameter('optionText', $value['select_display_on']);
             $layoutName = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
