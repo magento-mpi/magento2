@@ -76,7 +76,99 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      */
     protected function _importData()
     {
-        // TODO: Implement _importData() method.
+        /** @var $importExportHelper Enterprise_ImportExport_Helper_Data */
+        $importExportHelper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+        if (!$importExportHelper->isRewardPointsEnabled() && !$importExportHelper->isCustomerBalanceEnabled()) {
+            return false;
+        }
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $rewardPointsKey =
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+        $customerBalanceKey =
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+
+        while ($bunch = $this->_dataSourceModel->getNextBunch()) {
+            foreach ($bunch as $rowNumber => $rowData) {
+                // check row data
+                if (!$this->validateRow($rowData, $rowNumber)) {
+                    continue;
+                }
+                // load customer object
+                $customerId = $this->_getCustomerId(
+                    $rowData[self::COLUMN_EMAIL],
+                    $rowData[self::COLUMN_WEBSITE]
+                );
+                if ($customer->getId() != $customerId) {
+                    $customer->load($customerId);
+                }
+                // save finance data for customer
+                foreach ($this->_attributes as $attributeCode => $attributeParams) {
+                    if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
+                        $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
+                        if ($attributeCode == $rewardPointsKey) {
+                            $this->_updateRewardPoints($customer, $websiteId, $rowData[$attributeCode]);
+                        } elseif ($attributeCode == $customerBalanceKey) {
+                            $this->_updateCustomerBalance($customer, $websiteId, $rowData[$attributeCode]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Update reward points value for customer
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param int $websiteId
+     * @param int $value reward points value
+     * @return Enterprise_Reward_Model_Reward
+     */
+    protected function _updateRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    {
+        /** @var $rewardModel Enterprise_Reward_Model_Reward */
+        $rewardModel = Mage::getModel('Enterprise_Reward_Model_Reward');
+        $rewardModel->setCustomer($customer)
+            ->setWebsiteId($websiteId)
+            ->loadByCustomer();
+        $pointsDelta = $value - $rewardModel->getPointsBalance();
+        if ($pointsDelta != 0) {
+            $rewardModel->setPointsDelta($pointsDelta)
+                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
+                ->setActionEntity($customer)
+                ->updateRewardPoints();
+        }
+
+        return $rewardModel;
+    }
+
+    /**
+     * Update store credit balance for customer
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param int $websiteId
+     * @param float $value store credit balance
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
+    protected function _updateCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    {
+        /** @var $balanceModel Enterprise_CustomerBalance_Model_Balance */
+        $balanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+        $balanceModel->setCustomer($customer)
+            ->setWebsiteId($websiteId)
+            ->loadByCustomer();
+        $amountDelta = $value - $balanceModel->getAmount();
+        if ($amountDelta != 0) {
+            $balanceModel->setAmountDelta($amountDelta)
+                ->setComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Updated during import'))
+                ->save();
+        }
+
+        return $balanceModel;
     }
 
     /**
