@@ -7,160 +7,131 @@
  * @license     {license_link}
  */
 
-( function ( $ ) {
+(function($){
 
     /**
      * Widget tree
      */
-    $.widget( "Mage.tree" , {
-        options:{
+    $.widget('vde.vde_tree', {
+        options: {
             ui: {
                 select_limit: 1,
                 selected_parent_close: false
             },
             themes: {
-                dots:  false,
+                dots: false,
                 icons: false
             },
             callback: {
-                onselect: function( e, data ) {
-                    var leaf = $( data.rslt.obj ),
-                        cellElement = $( this ).parents( '.vde_toolbar_cell' );
-                    if ( cellElement.hasClass( 'active' ) ){
-                        cellElement.removeClass( 'active' );
-                        $( this ).trigger( 'changetitle.menu', [ $.trim( leaf.find( 'a:first' ).text() ) ] );
-                        window.location = leaf.find( 'a:first' ).attr( 'href' );
-                    }
+                onselect: function(e, data){
+                    var link = $(data.rslt.obj).find('a:first');
+                    $(this)
+                        .trigger('change_title.vde_menu', [$.trim(link.text())])
+                        .trigger('link_selected.vde_tree', [function () {window.location = link.attr('href');}]);
                 }
             }
         },
-        _create: function() {
+        _create: function () {
             var self = this;
-            this.element.on( 'loaded.jstree' , function ( e, data ) {
-                self.element.data( 'selected' ) ?
-                    self.element.jstree( 'select_node' , self.element.find( self.element.data( 'selected' ) ) ):
-                    $.noop();
+            this.element.on('loaded.jstree' , function(e, data){
+                if (self.element.data('selected')) {
+                    self.element.jstree('select_node' , self.element.find(self.element.data('selected')));
+                }
             });
-            this.element.jstree( this.options );
-            this.element.on( 'select_node.jstree', this.options.callback.onselect );
-        }
-    });
-
-    /**
-     * Widget sScroll
-     */
-    $.widget( "Mage.sScroll", {
-        options:{
-            color: '#cccccc',
-            alwaysVisible: true,
-            opacity: 1,
-            height: 'auto',
-            size: 9
-        },
-        _create: function() {
-            this.element.slimScroll( this.options );
+            this.element.jstree(this.options);
+            this.element.on('select_node.jstree', this.options.callback.onselect);
         }
     });
 
     /**
      * Widget menu
      */
-    $.widget( "Mage.menu", {
-        options:{
+    $.widget('vde.vde_menu', {
+        options: {
             type: 'popup',
             titleSelector: ':first-child',
             titleTextSelector : '.vde_toolbar_cell_value',
-            activeClass : 'active',
-            activeEventName: 'activate_toolbar_cell.vde'
+            activeClass : 'active'
         },
-        _create: function() {
+        _create: function () {
             this._bind();
+            if (this.options.treeSelector) {
+                if (this.element.find(this.options.treeSelector).size()) {
+                    this.element.find(this.options.treeSelector).vde_tree()
+                }
+            }
+            var self = this;
+            if (this.options.slimScroll) {
+                if (this.options.treeSelector && this.element.find(this.options.treeSelector).size()) {
+                    this.element
+                        .one('activate_toolbar_cell.' + self.widgetName, function () {
+                        self.element.find(self.options.treeSelector).slimScroll({
+                            color: '#cccccc',
+                            alwaysVisible: true,
+                            opacity: 1,
+                            height: 'auto',
+                            size: 9
+                        });
+                    })
+                }
+            }
         },
-        _bind: function(){
+        _bind: function () {
             var self = this;
             this.element
-                .on( 'hide.menu', function( e ){self.hide( e )} )
-                .on( 'changetitle.menu', function( e, title ) {
-                    self.element.find( self.options.titleTextSelector ).text( title );
+                .on('hide.' + self.widgetName, function(e){self.hide(e)})
+                .on('change_title.' + self.widgetName, function(e, title){
+                    self.element.find(self.options.titleTextSelector).text(title);
                 })
-                .find( this.options.titleSelector ).first()
-                .on( 'click.menu', function( e ){
-                    self.element.hasClass( self.options.activeClass ) ?
-                        self.hide( e ):
-                        self.show( e );
+                .on('link_selected.vde_tree', function(e, done){
+                    if (self.element.hasClass('active')) {
+                        self.element.removeClass('active');
+                        done();
+                    }
                 })
-            $( 'body' ).on( 'click', function( e ) {
-                $( ':'+self.namespace+'-'+self.widgetName ).not( $( e.target )
-                    .parents( ':'+self.namespace+'-'+self.widgetName ).first()).menu( 'hide' );
+                .find(this.options.titleSelector).first()
+                .on('click.' + self.widgetName, function(e){
+                    self.element.hasClass(self.options.activeClass) ?
+                        self.hide(e):
+                        self.show(e);
+                })
+            $('body').on('click', function(e){
+                var widgetInstancesSelector = ':' + self.namespace + '-' + self.widgetName;
+                $(widgetInstancesSelector).not($(e.target).parents(widgetInstancesSelector).first()).vde_menu('hide');
             })
         },
-        show: function( e ){
-            this.element.addClass( this.options.activeClass ).trigger( this.options.activeEventName );
+        show: function(e){
+            this.element.addClass(this.options.activeClass).trigger('activate_toolbar_cell.' + this.widgetName);
         },
-        hide:function( e ){
-            this.element.removeClass( this.options.activeClass );
+        hide: function(e){
+            this.element.removeClass(this.options.activeClass);
         }
     });
-
-    /**
-     * Widget menu - tree view
-     */
-    var menuBasePrototype = $.Mage.menu.prototype;
-    $.widget( "Mage.menu", $.extend({}, menuBasePrototype, {
-        _create: function() {
-            menuBasePrototype._create.apply(this, arguments);
-            if ( this.options.treeSelector ) {
-                this.element.find( this.options.treeSelector ).size() ?
-                this.element.find( this.options.treeSelector ).tree() :
-                $.noop();
-            }
-        }
-    }));
-
-    /**
-     * Widget menu - slimScroll view
-     */
-    var menuTreePrototype = $.Mage.menu.prototype;
-    $.widget( "Mage.menu", $.extend({}, menuTreePrototype, {
-        _create: function() {
-            var self = this;
-            menuTreePrototype._create.apply(this, arguments);
-            if(this.options.slimScroll) {
-                this.options.treeSelector && this.element.find( this.options.treeSelector ).size() ?
-                    this.element
-                        .one( 'activate_toolbar_cell.vde', function () {
-                            self.element.find( ':Mage-tree' ).sScroll();
-                    }) :
-                    $.noop();
-            }
-        }
-    }));
 
     /**
      * Widget checkbox
      */
-    $.widget( "Mage.checkbox", {
-        options:{
-            checkedClass : 'checked'
+    $.widget('vde.vde_checkbox', {
+        options: {
+            checkedClass: 'checked'
         },
-        _create: function() {
+        _create: function () {
             this._bind();
         },
-        _bind: function(){
+        _bind: function () {
             var self = this;
-            this.element.on( 'click', function(){
+            this.element.on('click', function () {
                 self._click();
             })
         },
-        _click: function(){
-            if ( this.element.hasClass( this.options.checkedClass ) ) {
-                this.element.removeClass( this.options.checkedClass );
-                this.options.unCheckedEvent ? this.element.trigger(this.options.unCheckedEvent) : $.noop();
+        _click: function () {
+            if (this.element.hasClass(this.options.checkedClass)) {
+                this.element.removeClass(this.options.checkedClass);
+                this.element.trigger('unchecked.' + this.widgetName);
             } else {
-                this.element.addClass( this.options.checkedClass );
-                this.options.checkedEvent ? this.element.trigger(this.options.checkedEvent) : $.noop();
+                this.element.addClass(this.options.checkedClass);
+                this.element.trigger('checked.' + this.widgetName);
             }
         }
     });
-
-})( jQuery );
+})(jQuery);
