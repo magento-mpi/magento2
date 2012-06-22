@@ -166,8 +166,9 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
      * <p>3. Select "Magento 2.0 format"</p>
      * <p>4. Select Customers Entity Type: Customer Finances File </p>
      * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
-     * <p>Expected: messages "Please fix errors and re-upload file or simply press "Import" button to skip rows with
-     * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1" are displayed</p>
+     * <p>Expected: messages "Invalid value for 'store_credit' in rows: 2", "Invalid value for 'reward_points' in
+     * rows: 2", "Please fix errors and re-upload file or simply press "Import" button to skip rows with
+     * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2" are displayed</p>
      * <p>6. Open customers</p>
      * <p>Expected: valid finance data information was imported correctly</p>
      *
@@ -201,6 +202,14 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         //Step 5
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying
+        $this->assertEquals(
+            "Invalid value for 'store_credit' in rows: 2",
+            $importData['validation']['error'][0], 'No message about invalid value for store credit'
+        );
+        $this->assertEquals(
+            "Invalid value for 'reward_points' in rows: 2",
+            $importData['validation']['error'][1], 'No message about invalid value for reward points'
+        );
         $this->assertEquals(
             'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
             $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
