@@ -102,8 +102,6 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
         $this->_event->expects($this->any())
             ->method('getType')
             ->will($this->returnValue($eventType));
-
-
         $this->assertEquals($result, $this->_model->matchEvent($this->_event));
     }
 
