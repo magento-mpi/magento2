@@ -31,12 +31,12 @@
     <testsuites>
         <testsuite name="All Tests">
             <!--<directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>-->
-            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
+            <!--<directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>-->
-            <!--<directory suffix="Test.php">testsuite/Core/Mage/Category</directory>-->
-            <!--<directory suffix="Test.php">testsuite/Core/Mage/Product</directory>-->
+            <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>-->
