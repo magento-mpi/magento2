@@ -12,6 +12,17 @@
 class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
+     * Checks that all important blocks are successfully created and rendered.
+     */
+    public function testNewAction()
+    {
+        $this->dispatch('admin/customersegment/new/');
+        $body = $this->getResponse()->getBody();
+        $this->assertSelectCount('form#edit_form', 1, $body);
+        $this->assertSelectCount('ul#enterprise_customersegment_segment_tabs', 1, $body);
+    }
+
+    /**
      * Checks possibility to save customer segment
      */
     public function testSaveAction()

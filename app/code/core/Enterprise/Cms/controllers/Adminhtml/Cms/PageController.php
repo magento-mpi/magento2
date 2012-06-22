@@ -134,7 +134,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
         else {
             try {
-                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {

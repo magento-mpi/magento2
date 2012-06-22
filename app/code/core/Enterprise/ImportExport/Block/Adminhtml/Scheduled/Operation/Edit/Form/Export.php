@@ -39,7 +39,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
             'required'  => true,
-            'values'    => Mage::getModel('Mage_ImportExport_Model_Source_Export_Format')->toOptionArray()
+            'values'    => Mage::getModel('Mage_ImportExport_Model_Source_Export_Format_File')->toOptionArray()
         ), 'entity');
 
         $form->getElement('email_template')

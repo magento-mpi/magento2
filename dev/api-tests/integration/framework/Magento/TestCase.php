@@ -73,7 +73,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     /**
      * Default admin user model
      *
-     * @var Mage_Admin_Model_User
+     * @var Mage_User_Model_User
      */
     static protected $_defaultAdmin;
 
@@ -451,13 +451,13 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     /**
      * Get admin user model
      *
-     * @return Mage_Admin_Model_User
+     * @return Mage_User_Model_User
      */
     static public function getDefaultAdminUser()
     {
         if (null === self::$_defaultAdmin) {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getModel('Mage_Admin_Model_User');
+            /** @var $user Mage_User_Model_User */
+            $user = Mage::getModel('Mage_User_Model_User');
             $user->login(TESTS_ADMIN_USERNAME, TESTS_ADMIN_PASSWORD);
             if (!$user->getId()) {
                 throw new Magento_Test_Exception('Admin user not found. Check credentials from config file.');

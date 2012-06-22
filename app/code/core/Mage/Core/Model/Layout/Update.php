@@ -162,8 +162,8 @@ class Mage_Core_Model_Layout_Update
     public function addHandle($handleName)
     {
         if (is_array($handleName)) {
-            foreach ($handleName as $n) {
-                $this->_handles[$n] = 1;
+            foreach ($handleName as $name) {
+                $this->_handles[$name] = 1;
             }
         } else {
             $this->_handles[$handleName] = 1;
@@ -249,7 +249,7 @@ class Mage_Core_Model_Layout_Update
      * Get handle xml node by handle name
      *
      * @param string $handleName
-     * @return Varien_Simplexml_Element|null
+     * @return Mage_Core_Model_Layout_Element|null
      */
     protected function _getPageHandleNode($handleName)
     {
@@ -320,14 +320,14 @@ class Mage_Core_Model_Layout_Update
         }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
-        /** @var $node Varien_Simplexml_Element */
+        /** @var $node Mage_Core_Model_Layout_Element */
         foreach ($nodes as $node) {
             $name = $node->getName();
             $info = array(
-                'name'      => $name,
-                'label'     => (string)$node->label,
-                'type'      => $node->getAttribute('type'),
-                'children'  => array()
+                'name'     => $name,
+                'label'    => (string)$node->label,
+                'type'     => $node->getAttribute('type'),
+                'children' => array()
             );
             if ($info['type'] == self::TYPE_PAGE) {
                 $info['children'] = $this->_getPageHandleChildren($name);
@@ -560,7 +560,7 @@ class Mage_Core_Model_Layout_Update
      */
     protected function _loadFileLayoutUpdatesXml()
     {
-        $layoutParams = array('_area' => $this->_area, '_package' => $this->_package, '_theme' => $this->_theme);
+        $layoutParams = array('area' => $this->_area, 'package' => $this->_package, 'theme' => $this->_theme);
 
         /*
          * Allow to modify declared layout updates.
@@ -585,7 +585,7 @@ class Mage_Core_Model_Layout_Update
                 continue;
             }
             /* Resolve layout update filename with fallback to the module */
-            $filename = Mage::getDesign()->getLayoutFilename($file, $layoutParams + array('_module' => $module));
+            $filename = Mage::getDesign()->getFilename($file, $layoutParams + array('module' => $module));
             if (!is_readable($filename)) {
                 throw new Magento_Exception("Layout update file '{$filename}' doesn't exist or isn't readable.");
             }
@@ -593,7 +593,7 @@ class Mage_Core_Model_Layout_Update
         }
 
         /* Custom local layout updates file for the current theme */
-        $filename = Mage::getDesign()->getLayoutFilename('local.xml', $layoutParams);
+        $filename = Mage::getDesign()->getFilename('local.xml', $layoutParams);
         if (is_readable($filename)) {
             $updateFiles[] = $filename;
         }
@@ -602,7 +602,7 @@ class Mage_Core_Model_Layout_Update
         foreach ($updateFiles as $filename) {
             $fileStr = file_get_contents($filename);
             $fileStr = str_replace($this->_subst['from'], $this->_subst['to'], $fileStr);
-            /** @var $fileXml Varien_Simplexml_Element */
+            /** @var $fileXml Mage_Core_Model_Layout_Element */
             $fileXml = simplexml_load_string($fileStr, $this->getElementClass());
             $layoutStr .= $fileXml->innerXml();
         }

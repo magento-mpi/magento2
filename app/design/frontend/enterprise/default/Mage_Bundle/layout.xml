@@ -163,10 +163,10 @@ Additional block for bundle product type
                 <block type="Mage_Bundle_Block_Catalog_Product_Price" name="bundle.prices" as="bundle_prices" template="catalog/product/view/price.phtml">
                     <action method="setMAPTemplate"><tmpl>catalog/product/price_msrp_item.phtml</tmpl></action>
                 </block>
-                <action method="append"><element>product.info.addtocart</element></action>
-                <action method="append"><element>product.info.addto</element></action>
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.addtocart.bundle" as="addtocart" template="product/view/addtocart.phtml"/>
+                <block type="Mage_Catalog_Block_Product_View" name="product.info.addto.bundle" as="addto" template="product/view/addto.phtml"/>
             </block>
-            <block type="Mage_Bundle_Block_Catalog_Product_View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"></block>
+            <block type="Mage_Bundle_Block_Catalog_Product_View" name="customize.button" as="customize_button" template="catalog/product/view/customize.phtml"/>
         </reference>
         <reference name="product.info.options.wrapper">
             <block type="Mage_Catalog_Block_Product_View" name="bundle.product.view.options.notice" template="Mage_Bundle::catalog/product/view/options/notice.phtml" />

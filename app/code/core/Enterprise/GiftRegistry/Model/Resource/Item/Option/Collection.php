@@ -93,6 +93,28 @@ class Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
     }
 
     /**
+     * Apply product(s) filter to collection
+     *
+     * @param  int|Mage_Catalog_Model_Product|array $product
+     * @return Enterprise_GiftRegistry_Model_Resource_Item_Option_Collection
+     */
+    public function addProductFilter($product)
+    {
+        if (is_array($product)) {
+            $this->addFieldToFilter('product_id', array('in' => $product));
+        } else if ($product instanceof Mage_Catalog_Model_Product) {
+            $this->addFieldToFilter('product_id', $product->getId());
+        } elseif ((int)$product > 0) {
+            $this->addFieldToFilter('product_id', (int)$product);
+        } else {
+            $this->_totalRecords = 0;
+            $this->_setIsLoaded(true);
+        }
+
+        return $this;
+    }
+
+    /**
      * Retrieve the list of all product IDs
      *
      * @return array

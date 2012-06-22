@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Fixture_Module>
+            <active>true</active>
+            <depends>
+                <Fixture_NonExistingModule/>
+            </depends>
+        </Fixture_Module>
+    </modules>
+</config>

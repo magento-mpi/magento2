@@ -913,7 +913,7 @@ class Api2_Catalog_Product_Image_AdminTest extends Magento_Test_Webservice_Rest_
      */
     protected function _getMediaModel($product)
     {
-        $attributes = $product->getTypeInstance(true)->getSetAttributes($product);
+        $attributes = $product->getTypeInstance()->getSetAttributes($product);
         $this->assertTrue(isset($attributes['media_gallery']));
         /* @var $gallery Mage_Catalog_Model_Resource_Eav_Attribute */
         $gallery = $attributes['media_gallery'];

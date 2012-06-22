@@ -276,60 +276,16 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
             return;
         }
 
-        $error  = false;
-        // Escaped inside an email template
-        $senderMessage = $this->getRequest()->getPost('sender_message');
-        $senderName = htmlspecialchars($this->getRequest()->getPost('sender_name'));
-        $senderEmail = htmlspecialchars($this->getRequest()->getPost('sender_email'));
-
         try {
-            if (!empty($senderName) && !empty($senderMessage) && !empty($senderEmail)) {
-                if (Zend_Validate::is($senderEmail, 'EmailAddress')) {
-                    $emails = array();
-                    $recipients = $this->getRequest()->getPost('recipients');
-                    foreach ($recipients as $recipient) {
-                        $recipientEmail = trim($recipient['email']);
-                        if (!Zend_Validate::is($recipientEmail, 'EmailAddress')) {
-                            $error = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid recipient email address.');
-                            break;
-                        }
+            /** @var $entity Enterprise_GiftRegistry_Model_Entity */
+            $entity = $this->_initEntity()->setData($this->getRequest()->getPost());
 
-                        $recipient['name'] = htmlspecialchars($recipient['name']);
-                        if (empty($recipient['name'])) {
-                            $error = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a recipient name.');
-                            break;
-                        }
-                        $emails[] = $recipient;
-                    }
+            $result = $entity->sendShareRegistryEmails();
 
-                    $count = 0;
-                    if (count($emails) && !$error){
-                        $entity = $this->_initEntity();
-                        foreach($emails as $recipient) {
-                            $sender = array('name' => $senderName, 'email' => $senderEmail);
-                            if ($entity->sendShareRegistryEmail($recipient, null, $senderMessage, $sender)) {
-                                $count++;
-                            }
-                        }
-                        if ($count > 0) {
-                            $this->_getSession()->addSuccess(
-                                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('The gift registry has been shared for %d emails.', $count)
-                            );
-                        } else {
-                            $this->_getSession()->addError(
-                                Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Failed to share gift registry.')
-                            );
-                        }
-                    }
-                } else {
-                    $error = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Please input a valid sender email address.');
-                }
+            if ($result->getIsSuccess()) {
+                $this->_getSession()->addSuccess($result->getSuccessMessage());
             } else {
-                $error = Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Sender data can\'t be empty.');
-            }
-
-            if ($error) {
-                $this->_getSession()->addError($error);
+                $this->_getSession()->addError($result->getErrorMessage());
                 $this->_getSession()->setSharingForm($this->getRequest()->getPost());
                 $this->_redirect('*/*/share', array('_current' => true));
                 return;
@@ -593,14 +549,16 @@ class Enterprise_GiftRegistry_IndexController extends Mage_Core_Controller_Front
     /**
      * Load gift registry entity model by request argument
      *
+     * @param string $requestParam
      * @return Enterprise_GiftRegistry_Model_Entity
      */
     protected function _initEntity($requestParam = 'id')
     {
         $entity = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
         $customerId = $this->_getSession()->getCustomerId();
+        $entityId = $this->getRequest()->getParam($requestParam);
 
-        if ($entityId = $this->getRequest()->getParam($requestParam)) {
+        if ($entityId) {
             $entity->load($entityId);
             if (!$entity->getId() || $entity->getCustomerId() != $customerId) {
                 Mage::throwException(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Wrong gift registry ID specified.'));

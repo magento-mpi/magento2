@@ -38,8 +38,10 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
     {
         return array(
             'no handle type'      => array('', 'Invalid page handle specified.'),
-            'invalid handle' => array('1nvalid_handle', 'Invalid page handle specified.'),
-            'non-existing handle' => array('non_existing_handle', 'Specified page handle doesn\'t exist: %s'),
+            'invalid handle'      => array('1nvalid_handle', 'Invalid page handle specified.'),
+            'non-existing handle' => array(
+                'non_existing_handle', 'Specified page type or page fragment type doesn\'t exist: %s'
+            ),
         );
     }
 
@@ -61,8 +63,8 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
         $controller = Mage::app()->getFrontController()->getAction();
         $this->assertInstanceOf('Mage_DesignEditor_EditorController', $controller);
-        $this->assertRegExp(
-            '/treeInstance\.select_node\(.*"' . preg_quote($handle, '/') . '".*\)/U',
+        $this->assertContains(
+            'data-selected="li[rel=\'' . $handle . '\']"',
             $this->getResponse()->getBody(),
             'Page type control should maintain the selection of the current page handle.'
         );
@@ -134,6 +136,6 @@ class Mage_DesignEditor_EditorControllerTest extends Magento_Test_TestCase_Contr
             Mage::helper('Mage_Core_Helper_Data')->urlEncode($expectedRedirectUrl)
         );
         $this->dispatch('design/editor/skin');
-        $this->assertRedirect($expectedRedirectUrl);
+        $this->assertRedirect($this->equalTo($expectedRedirectUrl));
     }
 }

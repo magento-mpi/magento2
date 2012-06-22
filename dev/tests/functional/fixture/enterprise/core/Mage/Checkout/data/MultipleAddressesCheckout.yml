@@ -1,0 +1,173 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#For Individual Items
+mess_yes_wrap_no_item:
+    entire_order: %noValue%
+    individual_items: &mess_yes_wrap_no_item
+        item_1:
+            product_name: %noValue%
+            gift_message:
+                gift_option_for_individual_items_from: From_%randomize%
+                gift_option_for_individual_items_to: To_%randomize%'
+                gift_option_for_individual_items_message: %randomize%_message
+
+mess_no_wrap_yes_item:
+    entire_order: %noValue%
+    individual_items: &mess_no_wrap_yes_item
+        item_1:
+            product_name: %noValue%
+            gift_wrapping_for_item: %noValue%
+
+mess_yes_wrap_yes_item:
+    entire_order: %noValue%
+    individual_items: &mess_yes_wrap_yes_item
+        item_1:
+            product_name: %noValue%
+            gift_wrapping_for_item: %noValue%
+            gift_message:
+                gift_option_for_individual_items_from: From_%randomize%
+                gift_option_for_individual_items_to: To_%randomize%'
+                gift_option_for_individual_items_message: %randomize%_message
+
+#For the Entire Order
+mess_yes_wrap_no_order:
+    entire_order: &mess_yes_wrap_no_order
+        gift_message:
+            gift_option_entire_order_from: From_%randomize%
+            gift_option_entire_order_to: To_%randomize%'
+            gift_option_entire_order_message: %randomize%_message
+    individual_items: %noValue%
+
+mess_no_wrap_yes_order:
+    entire_order: &mess_no_wrap_yes_order
+        gift_wrapping_for_order: %noValue%
+    individual_items: %noValue%
+
+mess_yes_wrap_yes_order:
+    entire_order: &mess_yes_wrap_yes_order
+        gift_wrapping_for_order: %noValue%
+        gift_message:
+            gift_option_entire_order_from: From_%randomize%
+            gift_option_entire_order_to: To_%randomize%'
+            gift_option_entire_order_message: %randomize%_message
+    individual_items: %noValue%
+
+#For Individual Items and the Entire Order
+mess_yes_wrap_yes_order_mess_yes_wrap_yes_item:
+    entire_order: *mess_yes_wrap_yes_order
+    individual_items: *mess_yes_wrap_yes_item
+
+mess_no_wrap_yes_order_mess_yes_wrap_yes_item:
+    entire_order: *mess_no_wrap_yes_order
+    individual_items: *mess_yes_wrap_yes_item
+
+mess_yes_wrap_no_order_mess_yes_wrap_yes_item:
+    entire_order: *mess_yes_wrap_no_order
+    individual_items: *mess_yes_wrap_yes_item
+
+mess_no_wrap_yes_order_mess_yes_wrap_no_item:
+    entire_order: *mess_no_wrap_yes_order
+    individual_items: *mess_yes_wrap_no_item
+
+mess_yes_wrap_no_order_mess_yes_wrap_no_item:
+    entire_order: *mess_yes_wrap_no_order
+    individual_items: *mess_yes_wrap_no_item
+
+mess_no_wrap_yes_order_mess_no_wrap_yes_item:
+    entire_order: *mess_no_wrap_yes_order
+    individual_items: *mess_no_wrap_yes_item
+
+mess_yes_wrap_no_order_mess_no_wrap_yes_item:
+    entire_order: *mess_yes_wrap_no_order
+    individual_items: *mess_no_wrap_yes_item
+
+all_variants_for_gift_options:
+    entire_order: *mess_yes_wrap_yes_order
+    individual_items: *mess_yes_wrap_yes_item
+    send_gift_receipt: Yes
+    add_printed_card: Yes
+
+verify_prices_all_gift_options:
+    address_1:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $10.00
+        products:
+            product_1:
+                product_name: %product1%
+                gift_wrapping: %product1wrapping%
+                product_qty: 2
+                price: $12.99
+                subtotal: $25.98
+        total:
+            total_for_this_address: $78.05
+            printed_card: $18.53
+            gift_wrapping_for_items: $11.77
+            gift_wrapping_for_order: $11.77
+            shipping_handling_flat_rate_fixed: $10.00
+            subtotal: $25.98
+    address_2:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $10.00
+        products:
+            product_1:
+                product_name: %product2%
+                gift_wrapping: %product2wrapping%
+                product_qty: 2
+                price: $12.99
+                subtotal: $25.98
+        total:
+            total_for_this_address: $78.05
+            printed_card: $18.53
+            gift_wrapping_for_items: $11.77
+            gift_wrapping_for_order: $11.77
+            shipping_handling_flat_rate_fixed: $10.00
+            subtotal: $25.98
+    grand_total: $156.10
+
+verify_prices_gift_wrapping_TL-MAGE-1044:
+    address_1:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $5.00
+        products:
+            product_1:
+                product_name: %product1%
+                gift_wrapping: %product1wrapping%
+                product_qty: 1
+                price: $12.99
+                subtotal: $12.99
+        total:
+            total_for_this_address: $45.43
+            gift_wrapping_for_items: $15.67
+            gift_wrapping_for_order: $11.77
+            shipping_handling_flat_rate_fixed: $5.00
+            subtotal: $12.99
+    address_2:
+        shipping:
+            shipping_service: Flat Rate
+            shipping_method: Fixed
+            price: $5.00
+        products:
+            product_1:
+                product_name: %product2%
+                product_qty: 1
+                price: $12.99
+                subtotal: $12.99
+        total:
+            total_for_this_address: $17.99
+            shipping_handling_flat_rate_fixed: $5.00
+            subtotal: $12.99
+    grand_total: $63.42

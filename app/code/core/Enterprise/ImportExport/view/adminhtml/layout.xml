@@ -11,7 +11,7 @@
 -->
 <layout>
     <adminhtml_scheduled_operation_getfilter>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Enterprise_ImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
         </container>
     </adminhtml_scheduled_operation_getfilter>

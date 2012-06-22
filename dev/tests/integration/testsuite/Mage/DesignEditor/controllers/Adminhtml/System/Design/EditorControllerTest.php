@@ -62,7 +62,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertTrue($session->isDesignEditorActive());
 
         $this->_requireSessionId();
-        $this->assertRedirect('http://localhost/index.php/?SID=' . $this->_session->getSessionId());
+        $this->assertRedirect($this->equalTo('http://localhost/index.php/?SID=' . $this->_session->getSessionId()));
     }
 
     /**
@@ -79,9 +79,8 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
         $this->assertTrue($session->isDesignEditorActive());
 
         $this->_requireSessionId();
-        $this->assertRedirect(
-            'http://example.com/index.php/?SID=' . $this->_session->getSessionId() . '&___store=fixturestore'
-        );
+        $expected = 'http://example.com/index.php/?SID=' . $this->_session->getSessionId() . '&___store=fixturestore';
+        $this->assertRedirect($this->equalTo($expected));
     }
 
     /**

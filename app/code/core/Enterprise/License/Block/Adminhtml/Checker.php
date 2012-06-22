@@ -32,7 +32,7 @@ class Enterprise_License_Block_Adminhtml_Checker extends Mage_Adminhtml_Block_Te
     public function _construct()
     {
         parent::_construct();
-        $data = Mage::getSingleton('Mage_Admin_Model_Session')->getDaysLeftBeforeExpired();
+        $data = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getDaysLeftBeforeExpired();
         $this->_daysLeftBeforeExpired = $data['daysLeftBeforeExpired'];
     }
 

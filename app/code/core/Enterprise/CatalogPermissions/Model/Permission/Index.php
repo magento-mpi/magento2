@@ -115,7 +115,7 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Index_Mo
      * Retrieve permission index for category or categories with specified customer group and website id
      *
      * @param int|array $categoryId
-     * @param int $customerGroupId
+     * @param int|null $customerGroupId
      * @param int $websiteId
      * @return array
      */

@@ -1,0 +1,39 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+enable_gbp:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_currency_setup
+        configuration:
+            base_currency: British Pound Sterling
+            default_display_currency: British Pound Sterling
+            allowed_currencies: British Pound Sterling
+
+enable_usd:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_currency_setup
+        configuration:
+            base_currency: US Dollar
+            default_display_currency: US Dollar
+            allowed_currencies: US Dollar
+
+#Test data for Store
+new_customer_group:
+    group_name: Test Customer Group %randomize%
+    tax_class: %noValue%
+
+search_customer_group:
+    filter_id: %noValue%
+    filter_group_name: %noValue%
+    filter_tax_class: %noValue%
+

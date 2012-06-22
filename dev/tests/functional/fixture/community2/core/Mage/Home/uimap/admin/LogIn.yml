@@ -1,0 +1,17 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Home
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+log_in_admin_page:
+    mca: auth/login/
+
+# 'Forgot your user name or password?' page
+forgot_password:
+    mca: auth/forgotpassword/

@@ -14,6 +14,9 @@
  * @category    Enterprise
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method string getOperationType() getOperationType()
+ * @method Enterprise_ImportExport_Model_Scheduled_Operation setOperationType() setOperationType(string $value)
  */
 class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_Abstract
 {
@@ -42,7 +45,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     /**
      * Cron callback config
      */
-    const CRON_MODEL = 'enterprise_importexport/observer::processScheduledOperation';
+    const CRON_MODEL = 'Enterprise_ImportExport_Model_Observer::processScheduledOperation';
 
     /**
      * Cron job name prefix
@@ -388,13 +391,15 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      * Supported import, export
      *
      * @throws Mage_Core_Exception
-     * @return Enterprise_ImportExport_Model_Abstract
+     * @return Mage_ImportExport_Model_Export|Mage_ImportExport_Model_Import
      */
     public function getInstance()
     {
-        $operation = Mage::getModel('Enterprise_ImportExport_Model' . uc_words($this->getOperationType()));
+        $operation = Mage::getModel('Enterprise_ImportExport_Model_' . uc_words($this->getOperationType()));
         if (!$operation || !($operation instanceof Enterprise_ImportExport_Model_Scheduled_Operation_Interface)) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation'));
+            Mage::throwException(
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid scheduled operation')
+            );
         }
 
         $operation->initialize($this);
@@ -421,7 +426,10 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
 
         $class = 'Varien_Io_' . ucfirst(strtolower($fileInfo['server_type']));
         if (!class_exists($class)) {
-            Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Invalid server comunication class "%s"', $class));
+            Mage::throwException(
+                Mage::helper('Enterprise_ImportExport_Helper_Data')
+                    ->__('Invalid server communication class "%s"', $class)
+            );
         }
         $driver = new $class;
         $driver->open($this->_prepareIoConfiguration($fileInfo));
@@ -477,6 +485,23 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     }
 
     /**
+     * Get dir path of history operation files
+     *
+     * @return string
+     */
+    protected function _getHistoryDirPath()
+    {
+        $dirPath = Mage::getBaseDir('var') . DS . self::LOG_DIRECTORY . date('Y' . DS . 'm' . DS . 'd')
+            . DS . self::FILE_HISTORY_DIRECTORY . DS;
+
+        if (!is_dir($dirPath)) {
+            mkdir($dirPath, 0777, true);
+        }
+
+        return $dirPath;
+    }
+
+    /**
      * Get file path of history operation files
      *
      * @throws Mage_Core_Exception
@@ -484,26 +509,33 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      */
     public function getHistoryFilePath()
     {
-        $dirPath = basename(Mage::getBaseDir('var')) . DS . self::LOG_DIRECTORY . date('Y' . DS . 'm' . DS . 'd')
-                . DS . self::FILE_HISTORY_DIRECTORY . DS;
-        if (!is_dir(Mage::getBaseDir() . DS . $dirPath)) {
-            mkdir(Mage::getBaseDir() . DS . $dirPath, 0777, true);
-        }
+        $dirPath = $this->_getHistoryDirPath();
 
-        $fileName = $fileName = join('_', array(
-            Mage::getModel('Mage_Core_Model_Date')->date('H-i-s'),
+        $fileName = join('_', array(
+            $this->_getCurrentTime(),
             $this->getOperationType(),
             $this->getEntityType()
         ));
+
         $fileInfo = $this->getFileInfo();
         if (isset($fileInfo['file_format'])) {
             $extension = $fileInfo['file_format'];
-        } elseif(isset($fileInfo['file_name'])) {
+        } elseif (isset($fileInfo['file_name'])) {
             $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         } else {
             Mage::throwException(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unknown file format'));
         }
 
         return $dirPath . $fileName . '.' . $extension;
+    }
+
+    /**
+     * Get current time
+     *
+     * @return string
+     */
+    protected function _getCurrentTime()
+    {
+        return Mage::getModel('Mage_Core_Model_Date')->date('H-i-s');
     }
 }

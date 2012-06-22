@@ -73,6 +73,9 @@
             <page_type>
                 <render_inherited>0</render_inherited>
             </page_type>
+            <design_fallback>
+                <allow_map_update>1</allow_map_update>
+            </design_fallback>
         </dev>
     </global>
     <frontend>
@@ -198,6 +201,7 @@
                     <compiled_css_folder>css</compiled_css_folder>
                     <compiled_css_secure_folder>css_secure</compiled_css_secure_folder>
                     <compiled_js_folder>js</compiled_js_folder>
+                    <design_skin_folder>skin</design_skin_folder>
                 </allowed_resources>
             </media_storage_configuration>
         </system>
@@ -314,6 +318,11 @@
                 </public_files_valid_paths>
             </file>
         </general>
+        <dev>
+            <image>
+                <adapter>GD2</adapter>
+            </image>
+        </dev>
     </default>
     <stores>
         <default>

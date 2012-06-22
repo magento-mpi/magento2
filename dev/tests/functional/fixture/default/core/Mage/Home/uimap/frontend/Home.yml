@@ -1,0 +1,58 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Home
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+home:
+    mca: home
+    title: Home page
+    uimap: &homePage
+        form:
+            fieldsets:
+                -
+                    compare_products:
+                        xpath: //div[contains(div/strong/span,'Compare Products')]
+                        links:
+                          compare_clear_all: //a[text()='Clear All']
+                          compare_delete_product: //li[p='%productName%']/a
+                          compare_product_link: //ol[@id='compare-items']//a[text()='%productName%']
+                        buttons:
+                          compare: //button[@title='Compare']
+                        pageelements:
+                          compare_block_empty: //p[text()='You have no items to compare.']
+                          compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
+        messages: &homeMessages
+            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
+            confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
+            confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
+            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
+            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been added to comparison list.')]
+            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'The product %productName% has been removed from comparison list.')]
+
+home_page:
+    mca:
+    title: Home page
+    uimap: *homePage
+
+test_page:
+    mca: %url_key%
+    title: %page_title%
+    uimap:
+        form:
+            fieldsets:
+                -
+                    content_fieldset:
+                        xpath: //div[@class='col-main']
+                        pageelements:
+                            header: //div[@class='page-title']/h1[text()='%content_heading%']
+                            widget_cms_link: //span[@class='widget widget-cms-link']
+                            widget_static_block: //div[@class='widget widget-static-block']
+                            widget_category_link: //span[@class='widget widget-category-link']
+                            widget_product_link: //span[@class='widget widget-product-link']
+                            widget_viewed: //div[@class='widget widget-viewed']

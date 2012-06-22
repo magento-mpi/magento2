@@ -241,7 +241,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/config');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/config');
     }
 
     /**
@@ -255,7 +255,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     protected function _isSectionAllowed($section)
     {
         try {
-            $session = Mage::getSingleton('Mage_Admin_Model_Session');
+            $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
             $resourceLookup = "admin/system/config/{$section}";
             if ($session->getData('acl') instanceof Mage_Admin_Model_Acl) {
                 $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
@@ -285,7 +285,7 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
      */
     protected function _saveState($configState = array())
     {
-        $adminUser = Mage::getSingleton('Mage_Admin_Model_Session')->getUser();
+        $adminUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {

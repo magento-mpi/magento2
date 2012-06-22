@@ -192,7 +192,7 @@ class Enterprise_Search_Helper_Data extends Mage_Core_Helper_Abstract
     public function isThirdPartSearchEngine()
     {
         $engine = $this->getSearchConfigData('engine');
-        if ($engine == 'Enterprise_Search_Model_Resource_Engine') {
+        if ($engine == Enterprise_Search_Model_Adminhtml_System_Config_Source_Engine::SOLR) {
             return true;
         }
 

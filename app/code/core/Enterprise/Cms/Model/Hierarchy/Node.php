@@ -134,8 +134,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function setScopeId($scopeId)
     {
-        /** @var $storeModel Mage_Adminhtml_Model_System_Store */
-        $storeModel = Mage::getSingleton('Mage_Adminhtml_Model_System_Store');
+        /** @var $storeModel Mage_Core_Model_System_Store */
+        $storeModel = Mage::getSingleton('Mage_Core_Model_System_Store');
         $collection = array();
         if ($this->_scope == self::NODE_SCOPE_STORE) {
             $collection = $storeModel->getStoreCollection();

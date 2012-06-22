@@ -91,28 +91,28 @@
                         </action>
                     </block>
                     <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column_Image" name="customer.wishlist.item.image" template="Mage_Wishlist::item/column/image.phtml"></block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="item/column/details.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.details" template="Enterprise_Wishlist::item/column/details.phtml">
                         <action method="setTitle" translate="title" module="Enterprise_Wishlist">
                             <title>Product Info</title>
                         </action>
                         <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Options" name="customer.wishlist.item.options"/>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="item/column/comment.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.comment" template="Enterprise_Wishlist::item/column/comment.phtml">
                         <action method="setTitle" translate="title" module="Enterprise_Wishlist">
                             <title>Comment</title>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="item/column/qty.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.qty" template="Enterprise_Wishlist::item/column/qty.phtml">
                         <action method="setTitle" translate="title" module="Enterprise_Wishlist">
                             <title>Wanted Qty</title>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="item/column/price.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.price" template="Enterprise_Wishlist::item/column/price.phtml">
                         <action method="setTitle" translate="title" module="Enterprise_Wishlist">
                             <title>Unit Price</title>
                         </action>
                     </block>
-                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="item/column/qty_input.phtml">
+                    <block type="Mage_Wishlist_Block_Customer_Wishlist_Item_Column" name="customer.wishlist.item.to_cart_qty" template="Enterprise_Wishlist::item/column/qty_input.phtml">
                         <action method="setTitle" translate="title" module="Enterprise_Wishlist">
                             <title>Qty</title>
                         </action>
@@ -144,7 +144,7 @@
     </wishlist_search_results>
 
     <rss_index_wishlist>
-        <block type="Enterprise_Wishlist_Block_Rss" name="rss.wishlist" output="toHtml">
+        <block type="Enterprise_Wishlist_Block_Rss" name="rss.wishlist" output="1">
             <action method="addPriceBlockType"><type>msrp_rss</type><block>Mage_Catalog_Block_Product_Price</block><template>Mage_Wishlist::render/item/price_msrp_rss.phtml</template></action>
         </block>
     </rss_index_wishlist>

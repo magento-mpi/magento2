@@ -14,7 +14,7 @@
 <phpunit bootstrap="./framework/bootstrap.php">
     <testsuites>
         <testsuite name="PHP Coding Standard Verification">
-            <file>testsuite/Php/LiveCodeTest.php</file>
+            <file>testsuite/Legacy/ObsoleteCodeTest.php</file>
         </testsuite>
         <testsuite name="Code Integrity Tests">
             <directory>testsuite/Integrity</directory>

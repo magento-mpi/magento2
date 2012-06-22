@@ -1,0 +1,83 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage Sales Orders and related pages
+view_order:
+    uimap:
+        form:
+            tabs:
+                -
+                    information:
+                        fieldsets:
+                           -
+                              gift_options_for_order:
+                                  xpath: //div[div/h4[contains(text(),'Gift Options')]]
+                                  checkboxes:
+                                      add_printed_card: //input[@id='add-printed-card']
+                                      send_gift_receipt: //input[@id='allow-gift-receipt' and @checked='checked']
+                                  pageelements:
+                                      printed_card_price: //div[@id='price-card-box']//span[@class='price']//span[@class='price']
+                                      order_gift_wrapping_price: //div[@class='gift-wrapping-design']//div[@id='price-box']//span[@class='price']/span
+                                      gift_wrapping: //div[@class='gift-wrapping-form']/span
+                           -
+                              gift_options:
+                                  pageelements:
+                                      item_gift_wrapping_price: //div[@class='gift-wrapping-design']//span[@class='price']//span[@class='price']
+                                      gift_wrapping: //div[@class='gift-wrapping-design']/span
+                           -
+                              order_totals:
+                                  xpath: //div[@class='order-totals']
+                                  pageelements:
+                                      total_printed_card_price: //tr[normalize-space(td)='Printed Card']/td/span
+
+# 'New Order' page
+create_order_for_new_customer:
+    mca: sales_order_create/
+    title: New Order / Orders / Sales / Magento Admin
+    uimap:
+        form:
+            fieldsets: &newOrderForNewCustomerFieldsets
+                -
+                    gift_options: &giftMessage
+                        xpath: //div[div/h4[contains(text(),'Gift Options for')]]
+                        dropdowns:
+                            product_gift_wrapping_design: //select[@id='giftwrapping_design_item']
+                        pageelements:
+                            product_gift_wrapping_block: //div[@id='wrapping-item-container' and contains(.,'Gift Wrapping')]
+                -
+                    gift_options_for_order: &giftMessageForOrder
+                        xpath: //div[div/h4[contains(text(),'Gift Options')]]
+                        dropdowns:
+                            order_gift_wrapping_design: //select[@id='giftwrapping_design']
+                        checkboxes:
+                            send_gift_receipt: //input[@id='allow-gift-receipt']
+                            add_printed_card: //input[@id='add-printed-card']
+                        pageelements:
+                            printed_card_price: //div[@id='card-price-box']//span[@id='card-price']
+                            order_gift_wrapping_block: //div[@id='orderCreateGiftWrapping' and contains(., 'Gift Wrapping for the Entire Order')]
+
+edit_order:
+    uimap:
+        form:
+            fieldsets:
+               -
+                  gift_options_for_order:
+                      xpath: //div[div/h4[contains(text(),'Gift Options')]]
+                      dropdowns:
+                          order_gift_wrapping_design: //select[@id='giftwrapping_design']
+                      checkboxes:
+                          send_gift_receipt: //input[@id='allow-gift-receipt']
+                          add_printed_card: //input[@id='add-printed-card']
+               -
+                  gift_options:
+                      xpath: //div[div/h4[contains(text(),'Gift Options for')]]
+                      dropdowns:
+                          product_gift_wrapping_design: //select[@id='giftwrapping_design_item']

@@ -46,31 +46,35 @@ if (empty($args)) {
 
 require_once __DIR__ . '/../../app/bootstrap.php';
 
-try {
-    $installer = new Mage_Install_Model_Installer_Console();
-    if (isset($args['show_locales'])) {
-        var_export($installer->getAvailableLocales());
-    } else if (isset($args['show_currencies'])) {
-        var_export($installer->getAvailableCurrencies());
-    } else if (isset($args['show_timezones'])) {
-        var_export($installer->getAvailableTimezones());
-    } else if (isset($args['show_install_options'])) {
-        var_export($installer->getAvailableInstallOptions());
-    } else {
-        if (isset($args['uninstall'])) {
-            $installer->uninstall();
-            echo 'Uninstalled successfully' . PHP_EOL;
-        } else {
-            $encryptionKey = $installer->install($args);
-            if ($encryptionKey) {
-                echo 'Installed successfully, encryption key: ' . $encryptionKey . PHP_EOL;
-            }
-        }
-        if ($installer->hasErrors()) {
-            throw new Exception(implode(PHP_EOL, $installer->getErrors()));
-        }
+$installer = new Mage_Install_Model_Installer_Console();
+if (isset($args['show_locales'])) {
+    var_export($installer->getAvailableLocales());
+} else if (isset($args['show_currencies'])) {
+    var_export($installer->getAvailableCurrencies());
+} else if (isset($args['show_timezones'])) {
+    var_export($installer->getAvailableTimezones());
+} else if (isset($args['show_install_options'])) {
+    var_export($installer->getAvailableInstallOptions());
+} else {
+    if (isset($args['config']) && file_exists($args['config'])) {
+        $config = (array) include($args['config']);
+        $args = array_merge((array)$config['install_options'], $args);
     }
-} catch (Exception $e) {
-    echo $e->getMessage() . PHP_EOL;
-    exit(1);
+    $isUninstallMode = isset($args['uninstall']);
+    if ($isUninstallMode) {
+        $result = $installer->uninstall();
+    } else {
+        $result = $installer->install($args);
+    }
+    if (!$installer->hasErrors()) {
+        if ($isUninstallMode) {
+            $msg = $result ? 'Uninstalled successfully' : 'Ignoring attempt to uninstall non-installed application';
+        } else {
+            $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
+        }
+        echo $msg . PHP_EOL;
+    } else {
+        echo implode(PHP_EOL, $installer->getErrors()) . PHP_EOL;
+        exit(1);
+    }
 }

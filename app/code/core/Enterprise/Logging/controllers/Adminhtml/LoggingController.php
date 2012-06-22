@@ -125,14 +125,14 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
             case 'archive':
             case 'download':
             case 'archiveGrid':
-                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/enterprise_logging/backups');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/system/enterprise_logging/backups');
                 break;
             case 'grid':
             case 'exportCsv':
             case 'exportXml':
             case 'details':
             case 'index':
-                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/system/enterprise_logging/events');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/system/enterprise_logging/events');
                 break;
         }
 

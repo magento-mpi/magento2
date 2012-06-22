@@ -79,7 +79,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
         parent::__construct($data);
         $this->_construct();
@@ -692,21 +692,10 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Return block helper
-     *
-     * @param string $type
-     * @return Mage_Core_Block_Abstract
-     */
-    public function getHelper($type)
-    {
-        return $this->getLayout()->getBlockSingleton($type);
-    }
-
-    /**
-     * Returns helper object
+     * Return helper object
      *
      * @param string $name
-     * @return Mage_Core_Block_Abstract
+     * @return Mage_Core_Helper_Abstract
      */
     public function helper($name)
     {

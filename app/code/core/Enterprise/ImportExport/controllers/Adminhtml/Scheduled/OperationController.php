@@ -31,7 +31,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     /**
      * Initialize layout.
      *
-     * @return Enterprise_ImportExport_Adminhtml_ImportController
+     * @return Enterprise_ImportExport_Adminhtml_Scheduled_OperationController
      */
     protected function _initAction()
     {
@@ -54,7 +54,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('system/convert/enterprise_scheduled_operation');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/convert/enterprise_scheduled_operation');
     }
 
     /**
@@ -90,8 +90,16 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     public function editAction()
     {
         $this->_initAction();
-        $operationType = Mage::registry('current_operation')->getOperationType();
-        $this->_title(Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'edit'));
+
+        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
+        $operation = Mage::registry('current_operation');
+        $operationType = $operation->getOperationType();
+
+        /** @var $helper Enterprise_ImportExport_Helper_Data */
+        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+        $this->_title(
+            $helper->getOperationHeaderText($operationType, 'edit')
+        );
 
         $this->renderLayout();
     }
@@ -292,24 +300,42 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     public function cronAction()
     {
+        $result = false;
         try {
             $operationId = (int)$this->getRequest()->getParam('operation');
             $schedule = new Varien_Object();
             $schedule->setJobCode(
                 Enterprise_ImportExport_Model_Scheduled_Operation::CRON_JOB_NAME_PREFIX . $operationId
             );
-            $result = false;
-            $result = Mage::getModel('Enterprise_ImportExport_Model_Observer')->processScheduledOperation($schedule, true);
+
+            /*
+               We need to set default (frontend) area to send email correctly because we run cron task from backend.
+               If it wouldn't be done, then in email template resources will be loaded from aminhtml area
+               (in which we have only default theme) which is defined in preDispatch()
+            */
+            $area = Mage::getDesign()->getArea();
+            Mage::getDesign()->setArea(null);
+
+            /** @var $observer Enterprise_ImportExport_Model_Observer */
+            $observer = Mage::getModel('Enterprise_ImportExport_Model_Observer');
+            $result = $observer->processScheduledOperation($schedule, true);
+
+            // restore current design area
+            Mage::getDesign()->setArea($area);
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
 
         if ($result) {
             $this->_getSession()
-                ->addSuccess(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation has been successfully run'));
+                ->addSuccess(
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Operation has been successfully run')
+                );
         } else {
             $this->_getSession()
-                ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to run operation'));
+                ->addError(
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to run operation')
+                );
         }
 
         $this->_redirect('*/*/index');

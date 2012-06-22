@@ -22,7 +22,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizeController extends Mage_Adminhtml_Cont
      *
      * @var string
      */
-    protected $_sessionName = 'Mage_Admin_Model_Session';
+    protected $_sessionName = 'Mage_Backend_Model_Auth_Session';
 
     /**
      * Array of actions which can be processed without secret key validation
@@ -93,7 +93,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizeController extends Mage_Adminhtml_Cont
     {
         /** @var $server Mage_Oauth_Model_Server */
         $server = Mage::getModel('Mage_Oauth_Model_Server');
-        /** @var $session Mage_Admin_Model_Session */
+        /** @var $session Mage_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
         $isException = false;
@@ -141,10 +141,10 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizeController extends Mage_Adminhtml_Cont
         /** @var $helper Mage_Oauth_Helper_Data */
         $helper = Mage::helper('Mage_Oauth_Helper_Data');
 
-        /** @var $session Mage_Admin_Model_Session */
+        /** @var $session Mage_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
-        /** @var $user Mage_Admin_Model_User */
+        /** @var $user Mage_User_Model_User */
         $user = $session->getData('user');
         if (!$user) {
             $session->addError($this->__('Please login to proceed authorization.'));
@@ -197,7 +197,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizeController extends Mage_Adminhtml_Cont
         /** @var $server Mage_Oauth_Model_Server */
         $server = Mage::getModel('Mage_Oauth_Model_Server');
 
-        /** @var $session Mage_Admin_Model_Session */
+        /** @var $session Mage_Backend_Model_Auth_Session */
         $session = Mage::getSingleton($this->_sessionName);
 
         $this->loadLayout();
@@ -232,7 +232,7 @@ class Mage_Oauth_Adminhtml_Oauth_AuthorizeController extends Mage_Adminhtml_Cont
 
     /**
      * Check is login data has empty login or pass
-     * See Mage_Admin_Model_Session: there is no any error message if login or password is empty
+     * See Mage_Backend_Model_Auth_Session: there is no any error message if login or password is empty
      *
      * @return boolean
      */

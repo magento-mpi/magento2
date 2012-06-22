@@ -1,0 +1,28 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+export_filter_gridJsObject.resetFilter = function () {
+    var callback = null;
+    if (window['editForm'] != undefined && 'handleExportFormatVersionSelector' in window['editForm']) {
+        callback = editForm.handleCustomerEntityTypeSelector;
+    }
+    return varienGrid.prototype.resetFilter.call(this, callback);
+};
+export_filter_gridJsObject.doFilter = function () {
+    var callback = null;
+    if (window['editForm'] != undefined && 'handleExportFormatVersionSelector' in window['editForm']) {
+        callback = editForm.handleCustomerEntityTypeSelector;
+    }
+    return varienGrid.prototype.doFilter.call(this, callback);
+};
+//]]>
+</script>

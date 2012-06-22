@@ -86,11 +86,11 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
     /**
      * Retrieve admin session model
      *
-     * @return Mage_Admin_Model_Session
+     * @return Mage_Backend_Model_Auth_Session
      */
     protected function _getAdminSession()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session');
     }
 
     /**
@@ -100,6 +100,6 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('admin/report/customers/wishlist');
+        return  Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/report/customers/wishlist');
     }
 }

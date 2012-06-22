@@ -131,7 +131,7 @@ class Enterprise_Eav_Block_Form extends Mage_Core_Block_Template
 
         /* $var $template Enterprise_Eav_Block_Form_Template */
         $template = $this->getLayout()->getBlock($this->_xmlBlockName);
-        if ($template) {
+        if ($template && $template->getRenderers()) {
             foreach ($template->getRenderers() as $type => $data) {
                 $this->addRenderer($type, $data['block'], $data['template']);
             }

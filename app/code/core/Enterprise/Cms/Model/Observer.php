@@ -69,7 +69,7 @@ class Enterprise_Cms_Model_Observer
             ));
 
             if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
-                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 $revision = Mage::getModel('Enterprise_Cms_Model_Page_Revision')
@@ -96,7 +96,7 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if ($revisionAvailable && !Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page/save_revision')) {
+        if ($revisionAvailable && !Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/page/save_revision')) {
             foreach ($baseFieldset->getElements() as $element) {
                 $element->setDisabled(true);
             }
@@ -209,7 +209,7 @@ class Enterprise_Cms_Model_Observer
             $version->setLabel($page->getTitle())
                 ->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
                 ->setPageId($page->getId())
-                ->setUserId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId())
+                ->setUserId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId())
                 ->setInitialRevisionData($revisionInitialData)
                 ->save();
 

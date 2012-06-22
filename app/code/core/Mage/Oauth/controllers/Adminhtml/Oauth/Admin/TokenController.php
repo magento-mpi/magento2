@@ -74,8 +74,8 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenController extends Mage_Adminhtml_Co
         }
 
         try {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getSingleton('Mage_Admin_Model_Session')->getData('user');
+            /** @var $user Mage_User_Model_User */
+            $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getData('user');
 
             /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('Mage_Oauth_Model_Token')->getCollection();
@@ -120,8 +120,8 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenController extends Mage_Adminhtml_Co
         }
 
         try {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getSingleton('Mage_Admin_Model_Session')->getData('user');
+            /** @var $user Mage_User_Model_User */
+            $user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getData('user');
 
             /** @var $collection Mage_Oauth_Model_Resource_Token_Collection */
             $collection = Mage::getModel('Mage_Oauth_Model_Token')->getCollection();
@@ -151,8 +151,8 @@ class Mage_Oauth_Adminhtml_Oauth_Admin_TokenController extends Mage_Adminhtml_Co
      */
     protected function _isAllowed()
     {
-        /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        /** @var $session Mage_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         return $session->isAllowed('system/acl/admin_token');
     }
 }

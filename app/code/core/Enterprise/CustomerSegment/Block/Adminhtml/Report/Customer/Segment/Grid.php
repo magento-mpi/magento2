@@ -86,7 +86,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
                 'width'     => 200,
                 'index'     => 'website_ids',
                 'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Adminhtml_Model_System_Store')->getWebsiteOptionHash()
+                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash()
             ));
         }
 

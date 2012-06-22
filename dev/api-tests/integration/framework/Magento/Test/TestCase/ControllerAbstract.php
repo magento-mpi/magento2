@@ -148,8 +148,8 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends Magento_TestCase
      */
     public function loginToAdmin($username = null, $password = null)
     {
-        /** @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        /** @var $session Mage_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         if (null === $username) {
             $username = TESTS_ADMIN_USERNAME;
         }
@@ -159,8 +159,8 @@ abstract class Magento_Test_TestCase_ControllerAbstract extends Magento_TestCase
         if (!$session->isLoggedIn() || false !== ($user = $session->getUser())
             && $user->getUsername() != $username
         ) {
-            /** @var $user Mage_Admin_Model_User */
-            $user = Mage::getModel('Mage_Admin_Model_User');
+            /** @var $user Mage_User_Model_User */
+            $user = Mage::getModel('Mage_User_Model_User');
             $user->login($username, $password);
             if ($user->getId()) {
                 $session->setIsFirstPageAfterLogin(true);

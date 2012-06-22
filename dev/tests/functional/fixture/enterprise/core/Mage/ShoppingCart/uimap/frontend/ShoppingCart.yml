@@ -1,0 +1,21 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ShoppingCart
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+shopping_cart:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    products_in_cart:
+                        checkboxes:
+                            move_to_wishlist:
+                        links:
+                            move_to_wishlist: //tr[td//a[text()='%productName%']]/td/a[text()='Move']

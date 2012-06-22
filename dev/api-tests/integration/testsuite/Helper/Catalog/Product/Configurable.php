@@ -196,7 +196,7 @@ class Helper_Catalog_Product_Configurable extends Magento_Test_Webservice
         $validatePrices = true
     ) {
         /** @var Mage_Catalog_Model_Product_Type_Configurable $configurableType */
-        $configurableType = $configurable->getTypeInstance(true);
+        $configurableType = $configurable->getTypeInstance();
         $actualConfigurableData = $configurableType->getConfigurableAttributesAsArray($configurable);
         foreach ($expectedConfigurableData as $expectedData) {
             $attributeCode = $expectedData['attribute_code'];

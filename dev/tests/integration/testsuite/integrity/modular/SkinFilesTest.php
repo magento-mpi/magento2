@@ -22,10 +22,10 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
     public function testSkinFilesFromModulesView($application, $file)
     {
         $params = array(
-            '_area'    => $application,
-            '_package' => 'default',
-            '_theme'   => 'default',
-            '_skin'    => 'default'
+            'area'    => $application,
+            'package' => 'default',
+            'theme'   => 'default',
+            'skin'    => 'default'
         );
         $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
     }
@@ -116,12 +116,12 @@ class Integrity_Modular_SkinFilesTest extends Magento_Test_TestCase_IntegrityAbs
      */
     public function testSkinFilesFromModulesCode($application, $file)
     {
-        $params = array('_area' => $application,
+        $params = array('area' => $application,
             // other legacy params, caused by cramped Mage_Core_Model_Design_Package
             // expected defaults: default/default/default
-            '_package' => 'default',
-            '_theme' => 'default',
-            '_skin' => 'default',
+            'package' => 'default',
+            'theme' => 'default',
+            'skin' => 'default',
         );
         $this->assertFileExists(Mage::getDesign()->getSkinFile($file, $params));
     }

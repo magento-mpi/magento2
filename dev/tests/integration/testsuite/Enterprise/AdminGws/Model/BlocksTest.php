@@ -14,16 +14,16 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     protected function setUp()
     {
         parent::setUp();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOffSecretKey();
-        $session = new Mage_Admin_Model_Session();
-        $session->login('admingws_user', 'admingws_password');
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $auth->login('admingws_user', 'admingws_password');
     }
 
     protected function tearDown()
     {
-        $session = new Mage_Admin_Model_Session();
-        $session->logout();
-        Mage::getSingleton('Mage_Adminhtml_Model_Url')->turnOnSecretKey();
+        $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
+        $auth->logout();
+        Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
@@ -52,5 +52,61 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
         $expected = 'title="New Permission" type="button" class="scalable delete disabled disabled" onclick="" style=""'
             . ' disabled="disabled">';
         $this->assertContains($expected, $result);
+    }
+
+    /**
+     *  Test if gws block is added into layout when editing role
+     *
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     */
+    public function testBackendUserRoleEditContainsGwsBlock()
+    {
+        $this->dispatch('admin/user_role/editrole');
+
+        $this->assertInstanceOf(
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws',
+            Mage::app()->getLayout()->getBlock('adminhtml.user.role.edit.gws'),
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not loaded'
+        );
+
+        $result = $this->getResponse()->getBody();
+        $expected = '<h4 class="icon-head head-edit-form fieldset-legend">Role Scopes</h4>';
+        $this->assertContains(
+            $expected,
+            $result,
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws block is not rendered'
+        );
+    }
+
+    /**
+     *  Test if gws block is added into layout when loading roles
+     *
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     */
+    public function testBackendUserRoleIndexContainsGwsBlock()
+    {
+        $this->dispatch('admin/user_role/index');
+
+        $this->assertInstanceOf(
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
+            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
+        );
+    }
+    /**
+     *  Test if gws block is added into layout when loading roles in grid
+     *
+     * @magentoDataFixture Enterprise/AdminGws/_files/role_websites_login.php
+     */
+    public function testBackendUserRoleEditRoleGridContainsGwsBlock()
+    {
+        $this->dispatch('admin/user_role/editrolegrid');
+
+        $this->assertInstanceOf(
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
+            Mage::app()->getLayout()->getBlock('adminhtml.user.role.grid'),
+            'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role block is not loaded'
+        );
+
     }
 }

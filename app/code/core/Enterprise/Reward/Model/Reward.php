@@ -598,7 +598,7 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
         $store = Mage::app()->getStore($this->getStore());
         $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mail Mage_Core_Model_Email_Template */
-        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $store->getId()));
+        $mail->setDesignConfig(array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => $store->getId()));
         $templateVars = array(
             'store' => $store,
             'customer' => $this->getCustomer(),
@@ -641,7 +641,10 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     {
         $mail  = Mage::getModel('Mage_Core_Model_Email_Template');
         /* @var $mail Mage_Core_Model_Email_Template */
-        $mail->setDesignConfig(array('area' => 'frontend', 'store' => $item->getStoreId()));
+        $mail->setDesignConfig(array(
+            'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+            'store' => $item->getStoreId()
+        ));
         $store = Mage::app()->getStore($item->getStoreId());
         $helper = Mage::helper('Enterprise_Reward_Helper_Data');
         $amount = $helper

@@ -575,7 +575,7 @@ class Api2_Catalog_Product_Configurable_AdminTest extends Api2_Catalog_Product_A
         /** @var $configurable Mage_Catalog_Model_Product */
         $configurable = $this->getFixture('product_configurable');
         /** @var $configurableType Mage_Catalog_Model_Product_Type_Configurable */
-        $configurableType = $configurable->getTypeInstance(true);
+        $configurableType = $configurable->getTypeInstance();
         // Store configurable product data from default store for future comparison
         $productDataOnDefaultStore = array();
         $productDataOnDefaultStore['configurable_attributes'] = array();

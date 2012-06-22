@@ -16,7 +16,8 @@
  * @package    Enterprise_Checkout
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Checkout_CartController extends Mage_Core_Controller_Front_Action
+class Enterprise_Checkout_CartController
+    extends Mage_Core_Controller_Front_Action
     implements Mage_Catalog_Controller_Product_View_Interface
 {
     /**

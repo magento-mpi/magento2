@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
-
 /**
- * Grid widget massaction default block
- *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
+ * @deprecated Moved to module Mage_Backend
  */
-class Mage_Adminhtml_Block_Widget_Grid_Massaction extends Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
+class Mage_Adminhtml_Block_Widget_Grid_Massaction extends Mage_Backend_Block_Widget_Grid_Massaction
 {
 
 }

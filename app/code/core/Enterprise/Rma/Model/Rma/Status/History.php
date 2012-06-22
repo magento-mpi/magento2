@@ -147,7 +147,10 @@ class Enterprise_Rma_Model_Rma_Status_History extends Mage_Core_Model_Abstract
         }
 
         foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStoreId()))
+            $mailTemplate->setDesignConfig(array(
+                'area' => Mage_Core_Model_App_Area::AREA_FRONTEND,
+                'store' => $this->getStoreId()
+            ))
                 ->sendTransactional(
                     $template,
                     $configRmaEmail->getIdentity(),

@@ -1,0 +1,44 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_StagingWebsite
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# System - Content Staging - Log
+manage_staging_operations_log:
+    mca: staging_log/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'staging_log/')]
+    title: Log / Content Staging / System / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    staging_operations_log_grid:
+                        xpath: //div[@id='enterpriseStagingHistoryGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        fields:
+                            filter_id_from: //input[@id='enterpriseStagingHistoryGrid_filter_log_id_from']
+                            filter_id_to: //input[@id='enterpriseStagingHistoryGrid_filter_log_id_to']
+                            filter_logged_at_from: //input[@name='created_at[from]']
+                            filter_logged_at_to: //input[@name='created_at[to]']
+                            filter_website_from: //input[@id='enterpriseStagingHistoryGrid_filter_from']
+                            filter_website_to: //input[@id='enterpriseStagingHistoryGrid_filter_to']
+                            page: //input[@name='page']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_action: //select[@id='enterpriseStagingHistoryGrid_filter_action']
+                            filter_result: //select[@id='enterpriseStagingHistoryGrid_filter_status']
+                        pageelements:
+                            grid_head: //table[@id='enterpriseStagingManageGrid_table']//tr[@class='headings']
+
+
+view_staging_log:
+    mca: staging_log/view/id/%id%/
+    title: Log Entry / Log / Content Staging / System / Magento Admin
+

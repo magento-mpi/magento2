@@ -52,7 +52,7 @@
     </paypaluk_express_review>
 
     <paypal_express_review_details>
-        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml">
+        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
             <block type="Mage_Paypal_Block_Express_Review_Details" name="paypal.express.review.details" template="express/review/details.phtml">
                 <action method="addItemRender"><type>default</type><block>Mage_Checkout_Block_Cart_Item_Renderer</block><template>onepage/review/item.phtml</template></action>
                 <action method="addItemRender"><type>grouped</type><block>Mage_Checkout_Block_Cart_Item_Renderer_Grouped</block><template>onepage/review/item.phtml</template></action>
@@ -120,8 +120,7 @@
         <update handle="SHORTCUT_uk_popup" />
     </checkout_onepage_failure>
 
-    <SHORTCUT_uk_popup translate="label">
-        <label>PaypalUk Shortcut Popup</label>
+    <SHORTCUT_uk_popup>
         <reference name="product.tooltip">
             <container name="product.info.addtocart.paypaluk.wrapper" label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="div">
                 <block type="Mage_PaypalUk_Block_Express_Shortcut" name="product.info.addtocart.paypaluk" template="Mage_Paypal::express/shortcut.phtml">
@@ -134,6 +133,6 @@
 
     <paypaluk_express_review_details translate="label" type="fragment" owner="checkout_onepage_index">
         <label>Paypal UK Express Review Details</label>
-        <block type="Mage_Page_Block_Html" label="Root" name="root" output="1" template="page_fragment.phtml" />
+        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml" />
     </paypaluk_express_review_details>
 </layout>

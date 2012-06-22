@@ -16,18 +16,28 @@ $configFile = __DIR__ . '/config.php';
 $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
 $config = require($configFile);
 $installOptions = isset($config['install_options']) ? $config['install_options'] : array();
-$scenarioFiles = $config['scenario_files'];
-$fixtures = $config['fixtures'];
-$reportDir = isset($config['report_dir']) ? $config['report_dir'] : __DIR__ . '/report';
+$scenarioFilesPattern = __DIR__ . '/' . $config['scenarios'];
+$scenarioFiles = glob($scenarioFilesPattern, GLOB_BRACE);
+$scenarioParams = $config['scenario_params'];
+$fixtureFiles = glob(__DIR__ . '/' . $config['fixtures'], GLOB_BRACE);
+$reportDir = __DIR__ . '/' . $config['report_dir'];
 
-/* Build JMeter command */
-$jMeterJarFile = isset($_ENV['jmeter_jar_file']) ? $_ENV['jmeter_jar_file'] : 'ApacheJMeter.jar';
-$jMeterProperties = '';
-foreach ($config['scenario_params'] as $key => $value) {
-    $jMeterProperties .= " -J$key=$value";
+/* Validate scenarios existence */
+if (!$scenarioFiles) {
+    echo "No scenario files match '$scenarioFilesPattern' pattern." . PHP_EOL;
+    exit(1);
 }
-$jMeterCmd = 'java -jar ' . escapeshellarg($jMeterJarFile);
-exec("$jMeterCmd --version 2>&1", $jMeterOutput, $exitCode);
+
+/* Validate scenario params */
+if (empty($scenarioParams['host']) || empty($scenarioParams['path'])) {
+    echo "Scenario parameters must specify 'host' and 'path'." . PHP_EOL;
+    exit(1);
+}
+
+/* Validate JMeter command presence */
+$jMeterJarFile = getenv('jmeter_jar_file') ?: 'ApacheJMeter.jar';
+$jMeterExecutable = 'java -jar ' . escapeshellarg($jMeterJarFile);
+exec("$jMeterExecutable --version 2>&1", $jMeterOutput, $exitCode);
 if ($exitCode) {
     echo implode(PHP_EOL, $jMeterOutput);
     exit($exitCode);
@@ -35,6 +45,9 @@ if ($exitCode) {
 
 /* Install application */
 if ($installOptions) {
+    $baseUrl = 'http://' . $scenarioParams['host'] . $scenarioParams['path'];
+    $installOptions['url'] = $baseUrl;
+    $installOptions['secure_base_url'] = $baseUrl;
     $installCmd = sprintf('php -f %s --', escapeshellarg("$baseDir/dev/shell/install.php"));
     passthru("$installCmd --uninstall", $exitCode);
     if ($exitCode) {
@@ -49,7 +62,7 @@ if ($installOptions) {
     }
 }
 
-/* Init Magento to prepare several things for it */
+/* Initialize Magento application */
 require_once __DIR__ . '/../../../app/bootstrap.php';
 Mage::app();
 
@@ -57,19 +70,35 @@ Mage::app();
 Varien_Io_File::rmdirRecursive($reportDir);
 
 /* Apply fixtures */
-foreach ($fixtures as $fixture) {
+foreach ($fixtureFiles as $fixture) {
     require_once $fixture;
+}
+
+/* Run all indexer processes */
+/** @var $indexer Mage_Index_Model_Indexer */
+$indexer = Mage::getModel('Mage_Index_Model_Indexer');
+/** @var $process Mage_Index_Model_Process */
+foreach ($indexer->getProcessesCollection() as $process) {
+    if ($process->getIndexer()->isVisible()) {
+        $process->reindexEverything();
+    }
+}
+
+/* Execute each scenario couple times to populate cache (if any) before measuring performance */
+$scenarioDryRunParams = array_merge($scenarioParams, array('users' => 1, 'loops' => 2));
+foreach ($scenarioFiles as $scenarioFile) {
+    $scenarioCmd = buildJMeterCmd($jMeterExecutable, $scenarioFile, $scenarioDryRunParams);
+    passthru($scenarioCmd, $exitCode);
+    if ($exitCode) {
+        exit($exitCode);
+    }
 }
 
 /* Execute scenarios and collect failures */
 $failures = array();
 foreach ($scenarioFiles as $scenarioFile) {
     $scenarioLogFile = $reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
-    $scenarioCmd = sprintf(
-        $jMeterCmd . ' -n -t %s -l %s' . $jMeterProperties,
-        escapeshellarg($scenarioFile),
-        escapeshellarg($scenarioLogFile)
-    );
+    $scenarioCmd = buildJMeterCmd($jMeterExecutable, $scenarioFile, $scenarioParams, $scenarioLogFile);
     passthru($scenarioCmd, $exitCode);
     if ($exitCode) {
         exit($exitCode);
@@ -77,21 +106,43 @@ foreach ($scenarioFiles as $scenarioFile) {
     $scenarioLogXml = simplexml_load_file($scenarioLogFile);
     $failedAssertions = $scenarioLogXml->xpath('//assertionResult[failure[text()="true"] or error[text()="true"]]');
     if ($failedAssertions) {
-        $failures[$scenarioFile] = $failedAssertions;
+        foreach ($failedAssertions as $assertionResult) {
+            if (isset($assertionResult->failureMessage)) {
+                $failures[$scenarioFile][] = (string)$assertionResult->failureMessage;
+            }
+            if (isset($assertionResult->errorMessage)) {
+                $failures[$scenarioFile][] = (string)$assertionResult->errorMessage;
+            }
+        }
     }
 }
 
 /* Handle failures */
 if ($failures) {
-    foreach ($failures as $scenarioFile => $failedAssertions) {
-        echo "Scenario '$scenarioFile' has failed!\n";
-        foreach ($failedAssertions as $assertionResult) {
-            if (isset($assertionResult->failureMessage)) {
-                echo $assertionResult->failureMessage . "\n";
-            } else if (isset($assertionResult->errorMessage)) {
-                echo $assertionResult->errorMessage . "\n";
-            }
-        }
+    foreach ($failures as $scenarioFile => $failureMessages) {
+        echo "Scenario '$scenarioFile' has failed!" . PHP_EOL;
+        echo implode(PHP_EOL, $failureMessages);
     }
     exit(1);
+}
+
+
+/**
+ * Build JMeter command
+ *
+ * @param string $jMeterExecutable
+ * @param string $testPlanFile
+ * @param array $localProperties
+ * @param string|null $sampleLogFile
+ * @return string
+ */
+function buildJMeterCmd($jMeterExecutable, $testPlanFile, array $localProperties = array(), $sampleLogFile = null) {
+    $result = $jMeterExecutable . ' -n -t ' . escapeshellarg($testPlanFile);
+    if ($sampleLogFile) {
+        $result .= ' -l ' . escapeshellarg($sampleLogFile);
+    }
+    foreach ($localProperties as $key => $value) {
+        $result .= " -J$key=$value";
+    }
+    return $result;
 }

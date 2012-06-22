@@ -45,6 +45,7 @@ dev/tests/static/testsuite/Legacy/_files/obsolete_constants_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_methods_ee.php
 dev/tests/static/testsuite/Legacy/_files/obsolete_properties_ee.php
 dev/tests/static/testsuite/Legacy/Enterprise
+dev/tests/unit/testsuite/Enterprise
 dev/tools/migration/factory_table_names/replace_ee.php
 downloader/Maged/Model/Config/Enterprise.php
 downloader/Maged/Model/Config/Professional.php

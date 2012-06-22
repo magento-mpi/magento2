@@ -14,10 +14,8 @@
         <word>{copyright}</word>
         <word>{license_link}</word>
         <word>{license_notice}</word>
-        <word>123123q</word>
         <word>biz@magento.com</word>
         <word>enterprise</word>
-        <word>magentoTEST</word>
         <word>mssql</word>
         <word>oracle</word>
         <word>petervarien</word>
@@ -40,7 +38,7 @@
         <item>
             <word>oracle</word>
             <word>mssql</word>
-            <path>dev/tests/integration/framework/Magento/Test/Listener/Annotation/Isolation.php</path>
+            <path>dev/tests/integration/framework/Magento/Test/Annotation/AppIsolation.php</path>
         </item>
         <item>
             <word>mssql</word>
@@ -82,10 +80,6 @@
         <item>
             <word>enterprise</word>
             <path>app/locale/zh_CN/Mage_XmlConnect.csv</path>
-        </item>
-        <item>
-            <word>enterprise</word>
-            <path>dev/tests/static/testsuite/Integrity/ClassesTest.php</path>
         </item>
         <item>
             <word>enterprise</word>

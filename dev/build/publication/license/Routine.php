@@ -52,7 +52,7 @@ class Routine
         'xml'   => array(
             '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xsd', '*.mxml'
         ),
-        'php'   => array('*.php', '*.php.sample'),
+        'php'   => array('*.php', '*.php.dist', '*.php.sample'),
         'phtml' => array('*.phtml'),
         'html'  => array('*.html', '*.htm'),
         'css'   => array('*.css'),

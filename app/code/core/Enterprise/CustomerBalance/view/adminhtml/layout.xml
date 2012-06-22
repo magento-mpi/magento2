@@ -31,7 +31,7 @@
 
 
     <adminhtml_customerbalance_form>
-        <container name="root" label="Root">
+        <container name="root" label="Root" output="1">
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml">
                 <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid" name="customer.balance.grid" as="grid"/>
             </block>

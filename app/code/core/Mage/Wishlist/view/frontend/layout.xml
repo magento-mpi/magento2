@@ -111,7 +111,7 @@ Wishlist pages
         </reference>
         <reference name="product.info.options.wrapper.bottom">
             <action method="unsetChild"><name>product.info.addto</name></action>
-            <block type="Mage_Wishlist_Block_Item_Configure" name="product.info.addto" as="product.info.addto" template="item/configure/addto.phtml"/>
+            <action method="append"><element>product.info.addto</element></action>
         </reference>
     </wishlist_index_configure>
 

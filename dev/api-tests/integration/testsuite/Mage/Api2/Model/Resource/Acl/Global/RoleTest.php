@@ -21,7 +21,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
     /**
      * API2 role data fixture
      *
-     * @var Mage_Admin_Model_User
+     * @var Mage_User_Model_User
      */
     protected $_admin;
 
@@ -46,7 +46,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
     /**
      * Get admin data fixture
      *
-     * @return Mage_Admin_Model_User
+     * @return Mage_User_Model_User
      */
     protected function _getAdminDataFixture()
     {
@@ -58,8 +58,8 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
             'password'  => '123123q'
         );
 
-        /** @var $user Mage_Admin_Model_User */
-        $user = Mage::getModel('Mage_Admin_Model_User');
+        /** @var $user Mage_User_Model_User */
+        $user = Mage::getModel('Mage_User_Model_User');
         $user->setData($data)->save();
 
         $this->addModelToDelete($user, true);

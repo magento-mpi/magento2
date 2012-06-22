@@ -1,0 +1,32 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+$rootDir = dirname(dirname(__FILE__));
+require_once $rootDir . DIRECTORY_SEPARATOR . 'app/Mage.php';
+Mage::setRoot($rootDir . DIRECTORY_SEPARATOR . 'app');
+Mage::app();
+
+define('SELENIUM_TESTS_BASEDIR', realpath(dirname(__FILE__)));
+define('SELENIUM_TESTS_SCREENSHOTDIR',
+        realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'screenshots'));
+
+set_include_path(implode(PATH_SEPARATOR, array(
+            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework'),
+            realpath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite'), //To allow load tests helper files
+            get_include_path(),
+        )));
+
+require_once 'Mage/Selenium/Autoloader.php';
+Mage_Selenium_Autoloader::register();
+
+require_once 'functions.php';
+
+Mage_Selenium_TestConfiguration::getInstance();
+

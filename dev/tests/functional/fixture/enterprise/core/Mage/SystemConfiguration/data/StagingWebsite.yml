@@ -1,0 +1,24 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+staging_website_disable_auto_entries:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_general
+        configuration:
+            automatically_create_entry_points_for_staging_website: No
+
+staging_website_enable_auto_entries:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_general
+        configuration:
+            automatically_create_entry_points_for_staging_website: Yes
+            folder_name_for_entry_points: staging

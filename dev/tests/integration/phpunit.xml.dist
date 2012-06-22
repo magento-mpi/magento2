@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 -->
-<phpunit bootstrap="./framework/bootstrap.php" colors="true">
+<phpunit bootstrap="./framework/bootstrap.php">
     <!-- Test suites definition -->
     <testsuites>
         <testsuite name="Magento Integration Tests">
@@ -63,6 +63,6 @@
     </php>
     <!-- Test listeners -->
     <listeners>
-        <listener class="Magento_Test_Listener"/>
+        <listener class="Magento_Test_Event_PhpUnit"/>
     </listeners>
 </phpunit>

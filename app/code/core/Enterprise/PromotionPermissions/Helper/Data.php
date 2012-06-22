@@ -45,7 +45,7 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
      */
     public function getCanAdminEditCatalogRules()
     {
-        return (boolean) Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
+        return (boolean) Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed(self::EDIT_PROMO_CATALOGRULE_ACL_PATH);
     }
 
     /**
@@ -55,7 +55,7 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
      */
     public function getCanAdminEditSalesRules()
     {
-        return (boolean) Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
+        return (boolean) Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed(self::EDIT_PROMO_SALESRULE_ACL_PATH);
     }
 
     /**
@@ -65,6 +65,6 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
      */
     public function getCanAdminEditReminderRules()
     {
-        return (boolean) Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
+        return (boolean) Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed(self::EDIT_PROMO_REMINDERRULE_ACL_PATH);
     }
 }

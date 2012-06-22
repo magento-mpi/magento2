@@ -30,9 +30,11 @@
         </reference>
     </enterprise_giftcardaccount_cart_check>
 
-    <enterprise_giftcardaccount_cart_quickcheck translate="label" type="page" parent="enterprise_giftcardaccount_cart_check">
+    <enterprise_giftcardaccount_cart_quickcheck translate="label" type="fragment" owner="enterprise_giftcardaccount_cart_check">
         <label>Gift Card Balance Quick Check Form</label>
-        <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml" name="root"/>
+        <block type="Mage_Page_Block_Html" name="root" output="1" template="page_fragment.phtml">
+            <block type="Enterprise_GiftCardAccount_Block_Check" template="check.phtml"/>
+        </block>
     </enterprise_giftcardaccount_cart_quickcheck>
 
     <sales_order_view>

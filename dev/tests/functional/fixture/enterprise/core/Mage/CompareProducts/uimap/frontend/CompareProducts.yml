@@ -1,0 +1,16 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CompareProducts
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+compare_products:
+    title: Products Comparison List - Magento Enterprise Edition
+
+compare_products_index:
+    title: Products Comparison List - Magento Enterprise Edition

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category     Mage
- * @package      Mage_Backup
+ * @category    Mage
+ * @package     Mage_Backup
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -110,6 +110,28 @@ class Mage_Backup_Snapshot extends Mage_Backup_Filesystem
         }
 
         return $this->_dbBackupManager;
+    }
+
+    /**
+     * Set Db backup manager
+     *
+     * @param Mage_Backup_Abstract $manager
+     * @return Mage_Backup_Snapshot
+     */
+    public function setDbBackupManager(Mage_Backup_Abstract $manager)
+    {
+        $this->_dbBackupManager = $manager;
+        return $this;
+    }
+
+    /**
+     * Get Db Backup Filemane
+     *
+     * @return string
+     */
+    public function getDbBackupFilename()
+    {
+        return $this->_getDbBackupManager()->getBackupFilename();
     }
 
     /**

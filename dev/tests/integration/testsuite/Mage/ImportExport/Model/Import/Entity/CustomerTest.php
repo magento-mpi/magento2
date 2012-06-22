@@ -118,7 +118,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerTest extends PHPUnit_Framewo
         );
     }
 
-    public function testValidateRowPasswordLength()
+    public function testValidateRowPasswordLengthIncorrect()
     {
         $this->_customerData['password'] = '12345';
         $this->_model->validateRow($this->_customerData, 0);
@@ -126,6 +126,13 @@ class Mage_ImportExport_Model_Import_Entity_CustomerTest extends PHPUnit_Framewo
         $this->assertEquals(Mage_ImportExport_Model_Import_Entity_Customer::ERROR_PASSWORD_LENGTH,
             $this->_errors[0][0]
         );
+    }
+
+    public function testValidateRowPasswordLengthCorrect()
+    {
+        $this->_customerData['password'] = '1234567890';
+        $this->_model->validateRow($this->_customerData, 0);
+        $this->assertFalse($this->_errorWas);
     }
 
     public function testValidateRowAttributeRequired()
@@ -161,6 +168,69 @@ class Mage_ImportExport_Model_Import_Entity_CustomerTest extends PHPUnit_Framewo
         $this->assertTrue($this->_errorWas);
         $this->assertEquals(Mage_ImportExport_Model_Import_Entity_Customer::ERROR_EMAIL_SITE_NOT_FOUND,
             $this->_errors[0][0]
+        );
+    }
+
+    public function testScopeAddressFirst()
+    {
+        $customerAddressData = array(
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_EMAIL => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_WEBSITE => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_STORE => '',
+        );
+        $this->_model->validateRow($customerAddressData, 0);
+        $this->assertTrue($this->_errorWas);
+        $this->assertEquals(Mage_ImportExport_Model_Import_Entity_Customer::ERROR_EMAIL_IS_EMPTY,
+            $this->_errors[0][0]
+        );
+    }
+
+    public function testMultipleCustomerAddress()
+    {
+        $this->_model->validateRow($this->_customerData, 0);
+        $this->assertFalse($this->_errorWas);
+
+        $customerAddressData = array();
+        $this->_model->validateRow($customerAddressData, 1);
+        $this->assertFalse($this->_errorWas);
+    }
+
+    public function testMultipleCustomerAddressOrphan()
+    {
+        $errorWas = false;
+        $errors = array();
+        $checkException = function ($errorCode, $errorRowNum, $colName = null) use (&$errorWas, &$errors) {
+            $errorWas = true;
+            $errors[] = array($errorCode, $errorRowNum, $colName);
+        };
+        $model = $this->getMock('Mage_ImportExport_Model_Import_Entity_Customer',
+            array('addRowError', 'getRowError')
+        );
+
+        $model->expects($this->any())
+            ->method('addRowError')
+            ->will($this->returnCallback($checkException));
+
+        $model->expects($this->once())
+            ->method('getRowError')
+            ->will($this->returnValue(true));
+
+        $this->_customerData[Mage_ImportExport_Model_Import_Entity_Customer::COL_STORE] = 'not_existing_web_store';
+        $model->validateRow($this->_customerData, 0);
+        $this->assertTrue($errorWas);
+
+        $errorWas = false;
+        $errors = array();
+
+        $customerAddressData = array(
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_EMAIL => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_WEBSITE => '',
+            Mage_ImportExport_Model_Import_Entity_Customer::COL_STORE => '',
+        );
+        $model->validateRow($customerAddressData, 1);
+        $this->assertTrue($errorWas);
+        $this->assertEquals(Mage_ImportExport_Model_Import_Entity_Customer::ERROR_ROW_IS_ORPHAN,
+            $errors[0][0]
         );
     }
 }

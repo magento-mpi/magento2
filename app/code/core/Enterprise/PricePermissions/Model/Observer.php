@@ -73,8 +73,8 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function adminControllerPredispatch($observer)
     {
-        /* @var $session Mage_Admin_Model_Session */
-        $session = Mage::getSingleton('Mage_Admin_Model_Session');
+        /* @var $session Mage_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
 
         // load role with true websites and store groups
         if ($session->isLoggedIn() && $session->getUser()->getRole()) {

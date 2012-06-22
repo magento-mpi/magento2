@@ -27,14 +27,14 @@
     </global>
     <adminhtml>
         <events>
-            <admin_session_user_login_success>
+            <backend_auth_user_login_success>
                 <observers>
                     <enterprise_enterprise>
                         <class>Enterprise_Enterprise_Model_Observer</class>
                         <method>setHideSurveyQuestion</method>
                     </enterprise_enterprise>
                 </observers>
-            </admin_session_user_login_success>
+            </backend_auth_user_login_success>
         </events>
         <layout>
             <updates>

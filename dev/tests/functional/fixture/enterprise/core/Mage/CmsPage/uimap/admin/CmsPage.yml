@@ -1,0 +1,23 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CmsPage
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#CMS Pages page
+create_cms_page:
+    title: New Page / Pages / CMS / Magento Admin
+
+create_cms_page_with_sharp:
+    title: New Page / Pages / CMS / Magento Admin
+
+edit_cms_page:
+    title: %pageName% / Pages / CMS / Magento Admin
+
+error_cms_page:
+    title: New Page / Pages / CMS / Magento Admin

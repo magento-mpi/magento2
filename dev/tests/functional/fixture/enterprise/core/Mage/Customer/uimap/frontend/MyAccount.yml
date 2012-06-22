@@ -1,0 +1,26 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Customer
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+customer_account:
+    uimap: &customerAccount
+        form:
+            fieldsets:
+                -
+                    my_recent_tags:
+                        xpath: //div[@class='tags']
+                -
+                    my_recent_reviews:
+                        xpath: //div[@class='reviews']
+
+customer_account_no_cache:
+    mca: customer/account/index/?no_cache=
+    title: My Account
+    uimap: *customerAccount

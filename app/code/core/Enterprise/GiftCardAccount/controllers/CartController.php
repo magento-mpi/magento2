@@ -77,15 +77,6 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
      * Check a gift card account availability
      *
      */
-    public function checkAction()
-    {
-        return $this->quickCheckAction();
-    }
-
-    /**
-     * Check a gift card account availability
-     *
-     */
     public function quickCheckAction()
     {
         /* @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */

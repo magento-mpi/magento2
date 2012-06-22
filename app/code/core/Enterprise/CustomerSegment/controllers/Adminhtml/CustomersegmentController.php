@@ -83,10 +83,10 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
 
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
 
+        $this->_initAction();
+
         $block =  $this->getLayout()->createBlock('Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit')
             ->setData('form_action_url', $this->getUrl('*/*/save'));
-
-        $this->_initAction();
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
@@ -262,7 +262,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/customersegment') &&
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/customersegment') &&
             Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 

@@ -9,10 +9,11 @@
  * @license     {license_link}
  */
 
+$customers = array();
+
 $customer = new Mage_Customer_Model_Customer();
 
-$customer
-    ->setWebsiteId(1)
+$customer->setWebsiteId(1)
     ->setEntityId(1)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -24,14 +25,13 @@ $customer
     ->setFirstname('Firstname')
     ->setLastname('Lastname')
     ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
-;
+    ->setDefaultShipping(1);
 $customer->isObjectNew(true);
 $customer->save();
+$customers[] = $customer;
 
 $customer = new Mage_Customer_Model_Customer();
-$customer
-    ->setWebsiteId(1)
+$customer->setWebsiteId(1)
     ->setEntityId(2)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -43,14 +43,13 @@ $customer
     ->setFirstname('Julie')
     ->setLastname('Worrell')
     ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
-;
+    ->setDefaultShipping(1);
 $customer->isObjectNew(true);
 $customer->save();
+$customers[] = $customer;
 
 $customer = new Mage_Customer_Model_Customer();
-$customer
-    ->setWebsiteId(1)
+$customer->setWebsiteId(1)
     ->setEntityId(3)
     ->setEntityTypeId(1)
     ->setAttributeSetId(0)
@@ -62,7 +61,9 @@ $customer
     ->setFirstname('David')
     ->setLastname('Lamar')
     ->setDefaultBilling(1)
-    ->setDefaultShipping(1)
-;
+    ->setDefaultShipping(1);
 $customer->isObjectNew(true);
 $customer->save();
+$customers[] = $customer;
+
+Mage::register('_fixture/Mage_ImportExport_Customer_Collection', $customers);

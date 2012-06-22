@@ -89,7 +89,9 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
          * Validate license agreement acceptance
          */
         if (!$this->_getFlagValue($options['license_agreement_accepted'])) {
-            $this->addError('ERROR: You have to accept Magento license agreement terms and conditions to continue installation.');
+            $this->addError(
+                'ERROR: You have to accept Magento license agreement terms and conditions to continue installation.'
+            );
             return false;
         }
 
@@ -234,17 +236,11 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             /**
              * Install configuration
              */
-            $installer->installConfig($this->_getDataModel()->getConfigData()); // TODO fix wizard and simplify this everywhere
+            $installer->installConfig($this->_getDataModel()->getConfigData());
 
             if ($this->hasErrors()) {
                 return false;
             }
-
-            /**
-             * Reinitialize configuration (to use new config data)
-             */
-            Mage::app()->cleanCache();
-            Mage::getConfig()->reinit();
 
             /**
              * Install database
@@ -271,7 +267,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
              * Prepare encryption key and validate it
              */
             $encryptionKey = empty($options['encryption_key'])
-                ? md5(Mage::helper('Mage_Core_Helper_Data')->getRandomString(10))
+                ? $this->generateEncryptionKey()
                 : $options['encryption_key'];
             $this->_getDataModel()->setEncryptionKey($encryptionKey);
             $installer->validateEncryptionKey($encryptionKey);
@@ -322,6 +318,20 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     }
 
     /**
+     * Generate pseudorandom encryption key
+     *
+     * @param Mage_Core_Helper_Data $helper
+     * @return string
+     */
+    public function generateEncryptionKey($helper = null)
+    {
+        if ($helper === null) {
+            $helper = Mage::helper('Mage_Core_Helper_Data');
+        }
+        return md5($helper->getRandomString(10));
+    }
+
+    /**
      * Uninstall the application
      *
      * @return bool
@@ -329,19 +339,37 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     public function uninstall()
     {
         if (!Mage::isInstalled()) {
-            return true;
+            return false;
         }
         $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         if ($dbConfig->model != 'mysql4') {
             $this->addError('Database uninstall is supported for the MySQL only.');
             return false;
         }
+
+        /* Cleanup database */
         $resourceModel = new Mage_Core_Model_Resource;
         $dbConnection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $dbConnection->query("DROP DATABASE `$dbConfig->dbname`");
         $dbConnection->query("CREATE DATABASE `$dbConfig->dbname`");
-        unlink(Mage::app()->getConfig()->getOptions()->getEtcDir() . '/local.xml');
-        Varien_Io_File::rmdirRecursive(Mage::app()->getConfig()->getOptions()->getCacheDir());
+
+
+        /* Remove temporary directories */
+        $configOptions = Mage::app()->getConfig()->getOptions();
+        $dirsToRemove = array(
+            $configOptions->getCacheDir(),
+            $configOptions->getSessionDir(),
+            $configOptions->getExportDir(),
+            $configOptions->getLogDir(),
+            $configOptions->getVarDir() . '/report',
+            $configOptions->getMediaDir() . '/skin',
+        );
+        foreach ($dirsToRemove as $dir) {
+            Varien_Io_File::rmdirRecursive($dir);
+        }
+
+        /* Remove local configuration */
+        unlink($configOptions->getEtcDir() . '/local.xml');
         return true;
     }
 

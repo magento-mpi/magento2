@@ -1,30 +1,12 @@
 <?php
-
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  Mage_Selenium
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -36,18 +18,14 @@
  */
 class Mage_Selenium_Helper_Params
 {
-
     /**
      * Parameters array
-     *
      * @var array
      */
     protected $_paramsArray = array();
 
     /**
-     * Class constructor
-     *
-     * @param array $params Parameters array
+     * @param array|null $params
      */
     public function __construct(array $params = null)
     {
@@ -59,11 +37,12 @@ class Mage_Selenium_Helper_Params
     }
 
     /**
-     * Set Xpath parameter
+     * Set a parameter
      *
      * @param string $name Parameter name
      * @param string $value Parameter value (null to unset)
-     * @return
+     *
+     * @return Mage_Selenium_Helper_Params
      */
     public function setParameter($name, $value)
     {
@@ -73,21 +52,25 @@ class Mage_Selenium_Helper_Params
         } else {
             $this->_paramsArray[$key] = $value;
         }
-
         return $this;
     }
 
     /**
-     * Get Xpath parameter
+     * Get parameter value
      *
      * @param string $name Parameter name
      *
      * @return string
+     * @throws PHPUnit_Framework_Exception
      */
     public function getParameter($name)
     {
         $key = '%' . $name . '%';
-        return isset($this->_paramsArray[$key]) ? $this->_paramsArray[$key] : false;
+        if (!array_key_exists($key, $this->_paramsArray)) {
+            throw new PHPUnit_Framework_Exception('Parameter "' . $name . '" is not specified');
+        }
+
+        return $this->_paramsArray[$key];
     }
 
     /**
@@ -101,27 +84,26 @@ class Mage_Selenium_Helper_Params
     {
         if (empty($this->_paramsArray) || !is_string($source) || empty($source)) {
             return $source;
-        } else {
-            return str_replace(array_keys($this->_paramsArray), array_values($this->_paramsArray), $source);
         }
+        return str_replace(array_keys($this->_paramsArray), array_values($this->_paramsArray), $source);
+
     }
 
     /**
-     * Populate string with Regexp for next matching
+     * Populate string with Regexp for future matching
      *
      * @param string $source Source string
-     * @param string $regexp Regular expression (by default = '(.*?)')
+     * @param string $regexp Regular expression (by default = '([^\/]+?)')
      *
      * @return string
      */
-    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)'/* '(.*?)' */)
+    public function replaceParametersWithRegexp($source, $regexp = '([^\/]+?)')
     {
-        if (empty($this->_paramsArray)) {
-            return $source;
-        } else {
-            return str_replace(array_keys($this->_paramsArray), $regexp, $source);
+        if (!empty($this->_paramsArray)) {
+            $replaceKeys = array_keys($this->_paramsArray);
+            $replaceKeys = array_map('preg_quote', $replaceKeys);
+            return str_replace($replaceKeys, $regexp, $source);
         }
-//       return preg_replace('/%([^\/]+?)%/', $regexp, $source);
+        return $source;
     }
-
 }

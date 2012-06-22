@@ -263,7 +263,8 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         if ($addressId) {
             $address = $this->getOnepage()->getAddress($addressId);
 
-            if (Mage::getSingleton('Mage_Customer_Model_Session')->getCustomer()->getId() == $address->getCustomerId()) {
+            $customerSession = Mage::getSingleton('Mage_Customer_Model_Session');
+            if ($customerSession->getCustomer()->getId() == $address->getCustomerId()) {
                 $this->getResponse()->setHeader('Content-type', 'application/x-json');
                 $this->getResponse()->setBody($address->toJson());
             } else {
@@ -436,7 +437,8 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
     protected function _getOrder()
     {
         if (is_null($this->_order)) {
-            $this->_order = Mage::getModel('Mage_Sales_Model_Order')->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
+            $this->_order = Mage::getModel('Mage_Sales_Model_Order');
+            $this->_order->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
             if (!$this->_order->getId()) {
                 throw new Mage_Payment_Model_Info_Exception(Mage::helper('Mage_Core_Helper_Data')->__("Can not create invoice. Order was not found."));
             }

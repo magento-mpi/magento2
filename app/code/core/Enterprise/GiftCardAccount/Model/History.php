@@ -62,7 +62,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         if ($this->getGiftcardaccount()->getOrder()) {
             $orderId = $this->getGiftcardaccount()->getOrder()->getIncrementId();
             return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Order #%s.', $orderId);
-        } else if ($user = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()) {
+        } else if ($user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()) {
             $username = $user->getUsername();
             if ($username) {
                 return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('By admin: %s.', $username);
@@ -90,7 +90,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         }
 
         $sender = '';
-        if ($user = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()) {
+        if ($user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()) {
             if ($user->getUsername()) {
                 $sender = $user->getUsername();
             }
@@ -113,7 +113,7 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
 
     protected function _getUpdatedAdditionalInfo()
     {
-        if ($user = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()) {
+        if ($user = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()) {
             $username = $user->getUsername();
             if ($username) {
                 return Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('By admin: %s.', $username);

@@ -21,7 +21,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     /**
      * Admin session
      *
-     * @var Mage_Admin_Model_Session
+     * @var Mage_Backend_Model_Auth_Session
      */
     protected $_adminSession = null;
 
@@ -238,12 +238,12 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     /**
      * Retrieve admin session model
      *
-     * @return Mage_Admin_Model_Session
+     * @return Mage_Backend_Model_Auth_Session
      */
     protected function _getAdminSession()
     {
         if (is_null($this->_adminSession)) {
-            $this->_adminSession = Mage::getModel('Mage_Admin_Model_Session');
+            $this->_adminSession = Mage::getModel('Mage_Backend_Model_Auth_Session');
         }
         return $this->_adminSession;
     }
@@ -255,7 +255,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('customer/customersegment')
+        return  Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/customersegment')
                 && Mage::helper('Enterprise_CustomerSegment_Helper_Data')->isEnabled();
     }
 }

@@ -1,0 +1,39 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CompareProducts
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#
+compare_products:
+    mca: catalog/product_compare/
+    title: Products Comparison List - Magento Commerce
+    uimap: &compare_products
+        form:
+            fieldsets:
+                -
+                    compare_products:
+                        xpath: //table[@id='product_comparison']
+                        buttons:
+                            add_to_cart: //td[h2='%productName%']//button[span='Add to Cart']
+                        links:
+                            product_title: //a[text()='%productName%']
+                            add_to_whishlist: //td[h2='%productName%']//a[text()='Add to Wishlist']
+                            remove_item: //td[%columnIndex%]/a[@title='Remove This Item']
+                        pageelements:
+                            product_attribute_names: //tr[th/span/@class]
+                            product_attribute_value: /tr[th='%attrName%']/td[%columnIndex%]
+                            product_names: //td[h2[@class='product-name']]
+        buttons:
+            close_window: //button[contains(@onclick,'window.close')]
+        links:
+            print_this_page: //a[text()='Print This Page']
+
+compare_products_index:
+    mca: catalog/product_compare/index/#
+    title: Products Comparison List - Magento Commerce
+    uimap: *compare_products

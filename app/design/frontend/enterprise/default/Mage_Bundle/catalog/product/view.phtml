@@ -111,8 +111,7 @@ $_product = $this->getProduct();
                 <a href="#" onclick="Enterprise.Bundle.end(); return false;"><small>&lsaquo;</small> Go back to product detail</a>
             </div>
             <?php echo $this->getChildHtml('bundleSummary') ?>
-            <?php echo $this->getLayout()->renderElement('product.options.info.container') ?>
-            <?php echo $this->getLayout()->renderElement('product.options.after.info.container') ?>
+            <?php echo $this->getChildChildHtml('options_container') ?>
         </div>
         <?php endif;?>
         </form>

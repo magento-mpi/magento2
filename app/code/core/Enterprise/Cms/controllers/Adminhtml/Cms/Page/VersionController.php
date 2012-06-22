@@ -54,7 +54,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         /* @var $version Enterprise_Cms_Model_Page_Version */
 
         if ($versionId) {
-            $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+            $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
             $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
             $version->loadWithRestrictions($accessLevel, $userId, $versionId);
         }
@@ -185,7 +185,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         }
         else {
             try {
-                $userId = Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId();
+                $userId = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId();
                 $accessLevel = Mage::getSingleton('Enterprise_Cms_Model_Config')->getAllowedAccessLevel();
 
                 foreach ($ids as $id) {
@@ -269,7 +269,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
 
             // only if user not specified we set current user as owner
             if (!$version->getUserId()) {
-                $version->setUserId(Mage::getSingleton('Mage_Admin_Model_Session')->getUser()->getId());
+                $version->setUserId(Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser()->getId());
             }
 
             if (isset($data['revision_id'])) {
@@ -332,7 +332,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 return Mage::getSingleton('Enterprise_Cms_Model_Config')->canCurrentUserDeleteRevision();
                 break;
             default:
-                return Mage::getSingleton('Mage_Admin_Model_Session')->isAllowed('cms/page');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/page');
                 break;
         }
     }

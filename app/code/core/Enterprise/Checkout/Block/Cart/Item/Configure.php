@@ -36,12 +36,6 @@ class Enterprise_Checkout_Block_Cart_Item_Configure extends Mage_Core_Block_Temp
              ));
         }
 
-        // Set custom template with 'Update Cart' button
-        $block = $this->getLayout()->getBlock('product.info.addtocart');
-        if ($block) {
-            $block->setTemplate('checkout/cart/item/configure/updatecart.phtml');
-        }
-
         return parent::_prepareLayout();
     }
 }
