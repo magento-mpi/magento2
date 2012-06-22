@@ -27,30 +27,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     protected static $_currProductId;
 
     /**
-     * Product Attribute created at previous API
-     * @var int
-     */
-    protected static $_prevProductAttributeId;
-
-    /**
-     * Product Attribute created at current API
-     * @var int
-     */
-    protected static $_currProductAttributeId;
-
-    /**
-     * Product Attribute Option created at previous API
-     * @var int
-     */
-    protected static $_prevProductAttributeOptionId;
-
-    /**
-     * Product Attribute Option created at current API
-     * @var int
-     */
-    protected static $_currProductAttributeOptionId;
-
-    /**
      * Test product create method compatibility.
      * Store created products IDs for use in later tests.
      *
