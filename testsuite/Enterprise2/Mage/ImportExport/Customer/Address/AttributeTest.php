@@ -151,13 +151,17 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
     {
         //Precondition: delete custom address attribute
         $this->admin('manage_customer_address_attributes');
-        $this->customerAddressAttributeHelper()->openAttribute(array('attribute_code'=> $attrData['attribute_code']));
+        $this->customerAddressAttributeHelper()->openAttribute(
+            array(
+                'attribute_code'=> $attrData['attribute_code'],
+                'attribute_label'=> $attrData['attribute_label']
+            ));
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
 
-                //Step 1
+        //Step 1
         $this->admin('export');
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));

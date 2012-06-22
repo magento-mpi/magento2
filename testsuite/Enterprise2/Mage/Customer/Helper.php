@@ -68,21 +68,25 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     /**
      * Get Current Customer Store Credit Balance
      *
+     * @param string $webSiteName
      * @return string
      */
-    public function getStoreCreditBalance()
+    public function getStoreCreditBalance($webSiteName = '')
     {
         $this->openTab('store_credit');
+        $this->addParameter('webSiteName', $webSiteName);
         return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
     }
     /**
      * Get Current Customer Store Credit Balance
      *
+     * @param string $webSiteName
      * @return string
      */
-    public function getRewardPointsBalance()
+    public function getRewardPointsBalance($webSiteName = '')
     {
         $this->openTab('reward_points');
+        $this->addParameter('webSiteName', $webSiteName);
         return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
     }
 }

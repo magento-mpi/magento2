@@ -56,7 +56,7 @@ generic_customer_required_fields:
 
 generic_customer_attribute:
    input_type: Text Field
-   attribute_code: attr_%randomize%
+   attribute_code: attr_ie_%randomize%
    default_text_field_value: attr_default_%randomize%
    values_required: Yes
    input_validation: None
@@ -183,7 +183,7 @@ customer_account_female_address:
 
 generic_customer_address_attribute:
    input_type: Text Field
-   attribute_code: attr_%randomize%
+   attribute_code: attr_ie_%randomize%
    default_text_field_value: attr_default_%randomize%
    input_validation: None
    min_text_length: 1

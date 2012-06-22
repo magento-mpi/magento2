@@ -61,7 +61,7 @@ class Enterprise2_Mage_CustomerAddressAttribute_Helper extends Mage_Selenium_Tes
         $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
-        $cellId = $this->getColumnIdByName('Attribute Code');
+        $cellId = $this->getColumnIdByName('Attribute Label');
         $this->addParameter('attribute_code', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . '//td[' . $cellId . ']');

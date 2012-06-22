@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -136,9 +136,9 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
             array(
                 'email' => $userData1['email']
             ));
-        $this->assertEquals('$1,234.00', $this->customerHelper()->getStoreCreditBalance(),
+        $this->assertEquals('$4,321.00', $this->customerHelper()->getStoreCreditBalance(),
             'Adding customer credit score balance is failed');
-        $this->assertEquals('4321', $this->customerHelper()->getRewardPointsBalance(),
+        $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name',
@@ -202,7 +202,7 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
             $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
         );
         $this->assertEquals(
-            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2',
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
         //Verifying import
@@ -213,7 +213,7 @@ class Enterprise2_Mage_ImportExport_CustomerFinanceTest extends Mage_Selenium_Te
         $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' '. $customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
         //Verifying finance data
-        $this->assertEquals($csvData['valid']['store_credit'], $this->customerHelper()->getStoreCreditBalance(),
+        $this->assertEquals('$' .$csvData['valid']['store_credit'] . '.00', $this->customerHelper()->getStoreCreditBalance(),
             'Store credit has not been added');
         $this->assertEquals($csvData['valid']['reward_points'], $this->customerHelper()->getRewardPointsBalance(),
             'Reward points have not been added');
