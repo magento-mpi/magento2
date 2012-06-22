@@ -15,7 +15,7 @@
 class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Customer import Eav model
+     * Abstract import entity model
      *
      * @var Mage_ImportExport_Model_Import_Entity_V2_Abstract|PHPUnit_Framework_MockObject_MockObject
      */

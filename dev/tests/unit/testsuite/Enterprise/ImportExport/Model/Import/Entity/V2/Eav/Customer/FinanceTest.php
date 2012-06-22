@@ -14,12 +14,25 @@
  */
 class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
+    /**#@+
+     * Mage registry helper prefix
+     */
+    const MAGE_REGISTRY_HELPER_PREFIX = '_helper/';
+    /**#@-*/
+
     /**
      * Abstract customer finance export model
      *
      * @var Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
+
+    /**
+     * Array of helpers to mock and put to the registry
+     *
+     * @var array
+     */
+    protected $_helpers = array('Mage_Core_Helper_String', 'Mage_ImportExport_Helper_Data');
 
     /**
      * Websites array (website id => code)
@@ -50,12 +63,36 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     );
 
     /**
+     * Attributes array
+     *
+     * @var array
+     */
+    protected $_attributes = array(
+        array(
+            'id'   => 1,
+            'attribute_code' => 'store_credit',
+            'frontend_label' => 'Store Credit',
+            'backend_type'   => 'decimal',
+            'is_required'    => true,
+        ),
+        array(
+            'id'   => 2,
+            'attribute_code' => 'reward_points',
+            'frontend_label' => 'Reward Points',
+            'backend_type'   => 'int',
+            'is_required'    => false,
+        ),
+    );
+
+    /**
      * Init entity adapter model
      */
     public function setUp()
     {
         parent::setUp();
 
+        $this->_unregisterHelpers();
+        $this->_mockHelpersAndRegisterInRegistry();
         $this->_model = $this->_getModelMock();
     }
 
@@ -65,24 +102,47 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     public function tearDown()
     {
         unset($this->_model);
+        $this->_unregisterHelpers();
 
         parent::tearDown();
     }
 
     /**
-     * Create mock for customer address model class
+     * Mock helpers
+     */
+    protected function _mockHelpersAndRegisterInRegistry()
+    {
+        foreach ($this->_helpers as $helperKey) {
+            $helper = $this->getMock($helperKey, array('__'));
+            $helper->expects($this->any())
+                ->method('__')
+                ->will($this->returnArgument(0));
+
+            Mage::register(self::MAGE_REGISTRY_HELPER_PREFIX . $helperKey, $helper);
+        }
+    }
+
+    /**
+     * Un-register mocked helpers
+     */
+    protected function _unregisterHelpers()
+    {
+        foreach ($this->_helpers as $helperKey) {
+            Mage::unregister(self::MAGE_REGISTRY_HELPER_PREFIX . $helperKey);
+        }
+    }
+
+    /**
+     * Create mock for customer finance model class
      *
      * @return Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      */
     protected function _getModelMock()
     {
         $modelMock = $this->getMock('Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance',
-            array('isAttributeValid', '_getCustomerCollection'), array(), '', false, true, true
+            array('_getCustomerCollection', '_getAttributeCollection'), array(), '', false, true,
+            true
         );
-
-        $modelMock->expects($this->any())
-            ->method('isAttributeValid')
-            ->will($this->returnValue(true));
 
         $customerCollection = new Varien_Data_Collection();
         foreach ($this->_customers as $customer) {
@@ -100,6 +160,43 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         $property = new ReflectionProperty($modelMock, '_websiteCodeToId');
         $property->setAccessible(true);
         $property->setValue($modelMock, array_flip($this->_websites));
+
+        $attributeCollection = new Varien_Data_Collection();
+        foreach ($this->_attributes as $attribute) {
+            $attributeCollection->addItem(new Varien_Object($attribute));
+        }
+
+        $modelMock->expects($this->any())
+            ->method('_getAttributeCollection')
+            ->will($this->returnValue($attributeCollection));
+
+        $method = new ReflectionMethod($modelMock, '_initAttributes');
+        $method->setAccessible(true);
+        $method->invoke($modelMock);
+
+        return $modelMock;
+    }
+
+    /**
+     * Create mock for customer finance model class
+     *
+     * @return Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
+     */
+    protected function _getModelMockForTestInitAttributes()
+    {
+        $modelMock = $this->getMock('Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance',
+            array('_getAttributeCollection'), array(), '', false, true,
+            true
+        );
+
+        $attributeCollection = new Varien_Data_Collection();
+        foreach ($this->_attributes as $attribute) {
+            $attributeCollection->addItem(new Varien_Object($attribute));
+        }
+
+        $modelMock->expects($this->any())
+            ->method('_getAttributeCollection')
+            ->will($this->returnValue($attributeCollection));
 
         return $modelMock;
     }
@@ -180,12 +277,59 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                         )
                 ),
             ),
+            'invalid_attribute_value' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_invalid_attribute_value.php',
+                '$errors' => array(
+                    "Invalid value for '%s'" => array(array(1, 'store_credit'), array(1, 'reward_points'))
+                ),
+            ),
+            'empty_optional_attribute_value' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_empty_optional_attribute_value.php',
+                '$errors'  => array(),
+                '$isValid' => true,
+            ),
+            'empty_required_attribute_value' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_empty_required_attribute_value.php',
+                '$errors'  => array(
+                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_VALUE_IS_REQUIRED
+                        => array(
+                            array(1, 'store_credit')
+                        )
+                ),
+            ),
         );
+    }
+
+    /**
+     * Test filling attribute array
+     *
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_initAttributes()
+     */
+    public function testInitAttributes()
+    {
+        $modelMock = $this->_getModelMockForTestInitAttributes();
+
+        $method = new ReflectionMethod($modelMock, '_initAttributes');
+        $method->setAccessible(true);
+        $method->invoke($modelMock);
+
+        $attributes = array();
+        foreach ($this->_attributes as $attribute) {
+            $attributes[$attribute['attribute_code']] = array(
+                'id'          => $attribute['id'],
+                'code'        => $attribute['attribute_code'],
+                'is_required' => $attribute['is_required'],
+                'type'        => $attribute['backend_type'],
+            );
+        }
+
+        $this->assertAttributeEquals($attributes, '_attributes', $modelMock);
     }
 
     /**
      * Test Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow() with different values
      *
+     * @depends testInitAttributes
      * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow()
      * @dataProvider validateRowDataProvider
      *
@@ -205,6 +349,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
 
     /**
      * Test entity type code getter
+     *
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::getEntityTypeCode()
      */
     public function testGetEntityTypeCode()
     {

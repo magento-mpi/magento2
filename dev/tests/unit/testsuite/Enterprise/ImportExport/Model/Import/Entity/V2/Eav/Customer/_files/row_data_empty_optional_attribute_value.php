@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_ImportExport
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+return array(
+    '_website'      => 'website1',
+    'email'         => 'test1@email.com',
+    'store_credit'  => 3,
+    'reward_points' => '',
+);

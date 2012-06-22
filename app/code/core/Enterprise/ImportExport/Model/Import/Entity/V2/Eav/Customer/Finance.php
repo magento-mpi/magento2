@@ -231,7 +231,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     /**
      * Retrieve entity attribute EAV collection
      *
-     * @return Varien_Data_Collection
+     * @return Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
      */
     protected function _getAttributeCollection()
     {

@@ -67,6 +67,11 @@ class Mage_ImportExport_Model_Source_Import_EntityTest extends PHPUnit_Framework
         Mage::unregister(self::$_helperKey);
         self::$_helper = null;
         self::$sourceModel = null;
+
+        $config = new ReflectionProperty('Mage', '_config');
+        $config->setAccessible(true);
+        $config->setValue(null, null);
+        $config->setAccessible(false);
     }
 
     /**
