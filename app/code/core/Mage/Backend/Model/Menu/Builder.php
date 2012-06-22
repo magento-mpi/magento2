@@ -94,7 +94,7 @@ class Mage_Backend_Model_Menu_Builder
                 $this->_menu->add($item, null, $sortOrder);
             } else {
                 if (!isset($items[$parentId])) {
-                    throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $params[$id]['parent']));
+                    throw new OutOfRangeException(sprintf('Specified invalid parent id (%s)', $parentId));
                 }
                 if (isset($params[$parentId]['removed'])) {
                     continue;
