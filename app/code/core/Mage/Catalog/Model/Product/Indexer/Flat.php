@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     public function matchEvent(Mage_Index_Model_Event $event)
     {
         /** @var $productFlatHelper Mage_Catalog_Helper_Product_Flat */
-        $productFlatHelper = Mage::helper('Mage_Catalog_Helper_Product_Flat');
+        $productFlatHelper = $event->getFlatHelper() ?: Mage::helper('Mage_Catalog_Helper_Product_Flat');
         if (!$productFlatHelper->isAvailable() || !$productFlatHelper->isBuilt()) {
             return false;
         }
