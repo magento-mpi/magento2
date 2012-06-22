@@ -211,4 +211,12 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
 
         return $data;
     }
+
+    /**
+     * Test filename getter. Filename must be set in constructor.
+     */
+    public function testGetFileName()
+    {
+        $this->assertEquals($this->_model->getEntityTypeCode(), $this->_model->getFileName());
+    }
 }

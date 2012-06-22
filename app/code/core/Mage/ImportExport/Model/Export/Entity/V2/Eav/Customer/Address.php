@@ -58,6 +58,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
         $this->_permanentAttributes = array(self::COL_WEBSITE, self::COL_EMAIL, self::COL_ADDRESS_ID);
 
         $this->_initWebsites(true);
+        $this->setFileName($this->getEntityTypeCode());
     }
 
     /**
