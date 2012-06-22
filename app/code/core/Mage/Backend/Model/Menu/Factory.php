@@ -17,7 +17,7 @@ class Mage_Backend_Model_Menu_Factory
      */
     public function getMenuInstance(array $arguments = array())
     {
-        $arguments = array_merge($arguments, array('logger' => Mage::getSingleton('Mage_Backend_Model_Menu_Logger')));
+        $arguments = array_merge(array('logger' => Mage::getSingleton('Mage_Backend_Model_Menu_Logger')), $arguments);
         return Mage::getModel('Mage_Backend_Model_Menu', $arguments);
     }
 }
