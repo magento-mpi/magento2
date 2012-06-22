@@ -132,7 +132,8 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
     {
         return array(
             array(array(array(
-                '_website' => 'base'
+                '_website' => 'base',
+                '_finance_website' => 'base'
             )))
         );
     }

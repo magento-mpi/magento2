@@ -41,6 +41,7 @@ import_main_file_required_fields:
 import_finance_file_required_fields:
    email: %noValue%
    _website: base
+   _finance_website: base
    store_credit: 4321.0000
    reward_points: 1234
 
