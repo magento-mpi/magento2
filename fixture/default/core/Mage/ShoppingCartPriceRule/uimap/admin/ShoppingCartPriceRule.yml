@@ -118,9 +118,13 @@ create_shopping_cart_price_rule:
                                         condition_attribute: //ul[@id='conditions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chooser: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
                                         confirm_choice: //ul[@id='conditions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        rule_condition_item_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        rule_condition_item_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        rule_condition_item_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        rule_condition_item_category_text: %categoryXpath%/div/a/span
+                                        rule_condition_item_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        rule_condition_item_category_index_link: %categoryXpath%[%index%]/div/a
                                     dropdowns:
                                         select_condition_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
                                         select_condition_operator: /li[%key%]/span[contains(.//@name,'operator')]//select
@@ -169,9 +173,13 @@ create_shopping_cart_price_rule:
                                         action_attribute: //ul[@id='actions__%condition%__children']/li[%key%]/span[.//select[contains(@name,'attribute')]]/a
                                         open_chooser: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_chooser_trigger')]
                                         confirm_choice: //ul[@id='actions__%condition%__children']/li[%key%]//img[contains(@src,'rule_component_apply')]
-                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
-                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
-                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                        rule_action_item_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        rule_action_item_sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        rule_action_item_expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+                                    pageelements:
+                                        rule_action_item_category_text: %categoryXpath%/div/a/span
+                                        rule_action_item_category_index_text: %categoryXpath%[%index%]/div/a/span
+                                        rule_action_item_category_index_link: %categoryXpath%[%index%]/div/a
                                     dropdowns:
                                         select_action_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
                                         select_action_operator: /li[%key%]/span[contains(.//@name,'operator')]//select

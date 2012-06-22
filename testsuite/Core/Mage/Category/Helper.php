@@ -48,30 +48,32 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
     public function defineCorrectCategory($catName, $parentCategoryId = null, $fieldsetName = 'select_category')
     {
         $isCorrectName = array();
-        $categoryText = '/div/a/span';
 
-        $uimap = $this->_findUimapElement('fieldset', $fieldsetName);
         if (!$parentCategoryId) {
             $this->addParameter('rootName', $catName);
-            $catXpath = $this->_getControlXpath('link', 'root_category', $uimap);
+            $categoryType = 'root_category';
         } else {
             $this->addParameter('parentCategoryId', $parentCategoryId);
             $this->addParameter('subName', $catName);
-            $isDiscloseCategory = $this->_getControlXpath('link', 'expand_category', $uimap);
-            $catXpath = $this->_getControlXpath('link', 'sub_category', $uimap);
-            if ($this->isElementPresent($isDiscloseCategory)) {
-                $this->click($isDiscloseCategory);
+            $categoryType = 'sub_category';
+            if ($this->controlIsPresent('link', $fieldsetName . '_expand_category')) {
+                $this->clickControl('link', $fieldsetName . '_expand_category', false);
                 $this->pleaseWait();
             }
         }
-        $this->waitForAjax();
-        $qtyCat = $this->getXpathCount($catXpath . $categoryText);
+        //$this->waitForAjax();
+        $fieldsetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
+        $categoryXpath = $this->_getControlXpath('link', $fieldsetName . '_' . $categoryType);
+        $this->addParameter('categoryXpath', str_replace($fieldsetXpath, '', $categoryXpath));
+        $qtyCat = $this->getXpathCount($this->_getControlXpath('pageelement', $fieldsetName . '_category_text'));
 
         for ($i = 1; $i <= $qtyCat; $i++) {
-            $text = $this->getText($catXpath . '[' . $i . ']' . $categoryText);
+            $this->addParameter('index', $i);
+            $text = $this->getControlAttribute('pageelement', $fieldsetName . '_category_index_text', 'text');
             $text = preg_replace('/ \([0-9]+\)/', '', $text);
             if ($catName === $text) {
-                $isCorrectName[] = $this->getAttribute($catXpath . '[' . $i . ']' . '/div/a/@id');
+                $isCorrectName[] =
+                    $this->getControlAttribute('pageelement', $fieldsetName . '_category_index_link', 'id');
             }
         }
 
@@ -88,7 +90,6 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
     {
         $nodes = explode('/', $categoryPath);
         $rootCat = array_shift($nodes);
-        $categoryContainer = "//*[@id='category-edit-container']//h3";
 
         $correctRoot = $this->defineCorrectCategory($rootCat, null, $fieldsetName);
 
@@ -106,10 +107,11 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
             } else {
                 $pageName = $rootCat;
             }
-            $this->click('//*[@id=\'' . array_shift($correctRoot) . '\']');
-            if ($this->isElementPresent($categoryContainer)) {
+            $this->addParameter('elementId', array_shift($correctRoot));
+            $this->clickControl('pageelement', 'element_by_id', false);
+            if ($this->isCategoriesPage()) {
                 $this->pleaseWait();
-                $openedPageName = $this->getText($categoryContainer);
+                $openedPageName = $this->getControlAttribute('pageelement', 'category_name_header', 'text');
                 $openedPageName = preg_replace('/ \(ID\: [0-9]+\)/', '', $openedPageName);
                 if ($pageName != $openedPageName) {
                     $this->fail("Opened category with name '$openedPageName' but must be '$pageName'");
@@ -166,8 +168,9 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         if (isset($categoryData['name'])) {
             $this->addParameter('elementTitle', $categoryData['name']);
         }
-        $waitCondition = array("//*[@id='category-edit-container']//h3[not(contains(text(),'New'))]",
-                               $this->_getMessageXpath('general_error'), $this->_getMessageXpath('general_validation'));
+        $waitCondition = array($this->_getMessageXpath('general_error'),
+                               $this->_getControlXpath('pageelement', 'created_category_name_header'),
+                               $this->_getMessageXpath('general_validation'));
         $this->clickButton('save_category', false);
         $this->waitForElement($waitCondition);
         $this->checkCategoriesPage();
@@ -178,12 +181,23 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      */
     public function checkCategoriesPage()
     {
+        if (!$this->isCategoriesPage()) {
+            $this->fail("Opened page is not 'manage_categories' page");
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCategoriesPage()
+    {
         $this->addParameter('id', $this->defineIdFromUrl());
         $currentPage = $this->_findCurrentPageFromUrl();
         if (!in_array($currentPage, array('edit_manage_categories', 'manage_categories', 'edit_category'))) {
-            $this->fail("Opened the wrong page: '" . $currentPage . "' (should be: 'manage_categories')");
+            return false;
         }
         $this->setCurrentPage($currentPage);
+        return true;
     }
 
     /**
@@ -276,7 +290,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         }
         $this->addParameter('elementTitle', $title);
         //Form category xpath
-        $link = '//ul[@id="nav"]';
+        $link = "//ul[@id='nav']";
         foreach ($nodes as $node) {
             $link = $link . '//li[contains(a/span,"' . $node . '")]';
         }
@@ -307,7 +321,8 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
                     }
                 }
             }
-            $this->clickAndWait($link, $this->_browserTimeoutPeriod);
+            $this->click($link);
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
             return true;
         }
@@ -379,8 +394,8 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      */
     public function moveCategory($whatCatName, $whereCatName)
     {
-        $xpathWhatCatName = "//span[contains(.,'" . $whatCatName . "')]";
-        $xpathWhereCatName = "//span[contains(.,'" . $whereCatName . "')]";
+        $xpathWhatCatName = "//span[contains(text(),'" . $whatCatName . "')]";
+        $xpathWhereCatName = "//span[contains(text(),'" . $whereCatName . "')]";
         if ($this->isElementPresent($xpathWhatCatName) && $this->isElementPresent($xpathWhereCatName)) {
             $this->clickAt($xpathWhatCatName, '5,2');
             $this->waitForAjax();

@@ -124,7 +124,6 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
     public function differentShippingMethods($shipping, $shippingOrigin, $shippingDestination, $testData)
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $shippingMethod = $this->loadDataSet('ShippingMethod', $shipping . '_enable');
         $shippingData = $this->loadDataSet('Shipping', 'shipping_' . $shipping);
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney_' . $shippingDestination,
