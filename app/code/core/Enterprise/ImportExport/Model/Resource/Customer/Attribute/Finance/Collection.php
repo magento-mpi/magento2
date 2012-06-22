@@ -48,8 +48,8 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
                 'frontend_label' => $helper->__('Store Credit'),
-                'type'           => 'decimal',
                 'backend_type'   => 'decimal',
+                'is_required'    => false,
             );
             $this->addItem(new Mage_Eav_Model_Entity_Attribute($storeCreditData));
         }
@@ -59,8 +59,8 @@ class Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collecti
                 'attribute_id'   => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,
                 'frontend_label' => $helper->__('Reward Points'),
-                'type'           => 'int',
                 'backend_type'   => 'int',
+                'is_required'    => false,
             );
             $this->addItem(new Mage_Eav_Model_Entity_Attribute($rewardPointsData));
         }

@@ -156,7 +156,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 } else { // create
                     $entityId = $nextEntityId++;
                     $entityRow['entity_id'] = $entityId;
-                    $entityRow['entity_type_id'] = $this->_entityTypeId;
+                    $entityRow['entity_type_id'] = $this->getEntityTypeId();
                     $entityRow['attribute_set_id'] = 0;
                     $entityRow['website_id'] = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
                     $entityRow['email'] = $emailInLowercase;
@@ -242,7 +242,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 foreach ($attrData as $attributeId => $value) {
                     $tableData[] = array(
                         'entity_id'      => $customerId,
-                        'entity_type_id' => $this->_entityTypeId,
+                        'entity_type_id' => $this->getEntityTypeId(),
                         'attribute_id'   => $attributeId,
                         'value'          => $value
                     );

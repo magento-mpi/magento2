@@ -40,6 +40,36 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     );
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->_initAttributes();
+    }
+
+    /**
+     * Initialize entity attributes
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+     */
+    protected function _initAttributes()
+    {
+        $collection = $this->_getAttributeCollection();
+        /** @var $attribute Mage_Eav_Model_Attribute */
+        foreach ($collection as $attribute) {
+            $this->_attributes[$attribute->getAttributeCode()] = array(
+                'id'          => $attribute->getId(),
+                'code'        => $attribute->getAttributeCode(),
+                'is_required' => $attribute->getIsRequired(),
+                'type'        => $attribute->getBackendType(),
+            );
+        }
+        return $this;
+    }
+
+    /**
      * Import data rows
      *
      * @return boolean
