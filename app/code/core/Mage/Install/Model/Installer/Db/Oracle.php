@@ -36,11 +36,14 @@ class Mage_Install_Model_Installer_Db_Oracle extends Mage_Install_Model_Installe
     /**
      * Clean database
      *
-     * @return Mage_Install_Model_Installer_Db_Mysql4
+     * @param SimpleXMLElement $config
+     * @return Mage_Install_Model_Installer_Db_Abstract
      */
-    public function cleanUpDatabase()
+    public function cleanUpDatabase(SimpleXMLElement $config)
     {
-        $connection = $this->_getConnection();
+        $resourceModel = new Mage_Core_Model_Resource();
+        $connection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+
         $connection->query("
 DECLARE
    TYPE typ_object_table IS TABLE OF user_objects.object_name%TYPE;
@@ -104,7 +107,7 @@ BEGIN
     END LOOP;
   END LOOP;
 END;  ");
-
+    $connection->query("PURGE RECYCLEBIN");
         return $this;
     }
 }

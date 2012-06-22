@@ -358,7 +358,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
 
         /** @var $resourceModel Mage_Install_Model_Installer_Db_Abstract */
         $resourceModel = Mage::getModel($modelName);
-        $resourceModel->cleanUpDatabase();
+        $resourceModel->cleanUpDatabase($dbConfig);
 
         /* Remove temporary directories */
         $configOptions = Mage::app()->getConfig()->getOptions();

@@ -61,18 +61,21 @@ class Mage_Install_Model_Installer_Db_Mssql extends Mage_Install_Model_Installer
     /**
      * Clean database
      *
-     * @return Mage_Install_Model_Installer_Db_Mysql4
+     * @param SimpleXMLElement $config
+     * @return Mage_Install_Model_Installer_Db_Abstract
      */
-    public function cleanUpDatabase()
+    public function cleanUpDatabase(SimpleXMLElement $config)
     {
-        $connection = $this->_getConnection();
-        $config = $connection->getConfig();
-        $dbName = $connection->quoteIdentifier($config['dbname']);
-
-        $connection->query(
-            'IF EXISTS(SELECT * FROM SYS.DATABASES WHERE NAME = ' . $dbName . ') DROP DATABASE IF EXISTS ' . $dbName
+        $resourceModel = new Mage_Core_Model_Resource();
+        $connection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+        $dbName = $config->dbname;
+        $query = str_replace(
+            '%s',
+            $dbName,
+            "IF EXISTS (SELECT name FROM sys.databases WHERE name = N'%s')\nDROP DATABASE [%s]\n" .
+                "CREATE DATABASE %s\n"
         );
-        $connection->query('CREATE DATABASE ' . $dbName);
+        $connection->query($query);
 
         return $this;
     }
