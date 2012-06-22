@@ -25,7 +25,7 @@ class Varien_Db_SelectTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
         $select->from('test')->where('field LIKE ?', '%value?%');
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field LIKE '%?%')", $select->assemble());
 
-        $select = new Varien_Db_Select($this->_getAdapterMockWithMockedQuote(0, null));
+        $select = new Varien_Db_Select($this->_getAdapterMockWithMockedQuote(0));
         $select->from('test')->where("field LIKE '%value?%'", null, Varien_Db_Select::TYPE_CONDITION);
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field LIKE '%value?%')", $select->assemble());
 
@@ -41,11 +41,11 @@ class Varien_Db_SelectTest extends Magento_Test_TestCase_ZendDbAdapterAbstract
      * @param string|null $returnValue
      * @return Zend_Db_Adapter_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getAdapterMockWithMockedQuote($callCount, $returnValue)
+    protected function _getAdapterMockWithMockedQuote($callCount, $returnValue = null)
     {
         $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('supportStraightJoin', 'quote'), null);
         $method = $adapter->expects($this->exactly($callCount))->method('quote');
-        if (isset($returnValue)) {
+        if ($callCount > 0) {
             $method->will($this->returnValue($returnValue));
         }
         return $adapter;
