@@ -55,6 +55,9 @@ class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControlle
         parent::testConfigureAction();
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testConfigureFailedAction()
     {
         $this->setUp();
@@ -70,12 +73,6 @@ class Enterprise_Checkout_CartControllerTest extends Mage_Checkout_CartControlle
             foreach ($testParams['expected'] as $expected) {
                 $this->assertContains($expected, $out, 'Route checkout/cart/configureFailed ' . $testCode);
             }
-            Mage::unregister('application_params');
-            Mage::unregister('current_product');
-            Mage::unregister('product');
-            Mage::unregister('_singleton/Mage_Eav_Model_Config');
-            Mage::unregister('_singleton/Mage_Catalog_Model_Product_Option');
-            Mage::unregister('_singleton/Mage_Core_Model_Layout');
         }
     }
 }
