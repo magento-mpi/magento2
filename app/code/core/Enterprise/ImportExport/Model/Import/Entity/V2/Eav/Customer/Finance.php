@@ -25,9 +25,24 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL   = 'email';
-    const COLUMN_WEBSITE = '_website';
+    const COLUMN_EMAIL           = 'email';
+    const COLUMN_WEBSITE         = '_website';
+    const COLUMN_FINANCE_WEBSITE = '_finance_website';
     /**#@-*/
+
+    /**#@+
+     * Error codes
+     */
+    const ERROR_FINANCE_WEBSITE_IS_EMPTY = 'financeWebsiteIsEmpty';
+    const ERROR_INVALID_FINANCE_WEBSITE  = 'invalidFinanceWebsite';
+    /**#@-*/
+
+    /**
+     * Permanent entity columns
+     *
+     * @var array
+     */
+    protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_FINANCE_WEBSITE);
 
     /**
      * Column names that holds values with particular meaning
@@ -37,6 +52,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     protected $_particularAttributes = array(
         self::COLUMN_WEBSITE,
         self::COLUMN_EMAIL,
+        self::COLUMN_FINANCE_WEBSITE,
     );
 
     /**
@@ -45,6 +61,16 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     public function __construct()
     {
         parent::__construct();
+
+        /** @var $helper Enterprise_ImportExport_Helper_Data */
+        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+
+        $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
+            $helper->__('Finance information website is not specified')
+        );
+        $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
+            $helper->__('Invalid value in Finance information website column (website does not exists?)')
+        );
 
         $this->_initAttributes();
     }
@@ -200,14 +226,19 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
             $this->addRowError(self::ERROR_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_WEBSITE);
         } elseif (empty($rowData[self::COLUMN_EMAIL])) {
             $this->addRowError(self::ERROR_EMAIL_IS_EMPTY, $rowNumber, self::COLUMN_EMAIL);
+        } elseif (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
+            $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
         } else {
             $email   = strtolower($rowData[self::COLUMN_EMAIL]);
             $website = $rowData[self::COLUMN_WEBSITE];
+            $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
             if (!Zend_Validate::is($email, 'EmailAddress')) {
                 $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber, self::COLUMN_EMAIL);
             } elseif (!isset($this->_websiteCodeToId[$website])) {
                 $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber, self::COLUMN_WEBSITE);
+            } elseif (!isset($this->_websiteCodeToId[$financeWebsite])) {
+                $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } elseif (!$this->_getCustomerId($email, $website)) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {

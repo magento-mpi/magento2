@@ -208,73 +208,82 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function validateRowDataProvider()
     {
-        return array(
-            'valid' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_valid.php',
-                '$errors'  => array(),
-                '$isValid' => true,
+        return array('valid' => array('$rowData' => include __DIR__ . '/_files/row_data_valid.php',
+                '$errors'  => array(), '$isValid' => true,
             ),
-            'no website' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
+            'no website' => array('$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
-                        => array(
-                            array(1,
-                                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
-                            )
-                        )
+                        => array(array(1,
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
+                        ))
                 ),
-            ),
-            'empty website' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
+            ), 'empty website' => array('$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
-                        => array(
-                            array(1,
-                                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
-                            )
-                        )
+                        => array(array(1,
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
+                        ))
                 ),
             ),
-            'no email' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_no_email.php',
+            'no email' => array('$rowData' => include __DIR__ . '/_files/row_data_no_email.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY => array(
                         array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL)
                     )
                 ),
             ),
-            'empty email' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_empty_email.php',
+            'empty email' => array('$rowData' => include __DIR__ . '/_files/row_data_empty_email.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY => array(
                         array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL)
                     )
                 ),
             ),
-            'invalid email' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_invalid_email.php',
+            'no finance website' => array('$rowData' => include __DIR__ . '/_files/row_data_no_finance_website.php',
+                '$errors' => array(
+                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY
+                        => array(array(1,
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                        ))
+                ),
+            ),
+            'empty finance website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_empty_finance_website.php',
+                '$errors' => array(
+                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY
+                        => array(array(1,
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                        ))
+                ),
+            ),
+            'invalid email' => array('$rowData' => include __DIR__ . '/_files/row_data_invalid_email.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_EMAIL => array(
                         array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL)
                     )
                 ),
             ),
-            'invalid website' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_invalid_website.php',
+            'invalid website' => array('$rowData' => include __DIR__ . '/_files/row_data_invalid_website.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_WEBSITE => array(
                         array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE)
                     )
                 ),
             ),
-            'no customer' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_no_customer.php',
+            'invalid finance website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website.php',
+                '$errors' => array(
+                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_FINANCE_WEBSITE
+                        => array( array(1,
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                        ))
+                ),
+            ),
+            'no customer' => array('$rowData' => include __DIR__ . '/_files/row_data_no_customer.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_CUSTOMER_NOT_FOUND
-                        => array(
-                            array(1, null)
-                        )
+                        => array(array(1, null))
                 ),
             ),
             'invalid_attribute_value' => array(
@@ -285,16 +294,13 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             ),
             'empty_optional_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_optional_attribute_value.php',
-                '$errors'  => array(),
-                '$isValid' => true,
+                '$errors'  => array(), '$isValid' => true,
             ),
             'empty_required_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_required_attribute_value.php',
                 '$errors'  => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_VALUE_IS_REQUIRED
-                        => array(
-                            array(1, 'store_credit')
-                        )
+                        => array(array(1, 'store_credit'))
                 ),
             ),
         );

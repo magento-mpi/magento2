@@ -10,8 +10,9 @@
  */
 
 return array(
-    '_website'      => 'website3',
-    'email'         => 'test1@email.com',
-    'store_credit'  => 10.5,
-    'reward_points' => 5,
+    '_website'         => 'website3',
+    'email'            => 'test1@email.com',
+    '_finance_website' => 'website2',
+    'store_credit'     => 10.5,
+    'reward_points'    => 5,
 );
