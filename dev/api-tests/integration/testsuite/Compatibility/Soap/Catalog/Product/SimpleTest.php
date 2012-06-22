@@ -27,6 +27,30 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     protected static $_currProductId;
 
     /**
+     * Product Attribute created at previous API
+     * @var int
+     */
+    protected static $_prevProductAttributeId;
+
+    /**
+     * Product Attribute created at current API
+     * @var int
+     */
+    protected static $_currProductAttributeId;
+
+    /**
+     * Product Attribute Option created at previous API
+     * @var int
+     */
+    protected static $_prevProductAttributeOptionId;
+
+    /**
+     * Product Attribute Option created at current API
+     * @var int
+     */
+    protected static $_currProductAttributeOptionId;
+
+    /**
      * Test product create method compatibility.
      * Store created products IDs for use in later tests.
      *
@@ -38,9 +62,10 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testCreate()
     {
+        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
         $request = array(
             'type' => 'simple',
-            'set'  => 4,
+            'set'  => $entityType->getDefaultAttributeSetId(),
             'sku'  => 'compatibility-' . uniqid(),
             'productData' => array(
                 'name' => 'Compatibility Test ' . uniqid(),
@@ -141,8 +166,9 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testListOfAdditionalAttributes()
     {
+        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
         $apiMethod = 'catalog_product.listOfAdditionalAttributes';
-        $requestParams = array('productType' => 'simple', 'attributeSetId' => 4);
+        $requestParams = array('productType' => 'simple', 'attributeSetId' => $entityType->getDefaultAttributeSetId());
         $prevResponse = $this->prevCall($apiMethod, $requestParams);
         $currResponse = $this->currCall($apiMethod, $requestParams);
         $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
@@ -227,12 +253,8 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
     public function testDelete()
     {
         $apiMethod = 'catalog_product.delete';
-        $prevResponse = $this->prevCall($apiMethod, array(
-            'productId' => self::$_prevProductId,
-        ));
-        $currResponse = $this->currCall($apiMethod, array(
-            'productId' => self::$_currProductId,
-        ));
+        $prevResponse = $this->prevCall($apiMethod, array('productId' => self::$_prevProductId));
+        $currResponse = $this->currCall($apiMethod, array('productId' => self::$_currProductId));
         $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
     }
 
