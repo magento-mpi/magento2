@@ -65,6 +65,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
 
     /**
      * Create mock for abstract customer model class
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _getModelMock()
     {
