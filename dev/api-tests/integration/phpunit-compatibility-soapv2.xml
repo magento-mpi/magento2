@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  integrity_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit bootstrap="./framework/bootstrap_light.php" colors="true">
+    <!-- Test suites definition -->
+    <testsuites>
+        <testsuite name="Magento API Compatibility Tests">
+            <directory suffix="Test.php">testsuite/Compatibility</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- PHP INI settings and constants definition -->
+    <php>
+        <ini name="date.timezone" value="America/Los_Angeles"/>
+
+        <!-- WebSerivice Type. Possible values: soapv1, soapv2, soapv2_wsi, xmlrpc-->
+        <const name="TESTS_WEBSERVICE_TYPE" value="soapv2"/>
+        <!-- Enable/Disable transactions in fixtures. Possible values: on (default), off (req for WS tests) -->
+        <const name="TESTS_FIXTURE_TRANSACTION" value="off"/>
+
+        <!-- Previous Webservice URL -->
+        <const name="TESTS_PREV_WEBSERVICE_URL" value="http://previous.magento"/>
+        <!-- Previous Webservice API user -->
+        <const name="TESTS_PREV_WEBSERVICE_USER" value="api"/>
+        <!-- Previous Webservice API key -->
+        <const name="TESTS_PREV_WEBSERVICE_APIKEY" value="apiapi"/>
+
+        <!-- Current Webservice URL -->
+        <const name="TESTS_WEBSERVICE_URL" value="http://current.magento"/>
+        <!-- Previous Webservice API user -->
+        <const name="TESTS_WEBSERVICE_USER" value="api"/>
+        <!-- Previous Webservice API key -->
+        <const name="TESTS_WEBSERVICE_APIKEY" value="apiapi"/>
+
+        <!-- Re-init installed magento config -->
+        <const name="TESTS_REINIT_MAGE_CONFIG" value="true"/>
+    </php>
+
+    <!-- Test listeners -->
+    <listeners>
+        <listener class="Magento_Test_Listener"/>
+    </listeners>
+</phpunit>

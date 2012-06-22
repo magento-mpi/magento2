@@ -27,7 +27,7 @@ class Api_LoginTest extends Magento_Test_Webservice
     {
         parent::tearDownAfterClass();
 
-        self::$_ws->init();
+        self::$_adapterRegistry[self::$_defaultAdapterCode]->init();
     }
 
     /**

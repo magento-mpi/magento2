@@ -26,7 +26,14 @@ class Magento_Test_Webservice extends Magento_TestCase
      *
      * @var Magento_Test_Webservice_Abstract
      */
-    protected static $_ws;
+    protected static $_adapterRegistry;
+
+    /**
+     * Default webservice adapter
+     *
+     * @var string
+     */
+    protected static $_defaultAdapterCode = 'default';
 
     /**
      * Clients class name list
@@ -88,23 +95,54 @@ class Magento_Test_Webservice extends Magento_TestCase
     }
 
     /**
+     * Get adapter instance
+     *
+     * @param string $code
+     * @return Magento_Test_Webservice_Abstract
+     */
+    protected function getInstance($code)
+    {
+        $instance = null;
+        if (isset(self::$_adapterRegistry[$code])){
+            $instance = self::$_adapterRegistry[$code];
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Set adapter instance
+     *
+     * @param string $code
+     * @param Magento_Test_Webservice_Abstract $instance
+     */
+    protected function setInstance($code, Magento_Test_Webservice_Abstract $instance)
+    {
+        self::$_adapterRegistry[$code] = $instance;
+    }
+
+    /**
      * Get webservice adapter
      *
+     * @param string $code
      * @param array $options
      * @return Magento_Test_Webservice_Abstract
      */
-    public function getWebService($options = null)
+    public function getWebService($code = null, $options = null)
     {
-        if (null === self::$_ws) {
-            $webserviceType = strtolower(TESTS_WEBSERVICE_TYPE);
-
-            $this->_modifyConfig($webserviceType);
-
-            $class = $this->_webServiceMap[$webserviceType];
-            self::$_ws = new $class();
-            self::$_ws->init($options);
+        if (!$code) {
+            $code = self::$_defaultAdapterCode;
         }
-        return self::$_ws;
+        if (null === $this->getInstance($code)) {
+            $webserviceType = strtolower(TESTS_WEBSERVICE_TYPE);
+            $this->_modifyConfig($webserviceType);
+            $class = $this->_webServiceMap[$webserviceType];
+
+            $this->setInstance($code, new $class());
+            $this->getInstance($code)->init($options);
+        }
+
+        return $this->getInstance($code);
     }
 
     /**
@@ -112,14 +150,15 @@ class Magento_Test_Webservice extends Magento_TestCase
      *
      * @param string $path
      * @param array $params
+     * @param string $code
      * @return string   Return result of request
      */
-    public function call($path, $params = array())
+    public function call($path, $params = array(), $code = 'default')
     {
-        if (null === self::$_ws) {
-            $this->getWebService();
+        if (null === $this->getInstance($code)) {
+            $this->getWebService($code);
         }
-        return self::$_ws->call($path, $params);
+        return $this->getInstance($code)->call($path, $params);
     }
 
     /**

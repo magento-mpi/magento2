@@ -52,8 +52,10 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
-        $this->_client = new Zend_Soap_Client($this->getClientUrl(), $options);
-        $this->setSession($this->login(TESTS_WEBSERVICE_USER, TESTS_WEBSERVICE_APIKEY));
+        $this->_client = new Zend_Soap_Client($this->getClientUrl($options));
+        $apiUser = isset($options['api_user']) ? $options['api_user'] : TESTS_WEBSERVICE_USER;
+        $apiKey  = isset($options['api_key']) ? $options['api_key'] : TESTS_WEBSERVICE_APIKEY;
+        $this->setSession($this->login($apiKey, $apiUser));
         return $this;
     }
 
@@ -61,8 +63,9 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      *  Call API methods
      *
      * @param $path
-     * @param array $params
+     * @param $params
      * @return string
+     * @throws SoapFault
      */
     public function call($path, $params = array())
     {
@@ -80,7 +83,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      * @param $username
      * @param $apiKey
      * @return string
-     * @throws Zend_XmlRpc_Client_FaultException
+     * @throws SoapFault
      */
     public function login($username, $apiKey)
     {
@@ -96,8 +99,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      * Try to throw exception with show response
      *
      * @param SoapFault $e
-     * @return Magento_Test_Webservice_SoapV1
-     * @throws SoapFault
+     * @throws Magento_Test_Webservice_Exception
      */
     protected function _throwExceptionBadRequest(SoapFault $e)
     {

@@ -128,7 +128,7 @@ class Api_SalesOrder_CreditMemoTest extends Magento_Test_Webservice
     public function testListEmptyFilter()
     {
         $filter = array('order_id' => 'invalid-id');
-        if (self::$_ws instanceof Magento_Test_Webservice_SoapV2) {
+        if (self::$_adapterRegistry[self::$_defaultAdapterCode] instanceof Magento_Test_Webservice_SoapV2) {
             $filter = array(
                 'filter' => array(array('key' => 'order_id', 'value' => 'invalid-id'))
             );

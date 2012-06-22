@@ -113,7 +113,8 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
         }
 
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (count(self::$_tearDownAfterClassFixtures[$fixtureNamespace])) {
+        if (isset(self::$_tearDownAfterClassFixtures[$fixtureNamespace])
+            && count(self::$_tearDownAfterClassFixtures[$fixtureNamespace])) {
             self::_deleteFixtures(self::$_tearDownAfterClassFixtures[$fixtureNamespace]);
         }
 
@@ -343,7 +344,7 @@ class Magento_TestCase extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $fixtureNamespace = self::_getFixtureNamespace();
-        if (count(self::$_tearDownFixtures[$fixtureNamespace])) {
+        if (isset(self::$_tearDownFixtures[$fixtureNamespace]) && count(self::$_tearDownFixtures[$fixtureNamespace])) {
             self::_deleteFixtures(self::$_tearDownFixtures[$fixtureNamespace]);
         }
         $this->_callModelsDelete();

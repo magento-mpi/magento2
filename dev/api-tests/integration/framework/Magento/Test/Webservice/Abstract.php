@@ -139,12 +139,14 @@ abstract class Magento_Test_Webservice_Abstract
     /**
      * Get client URL
      *
+     * @param array|null $options
      * @return string
      */
-    public function getClientUrl()
+    public function getClientUrl($options = null)
     {
         if (null === $this->_url) {
-            $this->_url = rtrim(TESTS_WEBSERVICE_URL, '/') . '/' . ltrim($this->_urlPath, '/');
+            $webserviceUrl = isset($options['webservice_url']) ? $options['webservice_url'] : TESTS_WEBSERVICE_URL;
+            $this->_url = rtrim($webserviceUrl, '/') . '/' . ltrim($this->_urlPath, '/');
         }
         return $this->_url;
     }
