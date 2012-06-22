@@ -115,8 +115,6 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $menu1 = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
         $menu2 = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
 
-        $this->_logger->expects($this->any())->method('log');
-
         $this->_items['item1']->expects($this->any())->method('hasChildren')->will($this->returnValue(true));
         $this->_items['item1']->expects($this->any())->method('getChildren')->will($this->returnValue($menu1));
         $this->_model->add($this->_items['item1']);
@@ -139,7 +137,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model->add($this->_items['item2']);
         $this->_model->add($this->_items['item3']);
 
-        $subMenu = $this->getMock("Mage_Backend_Model_Menu");
+        $subMenu = $this->getMock("Mage_Backend_Model_Menu", array(), array(), '', false);
         $subMenu->expects($this->once())
             ->method("add")
             ->with($this->_items['item3']);
@@ -192,7 +190,7 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveRemovesMenuItemRecursively()
     {
-        $menuMock = $this->getMock('Mage_Backend_Model_Menu');
+        $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
         $menuMock->expects($this->once())
             ->method('remove')
             ->with($this->equalTo('item2'));

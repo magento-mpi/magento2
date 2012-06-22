@@ -50,13 +50,14 @@ class Mage_Backend_Model_Menu_Config
             ? $arguments['eventManager']
             : Mage::getSingleton('Mage_Core_Model_Event_Manager');
 
-        $menuFactory = new Mage_Backend_Model_Menu_Factory();
-        $this->_logger = isset($arguments['logger']) ? $arguments['logger'] : $menuFactory->getLoggerInstance();
+        $this->_logger = isset($arguments['logger'])
+            ? $arguments['logger']
+            : Mage::getSingleton('Mage_Backend_Model_Menu_Logger');
 
         $this->_menuBuilder = isset($arguments['menuBuilder'])
             ? $arguments['menuBuilder']
             : Mage::getSingleton('Mage_Backend_Model_Menu_Builder', array(
-                'menu' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu', array('logger' => $this->_logger)),
+                'menu' => Mage::getSingleton('Mage_Baclend_Model_Menu_Factory')->getMenuInstance(),
                 'itemFactory' => Mage::getSingleton('Mage_Backend_Model_Menu_Item_Factory'),
             ));
     }
@@ -86,6 +87,11 @@ class Mage_Backend_Model_Menu_Config
         }
     }
 
+    /**
+     * Initialize menu object
+     *
+     * @return void
+     */
     protected function _initMenu()
     {
         if (!$this->_menu) {
@@ -102,7 +108,6 @@ class Mage_Backend_Model_Menu_Config
             $this->_menu = $this->_menuBuilder->getResult();
             $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
         }
-//        return $this->_menu;
     }
 
     /**

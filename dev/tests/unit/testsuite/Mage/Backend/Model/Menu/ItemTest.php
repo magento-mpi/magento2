@@ -249,18 +249,15 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     public function testGetChildrenCreatesSubmenuOnFirstCall()
     {
-        $menuMock = $this->getMock('Mage_Backend_Model_Menu');
-        $loggerMock = $this->getMock('Mage_Backend_Model_Menu_Logger');
+        $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
 
         $this->_menuFactoryMock->expects($this->once())
             ->method('getMenuInstance')
             ->with(
-                array('path' => 'item', 'logger' => $loggerMock)
+                array('path' => 'item')
             )
             ->will($this->returnValue($menuMock));
-        $this->_menuFactoryMock->expects($this->once())
-            ->method('getLoggerInstance')
-            ->will($this->returnValue($loggerMock));
+
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $item->getChildren();
         $item->getChildren();
@@ -268,7 +265,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
 
     public function testSetParentUpdatesAllChildren()
     {
-        $menuMock = $this->getMock('Mage_Backend_Model_Menu');
+        $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
         $menuMock->expects($this->once())
             ->method('setPath')
             ->with($this->equalTo('root/item'));

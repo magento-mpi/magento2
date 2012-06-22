@@ -81,7 +81,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager');
 
-        $this->_logger = $this->getMock('Mage_Backend_Model_Menu_Logger', array('logException'));
+        $this->_logger = $this->getMock('Mage_Backend_Model_Menu_Logger');
 
         $this->_model = new Mage_Backend_Model_Menu_Config(array(
             'appConfig' => $this->_appConfigMock,
@@ -126,7 +126,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_builderMock->expects($this->exactly(1))
             ->method('getResult')
-            ->will($this->returnValue($this->getMock('Mage_Backend_Model_Menu')));
+            ->will($this->returnValue($this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false)));
 
         $this->_model->getMenu();
 
@@ -223,7 +223,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_builderMock->expects($this->exactly(1))
             ->method('getResult')
-            ->will($this->returnCallback(array($this, 'throwInvalidArgumentException')));
+            ->will($this->throwException(new InvalidArgumentException()));
 
         $this->_model->getMenu();
     }
@@ -238,7 +238,7 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->_builderMock->expects($this->exactly(1))
             ->method('getResult')
-            ->will($this->returnCallback(array($this, 'throwGenericException')));
+            ->will($this->throwException(new Exception()));
         try {
             $this->_model->getMenu();
         } catch (Exception $e) {
@@ -263,15 +263,5 @@ class Mage_Backend_Model_Menu_ConfigTest extends PHPUnit_Framework_TestCase
         } else {
             return $this->getMock($model, array(), $arguments, '', false);
         }
-    }
-
-    public function throwInvalidArgumentException()
-    {
-        throw new InvalidArgumentException('InvalidArgumentException throwed');
-    }
-
-    public function throwGenericException()
-    {
-        throw new Exception('Generic Exception throwed');
     }
 }

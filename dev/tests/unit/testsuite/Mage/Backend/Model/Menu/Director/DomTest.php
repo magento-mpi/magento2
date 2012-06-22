@@ -20,6 +20,9 @@ class Mage_Backend_Model_Menu_Director_DomTest extends PHPUnit_Framework_TestCas
      */
     protected $_model;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
     protected $_loggerMock;
 
     public function setUp()

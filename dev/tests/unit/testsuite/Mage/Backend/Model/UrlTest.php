@@ -27,7 +27,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu');
+        $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
 
         $mockItem = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $mockItem->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
