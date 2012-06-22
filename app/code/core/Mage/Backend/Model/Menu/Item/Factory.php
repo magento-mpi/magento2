@@ -17,6 +17,11 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_acl;
 
     /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+    /**
      * @var Mage_Backend_Model_Menu_Factory
      */
     protected $_menuFactory;
