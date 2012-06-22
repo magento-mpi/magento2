@@ -382,13 +382,10 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function addDownloadableOption(array $optionData, $type)
     {
-        $fieldSet = $this->_getControlXpath('link', 'downloadable_' . $type);
-        if (!$this->isElementPresent($fieldSet . "/parent::*[normalize-space(@class)='open']")) {
+        if (!$this->controlIsPresent('pageelement', 'opened_downloadable_' . $type)) {
             $this->clickControl('link', 'downloadable_' . $type, false);
         }
-
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'downloadable_' . $type);
-        $rowNumber = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
+        $rowNumber = $this->getXpathCount($this->_getControlXpath('pageelement', 'added_downloadable_' . $type));
         $this->addParameter('rowId', $rowNumber);
         $this->clickButton('downloadable_' . $type . '_add_new_row', false);
         $this->fillForm($optionData, 'downloadable_information');
@@ -671,12 +668,12 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         }
 
         if ($correctRoot) {
-            $catXpath = '//*[@id=\'' . array_shift($correctRoot) . '\']/parent::*/input';
-            if ($this->getValue($catXpath) == 'off') {
+            $this->addParameter('categoryId', array_shift($correctRoot));
+            if ($this->getControlAttribute('checkbox', 'category_by_id', 'value') == 'off') {
                 $this->addVerificationMessage('Category with path: "' . $categoryPath . '" is not selected');
             }
         } else {
-            $this->fail("Category with path='$categoryPath' not found");
+            $this->addVerificationMessage("Category with path='$categoryPath' not found");
         }
     }
 
@@ -699,14 +696,14 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         }
 
         if ($attributeTitle) {
-            $attributeCode = $this->getAttribute("//a[span[text()='$attributeTitle']]/@name");
+            $this->addParameter('cellName', $attributeTitle);
+            $attributeCode = $this->getControlAttribute('pageelement', 'table_header_cell_name', 'name');
             $this->addParameter('attributeCode', $attributeCode);
             $this->addParameter('attributeTitle', $attributeTitle);
         }
-        $xpathTR = $this->formSearchXpath($data);
-        $fieldSetXpath = $this->_getControlXpath('fieldset', $fieldSetName);
 
-        if (!$this->isElementPresent($fieldSetXpath . $xpathTR)) {
+        $xpathTR = $this->search($data, $fieldSetName);
+        if (is_null($xpathTR)) {
             $this->addVerificationMessage(
                 $fieldSetName . " tab: Product is not assigned with data: \n" . print_r($data, true));
         } else {

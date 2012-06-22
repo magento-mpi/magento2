@@ -180,7 +180,6 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
         $this->clickButton('submit', false);
         $this->waitForElement($waitConditions);
         $this->validatePage();
-        $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not registered.');
     }
 
     /**
