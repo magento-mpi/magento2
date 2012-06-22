@@ -287,13 +287,13 @@ class Mage_Captcha_Model_Zend extends Zend_Captcha_Image implements Mage_Captcha
             $storedWord = strtolower($storedWord);
             $word = strtolower($word);
         }
-        return $word == $storedWord;
+        return $word === $storedWord;
     }
 
     /**
      * Returns session instance
      *
-     * @return Mage_Customer_Model_Session
+     * @return Mage_Customer_Model_Session|Mage_Backend_Model_Auth_Session
      */
     public function getSession()
     {

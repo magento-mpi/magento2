@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Catalog
+ * @package     Mage_Captcha
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -89,7 +89,7 @@ class Mage_Captcha_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($fonts['linlibertine']['label'], 'LinLibertine');
         $this->assertEquals(
             $fonts['linlibertine']['path'],
-            $baseDir . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
+            $baseDir . DIRECTORY_SEPARATOR . 'lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
         );
     }
 

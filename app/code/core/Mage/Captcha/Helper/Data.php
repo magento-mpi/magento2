@@ -98,8 +98,9 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get store
      *
-     * @param null $storeName
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeName
      * @return Mage_Core_Model_Store
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getStore($storeName = null)
     {
@@ -127,7 +128,7 @@ class Mage_Captcha_Helper_Data extends Mage_Core_Helper_Abstract
     public function getOption()
     {
         if (empty($this->_option)) {
-            $this->_option = Mage::getConfig()->getOptions();
+            $this->_option = $this->getConfig()->getOptions();
         }
         return $this->_option;
     }
