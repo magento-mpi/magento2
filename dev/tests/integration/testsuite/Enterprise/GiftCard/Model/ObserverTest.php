@@ -19,7 +19,7 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
     /**
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Enterprise/GiftCard/_files/gift_card.php
-     * @magentoDataFixture Enterprise/GiftCard/_files/order_with_gift_card_commit_workaround.php
+     * @magentoDataFixture Enterprise/GiftCard/_files/order_with_gift_card.php
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {

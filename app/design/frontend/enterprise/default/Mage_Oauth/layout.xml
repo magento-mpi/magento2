@@ -39,7 +39,7 @@
 
     <oauth_root_handle_simple>
         <remove name="js_cookie" />
-        <block type="Mage_Page_Block_Html" name="root" output="toHtml" template="empty.phtml">
+        <block type="Mage_Page_Block_Html" name="root" output="1" template="empty.phtml">
             <block type="Mage_Page_Block_Html_Head" name="head" as="head" template="Mage_Oauth::authorize/head-simple.phtml">
                 <action method="addCss"><stylesheet>Mage_Oauth::css/oauth-simple.css</stylesheet></action>
             </block>
@@ -48,7 +48,7 @@
     </oauth_root_handle_simple>
 
     <!-- Authorization -->
-    <oauth_authorize_index translate="label">
+    <oauth_authorize_index translate="label" type="page">
         <update handle="oauth_root_handle"/>
         <label>OAuth authorization for customer</label>
         <reference name="content">
@@ -77,7 +77,7 @@
         </reference>
     </oauth_authorize_confirm>
 
-    <oauth_authorize_confirmsimple translate="label">
+    <oauth_authorize_confirmsimple translate="label" type="page">
         <update handle="oauth_root_handle_simple"/>
         <label>Confirm Oauth token authorization (Simple)</label>
         <remove name="header"/>
@@ -88,7 +88,7 @@
     <!-- EOF Confirm Authorization -->
 
     <!-- Reject Authorization -->
-    <oauth_authorize_reject translate="label">
+    <oauth_authorize_reject translate="label" type="page">
         <update handle="oauth_root_handle"/>
         <label>Confirm Oauth token authorization</label>
         <reference name="content">

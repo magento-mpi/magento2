@@ -12,7 +12,7 @@
 class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testSaveAction()
     {
@@ -31,9 +31,5 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_
 
         $this->assertInstanceOf('Enterprise_GiftRegistry_Model_Type', $type);
         $this->assertNotEmpty($type->getId());
-    }
-
-    public static function emptyFixture()
-    {
     }
 }
