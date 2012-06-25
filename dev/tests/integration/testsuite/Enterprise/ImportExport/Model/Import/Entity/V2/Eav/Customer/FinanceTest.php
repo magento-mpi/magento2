@@ -118,9 +118,22 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                 );
             }
         }
+    }
 
-        // Clear test website info from application cache.
-        Mage::app()->clearWebsiteCache($testWebsite->getId());
+    /**
+     * Remove test website
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        /** @var $testWebsite Mage_Core_Model_Website */
+        $testWebsite = Mage::registry('Enterprise_ImportExport_Model_Website');
+        if ($testWebsite) {
+            // Clear test website info from application cache.
+            Mage::app()->clearWebsiteCache($testWebsite->getId());
+        }
+        parent::tearDownAfterClass();
     }
 
     /**
