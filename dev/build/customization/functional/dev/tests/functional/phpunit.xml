@@ -48,20 +48,20 @@
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>-->
 
-            <!-- skipped in ta.varien.com build <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>-->
+            <!-- skipped in ta.varien.com build -->
+            <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>-->
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Order</directory>-->
-            <directory suffix="Test.php">testsuite/Core/Mage/Order/AuthorizeNet/Authorization</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Order/PayPalDirect/Authorization</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Order/PayPalDirectUk/Authorization</directory>
+
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tax/CustomerTaxClass</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tax/ProductTaxClass</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRate</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRule</directory>-->
 
-            <!-- skipped in ta.varien.com build <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>-->
+            <!-- skipped in ta.varien.com build -->
+            <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Various</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Store</directory>-->
