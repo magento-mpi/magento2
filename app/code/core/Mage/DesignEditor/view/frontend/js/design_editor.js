@@ -89,10 +89,10 @@
     /**
      * Widget page highlight functionality
      */
-    var vdePageBasePrototype = $.vde.vde_page.prototype;
-    $.widget('vde.vde_page', $.extend({}, vdePageBasePrototype, {
+    var pageBasePrototype = $.vde.vde_page.prototype;
+    $.widget('vde.vde_page', $.extend({}, pageBasePrototype, {
         _create: function () {
-            vdePageBasePrototype._create.apply(this, arguments);
+            pageBasePrototype._create.apply(this, arguments);
             if (this.options.highlightElementSelector) {
                 this._initHighlighting();
                 this._bind();
