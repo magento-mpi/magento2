@@ -1,3 +1,12 @@
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_DesignEditor
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 window.oldSetTimeout = window.setTimeout;
 window.setTimeout = function(func, delay){
      return window.oldSetTimeout(function() {
