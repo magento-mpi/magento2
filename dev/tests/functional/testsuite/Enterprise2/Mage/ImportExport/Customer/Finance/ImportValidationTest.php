@@ -129,8 +129,8 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
                     "Can not find required columns: _website"
                     ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
+                    "Please fix errors and re-upload file"
+                    )
                     )
                 )
             ),

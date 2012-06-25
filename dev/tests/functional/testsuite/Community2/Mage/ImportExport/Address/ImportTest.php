@@ -111,7 +111,7 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
             array(
-                '_entity_id' => $this->generate('string', 10, ':digit:'),
+                '_entity_id' => '',
                 '_email' => $userData1['email'],
             ));
         $unformattedStreet1 = $customerDataRow1['street'];
