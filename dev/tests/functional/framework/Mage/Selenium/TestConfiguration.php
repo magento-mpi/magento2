@@ -32,6 +32,13 @@ class Mage_Selenium_TestConfiguration
     protected $_initialOptions = array();
 
     /**
+     * Initial path
+     *
+     * @var string
+     */
+    protected $_initialPath;
+
+    /**
      * File helper instance
      * @var Mage_Selenium_Helper_File|null
      */
@@ -98,20 +105,6 @@ class Mage_Selenium_TestConfiguration
     const UIMAP_INCLUDE_FOLDER = '_uimapIncludes';
 
     /**
-     * Constructor defined as private to implement singleton
-     */
-    private function __construct()
-    {
-    }
-
-    /**
-     * Clone defined as private to implement singleton
-     */
-    private function __clone()
-    {
-    }
-
-    /**
      * Get test configuration instance
      *
      * @static
@@ -121,18 +114,29 @@ class Mage_Selenium_TestConfiguration
      */
     public static function getInstance($options = null)
     {
-        if (is_null(self::$instance)) {
-            self::$instance = new self();
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
             if (is_array($options)) {
-                self::$instance->setInitialOptions($options);
+                static::$instance->setInitialOptions($options);
             }
-            self::$instance->init();
+            static::$instance->init();
         } else {
             if (!is_null($options)) {
                 throw new RuntimeException('Cannot redeclare initial options on existed instance.');
             }
         }
-        return self::$instance;
+        return static::$instance;
+    }
+
+    /**
+     * Set instance
+     *
+     * @static
+     * @param Mage_Selenium_TestConfiguration|null $instance
+     */
+    public static function setInstance(Mage_Selenium_TestConfiguration $instance = null)
+    {
+        static::$instance = $instance;
     }
 
     /**
@@ -167,6 +171,7 @@ class Mage_Selenium_TestConfiguration
      */
     public function init()
     {
+        $this->setInitialPath(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR);
         $this->_initConfig();
         $this->_initLogFile($this->getHelper('config')->getLogDir());
         $this->_initFixturesPaths();
@@ -269,6 +274,28 @@ class Mage_Selenium_TestConfiguration
     }
 
     /**
+     * Set initial path
+     *
+     * @param string $path
+     * @return Mage_Selenium_TestConfiguration
+     */
+    public function setInitialPath($path)
+    {
+        $this->_initialPath = $path;
+        return $this;
+    }
+
+    /**
+     * Retrieve initial path
+     *
+     * @return string
+     */
+    public function getInitialPath()
+    {
+        return $this->_initialPath;
+    }
+
+    /**
      * Get all paths to fixture files and all paths to include uimap elements
      * @return array
      */
@@ -279,7 +306,7 @@ class Mage_Selenium_TestConfiguration
         }
         //Get initial path to fixtures
         $frameworkConfig = $this->_configHelper->getConfigFramework();
-        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['fixture_base_path'];
+        $initialPath = $this->getInitialPath() . $frameworkConfig['fixture_base_path'];
         //Get fixtures sequence
         $fallbackOrderFixture = $this->_configHelper->getFixturesFallbackOrder();
 
@@ -339,7 +366,7 @@ class Mage_Selenium_TestConfiguration
         }
         //Get initial path to test helpers
         $frameworkConfig = $this->_configHelper->getConfigFramework();
-        $initialPath = SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . $frameworkConfig['testsuite_base_path'];
+        $initialPath = $this->getInitialPath() . $frameworkConfig['testsuite_base_path'];
         //Get test helpers sequence
         $fallbackOrderHelper = $this->_configHelper->getHelpersFallbackOrder();
 
