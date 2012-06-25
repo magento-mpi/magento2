@@ -378,6 +378,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     final function setUp()
     {
         $this->clearMessages();
+        $this->_paramsHelper = new Mage_Selenium_Helper_Params();
         $this->prepareBrowserSession();
         $this->setUpBeforeTestClass();
     }
