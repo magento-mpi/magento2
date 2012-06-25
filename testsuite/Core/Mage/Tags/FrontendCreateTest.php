@@ -122,6 +122,39 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * Tag creating with Not Logged Customer
+     * <p>1. Goto Frontend</p>
+     * <p>2. Open created product</p>
+     * <p>3. Add Tag to product</p>
+     * <p>4. Login page opened</p>
+     * <p>Expected result:</p>
+     * <p>Customer is redirected to the login page.</p>
+     * <p>The tag has not been added for moderation in backend.</p>
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-3652
+     */
+    public function frontendTagVerificationNotLoggedCustomer($testData)
+    {
+        //Data
+        $tag = $this->generate('string', 8, ':alpha:');
+        $searchTag = $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tag));
+        //Setup
+        $this->frontend();
+        $this->productHelper()->frontOpenProduct($testData['simple']);
+        //Steps
+        $this->tagsHelper()->frontendAddTag($tag);
+        //Verification
+        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
+        $this->loginAdminUser();
+        $this->navigate('all_tags');
+        $this->assertNull($this->search($searchTag, 'tags_grid'), $this->getMessagesOnPage());
+    }
+
+    /**
      * <p>Tags Verification in Category</p>
      * <p>1. Login to Frontend</p>
      * <p>2. Open created product</p>
@@ -159,38 +192,5 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         //Verification
         $this->frontend();
         $this->tagsHelper()->frontendTagVerificationInCategory($tag, $testData['simple'], $testData['category']);
-    }
-
-    /**
-     * Tag creating with Not Logged Customer
-     * <p>1. Goto Frontend</p>
-     * <p>2. Open created product</p>
-     * <p>3. Add Tag to product</p>
-     * <p>4. Login page opened</p>
-     * <p>Expected result:</p>
-     * <p>Customer is redirected to the login page.</p>
-     * <p>The tag has not been added for moderation in backend.</p>
-     *
-     * @param array $testData
-     *
-     * @test
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3652
-     */
-    public function frontendTagVerificationNotLoggedCustomer($testData)
-    {
-        //Data
-        $tag = $this->generate('string', 8, ':alpha:');
-        $searchTag = $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tag));
-        //Setup
-        $this->frontend();
-        $this->productHelper()->frontOpenProduct($testData['simple']);
-        //Steps
-        $this->tagsHelper()->frontendAddTag($tag);
-        //Verification
-        $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->assertNull($this->search($searchTag, 'tags_grid'), $this->getMessagesOnPage());
     }
 }
