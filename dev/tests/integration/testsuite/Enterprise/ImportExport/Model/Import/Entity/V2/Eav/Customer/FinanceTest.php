@@ -75,6 +75,11 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         $model->validateData();
         $model->importData();
 
+        $rewardPointsKey =
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
+        $customerBalanceKey =
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
+
         /** @var $customers Mage_Customer_Model_Resource_Customer_Collection */
         $customers = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
         /** @var $customer Mage_Customer_Model_Customer */
@@ -85,7 +90,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             /** @var $rewardPoints Enterprise_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
                 $websiteCode = $websiteCodes[$rewardPoints->getWebsiteId()];
-                $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode]['reward_points'];
+                $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode][$rewardPointsKey];
                 if ($expected < 0) {
                     $expected = 0;
                 }
@@ -102,7 +107,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             /** @var $balance Enterprise_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {
                 $websiteCode = $websiteCodes[$balance->getWebsiteId()];
-                $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode]['store_credit'];
+                $expected = $expectedFinanceData[$customer->getEmail()][$websiteCode][$customerBalanceKey];
                 if ($expected < 0) {
                     $expected = 0;
                 }
@@ -113,6 +118,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                 );
             }
         }
+
+        // Clear test website info from application cache.
+        Mage::app()->clearWebsiteCache($testWebsite->getId());
     }
 
     /**

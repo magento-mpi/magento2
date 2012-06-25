@@ -138,9 +138,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                     $customer->load($customerId);
                 }
                 // save finance data for customer
+                $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
                     if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
-                        $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                         if ($attributeCode == $rewardPointsKey) {
                             $this->_updateRewardPoints($customer, $websiteId, $rowData[$attributeCode]);
                         } elseif ($attributeCode == $customerBalanceKey) {
