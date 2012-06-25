@@ -6,23 +6,58 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-window.oldSetTimeout = window.setTimeout;
-window.setTimeout = function(func, delay){
-     return window.oldSetTimeout(function() {
-        try {
+    
+var timeoutCounter = 0,
+    unbindBeforeUnload = function () {
+        timeoutCounter--;
+        if (timeoutCounter < 1) {
+            window.onbeforeunload = null;
+        }
+    },
+    bindBeforeUnload = function() {
+        if (timeoutCounter < 1) {
             window.onbeforeunload = function (e) {
-                var e = e || window.event;
+                var e = e || window.event,
+                    messageText = 'Are you sure, you want to leave this page?';
+                // For IE and Firefox
                 if (e) {
-                    e.returnValue = 'Are you sure, you want to leave this page?';
+                    e.returnValue = messageText;
                 }
-                window.oldSetTimeout(function(){window.onbeforeunload = null;}, 0);
-                return 'Are you sure, you want to leave this page?';
+                // For Chrome and Safari
+                return messageText;
             };
-            func();
-            window.oldSetTimeout(function(){window.onbeforeunload = null;}, 0);
         }
-        catch (exception) {
-        }
-    }, delay);
-};
+        timeoutCounter++;
+    }
+
+window.setTimeout = (function(oldSetTimeout) {
+    return function(func, delay) {
+        oldSetTimeout(function() {
+            try {
+                bindBeforeUnload();
+                func();
+                unbindBeforeUnload();
+            }
+            catch (exception) {
+                unbindBeforeUnload();
+                throw exception;
+            }
+        }, delay);
+    };
+})(window.setTimeout);
+
+window.setInterval = (function(oldSetInterval) {
+    return function(func, delay) {
+        oldSetInterval(function() {
+            try {
+                bindBeforeUnload();
+                func();
+                unbindBeforeUnload();
+            }
+            catch (exception) {
+                unbindBeforeUnload();
+                throw exception;
+            }
+        }, delay);
+    };
+})(window.setInterval);
