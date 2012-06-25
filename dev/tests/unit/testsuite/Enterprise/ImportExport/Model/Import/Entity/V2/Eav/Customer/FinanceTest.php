@@ -40,6 +40,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      * @var array
      */
     protected $_websites = array(
+        Mage_Core_Model_App::ADMIN_STORE_ID => 'admin',
         1 => 'website1',
         2 => 'website2',
     );
@@ -204,11 +205,13 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Data provider of row data and errors
      *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function validateRowDataProvider()
     {
-        return array('valid' => array('$rowData' => include __DIR__ . '/_files/row_data_valid.php',
+        return array(
+            'valid' => array('$rowData' => include __DIR__ . '/_files/row_data_valid.php',
                 '$errors'  => array(), '$isValid' => true,
             ),
             'no website' => array('$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
@@ -218,7 +221,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                             Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
                         ))
                 ),
-            ), 'empty website' => array('$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
+            ),
+            'empty website' => array('$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
                         => array(array(1,
@@ -273,6 +277,15 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             ),
             'invalid finance website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website.php',
+                '$errors' => array(
+                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_FINANCE_WEBSITE
+                        => array( array(1,
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                        ))
+                ),
+            ),
+            'invalid finance website (admin)' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website_admin.php',
                 '$errors' => array(
                     Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_FINANCE_WEBSITE
                         => array( array(1,

@@ -264,7 +264,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                 $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber, self::COLUMN_EMAIL);
             } elseif (!isset($this->_websiteCodeToId[$website])) {
                 $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber, self::COLUMN_WEBSITE);
-            } elseif (!isset($this->_websiteCodeToId[$financeWebsite])) {
+            } elseif (!isset($this->_websiteCodeToId[$financeWebsite])
+                || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_App::ADMIN_STORE_ID
+            ) {
                 $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } elseif (!$this->_getCustomerId($email, $website)) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
