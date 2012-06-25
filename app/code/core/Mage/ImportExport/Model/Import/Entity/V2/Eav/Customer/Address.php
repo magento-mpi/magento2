@@ -421,9 +421,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         $this->_validatedRows[$rowNumber] = true;
         $this->_processedEntitiesCount++;
 
-        if (!isset($rowData[self::COLUMN_ADDRESS_ID])) {
-            $this->addRowError(self::ERROR_ADDRESS_ID_IS_EMPTY, $rowNumber, self::COLUMN_ADDRESS_ID);
-        } elseif (empty($rowData[self::COLUMN_WEBSITE])) {
+        if (empty($rowData[self::COLUMN_WEBSITE])) {
             $this->addRowError(self::ERROR_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_WEBSITE);
         } elseif (empty($rowData[self::COLUMN_EMAIL])) {
             $this->addRowError(self::ERROR_EMAIL_IS_EMPTY, $rowNumber, self::COLUMN_EMAIL);

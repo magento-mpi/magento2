@@ -206,14 +206,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
                 '$errors'  => array(),
                 '$isValid' => true,
             ),
-            'no address id' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_no_address_id.php',
-                '$errors' => array(
-                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::ERROR_ADDRESS_ID_IS_EMPTY => array(
-                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID)
-                    )
-                ),
-            ),
             'empty address id' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_address_id.php',
                 '$errors' => array(),
