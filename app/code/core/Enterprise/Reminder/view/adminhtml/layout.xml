@@ -23,6 +23,12 @@
             <action method="addCss"><file>prototype/windows/themes/default.css</file></action>
             <action method="addCss"><file>Mage_Core::prototype/magento.css</file></action>
          </reference>
+        <reference name="content">
+            <block type="Enterprise_Reminder_Block_Adminhtml_Reminder_Edit" name="adminhtml_reminder_edit"/>
+        </reference>
+        <reference name="left">
+            <block type="Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs" name="adminhtml_reminder_edit_tabs"/>
+        </reference>
     </adminhtml_reminder_edit>
     <adminhtml_promo_quote_edit>
         <reference name="content">
