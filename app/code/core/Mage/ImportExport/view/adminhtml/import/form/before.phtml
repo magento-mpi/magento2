@@ -40,10 +40,12 @@
                 case 'customer':
                     $('head-import_format_version_fieldset').show();
                     $('import_format_version_fieldset').show();
+                    $('file_format_version').addClassName('required-entry');
                     break;
                 case 'catalog_product':
                     $('head-upload_file_fieldset').show();
                     $('upload_file_fieldset').show();
+                    $('file_format_version').removeClassName('required-entry');
                     break;
                 default:
                     break;
