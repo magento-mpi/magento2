@@ -161,7 +161,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
                     break;
                 }
             }
-            $this->click($xpathTR);
+            $this->clickControl('pageelement', 'table_line_cell_index', false);
         }
         $this->checkChosenOption($title);
     }

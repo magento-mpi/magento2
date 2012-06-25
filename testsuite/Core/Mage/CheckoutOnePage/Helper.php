@@ -509,7 +509,10 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $count = $this->getXpathCount($xpath);
         $actualAddress = array();
         for ($i = 1; $i <= $count; $i++) {
-            $text = trim(preg_replace('/^(T:)|(F:)/', '', $this->getText($xpath . '[' . $i . ']')));
+            $this->addParameter('index', $i);
+            $this->addParameter('elementXpath', $xpath);
+            $text = $this->getControlAttribute('pageelement', 'element_index', 'text');
+            $text = trim(preg_replace('/^(T:)|(F:)/', '', $text));
             if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $text)) {
                 $actualAddress[] = $text;
             } else {

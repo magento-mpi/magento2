@@ -48,7 +48,7 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
             $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
             $this->clickButton('customize_and_add_to_cart', false);
             $this->waitForElementVisible($customizeFieldset);
-            $this->waitForElementPresent($productInfoFieldset . "/parent::*[@style='display: none;']");
+            $this->waitForElement($productInfoFieldset . "/parent::*[@style='display: none;']");
         }
         parent::frontAddProductToCart($dataForBuy);
     }

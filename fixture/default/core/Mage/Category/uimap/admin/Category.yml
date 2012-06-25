@@ -41,6 +41,7 @@ manage_categories:
                             add_root_category: //button[@id='add_root_category_button']
                             add_sub_category: //button[@id='add_subcategory_button']
                         links:
+                            category_by_name: //span[contains(text(),'%categoryName%')]
                             collapse_all: //a[text()='Collapse All']
                             expand_all: //a[text()='Expand All']
                             select_category_root_category: //ul/div/li[contains(div/a/span,'%rootName%')]

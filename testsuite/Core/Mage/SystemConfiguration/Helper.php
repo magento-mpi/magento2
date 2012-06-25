@@ -127,11 +127,6 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                       'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
         $this->fillForm($data, 'general_web');
         $this->clickButton('save_config');
-        if ($this->getTitle() == 'Log into Magento Admin Page') {
-            $this->loginAdminUser();
-            $this->admin('system_configuration');
-            $this->openConfigurationTab('web');
-        }
         $this->assertTrue($this->verifyForm($data, 'general_web'), $this->getParsedMessages());
     }
 

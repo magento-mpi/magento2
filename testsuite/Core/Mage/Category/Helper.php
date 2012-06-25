@@ -394,9 +394,13 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
      */
     public function moveCategory($whatCatName, $whereCatName)
     {
-        $xpathWhatCatName = "//span[contains(text(),'" . $whatCatName . "')]";
-        $xpathWhereCatName = "//span[contains(text(),'" . $whereCatName . "')]";
-        if ($this->isElementPresent($xpathWhatCatName) && $this->isElementPresent($xpathWhereCatName)) {
+        $this->addParameter('categoryName', $whatCatName);
+        $isPresentWhatCat = $this->controlIsPresent('link', 'category_by_name');
+        $xpathWhatCatName = $this->_getControlXpath('link', 'category_by_name');
+        $this->addParameter('categoryName', $whereCatName);
+        $isPresentWhereCat = $this->controlIsPresent('link', 'category_by_name');
+        $xpathWhereCatName = $this->_getControlXpath('link', 'category_by_name');
+        if ($isPresentWhatCat && $isPresentWhereCat) {
             $this->clickAt($xpathWhatCatName, '5,2');
             $this->waitForAjax();
             $this->mouseDownAt($xpathWhatCatName, '5,2');

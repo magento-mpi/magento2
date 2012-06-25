@@ -443,7 +443,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $this->waitForElementNotPresent($xpathContinue);
                 $this->waitForElement($verificationSuccessful);
             }
-            $this->assertElementPresent($verificationSuccessful);
+            $this->assertTrue($this->controlIsPresent('pageelement', 'verification_successful'));
             $this->selectFrame('relative=top');
         }
     }

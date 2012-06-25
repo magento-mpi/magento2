@@ -296,8 +296,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
-        if ($this->isElementPresent($xpath)) {
+        if ($this->controlIsPresent('button', 'button_login')) {
             $this->addParameter('elementTitle', $parameters['page_title']);
             $this->validatePage();
             $this->fillForm($parameters['credentials']);
@@ -340,8 +339,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $parameters = $this->loadDataSet($fileName, implode('/', $elements));
         }
-        $xpath = $this->getUimapPage('paypal_sandbox', 'paypal_sandbox')->findButton('button_login');
-        if (!$this->isElementPresent($xpath)) {
+        if (!$this->controlIsPresent('button', 'button_login')) {
             $this->addParameter('elementTitle', $parameters['page_title_pay_with']);
             $this->validatePage();
             $this->addParameter('elementTitle', $parameters['page_title']);

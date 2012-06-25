@@ -350,7 +350,10 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             }
             $count = $this->getXpathCount($xpath);
             for ($i = 1; $i <= $count; $i++) {
-                $text = trim(preg_replace('/^(T:)|(F:)/', '', $this->getText($xpath . '[' . $i . ']')));
+                $this->addParameter('index', $i);
+                $this->addParameter('elementXpath', $xpath);
+                $text = $this->getControlAttribute('pageelement', 'element_index', 'text');
+                $text = trim(preg_replace('/^(T:)|(F:)/', '', $text));
                 if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $text)) {
                     $actualAddress[] = $text;
                 } else {
@@ -551,9 +554,10 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     public function frontOrderReview(array $checkout)
     {
         $this->assertMultipleCheckoutPageOpened('place_order');
-        $xpath = $this->_getControlXpath('fieldset', '3d_secure_card_validation') . "[not(@style='display: none;')]";
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
         if ($this->controlIsPresent('pageelement', '3d_secure_header')) {
-            $this->assertTrue($this->waitForElement($xpath), '3D Secure frame not loaded');
+            $this->assertTrue($this->waitForElement($this->_getControlXpath('pageelement',
+                'element_not_disabled_style')), '3D Secure frame not loaded');
             $this->checkoutOnePageHelper()->frontValidate3dSecure();
             $this->assertTrue($this->waitForElement($this->_getControlXpath('button', 'place_order')),
                 'Button "place_order" is not present');
