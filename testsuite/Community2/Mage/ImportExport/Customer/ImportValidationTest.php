@@ -203,12 +203,17 @@ class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_
             )
             ),
             array($customerDataRow5, array('validation' => array(
-                'error' => array(
-                    "E-mail1 is invalid in rows: 1"
-                ),
                 'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
+                    "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"
+                ),
+                'success' => array(
+                    "File is valid! To start import process press \"Import\" button  Import"
+                )
+            ),
+            'import' => array(
+                'success' => array(
+                    "Import successfully done."
+                )
             )
             )
             )
