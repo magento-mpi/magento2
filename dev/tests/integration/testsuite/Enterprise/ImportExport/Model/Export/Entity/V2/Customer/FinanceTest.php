@@ -50,9 +50,9 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
 
         // prepare correct data
         $correctCustomerData = array(
-            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_EMAIL
+            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_EMAIL
                 => Mage::registry('customer_finance_email'),
-            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_WEBSITE
+            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_WEBSITE
                 => Mage::app()->getStore()->getWebsite()->getCode(),
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
                 => Mage::registry('customer_balance'),

@@ -37,21 +37,27 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
         $rewardResourceModel = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward');
 
         $joinFlag = 'join_reward_points';
-
         if (!$this->getFlag($joinFlag)) {
-            $this->joinTable(
-                $rewardResourceModel->getMainTable(),
-                'customer_id = entity_id',
-                array(
-                    Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
-                    => 'points_balance'
-                ),
-                null,
-                'left'
-            );
-            $this->setFlag($joinFlag, true);
+            /** @var $website Mage_Core_Model_Website */
+            foreach (Mage::app()->getWebsites() as $website) {
+                $tableName  = $rewardResourceModel->getMainTable();
+                $tableAlias = $website->getCode() . '_' . $tableName;
+                $fieldName  = $tableAlias . '.points_balance';
+                $fieldAlias = $website->getCode() . '_'
+                    . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+                    ::COLUMN_REWARD_POINTS;
 
-            $this->_usedFiltersNotNull[] = $rewardResourceModel->getMainTable() . '.points_balance';
+                $this->joinTable(
+                    array($tableAlias => $tableName),
+                    'customer_id = entity_id',
+                    array($fieldAlias => $fieldName),
+                    array('website_id' => $website->getId()),
+                    'left'
+                );
+
+                $this->_usedFiltersNotNull[] = $fieldName;
+            }
+            $this->setFlag($joinFlag, true);
         }
 
         return $this;
@@ -68,22 +74,27 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
         $customerBalanceResourceModel = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance');
 
         $joinFlag = 'join_customer_balance';
-
         if (!$this->getFlag($joinFlag)) {
-            $this->joinTable(
-                $customerBalanceResourceModel->getMainTable(),
-                'customer_id = entity_id',
-                array(
-                    Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-                        ::COLUMN_CUSTOMER_BALANCE
-                    => 'amount'
-                ),
-                null,
-                'left'
-            );
-            $this->setFlag($joinFlag, true);
+            /** @var $website Mage_Core_Model_Website */
+            foreach (Mage::app()->getWebsites() as $website) {
+                $tableName  = $customerBalanceResourceModel->getMainTable();
+                $tableAlias = $website->getCode() . '_' . $tableName;
+                $fieldName  = $tableAlias . '.amount';
+                $fieldAlias = $website->getCode() . '_'
+                    . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
+                    ::COLUMN_CUSTOMER_BALANCE;
 
-            $this->_usedFiltersNotNull[] = $customerBalanceResourceModel->getMainTable() . '.amount';
+                $this->joinTable(
+                    array($tableAlias => $tableName),
+                    'customer_id = entity_id',
+                    array($fieldAlias => $fieldName),
+                    array('website_id' => $website->getId()),
+                    'left'
+                );
+
+                $this->_usedFiltersNotNull[] = $fieldName;
+            }
+            $this->setFlag($joinFlag, true);
         }
 
         return $this;
