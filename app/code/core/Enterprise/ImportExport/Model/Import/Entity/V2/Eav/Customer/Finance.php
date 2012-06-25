@@ -56,6 +56,13 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     );
 
     /**
+     * Comment for finance data import
+     *
+     * @var string
+     */
+    protected $_comment;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -127,12 +134,13 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                     $rowData[self::COLUMN_WEBSITE]
                 );
                 if ($customer->getId() != $customerId) {
+                    $customer->reset();
                     $customer->load($customerId);
                 }
                 // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
                     if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
-                        $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
+                        $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                         if ($attributeCode == $rewardPointsKey) {
                             $this->_updateRewardPoints($customer, $websiteId, $rowData[$attributeCode]);
                         } elseif ($attributeCode == $customerBalanceKey) {
@@ -166,6 +174,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
             $rewardModel->setPointsDelta($pointsDelta)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
                 ->setActionEntity($customer)
+                ->setComment($this->_getComment())
                 ->updateRewardPoints();
         }
 
@@ -190,11 +199,29 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
         $amountDelta = $value - $balanceModel->getAmount();
         if ($amountDelta != 0) {
             $balanceModel->setAmountDelta($amountDelta)
-                ->setComment(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Updated during import'))
+                ->setComment($this->_getComment())
                 ->save();
         }
 
         return $balanceModel;
+    }
+
+    /**
+     * Retrieve comment string
+     *
+     * @return string
+     */
+    protected function _getComment()
+    {
+        if (!$this->_comment) {
+            /** @var $helper Enterprise_ImportExport_Helper_Data */
+            $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+            /* @var $adminUser Mage_User_Model_User */
+            $adminUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
+            $this->_comment = $helper->__('Data was imported by %s', $adminUser->getUsername());
+        }
+
+        return $this->_comment;
     }
 
     /**
