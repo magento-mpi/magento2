@@ -20,6 +20,17 @@
 class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Remove not used websites
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        Mage::app()->reinitStores();
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test join with reward points
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php

@@ -18,6 +18,17 @@
 class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Remove not used websites
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        Mage::app()->reinitStores();
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test export data
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
