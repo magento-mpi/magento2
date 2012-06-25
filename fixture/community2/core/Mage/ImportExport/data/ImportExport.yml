@@ -71,6 +71,18 @@ generic_customer_attribute:
    store_view_titles:
         Default Store View: Text_Field_StoreView
 
+generic_customer_attribute_yesno:
+   input_type: Yes/No
+   attribute_code: attr_ie_%randomize%
+   values_required: No
+   used_for_customer_segment: No
+   visible_on_frontend: Yes
+   sort_order: 1
+   used_in_forms: Customer Account Edit, Customer Registration
+   admin_title: Text_Field_Admin_%randomize%
+   store_view_titles:
+        Default Store View: Text_Field_StoreView
+
 customer_account_with_attribute:
     associate_to_website: Main Website
     group: General
