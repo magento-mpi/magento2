@@ -25,7 +25,7 @@
 
     <!-- make script, that runs phpunit with xdebug enabled, executable -->
     <target name="prepare-xdebug">
-        <chmod perm="u+x" file="${file.phpunit_xdebug}"/>
+        <chmod perm="u+x" file="${basedir}/${file.phpunit_xdebug}"/>
     </target>
 
     <target name="prepare-build-properties">
@@ -105,7 +105,7 @@
 
     <!-- product unit tests with code coverage -->
     <target name="unit-tests-magento-coverage" depends="prepare-xdebug">
-        <exec dir="dev/tests/unit" executable="${file.phpunit_xdebug}" failonerror="true">
+        <exec dir="dev/tests/unit" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
             <arg line="--log-junit ${basedir}/unit-tests-magento-xdebug.xml
                 --coverage-clover ${basedir}/unit-tests-magento-coverage.xml
                 "/>
@@ -135,7 +135,7 @@
 
     <!-- product integration tests with xdebug -->
     <target name="integration-tests-magento-xdebug" depends="init,prepare-xdebug">
-        <exec dir="dev/tests/integration" executable="${file.phpunit_xdebug}" failonerror="true">
+        <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
         </exec>
     </target>
@@ -144,7 +144,7 @@
     <target name="integration-tests-magento-coverage" depends="init,prepare-xdebug">
         <delete dir="${basedir}/coverage-html"/>
         <mkdir dir="${basedir}/coverage-html"/>
-        <exec dir="dev/tests/integration" executable="${file.phpunit_xdebug}" failonerror="true">
+        <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml
                 --coverage-clover ${basedir}/integration-tests-magento-coverage.xml
                 --coverage-html ${basedir}/integration-tests-magento-coverage

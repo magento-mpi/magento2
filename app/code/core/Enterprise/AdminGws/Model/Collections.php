@@ -314,10 +314,10 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     protected function _initRssAdminRole()
     {
-        /* @var $rssSession Mage_Rss_Model_Session */
-        $rssSession = Mage::getSingleton('Mage_Rss_Model_Session');
+        /* @var $session Mage_Backend_Model_Auth_Session */
+        $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         /* @var $adminUser Mage_User_Model_User */
-        $adminUser = $rssSession->getAdmin();
+        $adminUser = $session->getUser();
         if ($adminUser) {
             $this->_role->setAdminRole($adminUser->getRole());
         }

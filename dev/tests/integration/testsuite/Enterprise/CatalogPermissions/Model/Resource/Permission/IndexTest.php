@@ -29,6 +29,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
      */
     public function testReindex()
     {
+        $this->markTestIncomplete('MAGETWO-1664');
         $fixturePermission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission')->load(1);
         unset($fixturePermission['permission_id']);
 

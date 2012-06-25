@@ -26,6 +26,6 @@
         <const name="TESTS_MAGENTO_DEVELOPER_MODE" value="enabled"/>
     </php>
     <listeners>
-        <listener class="Magento_Test_Listener"/>
+        <listener class="Magento_Test_Event_PhpUnit"/>
     </listeners>
 </phpunit>

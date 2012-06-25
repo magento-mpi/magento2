@@ -30,15 +30,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Empty fixture to wrap tests in db transaction
-     */
-    public static function emptyFixture()
-    {
-
-    }
-
-    /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testCRUD()
     {
@@ -86,7 +78,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testSaveExtra()
     {
@@ -127,7 +119,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testDeleteFromRole()
     {
@@ -227,7 +219,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Mage_Backend_Model_Auth_Exception
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testAuthenticateInactiveUser()
     {
@@ -238,7 +230,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Mage_Backend_Model_Auth_Exception
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testAuthenticateUserWithoutRole()
     {
@@ -248,7 +240,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testLoginsAreLogged()
     {
@@ -281,7 +273,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testHasAssigned2Role()
     {
@@ -382,7 +374,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      */
     public function testChangeResetPasswordLinkToken()
     {
@@ -397,7 +389,7 @@ class Mage_User_Model_UserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture emptyFixture
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoConfigFixture default/admin/emails/password_reset_link_expiration_period 10
      */

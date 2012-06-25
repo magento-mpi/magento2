@@ -16,7 +16,6 @@
         <word>{license_notice}</word>
         <word>biz@magento.com</word>
         <word>enterprise</word>
-        <word>magentoTEST</word>
         <word>mssql</word>
         <word>oracle</word>
         <word>petervarien</word>
@@ -39,7 +38,7 @@
         <item>
             <word>oracle</word>
             <word>mssql</word>
-            <path>dev/tests/integration/framework/Magento/Test/Listener/Annotation/Isolation.php</path>
+            <path>dev/tests/integration/framework/Magento/Test/Annotation/AppIsolation.php</path>
         </item>
         <item>
             <word>mssql</word>

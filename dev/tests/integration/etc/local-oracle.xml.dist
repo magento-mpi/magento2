@@ -39,6 +39,15 @@
             </default_setup>
         </resources>
         <session_save><![CDATA[files]]></session_save>
+        <resource>
+            <connection>
+                <types>
+                    <oracle>
+                        <adapter><![CDATA[Magento_Test_Db_Adapter_Oracle]]></adapter>
+                    </oracle>
+                </types>
+            </connection>
+        </resource>
     </global>
     <admin>
         <routers>
