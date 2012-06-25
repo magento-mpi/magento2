@@ -11,6 +11,9 @@
 
 class Mage_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Mage_Backend_Model_Menu_Builder_Command_Add
+     */
     protected $_model;
 
     protected $_params = array(
@@ -33,5 +36,13 @@ class Mage_Backend_Model_Menu_Builder_Command_AddTest extends PHPUnit_Framework_
         $params = $this->_model->execute(array('title' => 'newitem'));
         $this->_params['title'] =  'newitem';
         $this->assertEquals($this->_params, $params);
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testChainWithAnotherAddCommandTrowsException()
+    {
+        $this->_model->chain(new Mage_Backend_Model_Menu_Builder_Command_Add($this->_params));
     }
 }

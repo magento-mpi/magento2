@@ -24,7 +24,22 @@ class Mage_Backend_Model_Menu_Builder_Command_Add extends Mage_Backend_Model_Men
         "module"
     );
 
-   /**
+    /**
+     * Add command as last in the list of callbacks
+     *
+     * @param Mage_Backend_Model_Menu_Builder_CommandAbstract $command
+     * @return Mage_Backend_Model_Menu_Builder_CommandAbstract
+     * @throws InvalidArgumentException
+     */
+    public function chain(Mage_Backend_Model_Menu_Builder_CommandAbstract $command)
+    {
+        if ($command instanceof Mage_Backend_Model_Menu_Builder_Command_Add) {
+            throw new InvalidArgumentException("Two 'add' commands cannot have equal id (" . $command->getId() . ")");
+        }
+        return parent::chain($command);
+    }
+
+    /**
      * Add missing data to item
      *
      * @param array $itemParams

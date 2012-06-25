@@ -63,6 +63,7 @@ abstract class Mage_Backend_Model_Menu_Builder_CommandAbstract
      *
      * @param Mage_Backend_Model_Menu_Builder_CommandAbstract $command
      * @return Mage_Backend_Model_Menu_Builder_CommandAbstract
+     * @throws InvalidArgumentException if invalid chaining command is supplied
      */
     public function chain(Mage_Backend_Model_Menu_Builder_CommandAbstract $command)
     {
