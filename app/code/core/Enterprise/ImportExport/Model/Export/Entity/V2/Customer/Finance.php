@@ -115,8 +115,6 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
         return $writer->getContents();
     }
 
-
-
     /**
      * Entity type code getter
      *
