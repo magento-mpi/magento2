@@ -210,15 +210,15 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         foreach ($formDataMap as $formFieldName => $formField) {
             if ($formFieldName === 'category') {
                 $buttonName = preg_replace('/(^rule_)|(s$)/', '', $tabId) . '_value';
-                $this->click($this->_getControlXpath('link', $buttonName, $uimapData));
-                $this->click($this->_getControlXpath('link', 'open_chooser', $uimapData));
+                $this->clickControl('link', $buttonName, false);
+                $this->clickControl('link', 'open_chooser', false);
                 $this->pleaseWait();
                 $categories = explode(',', $formField['value']);
                 $categories = array_map('trim', $categories);
                 foreach ($categories as $value) {
                     $this->categoryHelper()->selectCategory($value, 'rule_condition_item');
                 }
-                $this->click($this->_getControlXpath('link', 'confirm_choice', $uimapData));
+                $this->clickControl('link', 'confirm_choice', false);
                 continue;
             }
             $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);

@@ -84,7 +84,11 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
         //Verifying
         $this->selectWindow(null);
-        $this->assertElementPresent("//*[contains(@id,'" . $attrData['attribute_code'] . "')]");
+        $code = ($attributeType != 'product_attribute_fpt')
+            ? $attrData['attribute_code']
+            : $attrData['attribute_code'] . '_table';
+        $this->addParameter('elementId', $code);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'element_by_id'));
     }
 
     public function onProductPageWithRequiredFieldsOnlyDataProvider()
