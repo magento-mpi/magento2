@@ -1,0 +1,22 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_GiftWrapping
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Menu Catalog Event page
+manage_catalog_event:
+    mca: catalog_event/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_event/')]
+    title: Catalog Events / Categories / Catalog / Magento Admin
+
+# Manage Product Rules page
+manage_product_rules:
+    mca: targetrule/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'targetrule/')]
+    title: Rule-based Product Relations / Catalog / Magento Admin

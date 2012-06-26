@@ -11,7 +11,7 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form: &searchProductGrid

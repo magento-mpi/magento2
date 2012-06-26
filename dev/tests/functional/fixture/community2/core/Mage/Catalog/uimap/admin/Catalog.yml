@@ -1,0 +1,35 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Tag
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+#
+---
+url_rewrite_managment:
+    mca: urlrewrite/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'urlrewrite/')]
+    title: Rewrite Rules / Magento Admin
+
+search_terms:
+    mca: catalog_search/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_search/')]
+    title: Search Terms / Catalog / Magento Admin
+
+google_content_manage_attributes:
+    mca: googleshopping_types/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_types/')]
+    title: Manage Attributes / Google Content / Catalog / Magento Admin
+
+google_content_manage_items:
+    mca: googleshopping_items/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_items/')]
+    title: Manage Items / Google Content / Catalog / Magento Admin
+
+google_sitemap:
+    mca: sitemap/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sitemap/')]
+    title: Google Sitemaps / Catalog / Magento Admin

@@ -1,3 +1,4 @@
+#
 # Magento
 #
 # NOTICE OF LICENSE
@@ -24,17 +25,14 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-admin_header:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    global_header:
-                        fields:
-                            global_record_search: //*[@id='global_search']
-                -
-                    general_elements:
-                        pageelements:
-                            navigation_menu_items: //ul[@id='nav']/li
-                            general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
-                            active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
+#Manage RMA page
+manage_rma:
+    mca: rma/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'rma/')]
+    title: Manage RMA / Sales / Magento Admin
+
+#Manage RMA Item Attribute page
+manage_rma_items_attribute:
+    mca: rma_item_attribute/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'rma_item_attribute/')]
+    title: Manage RMA Item Attributes / Magento Admin
