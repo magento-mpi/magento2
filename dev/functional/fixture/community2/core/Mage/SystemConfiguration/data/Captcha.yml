@@ -87,7 +87,7 @@ zero_attempts_specified:
             captcha_word_length: 4
             captcha_symbols: 1
             captcha_display_mode: After number of attempts to login
-            captcha_number_of_attempts: '0'
+            captcha_number_of_attempts: 0
             captcha_case_sensitive: No
 
 case_sensitive_enable:
@@ -194,4 +194,3 @@ disable_frontend_captcha:
         tab_name: customers_customer_configuration
         configuration:
             captcha_enable_frontend: No
-

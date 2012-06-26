@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Magento
  *
@@ -22,12 +23,12 @@
  * @package     selenium
  * @subpackage  tests
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Test creation new status
+ * Test creation new Status.
  *
  * @package     selenium
  * @subpackage  tests
@@ -60,14 +61,14 @@ class Enterprise2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     public function navigation()
     {
         $this->assertTrue($this->controlIsPresent('button', 'create_new_status'),
-                'There is no "Create New Status" button on the page'); 
+                'There is no "Create Status" button on the page'); 
         $this->clickButton('create_new_status');
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->controlIsPresent('button', 'save_status'), 'There is no "Save" button on the page');
+        $this->assertTrue($this->controlIsPresent('button', 'save_new_status'), 'There is no "Save" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'reset'), 'There is no "Reset" button on the page');
     }
     
-    /**
+        /**
      * <p>Create New Status. Fill in only required fields.</p>
      * <p>Steps:</p>
      * <p>1. Click 'Create New Status' button.</p>
@@ -78,15 +79,12 @@ class Enterprise2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed</p>
      *
      * @test
-     * 
+     * @TestlinkId	TL-MAGE-3618
      */
     public function withRequiredFieldsOnly()
     {
         //Steps
-        $this->clickButton('create_new_status');
-        $this->fillField('status_code', 'my_processing');
-        $this->fillField('status_label', 'My Processing');
-        $this->clickButton('save_status');
+        $this->statusHelper()->createStatus('generic_status', 'new_order_status');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_status');
     }

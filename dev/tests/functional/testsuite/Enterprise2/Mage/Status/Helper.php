@@ -35,11 +35,10 @@
  */
 class Enterprise2_Mage_Status_Helper extends Mage_Selenium_TestCase
 {
-
     /**
-     * Create New Order Status
+     * Create Status Order
      *
-     * Preconditions: 'Order Statuses' page is opened.
+     * Preconditions: 'New Order Status' page is opened.
      *
      * @param array|string $data
      * @param string $name
@@ -76,58 +75,84 @@ class Enterprise2_Mage_Status_Helper extends Mage_Selenium_TestCase
         $this->saveForm('save_status_assignment');
     }
 
-}
-        //Search
-        $this->clickButton('reset_filter');
-        $this->fillForm(array($elementName => $storeData[$elementName]));
-        $this->clickButton('search');
-        //Determination of found items amount
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
-        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
-        $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
-        if ($foundItems == 0) {
-            $this->fail('No records found.');
-        }
-        //Determination of row id
-        $names = $this->getTableHeadRowNames();
-        foreach ($names as $key => $value) {
-            $names[$key] = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
-        }
-        $number = (in_array($elementName, $names)) ? array_search($elementName, $names) + 1 : 0;
-        //Deletion
-        $error = false;
-        $this->addParameter('elementTitle', $storeData[$elementName]);
-        for ($i = 1; $i <= $foundItems; $i++) {
-            //Definition element url
-            $xpath = $fieldsetXpath . '//table[@id]/tbody' . '/tr[' . $i . ']/td[' . $number . ']/a';
-            $url = $this->getAttribute($xpath . '@href');
-            //Open element
-            $this->addParameter('id', $this->defineIdFromUrl($url));
-            $this->openWindow($url, 'edit');
-            $this->selectWindow('name=edit');
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage('edit_' . $element);
-            //Searching a necessary element
-            if ($this->verifyForm($storeData)) {
-                if ($this->controlIsPresent('button', 'delete_' . $element)) {
-                    $this->clickButton('delete_' . $element);
-                    $this->fillForm(array('create_backup' => 'No'));
-                    $this->clickButton('delete_' . $element);
-                    $this->assertMessagePresent('success', 'success_deleted_' . $element);
-                    $this->close();
-                    $this->selectWindow(null);
-
-                    return true;
-                } else {
-                    $error = true;
-                    $this->close();
-                    $this->selectWindow(null);
-                }
-            } else {
-                $this->close();
-                $this->selectWindow(null);
-            }
-      
-    
- 
+    /**
+     * Delete Website|Store|Store View
+     *
+     * @param array $storeData
+     *
+     * @return boolean
+     */
+//    public function deleteStore(array $storeData)
+//    {
+//        //Delete array keys with value = '%noValue%'
+//        $storeData = $this->arrayEmptyClear($storeData);
+//        //Determination of element name
+//        $elementName = '';
+//        foreach ($storeData as $fieldName => $fieldValue) {
+//            if (preg_match('/_name$/', $fieldName)) {
+//                $elementName = $fieldName;
+//            }
+//        }
+//        $element = preg_replace('/_name$/', '', $elementName);
+//        if ($elementName == '') {
+//            $this->fail('It is impossible to determine what needs to be deleted');
+//        }
+//        //Search
+//        $this->clickButton('reset_filter');
+//        $this->fillForm(array($elementName => $storeData[$elementName]));
+//        $this->clickButton('search');
+//        //Determination of found items amount
+//        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_stores');
+//        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
+//        $foundItems = $this->getText($fieldsetXpath . $qtyElementsInTable);
+//        if ($foundItems == 0) {
+//            $this->fail('No records found.');
+//        }
+//        //Determination of row id
+//        $names = $this->getTableHeadRowNames();
+//        foreach ($names as $key => $value) {
+//            $names[$key] = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
+//        }
+//        $number = (in_array($elementName, $names)) ? array_search($elementName, $names) + 1 : 0;
+//        //Deletion
+//        $error = false;
+//        $this->addParameter('elementTitle', $storeData[$elementName]);
+//        for ($i = 1; $i <= $foundItems; $i++) {
+//            //Definition element url
+//            $xpath = $fieldsetXpath . '//table[@id]/tbody' . '/tr[' . $i . ']/td[' . $number . ']/a';
+//            $url = $this->getAttribute($xpath . '@href');
+//            //Open element
+//            $this->addParameter('id', $this->defineIdFromUrl($url));
+//            $this->openWindow($url, 'edit');
+//            $this->selectWindow('name=edit');
+//            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+//            $this->validatePage('edit_' . $element);
+//            //Searching a necessary element
+//            if ($this->verifyForm($storeData)) {
+//                if ($this->controlIsPresent('button', 'delete_' . $element)) {
+//                    $this->clickButton('delete_' . $element);
+//                    $this->fillForm(array('create_backup' => 'No'));
+//                    $this->clickButton('delete_' . $element);
+//                    $this->assertMessagePresent('success', 'success_deleted_' . $element);
+//                    $this->close();
+//                    $this->selectWindow(null);
+//
+//                    return true;
+//                } else {
+//                    $error = true;
+//                    $this->close();
+//                    $this->selectWindow(null);
+//                }
+//            } else {
+//                $this->close();
+//                $this->selectWindow(null);
+//            }
+//        }
+//
+//        if ($error) {
+//            $this->fail('It is impossible to delete ' . $element);
+//        }
+//
+//        return false;
+//    }
 }

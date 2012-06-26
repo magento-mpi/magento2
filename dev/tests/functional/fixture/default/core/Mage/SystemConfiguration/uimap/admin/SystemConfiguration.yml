@@ -3947,10 +3947,10 @@ system_configuration:
                                         captcha_display_mode: //select[@id='admin_captcha_mode']
                                         captcha_case_sensitive: //select[@id='admin_captcha_case_sensitive']
                                     fields:
-                                        captcha_number_of_attempts: //input[@id='admin_captcha_case_sensitive']
                                         captcha_timeout: //input[@id='admin_captcha_timeout']
                                         captcha_word_length: //input[@id='admin_captcha_length']
                                         captcha_symbols: //input[@id='admin_captcha_symbols']
+                                        captcha_number_of_attempts: //input[@id='admin_captcha_failed_attempts_login']
                                     multiselects:
                                         captcha_forms: //select[@id='admin_captcha_forms']
                 -
