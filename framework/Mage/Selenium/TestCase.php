@@ -2048,6 +2048,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Take a screenshot in IE browser
+     *
+     * Note: Download and register SnapsIE to get this work
+     * http://sourceforge.net/projects/snapsie/files/latest/download
+     * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
+     *
+     * @param string $filePath
+     */
+    private function takeScreenshotIE($filePath)
+    {
+        $script = @file_get_contents(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' .
+                                     DIRECTORY_SEPARATOR . 'snapsie.js');
+        $filePath = str_replace('\\', '/', $filePath);
+        $script = str_replace('%filePath%', $filePath, $script);
+        $this->runScript($script);
+    }
+
+    /**
      * Take a screenshot and return information about it.
      * Return an empty string if the screenshotPath property is empty.
      *
@@ -2060,25 +2078,42 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (empty($this->screenshotPath)) {
             return '';
         }
-        try {
-            $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
-        } catch (Exception $e) {
-            return '';
-        }
-        if (empty($screenshotContent)) {
-            return '';
-        }
+
         if ($fileName == null) {
             $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
             $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
             $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
         }
-        $filePath = $this->getScreenshotPath() . $fileName;
-        $file = fopen($filePath . '.png', 'a+');
-        fputs($file, $screenshotContent);
-        fflush($file);
-        fclose($file);
-        return 'Screenshot: ' . $filePath . ".png\n";
+        $filePath = $this->getScreenshotPath() . $fileName . '.png';
+
+        //
+        $browserUserAgent = $this->getEval('navigator.userAgent');
+        //Run specific function only for IE
+        if (preg_match('|MSIE ([0-9]{1,}[\.0-9]{0,})|', $browserUserAgent)) {
+            $this->takeScreenshotIE($filePath);
+        } else {
+            try {
+                $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
+
+                if (empty($screenshotContent)) {
+                    return '';
+                }
+
+                $file = fopen($filePath, 'a+');
+                fputs($file, $screenshotContent);
+                fflush($file);
+                fclose($file);
+
+            } catch (Exception $e) {
+                return '';
+            }
+        }
+
+        if (file_exists($filePath)) {
+            return 'Screenshot: ' . $filePath . ".png\n";
+        }
+
+        return '';
     }
 
     /**
