@@ -223,8 +223,8 @@ class Enterprise2_Mage_CustomerAttribute_Create_DateTest extends Mage_Selenium_T
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_date',
             array('admin_title' => $this->generate('string', 32, ':punct:')));
-        $attrData['manage_labels_options']['manage_titles']['admin_title'] = preg_replace('/<|>/', '',
-            $attrData['manage_labels_options']['manage_titles']['admin_title']);
+        $attrData['manage_labels_options']['admin_title'] = preg_replace('/<|>/', '',
+            $attrData['manage_labels_options']['admin_title']);
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
@@ -260,7 +260,7 @@ class Enterprise2_Mage_CustomerAttribute_Create_DateTest extends Mage_Selenium_T
                 'admin_title'    => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code'], 'attribute_label' =>
-                $attrData['manage_labels_options']['manage_titles']['admin_title']));
+                $attrData['manage_labels_options']['admin_title']));
         //Steps
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying

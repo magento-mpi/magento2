@@ -63,7 +63,6 @@ manage_customer_attributes:
             invalid_lines_range: //div[@id='advice-validate-digits-range-multiline_count']
             use_numbers_only: "//tr[not(@style='display: none;')]//input[@id='max_file_size']/following-sibling::*[text()='Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             delete_confirm_message: Are you sure you want to do this?
-            
 
 # Add New Customer Attribute page
 new_customer_attribute:
@@ -121,7 +120,7 @@ new_customer_attribute:
                                     xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
-                                        titles_by_store_name: //td[2]/input
+                                        titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
                             -
                                 manage_options:

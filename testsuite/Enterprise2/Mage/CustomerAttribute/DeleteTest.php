@@ -96,7 +96,7 @@ class Community17_Mage_CustomerAttribute_DeleteTest extends Mage_Selenium_TestCa
     }
 
     /**
-     * <p>Delete system Customer Attributes</p>
+     * <p>Delete system  Customer Attributes</p>
      * <p>Steps:</p>
      * <p>1.Search and open system Customer Attributes.</p+>
      * <p>Expected result:</p>

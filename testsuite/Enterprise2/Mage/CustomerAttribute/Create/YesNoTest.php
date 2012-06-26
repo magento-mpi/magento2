@@ -223,8 +223,8 @@ class Enterprise2_Mage_CustomerAttribute_Create_YesNoTest extends Mage_Selenium_
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_yesno',
             array('admin_title' => $this->generate('string', 32, ':punct:')));
-        $attrData['manage_labels_options']['manage_titles']['admin_title'] = preg_replace('/<|>/', '',
-            $attrData['manage_labels_options']['manage_titles']['admin_title']);
+        $attrData['manage_labels_options']['admin_title'] = preg_replace('/<|>/', '',
+            $attrData['manage_labels_options']['admin_title']);
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
@@ -260,7 +260,7 @@ class Enterprise2_Mage_CustomerAttribute_Create_YesNoTest extends Mage_Selenium_
                   'admin_title'    => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code'], 'attribute_label' =>
-            $attrData['manage_labels_options']['manage_titles']['admin_title']));
+            $attrData['manage_labels_options']['admin_title']));
         //Steps
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying

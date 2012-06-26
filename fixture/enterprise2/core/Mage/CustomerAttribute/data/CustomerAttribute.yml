@@ -52,7 +52,6 @@ customer_attribute_textfield: &customerAttributeTextfield
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: Textfield_Admin_Title_%randomize%
             titles_by_store_name: Textfield_Title_%randomize%
 
@@ -71,7 +70,6 @@ customer_attribute_textarea: &customerAttributeTextarea
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: Text_Area_Admin
             titles_by_store_name: Textarea_Title_%randomize%
 
@@ -92,7 +90,6 @@ customer_attribute_multipleline: &customerAttributeMultipLine
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: MultipLine_Area_Admin
             titles_by_store_name: MultipLine_Title_%randomize%
 
@@ -112,7 +109,6 @@ customer_attribute_date: &customerAttributeDate
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: Date_Admina
             titles_by_store_name: Date_Title_%randomize%
 
@@ -127,28 +123,30 @@ customer_attribute_dropdown: &customerAttributeDropdown
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        manage_titles:
-            admin_title: Dropdown_Admin_Title_%randomize%
-            titles_by_store_name: Dropdown_Title_%randomize%
-        manage_options:
-            option_1:
-                is_default: No
-                admin_option_name: Option_Admin_%randomize%
-                option_position: 1
-                store_view_titles: Option_StoreView_%randomize%
-                delete_option: %noValue%
-            option_2:
-                is_default: %noValue%
-                admin_option_name: Option_Admin_%randomize%
-                option_position: 2
-                store_view_titles: Option_StoreView_%randomize%
-                delete_option: %noValue%
-            option_3:
-                is_default: %noValue%
-                admin_option_name: Option_Admin_%randomize%
-                option_position: 3
-                store_view_titles: Option_StoreView_%randomize%
-                delete_option: %noValue%
+        admin_title: Dropdown_Admin_%randomize%
+        store_view_titles:
+            Default Store View: Dropdown_StoreView
+        option_1:
+            is_default: No
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 1
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_2:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 2
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_3:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 3
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
 
 # Test Datasets for Add New MultipleSelect type Customer  Attribute
 customer_attribute_multiselect: &customerAttributeMultiselect
@@ -161,28 +159,30 @@ customer_attribute_multiselect: &customerAttributeMultiselect
         sort_order: 1
         forms_to_use:  %noValue%
     manage_labels_options:
-        manage_titles:
-            admin_title: Multiple_Select_Admin
-            titles_by_store_name: MultipleSelect_Title_%randomize%
-        manage_options:
-            option_1:
-                is_default: Yes
-                admin_option_name: MultipleSelect_1_Admin
-                option_position: 1
-                store_view_titles: Option_StoreView1_%randomize%
-                delete_option: %noValue%
-            option_2:
-                is_default: %noValue%
-                admin_option_name: MultipleSelect_2_Admin
-                option_position: 2
-                store_view_titles: Option_StoreView2_%randomize%
-                delete_option: %noValue%
-            option_3:
-                is_default: %noValue%
-                admin_option_name: MultipleSelect_3_Admin
-                option_position: 3
-                store_view_titles: Option_StoreView3_%randomize%
-                delete_option: %noValue%
+        admin_title: Dropdown_Admin_%randomize%
+        store_view_titles:
+            Default Store View: Dropdown_StoreView
+        option_1:
+            is_default: No
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 1
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_2:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 2
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_3:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 3
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
 
 # Test Datasets for Add New Yes/No type Customer Attribute
 customer_attribute_yesno: &customerAttributeYesno
@@ -196,7 +196,6 @@ customer_attribute_yesno: &customerAttributeYesno
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: Yes/No_Admin
             titles_by_store_name: Yesno_Title_%randomize%
 
@@ -213,7 +212,6 @@ customer_attribute_attach_file: &customerAttributeAttachFile
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: File Attachment_Admin
             titles_by_store_name: AttachFile_Title_%randomize%
 
@@ -231,7 +229,6 @@ customer_attribute_image_file: &customerAttributeImageFile
         sort_order: 1
         forms_to_use: %noValue%
     manage_labels_options:
-        manage_titles:
             admin_title: Image file_Admin
             titles_by_store_name: ImageFile_Title_%randomize%
 
