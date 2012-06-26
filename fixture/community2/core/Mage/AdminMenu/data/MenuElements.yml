@@ -107,6 +107,11 @@ menu:
             report_customer_accounts:
             report_customer_totals:
             report_customer_orders:
+
+        promotions:
+                    manage_catalog_price_rules:
+                    manage_shopping_cart_price_rules:
+
         tags:
             report_tag_customer:
             report_tag_product:
