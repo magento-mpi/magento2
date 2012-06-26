@@ -599,6 +599,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * Retrieve data-ui-id attribute which will distinguish link/input/container/anything else in template among others
+     * Function takes an arbitrary amount of parameters
+     *
+     * @return string
+     */
+    public function getUiId()
+    {
+        $id = $this->_nameInLayout . '-' . implode('-', func_get_args());
+        $id = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($id)), '-');
+        return ' data-ui-id="' . $id . '" ';
+    }
+
+    /**
      * Returns url model class name
      *
      * @return string
