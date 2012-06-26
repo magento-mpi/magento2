@@ -18,6 +18,17 @@
 class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Remove not used websites
+     *
+     * @static
+     */
+    public static function tearDownAfterClass()
+    {
+        Mage::app()->reinitStores();
+        parent::tearDownAfterClass();
+    }
+
+    /**
      * Test export data
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
@@ -33,8 +44,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
 
         // get data from CSV file
         list($csvHeader, $csvData) = $this->_getCsvData($csvExportString);
-        $this->assertCount(1, $csvData);
-        $csvCustomerData = reset($csvData);
+        $this->assertCount(count(Mage::app()->getWebsites()), $csvData);
 
         // prepare correct header
         $correctHeader = $customerFinance->getPermanentAttributes();
@@ -48,21 +58,31 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
         sort($correctHeader);
         $this->assertEquals($correctHeader, $csvHeader);
 
-        // prepare correct data
-        $correctCustomerData = array(
-            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_EMAIL
-                => Mage::registry('customer_finance_email'),
-            Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COL_WEBSITE
-                => Mage::app()->getStore()->getWebsite()->getCode(),
-            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
-                => Mage::registry('customer_balance'),
-            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
-                => Mage::registry('reward_point_balance')
-        );
+        /** @var $website Mage_Core_Model_Website */
+        foreach (Mage::app()->getWebsites() as $website) {
+            $websiteCode = $website->getCode();
+            // CSV data
+            $csvCustomerData = $this->_getRecordByFinanceWebsite($csvData, $websiteCode);
+            $this->assertNotNull($csvCustomerData, 'Customer data for website "' . $websiteCode . '" must exist.');
 
-        asort($csvCustomerData);
-        asort($correctCustomerData);
-        $this->assertEquals($correctCustomerData, $csvCustomerData);
+            // prepare correct data
+            $correctCustomerData = array(
+                Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_EMAIL
+                    => Mage::registry('customer_finance_email'),
+                Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_WEBSITE
+                    => Mage::app()->getStore()->getWebsite()->getCode(),
+                Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                    => $websiteCode,
+                Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
+                    => Mage::registry('customer_balance_' . $websiteCode),
+                Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
+                    => Mage::registry('reward_point_balance_' . $websiteCode),
+            );
+
+            asort($csvCustomerData);
+            asort($correctCustomerData);
+            $this->assertEquals($correctCustomerData, $csvCustomerData);
+        }
     }
 
     /**
@@ -104,5 +124,23 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
         }
 
         return array($csvHeader, $csvData);
+    }
+
+    /**
+     * Get record by finance data
+     *
+     * @param array $records
+     * @param string $website
+     * @return array|null
+     */
+    protected function _getRecordByFinanceWebsite(array $records, $website)
+    {
+        $financeWebsiteKey = Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_FINANCE_WEBSITE;
+        foreach ($records as $record) {
+            if ($record[$financeWebsiteKey] == $website) {
+                return $record;
+            }
+        }
+        return null;
     }
 }

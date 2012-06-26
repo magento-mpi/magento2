@@ -9,23 +9,24 @@
  */
 
 /**
- * Source model of export format versions
+ * Source model of import/export format versions
  *
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_ImportExport_Model_Source_Export_Format_Version
+
+class Mage_ImportExport_Model_Source_Format_Version
 {
     /**#@+
-     * Export versions
+     * Import versions
      */
-    const EXPORT_VERSION_1 = 1;
-    const EXPORT_VERSION_2 = 2;
+    const VERSION_1 = 1;
+    const VERSION_2 = 2;
     /**#@-*/
 
     /**
-     * Prepare and return array of available export version file formats
+     * Prepare and return array of available version file formats
      *
      * @return array
      */
@@ -50,7 +51,7 @@ class Mage_ImportExport_Model_Source_Export_Format_Version
     }
 
     /**
-     * Get possible export format versions
+     * Get possible format versions
      *
      * @return array
      */
@@ -59,8 +60,8 @@ class Mage_ImportExport_Model_Source_Export_Format_Version
         $helper = Mage::helper('Mage_ImportExport_Helper_Data');
 
         return array(
-            self::EXPORT_VERSION_1 => $helper->__('Magento 1.7 format'),
-            self::EXPORT_VERSION_2 => $helper->__('Magento 2.0 format'),
+            self::VERSION_1 => $helper->__('Magento 1.7 format'),
+            self::VERSION_2 => $helper->__('Magento 2.0 format'),
         );
     }
 }
