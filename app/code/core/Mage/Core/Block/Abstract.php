@@ -606,9 +606,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUiId()
     {
-        $id = $this->_nameInLayout . '-' . implode('-', func_get_args());
-        $id = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($id)), '-');
-        return ' data-ui-id="' . $id . '" ';
+        $rawId = $this->_nameInLayout . '-' . implode('-', func_get_args());
+        $normalizedId = trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($rawId)), '-');
+        return ' data-ui-id="' . $normalizedId . '" ';
     }
 
     /**
