@@ -130,6 +130,19 @@
         </reference>
     </checkout_cart_configure_type_giftcard>
 
+    <checkout_cart_configurefailed_type_giftcard translate="label" module="Mage_Catalog" type="page" parent="checkout_cart_configure">
+        <label>Configure Cart Item</label>
+        <reference name="product.info">
+            <block type="Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml">
+                <action method="addPriceBlockType"><type>giftcard</type><block>Enterprise_GiftCard_Block_Catalog_Product_Price</block><template>catalog/product/price.phtml</template></action>
+                <block type="Mage_CatalogInventory_Block_Stockqty_Default" name="product.info.giftcard.extra" as="product_type_data_extra" template="stockqty/default.phtml"/>
+            </block>
+        </reference>
+        <reference name="product.clone_prices">
+            <action method="addPriceBlockType"><type>giftcard</type><block>Enterprise_GiftCard_Block_Catalog_Product_Price</block><template>catalog/product/price.phtml</template></action>
+        </reference>
+    </checkout_cart_configurefailed_type_giftcard>
+
     <xmlconnect_cart_index>
         <reference name="xmlconnect.cart">
             <action method="addItemRender"><type>giftcard</type><block>Enterprise_GiftCard_Block_Checkout_Cart_Item_Renderer</block><template>Mage_Checkout::cart/item/default.phtml</template></action>
