@@ -11,8 +11,6 @@
 ---
 
 all_tags:
-    mca: tag/list
-    title:
     uimap:
         form:
             fieldsets:
@@ -23,8 +21,6 @@ all_tags:
                             tag_name: //li/a[text()='%tagName%']
 
 tags_products:
-    mca: tag/product/list/tagId/%id%/
-    title: Products tagged with '%tagName%'
     uimap:
         form:
             fieldsets:
