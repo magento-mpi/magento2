@@ -40,7 +40,7 @@ class Enterprise2_Mage_CustomerAttribute_Helper extends Mage_Selenium_TestCase
      *
      * Preconditions: 'Manage Customer Attributes' page is opened.
      *
-     * @param array $attrData Array which contains DataSet for filling  of the current form
+     * @param array $attrData Array which contains DataSet for filling of the current form
      */
     public function createAttribute($attrData)
     {

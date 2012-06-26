@@ -37,7 +37,7 @@ class Enterprise2_Mage_CustomerAttribute_Create_MultipleLineTest extends Mage_Se
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Attributes</p>
+     * <p>Navigate to Customer -> Attributes -> Manage  Customer Attributes</p>
      */
     protected function assertPreConditions()
     {

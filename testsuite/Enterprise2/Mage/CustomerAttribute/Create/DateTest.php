@@ -37,7 +37,7 @@ class Enterprise2_Mage_CustomerAttribute_Create_DateTest extends Mage_Selenium_T
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage  Customer Attributes</p>
+     * <p>Navigate to Customer -> Attributes -> Manage Customer Attributes</p>
      */
     protected function assertPreConditions()
     {
