@@ -129,13 +129,13 @@
     <!-- database credentials from agent substitution -->
     <target name="integration-tests-database-credential-substitution" depends="init">
         <fail unless="env.db_host" message="Bamboo variable 'db_host' must be defined on your agent"/>
-        <fail unless="env.db_name_integration" message="Bamboo variable 'db_name_integration' must be defined on your agent"/>
+        <fail unless="env.db_name" message="Bamboo variable 'db_name' must be defined on your agent"/>
         <fail unless="env.db_user" message="Bamboo variable 'db_user' must be defined on your agent"/>
         <fail unless="env.db_password" message="Bamboo variable 'db_password' must be defined on your agent"/>
 
         <replace file="${basedir}/dev/tests/integration/etc/local-mysql.xml">
             <replacefilter token="{{db_host}}" value="${env.db_host}"/>
-            <replacefilter token="{{db_name}}" value="${env.db_name_integration}"/>
+            <replacefilter token="{{db_name}}" value="${env.db_name}"/>
             <replacefilter token="{{db_user}}" value="${env.db_user}"/>
             <replacefilter token="{{db_password}}" value="${env.db_password}"/>
         </replace>
