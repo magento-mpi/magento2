@@ -301,8 +301,8 @@ class Enterprise2_Mage_CustomerAttribute_Create_ImageFileTest extends Mage_Selen
             array('attribute_code' => $this->generate('string', 21, ':lower:'),
                   'admin_title'    => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code'], 'attribute_label' =>
-            $attrData['manage_labels_options']['admin_title']));
+            array('attribute_code'  => $attrData['properties']['attribute_code'],
+                  'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying

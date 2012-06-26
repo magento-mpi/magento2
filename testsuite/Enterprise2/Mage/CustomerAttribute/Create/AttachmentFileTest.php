@@ -37,7 +37,7 @@ class Enterprise2_Mage_CustomerAttribute_Create_AttachmentFileTest extends Mage_
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes ->  Manage Customer Attributes</p>
+     * <p>Navigate to Customer -> Attributes -> Manage Customer Attributes</p>
      */
     protected function assertPreConditions()
     {
@@ -304,10 +304,10 @@ class Enterprise2_Mage_CustomerAttribute_Create_AttachmentFileTest extends Mage_
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_attach_file',
             array('attribute_code' => $this->generate('string', 21, ':lower:'),
-                'admin_title'    => $this->generate('string', 255, ':alnum:')));
+                  'admin_title'    => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code'], 'attribute_label' =>
-        $attrData['manage_labels_options']['admin_title']));
+            array('attribute_code'  => $attrData['properties']['attribute_code'],
+                  'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying
