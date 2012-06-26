@@ -87,3 +87,9 @@ manage_reward_rates:
     mca: reward_rate/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'reward_rate/')]
     title: Reward Exchange Rates / Customers / Magento Admin
+
+# 'Online Customers' Page
+online_customers:
+    mca: customer_online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    title: Online Customers / Customers / Magento Admin

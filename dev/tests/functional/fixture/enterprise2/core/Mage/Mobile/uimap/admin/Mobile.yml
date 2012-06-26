@@ -1,0 +1,56 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+manage_apps:
+    mca: mobile/
+    click_xpath: //div[@class='nav-bar']//a[span='Manage Apps']
+    title: Magento Admin
+    form:
+                fieldsets:
+                    -
+                        mobile_apps_grid:
+                            xpath: .//div[@id='mobile_apps_grid']
+                            buttons:
+                                reset_filter: //button[span='Reset Filter']
+                                search: //button[span='Search']
+                            dropdowns:
+                                device: //*[@id='mobile_apps_grid_filter_type']
+                                status: //*[@id='mobile_apps_grid_filter_status']
+
+submission_history:
+    mca: mobile/history/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'mobile/history/')]
+    title: Magento Admin
+
+message_templates:
+    mca: mobile/template/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'mobile/template/')]
+    title: Magento Admin
+
+message_queue:
+    mca: mobile/queue/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'mobile/queue/')]
+    title: Magento Admin

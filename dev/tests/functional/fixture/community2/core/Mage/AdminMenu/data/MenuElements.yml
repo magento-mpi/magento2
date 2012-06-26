@@ -47,7 +47,7 @@ menu:
         attributes:
             manage_attributes:
             manage_attribute_sets:
-        url_rewrite_managment:
+        url_rewrite_management:
         search_terms:
         reviews_and_ratings:
             customer reviews:
