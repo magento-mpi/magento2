@@ -63,7 +63,6 @@ class Enterprise2_Mage_CustomerAddressAttribute_Helper extends Mage_Selenium_Tes
         }
         $propertiesTab = (isset($attrData['properties']))? $attrData['properties']: array();
         $optionsTab = (isset($attrData['manage_labels_options']))? $attrData['manage_labels_options']: array();
-
         $this->fillTab($propertiesTab, 'properties');
         $this->openTab('manage_labels_options');
         $this->productAttributeHelper()->storeViewTitles($optionsTab);

@@ -25,7 +25,7 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Manage Attributes and related pages
+# Manage Customer Address and related pages
 
 # Manage  Customer Address Attributes page
 manage_customer_address_attributes:
@@ -145,7 +145,7 @@ new_customer_address_attribute:
             save_and_continue_edit: //button[span='Save and Continue Edit']
         messages: *addressAttributeMessages
 
-# Manage Customer Address Attributes page
+# Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
     title: %attribute_code% / Manage Customer Address Attributes / Magento Admin

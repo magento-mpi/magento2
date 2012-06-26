@@ -37,7 +37,7 @@ class Enterprise2_Mage_CustomerAddressAttribute_Create_DropDownTest extends Mage
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer Address Attributes</p>
+     * <p>Navigate to Customer -> Attributes -> Manage   Customer Address Attributes</p>
      */
     protected function assertPreConditions()
     {
