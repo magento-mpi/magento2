@@ -130,7 +130,7 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
         $cellId = $this->getColumnIdByName('Poll Question');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
-        while ($this->isElementPresent($xpathTR)) {
+        while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {
             $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
             $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));

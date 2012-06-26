@@ -337,9 +337,9 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
             return true;
         }
         $cellId = $this->getColumnIdByName('Rule Name');
-        while ($this->isElementPresent($xpathTR)) {
-            $this->addParameter('tableLineXpath', $xpathTR);
-            $this->addParameter('cellIndex', $cellId);
+        $this->addParameter('tableLineXpath', $xpathTR);
+        $this->addParameter('cellIndex', $cellId);
+        while ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {
             $param = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
             $this->addParameter('elementTitle', $param);
             $this->addParameter('id', $this->defineIdFromTitle($xpathTR));

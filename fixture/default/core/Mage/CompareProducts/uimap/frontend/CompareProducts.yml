@@ -45,6 +45,8 @@ compare_products:
                             product_attribute_names: //tr[th/span/@class]
                             product_attribute_value: /tr[th='%attrName%']/td[%columnIndex%]
                             product_names: //td[h2[@class='product-name']]
+                            product_attribute_index_name: //tr[th/span/@class][%index%]/th/span
+                            product_index_name: //td[h2[@class='product-name']][%index%]//*[@class='product-name']
         buttons:
             close_window: //button[contains(@onclick,'window.close')]
         links:

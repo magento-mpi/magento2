@@ -773,9 +773,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     public function verifyBundleOptions(array $bundleData)
     {
         $this->openTab('bundle_items');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'bundle_items');
-        $optionSet = $fieldSetXpath . "//div[@class='option-box']";
-        $optionsCount = $this->getXpathCount($optionSet);
+        $optionsCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'bundle_item_grid'));
         $needCount = count($bundleData);
         if (array_key_exists('ship_bundle_items', $bundleData)) {
             $needCount = $needCount - 1;
@@ -811,9 +809,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                             }
                         }
                         $k = $i + 1;
-                        if (!$this->isElementPresent(
-                            $optionSet . "[$k]" . "//tr[@class='selection' and contains(.,'$productSku')]")
-                        ) {
+                        $this->addParameter('productSku', $productSku);
+                        $this->addParameter('index', $k);
+                        if (!$this->controlIsPresent('pageelement', 'bundle_item_grid_index_product')) {
                             $this->addVerificationMessage(
                                 "Product with sku(name)'" . $productSku . "' is not assigned to bundle item $i");
                         } else {

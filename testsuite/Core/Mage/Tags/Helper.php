@@ -326,8 +326,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->customerHelper()->openCustomer($customerSearchData);
         $this->openTab('product_tags');
         $xpathTR = $this->formSearchXpath($tagSearchData);
+        $this->addParameter('cellIndex', 1);
+        $this->addParameter('tableLineXpath', $xpathTR);
         do {
-            if ($this->isElementPresent($xpathTR)) {
+            if ($this->controlIsPresent('pageelement', 'table_line_cell_index')) {
                 return true;
             }
             if ($this->controlIsPresent('link', 'next_page')) {

@@ -423,6 +423,7 @@ checkout_multishipping_review_order:
                         pageelements:
                             grand_total: //*[@class='grand-total']//span[@class='price']
                             3d_secure_header: //h3[text()='Card Verification']
+                            virtual_item_head: //*[contains(text(), 'Other')]
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
                         xpath: //div[@id='centinel_authenticate_block']

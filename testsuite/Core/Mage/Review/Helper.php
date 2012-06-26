@@ -265,8 +265,11 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             $this->assertEquals($ratingNames, $actualRatings, 'Review Rating names is not equal to specified');
             //Verification on Review Details page
             $this->clickControl('link', 'review_summary');
-            $this->assertTextPresent($productName, $productName . ' product not display on Review Details page');
-            $this->assertTextPresent($review, '\'' . $review . '\' review text not display on Review Details page');
+            $actualProductName = $this->getControlAttribute('pageelement', 'product_name', 'text');
+            $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
+            $this->assertSame($productName, $actualProductName,
+                "'$productName' product not display on Review Details page");
+            $this->assertSame($review, $actualReview, "'$review' review text not display on Review Details page");
             $this->assertEmptyVerificationErrors();
         } else {
             $this->fail('Product does not have approved review(s)');
@@ -288,8 +291,10 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         $this->assertTrue($this->controlIsPresent('link', 'product_name'),
             "Can not find product with name: $productName in My Recent Reviews block");
         $this->clickControl('link', 'product_name');
-        $this->assertTextPresent($reviewData['review'],
-            '\'' . $reviewData['review'] . '\' review text not display on Review Details page');
+        $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
+        $expectedReview = $reviewData['review'];
+        $this->assertSame($expectedReview, $actualReview,
+            "'$expectedReview' review text not display on Review Details page");
         //Verification in "My Account -> My Product Reviews"
         $this->navigate('my_product_reviews');
         $this->assertTrue($this->controlIsPresent('link', 'product_name'),

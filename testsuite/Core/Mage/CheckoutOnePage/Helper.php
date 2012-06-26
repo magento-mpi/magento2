@@ -316,20 +316,17 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                                    $this->_getControlXpath('pageelement', 'element_with_disabled_style'));
             if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
                 //Skipping test, but not failing
-                $this->skipTestWithScreenshot('3D Secure frame is not loaded');
+                $this->skipTestWithScreenshot('3D Secure frame is not loaded(maybe wrong card)');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
             $this->selectFrame($this->_getControlXpath('pageelement', '3d_secure_iframe'));
-            if (!$this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10)) {
-                $this->selectFrame('relative=top');
-                $this->fail('3D Secure frame is not loaded');
-            }
+            $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
             $this->fillField('3d_password', $password);
             $this->clickButton('3d_submit', false);
             $this->waitForElement($waitCondition);
             if ($this->controlIsPresent('button', '3d_continue')) {
                 $this->clickButton('3d_continue', false);
-                $this->waitForElementNotPresent($this->_getControlXpath('button', '3d_continue'));
+                $this->waitForElement($this->_getControlXpath('pageelement', 'element_with_disabled_style'));
             }
             $this->selectFrame('relative=top');
         }
@@ -396,9 +393,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         $this->assertOnePageCheckoutTabOpened('billing_information');
         $this->frontFillOnePageAddress($addressData, 'billing');
-        $xpath = $this->_getControlXpath('radiobutton', 'ship_to_this_address');
-        if ($this->controlIsPresent('radiobutton', 'ship_to_this_address') && !$this->isChecked($xpath)) {
-            $fillShipping = true;
+        if ($this->controlIsPresent('radiobutton', 'ship_to_this_address')) {
+            $isChecked = $this->getControlAttribute('radiobutton', 'ship_to_this_address', 'value');
+            $fillShipping = ($isChecked == 'off') ? true : false;
         } else {
             $fillShipping = false;
         }

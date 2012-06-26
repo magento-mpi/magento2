@@ -123,6 +123,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         //Remove workaround for getting fails,
         //not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
+        $this->assertMessageNotPresent('error');
         $this->validatePage('checkout_multishipping_success_order');
         if ($this->controlIsPresent('link', 'all_order_number')) {
             $count = $this->getXpathCount($this->_getControlXpath('link', 'all_order_number'));
@@ -578,7 +579,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         foreach ($shippings as $shipping) {
             $address = (isset($shipping['address'])) ? $shipping['address'] : array();
             if (empty($address)) {
-                $orderHeaders[] = trim($this->getText("//*[contains(text(), 'Other')]"));
+                $orderHeaders[] = $this->getControlAttribute('pageelement', 'virtual_item_head', 'text');
                 continue;
             }
             $header = $this->getAddressId($address, $actualShippings);

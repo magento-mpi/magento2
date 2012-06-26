@@ -225,8 +225,13 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetAttributesListComparePopup()
     {
-        $attrXPath = $this->_getControlXpath('pageelement', 'product_attribute_names');
-        $attributesList = $this->getElementsText($attrXPath, "/th/span");
+        $totalElements = $this->getXpathCount($this->_getControlXpath('pageelement', 'product_attribute_names'));
+        $attributesList = array();
+        for ($i = 1; $i < $totalElements + 1; $i++) {
+            $this->addParameter('', $i);
+            $elementValue = $this->getControlAttribute('pageelement', 'product_attribute_index_name', 'text');
+            $attributesList[$elementValue] = $i;
+        }
         return $attributesList;
     }
 
@@ -238,29 +243,14 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetProductsListComparePopup()
     {
-        $productsXPath = $this->_getControlXpath('pageelement', 'product_names');
-        $productsList = $this->getElementsText($productsXPath, "//*[@class='product-name']");
-        return $productsList;
-    }
-
-    /**
-     * Gets text for all element(s) by XPath
-     *
-     * @param string $elementsXpath General XPath of looking up element(s)
-     * @param string $additionalXPath Additional XPath (by default = '')
-     *
-     * @return array Array of elements text with id of element
-     */
-    public function getElementsText($elementsXpath, $additionalXPath = '')
-    {
-        $elements = array();
-        $totalElements = $this->getXpathCount($elementsXpath);
+        $totalElements = $this->getXpathCount($this->_getControlXpath('pageelement', 'product_names'));
+        $productsList = array();
         for ($i = 1; $i < $totalElements + 1; $i++) {
-            $elementXpath = $elementsXpath . "[$i]" . $additionalXPath;
-            $elementValue = $this->getText($elementXpath);
-            $elements[$elementValue] = $i;
+            $this->addParameter('', $i);
+            $elementValue = $this->getControlAttribute('pageelement', 'product_index_name', 'text');
+            $productsList[$elementValue] = $i;
         }
-        return $elements;
+        return $productsList;
     }
 
     /**

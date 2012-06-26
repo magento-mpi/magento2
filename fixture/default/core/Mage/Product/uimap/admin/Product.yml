@@ -443,6 +443,9 @@ new_product:
                                     xpath: //div[contains(div/h4,'Bundle Items')]
                                     buttons:
                                         add_new_option: //button[@id='add_new_option']
+                                    pageelements:
+                                        bundle_item_grid: //div[@class='option-box']
+                                        bundle_item_grid_index_product: //div[@class='option-box'][%index%]//tr[@class='selection' and contains(.,'%productSku%')]
                             -
                                 new_bundle_option:
                                     xpath: //div[@id='bundle_option_%optionId%']
