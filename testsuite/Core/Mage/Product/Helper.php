@@ -709,7 +709,8 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         } else {
             if ($fillingData) {
                 if ($attributeTitle) {
-                    $xpath = $this->_getControlXpath('fieldset', 'associated') . '//table[@id]';
+                    $this->addParameter('fieldsetXpath', $this->_getControlXpath('fieldset', 'associated'));
+                    $xpath = $this->_getControlXpath('pageelement', 'table_in_fieldset');
                     $number = $this->getColumnIdByName($attributeTitle, $xpath);
                     $this->addParameter('tableLineXpath', $xpathTR);
                     $this->addParameter('cellIndex', $number);

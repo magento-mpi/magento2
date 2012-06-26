@@ -320,6 +320,7 @@ manage_tax_rule:
                         pageelements:
                             grid_head: //*[@id='taxRuleGrid_table']/thead/tr[@class='headings']
                             rules_table: //*[@id='taxRuleGrid_table']/tbody
+                            rule_line: //*[@id='taxRuleGrid_table']/tbody//tr[@title]
         buttons:
             add_rule: //button[span='Add New Tax Rule']
         messages:

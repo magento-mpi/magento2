@@ -94,13 +94,9 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
     {
         //Data
         $orderData = $this->loadDataSet('SalesOrder', 'order_physical',
-                                        array('filter_sku'     => $simpleSku,
-                                              'customer_email' => $this->generate('email', 32, 'valid')));
-        $param = $orderData['billing_addr_data']['billing_first_name']
-            . ' ' . $orderData['billing_addr_data']['billing_last_name'];
-        $this->addParameter('elementTitle', $param);
+            array('filter_sku' => $simpleSku, 'customer_email' => $this->generate('email', 32, 'valid')));
         $searchCustomer = $this->loadDataSet('Customers', 'search_customer',
-                                             array('email' => $orderData['account_data']['customer_email']));
+            array('email' => $orderData['account_data']['customer_email']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -108,10 +104,12 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->navigate('manage_customers');
+        $param = $orderData['billing_addr_data']['billing_first_name'] . ' '
+                 . $orderData['billing_addr_data']['billing_last_name'];
+        $this->addParameter('elementTitle', $param);
         $this->customerHelper()->openCustomer($searchCustomer);
         $this->openTab('addresses');
-        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
-        $addressCount = $this->getXpathCount($xpath);
+        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
         $this->assertEquals(0, $addressCount, 'Customer should not have address, but have ' . $addressCount);
     }
 
