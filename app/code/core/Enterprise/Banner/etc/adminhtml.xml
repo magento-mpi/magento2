@@ -10,17 +10,6 @@
  */
 -->
 <config>
-    <menu>
-        <cms>
-            <children>
-                <enterprise_banner translate="title" module="Enterprise_Banner">
-                    <title>Banners</title>
-                    <action>adminhtml/banner</action>
-                    <sort_order>15</sort_order>
-                </enterprise_banner>
-            </children>
-         </cms>
-    </menu>
     <acl>
         <resources>
             <admin>

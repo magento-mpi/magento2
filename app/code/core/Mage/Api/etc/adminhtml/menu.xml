@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Api
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Api::system_api" title="Web Services" module="Mage_Api" sortOrder="25" parent="Mage_Adminhtml::system" />
+        <add id="Mage_Api::system_api_users" title="SOAP/XML-RPC - Users" module="Mage_Api" sortOrder="10" parent="Mage_Api::system_api" action="adminhtml/api_user" />
+        <add id="Mage_Api::system_api_roles" title="SOAP/XML-RPC - Roles" module="Mage_Api" sortOrder="20" parent="Mage_Api::system_api" action="adminhtml/api_role" />
+    </menu>
+</config>

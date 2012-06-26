@@ -23,7 +23,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
              ->_title($this->__('Report'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_logging');
+        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging');
         $this->renderLayout();
     }
 
@@ -56,7 +56,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
         Mage::register('current_event', $model);
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_logging');
+        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging');
         $this->renderLayout();
     }
 
@@ -90,7 +90,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
              ->_title($this->__('Archive'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_logging');
+        $this->_setActiveMenu('Enterprise_Logging::system_enterprise_logging');
         $this->renderLayout();
     }
 

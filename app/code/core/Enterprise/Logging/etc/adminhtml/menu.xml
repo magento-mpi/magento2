@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Logging
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Enterprise_Logging::system_enterprise_logging" title="Admin Actions Log" module="Enterprise_Logging" sortOrder="71" parent="Mage_Adminhtml::system" dependsOnModule="Enterprise_Logging" />
+        <add id="Enterprise_Logging::system_enterprise_logging_events" title="Report" module="Enterprise_Logging" sortOrder="1" parent="Enterprise_Logging::system_enterprise_logging" action="adminhtml/logging" dependsOnModule="Enterprise_Logging" />
+        <add id="Enterprise_Logging::system_enterprise_logging_backups" title="Archive" module="Enterprise_Logging" sortOrder="2" parent="Enterprise_Logging::system_enterprise_logging" action="adminhtml/logging/archive" dependsOnModule="Enterprise_Logging" />
+    </menu>
+</config>

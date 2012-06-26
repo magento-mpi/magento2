@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Sales
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Sales::sales" title="Sales" module="Mage_Sales" sortOrder="20" dependsOnModule="Mage_Sales" />
+        <add id="Mage_Sales::sales_order" title="Orders" module="Mage_Sales" sortOrder="10" parent="Mage_Sales::sales" action="adminhtml/sales_order" />
+        <add id="Mage_Sales::sales_invoice" title="Invoices" module="Mage_Sales" sortOrder="20" parent="Mage_Sales::sales" action="adminhtml/sales_invoice" />
+        <add id="Mage_Sales::sales_shipment" title="Shipments" module="Mage_Sales" sortOrder="30" parent="Mage_Sales::sales" action="adminhtml/sales_shipment" />
+        <add id="Mage_Sales::sales_creditmemo" title="Credit Memos" module="Mage_Sales" sortOrder="40" parent="Mage_Sales::sales" action="adminhtml/sales_creditmemo" />
+        <add id="Mage_Sales::sales_transactions" title="Transactions" module="Mage_Sales" sortOrder="50" parent="Mage_Sales::sales" action="adminhtml/sales_transactions" />
+        <add id="Mage_Sales::sales_recurring_profile" title="Recurring Profiles (beta)" module="Mage_Sales" sortOrder="60" parent="Mage_Sales::sales" action="adminhtml/sales_recurring_profile" />
+        <add id="Mage_Sales::sales_billing_agreement" title="Billing Agreements" module="Mage_Sales" sortOrder="70" parent="Mage_Sales::sales" action="adminhtml/sales_billing_agreement" />
+        <add id="Mage_Sales::system_order_statuses" title="Order Statuses" module="Mage_Sales" sortOrder="105" parent="Mage_Adminhtml::system" action="adminhtml/sales_order_status" />
+    </menu>
+</config>

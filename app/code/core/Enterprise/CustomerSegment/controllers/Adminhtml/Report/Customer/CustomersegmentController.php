@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('report/customers')
+            ->_setActiveMenu('Mage_Reports::report_customers')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Reports'),
                 Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Reports')

@@ -25,7 +25,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
             ->_title($this->__('Billing Agreements'));
 
         $this->loadLayout()
-            ->_setActiveMenu('sales/billing_agreement')
+            ->_setActiveMenu('Mage_Sales::sales_billing_agreement')
             ->renderLayout();
     }
 
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Sales_Billing_AgreementController extends Mage_Adminhtml_Co
                 ->_title(sprintf("#%s", $agreementModel->getReferenceId()));
 
             $this->loadLayout()
-                ->_setActiveMenu('sales/billing_agreement')
+                ->_setActiveMenu('Mage_Sales::sales_billing_agreement')
                 ->renderLayout();
             return;
         }

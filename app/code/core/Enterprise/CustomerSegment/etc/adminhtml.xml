@@ -38,36 +38,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <customer>
-            <children>
-                <customersegment translate="title" module="Enterprise_CustomerSegment">
-                    <title>Customer Segments</title>
-                    <action>adminhtml/customersegment</action>
-                    <depends>
-                        <module>Enterprise_CustomerSegment</module>
-                        <config>customer/enterprise_customersegment/is_enabled</config>
-                    </depends>
-                    <sort_order>20</sort_order>
-                </customersegment>
-            </children>
-        </customer>
-        <report>
-            <children>
-                <customers>
-                    <children>
-                        <segment translate="title" module="Enterprise_CustomerSegment">
-                            <title>Customer Segments</title>
-                            <action>adminhtml/report_customer_customersegment/segment</action>
-                            <depends>
-                                <module>Enterprise_CustomerSegment</module>
-                                <config>customer/enterprise_customersegment/is_enabled</config>
-                            </depends>
-                            <sort_order>100</sort_order>
-                        </segment>
-                    </children>
-                </customers>
-            </children>
-        </report>
-    </menu>
 </config>

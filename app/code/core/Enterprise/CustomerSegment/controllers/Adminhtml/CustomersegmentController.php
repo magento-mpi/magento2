@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $this->_title($this->__('Customers'))->_title($this->__('Customer Segments'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('customer/customersegment');
+        $this->_setActiveMenu('Enterprise_CustomerSegment::customer_customersegment');
         $this->renderLayout();
     }
 
@@ -133,7 +133,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/customersegment')
+            ->_setActiveMenu('Enterprise_CustomerSegment::customer_customersegment')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments'),
                 Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segments')

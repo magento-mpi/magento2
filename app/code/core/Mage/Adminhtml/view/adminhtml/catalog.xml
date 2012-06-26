@@ -16,7 +16,7 @@
             <action method="setTitle" translate="title"><title>Catalog</title></action>
         </referense>
         <reference name="menu">
-            <action method="setActive"><menupath>catalog/products</menupath></action>
+            <action method="setActive"><itemId>Mage_Catalog::catalog_products</itemId></action>
         </reference>
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product" name="products_list">

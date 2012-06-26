@@ -18,6 +18,17 @@
 class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Perform layout initialization actions
+     *
+     * @return Mage_Oauth_Adminhtml_Oauth_ConsumerController
+     */
+    protected function  _initAction()
+    {
+        $this->loadLayout()
+            ->_setActiveMenu('Mage_Oauth::system_api_oauth_consumer');
+        return $this;
+    }
+    /**
      * Unset unused data from request
      * Skip getting "key" and "secret" because its generated from server side only
      *
@@ -53,7 +64,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_initAction();
         $this->renderLayout();
     }
 
@@ -88,7 +99,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
 
         Mage::register('current_consumer', $model);
 
-        $this->loadLayout();
+        $this->_initAction();
         $this->renderLayout();
     }
 
@@ -118,7 +129,7 @@ class Mage_Oauth_Adminhtml_Oauth_ConsumerController extends Mage_Adminhtml_Contr
         $model->addData($this->_filter($this->getRequest()->getParams()));
         Mage::register('current_consumer', $model);
 
-        $this->loadLayout();
+        $this->_initAction();
         $this->renderLayout();
     }
 

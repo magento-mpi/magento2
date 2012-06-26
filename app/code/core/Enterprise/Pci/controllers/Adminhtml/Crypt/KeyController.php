@@ -41,7 +41,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
 
         $this->_checkIsLocalXmlWriteable();
         $this->loadLayout();
-        $this->_setActiveMenu('system/crypt_key');
+        $this->_setActiveMenu('Enterprise_Pci::system_crypt_key');
 
         if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
             && $data = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getFormData(true)) {

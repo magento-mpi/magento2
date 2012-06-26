@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Widget
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Widget::cms_widget_instance" title="Widgets" module="Mage_Widget" sortOrder="15" parent="Mage_Cms::cms" action="adminhtml/widget_instance" />
+    </menu>
+</config>
