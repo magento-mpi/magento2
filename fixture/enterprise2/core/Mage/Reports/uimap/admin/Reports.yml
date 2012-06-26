@@ -55,3 +55,147 @@ customer_wishlist_report:
     mca: report_customer_wishlist/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
     title: Customer's wishlists / Customers / Reports / Magento Admin
+
+# Sales: Total Ordered Report page
+reports_sales_sales:
+    mca: report_sales/sales/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/sales/')]
+    title: Sales / Sales / Reports / Magento Admin
+
+# Sales: Order Taxes Report Grouped by Tax Rate page
+report_sales_tax:
+    mca: report_sales/tax/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/tax/')]
+    title: Tax / Sales / Reports / Magento Admin
+
+# Sales: Total Invoiced vs. Paid Report page
+report_sales_invoiced:
+    mca: report_sales/invoiced/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/invoiced/')]
+    title: Total Invoiced / Sales / Reports / Magento Admin
+
+# Sales: Total Shipped Report page
+report_sales_shipping:
+    mca: report_sales/shipping/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/shipping/')]
+    title: Shipping / Sales / Reports / Magento Admin
+
+# Sales: Total Refunded Report page
+report_sales_refunded:
+    mca: report_sales/refunded/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/refunded/')]
+    title: Total Refunded / Sales / Reports / Magento Admin
+
+# Sales: Coupons Usage Report page
+report_sales_coupons:
+    mca: report_sales/coupons/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/coupons/')]
+    title: Coupons / Sales / Reports / Magento Admin
+
+# Sales: PayPal Settlement Reports page
+paypal_reports:
+    mca: paypal_reports/
+    click_xpath: //div[@class='nav-bar']//a[span='PayPal Settlement Reports']
+    title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
+
+# Shopping Cart: Products in carts page
+report_shopcart_product:
+    mca: report_shopcart/product/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/product/')]
+    title: Products in Carts / Shopping Cart / Reports / Magento Admin
+
+# Products:
+report_sales_bestsellers:
+    mca: report_sales/bestsellers/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/bestsellers/')]
+    title: Bestsellers / Products / Reports / Magento Admin
+
+# Products: Products Ordered page
+report_product_sold:
+    mca: report_product/sold/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/report_product/sold/')]
+    title: Products Ordered / Products / Reports / Magento Admin
+
+# Products: Most Viewed page
+report_product_viewed:
+    mca: report_product/viewed/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/viewed/')]
+    title: Most Viewed / Products / Reports / Magento Admin
+
+# Products: Low stock page
+report_product_lowstock:
+    mca: report_product/lowstock/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/lowstock/')]
+    title: Low Stock / Products / Reports / Magento Admin
+
+# Products: Downloads page
+report_product_downloads:
+    mca: report_product/downloads/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/downloads/')]
+    title: Downloads / Products / Reports / Magento Admin
+
+# Customers: New Accounts page
+report_customer_accounts:
+    mca: report_customer/accounts/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/accounts/')]
+    title: New Accounts / Customers / Reports / Magento Admin
+
+# Customers: Customers by Orders Total page
+report_customer_totals:
+    mca: report_customer/totals/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/report_customer/totals/')]
+    title: Customers by Orders Total / Customers / Reports / Magento Admin
+
+# Customers: Customers by number of orders page
+report_customer_orders:
+    mca: report_customer/orders/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
+    title: Customers by Number of Orders / Customers / Reports / Magento Admin
+
+# Tags: Customers Tags page
+report_tag_customer:
+    mca: report_tag/customer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/customer/')]
+    title: Customers / Tags / Reports / Magento Admin
+
+# Tags: Products Tags page
+report_tag_product:
+    mca: report_tag/product/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/product/')]
+    title: Products / Tags / Reports / Magento Admin
+
+# Tags: Popular Tags page
+report_tag_popular:
+    mca: report_tag/popular/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/popular/')]
+    title: Popular / Tags / Reports / Magento Admin
+
+# Reviews: Customers Reviews page
+report_review_customer:
+    mca: report_review/customer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
+    title: Customer Reviews / Reviews / Reports / Magento Admin
+
+# Reviews: Products Reviews
+report_review_product:
+    mca: report_review/product/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/product/')]
+    title: Product Reviews / Reviews / Reports / Magento Admin
+
+# Search Terms page
+report_search:
+    mca: report/search/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report/search/')]
+    title: Search Terms / Reports / Magento Admin
+
+# Refresh Statistics page
+report_statistics:
+    mca: report_statistics/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_statistics/')]
+    title: Refresh Statistics / Sales / Reports / Magento Admin
+
+# Shopping Cart: Abandoned carts page
+report_shopcart_abandoned:
+    mca: report_shopcart/abandoned/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/abandoned/')]
+    title: Abandoned Carts / Shopping Cart / Reports / Magento Admin

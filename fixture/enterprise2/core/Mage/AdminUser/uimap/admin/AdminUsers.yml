@@ -1,0 +1,24 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AdminUser
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage Users and related pages
+
+# 'Users' page
+manage_admin_users:
+    mca: user/
+    click_xpath: //ul[@id='nav']//a[span='Users']
+    title: Users / Permissions / System / Magento Admin
+
+# 'Roles' page
+manage_roles:
+    mca: user_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'user_role')]
+    title: Roles / Permissions / System / Magento Admin
