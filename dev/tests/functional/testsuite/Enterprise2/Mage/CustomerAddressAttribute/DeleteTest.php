@@ -37,7 +37,7 @@ class Community17_Mage_CustomerAddressAttribute_DeleteTest extends Mage_Selenium
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customers -> Attributes -> Manage Customer Address Attributes</p>
+     * <p>Navigate to Customers  -> Attributes -> Manage Customer Address Attributes</p>
      */
     protected function assertPreConditions()
     {

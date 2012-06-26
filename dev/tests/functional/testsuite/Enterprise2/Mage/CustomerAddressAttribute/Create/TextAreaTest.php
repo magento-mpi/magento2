@@ -37,7 +37,7 @@ class Enterprise2_Mage_CustomerAddressAttribute_Create_TextAreaTest extends Mage
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customer -> Attributes -> Manage Customer address Attributes</p>
+     * <p>Navigate to Customer -> Attributes -> Manage Customer  address Attributes</p>
      */
     protected function assertPreConditions()
     {
