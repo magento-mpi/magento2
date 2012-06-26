@@ -118,7 +118,7 @@ class Enterprise2_Mage_CustomerAttribute_Create_AttachmentFileTest extends Mage_
     }
 
     /**
-     * <p>Checking validation for required fields are EMPTY</p>
+     * <p>Checking validation  for required fields are EMPTY</p>
      * <p>Steps:</p>
      * <p>1.Click on "Add New Attribute" button</p>
      * <p>2.Choose "File (attachment)" in 'Input Type' dropdown</p>

@@ -53,7 +53,8 @@ customer_attribute_textfield: &customerAttributeTextfield
         forms_to_use:  %noValue%
     manage_labels_options:
             admin_title: Textfield_Admin_Title_%randomize%
-            titles_by_store_name: Textfield_Title_%randomize%
+            store_view_titles:
+                Default Store View: Textfield_Title_%randomize%
 
 # Test Datasets for Add New TextArea type Customer  Attribute
 customer_attribute_textarea: &customerAttributeTextarea
@@ -71,7 +72,8 @@ customer_attribute_textarea: &customerAttributeTextarea
         forms_to_use:  %noValue%
     manage_labels_options:
             admin_title: Text_Area_Admin
-            titles_by_store_name: Textarea_Title_%randomize%
+            store_view_titles:
+                Default Store View: Textarea_Title_%randomize%
 
 # Test Datasets for Add New Multiple Line type Customer Attribute
 customer_attribute_multipleline: &customerAttributeMultipLine
@@ -91,7 +93,8 @@ customer_attribute_multipleline: &customerAttributeMultipLine
         forms_to_use:  %noValue%
     manage_labels_options:
             admin_title: MultipLine_Area_Admin
-            titles_by_store_name: MultipLine_Title_%randomize%
+            store_view_titles:
+                Default Store View: MultipLine_Title_%randomize%
 
 # Test Datasets for Add New Date type Customer Attribute
 customer_attribute_date: &customerAttributeDate
@@ -110,7 +113,8 @@ customer_attribute_date: &customerAttributeDate
         forms_to_use:  %noValue%
     manage_labels_options:
             admin_title: Date_Admina
-            titles_by_store_name: Date_Title_%randomize%
+            store_view_titles:
+                Default Store View: Date_Title_%randomize%
 
 # Test Datasets for Add New Dropdown type Customer Attribute
 customer_attribute_dropdown: &customerAttributeDropdown
@@ -197,7 +201,8 @@ customer_attribute_yesno: &customerAttributeYesno
         forms_to_use: %noValue%
     manage_labels_options:
             admin_title: Yes/No_Admin
-            titles_by_store_name: Yesno_Title_%randomize%
+            store_view_titles:
+                Default Store View: Yesno_Title_%randomize%
 
 # Test Datasets for Attach File type Customer Attribute
 customer_attribute_attach_file: &customerAttributeAttachFile
@@ -213,7 +218,8 @@ customer_attribute_attach_file: &customerAttributeAttachFile
         forms_to_use: %noValue%
     manage_labels_options:
             admin_title: File Attachment_Admin
-            titles_by_store_name: AttachFile_Title_%randomize%
+            store_view_titles:
+                Default Store View: AttachFile_Title_%randomize%
 
 # Test Datasets for Image File type Customer Attribute
 customer_attribute_image_file: &customerAttributeImageFile
@@ -230,7 +236,8 @@ customer_attribute_image_file: &customerAttributeImageFile
         forms_to_use: %noValue%
     manage_labels_options:
             admin_title: Image file_Admin
-            titles_by_store_name: ImageFile_Title_%randomize%
+            store_view_titles:
+                Default Store View: ImageFile_Title_%randomize%
 
 # Test Dataset for Add New Customer Attribute for ALL types
 customer_attributes:

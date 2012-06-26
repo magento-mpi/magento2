@@ -37,7 +37,7 @@ class Community17_Mage_CustomerAttribute_DeleteTest extends Mage_Selenium_TestCa
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to Customers -> Attributes -> Manage Customer Attributes</p>
+     * <p>Navigate to Customers -> Attributes -> Manage Customer  Attributes</p>
      */
     protected function assertPreConditions()
     {
