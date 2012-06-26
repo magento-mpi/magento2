@@ -265,8 +265,8 @@ class Enterprise2_Mage_CustomerAddressAttribute_Create_DropDownTest extends Mage
             array('attribute_code' => $this->generate('string', 21, ':lower:'),
             'admin_title'    => $this->generate('string', 255, ':alnum:')));
         $searchData = $this->loadDataSet('CustomerAddressAttribute', 'attribute_search_data',
-            array('attribute_code' => $attrData['properties']['attribute_code'], 'attribute_label' =>
-            $attrData['manage_labels_options']['admin_title']));
+            array('attribute_code'  => $attrData['properties']['attribute_code'],
+                  'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps
         $this->customerAddressAttributeHelper()->createAttribute($attrData);
         //Verifying
