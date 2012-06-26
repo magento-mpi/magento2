@@ -704,7 +704,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
     /**
      * @param string $tabXpath
      * @param string $msg
-     * @dataProvider testGetTabAttributeNegativeDataProvider
+     * @dataProvider getTabAttributeNegativeDataProvider
      * @covers getTabAttribute
      */
     public function testGetTabAttributeException($tabXpath, $msg)
@@ -724,7 +724,7 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
         $stub->getTabAttribute('tab_1', 'class');
     }
 
-    public function testGetTabAttributeNegativeDataProvider()
+    public function getTabAttributeNegativeDataProvider()
     {
         return array(
             array('css=control_1[class=class_1]' , 'css'),
@@ -860,15 +860,17 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
      */
     public function testSetGetScreenshotPath()
     {
+        $dir = sys_get_temp_dir();
         $inst = new Mage_Selenium_TestCase();
-        $inst->setScreenshotPath('d:\Temp');
+        $inst->setScreenshotPath($dir);
         $path = $inst->getScreenshotPath();
-        $this->assertEquals('d:\Temp\\', $path);
+        $this->assertEquals(realpath($dir) . DIRECTORY_SEPARATOR, $path);
         $this->assertInternalType('string', $path);
 
-        $inst->setScreenshotPath('d:\Temp\\');
+        $dir = $dir . DIRECTORY_SEPARATOR;
+        $inst->setScreenshotPath($dir);
         $path = $inst->getScreenshotPath();
-        $this->assertEquals('d:\Temp\\', $path);
+        $this->assertEquals(realpath($dir) . DIRECTORY_SEPARATOR, $path);
     }
 
     /**
@@ -877,14 +879,16 @@ class Mage_Selenium_TestCaseTest extends Mage_PHPUnit_TestCase
      */
     public function testSetGetDefaultScreenshotPath()
     {
+        $dir =  sys_get_temp_dir();
         $inst = new Mage_Selenium_TestCase();
-        $inst->setDefaultScreenshotPath('d:\Temp');
+        $inst->setDefaultScreenshotPath($dir);
         $path = $inst->getDefaultScreenshotPath();
-        $this->assertEquals('d:\Temp', $path);
+        $this->assertEquals(realpath($dir), $path);
         $this->assertInternalType('string', $path);
 
-        $inst->setDefaultScreenshotPath('d:\Temp\\');
+        $dir = $dir . DIRECTORY_SEPARATOR;
+        $inst->setDefaultScreenshotPath($dir);
         $path = $inst->getDefaultScreenshotPath();
-        $this->assertEquals('d:\Temp\\', $path);
+        $this->assertEquals(realpath($dir) . DIRECTORY_SEPARATOR, $path);
     }
 }

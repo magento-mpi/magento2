@@ -1,4 +1,17 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Test suite class
+ */
 class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
 {
     /**
@@ -23,10 +36,23 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
      * @param Mage_Test_SkipFilter $testFilter
      * @return Mage_Selenium_TestSuite
      */
-    public function setTestCaseFilter(Mage_Test_SkipFilter $testFilter)
+    public function setTestFilter(Mage_Test_SkipFilter $testFilter)
     {
         $this->_testCaseFilter = $testFilter;
         return $this;
+    }
+
+    /**
+     * Get test skip filter
+     *
+     * @return Mage_Test_SkipFilter|null
+     */
+    public function getTestFilter()
+    {
+        if (!$this->_testCaseFilter instanceof Mage_Test_SkipFilter) {
+            throw new RuntimeException('Filter is not properly initialized');
+        }
+        return $this->_testCaseFilter;
     }
 
     /**
@@ -39,10 +65,9 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
     {
         $name = $test instanceof PHPUnit_Framework_SelfDescribing ? $test->toString() : get_class($test);
         if (empty($this->_testCaseFilter) || !$this->_testCaseFilter->filter($name)) {
-            return parent::addTest($test, $groups);
+            parent::addTest($test, $groups);
         }
     }
-
 
     /**
      * Adds the tests from the given class to the suite.
@@ -101,13 +126,15 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
     {
         $name = $class->getName() . '::' . $method->getName();
         if (empty($this->_testCaseFilter) || !$this->_testCaseFilter->filter($name)) {
-            return parent::addTestMethod($class, $method);
+            parent::addTestMethod($class, $method);
         }
     }
 
-
     /**
      * Add test file
+     *
+     * @param string $filename
+     * @param array $phptOptions
      */
     public function addTestFile($filename, $phptOptions = array())
     {
@@ -139,9 +166,7 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
             }
         }
 
-        $testsFound = FALSE;
-
-        foreach ($newClasses as $className) {
+       foreach ($newClasses as $className) {
             $class = new ReflectionClass($className);
 
             if (!$class->isAbstract()) {
@@ -151,11 +176,9 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
                     );
                     if ($method->isStatic()) {
                         $this->addTest($method->invoke(NULL, $className, $this->_testCaseFilter));
-                        $testsFound = TRUE;
                     }
                 } else if ($class->implementsInterface('PHPUnit_Framework_Test')) {
                     $this->addTestSuite($class);
-                    $testsFound = TRUE;
                 }
             }
         }
@@ -163,4 +186,23 @@ class Mage_Selenium_TestSuite extends PHPUnit_Framework_TestSuite
         $this->numTests = -1;
     }
 
+    /**
+     * Add all test from directory by mask *Test.php
+     * @param string $directory
+     * @param string $baseDirectory
+     */
+    public function addTestFromDirectory($directory, $baseDirectory = '')
+    {
+        $filesIterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($directory, FilesystemIterator::SKIP_DOTS)
+        );
+        $files = array();
+        /* @var $fileInfo SplFileInfo */
+        foreach ($filesIterator as $fileInfo) {
+            if (!$fileInfo->isDir() && preg_match('/Test.php/', $fileInfo->getBasename())) {
+                $files[] = str_replace($baseDirectory, '', $fileInfo->getRealPath());
+            }
+        }
+        $this->addTestFiles($files);
+    }
 }

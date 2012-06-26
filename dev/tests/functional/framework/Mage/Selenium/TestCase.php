@@ -3787,7 +3787,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (!empty($staticProperties['browsers'])) {
             $suite = new Mage_Selenium_TestSuite();
             if (null !== $filter) {
-                $suite->setTestCaseFilter($filter);
+                $suite->setTestFilter($filter);
             }
 
             foreach ($staticProperties['browsers'] as $browser) {
