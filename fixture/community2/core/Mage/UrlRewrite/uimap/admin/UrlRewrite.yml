@@ -1,0 +1,160 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#URL Rewrite pages
+
+manage_urlrewrites:
+    mca: urlrewrite/
+    click_xpath: //div[@class='nav-bar']//a[span='URL Rewrite Management']
+    title: Rewrite Rules / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    url_rewrite_grid:
+                        xpath: //div[@id='urlrewriteGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_store_view: //select[@name='store_id']
+                            filter_status: //select[@name='is_system']
+                        fields:
+                            page: //input[@name='page']
+                            filter_url_rewrite_id: //input[@name='url_rewrite_id']
+                            filter_id_path: //input[@name='id_path']
+                            filter_request_path: //input[@name='request_path']
+                            filter_target_path: //input[@name='target_path']
+                            filter_options: //input[@name='options']
+                        pageelements:
+                            page_grid_head: //div[@id='urlrewriteGrid']//thead/tr[@class='headings']
+        buttons:
+            add_new_rewrite: //button[span='Add URL Rewrite']
+        messages: &pageMessages
+            success_saved_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been saved.')]
+            success_deleted_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been deleted.')]
+            id_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'ID Path for Specified Store already exists.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            confirmation_for_delete: Are you sure you want to do this?
+
+add_new_urlrewrite_category:
+    mca: urlrewrite/edit/category
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    category_rewrite:
+                        xpath: //*[@id='page:main-container']/div/fieldset
+                        links:
+                            root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                            expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+            dropdowns:
+                create_url_rewrite_dropdown: //select[@class='select']
+            buttons:
+                back: //button[span='Back']
+            messages: *pageMessages
+
+add_new_urlrewrite_product:
+    mca: urlrewrite/edit/product
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    product_rewrite:
+                        xpath: //div[@id='productGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_status: //select[@name='status']
+                        fields:
+                            page: //input[@name='page']
+                            filter_product_id: //input[@name='entity_id']
+                            filter_product_name: //input[@name='name']
+                            filter_sku: //input[@name='sku']
+                        pageelements:
+                            page_grid_head: //div[@id='productGrid']//thead/tr[@class='headings']
+            create_url_rewrite_dropdown: //select[@class='select']
+            buttons:
+                back: //button[span='Back']
+            messages: *pageMessages
+
+urlrewrite_product_category_selection:
+    mca: urlrewrite/edit/product/%id%/category
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    product_rewrite:
+                        xpath: //*[@id='page:main-container']/div/fieldset
+                        links:
+                            root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                            expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+            buttons:
+                skip_category_selection: //button[span='Skip Category Selection']
+
+urlrewrite_custom:
+    mca: urlrewrite/edit/id/
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form: &new_url_rewrite
+            fieldsets:
+                -
+                    custom_rewrite:
+                        xpath: //div[@id='base_fieldset']
+                        dropdowns:
+                            request_store: //select[@name='store_id']
+                            target-store: //select[@name='target_store_id']
+                            redirect: //select[@name='options']
+                        fields:
+                            id_path: //input[@id='id_path']
+                            request_path: //input[@name='request_path']
+                            target_path: //input[@name='target_path']
+                            description: //input[@name='description']
+            create_url_rewrite_dropdown: //select[@class='select']
+            buttons:
+                save: //button[span='Save']
+                back: //button[span='Back']
+            messages: *pageMessages
+
+edit_urlrewrite_product:
+    mca: urlrewrite/edit/product/%id%/
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form: *new_url_rewrite
+
+edit_urlrewrite_category:
+    mca: urlrewrite/edit/category/%id%/
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form: *new_url_rewrite
