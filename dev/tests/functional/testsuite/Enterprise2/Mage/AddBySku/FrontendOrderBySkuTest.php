@@ -134,8 +134,7 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        return array ('email'    => $userData['email'],
-                      'password' => $userData['password']);
+        return array('email' => $userData['email'], 'password' => $userData['password']);
     }
 
     /**
@@ -157,8 +156,8 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
         $this->loginAdminUser();
         //Custom options
         $customOptionsRequired = $this->loadDataSet('Product', 'custom_options_dropdown');
-        $customOptionsNotRequired = $this->loadDataSet('Product', 'custom_options_dropdown');
-        $customOptionsNotRequired['custom_options_general_is_required'] = 'No';
+        $customOptionsNotRequired = $this->loadDataSet('Product', 'custom_options_dropdown',
+            array('custom_options_general_is_required' => 'No'));
         //Simple products
         $simpleProducts = array();
         $simpleProducts['simple'] = $this->loadDataSet('SkuProducts', 'simple_sku');
@@ -193,8 +192,7 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
             array('inventory_enable_qty_increments_default' => 'No', 'inventory_enable_qty_increments' => 'Yes',
                   'inventory_qty_increments_default' => 'No', 'inventory_qty_increments' => '5'));
         $this->navigate('manage_products');
-        foreach ($simpleProducts as $product)
-        {
+        foreach ($simpleProducts as $product) {
             $this->productHelper()->createProduct($product);
             $this->assertMessagePresent('success', 'success_saved_product');
         }
@@ -259,7 +257,7 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
                                               'qty' => 2*$simpleProducts['simpleWithBackorders']['inventory_qty']),
             'simpleDisabled'         => array('sku' => $simpleProducts['simpleDisabled']['general_sku'],
                                               'qty' => 1),
-            'nonExistentProduct'     => $this->loadDataSet('SKUProducts','non_existent_product'),
+            'nonExistentProduct'     => $this->loadDataSet('SkuProducts','non_existent_product'),
             'simpleCategory'         => array('sku' => $simpleProducts['simpleCategory']['general_sku'],
                                               'qty' => 1),
             'simpleWebsite'          => array('sku' => $simpleProducts['simpleWebsite']['general_sku'],
@@ -272,8 +270,8 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
             'simpleNotVisibleCustom' => array('sku' => $simpleProducts['simpleNotVisibleCustom']['general_sku'],
                                               'qty' => 1),
             'simpleNotRequiredCustom'=>array('product_name'=>$simpleProducts['simpleNotRequiredCustom']['general_name'],
-                                              'sku' => $simpleProducts['simpleNotRequiredCustom']['general_sku'],
-                                              'qty' => 1),
+                                             'sku' => $simpleProducts['simpleNotRequiredCustom']['general_sku'],
+                                             'qty' => 1),
             'simpleRequiredCustom'   => array('product_name' => $simpleProducts['simpleRequiredCustom']['general_name'],
                                               'sku' => $simpleProducts['simpleRequiredCustom']['general_sku'],
                                               'qty' => 1,
@@ -301,11 +299,11 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
                                       'optionTitle' => $download['downloadable_information_data']['downloadable_link_1']
                                                                 ['downloadable_link_row_title']),
                                       'options_to_choose' => array ('custom_option_checkbox' => 'Yes')))),
-            'configurable'  => array('product_name' => $configurable['general_name'],
-                                     'sku'          => $configurable['general_sku'],
-                                     'qty'          => 1,
-                                     'Options'      => array ('option_1' => array('parameters' => array (
-                                     'title' => $attrData['admin_title']),
+            'configurable'  => array('product_name'      => $configurable['general_name'],
+                                     'sku'               => $configurable['general_sku'],
+                                     'qty'               => 1,
+                                     'Options'           => array ('option_1' => array('parameters' => array (
+                                     'title'             => $attrData['admin_title']),
                                      'options_to_choose' => array ('custom_option_dropdown' =>
                                      $attrData['option_1']['store_view_titles']['Default Store View'])))),
             'grouped'       => array('product_name' => $grouped['general_name'],
@@ -330,7 +328,7 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
                                              'title' => $bundleNotAvailable['bundle_items_data']['item_1']
                                                                            ['bundle_items_default_title']),
                                              'options_to_choose' => array ('custom_option_dropdown' =>
-                                                                          $simpleProducts['simple']['general_name'])))),
+                                             $simpleProducts['simple']['general_name'])))),
             'bundleDynamic'        => array('product_name' => $bundleDynamic['general_name'],
                                             'sku'          => $bundleDynamic['general_sku'],
                                             'qty'          => 1,
@@ -338,7 +336,7 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
                                             'title' => $bundleNotAvailable['bundle_items_data']['item_1']
                                                                           ['bundle_items_default_title']),
                                             'options_to_choose' => array ('custom_option_dropdown' =>
-                                                                           $simpleProducts['simple']['general_name']))))
+                                            $simpleProducts['simple']['general_name']))))
         );
     }
 
@@ -398,8 +396,9 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
     {
         //Preconditions
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($customer);
+        }
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->addBySkuHelper()->frontClearRequiredAttentionGrid();
         //Data
@@ -411,14 +410,40 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
         //Verifying
         $this->assertMessagePresent($msgShoppingCart['type'], $msgShoppingCart['text']);
         $this->addBySkuHelper()->frontConfigureProduct($product, $productType, $msgShoppingCart, $msgAttentionGrid);
-        if (($msgAttentionGrid['messageOne'] != 'null') && ($msgAttentionGrid['messageTwo'] == 'null'))
-        {
-            $this->shoppingCartHelper()->frontShoppingCartHasProducts($product('product_name'));
-            if ($msgAttentionGrid['messageOne'] == 'specify_option')
+        if (!(($msgAttentionGrid['messageOne'] != 'null') && ($msgAttentionGrid['messageTwo'] == 'null'))) {
+            switch ($productType) {
+                case 'simpleNotVisible':
+                    $this->assertTrue($this->shoppingCartHelper()->
+                            frontShoppingCartHasProducts($product['product_name'], 'pageelement'),
+                        'Product name: '.$product['product_name'].'is not present in shopping cart');
+                    $this->assertFalse($this->controlIsVisible('link', 'edit'), 'Edit link is present. ');
+                    break;
+                case 'groupedVisibleIndividual':
+                    $this->assertFalse($this->controlIsVisible('link', 'edit'), 'Edit link is present. ');
+                    $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts(
+                            $product['Options']['option_1']['parameters']['subproductName'], 'pageelement'),
+                        'Product name: '. $product['Options']['option_1']['parameters']['subproductName'] .
+                        'is not present in shopping cart');
+                    break;
+                case 'grouped':
+                    $this->assertTrue($this->shoppingCartHelper()->frontShoppingCartHasProducts(
+                            $product['Options']['option_1']['parameters']['subproductName'], 'pageelement'),
+                        'Product name: '. $product['Options']['option_1']['parameters']['subproductName'] .
+                        'is not present in shopping cart');
+                    break;
+                default:
+                    $this->assertTrue($this->shoppingCartHelper()
+                            ->frontShoppingCartHasProducts($product['product_name']),
+                        'Product name: ' . $product['product_name'] . 'is not present in shopping cart');
+                    break;
+            }
+            if ($msgAttentionGrid['messageOne'] == 'specify_option') {
+                $this->addParameter('productName', $product['product_name']);
                 $this->assertMessagePresent('success', 'product_added_to_cart');
+            }
+            $this->assertFalse($this->controlIsPresent('fieldset', 'products_requiring_attention'),
+                'Products Requiring Attention section is present. ');
         }
-        $this->assertFalse($this->controlIsPresent('fieldset','products_requiring_attention'),
-            'Products Requiring Attention section is present. ');
     }
 
     /**
@@ -497,22 +522,22 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
                   array ('messageOne' => 'specify_option', 'messageTwo' => 'link'))
         );
     }
-    
+
     /**
      * <p>Adding to Cart by SKU after entering values in multiple fields</p>
      * <p>Preconditions:</p>
      *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone.</p>
      *  <p>2. Simple product is created.</p>
-     * 
+     *
      * <p>Steps:</p>
      *  <p>1. Login to Frontend</p>
      *  <p>2. My Account - Order by SKU</p>
      *  <p>3. Click "Add Row" button several times.</p>
      *  <p>4. Enter valid values SKUs and QTYs and click Add to Cart button.</p>
-     * 
+     *
      * <p>Expected result:</p>
      * 	<p>1. All products, that  was entered in multiple fields, are added to Shopping Cart.</p>
-     * 
+     *
      * @param array $data
      * @param array $customer
      *
@@ -523,42 +548,44 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
      * @TestlinkId TL-MAGE-3954
      */
     public function addMultipleSimpleProducts($data, $customer)
-    {             
+    {
         //Preconditions:
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($customer);
+        }
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Steps:
-        $this->navigate('order_by_sku'); 
-        $this->clickButton('add_row', false);     
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple'], array ('1', '2'));
-        $this->clickButton('add_to_cart');        
+        $this->navigate('order_by_sku');
+        $this->clickButton('add_row', false);
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple']['sku'],
+                                                              'qty' => $data['simple']['qty']), array('1', '2'));
+        $this->clickButton('add_to_cart');
         //Verifying
         $this->addParameter('number', '2');
-        $this->assertMessagePresent('success', 'products_added_to_cart_by_sku');        
+        $this->assertMessagePresent('success', 'products_added_to_cart_by_sku');
     }
-    
+
     /**
      * <p>Successful and unsuccessful messages are located in frames different color</p>
      * <p>Preconditions:</p>
      *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone.</p>
-     * 
+     *
      * <p>Steps:</p>
      *  <p>1. Login to Frontend</p>
      *  <p>2. My Account - Order by SKU</p>
      *  <p>3. Enter to SKU field sku simple product</p>
      *  <p>4. Enter to SKU field sku some product, that cannot be added to cart at once (e.g. configurable)</p>
      *  <p>5. Click the "Add to Cart" button</p>
-     * 
+     *
      * <p>Expected results:</p>
-     *  <p>1. Customer us redirected to the Shopping Cart page.</p>    
+     *  <p>1. Customer us redirected to the Shopping Cart page.</p>
      *  <p>2. Simple product is added to the Shopping Cart</p>
      *  <p>3. Configurable product is added to the Product Requiring Attention grid</p>
      *  <p>4. Should be two separate frame:</p>
      *    <p>"%n% products were added to your shopping cart" in green frame;</p>
      *    <p>"%m% products requires your attention" in red frame.</p>
-     * 
+     *
      * @param array $data
      * @param array $customer
      *
@@ -571,32 +598,34 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
     {
         //Preconditions:
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($customer);
+        }
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Steps:
-        $this->navigate('order_by_sku'); 
-        $this->clickButton('add_row', false);   
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple']);
+        $this->navigate('order_by_sku');
+        $this->clickButton('add_row', false);
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows(array('sku' => $data['simple']['sku'],
+                                                              'qty' => $data['simple']['qty']));
         $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['nonExistentProduct'], array('2'));
-        $this->clickButton('add_to_cart');        
+        $this->clickButton('add_to_cart');
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
-        $this->assertMessagePresent('error', 'required_attention_product');  
-    }    
-    
+        $this->assertMessagePresent('error', 'required_attention_product');
+    }
+
     /**
      * <p>Adding/Removing all items from Products Requiring Attention grid</p>
      * <p>Preconditions:</p>
      *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone</p>
-     * 
+     *
      * <p>Steps:</p>
      *  <p>1. Login to Frontend</p>
      *  <p>2. My Account - Order by Sku tab</p>
      *  <p>3. Click on "Add new Row" several time</p>
      *  <p>4. In fields "SKU" enter non-existing SKU of products and click button "Add to Cart"</p>
      *  <p>5. Click "Remove All" button.</p>
-     * 
+     *
      * <p>Expected results:</p>
      *  <p>1. "Product Requiring Attention" grid should be hidden.</p>
      *  <p>2. System displays message "Items were successfully removed."</p>
@@ -607,31 +636,32 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
      * @test
      * @depends preconditionsForTests
      * @depends createCustomer
-     * @TestlinkId TL-MAGE-4234 
+     * @TestlinkId TL-MAGE-4234
      */
     public function removeAllProductFromAttentionGrid($data, $customer)
     {
         //Preconditions:
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($customer);
+        }
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Steps:
         $this->navigate('order_by_sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['nonExistentProduct']);
         $this->clickButton('add_to_cart');
-        $this->clickButton('remove_all');        
+        $this->clickButton('remove_all');
         //Verifying        
-        $this->assertMessagePresent('success', 'items_removed');         
-        $this->assertFalse($this->controlIsPresent('fieldset','products_requiring_attention'), 
-                                                   'Products Requiring Attention section is present. ');                                 
+        $this->assertMessagePresent('success', 'items_removed');
+        $this->assertFalse($this->controlIsPresent('fieldset', 'products_requiring_attention'),
+            'Products Requiring Attention section is present. ');
     }
-    
+
     /**
      * <p>Adding/Removing each attention product separately</p>
      * <p>Preconditions:</p>
      *  <p>1. System - Configuration - SALES - Sales - Order by SKU Settings: Enable Order by SKU on My Account in Frontend - Yes, for Everyone</p>
-     * 
+     *
      * <p>Steps:</p>
      *  <p>1. Login to Frontend</p>
      *  <p>2. My Account - Order by Sku tab</p>
@@ -639,7 +669,7 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
      *  <p>4. In fields "SKU" enter non-existing SKU of products and click button "Add to Cart"</p>
      *  <p>5. Remove one product.</p>
      *  <p>6. Take away all the products one by one.</p>
-     * 
+     *
      * <p>Expected results:</p>
      *  <p>1. All products should be deleted one by one.</p>
      *  <p>2. "Products Requiring Attention" grid should be hidden.</p>
@@ -654,26 +684,27 @@ class Enterprise2_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Tes
     {
         //Preconditions:
         $this->frontend();
-        if ($this->controlIsPresent('link', 'log_in'))
+        if ($this->controlIsPresent('link', 'log_in')) {
             $this->customerHelper()->frontLoginCustomer($customer);
+        }
         $this->shoppingCartHelper()->frontClearShoppingCart();
         //Steps:
-        $this->navigate('order_by_sku');      
-        $nonExistentProduct = $this->loadDataSet('SkuProducts','non_existent_product');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct);         
-        $this->clickButton('add_row', false);     
-        $nonExistentProduct = $this->loadDataSet('SkuProducts','non_existent_product');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct, array('2'));        
-        $this->clickButton('add_row', false);  
-        $nonExistentProduct = $this->loadDataSet('SkuProducts','non_existent_product');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct, array('3'));         
-        $this->clickButton('add_row', false);     
-        $nonExistentProduct = $this->loadDataSet('SkuProducts','non_existent_product');
-        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct, array('4'));           
+        $this->navigate('order_by_sku');
+        $nonExistentProduct = $this->loadDataSet('SkuProducts', 'non_existent_product');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct);
+        $this->clickButton('add_row', false);
+        $nonExistentProduct = $this->loadDataSet('SkuProducts', 'non_existent_product');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct, array('2'));
+        $this->clickButton('add_row', false);
+        $nonExistentProduct = $this->loadDataSet('SkuProducts', 'non_existent_product');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct, array('3'));
+        $this->clickButton('add_row', false);
+        $nonExistentProduct = $this->loadDataSet('SkuProducts', 'non_existent_product');
+        $this->addBySkuHelper()->frontFulfillSkuQtyRows($nonExistentProduct, array('4'));
         $this->clickButton('add_to_cart');
-        $this->addBySkuHelper()->frontDeleteItems(array('4','3','2','1'));        
+        $this->addBySkuHelper()->frontDeleteItems(array('4', '3', '2', '1'));
         //Verifying 
-        $this->assertFalse($this->controlIsPresent('fieldset','products_requiring_attention'), 
-                                                   'Products Requiring Attention section is present. ');
+        $this->assertFalse($this->controlIsPresent('fieldset', 'products_requiring_attention'),
+            'Products Requiring Attention section is present. ');
     }
 }
