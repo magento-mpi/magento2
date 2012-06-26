@@ -122,7 +122,7 @@ new_customer_address_attribute:
                                     xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
                                     fields:
                                         admin_title: //input[@name='frontend_label[0]']
-                                        titles_by_store_name: //input[@name='frontend_label[1]']
+                                        titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
                             -
                                 manage_options:

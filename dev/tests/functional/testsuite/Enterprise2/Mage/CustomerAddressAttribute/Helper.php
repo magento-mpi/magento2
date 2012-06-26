@@ -46,7 +46,6 @@ class Enterprise2_Mage_CustomerAddressAttribute_Helper extends Mage_Selenium_Tes
     {
         $this->clickButton('add_new_attribute');
         $this->fillTabs($attrData);
-        $this->productAttributeHelper()->attributeOptions($attrData);
         $this->saveForm('save_attribute');
     }
 
@@ -59,22 +58,16 @@ class Enterprise2_Mage_CustomerAddressAttribute_Helper extends Mage_Selenium_Tes
     {
         if (is_string($attrData)) {
             $elements = explode('/', $attrData);
-            $fileName = (count($elements) > 1)? array_shift($elements): '';
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
             $attrData = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $propertiesTab = (isset($attrData['properties']))? $attrData['properties']: array();
-        $manageTitles = (isset($attrData['manage_labels_options']['manage_titles']))?
-            $attrData['manage_labels_options']['manage_titles']: array();
-        $manageOptions = (isset($attrData['manage_labels_options']['manage_options']))?
-            $attrData['manage_labels_options']['manage_options']: array();
+        $optionsTab = (isset($attrData['manage_labels_options']))? $attrData['manage_labels_options']: array();
+
         $this->fillTab($propertiesTab, 'properties');
         $this->openTab('manage_labels_options');
-        if (array_key_exists('option_1', $manageOptions)) {
-            $this->fillTab($manageTitles, 'manage_labels_options');
-            $this->productAttributeHelper()->attributeOptions($manageOptions, 'fill');
-        } else {
-            $this->fillTab($manageTitles, 'manage_labels_options');
-        }
+        $this->productAttributeHelper()->storeViewTitles($optionsTab);
+        $this->productAttributeHelper()->attributeOptions($optionsTab);
     }
 
     /**
