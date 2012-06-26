@@ -1,3 +1,4 @@
+#
 # Magento
 #
 # NOTICE OF LICENSE
@@ -24,17 +25,8 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-admin_header:
-    uimap:
-        form:
-            fieldsets:
-                -
-                    global_header:
-                        fields:
-                            global_record_search: //*[@id='global_search']
-                -
-                    general_elements:
-                        pageelements:
-                            navigation_menu_items: //ul[@id='nav']/li
-                            general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
-                            active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]
+# Automated Email Marketing Reminder Rules page
+automated_email_marketing_reminder_rules:
+    mca: reminder/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'reminder/')]
+    title: Reminder Rules / Promotions / Magento Admin

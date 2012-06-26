@@ -28,10 +28,18 @@
 # Newsletter Templetes Manager page
 newsletter_templates:
     mca: newsletter_template/
-    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Templates']
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'newsletter_template/')]
     title: Newsletter Templates / Newsletter / Magento Admin
-    uimap:
 
 
+# Newsletter Newsletter Queue page
+newsletter_queue:
+    mca: newsletter_queue/
+    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Queue']
+    title: Newsletter Queue / Newsletter / Magento Admin
 
-
+# Newsletter Newsletter Queue page
+newsletter_problem_reports:
+    mca: newsletter_problem/
+    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Problem Reports']
+    title: Newsletter Problems / Newsletter / Magento Admin

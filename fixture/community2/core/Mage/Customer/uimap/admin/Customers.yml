@@ -37,3 +37,9 @@ create_customer:
                                 account_info:
                                     fields:
                                         custom_attribute: //input[@id='_account%attribute_name%']
+
+# 'Online Customers' Page
+online_customers:
+    mca: customer_online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    title: Online Customers / Customers / Magento Admin

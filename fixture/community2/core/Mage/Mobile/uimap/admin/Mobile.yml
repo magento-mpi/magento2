@@ -40,3 +40,17 @@ manage_apps:
                                 device: //*[@id='mobile_apps_grid_filter_type']
                                 status: //*[@id='mobile_apps_grid_filter_status']
 
+submission_history:
+    mca: mobile/history/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'mobile/history/')]
+    title: Magento Admin
+
+message_templates:
+    mca: mobile/template/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'mobile/template/')]
+    title: Magento Admin
+
+message_queue:
+    mca: mobile/queue/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'mobile/queue/')]
+    title: Magento Admin
