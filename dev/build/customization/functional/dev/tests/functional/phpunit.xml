@@ -37,7 +37,11 @@
             <!--<directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Category</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Product</directory>-->
+
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>-->
+            <!-- following 1 skipped in ta.varien.com build -->
+            <directory suffix="Test.php">testsuite/Core/Mage/CustomerGroups</directory>
+
             <!--<directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/CmsStaticBlocks</directory>-->
@@ -48,12 +52,15 @@
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>-->
 
-            <!-- skipped in ta.varien.com build -->
-            <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
+            <!--<directory suffix="Test.php">testsuite/Core/Mage/Review</directory>-->
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>-->
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Order</directory>-->
+            <!-- following 3 skipped in ta.varien.com build -->
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderCreditMemo</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderInvoice</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderShipment</directory>
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tax/CustomerTaxClass</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Tax/ProductTaxClass</directory>-->
@@ -65,6 +72,12 @@
 
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Various</directory>-->
             <!--<directory suffix="Test.php">testsuite/Core/Mage/Store</directory>-->
+
+            <!-- following 4 skipped in ta.varien.com build -->
+            <directory suffix="Test.php">testsuite/Core/Mage/Installation</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Paypal</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/ShoppingCart</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/SystemConfiguration</directory>
         </testsuite>
     </testsuites>
     <php>

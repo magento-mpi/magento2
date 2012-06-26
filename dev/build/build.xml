@@ -191,10 +191,6 @@
 
         <property name="dir.build_directory" location="${env.deploy_directory}/${env.build.key}"/>
 
-        <!--<exec executable="ln" failonerror="true">-->
-            <!--<arg line="-sfn ${basedir} ${env.deploy_directory}"/>-->
-        <!--</exec>-->
-
         <delete dir="${dir.build_directory}" />
 
         <copy todir="${dir.build_directory}" failonerror="true">

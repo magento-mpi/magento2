@@ -68,11 +68,11 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
      * @return array
      * @test
      * @depends preconditionsForTests
-     * group skip_due_to_bug2.0
+     * @group skip_due_to_bug2.0
      */
     public function orderWithSwitchMaestroCard($testData)
     {
-//        $this->markTestIncomplete('MAGETWO-1656');
+        $this->markTestIncomplete('MAGETWO-1656');
         //Data
         $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro');
         $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect', array('payment_info' => $paymentInfo));
