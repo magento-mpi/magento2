@@ -33,6 +33,10 @@ log_in_to_admin:
                    log_in:
                        fields:
                           captcha: //input[@id='captcha']
+                       buttons:
+                          captcha_reload: //*[@id='captcha-reload']
+                       pageelements:
+                          captcha: //*[@id='backend_login']
         messages: &loginMessages
             empty_captcha:  "//input[@id='captcha']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
@@ -52,6 +56,10 @@ forgot_password:
                    forgot_password:
                        fields:
                            captcha_field: //input[@id='captcha']
+                       buttons:
+                           captcha_reload: //*[@id='captcha-reload']
+                       pageelements:
+                           captcha: //*[@id='backend_forgotpassword']
         messages: *loginMessages
           
         
