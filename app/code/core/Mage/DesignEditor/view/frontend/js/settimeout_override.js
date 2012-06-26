@@ -7,18 +7,35 @@
  * @license     {license_link}
  */
 
-(function(before, after) {
+(function() {
+
+    var bindBeforeUnload = function() {
+        window.onbeforeunload = function(e) {
+            var e = e || window.event;
+            var messageText = 'Automatic redirect has been triggered.';
+            // For IE and Firefox
+            if (e) {
+                e.returnValue = messageText;
+            }
+            // For Chrome and Safari
+            return messageText;
+        };
+    }
+
+    var unbindBeforeUnload = function () {
+        window.onbeforeunload = null;
+    }
 
     window.setTimeout = (function(oldSetTimeout) {
         return function(func, delay) {
             return oldSetTimeout(function() {
                 try {
-                    before();
+                    bindBeforeUnload();
                     func();
-                    after();
+                    unbindBeforeUnload();
                 }
                 catch (exception) {
-                    after();
+                    unbindBeforeUnload();
                     throw exception;
                 }
             }, delay);
@@ -29,32 +46,16 @@
         return function(func, delay) {
             return oldSetInterval(function() {
                 try {
-                    before();
+                    bindBeforeUnload();
                     func();
-                    after();
+                    unbindBeforeUnload();
                 }
                 catch (exception) {
-                    after();
+                    unbindBeforeUnload();
                     throw exception;
                 }
             }, delay);
         };
     })(window.setInterval);
 
-})(
-    function() {
-        window.onbeforeunload = function(e) {
-            var e = e || window.event;
-            var messageText = 'Are you sure, you want to leave this page?';
-            // For IE and Firefox
-            if (e) {
-                e.returnValue = messageText;
-            }
-            // For Chrome and Safari
-            return messageText;
-        };
-    },
-    function () {
-        window.onbeforeunload = null;
-    }
-);
+})();
