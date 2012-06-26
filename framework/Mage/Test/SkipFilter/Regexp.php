@@ -1,6 +1,18 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-class Mage_Test_Regexp implements Mage_Test_SkipFilter
+/**
+ * Class for filter tests by sets of Regular Expressions
+ */
+class Mage_Test_SkipFilter_Regexp implements Mage_Test_SkipFilter
 {
     /**
      * Regexp string list

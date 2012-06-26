@@ -1,4 +1,17 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Class for load test suite by Class Name
+ */
 class Mage_Test_Loader extends PHPUnit_Runner_StandardTestSuiteLoader
 {
     /**

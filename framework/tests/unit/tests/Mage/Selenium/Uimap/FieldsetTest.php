@@ -16,8 +16,9 @@ class Mage_Selenium_Uimap_FieldsetTest extends Mage_PHPUnit_TestCase
     public function test__construct()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\data\UimapTests.yml');
+        $dataArray = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml'
+        );
         $fieldsetContainer = $dataArray['fieldset'];
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
         $this->assertInstanceOf('Mage_Selenium_Uimap_Fieldset', $instance);
@@ -30,15 +31,18 @@ class Mage_Selenium_Uimap_FieldsetTest extends Mage_PHPUnit_TestCase
     public function testGetFieldsetElements()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\data\UimapTests.yml');
+        $dataArray = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml'
+        );
         $fieldsetContainer = $dataArray['fieldset'];
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
         $elements = $instance->getFieldsetElements();
         $this->assertInternalType('array', $elements);
         $this->assertArrayHasKey('button', $elements);
         $this->assertArrayHasKey('checkbox', $elements);
-        $this->assertEquals($elements['checkbox']['first_checkbox'], "//div[@class='the-fieldset']//input[@id='the-first-checkbox']");
+        $this->assertEquals($elements['checkbox']['first_checkbox'],
+            "//div[@class='the-fieldset']//input[@id='the-first-checkbox']"
+        );
 
         $fieldsetContainer = array();
         $instance = new Mage_Selenium_Uimap_Fieldset('fieldsetId', $fieldsetContainer);
