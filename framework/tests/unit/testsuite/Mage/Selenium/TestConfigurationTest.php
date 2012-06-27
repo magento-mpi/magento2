@@ -181,13 +181,9 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
     {
         $defaultThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'default', 'default'));
         $modernThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'default', 'modern'));
-        $enterpriseThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'enterprise', 'default'));
         return array(
             array(array(
                 $defaultThemePath, $modernThemePath
-            )),
-            array(array(
-                $defaultThemePath, $enterpriseThemePath
             ))
         );
     }
