@@ -52,7 +52,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $apiMethod = 'catalog_category.currentStore';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -70,7 +70,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $categoryIds = $this->_createCategories();
         self::$_currCategoryId = $categoryIds['currCategoryId'];
         self::$_prevCategoryId = $categoryIds['prevCategoryId'];
-        $this->_checkVersionCompatibility(self::$_prevCategoryId, self::$_currCategoryId, $apiMethod);
+        $this->_checkVersionType(self::$_prevCategoryId, self::$_currCategoryId, $apiMethod);
     }
 
     /**
@@ -88,7 +88,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $apiMethod = 'catalog_category.level';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -106,7 +106,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $apiMethod = 'catalog_category.info';
         $prevResponse = $this->prevCall($apiMethod, array('categoryId' => self::$_prevCategoryId));
         $currResponse = $this->currCall($apiMethod, array('categoryId' => self::$_currCategoryId));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -123,7 +123,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $apiMethod = 'catalog_category.tree';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -154,7 +154,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
             self::$_currCategoryId,
             $updateCategoryData
         ));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -175,11 +175,11 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
             'categoryId' => self::$_prevCategoryId,
             'parentId' => $parentIds['prevCategoryId']
         ));
-        $currResponse = $this->prevCall($apiMethod, array(
-            'categoryId' => self::$_prevCategoryId,
+        $currResponse = $this->currCall($apiMethod, array(
+            'categoryId' => self::$_currCategoryId,
             'parentId' => $parentIds['currCategoryId']
         ));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -200,7 +200,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         self::$_prevProductId = $productIds['prevProductId'];
         $prevResponse = $this->prevCall($apiMethod, array(self::$_prevCategoryId, self::$_prevProductId));
         $currResponse = $this->currCall($apiMethod, array(self::$_currCategoryId, self::$_currProductId));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -218,7 +218,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $apiMethod = 'catalog_category.assignedProducts';
         $prevResponse = $this->prevCall($apiMethod, array(self::$_prevCategoryId));
         $currResponse = $this->currCall($apiMethod, array(self::$_currCategoryId));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -245,7 +245,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
             'productId' => self::$_currProductId,
             'position' => '10'
         ));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -270,7 +270,7 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
             'categoryId' => self::$_currCategoryId,
             'productId' => self::$_currProductId
         ));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -288,6 +288,6 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $apiMethod = 'catalog_category.delete';
         $prevResponse = $this->prevCall($apiMethod, array('categoryId' => self::$_prevCategoryId));
         $currResponse = $this->currCall($apiMethod, array('categoryId' => self::$_currCategoryId));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 }
