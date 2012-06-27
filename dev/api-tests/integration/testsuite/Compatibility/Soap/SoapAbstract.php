@@ -21,9 +21,38 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
      * @param mixed $currResponse
      * @param string $apiMethod
      */
-    protected function _checkVersionCompatibility($prevResponse, $currResponse, $apiMethod)
+    protected function _checkVersionType($prevResponse, $currResponse, $apiMethod)
     {
         $this->assertInternalType(gettype($prevResponse), $currResponse,
+            "The type of $apiMethod has changed in the new API version.");
+    }
+
+    /**
+     *  Check API responses are not empty (current and previous versions)
+     *
+     * @param mixed $prevResponse
+     * @param mixed $currResponse
+     * @param string $apiMethod
+     */
+    protected function _checkResponse($prevResponse, $currResponse, $apiMethod)
+    {
+        if (empty($prevResponse) || empty($currResponse)) {
+            throw new Exception("Response of $apiMethod is expected to be not empty");
+        }
+    }
+
+    /**
+     * Compare types of API responses (current and previous versions)
+     *
+     * @param mixed $prevResponse
+     * @param mixed $currResponse
+     * @param string $apiMethod
+     */
+    protected function _checkVersionSignature($prevResponse, $currResponse, $apiMethod)
+    {
+        $prevResponseSignature = array_keys($prevResponse);
+        $currResponseSignature = array_keys($currResponse);
+        $this->assertEquals($prevResponseSignature, $currResponseSignature,
             "The signature of $apiMethod has changed in the new API version.");
     }
 

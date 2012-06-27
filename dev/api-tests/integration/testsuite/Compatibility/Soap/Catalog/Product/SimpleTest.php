@@ -12,7 +12,7 @@
 /**
  * Test Product methods compatibility between previous and current API versions.
  */
-class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webservice_Compatibility
+class Compatibility_Soap_Catalog_Product_SimpleTest extends Compatibility_Soap_SoapAbstract
 {
     /**
      * Product created at previous API
@@ -38,26 +38,11 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      */
     public function testCreate()
     {
-        $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
-        $request = array(
-            'type' => 'simple',
-            'set'  => $entityType->getDefaultAttributeSetId(),
-            'sku'  => 'compatibility-' . uniqid(),
-            'productData' => array(
-                'name' => 'Compatibility Test ' . uniqid(),
-                'description' => 'Test description',
-                'short_description' => 'Test short description',
-                'status' => 1,
-                'visibility' => 4,
-                'price' => 9.99,
-                'tax_class_id' => 2,
-                'weight' => 1,
-            )
-        );
         $apiMethod = 'catalog_product.create';
-        self::$_prevProductId = $this->prevCall($apiMethod, $request);
-        self::$_currProductId = $this->currCall($apiMethod, $request);
-        $this->_checkVersionCompatibility(self::$_prevProductId, self::$_currProductId, $apiMethod);
+        $productIds = $this->_createProducts();
+        self::$_currProductId = $productIds['currProductId'];
+        self::$_prevProductId = $productIds['prevProductId'];
+        $this->_checkVersionType(self::$_prevProductId, self::$_currProductId, $apiMethod);
     }
 
     /**
@@ -79,10 +64,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $currProductInfo = $this->currCall($apiMethod, array(
             'productId' => self::$_currProductId
         ));
-        $prevResponseSignature = array_keys($prevProductInfo);
-        $currResponseSignature = array_keys($currProductInfo);
-        $this->assertEquals($prevResponseSignature, $currResponseSignature,
-            "The signature of $apiMethod has changed in the new API version.");
+        $this->_checkVersionSignature($prevProductInfo, $currProductInfo, $apiMethod);
     }
 
     /**
@@ -111,7 +93,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
             'productId' => self::$_currProductId,
             'productData' => $productData
         ));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -129,7 +111,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $apiMethod = 'catalog_product.getSpecialPrice';
         $prevResponse = $this->prevCall($apiMethod, array('productId' => self::$_prevProductId));
         $currResponse = $this->currCall($apiMethod, array('productId' => self::$_currProductId));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -147,7 +129,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $requestParams = array('productType' => 'simple', 'attributeSetId' => $entityType->getDefaultAttributeSetId());
         $prevResponse = $this->prevCall($apiMethod, $requestParams);
         $currResponse = $this->currCall($apiMethod, $requestParams);
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -164,7 +146,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $apiMethod = 'catalog_product.currentStore';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -175,17 +157,13 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
      * Expected result:
      * Signature of current API is the same as in previous.
      *
-     * @depends testCreate
      */
     public function testProductList()
     {
         $apiMethod = 'catalog_product.list';
         $prevResponse = $this->prevCall($apiMethod);
         $currResponse = $this->currCall($apiMethod);
-        $prevResponseSignature = array_keys($prevResponse[0]);
-        $currResponseSignature = array_keys($currResponse[0]);
-        $this->assertEquals($prevResponseSignature, $currResponseSignature,
-            "The signature of $apiMethod has changed in the new API version.");
+        $this->_checkVersionSignature($prevResponse[0], $currResponse[0], $apiMethod);
     }
 
     /**
@@ -213,7 +191,7 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
             'fromDate' => '2012-03-29 12:30:51',
             'toDate' => '2012-04-29 12:30:51'
         ));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
@@ -231,19 +209,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Magento_Test_Webserv
         $apiMethod = 'catalog_product.delete';
         $prevResponse = $this->prevCall($apiMethod, array('productId' => self::$_prevProductId));
         $currResponse = $this->currCall($apiMethod, array('productId' => self::$_currProductId));
-        $this->_checkVersionCompatibility($prevResponse, $currResponse, $apiMethod);
-    }
-
-    /**
-     * Compare types of API responses (current and previous versions)
-     *
-     * @param mixed $prevResponse
-     * @param mixed $currResponse
-     * @param string $apiMethod
-     */
-    protected function _checkVersionCompatibility($prevResponse, $currResponse, $apiMethod)
-    {
-        $this->assertInternalType(gettype($prevResponse), $currResponse,
-            "The signature of $apiMethod has changed in the new API version.");
+        $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 }
