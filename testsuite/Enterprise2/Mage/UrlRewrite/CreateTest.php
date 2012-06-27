@@ -159,4 +159,52 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
             throw new PHPUnit_Framework_Exception('Target Path field is editable!');
         }
     }
+
+    /**
+     * <p>Verifying Required field for Product URl rewrite</p>
+     * <p>Steps</p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "For Category"</p>
+     * <p>4. Select Category</p>
+     * <p>Expected result:</p>
+     * <p>"Type" & "ID Path" & "Target Path" won't editable</p>
+     *
+     *@depends withRequiredFieldsNotEditable
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5677
+     */
+    public function withRequiredFieldsNotEditableForCategory()
+    {
+        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required');
+
+        //Open Manage URL rewrite page
+        $this->admin('manage_urlrewrites');
+
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite',true);
+        $this->waitForAjax();
+
+        //Select "For category"
+        $this->fillDropdown('create_url_rewrite_dropdown', 'For category');
+
+        //Select Category
+        $this->validatePage('add_new_urlrewrite_category');
+        $categorySearch = $productData['categories'];
+        $this->addParameter('rootName', $categorySearch);
+        $this->clickControl('link', 'root_category', false);
+        $this->addParameter('id', $this->defineParameterFromUrl('category'));
+        $this->validatePage();
+
+        //Check fields id_path & target path isn't editable
+        if ($this->isEditable('id_path'))
+        {
+            throw new PHPUnit_Framework_Exception('ID Path field is editable!');
+        }
+        if ($this->isEditable('target_path'))
+        {
+            throw new PHPUnit_Framework_Exception('Target Path field is editable!');
+        }
+    }
 }
