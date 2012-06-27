@@ -72,6 +72,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
     public function testAddAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->_requireVisitorWithNoProducts();
 
         $this->dispatch('catalog/product_compare/add/product/1?nocookie=1');
@@ -88,6 +89,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
     public function testIndexActionAddProducts()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->_requireVisitorWithNoProducts();
 
         $this->dispatch('catalog/product_compare/index/items/2');
@@ -99,6 +101,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
     public function testRemoveAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->_requireVisitorWithTwoProducts();
 
         $this->dispatch('catalog/product_compare/remove/product/2');
@@ -115,6 +118,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
     public function testIndexActionDisplay()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->_requireVisitorWithTwoProducts();
 
         $this->dispatch('catalog/product_compare/index');
@@ -138,6 +142,7 @@ class Mage_Catalog_Product_CompareControllerTest extends Magento_Test_TestCase_C
 
     public function testClearAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->_requireVisitorWithTwoProducts();
 
         $this->dispatch('catalog/product_compare/clear');

@@ -13,6 +13,8 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
 {
     public function testLoadBlockAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         $this->getRequest()->setParam('block', ',');
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('admin/sales_order_create/loadBlock');
@@ -24,6 +26,7 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
      */
     public function testLoadBlockActionData()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
@@ -40,6 +43,7 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
      */
     public function testLoadBlockActions($block, $expected)
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('block', $block);
         $this->getRequest()->setParam('json', 1);
         $this->dispatch('admin/sales_order_create/loadBlock');
@@ -63,6 +67,7 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
      */
     public function testLoadBlockActionItems()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create')->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
@@ -76,6 +81,7 @@ class Mage_Adminhtml_Sales_Order_CreateControllerTest extends Mage_Adminhtml_Uti
      */
     public function testIndexAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         /** @var $order Mage_Adminhtml_Model_Sales_Order_Create */
         $order = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
         $order->addProducts(array(1 => array('qty' => 1)));

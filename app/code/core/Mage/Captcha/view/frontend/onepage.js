@@ -1,3 +1,11 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 document.observe('billing-request:completed', function(event) {
     if (typeof window.checkout != 'undefined') {
         if (window.checkout.method == 'guest' && $('guest_checkout')){

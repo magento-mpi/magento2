@@ -37,6 +37,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
     public function testIndexActionSingleStore()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/system_design_editor/index');
         $this->_assertContainsDesignEditor($this->getResponse()->getBody());
     }
@@ -46,6 +47,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testIndexActionMultipleStores()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/system_design_editor/index');
         $responseBody = $this->getResponse()->getBody();
         $this->_assertContainsDesignEditor($responseBody);
@@ -56,6 +58,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
 
     public function testLaunchActionSingleStore()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertFalse($session->isDesignEditorActive());
         $this->dispatch('admin/system_design_editor/launch');
@@ -71,6 +74,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testLaunchActionMultipleStores()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('store_id', Mage::app()->getStore('fixturestore')->getId());
 
         $session = new Mage_DesignEditor_Model_Session();
@@ -88,6 +92,7 @@ class Mage_DesignEditor_Adminhtml_System_Design_EditorControllerTest extends Mag
      */
     public function testExitAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $session = new Mage_DesignEditor_Model_Session();
         $this->assertTrue($session->isDesignEditorActive());
         $this->dispatch('admin/system_design_editor/exit');

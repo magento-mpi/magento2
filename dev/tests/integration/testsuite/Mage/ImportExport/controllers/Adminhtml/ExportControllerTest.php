@@ -61,6 +61,7 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
      */
     public function testGetFilterAction($entityType, $customerEntityType = null)
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('isAjax', true);
 
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax
@@ -80,6 +81,7 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
      */
     public function testIndexAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/export/index');
 
         $body = $this->getResponse()->getBody();

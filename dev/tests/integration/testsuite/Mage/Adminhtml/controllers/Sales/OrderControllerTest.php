@@ -13,6 +13,7 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
 {
     public function testIndexAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/sales_order/index');
         $this->assertContains('Total 0 records found', $this->getResponse()->getBody());
     }
@@ -22,6 +23,7 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
      */
     public function testIndexActionWithOrder()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/sales_order/index');
         $this->assertContains('Total 1 records found', $this->getResponse()->getBody());
     }
@@ -31,6 +33,7 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
      */
     public function testOrderViewAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $order = new Mage_Sales_Model_Order;
         $order->load('100000001', 'increment_id');
         $this->dispatch('admin/sales_order/view/order_id/' . $order->getId());
@@ -42,6 +45,7 @@ class Mage_Adminhtml_Sales_OrderControllerTest extends Mage_Adminhtml_Utility_Co
      */
     public function testAddressActionNoVAT()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $address = new Mage_Sales_Model_Order_Address;
         $address->load('a_unique_firstname', 'firstname');
         $this->getRequest()->setParam('address_id', $address->getId());

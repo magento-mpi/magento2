@@ -31,6 +31,7 @@ class Mage_Adminhtml_IndexControllerTest extends Mage_Adminhtml_Utility_Controll
      */
     public function testGlobalSearchAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('isAjax', 'true');
         $this->getRequest()->setPost('query', 'dummy');
         $this->dispatch('admin/index/globalSearch');

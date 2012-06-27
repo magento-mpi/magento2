@@ -45,6 +45,8 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     public function testNotLoggedIndexAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         $this->dispatch('admin/index/index');
         $this->assertFalse($this->getResponse()->isRedirect());
         $expected = 'Log in to Admin Panel';
@@ -58,6 +60,8 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     public function testLoggedIndexAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         $this->_login();
         $this->dispatch('admin/index/index');
         $this->assertRedirect();
