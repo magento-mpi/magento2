@@ -9,8 +9,6 @@
  * @license     {license_link}
  */
 
-require 'Mage/Core/Block/Abstract.php';
-
 class Mage_Core_Block_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
