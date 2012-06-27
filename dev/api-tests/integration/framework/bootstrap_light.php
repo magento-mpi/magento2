@@ -14,7 +14,6 @@
  * Used for compatibility testsuites.
  */
 
-
 $baseDir = dirname(__DIR__);
 
 /*

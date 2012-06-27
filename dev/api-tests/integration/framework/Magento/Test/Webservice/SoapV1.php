@@ -48,7 +48,7 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
      * Init
      *
      * @param null|array $options
-     * @return Magento_Test_Webservice_SoapV1
+     * @return Magento_Test_Webservice_Abstract
      */
     public function init($options = null)
     {
@@ -60,11 +60,11 @@ class Magento_Test_Webservice_SoapV1 extends Magento_Test_Webservice_Abstract
     }
 
     /**
-     *  Call API methods
+     * Call API method
      *
-     * @param $path
-     * @param $params
-     * @return string
+     * @param string $path
+     * @param array $params
+     * @return array|string
      * @throws SoapFault
      */
     public function call($path, $params = array())

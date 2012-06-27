@@ -61,9 +61,9 @@ class Magento_Test_Webservice_SoapV2 extends Magento_Test_Webservice_Abstract
     /**
      * Initialize
      *
-     * @throws SoapFault
      * @param array|null $options
-     * @return Magento_Test_Webservice_SoapV2
+     * @return Magento_Test_Webservice_Abstract
+     * @throws SoapFault
      */
     public function init($options = null)
     {
