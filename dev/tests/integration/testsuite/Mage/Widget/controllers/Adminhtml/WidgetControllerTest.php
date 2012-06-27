@@ -16,6 +16,7 @@ class Mage_Widget_Adminhtml_WidgetControllerTest extends Mage_Adminhtml_Utility_
      */
     public function testLoadOptionsAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setPost('widget', '{"widget_type":"Mage_Cms_Block_Widget_Page_Link","values":{}}');
         $this->dispatch('admin/widget/loadOptions');
         $output = $this->getResponse()->getBody();

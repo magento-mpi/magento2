@@ -17,6 +17,7 @@ class Mage_Centinel_CreateOrderTest extends Mage_Adminhtml_Utility_Controller
      */
     public function testIndexAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         /** @var $order Mage_Adminhtml_Model_Sales_Order_Create */
         $order = Mage::getSingleton('Mage_Adminhtml_Model_Sales_Order_Create');
         $paymentData = array(

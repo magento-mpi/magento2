@@ -16,6 +16,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends Mage_Admi
 {
     public function testToOptionArray()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         $this->dispatch('admin/system_config/edit/section/admin');
 
         $dom = new DomDocument();

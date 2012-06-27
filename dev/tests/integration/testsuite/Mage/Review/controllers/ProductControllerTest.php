@@ -17,6 +17,7 @@ class Mage_Review_ProductControllerTest extends Magento_Test_TestCase_Controller
      */
     public function testListActionDesign($productId, $expectedDesign)
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('id', $productId);
         $this->dispatch('review/product/list');
         $result = $this->getResponse()->getBody();
