@@ -43,10 +43,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerImportTest extends PH
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::_saveCustomerEntity
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::_saveCustomerAttributes
      *
-     * @magentoDataFixture Mage/ImportExport/_files/customer.php
+     * magentoDataFixture Mage/ImportExport/_files/customer.php
      */
     public function testImportData()
     {
+        $this->markTestIncomplete('BUG MAGETWO-1953');
+
         // 3 customers will be imported.
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 2;

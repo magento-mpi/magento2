@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*
 $customers = array();
 
 //Create customer
@@ -146,3 +146,4 @@ $customers[] = $customer;
 
 Mage::unregister('_fixture/Mage_ImportExport_Customers_Array');
 Mage::register('_fixture/Mage_ImportExport_Customers_Array', $customers);
+*/
