@@ -33,7 +33,7 @@ manage_roles:
     click_xpath: //ul[@id='nav']//a[contains(@href, 'user_role')]
     
 # 'New Role' page
-new_role:
+new_role:-
     mca: user_role/editrole/
     uimap:
         form: 

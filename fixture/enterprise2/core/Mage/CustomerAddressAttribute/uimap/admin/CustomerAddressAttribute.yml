@@ -25,15 +25,15 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-# Manage Attributes and related pages
+# Manage Customer Address and related pages
 
-# Manage Customer Address Attributes page
+# Manage  Customer Address Attributes page
 manage_customer_address_attributes:
-    mca: customer_address_attribute/
+    mca: customer_address_attribute
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_address_attribute')]
     title: Manage Customer Address Attributes / Magento Admin
     uimap:
-        form: &searchCustomerAddressAttributeGrid
+        form: &searchCustomerAttributeGrid
             fieldsets:
                 -
                     attributes_grid:
@@ -44,16 +44,16 @@ manage_customer_address_attributes:
                         fields:
                             attribute_code: //input[@name='attribute_code']
                             attribute_label: //input[@name='frontend_label']
-                            sort_order: //input[@name='sort_order']
                         dropdowns:
-                            system: //select[@name='is_user_defined']
                             required: //select[@name='is_required']
+                            system: //select[@name='is_user_defined']
                             visible:  //select[@name='is_visible']
+                            sort: //input[@name='sort_order']
                         pageelements:
                             attributes_grid_head: //div[@id='customerAddressAttributeGrid']//thead/tr[@class='headings']
         buttons:
             add_new_attribute: //button[span='Add New Attribute' or span='Add New']
-        messages: &customerAddressAttributeMessages
+        messages: &addressAttributeMessages
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             success_deleted_attribute: //li[normalize-space(@class)='success-msg' and contains(.,'The customer address attribute has been deleted.')]
             exists_attribute_code: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute with the same code already exists')]
@@ -61,17 +61,20 @@ manage_customer_address_attributes:
             wrong_length_attribute_code: //div[@id='advice-validate-length-attribute_code']
             invalid_attribute_code: //div[@id='advice-validate-code-attribute_code']
             error_invalid_position: //div[@id='advice-validate-digits-position']
+            invalid_lines_range: //div[@id='advice-validate-digits-range-multiline_count']
+            use_numbers_only: "//tr[not(@style='display: none;')]//input[@id='max_file_size']/following-sibling::*[text()='Please use numbers only in this field. Please avoid spaces or other characters such as dots or commas.' or text()='Failed' and not(contains(@style,'display: none;'))]"
             delete_confirm_message: Are you sure you want to do this?
 
-# Add New Customer Address Attribute page
+
+# Add New Address Attribute page
 new_customer_address_attribute:
     mca: customer_address_attribute/new/
-    title: New Attribute /Manage Customer Address Attributes / Magento Admin
+    title: New Attribute / Manage Customer Address Attributes / Magento Admin
     uimap:
-        form: &newCustomerAddressAttributeForm
+        form: &newAddressAttributeForm
             tabs:
                 -
-                    properties: &customerAddressAttributeProperties
+                    properties: &addressAttributeProperties
                         xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_general']/span
                         fieldsets:
                             -
@@ -79,25 +82,37 @@ new_customer_address_attribute:
                                     xpath: //div[@id='base_fieldset']
                                     dropdowns:
                                         input_type: //select[@id='frontend_input']
-                                        input_validation: //select[@id='input_validation']
+                                        default_yesno_value: "//tr[not(@style='display: none;')]//select[@id='default_value_yesno']"
+                                        input_validation: "//tr[not(@style='display: none;')]//select[@id='input_validation']"
                                         values_required: //select[@id='is_required']
-                                        input_filter: //select[@id='input_filter']
-                                        used_for_customer_segment: //select[@id='is_used_for_customer_segment']
+                                        input_output_filter: "//tr[not(@style='display: none;')]//select[@id='input_filter']"
+                                        use_customer_segment: //select[@id='is_used_for_customer_segment']
                                     fields:
                                         attribute_code: //input[@id='attribute_code']
-                                        default_text_field_value: "//tr[not(@style='display: none;')]//input[@id='default_value_text']"
-                                        min_text_length: "//tr[not(@style='display: none;')]//input[@id='min_text_length']"
-                                        max_text_length: "//tr[not(@style='display: none;')]//input[@id='max_text_length']"
-                                    required: [attribute_code, input_type]
+                                        default_value: "//tr[not(@style='display: none;')]//input[@id='default_value_text']"
+                                        default_text_field_value: "//tr[not(@style='display: none;')]//textarea[@id='default_value_textarea']"
+                                        lines_count: "//tr[not(@style='display: none;')]//input[@id='multiline_count']"
+                                        minimum_text_lenght: "//tr[not(@style='display: none;')]//input[@id='min_text_length']"
+                                        maximum_text_lenght: "//tr[not(@style='display: none;')]//input[@id='max_text_length']"
+                                        default_data_value: "//tr[not(@style='display: none;')]//input[@id='default_value_date']"
+                                        minimal_data_value: "//tr[not(@style='display: none;')]//input[@id='date_range_min']"
+                                        maximum_data_value: "//tr[not(@style='display: none;')]//input[@id='date_range_max']"
+                                        maximum_file_size: "//tr[not(@style='display: none;')]//input[@id='max_file_size']"
+                                        file_extensions: "//tr[not(@style='display: none;')]//input[@id='file_extensions']"
+                                        maximum_image_file_size: "//tr[not(@style='display: none;')]//input[@id='max_file_size']"
+                                        maximum_image_width: "//tr[not(@style='display: none;')]//input[@id='max_image_width']"
+                                        maximum_image_height:  "//tr[not(@style='display: none;')]//input[@id='max_image_heght']"
+                                    required: [attribute_code, lines_count]
                             -
                                 frontend_properties:
                                     xpath: //div[@id='front_fieldset']
                                     dropdowns:
-                                        visible_on_frontend: //select[@id='is_visible']
+                                        show_on_frontend: //select[@id='is_visible']
                                     fields:
                                         sort_order: //input[@id='sort_order']
                                     multiselects:
-                                        used_in_forms: //select[@id='used_in_forms']
+                                        forms_to_use: //select[@id='used_in_forms']
+                                    required: [sort_order]
                 -
                     manage_labels_options:
                         xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']/span
@@ -109,22 +124,36 @@ new_customer_address_attribute:
                                         admin_title: //input[@name='frontend_label[0]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
+                            -
+                                manage_options:
+                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    buttons:
+                                        add_option: //button[@id='add_new_option_button']
+                                        delete_option: //td[contains(input/@name,'option[delete][option_%fieldOptionNumber%]')]/button
+                                    checkboxes:
+                                        is_default: //input[@name='default[]' and @value='option_%fieldOptionNumber%']
+                                    fields:
+                                        admin_option_name: //input[@name='option[value][option_%fieldOptionNumber%][0]']
+                                        store_view_titles: //input[@name='option[value][option_%fieldOptionNumber%][1]']
+                                        option_position: //input[@name='option[order][option_%fieldOptionNumber%]']
+                                        titles_by_store_name: //td[contains(input/@name,'option[value][option_%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    required: [admin_option]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_attribute: //button[span='Save Attribute']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages: *customerAddressAttributeMessages
+        messages: *addressAttributeMessages
 
-# Manage Customer Address Attributes page
+# Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
     title: %attribute_code% / Manage Customer Address Attributes / Magento Admin
     uimap:
-        form: &editCustomerAddressAttributeForm
+        form: &editAddressAttributeForm
             tabs:
                 -
-                    properties: *customerAddressAttributeProperties
+                    properties: *addressAttributeProperties
                 -
                     manage_labels_options:
                         xpath: //a[@id='enterprise_customer_address_attribute_edit_tabs_options']/span
@@ -133,13 +162,26 @@ edit_customer_address_attribute:
                                 manage_titles:
                                     xpath: //div[@class='entity-edit' and contains(.//@id,'attribute-labels-table')]
                                     fields:
-                                        admin_title: //input[@name='frontend_label[0]']
+                                        admin_title: //input[@name='frontend_label[%storeViewNumber%]']
                                         titles_by_store_name: //td[%storeViewNumber%]/input
                                     required: [admin_title]
+                            -
+                                manage_options:
+                                    xpath: "//div[@id='matage-options-panel' and not(@style='display: none;')]"
+                                    buttons:
+                                        add_option: //button[@id='add_new_option_button']
+                                        delete_option: //td[contains(input/@name,'option[delete][%fieldOptionNumber%]')]/button
+                                    checkboxes:
+                                        is_default: //input[@name='default[]' and @value='%fieldOptionNumber%']
+                                    fields:
+                                        admin_option_name: //input[@name='option[value][%fieldOptionNumber%][0]']
+                                        option_position: //input[@name='option[order][%fieldOptionNumber%]']
+                                        titles_by_store_name: //td[contains(input/@name,'option[value][%fieldOptionNumber%]')][%storeViewNumber%]/input
+                                    required: [admin_option]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             delete_attribute: //button[span='Delete Attribute']
             save_attribute: //button[span='Save Attribute']
             save_and_continue_edit: //button[span='Save and Continue Edit']
-        messages: *customerAddressAttributeMessages
+        messages: *addressAttributeMessages
