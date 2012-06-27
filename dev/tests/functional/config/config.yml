@@ -177,13 +177,13 @@ applications:
         fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
         areas:
             admin:
-                url: 'https://kq.varien.com/builds/vixit/magento2_taf/magento2/admin/'
+                url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'https://kq.varien.com/builds/vixit/magento2_taf/magento2/'
+                url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
