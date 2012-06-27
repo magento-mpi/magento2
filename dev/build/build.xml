@@ -141,6 +141,12 @@
         </replace>
     </target>
 
+    <!-- product integration integrity tests -->
+    <target name="integration-integrity-tests-magento" depends="init">
+        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/integration-integrity-tests-magento.xml testsuite/integrity"/>
+        </exec>
+    </target>
 
     <!-- product integration tests -->
     <target name="integration-tests-magento" depends="init">
