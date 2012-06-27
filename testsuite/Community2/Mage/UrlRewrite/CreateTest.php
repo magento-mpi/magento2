@@ -96,4 +96,67 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
             array ('target_path', 1)
         );
     }
+
+    /**
+     * <p>Verifying Required field for Product URl rewrite</p>
+     * <p>Steps</p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "For product"</p>
+     * <p>4. Select Product in Grid</p>
+     * <p>5. Select Category</p>
+     * <p>Expected result:</p>
+     * <p>"ID Path" & "Target Path" won't editable</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5517
+     */
+    public function withRequiredFieldsNotEditable()
+    {
+        //Create Simple Product
+        $this->navigate('manage_products');
+        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->createProduct($productData);
+
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        //Open Manage URL rewrite page
+        $this->admin('manage_urlrewrites');
+
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite',true);
+        $this->waitForAjax();
+
+        //Select "For Product"
+        $this->fillDropdown('create_url_rewrite_dropdown', 'For product');
+        $this->waitForPageToLoad();
+
+        //Find product in the Grid and open it
+        $this->validatePage('add_new_urlrewrite_product');
+        $this->searchAndOpen($productSearch,false,'product_rewrite');
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('product'));
+        $this->validatePage();
+
+        //Select Category
+        $categorySearch = $productData['categories'];
+        $this->addParameter('rootName', $categorySearch);
+        $this->clickControl('link', 'root_category', false);
+        $this->waitForPageToLoad();
+        $this->addParameter('categoryId', $this->defineParameterFromUrl('category'));
+        $this->validatePage();
+
+        //Check fields id_path & target path isn't editable
+        if ($this->isEditable('id_path'))
+        {
+            throw new PHPUnit_Framework_Exception('ID Path field is editable!');
+        }
+        if ($this->isEditable('target_path'))
+        {
+            throw new PHPUnit_Framework_Exception('Target Path field is editable!');
+        }
+    }
 }

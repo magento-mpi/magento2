@@ -31,3 +31,19 @@ url_rewrite_custom:
     id_path: 123
     request_path: 123
     target_path: 123
+
+simple_product_required:
+    product_attribute_set: Default
+    general_name: Simple Product Required(%randomize%)
+    general_description: Description for Simple Product Required
+    general_short_description: Short Description for Simple Product Required
+    general_sku: simple_sku_req_%randomize%
+    general_weight: 1.13
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 9.99
+    prices_special_price: %noValue%
+    prices_tax_class: None
+    inventory_qty: %noValue%
+    websites: Main Website
+    categories: Default Category

@@ -117,7 +117,7 @@ urlrewrite_product_category_selection:
                     product_rewrite:
                         xpath: //*[@id='page:main-container']/div/fieldset
                         links:
-                            root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                            root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
                             sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                             expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
             buttons:
@@ -148,6 +148,12 @@ urlrewrite_custom:
             messages: *pageMessages
 
 edit_urlrewrite_product:
+    mca: urlrewrite/edit/product/%id%/category/%categoryId%/
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        form: *new_url_rewrite
+
+edit_urlrewrite_product_skip_category:
     mca: urlrewrite/edit/product/%id%/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
