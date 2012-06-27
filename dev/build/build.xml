@@ -299,6 +299,7 @@
             <target name="unit-tests-integration-framework"/>
             <target name="static-tests-all"/>
             <target name="integration-tests-magento"/>
+            <target name="integration-integrity-tests-magento"/>
         </ant>
         <exec dir="${dir.publication_target}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch}"/>
