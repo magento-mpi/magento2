@@ -247,7 +247,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
         $startNewBunch     = false;
         $nextRowBackup     = array();
 
-        /** @var $resourceHelper Mage_ImportExport_Model_Resource_Helper_Mssql */
+        /** @var $resourceHelper Mage_ImportExport_Model_Resource_Helper_Mysql4 */
         $resourceHelper = Mage::getResourceHelper('Mage_ImportExport');
         /** @var $dataHelper  Mage_ImportExport_Helper_Data */
         $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
