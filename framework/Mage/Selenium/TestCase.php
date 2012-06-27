@@ -2058,11 +2058,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     private function takeScreenshotIE($filePath)
     {
-        $script = @file_get_contents(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' .
-                                     DIRECTORY_SEPARATOR . 'snapsie.js');
+        $checkScript = "function load(){
+                    try {
+                		var nativeObj = new ActiveXObject('Snapsie.CoSnapsie');
+                		return 1;
+                    } catch (e) {
+                		return e.message;
+                	}
+                }load();";
+        $checkResult = $this->getEval($checkScript);
+        if ($checkResult != 1) {
+            return "Could not initialize Snapsie. Error: $checkResult";
+        }
+        $screenShotScript = @file_get_contents(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' .
+                                               DIRECTORY_SEPARATOR . 'snapsie.js');
         $filePath = str_replace('\\', '/', $filePath);
-        $script = str_replace('%filePath%', $filePath, $script);
-        $this->runScript($script);
+        $screenShotScript = str_replace('%filePath%', $filePath, $screenShotScript);
+        $this->runScript($screenShotScript);
+        return '';
     }
 
     /**
@@ -2090,7 +2103,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $browserUserAgent = $this->getEval('navigator.userAgent');
         //Run specific function only for IE
         if (preg_match('|MSIE ([0-9]{1,}[\.0-9]{0,})|', $browserUserAgent)) {
-            $this->takeScreenshotIE($filePath);
+            return $this->takeScreenshotIE($filePath);
         } else {
             try {
                 $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
