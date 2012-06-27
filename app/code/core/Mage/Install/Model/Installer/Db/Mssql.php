@@ -58,6 +58,26 @@ class Mage_Install_Model_Installer_Db_Mssql extends Mage_Install_Model_Installer
         return (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') ? 'sqlsrv' : 'dblib';
     }
 
+    /**
+     * Clean database
+     *
+     * @param SimpleXMLElement $config
+     * @return Mage_Install_Model_Installer_Db_Abstract
+     */
+    public function cleanUpDatabase(SimpleXMLElement $config)
+    {
+        $resourceModel = new Mage_Core_Model_Resource();
+        $connection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
+        $dbName = $config->dbname;
+        $query = str_replace(
+            '%s',
+            $dbName,
+            "IF EXISTS (SELECT name FROM sys.databases WHERE name = N'%s')\nDROP DATABASE [%s]\n" .
+                "CREATE DATABASE %s\n"
+        );
+        $connection->query($query);
 
+        return $this;
+    }
 }
 

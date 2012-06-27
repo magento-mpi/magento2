@@ -100,7 +100,8 @@ class Mage_Selenium_Helper_Uimap extends Mage_Selenium_Helper_Abstract
         $codePoolNames = array_keys($uimapFiles);
         $baseCodePoolName = array_shift($codePoolNames);
         $baseUimapFiles = array_shift($uimapFiles);
-        foreach ($baseUimapFiles as $area => $files) {
+
+        foreach ((array)$baseUimapFiles as $area => $files) {
             foreach ($files as $file) {
                 $pages = $this->getConfig()->getHelper('file')->loadYamlFile($file);
                 foreach ($codePoolNames as $codePoolName) {

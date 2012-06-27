@@ -204,7 +204,7 @@
     </target>
 
     <!-- deploy and run functional tests -->
-    <target name="functional_tests_with_deploy" description="Deploy Magento">
+    <target name="functional-tests-with-deploy" description="Deploy Magento">
         <fail unless="env.build_customization_dir" message="Bamboo variable 'customization_dir' must be defined" />
         <!-- Functional tests params -->
         <fail unless="env.deploy_directory" message="Bamboo variable 'deploy_directory' must be defined on your agent"/>
@@ -253,7 +253,7 @@
         </replace>
     </target>
 
-    <target name="functional_tests_with_deploy_ee" depends="functional_tests_with_deploy,prepare-ee">
+    <target name="functional-tests-with-deploy-ee" depends="functional-tests-with-deploy,prepare-ee">
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
             <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
             <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/"/>

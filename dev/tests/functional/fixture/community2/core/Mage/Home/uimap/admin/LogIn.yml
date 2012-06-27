@@ -15,3 +15,11 @@ log_in_admin_page:
 # 'Forgot your user name or password?' page
 forgot_password:
     mca: auth/forgotpassword/
+
+#Log in to Admin Panel page
+log_in_to_admin:
+    title: Log into Magento Admin Page
+    uimap: &adminUimap
+        messages:
+            inactive_account: //li[normalize-space(@class)='error-msg' and (contains(.,'Invalid User Name or Password.') or contains(.,'Invalid Username or Password.'))]
+            access_denied: //li[normalize-space(@class)='error-msg' and (contains(.,'Invalid User Name or Password.') or contains(.,'Invalid Username or Password.'))]
