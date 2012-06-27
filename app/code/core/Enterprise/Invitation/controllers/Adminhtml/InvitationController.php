@@ -26,7 +26,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     {
         $this->_title($this->__('Customers'))->_title($this->__('Invitations'));
 
-        $this->loadLayout()->_setActiveMenu('customer/invitation');
+        $this->loadLayout()->_setActiveMenu('Enterprise_Invitation::customer_enterprise_invitation');
         $this->renderLayout();
     }
 
@@ -55,7 +55,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     {
         try {
             $this->_initInvitation();
-            $this->loadLayout()->_setActiveMenu('customer/invitation');
+            $this->loadLayout()->_setActiveMenu('Enterprise_Invitation::customer_enterprise_invitation');
             $this->renderLayout();
         }
         catch (Mage_Core_Exception $e) {
@@ -69,7 +69,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     public function newAction()
     {
-        $this->loadLayout()->_setActiveMenu('enterprise_invitation');
+        $this->loadLayout()->_setActiveMenu('Enterprise_Invitation::customer_enterprise_invitation');
         $this->renderLayout();
     }
 

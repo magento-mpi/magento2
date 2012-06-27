@@ -21,6 +21,8 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
         $this->dispatch('/admin');
         $this->assertRedirect($this->stringStartsWith($expected));
@@ -34,6 +36,8 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
      */
     public function testInitAuthentication()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         /**
          * Logout current session
          */

@@ -10,38 +10,6 @@
  */
 -->
 <config>
-    <menu>
-        <catalog>
-            <children>
-                <categories>
-                    <disabled>1</disabled>
-                </categories>
-                <enterprise_catalogevent translate="title" module="Enterprise_CatalogEvent">
-                    <title>Categories</title>
-                    <sort_order>10</sort_order>
-                    <resource>catalog/categories</resource>
-                    <children>
-                        <categories translate="title" module="Mage_Catalog">
-                            <title>Manage Categories</title>
-                            <sort_order>0</sort_order>
-                            <action>adminhtml/catalog_category/</action>
-                            <resource>catalog/categories</resource>
-                        </categories>
-                        <events translate="title" module="Enterprise_CatalogEvent">
-                            <title>Catalog Events</title>
-                            <sort_order>10</sort_order>
-                            <action>adminhtml/catalog_event</action>
-                            <depends>
-                                <module>Enterprise_CatalogEvent</module>
-                                <config>catalog/enterprise_catalogevent/enabled</config>
-                            </depends>
-                            <resource>catalog/events</resource>
-                        </events>
-                    </children>
-                </enterprise_catalogevent>
-            </children>
-        </catalog>
-    </menu>
     <acl>
         <resources>
             <admin>

@@ -10,21 +10,6 @@
  */
 -->
 <config>
-    <menu>
-        <system>
-            <children>
-                <convert>
-                    <children>
-                        <enterprise_scheduled_operation translate="title" module="Enterprise_ImportExport">
-                            <title>Scheduled Import/Export</title>
-                            <action>adminhtml/scheduled_operation</action>
-                            <sort_order>30</sort_order>
-                        </enterprise_scheduled_operation>
-                    </children>
-                </convert>
-            </children>
-        </system>
-    </menu>
     <acl>
         <resources>
             <admin>

@@ -37,16 +37,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <customer>
-            <children>
-                <giftcardaccount translate="title" module="Enterprise_GiftCardAccount">
-                    <title>Gift Card Accounts</title>
-                    <action>adminhtml/giftcardaccount</action>
-                    <depends><module>Enterprise_GiftCardAccount</module></depends>
-                    <sort_order>30</sort_order>
-                </giftcardaccount>
-            </children>
-         </customer>
-    </menu>
 </config>

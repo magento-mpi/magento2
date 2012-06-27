@@ -18,6 +18,7 @@ class Mage_Catalog_Seo_SitemapControllerTest extends Magento_Test_TestCase_Contr
 {
     public function testCategoryAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/seo_sitemap/category/');
 
         $responseBody = $this->getResponse()->getBody();
@@ -52,6 +53,7 @@ class Mage_Catalog_Seo_SitemapControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testCategoryActionTreeMode()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/seo_sitemap/category/');
 
         /* Layout updates */
@@ -61,6 +63,7 @@ class Mage_Catalog_Seo_SitemapControllerTest extends Magento_Test_TestCase_Contr
 
     public function testProductAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/seo_sitemap/product/');
 
         $responseBody = $this->getResponse()->getBody();

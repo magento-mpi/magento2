@@ -14,7 +14,6 @@
  */
 class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
 {
-
     /**
      * Testing Mage_Selenium_TestConfiguration::init()
      */
@@ -128,4 +127,84 @@ class Mage_Selenium_TestConfigurationTest extends Mage_PHPUnit_TestCase
         $this->_config->getUimapHelper()->getUimap('invalid-area');
     }
 
+    public function testGetInstanceReturnsSuccess()
+    {
+        $this->assertInstanceOf(
+            'Mage_Selenium_TestConfiguration',
+            Mage_Selenium_TestConfiguration::getInstance()
+        );
+    }
+
+    public function testGetInstanceWithSpecifiedInitialOptionsReturnsSuccess()
+    {
+        Mage_Selenium_TestConfiguration::setInstance();
+        $config = Mage_Selenium_TestConfiguration::getInstance($this->_getInitialOptions());
+
+        $this->assertEquals($this->_getInitialOptions(), $config->getInitialOptions());
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testGetInstanceWithInitializedInstanceAndOptionsThrowsException()
+    {
+        Mage_Selenium_TestConfiguration::getInstance($this->_getInitialOptions());
+    }
+
+    /**
+     * Test will be marked as success only if in specified theme will be at least one YAML file
+     *
+     * @dataProvider fallbackOrderFixturesDataProvider
+     */
+    public function testGetConfigFixturesWithCustomFallbackOrderFixturesReturnsSuccess(array $fallbackOrderFixtures)
+    {
+        Mage_Selenium_TestConfiguration::setInstance();
+        $config = Mage_Selenium_TestConfiguration::getInstance(array(
+            'fallbackOrderFixture' => $fallbackOrderFixtures
+        ));
+
+        $config->setInitialPath($this->_getFilesPath());
+
+        $keysExists = true;
+
+        foreach ($fallbackOrderFixtures as $fixturesPath) {
+            $keysExists = array_key_exists($fixturesPath, $config->getConfigFixtures());
+            if (false === $keysExists) {
+                break;
+            }
+        }
+
+        $this->assertTrue($keysExists);
+    }
+
+    public function fallbackOrderFixturesDataProvider()
+    {
+        $defaultThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'default', 'default'));
+        $modernThemePath = implode(DIRECTORY_SEPARATOR, array('themes', 'frontend', 'default', 'modern'));
+        return array(
+            array(array(
+                $defaultThemePath, $modernThemePath
+            ))
+        );
+    }
+
+    /**
+     * Retrieve initial options
+     *
+     * @return array
+     */
+    protected function _getInitialOptions()
+    {
+        return array('sample_data' => 'example');
+    }
+
+    /**
+     * Retrieve path to test's files
+     *
+     * @return string
+     */
+    protected function _getFilesPath()
+    {
+        return realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+    }
 }

@@ -21,7 +21,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('promo/reminder')
+            ->_setActiveMenu('Enterprise_Reminder::promo_reminder')
             ->_addBreadcrumb(
                 Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder Rules'),
                 Mage::helper('Enterprise_Reminder_Helper_Data')->__('Reminder Rules')
@@ -58,7 +58,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
     {
         $this->_title($this->__('Promotions'))->_title($this->__('Reminder Rules'));
         $this->loadLayout();
-        $this->_setActiveMenu('promo/reminder');
+        $this->_setActiveMenu('Enterprise_Reminder::promo_reminder');
         $this->renderLayout();
     }
 
@@ -80,8 +80,7 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
 
         try {
             $model = $this->_initRule();
-        }
-        catch (Mage_Core_Exception $e) {
+        } catch (Mage_Core_Exception $e) {
             Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
@@ -97,21 +96,17 @@ class Enterprise_Reminder_Adminhtml_ReminderController extends Mage_Adminhtml_Co
 
         $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
 
-        $block =  $this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit',
-            'adminhtml_reminder_edit')->setData('form_action_url', $this->getUrl('*/*/save'));
-
         $this->_initAction();
+
+        $this->getLayout()->getBlock('adminhtml_reminder_edit')
+            ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
-        $this->_addBreadcrumb(
-                $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule'),
-                $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule'))
-            ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock('Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs',
-                'adminhtml_reminder_edit_tabs'))->renderLayout();
+        $caption = $model->getId() ? $this->__('Edit Rule') : $this->__('New Rule');
+        $this->_addBreadcrumb($caption, $caption)->renderLayout();
     }
 
     /**

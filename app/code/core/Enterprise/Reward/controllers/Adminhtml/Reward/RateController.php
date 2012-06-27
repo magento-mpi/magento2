@@ -42,7 +42,7 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('customer/reward_rates')
+            ->_setActiveMenu('Enterprise_Reward::customer_reward')
             ->_addBreadcrumb(Mage::helper('Enterprise_Reward_Helper_Data')->__('Customers'),
                 Mage::helper('Enterprise_Reward_Helper_Data')->__('Customers'))
             ->_addBreadcrumb(Mage::helper('Enterprise_Reward_Helper_Data')->__('Manage Reward Exchange Rates'),

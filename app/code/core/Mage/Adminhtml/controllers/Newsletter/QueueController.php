@@ -31,7 +31,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('newsletter/queue');
+        $this->_setActiveMenu('Mage_Newsletter::newsletter_queue');
 
         $this->_addContent(
             $this->getLayout()->createBlock('Mage_Adminhtml_Block_Newsletter_Queue', 'queue')
@@ -187,7 +187,7 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('newsletter/queue');
+        $this->_setActiveMenu('Mage_Newsletter::newsletter_queue');
 
         $this->_addBreadcrumb(
             Mage::helper('Mage_Newsletter_Helper_Data')->__('Newsletter Queue'), 

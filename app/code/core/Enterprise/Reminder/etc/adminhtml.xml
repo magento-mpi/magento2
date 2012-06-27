@@ -38,20 +38,4 @@
            </admin>
        </resources>
     </acl>
-    <menu>
-        <promo>
-            <children>
-                <reminder translate="title" module="Enterprise_Reminder">
-                    <title>Automated Email Reminder Rules</title>
-                    <action>adminhtml/reminder</action>
-                    <sort_order>20</sort_order>
-                    <depends>
-                        <module>Enterprise_Reminder</module>
-                        <config>promo/enterprise_reminder/enabled</config>
-                    </depends>
-                    <resource>promo/enterprise_reminder</resource>
-                </reminder>
-            </children>
-        </promo>
-    </menu>
 </config>

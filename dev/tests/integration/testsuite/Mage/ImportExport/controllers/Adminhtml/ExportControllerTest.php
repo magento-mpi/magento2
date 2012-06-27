@@ -26,8 +26,10 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
     public function getEntityTypesDataProvider()
     {
         return array(
-            'products'  => array('$entityType' => 'catalog_product'),
-            'customers' => array('$entityType' => 'customer')
+            'products'                    => array('$entityType' => 'catalog_product'),
+            'customers'                   => array('$entityType' => 'customer'),
+            // customer entities
+            'customers_customer_entities' => array('$entityType' => 'customer', '$customerEntityType' => 'customer'),
         );
     }
 
@@ -55,16 +57,37 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
      * @dataProvider getEntityTypesDataProvider
      *
      * @param string $entityType
+     * @param string $customerEntityType
      */
-    public function testGetFilterAction($entityType)
+    public function testGetFilterAction($entityType, $customerEntityType = null)
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('isAjax', true);
 
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $this->dispatch('admin/export/getFilter/entity/' . $entityType);
+        $url = 'admin/export/getFilter/entity/' . $entityType;
+        if ($customerEntityType) {
+            $url .= '/customer_entity/' . $customerEntityType;
+        }
+        $this->dispatch($url);
 
         $this->assertContains('<div id="export_filter_grid"', $this->getResponse()->getBody());
+    }
+
+    /**
+     * Test index action
+     */
+    public function testIndexAction()
+    {
+        $this->markTestIncomplete('MAGETWO-1587');
+        $this->dispatch('admin/export/index');
+
+        $body = $this->getResponse()->getBody();
+        $this->assertSelectCount('div#head-export_format_version_fieldset', 1, $body);
+        $this->assertSelectCount('div#export_format_version_fieldset', 1, $body);
+        $this->assertSelectCount('div#head-customer_entity_fieldset', 1, $body);
+        $this->assertSelectCount('div#customer_entity_fieldset', 1, $body);
     }
 }

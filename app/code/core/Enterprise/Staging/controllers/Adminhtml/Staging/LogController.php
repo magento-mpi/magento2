@@ -30,7 +30,7 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
              ->_title($this->__('Log'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -48,7 +48,7 @@ class Enterprise_Staging_Adminhtml_Staging_LogController extends Mage_Adminhtml_
              ->_title($this->__('Log Entry'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 

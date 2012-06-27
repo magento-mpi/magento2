@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Mage_Api2::system_api_rest_roles" title="REST - Roles" module="Mage_Api2" sortOrder="30" parent="Mage_Api::system_api" action="adminhtml/api2_role" />
+        <add id="Mage_Api2::system_api_rest_attributes" title="REST - Attributes" module="Mage_Api2" sortOrder="40" parent="Mage_Api::system_api" action="adminhtml/api2_attribute" />
+    </menu>
+</config>

@@ -37,19 +37,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <customer>
-            <children>
-                <enterprise_giftregistry translate="title" module="Enterprise_GiftRegistry">
-                    <title>Gift Registry</title>
-                    <action>adminhtml/giftregistry</action>
-                    <depends>
-                        <module>Enterprise_GiftRegistry</module>
-                        <config>enterprise_giftregistry/general/enabled</config>
-                    </depends>
-                    <sort_order>30</sort_order>
-                </enterprise_giftregistry>
-            </children>
-         </customer>
-    </menu>
 </config>

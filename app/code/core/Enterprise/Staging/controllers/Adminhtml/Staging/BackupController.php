@@ -60,7 +60,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
         $this->_initStaging();
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('Enterprise_Staging::system_enterprise_staging');
         $this->renderLayout();
     }
 
@@ -89,7 +89,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController
         $this->_title($backup->getName());
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('Enterprise_Staging::system_enterprise_staging');
         $this->renderLayout();
     }
 

@@ -18,8 +18,9 @@ class Mage_Selenium_Uimap_TabTest extends Mage_PHPUnit_TestCase
     public function test__construct()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\data\UimapTests.yml');
+        $dataArray = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml'
+        );
         $tabContainer = $dataArray['tab'];
         $tabId = 'tabId';
         $instance = new Mage_Selenium_Uimap_Tab($tabId, $tabContainer);
@@ -33,8 +34,9 @@ class Mage_Selenium_Uimap_TabTest extends Mage_PHPUnit_TestCase
     public function testGetFieldsetNames()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\data\UimapTests.yml');
+        $dataArray = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml'
+        );
         $tabContainer = $dataArray['tab'];
         $instance = new Mage_Selenium_Uimap_Tab('tabId', $tabContainer);
         $elements = $instance->getFieldsetNames();

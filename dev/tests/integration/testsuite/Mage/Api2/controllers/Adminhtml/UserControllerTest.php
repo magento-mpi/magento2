@@ -22,6 +22,8 @@ class Mage_Api2_Adminhtml_UserControllerTest extends Mage_Adminhtml_Utility_Cont
      */
     public function testNewActionTest()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
+
         $this->dispatch('admin/user/new');
         $this->assertContains('name="api2_roles_section"', $this->getResponse()->getBody());
     }

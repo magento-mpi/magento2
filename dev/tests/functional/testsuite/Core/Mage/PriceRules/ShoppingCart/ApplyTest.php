@@ -99,9 +99,11 @@ class Core_Mage_PriceRules_ShoppingCart_ApplyTest extends Mage_Selenium_TestCase
      * @dataProvider createSCPRDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3563
+     * @group skip_due_to_bug2.0
      */
     public function createSCPR($ruleType, $testData)
     {
+        $this->markTestIncomplete('MAGETWO-1682');
         //Data
         list($customer, $products, $category) = $testData;
         $cartProductsData = $this->loadDataSet('ShoppingCartPriceRule', 'prices_for_' . $ruleType);

@@ -41,6 +41,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testFormForgotpasswordAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/auth/forgotpassword');
         $expected = 'Forgot your user name or password?';
         $this->assertContains($expected, $this->getResponse()->getBody());
@@ -53,6 +54,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testForgotpasswordAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setPost('email', 'test@test.com');
         $this->dispatch('admin/auth/forgotpassword');
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
@@ -67,6 +69,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testResetPasswordAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
@@ -94,6 +97,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testResetPasswordActionWithDummyToken()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('admin/auth/resetpassword');
         $this->assertRedirect();
@@ -106,6 +110,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testResetPasswordPostAction()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
@@ -140,6 +145,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testResetPaswordPostActionWithDummyToken()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
         $this->dispatch('admin/auth/resetpasswordpost');
 
@@ -153,6 +159,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testResetPaswordPostActionWithInvalidPassword()
     {
+        $this->markTestIncomplete('MAGETWO-1587');
         $user = Mage::getModel('Mage_User_Model_User')->loadByUsername('dummy_username');
         $resetPasswordToken = null;
         if ($user->getId()) {
