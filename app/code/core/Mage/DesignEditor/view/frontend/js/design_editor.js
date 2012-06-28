@@ -7,16 +7,16 @@
  * @license     {license_link}
  */
 
-(function($){
+(function($) {
 
     /**
      * Widget container
      */
-    $.widget('vde.container', $.ui.sortable, {
+    $.widget('vde.vde_container', $.ui.sortable, {
         options: {
             tolerance: 'pointer',
             revert: true,
-            connectWithSelector : '.vde_element_wrapper.vde_container',
+            connectWithSelector: '.vde_element_wrapper.vde_container',
             placeholder: 'vde_placeholder',
             hoverClass: 'vde_container_hover',
             items: '.vde_element_wrapper.vde_draggable',
@@ -27,12 +27,12 @@
             this.element.data('sortable', this);
             var self = this;
             this.options = $.extend({}, this.options, {
-                start: function(event, ui){
+                start: function(event, ui) {
                     ui.placeholder.css({height: $(ui.helper).outerHeight(true)});
                     $(this).sortable('option', 'connectWith', $(self.options.connectWithSelector).not(ui.item))
                         .sortable('refresh');
                 },
-                over: function(event, ui){
+                over: function(event, ui) {
                     self.element.addClass(self.options.hoverClass);
                 },
                 out: function(event, ui) {
@@ -46,16 +46,13 @@
     /**
      * Widget panel
      */
-    $.widget('vde.panel' , {
+    $.widget('vde.vde_panel', {
         options: {
-            cellSelector : '.vde_toolbar_cell',
-            handlesHierarchySelector : '#vde_handles_hierarchy',
-            treeSelector : '#vde_handles_tree'
+            cellSelector: '.vde_toolbar_cell',
+            handlesHierarchySelector: '#vde_handles_hierarchy',
+            treeSelector: '#vde_handles_tree'
         },
         _create: function () {
-            this._initCells();
-        },
-        _initCells : function () {
             var self = this;
             this.element.find(this.options.cellSelector).each(function () {
                 var params = $(this).is(self.options.handlesHierarchySelector) ? {treeSelector: self.options.treeSelector, slimScroll: true } : {};
@@ -67,7 +64,7 @@
     /**
      * Widget page
      */
-    $.widget('vde.page', {
+    $.widget('vde.vde_page', {
         options: {
             containerSelector: '.vde_element_wrapper.vde_container',
             panelSelector: '#vde_toolbar',
@@ -80,23 +77,23 @@
             this._initContainers();
             this._initPanel();
         },
-        _initContainers : function () {
+        _initContainers: function () {
             $(this.options.containerSelector)
-                .container().disableSelection();
+                .vde_container().disableSelection();
         },
-        _initPanel : function () {
-            $(this.options.panelSelector).panel();
+        _initPanel: function () {
+            $(this.options.panelSelector).vde_panel();
         }
     });
 
     /**
      * Widget page highlight functionality
      */
-    var pageBasePrototype = $.vde.page.prototype;
-    $.widget('vde.page', $.extend({}, pageBasePrototype, {
+    var pageBasePrototype = $.vde.vde_page.prototype;
+    $.widget('vde.vde_page', $.extend({}, pageBasePrototype, {
         _create: function () {
             pageBasePrototype._create.apply(this, arguments);
-            if(this.options.highlightElementSelector) {
+            if (this.options.highlightElementSelector) {
                 this._initHighlighting();
                 this._bind();
             }
@@ -171,13 +168,13 @@
                 }
             })
         },
-        _storeChild: function(parentId, child){
+        _storeChild: function(parentId, child) {
             if (!this.highlightBlocks[parentId]) {
                 this.highlightBlocks[parentId] = [];
             }
             this.highlightBlocks[parentId].push(child);
         },
-        _getChildren: function(parentId){
+        _getChildren: function(parentId) {
             return (!this.highlightBlocks[parentId]) ? [] : this.highlightBlocks[parentId];
         }
     }));
