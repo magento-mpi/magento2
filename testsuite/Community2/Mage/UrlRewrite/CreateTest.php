@@ -207,4 +207,36 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
             throw new PHPUnit_Framework_Exception('Target Path field is editable!');
         }
     }
+
+    /**
+     * <p>Verifying Required field for Custom URl rewrite</p>
+     * <p>Steps</p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. At Create URL rewrite dropdown select Custom</p>
+     * <p>Expected result:</p>
+     * <p>"Type" & "ID Path" & "Target Path" won't editable</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5694
+     */
+    public function withRequiredFieldsNotEditableForCustom()
+    {
+        //Open Custom page
+        $this->admin('manage_urlrewrites');
+        $this->clickButton('add_new_rewrite','true');
+        $this->fillDropdown('create_url_rewrite_dropdown','Custom');
+        $this->waitForPageToLoad();
+        $this->validatePage();
+
+        // Check fields "id_path" & "target path" is editable
+        if (!$this->isEditable('id_path'))
+        {
+            throw new PHPUnit_Framework_Exception('ID Path field is not editable!');
+        }
+        if (!$this->isEditable('target_path'))
+        {
+            throw new PHPUnit_Framework_Exception('Target Path field is not editable!');
+        }
+    }
 }
