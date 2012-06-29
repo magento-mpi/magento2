@@ -130,14 +130,14 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
         if (property_exists($prevMessage, 'part')) {
             foreach ($prevMessage->part as $prevPart) {
                 // Check if there is 'part' attribute in 'message' on current wsdl
-                $currPart = self::$_currWsdl->xpath(sprintf(self::MESSAGE_PART_NAME,
+                $currMessagePart = self::$_currWsdl->xpath(sprintf(self::MESSAGE_PART_NAME,
                     $messageName, $prevPart['name']));
-
-                $this->assertInternalType('array', $currPart);
+                $this->assertInternalType('array', $currMessagePart);
+                $currPart = reset($currMessagePart);
                 $this->assertNotEmpty($currPart, 'Message part: "' . $prevPart['name']
                     . '" was not found in message: "' . $messageName . '" in current wsdl.');
                 // Check that parts 'name' and 'type' are equal
-                $this->assertEquals((string)$prevPart['type'], (string)$currPart[0]['type'],
+                $this->assertEquals((string)$prevPart['type'], (string)$currPart['type'],
                     'Message type: "' . $prevPart['type'] . '" was not found in message: "'
                     . $messageName . '" part:"' . $prevPart['name'] . '" in current wsdl.');
 
@@ -177,7 +177,16 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
         if (key_exists('complexContent', reset($foundPrevComplexType))) {
             // Load value for 'arrayType' in ComplexContent 'attribute' that is in spesific namespace
             $prevAttributeType = self::$_prevWsdl->xpath(sprintf(self::COMPLEX_CONTENT_ATTRIBUTE, $typeName));
+
+            // Check that previous wsdl contains $typeName description
+            $this->assertNotEmpty($prevAttributeType, 'Complex Type: "' . $typeName
+                . '" was not found but was mentioned in operation in previous wsdl.');
             $prevType = reset($prevAttributeType)->attributes(self::WSDL_NAMESPACE);
+
+            // Check that current Attribute still has 'complexContent' key
+            $this->assertObjectHasAttribute('complexContent', reset($foundCurrComplexType), 'Complex Type: "'
+                . $typeName . '" does not have "complexContent" attribute in current wsdl.');
+            // Load ComplexType "type" from current wsdl
             $currAttributeType = self::$_currWsdl->xpath(sprintf(self::COMPLEX_CONTENT_ATTRIBUTE, $typeName));
             $currType = reset($currAttributeType)->attributes(self::WSDL_NAMESPACE);
 
@@ -187,10 +196,10 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                 . '" was not found in current wsdl.');
 
             // If 'arrayType' == typens:typeName ->  compareComplexType($typeName)
-            list($typeNamespace, $typeName) = explode(':', (string)$prevType['arrayType']);
+            list($complexTypeNamespace, $complexTypeName) = explode(':', (string)$prevType['arrayType']);
 
-            if ($typeNamespace == 'typens' && $typeName != null) {
-                $this->compareComplexType(trim($typeName, '[]'));
+            if ($complexTypeNamespace == 'typens' && $complexTypeName != null) {
+                $this->compareComplexType(trim($complexTypeName, '[]'));
             }
         } else {
             // Compare ComplexType with all
@@ -199,25 +208,27 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                 // Found 'element' by element 'name' in current wsdl
                 $currComplexTypeElement = self::$_currWsdl-> xpath(sprintf(self::ELEMENT, $typeName,
                     (string)$element['name']));
+                $currType = reset($currComplexTypeElement);
                 // Check element 'name' key in current wsdl
-                $this->assertNotEmpty($currComplexTypeElement,
-                    'Complex Type: "' . $typeName . '" element: "' . (string)$element['name']
+                $this->assertNotEmpty($currType,
+                    'Complex Type: "' . $typeName . '" with element[name]: "' . (string)$element['name']
                     . '" was not fount in current wsdl.');
                 // Check element 'type' key in current wsdl
-                $this->assertEquals((string)$element['type'], (string)$currComplexTypeElement[0]['type'],
-                    'Complex Type: "' . $typeName . '" element: "' . (string)$element['name']
-                     . '" with type= "' . (string)$element['type'] . '" was not fount in current wsdl.');
+                $this->assertEquals((string)$element['type'], (string)$currType['type'],
+                    'Complex Type: "' . $typeName . '" with element[name]: "' . (string)$element['name']
+                     . '" and element[type]= "' . (string)$element['type'] . '" was not fount in current wsdl.');
                 // If 'minOccurs' key presented in 'element', compare its values
                 if (!is_null($element['minOccurs'])) {
-                    $this->assertEquals((string)$element['minOccurs'], (string)$currComplexTypeElement[0]['minOccurs'],
-                        'Complex Type: "' . $typeName . '" element: "' . (string)$element['name']
-                        . '" with minOccurs: "' . (string)$element['minOccurs'] . '" was not fount in current wsdl.');
+                    $this->assertEquals((string)$element['minOccurs'], (string)$currType['minOccurs'],
+                        'Complex Type: "' . $typeName . '" with element[name]: "' . (string)$element['name']
+                        . '" and element[minOccurs]: "' . (string)$element['minOccurs']
+                        . '" was not fount in current wsdl.');
                 }
                 // If 'arrayType' == typens:typeName ->  compareComplexType($typeName)
-                list($typeNamespace, $typeName) = explode(':', (string)$element['type']);
+                list($complexTypeNamespace, $complexTypeName) = explode(':', (string)$element['type']);
 
-                if ($typeNamespace == 'typens' && $typeName != null) {
-                    $this->compareComplexType($typeName);
+                if ($complexTypeNamespace == 'typens' && $complexTypeName != null) {
+                    $this->compareComplexType($complexTypeName);
                 }
             }
         }
