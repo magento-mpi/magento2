@@ -45,19 +45,8 @@ class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium
         $customerData[$attrData['attribute_code']] = 'gf13gh';
         $this->admin('import');
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown', 'import_behavior')
-        );
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown','import_file_version')
-        );
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown', 'import_customer_entity')
-        );
-        $this->fillDropdown('import_customer_entity', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format', 'Customers Main File');
         //Build CSV array
         $data = array(
             $customerData

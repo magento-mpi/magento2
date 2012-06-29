@@ -95,19 +95,8 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->admin('import');
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown', 'import_behavior')
-        );
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown','import_file_version')
-        );
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown', 'import_customer_entity')
-        );
-        $this->fillDropdown('import_customer_entity', 'Customer Addresses');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format', 'Customer Addresses');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
             array(
@@ -226,14 +215,8 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         //Step 1
         $this->admin('import');
         //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 3
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-        //Step 4
-        $this->fillDropdown('import_customer_entity', 'Customer Addresses');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format', 'Customer Addresses');
         //Step 5
         $importData = $this->importExportHelper()->import($csvData[0]);
         //Verifying
@@ -250,8 +233,10 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
         //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
+        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully: " .
+            print_r($importData));
+        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully: " .
+            print_r($importData));
         //Step 6
         $importData = $this->importExportHelper()->import($csvData[1]);
         //Verifying messages (second file)
@@ -268,8 +253,10 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
         //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
+        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully: " .
+            print_r($importData));
+        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully: " .
+            print_r($importData));
         //Step 7
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name', $customerData[0]['first_name'] . ' '

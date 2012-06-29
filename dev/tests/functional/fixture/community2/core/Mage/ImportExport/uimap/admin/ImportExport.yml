@@ -39,11 +39,15 @@ import:
                         xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Settings')]]
                         dropdowns:
                             entity_type: //select[@id='entity']
-                            import_behavior: //select[@id='behavior']
                         fields:
                             file_to_import: //input[@id='import_file']
                         pageelements:
                             import_file_note: //span[@id='importFileNote' and contains(., 'Import allows to change only status, _shipment_track_number, _shipment_comment_comment, _order_status_history_comment columns. Any changes in other columns will be ignored.')]
+                -
+                    import_behavior:
+                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Behavior')]]
+                        dropdowns:
+                            import_behavior: //select[@name='behavior' and not(@disabled)]
                 -
                     import_format:
                         xpath: //div[@id="import_format_version_fieldset"]

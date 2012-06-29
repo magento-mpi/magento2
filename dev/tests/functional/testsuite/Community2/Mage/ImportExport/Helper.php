@@ -35,6 +35,44 @@
  */
 class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 {
+
+    /**
+     * Choose Import dialog options
+     *
+     * @param string $entityType Entity type to Import (Products/Customers)
+     * @param string $importBehavior Import behavior
+     * @param string $importVersion Import version (Magento 2.0 format or Magento 1.7 format)
+     * @param string $importEntity Import entity for Magento 2.0 format
+     * @param string $fileName Import file name
+     *
+     */
+    public function chooseImportOptions($entityType, $importBehavior = Null, $importVersion = Null, $importEntity = Null,
+                                 $fileName = Null){
+
+        $this->fillDropdown('entity_type', $entityType);
+        if (!is_null($importVersion)){
+            $this->waitForElementVisible(
+                $this->_getControlXpath('dropdown','import_file_version')
+            );
+            $this->fillDropdown('import_file_version', $importVersion);
+            if (!is_null($importBehavior)){
+                $this->waitForElementVisible(
+                    $this->_getControlXpath('dropdown', 'import_behavior')
+                );
+                $this->fillDropdown('import_behavior', $importBehavior);
+                if (!is_null($importEntity)){
+                    $this->waitForElementVisible(
+                        $this->_getControlXpath('dropdown', 'import_customer_entity')
+                    );
+                    $this->fillDropdown('import_customer_entity', $importEntity);
+                }
+            }
+        }
+        if (!is_null($fileName) && $this->controlIsVisible('field', 'file_to_import'))
+            $this->fillField('file_to_import', $fileName);
+
+        return $this;
+    }
     /**
      * Generate URL for selected area
      *
