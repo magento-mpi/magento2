@@ -28,6 +28,29 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
     protected static $_currWsdl;
 
     /**
+     * Array of all errors during comparing previous and current wsdl
+     * @var array
+     */
+    protected $_errors = array();
+
+    /**
+     * Initialization before all tests
+     */
+    protected function setUp()
+    {
+        $_errors = null;
+        parent::setUp();
+    }
+
+    /**
+     * Ignore list has the same structure as the loaded wsdl.
+     * It contains all known issue
+     * @var array
+     */
+    protected $_ignoreList = array(
+        array("message"=> "salesOrderInvoiceCreateRequest", "par"));
+
+    /**
      * Xpath constans
      */
     const OPERATIONS = '//wsdl:portType/wsdl:operation';
@@ -89,27 +112,35 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
        $this->assertNotEmpty($prevOperations, 'Previous wsdl operations was not loaded.');
 
        foreach ($prevOperations as $operation) {
-           // Finds and compares 'operation['name']'
-           $currOperation = self::$_currWsdl->xpath(sprintf(self::OPERATION_NAME, $operation['name']));
-           $this->assertNotEmpty($currOperation, ' Operation: "' . $operation['name']
-               . '" was not found in current wsdl.');
-           // Finds and compares 'input['message']' data
-           $foundInputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_INPUT,
-               (string)$operation->input['message']));
+           try {
+               // Finds and compares 'operation['name']'
+               $currOperation = self::$_currWsdl->xpath(sprintf(self::OPERATION_NAME, $operation['name']));
+               $this->assertNotEmpty($currOperation, ' Operation: "' . $operation['name']
+                   . '" was not found in current wsdl.');
+           }
+           catch (Exception $e) {
+               $this->_errors['operation'][$operation['name']][] = $e->getMessage();
+           }
+               // Finds and compares 'input['message']' data
+               $foundInputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_INPUT,
+                   (string)$operation->input['message']));
+               $this->assertNotEmpty($foundInputElement, 'Input element: "' . (string)$operation->input['message']
+                   . '" in operation: "' . $operation['name'] . '" was not found in current wsdl.');
 
-           $this->assertNotEmpty($foundInputElement, 'Input element: "' . (string)$operation->input['message']
-               . '" in operation: "' . $operation['name'] . '" was not found in current wsdl.');
-           $this->compareMessagePart(str_replace('typens:', '', (string)$operation->input['message']));
+               $this->compareMessagePart(str_replace('typens:', '', (string)$operation->input['message']));
 
-            // Finds and compares 'output['message']' data
-           $foundOutputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_OUTPUT,
-               (string)$operation->output['message']));
-           $this->assertNotEmpty($foundOutputElement,
-               'Output element: "' . (string)$operation->output['message']
-               . '" in operation "' . $operation['name'] . '" was not found in current wsdl.');
+                // Finds and compares 'output['message']' data
+               $foundOutputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_OUTPUT,
+                   (string)$operation->output['message']));
+               $this->assertNotEmpty($foundOutputElement,
+                   'Output element: "' . (string)$operation->output['message']
+                   . '" in operation "' . $operation['name'] . '" was not found in current wsdl.');
 
-           $this->compareMessagePart(str_replace('typens:', '', (string)$operation->output['message']));
+               $this->compareMessagePart(str_replace('typens:', '', (string)$operation->output['message']));
+
        }
+       // Check _errors and if it not empty, test will failed with all error messages
+       $this->assertEmpty($this->_errors, $this->implodeErrorArray($this->_errors));
    }
 
     /**
@@ -232,5 +263,26 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                 }
             }
         }
+    }
+
+    /**
+     * This function implodes $errors to string, grouped by keys values
+     * @param $errors array
+     * @return string
+     */
+    protected function implodeErrorArray($errors)
+    {
+        $errors = '';
+        if(key_exists('part', $errors)) {
+            foreach($errors['part'] as $part) {
+                $errors.= implode("\n", $part);
+            }
+        }
+        if(key_exists('message', $errors)) {
+            foreach($errors['message'] as $message) {
+                $errors.= implode("\n", $message);
+            }
+        }
+        return $errors;
     }
 }
