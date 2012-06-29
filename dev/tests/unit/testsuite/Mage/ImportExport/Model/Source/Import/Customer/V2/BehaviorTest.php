@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for behaviour source model Mage_ImportExport_Model_Source_Import_Behavior
+ * Test class for behaviour source model Mage_ImportExport_Model_Source_Import_Customer_V2_BehaviorTest
  */
-class Mage_ImportExport_Model_Source_Import_BehaviorTest extends Mage_ImportExport_Model_Source_TestCase
+class Mage_ImportExport_Model_Source_Import_Customer_V2_BehaviorTest extends Mage_ImportExport_Model_Source_TestCase
 {
     /**
      * Tested source model
@@ -29,7 +29,7 @@ class Mage_ImportExport_Model_Source_Import_BehaviorTest extends Mage_ImportExpo
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
-        self::$sourceModel = new Mage_ImportExport_Model_Source_Import_Behavior();
+        self::$sourceModel = new Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior();
     }
 
     /**
