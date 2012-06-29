@@ -66,7 +66,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testViewAction($categoryId, $expectedProductCount, array $expectedHandles, array $expectedContent)
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch("catalog/category/view/id/$categoryId");
 
         /** @var $currentCategory Mage_Catalog_Model_Category */
@@ -96,7 +95,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
 
     public function testViewActionNoCategoryId()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/category/view/');
 
         $this->assert404NotFound();
@@ -104,7 +102,6 @@ class Mage_Catalog_CategoryControllerTest extends Magento_Test_TestCase_Controll
 
     public function testViewActionInactiveCategory()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/category/view/id/8');
 
         $this->assert404NotFound();

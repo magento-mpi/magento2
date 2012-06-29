@@ -21,7 +21,6 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml
 
     public function testEditAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/widget_instance/edit');
         $this->assertContains('<option value="Mage_Cms_Block_Widget_Page_Link" selected="selected">',
             $this->getResponse()->getBody()
@@ -30,14 +29,12 @@ class Mage_Widget_Adminhtml_Widget_InstanceControllerTest extends Mage_Adminhtml
 
     public function testBlocksAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/widget_instance/blocks');
         $this->assertStringStartsWith('<select name="block" id=""', $this->getResponse()->getBody());
     }
 
     public function testTemplateAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/widget_instance/template');
         $this->assertStringStartsWith('<select name="template" id=""', $this->getResponse()->getBody());
     }

@@ -34,7 +34,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testViewAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/view/id/1');
         /** @var $currentProduct Mage_Catalog_Model_Product */
         $currentProduct = Mage::registry('current_product');
@@ -68,7 +67,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testViewActionConfigurable()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/view/id/1');
         $html = $this->getResponse()->getBody();
         $format = '%Aclass="product-options" id="product-options-wrapper">%A'
@@ -78,7 +76,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
 
     public function testViewActionNoProductId()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/view/id/');
 
         $this->assert404NotFound();
@@ -86,7 +83,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
 
     public function testViewActionRedirect()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/view/?store=default');
 
         $this->assertRedirect();
@@ -97,7 +93,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
      */
     public function testGalleryAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/gallery/id/1');
 
         $this->assertContains('http://localhost/pub/media/catalog/product/', $this->getResponse()->getBody());
@@ -106,7 +101,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
 
     public function testGalleryActionRedirect()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/gallery/?store=default');
 
         $this->assertRedirect();
@@ -114,7 +108,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
 
     public function testGalleryActionNoProduct()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/gallery/id/');
 
         $this->assert404NotFound();
@@ -139,7 +132,6 @@ class Mage_Catalog_ProductControllerTest extends Magento_Test_TestCase_Controlle
 
     public function testImageActionNoImage()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/image/');
 
         $this->assert404NotFound();

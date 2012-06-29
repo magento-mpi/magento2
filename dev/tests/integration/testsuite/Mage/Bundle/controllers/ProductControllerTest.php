@@ -19,8 +19,6 @@ class Mage_Bundle_ProductControllerTest extends Magento_Test_TestCase_Controller
      */
     public function testViewAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->dispatch('catalog/product/view/id/3');
         $this->assertContains(
             'catalog_product_view_type_bundle',
