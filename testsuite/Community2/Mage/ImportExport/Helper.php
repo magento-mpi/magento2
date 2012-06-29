@@ -795,4 +795,23 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
     }
+
+    /**
+     * Check if customer is present in customers grid
+     *
+     * @param array $userData array
+     * @return bool
+     */
+    public function isCustomerPresentInGrid($userData)
+    {
+        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
+        $data = array('email' => $userData['email']);
+        $this->_prepareDataForSearch($data);
+        $xpathTR = $this->search($data, 'customers_grid');
+        if (!is_null($xpathTR)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
