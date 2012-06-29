@@ -27,7 +27,7 @@ class Community2_Mage_ImportExport_AddressEmptyValues extends Mage_Selenium_Test
  * <p>2. CSV file prepared that contains existing customer address info where Company value is empty</p>
  * <p>Steps</p>
  * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
- * <p>2. Select "Append Complex Data" in selector "Import Behavior"</p>
+ * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
  * <p>3. Select "Magento 2.0 format"</p>
  * <p>4. Select "Customer Addresses"</p>
  * <p>5. Choose file from precondition</p>
@@ -70,17 +70,8 @@ public function emptyValuesAttributesInCsv($data)
 
     //Step 1
     $this->admin('import');
-    $this->fillDropdown('entity_type', 'Customers');
-    $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
-    //Step 2
-    $this->fillDropdown('import_behavior', 'Append Complex Data');
-    $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-    //Step 3
-    $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-    $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-    $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
-    //Step 4
-    $this->fillDropdown('import_customer_entity', 'Customer Addresses');
+    $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+        'Magento 2.0 format', 'Customer Addresses');
     //Step 5, 6, 7
     $report = $this->importExportHelper()->import($data);
     //Check import
