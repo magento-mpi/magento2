@@ -73,7 +73,6 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
     public function importWithRequiredColumns()
     {
         //Precondition: create 2 new customers
-        $this->admin('manage_customers');
         // 0.1. create two customers
         $this->navigate('manage_customers');
         $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
