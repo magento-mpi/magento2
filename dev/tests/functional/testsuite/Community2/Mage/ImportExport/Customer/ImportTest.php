@@ -74,16 +74,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
                 'Customers'
             ), $entityTypes,
             'Entity Type dropdown contains incorrect values');
-        $entityBehavior = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'import_behavior') . '/option',
-            'text');
-        $this->assertEquals(array(
-                '-- Please Select --',
-                'Append Complex Data',
-                'Replace Existing Complex Data',
-                'Delete Entities'
-             ), $entityBehavior,
-            'Import Behavior dropdown contains incorrect values');
+        $this->importExportHelper()->chooseImportOptions('Customers');
         //Step 2
         $this->fillDropdown('entity_type', 'Customers');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
@@ -104,6 +95,16 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->assertEquals($this->importExportHelper()->getCustomerEntityType(),
             $exportFileVersion,
             'Customer Entity Type dropdown contains incorrect values');
+        $entityBehavior = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'import_behavior') . '/option',
+            'text');
+        $this->assertEquals(array(
+                '-- Please Select --',
+                'Add/Update Complex Data',
+                'Delete Entities',
+                'Custom Action'
+            ), $entityBehavior,
+            'Import Behavior dropdown contains incorrect values');
         $this->assertTrue($this->controlIsVisible('field','file_to_import'),
             'File to Import field is missing');
     }
@@ -157,11 +158,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         //Step 1
         $this->admin('import');
         //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 3
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
         foreach ($customerTypes as $customerType) {
             //Step 4
@@ -212,19 +210,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->admin('import');
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown', 'import_behavior')
-        );
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown','import_file_version')
-        );
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible(
-            $this->_getControlXpath('dropdown', 'import_customer_entity')
-        );
-        $this->fillDropdown('import_customer_entity', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format', 'Customers Main File');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
             array('email' => $customerData['email']));
@@ -332,11 +319,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         //Step 1
         $this->admin('import');
         //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 3
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
         foreach ($customerTypes as $customerType) {
             //Step 4
@@ -345,9 +329,11 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             $importData = $this->importExportHelper()->import($csvData[$customerType]);
             //Verifying import
             $this->assertArrayHasKey('import', $importData,
-                "$customerType file import has not been finished successfully");
+                "$customerType file import has not been finished successfully: " .
+                    print_r($importData));
             $this->assertArrayHasKey('success', $importData['import'],
-                "$customerType file import has not been finished successfully");
+                "$customerType file import has not been finished successfully" .
+                    print_r($importData));
         }
         //Step7
         $this->admin('manage_customers');
@@ -414,14 +400,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $csvData[1]['valid']['email'] = $customerData[1]['valid']['email'];
         $csvData[1]['invalid'] = $csvData[1]['valid'];
         //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 3
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-        //Step 4
-        $this->fillDropdown('import_customer_entity', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format', 'Customers Main File');
         //Step 5
         $importData = $this->importExportHelper()->import($csvData[0]);
         //Verifying
@@ -438,8 +418,10 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
             $importData['validation']['validation'][1], 'No message checked rows number'
         );
         //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
+        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully: " .
+            print_r($importData));
+        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully: " .
+            print_r($importData));
         //Step 6
         $importData = $this->importExportHelper()->import($csvData[1]);
         //Verifying messages (second file)
@@ -490,11 +472,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
     public function simpleImport($data)
     {
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
-        $this->fillDropdown('import_behavior', 'Append Complex Data');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown','import_file_version'));
-        $this->fillDropdown('import_file_version', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data',
+            'Magento 1.7 format');
         $report = $this->importExportHelper()->import($data);
     }
 
