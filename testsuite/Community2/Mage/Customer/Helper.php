@@ -40,63 +40,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
+class Community2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
 {
-
-    /**
-     * Updating Customer Store Credit Balance
-     *
-     * @param array $storeCreditData Store credit Information
-     * @param boolean $continue Press Save And Continue instead of Save
-     * @return void
-     */
-    public function updateStoreCreditBalance(array $storeCreditData, $continue = false)
-    {
-        $this->fillTab($storeCreditData, 'store_credit');
-        $this->clearMessages();
-        if (!$continue){
-            $this->saveForm('save_customer');
-        }
-    }
-    /**
-     * Updating Customer Reward Points Balance
-     *
-     * @param array $rewardPointsData Store credit Information
-     * @param boolean $continue Press Save And Continue instead of Save
-     * @return void
-     */
-    public function updateRewardPointsBalance(array $rewardPointsData, $continue = false)
-    {
-        $this->fillTab($rewardPointsData, 'reward_points');
-        $this->clearMessages();
-        if (!$continue){
-            $this->saveForm('save_customer');
-        }
-    }
-    /**
-     * Get Current Customer Store Credit Balance
-     *
-     * @param string $webSiteName
-     * @return string
-     */
-    public function getStoreCreditBalance($webSiteName = '')
-    {
-        $this->openTab('store_credit');
-        $this->addParameter('webSiteName', $webSiteName);
-        return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
-    }
-    /**
-     * Get Current Customer Store Credit Balance
-     *
-     * @param string $webSiteName
-     * @return string
-     */
-    public function getRewardPointsBalance($webSiteName = '')
-    {
-        $this->openTab('reward_points');
-        $this->addParameter('webSiteName', $webSiteName);
-        return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
-    }
     /**
      * Check if customer is present in customers grid
      *
@@ -105,6 +50,7 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
      */
     public function isCustomerPresentInGrid($userData)
     {
+        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $data = array('email' => $userData['email']);
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, 'customers_grid');
