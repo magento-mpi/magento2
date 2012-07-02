@@ -119,7 +119,8 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                    . '" was not found in current wsdl.');
            }
            catch (Exception $e) {
-               $this->_errors['operation'][$operation['name']][] = $e->getMessage();
+               $this->_errors['operation'][] = $e->getMessage();
+               continue;
            }
                // Finds and compares 'input['message']' data
                $foundInputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_INPUT,
@@ -185,7 +186,7 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
      * Comparing 'message' ComplexType 'type'
      * @param $typeName
      */
-    protected function compareComplexType($typeName)
+    protected function compareComplexType($typeName, $parentTypeName = null)
     {
         // We don't check $typeName = 'anyType'
         if ($typeName == 'anyType') {
@@ -228,9 +229,9 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 
             // If 'arrayType' == typens:typeName ->  compareComplexType($typeName)
             list($complexTypeNamespace, $complexTypeName) = explode(':', (string)$prevType['arrayType']);
-
-            if ($complexTypeNamespace == 'typens' && $complexTypeName != null) {
-                $this->compareComplexType(trim($complexTypeName, '[]'));
+            $doRecursiveTypeCheck = !is_null($parentTypeName) ? $parentTypeName != $complexTypeName : true;
+            if ($complexTypeNamespace == 'typens' && $complexTypeName != null && $doRecursiveTypeCheck) {
+                $this->compareComplexType(trim($complexTypeName, '[]'), $typeName);
             }
         } else {
             // Compare ComplexType with all
@@ -257,8 +258,8 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                 }
                 // If 'arrayType' == typens:typeName ->  compareComplexType($typeName)
                 list($complexTypeNamespace, $complexTypeName) = explode(':', (string)$element['type']);
-
-                if ($complexTypeNamespace == 'typens' && $complexTypeName != null) {
+                $doRecursiveTypeCheck = !is_null($parentTypeName) ? $parentTypeName != $complexTypeName : true;
+                if ($complexTypeNamespace == 'typens' && $complexTypeName != null && $doRecursiveTypeCheck) {
                     $this->compareComplexType($complexTypeName);
                 }
             }
@@ -267,21 +268,15 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 
     /**
      * This function implodes $errors to string, grouped by keys values
-     * @param $errors array
+     * @param $errorsArray array
      * @return string
      */
-    protected function implodeErrorArray($errors)
+    protected function implodeErrorArray($errorsArray)
     {
         $errors = '';
-        if(key_exists('part', $errors)) {
-            foreach($errors['part'] as $part) {
-                $errors.= implode("\n", $part);
-            }
-        }
-        if(key_exists('message', $errors)) {
-            foreach($errors['message'] as $message) {
-                $errors.= implode("\n", $message);
-            }
+
+        foreach($errorsArray['operation'] as $operation) {
+            $errors.= $operation . "\n";
         }
         return $errors;
     }
