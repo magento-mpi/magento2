@@ -515,7 +515,7 @@ data_valid_customer2_5635:
     last_name: Wannamaker
     suffix: %noValue%
     email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: 05/25/1946
+    date_of_birth: 5/25/1946
     tax_vat_number: 468-64-9568
     gender: Male
     send_welcome_email: %noValue%

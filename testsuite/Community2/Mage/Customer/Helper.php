@@ -50,7 +50,6 @@ class Community2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
      */
     public function isCustomerPresentInGrid($userData)
     {
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $data = array('email' => $userData['email']);
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, 'customers_grid');
