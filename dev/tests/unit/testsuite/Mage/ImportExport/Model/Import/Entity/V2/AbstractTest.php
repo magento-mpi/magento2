@@ -26,7 +26,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
         parent::setUp();
 
         $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Abstract', array(),
-            '', false, true, true, array('_saveValidatedBunches')
+            '', false, true, true, array('_saveValidatedBunches', 'validateRow')
         );
     }
 
@@ -168,11 +168,17 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
         $property->setAccessible(true);
         $property->setValue($this->_model, $skippedRows);
 
+        $modelForValidateRow = clone $this->_model;
+        $modelForValidateRow->expects($this->any())
+            ->method('validateRow')
+            ->will($this->returnValue(false));
+
         for ($i = 1; $i <= $rows; $i++) {
-            $this->assertFalse($this->_model->isRowAllowedToImport(array(), $i));
+            $this->assertFalse($modelForValidateRow->isRowAllowedToImport(array(), $i));
         }
 
-        $this->_model->expects($this->any())
+        $modelForIsAllowed = clone $this->_model;
+        $modelForIsAllowed->expects($this->any())
             ->method('validateRow')
             ->will($this->returnValue(true));
 
@@ -181,7 +187,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
             if (isset($skippedRows[$i])) {
                 $expected = !$skippedRows[$i];
             }
-            $this->assertSame($expected, $this->_model->isRowAllowedToImport(array(), $i));
+            $this->assertSame($expected, $modelForIsAllowed->isRowAllowedToImport(array(), $i));
         }
     }
 
