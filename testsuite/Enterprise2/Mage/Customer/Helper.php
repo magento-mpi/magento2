@@ -114,4 +114,30 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
             return false;
         }
     }
+
+    /**
+     * Verify that address is present.
+     * PreConditions: Customer is opened on 'Addresses' tab.
+     *
+     * @param array $addressData
+     *
+     * @return int|mixed|string
+     */
+    public function isAddressPresent(array $addressData)
+    {
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
+        $addressCount = $this->getXpathCount($xpath);
+        for ($i = $addressCount; $i > 0; $i--) {
+            $this->click($xpath . "[$i]");
+            $id = $this->getValue($xpath . "[$i]/@id");
+            $arrayId = explode('_', $id);
+            $id = end($arrayId);
+            $this->addParameter('address_number', $id);
+            if ($this->verifyForm($addressData, 'addresses')) {
+                $this->clearMessages();
+                return $id;
+            }
+        }
+        return 0;
+    }
 }

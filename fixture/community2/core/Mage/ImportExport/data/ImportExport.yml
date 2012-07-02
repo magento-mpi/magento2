@@ -515,7 +515,7 @@ data_valid_customer2_5635:
     last_name: Wannamaker
     suffix: %noValue%
     email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: 05/25/1946
+    date_of_birth: 5/25/1946
     tax_vat_number: 468-64-9568
     gender: Male
     send_welcome_email: %noValue%
@@ -650,19 +650,3 @@ csv_invalid_finance_5633:
     store_credit: store
     reward_points: reward
 
-generic_customer_account_5675:
-      associate_to_website: Main Website
-      group: General
-      prefix: Mr.
-      first_name: first_test
-      middle_name: middle_test
-      last_name: last_test
-      suffix: suffix_test
-      email: test_admin_%randomize%@unknown-domain.com
-      date_of_birth: 01/01/2000
-      tax_vat_number: %noValue%
-      gender: Male
-      send_welcome_email: %noValue%
-      send_from: %noValue%
-      password: 123123q
-      auto_generated_password: %noValue%
