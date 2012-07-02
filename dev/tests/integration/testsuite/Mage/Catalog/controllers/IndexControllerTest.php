@@ -16,7 +16,6 @@ class Mage_Catalog_IndexControllerTest extends Magento_Test_TestCase_ControllerA
 {
     public function testIndexAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/index');
 
         $this->assertRedirect();

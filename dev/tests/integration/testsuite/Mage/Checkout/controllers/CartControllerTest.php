@@ -46,7 +46,6 @@ class Mage_Checkout_CartControllerTest extends Magento_Test_TestCase_ControllerA
      */
     public function testConfigureAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->setUp();
         $adapter = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
         foreach ($this->_configureAction as $testCode => $testParams) {

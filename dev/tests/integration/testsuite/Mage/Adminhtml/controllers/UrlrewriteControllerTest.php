@@ -13,7 +13,6 @@ class Mage_Adminhtml_UrlrewriteControllerTest extends Mage_Adminhtml_Utility_Con
 {
     public function testEditActionIsFormPresent()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('admin/urlrewrite/edit/id');
         $saveUrl = Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/urlrewrite/save');
         $this->assertContains(

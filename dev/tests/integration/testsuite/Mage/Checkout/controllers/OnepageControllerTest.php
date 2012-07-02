@@ -27,7 +27,6 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testIndexAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('checkout/onepage/index');
         $html = $this->getResponse()->getBody();
         $this->assertContains('<li id="opc-payment"', $html);
@@ -40,7 +39,6 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
      */
     public function testProgressAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $steps = array(
             'payment' => array('is_show' => true, 'complete' => true),
             'billing' => array('is_show' => true),
@@ -59,14 +57,12 @@ class Mage_Checkout_OnepageControllerTest extends Magento_Test_TestCase_Controll
 
     public function testShippingMethodAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('checkout/onepage/shippingmethod');
         $this->assertContains('no quotes are available', $this->getResponse()->getBody());
     }
 
     public function testReviewAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('checkout/onepage/review');
         $this->assertContains('checkout-review', $this->getResponse()->getBody());
     }

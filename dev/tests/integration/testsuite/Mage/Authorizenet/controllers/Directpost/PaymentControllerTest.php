@@ -13,8 +13,6 @@ class Mage_Authorizenet_Directpost_PaymentControllerTest extends Magento_Test_Te
 {
     public function testResponseActionValidationFiled()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->getRequest()->setPost('controller_action_name', 'onepage');
         $this->dispatch('authorizenet/directpost_payment/response');
         $this->assertContains(
@@ -26,8 +24,6 @@ class Mage_Authorizenet_Directpost_PaymentControllerTest extends Magento_Test_Te
 
     public function testRedirectActionErrorMessage()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->getRequest()->setParam('success', '0');
         $this->getRequest()->setParam('error_msg', 'Error message');
         $this->dispatch('authorizenet/directpost_payment/redirect');

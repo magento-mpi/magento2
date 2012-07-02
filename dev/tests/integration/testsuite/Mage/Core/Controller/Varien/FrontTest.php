@@ -68,7 +68,6 @@ class Mage_Core_Controller_Varien_FrontTest extends PHPUnit_Framework_TestCase
 
     public function testDispatch()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         if (!Magento_Test_Bootstrap::canTestHeaders()) {
             $this->markTestSkipped('Cant\'t test dispatch process without sending headers');
         }
