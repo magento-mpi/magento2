@@ -453,12 +453,12 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->addParameter('customer_first_last_name', $customerData[0]['invalid']['first_name']
             . ' ' . $customerData[0]['invalid']['last_name']);
         // Verifying that no customer is created from invalid csv row (first file)
-        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError');
-        $this->customerHelper()->openCustomer(array('email' => $customerData[0]['invalid']['email']));
+        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($customerData[0]['invalid']),
+            'Customer is found');
 
         $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[0]['valid']['first_name']
-            . ' ' . $customerData[0]['valid']['last_name']);
+        $this->addParameter('customer_first_last_name', $customerData[1]['valid']['first_name']
+            . ' ' . $customerData[1]['valid']['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData[1]['valid']['email']));
         //Verifying that new customer is created from valid csv row (second file)
         $this->assertTrue($this->verifyForm($customerData[1]['valid'], 'account_information'),
