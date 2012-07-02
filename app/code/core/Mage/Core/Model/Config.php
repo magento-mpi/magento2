@@ -241,6 +241,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         $this->loadModules();
         $this->loadDb();
+        $this->loadLocales();
         $this->saveCache();
         return $this;
     }
@@ -267,7 +268,27 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
-     * Load cached modules configuration
+     * Load locale configuration from locale configuration files
+     *
+     * @return Mage_Core_Model_Config
+     */
+    public function loadLocales()
+    {
+        $localeDir = $etcDir = $this->getOptions()->getLocaleDir();
+        $files = glob($localeDir . DS . '*' . DS . 'config.xml');
+
+        if (is_array($files) && !empty($files)) {
+            foreach ($files as $file) {
+                $merge = clone $this->_prototype;
+                $merge->loadFile($file);
+                $this->extend($merge);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Load cached modules and locale configuration
      *
      * @return bool
      */
