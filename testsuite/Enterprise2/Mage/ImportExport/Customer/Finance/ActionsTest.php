@@ -65,7 +65,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
      * <p>Need to verify that the customer finances information is updated if the action is "Update" in the csv file</p>
      * <p>After steps </p>
      * <p>Verify that all Customers finance information was imported</p>
-     * 
+     *
      * @test
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5689
@@ -190,7 +190,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
             $i++;
         }
         $this->admin('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Finances');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($dataCsv);
@@ -278,7 +278,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
             $i++;
         }
         $this->admin('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Finances');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($dataCsv);
