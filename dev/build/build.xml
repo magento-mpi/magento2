@@ -142,7 +142,7 @@
     </target>
 
     <!-- product integration integrity tests -->
-    <target name="integration-integrity-tests-magento" depends="init">
+    <target name="integration-integrity-tests-magento" depends="integration-tests-database-credential-substitution">
         <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/integration-integrity-tests-magento.xml testsuite/integrity"/>
         </exec>

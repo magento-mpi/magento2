@@ -13,7 +13,6 @@ class Mage_Rss_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstr
 {
     public function testIndexActionDisabled()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/index/index');
         $this->assert404NotFound();
     }
@@ -24,14 +23,12 @@ class Mage_Rss_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstr
      */
     public function testIndexAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/index/index');
         $this->assertContains('/rss/catalog/new/', $this->getResponse()->getBody());
     }
 
     public function testNofeedAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/index/nofeed');
         $this->assertHeaderPcre('Status', '/404/');
         $this->assertHeaderPcre('Content-Type', '/text\/plain/');
@@ -44,7 +41,6 @@ class Mage_Rss_IndexControllerTest extends Magento_Test_TestCase_ControllerAbstr
      */
     public function testWishlistAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $wishlist = new Mage_Wishlist_Model_Wishlist;
         $wishlist->load('fixture_unique_code', 'sharing_code');
         $this->getRequest()->setParam('wishlist_id', $wishlist->getId())

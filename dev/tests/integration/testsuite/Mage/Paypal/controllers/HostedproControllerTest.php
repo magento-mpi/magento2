@@ -16,7 +16,6 @@ class Mage_Paypal_HostedproControllerTest extends Magento_Test_TestCase_Controll
 {
     public function testCancelActionIsContentGenerated()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $order = new Mage_Sales_Model_Order();
         $order->load('100000001', 'increment_id');
         $order->getPayment()->setMethod(Mage_Paypal_Model_Config::METHOD_HOSTEDPRO);

@@ -17,7 +17,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testActionsNoFeed($action)
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch("rss/catalog/{$action}");
         $this->assertHeaderPcre('Http/1.1', '/^404 Not Found$/');
         $this->assertEquals('There was no RSS feed enabled.', $this->getResponse()->getBody());
@@ -37,7 +36,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testNewAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/catalog/new');
         $this->assertContains('New Product', $this->getResponse()->getBody());
     }
@@ -48,7 +46,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testSpecialAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/catalog/special');
         $body = $this->getResponse()->getBody();
         $this->assertContains('$10.00', $body);
@@ -60,7 +57,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testSalesruleAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/catalog/salesrule');
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
         // to improve accuracy of the test, implement a fixture of a shopping cart price rule with a coupon
@@ -74,7 +70,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testTagAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('rss/catalog/tag');
         // this test is also inaccurate without a fixture of product with tags
         $this->assertEquals('nofeed', $this->getRequest()->getActionName());
@@ -86,7 +81,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testAuthorizationFailed($action)
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch("rss/catalog/{$action}");
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
@@ -108,7 +102,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testNotifyStockAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         // workaround: trigger updating "low stock date", because RSS collection requires it to be not null
         Mage::getResourceSingleton('Mage_CatalogInventory_Model_Resource_Stock')->updateLowStockDate();
         $this->_loginAdmin();
@@ -127,7 +120,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testReviewAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->_loginAdmin();
         $this->dispatch('rss/catalog/review');
         $this->assertHeaderPcre('Content-Type', '/text\/xml/');
@@ -141,7 +133,6 @@ class Mage_Rss_CatalogControllerTest extends Magento_Test_TestCase_ControllerAbs
      */
     public function testCategoryAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setParam('cid', Mage::app()->getStore()->getRootCategoryId());
         $this->dispatch('rss/catalog/category');
         $this->assertStringMatchesFormat(
