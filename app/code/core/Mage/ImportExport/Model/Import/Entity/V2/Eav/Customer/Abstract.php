@@ -192,18 +192,18 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
      */
     protected function _checkUniqueKey(array $rowData, $rowNumber)
     {
-        if (empty($rowData[self::COLUMN_WEBSITE])) {
-            $this->addRowError(self::ERROR_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_WEBSITE);
-        } elseif (empty($rowData[self::COLUMN_EMAIL])) {
-            $this->addRowError(self::ERROR_EMAIL_IS_EMPTY, $rowNumber, self::COLUMN_EMAIL);
+        if (empty($rowData[static::COLUMN_WEBSITE])) {
+            $this->addRowError(static::ERROR_WEBSITE_IS_EMPTY, $rowNumber, static::COLUMN_WEBSITE);
+        } elseif (empty($rowData[static::COLUMN_EMAIL])) {
+            $this->addRowError(static::ERROR_EMAIL_IS_EMPTY, $rowNumber, static::COLUMN_EMAIL);
         } else {
-            $email   = strtolower($rowData[self::COLUMN_EMAIL]);
-            $website = $rowData[self::COLUMN_WEBSITE];
+            $email   = strtolower($rowData[static::COLUMN_EMAIL]);
+            $website = $rowData[static::COLUMN_WEBSITE];
 
             if (!Zend_Validate::is($email, 'EmailAddress')) {
-                $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber, self::COLUMN_EMAIL);
+                $this->addRowError(static::ERROR_INVALID_EMAIL, $rowNumber, static::COLUMN_EMAIL);
             } elseif (!isset($this->_websiteCodeToId[$website])) {
-                $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber, self::COLUMN_WEBSITE);
+                $this->addRowError(static::ERROR_INVALID_WEBSITE, $rowNumber, static::COLUMN_WEBSITE);
             }
         }
         return !isset($this->_invalidRows[$rowNumber]);
