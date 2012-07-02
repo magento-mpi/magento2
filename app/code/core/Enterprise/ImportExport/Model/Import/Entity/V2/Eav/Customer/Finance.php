@@ -293,7 +293,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return null
      */
     protected function _validateRowForUpdate(array $rowData, $rowNumber)
     {
@@ -305,7 +305,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return null
      */
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {

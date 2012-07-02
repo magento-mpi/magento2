@@ -583,7 +583,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return null
      */
     abstract protected function _validateRowForUpdate(array $rowData, $rowNumber);
 
@@ -592,7 +592,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return null
      */
     abstract protected function _validateRowForDelete(array $rowData, $rowNumber);
 
