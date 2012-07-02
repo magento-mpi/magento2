@@ -27,7 +27,7 @@
 ---
 # 'Edit Customer' Page
 edit_customer:
-    uimap:
+    uimap: &editCustomerForm
         form:
             tabs:
                 -
@@ -67,3 +67,29 @@ edit_customer:
                                         current_balance: //table[@id='rewardPointsBalanceGrid_table']/tbody/tr[td[contains(text(),'%webSiteName%')]]/td[2]
         buttons:
             manage_shopping_cart: //button[span='Manage Shopping Cart']
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            create_order: //button[span='Create Order']
+            delete_customer: //button[span='Delete Customer']
+            save_customer: //button[span='Save Customer']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages:
+            success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedCustomers% record(s) were deleted.')]
+            wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
+            empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
+            success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.,'The customer has been deleted.')]
+            success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.,'The customer has been saved.')]
+            customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid')]
+            no_records_found: //td[normalize-space(@class)='empty-text a-center' and text()='No records found.']
+            password_too_short: //div[@id='advice-validate-password-_accountpassword']
+            invalid_email: //div[@id='advice-validate-email-_accountemail']
+            confirmation_for_delete: Are you sure you want to do this?
+            confirmation_for_delete_address: Are you sure you want to delete this address?
+            confirmation_for_massaction_delete: Are you sure?
+
+edit_customer_save_and_continue:
+    mca: customer/edit/id/%id%/back/edit/tab/%tab%/
+    title: %customer_first_last_name% / Manage Customers / Customers / Magento Admin
+    uimap: *editCustomerForm
+

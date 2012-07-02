@@ -47,23 +47,31 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
      * Updating Customer Store Credit Balance
      *
      * @param array $storeCreditData Store credit Information
+     * @param boolean $continue Press Save And Continue instead of Save
      * @return void
      */
-    public function updateStoreCreditBalance(array $storeCreditData)
+    public function updateStoreCreditBalance(array $storeCreditData, $continue = false)
     {
-         $this->fillTab($storeCreditData, 'store_credit');
-         $this->saveForm('save_customer');
+        $this->fillTab($storeCreditData, 'store_credit');
+        $this->clearMessages();
+        if (!$continue){
+            $this->saveForm('save_customer');
+        }
     }
     /**
      * Updating Customer Reward Points Balance
      *
      * @param array $rewardPointsData Store credit Information
+     * @param boolean $continue Press Save And Continue instead of Save
      * @return void
      */
-    public function updateRewardPointsBalance(array $rewardPointsData)
+    public function updateRewardPointsBalance(array $rewardPointsData, $continue = false)
     {
         $this->fillTab($rewardPointsData, 'reward_points');
-        $this->saveForm('save_customer');
+        $this->clearMessages();
+        if (!$continue){
+            $this->saveForm('save_customer');
+        }
     }
     /**
      * Get Current Customer Store Credit Balance
@@ -97,7 +105,6 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
      */
     public function isCustomerPresentInGrid($userData)
     {
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $data = array('email' => $userData['email']);
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, 'customers_grid');

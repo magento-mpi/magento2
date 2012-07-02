@@ -96,8 +96,10 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
         //Step 5, 6, 7
         $report = $this->importExportHelper()->import($data);
         //Check import
-        $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:');
-        $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:');
+        $this->assertArrayHasKey('import', $report, 'Import has been finished with issues: '
+            . print_r($report));
+        $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues: '
+            . print_r($report));
         //Step 8
         $this->navigate('manage_customers');
         //Step 9. First Customer
@@ -114,15 +116,18 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
         $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
         //Verify customer account
         $this->openTab('store_credit');
-        $this->assertEquals('$200.00', $this->customerHelper()->getStoreCreditBalance(),
+        $this->assertEquals('$0.00', $this->customerHelper()->getStoreCreditBalance(),
             'Adding customer credit score balance is failed');
-        $this->assertEquals('250', $this->customerHelper()->getRewardPointsBalance(),
+        $this->assertEquals('0', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
     }
     public function importData()
     {
         return array(
             array(array(array(
+                '_website' => 'base',
+                '_finance_website' => 'base'
+                ), array(
                 '_website' => 'base',
                 '_finance_website' => 'base'
             )))
