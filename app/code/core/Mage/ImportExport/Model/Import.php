@@ -36,11 +36,11 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**#@-*/
 
     /**#@+
-     * Customer import behaviors for version 2
+     * Import behaviors for version 2
      */
-    const BEHAVIOR_V2_CUSTOMER_ADD_UPDATE = 'v2_customer_add_update';
-    const BEHAVIOR_V2_CUSTOMER_DELETE     = 'v2_customer_delete';
-    const BEHAVIOR_V2_CUSTOMER_CUSTOM     = 'v2_customer_custom';
+    const BEHAVIOR_V2_ADD_UPDATE = 'v2_update';
+    const BEHAVIOR_V2_DELETE     = 'v2_delete';
+    const BEHAVIOR_V2_CUSTOM     = 'v2_custom';
     /**#@-*/
 
     /**#@+

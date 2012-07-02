@@ -32,15 +32,15 @@ class Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior
                 'label' => $helper->__('-- Please Select --')
             ),
             array(
-                'value' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOMER_ADD_UPDATE,
+                'value' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
                 'label' => $helper->__('Add/Update Complex Data')
             ),
             array(
-                'value' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOMER_DELETE,
+                'value' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
                 'label' => $helper->__('Delete Entities')
             ),
             array(
-                'value' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOMER_CUSTOM,
+                'value' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
                 'label' => $helper->__('Custom Action')
             ),
         );
