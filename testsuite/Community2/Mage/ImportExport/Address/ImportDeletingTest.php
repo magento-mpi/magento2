@@ -71,6 +71,7 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
             $this->openTab('addresses');
         };
         $addressId = $this->customerHelper()->isAddressPresent($addressData);
+
         //Step 1
         $this->admin('import');
         //Steps 2-5
