@@ -149,6 +149,14 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
+     * Cleanup circular references between layout & blocks
+     */
+    public function __destruct()
+    {
+        $this->_blocks = array();
+    }
+
+    /**
      * Retrieve the layout update instance
      *
      * @return Mage_Core_Model_Layout_Update

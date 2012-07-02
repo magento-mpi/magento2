@@ -23,7 +23,6 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
             'base_controller' => 'Mage_Core_Controller_Front_Action'
         );
         $this->_model = new Mage_Core_Controller_Varien_Router_Base($options);
-        $this->_model->setFront(Mage::app()->getFrontController());
     }
 
     /**
