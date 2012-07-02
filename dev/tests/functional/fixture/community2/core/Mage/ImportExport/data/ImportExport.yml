@@ -104,9 +104,9 @@ customer_account_with_attribute:
 #Test data for Customer Addresses file export
 generic_address:
     prefix: %noValue%
-    first_name: Ronald
+    first_name: Ronald_%randomize%
     middle_name: J.
-    last_name: Jackson
+    last_name: Jackson_%randomize%
     suffix: %noValue%
     company: Earl Abel's
     street_address_line_1: 209 Capitol Avenue
