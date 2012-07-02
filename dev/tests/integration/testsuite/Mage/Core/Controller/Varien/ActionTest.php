@@ -210,7 +210,6 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatch()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         if (headers_sent()) {
             $this->markTestSkipped('Can\' dispatch - headers already sent');
         }

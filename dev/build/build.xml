@@ -141,6 +141,12 @@
         </replace>
     </target>
 
+    <!-- product integration integrity tests -->
+    <target name="integration-integrity-tests-magento" depends="integration-tests-database-credential-substitution">
+        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/integration-integrity-tests-magento.xml testsuite/integrity"/>
+        </exec>
+    </target>
 
     <!-- product integration tests -->
     <target name="integration-tests-magento" depends="init">
@@ -293,6 +299,7 @@
             <target name="unit-tests-integration-framework"/>
             <target name="static-tests-all"/>
             <target name="integration-tests-magento"/>
+            <target name="integration-integrity-tests-magento"/>
         </ant>
         <exec dir="${dir.publication_target}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch}"/>

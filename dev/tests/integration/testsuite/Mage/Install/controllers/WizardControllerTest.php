@@ -43,7 +43,6 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
 
     public function testPreDispatch()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('install/index');
         $this->assertEquals(200, $this->getResponse()->getHttpResponseCode());
     }

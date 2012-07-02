@@ -30,7 +30,6 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
 
     public function testCancelPaymentActionIsContentGenerated()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('paypal/payflowadvanced/cancelpayment');
         $this->assertContains(
             'window_top.checkout.gotoSection("payment");',
@@ -48,7 +47,6 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
 
     public function testReturnurlActionIsContentGenerated()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('paypal/payflowadvanced/returnurl');
         $this->assertContains(
             'window_top.checkout.gotoSection("payment");',
@@ -66,7 +64,6 @@ class Mage_Paypal_PayflowadvancedControllerTest extends Magento_Test_TestCase_Co
 
     public function testFormActionIsContentGenerated()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('paypal/payflowadvanced/form');
         $this->assertContains(
             '<form id="token_form" method="POST" action="https://payflowlink.paypal.com/">',

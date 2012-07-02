@@ -101,11 +101,21 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store general/locale/code de_DE
      */
-    public function testLoadGetArea()
+    public function testLoadArea()
     {
+        $translator = Mage::app()->getTranslator();
+        $this->assertEmpty($translator->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
         $this->_model->loadArea('frontend');
-        $this->assertSame($this->_model, $this->_model->getArea('frontend')->getApplication());
+        $this->assertEquals('de_DE', $translator->getConfig(Mage_Core_Model_Translate::CONFIG_KEY_LOCALE));
+    }
+
+    public function testGetArea()
+    {
+        $area = $this->_model->getArea('frontend');
+        $this->assertInstanceOf('Mage_Core_Model_App_Area', $area);
+        $this->assertSame($area, $this->_model->getArea('frontend'));
     }
 
     /**

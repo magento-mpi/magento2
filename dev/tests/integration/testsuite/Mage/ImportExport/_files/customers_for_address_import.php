@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*
 //Create customer
 $customer = new Mage_Customer_Model_Customer();
 $customer
@@ -92,3 +92,4 @@ $csvData = array(
 $fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv';
 Mage::unregister($fixtureKey);
 Mage::register($fixtureKey, $csvData);
+*/

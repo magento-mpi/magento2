@@ -57,8 +57,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testNotLoggedLoginAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->dispatch('admin/auth/login');
         $this->assertFalse($this->getResponse()->isRedirect());
         $expected = 'Log in to Admin Panel';
@@ -72,8 +70,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testLoggedLoginAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->_login();
 
         $this->dispatch('admin/auth/login');
@@ -88,8 +84,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testNotLoggedLoginActionWithRedirect()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->getRequest()->setPost(array(
             'login' => array(
                 'username' => Magento_Test_Bootstrap::ADMIN_NAME,
@@ -112,8 +106,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testLogoutAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->_login();
         $this->dispatch('admin/auth/logout');
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
@@ -127,8 +119,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testDeniedJsonAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->_login();
         $this->dispatch('admin/auth/deniedJson');
         $data = array(
@@ -147,8 +137,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testDeniedIframeAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->_login();
         $homeUrl = Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
         $this->dispatch('admin/auth/deniedIframe');
@@ -167,8 +155,6 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testIncorrectLogin($params)
     {
-        $this->markTestIncomplete('MAGETWO-1587');
-
         $this->getRequest()->setPost($params);
         $this->dispatch('admin/auth/login');
         $this->assertContains('Invalid User Name or Password', $this->getResponse()->getBody());

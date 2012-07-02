@@ -26,7 +26,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
         parent::setUp();
 
         $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Abstract', array(),
-            '', false, true, true, array('_saveValidatedBunches'));
+            '', false, true, true, array('_saveValidatedBunches')
+        );
     }
 
     public function tearDown()
@@ -342,6 +343,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      *
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
      * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Can not find required columns: %s
      */
     public function testValidateDataPermanentAttributes()
     {
@@ -363,6 +365,35 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      *
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
      * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Columns number: "%s" have empty headers
+     */
+    public function testValidateDataEmptyColumnName()
+    {
+        $this->_createDataHelperMock();
+        $this->_createSourceAdapterMock(array(''));
+        $this->_model->validateData();
+    }
+
+    /**
+     * Test for method validateData()
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Columns number: "%s" have empty headers
+     */
+    public function testValidateDataColumnNameWithWhitespaces()
+    {
+        $this->_createDataHelperMock();
+        $this->_createSourceAdapterMock(array('  '));
+        $this->_model->validateData();
+    }
+
+    /**
+     * Test for method validateData()
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::validateData()
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Column names: "%s" are invalid
      */
     public function testValidateDataAttributeNames()
     {
@@ -381,7 +412,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     {
         /** @var $source Mage_ImportExport_Model_Import_Adapter_Abstract|PHPUnit_Framework_MockObject_MockObject */
         $source = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Adapter_Abstract', array(), '', false,
-            true, true, array('getColNames'));
+            true, true, array('getColNames')
+        );
         $source->expects($this->any())
             ->method('getColNames')
             ->will($this->returnValue($columns));

@@ -18,7 +18,6 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
 
     public function testNewActionAuthorizationFailed()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
@@ -28,7 +27,6 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
      */
     public function testNewAction()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setServer(array(
             'PHP_AUTH_USER' => Magento_Test_Bootstrap::ADMIN_NAME,
             'PHP_AUTH_PW' => Magento_Test_Bootstrap::ADMIN_PASSWORD
@@ -40,7 +38,6 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
 
     public function testNotLoggedIn()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');
     }
@@ -54,7 +51,6 @@ class Mage_Rss_OrderControllerTest extends Magento_Test_TestCase_ControllerAbstr
      */
     public function testInvalidAccess($login, $password)
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->getRequest()->setServer(array('PHP_AUTH_USER' => $login, 'PHP_AUTH_PW' => $password));
         $this->dispatch(self::NEW_ORDER_URI);
         $this->assertHeaderPcre('Http/1.1', '/^401 Unauthorized$/');

@@ -29,28 +29,24 @@ class Mage_DesignEditor_Block_ToolbarCrosscuttingTest extends Magento_Test_TestC
 
     public function testCmsHomePage()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('cms/index/index');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }
 
     public function testCustomerAccountLogin()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('customer/account/login');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }
 
     public function testCatalogProductView()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('catalog/product/view/id/1');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }
 
     public function testCheckoutCart()
     {
-        $this->markTestIncomplete('MAGETWO-1587');
         $this->dispatch('checkout/cart/index');
         $this->_assertContainsToolbar($this->getResponse()->getBody());
     }

@@ -108,6 +108,10 @@ return array(
     'Mage_ProductAlert_Block_Stock',
     'Mage_Reports_Model_Resource_Coupons_Collection',
     'Mage_Reports_Model_Resource_Invoiced_Collection',
+    'Mage_Reports_Model_Resource_Product_Ordered_Collection',
+    'Mage_Reports_Model_Resource_Product_Viewed_Collection' => array(
+        'suggestion' => 'Mage_Reports_Model_Resource_Report_Product_Viewed_Collection'
+    ),
     'Mage_Reports_Model_Resource_Refunded_Collection',
     'Mage_Reports_Model_Resource_Shipping_Collection',
     'Mage_Rss_Model_Observer',
