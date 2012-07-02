@@ -66,12 +66,12 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         //Step 1
         $this->admin('import');
         $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
-        //Step 2
-        $this->fillDropdown('import_behavior', 'Delete Entities');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 3
+        //Step 2
         $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
+        //Step 3
+        $this->fillDropdown('import_behavior', 'Delete Entities');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
         $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
         //Step 4
@@ -189,12 +189,12 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         //Step 1
         $this->admin('import');
         $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
-        //Step 2
-        $this->fillDropdown('import_behavior', 'Delete Entities');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 3
+        //Step 2
         $this->fillDropdown('import_file_version', 'Magento 2.0 format');
+        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
+        //Step 3
+        $this->fillDropdown('import_behavior', 'Delete Entities');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
         $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
         //Step 4
