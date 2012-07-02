@@ -262,7 +262,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
                     'store_id' => '0',
                     'website_id' => '0',
                     'suffix' => '',
-                    'taxvat' => '')
+                    'taxvat' => ''),
             ))
         );
     }
