@@ -274,7 +274,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadLocales()
     {
-        $localeDir = $etcDir = $this->getOptions()->getLocaleDir();
+        $localeDir = $this->getOptions()->getLocaleDir();
         $files = glob($localeDir . DS . '*' . DS . 'config.xml');
 
         if (is_array($files) && !empty($files)) {
