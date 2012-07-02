@@ -65,7 +65,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
      * <p>Need to verify that the customer finances information is updated if the action is "Update" in the csv file</p>
      * <p>After steps </p>
      * <p>Verify that all Customers finance information was imported</p>
-     *
+     * 
      * @test
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5689
