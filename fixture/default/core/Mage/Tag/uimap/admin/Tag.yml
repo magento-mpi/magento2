@@ -28,7 +28,7 @@
 # All Tags page
 all_tags:
     mca: tag/
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='All Tags']
     title: All Tags / Tags / Catalog / Magento Admin
     uimap: &allTags
         form: &searchTagsGrid
@@ -70,7 +70,7 @@ all_tags:
 
 all_tags_index:
     mca: tag/index/
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='All Tags']
     title: All Tags / Tags / Catalog / Magento Admin
     uimap: *allTags
 
@@ -158,7 +158,7 @@ edit_tag_more_options:
 # New Tag page
 new_tag:
     mca: tag/edit/store/%storeId%
-    click_xpath: //div[@class='nav-bar']//a[span='All Tags']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='All Tags']
     title: New Tag / Tags / Catalog / Magento Admin
     uimap:
         form:
@@ -185,7 +185,7 @@ new_tag:
 # Pending Tags page
 pending_tags:
     mca: tag/pending
-    click_xpath: //div[@class='nav-bar']//a[span='Pending Tags']
+    click_xpath: //div[@class='nav-bar']//a[normalize-space(span)='Pending Tags']
     title: Pending Tags / Tags / Catalog / Magento Admin
     uimap:
         form:

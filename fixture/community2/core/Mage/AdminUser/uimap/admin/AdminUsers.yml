@@ -29,7 +29,7 @@
 # 'Users' page
 manage_admin_users:
     mca: user/
-    click_xpath: //ul[@id='nav']//a[span='Users']
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/user/')]
 
 # 'New User' page
 new_admin_user:

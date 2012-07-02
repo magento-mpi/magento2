@@ -29,7 +29,7 @@
 
 manage_categories:
     mca: catalog_category/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
     title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: &categoryUimap
         form:
@@ -153,12 +153,12 @@ manage_categories:
 
 edit_manage_categories:
     mca: catalog_category/edit/store/0/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
     title: New Category / Manage Categories / Categories / Catalog / Magento Admin
     uimap: *categoryUimap
 
 edit_category:
     mca: catalog_category/edit/store/0/id/%id%/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Categories']
+    click_xpath: //div[@class='nav-bar']//a[contains(@href, '/catalog_category/')]
     title: %elementTitle% / Manage Categories / Categories / Catalog / Magento Admin
     uimap: *categoryUimap

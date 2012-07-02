@@ -28,7 +28,7 @@
 # Poll Manager page
 poll_manager:
     mca: poll/
-    click_xpath: //div[@class='nav-bar']//a[span='Polls']
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/poll/')]
     title: Polls / CMS / Magento Admin
     uimap:
         form: &searchPoll
