@@ -323,7 +323,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 } else {
                     $processedData = $this->_prepareDataForUpdate($rowData);
                     $entitiesToCreate = array_merge($entitiesToCreate, $processedData[self::ENTITIES_TO_CREATE_KEY]);
-                    $entitiesToUpdate = array_merge($entitiesToCreate, $processedData[self::ENTITIES_TO_UPDATE_KEY]);
+                    $entitiesToUpdate = array_merge($entitiesToUpdate, $processedData[self::ENTITIES_TO_UPDATE_KEY]);
                     foreach ($processedData[self::ATTRIBUTES_TO_SAVE_KEY] as $tableName => $customerAttributes) {
                         if (!isset($attributesToSave[$tableName])) {
                             $attributesToSave[$tableName] = array();
