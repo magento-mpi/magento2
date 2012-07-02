@@ -43,6 +43,32 @@
 class Community2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
 {
     /**
+     * Verify that address is present.
+     * PreConditions: Customer is opened on 'Addresses' tab.
+     *
+     * @param array $addressData
+     *
+     * @return int|mixed|string
+     */
+    public function isAddressPresent(array $addressData)
+    {
+        $xpath = $this->_getControlXpath('fieldset', 'list_customer_addresses') . '//li';
+        $addressCount = $this->getXpathCount($xpath);
+        for ($i = $addressCount; $i > 0; $i--) {
+            $this->click($xpath . "[$i]");
+            $id = $this->getValue($xpath . "[$i]/@id");
+            $arrayId = explode('_', $id);
+            $id = end($arrayId);
+            $this->addParameter('address_number', $id);
+            if ($this->verifyForm($addressData, 'addresses')) {
+                $this->clearMessages();
+                return $id;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Check if customer is present in customers grid
      *
      * @param array $userData
@@ -50,7 +76,6 @@ class Community2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
      */
     public function isCustomerPresentInGrid($userData)
     {
-        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $data = array('email' => $userData['email']);
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, 'customers_grid');
