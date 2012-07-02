@@ -181,9 +181,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
         $this->_connection = $coreResourceModel->getConnection('write');
 
         $this->_availableBehaviors = array(
-            Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
-            Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
-            Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+            Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOMER_ADD_UPDATE,
+            Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOMER_DELETE,
+            Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOMER_CUSTOM,
         );
     }
 
