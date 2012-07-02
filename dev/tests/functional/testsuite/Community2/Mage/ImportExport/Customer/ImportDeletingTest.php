@@ -49,7 +49,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account_5675');
+        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData2);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
@@ -160,7 +160,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>Expected: Verify that both customers are absent in the system</p>
      *
      * @test
-     * @dataProvider importData
+     * @dataProvider importCustomerData
      * @TestlinkId TL-MAGE-5678
      */
     public function deletingCustomerWithDifferentEmailOrWebsite($data)
@@ -176,7 +176,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $this->customerHelper()->createCustomer($userData2);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['email'] = 'not_existing_email@example.com';
+        $data[0]['email'] = 'not_existing_email@example.co';
         $data[0]['firstname'] = $userData1['first_name'];
         $data[0]['lastname'] = $userData1['last_name'];
         $data[0]['password'] = $userData1['password'];
@@ -202,8 +202,8 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         //Step 5, 6, 7
         $report = $this->importExportHelper()->import($data);
         //Check import
-        $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:');
-        $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:');
+        $this->assertArrayNotHasKey('import', $report, 'Import has been finished with issues:');
+        $this->assertArrayHasKey('error', $report['validation'], 'Import has been finished with issues:');
         //Step 8
         $this->navigate('manage_customers');
         //Verify that the first customer is present after import 'Delete Entities'
@@ -240,8 +240,8 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
                     'website_id' => '0',
                     'suffix' => '',
                     'taxvat' => ''),
-                    array(
-                    '_website' => 'admin',
+                array(
+                    '_website' => 'qwerty',
                     '_store' => 'default',
                     'confirmation' => '',
                     'created_at' => '19.06.2012 18:00',
@@ -262,7 +262,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
                     'store_id' => '0',
                     'website_id' => '0',
                     'suffix' => '',
-                    'taxvat' => ''),
+                    'taxvat' => '')
             ))
         );
     }
