@@ -289,6 +289,30 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     }
 
     /**
+     * Validate data row for add/update behaviour
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return boolean
+     */
+    protected function _validateRowForUpdate(array $rowData, $rowNumber)
+    {
+        // TODO: implement
+    }
+
+    /**
+     * Validate data row for delete behaviour
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return boolean
+     */
+    protected function _validateRowForDelete(array $rowData, $rowNumber)
+    {
+        // TODO: implement
+    }
+
+    /**
      * Retrieve entity attribute EAV collection
      *
      * @return Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection

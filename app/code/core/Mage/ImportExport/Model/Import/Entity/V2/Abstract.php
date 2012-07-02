@@ -561,7 +561,40 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      * @param int $rowNumber
      * @return boolean
      */
-    abstract public function validateRow(array $rowData, $rowNumber);
+    public function validateRow(array $rowData, $rowNumber)
+    {
+        if (isset($this->_validatedRows[$rowNumber])) { // check that row is already validated
+            return !isset($this->_invalidRows[$rowNumber]);
+        }
+        $this->_validatedRows[$rowNumber] = true;
+        $this->_processedEntitiesCount++;
+
+        if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+            $this->_validateRowForUpdate($rowData, $rowNumber);
+        } elseif ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+            $this->_validateRowForDelete($rowData, $rowNumber);
+        }
+
+        return !isset($this->_invalidRows[$rowNumber]);
+    }
+
+    /**
+     * Validate data row for add/update behaviour
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return boolean
+     */
+    abstract protected function _validateRowForUpdate(array $rowData, $rowNumber);
+
+    /**
+     * Validate data row for delete behaviour
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return boolean
+     */
+    abstract protected function _validateRowForDelete(array $rowData, $rowNumber);
 
     /**
      * Set data from outside to change behavior
