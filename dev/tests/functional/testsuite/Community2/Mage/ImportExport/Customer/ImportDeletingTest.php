@@ -147,7 +147,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>Deleting Customer via Customers Main File</p>
      * <p>Preconditions:</p>
      * <p>1. Create two customers in Customers-> Manage Customers</p>
-     * <p>2. Create .csv file with both customers: first with all attributes, second only with values of unique key</p>
+     * <p>2. Create .csv file with incorrect email for first customer, with incorrect website for second customer</p>
      * <p>Steps</p>
      * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
      * <p>2. Select "Append Complex Data" in selector "Import Behavior"</p>
@@ -155,9 +155,8 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>4. Select "Customers Main File"</p>
      * <p>5. Choose file from precondition</p>
      * <p>6. Press "Check Data"</p>
-     * <p>7. Press "Import" button</p>
      * <p>8. Open Customers-> Manage Customers</p>
-     * <p>Expected: Verify that both customers are absent in the system</p>
+     * <p>Expected: Verify that both customers are presented in the system</p>
      *
      * @test
      * @dataProvider importCustomerData
@@ -241,7 +240,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
                     'suffix' => '',
                     'taxvat' => ''),
                 array(
-                    '_website' => 'qwerty',
+                    '_website' => $this->generate('string', 30, ':digit:'),
                     '_store' => 'default',
                     'confirmation' => '',
                     'created_at' => '19.06.2012 18:00',
