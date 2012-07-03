@@ -39,7 +39,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     /**#@-*/
 
     /**#@+
-     * Keys which used to build result data array for update
+     * Keys which used to build result data array for future update
      */
     const ENTITIES_TO_CREATE_KEY = 'entities_to_create';
     const ENTITIES_TO_UPDATE_KEY = 'entities_to_update';
@@ -183,7 +183,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     /**
      * Delete list of customers
      *
-     * @param array $entitiesToDelete customers id for delete
+     * @param array $entitiesToDelete customers id list
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      */
     protected function _deleteCustomers(array $entitiesToDelete)
@@ -314,13 +314,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                     continue;
                 }
 
-                $processedData = array();
                 if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
                     $entitiesToDelete[] = $this->_getCustomerId(
                         $rowData[self::COLUMN_EMAIL],
                         $rowData[self::COLUMN_WEBSITE]
                     );
-                } else {
+                } elseif ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
                     $processedData = $this->_prepareDataForUpdate($rowData);
                     $entitiesToCreate = array_merge($entitiesToCreate, $processedData[self::ENTITIES_TO_CREATE_KEY]);
                     $entitiesToUpdate = array_merge($entitiesToUpdate, $processedData[self::ENTITIES_TO_UPDATE_KEY]);
@@ -334,7 +333,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 }
             }
             /**
-             * Process imported data
+             * Save prepared data
              */
             if ($entitiesToCreate || $entitiesToUpdate) {
                 $this->_saveCustomerEntity($entitiesToCreate, $entitiesToUpdate);
@@ -375,28 +374,18 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     }
 
     /**
-     * Validate data row
+     * Validate data row for add/update behaviour
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return null
      */
-    public function validateRow(array $rowData, $rowNumber)
+    protected function _validateRowForUpdate(array $rowData, $rowNumber)
     {
-        if (isset($this->_validatedRows[$rowNumber])) { // check that row is already validated
-            return !isset($this->_invalidRows[$rowNumber]);
-        }
-        $this->_validatedRows[$rowNumber] = true;
+        if ($this->_checkUniqueKey($rowData, $rowNumber)) {
+            $email   = strtolower($rowData[self::COLUMN_EMAIL]);
+            $website = $rowData[self::COLUMN_WEBSITE];
 
-        $this->_processedEntitiesCount++;
-        $email   = strtolower($rowData[self::COLUMN_EMAIL]);
-        $website = $rowData[self::COLUMN_WEBSITE];
-
-        if (!Zend_Validate::is($email, 'EmailAddress')) {
-            $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber);
-        } elseif (!isset($this->_websiteCodeToId[$website])) {
-            $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber);
-        } else {
             if (isset($this->_newCustomers[strtolower($rowData[self::COLUMN_EMAIL])][$website])) {
                 $this->addRowError(self::ERROR_DUPLICATE_EMAIL_SITE, $rowNumber);
             }
@@ -425,20 +414,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                 }
             }
         }
-
-        return !isset($this->_invalidRows[$rowNumber]);
-    }
-
-    /**
-     * Validate data row for add/update behaviour
-     *
-     * @param array $rowData
-     * @param int $rowNumber
-     * @return null
-     */
-    protected function _validateRowForUpdate(array $rowData, $rowNumber)
-    {
-        // TODO: implement
     }
 
     /**
@@ -450,6 +425,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      */
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {
-        // TODO: implement
+        if ($this->_checkUniqueKey($rowData, $rowNumber)) {
+            if (!$this->_getCustomerId($rowData[self::COLUMN_EMAIL], $rowData[self::COLUMN_WEBSITE])) {
+                $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+            }
+        }
     }
 }
