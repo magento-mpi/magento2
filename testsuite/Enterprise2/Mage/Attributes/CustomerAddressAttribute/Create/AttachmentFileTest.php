@@ -66,7 +66,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
         //Data
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file');
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         return $attrData;
@@ -95,7 +95,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('error', 'exists_attribute_code');
     }
@@ -125,7 +125,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file',
             array($emptyField => '%noValue%'));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
@@ -170,7 +170,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -214,7 +214,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file',
             array('maximum_file_size' => $wrongAttributeCode));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -257,11 +257,11 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
         $searchData = $this->loadDataSet('CustomerAddressAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
@@ -292,11 +292,11 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_Create_AttachmentFile
             array('attribute_code'  => $attrData['properties']['attribute_code'],
                   'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }

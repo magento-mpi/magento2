@@ -65,7 +65,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends 
         //Data
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textarea');
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
 
@@ -95,7 +95,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends 
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('error', 'exists_attribute_code');
     }
@@ -125,7 +125,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends 
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textarea',
             array($emptyField => '%noValue%'));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
@@ -170,7 +170,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends 
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textarea',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -215,11 +215,11 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends 
         $searchData = $this->loadDataSet('CustomerAddressAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
@@ -250,11 +250,11 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_TextAreaTest extends 
             array('attribute_code'  => $attrData['properties']['attribute_code'],
                   'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
