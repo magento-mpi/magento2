@@ -66,7 +66,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerImportTest extends PH
         $customersCollection->resetData();
         $customersCollection->clear();
 
-        $this->_model->setSource($source)
+        $this->_model->setParameters(
+                array(
+                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE
+                )
+            )
+            ->setSource($source)
             ->isDataValid();
 
         $this->_model->importData();
