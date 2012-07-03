@@ -134,7 +134,7 @@ new_product:
                                         general_url_key: //input[@id='url_key']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                     multiselects:
-                                        general_user_attr_multiselect: //input[@id='%attributeCodeMultiselect%']
+                                        general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span
