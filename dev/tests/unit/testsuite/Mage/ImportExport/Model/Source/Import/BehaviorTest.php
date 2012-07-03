@@ -12,7 +12,7 @@
 /**
  * Test class for behaviour source model Mage_ImportExport_Model_Source_Import_Behavior
  */
-class Mage_ImportExport_Model_Source_Import_BehaviorTest extends Mage_ImportExport_Model_Source_TestCase
+class Mage_ImportExport_Model_Source_Import_BehaviorTest extends Mage_ImportExport_Model_Source_TestCaseAbstract
 {
     /**
      * Tested source model

@@ -12,7 +12,7 @@
 /**
  * Test class for version source model Mage_ImportExport_Model_Source_Format_Version
  */
-class Mage_ImportExport_Model_Source_Format_VersionTest extends Mage_ImportExport_Model_Source_TestCase
+class Mage_ImportExport_Model_Source_Format_VersionTest extends Mage_ImportExport_Model_Source_TestCaseAbstract
 {
     /**
      * Tested source model

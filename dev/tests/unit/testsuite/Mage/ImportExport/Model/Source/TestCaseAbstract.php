@@ -12,7 +12,7 @@
 /**
  * Abstract class for import/export source models
  */
-abstract class Mage_ImportExport_Model_Source_TestCase extends PHPUnit_Framework_TestCase
+abstract class Mage_ImportExport_Model_Source_TestCaseAbstract extends PHPUnit_Framework_TestCase
 {
     /**
      * Tested source model

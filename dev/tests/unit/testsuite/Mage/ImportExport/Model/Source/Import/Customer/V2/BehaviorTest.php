@@ -10,14 +10,15 @@
  */
 
 /**
- * Test class for behaviour source model Mage_ImportExport_Model_Source_Import_Customer_V2_BehaviorTest
+ * Test class for behaviour source model Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior
  */
-class Mage_ImportExport_Model_Source_Import_Customer_V2_BehaviorTest extends Mage_ImportExport_Model_Source_TestCase
+class Mage_ImportExport_Model_Source_Import_Customer_V2_BehaviorTest
+    extends Mage_ImportExport_Model_Source_TestCaseAbstract
 {
     /**
      * Tested source model
      *
-     * @var Mage_ImportExport_Model_Source_Import_Behavior
+     * @var Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior
      */
     public static $sourceModel;
 
@@ -30,6 +31,17 @@ class Mage_ImportExport_Model_Source_Import_Customer_V2_BehaviorTest extends Mag
     {
         parent::setUpBeforeClass();
         self::$sourceModel = new Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior();
+    }
+
+    /**
+     * Is result variable an array
+     */
+    public function testToArray()
+    {
+        $this->_initHelper();
+
+        $basicArray = self::$sourceModel->toArray();
+        $this->assertInternalType('array', $basicArray, 'Result variable must be an array.');
     }
 
     /**

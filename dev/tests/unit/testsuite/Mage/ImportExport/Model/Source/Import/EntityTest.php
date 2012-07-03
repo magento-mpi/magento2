@@ -12,7 +12,7 @@
 /**
  * Test class for entity source model Mage_ImportExport_Model_Source_Import_Entity
  */
-class Mage_ImportExport_Model_Source_Import_EntityTest extends Mage_ImportExport_Model_Source_TestCase
+class Mage_ImportExport_Model_Source_Import_EntityTest extends Mage_ImportExport_Model_Source_TestCaseAbstract
 {
     /**
      * Tested source model

@@ -29,12 +29,12 @@
     /**
      * Show behavior selector
      *
-     * @param string|boolean $behaviorVersion If false, then hide both behavior selectors
+     * @param string|boolean behaviorVersion If false, then hide both behavior selectors
      * @return void
      */
-    varienForm.prototype.showBehavior = function($behaviorVersion)
+    varienForm.prototype.showBehavior = function(behaviorVersion)
     {
-        if ($behaviorVersion == this.BEHAVIOR_VERSION_1) {
+        if (behaviorVersion == this.BEHAVIOR_VERSION_1) {
             $('head-behavior_v1_fieldset').show();
             $('behavior_v1_fieldset').show();
             $('behavior_v1').enable();
@@ -45,7 +45,7 @@
             $('behavior_v2_customer').selectedIndex = 0;
             $('behavior_v2_customer').disable();
             $('behavior_v2_customer').removeClassName('required-entry')
-        } else if ($behaviorVersion == this.BEHAVIOR_VERSION_2_CUSTOMER) {
+        } else if (behaviorVersion == this.BEHAVIOR_VERSION_2_CUSTOMER) {
             $('head-behavior_v1_fieldset').hide();
             $('behavior_v1_fieldset').hide();
             $('behavior_v1').selectedIndex = 0;
@@ -69,17 +69,17 @@
             $('behavior_v2_customer').disable();
             $('behavior_v2_customer').removeClassName('required-entry')
         }
-    }
+    };
 
     /**
      * Show import format version selector
      *
-     * @param boolean $isShow
+     * @param boolean isShow
      * @return void
      */
-    varienForm.prototype.showFormatVersion = function($isShow)
+    varienForm.prototype.showFormatVersion = function(isShow)
     {
-        if ($isShow == true) {
+        if (isShow == true) {
             $('head-import_format_version_fieldset').show();
             $('import_format_version_fieldset').show();
             $('file_format_version').enable();
@@ -91,17 +91,17 @@
             $('file_format_version').disable();
             $('file_format_version').removeClassName('required-entry');
         }
-    }
+    };
 
     /**
      * Show customer entity selector
      *
-     * @param boolean $isShow
+     * @param boolean isShow
      * @return void
      */
-    varienForm.prototype.showCustomerEntity = function($isShow)
+    varienForm.prototype.showCustomerEntity = function(isShow)
     {
-        if ($isShow == true) {
+        if (isShow == true) {
             $('head-customer_entity_fieldset').show();
             $('customer_entity_fieldset').show();
             $('customer_entity').enable();
@@ -113,25 +113,24 @@
             $('customer_entity').selectedIndex = 0;
             $('customer_entity').removeClassName('required-entry');
         }
-    }
+    };
 
     /**
      * Show upload file field
      *
-     * @param boolean $isShow
+     * @param boolean isShow
      * @return void
      */
-    varienForm.prototype.showUploadFile = function($isShow)
+    varienForm.prototype.showUploadFile = function(isShow)
     {
-        if ($isShow == true) {
+        if (isShow == true) {
             $('head-upload_file_fieldset').show();
             $('upload_file_fieldset').show();
         } else {
             $('head-upload_file_fieldset').hide();
             $('upload_file_fieldset').hide();
         }
-    }
-
+    };
 
     /**
      * Handle value change in entity type selector
