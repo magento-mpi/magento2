@@ -46,6 +46,17 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     );
 
     /**
+     * Websites array (website id => code)
+     *
+     * @var array
+     */
+    protected $_behaviors = array(
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM
+    );
+
+    /**
      * Customers array
      *
      * @var array
@@ -162,6 +173,10 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         $property->setAccessible(true);
         $property->setValue($modelMock, array_flip($this->_websites));
 
+        $property = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $property->setAccessible(true);
+        $property->setValue($modelMock, $this->_behaviors);
+
         $attributeCollection = new Varien_Data_Collection();
         foreach ($this->_attributes as $attribute) {
             $attributeCollection->addItem(new Varien_Object($attribute));
@@ -211,110 +226,310 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     public function validateRowDataProvider()
     {
         return array(
-            'valid' => array('$rowData' => include __DIR__ . '/_files/row_data_valid.php',
-                '$errors'  => array(), '$isValid' => true,
+            'valid' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_valid.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array()
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array()
+                    ),
+                )
             ),
-            'no website' => array('$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
-                        => array(array(1,
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
-                        ))
-                ),
-            ),
-            'empty website' => array('$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
-                        => array(array(1,
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
-                        ))
-                ),
-            ),
-            'no email' => array('$rowData' => include __DIR__ . '/_files/row_data_no_email.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL)
+            'no website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                                => array(array(1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
+                                ))
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                                => array(array(1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
+                                ))
+                        ),
                     )
-                ),
+                )
             ),
-            'empty email' => array('$rowData' => include __DIR__ . '/_files/row_data_empty_email.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL)
+            'empty website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                                => array(array(1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
+                                ))
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
+                                => array(array(1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE
+                                ))
+                        ),
                     )
-                ),
+                )
             ),
-            'no finance website' => array('$rowData' => include __DIR__ . '/_files/row_data_no_finance_website.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY
-                        => array(array(1,
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                        ))
-                ),
+            'no email' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_no_email.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL
+                                )
+                            )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL
+                                )
+                            )
+                        ),
+                    )
+                )
+            ),
+            'empty email' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_empty_email.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL
+                                )
+                            )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL
+                                )
+                            )
+                        ),
+                    )
+                )
+            ),
+            'no finance website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_no_finance_website.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_FINANCE_WEBSITE_IS_EMPTY =>
+                                array(
+                                    array(1,
+                                        Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                        COLUMN_FINANCE_WEBSITE
+                                    )
+                                )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
+                    )
+                )
             ),
             'empty finance website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_finance_website.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY
-                        => array(array(1,
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                        ))
-                ),
-            ),
-            'invalid email' => array('$rowData' => include __DIR__ . '/_files/row_data_invalid_email.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_EMAIL => array(
-                        array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL)
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_FINANCE_WEBSITE_IS_EMPTY =>
+                                array(
+                                    array(
+                                        1,
+                                        Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                        COLUMN_FINANCE_WEBSITE
+                                    )
+                                )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
                     )
-                ),
+                )
             ),
-            'invalid website' => array('$rowData' => include __DIR__ . '/_files/row_data_invalid_website.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_WEBSITE => array(
-                        array(1, Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE)
+            'invalid email' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_invalid_email.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_EMAIL =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL
+                                )
+                            )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_EMAIL =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL
+                                )
+                            )
+                        ),
                     )
-                ),
+                )
+            ),
+            'invalid website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_invalid_website.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_INVALID_WEBSITE =>
+                                array(
+                                    array(
+                                        1,
+                                        Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                        COLUMN_WEBSITE
+                                    )
+                                )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_INVALID_WEBSITE =>
+                                array(
+                                    array(
+                                        1,
+                                        Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                        COLUMN_WEBSITE
+                                    )
+                                )
+                        ),
+                    )
+                )
             ),
             'invalid finance website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_FINANCE_WEBSITE
-                        => array( array(1,
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                        ))
-                ),
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_INVALID_FINANCE_WEBSITE =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                    COLUMN_FINANCE_WEBSITE
+                                )
+                            )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
+                    )
+                )
             ),
             'invalid finance website (admin)' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website_admin.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_INVALID_FINANCE_WEBSITE
-                        => array( array(1,
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                        ))
-                ),
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_INVALID_FINANCE_WEBSITE =>
+                                array(
+                                    array(
+                                        1,
+                                        Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                        COLUMN_FINANCE_WEBSITE
+                                    )
+                                )
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
+                    )
+                )
             ),
-            'no customer' => array('$rowData' => include __DIR__ . '/_files/row_data_no_customer.php',
-                '$errors' => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_CUSTOMER_NOT_FOUND
-                        => array(array(1, null))
-                ),
+            'no customer' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_no_customer.php',
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_CUSTOMER_NOT_FOUND =>
+                                array(array(1, null))
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_CUSTOMER_NOT_FOUND =>
+                                array(array(1, null))
+                        ),
+                    )
+                )
             ),
             'invalid_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_attribute_value.php',
-                '$errors' => array(
-                    "Invalid value for '%s'" => array(array(1, 'store_credit'), array(1, 'reward_points'))
-                ),
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors' => array(
+                            "Invalid value for '%s'" => array(array(1, 'store_credit'), array(1, 'reward_points'))
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
+                    )
+                )
             ),
             'empty_optional_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_optional_attribute_value.php',
-                '$errors'  => array(), '$isValid' => true,
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors'  => array()
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
+                    )
+                )
             ),
             'empty_required_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_required_attribute_value.php',
-                '$errors'  => array(
-                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_VALUE_IS_REQUIRED
-                        => array(array(1, 'store_credit'))
-                ),
+                '$behaviors' => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                        'errors'  => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::ERROR_VALUE_IS_REQUIRED
+                                => array(array(1, 'store_credit'))
+                        ),
+                    ),
+                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                        'errors' => array(),
+                    )
+                )
             ),
         );
     }
@@ -347,23 +562,58 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
 
     /**
      * Test Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow() with different values
+     * in case when add/update behavior is performed
      *
      * @depends testInitAttributes
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForUpdate()
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
-     * @param array $errors
-     * @param boolean $isValid
+     * @param array $behaviors
      */
-    public function testValidateRow(array $rowData, array $errors, $isValid = false)
+    public function testValidateRowForUpdate(array $rowData, array $behaviors)
     {
-        if ($isValid) {
+        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
+
+        $this->_model->setParameters(
+            array('behavior' => $behavior)
+        );
+
+        if (!count($behaviors[$behavior]['errors'])) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));
         } else {
             $this->assertFalse($this->_model->validateRow($rowData, 0));
         }
-        $this->assertAttributeEquals($errors, '_errors', $this->_model);
+
+        $this->assertAttributeEquals($behaviors[$behavior]['errors'], '_errors', $this->_model);
+    }
+
+    /**
+     * Test Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow() with different values
+     * in case when delete behavior is performed
+     *
+     * @depends testInitAttributes
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForDelete()
+     * @dataProvider validateRowDataProvider
+     *
+     * @param array $rowData
+     * @param array $behaviors
+     */
+    public function testValidateRowForDelete(array $rowData, array $behaviors)
+    {
+        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE;
+
+        $this->_model->setParameters(
+            array('behavior' => $behavior)
+        );
+
+        if (!count($behaviors[$behavior]['errors'])) {
+            $this->assertTrue($this->_model->validateRow($rowData, 0));
+        } else {
+            $this->assertFalse($this->_model->validateRow($rowData, 0));
+        }
+
+        $this->assertAttributeEquals($behaviors[$behavior]['errors'], '_errors', $this->_model);
     }
 
     /**

@@ -33,7 +33,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Test import data method
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      * @magentoDataFixture Enterprise/ImportExport/_files/website.php
      *
      * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData()
@@ -43,7 +43,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function testImportData()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
+        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+            $this->markTestIncomplete('BUG MAGETWO-1953');
+        }
 
         /**
          * Try to get test website instance,
@@ -73,6 +75,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
 
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToCsvFile);
         $model = new Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance();
+        $model->setParameters(
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE)
+        );
         $model->setSource($source);
         $model->validateData();
         $model->importData();
@@ -119,6 +124,60 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                     'Customer balance value was not updated'
                 );
             }
+        }
+    }
+
+    /**
+     * Test import data method
+     *
+     * @magentoDataFixture Enterprise/ImportExport/_files/customers_for_finance_import_delete.php
+     *
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_deleteRewardPoints()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_deleteCustomerBalance()
+     */
+    public function testImportDataDelete()
+    {
+        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
+            $this->markTestIncomplete('BUG MAGETWO-1953');
+        }
+
+        $pathToCsvFile = __DIR__ . '/../_files/customer_finance_delete.csv';
+        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToCsvFile);
+        $model = new Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance();
+        $model->setParameters(
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE)
+        );
+        $model->setSource($source);
+        $model->validateData();
+        $model->importData();
+
+        /** @var $rewardModel Enterprise_Reward_Model_Reward */
+        $rewardModel = Mage::getModel('Enterprise_Reward_Model_Reward');
+        /** @var $rewards Enterprise_Reward_Model_Resource_Reward_Collection */
+        $rewards = $rewardModel->getCollection();
+
+        /** @var $rewardModel Enterprise_Reward_Model_Reward */
+        $customerBalanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+        /** @var $balances Enterprise_CustomerBalance_Model_Resource_Balance_Collection */
+        $balances = $customerBalanceModel->getCollection();
+
+        $expectedRewards = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedRewards');
+        /** @var $reward Enterprise_Reward_Model_Reward */
+        foreach ($rewards as $reward) {
+            $this->assertEquals(
+                $reward->getPointsBalance(),
+                $expectedRewards[$reward->getCustomerId()][$reward->getWebsiteId()]
+            );
+        }
+
+        $expectedBalances = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedBalances');
+        /** @var $balance Enterprise_CustomerBalance_Model_Balance */
+        foreach ($balances as $balance) {
+            $this->assertEquals(
+                $balance->getAmount(),
+                $expectedBalances[$balance->getCustomerId()][$balance->getWebsiteId()]
+            );
         }
     }
 
