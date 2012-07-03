@@ -161,7 +161,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends preconditionsForTests
-     * @group skip_due_to_bug
      */
     public function withEmptyRequiredFields($emptyFieldName, $fieldType, $testData)
     {
@@ -205,7 +204,6 @@ class Core_Mage_Tax_TaxRule_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withSpecialValuesDataProvider
      * @depends preconditionsForTests
-     * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue, $testData)
     {

@@ -90,7 +90,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3309
-     * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {

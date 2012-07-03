@@ -122,7 +122,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @TestlinkId TL-MAGE-3506
-     * @group skip_due_to_bug
      */
     public function withEmptyRequiredFields($emptyFieldName)
     {
@@ -161,7 +160,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withSpecialValuesDataProvider
      * @TestlinkId TL-MAGE-3509
-     * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
     {

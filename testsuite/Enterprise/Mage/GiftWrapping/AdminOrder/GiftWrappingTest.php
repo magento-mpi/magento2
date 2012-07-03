@@ -361,8 +361,6 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      *
      * @test
      * @depends createSimpleProduct
-     * @group skip_due_to_bug
-     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448'
      */
     public function giftMessageForIndividualItemDisabled($simpleSku)
     {
@@ -413,8 +411,6 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * @test
      * @depends createSimpleProduct
      * @depends createGiftWrappingMain
-     * @group skip_due_to_bug
-     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448
      */
     public function giftWrappingForIndividualItemAllowed($simpleSku, $gwDataMain)
     {

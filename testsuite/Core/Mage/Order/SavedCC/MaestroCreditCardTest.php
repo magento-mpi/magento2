@@ -281,7 +281,6 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @TestlinkId TL-MAGE-5397
-     * @group skip_due_to_bug
      * @group skip_due_to_bug1.12
      * @group skip_due_to_bug1.12.0.1
      * @group skip_due_to_bug1.7
