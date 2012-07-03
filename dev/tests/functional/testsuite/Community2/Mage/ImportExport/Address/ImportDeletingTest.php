@@ -154,7 +154,7 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
             )
         );
         $addressNotFound = array('validation' => array(
-                'error' => array("E-mail, website and entity id combination is not found in rows: 1"),
+                'error' => array("Customer address for such customer doesn't exist in rows: 1"),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
