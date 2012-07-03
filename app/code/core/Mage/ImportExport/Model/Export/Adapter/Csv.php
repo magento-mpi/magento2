@@ -84,18 +84,18 @@ class Mage_ImportExport_Model_Export_Adapter_Csv extends Mage_ImportExport_Model
     /**
      * Set column names.
      *
-     * @param array $headerCols
+     * @param array $headerColumns
      * @throws Exception
      * @return Mage_ImportExport_Model_Export_Adapter_Abstract
      */
-    public function setHeaderCols(array $headerCols)
+    public function setHeaderCols(array $headerColumns)
     {
         if (null !== $this->_headerCols) {
             Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Header column names already set'));
         }
-        if ($headerCols) {
-            foreach ($headerCols as $colName) {
-                $this->_headerCols[$colName] = false;
+        if ($headerColumns) {
+            foreach ($headerColumns as $columnName) {
+                $this->_headerCols[$columnName] = false;
             }
             fputcsv($this->_fileHandler, array_keys($this->_headerCols), $this->_delimiter, $this->_enclosure);
         }

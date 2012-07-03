@@ -103,10 +103,13 @@ abstract class Mage_ImportExport_Model_Export_Adapter_Abstract
     /**
      * Set column names
      *
-     * @param array $headerCols
+     * @param array $headerColumns
      * @return Mage_ImportExport_Model_Export_Adapter_Abstract
      */
-    abstract public function setHeaderCols(array $headerCols);
+    public function setHeaderCols(array $headerColumns)
+    {
+        return $this;
+    }
 
     /**
      * Write row data to source file

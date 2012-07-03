@@ -130,13 +130,13 @@ class Mage_ImportExport_Model_Export_Adapter_IntegrationTest extends
     /**
      * Set column names
      *
-     * @param array $headerCols
+     * @param array $headerColumns
      * @return Mage_ImportExport_Model_Export_Adapter_IntegrationTest
      */
-    public function setHeaderCols(array $headerCols)
+    public function setHeaderCols(array $headerColumns)
     {
         foreach (Mage_ImportExport_Model_Export_Entity_ProductTest::$stockItemAttributes as $stockItemAttribute) {
-            PHPUnit_Framework_TestCase::assertContains($stockItemAttribute, $headerCols,
+            PHPUnit_Framework_TestCase::assertContains($stockItemAttribute, $headerColumns,
                 "Stock item attribute {$stockItemAttribute} is absent among header columns"
             );
         }
