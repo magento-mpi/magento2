@@ -146,11 +146,11 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $utility = new Mage_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
-        $layout->getUpdate()->load('a_handle');
+        $layout->getUpdate()->load(array('first_handle', 'a_handle', 'another_handle'));
         $layout->generateXml()->generateElements();
         $this->assertEmpty($layout->renderElement('nonexisting_element'));
-        $this->assertEquals('Value: 1Value: 2', $layout->renderElement('container1'));
-        $this->assertEquals('Value: 1', $layout->renderElement('block1'));
+        $this->assertEquals("Value: 1 Reference: 1.1\nValue: 2 Reference: 2.2\n", $layout->renderElement('container1'));
+        $this->assertEquals("Value: 1 Reference: 1.1\n", $layout->renderElement('block1'));
     }
 
     public function testGetElementProperty()

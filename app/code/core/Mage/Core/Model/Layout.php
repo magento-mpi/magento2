@@ -310,10 +310,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     break;
 
                 case 'action':
-                    if (false !== end($this->_scheduledStructure)) {
-                        $key = key($this->_scheduledStructure);
-                        $this->_scheduledStructure[$key]['actions'][] = array($node, $parent);
-                    }
+                    $referenceName = $parent->getAttribute('name');
+                    $this->_scheduledStructure[$referenceName]['actions'][] = array($node, $parent);
                     break;
             }
         }
@@ -346,7 +344,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ($name) {
             $this->_overrideElementWorkaround($name, $path);
             $this->_scheduledPaths[$name] = $path;
-            $this->_scheduledStructure[$name] = $row;
+            if (isset($this->_scheduledStructure[$name])) {
+                $this->_scheduledStructure[$name] = $row + $this->_scheduledStructure[$name]; // union of arrays
+            } else {
+                $this->_scheduledStructure[$name] = $row;
+            }
         } else {
             // anonymous elements get into queue with integer keys
             $this->_scheduledStructure[] = $row;
@@ -404,6 +406,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _scheduleElement($key)
     {
         $row = $this->_scheduledStructure[$key];
+        if (!isset($row[5])) {
+            Mage::log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
+            unset($this->_scheduledStructure[$key]);
+            return;
+        }
         list($type, $alias, $parentName, $siblingName, $isAfter, $node) = $row;
         $name = $this->_createStructuralElement(is_int($key) ? '' : $key, $type);
         if ($parentName) {
