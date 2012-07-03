@@ -312,6 +312,7 @@ return array(
     'send' => array('class_scope' => 'Mage_Newsletter_Model_Template'),
     'sendNewPasswordEmail',
     'setAnonSuffix',
+    'setAttributeSetExcludeFilter' => array('class_scope' => 'Mage_Eav_Model_Resource_Entity_Attribute_Collection'),
     'setBlockAlias',
     'setCustomerId' => array('class_scope' => 'Mage_Customer_Model_Resource_Address'),
     'setIsAjaxRequest' => array('class_scope' => 'Mage_Core_Model_Translate_Inline'),
