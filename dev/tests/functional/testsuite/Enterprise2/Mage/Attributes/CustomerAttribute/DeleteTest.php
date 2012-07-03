@@ -53,11 +53,11 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Sele
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
@@ -97,7 +97,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_DeleteTest extends Mage_Sele
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code'  => $attributeName));
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->assertFalse($this->buttonIsPresent('delete_attribute'),
             '"Delete Attribute" button is present on the page');

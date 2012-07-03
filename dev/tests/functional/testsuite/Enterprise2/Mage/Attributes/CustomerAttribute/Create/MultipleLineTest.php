@@ -65,7 +65,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
         //Data
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_multipleline');
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
 
@@ -94,7 +94,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('error', 'exists_attribute_code');
     }
@@ -123,7 +123,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_multipleline',
             array($emptyField => '%noValue%'));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
         $this->addParameter('fieldXpath', $xpath);
@@ -168,7 +168,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_multipleline',
             array('attribute_code' => $wrongAttributeCode));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -210,7 +210,7 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
         $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_multipleline',
             array('lines_count' => $wrongAttributeCode));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('validation', $validationMessage);
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
@@ -253,11 +253,11 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
         $searchData = $this->loadDataSet('CustomerAttribute', 'attribute_search_data',
             array('attribute_code' => $attrData['properties']['attribute_code']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
@@ -287,11 +287,11 @@ class Enterprise2_Mage_Attributes_CustomerAttribute_Create_MultipleLineTest exte
             array('attribute_code'  => $attrData['properties']['attribute_code'],
                   'attribute_label' => $attrData['manage_labels_options']['admin_title']));
         //Steps
-        $this->AttributesHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
-        $this->AttributesHelper()->openAttribute($searchData);
+        $this->attributesHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
