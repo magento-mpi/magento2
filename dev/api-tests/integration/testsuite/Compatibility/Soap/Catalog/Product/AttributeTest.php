@@ -67,26 +67,9 @@ class Compatibility_Soap_Catalog_Product_AttributeTest extends Compatibility_Soa
     public function testProductAttributeCreate()
     {
         $apiMethod = 'catalog_product_attribute.create';
-        $attributeData = array(
-            'attribute_code' => 'test_attribute' . uniqid(),
-            'frontend_input' => 'select',
-            'scope' => '1',
-            'default_value' => '1',
-            'is_unique' => 0,
-            'is_required' => 0,
-            'apply_to' => array('simple'),
-            'is_configurable' => 0,
-            'is_searchable' => 0,
-            'is_visible_in_advanced_search' => 0,
-            'is_comparable' => 0,
-            'is_used_for_promo_rules' => 0,
-            'is_visible_on_front' => 0,
-            'used_in_product_listing' => 0,
-            'additional_fields' => array(),
-            'frontend_label' => array(array('store_id' => '0', 'label' => 'some label'))
-        );
-        self::$_prevProductAttributeId = $this->prevCall($apiMethod, array('data' => $attributeData));
-        self::$_currProductAttributeId = $this->currCall($apiMethod, array('data' => $attributeData));
+        $productAttributeIds = $this->_createProductAttributes();
+        self::$_prevProductAttributeId = $productAttributeIds['prevProductAttributeId'];
+        self::$_currProductAttributeId = $productAttributeIds['currProductAttributeId'];
         $this->_checkVersionType(self::$_prevProductAttributeId, self::$_currProductAttributeId, $apiMethod);
     }
 
