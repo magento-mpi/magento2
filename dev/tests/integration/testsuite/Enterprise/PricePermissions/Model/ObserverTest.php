@@ -20,6 +20,11 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
         $this->_layout = new Mage_Core_Model_Layout;
     }
 
+    protected function tearDown()
+    {
+        $this->_layout = null;
+    }
+
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
     {
         $parentBlock = $this->_layout->createBlock('Mage_Adminhtml_Block_Template', 'admin.product.options');

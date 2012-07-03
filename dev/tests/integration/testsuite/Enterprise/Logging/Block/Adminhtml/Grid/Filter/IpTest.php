@@ -21,6 +21,11 @@ class Enterprise_Logging_Block_Adminhtml_Grid_Filter_IpTest extends PHPUnit_Fram
         $this->_block= new Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip();
     }
 
+    protected function tearDown()
+    {
+        $this->_block = null;
+    }
+
     public function testGetCondition()
     {
         $condition = $this->_block->getCondition();

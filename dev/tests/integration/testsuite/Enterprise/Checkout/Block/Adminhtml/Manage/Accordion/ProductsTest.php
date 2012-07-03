@@ -21,6 +21,11 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_ProductsTest extends 
         $this->_block = $layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Products');
     }
 
+    protected function tearDown()
+    {
+        $this->_block = null;
+    }
+
     public function testPrepareLayout()
     {
         $searchBlock = $this->_block->getChildBlock('search_button');

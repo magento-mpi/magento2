@@ -21,6 +21,11 @@ class Enterprise_SalesArchive_Model_ArchiveTest extends PHPUnit_Framework_TestCa
         $this->_model= new Enterprise_SalesArchive_Model_Archive;
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     /**
      * @param string $entity
      * @dataProvider getEntityResourceModelDataProvider
