@@ -128,6 +128,23 @@ class Mage_ImportExport_Model_Export_Adapter_IntegrationTest extends
     Mage_ImportExport_Model_Export_Adapter_Abstract
 {
     /**
+     * Set column names
+     *
+     * @param array $headerCols
+     * @return Mage_ImportExport_Model_Export_Adapter_IntegrationTest
+     */
+    public function setHeaderCols(array $headerCols)
+    {
+        foreach (Mage_ImportExport_Model_Export_Entity_ProductTest::$stockItemAttributes as $stockItemAttribute) {
+            PHPUnit_Framework_TestCase::assertContains($stockItemAttribute, $headerCols,
+                "Stock item attribute {$stockItemAttribute} is absent among header columns"
+            );
+        }
+
+        return $this;
+    }
+
+    /**
      * Verify row data (stock item attribute values)
      *
      * @param array $rowData
@@ -140,5 +157,7 @@ class Mage_ImportExport_Model_Export_Adapter_IntegrationTest extends
                 "Stock item attribute {$stockItemAttribute} value is empty string"
             );
         }
+
+        return $this;
     }
 }
