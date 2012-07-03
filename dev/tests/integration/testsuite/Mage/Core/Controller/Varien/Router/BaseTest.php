@@ -26,6 +26,11 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
         $this->_model->setFront(new Mage_Core_Controller_Varien_Front());
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     /**
      * @dataProvider initOptionsDataProvider
      * @expectedException Mage_Core_Exception

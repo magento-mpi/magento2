@@ -26,6 +26,11 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
         $this->_model->setFront(new Mage_Core_Controller_Varien_Front());
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     /**
      * @covers Mage_Backend_Controller_Router_Default::collectRoutes
      */

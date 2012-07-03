@@ -21,6 +21,11 @@ class Mage_Core_Controller_Varien_Router_AbstractTest extends PHPUnit_Framework_
         $this->_model = $this->getMockForAbstractClass('Mage_Core_Controller_Varien_Router_Abstract');
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testGetSetFront()
     {
         $expected = new Mage_Core_Controller_Varien_Front();

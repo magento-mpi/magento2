@@ -24,6 +24,16 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
      */
     protected $_auth;
 
+    protected function setUp()
+    {
+        $this->_helper = Mage::helper('Mage_Backend_Helper_Data');
+    }
+
+    protected function tearDown()
+    {
+        $this->_helper = null;
+        $this->_auth = null;
+    }
 
     /**
      * Performs user login
@@ -42,12 +52,6 @@ class Mage_Backend_Helper_DataTest extends PHPUnit_Framework_TestCase
     {
         $this->_auth->logout();
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOnSecretKey();
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->_helper = Mage::helper('Mage_Backend_Helper_Data');
     }
 
     /**
