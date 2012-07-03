@@ -8,8 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Mage_Catalog_Model_Resource_Setup */
-$installer = $this;
+/** @var $this Mage_Catalog_Model_Resource_Setup */
 
 $attributeCodes = array(
     'name',
@@ -23,13 +22,13 @@ $attributeCodes = array(
     'weight'
 );
 
-$entityTypeId = $installer->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY);
+$entityTypeId = $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY);
 
 $minimalAttributeSetName = 'Minimal';
-$installer->addAttributeSet($entityTypeId, $minimalAttributeSetName);
-$setId = $installer->getAttributeSetId($entityTypeId, $minimalAttributeSetName);
+$this->addAttributeSet($entityTypeId, $minimalAttributeSetName);
+$setId = $this->getAttributeSetId($entityTypeId, $minimalAttributeSetName);
 
 foreach ($attributeCodes as $attributeCode) {
-    $attribute = $installer->getAttribute('catalog_product', $attributeCode);
-    $installer->addAttributeToSet($entityTypeId, $setId, $installer->getGeneralGroupName(), $attribute['attribute_id']);
+    $attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
+    $this->addAttributeToSet($entityTypeId, $setId, $this->getGeneralGroupName(), $attribute['attribute_id']);
 }
