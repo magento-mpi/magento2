@@ -19,20 +19,14 @@ mage.event = (function () {
     }
   };
 }());
-
 // load javascript by data attribute or mage.load
 (function () {
-  var mapping = {
-    'translate': ['/pub/lib/localization/json/translate.{}.js', '/pub/lib/localization/translate.js'],
-    'localize': ['/pub/lib/globalize/globalize.js', '/pub/lib/globalize/cultures/globalize.culture.{}.js',
-      '/pub/lib/mage/localization/localize.js']
-  };
   var syncQueue = [];
   var asyncQueue = [];
 
   function addToQueue(arr, queue) {
     for ( var i = 0; i < arr.length; i++ ) {
-      if ( typeof arr[i] === 'string' && $.inArray(arr[i], queue) === -1) {
+      if ( typeof arr[i] === 'string' && $.inArray(arr[i], queue) === -1 ) {
         queue.push(arr[i]);
       }
     }
@@ -82,11 +76,7 @@ mage.event = (function () {
     }
   }
 
-  if ( window.attachEvent )
-    window.attachEvent('onload', load_script);
-  else
-    window.addEventListener('load', load_script, false);
-
+  $(window).on('load', load_script);
   mage.load = (function () {
     return {
       jsSync: function () {
@@ -96,10 +86,23 @@ mage.event = (function () {
       js: function () {
         addToQueue(arguments, asyncQueue);
         return asyncQueue.length;
+      },
+      language: function (lang) {
+        var defaultLangauge = 'en';
+        var cookieName = 'language';
+        var language = (lang != null) ? lang : $.cookie(cookieName);
+        if ( (language != null ) && (language !== defaultLangauge  ) ) {
+          var mapping = {
+            'localize': ['/pub/lib/globalize/globalize.js', '/pub/lib/globalize/cultures/globalize.culture.' + language + '.js', '/pub/lib/localization/json/translate_' + language + '.js',
+              '/pub/lib/mage/localization/localize.js']
+          };
+          addToQueue(mapping.localize, syncQueue);
+        }
+        return syncQueue.length;
       }
+
     };
   }());
-
 })();
 
 
