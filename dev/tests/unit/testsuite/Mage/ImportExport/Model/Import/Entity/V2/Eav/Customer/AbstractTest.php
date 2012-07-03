@@ -76,7 +76,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
         }
 
         $modelMock = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract',
-            array(), '', false, true, true, array('_getCustomerCollection')
+            array(),
+            '',
+            false,
+            true,
+            true,
+            array('_getCustomerCollection', '_validateRowForUpdate', '_validateRowForDelete', 'getBehavior')
         );
         $property = new ReflectionProperty($modelMock, '_websiteCodeToId');
         $property->setAccessible(true);
@@ -146,5 +151,131 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
                 array('test3@email.com', $this->_websites[$this->_customers[0]['website_id']])
             )
         );
+    }
+
+    /**
+     * Data provider of row data and errors for _checkUniqueKey
+     *
+     * @return array
+     */
+    public function checkUniqueKeyDataProvider()
+    {
+        return array(
+            'valid' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_valid.php',
+                '$errors'  => array(),
+                '$isValid' => true,
+            ),
+            'no website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_no_website.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::ERROR_WEBSITE_IS_EMPTY => array(
+                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::COLUMN_WEBSITE)
+                    )
+                ),
+            ),
+            'empty website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_empty_website.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::ERROR_WEBSITE_IS_EMPTY => array(
+                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::COLUMN_WEBSITE)
+                    )
+                ),
+            ),
+            'no email' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_no_email.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::ERROR_EMAIL_IS_EMPTY => array(
+                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::COLUMN_EMAIL)
+                    )
+                ),
+            ),
+            'empty email' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_empty_email.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::ERROR_EMAIL_IS_EMPTY => array(
+                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::COLUMN_EMAIL)
+                    )
+                ),
+            ),
+            'invalid email' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_invalid_email.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::ERROR_INVALID_EMAIL => array(
+                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::COLUMN_EMAIL)
+                    )
+                ),
+            ),
+            'invalid website' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_abstract_invalid_website.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::ERROR_INVALID_WEBSITE => array(
+                        array(1, Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::COLUMN_WEBSITE)
+                    )
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Test Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_checkUniqueKey() with different values
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_checkUniqueKey()
+     * @dataProvider checkUniqueKeyDataProvider
+     *
+     * @param array $rowData
+     * @param array $errors
+     * @param boolean $isValid
+     */
+    public function testCheckUniqueKey(array $rowData, array $errors, $isValid = false)
+    {
+        $checkUniqueKey = new ReflectionMethod(
+            'Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract',
+            '_checkUniqueKey'
+        );
+        $checkUniqueKey->setAccessible(true);
+
+        if ($isValid) {
+            $this->assertTrue($checkUniqueKey->invoke($this->_model, $rowData, 0));
+        } else {
+            $this->assertFalse($checkUniqueKey->invoke($this->_model, $rowData, 0));
+        }
+        $this->assertAttributeEquals($errors, '_errors', $this->_model);
+    }
+
+    /**
+     * Test for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow,
+     * covers add/update and delete actions
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow()
+     */
+    public function testValidateRow()
+    {
+        $modelUpdate = clone $this->_model;
+        $modelUpdate->expects($this->once())
+            ->method('_validateRowForUpdate');
+        $modelUpdate->expects($this->any())
+            ->method('getBehavior')
+            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
+
+        $modelDelete = clone $this->_model;
+        $modelDelete->expects($this->once())
+            ->method('_validateRowForDelete');
+        $modelDelete->expects($this->any())
+            ->method('getBehavior')
+            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
+
+        $this->assertAttributeEquals(array(), '_validatedRows', $modelUpdate);
+        $this->assertAttributeEquals(array(), '_validatedRows', $modelDelete);
+        $this->assertAttributeEquals(0, '_processedEntitiesCount', $modelUpdate);
+        $this->assertAttributeEquals(0, '_processedEntitiesCount', $modelDelete);
+
+        $this->assertTrue($modelUpdate->validateRow(array(), 1));
+        $this->assertTrue($modelDelete->validateRow(array(), 2));
+
+        $this->assertAttributeEquals(array(1 => true), '_validatedRows', $modelUpdate);
+        $this->assertAttributeEquals(array(2 => true), '_validatedRows', $modelDelete);
+        $this->assertAttributeEquals(1, '_processedEntitiesCount', $modelUpdate);
+        $this->assertAttributeEquals(1, '_processedEntitiesCount', $modelDelete);
     }
 }

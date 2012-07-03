@@ -11,11 +11,10 @@
 
 return array(
     '_website'                   => 'website1',
-    '_email'                     => '',
-    '_entity_id'                 => '1',
+    '_email'                     => 'test1@email.com',
+    '_entity_id'                 => '2',
     'city'                       => 'Culver City',
     'company'                    => '',
-    'country_id'                 => 'C1',
     'fax'                        => '',
     'firstname'                  => 'John',
     'lastname'                   => 'Doe',
