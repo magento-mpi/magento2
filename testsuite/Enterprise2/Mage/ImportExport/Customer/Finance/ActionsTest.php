@@ -36,11 +36,12 @@
 class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_Selenium_TestCase
 {
     static protected $customersData = array();
+
     public function setUpBeforeTests(){
         //logged in once for all tests
         $this->loginAdminUser();
         $this->admin('manage_customers');
-        for($i = 0; $i<5; $i++){
+        for ($i = 0; $i<5; $i++){
             $userData = $this->loadDataSet('ImportExport', 'generic_customer_account');
             $this->customerHelper()->createCustomer($userData);
             $this->assertMessagePresent('success', 'success_saved_customer');
@@ -74,7 +75,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
     {
         //Precondition: create 2 new customers
         $i = 0;
-        foreach($data as $customerData){
+        foreach ($data as $customerData){
             if ($data[$i]['store_credit']!='' || $data[$i]['reward_points']!='' ){
                 $this->admin('manage_customers');
                 $this->addParameter(
@@ -121,7 +122,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
             . print_r($importResult));
         //Verifying
         $i = 0;
-        foreach($dataCsv as $customerData){
+        foreach ($dataCsv as $customerData){
              $this->admin('manage_customers');
              if ($customerData['email'] == 'wrongEmail@example.com'){
                  $this->assertFalse(
@@ -162,7 +163,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
     {
         //Precondition: create 2 new customers
         $i = 0;
-        foreach($data as $customerData){
+        foreach ($data as $customerData){
             if ($data[$i]['store_credit']!='' || $data[$i]['reward_points']!='' ){
                 $this->admin('manage_customers');
                 $this->addParameter(
@@ -209,7 +210,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
             . print_r($importResult));
         //Verifying
         $i = 0;
-        foreach($dataCsv as $customerData){
+        foreach ($dataCsv as $customerData){
             $this->admin('manage_customers');
             if ($customerData['email'] == 'wrongEmail@example.com'){
                 $this->assertFalse(
@@ -250,7 +251,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
     {
         //Precondition: create 2 new customers
         $i = 0;
-        foreach($data as $customerData){
+        foreach ($data as $customerData){
             if ($data[$i]['store_credit']!='' || $data[$i]['reward_points']!='' ){
                 $this->admin('manage_customers');
                 $this->addParameter(
@@ -297,7 +298,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
             . print_r($importResult));
         //Verifying
         $i = 0;
-        foreach($dataCsv as $customerData){
+        foreach ($dataCsv as $customerData){
             $this->admin('manage_customers');
             if ($customerData['email'] == 'wrongEmail@example.com'){
                 $this->assertFalse(
