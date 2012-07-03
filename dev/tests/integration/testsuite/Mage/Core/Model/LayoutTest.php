@@ -71,6 +71,13 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         new Mage_Core_Model_Layout(array('structure' => false));
     }
 
+    public function testDestructor()
+    {
+        $this->_layout->addBlock('Mage_Core_Block_Text', 'test');
+        $this->_layout->__destruct();
+        $this->assertEmpty($this->_layout->getAllBlocks());
+    }
+
     public function testGetUpdate()
     {
         $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $this->_layout->getUpdate());
