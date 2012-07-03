@@ -150,6 +150,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
     /**
      * Cleanup circular references between layout & blocks
+     *
+     * Destructor should be called explicitly in order to work around the PHP bug
+     * https://bugs.php.net/bug.php?id=62468
      */
     public function __destruct()
     {

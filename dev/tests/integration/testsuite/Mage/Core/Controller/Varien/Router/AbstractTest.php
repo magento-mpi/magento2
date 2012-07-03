@@ -21,10 +21,11 @@ class Mage_Core_Controller_Varien_Router_AbstractTest extends PHPUnit_Framework_
         $this->_model = $this->getMockForAbstractClass('Mage_Core_Controller_Varien_Router_Abstract');
     }
 
-    public function testGetFront()
+    public function testGetSetFront()
     {
-        $frontController = $this->_model->getFront();
-        $this->assertInstanceOf('Mage_Core_Controller_Varien_Front', $frontController);
-        $this->assertSame($frontController, $this->_model->getFront());
+        $expected = new Mage_Core_Controller_Varien_Front();
+        $this->assertNull($this->_model->getFront());
+        $this->_model->setFront($expected);
+        $this->assertSame($expected, $this->_model->getFront());
     }
 }

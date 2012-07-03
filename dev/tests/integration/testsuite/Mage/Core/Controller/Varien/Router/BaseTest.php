@@ -23,6 +23,7 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
             'base_controller' => 'Mage_Core_Controller_Front_Action'
         );
         $this->_model = new Mage_Core_Controller_Varien_Router_Base($options);
+        $this->_model->setFront(new Mage_Core_Controller_Varien_Front());
     }
 
     /**
@@ -62,8 +63,9 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
             'controller' => 'index',
             'action' => 'index'
         );
+        $this->assertEmpty($this->_model->getFront()->getDefault());
         $this->_model->fetchDefault();
-        $this->assertEquals($default, Mage::app()->getFrontController()->getDefault());
+        $this->assertEquals($default, $this->_model->getFront()->getDefault());
     }
 
     public function testMatch()
