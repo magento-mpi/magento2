@@ -54,14 +54,14 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
      * Xpath constans
      */
     const OPERATIONS = '//wsdl:portType/wsdl:operation';
-    const OPERATION_NAME ='//wsdl:portType/wsdl:operation[@name="%s"]';
+    const OPERATION_NAME = '//wsdl:portType/wsdl:operation[@name="%s"]';
     const OPERATION_INPUT = '//wsdl:portType/wsdl:operation/wsdl:input[@message="%s"]';
     const OPERATION_OUTPUT = '//wsdl:portType/wsdl:operation/wsdl:output[@message="%s"]';
     const MESSAGE = '//wsdl:message[@name="%s"]';
     const MESSAGE_PART_NAME = '//wsdl:message[@name="%s"]/wsdl:part[@name="%s"]';
     const COMPLEX_TYPE = '//xsd:complexType[@name="%s"]';
     const ELEMENTS = '//xsd:complexType[@name="%s"]//xsd:element';
-    const ELEMENT ='//xsd:complexType[@name="%s"]//xsd:element[@name="%s"]';
+    const ELEMENT = '//xsd:complexType[@name="%s"]//xsd:element[@name="%s"]';
     const COMPLEX_CONTENT_ATTRIBUTE = '//xsd:complexType[@name="%s"]/xsd:complexContent/xsd:restriction/xsd:attribute';
     const WSDL_NAMESPACE = 'http://schemas.xmlsoap.org/wsdl/';
     const COMPLEX_TYPE_NAMESPACE = 'http://www.w3.org/2001/XMLSchema';
@@ -101,13 +101,12 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
      * 6. Compare operation's output message on current and previous API.
      * Expected result:
      * Current wsdl is the same as in previous API except new operation in current API.
-     *
      */
    public function testWsdlCompatibility()
    {
        // Load array of all 'operation' on current wsdl
        $prevOperations = self::$_prevWsdl->xpath(self::OPERATIONS);
-       // Check that operation array loaded and expected type = SimpleXMLElement
+       // Check that operation array is loaded and expected type = array
        $this->assertInternalType('array', $prevOperations, 'Loaded operations type is incorrect.');
        $this->assertNotEmpty($prevOperations, 'Previous wsdl operations was not loaded.');
 
@@ -130,12 +129,11 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 
                $this->compareMessagePart(str_replace('typens:', '', (string)$operation->input['message']));
 
-                // Finds and compares 'output['message']' data
-               $foundOutputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_OUTPUT,
-                   (string)$operation->output['message']));
-               $this->assertNotEmpty($foundOutputElement,
-                   'Output element: "' . (string)$operation->output['message']
-                   . '" in operation "' . $operation['name'] . '" was not found in current wsdl.');
+            // Finds and compares 'output['message']' data
+           $foundOutputElement = self::$_currWsdl->xpath(sprintf(self::OPERATION_OUTPUT,
+               (string)$operation->output['message']));
+           $this->assertNotEmpty($foundOutputElement, 'Output element: "' . (string)$operation->output['message']
+               . '" in operation "' . $operation['name'] . '" was not found in current wsdl.');
 
                $this->compareMessagePart(str_replace('typens:', '', (string)$operation->output['message']));
 
