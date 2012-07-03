@@ -277,5 +277,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
         $this->assertAttributeEquals(array(2 => true), '_validatedRows', $modelDelete);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $modelUpdate);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $modelDelete);
+
+        // _validateRowForUpdate and _validateRowForDelete should be called once, result should be the same
+        $this->assertTrue($modelUpdate->validateRow(array(), 1));
+        $this->assertTrue($modelDelete->validateRow(array(), 2));
     }
 }

@@ -68,7 +68,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     );
 
     /**
-     * Addresses
+     * Customer addresses array
      *
      * @var array
      */
