@@ -7,7 +7,8 @@ Update as of 7/3/2012
   * Actions with menu items defined in schema: add, remove, move, update, change parent and position
 * Refactored customers import feature. New ability to provide import data in 3 files: master file (key customer information) + address file (customer id + address info) + financial file (customer id + reward points & store credit)
 * Optimized memory consumption in integration tests:
-  * Found and eliminated memory leaks in: `Mage_Core_Model_App_Area`, circular references between routers and front controller, `Mage_Core_Model_Layout`
+  * Found and eliminated memory leaks in `Mage_Core_Model_App_Area`, `Mage_Core_Model_Layout`
+  * Manually unset objects from PHPUnit test case object in `tearDown()` in integration tests. Garbage collector didn't purge them because of these references
   * Disabled running `integrity` test suite by default in integration tests
 * Improvements in visual design editor JavaScript:
   * eliminated dependency of code on HTML-literals, reduced code coupling between templates and JavaScript files
