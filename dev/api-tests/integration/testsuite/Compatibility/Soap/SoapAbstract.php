@@ -83,6 +83,44 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
     }
 
     /**
+     * Test product attribute current store method compatibility.
+     * Scenario:
+     * 1. Create product attribute at previous API.
+     * 2. Create product attribute at current API.
+     * Expected result:
+     * No errors raised and type of current API response is the same as in previous.
+     *
+     */
+    public function _createProductAttributes()
+    {
+        $apiMethod = 'catalog_product_attribute.create';
+        $productAttributeIds = array();
+        $attributeData = array(
+            'attribute_code' => 'test_attribute' . uniqid(),
+            'frontend_input' => 'select',
+            'scope' => '1',
+            'default_value' => '1',
+            'is_unique' => 0,
+            'is_required' => 0,
+            'apply_to' => array('simple'),
+            'is_configurable' => 0,
+            'is_searchable' => 0,
+            'is_visible_in_advanced_search' => 0,
+            'is_comparable' => 0,
+            'is_used_for_promo_rules' => 0,
+            'is_visible_on_front' => 0,
+            'used_in_product_listing' => 0,
+            'additional_fields' => array(),
+            'frontend_label' => array(array('store_id' => '0', 'label' => 'some label'))
+        );
+        $productAttributeIds['prevProductAttributeId'] = $this->prevCall($apiMethod, array('data' => $attributeData));
+        $productAttributeIds['currProductAttributeId'] = $this->currCall($apiMethod, array('data' => $attributeData));
+        //$this->_checkVersionType(self::$_prevProductAttributeId, self::$_currProductAttributeId, $apiMethod);
+        return $productAttributeIds;
+    }
+
+
+    /**
      * Create products in current and previous API and return IDs
      *
      * @return array $productId
