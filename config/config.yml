@@ -161,13 +161,13 @@ applications:
         fallbackOrderHelper: 'Enterprise2, Community2, Core'
         areas:
             admin:
-                url: 'http://m2.aa/admin/'
+                url: 'http://magento.one/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
-                password: '123123qa'
+                password: '123123q'
             frontend:
-                url: 'http://m2.aa//'
+                url: 'http://magento.one/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
@@ -175,17 +175,17 @@ applications:
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     magento2community: &m2ce
-        fallbackOrderFixture: 'community2, default'
-        fallbackOrderHelper: 'Community2, Core'
+        fallbackOrderFixture: 'community2, enterprise2, default'
+        fallbackOrderHelper: 'Community2, Enterprise2, Core'
         areas:
             admin:
-                url: 'http://dntest.varien.com/m2teamB/magento2/admin/'
+                url: 'http://magento.two/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://dntest.varien.com/m2teamB/magento2/'
+                url: 'http://magento.two/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
                 login: ''
