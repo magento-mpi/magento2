@@ -258,29 +258,25 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         Magento_Profiler::stop('build_structure');
 
         Magento_Profiler::start('generate_elements');
-        foreach ($this->_scheduledElements as $elementName => $config) {
-            list($type, $node, $actions) = $config;
+        while (!empty($this->_scheduledElements)) {
+            list($type, $node) = reset($this->_scheduledElements);
+            $elementName = key($this->_scheduledElements);
             if (isset($node['output'])) {
                 $this->addOutputElement($elementName);
             }
-            $node['name'] = $elementName;
             if ($type == self::TYPE_BLOCK) {
-                $this->_generateBlock($node);
-                foreach ($actions as $action) {
-                    list($actionNode, $parent) = $action;
-                    $this->_generateAction($actionNode, $parent);
-                }
+                $this->_generateBlock($elementName);
             } else {
-                $this->_generateContainer((string)$node['name'], (string)$node[self::CONTAINER_OPT_LABEL],
+                $this->_generateContainer($elementName, (string)$node[self::CONTAINER_OPT_LABEL],
                     array(
                         self::CONTAINER_OPT_HTML_TAG => (string)$node[self::CONTAINER_OPT_HTML_TAG],
                         self::CONTAINER_OPT_HTML_ID => (string)$node[self::CONTAINER_OPT_HTML_ID],
                         self::CONTAINER_OPT_HTML_CLASS => (string)$node[self::CONTAINER_OPT_HTML_CLASS]
                     )
                 );
+                unset($this->_scheduledElements[$elementName]);
             }
         }
-        $this->_scheduledElements = array();
         Magento_Profiler::stop('generate_elements');
         Magento_Profiler::stop(__CLASS__ . '::' . __METHOD__);
     }
@@ -462,21 +458,34 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Creates block object based on xml node data and add it to the layout
      *
-     * @param Mage_Core_Model_Layout_Element $node
+     * @param string $elementName
      * @return Mage_Core_Block_Abstract
+     * @throws Magento_Exception
      */
-    protected function _generateBlock(Mage_Core_Model_Layout_Element $node)
+    protected function _generateBlock($elementName)
     {
+        list($type, $node, $actions) = $this->_scheduledElements[$elementName];
+        if ($type !== self::TYPE_BLOCK) {
+            throw new Magento_Exception("Unexpected element type specified for generating block: {$type}.");
+        }
+
+        // create block
         if (!empty($node['class'])) {
             $className = (string)$node['class'];
         } else {
             $className = (string)$node['type'];
         }
-        $elementName = $node->getAttribute('name');
-
         $block = $this->_createBlock($className, $elementName);
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);
+        }
+
+        unset($this->_scheduledElements[$elementName]);
+
+        // execute block methods
+        foreach ($actions as $action) {
+            list($actionNode, $parent) = $action;
+            $this->_generateAction($actionNode, $parent);
         }
 
         return $block;
@@ -1123,6 +1132,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function getBlock($name)
     {
+        if (isset($this->_scheduledElements[$name])) {
+            $this->_generateBlock($name);
+        }
         if (isset($this->_blocks[$name])) {
             return $this->_blocks[$name];
         } else {

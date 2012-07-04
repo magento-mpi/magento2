@@ -40,4 +40,18 @@
             <action method="setReferenceValue"><value>3.3</value></action>
         </reference>
     </another_handle>
+
+    <get_block_special_case>
+        <block name="block1" type="Mage_Core_Block_Text">
+            <action method="getChildBlock"><value>block2</value></action>
+            <block name="block2" type="Mage_Core_Block_Text"/>
+        </block>
+    </get_block_special_case>
+
+    <get_block_special_case_exception>
+        <block name="block1" type="Mage_Core_Block_Text">
+            <container name="container" label="Container"/>
+            <action method="getChildBlock"><value>container</value></action>
+        </block>
+    </get_block_special_case_exception>
 </layouts>
