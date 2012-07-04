@@ -27,7 +27,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>2. Create .csv file with both customers: first with all attributes, second only with values of unique key</p>
      * <p>Steps</p>
      * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
-     * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
+     * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
      * <p>3. Select "Magento 2.0 format"</p>
      * <p>4. Select "Customers Main File"</p>
      * <p>5. Choose file from precondition</p>
@@ -64,6 +64,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $data[1]['password'] = 'qqqqqqq';
 
         //Step 1
+        $this->admin('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
@@ -139,13 +140,13 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>2. Create .csv file with incorrect email for first customer, with incorrect website for second customer</p>
      * <p>Steps</p>
      * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
-     * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
+     * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
      * <p>3. Select "Magento 2.0 format"</p>
      * <p>4. Select "Customers Main File"</p>
      * <p>5. Choose file from precondition</p>
      * <p>6. Press "Check Data"</p>
      * <p>8. Open Customers-> Manage Customers</p>
-     * <p>Expected: Verify that both customers are presented in the system</p>
+     * <p>Expected: Verify that both customers are present in the system</p>
      *
      * @test
      * @dataProvider importCustomerData
@@ -175,6 +176,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $data[1]['password'] = $userData2['password'];
 
         //Step 1, 2, 3, 4
+        $this->admin('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
