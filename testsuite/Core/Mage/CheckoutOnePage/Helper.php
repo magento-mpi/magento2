@@ -79,6 +79,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         //Remove workaround for getting fails,
         //not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
+        $this->assertMessageNotPresent('error');
         $this->validatePage('onepage_checkout_success');
         if ($this->controlIsPresent('link', 'order_number')) {
             return $this->getControlAttribute('link', 'order_number', 'text');

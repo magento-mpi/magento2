@@ -136,10 +136,6 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3260
-     * @group skip_due_to_bug1.12
-     * @group skip_due_to_bug1.12.0.1
-     * @group skip_due_to_bug1.7
-     * @group skip_due_to_bug1.7.0.1
      */
     public function newCustomerWithAddress($simpleSku)
     {
@@ -167,6 +163,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         foreach ($addressVerify as $value) {
             $addressNumber = $this->customerHelper()->isAddressPresent($value);
             $this->assertNotEquals(0, $addressNumber, 'The specified address is not present.');
+            $this->clearMessages('verification');
         }
     }
 
