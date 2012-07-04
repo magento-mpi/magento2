@@ -78,10 +78,10 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customer Addresses');
         //Steps 6-8
-        if(is_null($addressRow[0]['_email'])) {
+        if($addressRow[0]['_email'] == '') {
             $addressRow[0]['_email'] = self::$customerData['email'];
         }
-        if(is_null($addressRow[0]['_entity_id'])) {
+        if($addressRow[0]['_entity_id'] == '') {
             $addressRow[0]['_entity_id'] = $addressId;
         }
         $report = $this->importExportHelper()->import($addressRow);
@@ -111,6 +111,8 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         for ($i=0; $i<5; $i++) {
             $addressData[$i] = $basicAddressData;
             $addressRows[$i] = $basicAddressRow;
+            $addressRows[$i]['_email'] = '';
+            $addressRows[$i]['_entity_id'] = '';
             if ($i<3) {
                 $addressData[$i]['street_address_line_1'] = $streets[$i];
                 $addressRows[$i]['street'] = $streets[$i];
@@ -154,7 +156,7 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
             )
         );
         $addressNotFound = array('validation' => array(
-                'error' => array("E-mail, website and entity id combination is not found in rows: 1"),
+                'error' => array("Customer address for such customer doesn't exist in rows: 1"),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
