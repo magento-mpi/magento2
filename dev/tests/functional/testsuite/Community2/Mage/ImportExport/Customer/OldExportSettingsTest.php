@@ -21,7 +21,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * <p>1. Go to System -> Import/ Export -> Export</p>
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
      * <p>3. Select "Magento 1.7 format"</p>
-     * <p>Expected: The grid with attributes presents</p>
+     * <p>Expected: The grid with attributes presents with buttons "Reset Filter", "Search", "Continue"</p>
      *<p>The same result should be if "Products" entity type is selected</p>
      * @test
      * @TestlinkId TL-MAGE-1181
