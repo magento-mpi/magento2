@@ -195,7 +195,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
             }
         }
         $this->admin('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Addresses');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($data);
@@ -261,7 +261,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
             }
         }
         $this->admin('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Addresses');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($data);
