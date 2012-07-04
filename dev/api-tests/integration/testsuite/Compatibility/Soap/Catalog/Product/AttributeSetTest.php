@@ -51,7 +51,7 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     protected static $_currAttributeSetGroupId;
 
     /**
-     * Test product attribute set current store method compatibility.
+     * Test product attribute set list method compatibility.
      * Scenario:
      * 1. Get product attribute set list at previous API.
      * 2. Get product attribute set list at current API.
@@ -69,10 +69,10 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set create method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Create product attribute set at previous API.
+     * 2. Create product attribute set at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -89,10 +89,10 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set group add method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Add group to the attribute set, created in 'testProductAttributeSetCreate' method, at previous API.
+     * 2. Add group to the attribute set, created in 'testProductAttributeSetCreate' method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -108,10 +108,10 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set group rename method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Rename group, added in 'testProductAttributeSetGroupAdd' method, at previous API.
+     * 2. Rename group, added in 'testProductAttributeSetGroupAdd' method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -127,10 +127,10 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set group remove method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Remove group, added in 'testProductAttributeSetGroupAdd' method, at previous API.
+     * 2. Remove group, added in 'testProductAttributeSetGroupAdd' method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -145,13 +145,14 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set attribute add method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Add an attribute to product attribute set created in 'testProductAttributeSetCreate' method at previous API.
+     * 2. Add an attribute to product attribute set created in 'testProductAttributeSetCreate' method at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
+     * @depends testProductAttributeSetCreate
      */
     public function testProductAttributeSetAttributeAdd()
     {
@@ -165,14 +166,17 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set attribute remove method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Remove product attribute, created in 'testProductAttributeSetAttributeAdd' method,
+     * from attribute set, created in 'testProductAttributeSetCreate' method, at previous API.
+     * 2. Remove product attribute, created in 'testProductAttributeSetAttributeAdd' method,
+     * from attribute set, created in 'testProductAttributeSetCreate' method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
      * @depends testProductAttributeSetAttributeAdd
+     * @depends testProductAttributeSetCreate
      */
     public function testProductAttributeSetAttributeRemove()
     {
@@ -183,13 +187,14 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     }
 
     /**
-     * Test product attribute set create current store method compatibility.
+     * Test product attribute set remove method compatibility.
      * Scenario:
-     * 1. Get product attribute set create at previous API.
-     * 2. Get product attribute create list at current API.
+     * 1. Remove product attribute set, created in 'testProductAttributeSetCreate' method, at previous API.
+     * 2. Remove product attribute set, created in 'testProductAttributeSetCreate' method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
+     * @depends testProductAttributeSetCreate
      */
     public function testProductAttributeSetRemove()
     {
