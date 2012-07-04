@@ -6,7 +6,7 @@
  * Time: 1:39 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_TestCase
+class Community2_Mage_OldImportExport_CustomerExportSettingsTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -26,7 +26,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      * @test
      * @TestlinkId TL-MAGE-1181
      */
-    public function oldExportSettingsGeneralView()
+    public function settingsGeneralView()
     {
         //Verifying
         $entityTypes = $this->getElementsByXpath(
@@ -52,16 +52,23 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         //Step 3
         $this->fillDropdown('export_file_version', 'Magento 1.7 format');
         //Verifying
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'search'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter')),
+            'Grid and filter are not displayed');
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter')),
+            'Reset button is not displayed');
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'search')),
+            'Search button is not displayed');
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'continue')),
+            'Continue button is not displayed');
         //Step 4
         $this->fillDropdown('entity_type', 'Products');
         //Verifying
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'search'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
-    }
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter')),
+            'Grid and filter are not displayed');
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter')),
+            'Reset button is not displayed');
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'search')),
+            'Search button is not displayed');
+        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'continue')),
+            'Continue button is not displayed');    }
 }
