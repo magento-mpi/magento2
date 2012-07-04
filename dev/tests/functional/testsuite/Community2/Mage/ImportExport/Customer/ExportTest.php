@@ -117,10 +117,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     public function simpleExport()
     {
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
-        $this->waitForAjax();
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         $report = $this->importExportHelper()->export();
     }
 
@@ -130,12 +127,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     public function simpleExportAddress()
     {
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
         $report = $this->importExportHelper()->export();
         $csv =  $this->importExportHelper()->arrayToCsv($report);
     }
@@ -166,15 +158,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         //Step 1
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step4
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Steps 2-4
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step5-6
         $report = $this->importExportHelper()->export();
         //Verifying
@@ -203,16 +188,10 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        //Step 1
+        //Steps 1-2
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step2
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step3
         $this->importExportHelper()
             ->setFilter(array('firstname' => $userData['first_name']));
@@ -230,12 +209,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     public function simpleExportCustomer()
     {
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForAjax();
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForAjax();
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $customersMain = $this->importExportHelper()->export();
         $this->fillDropdown('export_file', 'Customer Addresses');
         $this->waitForAjax();
@@ -248,12 +222,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     public function simpleAttributeFilterAndSearch()
     {
         //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForAjax();
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForAjax();
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $this->importExportHelper()->customerFilterAttributes(
             array(
                 'attribute_label' => 'Created At',
@@ -297,11 +266,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function searchByAttributeLabelCode()
     {
-        //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 2
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+        //Steps 1-2
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Step 3
         $arr = $this->importExportHelper()->getCustomerEntityType();
@@ -352,17 +318,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function entityAttributesBlockAllFileTypes()
     {
-        //Step 1
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 2
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 3
-        $this->fillDropdown('export_file', 'Customers Main File');
-        //Verify
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Step 1-3
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 4
         $isFound = $this->importExportHelper()->customerSkipAttribute(
             array(
@@ -402,14 +359,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
      */
     public function exportCustomerWithSkippedAttribute()
     {
-       //Step 1,2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 2
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForAjax();
+        //Step 1,2
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 3
         $isFound = $this->importExportHelper()->customerSkipAttribute(
             array(
@@ -451,15 +402,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         //Step 1
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step4
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+        //Step 2-4
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
         //Step5-6
         $report = $this->importExportHelper()->export();
         //Verifying
@@ -500,14 +444,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 4
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
 
         $this->importExportHelper()
             ->setFilter(array('gender ' => 'Male'));
