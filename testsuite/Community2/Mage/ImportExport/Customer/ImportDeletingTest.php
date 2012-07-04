@@ -27,7 +27,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>2. Create .csv file with both customers: first with all attributes, second only with values of unique key</p>
      * <p>Steps</p>
      * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
-     * <p>2. Select "Append Complex Data" in selector "Import Behavior"</p>
+     * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
      * <p>3. Select "Magento 2.0 format"</p>
      * <p>4. Select "Customers Main File"</p>
      * <p>5. Choose file from precondition</p>
@@ -65,17 +65,8 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
 
         //Step 1
         $this->admin('import');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 2
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
-        //Step 3
-        $this->fillDropdown('import_behavior', 'Delete Entities');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-        $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
-        //Step 4
-        $this->fillDropdown('import_customer_entity', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
+            'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
         $report = $this->importExportHelper()->import($data);
         //Check import
@@ -86,8 +77,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         //Verify that the first customer is absent after import 'Delete Entities'
         $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData1), 'Customer is found');
 
-        //Verify that the first customer is absent after import 'Delete Entities'
-        $this->navigate('manage_customers');
+        //Verify that the second customer is absent after import 'Delete Entities'
         $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer is found');
     }
         public function importData()
@@ -150,13 +140,13 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
      * <p>2. Create .csv file with incorrect email for first customer, with incorrect website for second customer</p>
      * <p>Steps</p>
      * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
-     * <p>2. Select "Append Complex Data" in selector "Import Behavior"</p>
+     * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
      * <p>3. Select "Magento 2.0 format"</p>
      * <p>4. Select "Customers Main File"</p>
      * <p>5. Choose file from precondition</p>
      * <p>6. Press "Check Data"</p>
      * <p>8. Open Customers-> Manage Customers</p>
-     * <p>Expected: Verify that both customers are presented in the system</p>
+     * <p>Expected: Verify that both customers are present in the system</p>
      *
      * @test
      * @dataProvider importCustomerData
@@ -185,19 +175,10 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $data[1]['lastname'] = $userData2['last_name'];
         $data[1]['password'] = $userData2['password'];
 
-        //Step 1
+        //Step 1, 2, 3, 4
         $this->admin('import');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Step 2
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_behavior'));
-        //Step 3
-        $this->fillDropdown('import_behavior', 'Delete Entities');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-        $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
-        //Step 4
-        $this->fillDropdown('import_customer_entity', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
+            'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
         $report = $this->importExportHelper()->import($data);
         //Check import
@@ -207,8 +188,7 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $this->navigate('manage_customers');
         //Verify that the first customer is present after import 'Delete Entities'
         $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData1), 'Customer not found');
-        //Verify that the first customer is present after import 'Delete Entities'
-        $this->navigate('manage_customers');
+        //Verify that the second customer is present after import 'Delete Entities'
         $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer not found');
     }
 

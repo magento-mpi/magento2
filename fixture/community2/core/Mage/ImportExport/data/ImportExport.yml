@@ -650,3 +650,23 @@ csv_invalid_finance_5633:
     store_credit: store
     reward_points: reward
 
+generic_address_csv:
+    _entity_id: %randomize%
+    _email: %noValue%
+    _website: base
+    city: New York
+    company: Earl Abel's
+    country_id: US
+    fax: 978-875-6394
+    firstname: Alvin
+    lastname: Plyler
+    middlename: C.
+    postcode: 57428
+    prefix: Mr.
+    region: Massachusetts
+    street: 539 Russell Street
+    suffix: %noValue%
+    telephone: 978-875-6394
+    _address_default_billing_: 0
+    _address_default_shipping_: 0
+    action: %noValue%
