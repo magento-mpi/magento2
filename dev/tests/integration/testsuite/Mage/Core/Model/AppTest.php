@@ -37,6 +37,12 @@ class Mage_Core_Model_AppTest extends PHPUnit_Framework_TestCase
         $this->_mageModel   = Mage::app();
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+        $this->_mageModel = null;
+    }
+
     public function testInit()
     {
         $this->assertNull($this->_model->getConfig());
