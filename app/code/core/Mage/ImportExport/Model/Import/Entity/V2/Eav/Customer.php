@@ -131,13 +131,13 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     }
 
     /**
-     * Update and insert data in entity table.
+     * Update and insert data in entity table
      *
      * @param array $entitiesToCreate Rows for insert
      * @param array $entitiesToUpdate Rows for update
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      */
-    protected function _saveCustomerEntity(array $entitiesToCreate, array $entitiesToUpdate)
+    protected function _saveCustomerEntities(array $entitiesToCreate, array $entitiesToUpdate)
     {
         if ($entitiesToCreate) {
             $this->_connection->insertMultiple($this->_entityTable, $entitiesToCreate);
@@ -165,8 +165,8 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
         foreach ($attributesData as $tableName => $data) {
             $tableData = array();
 
-            foreach ($data as $customerId => $attrData) {
-                foreach ($attrData as $attributeId => $value) {
+            foreach ($data as $customerId => $attributeData) {
+                foreach ($attributeData as $attributeId => $value) {
                     $tableData[] = array(
                         'entity_id'      => $customerId,
                         'entity_type_id' => $this->getEntityTypeId(),
@@ -186,7 +186,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      * @param array $entitiesToDelete customers id list
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
      */
-    protected function _deleteCustomers(array $entitiesToDelete)
+    protected function _deleteCustomerEntities(array $entitiesToDelete)
     {
         $condition = $this->_connection->quoteInto('entity_id IN (?)', $entitiesToDelete);
         $this->_connection->delete($this->_entityTable, $condition);
@@ -336,13 +336,13 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
              * Save prepared data
              */
             if ($entitiesToCreate || $entitiesToUpdate) {
-                $this->_saveCustomerEntity($entitiesToCreate, $entitiesToUpdate);
+                $this->_saveCustomerEntities($entitiesToCreate, $entitiesToUpdate);
             }
             if ($attributesToSave) {
                 $this->_saveCustomerAttributes($attributesToSave);
             }
             if ($entitiesToDelete) {
-                $this->_deleteCustomers($entitiesToDelete);
+                $this->_deleteCustomerEntities($entitiesToDelete);
             }
         }
 
@@ -374,7 +374,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     }
 
     /**
-     * Validate data row for add/update behaviour
+     * Validate row data for add/update behaviour
      *
      * @param array $rowData
      * @param int $rowNumber
@@ -417,7 +417,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     }
 
     /**
-     * Validate data row for delete behaviour
+     * Validate row data for delete behaviour
      *
      * @param array $rowData
      * @param int $rowNumber

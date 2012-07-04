@@ -199,7 +199,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
     }
 
     /**
-     * Test which check validation of customer for delete behavior
+     * Check customer email validation for delete behavior
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::validateRow()
      */
     public function testValidateEmailForDeleteBehavior()
     {

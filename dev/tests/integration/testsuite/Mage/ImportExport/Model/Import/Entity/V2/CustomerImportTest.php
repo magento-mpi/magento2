@@ -115,9 +115,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerImportTest extends PH
 
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
-        /** @var $customersCollection Mage_Customer_Model_Resource_Customer_Collection */
-        $customersCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        $this->assertEquals(3, $customersCollection->count(), 'Count of existing customers are invalid');
+        /** @var $customerCollection Mage_Customer_Model_Resource_Customer_Collection */
+        $customerCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
         $this->_model->setParameters(
                 array(
@@ -129,9 +129,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerImportTest extends PH
 
         $this->_model->importData();
 
-        $customersCollection->resetData();
-        $customersCollection->clear();
-        $this->assertEmpty($customersCollection->count(), 'Customers were not imported');
+        $customerCollection->resetData();
+        $customerCollection->clear();
+        $this->assertEmpty($customerCollection->count(), 'Customers were not imported');
     }
 
     /**

@@ -75,7 +75,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY, $helper->__('Website is not specified'));
         $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY, $helper->__('E-mail is not specified'));
         $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
-            $helper->__('Invalid value in Website column (website does not exists?)')
+            $helper->__("Customer with such email and website code doesn't exist")
         );
         $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, $helper->__('E-mail is invalid'));
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
