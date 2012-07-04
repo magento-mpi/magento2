@@ -310,6 +310,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3420
      * @test
+     * @group skip_due_to_bug
      */
     public function invalidWeightInSimple()
     {

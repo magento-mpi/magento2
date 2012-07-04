@@ -422,8 +422,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         if ($this->controlIsPresent('button', 'start_reset_validation')) {
             $this->clickButton('start_reset_validation', false);
-            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
             $this->pleaseWait();
+            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
             $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
             if ($this->controlIsPresent('pageelement', 'element_not_disabled_style')) {
                 $waitCondition = array($this->_getControlXpath('button', '3d_continue'),
