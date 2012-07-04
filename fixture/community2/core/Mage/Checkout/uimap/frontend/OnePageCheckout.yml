@@ -10,14 +10,10 @@
 ---
 # 'Checkout' page
 onepage_checkout:
-    mca: checkout/onepage/
-    click_xpath: //ul[@class='links']//a[text()= 'Checkout']
-    title: Checkout
     uimap:
         form: &checkoutForm
             fieldsets:
                 -
                     payment_method:
-                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-payment']
                         fields:
                             purchase_order_number: //input[@id='po_number']

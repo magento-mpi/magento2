@@ -12,19 +12,10 @@
 
 # 'System Configuration' page
 system_configuration:
-    mca: system_config/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_config/')]
-    title: Configuration / System / Magento Admin
     uimap: &system_configuration_uimap
         form:
             fieldsets:
                 -
-                    current_configuration_scope:
-                        xpath: //div[@class='switcher' and contains(.,'Current Configuration Scope')]
-                        dropdowns:
-                            current_configuration_scope: //select[@id='store_switcher']
-                        links:
-                            manage_stores: //a[text()='Manage Stores']
             tabs:
                 -
                     sales_payment_methods:
@@ -84,28 +75,6 @@ system_configuration:
                                         cod_new_order_status_use_default: //input[@name='groups[cashondelivery][fields][order_status][inherit]']
                                         cod_payment_from_applicable_countries_use_default: //input[@name='groups[cashondelivery][fields][allowspecific][inherit]']
                                         cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
-                            -
-        buttons:
-            save_config: //button[span='Save Config']
-        messages:
-            success_saved_config: //li[normalize-space(@class)='success-msg' and contains(.,'The configuration has been saved.')]
 
 system_configuration_tabs:
-    mca: system_config/edit/section/%tabName%/
-    title: Configuration / System / Magento Admin
-    uimap: *system_configuration_uimap
-
-system_configuration_website:
-    mca: system_config/edit/section/%tabName%/website/%webSite%/
-    title: Configuration / System / Magento Admin
-    uimap: *system_configuration_uimap
-
-system_configuration_store:
-    mca: system_config/edit/section/%tabName%/website/%webSite%/store/%storeName%/
-    title: Configuration / System / Magento Admin
-    uimap: *system_configuration_uimap
-
-system_configuration_country:
-    mca: system_config/edit/section/payment/country/%country%
-    title: Configuration / System / Magento Admin
     uimap: *system_configuration_uimap

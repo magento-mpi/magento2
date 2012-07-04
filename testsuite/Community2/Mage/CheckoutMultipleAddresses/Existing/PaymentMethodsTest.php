@@ -30,12 +30,6 @@ class Community2_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest exte
         $this->logoutCustomer();
     }
 
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-    }
-
     /**
      * @return array
      * @test
@@ -82,7 +76,6 @@ class Community2_Mage_CheckoutMultipleAddresses_Existing_PaymentMethodsTest exte
      * @test
      * @dataProvider paymentsWithout3dDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3177
      */
     public function paymentsWithout3d($payment, $testData)
     {
