@@ -71,29 +71,56 @@ class Community2_Mage_OldImportExport_CustomerExportTest extends Mage_Selenium_T
 	 * <p>Steps:</p>
 	 * <p>1. Go to System -> Import/ Export -> Export</p>
 	 * <p>2. In "Entity Type" dropdown field choose "Customers" parameter</p>
-	 * <p>3. Type in "Attribute Label" field any name that is present in the list</p>
-	 * <p>4. Press "Search" button</p>
-	 * <p>5. Press "Reset Filter" button</p>
-	 * <p>Expected after step 4: Just corresponding attribute will be displayed</p>
-	 * <p>Expected after step 5: Result will be reset and the whole list of attributes will be displayed</p>
+	 * <p>3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter</p>
+	 * <p>4. Type in "Attribute Label" field any name that is present in the list</p>
+	 * <p>5. Press "Search" button</p>
+	 * <p>6. Press "Reset Filter" button</p>
+	 * <p>7. Type in "Attribute Code" field any code that is present in the list</p>
+	 * <p>8. Press "Search" button</p>
+	 * <p>9. Press "Reset Filter" button</p>
+	 * <p>Expected after steps 5,8: Just corresponding attribute will be displayed</p>
+	 * <p>Expected after step 9: Result will be reset and the whole list of attributes will be displayed</p>
 	 *
 	 * @test
-	 * @TestlinkId TL-MAGE-1308
+	 * @TestlinkId TL-MAGE-1308, 1309
 	 */
 	public function searchByAttributeLabelAndResetFilter()
 	{
-		//Steps 2-4
+		//Steps 2-5
 		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
 		$this->importExportHelper()->customerFilterAttributes(
 			array(
-				'attribute_label' => 'Created At',
+				'attribute_label' => 'Created At'
+			)
+		);
+		//Verifying that required attribute is present in grid
+		$isFound = $this->importExportHelper()->customerSearchAttributes(
+			array(
+				'attribute_label' => 'Created At'
+			),
+			'grid_and_filter'
+		);
+		$this->assertNotNull($isFound, 'Attribute was not found after filtering');
+		//Verifying that another attribute is not present in grid
+		$isFound = $this->importExportHelper()->customerSearchAttributes(
+			array(
+				'attribute_label' => 'Is Confirmed'
+			),
+			'grid_and_filter'
+		);
+		$this->assertNull($isFound, 'Attribute was found after filtering');
+		//Step 6
+		$this->clickButton('reset_filter', false);
+		$this->waitForAjax();
+		//Steps 7-8
+		$this->importExportHelper()->customerFilterAttributes(
+			array(
 				'attribute_code'  => 'created_at'
 			)
 		);
 		//Verifying that required attribute is present in grid
 		$isFound = $this->importExportHelper()->customerSearchAttributes(
 			array(
-				'attribute_label' => 'Created At',
 				'attribute_code'  => 'created_at'
 			),
 			'grid_and_filter'
@@ -102,13 +129,12 @@ class Community2_Mage_OldImportExport_CustomerExportTest extends Mage_Selenium_T
 		//Verifying that another attribute is not present in grid
 		$isFound = $this->importExportHelper()->customerSearchAttributes(
 			array(
-				'attribute_label' => 'Is Confirmed',
 				'attribute_code'  => 'confirmation'
 			),
 			'grid_and_filter'
 		);
 		$this->assertNull($isFound, 'Attribute was found after filtering');
-		//Step 5
+		//Step 9
 		$this->clickButton('reset_filter', false);
 		$this->waitForAjax();
 		//Verifying that two attributes are present in grid
