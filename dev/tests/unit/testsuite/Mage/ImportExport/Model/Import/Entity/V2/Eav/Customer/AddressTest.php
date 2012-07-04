@@ -104,7 +104,19 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     protected $_availableBehaviors = array(
         Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
         Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
     );
+
+    /**
+     * Customer behaviours parameters
+     *
+     * @var array
+     */
+    protected $_customBehaviour = array(
+        'update_id' => 1,
+        'delete_id' => 2,
+    );
+
 
     /**
      * Init entity adapter model
@@ -149,6 +161,111 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         return $modelMock;
     }
 
+
+    /**
+     * Create mock for custom behavior test
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getModelMockForTestImportDataWithCustomBehaviour()
+    {
+        // input data
+        $customBehaviorRows = array(
+             array(
+                 Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update',
+                Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID
+                    => $this->_customBehaviour['update_id'],
+            ),
+            array(
+                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION
+                    => Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION_VALUE_DELETE,
+                Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID
+                    => $this->_customBehaviour['delete_id'],
+            ),
+        );
+        $updateResult = array(
+            'entity_row' => $this->_customBehaviour['update_id'],
+            'attributes' => array(),
+            'defaults'   => array(),
+        );
+
+        // entity adapter mock
+        $modelMock = $this->getMock(
+            'Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address',
+            array(
+                'validateRow',
+                '_prepareDataForUpdate',
+                '_saveAddressEntities',
+                '_saveAddressAttributes',
+                '_saveCustomerDefaults',
+                '_deleteAddressEntities',
+                '_mergeEntityAttributes',
+            ),
+            array(),
+            '',
+            false,
+            true,
+            true
+        );
+
+        $availableBehaviors = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $availableBehaviors->setAccessible(true);
+        $availableBehaviors->setValue($modelMock, $this->_availableBehaviors);
+
+        // mock to imitate data source model
+        $importResourceMock = $this->getMock(
+            'Mage_ImportExport_Model_Resource_Import_Data',
+            array('getNextBunch'),
+            array(),
+            '',
+            false
+        );
+        $importResourceMock->expects($this->at(0))
+            ->method('getNextBunch')
+            ->will($this->returnValue($customBehaviorRows));
+        $importResourceMock->expects($this->at(1))
+            ->method('getNextBunch')
+            ->will($this->returnValue(null));
+
+        $dataSourceModel = new ReflectionProperty(
+            'Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address',
+            '_dataSourceModel'
+        );
+        $dataSourceModel->setAccessible(true);
+        $dataSourceModel->setValue($modelMock, $importResourceMock);
+
+        // mocks for entity adapter
+        $modelMock->expects($this->any())
+            ->method('validateRow')
+            ->will($this->returnValue(true));
+
+        $modelMock->expects($this->any())
+            ->method('_prepareDataForUpdate')
+            ->will($this->returnValue($updateResult));
+
+        $modelMock->expects($this->any())
+            ->method('_saveAddressEntities')
+            ->will($this->returnCallback(array($this, 'validateSaveAddressEntities')));
+
+        $modelMock->expects($this->any())
+            ->method('_saveAddressAttributes')
+            ->will($this->returnValue($modelMock));
+
+        $modelMock->expects($this->any())
+            ->method('_saveCustomerDefaults')
+            ->will($this->returnValue($modelMock));
+
+        $modelMock->expects($this->any())
+            ->method('_deleteAddressEntities')
+            ->will($this->returnCallback(array($this, 'validateDeleteAddressEntities')));
+
+        $modelMock->expects($this->any())
+            ->method('_mergeEntityAttributes')
+            ->will($this->returnValue(array()));
+
+        return $modelMock;
+    }
+
     /**
      * Create mock for customer address model class
      *
@@ -157,7 +274,11 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     protected function _getModelMock()
     {
         $modelMock = $this->getMock('Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address',
-            array('_getRegionCollection', 'isAttributeValid', '_getCustomerCollection'),
+            array(
+                '_getRegionCollection',
+                'isAttributeValid',
+                '_getCustomerCollection',
+            ),
             array(),
             '',
             false,
@@ -350,7 +471,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * @param array $errors
      * @param boolean $isValid
      */
-    public function testValidateRowForAddUpdate(array $rowData, array $errors, $isValid = false)
+    public function testValidateRowForUpdate(array $rowData, array $errors, $isValid = false)
     {
         $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
 
@@ -409,5 +530,45 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
             $attributeMapping,
             'Default address attribute mapping array must have a default shipping column.'
         );
+    }
+
+    /**
+     * Test is correct methods invokes according to different custom behaviours
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest::_importData
+     */
+    public function testImportDataWithCustomBehaviour()
+    {
+        $this->_model = $this->_getModelMockForTestImportDataWithCustomBehaviour();
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM));
+
+        // validation in validateSaveAddressEntities and validateDeleteAddressEntities
+        $this->_model->importData();
+    }
+
+    /**
+     * Validation method for _saveAddressEntities
+     *
+     * @param array $addUpdateRows
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     */
+    public function validateSaveAddressEntities(array $addUpdateRows)
+    {
+        $this->assertCount(1, $addUpdateRows);
+        $this->assertContains($this->_customBehaviour['update_id'], $addUpdateRows);
+        return $this->_model;
+    }
+
+    /**
+     * Validation method for _deleteAddressEntities
+     *
+     * @param array $deleteRowIds
+     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     */
+    public function validateDeleteAddressEntities(array $deleteRowIds)
+    {
+        $this->assertCount(1, $deleteRowIds);
+        $this->assertContains($this->_customBehaviour['delete_id'], $deleteRowIds);
+        return $this->_model;
     }
 }

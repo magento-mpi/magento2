@@ -258,18 +258,15 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
     }
 
     /**
-     * Test for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow,
-     * covers add/update and delete actions
+     * Test for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow for add/update action
      *
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow
      */
-    public function testValidateRow()
+    public function testValidateRowForUpdate()
     {
-        // _validateRowForUpdate and _validateRowForDelete should be called only once
+        // _validateRowForUpdate should be called only once
         $this->_model->expects($this->once())
             ->method('_validateRowForUpdate');
-        $this->_model->expects($this->once())
-            ->method('_validateRowForDelete');
 
         $this->assertAttributeEquals(0, '_processedEntitiesCount', $this->_model);
 
@@ -282,6 +279,18 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
         $this->assertAttributeEquals(array(1 => true), '_validatedRows', $this->_model);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
         $this->assertTrue($this->_model->validateRow(array(), 1)); // _validateRowForUpdate should be called once
+    }
+
+    /**
+     * Test for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow for delete action
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow
+     */
+    public function testValidateRowForDelete()
+    {
+        // _validateRowForDelete should be called only once
+        $this->_model->expects($this->once())
+            ->method('_validateRowForDelete');
 
         // delete action
         $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
