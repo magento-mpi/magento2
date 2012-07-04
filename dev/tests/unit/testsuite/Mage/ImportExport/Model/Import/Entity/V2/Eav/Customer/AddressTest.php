@@ -97,6 +97,16 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     );
 
     /**
+     * Available behaviours
+     *
+     * @var array
+     */
+    protected $_availableBehaviors = array(
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
+    );
+
+    /**
      * Init entity adapter model
      */
     public function setUp()
@@ -147,7 +157,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     protected function _getModelMock()
     {
         $modelMock = $this->getMock('Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address',
-            array('_getRegionCollection', 'isAttributeValid', '_getCustomerCollection', 'getBehavior'),
+            array('_getRegionCollection', 'isAttributeValid', '_getCustomerCollection'),
             array(),
             '',
             false,
@@ -192,6 +202,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $property = new ReflectionProperty($modelMock, '_attributes');
         $property->setAccessible(true);
         $property->setValue($modelMock, $this->_attributes);
+
+        $property = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $property->setAccessible(true);
+        $property->setValue($modelMock, $this->_availableBehaviors);
 
         $regions = array();
         $countryRegions = array();
@@ -338,17 +352,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testValidateRowForAddUpdate(array $rowData, array $errors, $isValid = false)
     {
-        $modelForAddUpdate = clone $this->_model;
-        $modelForAddUpdate->expects($this->any())
-            ->method('getBehavior')
-            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
 
         if ($isValid) {
-            $this->assertTrue($modelForAddUpdate->validateRow($rowData, 0));
+            $this->assertTrue($this->_model->validateRow($rowData, 0));
         } else {
-            $this->assertFalse($modelForAddUpdate->validateRow($rowData, 0));
+            $this->assertFalse($this->_model->validateRow($rowData, 0));
         }
-        $this->assertAttributeEquals($errors, '_errors', $modelForAddUpdate);
+        $this->assertAttributeEquals($errors, '_errors', $this->_model);
     }
 
     /**
@@ -363,17 +374,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testValidateRowForDelete(array $rowData, array $errors, $isValid = false)
     {
-        $modelForDelete = clone $this->_model;
-        $modelForDelete->expects($this->any())
-            ->method('getBehavior')
-            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
 
         if ($isValid) {
-            $this->assertTrue($modelForDelete->validateRow($rowData, 0));
+            $this->assertTrue($this->_model->validateRow($rowData, 0));
         } else {
-            $this->assertFalse($modelForDelete->validateRow($rowData, 0));
+            $this->assertFalse($this->_model->validateRow($rowData, 0));
         }
-        $this->assertAttributeEquals($errors, '_errors', $modelForDelete);
+        $this->assertAttributeEquals($errors, '_errors', $this->_model);
     }
 
     /**

@@ -10,7 +10,7 @@
  */
 
 return array(
-    '_website'                   => 'website1',
-    '_email'                     => 'test3@email.com',
-    '_entity_id'                 => '1',
+    '_website'   => 'website1',
+    '_email'     => 'test3@email.com',
+    '_entity_id' => '1',
 );

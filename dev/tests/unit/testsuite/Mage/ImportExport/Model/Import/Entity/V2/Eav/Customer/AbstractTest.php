@@ -49,6 +49,16 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
         ),
     );
 
+    /**
+     * Available behaviours
+     *
+     * @var array
+     */
+    protected $_availableBehaviors = array(
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
+    );
+
     public function setUp()
     {
         parent::setUp();
@@ -81,11 +91,15 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
             false,
             true,
             true,
-            array('_getCustomerCollection', '_validateRowForUpdate', '_validateRowForDelete', 'getBehavior')
+            array('_getCustomerCollection', '_validateRowForUpdate', '_validateRowForDelete')
         );
         $property = new ReflectionProperty($modelMock, '_websiteCodeToId');
         $property->setAccessible(true);
         $property->setValue($modelMock, array_flip($this->_websites));
+
+        $property = new ReflectionProperty($modelMock, '_availableBehaviors');
+        $property->setAccessible(true);
+        $property->setValue($modelMock, $this->_availableBehaviors);
 
         $modelMock->expects($this->any())
             ->method('_getCustomerCollection')
@@ -251,35 +265,58 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
      */
     public function testValidateRow()
     {
-        $modelUpdate = clone $this->_model;
-        $modelUpdate->expects($this->once())
+        // _validateRowForUpdate and _validateRowForDelete should be called only once
+        $this->_model->expects($this->once())
             ->method('_validateRowForUpdate');
-        $modelUpdate->expects($this->any())
-            ->method('getBehavior')
-            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
-
-        $modelDelete = clone $this->_model;
-        $modelDelete->expects($this->once())
+        $this->_model->expects($this->once())
             ->method('_validateRowForDelete');
-        $modelDelete->expects($this->any())
-            ->method('getBehavior')
-            ->will($this->returnValue(Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
 
-        $this->assertAttributeEquals(array(), '_validatedRows', $modelUpdate);
-        $this->assertAttributeEquals(array(), '_validatedRows', $modelDelete);
-        $this->assertAttributeEquals(0, '_processedEntitiesCount', $modelUpdate);
-        $this->assertAttributeEquals(0, '_processedEntitiesCount', $modelDelete);
+        $this->assertAttributeEquals(0, '_processedEntitiesCount', $this->_model);
 
-        $this->assertTrue($modelUpdate->validateRow(array(), 1));
-        $this->assertTrue($modelDelete->validateRow(array(), 2));
+        // update action
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
+        $this->_clearValidatedRows();
 
-        $this->assertAttributeEquals(array(1 => true), '_validatedRows', $modelUpdate);
-        $this->assertAttributeEquals(array(2 => true), '_validatedRows', $modelDelete);
-        $this->assertAttributeEquals(1, '_processedEntitiesCount', $modelUpdate);
-        $this->assertAttributeEquals(1, '_processedEntitiesCount', $modelDelete);
+        $this->assertAttributeEquals(array(), '_validatedRows', $this->_model);
+        $this->assertTrue($this->_model->validateRow(array(), 1));
+        $this->assertAttributeEquals(array(1 => true), '_validatedRows', $this->_model);
+        $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
+        $this->assertTrue($this->_model->validateRow(array(), 1)); // _validateRowForUpdate should be called once
 
-        // _validateRowForUpdate and _validateRowForDelete should be called once, result should be the same
-        $this->assertTrue($modelUpdate->validateRow(array(), 1));
-        $this->assertTrue($modelDelete->validateRow(array(), 2));
+        // delete action
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
+        $this->_clearValidatedRows();
+
+        $this->assertAttributeEquals(array(), '_validatedRows', $this->_model);
+        $this->assertTrue($this->_model->validateRow(array(), 2));
+        $this->assertAttributeEquals(array(2 => true), '_validatedRows', $this->_model);
+        $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
+        $this->assertTrue($this->_model->validateRow(array(), 2)); // _validateRowForDelete should be called once
+    }
+
+    /**
+     * Clear validated rows array
+     *
+     * @return null
+     */
+    protected function _clearValidatedRows()
+    {
+        // clear array
+        $validatedRows = new ReflectionProperty(
+            'Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract',
+            '_validatedRows'
+        );
+        $validatedRows->setAccessible(true);
+        $validatedRows->setValue($this->_model, array());
+        $validatedRows->setAccessible(false);
+
+        // reset counter
+        $entitiesCount = new ReflectionProperty(
+            'Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract',
+            '_processedEntitiesCount'
+        );
+        $entitiesCount->setAccessible(true);
+        $entitiesCount->setValue($this->_model, 0);
+        $entitiesCount->setAccessible(false);
     }
 }

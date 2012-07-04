@@ -225,9 +225,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
         if (!$this->_regionParameters) {
             $this->_regionParameters = array();
             /** @var $regionConfig Mage_Eav_Model_Config */
-            $regionConfig        = Mage::getSingleton('Mage_Eav_Model_Config');
+            $regionConfig = Mage::getSingleton('Mage_Eav_Model_Config');
             /** @var $regionIdAttribute Mage_Customer_Model_Attribute */
-            $regionIdAttribute   = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
+            $regionIdAttribute = $regionConfig->getAttribute($this->getEntityTypeCode(), 'region_id');
             $this->_regionParameters['table']        = $regionIdAttribute->getBackend()->getTable();
             $this->_regionParameters['attribute_id'] = $regionIdAttribute->getId();
         }
@@ -329,7 +329,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                     $attributes = $this->_mergeEntityAttributes($addUpdateResult['attributes'], $attributes);
                     $defaults   = $this->_mergeEntityAttributes($addUpdateResult['defaults'], $defaults);
                 } elseif ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
-                    $deleteRowIds[] = $this->_prepareDataForDelete($rowData);
+                    $deleteRowIds[] = $rowData[self::COLUMN_ADDRESS_ID];
                 }
             }
 
@@ -448,17 +448,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
             'attributes' => $attributes,
             'defaults'   => $defaults,
         );
-    }
-
-    /**
-     * Prepare data for delete action
-     *
-     * @param array $rowData
-     * @return int
-     */
-    protected function _prepareDataForDelete(array $rowData)
-    {
-        return $rowData[self::COLUMN_ADDRESS_ID];
     }
 
     /**
@@ -625,9 +614,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {
         if ($this->_checkUniqueKey($rowData, $rowNumber)) {
-            $email      = strtolower($rowData[self::COLUMN_EMAIL]);
-            $website    = $rowData[self::COLUMN_WEBSITE];
-            $addressId  = $rowData[self::COLUMN_ADDRESS_ID];
+            $email     = strtolower($rowData[self::COLUMN_EMAIL]);
+            $website   = $rowData[self::COLUMN_WEBSITE];
+            $addressId = $rowData[self::COLUMN_ADDRESS_ID];
 
             if (!$this->_getCustomerId($email, $website)) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);

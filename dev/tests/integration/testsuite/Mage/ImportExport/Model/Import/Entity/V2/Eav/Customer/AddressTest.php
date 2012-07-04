@@ -354,12 +354,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         }
 
         // set behaviour
-        $parameters = new ReflectionProperty($this->_testClassName, '_parameters');
-        $parameters->setAccessible(true);
-        $parametersData = $parameters->getValue($this->_entityAdapter);
-        $parametersData['behavior'] = Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
-        $parameters->setValue($this->_entityAdapter, $parametersData);
-        $parameters->setAccessible(false);
+        $this->_entityAdapter->setParameters(
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE)
+        );
 
         // set fixture CSV file
         $sourceFile = __DIR__ . '/../../_files/address_import_update.csv';
@@ -452,12 +449,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         }
 
         // set behaviour
-        $parameters = new ReflectionProperty($this->_testClassName, '_parameters');
-        $parameters->setAccessible(true);
-        $parametersData = $parameters->getValue($this->_entityAdapter);
-        $parametersData['behavior'] = Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE;
-        $parameters->setValue($this->_entityAdapter, $parametersData);
-        $parameters->setAccessible(false);
+        $this->_entityAdapter->setParameters(
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE)
+        );
 
         // set fixture CSV file
         $sourceFile = __DIR__ . '/../../_files/address_import_delete.csv';
