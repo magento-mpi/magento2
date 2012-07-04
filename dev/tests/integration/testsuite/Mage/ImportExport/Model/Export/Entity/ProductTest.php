@@ -84,7 +84,7 @@ class Mage_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framewor
         ini_set('display_errors', $this->_oldDisplayErrors);
         error_reporting($this->_oldErrorLevel);
         Mage::setIsDeveloperMode($this->_oldIsDeveloperMode);
-        $this->_model = null;
+        unset($this->_model);
 
         parent::tearDown();
     }
@@ -110,55 +110,60 @@ class Mage_ImportExport_Model_Export_Entity_ProductTest extends PHPUnit_Framewor
     /**
      * Verify that all stock item attribute values are exported (aren't equal to empty string)
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_Product::export()
-     *
+     * @covers Mage_ImportExport_Model_Export_Entity_Product::export
      * @magentoDataFixture Mage/ImportExport/_files/product.php
      */
     public function testExportStockItemAttributesAreFilled()
     {
-        $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_IntegrationTest())
+        $writerMock = $this->getMockForAbstractClass(
+            'Mage_ImportExport_Model_Export_Adapter_Abstract',
+            array(),
+            '',
+            true,
+            true,
+            true,
+            array('setHeaderCols', 'writeRow')
+        );
+
+        $writerMock->expects($this->any())
+            ->method('setHeaderCols')
+            ->will($this->returnCallback(array($this, 'verifyHeaderColumns')));
+
+        $writerMock->expects($this->any())
+            ->method('writeRow')
+            ->will($this->returnCallback(array($this, 'verifyRow')));
+
+        $this->_model->setWriter($writerMock)
             ->export();
     }
-}
 
-/**
- * We create our test writer class to be sure that data sent to writer
- * from Mage_ImportExport_Model_Export_Entity_Product::export() is correct and not affected by writer
- */
-class Mage_ImportExport_Model_Export_Adapter_IntegrationTest extends
-    Mage_ImportExport_Model_Export_Adapter_Abstract
-{
     /**
-     * Set column names
+     * Verify header columns (that stock item attributes column headers are present)
      *
      * @param array $headerColumns
-     * @return Mage_ImportExport_Model_Export_Adapter_IntegrationTest
+     * @return void
      */
-    public function setHeaderCols(array $headerColumns)
+    public function verifyHeaderColumns(array $headerColumns)
     {
-        foreach (Mage_ImportExport_Model_Export_Entity_ProductTest::$stockItemAttributes as $stockItemAttribute) {
-            PHPUnit_Framework_TestCase::assertContains($stockItemAttribute, $headerColumns,
+        foreach (self::$stockItemAttributes as $stockItemAttribute) {
+            $this->assertContains($stockItemAttribute, $headerColumns,
                 "Stock item attribute {$stockItemAttribute} is absent among header columns"
             );
         }
-
-        return $this;
     }
 
     /**
      * Verify row data (stock item attribute values)
      *
      * @param array $rowData
-     * @return Mage_ImportExport_Model_Export_Adapter_IntegrationTest
+     * @return void
      */
-    public function writeRow(array $rowData)
+    public function verifyRow(array $rowData)
     {
-        foreach (Mage_ImportExport_Model_Export_Entity_ProductTest::$stockItemAttributes as $stockItemAttribute) {
-            PHPUnit_Framework_TestCase::assertNotSame('', $rowData[$stockItemAttribute],
+        foreach (self::$stockItemAttributes as $stockItemAttribute) {
+            $this->assertNotSame('', $rowData[$stockItemAttribute],
                 "Stock item attribute {$stockItemAttribute} value is empty string"
             );
         }
-
-        return $this;
     }
 }

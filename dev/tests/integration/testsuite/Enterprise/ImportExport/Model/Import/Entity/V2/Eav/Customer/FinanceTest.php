@@ -17,7 +17,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Test that method returns correct class instance
      *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_getAttributeCollection()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_getAttributeCollection
      */
     public function testGetAttributeCollection()
     {
@@ -36,10 +36,10 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      * @magentoDataFixture Enterprise/ImportExport/_files/website.php
      *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData()
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_updateRewardPoints()
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_updateCustomerBalance()
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_getComment()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_updateRewardPoints
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_updateCustomerBalance
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_getComment
      */
     public function testImportData()
     {
@@ -132,9 +132,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customers_for_finance_import_delete.php
      *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData()
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_deleteRewardPoints()
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_deleteCustomerBalance()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_deleteRewardPoints
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_deleteCustomerBalance
      */
     public function testImportDataDelete()
     {

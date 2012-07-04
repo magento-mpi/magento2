@@ -97,7 +97,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
     /**
      * Check whether Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_customers is filled correctly
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_initCustomers()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_initCustomers
      */
     public function testInitCustomers()
     {
@@ -122,7 +122,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
      * correct values
      *
      * @depends testInitCustomers
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_getCustomerId()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_getCustomerId
      */
     public function testGetCustomerId()
     {
@@ -220,7 +220,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
     /**
      * Test Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_checkUniqueKey() with different values
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_checkUniqueKey()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_checkUniqueKey
      * @dataProvider checkUniqueKeyDataProvider
      *
      * @param array $rowData
@@ -247,7 +247,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
      * Test for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow,
      * covers add/update and delete actions
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::validateRow
      */
     public function testValidateRow()
     {

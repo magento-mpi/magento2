@@ -300,7 +300,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * Check whether Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_regions and
      * Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_countryRegions are filled correctly
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_initCountryRegions()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_initCountryRegions
      */
     public function testInitCountryRegions()
     {
@@ -328,7 +328,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     /**
      * Test Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow() with add/update action
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow
      * @dataProvider validateRowForUpdateDataProvider
      * @depends testInitCountryRegions
      *
@@ -354,7 +354,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     /**
      * Test Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow() with delete action
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow()
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow
      * @dataProvider validateRowForDeleteDataProvider
      *
      * @param array $rowData

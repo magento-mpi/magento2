@@ -537,7 +537,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Test filling attribute array
      *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_initAttributes()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_initAttributes
      */
     public function testInitAttributes()
     {
@@ -565,7 +565,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      * in case when add/update behavior is performed
      *
      * @depends testInitAttributes
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForUpdate()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForUpdate
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
@@ -593,7 +593,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      * in case when delete behavior is performed
      *
      * @depends testInitAttributes
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForDelete()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForDelete
      * @dataProvider validateRowDataProvider
      *
      * @param array $rowData
@@ -619,7 +619,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Test entity type code getter
      *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::getEntityTypeCode()
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::getEntityTypeCode
      */
     public function testGetEntityTypeCode()
     {
