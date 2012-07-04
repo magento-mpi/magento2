@@ -1,0 +1,22 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# 'Checkout with Multiple Addresses' page
+checkout_multishipping_payment_methods:
+    mca: checkout/multishipping/billing/
+    title: Billing Information - Magento Commerce
+    uimap:
+        form: &paymentForOrder
+            fieldsets:
+                -
+                    payment_method:
+                        xpath: //div[div/h1[contains(text(),'Billing Information')]]
+                        fields:
+                            purchase_order_number: //input[@id='po_number']
