@@ -26,7 +26,7 @@ class Community2_Mage_OldImportExport_CustomerExportSettingsTest extends Mage_Se
      * @test
      * @TestlinkId TL-MAGE-1181
      */
-    public function settingsGeneralView()
+    public function exportSettingsGeneralView()
     {
         //Verifying
         $entityTypes = $this->getElementsByXpath(
