@@ -48,7 +48,7 @@ framework:
     captureScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
-    load_all_data: true
+    load_all_data: false
     cache:
         frontend:
             name: 'core'
@@ -156,40 +156,36 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    magento2enterprise: &m2ee
-        fallbackOrderFixture: 'enterprise2, community2, default '
-        fallbackOrderHelper: 'Enterprise2, Community2, Core'
-        areas:
-            admin:
-                url: 'http://magento.one/admin/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123q'
-            frontend:
-                url: 'http://magento.one/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-                login: ''
-                password: ''
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
     magento2community: &m2ce
-        fallbackOrderFixture: 'community2, enterprise2, default'
-        fallbackOrderHelper: 'Community2, Enterprise2, Core'
+        fallbackOrderFixture: 'community2, community17, default'
+        fallbackOrderHelper: 'Community2, Community17, Core'
         areas:
             admin:
-                url: 'http://magento.two/admin/'
+                url: 'http://www.localhost.com/magento2_community/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://magento.two/'
+                url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
-                login: ''
-                password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *m2ee
+    magento2enterprise: &m2ee
+        fallbackOrderFixture: 'enterprise2, enterprise, default'
+        fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
+        areas:
+            admin:
+                url: 'http://www.localhost.com/magento2_enterprise/control/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://www.localhost.com/magento2_enterprise/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    default: *ee112

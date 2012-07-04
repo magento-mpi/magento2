@@ -78,7 +78,7 @@ class Community2_Mage_OldImportExport_CustomerExportTest extends Mage_Selenium_T
 	 * <p>Expected after step 5: Result will be reset and the whole list of attributes will be displayed</p>
 	 *
 	 * @test
-	 * @TestlinkId TL-MAGE-308
+	 * @TestlinkId TL-MAGE-1308
 	 */
 	public function searchByAttributeLabelAndResetFilter()
 	{
