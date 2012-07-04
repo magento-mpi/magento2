@@ -302,7 +302,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $browser['timeout'] = 30;
         }
         if (!isset($browser['httpTimeout'])) {
-            $browser['httpTimeout'] = 45;
+            $browser['httpTimeout'] = 90;
         }
         $driver = new Mage_Selenium_Driver();
         $driver->setName($browser['name']);
