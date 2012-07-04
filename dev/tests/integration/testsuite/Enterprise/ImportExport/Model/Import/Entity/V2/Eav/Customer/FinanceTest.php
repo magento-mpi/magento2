@@ -157,7 +157,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         /** @var $rewards Enterprise_Reward_Model_Resource_Reward_Collection */
         $rewards = $rewardModel->getCollection();
 
-        /** @var $rewardModel Enterprise_Reward_Model_Reward */
+        /** @var $customerBalanceModel Enterprise_CustomerBalance_Model_Balance */
         $customerBalanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
         /** @var $balances Enterprise_CustomerBalance_Model_Resource_Balance_Collection */
         $balances = $customerBalanceModel->getCollection();
