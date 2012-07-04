@@ -78,10 +78,10 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customer Addresses');
         //Steps 6-8
-        if($addressRow[0]['_email'] == '') {
+        if($addressRow[0]['_email'] == '%realEmail%') {
             $addressRow[0]['_email'] = self::$customerData['email'];
         }
-        if($addressRow[0]['_entity_id'] == '') {
+        if($addressRow[0]['_entity_id'] == '%realAddressId%') {
             $addressRow[0]['_entity_id'] = $addressId;
         }
         $report = $this->importExportHelper()->import($addressRow);
@@ -108,11 +108,11 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         $addressData = array();
         $addressRows = array();
         $streets = array('4040 Hickory Ridge Drive', '3129 Parkway Street', '746 Goodwin Avenue');
-        for ($i=0; $i<5; $i++) {
+        for ($i=0; $i<6; $i++) {
             $addressData[$i] = $basicAddressData;
             $addressRows[$i] = $basicAddressRow;
-            $addressRows[$i]['_email'] = '';
-            $addressRows[$i]['_entity_id'] = '';
+            $addressRows[$i]['_email'] = '%realEmail%';
+            $addressRows[$i]['_entity_id'] = '%realAddressId%';
             if ($i<3) {
                 $addressData[$i]['street_address_line_1'] = $streets[$i];
                 $addressRows[$i]['street'] = $streets[$i];
@@ -135,6 +135,8 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         $addressRows[3]['_website'] = 'admin';
         //row 5: different address id
         $addressRows[4]['_entity_id'] = '10000';
+		//row 6: empty address id
+		$addressRows[5]['_entity_id'] = '';
 
         //validation messages
         $successfulImport = array('validation' => array(
@@ -163,6 +165,14 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
                 )
             )
         );
+		$emptyEntityId = array('validation' => array(
+			'error' => array("Customer address id column is not specified in rows: 1"),
+			'validation' => array(
+				"File is totally invalid. Please fix errors and re-upload file",
+				"Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
+			)
+		)
+		);
 
         return array(
             array($addressData[0], array($addressRows[0]), true, $successfulImport),
@@ -170,6 +180,7 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
             array($addressData[2], array($addressRows[2]), false, $customerNotFound),
             array($addressData[3], array($addressRows[3]), false, $customerNotFound),
             array($addressData[4], array($addressRows[4]), false, $addressNotFound),
+			array($addressData[5], array($addressRows[5]), false, $emptyEntityId),
             );
     }
 }
