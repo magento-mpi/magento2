@@ -1,0 +1,25 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage Sales Orders and related pages
+
+# 'New Order' page
+create_order_for_new_customer:
+    mca: sales_order_create/
+    title: New Order / Orders / Sales / Magento Admin
+    uimap: &create_order_for_new_customer
+        form:
+            fieldsets: &newOrderForNewCustomerFieldsets
+                -
+                    order_payment_method: &orderPaymentMethod
+                        xpath: //div[@id='order-billing_method']
+                        fields:
+                            purchase_order_number: //input[@id='po_number']
