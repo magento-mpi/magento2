@@ -75,7 +75,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
         $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY, $helper->__('Website is not specified'));
         $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY, $helper->__('E-mail is not specified'));
         $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
-            $helper->__("Customer with such email and website code doesn't exist")
+            $helper->__("Invalid value in website column")
         );
         $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, $helper->__('E-mail is invalid'));
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
@@ -156,9 +156,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
         $this->_validatedRows[$rowNumber] = true;
         $this->_processedEntitiesCount++;
 
-        if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+        if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
             $this->_validateRowForUpdate($rowData, $rowNumber);
-        } elseif ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+        } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
             $this->_validateRowForDelete($rowData, $rowNumber);
         }
 

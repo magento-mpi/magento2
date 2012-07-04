@@ -146,7 +146,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
 
                 // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+                    if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
                         if ($attributeCode == $rewardPointsKey) {
                             $this->_deleteRewardPoints($customer, $websiteId);
                         } elseif ($attributeCode == $customerBalanceKey) {

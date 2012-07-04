@@ -314,12 +314,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
                     continue;
                 }
 
-                if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+                if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
                     $entitiesToDelete[] = $this->_getCustomerId(
                         $rowData[self::COLUMN_EMAIL],
                         $rowData[self::COLUMN_WEBSITE]
                     );
-                } elseif ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+                } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
                     $processedData = $this->_prepareDataForUpdate($rowData);
                     $entitiesToCreate = array_merge($entitiesToCreate, $processedData[self::ENTITIES_TO_CREATE_KEY]);
                     $entitiesToUpdate = array_merge($entitiesToUpdate, $processedData[self::ENTITIES_TO_UPDATE_KEY]);
