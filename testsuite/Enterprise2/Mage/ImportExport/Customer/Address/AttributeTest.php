@@ -104,14 +104,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
 
         //Step 1
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 2.1
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 2.2
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
 
         //Step 3
         $report = $this->ImportExportHelper()->export();
@@ -154,7 +147,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
         $this->customerAddressAttributeHelper()->openAttribute(
             array(
                 'attribute_code'=> $attrData['attribute_code'],
-                'attribute_label'=> $attrData['attribute_label']
+                'attribute_label'=> $attrData['admin_title']
             ));
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
@@ -163,14 +156,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
 
         //Step 1
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 2.1
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 2.2
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
 
         //Step 3
         $report = $this->ImportExportHelper()->export();
