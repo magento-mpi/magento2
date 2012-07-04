@@ -22,12 +22,6 @@ class Community2_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Sele
         $this->loginAdminUser();
     }
 
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-    }
-
     /**
      * <p>Creating Simple product</p>
      *
@@ -75,7 +69,6 @@ class Community2_Mage_CheckoutOnePage_Guest_PaymentMethodsTest extends Mage_Sele
      * @test
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3191
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {

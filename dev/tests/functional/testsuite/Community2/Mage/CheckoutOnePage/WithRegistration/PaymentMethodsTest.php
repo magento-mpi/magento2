@@ -29,12 +29,6 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extend
         $this->shoppingCartHelper()->frontClearShoppingCart();
     }
 
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-    }
-
     /**
      * <p>Creating Simple product</p>
      *
@@ -81,7 +75,6 @@ class Community2_Mage_CheckoutOnePage_WithRegistration_PaymentMethodsTest extend
      * @test
      * @depends preconditionsForTests
      * @dataProvider differentPaymentMethodsWithout3DDataProvider
-     * @TestlinkId TL-MAGE-3206
      */
     public function differentPaymentMethodsWithout3D($payment, $testData)
     {

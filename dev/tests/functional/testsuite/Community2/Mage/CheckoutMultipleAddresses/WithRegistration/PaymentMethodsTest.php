@@ -29,12 +29,6 @@ class Community2_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsT
         $this->shoppingCartHelper()->frontClearShoppingCart();
     }
 
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->systemConfigurationHelper()->useHttps('frontend', 'no');
-    }
-
     /**
      * @return array
      * @test
@@ -74,7 +68,6 @@ class Community2_Mage_CheckoutMultipleAddresses_WithRegistration_PaymentMethodsT
      * @test
      * @dataProvider paymentsWithout3dDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-3183
      */
     public function paymentsWithout3d($payment, $testData)
     {
