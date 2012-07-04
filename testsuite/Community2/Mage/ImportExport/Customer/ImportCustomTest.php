@@ -44,7 +44,6 @@ class Community2_Mage_ImportExport_CustomerCustom extends Mage_Selenium_TestCase
      */
     public function customImport($originalCustomerData, $customerRow, $updatedCustomerData, $validation)
     {
-        print_r($customerRow);
         //Precondition: create customer if needed for current test
         foreach ($originalCustomerData as $key => $value) {
             if (!is_null($originalCustomerData[$key])) {
