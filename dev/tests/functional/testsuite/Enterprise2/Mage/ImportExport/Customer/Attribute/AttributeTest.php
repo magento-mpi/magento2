@@ -70,14 +70,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 2
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 4
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForAjax();
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 5
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
@@ -124,16 +117,9 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         $this->customerAttributeHelper()->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Step 2
+        //Steps 2-4
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 4
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForAjax();
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 5
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
@@ -177,16 +163,9 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         $this->clickButtonAndConfirm('delete_attribute','delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
-        //Step 2
+        //Steps 2-4
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 4
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForAjax();
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 5
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
@@ -230,16 +209,10 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         $userData = $this->loadDataSet('ImportExport.yml', 'customer_account_with_attribute');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        //Step 1
+        //Steps 1-2
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step2
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        $this->fillDropdown('export_file', 'Customers Main File');
-        $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step3
         $this->ImportExportHelper()->setFilter(array(
                 $attrData['attribute_code'] => $userData['custom_attribute'])

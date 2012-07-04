@@ -73,6 +73,34 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
         return $this;
     }
+	/**
+	 * Choose Export dialog options
+	 *
+	 * @param string $entityType Entity type to Export (Products/Customers)
+	 * @param string $exportVersion Export version (Magento 2.0 format or Magento 1.7 format)
+	 * @param string $exportEntity Export entity for Magento 2.0 format
+	 *
+	 */
+	public function chooseExportOptions($entityType, $exportVersion = Null, $exportEntity = Null){
+
+		$this->fillDropdown('entity_type', $entityType);
+		if (!is_null($exportVersion)){
+			$this->waitForElementVisible(
+				$this->_getControlXpath('dropdown','export_file_version')
+			);
+			$this->fillDropdown('export_file_version', $exportVersion);
+			if (!is_null($exportEntity)){
+				$this->waitForElementVisible(
+					$this->_getControlXpath('dropdown', 'export_file')
+				);
+				$this->fillDropdown('export_file', $exportEntity);
+				$this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
+				$this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+			}
+		}
+
+		return $this;
+	}
     /**
      * Generate URL for selected area
      *

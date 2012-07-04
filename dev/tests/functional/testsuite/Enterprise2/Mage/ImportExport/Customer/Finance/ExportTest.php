@@ -74,16 +74,9 @@ class Enterprise2_Mage_ImportExport_ExportFinanceTest extends Mage_Selenium_Test
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' =>'10011'));
         $this->customerHelper()->openCustomer(array('email' => $attrData['email']));
         $this->customerHelper()->updateRewardPointsBalance(array('update_balance' =>'1002'));
-        //Step 1
+        //Steps 1-4
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 4
-        $this->fillDropdown('export_file', 'Customer Finances');
-        $this->waitForAjax();
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Finances');
         $report = $this->ImportExportHelper()->export();
         $this->assertNotNull($this->importExportHelper()->lookForEntity('finance',
                 array(
