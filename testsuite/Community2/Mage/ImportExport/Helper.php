@@ -94,6 +94,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 					$this->_getControlXpath('dropdown', 'export_file')
 				);
 				$this->fillDropdown('export_file', $exportEntity);
+				$this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
 				$this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
 			}
 		}

@@ -145,9 +145,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         }
         //export all customer files
         $this->admin('export');
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
+		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         $report = array();
         foreach ($customerTypes as $customerType) {
