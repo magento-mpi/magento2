@@ -40,7 +40,7 @@ class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium
     public function importCustomerFileWithInvalidData($customerData, array $validationMessage)
     {
         $this->admin('manage_customer_attributes');
-        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_attribute_yesno');
+        $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute_yesno');
         $this->customerAttributeHelper()->createAttribute($attrData);
         $customerData[$attrData['attribute_code']] = 'gf13gh';
         $this->admin('import');
