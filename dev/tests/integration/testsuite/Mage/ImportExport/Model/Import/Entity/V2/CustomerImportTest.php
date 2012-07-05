@@ -47,10 +47,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerImportTest extends PH
      */
     public function testImportData()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // 3 customers will be imported.
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 5;
@@ -109,10 +105,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerImportTest extends PH
      */
     public function testDeleteData()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection Mage_Customer_Model_Resource_Customer_Collection */

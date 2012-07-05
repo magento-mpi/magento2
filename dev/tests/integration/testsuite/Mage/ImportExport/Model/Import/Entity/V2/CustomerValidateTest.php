@@ -73,10 +73,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowDuplicateEmail()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(0, $this->_model->getErrorsCount());
 
@@ -93,10 +89,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowInvalidEmail()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_customerData[Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::COLUMN_EMAIL]
             = 'wrong_email@format';
         $this->_model->validateRow($this->_customerData, 0);
@@ -111,10 +103,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowInvalidWebsite()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_customerData[Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::COLUMN_WEBSITE]
             = 'not_existing_web_site';
         $this->_model->validateRow($this->_customerData, 0);
@@ -129,10 +117,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowInvalidStore()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_customerData[Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::COLUMN_STORE]
             = 'not_existing_web_store';
         $this->_model->validateRow($this->_customerData, 0);
@@ -147,10 +131,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowPasswordLengthIncorrect()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_customerData['password'] = '12345';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(1, $this->_model->getErrorsCount());
@@ -164,10 +144,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowPasswordLengthCorrect()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_customerData['password'] = '1234567890';
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertEquals(0, $this->_model->getErrorsCount());
@@ -178,10 +154,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateRowAttributeRequired()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         unset($this->_customerData['firstname']);
         unset($this->_customerData['lastname']);
         unset($this->_customerData['group_id']);
@@ -205,10 +177,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_CustomerValidateTest extends 
      */
     public function testValidateEmailForDeleteBehavior()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $this->_customerData[Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer::COLUMN_EMAIL]
             = 'new.customer@example.com';
 

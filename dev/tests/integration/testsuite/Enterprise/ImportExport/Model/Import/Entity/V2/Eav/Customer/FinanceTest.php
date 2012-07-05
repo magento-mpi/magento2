@@ -43,10 +43,6 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function testImportData()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         /**
          * Try to get test website instance,
          * in this case test website will be added into protected property of Application instance class.
@@ -138,10 +134,6 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function testImportDataDelete()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance_delete.csv';
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToCsvFile);
         $model = new Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance();

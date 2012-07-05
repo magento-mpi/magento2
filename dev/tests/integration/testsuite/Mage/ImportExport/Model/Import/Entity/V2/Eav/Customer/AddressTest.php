@@ -60,10 +60,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testConstruct()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // check entity table
         $this->assertAttributeInternalType('string', '_entityTable', $this->_entityAdapter,
             'Entity table must be a string.');
@@ -102,10 +98,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testInitAddresses()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // get addressed from fixture
         $customers = Mage::registry($this->_fixtureKey);
         $correctAddresses = array();
@@ -156,10 +148,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testSaveAddressEntities()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // invoke _saveAddressEntities
         list($customerId, $addressId) = $this->_addTestAddress($this->_entityAdapter);
 
@@ -212,10 +200,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testSaveAddressAttributes()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // get attributes list
         $attributesReflection = new ReflectionProperty($this->_testClassName, '_attributes');
         $attributesReflection->setAccessible(true);
@@ -259,10 +243,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testSaveCustomerDefaults()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // get not default address
         $customers = Mage::registry($this->_fixtureKey);
         /** @var $notDefaultAddress Mage_Customer_Model_Address */
@@ -349,10 +329,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testImportDataAddUpdate()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // set behaviour
         $this->_entityAdapter->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE)
@@ -444,10 +420,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testImportDataDelete()
     {
-        if (Magento_Test_Bootstrap::getInstance()->getDbVendorName() != 'mysql') {
-            $this->markTestIncomplete('BUG MAGETWO-1953');
-        }
-
         // set behaviour
         $this->_entityAdapter->setParameters(
             array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE)
