@@ -64,7 +64,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
     {
         //step1
         $this->admin('manage_customer_address_attributes');
-        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_address_attribute');
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'generic_customer_address_attribute');
         $this->customerAddressAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -97,7 +97,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
     {
         //Precondition: create customer
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
 
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
