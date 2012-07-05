@@ -653,7 +653,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             array(
                 Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test1@email.com',
                 Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'Website1',
-                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update',
+                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => null,
                 Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1,
                 Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
                     => 100,
