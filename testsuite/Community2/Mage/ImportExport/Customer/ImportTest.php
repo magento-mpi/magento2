@@ -503,86 +503,107 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
      * <p>Expected: valid data information was imported correctly</p>
      *
      * @test
+     * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5635
      */
-    public function partialImport()
+    public function partialImport($csvData, $newCustomerData, $validation)
     {
-        //test data
-        $customerData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
-        $customerData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'data_invalid_customer1_5635');
-        $csvData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_customer1_5635');
-        $csvData[0]['valid']['email'] = $customerData[0]['valid']['email'];
-        $csvData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_customer1_5635');
-        $csvData[0]['invalid']['email'] = $customerData[0]['invalid']['email'];
-        $customerData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer2_5635');
-        $customerData[1]['invalid'] = $customerData[0]['valid'];
-        $csvData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_customer2_5635');
-        $csvData[1]['valid']['email'] = $customerData[1]['valid']['email'];
-        $csvData[1]['invalid'] = $csvData[1]['valid'];
-        //Step 2
+        //Set correct email for csv data
+        foreach ($csvData as $key => $value) {
+            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>'){
+                $csvData[$key]['email'] = self::$customerData['email'];
+            }
+        }
+        //Steps 2-4
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customers Main File');
-        //Step 5
-        $importData = $this->importExportHelper()->import($csvData[0]);
-        //Verifying
-        $this->assertEquals(
-            'Invalid value in website column in rows: 2',
-            $importData['validation']['error'][0], 'Message about invalid website is absent'
-        );
-        $this->assertEquals(
-            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
-            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
-        );
-        $this->assertEquals(
-            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
-            $importData['validation']['validation'][1], 'No message checked rows number'
-        );
+        //Steps 5-6
+        $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully: " .
-            print_r($importData));
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully: " .
-            print_r($importData));
-        //Step 6
-        $importData = $this->importExportHelper()->import($csvData[1]);
-        //Verifying messages (second file)
-        $this->assertEquals(
-            'E-mail is duplicated in import file in rows: 2',
-            $importData['validation']['error'][0], 'Message about duplication is absent'
-        );
-        $this->assertEquals(
-            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
-            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
-        );
-        $this->assertEquals(
-            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
-            $importData['validation']['validation'][1], 'No message checked rows number'
-        );
-        //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
+        $this->assertEquals($validation, $importData, 'Import has been finished with issues');
         //Step 7
         $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[0]['valid']['first_name']
-            . ' ' . $customerData[0]['valid']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData[0]['valid']['email']));
-        //Verifying that new customer is created from valid csv row (first file)
-        $this->assertTrue($this->verifyForm($customerData[0]['valid'], 'account_information'),
+        $this->addParameter('customer_first_last_name', $newCustomerData['first_name']
+            . ' ' . $newCustomerData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $newCustomerData['email']));
+        //Verifying that new customer is created
+        $this->assertTrue($this->verifyForm($newCustomerData, 'account_information'),
             'New customer has not been created');
+    }
 
-        $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[0]['invalid']['first_name']
-            . ' ' . $customerData[0]['invalid']['last_name']);
-        // Verifying that no customer is created from invalid csv row (first file)
-        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($customerData[0]['invalid']),
-            'Customer is found');
+    public function partialImportData()
+    {
+        $csvRow1File1 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'firstname' => 'Sean',
+                'lastname' => 'Morgan',
+                'middlename' => 'M.',
+                'gender' => 'Male',
+            )
+        );
+        $newCustomer1Data = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => $csvRow1File1['email'],
+                'first_name' => 'Sean',
+                'last_name' => 'Morgan',
+                'middle_name' => 'M.',
+                'gender' => 'Male',
+            )
+        );
+        $csvRow2File1 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'email' => '<realEmail>',
+                '_website' => 'invalid',
+            )
+        );
 
-        $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[1]['valid']['first_name']
-            . ' ' . $customerData[1]['valid']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData[1]['valid']['email']));
-        //Verifying that new customer is created from valid csv row (second file)
-        $this->assertTrue($this->verifyForm($customerData[1]['valid'], 'account_information'),
-            'New customer has not been created');
+        $csvRows1 = array($csvRow1File1, $csvRow2File1);
+
+        $messageFile1 = array('validation' => array(
+            'error' => array("Invalid value in website column in rows: 2"),
+            'validation' => array(
+            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+            "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+                )
+            ),
+            'import' => array(
+                'success' => array("Import successfully done."),
+            ),
+        );
+
+        $csvRow1File2 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'firstname' => 'Ann',
+                'lastname' => 'Gordon',
+                'middlename' => 'G.',
+                'gender' => 'Female',
+            )
+        );
+        $newCustomer2Data = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => $csvRow1File2['email'],
+                'first_name' => 'Ann',
+                'last_name' => 'Gordon',
+                'middle_name' => 'G.',
+                'gender' => 'Female',
+            )
+        );
+        $csvRow2File2 = $csvRow1File2;
+
+        $csvRows2 = array($csvRow1File2, $csvRow2File2);
+
+        $messageFile2 = array('validation' => array(
+            'error' => array("E-mail is duplicated in import file in rows: 2"),
+            'validation' => array(
+                "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+            )
+        ),
+            'import' => array(
+                'success' => array("Import successfully done."),
+            ),
+        );
+
+        return array(
+            array($csvRows1, $newCustomer1Data, $messageFile1),
+            array($csvRows2, $newCustomer2Data, $messageFile2),
+        );
+
     }
 
     /**
