@@ -2352,21 +2352,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     public function insertOnDuplicate($table, array $data, array $fields = array())
     {
         $row = reset($data); // get first element from data array
-        if (is_array($row)) {
-            $cols = array_keys($row);
-        } else {
-            $cols = array_keys($data);
-        }
-
-        $hasIdentityColumns = false;
-        $identityColumns = $this->_getIdentityColumns($table);
-        if ($identityColumns && !array_diff($this->_getIdentityColumns($table), $cols)) {
-            $hasIdentityColumns = true;
-        }
-
-        if ($hasIdentityColumns) {
-            $this->query(sprintf('SET IDENTITY_INSERT %s ON', $this->quoteIdentifier($table)));
-        }
 
         if (is_array($row)) { // Array of column-value pairs
             $result = 0;
@@ -2375,10 +2360,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             }
         } else { // Column-value pairs
             $result = $this->_merge($table, $data, $fields);
-        }
-
-        if ($hasIdentityColumns) {
-            $this->query(sprintf('SET IDENTITY_INSERT %s OFF', $this->quoteIdentifier($table)));
         }
 
         return $result;
@@ -2438,7 +2419,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     public function insertArray($table, array $columns, array $data)
     {
-        $vals = array();
+        $values = array();
         $bind = array();
         $over = false;
         $i = 0;
@@ -2458,13 +2439,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             foreach ($row as $value) {
                 if ($value instanceof Zend_Db_Expr) {
                     $line[] = $value->__toString();
-                }
-                else {
+                } else {
                     $line[] = '?';
                     $bind[] = $value;
                 }
             }
-            $vals[] = sprintf('SELECT %s', implode(',', $line));
+            $values[] = sprintf('SELECT %s', implode(',', $line));
         }
 
         // build the statement
@@ -2472,8 +2452,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
 
         $sql = sprintf("INSERT INTO %s (%s) %s",
             $this->quoteIdentifier($table, true),
-            implode(',', $columns), implode(' UNION ALL ', $vals)
+            implode(',', $columns), implode(' UNION ALL ', $values)
         );
+
+        $sql = $this->wrapEnableIdentityDataInsert($sql, $table, $columns);
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, $bind);
@@ -2484,6 +2466,106 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         return $result;
+    }
+
+    /**
+     * Inserts a table row with specified data.
+     *
+     * @param string $table The table to insert data into.
+     * @param array $bind Column-value pairs.
+     * @throws Zend_Db_Adapter_Exception
+     * @return int The number of affected rows.
+     */
+    public function insert($table, array $bind)
+    {
+        // extract and quote col names from the array keys
+        $cols = array();
+        $vals = array();
+        $i = 0;
+        foreach ($bind as $col => $val) {
+            $cols[] = $this->quoteIdentifier($col, true);
+            if ($val instanceof Zend_Db_Expr) {
+                $vals[] = $val->__toString();
+                unset($bind[$col]);
+            } else {
+                if ($this->supportsParameters('positional')) {
+                    $vals[] = '?';
+                } else {
+                    if ($this->supportsParameters('named')) {
+                        unset($bind[$col]);
+                        $bind[':col'.$i] = $val;
+                        $vals[] = ':col'.$i;
+                        $i++;
+                    } else {
+                        /** @see Zend_Db_Adapter_Exception */
+                        #require_once 'Zend/Db/Adapter/Exception.php';
+                        throw new Zend_Db_Adapter_Exception(
+                            get_class($this) ." doesn't support positional or named binding"
+                        );
+                    }
+                }
+            }
+        }
+
+        // build the statement
+        $sql = $this->_getInsertSqlQuery($table, $cols, $vals);
+
+        // execute the statement and return the number of affected rows
+        if ($this->supportsParameters('positional')) {
+            $bind = array_values($bind);
+        }
+        $stmt = $this->query($sql, $bind);
+        $result = $stmt->rowCount();
+        return $result;
+    }
+
+    /**
+     * Return insert sql query
+     *
+     * @param string $tableName
+     * @param array $columns
+     * @param array $values
+     * @return string
+     */
+    protected function _getInsertSqlQuery($tableName, array $columns, array $values)
+    {
+        // build the statement
+        $sql = "INSERT INTO "
+             . $this->quoteIdentifier($tableName, true)
+             . ' (' . implode(', ', $columns) . ') '
+             . 'VALUES (' . implode(', ', $values) . ')';
+
+        $sql = $this->wrapEnableIdentityDataInsert($sql, $tableName, $columns);
+
+        return $sql;
+    }
+
+    /**
+     * Modify query to allow inserting into identity column
+     *
+     * @param string|Varien_Db_Select $sql
+     * @param string $tableName
+     * @param array $updatingColumns column(s) in which data will be inserted
+     * @return string
+     */
+    public function wrapEnableIdentityDataInsert($sql, $tableName, array $updatingColumns)
+    {
+        if (!count($updatingColumns)) {
+            return $sql;
+        }
+
+        $identityColumns = $this->_getIdentityColumns($tableName);
+
+        // Explicit value must be specified for identity column in table either when IDENTITY_INSERT is set to ON
+        if (count(array_intersect($identityColumns, $updatingColumns))) {
+            $quotedTableName = $this->quoteIdentifier($tableName);
+
+            $sql = sprintf('SET IDENTITY_INSERT %s ON', $quotedTableName) . "\n"
+                . $sql . "\n"
+                . sprintf(';SET IDENTITY_INSERT %s OFF', $quotedTableName);
+        }
+
+        return $sql;
     }
 
     /**

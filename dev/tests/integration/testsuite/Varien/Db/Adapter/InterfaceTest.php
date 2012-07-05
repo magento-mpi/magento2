@@ -43,6 +43,14 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $this->_twoColumnIdxName = $installer->getIdxName($this->_tableName, array('column1', 'column2'));
 
         $table = $this->_connection->newTable($this->_tableName)
+            ->addColumn('id', Varien_Db_Ddl_Table::TYPE_INTEGER, null,
+                array(
+                    'identity' => true,
+                    'unsigned' => true,
+                    'nullable' => false,
+                    'primary'  => true,
+                ),
+            'Id')
             ->addColumn('column1', Varien_Db_Ddl_Table::TYPE_INTEGER)
             ->addColumn('column2', Varien_Db_Ddl_Table::TYPE_INTEGER)
             ->addIndex($this->_oneColumnIdxName, array('column1'))
@@ -145,6 +153,8 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test insertArray() method
+     *
      * @param array $columns
      * @param array $data
      * @param array $expected
@@ -154,12 +164,17 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         $this->_connection->insertArray($this->_tableName, $columns, $data);
         $select = $this->_connection->select()
-            ->from($this->_tableName)
+            ->from($this->_tableName, array('column1', 'column2'))
             ->order('column1');
         $result = $this->_connection->fetchAll($select);
         $this->assertEquals($expected, $result);
     }
 
+    /**
+     * Data provider for insertArray() test
+     *
+     * @return array
+     */
     public function insertArrayDataProvider()
     {
         return array(
@@ -187,6 +202,15 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                     array('column1' => 3, 'column2' => 4),
                 ),
             ),
+            'several columns with identity' => array( // test possibility to insert data with filled identity field
+                array('id', 'column1', 'column2'),
+                array(array(1, 0, 0), array(2, 1, 1), array(3, 2, 2)),
+                array(
+                    array('column1' => 0, 'column2' => 0),
+                    array('column1' => 1, 'column2' => 1),
+                    array('column1' => 2, 'column2' => 2)
+                ),
+            )
         );
     }
 
@@ -196,5 +220,45 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     public function testInsertArrayTwoColumnsWithSimpleData()
     {
         $this->_connection->insertArray($this->_tableName, array('column1', 'column2'), array(1, 2));
+    }
+
+    /**
+     * Test insert() method
+     *
+     * @param array $bind
+     * @dataProvider insertDataProvider
+     */
+    public function testInsert(array $bind)
+    {
+        $this->_connection->insert($this->_tableName, $bind);
+        $select = $this->_connection->select()
+            ->from($this->_tableName);
+
+        $result = $this->_connection->fetchRow($select);
+
+        if (isset($bind['id'])) {
+            $this->assertEquals($bind['id'], $result['id']);
+            unset($bind['id']);
+        }
+        unset($result['id']);
+
+        $this->assertEquals($bind, $result);
+    }
+
+    /**
+     * Data provider for insert() test
+     *
+     * @return array
+     */
+    public function insertDataProvider()
+    {
+        return array(
+            'insert regular data' => array(
+                '$bind' => array('column1' => 1, 'column2' => 2)
+            ),
+            'insert data with identity' => array( // test possibility to insert data with filled identity field
+                '$bind' => array('id' => 10, 'column1' => 100, 'column2' => 200)
+            )
+        );
     }
 }
