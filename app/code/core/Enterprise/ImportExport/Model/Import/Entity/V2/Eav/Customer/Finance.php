@@ -152,7 +152,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                         } elseif ($attributeCode == $customerBalanceKey) {
                             $this->_deleteCustomerBalance($customer, $websiteId);
                         }
-                    } else {
+                    } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
                         if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                             if ($attributeCode == $rewardPointsKey) {
                                 $this->_updateRewardPointsForCustomer(
