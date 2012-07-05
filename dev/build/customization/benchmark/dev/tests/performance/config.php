@@ -27,7 +27,7 @@ return array(
         'admin_username'             => 'admin',
         'admin_password'             => '123123q',
     ),
-    'scenarios' => 'testsuite/{home_page,checkout}.jmx',
+    'scenarios' => 'testsuite/{home_page}.jmx',
     'fixtures' => 'testsuite/fixtures/*.php',
     'scenario_params' => array(
         'host'  => 'mage2.magentocommerce.com',
