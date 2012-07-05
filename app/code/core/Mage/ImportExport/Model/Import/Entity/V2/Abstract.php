@@ -359,7 +359,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             $behavior = $this->_parameters['behavior'];
             if ($rowData !== null && $behavior == Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM) {
                 // try analyze value in self::COLUMN_CUSTOM column and return behavior for given $rowData
-                if (isset($rowData[self::COLUMN_ACTION])) {
+                if (array_key_exists(self::COLUMN_ACTION, $rowData)) {
                     if (strtolower($rowData[self::COLUMN_ACTION]) == self::COLUMN_ACTION_VALUE_DELETE) {
                         $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE;
                     } else {
@@ -377,7 +377,17 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
             }
         }
 
-        return Mage_ImportExport_Model_Import::getDefaultBehavior();
+        return self::getDefaultBehavior();
+    }
+
+    /**
+     * Get default import behavior
+     *
+     * @return string
+     */
+    public static function getDefaultBehavior()
+    {
+        return Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
     }
 
     /**

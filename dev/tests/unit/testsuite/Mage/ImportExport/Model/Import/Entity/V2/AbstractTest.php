@@ -213,7 +213,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
         $property->setAccessible(true);
         $property->setValue($this->_model, $this->_availableBehaviors);
 
-        $default = Mage_ImportExport_Model_Import::getDefaultBehavior();
+        $default = Mage_ImportExport_Model_Import_Entity_V2_Abstract::getDefaultBehavior();
 
         foreach ($this->_availableBehaviors as $behavior) {
             $this->_model->setParameters(array(
@@ -331,7 +331,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
             "custom behavior and empty row is empty array" => array(
                 '$inputBehavior'    => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
                 '$rowData'          => array(),
-                '$expectedBehavior' => Mage_ImportExport_Model_Import::getDefaultBehavior()
+                '$expectedBehavior' => Mage_ImportExport_Model_Import_Entity_V2_Abstract::getDefaultBehavior()
             ),
             "custom behavior and row with delete in action column and empty available behaviors" => array(
                 '$inputBehavior'      => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
@@ -339,7 +339,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
                     Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION =>
                     Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION_VALUE_DELETE
                 ),
-                '$expectedBehavior'   => Mage_ImportExport_Model_Import::getDefaultBehavior(),
+                '$expectedBehavior'   => Mage_ImportExport_Model_Import_Entity_V2_Abstract::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
             "custom behavior and row with update in action column and empty available behaviors" => array(
@@ -347,7 +347,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
                 '$rowData'            => array(
                     Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update'
                 ),
-                '$expectedBehavior'   => Mage_ImportExport_Model_Import::getDefaultBehavior(),
+                '$expectedBehavior'   => Mage_ImportExport_Model_Import_Entity_V2_Abstract::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
             "custom behavior and row with bogus string in action column and empty available behaviors" => array(
@@ -355,7 +355,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
                 '$rowData'            => array(
                     Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => microtime(true)
                 ),
-                '$expectedBehavior'   => Mage_ImportExport_Model_Import::getDefaultBehavior(),
+                '$expectedBehavior'   => Mage_ImportExport_Model_Import_Entity_V2_Abstract::getDefaultBehavior(),
                 '$availableBehaviors' => array()
             ),
         );
