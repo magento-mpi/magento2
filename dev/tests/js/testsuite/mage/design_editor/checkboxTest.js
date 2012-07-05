@@ -7,21 +7,18 @@
  * @license     {license_link}
  */
 CheckboxTest = TestCase('CheckboxTest');
-
 CheckboxTest.prototype.testInit = function() {
     /*:DOC += <div id="checkbox"></div> */
     var checkbox = jQuery('#checkbox').vde_checkbox();
     assertEquals(true, checkbox.is(':vde-vde_checkbox'));
     checkbox.vde_checkbox('destroy');
 };
-
 CheckboxTest.prototype.testDefaultOptions = function() {
     /*:DOC += <div id="checkbox"></div> */
     var checkbox = jQuery('#checkbox').vde_checkbox();
     assertEquals('checked', checkbox.vde_checkbox('option', 'checkedClass'));
     checkbox.vde_checkbox('destroy');
 };
-
 CheckboxTest.prototype.testClickEvent = function() {
     /*:DOC += <div id="checkbox"></div> */
     var checkbox = jQuery('#checkbox').vde_checkbox();
