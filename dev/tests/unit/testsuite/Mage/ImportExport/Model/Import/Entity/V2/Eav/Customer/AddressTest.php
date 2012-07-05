@@ -213,17 +213,17 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         $availableBehaviors->setValue($modelMock, $this->_availableBehaviors);
 
         // mock to imitate data source model
-        $importResourceMock = $this->getMock(
+        $dataSourceMock = $this->getMock(
             'Mage_ImportExport_Model_Resource_Import_Data',
             array('getNextBunch'),
             array(),
             '',
             false
         );
-        $importResourceMock->expects($this->at(0))
+        $dataSourceMock->expects($this->at(0))
             ->method('getNextBunch')
             ->will($this->returnValue($customBehaviorRows));
-        $importResourceMock->expects($this->at(1))
+        $dataSourceMock->expects($this->at(1))
             ->method('getNextBunch')
             ->will($this->returnValue(null));
 
@@ -232,9 +232,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
             '_dataSourceModel'
         );
         $dataSourceModel->setAccessible(true);
-        $dataSourceModel->setValue($modelMock, $importResourceMock);
+        $dataSourceModel->setValue($modelMock, $dataSourceMock);
 
-        // mocks for entity adapter
+        // mock expects for entity adapter
         $modelMock->expects($this->any())
             ->method('validateRow')
             ->will($this->returnValue(true));
