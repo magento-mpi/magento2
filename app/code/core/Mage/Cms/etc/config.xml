@@ -17,6 +17,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Core/>
+                <Mage_Page/>
             </depends>
         </Mage_Cms>
     </modules>
@@ -79,8 +80,8 @@
             <browser>
                 <dirs>
                     <exclude>
-                        
-                        
+
+
                     </exclude>
                     <include/>
                 </dirs>
