@@ -69,10 +69,8 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
             $this->searchAndChoose(${'searchData' . $i});
         }
         $this->addParameter('qtyDeletedTags', $tagQty);
-        $xpath = $this->_getControlXpath('dropdown', 'tags_massaction');
-        $this->select($xpath, 'Change status');
-        $xpath = $this->_getControlXpath('dropdown', 'tags_status');
-        $this->select($xpath, 'Disabled');
+        $this->fillDropdown('tags_massaction', 'Change status');
+        $this->fillDropdown('tags_status', 'Disabled');
         $this->clickButton('submit', true);
         //Verifying
         $this->assertMessagePresent('success', 'success_changed_status');
@@ -112,8 +110,7 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
             $this->searchAndChoose(${'searchData' . $i});
         }
         $this->addParameter('qtyDeletedTags', $tagQty);
-        $xpath = $this->_getControlXpath('dropdown', 'tags_massaction');
-        $this->select($xpath, 'Delete');
+        $this->fillDropdown('tags_massaction', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
