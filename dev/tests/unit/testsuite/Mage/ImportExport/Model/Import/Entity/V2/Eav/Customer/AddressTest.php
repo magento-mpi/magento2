@@ -15,7 +15,7 @@
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Abstract customer address export model
+     * Customer address entity adapter mock
      *
      * @var Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
      */
@@ -172,7 +172,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         // input data
         $customBehaviorRows = array(
              array(
-                 Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update',
+                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update',
                 Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID
                     => $this->_customBehaviour['update_id'],
             ),
@@ -533,9 +533,9 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Test is correct methods invokes according to different custom behaviours
+     * Test if correct methods are invoked according to different custom behaviours
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest::_importData
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_importData
      */
     public function testImportDataWithCustomBehaviour()
     {
@@ -547,7 +547,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Validation method for _saveAddressEntities
+     * Validation method for _saveAddressEntities (callback for _saveAddressEntities)
      *
      * @param array $addUpdateRows
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
@@ -560,7 +560,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Validation method for _deleteAddressEntities
+     * Validation method for _deleteAddressEntities (callback for _deleteAddressEntities)
      *
      * @param array $deleteRowIds
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
