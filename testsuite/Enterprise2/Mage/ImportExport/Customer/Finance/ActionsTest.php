@@ -355,30 +355,27 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                 )
             ),
             array(
+                $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
                     'email' => '%realEmail%',
-                    '_website' => 'base',
-                    '_finance_website' => 'base',
                     'store_credit' => '10',
                     'reward_points' => '20',
                     'action' => 'update'
-                ),
+                )),
+                $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
                     'email' => 'wrongEmail@example.com',
-                    '_website' => 'base',
-                    '_finance_website' => 'base',
                     'store_credit' => '250',
                     'reward_points' => '300',
                     'action' => 'UPDATE'
-                ),
+                )),
+                $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
                     'email' => '%realEmail%',
-                    '_website' => 'base',
-                    '_finance_website' => 'base',
                     'store_credit' => '0',
                     'reward_points' => '0',
                     'action' => 'Update'
-                )
+                ))
             )
           )
         );
@@ -402,30 +399,27 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                     )
                 ),
                 array(
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '10',
                         'reward_points' => '20',
                         'action' => ''
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => 'wrongEmail@example.com',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '250',
                         'reward_points' => '300',
                         'action' => 'delete me'
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '0',
                         'reward_points' => '0',
                         'action' => 'test action'
-                    )
+                    ))
                 )
             )
         );
@@ -457,54 +451,48 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                     )
                 ),
                 array(
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '10',
                         'reward_points' => '20',
                         'action' => 'delete'
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '1',
                         'reward_points' => '1',
                         'action' => 'DeLeTe'
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '101',
                         'reward_points' => '201',
                         'action' => 'Del'
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '',
                         'reward_points' => '1',
                         'action' => 'Delete'
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => '%realEmail%',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '1',
                         'reward_points' => '',
                         'action' => 'DELETE'
-                    ),
+                    )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => 'wrongEmail@example.com',
-                        '_website' => 'base',
-                        '_finance_website' => 'base',
                         'store_credit' => '250',
                         'reward_points' => '300',
                         'action' => 'Delete'
-                    )
+                    ))
                 )
             )
         );
