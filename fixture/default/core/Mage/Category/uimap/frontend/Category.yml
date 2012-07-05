@@ -120,6 +120,14 @@ sub_category_page_before_reindex:
 category_page_index:
     mca: %categoryUrl%.html%categoryParam%
     title: %categoryTitle%
-    uimap:
-        form: *categoryPage
-        messages: *categoryPageMessages
+    uimap: *categoryUIMap
+
+category_layered_navigation:
+    mca: %categoryName%.html?cat=%catid%
+    title: %categoryTitle%
+    uimap: *categoryUIMap
+
+attribute_layered_navigation:
+    mca: %categoryName%.html?%attributeCode%=%attributeId%
+    title: %categoryTitle%
+    uimap: *categoryUIMap

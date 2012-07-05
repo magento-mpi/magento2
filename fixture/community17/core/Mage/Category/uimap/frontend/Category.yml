@@ -27,7 +27,7 @@
 ---
 #
 category_page_before_reindex:
-    uimap:
+    uimap: &categoryUIMap
         form:
             fieldsets:
                 -
@@ -47,11 +47,7 @@ category_page_before_reindex:
                         xpath: //*[@id='narrow-by-list2']
 
 category_layered_navigation:
-    mca: %categoryName%.html?cat=%catid%
-    title: %categoryTitle%
     uimap: *categoryUIMap
 
 attribute_layered_navigation:
-    mca: %categoryName%.html?%attributeCode%=%attributeId%
-    title: %categoryTitle%
     uimap: *categoryUIMap
