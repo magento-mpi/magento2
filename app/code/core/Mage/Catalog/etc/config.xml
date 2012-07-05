@@ -20,6 +20,7 @@
                 <Mage_Dataflow/>
                 <Mage_Cms/>
                 <Mage_Index/>
+                <Mage_Customer/>
             </depends>
         </Mage_Catalog>
     </modules>
