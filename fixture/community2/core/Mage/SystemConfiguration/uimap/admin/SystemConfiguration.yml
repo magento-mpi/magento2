@@ -14,12 +14,9 @@
 system_configuration:
     uimap: &system_configuration_uimap
         form:
-            fieldsets:
-                -
             tabs:
                 -
                     sales_payment_methods:
-                        xpath: //a[contains(@href, 'edit/section/payment/')]
                         fieldsets:
                             -
                                 banktransfer_payment:
@@ -77,4 +74,13 @@ system_configuration:
                                         cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
 
 system_configuration_tabs:
+    uimap: *system_configuration_uimap
+
+system_configuration_website:
+    uimap: *system_configuration_uimap
+
+system_configuration_store:
+    uimap: *system_configuration_uimap
+
+system_configuration_country:
     uimap: *system_configuration_uimap
