@@ -29,16 +29,7 @@
 #*******************************************************
 #*       Test data for customer creation(Backend)      *
 #*******************************************************
-import_main_file_required_fields:
-   email: %noValue%
-   _website: base
-   firstname: Violet
-   lastname: Fields
-   group_id: 3
-   reward_update_notification: 1
-   reward_warning_notification: 1
-
-import_finance_file_required_fields:
+generic_finance_csv:
    email: %noValue%
    _website: base
    _finance_website: base

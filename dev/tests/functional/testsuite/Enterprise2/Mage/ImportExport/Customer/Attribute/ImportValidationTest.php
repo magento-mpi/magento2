@@ -52,19 +52,20 @@ class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium
             $customerData
         );
         //Import file
-        $report = $this->importExportHelper()->import($data) ;
+        $importReport = $this->importExportHelper()->import($data) ;
         //Check import
         $validationMessage['validation']['error'] = str_replace(
             '%attribute_id%',
             $attrData['attribute_code'],
             $validationMessage['validation']['error']
         );
-        $this->assertEquals($validationMessage, $report, 'Import has been finished with issues');
+        $this->assertEquals($validationMessage, $importReport,
+            'Import has been finished with issues ' . print_r($importReport));
     }
 
     public function importDataInvalid()
     {
-        $customerDataRow5 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow5 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
