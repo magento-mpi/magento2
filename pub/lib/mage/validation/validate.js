@@ -1,3 +1,13 @@
+/**
+ * {license_notice}
+ *
+ * @category    validation
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/*jshint regexdash:true */
 jQuery.validator.addMethod("allowContainerClassName", function (element) {
   if ( element.type == 'radio' || element.type == 'checkbox' ) {
     return $(element).hasClass('change-container-classname');
@@ -16,18 +26,18 @@ jQuery.validator.addMethod("validateNoHtmlTags", function (value) {
  * Equivalent of  validate-select
  */
 jQuery.validator.addMethod("validateSelect", function (value) {
-  return ((value != "none") && (value != null) && (value.length != 0));
+  return ((value !== "none") && (value != null) && (value.length !== 0));
 }, 'Please select an option');
 
 jQuery.validator.addMethod("isEmpty", function (value) {
-  return  (value == '' || (value == null) || (value.length == 0) || /^\s+$/.test(value));
+  return  (value === '' || (value == null) || (value.length === 0) || /^\s+$/.test(value));
 }, 'Empty Value');
 
 (function () {
 
   function isEmpty(value) {
     // remove html tags and space chars
-    return  (value == '' || (value == null) || (value.length == 0) || /^\s+$/.test(value));
+    return  (value === '' || (value == null) || (value.length === 0) || /^\s+$/.test(value));
   }
 
   function parseNumber(value) {
@@ -57,14 +67,14 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of  validate-alphanum-with-spaces
    */
   jQuery.validator.addMethod("validateAlphanumWithSpaces", function (v) {
-    return !isEmpty(v) && /^[a-zA-Z0-9 ]+$/.test(v)
+    return !isEmpty(v) && /^[a-zA-Z0-9 ]+$/.test(v);
   }, 'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field');
 
   /**
    * Equivalent of  validate-street
    */
   jQuery.validator.addMethod("validateStreet", function (v) {
-    return !isEmpty(v) && /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v)
+    return !isEmpty(v) && /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v);
   }, 'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field');
 
   /**
@@ -92,7 +102,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of   validate-email
    */
   jQuery.validator.addMethod("validateEmail", function (v) {
-    return  !isEmpty(v) && /^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*@([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*\.(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]){2,})$/i.test(v)
+    return  !isEmpty(v) && /^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*@([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*\.(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]){2,})$/i.test(v);
   }, 'Please enter a valid email address. For example johndoe@domain.com.');
 
   /**
@@ -106,7 +116,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of   validate-password
    */
   jQuery.validator.addMethod("validatePassword", function (v) {
-    if (isEmpty(v)){
+    if ( isEmpty(v) ) {
       return false;
     }
     var pass = $.trim(v);
@@ -118,29 +128,32 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of   validate-admin-password
    */
   jQuery.validator.addMethod("validateAdminPassword", function (v) {
-    if (v == null){
+    if ( v == null ) {
       return false;
     }
     var pass = $.trim(v);
     /*strip leading and trailing spaces*/
-    if ( 0 == pass.length ) {
+    if ( 0 === pass.length ) {
       return true;
     }
     if ( !(/[a-z]/i.test(v)) || !(/[0-9]/.test(v)) ) {
       return false;
     }
-    return !(pass.length < 7);
+    if (pass.length < 7){
+      return false;
+    }
+    return true;
   }, 'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.');
 
   /**
    * Equivalent of   validate-url
    */
   jQuery.validator.addMethod("validateUrl", function (v) {
-    if ( isEmpty(v) ){
+    if ( isEmpty(v) ) {
       return false;
     }
     v = (v || '').replace(/^\s+/, '').replace(/\s+$/, '');
-    return /^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?(.*)?$/i.test(v)
+    return /^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?(.*)?$/i.test(v);
 
   }, 'Please enter a valid URL. Protocol is required (http://, https:// or ftp://).');
 
@@ -148,7 +161,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of   validate-clean-url
    */
   jQuery.validator.addMethod("validateCleanUrl", function (v) {
-    return  !isEmpty(v) && /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v)
+    return  !isEmpty(v) && /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v);
 
   }, 'Please enter a valid URL. For example http://www.example.com or www.example.com');
 
@@ -156,7 +169,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of   validate-xml-identifier
    */
   jQuery.validator.addMethod("validateXmlIdentifier", function (v) {
-    return !isEmpty(v) && /^[A-Z][A-Z0-9_\/-]*$/i.test(v)
+    return !isEmpty(v) && /^[A-Z][A-Z0-9_\/-]*$/i.test(v);
 
   }, 'Please enter a valid URL. For example http://www.example.com or www.example.com');
 
@@ -201,7 +214,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of   validate-not-negative-number
    */
   jQuery.validator.addMethod("validateNotNegativeNumber", function (v) {
-    if ( isEmpty(v) ){
+    if ( isEmpty(v) ) {
       return false;
     }
     v = parseNumber(v);
@@ -214,7 +227,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    */
 
   jQuery.validator.addMethod("validateGreaterThanZero", function (v) {
-    if ( isEmpty(v) ){
+    if ( isEmpty(v) ) {
       return false;
     }
     v = parseNumber(v);
@@ -226,7 +239,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    */
 
   jQuery.validator.addMethod("validateCssLength", function (v) {
-    if ( isEmpty(v) ){
+    if ( isEmpty(v) ) {
       return false;
     }
     v = parseNumber(v);
