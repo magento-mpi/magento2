@@ -13,6 +13,13 @@
     <modules>
         <Enterprise_AdminGws>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+                <Mage_Admin/>
+                <Mage_Sales/>
+            </depends>
         </Enterprise_AdminGws>
     </modules>
     <global>

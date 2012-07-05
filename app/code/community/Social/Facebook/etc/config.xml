@@ -13,6 +13,11 @@
     <modules>
         <Social_Facebook>
             <version>1.6.0.1</version>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Catalog/>
+            </depends>
         </Social_Facebook>
     </modules>
     <global>

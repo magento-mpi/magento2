@@ -705,8 +705,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _getDeclaredModuleFiles()
     {
-        $etcDir = $this->getOptions()->getEtcDir();
-        $moduleFiles = glob($etcDir . DS . 'modules' . DS . '*.xml');
+        $codeDir = $this->getOptions()->getCodeDir();
+        $moduleFiles = glob($codeDir . DS . '*' . DS . '*' . DS . '*' . DS . 'etc' . DS . 'config.xml');
 
         if (!$moduleFiles) {
             return false;
@@ -719,6 +719,20 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         );
 
         foreach ($moduleFiles as $v) {
+            $name = explode(DIRECTORY_SEPARATOR, $v);
+            $collection = $name[count($name) - 4];
+
+            if ($collection == 'Mage') {
+                $collectModuleFiles['mage'][] = $v;
+            } else {
+                $collectModuleFiles['custom'][] = $v;
+            }
+        }
+
+        $etcDir = $this->getOptions()->getEtcDir();
+        $additionalFiles = glob($etcDir . DS . 'modules' . DS . '*.xml');
+
+        foreach ($additionalFiles as $v) {
             $name = explode(DIRECTORY_SEPARATOR, $v);
             $name = substr($name[count($name) - 1], 0, -4);
 
@@ -774,7 +788,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $unsortedConfig = new Mage_Core_Model_Config_Base('<config/>');
         foreach ($moduleFiles as $oneConfigFile) {
             $fileConfig = new Mage_Core_Model_Config_Base($oneConfigFile);
-            $unsortedConfig->extend($fileConfig);
+            foreach ($fileConfig->_xml->xpath('modules/*') as $module) {
+                $newModule = new Mage_Core_Model_Config_Element('<config><modules/></config>');
+                $newModule->modules->appendChild($module);
+                $unsortedConfig->extend(new Mage_Core_Model_Config_Base($newModule));
+            }
         }
 
         $sortedConfig = new Mage_Core_Model_Config_Module($unsortedConfig, $this->_allowedModules);
