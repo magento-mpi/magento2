@@ -733,22 +733,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $additionalFiles = glob($etcDir . DS . 'modules' . DS . '*.xml');
 
         foreach ($additionalFiles as $v) {
-            $name = explode(DIRECTORY_SEPARATOR, $v);
-            $name = substr($name[count($name) - 1], 0, -4);
-
-            if ($name == 'Mage_All') {
-                $collectModuleFiles['base'][] = $v;
-            } else if (substr($name, 0, 5) == 'Mage_') {
-                $collectModuleFiles['mage'][] = $v;
-            } else {
-                $collectModuleFiles['custom'][] = $v;
-            }
+            $collectModuleFiles['base'][] = $v;
         }
 
         return array_merge(
-            $collectModuleFiles['base'],
             $collectModuleFiles['mage'],
-            $collectModuleFiles['custom']
+            $collectModuleFiles['custom'],
+            $collectModuleFiles['base']
         );
     }
 
@@ -880,6 +871,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     $configFile = $this->getModuleDir('etc', $modName).DS.$configFile;
                     if ($mergeModel->loadFile($configFile)) {
                         $mergeToObject->extend($mergeModel, true);
+                        //Prevent overriding <active> node of module if it was redefined in etc/modules
+                        $mergeToObject->extend(new Mage_Core_Model_Config_Base(
+                            "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"),
+                            true
+                        );
                     }
                 }
             }
