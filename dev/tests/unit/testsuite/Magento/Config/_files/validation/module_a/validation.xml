@@ -29,7 +29,6 @@
             <group name="test_group_a">
                 <uses>
                     <use rule="test_rule_zend"/>
-                    <use rule="test_rule_zend"/>
                     <use rule="test_rule_constraint"/>
                 </uses>
             </group>
