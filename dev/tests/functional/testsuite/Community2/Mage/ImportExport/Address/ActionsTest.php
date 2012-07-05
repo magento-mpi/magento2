@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_Selenium_TestCase
 {
     static protected $customersUpdateData = array();
     static protected $customersEmptyData = array();
@@ -233,10 +233,8 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                  $userAddressData['middle_name'] = '';
              }
              $this->assertFalse(!$this->customerHelper()->isAddressPresent($userAddressData),
-                             "Address not found for address data =\n" .
-                                 print_r($userAddressData) .
-                                 "csv data =\n" .
-                                 print_r($data[$i]));
+                             "Address not found for address data =\n" . print_r($userAddressData) .
+                             "csv data =\n" . print_r($data[$i]));
         }
     }
     /**
@@ -396,7 +394,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             'prefix' => '',
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
-                            'action' => 'Update'
+                            '_action' => 'Update'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -411,7 +409,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'UpDaTe'
+                            '_action' => 'UpDaTe'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -426,7 +424,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'update'
+                            '_action' => 'update'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -441,7 +439,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'Update'
+                            '_action' => 'Update'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -455,7 +453,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             'prefix' => '',
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
-                            'action' => 'Update'
+                            '_action' => 'Update'
                         )
                     )
                 )
@@ -472,7 +470,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_email' => '<realEmail>',
                             'postcode' => '10005',
                             '_entity_id' => '<realEntityID>',
-                            'action' => ''
+                            '_action' => ''
                         )
                     ),
                     $this->loadDataSet('ImportExport','generic_address_csv',
@@ -493,7 +491,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'Please, delete'
+                            '_action' => 'Please, delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport','generic_address_csv',
@@ -501,7 +499,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_email' => '<realEmail>',
                             'postcode' => '10007',
                             '_entity_id' => '',
-                            'action' => ''
+                            '_action' => ''
                         )
                     ),
                     $this->loadDataSet('ImportExport','generic_address_csv',
@@ -510,7 +508,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_email' => '<realEmail>',
                             'postcode' => '10008',
                             '_entity_id' => '',
-                            'action' => 'Please, delete'
+                            '_action' => 'Please, delete'
                         )
                     )
                 )
@@ -526,7 +524,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                         array(
                             '_email' => '<realEmail>',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'Delete'
+                            '_action' => 'Delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -547,7 +545,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'delete'
+                            '_action' => 'delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -555,14 +553,14 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_website' => 'invalid',
                             '_email' => '<realEmail>',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'delete'
+                            '_action' => 'delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
                         array(
                             '_email' => '<realEmail>',
                             '_entity_id' => '',
-                            'action' => 'delete'
+                            '_action' => 'delete'
                         )
                     )
                 )

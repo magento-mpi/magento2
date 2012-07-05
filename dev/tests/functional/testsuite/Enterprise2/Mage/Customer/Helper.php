@@ -82,6 +82,10 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function getStoreCreditBalance($webSiteName = '')
     {
         $this->openTab('store_credit');
+        $this->addParameter('webSiteName', 'No records found');
+        if ($this->controlIsPresent('field', 'current_balance')){
+            return 'No records found.';
+        }
         $this->addParameter('webSiteName', $webSiteName);
         return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
     }
@@ -94,6 +98,10 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     public function getRewardPointsBalance($webSiteName = '')
     {
         $this->openTab('reward_points');
+        $this->addParameter('webSiteName', 'No records found');
+        if ($this->controlIsPresent('field', 'balance_is_present')){
+            return 'No records found.';
+        }
         $this->addParameter('webSiteName', $webSiteName);
         return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
     }
