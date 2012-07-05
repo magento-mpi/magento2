@@ -2,45 +2,46 @@
 /**
  * {license_notice}
  *
- * @category    Magento
+ * @category    Mage
  * @package     Mage_Catalog
  * @subpackage  performance_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-// Extract product set id
-$productResource = Mage::getModel('Mage_Catalog_Model_Product');
-$entityType = $productResource->getResource()->getEntityType();
-$sets = Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Set_Collection')
-    ->setEntityTypeFilter($entityType->getId())
-    ->load();
+$installer = new Mage_Catalog_Model_Resource_Setup('catalog_setup');
+/**
+ * After installation system has two categories: root one with ID:1 and Default category with ID:2
+ */
+$category = new Mage_Catalog_Model_Category();
 
-$setId = null;
-foreach ($sets as $setInfo) {
-    $setId = $setInfo->getId();
-    break;
-}
-if (!$setId) {
-    throw new Exception('No attributes sets for product found.');
-}
+$category->setId(3)
+    ->setName('Category 1')
+    ->setParentId(2)
+    ->setPath('1/2/3')
+    ->setLevel(2)
+    ->setAvailableSortBy('name')
+    ->setDefaultSortBy('name')
+    ->setIsActive(true)
+    ->setPosition(1)
+    ->save();
 
-// Create product
 $product = new Mage_Catalog_Model_Product();
-$product->setTypeId('simple')
-    ->setAttributeSetId($setId)
+$product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
+    ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
+    ->setStoreId(1)
     ->setWebsiteIds(array(1))
-    ->setName('Product 1')
-    ->setShortDescription('Product 1 Short Description')
-    ->setWeight(1)
-    ->setDescription('Product 1 Description')
-    ->setSku('product_1')
+    ->setName('Simple Product')
+    ->setDescription('Description')
+    ->setShortDescription('Desc')
+    ->setSku('simple')
     ->setPrice(10)
+    ->setWeight(18)
+    ->setCategoryIds(array(2,3))
     ->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH)
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
     ->setTaxClassId(0)
-    ->save()
-;
+    ->save();
 
 $stockItem = new Mage_CatalogInventory_Model_Stock_Item();
 $stockItem->setProductId($product->getId())
