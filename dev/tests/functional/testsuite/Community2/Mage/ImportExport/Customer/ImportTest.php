@@ -404,7 +404,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $importData = $this->importExportHelper()->import($csvData[0]);
         //Verifying
         $this->assertEquals(
-            'Invalid value in Website column (website does not exists?) in rows: 2',
+            'Invalid value in website column in rows: 2',
             $importData['validation']['error'][0], 'Message about invalid website is absent'
         );
         $this->assertEquals(
