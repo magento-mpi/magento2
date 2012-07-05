@@ -8,7 +8,7 @@
  */
 class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
 {
-    protected static $customerData = array();
+    static protected $customerData = array();
 
     /**
      * <p>Precondition:</p>

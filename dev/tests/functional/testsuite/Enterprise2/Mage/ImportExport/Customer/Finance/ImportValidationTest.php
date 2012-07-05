@@ -125,7 +125,7 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
             ),
             array($customerDataRow3, array('validation' => array(
                 'error' => array(
-                    "Invalid value in Website column (website does not exists?) in rows: 1"
+                    "Invalid value in website column in rows: 1"
                     ),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",

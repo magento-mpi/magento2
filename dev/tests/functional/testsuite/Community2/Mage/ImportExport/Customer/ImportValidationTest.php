@@ -144,7 +144,7 @@ class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_
         return array(
             array($customerDataRow1, array('validation' => array(
                 'error' => array(
-                    "E-mail is invalid in rows: 1"
+                    "E-mail is not specified in rows: 1"
                 ),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
@@ -164,7 +164,7 @@ class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_
             ),
             array($customerDataRow3, array('validation' => array(
                 'error' => array(
-                    "Invalid value in Website column (website does not exists?) in rows: 1"
+                    "Invalid value in website column in rows: 1"
                 ),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
