@@ -42,7 +42,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
         $this->loginAdminUser();
         $this->admin('manage_customers');
         for ($i = 0; $i<5; $i++){
-            $userData = $this->loadDataSet('ImportExport', 'generic_customer_account');
+            $userData = $this->loadDataSet('Customers', 'generic_customer_account');
             $this->customerHelper()->createCustomer($userData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             self::$customersData[] = $userData;
