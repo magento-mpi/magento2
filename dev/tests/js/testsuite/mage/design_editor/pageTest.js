@@ -7,13 +7,11 @@
  * @license     {license_link}
  */
 PageTest = TestCase('PageTest');
-
 PageTest.prototype.testInit = function() {
     var page = jQuery('body').vde_page();
     assertEquals(true, page.is(':vde-vde_page'));
     page.vde_page('destroy');
 };
-
 PageTest.prototype.testDefaultOptions = function() {
     var page = jQuery('body').vde_page();
     assertEquals('.vde_element_wrapper.vde_container', page.vde_page('option', 'containerSelector'));
@@ -24,7 +22,6 @@ PageTest.prototype.testDefaultOptions = function() {
     assertEquals('vde_highlighting', page.vde_page('option', 'cookieHighlightingName'));
     page.vde_page('destroy');
 };
-
 PageTest.prototype.testInitContainers = function() {
     /*:DOC += <div class="vde_element_wrapper vde_container"></div> */
     var page = jQuery('body').vde_page();
@@ -32,7 +29,6 @@ PageTest.prototype.testInitContainers = function() {
     assertEquals(true, jQuery(containerSelector).is(':vde-vde_container'));
     page.vde_page('destroy');
 }
-
 PageTest.prototype.testInitPanel = function() {
     /*:DOC += <div id="vde_toolbar"></div> */
     var page = jQuery('body').vde_page();
@@ -40,7 +36,6 @@ PageTest.prototype.testInitPanel = function() {
     assertEquals(true, jQuery(panelSelector).is(':vde-vde_panel'));
     page.vde_page('destroy');
 }
-
 PageTest.prototype.testInitHighlighting = function() {
     /*:DOC += <div id="vde_toolbar"><div id="vde_highlighting"></div></div> */
     var page = jQuery('body').vde_page();
@@ -48,9 +43,9 @@ PageTest.prototype.testInitHighlighting = function() {
     assertEquals(true, jQuery(highlightCheckboxSelector).is(':vde-vde_checkbox'));
     page.vde_page('destroy');
 }
-
 PageTest.prototype.testProcessMarkers = function() {
-    /*:DOC += <div>
+    /*:DOC +=
+    <div>
         <div id="vde_element_1" class="vde_element_wrapper vde_container vde_wrapper_hidden">
             <div class="vde_element_title">Title 1</div>
         </div>
@@ -69,7 +64,8 @@ PageTest.prototype.testProcessMarkers = function() {
         </div>
         <!--end_vde_element_2-->
         <!--end_vde_element_1-->
-    </div> */
+    </div>
+    */
     var page = jQuery('body').vde_page();
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
     page.vde_page('destroy');
@@ -87,9 +83,9 @@ PageTest.prototype.testProcessMarkers = function() {
     });
     assertEquals(false, commentsExist);
 }
-
 PageTest.prototype.testHighlight = function() {
-    /*:DOC += <div>
+    /*:DOC +=
+    <div>
         <div id="vde_element_1" class="vde_element_wrapper vde_container vde_wrapper_hidden">
             <div class="vde_element_title">Title 1</div>
         </div>
@@ -111,7 +107,8 @@ PageTest.prototype.testHighlight = function() {
             <div class="vde_element_title">Title 3</div>
         </div>
         <!--end_vde_element_1-->
-     </div> */
+    </div>
+    */
     jQuery.fx.off = true;
     var page = jQuery('body').vde_page();
     var cookieHighlightingName = page.vde_page('option', 'cookieHighlightingName');
@@ -139,9 +136,9 @@ PageTest.prototype.testHighlight = function() {
     page.vde_page('destroy');
     jQuery.fx.off = false;
 }
-
 PageTest.prototype.testUnhighlight = function() {
-    /*:DOC += <div>
+    /*:DOC +=
+    <div>
         <div id="vde_element_1" class="vde_element_wrapper vde_container">
             <div class="vde_element_title">Title 1</div>
             <div id="vde_element_2" class="vde_element_wrapper vde_draggable">
@@ -156,7 +153,8 @@ PageTest.prototype.testUnhighlight = function() {
                 </div>
             </div>
         </div>
-     </div> */
+    </div>
+    */
     jQuery.fx.off = true;
     var page = jQuery('body').vde_page();
     var highlightElementTitleSelector = page.vde_page('option', 'highlightElementTitleSelector');
