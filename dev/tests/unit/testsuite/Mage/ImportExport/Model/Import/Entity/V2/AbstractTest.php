@@ -231,6 +231,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
     /**
      * Different cases to cover all code parts in Mage_ImportExport_Model_Import_Entity_V2_Abstract::getBehavior()
      *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @return array
      */
     public function dataProviderForTestGetBehaviorWithRowData()
