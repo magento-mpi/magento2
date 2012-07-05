@@ -118,27 +118,27 @@ class Community2_Mage_ImportExport_CustomerCustom extends Mage_Selenium_TestCase
         //customer 1: different first name
         $mainCsvRows[0][0]['firstname'] = 'Update_' . $originalCustomerData[0][0]['first_name'];
         $updatedCustomerData[0][0]['first_name'] = $mainCsvRows[0][0]['firstname'];
-        $mainCsvRows[0][0]['action'] = 'update';
+        $mainCsvRows[0][0]['_action'] = 'update';
         //customer 2: invalid email, different first name
         $mainCsvRows[0][1]['email'] = str_replace('@', '', $originalCustomerData[0][1]['email']);
         $mainCsvRows[0][1]['firstname'] = 'Update_' . $originalCustomerData[0][1]['first_name'];
-        $mainCsvRows[0][1]['action'] = 'Update';
+        $mainCsvRows[0][1]['_action'] = 'Update';
         //customer 3: new data
         unset($originalCustomerData[0][2]);
-        $mainCsvRows[0][2]['action'] = 'UPDATE';
+        $mainCsvRows[0][2]['_action'] = 'UPDATE';
 
         //delete action
         //customer 1: all attributes match
         unset($updatedCustomerData[1][0]);
-        $mainCsvRows[1][0]['action'] = 'delete';
+        $mainCsvRows[1][0]['_action'] = 'delete';
         //customer 2: different first name, last name
         unset($updatedCustomerData[1][1]);
         $mainCsvRows[1][1]['firstname'] = 'Update_' . $originalCustomerData[1][1]['first_name'];
         $mainCsvRows[1][1]['lastname'] = 'Update_' . $originalCustomerData[1][1]['last_name'];
-        $mainCsvRows[1][1]['action'] = 'Delete';
+        $mainCsvRows[1][1]['_action'] = 'Delete';
         //customer 3: different website
         $mainCsvRows[1][2]['_website'] = 'admin';
-        $mainCsvRows[1][2]['action'] = 'DELETE';
+        $mainCsvRows[1][2]['_action'] = 'DELETE';
 
         //empty or not recognized action
         //customer 1: different first name, last name
@@ -146,20 +146,20 @@ class Community2_Mage_ImportExport_CustomerCustom extends Mage_Selenium_TestCase
         $updatedCustomerData[2][0]['first_name'] = $mainCsvRows[2][0]['firstname'];
         $mainCsvRows[2][0]['lastname'] = 'Update_' . $originalCustomerData[2][0]['last_name'];
         $updatedCustomerData[2][0]['last_name'] = $mainCsvRows[2][0]['lastname'];
-        $mainCsvRows[2][0]['action'] = '';
+        $mainCsvRows[2][0]['_action'] = '';
         //customer 2: empty first name, last name, group id
         $mainCsvRows[2][1]['firstname'] = '';
         $mainCsvRows[2][1]['lastname'] = '';
         $mainCsvRows[2][1]['group_id'] = '';
-        $mainCsvRows[2][1]['action'] = 'Please, delete';
+        $mainCsvRows[2][1]['_action'] = 'Please, delete';
         //customer 3: new data
         unset($originalCustomerData[2][2]);
-        $mainCsvRows[2][2]['action'] = '';
+        $mainCsvRows[2][2]['_action'] = '';
         //customer 4: new data
         unset($originalCustomerData[2][3]);
         unset($updatedCustomerData[2][3]);
         $mainCsvRows[2][3]['group_id'] = '1000';
-        $mainCsvRows[2][3]['action'] = 'Please, delete';
+        $mainCsvRows[2][3]['_action'] = 'Please, delete';
 
         //validation messages
         $t = "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import";
@@ -170,7 +170,7 @@ class Community2_Mage_ImportExport_CustomerCustom extends Mage_Selenium_TestCase
             'import' => array('success' => array('Import successfully done.'))
         );
         $deleteActionMessage = array('validation' => array(
-            'error' => array("E-mail and website combination is not found in rows: 3"),
+            'error' => array("Customer with such email and website code doesn't exist in rows: 3"),
             'validation' => array($t, "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")
         ),
             'import' => array('success' => array('Import successfully done.'))
