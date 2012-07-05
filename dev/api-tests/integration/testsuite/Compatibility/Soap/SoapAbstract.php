@@ -83,13 +83,9 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
     }
 
     /**
-     * Test product attribute current store method compatibility.
-     * Scenario:
-     * 1. Create product attribute at previous API.
-     * 2. Create product attribute at current API.
-     * Expected result:
-     * No errors raised and type of current API response is the same as in previous.
+     * Create product attributes in current and previous API and return IDs
      *
+     * @return array $productAttributeIds
      */
     public function _createProductAttributes()
     {
@@ -115,7 +111,6 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
         );
         $productAttributeIds['prevProductAttributeId'] = $this->prevCall($apiMethod, array('data' => $attributeData));
         $productAttributeIds['currProductAttributeId'] = $this->currCall($apiMethod, array('data' => $attributeData));
-        //$this->_checkVersionType(self::$_prevProductAttributeId, self::$_currProductAttributeId, $apiMethod);
         return $productAttributeIds;
     }
 
@@ -147,5 +142,28 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
         $productIds['prevProductId'] = $this->prevCall('catalog_product.create', $productData);
         $productIds['currProductId'] = $this->currCall('catalog_product.create', $productData);
         return $productIds;
+    }
+
+    /**
+     * Create customers in current and previous API and return IDs
+     *
+     * @return array $customerIds
+     */
+    protected function _createCustomers()
+    {
+        $customerIds = array();
+        $apiMethod = 'customer.create';
+        $customerData = array(array(
+            'email' => 'customer-mail' . uniqid() . '@example.org',
+            'firstname' => 'Test Name',
+            'lastname' => 'Test Last Name',
+            'password' => 'password',
+            'website_id' => 1,
+            'store_id' => 1,
+            'group_id' => 1
+        ));
+        $customerIds['prevCustomerId'] = $this->prevCall($apiMethod, $customerData);
+        $customerIds['currCustomerId'] = $this->currCall($apiMethod, $customerData);
+        return $customerIds;
     }
 }
