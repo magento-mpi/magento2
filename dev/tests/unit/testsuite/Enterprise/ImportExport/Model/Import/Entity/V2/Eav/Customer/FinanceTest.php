@@ -664,7 +664,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                 Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test2@email.com',
                 Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'Website2',
                 Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION
-                => Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION_VALUE_DELETE,
+                    => Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION_VALUE_DELETE,
                 Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2,
             ),
             array(
@@ -694,12 +694,16 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
 
         // Prepare customer mock object and push it inside config stub class which used for retrieve customer instance
         $customerMock = $this->getMock('Mage_Customer_Model_Customer', array(), array(), '', false);
+
+        // Prepare config mock
+        $configMock = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
+        $configMock->expects($this->once())
+            ->method('getModelInstance')
+            ->will($this->returnValue($customerMock));
+
         $property = new ReflectionProperty('Mage', '_config');
         $property->setAccessible(true);
-        $property->setValue('Mage', new Enterprise_ImportExport_Model_Config_Stub(
-                array('customer_mock' => $customerMock)
-            )
-        );
+        $property->setValue('Mage', $configMock);
 
         // Prepare mock to imitate data source model
         $importResourceMock = $this->getMock('Mage_ImportExport_Model_Resource_Import_Data', array('getNextBunch'),
@@ -724,7 +728,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             ->method('_getCustomerId')
             ->will($this->returnValue(null));
 
-        // Prepare methods mocks which will check logic of customer behavior for finance data
+        // Prepare method mocks which will check logic of customer behavior for finance data
         $this->_model->expects($this->once())
             ->method('_deleteRewardPoints');
         $this->_model->expects($this->once())
@@ -735,30 +739,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             ->method('_updateCustomerBalanceForCustomer');
 
         $this->_model->setParameters(
-            array('behavior' =>  Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM)
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM)
         );
         $this->_model->importData();
-    }
-}
-
-/**
- * Stub class which implemented possibility to get mock object when system use config
- *
- * @method Mage_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject getCustomerMock
- */
-class Enterprise_ImportExport_Model_Config_Stub extends Varien_Object
-{
-    /**
-     * Stub method which will retrieve customer mock object
-     *
-     * @param string $modelClass
-     * @param array $constructArguments
-     * @return Mage_Customer_Model_Customer|PHPUnit_Framework_MockObject_MockObject
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function getModelInstance($modelClass='', $constructArguments=array())
-    {
-        return $this->getCustomerMock();
     }
 }
