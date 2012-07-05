@@ -364,8 +364,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
                         $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE;
                     } else {
                         // as per task description, if column value is different to self::COLUMN_CUSTOM_VALUE_DELETE,
-                        // we should always use add/update behavior
-                        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
+                        // we should always use default behavior
+                        return self::getDefaultBehavior();
                     }
                     if (in_array($behavior, $this->_availableBehaviors)) {
                         return $behavior;
