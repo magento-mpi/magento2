@@ -111,6 +111,8 @@ class Community2_Mage_ImportExport_CustomerCustom extends Mage_Selenium_TestCase
                 $mainCsvRows[$key][$key1]['group_id'] = '1';
                 $mainCsvRows[$key][$key1]['firstname'] = $originalCustomerData[$key][$key1]['first_name'];
                 $mainCsvRows[$key][$key1]['lastname'] = $originalCustomerData[$key][$key1]['last_name'];
+				$mainCsvRows[$key][$key1]['reward_update_notification'] = 1;
+				$mainCsvRows[$key][$key1]['reward_warning_notification'] = 1;
             }
         }
 
