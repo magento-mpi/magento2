@@ -72,16 +72,18 @@ class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium
                 'firstname' => 'last_' . $this->generate('string',10),
             ));
         return array(
-            array($customerDataRow5, array('validation' => array(
-                'error' => array(
-                    "Invalid value for '%attribute_id%' in rows: 1"
-                ),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+            array($customerDataRow5,
+                array(
+                    'validation' => array(
+                        'error' => array(
+                            "Invalid value for '%attribute_id%' in rows: 1"
+                        ),
+                    'validation' => array(
+                        "File is totally invalid. Please fix errors and re-upload file",
+                        "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+                        )
+                    )
                 )
-            )
-            )
             )
         );
     }
