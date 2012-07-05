@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_BatchUpdates_Tags_Test extends Mage_Selenium_TestCase
+class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -28,15 +28,14 @@ class Community2_Mage_BatchUpdates_Tags_Test extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
     }
 
-    protected function tearDownAfterTest()
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->tagsHelper()->deleteAllTags();
     }
-
     /**
-     * <p>Deleting all tags using Batch Updates</p>
+     * <p>Updating created tags using Batch Updates</p>
      * <p>Steps:</p>
      * <p>1. Click button "Add New Tag"</p>
      * <p>2. Fill in the fields in General Information</p>
@@ -44,40 +43,7 @@ class Community2_Mage_BatchUpdates_Tags_Test extends Mage_Selenium_TestCase
      * <p>4. Click button "Add New Tag"</p>
      * <p>5. Fill in the fields in General Information</p>
      * <p>6. Click button "Save Tag"</p>
-     * <p>7. Click link "Select All"</p>
-     * <p>8. Select value "Delete" in "Action dropdown"</p>
-     * <p>9. Click button "Submit"</p>
-     * <p>Expected result:</p>
-     * <p>Received the message that the tags has been deleted.</p>
-     *
-     * @test
-     * @TestlinkId
-     */
-    public function deleteTagsByBatchUpdates()
-    {
-        //Data
-        $setData1 = $this->loadDataSet('Tag', 'backend_new_tag');
-        $setData2 = $this->loadDataSet('Tag', 'backend_new_tag');
-        //Steps
-        $this->tagsHelper()->addTag($setData1);
-        $this->tagsHelper()->addTag($setData2);
-        //Verify
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
-        $this->assertMessagePresent('success', 'success_saved_tag');
-        //Steps
-        $this->tagsHelper()->deleteAllTags();
-    }
-
-    /**
-     * <p>Deleting all tags using Batch Updates</p>
-     * <p>Steps:</p>
-     * <p>1. Click button "Add New Tag"</p>
-     * <p>2. Fill in the fields in General Information</p>
-     * <p>3. Click button "Save Tag"</p>
-     * <p>4. Click button "Add New Tag"</p>
-     * <p>5. Fill in the fields in General Information</p>
-     * <p>6. Click button "Save Tag"</p>
-     * <p>7. Click link "Select All"</p>
+     * <p>7. Select created tags by checkboxes"</p>
      * <p>8. Select value "Change Status in "Action dropdown"</p>
      * <p>9. Click button "Submit"</p>
      * <p>Expected result:</p>
@@ -88,45 +54,68 @@ class Community2_Mage_BatchUpdates_Tags_Test extends Mage_Selenium_TestCase
      */
     public function changeStatusTagsByBatchUpdates()
     {
-        //Data
-        $setData1 = $this->loadDataSet('Tag', 'backend_new_tag');
-        $setData2 = $this->loadDataSet('Tag', 'backend_new_tag');
-        //Steps
-        $this->tagsHelper()->addTag($setData1);
-        $this->tagsHelper()->addTag($setData2);
-        //Verify
-        $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
-        $this->assertMessagePresent('success', 'success_saved_tag');
-
-        if ($this->controlIsPresent('message', 'no_records_found')) {
-            return true;
+        $tagQty = 2;
+        for ($i = 1; $i <= $tagQty; $i++) {
+            //Data
+            $tagData = $this->loadDataSet('Tag', 'backend_new_tag');
+            ${'searchData' . $i} =
+                $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tagData['tag_name']));
+            //Steps
+            $this->tagsHelper()->addTag($tagData);
+            //Verifying
+            $this->assertMessagePresent('success', 'success_saved_tag');
         }
-        $this->clickControl('link', 'select_all', false);
-        $this->waitForAjax();
-        $this->fillDropdown('tags_massaction', 'Change status');
-        $this->fillDropdown('tags_status', 'Disabled');
-        $this->_parseMessages();
-        foreach (self::$_messages as $key => $value) {
-            self::$_messages[$key] = array_unique($value);
+        for ($i = 1; $i <= $tagQty; $i++) {
+            $this->searchAndChoose(${'searchData' . $i});
         }
-        $success = $this->_getMessageXpath('general_success');
-        $error = $this->_getMessageXpath('general_error');
-        $validation = $this->_getMessageXpath('general_validation');
-        $types = array('success', 'error', 'validation');
-        foreach ($types as $message) {
-            if (array_key_exists($message, self::$_messages)) {
-                $exclude = '';
-                foreach (self::$_messages[$message] as $messageText) {
-                    $exclude .= "[not(..//.='$messageText')]";
-                }
-                ${$message} .= $exclude;
-            }
-        }
+        $this->addParameter('qtyDeletedTags', $tagQty);
+        $xpath = $this->_getControlXpath('dropdown', 'tags_massaction');
+        $this->select($xpath, 'Change status');
+        $xpath = $this->_getControlXpath('dropdown', 'tags_status');
+        $this->select($xpath, 'Disabled');
         $this->clickButton('submit', true);
-        $this->waitForElement(array($success, $error, $validation));
-        $this->addParameter('id', $this->defineIdFromUrl());
-        $this->validatePage();
-        $this->assertMessagePresent('success');
-        return true;
+        //Verifying
+        $this->assertMessagePresent('success', 'success_changed_status');
+    }
+    /**
+     * <p>Deleting created tags using Batch Updates</p>
+     * <p>Steps:</p>
+     * <p>1. Click button "Add New Tag"</p>
+     * <p>2. Fill in the fields in General Information</p>
+     * <p>3. Click button "Save Tag"</p>
+     * <p>4. Click button "Add New Tag"</p>
+     * <p>5. Fill in the fields in General Information</p>
+     * <p>6. Click button "Save Tag"</p>
+     * <p>7. Select created tags by checkboxes</p>
+     * <p>8. Select value "Delete" in "Action dropdown"</p>
+     * <p>9. Click button "Submit"</p>
+     * <p>Expected result:</p>
+     * <p>Received the message that the tags has been deleted.</p>
+     *
+     * @test
+     * @TestlinkId
+     */
+    public function deleteTagsByBatchUpdates()
+    {
+        $tagQty = 2;
+        for ($i = 1; $i <= $tagQty; $i++) {
+            //Data
+            $tagData = $this->loadDataSet('Tag', 'backend_new_tag');
+            ${'searchData' . $i} =
+                $this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tagData['tag_name']));
+            //Steps
+            $this->tagsHelper()->addTag($tagData);
+            //Verifying
+            $this->assertMessagePresent('success', 'success_saved_tag');
+        }
+        for ($i = 1; $i <= $tagQty; $i++) {
+            $this->searchAndChoose(${'searchData' . $i});
+        }
+        $this->addParameter('qtyDeletedTags', $tagQty);
+        $xpath = $this->_getControlXpath('dropdown', 'tags_massaction');
+        $this->select($xpath, 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
 }
