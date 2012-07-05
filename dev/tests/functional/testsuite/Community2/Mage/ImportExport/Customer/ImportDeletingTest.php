@@ -44,12 +44,12 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
     {
         //Create Customer1
         $this->navigate('manage_customers');
-        $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $userData2 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData2);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
@@ -68,10 +68,12 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
-        $report = $this->importExportHelper()->import($data);
+        $importReport = $this->importExportHelper()->import($data);
         //Check import
-        $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:');
-        $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:');
+        $this->assertArrayHasKey('import', $importReport,
+            'Import has been finished with issues: ' . print_r($importReport));
+        $this->assertArrayHasKey('success', $importReport['import'],
+            'Import has been finished with issues: ' . print_r($importReport));
         //Step 8
         $this->navigate('manage_customers');
         //Verify that the first customer is absent after import 'Delete Entities'
@@ -80,57 +82,16 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         //Verify that the second customer is absent after import 'Delete Entities'
         $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer is found');
     }
-        public function importData()
+
+    public function importData()
     {
         return array(
-            array(array(
+            array(
                 array(
-                '_website' => 'base',
-                '_store' => 'default',
-                'confirmation' => '',
-                'created_at' => '19.06.2012 18:00',
-                'created_in' => 'Admin',
-                'default_billing' => '',
-                'default_shipping' => '',
-                'disable_auto_group_change' => '0',
-                'dob' => '',
-                'gender' => '',
-                'group_id' => '1',
-                'middlename' => '',
-                'prefix' => '',
-                'reward_update_notification' => '1',
-                'reward_warning_notification' => '1',
-                'rp_token' => '',
-                'rp_token_created_at' => '',
-                'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                'store_id' => '0',
-                'website_id' => '0',
-                'suffix' => '',
-                'taxvat' => ''),
-                 array(
-                '_website' => 'base',
-                '_store' => 'default',
-                'confirmation' => '',
-                'created_at' => '05.05.2012 18:00',
-                'created_in' => 'Admin',
-                'default_billing' => '',
-                'default_shipping' => '',
-                'disable_auto_group_change' => '0',
-                'dob' => '05/05/2001',
-                'gender' => '',
-                'group_id' => '1',
-                'middlename' => 'middle_new',
-                'prefix' => '',
-                'reward_update_notification' => '1',
-                'reward_warning_notification' => '1',
-                'rp_token' => '',
-                'rp_token_created_at' => '',
-                'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                'store_id' => '0',
-                'website_id' => '0',
-                'suffix' => '',
-                'taxvat' => '')
-            ))
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv'),
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv')
+                )
+            )
         );
     }
     /**
@@ -156,12 +117,12 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
     {
         //Create Customer1
         $this->navigate('manage_customers');
-        $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $userData2 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData2);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
@@ -180,10 +141,12 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
-        $report = $this->importExportHelper()->import($data);
+        $importReport = $this->importExportHelper()->import($data);
         //Check import
-        $this->assertArrayNotHasKey('import', $report, 'Import has been finished with issues:');
-        $this->assertArrayHasKey('error', $report['validation'], 'Import has been finished with issues:');
+        $this->assertArrayNotHasKey('import', $importReport,
+            'Import has been finished with issues: ' . print_r($importReport));
+        $this->assertArrayHasKey('error', $importReport['validation'],
+            'Import has been finished with issues:');
         //Step 8
         $this->navigate('manage_customers');
         //Verify that the first customer is present after import 'Delete Entities'
@@ -192,57 +155,16 @@ class Community2_Mage_ImportExport_ImportDeletingTest extends Mage_Selenium_Test
         $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer not found');
     }
 
-        public function importCustomerData()
+    public function importCustomerData()
     {
         return array(
-            array(array(
+            array(
                 array(
-                    '_website' => 'base',
-                    '_store' => 'default',
-                    'confirmation' => '',
-                    'created_at' => '19.06.2012 18:00',
-                    'created_in' => 'Admin',
-                    'default_billing' => '',
-                    'default_shipping' => '',
-                    'disable_auto_group_change' => '0',
-                    'dob' => '',
-                    'gender' => '',
-                    'group_id' => '1',
-                    'middlename' => '',
-                    'prefix' => '',
-                    'reward_update_notification' => '1',
-                    'reward_warning_notification' => '1',
-                    'rp_token' => '',
-                    'rp_token_created_at' => '',
-                    'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                    'store_id' => '0',
-                    'website_id' => '0',
-                    'suffix' => '',
-                    'taxvat' => ''),
-                array(
-                    '_website' => $this->generate('string', 30, ':digit:'),
-                    '_store' => 'default',
-                    'confirmation' => '',
-                    'created_at' => '19.06.2012 18:00',
-                    'created_in' => 'Admin',
-                    'default_billing' => '',
-                    'default_shipping' => '',
-                    'disable_auto_group_change' => '0',
-                    'dob' => '',
-                    'gender' => '',
-                    'group_id' => '1',
-                    'middlename' => '',
-                    'prefix' => '',
-                    'reward_update_notification' => '1',
-                    'reward_warning_notification' => '1',
-                    'rp_token' => '',
-                    'rp_token_created_at' => '',
-                    'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                    'store_id' => '0',
-                    'website_id' => '0',
-                    'suffix' => '',
-                    'taxvat' => ''),
-            ))
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv'),
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv',
+                        array('_website' => $this->generate('string', 30, ':digit:')))
+                )
+            )
         );
     }
 }

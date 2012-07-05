@@ -64,7 +64,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
     {
         //step1
         $this->admin('manage_customer_attributes');
-        $attrData = $this->loadDataSet('ImportExport','generic_customer_attribute');
+        $attrData = $this->loadDataSet('CustomerAttribute','generic_customer_attribute');
         $this->customerAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -202,7 +202,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
     {
         //Precondition: create attribute, create new customer, fill created attribute
         $this->navigate('manage_customer_attributes');
-        $attrData = $this->loadDataSet('ImportExport.yml', 'generic_customer_attribute');
+        $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute');
         $this->customerAttributeHelper()->createAttribute($attrData);
         $this->addParameter('attribute_name', $attrData['attribute_code']);
         $this->navigate('manage_customers');

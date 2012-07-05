@@ -40,7 +40,7 @@ class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium
     public function importCustomerFileWithInvalidData($customerData, array $validationMessage)
     {
         $this->admin('manage_customer_attributes');
-        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_attribute_yesno');
+        $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute_yesno');
         $this->customerAttributeHelper()->createAttribute($attrData);
         $customerData[$attrData['attribute_code']] = 'gf13gh';
         $this->admin('import');
@@ -52,35 +52,38 @@ class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium
             $customerData
         );
         //Import file
-        $report = $this->importExportHelper()->import($data) ;
+        $importReport = $this->importExportHelper()->import($data) ;
         //Check import
         $validationMessage['validation']['error'] = str_replace(
             '%attribute_id%',
             $attrData['attribute_code'],
             $validationMessage['validation']['error']
         );
-        $this->assertEquals($validationMessage, $report, 'Import has been finished with issues');
+        $this->assertEquals($validationMessage, $importReport,
+            'Import has been finished with issues ' . print_r($importReport));
     }
 
     public function importDataInvalid()
     {
-        $customerDataRow5 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow5 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
                 'firstname' => 'last_' . $this->generate('string',10),
             ));
         return array(
-            array($customerDataRow5, array('validation' => array(
-                'error' => array(
-                    "Invalid value for '%attribute_id%' in rows: 1"
-                ),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+            array($customerDataRow5,
+                array(
+                    'validation' => array(
+                        'error' => array(
+                            "Invalid value for '%attribute_id%' in rows: 1"
+                        ),
+                    'validation' => array(
+                        "File is totally invalid. Please fix errors and re-upload file",
+                        "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+                        )
+                    )
                 )
-            )
-            )
             )
         );
     }
