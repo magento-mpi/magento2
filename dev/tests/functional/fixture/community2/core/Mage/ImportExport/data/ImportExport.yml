@@ -670,3 +670,10 @@ generic_address_csv:
     _address_default_billing_: 0
     _address_default_shipping_: 0
     action: %noValue%
+generic_finance_csv:
+    email: %noValue%
+    _website: base
+    _finance_website: base
+    store_credit: %noValue%
+    reward_points: %noValue%
+    action: %noValue%
