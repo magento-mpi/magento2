@@ -36,43 +36,6 @@ generic_finance_csv:
    store_credit: 0
    reward_points: 0
    _action: %noValue%
-csv_new_master_5622:
-    email: %noValue%
-    _website: base
-    _store: admin
-    created_at: %noValue%
-    created_in: Admin
-    dob: 22.01.1986 0:00
-    firstname: Thomas
-    gender: Male
-    group_id: 1
-    lastname: Moore
-    middlename: D.
-    password: %noValue%
-    prefix: Mr.
-    suffix: Jr.
-    taxvat: 483-31-8400
-    reward_update_notification: 1
-    reward_warning_notification: 1
-
-csv_existing_master_5622:
-    email: %noValue%
-    _website: base
-    _store: admin
-    created_at: %noValue%
-    created_in: Admin
-    dob: 21.04.1963 0:00
-    firstname: William
-    gender: Female
-    group_id: 1
-    lastname: Totten
-    middlename: E.
-    password: %noValue%
-    prefix: Mr.
-    suffix: Jr.
-    taxvat: 483-31-8400
-    reward_update_notification: 1
-    reward_warning_notification: 1
 
 csv_valid_customer1_5635:
     email: %noValue%
