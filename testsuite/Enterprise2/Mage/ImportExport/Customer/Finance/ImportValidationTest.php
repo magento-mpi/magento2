@@ -67,37 +67,37 @@ class Community2_Mage_ImportExport_FinanceValidationTest extends Mage_Selenium_T
 
     public function importDataInvalid()
     {
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => ''
             ));
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => '%realEmail%',
             ));
         $customerDataRow2['email'] = '%realEmail%';
         unset($customerDataRow2['_website']);
-        $customerDataRow3 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow3 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => '%realEmail%',
                 '_website' => 'notexist'
             ));
         $customerDataRow3['email'] = '%realEmail%';
-        $customerDataRow4 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow4 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => '%realEmail%',
                 'store_credit' => 'incorrect_value',
                 'reward_points' => 'incorrect_value'
             ));
         $customerDataRow4['email'] = '%realEmail%';
-        $customerDataRow5 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow5 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => '%realEmail%',
             ));
         $customerDataRow5['email'] = '%realEmail%';
         unset($customerDataRow5['credit_score']);
         unset($customerDataRow5['store_points']);
-        $customerDataRow6 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow6 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com'
             ));

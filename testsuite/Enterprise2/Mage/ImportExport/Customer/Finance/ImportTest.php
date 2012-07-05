@@ -93,12 +93,12 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customer Finances');
         //Generated CSV data
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => $userData1['email'],
                 '_finance_website' => 'base'
             ));
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_finance_file_required_fields',
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => $userData2['email'],
                 '_finance_website' => 'base',

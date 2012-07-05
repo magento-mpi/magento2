@@ -29,23 +29,6 @@
 #*******************************************************
 #*       Test data for customer creation(Backend)      *
 #*******************************************************
-generic_customer_account:
-    associate_to_website: Main Website
-    group: General
-    prefix: Mr.
-    first_name: first_%randomize%
-    middle_name: middle_%randomize%
-    last_name: last_%randomize%
-    suffix: %noValue%
-    email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: %noValue%
-    tax_vat_number: %noValue%
-    gender: Male
-    send_welcome_email: %noValue%
-    send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
-
 generic_customer_required_fields:
     associate_to_website: Main Website
     group: General
@@ -53,35 +36,6 @@ generic_customer_required_fields:
     last_name: last_%randomize%
     email: test_admin_%randomize%@unknown-domain.com
     password: 123123q
-
-generic_customer_attribute:
-   input_type: Text Field
-   attribute_code: attr_ie_%randomize%
-   default_text_field_value: attr_default_%randomize%
-   values_required: No
-   input_validation: None
-   min_text_length: 1
-   max_text_length: 255
-   input_filter: None
-   used_for_customer_segment: No
-   visible_on_frontend: Yes
-   sort_order: 1
-   used_in_forms: Customer Account Edit, Customer Registration
-   admin_title: Text_Field_Admin_%randomize%
-   store_view_titles:
-        Default Store View: Text_Field_StoreView
-
-generic_customer_attribute_yesno:
-   input_type: Yes/No
-   attribute_code: attr_ie_%randomize%
-   values_required: No
-   used_for_customer_segment: No
-   visible_on_frontend: Yes
-   sort_order: 1
-   used_in_forms: Customer Account Edit, Customer Registration
-   admin_title: Text_Field_Admin_%randomize%
-   store_view_titles:
-        Default Store View: Text_Field_StoreView
 
 customer_account_with_attribute:
     associate_to_website: Main Website
@@ -100,26 +54,6 @@ customer_account_with_attribute:
     password: 123123q
     auto_generated_password: %noValue%
     custom_attribute: custom_attr_%randomize%
-
-#Test data for Customer Addresses file export
-generic_address:
-    prefix: %noValue%
-    first_name: Ronald_%randomize%
-    middle_name: J.
-    last_name: Jackson_%randomize%
-    suffix: %noValue%
-    company: Earl Abel's
-    street_address_line_1: 209 Capitol Avenue
-    street_address_line_2: Suite 200
-    city: Mccordsville
-    country: United States
-    state: Indiana
-    region: %noValue%
-    zip_code: 46055
-    telephone: 765-531-8811
-    fax: %noValue%
-    default_billing_address: %noValue%
-    default_shipping_address: %noValue%
 
 customer_account_male:
     associate_to_website: Main Website
@@ -193,39 +127,6 @@ customer_account_female_address:
     default_billing_address: Yes
     default_shipping_address: Yes
 
-generic_customer_address_attribute:
-   input_type: Text Field
-   attribute_code: attr_ie_%randomize%
-   default_text_field_value: attr_default_%randomize%
-   input_validation: None
-   min_text_length: 1
-   max_text_length: 255
-   values_required: No
-   input_filter: None
-   is_used_for_customer_segment: No
-   is_visible: Yes
-   sort_order: 1
-   used_in_forms: Customer Address Registration, Customer Account Address
-   admin_title: Text_Field_Admin_%randomize%
-   store_view_titles:
-        Default Store View: Text_Field_StoreView
-
-generic_customer_account:
-    associate_to_website: Main Website
-    group: General
-    prefix: Mr.
-    first_name: first_%randomize%
-    middle_name: middle_%randomize%
-    last_name: last_%randomize%
-    suffix: %noValue%
-    email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: %noValue%
-    tax_vat_number: %noValue%
-    gender: Male
-    send_welcome_email: %noValue%
-    send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
 
 import_main_file_required_fields:
    email: %noValue%
@@ -669,11 +570,33 @@ generic_address_csv:
     telephone: 978-875-6394
     _address_default_billing_: 0
     _address_default_shipping_: 0
-    action: %noValue%
-generic_finance_csv:
-    email: %noValue%
+    _action: %noValue%
+
+generic_customer_csv:
     _website: base
-    _finance_website: base
-    store_credit: %noValue%
-    reward_points: %noValue%
-    action: %noValue%
+    _store: default
+    email: test_admin_%randomize%@unknown-domain.com
+    firstname: Harold
+    lastname: Lefler
+    middlename: %noValue%
+    confirmation: %noValue%
+    created_at: %noValue%
+    created_in: %noValue%
+    default_billing: %noValue%
+    default_shipping: %noValue%
+    disable_auto_group_change: %noValue%
+    dob: %noValue%
+    gender: %noValue%
+    group_id: '1'
+    prefix: %noValue%
+    reward_update_notification: 1
+    reward_warning_notification: 1
+    rp_token: %noValue%
+    rp_token_created_at: %noValue%
+    password: %noValue%
+    password_hash: %noValue%
+    store_id: %noValue%
+    website_id: %noValue%
+    suffix: %noValue%
+    taxvat: %noValue%
+    _action: %noValue%
