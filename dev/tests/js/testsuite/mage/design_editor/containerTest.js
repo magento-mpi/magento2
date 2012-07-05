@@ -7,17 +7,15 @@
  * @license     {license_link}
  */
 ContainerTest = TestCase('ContainerTest');
-
 ContainerTest.prototype.testInit = function() {
-    /*:DOC += <div class="vde_element_wrapper vde_container"></div> */
-    var container = jQuery('.vde_element_wrapper.vde_container').vde_container();
+    /*:DOC += <div class="vde_element_wrapper vde_container" id="container"></div> */
+    var container = jQuery('#container').vde_container();
     assertEquals(true, container.is(':vde-vde_container'));
     container.vde_container('destroy');
 };
-
 ContainerTest.prototype.testDefaultOptions = function() {
-    /*:DOC += <div class="vde_element_wrapper vde_container"></div> */
-    var container = jQuery('.vde_element_wrapper.vde_container').vde_container();
+    /*:DOC += <div class="vde_element_wrapper vde_container" id="container"></div> */
+    var container = jQuery('#container').vde_container();
     assertEquals('pointer', container.vde_container('option', 'tolerance'));
     assertEquals(true, container.vde_container('option', 'revert'));
     assertEquals('.vde_element_wrapper.vde_container', container.vde_container('option', 'connectWithSelector'));
@@ -28,14 +26,15 @@ ContainerTest.prototype.testDefaultOptions = function() {
     assertEquals('body', container.vde_container('option', 'appendTo'));
     container.vde_container('destroy');
 };
-
 ContainerTest.prototype.testStartCallback = function() {
-    /*:DOC += <div>
-         <div class="vde_element_wrapper vde_container" id="test" />
+    /*:DOC +=
+    <div>
+         <div class="vde_element_wrapper vde_container" id="container" />
          <div class="vde_element_wrapper vde_container" />
-    </div> */
+    </div>
+    */
     var containers = jQuery(".vde_element_wrapper.vde_container").vde_container();
-    var container = jQuery("#test");
+    var container = jQuery("#container");
     var uiMock = {
         placeholder: jQuery('<div style="height:0px;"></div>'),
         helper: jQuery('<div style="height:100px;"></div>'),
@@ -48,20 +47,18 @@ ContainerTest.prototype.testStartCallback = function() {
     assertEquals(true, connectedWithOtherContainers);
     containers.vde_container('destroy');
 }
-
 ContainerTest.prototype.testOverCallback = function() {
-    /*:DOC += <div class="vde_element_wrapper vde_container" id="test" /> */
-    var container = jQuery("#test").vde_container();
+    /*:DOC += <div class="vde_element_wrapper vde_container" id="container" /> */
+    var container = jQuery("#container").vde_container();
     var hoverClass = container.vde_container('option', 'hoverClass');
     var overCallback = container.vde_container('option', 'over');
     overCallback('over', {});
     assertEquals(true, container.hasClass(hoverClass));
     container.vde_container('destroy');
 }
-
 ContainerTest.prototype.testOutCallback = function() {
-    /*:DOC += <div class="vde_element_wrapper vde_container" id="test" /> */
-    var container = jQuery("#test").vde_container();
+    /*:DOC += <div class="vde_element_wrapper vde_container" id="container" /> */
+    var container = jQuery("#container").vde_container();
     var hoverClass = container.vde_container('option', 'hoverClass');
     var outCallback = container.vde_container('option', 'out');
     outCallback('out', {});
