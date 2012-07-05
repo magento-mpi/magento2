@@ -7,14 +7,12 @@
  * @license     {license_link}
  */
 MenuTest = TestCase('MenuTest');
-
 MenuTest.prototype.testInit = function() {
     /*:DOC += <div id="menu"></div> */
     var menu = jQuery('#menu').vde_menu();
     assertEquals(true, menu.is(':vde-vde_menu'));
     menu.vde_menu('destroy');
 };
-
 MenuTest.prototype.testDefaultOptions = function() {
     /*:DOC += <div id="menu"></div> */
     var menu = jQuery('#menu').vde_menu();
@@ -24,9 +22,9 @@ MenuTest.prototype.testDefaultOptions = function() {
     assertEquals('active', menu.vde_menu('option', 'activeClass'));
     menu.vde_menu('destroy');
 };
-
 MenuTest.prototype.testMenuTreeSlimScrollInit = function() {
-    /*:DOC += <div id="menu">
+    /*:DOC +=
+    <div id="menu">
         <div class="vde_toolbar_cell_title">
             Title:<span class="vde_toolbar_cell_value">Title Value</span>
         </div>
@@ -37,7 +35,8 @@ MenuTest.prototype.testMenuTreeSlimScrollInit = function() {
                 </ul>
             </div>
         </div>
-     </div> */
+    </div>
+     */
     jQuery.fx.off = true;
     var menu = jQuery('#menu').vde_menu({treeSelector:'#tree', slimScroll:true});
     var titleSelector = menu.vde_menu('option', 'titleSelector');
@@ -47,14 +46,15 @@ MenuTest.prototype.testMenuTreeSlimScrollInit = function() {
     menu.vde_menu('destroy');
     jQuery.fx.off = false;
 }
-
 MenuTest.prototype.testChangeTitleEvent = function() {
-    /*:DOC += <div id="menu">
+    /*:DOC +=
+    <div id="menu">
         <div class="vde_toolbar_cell_title">
             Title:<span class="vde_toolbar_cell_value">Title Value</span>
         </div>
         <div class="vde_toolbar_cell_content" />
-     </div> */
+    </div>
+    */
     jQuery.fx.off = true;
     var menu = jQuery('#menu').vde_menu();
     var titleTextSelector = menu.vde_menu('option', 'titleSelector');
@@ -64,14 +64,15 @@ MenuTest.prototype.testChangeTitleEvent = function() {
     menu.vde_menu('destroy');
     jQuery.fx.off = false;
 }
-
 MenuTest.prototype.testLinkSelectedEvent = function() {
-    /*:DOC += <div id="menu">
+    /*:DOC +=
+    <div id="menu">
         <div class="vde_toolbar_cell_title">
             Title:<span class="vde_toolbar_cell_value">Title Value</span>
         </div>
         <div class="vde_toolbar_cell_content" />
-    </div> */
+    </div>
+    */
     jQuery.fx.off = true;
     var menu = jQuery('#menu').vde_menu();
     var titleTextSelector = menu.vde_menu('option', 'titleSelector');
@@ -82,14 +83,15 @@ MenuTest.prototype.testLinkSelectedEvent = function() {
     menu.vde_menu('destroy');
     jQuery.fx.off = false;
 }
-
 MenuTest.prototype.testShowHide = function() {
-    /*:DOC += <div id="menu">
+    /*:DOC +=
+    <div id="menu">
         <div class="vde_toolbar_cell_title">
             Title:<span class="vde_toolbar_cell_value">Title Value</span>
         </div>
         <div class="vde_toolbar_cell_content" />
-     </div> */
+    </div>
+    */
     jQuery.fx.off = true;
     var menu = jQuery('#menu').vde_menu();
     var activeClass = menu.vde_menu('option', 'activeClass');
@@ -103,14 +105,15 @@ MenuTest.prototype.testShowHide = function() {
     menu.vde_menu('destroy');
     jQuery.fx.off = false;
 }
-
 MenuTest.prototype.testHideMenuOnBodyClick = function() {
-    /*:DOC += <div id="menu">
+    /*:DOC +=
+    <div id="menu">
         <div class="vde_toolbar_cell_title">
             Title:<span class="vde_toolbar_cell_value">Title Value</span>
         </div>
         <div class="vde_toolbar_cell_content" />
-     </div> */
+    </div>
+    */
     jQuery.fx.off = true;
     var menu = jQuery('#menu').vde_menu();
     var activeClass = menu.vde_menu('option', 'activeClass');
