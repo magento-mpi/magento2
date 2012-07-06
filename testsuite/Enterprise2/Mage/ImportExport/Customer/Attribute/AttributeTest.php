@@ -206,7 +206,8 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         $this->customerAttributeHelper()->createAttribute($attrData);
         $this->addParameter('attribute_name', $attrData['attribute_code']);
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'customer_account_with_attribute');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData[$attrData['attribute_code']] = $attrData['default_text_field_value'];
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps 1-2
@@ -215,13 +216,11 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
 		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step3
         $this->ImportExportHelper()->setFilter(array(
-                $attrData['attribute_code'] => $userData['custom_attribute'])
+                $attrData['attribute_code'] => $userData[$attrData['attribute_code']])
         );
         //Step4-5
         $report = $this->ImportExportHelper()->export();
         //Verifying
-        $userData[$attrData['attribute_code']] = $userData['custom_attribute'];
-        unset($userData['custom_attribute']);
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file");
         $this->assertEquals(1, count($report), "Other customers are present in csv file");
