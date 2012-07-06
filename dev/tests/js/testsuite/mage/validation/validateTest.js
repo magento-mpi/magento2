@@ -153,6 +153,8 @@ MageValidationTest.prototype.testValidateUrl = function () {
   assertEquals(false, $.validator.methods.validateUrl("   "));
   assertEquals(true, $.validator.methods.validateUrl("http://www.google.com"));
   assertEquals(true, $.validator.methods.validateUrl("http://127.0.0.1:8080/index.php"));
+  assertEquals(true, $.validator.methods.validateUrl("http://app-spot.com/index.php"));
+  assertEquals(true, $.validator.methods.validateUrl("http://app-spot_space.com/index.php"));
 };
 
 MageValidationTest.prototype.testValidateCleanUrl = function () {
