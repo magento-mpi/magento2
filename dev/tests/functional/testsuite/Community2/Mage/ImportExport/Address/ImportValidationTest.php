@@ -9,6 +9,15 @@
 class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_TestCase
 {
     protected static $customerEmail = NULL;
+
+    public function setUpBeforeTests(){
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        self::$customerEmail = $userData['email'];
+    }
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -18,13 +27,6 @@ class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_T
     {
         //logged in once for all tests
         $this->loginAdminUser();
-        if (is_null(self::$customerEmail)){
-            $this->navigate('manage_customers');
-            $userData = $this->loadDataSet('ImportExport', 'generic_customer_account');
-            $this->customerHelper()->createCustomer($userData);
-            $this->assertMessagePresent('success', 'success_saved_customer');
-            self::$customerEmail = $userData['email'];
-        }
         //Step 1
         $this->navigate('import');
 
@@ -48,7 +50,7 @@ class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_T
      */
     public function importAddressFileWithInvalidData($addressData, array $validationMessage)
     {
-        if (isset($addressData['_email']) && $addressData['_email']=='%realEmail%'){
+        if (isset($addressData['_email']) && $addressData['_email']=='<realEmail>'){
             $addressData['_email'] = self::$customerEmail;
         }
         $this->admin('import');
@@ -67,52 +69,50 @@ class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_T
 
     public function importDataInvalid()
     {
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => '',
                 'firstname' => '',
-                'lastname' => ''
+                'lastname' => '',
+                '_entity_id' => 'home'
             ));
-        $customerDataRow1['_entity_id'] = 'home';
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
-                '_email' => '%realEmail%',
-                'lastname' => 'last_' . $this->generate('string',10)
+                '_email' => '<realEmail>',
+                'firstname' => '%noValue%',
+                'lastname' => 'last_' . $this->generate('string',10),
+                '_entity_id' => 'home'
             ));
-        $customerDataRow2['_email'] = '%realEmail%';
-        $customerDataRow2['_entity_id'] = 'home';
-        unset($customerDataRow2['firstname']);
-        $customerDataRow3 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow3 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_website' => 'notexist',
                 '_email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
-                'firstname' => 'last_' . $this->generate('string',10)
+                'firstname' => 'last_' . $this->generate('string',10),
+                '_entity_id' => 'home'
             ));
-        $customerDataRow3['_entity_id'] = 'home';
-        $customerDataRow4 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow4 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => 'test_admin_' . $this->generate('string',5) . '@@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
-                'firstname' => 'last_' . $this->generate('string',10)
+                'firstname' => 'last_' . $this->generate('string',10),
+                '_entity_id' => 'home'
             ));
-        $customerDataRow4['_entity_id'] = 'home';
-        $customerDataRow5 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow5 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
-                '_email' => '%realEmail%',
+                '_email' => '<realEmail>',
                 'lastname' => 'last_' . $this->generate('string',10),
                 'firstname' => 'last_' . $this->generate('string',10),
+                '_entity_id' => 'home',
+                'region' => 'California1'
             ));
-        $customerDataRow5['_email'] = '%realEmail%';
-        $customerDataRow5['_entity_id'] = 'home';
-        $customerDataRow5['region'] = 'California1';
-        $customerDataRow6 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
+        $customerDataRow6 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
-                'firstname' => 'last_' . $this->generate('string',10)
+                'firstname' => 'last_' . $this->generate('string',10),
+                '_entity_id' => 'home'
             ));
-        $customerDataRow6['_entity_id'] = 'home';
         return array(
             array($customerDataRow1, array('validation' => array(
                 'error' => array(
