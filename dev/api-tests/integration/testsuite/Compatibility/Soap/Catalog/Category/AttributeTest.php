@@ -33,7 +33,6 @@ class Compatibility_Soap_Catalog_Category_AttributeTest extends Compatibility_So
      * 2. Retrieve category attributes list in current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testCatalogCategoryAttributeList()
     {
@@ -77,13 +76,14 @@ class Compatibility_Soap_Catalog_Category_AttributeTest extends Compatibility_So
         foreach ($attributesList as $attributeData) {
             if ($attributeData['code'] == 'is_active') {
                 $attributeId = $attributeData['attribute_id'];
+                break;
             }
         }
         return $attributeId;
     }
 
     /**
-     * Compare existance of attributes and its fields in current and previous API.
+     * Compare existence of attributes and its fields in current and previous API.
      *
      * @param array $prevResponse
      * @param array $currResponse
@@ -97,9 +97,8 @@ class Compatibility_Soap_Catalog_Category_AttributeTest extends Compatibility_So
                 if ($prevAttributeData['code'] == $currAttributeData['code']) {
                     $isAttributeFound = true;
                     foreach (array_keys($prevAttributeData) as $key) {
-                        $this->assertArrayHasKey($key, $currAttributeData, 'Key ' . $key
-                            . 'is missed in ' . $currAttributeData['code'] . ' attribute in current API in ' . $apiMethod
-                            . ' method');
+                        $this->assertArrayHasKey($key, $currAttributeData, 'Key ' . $key . 'is missed in '
+                            . $currAttributeData['code'] . ' attribute in current API in ' . $apiMethod . ' method');
                     }
                 }
             }
@@ -108,4 +107,3 @@ class Compatibility_Soap_Catalog_Category_AttributeTest extends Compatibility_So
         }
     }
 }
-
