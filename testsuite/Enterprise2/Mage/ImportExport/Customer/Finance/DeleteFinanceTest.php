@@ -301,8 +301,10 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
          //Check import
          $this->assertArrayNotHasKey('import', $report, 'Import has been finished with issues:');
          $this->assertArrayHasKey('error', $report['validation'], 'Import has been finished with issues:');
-         $this->assertEquals('Invalid value in Finance information website column in rows: 1',$report['validation']['error'][0]);
-         $this->assertEquals('Finance information website is not specified in rows: 2',$report['validation']['error'][1]);
+         $this->assertEquals('Finance information website is not specified in rows: 1',
+             $report['validation']['error'][0], "No message about finance website value absence");
+         $this->assertEquals('Invalid value in Finance information website column in rows: 2',
+             $report['validation']['error'][1], "No message about invalid finance website value");
          //Step 8
          $this->navigate('manage_customers');
          //Step 9. First Customer
