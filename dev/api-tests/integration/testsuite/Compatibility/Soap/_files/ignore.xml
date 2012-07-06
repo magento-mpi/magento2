@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:typens="urn:Magento" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="Magento" targetNamespace="urn:Magento">
+    <types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+            <complexType name="associativeEntity">
+                <all>
+                    <element name="key" type="xsd:string" />
+                    <element name="value" type="xsd:string" />
+                </all>
+                <comment>Added for testing complexType</comment>
+            </complexType>
+            <complexType name="associativeArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:associativeEntity[]" />
+                    </restriction>
+                </complexContent>
+                <comment>Added for testing complexType</comment>
+            </complexType>
+        </schema>
+    </types>
+    <message name="endSessionResponse">
+        <part name="endSessionReturn" type="xsd:boolean" />
+        <comment>Added for testing message</comment>
+    </message>
+    <message name="resourcesResponse">
+        <part name="resourcesReturn" type="typens:ArrayOfApis" />
+        <comment>Added for testing message</comment>
+    </message>
+    <portType name="{{var wsdl.handler}}PortType">
+        <operation name="customerCustomerInfo">
+            <comment>Added for testing operation</comment>
+         </operation>
+    </portType>
+</definitions>

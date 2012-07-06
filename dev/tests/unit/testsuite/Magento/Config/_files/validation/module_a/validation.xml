@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="test_entity">
+        <rules>
+            <rule name="test_rule_zend">
+                <constraints>
+                    <constraint class="Zend_Validate_Alnum" field="test_field"/>
+                </constraints>
+            </rule>
+            <rule name="test_rule_constraint">
+                <constraints>
+                    <constraint class="Magento_Validator_Constraint"/>
+                    <constraint class="Magento_Validator_Constraint_Test"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="test_group_a">
+                <uses>
+                    <use rule="test_rule_zend"/>
+                    <use rule="test_rule_constraint"/>
+                </uses>
+            </group>
+            <group name="test_group_b">
+                <uses>
+                    <use rule="test_rule_constraint"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>

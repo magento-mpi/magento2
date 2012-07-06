@@ -113,13 +113,18 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 
        foreach ($prevOperations as $operation) {
            try {
+               //
+               $xpath = sprintf(self::OPERATION_NAME, $operation['name']);
+
                // Finds and compares 'operation['name']'
                $currOperation = self::$_currWsdl->xpath(sprintf(self::OPERATION_NAME, $operation['name']));
-               $this->assertNotEmpty($currOperation, ' Operation: "' . $operation['name']
+               $this->assertNotEmpty($currOperation, 'Operation: "' . $operation['name']
                    . '" was not found in current wsdl.');
            }
            catch (Exception $e) {
-               $this->_errors['operationErrors'][] = $e->getMessage();
+               if(!$this->elementIgnored($xpath)) {
+                   $this->_errors['operationErrors'][] = $e->getMessage();
+               }
                continue;
            }
            try {
@@ -296,22 +301,45 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
      */
     protected function implodeErrorArrayToString($errors)
     {
-        $implodedErrors = '';
-
-        foreach ($errors['operationErrors'] as $operationsErrors) {
-            $implodedErrors.= $operationsErrors . "\n";
+        $implodedErrors = "\n";
+        if (array_key_exists('operationErrors', $errors)) {
+            foreach ($errors['operationErrors'] as $operationsErrors) {
+                $implodedErrors.= $operationsErrors . "\n";
+            }
         }
-        foreach ($errors['messageErrors'] as $messageErrors) {
-            $implodedErrors.= $messageErrors . "\n";
+        if (array_key_exists('messageErrors', $errors)) {
+            foreach ($errors['messageErrors'] as $messageErrors) {
+                $implodedErrors.= $messageErrors . "\n";
+            }
         }
-        foreach ($errors['complexTypeErrors'] as $complexTypeErrors) {
-            $implodedErrors.= $complexTypeErrors . "\n";
+        if (array_key_exists('complexTypeErrors', $errors)) {
+            foreach ($errors['complexTypeErrors'] as $complexTypeErrors) {
+                $implodedErrors.= $complexTypeErrors . "\n";
+            }
         }
-        foreach ($errors['complexTypeElementErrors'] as $complexTypeElementErrors) {
-             foreach ($complexTypeElementErrors as $element) {
-                 $implodedErrors.= $element . "\n";
-             }
+        if (array_key_exists('complexTypeElementErrors', $errors)) {
+            foreach ($errors['complexTypeElementErrors'] as $complexTypeElementErrors) {
+                 foreach ($complexTypeElementErrors as $element) {
+                     $implodedErrors.= $element . "\n";
+                 }
+            }
         }
         return $implodedErrors;
+    }
+    /**
+     * TODO: to add function desctiptions and steps
+     * @param $xpath
+     * @return bool
+     */
+    protected  function elementIgnored($xpath)
+    {
+        // Finds wsdl element by $xpath
+        $foundElement = self::$_ignoreWsdl->xpath($xpath);
+        // Element has been ignored if it founded
+        if (!isset($foundElement) && count(reset($foundElement)) == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

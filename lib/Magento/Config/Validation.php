@@ -1,0 +1,121 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  Config
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Validation configuration files handler
+ */
+class Magento_Config_Validation extends Magento_Config_XmlAbstract
+{
+    /**
+     * Get absolute path to validation.xsd
+     *
+     * @return string
+     */
+    public function getSchemaFile()
+    {
+        return __DIR__ . '/validation.xsd';
+    }
+
+    /**
+     * Get validation rules for specified entity and group.
+     *
+     * @param string $entityName
+     * @param string $groupName
+     * @throws Magento_Exception
+     * @return array
+     */
+    public function getValidationRules($entityName, $groupName)
+    {
+        if (!isset($this->_data[$entityName])) {
+            throw new Magento_Exception(sprintf('Unknown validation entity "%s"', $entityName));
+        }
+        if (!isset($this->_data[$entityName]['groups'][$groupName])) {
+            throw new Magento_Exception(sprintf('Unknown validation group "%s" in entity "%s"', $groupName,
+                $entityName));
+        }
+
+        $result = array();
+        $groupRules = $this->_data[$entityName]['groups'][$groupName];
+        foreach ($groupRules as $rule) {
+            $result[$rule] = $this->_data[$entityName]['rules'][$rule];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Extract configuration data from the DOM structure
+     *
+     * @param DOMDocument $dom
+     * @throws Magento_Exception
+     * @return array
+     */
+    protected function _extractData(DOMDocument $dom)
+    {
+        $result = array();
+        /** @var DOMElement $entity */
+        foreach ($dom->getElementsByTagName('entity') as $entity) {
+            $entityName = $entity->getAttribute('name');
+            $result[$entityName]['rules'] = array();
+            /** @var DOMElement $rule */
+            foreach ($entity->getElementsByTagName('rule') as $rule) {
+                $ruleName = $rule->getAttribute('name');
+                $result[$entityName]['rules'][$ruleName] = array();
+                /** @var DOMElement $constraint */
+                foreach ($rule->getElementsByTagName('constraint') as $constraint) {
+                    $result[$entityName]['rules'][$ruleName]['constraints'][] = array(
+                        'class' => $constraint->getAttribute('class'),
+                        'field' => $constraint->getAttribute('field'),
+                    );
+                }
+            }
+
+            $result[$entityName]['groups'] = array();
+            /** @var DOMElement $group */
+            foreach ($entity->getElementsByTagName('group') as $group) {
+                $groupName = $group->getAttribute('name');
+                $result[$entityName]['groups'][$groupName] = array();
+                /** @var DOMElement $use */
+                foreach ($group->getElementsByTagName('use') as $use) {
+                    $usesRuleName = $use->getAttribute('rule');
+                    $result[$entityName]['groups'][$groupName][] = $usesRuleName;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get initial XML of a valid document
+     *
+     * @return string
+     */
+    protected function _getInitialXml()
+    {
+        return '<?xml version="1.0" encoding="UTF-8"?><validation></validation>';
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function _getIdAttributes()
+    {
+        return array(
+            '/validation/entity' => 'name',
+            '/validation/entity/rules/rule' => 'name',
+            '/validation/entity/rules/rule/constraints/constraint' => 'class',
+            '/validation/entity/groups/group' => 'name',
+            '/validation/entity/groups/group/uses/use' => 'rule',
+        );
+    }
+}

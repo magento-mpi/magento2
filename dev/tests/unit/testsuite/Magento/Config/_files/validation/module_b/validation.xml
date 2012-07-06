@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="test_entity">
+        <rules>
+            <rule name="test_rule_constraint">
+                <constraints>
+                    <constraint class="Magento_Validator_Constraint_2"/>
+                </constraints>
+            </rule>
+            <rule name="test_rule_constraint_2">
+                <constraints>
+                    <constraint class="Magento_Validator_Constraint_Test"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="test_group_b">
+                <uses>
+                    <use rule="test_rule_constraint_2"/>
+                </uses>
+            </group>
+            <group name="test_group_c">
+                <uses>
+                    <use rule="test_rule_constraint_2"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+    <entity name="test_entity_b">
+        <rules>
+            <rule name="test_rule">
+                <constraints>
+                    <constraint class="Zend_Validate_Int" field="test_field"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="test_group_d">
+                <uses>
+                    <use rule="test_rule"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>
