@@ -16,6 +16,8 @@ $attributeCodes = array(
     'short_description',
     'sku',
     'price',
+    'price_type',
+    'price_view',
     'status',
     'visibility',
     'tax_class_id',
