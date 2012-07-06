@@ -78,10 +78,10 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
             'Magento 2.0 format', 'Customer Addresses');
         //Steps 6-8
-        if($addressRow[0]['_email'] == '%realEmail%') {
+        if($addressRow[0]['_email'] == '<realEmail>') {
             $addressRow[0]['_email'] = self::$customerData['email'];
         }
-        if($addressRow[0]['_entity_id'] == '%realAddressId%') {
+        if($addressRow[0]['_entity_id'] == '<realAddressId>') {
             $addressRow[0]['_entity_id'] = $addressId;
         }
         $report = $this->importExportHelper()->import($addressRow);
@@ -135,8 +135,8 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
         for ($i=0; $i<6; $i++) {
             $addressData[$i] = $basicAddressData;
             $addressRows[$i] = $basicAddressRow;
-            $addressRows[$i]['_email'] = '%realEmail%';
-            $addressRows[$i]['_entity_id'] = '%realAddressId%';
+            $addressRows[$i]['_email'] = '<realEmail>';
+            $addressRows[$i]['_entity_id'] = '<realAddressId>';
             if ($i<3) {
                 $addressData[$i]['street_address_line_1'] = $streets[$i];
                 $addressRows[$i]['street'] = $streets[$i];
