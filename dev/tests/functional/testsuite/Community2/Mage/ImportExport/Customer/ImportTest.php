@@ -39,6 +39,31 @@
  */
 class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_TestCase
 {
+    protected static $customerData = array();
+    protected static $addressData = array();
+
+    /**
+     * <p>Precondition:</p>
+     * <p>Create new customer</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->admin('manage_customers');
+        self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
+            'prefix' => 'Mr.',
+            'date_of_birth' => '4/21/1963',
+            'gender' => 'Male',
+            'tax_vat_number' => '678-05-2568',
+        ));
+        self::$addressData = $this->loadDataSet('Customers', 'generic_address');
+        $this->customerHelper()->createCustomer(self::$customerData, self::$addressData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->addParameter('customer_first_last_name', self::$customerData['first_name']
+            . ' ' . self::$customerData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
+        self::$addressData['address_id'] = $this->customerHelper()->isAddressPresent(self::$addressData);
+    }
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -145,7 +170,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         }
         //export all customer files
         $this->admin('export');
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         $report = array();
         foreach ($customerTypes as $customerType) {
@@ -271,7 +296,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
      * <p>1. Go to System -> Import/ Export -> Import</p>
      * <p>2. In the drop-down "Entity Type" select "Customers"</p>
      * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Customers Entity Type: Customer Main File/Customer Addresses</p>
+     * <p>4. Select Customers Entity Type: Customers Main File/Customer Addresses</p>
      * <p>5. Choose file from precondition and click "Check Data" button</p>
      * <p>6. Press "Import" button</p>
      * <p>7. Goto Customer-> Manage Customers and open each of imported customers</p>
@@ -279,82 +304,179 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
      * new customer is added with proper values of not required attributes</p>
      *
      * @test
+     * @dataProvider notRequiredColumnsData
      * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
      */
-    public function notRequiredColumns()
+    public function notRequiredColumns($customerType, $csvData, $updatedData)
     {
-        //customer data
-        $customerData['new'] = $this->loadDataSet('ImportExport.yml', 'new_customer_account_5622');
-        $customerData['existing_original'] = $this->loadDataSet('ImportExport.yml', 'existing_original_customer_5622');
-        $customerData['existing_updated'] = $this->loadDataSet('ImportExport.yml', 'existing_updated_customer_5622');
-        $customerData['existing_updated']['email'] = $customerData['existing_original']['email'];
-        //address data
-        $addressData['new'] = $this->loadDataSet('ImportExport.yml', 'new_customer_address_5622');
-        $addressData['existing_original'] = $this->loadDataSet('ImportExport.yml', 'existing_original_address_5622');
-        $addressData['existing_updated'] = $this->loadDataSet('ImportExport.yml', 'existing_updated_address_5622');
-        //Precondition
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($customerData['existing_original'], $addressData['existing_original']);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        //Get existing address id to use in csv file
-        $this->addParameter('customer_first_last_name', $customerData['existing_original']['first_name']
-            . ' ' . $customerData['existing_original']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData['existing_original']['email']));
-        $this->openTab('addresses');
-        $addressIdExisting = $this->customerHelper()->isAddressPresent($addressData['existing_original']);
-        //csv data
-        $customerTypes = array('Customers Main File', 'Customer Addresses');
-        $csvData[$customerTypes[0]]['new'] = $this->loadDataSet('ImportExport.yml', 'csv_new_master_5622');
-        $csvData[$customerTypes[0]]['new']['email'] = $customerData['new']['email'];
-        $csvData[$customerTypes[0]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_master_5622');
-        $csvData[$customerTypes[0]]['existing']['email'] = $customerData['existing_updated']['email'];
-        $csvData[$customerTypes[1]]['new'] = $this->loadDataSet('ImportExport.yml', 'csv_new_address_5622');
-        $csvData[$customerTypes[1]]['new']['_email'] = $customerData['new']['email'];
-        $csvData[$customerTypes[1]]['new']['_entity_id'] = $this->generate('string', 10, ':digit:');
-        $csvData[$customerTypes[1]]['existing'] = $this->loadDataSet('ImportExport.yml', 'csv_existing_address_5622');
-        $csvData[$customerTypes[1]]['existing']['_email'] = $customerData['existing_updated']['email'];
-        $csvData[$customerTypes[1]]['existing']['_entity_id'] = $addressIdExisting;
+        //Set correct email and entity id for csv and updated customer/address data
+        foreach ($csvData as $key => $value) {
+            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>'){
+                $csvData[$key]['email'] = self::$customerData['email'];
+            }
+            if (array_key_exists('_email', $csvData[$key]) && $csvData[$key]['_email'] == '<realEmail>'){
+                $csvData[$key]['_email'] = self::$customerData['email'];
+            }
+            if (array_key_exists('_entity_id', $csvData[$key]) && $csvData[$key]['_entity_id'] == '<realEntityID>'){
+                $csvData[$key]['_entity_id'] = self::$addressData['address_id'];
+            }
+        }
+        foreach ($updatedData as $key => $value) {
+            if (array_key_exists('email', $updatedData[$key]) && $updatedData[$key]['email'] == '<realEmail>'){
+                $updatedData[$key]['email'] = self::$customerData['email'];
+            }
+        }
         //Step 1
         $this->admin('import');
-        //Step 2
+        //Steps 2-4
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-        foreach ($customerTypes as $customerType) {
-            //Step 4
-            $this->fillDropdown('import_customer_entity', $customerType);
-            //Step 5-6
-            $importData = $this->importExportHelper()->import($csvData[$customerType]);
-            //Verifying import
-            $this->assertArrayHasKey('import', $importData,
-                "$customerType file import has not been finished successfully: " .
-                    print_r($importData));
-            $this->assertArrayHasKey('success', $importData['import'],
-                "$customerType file import has not been finished successfully" .
-                    print_r($importData));
-        }
+            'Magento 2.0 format', $customerType);
+        //Step 5-6
+        $importData = $this->importExportHelper()->import($csvData);
+        //Verifying import
+        $this->assertArrayHasKey('import', $importData,
+            "$customerType file import has not been finished successfully: " . print_r($importData));
+        $this->assertArrayHasKey('success', $importData['import'],
+            "$customerType file import has not been finished successfully" . print_r($importData));
         //Step7
-        $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData['new']['first_name']
-            . ' ' . $customerData['new']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData['new']['email']));
-        //Verifying new customer
-        $this->assertTrue($this->verifyForm($customerData['new'], 'account_information'),
-            'New customer has not been created');
-        $this->openTab('addresses');
-        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData['new']),
-            'New customer address has not been added');
+        if($customerType == 'Customers Main File') {
+            foreach ($updatedData as $key => $value) {
+                $this->admin('manage_customers');
+                $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($updatedData[$key]),
+                    'New customer has not been created');
+                $this->addParameter('customer_first_last_name', $updatedData[$key]['first_name']
+                    . ' ' . $updatedData[$key]['last_name']);
+                $this->customerHelper()->openCustomer(array('email' => $updatedData[$key]['email']));
+                //Verifying customer data
+                $this->assertTrue($this->verifyForm($updatedData[$key], 'account_information'),
+                    'Customer has not been updated');
+                //Update original customer data
+                if($key == 1) {
+                    self::$customerData = $updatedData[$key];
+                }
+            }
+        }
+        //Verifying address data
+        if($customerType == 'Customer Addresses') {
+            $this->admin('manage_customers');
+            $this->addParameter('customer_first_last_name', self::$customerData['first_name']
+                . ' ' . self::$customerData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
+            $this->openTab('addresses');
+            foreach ($updatedData as $key => $value) {
+                $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($updatedData[$key]),
+                    'Customer address has not been added/updated');
+            }
+        }
+    }
 
-        $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData['existing_updated']['first_name']
-            . ' ' . $customerData['existing_updated']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData['existing_updated']['email']));
-        //Verifying existing customer
-        $this->assertTrue($this->verifyForm($customerData['existing_updated'], 'account_information'),
-            'Existing customer has not been updated');
-        $this->openTab('addresses');
-        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData['existing_updated']),
-            'Customer address has not been updated');
+    public function notRequiredColumnsData()
+    {
+        $csvMainRow1 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'firstname' => 'First Name',
+                'lastname' => 'Last Name',
+                'middlename' => 'Middle Name',
+                'dob' => '22.01.1986 0:00',
+                'prefix' => 'Mr.',
+                'gender' => 'Male',
+                'taxvat' => '483-31-8400',
+            )
+        );
+        $customerUpdatedData1 = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => $csvMainRow1['email'],
+                'middle_name' => 'Middle Name',
+                'date_of_birth' => '1/22/1986',
+                'prefix' => 'Mr.',
+                'gender' => 'Male',
+                'tax_vat_number' => '483-31-8400',
+                'password' => '',
+            )
+        );
+        $csvMainRow2 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'email' => '<realEmail>',
+                'firstname' => 'New First Name',
+                'lastname' => 'New Last Name',
+                'middlename' => 'New Middle Name',
+                'prefix' => 'Ms.',
+                'gender' => 'Female',
+                'dob' => '01.05.1964 0:00',
+                'taxvat' => '501-92-8747',
+            )
+        );
+        $customerUpdatedData2 = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => '<realEmail>',
+                'first_name' => 'New First Name',
+                'last_name' => 'New Last Name',
+                'middle_name' => 'New Middle Name',
+                'prefix' => 'Ms.',
+                'gender' => 'Female',
+                'date_of_birth' => '5/1/1964',
+                'tax_vat_number' => '501-92-8747',
+                'password' => '',
+            )
+        );
+
+        $mainCsvRows = array($csvMainRow1, $csvMainRow2);
+        $updatedCustomerData = array($customerUpdatedData1, $customerUpdatedData2);
+
+        $csvAddressRow1 = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+                '_email' => '<realEmail>',
+            )
+        );
+        $addressUpdatedData1 = $this->loadDataSet('Customers', 'generic_address', array(
+                'prefix' => 'Mr.',
+                'first_name' => 'Alvin',
+                'middle_name' => 'C.',
+                'last_name' => 'Plyler',
+                'company' => 'Earl Abel\'s',
+                'street_address_line_1' => '539 Russell Street',
+                'street_address_line_2' => '',
+                'city' => 'New York',
+                'state' => 'Massachusetts',
+                'zip_code' => '57428',
+                'telephone' => '978-875-6394',
+                'fax' => '978-875-6394',
+            )
+        );
+        $csvAddressRow2 = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+                '_email' => '<realEmail>',
+                '_entity_id' => '<realEntityID>',
+                'city' => 'Camden',
+                'company' => 'Team Electronics',
+                'fax' => '609-504-6350',
+                'firstname' => 'William',
+                'lastname' => 'Holler',
+                'middlename' => 'E.',
+                'postcode' => '08102',
+                'prefix' => '',
+                'region' => 'New Jersey',
+                'street' => '3186 Lincoln Street',
+                'telephone' => '609-504-6350',
+            )
+        );
+        $addressUpdatedData2 = $this->loadDataSet('Customers', 'generic_address', array(
+                'first_name' => 'William',
+                'middle_name' => 'E.',
+                'last_name' => 'Holler',
+                'company' => 'Team Electronics',
+                'street_address_line_1' => '3186 Lincoln Street',
+                'street_address_line_2' => '',
+                'city' => 'Camden',
+                'state' => 'New Jersey',
+                'zip_code' => '08102',
+                'telephone' => '609-504-6350',
+                'fax' => '609-504-6350',
+            )
+        );
+
+        $addressCsvRows = array($csvAddressRow1, $csvAddressRow2);
+        $updatedAddressData = array($addressUpdatedData1, $addressUpdatedData2);
+
+        return array(
+            array('Customers Main File', $mainCsvRows, $updatedCustomerData),
+            array('Customer Addresses', $addressCsvRows, $updatedAddressData),
+        );
+
     }
 
     /**
@@ -381,86 +503,107 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
      * <p>Expected: valid data information was imported correctly</p>
      *
      * @test
+     * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5635
      */
-    public function partialImport()
+    public function partialImport($csvData, $newCustomerData, $validation)
     {
-        //test data
-        $customerData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
-        $customerData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'data_invalid_customer1_5635');
-        $csvData[0]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_customer1_5635');
-        $csvData[0]['valid']['email'] = $customerData[0]['valid']['email'];
-        $csvData[0]['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_customer1_5635');
-        $csvData[0]['invalid']['email'] = $customerData[0]['invalid']['email'];
-        $customerData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'data_valid_customer2_5635');
-        $customerData[1]['invalid'] = $customerData[0]['valid'];
-        $csvData[1]['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_customer2_5635');
-        $csvData[1]['valid']['email'] = $customerData[1]['valid']['email'];
-        $csvData[1]['invalid'] = $csvData[1]['valid'];
-        //Step 2
+        //Set correct email for csv data
+        foreach ($csvData as $key => $value) {
+            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>'){
+                $csvData[$key]['email'] = self::$customerData['email'];
+            }
+        }
+        //Steps 2-4
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customers Main File');
-        //Step 5
-        $importData = $this->importExportHelper()->import($csvData[0]);
-        //Verifying
-        $this->assertEquals(
-            'Invalid value in website column in rows: 2',
-            $importData['validation']['error'][0], 'Message about invalid website is absent'
-        );
-        $this->assertEquals(
-            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
-            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
-        );
-        $this->assertEquals(
-            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
-            $importData['validation']['validation'][1], 'No message checked rows number'
-        );
+        //Steps 5-6
+        $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully: " .
-            print_r($importData));
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully: " .
-            print_r($importData));
-        //Step 6
-        $importData = $this->importExportHelper()->import($csvData[1]);
-        //Verifying messages (second file)
-        $this->assertEquals(
-            'E-mail is duplicated in import file in rows: 2',
-            $importData['validation']['error'][0], 'Message about duplication is absent'
-        );
-        $this->assertEquals(
-            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
-            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
-        );
-        $this->assertEquals(
-            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
-            $importData['validation']['validation'][1], 'No message checked rows number'
-        );
-        //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
+        $this->assertEquals($validation, $importData, 'Import has been finished with issues');
         //Step 7
         $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[0]['valid']['first_name']
-            . ' ' . $customerData[0]['valid']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData[0]['valid']['email']));
-        //Verifying that new customer is created from valid csv row (first file)
-        $this->assertTrue($this->verifyForm($customerData[0]['valid'], 'account_information'),
+        $this->addParameter('customer_first_last_name', $newCustomerData['first_name']
+            . ' ' . $newCustomerData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $newCustomerData['email']));
+        //Verifying that new customer is created
+        $this->assertTrue($this->verifyForm($newCustomerData, 'account_information'),
             'New customer has not been created');
+    }
 
-        $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[0]['invalid']['first_name']
-            . ' ' . $customerData[0]['invalid']['last_name']);
-        // Verifying that no customer is created from invalid csv row (first file)
-        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($customerData[0]['invalid']),
-            'Customer is found');
+    public function partialImportData()
+    {
+        $csvRow1File1 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'firstname' => 'Sean',
+                'lastname' => 'Morgan',
+                'middlename' => 'M.',
+                'gender' => 'Male',
+            )
+        );
+        $newCustomer1Data = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => $csvRow1File1['email'],
+                'first_name' => 'Sean',
+                'last_name' => 'Morgan',
+                'middle_name' => 'M.',
+                'gender' => 'Male',
+            )
+        );
+        $csvRow2File1 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'email' => '<realEmail>',
+                '_website' => 'invalid',
+            )
+        );
 
-        $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData[1]['valid']['first_name']
-            . ' ' . $customerData[1]['valid']['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData[1]['valid']['email']));
-        //Verifying that new customer is created from valid csv row (second file)
-        $this->assertTrue($this->verifyForm($customerData[1]['valid'], 'account_information'),
-            'New customer has not been created');
+        $csvRows1 = array($csvRow1File1, $csvRow2File1);
+
+        $messageFile1 = array('validation' => array(
+            'error' => array("Invalid value in website column in rows: 2"),
+            'validation' => array(
+            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+            "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+                )
+            ),
+            'import' => array(
+                'success' => array("Import successfully done."),
+            ),
+        );
+
+        $csvRow1File2 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                'firstname' => 'Ann',
+                'lastname' => 'Gordon',
+                'middlename' => 'G.',
+                'gender' => 'Female',
+            )
+        );
+        $newCustomer2Data = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => $csvRow1File2['email'],
+                'first_name' => 'Ann',
+                'last_name' => 'Gordon',
+                'middle_name' => 'G.',
+                'gender' => 'Female',
+            )
+        );
+        $csvRow2File2 = $csvRow1File2;
+
+        $csvRows2 = array($csvRow1File2, $csvRow2File2);
+
+        $messageFile2 = array('validation' => array(
+            'error' => array("E-mail is duplicated in import file in rows: 2"),
+            'validation' => array(
+                "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1",
+            )
+        ),
+            'import' => array(
+                'success' => array("Import successfully done."),
+            ),
+        );
+
+        return array(
+            array($csvRows1, $newCustomer1Data, $messageFile1),
+            array($csvRows2, $newCustomer2Data, $messageFile2),
+        );
+
     }
 
     /**

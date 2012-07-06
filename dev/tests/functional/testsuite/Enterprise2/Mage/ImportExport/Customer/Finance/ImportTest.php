@@ -35,6 +35,20 @@
  */
 class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestCase
 {
+    protected static $customerData = array();
+
+    /**
+     * <p>Precondition:</p>
+     * <p>Create 2 customers</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->admin('manage_customers');
+        self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer(self::$customerData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+    }
     /**
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
@@ -161,55 +175,69 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
      * <p>Expected: valid finance data information was imported correctly</p>
      *
      * @test
+     * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5633
      */
-    public function partialImport()
+    public function partialImport($csvData, $validationMessage)
     {
-        //Precondition
-        $customerData = $this->loadDataSet('ImportExport.yml', 'data_valid_customer1_5635');
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($customerData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $csvData['valid'] = $this->loadDataSet('ImportExport.yml', 'csv_valid_finance_5633');
-        $csvData['valid']['email'] = $customerData['email'];
-        $csvData['valid']['_finance_website'] = 'base';
-        $csvData['invalid'] = $this->loadDataSet('ImportExport.yml', 'csv_invalid_finance_5633');
-        $csvData['invalid']['email'] = $customerData['email'];
-        $csvData['invalid']['_finance_website'] = 'base';
-        //Step 1
+        //Set correct email for csv data
+        foreach ($csvData as $key => $value) {
+            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>'){
+                $csvData[$key]['email'] = self::$customerData['email'];
+            }
+        }
+        //Steps 1-4
         $this->admin('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customer Finances');
         //Step 5
         $importData = $this->importExportHelper()->import($csvData);
-        //Verifying
-        $this->assertEquals(
-            "Invalid value for 'store_credit' in rows: 2",
-            $importData['validation']['error'][0], 'No message about invalid value for store credit'
-        );
-        $this->assertEquals(
-            "Invalid value for 'reward_points' in rows: 2",
-            $importData['validation']['error'][1], 'No message about invalid value for reward points'
-        );
-        $this->assertEquals(
-            'Please fix errors and re-upload file or simply press "Import" button to skip rows with errors  Import',
-            $importData['validation']['validation'][0], 'No message about possibility to fix errors or continue'
-        );
-        $this->assertEquals(
-            'Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2',
-            $importData['validation']['validation'][1], 'No message checked rows number'
-        );
         //Verifying import
-        $this->assertArrayHasKey('import', $importData, "Import has not been finished successfully");
-        $this->assertArrayHasKey('success', $importData['import'], "Import has not been finished successfully");
+        $this->assertEquals($validationMessage, $importData, 'Import has been finished with issues');
         //Step 6
         $this->admin('manage_customers');
-        $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' '. $customerData['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
+        $this->addParameter('customer_first_last_name', self::$customerData['first_name'] . ' '
+            . self::$customerData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
         //Verifying finance data
-        $this->assertEquals('$' .$csvData['valid']['store_credit'] . '.00', $this->customerHelper()->getStoreCreditBalance(),
+        $this->assertEquals('$' .$csvData[0]['store_credit'] . '.00', $this->customerHelper()->getStoreCreditBalance(),
             'Store credit has not been added');
-        $this->assertEquals($csvData['valid']['reward_points'], $this->customerHelper()->getRewardPointsBalance(),
+        $this->assertEquals($csvData[0]['reward_points'], $this->customerHelper()->getRewardPointsBalance(),
             'Reward points have not been added');
+    }
+
+    public function partialImportData()
+    {
+        $csvRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+                'email' => '<realEmail>',
+                'store_credit' => '100',
+                'reward_points' => '200',
+            )
+        );
+        $csvRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+                'email' => '<realEmail>',
+                'store_credit' => 'store_credit',
+                'reward_points' => 'reward_points',
+            )
+        );
+
+        $csvRows = array($csvRow1, $csvRow2);
+
+        $validationMessage = array('validation' => array(
+            'error' => array(
+                "Invalid value for 'store_credit' in rows: 2",
+                "Invalid value for 'reward_points' in rows: 2"
+            ),
+            'validation' => array(
+            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+            "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2",
+            )
+            ),
+            'import' => array(
+                'success' => array("Import successfully done."),
+            ),
+        );
+
+        return array(array($csvRows, $validationMessage));
     }
 }
