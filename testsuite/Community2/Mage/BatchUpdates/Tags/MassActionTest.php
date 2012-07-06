@@ -34,6 +34,7 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
         $this->navigate('all_tags');
         $this->tagsHelper()->deleteAllTags();
     }
+
     /**
      * <p>Updating created tags using Batch Updates</p>
      * <p>Steps:</p>
@@ -71,10 +72,11 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
         $this->addParameter('qtyDeletedTags', $tagQty);
         $this->fillDropdown('tags_massaction', 'Change status');
         $this->fillDropdown('tags_status', 'Disabled');
-        $this->clickButton('submit', true);
+        $this->clickButton('submit');
         //Verifying
         $this->assertMessagePresent('success', 'success_changed_status');
     }
+
     /**
      * <p>Deleting created tags using Batch Updates</p>
      * <p>Steps:</p>
