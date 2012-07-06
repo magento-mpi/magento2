@@ -367,6 +367,10 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             "Invalid value in website column in rows: 3",
             $importResult['validation']['error'][0],
             'Import has been finished with issues: ' . print_r($importResult));
+        $this->assertEquals(
+            "Customer address id column is not specified in rows: 4",
+            $importResult['validation']['error'][1],
+            'Import has been finished with issues: ' . print_r($importResult));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
                                  print_r($importResult));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: ' .

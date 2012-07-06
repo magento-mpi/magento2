@@ -102,11 +102,11 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
           $this->fillDropdown('entity_type', 'Customers');
           $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
           //Verifying
-          $exportFileVersion = $this->getElementsByXpath(
+          $importFileVersion = $this->getElementsByXpath(
               $this->_getControlXpath('dropdown', 'import_file_version') . '/option',
               'text');
           $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
-              $exportFileVersion,
+              $importFileVersion,
               'Import File Version dropdown contains incorrect values');
           //Step 3
           $this->fillDropdown('import_file_version', 'Magento 1.7 format');
