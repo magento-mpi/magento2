@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_Selenium_TestCase
 {
     static protected $customersUpdateData = array();
     static protected $customersEmptyData = array();
@@ -45,7 +45,8 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
         for ($i = 0; $i < 2; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -63,8 +64,10 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
         for ($i = 0; $i < 1; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -93,8 +96,10 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
         for ($i = 0; $i < 1; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -122,9 +127,12 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
         for ($i = 0; $i < 1; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData2 = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData2 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -233,10 +241,8 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                  $userAddressData['middle_name'] = '';
              }
              $this->assertFalse(!$this->customerHelper()->isAddressPresent($userAddressData),
-                             "Address not found for address data =\n" .
-                                 print_r($userAddressData) .
-                                 "csv data =\n" .
-                                 print_r($data[$i]));
+                             "Address not found for address data " . print_r($userAddressData) .
+                             print_r($data[$i]));
         }
     }
     /**
@@ -271,7 +277,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: ' .
                                  print_r($importResult));
         $this->assertEquals(
-            "Customer with such email and website code doesn't exist in rows: 4",
+            "Invalid value in website column in rows: 4",
             $importResult['validation']['error'][0],
             'Import has been finished with issues: ' . print_r($importResult));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
@@ -358,7 +364,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: ' .
                                  print_r($importResult));
         $this->assertEquals(
-            "Customer with such email and website code doesn't exist in rows: 3",
+            "Invalid value in website column in rows: 3",
             $importResult['validation']['error'][0],
             'Import has been finished with issues: ' . print_r($importResult));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
@@ -396,7 +402,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             'prefix' => '',
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
-                            'action' => 'Update'
+                            '_action' => 'Update'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -411,7 +417,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'UpDaTe'
+                            '_action' => 'UpDaTe'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -426,7 +432,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'update'
+                            '_action' => 'update'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -441,7 +447,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'Update'
+                            '_action' => 'Update'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -455,7 +461,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             'prefix' => '',
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
-                            'action' => 'Update'
+                            '_action' => 'Update'
                         )
                     )
                 )
@@ -472,7 +478,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_email' => '<realEmail>',
                             'postcode' => '10005',
                             '_entity_id' => '<realEntityID>',
-                            'action' => ''
+                            '_action' => ''
                         )
                     ),
                     $this->loadDataSet('ImportExport','generic_address_csv',
@@ -493,7 +499,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'Please, delete'
+                            '_action' => 'Please, delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport','generic_address_csv',
@@ -501,7 +507,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_email' => '<realEmail>',
                             'postcode' => '10007',
                             '_entity_id' => '',
-                            'action' => ''
+                            '_action' => ''
                         )
                     ),
                     $this->loadDataSet('ImportExport','generic_address_csv',
@@ -510,7 +516,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_email' => '<realEmail>',
                             'postcode' => '10008',
                             '_entity_id' => '',
-                            'action' => 'Please, delete'
+                            '_action' => 'Please, delete'
                         )
                     )
                 )
@@ -526,7 +532,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                         array(
                             '_email' => '<realEmail>',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'Delete'
+                            '_action' => 'Delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -547,7 +553,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_address_default_billing_' => '',
                             '_address_default_shipping_' => '',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'delete'
+                            '_action' => 'delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
@@ -555,14 +561,14 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_
                             '_website' => 'invalid',
                             '_email' => '<realEmail>',
                             '_entity_id' => '<realEntityID>',
-                            'action' => 'delete'
+                            '_action' => 'delete'
                         )
                     ),
                     $this->loadDataSet('ImportExport', 'generic_address_csv',
                         array(
                             '_email' => '<realEmail>',
                             '_entity_id' => '',
-                            'action' => 'delete'
+                            '_action' => 'delete'
                         )
                     )
                 )

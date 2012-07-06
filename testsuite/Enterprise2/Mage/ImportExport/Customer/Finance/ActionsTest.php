@@ -97,7 +97,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['email'] == '%realEmail%'){
+            if ($dataCsv[$i]['email'] == '<realEmail>'){
                 $dataCsv[$i]['email'] = self::$customersData[$i]['email'];
             }
             $i++;
@@ -185,7 +185,7 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['email'] == '%realEmail%'){
+            if ($dataCsv[$i]['email'] == '<realEmail>'){
                 $dataCsv[$i]['email'] = self::$customersData[$i]['email'];
             }
             $i++;
@@ -263,17 +263,21 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                         array(
                             'update_balance' => $customerData['store_credit']),
                         true);
+                } else {
+                    $data[$i]['store_credit'] = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
                 }
                 if ($data[$i]['reward_points']!=''){
                     $this->customerHelper()->updateRewardPointsBalance(
                         array(
                             'update_balance' => $customerData['reward_points']),
                         true);
+                } else {
+                    $data[$i]['reward_points'] = $this->customerHelper()->getRewardPointsBalance();
                 }
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['email'] == '%realEmail%'){
+            if ($dataCsv[$i]['email'] == '<realEmail>'){
                 $dataCsv[$i]['email'] = self::$customersData[$i]['email'];
             }
             $i++;
@@ -313,24 +317,22 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                     'customer_first_last_name',
                     self::$customersData[$i]['first_name'] . ' ' . self::$customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$customersData[$i]['email']));
-                if (strtolower($dataCsv[$i]['action']) == 'delete'){
-                    $this->assertEquals(
-                        0,
-                        str_replace('$', '', $this->customerHelper()->getStoreCreditBalance()),
-                        'Store credit balance is wrong');
-                    $this->assertEquals(
-                        0,
-                        $this->customerHelper()->getRewardPointsBalance(),
-                        'Reward points balance is wrong');
+                if (strtolower($dataCsv[$i]['_action']) == 'delete'){
+                    $currentBalance = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
+                    $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
+                        'Store credit balance is wrong ' . $i);
+                    $currentBalance = $this->customerHelper()->getRewardPointsBalance();
+                    $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
+                        'Reward points balance is wrong ' . $i);
                 } else {
                     $this->assertEquals(
                         $dataCsv[$i]['store_credit'],
                         str_replace('$', '', $this->customerHelper()->getStoreCreditBalance()),
-                        'Store credit balance is wrong');
+                        'Store credit balance is wrong ' . $i);
                     $this->assertEquals(
                         $dataCsv[$i]['reward_points'],
                         $this->customerHelper()->getRewardPointsBalance(),
-                        'Reward points balance is wrong');
+                        'Reward points balance is wrong ' . $i);
                 }
             }
             $i++;
@@ -357,24 +359,24 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
             array(
                 $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
-                    'email' => '%realEmail%',
+                    'email' => '<realEmail>',
                     'store_credit' => '10',
                     'reward_points' => '20',
-                    'action' => 'update'
+                    '_action' => 'update'
                 )),
                 $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
                     'email' => 'wrongEmail@example.com',
                     'store_credit' => '250',
                     'reward_points' => '300',
-                    'action' => 'UPDATE'
+                    '_action' => 'UPDATE'
                 )),
                 $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
-                    'email' => '%realEmail%',
+                    'email' => '<realEmail>',
                     'store_credit' => '0',
                     'reward_points' => '0',
-                    'action' => 'Update'
+                    '_action' => 'Update'
                 ))
             )
           )
@@ -401,24 +403,24 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                 array(
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '10',
                         'reward_points' => '20',
-                        'action' => ''
+                        '_action' => ''
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => 'wrongEmail@example.com',
                         'store_credit' => '250',
                         'reward_points' => '300',
-                        'action' => 'delete me'
+                        '_action' => 'delete me'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '0',
                         'reward_points' => '0',
-                        'action' => 'test action'
+                        '_action' => 'test action'
                     ))
                 )
             )
@@ -453,45 +455,45 @@ class Enterprise2_Mage_ImportExport_CustomActionsImportFinanceTest extends Mage_
                 array(
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '10',
                         'reward_points' => '20',
-                        'action' => 'delete'
+                        '_action' => 'delete'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '1',
                         'reward_points' => '1',
-                        'action' => 'DeLeTe'
+                        '_action' => 'DeLeTe'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '101',
                         'reward_points' => '201',
-                        'action' => 'Del'
+                        '_action' => 'Del'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '',
                         'reward_points' => '1',
-                        'action' => 'Delete'
+                        '_action' => 'Delete'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '%realEmail%',
+                        'email' => '<realEmail>',
                         'store_credit' => '1',
                         'reward_points' => '',
-                        'action' => 'DELETE'
+                        '_action' => 'DELETE'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
                         'email' => 'wrongEmail@example.com',
                         'store_credit' => '250',
                         'reward_points' => '300',
-                        'action' => 'Delete'
+                        '_action' => 'Delete'
                     ))
                 )
             )

@@ -18,7 +18,7 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
     {
        $this->loginAdminUser();
        $this->admin('manage_customers');
-       self::$customerData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+       self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account');
        $this->customerHelper()->createCustomer(self::$customerData);
        $this->assertMessagePresent('success', 'success_saved_customer');
     }

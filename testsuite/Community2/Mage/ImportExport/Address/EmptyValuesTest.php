@@ -45,8 +45,8 @@ public function emptyValuesAttributesInCsv($data)
 {
     //Precondition: create customer, add address
     $this->navigate('manage_customers');
-    $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
-    $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
+    $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+    $addressData = $this->loadDataSet('Customers', 'generic_address');
     $this->customerHelper()->createCustomer($userData, $addressData);
     $this->assertMessagePresent('success', 'success_saved_customer');
 
@@ -92,17 +92,23 @@ public function emptyValuesAttributesInCsv($data)
     public function importData()
     {
         return array(
-            array(array(array(
-                '_website' => 'base',
-                'region' => 'New York',
-                'company' => '',
-                'fax' => '',
-                'middlename' => '',
-                'prefix' =>'',
-                '_address_default_billing_' => '',
-                '_address_default_shipping_' => '',
-                '_entity_id' => $this->generate('string', 10, ':digit:')
-            )))
+            array(
+                array
+                        ($this->loadDataSet('ImportExport','generic_address_csv',
+                                array(
+                                        '_website' => 'base',
+                                        'region' => 'New York',
+                                        'company' => '',
+                                        'fax' => '',
+                                        'middlename' => '',
+                                        'prefix' =>'',
+                                        '_address_default_billing_' => '',
+                                        '_address_default_shipping_' => '',
+                                        '_entity_id' => $this->generate('string', 10, ':digit:')
+                                    )
+                                )
+                        )
+                )
         );
     }
 }
