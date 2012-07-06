@@ -37,21 +37,21 @@ class Mage_SalesRule_Model_ValidatorTest extends PHPUnit_Framework_TestCase
     protected function _getQuoteItemMock()
     {
         $fixturePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
-        $itemDownloadable = $this->getMock('Mage_Sales_Model_Quote_Item', null, array(), '', false);
-        $itemSimple = $this->getMock('Mage_Sales_Model_Quote_Item', null, array(), '', false);
+        $itemDownloadable = $this->getMock('Mage_Sales_Model_Quote_Item', array('getAddress'), array(), '', false);
+        $itemDownloadable->expects($this->any())
+            ->method('getAddress')
+            ->will($this->returnValue(new stdClass()));
+
+        $itemSimple = $this->getMock('Mage_Sales_Model_Quote_Item', array('getAddress'), array(), '', false);
+        $itemSimple->expects($this->any())
+            ->method('getAddress')
+            ->will($this->returnValue(new stdClass()));
 
         /** @var $quote Mage_Sales_Model_Quote */
-        $quote = $this->getMock('Mage_Sales_Model_Quote',
-            array('hasNominalItems', 'getShippingAddress', 'getBillingAddress'), array(), '', false);
+        $quote = $this->getMock('Mage_Sales_Model_Quote', array('hasNominalItems'), array(), '', false);
         $quote->expects($this->any())
             ->method('hasNominalItems')
             ->will($this->returnValue(false));
-        $quote->expects($this->once())
-            ->method('getShippingAddress')
-            ->will($this->returnValue(Mage_Sales_Model_Quote_Address::TYPE_SHIPPING));
-        $quote->expects($this->once())
-            ->method('getBillingAddress')
-            ->will($this->returnValue(Mage_Sales_Model_Quote_Address::TYPE_BILLING));
 
         $itemData = include($fixturePath . 'quote_item_downloadable.php');
         $itemDownloadable->addData($itemData);
