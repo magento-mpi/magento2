@@ -39,7 +39,7 @@
   };
   localize.prototype.number = function (numberParam, format) {
     if ( $.inArray(format.toString(), this.numberFormat) ) {
-      return 'Invalid date formatter';
+      return 'Invalid number formatter';
     }
     if ( typeof numberParam === 'number' ) {
       return this.localize.format(numberParam, format);
