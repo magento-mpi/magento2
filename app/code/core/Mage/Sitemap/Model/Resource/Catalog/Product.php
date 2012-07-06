@@ -48,7 +48,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
      * @param string $attributeCode
      * @param mixed $value
      * @param string $type
-     * @return Zend_Db_Select
+     * @return Zend_Db_Select|false
      */
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
@@ -86,22 +86,26 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
             $this->_select->where('e.' . $attributeCode . $conditionRule, $value);
         } else {
             $this->_select->join(
-                array('t1_'.$attributeCode => $attribute['table']),
-                'e.entity_id=t1_'.$attributeCode.'.entity_id AND t1_'.$attributeCode.'.store_id=0',
+                array('t1_' . $attributeCode => $attribute['table']),
+                'e.entity_id=t1_' . $attributeCode.'.entity_id AND t1_' . $attributeCode . '.store_id = 0',
                 array()
             )
-            ->where('t1_'.$attributeCode.'.attribute_id=?', $attribute['attribute_id']);
+            ->where('t1_'.$attributeCode.'.attribute_id = ?', $attribute['attribute_id']);
 
             if ($attribute['is_global']) {
-                $this->_select->where('t1_'.$attributeCode.'.value'.$conditionRule, $value);
+                $this->_select->where('t1_'.$attributeCode . '.value' . $conditionRule, $value);
             } else {
-                $ifCase = $this->_select->getAdapter()->getCheckSql('t2_'.$attributeCode.'.value_id > 0', 't2_'.$attributeCode.'.value', 't1_'.$attributeCode.'.value');
+                $ifCase = $this->_select->getAdapter()->getCheckSql('t2_' . $attributeCode . '.value_id > 0',
+                    't2_' . $attributeCode . '.value', 't1_' . $attributeCode . '.value');
                 $this->_select->joinLeft(
-                    array('t2_'.$attributeCode => $attribute['table']),
-                    $this->_getWriteAdapter()->quoteInto('t1_'.$attributeCode.'.entity_id = t2_'.$attributeCode.'.entity_id AND t1_'.$attributeCode.'.attribute_id = t2_'.$attributeCode.'.attribute_id AND t2_'.$attributeCode.'.store_id=?', $storeId),
+                    array('t2_' . $attributeCode => $attribute['table']),
+                    $this->_getWriteAdapter()->quoteInto('t1_' . $attributeCode . '.entity_id = t2_'
+                        . $attributeCode . '.entity_id AND t1_' . $attributeCode . '.attribute_id = t2_'
+                        . $attributeCode . '.attribute_id AND t2_' . $attributeCode . '.store_id=?',
+                        $storeId),
                     array()
                 )
-                ->where('('.$ifCase.')'.$conditionRule, $value);
+                ->where('(' . $ifCase . ')' . $conditionRule, $value);
             }
         }
 
@@ -118,24 +122,23 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     {
         $products = array();
 
-        $store = Mage::app()->getStore($storeId);
         /* @var $store Mage_Core_Model_Store */
-
+        $store = Mage::app()->getStore($storeId);
         if (!$store) {
             return false;
         }
 
         $urCondions = array(
-            'e.entity_id=ur.product_id',
+            'e.entity_id = ur.product_id',
             'ur.category_id IS NULL',
             $this->_getWriteAdapter()->quoteInto('ur.store_id=?', $store->getId()),
             $this->_getWriteAdapter()->quoteInto('ur.is_system=?', 1),
         );
         $this->_select = $this->_getWriteAdapter()->select()
-            ->from(array('e' => $this->getMainTable()), array($this->getIdFieldName()))
+            ->from(array('e' => $this->getMainTable()), array($this->getIdFieldName(), 'updated_at'))
             ->join(
                 array('w' => $this->getTable('catalog_product_website')),
-                'e.entity_id=w.product_id',
+                'e.entity_id = w.product_id',
                 array()
             )
             ->where('w.website_id=?', $store->getWebsiteId())
@@ -145,8 +148,10 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
                 array('url' => 'request_path')
             );
 
-        $this->_addFilter($storeId, 'visibility', Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
-        $this->_addFilter($storeId, 'status', Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
+        $this->_addFilter($storeId, 'visibility',
+            Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
+        $this->_addFilter($storeId, 'status',
+            Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
 
         $query = $this->_getWriteAdapter()->query($this->_select);
         while ($row = $query->fetch()) {
@@ -166,9 +171,12 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     protected function _prepareProduct(array $productRow)
     {
         $product = new Varien_Object();
+
         $product->setId($productRow[$this->getIdFieldName()]);
         $productUrl = !empty($productRow['url']) ? $productRow['url'] : 'catalog/product/view/id/' . $product->getId();
         $product->setUrl($productUrl);
+        $product->setUpdatedAt($productRow['updated_at']);
+
         return $product;
     }
 }

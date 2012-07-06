@@ -127,7 +127,6 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $io->streamWrite('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
         $storeId = $this->getStoreId();
-        $date    = Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d');
         $baseUrl = Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
 
         /**
@@ -140,7 +139,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $xml = sprintf(
                 '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
-                $date,
+                date('c', strtotime($item->getUpdatedAt())),
                 $changefreq,
                 $priority
             );
@@ -158,7 +157,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $xml = sprintf(
                 '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
-                $date,
+                date('c', strtotime($item->getUpdatedAt())),
                 $changefreq,
                 $priority
             );
@@ -176,7 +175,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $xml = sprintf(
                 '<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>%s</changefreq><priority>%.1f</priority></url>',
                 htmlspecialchars($baseUrl . $item->getUrl()),
-                $date,
+                date('c', strtotime($item->getUpdatedAt())),
                 $changefreq,
                 $priority
             );
