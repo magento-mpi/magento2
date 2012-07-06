@@ -24,11 +24,15 @@ LocalizeTest.prototype.testDate = function () {
   assertEquals('3:30 PM', mage.localize.date('6/7/2012 3:30 PM', 't'));
   assertEquals('3:30:00 PM', mage.localize.date('6/7/2012 3:30 PM', 'T'));
   assertEquals('2012 June', mage.localize.date('6/7/2012 3:30 PM', 'Y'));
+  assertEquals('Invalid date formatter', mage.localize.date('06/07/2012 3:30 PM', 'x'));
+  assertEquals('Invalid date formatter', mage.localize.date('06/07/2012 3:30 PM', '2'));
+
 };
 
 LocalizeTest.prototype.testNumber = function () {
   mage.locale();
   assertEquals('0.00', mage.localize.number('0', 'n'));
+  assertEquals('Invalid number formatter', mage.localize.number('0', 'x'));
 };
 
 LocalizeTest.prototype.testCurrency = function () {
