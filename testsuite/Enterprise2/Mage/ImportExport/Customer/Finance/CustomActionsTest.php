@@ -151,7 +151,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
     }
     /**
      * <p>Custom import: not recognized or empty action</p>
-     * <p>Need to verify that the customer finances information is updated if the action is "Update" in the csv file</p>
+     * <p>Need to verify that the customer finances information is updated if the action is empty or not recognized in the csv file</p>
      * <p>After steps </p>
      * <p>Verify that all Customers finance information was imported</p>
      *
