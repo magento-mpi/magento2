@@ -18,6 +18,8 @@ $attributeCodes = array(
     'price',
     'price_type',
     'price_view',
+    'allow_open_amount',
+    'giftcard_amounts',
     'status',
     'visibility',
     'tax_class_id',
