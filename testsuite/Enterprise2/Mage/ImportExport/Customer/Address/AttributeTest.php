@@ -36,7 +36,7 @@
  * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
-class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_TestCase
 {
     static protected $customersUpdateData = array();
     static protected $customersEmptyData = array();
@@ -189,7 +189,7 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
      *
      * @test
      * @dataProvider importUpdateData
-     * @TestlinkId TL-MAGE-5689
+     * @TestlinkId TL-MAGE-5686
      */
     public function updateActionImport(array $data)
     {
@@ -240,7 +240,7 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
              if ($data[$i]['_entity_id'] == 'home'){
                  $userAddressData['middle_name'] = '';
              }
-             $this->assertFalse(!$this->customerHelper()->isAddressPresent($userAddressData),
+             $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($userAddressData),
                              "Address not found for address data " . print_r($userAddressData) .
                              print_r($data[$i]));
         }
@@ -320,14 +320,14 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
                 $data[$i]['region'] :
                 self::$customersEmptyData[$i]['address']['state'];
             if ($data[$i]['_website'] == 'invalid'){
-                $this->assertTrue(!$this->customerHelper()->isAddressPresent($userAddressData),
+                $this->assertFalse((bool) $this->customerHelper()->isAddressPresent($userAddressData),
                     "Address found for address data =\n" .
                         print_r($userAddressData) .
                         "csv data =\n" .
                         print_r($data[$i]));
                 $this->clearMessages();
             } else {
-                $this->assertFalse(!$this->customerHelper()->isAddressPresent($userAddressData),
+                $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($userAddressData),
                     "Address not found for" . print_r($userAddressData) .  print_r($data[$i]));
             }
         }
@@ -377,11 +377,11 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
             'customer_first_last_name',
             self::$customersDeleteData[0]['first_name'] . ' ' . self::$customersDeleteData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$customersDeleteData[0]['email']));
-        $this->assertTrue(!$this->customerHelper()->isAddressPresent(self::$customersDeleteData[0]['address']),
+        $this->assertFalse((bool) $this->customerHelper()->isAddressPresent(self::$customersDeleteData[0]['address']),
                     'Address found for: ' . print_r(self::$customersDeleteData[0]['address']));
-        $this->assertTrue(!$this->customerHelper()->isAddressPresent(self::$customersDeleteData[1]['address']),
+        $this->assertFalse((bool) $this->customerHelper()->isAddressPresent(self::$customersDeleteData[1]['address']),
                     'Address found for: ' . print_r(self::$customersDeleteData[1]['address']));
-        $this->assertFalse(!$this->customerHelper()->isAddressPresent(self::$customersDeleteData[2]['address']),
+        $this->assertTrue((bool) $this->customerHelper()->isAddressPresent(self::$customersDeleteData[2]['address']),
             'Address not found for: ' . print_r(self::$customersDeleteData[2]['address']));
         $this->clearMessages();
     }

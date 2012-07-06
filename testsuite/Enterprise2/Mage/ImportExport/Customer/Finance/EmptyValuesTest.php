@@ -6,7 +6,7 @@
  * Time: 1:03 PM
  * To change this template use File | Settings | File Templates.
  */
-class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -124,13 +124,12 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
     public function importData()
     {
         return array(
-            array(array(array(
-                '_website' => 'base',
-                '_finance_website' => 'base'
-                ), array(
-                '_website' => 'base',
-                '_finance_website' => 'base'
-            )))
+            array(
+                array(
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv'),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv')
+                )
+            )
         );
     }
 }

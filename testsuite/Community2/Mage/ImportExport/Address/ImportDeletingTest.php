@@ -6,7 +6,7 @@
  * Time: 18:02
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_TestCase
 {
     static protected $customerData = array();
 
