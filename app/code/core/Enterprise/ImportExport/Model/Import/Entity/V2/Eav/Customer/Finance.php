@@ -76,7 +76,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
             $helper->__('Finance information website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
-            $helper->__('Invalid value in Finance information website column (website does not exists?)')
+            $helper->__('Invalid value in Finance information website column')
         );
 
         $this->_initAttributes();
