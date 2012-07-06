@@ -46,6 +46,10 @@
     </adminhtml>
     <default>
         <sitemap>
+            <limit>
+                <max_lines>50000</max_lines>
+                <max_file_size>10485760</max_file_size>
+            </limit>
             <page>
                 <priority>0.25</priority>
                 <changefreq>daily</changefreq>
