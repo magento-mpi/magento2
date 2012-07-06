@@ -6,7 +6,7 @@
  * Time: 18:38
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_CustomerCustom extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

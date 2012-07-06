@@ -6,7 +6,7 @@
  * Time: 3:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class Enterprise2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

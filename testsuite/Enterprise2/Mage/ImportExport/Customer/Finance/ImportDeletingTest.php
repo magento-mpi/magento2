@@ -6,7 +6,7 @@
  * Time: 12:47 PM
  * To change this template use File | Settings | File Templates.
  */
-class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -115,13 +115,12 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
     public function importData()
     {
         return array(
-            array(array(array(
-                '_website' => 'base',
-                '_finance_website' => 'base'),
-                 array(
-                     '_website' => 'base',
-                     '_finance_website' => 'base')
-            ))
+            array(
+                array(
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv'),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv')
+                )
+            )
         );
     }
     /**
@@ -221,13 +220,13 @@ class Enterprise2_Mage_ImportExport_FinanceEmptyValues extends Mage_Selenium_Tes
     public function importFinanceData()
     {
         return array(
-            array(array(array(
-                '_website' => 'base',
-                '_finance_website' => 'base'),
+            array(
                 array(
-                    '_website' => $this->generate('string', 30, ':digit:'),
-                    '_finance_website' => 'base')
-            ))
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv'),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                        array('_website' => $this->generate('string', 30, ':digit:')))
+                )
+            )
         );
     }
     /**
