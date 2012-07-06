@@ -103,8 +103,32 @@ class Community2_Mage_ImportExport_AddressDelete extends Mage_Selenium_TestCase
 
     public function importDeleteAddress()
     {
-        $basicAddressData = $this->loadDataSet('ImportExport', 'data_valid_address1_5636');
-        $basicAddressRow = $this->loadDataSet('ImportExport', 'csv_valid_address1_5636');
+        $basicAddressData = $this->loadDataSet('Customers', 'generic_address', array(
+            'first_name' => 'William',
+            'middle_name' => 'E.',
+            'last_name' => 'Holler',
+            'company' => 'Team Electronics',
+            'street_address_line_1' => '3186 Lincoln Street',
+            'street_address_line_2' => '',
+            'city' => 'Camden',
+            'state' => 'New Jersey',
+            'zip_code' => '08102',
+            'telephone' => '609-504-6350',
+            'fax' => '609-504-6350',
+        ));
+        $basicAddressRow = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+            'city' => 'Camden',
+            'company' => 'Team Electronics',
+            'fax' => '609-504-6350',
+            'firstname' => 'William',
+            'lastname' => 'Holler',
+            'middlename' => 'E.',
+            'postcode' => '08102',
+            'prefix' => '',
+            'region' => 'New Jersey',
+            'street' => '3186 Lincoln Street',
+            'telephone' => '609-504-6350',
+        ));
         $addressData = array();
         $addressRows = array();
         $streets = array('4040 Hickory Ridge Drive', '3129 Parkway Street', '746 Goodwin Avenue');
