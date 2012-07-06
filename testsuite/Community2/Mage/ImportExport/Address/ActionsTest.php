@@ -45,7 +45,8 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
         for ($i = 0; $i < 2; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -63,8 +64,10 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
         for ($i = 0; $i < 1; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -93,8 +96,10 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
         for ($i = 0; $i < 1; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -122,9 +127,12 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
         for ($i = 0; $i < 1; $i++) {
             $this->admin('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address');
-            $userAddressData2 = $this->loadDataSet('Customers', 'generic_address');
+            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData2 = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
             $this->customerHelper()->createCustomer($userData, $userAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter(
@@ -233,8 +241,8 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
                  $userAddressData['middle_name'] = '';
              }
              $this->assertFalse(!$this->customerHelper()->isAddressPresent($userAddressData),
-                             "Address not found for address data =\n" . print_r($userAddressData) .
-                             "csv data =\n" . print_r($data[$i]));
+                             "Address not found for address data " . print_r($userAddressData) .
+                             print_r($data[$i]));
         }
     }
     /**
@@ -269,7 +277,7 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: ' .
                                  print_r($importResult));
         $this->assertEquals(
-            "Customer with such email and website code doesn't exist in rows: 4",
+            "Invalid value in website column in rows: 4",
             $importResult['validation']['error'][0],
             'Import has been finished with issues: ' . print_r($importResult));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
@@ -356,7 +364,7 @@ class Community2_Mage_ImportExport_CustomActionsImportAddressTest extends Mage_S
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: ' .
                                  print_r($importResult));
         $this->assertEquals(
-            "Customer with such email and website code doesn't exist in rows: 3",
+            "Invalid value in website column in rows: 3",
             $importResult['validation']['error'][0],
             'Import has been finished with issues: ' . print_r($importResult));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
