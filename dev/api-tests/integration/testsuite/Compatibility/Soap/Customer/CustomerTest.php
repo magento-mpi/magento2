@@ -27,10 +27,10 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     protected static $_currCustomerId;
 
     /**
-     * Test product attribute set create method compatibility.
+     * Test customer create method compatibility.
      * Scenario:
-     * 1. Create product attribute set at previous API.
-     * 2. Create product attribute set at current API.
+     * 1. Create customer at previous API.
+     * 1. Create customer at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -64,10 +64,10 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     }
 
     /**
-     * Test customer list method compatibility.
+     * Test customer info method compatibility.
      * Scenario:
-     * 1. Get customer list at previous API.
-     * 2. Get customer list at current API.
+     * 1. Get customer info at previous API.
+     * 2. Get customer info at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -82,10 +82,10 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     }
 
     /**
-     * Test product attribute set create method compatibility.
+     * Test customer update method compatibility.
      * Scenario:
-     * 1. Create product attribute set at previous API.
-     * 2. Create product attribute set at current API.
+     * 1. Update customer, created in testCustomerCreate method, at previous API.
+     * 2. Update customer, created in testCustomerCreate method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -94,25 +94,24 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     public function testCustomerUpdate()
     {
         $apiMethod = 'customer.update';
-        $customerData = array(array(
-//            'email' => 'customer-mail' . uniqid() . '@example.org',
+        $customerData = array(
             'firstname' => 'Test Name Updated',
             'lastname' => 'Test Last Name Updated',
             'password' => 'password',
             'website_id' => 1,
             'store_id' => 1,
             'group_id' => 1
-        ));
+        );
         $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerId, $customerData);
         $currResponse = $this->currCall($apiMethod, self::$_currCustomerId, $customerData);
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
     /**
-     * Test customer list method compatibility.
+     * Test customer delete method compatibility.
      * Scenario:
-     * 1. Get customer list at previous API.
-     * 2. Get customer list at current API.
+     * 1. Delete customer, created in testCustomerCreate method, at previous API.
+     * 2. Delete customer, created in testCustomerCreate method, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
