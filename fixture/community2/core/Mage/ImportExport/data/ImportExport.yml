@@ -141,45 +141,6 @@ import_address_file_required_fields2:
    street: "593 Grant View Drive"
    telephone: "414-411-2378"
 
-data_valid_address1_5636:
-    prefix: Mr.
-    first_name: Harold
-    middle_name: D.
-    last_name: Lefler
-    suffix: %noValue%
-    company: Red Owl
-    street_address_line_1: 4140 Bryan Street
-    street_address_line_2: %noValue%
-    city: High Point
-    country: United States
-    state: North Carolina
-    region: %noValue%
-    zip_code: 27260
-    telephone: 336-259-7235
-    fax: 336-259-7235
-    default_billing_address: 0
-    default_shipping_address: 0
-
-csv_valid_address1_5636:
-    _entity_id: %noValue%
-    _email: %noValue%
-    _website: base
-    city: High Point
-    company: Red Owl
-    country_id: US
-    fax: 336-259-7235
-    firstname: Harold
-    lastname: Lefler
-    middlename: D.
-    postcode: 27260
-    prefix: Mr.
-    region: North Carolina
-    street: 4140 Bryan Street
-    suffix: %noValue%
-    telephone: 336-259-7235
-    _address_default_billing_: 0
-    _address_default_shipping_: 0
-
 generic_address_csv:
     _entity_id: %randomize%
     _email: %noValue%
