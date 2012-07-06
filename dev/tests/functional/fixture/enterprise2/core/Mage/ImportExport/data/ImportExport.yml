@@ -29,6 +29,35 @@
 #*******************************************************
 #*       Test data for customer creation(Backend)      *
 #*******************************************************
+generic_customer_csv:
+    _website: base
+    _store: default
+    email: test_admin_%randomize%@unknown-domain.com
+    firstname: Harold
+    lastname: Lefler
+    middlename: %noValue%
+    confirmation: %noValue%
+    created_at: %noValue%
+    created_in: %noValue%
+    default_billing: %noValue%
+    default_shipping: %noValue%
+    disable_auto_group_change: %noValue%
+    dob: %noValue%
+    gender: %noValue%
+    group_id: '1'
+    prefix: %noValue%
+    reward_update_notification: 1
+    reward_warning_notification: 1
+    rp_token: %noValue%
+    rp_token_created_at: %noValue%
+    password: %noValue%
+    password_hash: %noValue%
+    store_id: %noValue%
+    website_id: %noValue%
+    suffix: %noValue%
+    taxvat: %noValue%
+    _action: %noValue%
+
 generic_finance_csv:
    email: %noValue%
    _website: base

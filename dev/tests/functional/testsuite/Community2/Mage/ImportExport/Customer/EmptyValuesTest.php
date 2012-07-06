@@ -6,7 +6,7 @@
  * Time: 12:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_CustomerEmptyValues extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -45,7 +45,7 @@ class Community2_Mage_ImportExport_CustomerEmptyValues extends Mage_Selenium_Tes
     {
         //Precondition: create customer
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
@@ -80,30 +80,34 @@ class Community2_Mage_ImportExport_CustomerEmptyValues extends Mage_Selenium_Tes
     public function importData()
     {
         return array(
-            array(array(array(
-                '_website' => 'base',
-                '_store' => 'default',
-                'confirmation' => '',
-                'created_at' => '19.06.2012 18:00',
-                'created_in' => 'Admin',
-                'default_billing' => '',
-                'default_shipping' => '',
-                'disable_auto_group_change' => '0',
-                'dob' => '',
-                'gender' => '',
-                'group_id' => '1',
-                'middlename' => '',
-                'prefix' => '',
-                'reward_update_notification' => '1',
-                'reward_warning_notification' => '1',
-                'rp_token' => '',
-                'rp_token_created_at' => '',
-                'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                'store_id' => '0',
-                'website_id' => '0',
-                'suffix' => '',
-                'taxvat' => '',
-            )))
+            array(
+                array(
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv',
+                                    array(
+                                        'confirmation' => '',
+                                        'created_at' => '19.06.2012 18:00',
+                                        'created_in' => 'Admin',
+                                        'default_billing' => '',
+                                        'default_shipping' => '',
+                                        'disable_auto_group_change' => '0',
+                                        'dob' => '',
+                                        'gender' => '',
+                                        'group_id' => '1',
+                                        'middlename' => '',
+                                        'prefix' => '',
+                                        'reward_update_notification' => '1',
+                                        'reward_warning_notification' => '1',
+                                        'rp_token' => '',
+                                        'rp_token_created_at' => '',
+                                        'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
+                                        'store_id' => '0',
+                                        'website_id' => '0',
+                                        'suffix' => '',
+                                        'taxvat' => '',
+                                    )
+                                   )
+                    )
+            )
         );
     }
 }

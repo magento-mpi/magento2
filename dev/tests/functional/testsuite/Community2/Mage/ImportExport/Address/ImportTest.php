@@ -37,7 +37,7 @@
  * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
-class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_TestCase
 {
     protected static $customerData = array();
 
@@ -112,18 +112,34 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customer Addresses');
         //Generated CSV data
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields1',
-            array(
-                '_entity_id' => '',
-                '_email' => $userData1['email'],
-            ));
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_address_csv',
+                                            array(
+                                                '_entity_id' => '',
+                                                '_email' => $userData1['email'],
+                                                'city' => 'Lincoln',
+                                                'country_id' => 'US',
+                                                'firstname' => 'Jana',
+                                                'lastname' => 'Johnson',
+                                                'postcode' => '90232',
+                                                'street' => "4955 Crummit\nLane",
+                                                'telephone' => '402-219-4835'
+                                            )
+        );
         $unformattedStreet1 = $customerDataRow1['street'];
         $customerDataRow1['street'] = stripcslashes($customerDataRow1['street']);
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_address_file_required_fields2',
-            array(
-                '_entity_id' => $addressIdExisting,
-                '_email' => $userData2['email'],
-            ));
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_address_csv',
+                                            array(
+                                                '_entity_id' => $addressIdExisting,
+                                                '_email' => $userData2['email'],
+                                                'city' => 'Milwaukee',
+                                                'country_id' => 'US',
+                                                'firstname' => 'Kim',
+                                                'lastname' => 'Montgomery',
+                                                'postcode' => '53213',
+                                                'street' => "593 Grant View Drive",
+                                                'telephone' => '414-411-2378'
+                                            )
+        );
         //Build CSV array
         $data = array(
             $customerDataRow1,
@@ -145,19 +161,18 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             array(
                 'email' => $userData1['email']
             ));
-        $this->openTab('addresses');
-        $addressData1 = array();
-        $addressData1['city']       = $data[0]['city'];
-        $addressData1['first_name'] = $data[0]['firstname'];
-        $addressData1['last_name']  = $data[0]['lastname'];
-        $addressData1['zip_code']   = $data[0]['postcode'];
-        $addressData1['street_address_line_1'] = substr($unformattedStreet1, 0, strpos($unformattedStreet1, '\n'));
-        $addressData1['street_address_line_2'] = substr($unformattedStreet1, strpos($unformattedStreet1, '\n') + 2);
-        $addressData1['telephone']  = $data[0]['telephone'];
-        print_r($addressData1);
+        $addressData1 = array(
+            'city'       => $data[0]['city'],
+            'first_name' => $data[0]['firstname'],
+            'last_name'  => $data[0]['lastname'],
+            'zip_code'   => $data[0]['postcode'],
+            'street_address_line_1' => substr($unformattedStreet1, 0, strpos($unformattedStreet1, "\n")),
+            'street_address_line_2' => substr($unformattedStreet1, strpos($unformattedStreet1, "\n") + 1),
+            'telephone'  => $data[0]['telephone']
+        );
         //Verify customer account address
-        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData1),
-            'New customer address has not been created');
+        $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($addressData1),
+            'New customer address has not been created '. print_r($addressData1));
         //Verify customer account
         $this->admin('manage_customers');
         $this->addParameter('customer_first_last_name',
@@ -166,7 +181,6 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
             array(
                 'email' => $userData2['email']
             ));
-        $this->openTab('addresses');
         $addressData2['city']       = $data[1]['city'];
         $addressData2['first_name'] = $data[1]['firstname'];
         $addressData2['last_name']  = $data[1]['lastname'];
@@ -174,8 +188,9 @@ class Community2_Mage_ImportExport_AddressImportTest extends Mage_Selenium_TestC
         $addressData2['street_address_line_1'] = $data[1]['street'];
         $addressData2['street_address_line_2'] = '';
         $addressData2['telephone']  = $data[1]['telephone'];
-        $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressData2),
-            'Existent customer address has not been updated');
+        $addressData2['state']  = $data[1]['region'];
+        $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($addressData2),
+            'Existent customer address has not been updated ' . print_r($addressData2));
     }
 
     /**

@@ -37,7 +37,7 @@
  * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
-class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>set preconditions to run tests </p>
@@ -151,7 +151,7 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     {
         //Precondition: create customer
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
 
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -185,7 +185,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     {
         //Precondition: create attribute, create new customer, fill created attribute
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
+            array('first_name' => $this->generate('string', 5)));
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Steps 1-2
@@ -395,8 +396,8 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
     {
         //Precondition: create customer
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
-        $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $addressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer($userData, $addressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Step 1
@@ -430,14 +431,14 @@ class Community2_Mage_ImportExport_CustomerExportTest extends Mage_Selenium_Test
         //Precondition: create 2 new customers
         $this->admin('manage_customers');
         // 0.1. create male customer with address
-        $maleUserData = $this->loadDataSet('ImportExport.yml', 'customer_account_male');
-        $maleUserAddressData = $this->loadDataSet('ImportExport.yml', 'customer_account_male_address');
+        $maleUserData = $this->loadDataSet('Customers', 'all_fields_customer_account', array('gender' => 'Male'));
+        $maleUserAddressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer($maleUserData, $maleUserAddressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         // 0.2. create female customer with address
         $this->admin('manage_customers');
-        $femaleUserData = $this->loadDataSet('ImportExport.yml', 'customer_account_female');
-        $femaleUserAddressData = $this->loadDataSet('ImportExport.yml', 'customer_account_female_address');
+        $femaleUserData = $this->loadDataSet('Customers', 'all_fields_customer_account', array('gender' => 'Female'));
+        $femaleUserAddressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer($femaleUserData, $femaleUserAddressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Step 1
