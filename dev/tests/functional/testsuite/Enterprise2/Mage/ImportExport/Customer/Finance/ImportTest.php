@@ -110,14 +110,15 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => $userData1['email'],
-                '_finance_website' => 'base'
+                'store_credit' => '4321.0000',
+                'reward_points' => '1234'
             ));
         $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 'email' => $userData2['email'],
                 '_finance_website' => 'base',
                 'store_credit' => '4321.0000',
-                'reward_points' => '1234',
+                'reward_points' => '1234'
             ));
         //Build CSV array
         $data = array(

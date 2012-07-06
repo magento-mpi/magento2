@@ -37,7 +37,7 @@
  * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
-class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 {
     protected static $customerData = array();
     protected static $addressData = array();
@@ -155,8 +155,8 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
     {
         //Precondition: create customer, add address
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('ImportExport.yml', 'generic_customer_account');
-        $addressData = $this->loadDataSet('ImportExport.yml', 'generic_address');
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $addressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer($userData, $addressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //add store credit and reward points (for EE)
@@ -228,7 +228,7 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         //Precondition: create new customer
         $this->admin('manage_customers');
         // 0.1. create customer
-        $customerData = $this->loadDataSet('ImportExport', 'generic_customer_required_fields');
+        $customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->admin('import');
@@ -236,13 +236,14 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customers Main File');
         //Generated CSV data
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
-            array('email' => $customerData['email']));
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
+            array('email' => $customerData['email'], 'group_id' => '3'));
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'firstname' => 'first_' . $this->generate('string',10),
-                'lastname' => 'last_' . $this->generate('string',10)
+                'lastname' => 'last_' . $this->generate('string',10),
+                'group_id' => '3'
             ));
         //Build CSV array
         $data = array(
@@ -621,34 +622,40 @@ class Community2_Mage_ImportExport_CustomerImportTest extends Mage_Selenium_Test
     public function importData()
     {
         return array(
-            array(array(array(
-                'email' => 'sdfsdf@qweqwe.cc',
-                '_website' => 'base',
-                '_store' => 'admin',
-                'confirmation' => '',
-                'created_at' => '01.06.2012 14:35',
-                'created_in' => 'Admin',
-                'default_billing' => '',
-                'default_shipping' => '',
-                'disable_auto_group_change' => '0',
-                'dob' => '',
-                'firstname' => 'sdfsdfsd',
-                'gender' => '',
-                'group_id' => '1',
-                'lastname' => 'sdfsdfs',
-                'middlename' => '',
-                'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
-                'prefix' => '',
-                'reward_update_notification' => '1',
-                'reward_warning_notification' => '1',
-                'rp_token' => '',
-                'rp_token_created_at' => '',
-                'store_id' => '0',
-                'suffix' => '',
-                'taxvat' => '',
-                'website_id' => '0',
-                'password' => ''
-            )))
+            array(
+                array(
+                    $this->loadDataSet('ImportExport', 'generic_customer_csv',
+                        array(
+                            'email' => 'sdfsdf@qweqwe.cc',
+                            '_website' => 'base',
+                            '_store' => 'admin',
+                            'confirmation' => '',
+                            'created_at' => '01.06.2012 14:35',
+                            'created_in' => 'Admin',
+                            'default_billing' => '',
+                            'default_shipping' => '',
+                            'disable_auto_group_change' => '0',
+                            'dob' => '',
+                            'firstname' => 'sdfsdfsd',
+                            'gender' => '',
+                            'group_id' => '1',
+                            'lastname' => 'sdfsdfs',
+                            'middlename' => '',
+                            'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
+                            'prefix' => '',
+                            'reward_update_notification' => '1',
+                            'reward_warning_notification' => '1',
+                            'rp_token' => '',
+                            'rp_token_created_at' => '',
+                            'store_id' => '0',
+                            'suffix' => '',
+                            'taxvat' => '',
+                            'website_id' => '0',
+                            'password' => ''
+                        )
+                    )
+                )
+            )
         );
     }
 }

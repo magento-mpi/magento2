@@ -29,117 +29,32 @@
 #*******************************************************
 #*       Test data for customer creation(Backend)      *
 #*******************************************************
-generic_customer_required_fields:
-    associate_to_website: Main Website
-    group: General
-    first_name: first_%randomize%
-    last_name: last_%randomize%
+generic_customer_csv:
+    _website: base
+    _store: default
     email: test_admin_%randomize%@unknown-domain.com
-    password: 123123q
-
-customer_account_male:
-    associate_to_website: Main Website
-    group: General
-    prefix: Mr.
-    first_name: first_%randomize%
-    middle_name: middle_%randomize%
-    last_name: last_%randomize%
+    firstname: Harold
+    lastname: Lefler
+    middlename: %noValue%
+    confirmation: %noValue%
+    created_at: %noValue%
+    created_in: %noValue%
+    default_billing: %noValue%
+    default_shipping: %noValue%
+    disable_auto_group_change: %noValue%
+    dob: %noValue%
+    gender: %noValue%
+    group_id: '1'
+    prefix: %noValue%
+    rp_token: %noValue%
+    rp_token_created_at: %noValue%
+    password: %noValue%
+    password_hash: %noValue%
+    store_id: %noValue%
+    website_id: %noValue%
     suffix: %noValue%
-    email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: %noValue%
-    tax_vat_number: %noValue%
-    gender: Male
-    send_welcome_email: %noValue%
-    send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
-
-customer_account_male_address:
-    prefix: Prefix
-    first_name: Male First Name
-    middle_name: Male Middle Name
-    last_name: Male Last Name
-    suffix: Suffix
-    company: Magento
-    street_address_line_1: 10441 Jefferson Blvd
-    street_address_line_2: Suite 200
-    city: Culver City
-    country: United States
-    state: California
-    region: %noValue%
-    zip_code: 90232
-    telephone: 530-918-3581
-    fax: 530-918-3581
-    default_billing_address: Yes
-    default_shipping_address: Yes
-
-customer_account_female:
-    associate_to_website: Main Website
-    group: General
-    prefix: Mrs.
-    first_name: first_%randomize%
-    middle_name: middle_%randomize%
-    last_name: last_%randomize%
-    suffix: %noValue%
-    email: test_admin_%randomize%@unknown-domain.com
-    date_of_birth: %noValue%
-    tax_vat_number: %noValue%
-    gender: Female
-    send_welcome_email: %noValue%
-    send_from: %noValue%
-    password: 123123q
-    auto_generated_password: %noValue%
-
-customer_account_female_address:
-    prefix: Prefix
-    first_name: Female First Name
-    middle_name: Female Middle Name
-    last_name: Female Last Name
-    suffix: Suffix
-    company: Magento
-    street_address_line_1: 10441 Jefferson Blvd
-    street_address_line_2: Suite 200
-    city: Culver City
-    country: United States
-    state: California
-    region: %noValue%
-    zip_code: 90232
-    telephone: 530-918-3581
-    fax: 530-918-3581
-    default_billing_address: Yes
-    default_shipping_address: Yes
-
-
-import_main_file_required_fields:
-   email: %noValue%
-   _website: base
-   firstname: Violet
-   lastname: Fields
-   group_id: 3
-
-import_address_file_required_fields1:
-   _entity_id: %noValue%
-   _email: %noValue%
-   _website: base
-   city: Lincoln
-   country_id: US
-   firstname: Jana
-   lastname: Johnson
-   postcode: 90232
-   street: 4955 Crummit\nLane
-   telephone: "402-219-4835"
-
-import_address_file_required_fields2:
-   _entity_id: %noValue%
-   _email: %noValue%
-   _website: base
-   city: Milwaukee
-   country_id: US
-   firstname: Kim
-   lastname: Montgomery
-   postcode: 53213
-   street: "593 Grant View Drive"
-   telephone: "414-411-2378"
+    taxvat: %noValue%
+    _action: %noValue%
 
 generic_address_csv:
     _entity_id: %randomize%
@@ -162,31 +77,3 @@ generic_address_csv:
     _address_default_shipping_: 0
     _action: %noValue%
 
-generic_customer_csv:
-    _website: base
-    _store: default
-    email: test_admin_%randomize%@unknown-domain.com
-    firstname: Harold
-    lastname: Lefler
-    middlename: %noValue%
-    confirmation: %noValue%
-    created_at: %noValue%
-    created_in: %noValue%
-    default_billing: %noValue%
-    default_shipping: %noValue%
-    disable_auto_group_change: %noValue%
-    dob: %noValue%
-    gender: %noValue%
-    group_id: '1'
-    prefix: %noValue%
-    reward_update_notification: 1
-    reward_warning_notification: 1
-    rp_token: %noValue%
-    rp_token_created_at: %noValue%
-    password: %noValue%
-    password_hash: %noValue%
-    store_id: %noValue%
-    website_id: %noValue%
-    suffix: %noValue%
-    taxvat: %noValue%
-    _action: %noValue%

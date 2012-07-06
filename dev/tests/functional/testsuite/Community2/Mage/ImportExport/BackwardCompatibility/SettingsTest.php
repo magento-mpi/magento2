@@ -6,7 +6,7 @@
  * Time: 1:39 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_OldImportExport_CustomerExportSettingsTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {

@@ -6,7 +6,7 @@
  * Time: 3:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -37,7 +37,7 @@ class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_
      */
     public function importFileWithNotSupportedExtensions($dataFileName)
     {
-        $customerDataRow = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'firstname' => 'first_' . $this->generate('string',10),
@@ -109,32 +109,32 @@ class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_
     }
     public function importDataInvalid()
     {
-        $customerDataRow1 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => '',
                 'firstname' => '',
                 'lastname' => ''
             ));
-        $customerDataRow2 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10)
             ));
         unset($customerDataRow2['firstname']);
-        $customerDataRow3 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow3 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 '_website' => 'notexist',
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
                 'firstname' => 'last_' . $this->generate('string',10)
             ));
-        $customerDataRow4 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow4 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
                 'firstname' => 'last_' . $this->generate('string',10)
             ));
-        $customerDataRow5 = $this->loadDataSet('ImportExport', 'import_main_file_required_fields',
+        $customerDataRow5 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string',10),
@@ -190,11 +190,11 @@ class Community2_Mage_ImportExport_CustomerValidationTest extends Mage_Selenium_
                     "File is valid! To start import process press \"Import\" button  Import"
                 )
             ),
-            'import' => array(
-                'success' => array(
-                    "Import successfully done."
+                'import' => array(
+                    'success' => array(
+                        "Import successfully done."
+                    )
                 )
-            )
             )
             )
         );

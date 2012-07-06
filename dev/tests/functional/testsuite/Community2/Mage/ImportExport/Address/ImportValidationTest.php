@@ -6,7 +6,7 @@
  * Time: 3:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class Community2_Mage_ImportExport_AddressValidationTest extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Selenium_TestCase
 {
     protected static $customerEmail = NULL;
 
