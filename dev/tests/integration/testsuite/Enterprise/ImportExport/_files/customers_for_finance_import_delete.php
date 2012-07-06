@@ -121,8 +121,8 @@ $rewardPoints->setPointsBalance(200);
 $rewardPoints->setWebsiteId($additionalWebsiteId);
 $rewardPoints->save();
 
-$expectedBalances[$customer->getId()][$additionalWebsiteId] = 0;
-$expectedRewards[$customer->getId()][$additionalWebsiteId] = 0;
+$expectedBalances[$customer->getId()][$additionalWebsiteId] = 200;
+$expectedRewards[$customer->getId()][$additionalWebsiteId] = 200;
 
 /** @var $customerBalance Enterprise_CustomerBalance_Model_Balance */
 $customerBalance = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
@@ -138,8 +138,8 @@ $rewardPoints->setPointsBalance(300);
 $rewardPoints->setWebsiteId($defaultWebsiteId);
 $rewardPoints->save();
 
-$expectedBalances[$customer->getId()][$defaultWebsiteId] = 0;
-$expectedRewards[$customer->getId()][$defaultWebsiteId] = 0;
+$expectedBalances[$customer->getId()][$defaultWebsiteId] = 300;
+$expectedRewards[$customer->getId()][$defaultWebsiteId] = 300;
 
 $customer = new Mage_Customer_Model_Customer();
 $customer->setWebsiteId(0)

@@ -42,7 +42,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      *
      * @var array
      */
-    protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL);
+    protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_FINANCE_WEBSITE);
 
     /**
      * Column names that holds values with particular meaning
@@ -176,7 +176,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Update reward points value for customer
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @param int $value reward points value
      * @return Enterprise_Reward_Model_Reward
      */
@@ -215,7 +215,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Update store credit balance for customer
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param int $websiteId
+     * @param int|null $websiteId
      * @param float $value store credit balance
      * @return Enterprise_CustomerBalance_Model_Balance
      */
@@ -375,11 +375,20 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {
         if ($this->_checkUniqueKey($rowData, $rowNumber)) {
-            $email   = strtolower($rowData[self::COLUMN_EMAIL]);
-            $website = $rowData[self::COLUMN_WEBSITE];
+            if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
+                $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
+            } else {
+                $email   = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website = $rowData[self::COLUMN_WEBSITE];
+                $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
-            if (!$this->_getCustomerId($email, $website)) {
-                $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+                if (!isset($this->_websiteCodeToId[$financeWebsite])
+                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_App::ADMIN_STORE_ID
+                ) {
+                    $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
+                } elseif (!$this->_getCustomerId($email, $website)) {
+                    $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+                }
             }
         }
     }

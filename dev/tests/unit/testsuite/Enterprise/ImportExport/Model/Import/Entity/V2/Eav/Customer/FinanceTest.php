@@ -348,26 +348,6 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                     )
                 )
             ),
-            'no finance website' => array(
-                '$rowData' => include __DIR__ . '/_files/row_data_no_finance_website.php',
-                '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
-                        'errors' => array(
-                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
-                            ERROR_FINANCE_WEBSITE_IS_EMPTY =>
-                                array(
-                                    array(1,
-                                        Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
-                                        COLUMN_FINANCE_WEBSITE
-                                    )
-                                )
-                        ),
-                    ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
-                        'errors' => array(),
-                    )
-                )
-            ),
             'empty finance website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_finance_website.php',
                 '$behaviors' => array(
@@ -385,7 +365,17 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                         ),
                     ),
                     Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
-                        'errors' => array(),
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_FINANCE_WEBSITE_IS_EMPTY =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                    COLUMN_FINANCE_WEBSITE
+                                )
+                            )
+                        ),
                     )
                 )
             ),
@@ -464,7 +454,17 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                         ),
                     ),
                     Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
-                        'errors' => array(),
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_INVALID_FINANCE_WEBSITE =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                    COLUMN_FINANCE_WEBSITE
+                                )
+                            )
+                        ),
                     )
                 )
             ),
@@ -485,7 +485,17 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                         ),
                     ),
                     Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
-                        'errors' => array(),
+                        'errors' => array(
+                            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                            ERROR_INVALID_FINANCE_WEBSITE =>
+                            array(
+                                array(
+                                    1,
+                                    Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::
+                                    COLUMN_FINANCE_WEBSITE
+                                )
+                            )
+                        ),
                     )
                 )
             ),
