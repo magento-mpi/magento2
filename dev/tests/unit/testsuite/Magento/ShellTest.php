@@ -15,43 +15,54 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
      * @dataProvider executeDataProvider
      * @param string $phpCommand
      * @param bool $isVerbose
-     * @param string $expectedResult
      * @param string $expectedOutput
+     * @param string $expectedResult
      */
-    public function testExecute($phpCommand, $isVerbose = false, $expectedResult = '', $expectedOutput = '')
+    public function testExecute($phpCommand, $isVerbose, $expectedOutput, $expectedResult = '')
     {
         $this->expectOutputString($expectedOutput);
         $shell = new Magento_Shell($isVerbose);
-        $actualOutput = $shell->execute('php -r %s', array($phpCommand));
-        $this->assertEquals($expectedResult, $actualOutput);
+        $actualResult = $shell->execute('php -r %s', array($phpCommand));
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     public function executeDataProvider()
     {
         return array(
-            'capture STDOUT' => array('echo "test_output";',           false, 'test_output'),
-            'print STDOUT'   => array('echo "test_output";',           true,  'test_output', 'test_output' . PHP_EOL),
-            'capture STDERR' => array('fwrite(STDERR, "test_error");', false, 'test_error'),
-            'print STDERR'   => array('fwrite(STDERR, "test_error");', true,  'test_error',  'test_error' . PHP_EOL),
+            'capture STDOUT' => array('echo "test_output";',           false, '',                      'test_output'),
+            'print STDOUT'   => array('echo "test_output";',           true,  'test_output' . PHP_EOL, 'test_output'),
+            'capture STDERR' => array('fwrite(STDERR, "test_error");', false, '',                      'test_error'),
+            'print STDERR'   => array('fwrite(STDERR, "test_error");', true,  'test_error' . PHP_EOL,  'test_error'),
         );
     }
 
     /**
      * @expectedException Magento_Shell_Exception
-     * @expectedExceptionMessage Command `non_existing_command` finished with non-zero exit code
+     * @expectedExceptionMessage Command `non_existing_command` returned non-zero exit code
+     * @expectedExceptionCode 0
      */
-    public function testExecuteNonExistingCommand()
+    public function testExecuteFailure()
     {
         $shell = new Magento_Shell();
         $shell->execute('non_existing_command');
     }
 
     /**
-     * @expectedException Magento_Shell_Exception
-     * @expectedExceptionCode 42
+     * @dataProvider executeDataProvider
+     * @param string $phpCommand
+     * @param bool $isVerbose
+     * @param string $expectedOutput
+     * @param string $expectedError
      */
-    public function testExecuteNonZeroExitCode()
+    public function testExecuteFailureDetails($phpCommand, $isVerbose, $expectedOutput, $expectedError = '')
     {
-        $this->testExecute('exit(42);');
+        try {
+            /* Force command to return non-zero exit code */
+            $this->testExecute($phpCommand . ' exit(42);', $isVerbose, $expectedOutput);
+        } catch (Magento_Shell_Exception $e) {
+            $this->assertInstanceOf('Exception', $e->getPrevious());
+            $this->assertEquals($expectedError, $e->getPrevious()->getMessage());
+            $this->assertEquals(42, $e->getPrevious()->getCode());
+        }
     }
 }

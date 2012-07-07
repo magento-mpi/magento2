@@ -47,10 +47,8 @@ class Magento_Shell
             echo $output . PHP_EOL;
         }
         if ($exitCode) {
-            throw new Magento_Shell_Exception(
-                "Command `$command` finished with non-zero exit code." . PHP_EOL . $output,
-                $exitCode
-            );
+            $commandError = new Exception($output, $exitCode);
+            throw new Magento_Shell_Exception("Command `$command` returned non-zero exit code.", 0, $commandError);
         }
         return $output;
     }
