@@ -19,6 +19,15 @@ mage.event = (function () {
     }
   };
 }());
+
+mage.localize = (function(){
+  return {
+    translate: function(val) {
+      return val;
+    }
+  };
+}());
+
 // load javascript by data attribute or mage.load
 (function () {
   var syncQueue = [];

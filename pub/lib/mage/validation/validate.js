@@ -247,6 +247,55 @@ jQuery.validator.addMethod("isEmpty", function (value) {
   }, "Please enter a number greater than 0 in this field");
 
 })();
+/*
+  Translate default error messages
+ */
+ jQuery.extend(jQuery.validator.messages, {
+    required: mage.localize.translate("This field is required."),
+    remote: mage.localize.translate("Please fix this field."),
+    email: mage.localize.translate("Please enter a valid email address."),
+    url: mage.localize.translate("Please enter a valid URL."),
+    date: mage.localize.translate("Please enter a valid date."),
+    dateISO: mage.localize.translate("Please enter a valid date (ISO)."),
+    number: mage.localize.translate("Please enter a valid number."),
+    digits: mage.localize.translate("Please enter only digits."),
+    creditcard: mage.localize.translate("Please enter a valid credit card number."),
+    equalTo: mage.localize.translate("Please enter the same value again."),
+    accept: mage.localize.translate("Please enter a value with a valid extension."),
+    maxlength: $.validator.format(mage.localize.translate("Please enter no more than {0} characters.")),
+    minlength: $.validator.format(mage.localize.translate("Please enter at least {0} characters.")),
+    rangelength: $.validator.format(mage.localize.translate("Please enter a value between {0} and {1} characters long.")),
+    range: $.validator.format(mage.localize.translate("Please enter a value between {0} and {1}.")),
+    max: $.validator.format(mage.localize.translate("Please enter a value less than or equal to {0}.")),
+    min: $.validator.format(mage.localize.translate("Please enter a value greater than or equal to {0}."))
+  });
+/*
+Setting the type as html5 to enable data-validate
+ */
+$.metadata.setType("html5");
+
+/*
+jQuery plugin for validator
+eg:$("#formId").mage().validate()
+ */
+(function($) {
+  $.fn.mage = function () {
+    var jq = this;
+    return {
+      validate: function(){
+        return jq.each(function(){
+          $(this).validate({
+            meta: "validate",
+            onfocusout: false,
+            onkeyup: false,
+            onclick: false
+          })
+
+        });
+      }
+    }
+  };
+})(jQuery);
 
 /**
  Not implemented
