@@ -359,7 +359,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * @dataProvider importFinanceData1
      * @TestlinkId TL-MAGE-5717
      */
-    public function deletingCustomerFinanceWithWrongFinanceWebsite($data)
+    public function deleteWrongFinanceWebsite($data)
     {
 
         //Create Customer1
