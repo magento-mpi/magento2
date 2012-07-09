@@ -472,8 +472,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
 
         if ($payMethod && isset($payMethod['payment_method'])) {
             $xpathPayMethod = $this->_getControlXpath('field', 'payment_method_checkout');
-            if ($this->isElementPresent($xpathPayMethod . '/p/strong')) {
-                $xpathPayMethod .= '/p/strong';
+            if ($this->isElementPresent($xpathPayMethod . '/p')) {
+                $xpathPayMethod .= '/p';
             }
             $text = $this->getText($xpathPayMethod);
             if (strcmp($text, $payMethod['payment_method']) != 0) {
