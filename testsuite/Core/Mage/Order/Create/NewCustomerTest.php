@@ -109,7 +109,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->addParameter('elementTitle', $customerTitle);
         $this->customerHelper()->openCustomer($searchCustomer);
         $this->openTab('addresses');
-        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
+        $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
         $this->assertEquals(0, $addressCount, 'Customer should not have address, but have ' . $addressCount);
     }
 

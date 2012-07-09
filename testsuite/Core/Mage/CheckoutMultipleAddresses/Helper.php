@@ -126,7 +126,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->assertMessageNotPresent('error');
         $this->validatePage('checkout_multishipping_success_order');
         if ($this->controlIsPresent('link', 'all_order_number')) {
-            $count = $this->getXpathCount($this->_getControlXpath('link', 'all_order_number'));
+            $count = $this->getControlCount('link', 'all_order_number');
             $id = array();
             for ($i = 1; $i <= $count; $i++) {
                 $this->addParameter('index', $i);
@@ -206,7 +206,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $productInCard = $this->getControlAttribute('field', 'product_qty', 'selectedValue');
                 $isVirtual = true;
             } else {
-                $productInCard = $this->getXpathCount($this->_getControlXpath('link', 'product'));
+                $productInCard = $this->getControlCount('link', 'product');
             }
             if ($productInCard == 0) {
                 $this->fail($productName . ' product is not present in card');
@@ -226,7 +226,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 if ($productInCard > $qty) {
                     while ($productInCard != $qty) {
                         $this->clickControl('link', 'remove_product');
-                        $productInCard = $this->getXpathCount($this->_getControlXpath('link', 'product'));
+                        $productInCard = $this->getControlCount('link', 'product');
                     }
                 } else {
                     $this->fillField('product_qty', $qty - $productInCard + 1);
@@ -293,7 +293,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     {
         $this->assertMultipleCheckoutPageOpened('shipping_information');
 
-        $actualShippingCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'shipping_methods_forms'));
+        $actualShippingCount = $this->getControlCount('pageelement', 'shipping_methods_forms');
         $expectedShippingCount = count($shippingData);
         $this->assertEquals($expectedShippingCount, $actualShippingCount,
             'Order should contains ' . $expectedShippingCount . ' shipping addresses but contains '
@@ -483,7 +483,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $actualAddresses = $this->defineAddresses();
         if (is_null($this->getAddressId($address, $actualAddresses))) {
             $this->clickControl('link', 'change_billing_address');
-            $additionalAddresses = $this->getXpathCount($this->_getControlXpath('pageelement', 'billing_addresses'));
+            $additionalAddresses = $this->getControlCount('pageelement', 'billing_addresses');
             $actualAddresses = $this->defineAddresses('billing', $additionalAddresses);
             $param = $this->getAddressId($address, $actualAddresses);
             if (is_null($param)) {
@@ -491,8 +491,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                 $this->fillFieldset($address, 'create_billing_address');
                 $this->saveForm('save_address');
                 $this->assertMessagePresent('success', 'success_saved_address');
-                $additionalAddresses =
-                    $this->getXpathCount($this->_getControlXpath('pageelement', 'billing_addresses'));
+                $additionalAddresses = $this->getControlCount('pageelement', 'billing_addresses');
                 $actualAddresses = $this->defineAddresses('billing', $additionalAddresses);
                 $param = $this->getAddressId($address, $actualAddresses);
             }
@@ -571,7 +570,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             (isset($paymentData['payment']['payment_method'])) ? $paymentData['payment']['payment_method'] : array();
         $verifyPrices = (isset($checkout['verify_prices'])) ? $checkout['verify_prices'] : array();
         //Verify quantity orders
-        $actualQty = $this->getXpathCount($this->_getControlXpath('pageelement', 'shipping_method_products'));
+        $actualQty = $this->getControlCount('pageelement', 'shipping_method_products');
         $this->assertEquals(count($shippings), $actualQty, 'orders quantity is wrong');
         //Verify selected Shipping addresses for orders
         $orderHeaders = array();

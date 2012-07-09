@@ -2548,34 +2548,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Returns number of nodes that match the specified CSS selector,
+     * Returns number of nodes that match the specified xPath|css selector,
      * eg. "table" would give number of tables.
      *
-     * @param string $locator CSS selector
+     * @param string $controlType Type of control (e.g. button | link | radiobutton | checkbox)
+     * @param string $controlName Name of a control from UIMap
+     * @param string $xpath
      *
-     * @return int
+     * @return string
      */
-    public function getCssCount($locator)
+    public function getControlCount($controlType, $controlName, $xpath = null)
     {
-        $script = "this.browserbot.evaluateCssCount('" . addslashes($locator) . "', this.browserbot.getDocument())";
-        return $this->getEval($script);
-    }
-
-    /**
-     * Returns number of nodes that match the specified xPath selector,
-     * eg. "table" would give number of tables.
-     *
-     * @param string $locator xPath selector
-     *
-     * @return int
-     */
-    public function getXpathCount($locator)
-    {
-        $pos = stripos(trim($locator), 'css=');
-        if ($pos !== false && $pos == 0) {
-            return $this->getCssCount($locator);
+        if (is_null($xpath)) {
+            $xpath = $this->_getControlXpath($controlType, $controlName);
         }
-        return parent::getXpathCount($locator);
+        if (preg_match('/^css=/', $xpath)) {
+            return $this->getCssCount($xpath);
+        }
+        return $this->getXpathCount($xpath);
     }
 
     /**

@@ -105,6 +105,8 @@ add_new_rule:
                                     dropdowns:
                                         select_conditions_aggregator: //select[@name='rule[conditions][1][aggregator]']
                                         select_conditions_value: //select[@name='rule[conditions][1][value]']
+                                    pageelements:
+                                        apply_for_rule_condition_row: /ul/li
                             -
                                 rule_condition_item:
                                     xpath: //ul[@id='conditions__%condition%__children']
@@ -123,6 +125,7 @@ add_new_rule:
                                         rule_condition_item_category_text: %categoryXpath%/div/a/span
                                         rule_condition_item_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         rule_condition_item_category_index_link: %categoryXpath%[%index%]/div/a
+                                        rule_condition_item_row: /li
                                     dropdowns:
                                         select_condition_new_child: /li[%key%]//span[contains(.//@src,'rule_component_add')]//select
                                         select_condition_operator: /li[%key%]/span[contains(.//@name,'operator')]//select

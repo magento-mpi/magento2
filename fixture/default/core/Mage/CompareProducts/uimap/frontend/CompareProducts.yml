@@ -42,6 +42,8 @@ compare_products:
                             add_to_whishlist: //td[h2='%productName%']//a[text()='Add to Wishlist']
                             remove_item: //td[%columnIndex%]/a[@title='Remove This Item']
                         pageelements:
+                            compare_products_row: /*/tr
+                            compare_products_column: /tbody[1]/tr/*
                             product_attribute_names: //tr[th/span/@class]
                             product_attribute_value: /tr[th='%attrName%']/td[%columnIndex%]
                             product_names: //td[h2[@class='product-name']]

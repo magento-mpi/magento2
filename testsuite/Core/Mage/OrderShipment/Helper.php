@@ -57,7 +57,7 @@ class Core_Mage_OrderShipment_Helper extends Mage_Selenium_TestCase
             }
         }
         if (!$verify) {
-            $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_ship'));
+            $productCount = $this->getControlCount('fieldset', 'product_line_to_ship');
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
                 $prodSku = $this->getControlAttribute('field', 'product_sku', 'text');

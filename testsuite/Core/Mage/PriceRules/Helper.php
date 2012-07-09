@@ -174,13 +174,12 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
                 $optionsNesting = self::$optionsNesting . '--' . self::$optionsQty;
             }
             $this->addParameter('condition', $optionsNesting);
-            $xpath = $this->_getControlXpath('fieldset', 'rule_' . $type . '_item') . '/li';
+            self::$optionsQty = $this->getControlCount('pageelement', 'rule_' . $type . '_item_row');
         } else {
-            $xpath = $this->_getControlXpath('fieldset', 'apply_for_rule_' . $type) . '/ul/li';
             $this->addParameter('condition', $optionsNesting);
+            self::$optionsQty = $this->getControlCount('pageelement', 'apply_for_rule_' . $type . '_row');
         }
         self::$optionsNesting = $optionsNesting;
-        self::$optionsQty = $this->getXpathCount($xpath);
         $this->addParameter('key', self::$optionsQty);
     }
 

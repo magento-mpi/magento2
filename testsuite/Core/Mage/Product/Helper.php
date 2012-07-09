@@ -238,7 +238,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function addTierPrice(array $tierPriceData)
     {
-        $rowNumber = $this->getXpathCount($this->_getControlXpath('fieldset', 'tier_price_row'));
+        $rowNumber = $this->getControlCount('fieldset', 'tier_price_row');
         $this->addParameter('tierPriceId', $rowNumber);
         $this->clickButton('add_tier_price', false);
         $this->fillForm($tierPriceData, 'prices');
@@ -251,14 +251,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function addCustomOption(array $customOptionData)
     {
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionId = $this->getXpathCount($fieldSetXpath) + 1;
+        $optionId = $this->getControlCount('fieldset', 'custom_option_set') + 1;
         $this->addParameter('optionId', $optionId);
         $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
         foreach ($customOptionData as $rowKey => $rowValue) {
             if (preg_match('/^custom_option_row/', $rowKey) && is_array($rowValue)) {
-                $rowId = $this->getXpathCount($fieldSetXpath . "//tr[contains(@id,'product_option_')][not(@style)]");
+                $rowId = $this->getControlCount('pageelement', 'custom_option_row');
                 $this->addParameter('rowId', $rowId);
                 $this->clickButton('add_row', false);
                 $this->fillForm($rowValue, 'custom_options');
@@ -340,8 +339,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function addBundleOption(array $bundleOptionData)
     {
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'bundle_items');
-        $optionsCount = $this->getXpathCount($fieldSetXpath . "//div[@class='option-box']");
+        $optionsCount = $this->getControlCount('pageelement', 'bundle_item_row');
         $this->addParameter('optionId', $optionsCount);
         $this->clickButton('add_new_option', false);
         $this->fillForm($bundleOptionData, 'bundle_items');
@@ -385,7 +383,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         if (!$this->controlIsPresent('pageelement', 'opened_downloadable_' . $type)) {
             $this->clickControl('link', 'downloadable_' . $type, false);
         }
-        $rowNumber = $this->getXpathCount($this->_getControlXpath('pageelement', 'added_downloadable_' . $type));
+        $rowNumber = $this->getControlCount('pageelement', 'added_downloadable_' . $type);
         $this->addParameter('rowId', $rowNumber);
         $this->clickButton('downloadable_' . $type . '_add_new_row', false);
         $this->fillForm($optionData, 'downloadable_information');
@@ -629,7 +627,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function verifyTierPrices(array $tierPriceData)
     {
-        $rowQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'tier_price_row'));
+        $rowQty = $this->getControlCount('fieldset', 'tier_price_row');
         $needCount = count($tierPriceData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
@@ -735,8 +733,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     public function verifyCustomOption(array $customOptionData)
     {
         $this->openTab('custom_options');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionsQty = $this->getXpathCount($fieldSetXpath);
+        $optionsQty = $this->getControlCount('fieldset', 'custom_option_set');
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
             $this->addVerificationMessage(
@@ -744,7 +741,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             return false;
         }
         $optionId = '';
-        $this->addParameter('elementXpath', $fieldSetXpath);
+        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', 'custom_option_set'));
         $this->addParameter('index', 1);
         $id = $this->getControlAttribute('pageelement', 'element_index', 'id');
         $id = explode('_', $id);
@@ -774,7 +771,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     public function verifyBundleOptions(array $bundleData)
     {
         $this->openTab('bundle_items');
-        $optionsCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'bundle_item_grid'));
+        $optionsCount = $this->getControlCount('pageelement', 'bundle_item_grid');
         $needCount = count($bundleData);
         if (array_key_exists('ship_bundle_items', $bundleData)) {
             $needCount = $needCount - 1;
@@ -839,8 +836,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function verifyDownloadableOptions(array $optionsData, $type)
     {
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'downloadable_' . $type);
-        $rowQty = $this->getXpathCount($fieldSetXpath . "//*[@id='" . $type . "_items_body']/tr");
+        $rowQty = $this->getControlCount('pageelements', 'downloadable_' . $type . '_row');
         $needCount = count($optionsData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(

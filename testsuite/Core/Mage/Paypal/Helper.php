@@ -173,7 +173,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     {
         $this->addParameter('accountEmail', $parameters['login_email']);
         $detailTable = $this->_getControlXpath('fieldset', 'account_details');
-        $countRows = $this->getXpathCount($detailTable . '//tr');
+        $countRows = $this->getControlCount('pageelement', 'account_details_line');
         for ($i = 0; $i < $countRows; $i++) {
             $key = $this->getTable($detailTable . '.' . $i . '.0');
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
@@ -206,7 +206,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->openPaypalTab('api_credentials');
         $apiCredentials = array();
         $detailTable = $this->_getControlXpath('fieldset', 'account_api_credentials');
-        $countRows = $this->getXpathCount($detailTable . '//tr');
+        $countRows = $this->getControlCount('pageelement', 'account_api_credentials_line');
         for ($i = 0; $i < $countRows; $i++) {
             $key = $this->getTable($detailTable . '.' . $i . '.0');
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));

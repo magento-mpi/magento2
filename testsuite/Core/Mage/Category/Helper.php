@@ -65,7 +65,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         $fieldsetXpath = $this->_getControlXpath('fieldset', $fieldsetName);
         $categoryXpath = $this->_getControlXpath('link', $fieldsetName . '_' . $categoryType);
         $this->addParameter('categoryXpath', str_replace($fieldsetXpath, '', $categoryXpath));
-        $qtyCat = $this->getXpathCount($this->_getControlXpath('pageelement', $fieldsetName . '_category_text'));
+        $qtyCat = $this->getControlCount('pageelement', $fieldsetName . '_category_text');
 
         for ($i = 1; $i <= $qtyCat; $i++) {
             $this->addParameter('index', $i);

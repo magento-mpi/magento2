@@ -44,7 +44,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      */
     public function findTaxTitleByName($storeView)
     {
-        $taxTitleQty = $this->getXpathCount($this->_getControlXpath('pageelement', 'tax_title_header'));
+        $taxTitleQty = $this->getControlCount('pageelement', 'tax_title_header');
         for ($i = 1; $i <= $taxTitleQty; $i++) {
             $this->addParameter('index', $i);
             $text = $this->getControlAttribute('pageelement', 'tax_title_header_index', 'text');
@@ -142,7 +142,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
     public function deleteRulesExceptSpecified(array $excludeList)
     {
         $tableXpath = $this->_getControlXpath('pageelement', 'rules_table');
-        $titleRowCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'rule_line'));
+        $titleRowCount = $this->getControlCount('pageelement', 'rule_line');
         $columnId = $this->getColumnIdByName('Name') - 1;
         $rules = array();
         for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {

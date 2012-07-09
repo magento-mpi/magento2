@@ -51,12 +51,12 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     {
         $isExlAndInclInHead = false;
         $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', $tableHeadName));
-        $lineQty = $this->getXpathCount($this->_getControlXpath('pageelement', 'table_line'));
+        $lineQty = $this->getControlCount('pageelement', 'table_line');
         if ($lineQty == 2) {
             $isExlAndInclInHead = true;
             $this->addParameter('tableHeadXpath', $this->_getControlXpath('pageelement', 'table_head_first'));
         }
-        $columnQty = $this->getXpathCount($this->_getControlXpath('pageelement', 'table_column'));
+        $columnQty = $this->getControlCount('pageelement', 'table_column');
         $returnData = array();
         $y = 1;
         for ($i = 1; $i <= $columnQty; $i++) {
@@ -100,9 +100,8 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
         $productValues = array();
 
         $tableRowNames = $this->getColumnNamesAndNumbers();
-        $productLine = $this->_getControlXpath('pageelement', 'product_line');
-        $this->addParameter('tableLineXpath', $productLine);
-        $productCount = $this->getXpathCount($productLine);
+        $this->addParameter('tableLineXpath', $this->_getControlXpath('pageelement', 'product_line'));
+        $productCount = $this->getControlCount('pageelement', 'product_line');
         for ($i = 1; $i <= $productCount; $i++) {
             foreach ($tableRowNames as $key => $value) {
                 if (in_array($key, $skipFields)) {
@@ -189,7 +188,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
      */
     public function getOrderPriceData()
     {
-        $count = $this->getXpathCount($this->_getControlXpath('pageelement', 'price_totals_line'));
+        $count = $this->getControlCount('pageelement', 'price_totals_line');
         $returnData = array();
         for ($i = $count; $i >= 1; $i--) {
             $this->addParameter('index', $i);
@@ -347,8 +346,7 @@ class Core_Mage_ShoppingCart_Helper extends Mage_Selenium_TestCase
     {
         if ($this->getArea() == 'frontend' && !$this->controlIsPresent('link', 'empty_my_cart')) {
             $this->frontend('shopping_cart');
-            $productLine = $this->_getControlXpath('pageelement', 'product_line');
-            $productCount = $this->getXpathCount($productLine);
+            $productCount = $this->getControlCount('pageelement', 'product_line');
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
                 $this->fillField('product_qty', 0);

@@ -248,8 +248,8 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         }
         $this->frontend('test_page');
         foreach ($this->countElements($pageData) as $key => $value) {
-            $xpath = $this->_getControlXpath('pageelement', $key);
-            $this->assertTrue($this->getXpathCount($xpath) == $value, 'Count of ' . $key . ' is not ' . $value);
+            $actualCount = $this->getControlCount('pageelement', $key);
+            $this->assertSame($value, $actualCount, 'Count of ' . $key . ' is not ' . $value);
         }
     }
 

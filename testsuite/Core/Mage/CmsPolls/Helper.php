@@ -154,13 +154,12 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
 
         $this->assertTrue($this->verifyForm($pollData, 'poll_information'), $this->getParsedMessages());
 
-        $answersXpath = $this->_getControlXpath('fieldset', 'assigned_answers_set');
-        $answersCount = $this->getXpathCount($answersXpath);
+        $answersCount = $this->getControlCount('fieldset', 'assigned_answers_set');
         if (count($answers) == $answersCount) {
             $i = 1;
             foreach ($answers as $value) {
                 $this->addParameter('index', $i);
-                $this->addParameter('elementXpath', $answersXpath);
+                $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', 'assigned_answers_set'));
                 $attId = $this->getControlAttribute('pageelement', 'element_index', 'id');
                 $answerId = explode("_", $attId);
                 $this->addParameter('answerId', end($answerId));

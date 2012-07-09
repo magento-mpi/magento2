@@ -251,8 +251,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             if ($this->controlIsPresent('pageelement', 'review_details_ratings')) {
                 $text = preg_quote($this->getControlAttribute('pageelement', 'review_details_ratings', 'text'));
                 $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview), " \t\n\r\0\x0B");
-                $ratingsCount =
-                    $this->getXpathCount($this->_getControlXpath('pageelement', 'review_details_ratings_line'));
+                $ratingsCount = $this->getControlCount('pageelement', 'review_details_ratings_line');
                 for ($i = 0; $i < $ratingsCount; $i++) {
                     $actualRatings[] = $this->getTable($xpathReviewRatings . '.' . $i . '.0');
                 }

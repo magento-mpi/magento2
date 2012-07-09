@@ -429,6 +429,8 @@ new_product:
                                         custom_options_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
                                         custom_options_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
                                         custom_options_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
+                                    pageelements:
+                                        custom_option_row: //tr[contains(@id,'product_option_')][not(@style)]
                 -
                     bundle_items: &bundleItemsTab
                         xpath: //a[@title='Bundle Items']/span
@@ -446,6 +448,7 @@ new_product:
                                     pageelements:
                                         bundle_item_grid: //div[@class='option-box']
                                         bundle_item_grid_index_product: //div[@class='option-box'][%index%]//tr[@class='selection' and contains(.,'%productSku%')]
+                                        bundle_item_row: //div[@class='option-box']
                             -
                                 new_bundle_option:
                                     xpath: //div[@id='bundle_option_%optionId%']
@@ -556,6 +559,7 @@ new_product:
                                         downloadable_sample_row_file_radiobutton: //input[@id='downloadable_sample_%rowId%_file_type']
                                     pageelements:
                                         added_downloadable_sample: //*[@id='sample_items_body']/tr
+                                        downloadable_sample_row: //*[@id='sample_items_body']/tr
                             -
                                 downloadable_link:
                                     xpath: //*[@id='dd-links']/div
@@ -580,6 +584,7 @@ new_product:
                                         downloadable_link_row_url_radiobutton: //input[@id='downloadable_link_%rowId%_url_type']
                                     pageelements:
                                         added_downloadable_link: //*[@id='link_items_body']/tr
+                                        downloadable_link_row: //*[@id='link_items_body']/tr
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']

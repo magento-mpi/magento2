@@ -52,7 +52,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function isAddressPresent(array $addressData)
     {
-        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
+        $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
         for ($i = $addressCount; $i > 0; $i--) {
             $this->addParameter('index', $i);
             $this->clickControl('pageelement', 'list_customer_address_index', false);
@@ -73,7 +73,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
      */
     public function addAddressNumber()
     {
-        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
+        $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
         $this->addParameter('index', $addressCount);
         $param = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');
         $this->addParameter('address_number', preg_replace('/(\D)+/', '', $param));
@@ -83,7 +83,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
     {
         $this->openCustomer($searchData);
         $this->openTab('addresses');
-        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'list_customer_address'));
+        $addressCount = $this->getControlCount('pageelement', 'list_customer_address');
         if ($addressCount > 0) {
             $this->addParameter('index', $addressCount);
             $param = $this->getControlAttribute('pageelement', 'list_customer_address_index', 'id');

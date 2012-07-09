@@ -136,7 +136,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
         }
         if (array_key_exists($name, $attrData) && is_array($attrData[$name])) {
             $this->addParameter('tableHeadXpath', $this->_getControlXpath('fieldset', $fieldsetName));
-            $qtyStore = $this->getXpathCount($this->_getControlXpath('pageelement', 'table_column'));
+            $qtyStore = $this->getControlCount('pageelement', 'table_column');
             foreach ($attrData[$name] as $storeViewName => $storeViewValue) {
                 $number = -1;
                 for ($i = 1; $i <= $qtyStore; $i++) {
@@ -175,7 +175,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
      */
     public function attributeOptions($attrData, $action = 'fill')
     {
-        $optionCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'manage_options_option'));
+        $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
         $number = 1;
         foreach ($attrData as $fKey => $dValue) {
             if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
@@ -186,8 +186,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
                             $this->clickButton('add_option', false);
                             $this->storeViewTitles($attrData[$fKey], 'manage_options');
                             $this->fillForm($attrData[$fKey], 'manage_labels_options');
-                            $optionCount =
-                                $this->getXpathCount($this->_getControlXpath('pageelement', 'manage_options_option'));
+                            $optionCount = $this->getControlCount('pageelement', 'manage_options_option');
                             break;
                         case 'verify':
                             if ($optionCount-- > 0) {

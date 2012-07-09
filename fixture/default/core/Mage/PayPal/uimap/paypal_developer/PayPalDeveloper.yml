@@ -114,6 +114,7 @@ paypal_developer_logged_in:
                                     links:
                                         view_details: //a[span='View Details']
                                     pageelements:
+                                        account_details_line: //tr
                                         country: "//tr[td='Country:']//td[3]"
                                         business_name: "//tr[td='Business Name:']//td[3]"
                                         credit_card: "//tr[td='Credit Card:']//td[3]"
@@ -131,6 +132,7 @@ paypal_developer_logged_in:
                                 account_api_credentials:
                                     xpath: //*[@id='detData']/tbody[contains(.,'%accountEmail%')]
                                     pageelements:
+                                        account_api_credentials_line: //tr
                                         api_username: "//tr[td='API Username:']//td[2]"
                                         api_password: "//tr[td='API Password:']//td[2]"
                                         signature: "//tr[td='Signature:']//td[2]"

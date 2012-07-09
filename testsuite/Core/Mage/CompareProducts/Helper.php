@@ -124,9 +124,8 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
     public function getProductDetailsOnComparePage()
     {
         $xpath = $this->_getControlXpath('fieldset', 'compare_products');
-
-        $rowCount = $this->getXpathCount($xpath . '/*/tr');
-        $columnCount = $this->getXpathCount($xpath . '/tbody[1]/tr/*');
+        $rowCount = $this->getControlCount('pageelement', 'compare_products_row');
+        $columnCount = $this->getControlCount('pageelement', 'compare_products_column');
 
         $data = array();
         for ($column = 0; $column < $columnCount; $column++) {
@@ -225,7 +224,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetAttributesListComparePopup()
     {
-        $totalElements = $this->getXpathCount($this->_getControlXpath('pageelement', 'product_attribute_names'));
+        $totalElements = $this->getControlCount('pageelement', 'product_attribute_names');
         $attributesList = array();
         for ($i = 1; $i < $totalElements + 1; $i++) {
             $this->addParameter('', $i);
@@ -243,7 +242,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function frontGetProductsListComparePopup()
     {
-        $totalElements = $this->getXpathCount($this->_getControlXpath('pageelement', 'product_names'));
+        $totalElements = $this->getControlCount('pageelement', 'product_names');
         $productsList = array();
         for ($i = 1; $i < $totalElements + 1; $i++) {
             $this->addParameter('', $i);

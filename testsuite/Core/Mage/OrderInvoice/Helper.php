@@ -60,7 +60,7 @@ class Core_Mage_OrderInvoice_Helper extends Mage_Selenium_TestCase
             $this->fillDropdown('amount', $captureType);
         }
         if (!$verify) {
-            $productCount = $this->getXpathCount($this->_getControlXpath('fieldset', 'product_line_to_invoice'));
+            $productCount = $this->getControlCount('fieldset', 'product_line_to_invoice');
             for ($i = 1; $i <= $productCount; $i++) {
                 $this->addParameter('productNumber', $i);
                 $qtyXpath = $this->_getControlXpath('field', 'product_qty');

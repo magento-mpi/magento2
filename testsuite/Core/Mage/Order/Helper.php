@@ -238,7 +238,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
         }
 
         $this->addParameter('dropdownXpath', $this->_getControlXpath('dropdown', $addressType . 'address_choice'));
-        $addressCount = $this->getXpathCount($this->_getControlXpath('pageelement', 'dropdown_option'));
+        $addressCount = $this->getControlCount('pageelement', 'dropdown_option');
 
         for ($i = 1; $i <= $addressCount; $i++) {
             $res = 0;
