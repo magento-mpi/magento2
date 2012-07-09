@@ -20,9 +20,9 @@ mage.event = (function () {
   };
 }());
 
-mage.localize = (function(){
+mage.localize = (function () {
   return {
-    translate: function(val) {
+    translate: function (val) {
       return val;
     }
   };
@@ -32,6 +32,7 @@ mage.localize = (function(){
 (function () {
   var syncQueue = [];
   var asyncQueue = [];
+  var cssQueue = [];
 
   function addToQueue(arr, queue) {
     for ( var i = 0; i < arr.length; i++ ) {
@@ -83,6 +84,14 @@ mage.localize = (function(){
       s.src = asyncQueue[i];
       x.parentNode.appendChild(s);
     }
+    for ( var i = 0; i < cssQueue.length; i++ ) {
+      var s = document.createElement('link');
+      s.type = 'text/css';
+      s.rel = 'stylesheet';
+      s.href = asyncQueue[i];
+      x.parentNode.appendChild(s);
+    }
+
   }
 
   $(window).on('load', load_script);
@@ -95,6 +104,10 @@ mage.localize = (function(){
       js: function () {
         addToQueue(arguments, asyncQueue);
         return asyncQueue.length;
+      },
+      css: function () {
+        addToQueue(arguments, cssQueue);
+        return cssQueue.length;
       },
       language: function (lang) {
         var defaultLangauge = 'en';

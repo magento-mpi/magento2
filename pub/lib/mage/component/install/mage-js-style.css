@@ -1,0 +1,20 @@
+/**
+ * {license_notice}
+ *
+ * @category    mage style
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+button.disabled{
+    background: none repeat scroll 0% 0% #bbb;
+    border-color: #bbb;
+    cursor: default;
+    color: white;
+}
+button.enabled{
+    background: #f18200;
+    cursor: pointer;
+    color: #c73615;
+}
