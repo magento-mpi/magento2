@@ -53,5 +53,9 @@
             changeUrl: '<?php echo $this->getChangeUrl() ?>locale/' + $('#locale').val() + '/?timezone=' + $('#timezone').val() + '&amp;currency=' + $('#currency').val()
         }
     }
+
+  mage.event.observe('mage.install.initialize',function(e,o){
+      o.changeUrl='<?php echo $this->getChangeUrl() ?>locale/' + $('#locale').val() + '/?timezone=' + $('#timezone').val() + '&amp;currency=' + $('#currency').val()
+  });
    mage.load.jsSync('/pub/lib/mage/components/install_locale.js');
 </script>
