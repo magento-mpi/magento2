@@ -90,6 +90,13 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         $this->admin('export');
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         $report = $this->importExportHelper()->export();
+        //calculate number of entities in csv file
+        $numberOfEntities = 0;
+        foreach ($report as $value) {
+            if($value['email'] != '') {
+                $numberOfEntities++;
+            }
+        }
         //Step 1
         $this->admin('import');
         //Steps 2-4
@@ -99,7 +106,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         $importData = $this->importExportHelper()->import($report);
         //Verifying
         $this->assertEquals('Checked rows: ' . count($report) . ', checked entities: '
-                . count($report)
+                . $numberOfEntities
                 . ', invalid rows: 0, total errors: 0', $importData['validation']['validation'][0],
             'Validation message is not correct');
         $this->assertEquals('File is valid! To start import process press "Import" button  Import',
