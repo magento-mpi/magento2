@@ -84,7 +84,7 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
      * @test
      * @TestlinkId TL-MAGE-5712
      */
-      public function oldImportSettingsGeneralView()
+      public function importSettingsGeneralView()
       {
           $this->admin('import');
           //Verifying
