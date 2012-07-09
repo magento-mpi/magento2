@@ -65,7 +65,7 @@
 
     <target name="js-test-sh">
         <property name="js-test.conf" location="${basedir}/dev/tests/js/jsTestDriver.conf"/>
-        <property name="js-test.output" location="${basedir}/dev/tests/js/test-output"/>
+        <property name="js-test.output" location="${basedir}"/>
         <exec executable="/bin/bash" dir="dev/build/bin" failonerror="true">
             <arg value="js-test.sh"/>
             <arg value="${js-test.conf}"/>

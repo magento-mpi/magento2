@@ -1,7 +1,4 @@
 #!/bin/bash
-rm -r $2
-mkdir $2
-
 XVFB=`which Xvfb`
 if [ "$?" -eq 1 ];
 then
