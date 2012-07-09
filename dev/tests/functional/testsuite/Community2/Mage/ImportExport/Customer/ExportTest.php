@@ -116,8 +116,13 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      */
     public function simpleExport()
     {
+        $this->admin('manage_customers');
+        $userData = $this->loadDataSet('Customers','generic_customer_account');
+        $userDataAddress = $this->loadDataSet('Customers','generic_address');
+        $this->customerHelper()->createCustomer($userData,$userDataAddress);
         //Step 1
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
+        $this->admin('export');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $report = $this->importExportHelper()->export();
     }
 
