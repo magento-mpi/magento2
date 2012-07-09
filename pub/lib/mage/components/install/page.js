@@ -1,7 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    install bug tracker
+ * @category    install page
  * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}

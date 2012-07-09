@@ -16,10 +16,10 @@ $(document).ready(function () {
   mage.install={};
   mage.event.trigger("mage.install.initialize",mage.install) ;
   /*
-
    setting php session for locale, timezone and currency
    */
   $('#locale').on('change', function () {
-    $(location).attr('href', mage.install.changeUrl);
+    var url=mage.install.changeUrl+'locale/' + $('#locale').val() + '/?timezone=' + $('#timezone').val() + '&amp;currency=' + $('#currency').val();
+    $(location).attr('href',url);
   });
 })
