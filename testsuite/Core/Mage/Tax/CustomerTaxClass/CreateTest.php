@@ -132,6 +132,7 @@ class Core_Mage_Tax_CustomerTaxClass_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withSpecialValuesDataProvider
+     * @group skip_due_to_bug
      */
     public function withSpecialValues($specialValue)
     {

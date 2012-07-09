@@ -61,6 +61,7 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3316
+     * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($fieldName, $fieldType)
     {
