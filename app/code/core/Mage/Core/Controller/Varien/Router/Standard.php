@@ -70,9 +70,9 @@ class Mage_Core_Controller_Varien_Router_Standard extends Mage_Core_Controller_V
         /**
          * Searching router args by module name from route using it as key
          */
-        $modules = $this->getModuleByFrontName($module);
+        $modules = $this->getModulesByFrontName($module);
 
-        if ($modules === false) {
+        if (empty($modules) === true) {
             return false;
         }
 

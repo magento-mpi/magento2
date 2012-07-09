@@ -34,9 +34,11 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
                 $frontName = $request->getModuleName();
                 $router = Mage::app()->getFrontController()->getRouterByFrontName($frontName);
 
-                $frontModule = $router->getModuleByFrontName($frontName);
-                if (is_array($frontModule)) {
+                $frontModule = $router->getModulesByFrontName($frontName);
+                if (empty($frontModule) === false) {
                     $frontModule = $frontModule[0];
+                } else {
+                    $frontModule = null;
                 }
             }
             $url = 'http://www.magentocommerce.com/gethelp/';

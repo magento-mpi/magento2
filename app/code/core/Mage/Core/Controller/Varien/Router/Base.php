@@ -117,77 +117,81 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         return true;
     }
 
-    /**
-     * Match the request
-     *
-     * @param Zend_Controller_Request_Http $request
-     * @return boolean
-     */
     public function match(Zend_Controller_Request_Http $request)
     {
+
         //checking before even try to find out that current module
         //should use this router
         if (!$this->_beforeModuleMatch()) {
             return false;
         }
 
+        $params = $this->_parseRequest($request);
+        return $this->_createControllerInstance($request, $params);
+    }
+
+    protected function _parseRequest(Zend_Controller_Request_Http $request)
+    {
         $this->fetchDefault();
 
-        $front = $this->getFront();
         $path = trim($request->getPathInfo(), '/');
 
         if ($path) {
-            $p = explode('/', $path);
+            $params = explode('/', $path);
         } else {
-            $p = explode('/', $this->_getDefaultPath());
+            $params = explode('/', $this->_getDefaultPath());
         }
+        return $params;
+    }
+
+    protected function _createControllerInstance(Zend_Controller_Request_Http $request, array $params)
+    {
+        $front = $this->getFront();
 
         // get module name
         if ($request->getModuleName()) {
-            $module = $request->getModuleName();
+            $moduleFrontName = $request->getModuleName();
         } else {
-            if (!empty($p[0])) {
-                $module = $p[0];
+            if (!empty($params[0])) {
+                $moduleFrontName = $params[0];
             } else {
-                $module = $this->getFront()->getDefault('module');
+                $moduleFrontName = $this->getFront()->getDefault('module');
                 $request->setAlias(Mage_Core_Model_Url_Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
             }
         }
-        if (!$module) {
-            if (Mage::app()->getStore()->isAdmin()) {
-                $module = 'admin';
-            } else {
-                return false;
-            }
+        if (!$moduleFrontName) {
+            return null;
         }
 
         /**
          * Searching router args by module name from route using it as key
          */
-        $modules = $this->getModuleByFrontName($module);
+        $modules = $this->getModulesByFrontName($moduleFrontName);
 
-        if ($modules === false) {
-            return false;
+        if (empty($modules) === true) {
+            return null;
         }
 
         // checks after we found out that this router should be used for current module
         if (!$this->_afterModuleMatch()) {
-            return false;
+            return null;
         }
 
         /**
          * Going through modules to find appropriate controller
          */
         $found = false;
-        foreach ($modules as $realModule) {
-            $request->setRouteName($this->getRouteByFrontName($module));
+        $currentModuleName = null;
+        foreach ($modules as $moduleName) {
+            $currentModuleName = $moduleName;
+            $request->setRouteName($this->getRouteByFrontName($moduleFrontName));
 
             // get controller name
             if ($request->getControllerName()) {
                 $controller = $request->getControllerName();
             } else {
-                if (!empty($p[1])) {
-                    $controller = $p[1];
+                if (!empty($params[1])) {
+                    $controller = $params[1];
                 } else {
                     $controller = $front->getDefault('controller');
                     $request->setAlias(
@@ -202,14 +206,14 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
                 if ($request->getActionName()) {
                     $action = $request->getActionName();
                 } else {
-                    $action = !empty($p[2]) ? $p[2] : $front->getDefault('action');
+                    $action = !empty($params[2]) ? $params[2] : $front->getDefault('action');
                 }
             }
 
             //checking if this place should be secure
-            $this->_checkShouldBeSecure($request, '/'.$module.'/'.$controller.'/'.$action);
+            $this->_checkShouldBeSecure($request, '/'.$moduleFrontName.'/'.$controller.'/'.$action);
 
-            $controllerClassName = $this->_validateControllerClassName($realModule, $controller);
+            $controllerClassName = $this->_validateControllerClassName($moduleName, $controller);
             if (!$controllerClassName) {
                 continue;
             }
@@ -238,7 +242,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
                 $controller = 'index';
                 $action = 'noroute';
 
-                $controllerClassName = $this->_validateControllerClassName($realModule, $controller);
+                $controllerClassName = $this->_validateControllerClassName($currentModuleName, $controller);
                 if (!$controllerClassName) {
                     return false;
                 }
@@ -256,25 +260,15 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         }
 
         // set values only after all the checks are done
-        $request->setModuleName($module);
+        $request->setModuleName($moduleFrontName);
         $request->setControllerName($controller);
         $request->setActionName($action);
-        $request->setControllerModule($realModule);
+        $request->setControllerModule($currentModuleName);
 
         // set parameters from pathinfo
-        for ($i = 3, $l = sizeof($p); $i < $l; $i += 2) {
-            $request->setParam($p[$i], isset($p[$i+1]) ? urldecode($p[$i+1]) : '');
+        for ($i = 3, $l = sizeof($params); $i < $l; $i += 2) {
+            $request->setParam($params[$i], isset($params[$i+1]) ? urldecode($params[$i+1]) : '');
         }
-
-        // dispatch action
-        $request->setDispatched(true);
-        /**
-         * Set current area code to controller instance
-         */
-        $controllerInstance->setCurrentArea($this->_area);
-        $controllerInstance->dispatch($action);
-
-        return true;
     }
 
     /**
@@ -351,12 +345,23 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         return $this;
     }
 
-    public function getModuleByFrontName($frontName)
+    /**
+     * Retrieve list of modules subscribed to given frontName
+     *
+     * @param string $frontName
+     * @return array
+     */
+    public function getModulesByFrontName($frontName)
     {
+        $modules = array();
         if (isset($this->_modules[$frontName])) {
-            return $this->_modules[$frontName];
+            if (false === is_array($this->_modules[$frontName])) {
+                $modules = array($this->_modules[$frontName]);
+            } else {
+                $modules = $this->_modules[$frontName];
+            }
         }
-        return false;
+        return $modules;
     }
 
     public function getModuleByName($moduleName, $modules)

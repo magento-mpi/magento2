@@ -170,7 +170,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $i = 0;
         while (!$request->isDispatched() && $i++<100) {
             foreach ($this->_routers as $router) {
-                if ($router->match($this->getRequest())) {
+                /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
+                $controllerInstance = $router->match($this->getRequest());
+                if ($controllerInstance) {
+                    $request->setDispatched(true);
+                    $controllerInstance->dispatch($request->getActionName());
                     break;
                 }
             }

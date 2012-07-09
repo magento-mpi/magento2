@@ -125,6 +125,7 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->_response= $response;
 
         Mage::app()->getFrontController()->setAction($this);
+        $this->_currentArea = isset($invokeArgs['areaCode']) ? $invokeArgs['areaCode'] : null;
 
         $this->_construct();
     }

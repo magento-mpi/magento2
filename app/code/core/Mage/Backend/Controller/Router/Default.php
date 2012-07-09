@@ -111,6 +111,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
                 Mage::getConfig()->setNode($xmlPath, $customUrl, true);
             }
         }
+        parent::collectRoutes('admin', $useRouterName);
         $this->_collectRoutes('admin', $useRouterName);
     }
 

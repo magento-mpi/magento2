@@ -96,14 +96,14 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
 
     /**
      * @covers Mage_Core_Controller_Varien_Router_Base::addModule
-     * @covers Mage_Core_Controller_Varien_Router_Base::getModuleByFrontName
+     * @covers Mage_Core_Controller_Varien_Router_Base::getModulesByFrontName
      * @covers Mage_Core_Controller_Varien_Router_Base::getRouteByFrontName
      * @covers Mage_Core_Controller_Varien_Router_Base::getFrontNameByRoute
      */
     public function testAddModuleAndGetters()
     {
         $this->_model->addModule('test_front', 'test_name', 'test_route');
-        $this->assertEquals('test_name', $this->_model->getModuleByFrontName('test_front'));
+        $this->assertEquals(array('test_name'), $this->_model->getModulesByFrontName('test_front'));
         $this->assertEquals('test_route', $this->_model->getRouteByFrontName('test_front'));
         $this->assertEquals('test_front', $this->_model->getFrontNameByRoute('test_route'));
     }
