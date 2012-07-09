@@ -12,6 +12,16 @@
 class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien_Router_Base
 {
     /**
+     * List of required request parameters
+     * Order sensitive
+     * @var array
+     */
+    protected $_requiredParams = array(
+        'moduleFrontName',
+        'controllerName',
+        'actionName',
+    );
+    /**
      * Fetch default path
      */
     public function fetchDefault()
