@@ -302,9 +302,9 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
              'Import has been finished with issues:');
          $this->assertArrayHasKey('error', $report['validation'],
              'Import has been finished with issues:');
-         $this->assertEquals('Invalid value in Finance information website column in rows: 1',
+         $this->assertEquals('Finance information website is not specified in rows: 1',
              $report['validation']['error'][0]);
-         $this->assertEquals('Finance information website is not specified in rows: 2',
+         $this->assertEquals('Invalid value in Finance information website column in rows: 2',
              $report['validation']['error'][1]);
          //Step 8
          $this->navigate('manage_customers');
