@@ -1,42 +1,42 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+* Magento
+*
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Open Software License (OSL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/osl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@magentocommerce.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade Magento to newer
+* versions in the future. If you wish to customize Magento for your
+* needs please refer to http://www.magentocommerce.com for more information.
+*
+* @category    tests
+* @package     selenium
+* @subpackage  tests
+* @author      Magento Core Team <core@magentocommerce.com>
+* @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*/
 
 /**
- * Customer Export
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
- * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
- */
+* Customer Export
+*
+* @package     selenium
+* @subpackage  tests
+* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+*
+* @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
+* @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
+* @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+*/
 class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
@@ -127,7 +127,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleExportAddress()
     {
         //Step 1
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
         $report = $this->importExportHelper()->export();
         $csv =  $this->importExportHelper()->arrayToCsv($report);
     }
@@ -159,8 +159,8 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-4
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
-        //Step5-6
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        //Steps 5-6
         $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
@@ -192,7 +192,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Steps 1-2
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step3
         $this->importExportHelper()
             ->setFilter(array('firstname' => $userData['first_name']));
@@ -210,7 +210,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleExportCustomer()
     {
         //Step 1
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $customersMain = $this->importExportHelper()->export();
         $this->fillDropdown('export_file', 'Customer Addresses');
         $this->waitForAjax();
@@ -223,7 +223,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleAttributeFilterAndSearch()
     {
         //Step 1
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $this->importExportHelper()->customerFilterAttributes(
             array(
                 'attribute_label' => 'Created At',
@@ -268,7 +268,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function searchByAttributeLabelCode()
     {
         //Steps 1-2
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         //Step 3
         $arr = $this->importExportHelper()->getCustomerEntityType();
@@ -320,7 +320,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function entityAttributesBlockAllFileTypes()
     {
         //Step 1-3
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 4
         $isFound = $this->importExportHelper()->customerSkipAttribute(
             array(
@@ -361,7 +361,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function exportCustomerWithSkippedAttribute()
     {
         //Step 1,2
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
         //Step 3
         $isFound = $this->importExportHelper()->customerSkipAttribute(
             array(
@@ -404,7 +404,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Step 2-4
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
         //Step5-6
         $report = $this->importExportHelper()->export();
         //Verifying
@@ -445,7 +445,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->admin('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Step 2
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
 
         $this->importExportHelper()
             ->setFilter(array('gender ' => 'Male'));
