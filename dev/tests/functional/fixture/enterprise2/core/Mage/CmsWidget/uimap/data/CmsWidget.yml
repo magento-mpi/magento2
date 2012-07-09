@@ -18,7 +18,7 @@ wishlist_search_widget:
         assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
-    layout_updates:
+    layout_updates: &layout_updates
         layout_1:
             select_display_on: Anchor Categories
             select_block_reference: Right Column
@@ -100,76 +100,7 @@ giftregistry_search_widget:
         assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
-    layout_updates:
-        layout_1:
-            select_display_on: Anchor Categories
-            select_block_reference: Right Column
-            choose_options:
-                category_path: %noValue%
-        layout_2:
-            select_display_on: Non-Anchor Categories
-            select_block_reference: Right Column
-            choose_options:
-                category_path: %noValue%
-        layout_3:
-            select_display_on: All Product Types
-            select_block_reference: Right Column
-            choose_options:
-                product_1:
-                    filter_sku: %product_1%
-                product_2:
-                    filter_sku: %product_2%
-                product_3:
-                    filter_sku: %product_3%
-                product_4:
-                    filter_sku: %product_4%
-                product_5:
-                    filter_sku: %product_5%
-                product_6:
-                    filter_sku: %product_6%
-        layout_4:
-            select_display_on: Simple Product
-            select_block_reference: Right Column
-            choose_options:
-                product_1:
-                    filter_sku: %product_1%
-        layout_5:
-            select_display_on: Grouped Product
-            select_block_reference: Right Column
-            choose_options:
-                product_2:
-                    filter_sku: %product_2%
-        layout_6:
-            select_display_on: Configurable Product
-            select_block_reference: Right Column
-            choose_options:
-                product_3:
-                    filter_sku: %product_3%
-        layout_7:
-            select_display_on: Virtual Product
-            select_block_reference: Left Column
-            choose_options:
-                product_4:
-                    filter_sku: %product_4%
-        layout_8:
-            select_display_on: Bundle Product
-            select_block_reference: Right Column
-            choose_options:
-                product_5:
-                    filter_sku: %product_5%
-        layout_9:
-            select_display_on: Downloadable Product
-            select_block_reference: Right Column
-            choose_options:
-                product_6:
-                    filter_sku: %product_6%
-        layout_10:
-            select_display_on: All Pages
-            select_block_reference: Right Column
-        layout_11:
-            select_display_on: Specified Page
-            select_page: CMS Home Page
-            select_block_reference: Right Column
+    layout_updates: *layout_updates
     widget_options:
         quick_search_form: All Forms
 
@@ -182,76 +113,7 @@ catalog_events_carousel_widget:
         assign_to_store_views: All Store Views
         widget_instance_title: test
         sort_order: %noValue%
-    layout_updates:
-        layout_1:
-            select_display_on: Anchor Categories
-            select_block_reference: Right Column
-            choose_options:
-                category_path: %noValue%
-        layout_2:
-            select_display_on: Non-Anchor Categories
-            select_block_reference: Right Column
-            choose_options:
-                category_path: %noValue%
-        layout_3:
-            select_display_on: All Product Types
-            select_block_reference: Right Column
-            choose_options:
-                product_1:
-                    filter_sku: %product_1%
-                product_2:
-                    filter_sku: %product_2%
-                product_3:
-                    filter_sku: %product_3%
-                product_4:
-                    filter_sku: %product_4%
-                product_5:
-                    filter_sku: %product_5%
-                product_6:
-                    filter_sku: %product_6%
-        layout_4:
-            select_display_on: Simple Product
-            select_block_reference: Right Column
-            choose_options:
-                product_1:
-                    filter_sku: %product_1%
-        layout_5:
-            select_display_on: Grouped Product
-            select_block_reference: Right Column
-            choose_options:
-                product_2:
-                    filter_sku: %product_2%
-        layout_6:
-            select_display_on: Configurable Product
-            select_block_reference: Right Column
-            choose_options:
-                product_3:
-                    filter_sku: %product_3%
-        layout_7:
-            select_display_on: Virtual Product
-            select_block_reference: Left Column
-            choose_options:
-                product_4:
-                    filter_sku: %product_4%
-        layout_8:
-            select_display_on: Bundle Product
-            select_block_reference: Right Column
-            choose_options:
-                product_5:
-                    filter_sku: %product_5%
-        layout_9:
-            select_display_on: Downloadable Product
-            select_block_reference: Right Column
-            choose_options:
-                product_6:
-                    filter_sku: %product_6%
-        layout_10:
-            select_display_on: All Pages
-            select_block_reference: Right Column
-        layout_11:
-            select_display_on: Specified Page
-            select_page: CMS Home Page
-            select_block_reference: Right Column
+    layout_updates: *layout_updates
     widget_options:
         frame_size: 5
         scroll: 2
