@@ -22,21 +22,22 @@
 <link rel="icon" href="<?php echo $this->getSkinUrl('Mage_Page::favicon.ico') ?>" type="image/x-icon" />
 <link rel="shortcut icon" href="<?php echo $this->getSkinUrl('Mage_Page::favicon.ico') ?>" type="image/x-icon" />
 
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery/jquery-1.7.1.min.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('mage/jquery-no-conflict.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('prototype/prototype.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('prototype/validation.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('scriptaculous/effects.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('mage/translate.js') ?>" ></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('varien/js.js') ?>"></script>
-<script type="text/javascript" src="<?php echo $this->getSkinUrl('varien/form.js') ?>"></script>
+<!--<script type="text/javascript" src="--><?php //echo $this->getSkinUrl('prototype/prototype.js') ?><!--"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo $this->getSkinUrl('prototype/validation.js') ?><!--"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo $this->getSkinUrl('scriptaculous/effects.js') ?><!--"></script>-->
+<!--<script type="text/javascript" src="--><?php //echo $this->getSkinUrl('mage/translate.js') ?><!--" ></script>-->
+<!--<script type="text/javascript" src="--><?php //echo $this->getSkinUrl('varien/js.js') ?><!--"></script>-->
+<script type="text/javascript" src="/pub/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="/pub/lib/jquery/head.js"></script>
+<script type="text/javascript" src="/pub/lib/mage/mage.js"></script>
+
 <link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/reset.css') ?>" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/boxes.css') ?>" type="text/css" media="all" />
 <link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/clears.css') ?>" type="text/css" media="all" />
 <!--[if IE]><link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/iestyles.css') ?>" type="text/css" media="all" /><![endif]-->
 <!--[if lt IE 7]><link rel="stylesheet" href="<?php echo $this->getSkinUrl('css/ie7minus.css') ?>" type="text/css" media="all" /><![endif]-->
 
-<?php echo $this->helper('Mage_Core_Helper_Js')->getTranslatorScript() ?>
+
 
 </head>
 
@@ -96,7 +97,7 @@
             <?php echo Mage::helper('Mage_Install_Helper_Data')->__('Help Us to Keep Magento Healthy') ?> - <a href="http://www.magentocommerce.com/bug-tracking" id="bug_tracking_link"><strong><?php echo Mage::helper('Mage_Install_Helper_Data')->__('Report All Bugs') ?></strong></a> <?php echo Mage::helper('Mage_Install_Helper_Data')->__('(ver. %s)', Mage::getVersion()) ?><br/>
 <script type="text/javascript">
 //<![CDATA[
-    $('bug_tracking_link').target = "varien_external";
+mage.load.js('/pub/lib/mage/components/install_bug_tracker.js');
 //]]>
 </script>
             <?php echo Mage::helper('Mage_Install_Helper_Data')->__('Magento is a trademark of Magento Inc. Copyright &copy; %s Magento Inc.', date('Y')) ?>
