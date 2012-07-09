@@ -42,21 +42,20 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     protected $_logHandle = null;
 
-    /**
-     * Stop browser session
-     * @return mixed
-     */
     public function stop()
     {
-        $traceFunctionNames = array();
-        foreach (debug_backtrace() as $line) {
-            $traceFunctionNames[] = $line['function'];
+    }
+
+    /**
+     * Stop browser session
+     */
+    public function stopBrowserSession()
+    {
+        if (!isset($this->sessionId)) {
+            return;
         }
-        if (in_array('__destruct', $traceFunctionNames)) {
-            parent::stop();
-        } elseif (!$this->testCase->frameworkConfig['shareSession'] && !in_array('stopSession', $traceFunctionNames)) {
-            parent::stop();
-        }
+        $this->doCommand('testComplete');
+        $this->sessionId = NULL;
     }
 
     /**
@@ -112,13 +111,8 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      */
     public function getBrowserSettings()
     {
-        return array(
-            'name'           => $this->name,
-            'browser'        => $this->browser,
-            'host'           => $this->host,
-            'port'           => $this->port,
-            'timeout'        => $this->seleniumTimeout,
-        );
+        return array('timeout' => $this->seleniumTimeout, 'name' => $this->name, 'browser' => $this->browser,
+                     'host'    => $this->host, 'port' => $this->port);
     }
 
     /**

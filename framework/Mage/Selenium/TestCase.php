@@ -209,7 +209,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     #                      Selenium variables(do not rename)                       #
     ################################################################################
     /**
-     * @var PHPUnit_Extensions_SeleniumTestCase_Driver[]
+     * @var Mage_Selenium_Driver[]
      */
     protected $drivers = array();
 
@@ -278,6 +278,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Stops any shared session still open at the end of the current PHPUnit process.
+     */
+    public function __destruct()
+    {
+        $this->drivers[0]->stopBrowserSession();
+    }
+
+    /**
      * Loads a specific driver for the specified browser
      *
      * @param array $browser Defines what kind of driver, for a what browser will be loaded
@@ -335,7 +343,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (self::$_testClass != $currentTestClass) {
             self::$_testClass = $currentTestClass;
             //work with xpath for IE
-            $browser = $this->getBrowserSettings();
+            $browser = $this->drivers[0]->getBrowserSettings();
             if (strstr($browser['browser'], '*ie') !== false) {
                 $this->useXpathLibrary('javascript-xpath');
                 $this->allowNativeXpath(true);
@@ -459,7 +467,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         if (!$this->frameworkConfig['shareSession']) {
-            $this->stop();
+            $this->drivers[0]->stopBrowserSession();
         }
 
         if (isset($e)) {
@@ -581,7 +589,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Asserts that $condition is true. Reports an error $message if $condition is false.
      * @static
      *
-     * @param bool $condition Condition to assert
+     * @param bool|Mage_Selenium_TestCase $condition Condition to assert
      * @param string|array $message Message to report if the condition is false (by default = '')
      */
     public static function assertTrue($condition, $message = '')
@@ -599,7 +607,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Asserts that $condition is false. Reports an error $message if $condition is true.
      * @static
      *
-     * @param bool $condition Condition to assert
+     * @param bool|Mage_Selenium_TestCase $condition Condition to assert
      * @param string $message Message to report if the condition is true (by default = '')
      */
     public static function assertFalse($condition, $message = '')
@@ -721,13 +729,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function addFieldIdToMessage($fieldType, $fieldName)
     {
         $fieldXpath = $this->_getControlXpath($fieldType, $fieldName);
-        if ($this->isElementPresent($fieldXpath . '/@id')) {
-            $fieldId = $this->getAttribute($fieldXpath . '/@id');
-            $fieldId = empty($fieldId)
-                ? $this->getAttribute($fieldXpath . '/@name')
-                : $fieldId;
+        if ($this->isElementPresent($fieldXpath . '[string-length(@id)>1]')) {
+            $fieldId = $this->getAttribute($fieldXpath . '@id');
         } else {
-            $fieldId = $this->getAttribute($fieldXpath . '/@name');
+            $fieldId = $this->getAttribute($fieldXpath . '@name');
         }
         $this->addParameter('fieldId', $fieldId);
     }
@@ -960,9 +965,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         array_walk_recursive($data, array($this, 'setDataParams'));
 
         if (!empty($randomize)) {
-            $randomize = (!is_array($randomize))
-                ? array($randomize)
-                : $randomize;
+            $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
             array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
         }
 
@@ -1185,9 +1188,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     public function getParsedMessages($type = null)
     {
         if ($type) {
-            return (isset(self::$_messages[$type]))
-                ? self::$_messages[$type]
-                : null;
+            return (isset(self::$_messages[$type])) ? self::$_messages[$type] : null;
         }
         return self::$_messages;
     }
@@ -2042,10 +2043,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             foreach ($fieldsetElements as $elementType => $elementsData) {
                 if (isset($elementsData[$fieldName])) {
-                    $fillData['inFieldset'][] = array('type'  => $elementType,
-                                                      'name'  => $fieldName,
-                                                      'value' => $fieldValue,
-                                                      'xpath' => $elementsData[$fieldName]);
+                    $fillData['inFieldset'][] =
+                        array('type'  => $elementType, 'name' => $fieldName, 'value' => $fieldValue,
+                              'xpath' => $elementsData[$fieldName]);
                     continue 2;
                 }
             }
@@ -2100,9 +2100,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $response = null;
         do {
             $response = $this->getHttpResponse($url);
-            $url = ($response['http_code'] == 301)
-                ? $response['redirect_url']
-                : null;
+            $url = ($response['http_code'] == 301) ? $response['redirect_url'] : null;
             $maxRedirects--;
         } while ($url && $maxRedirects > 0);
         return $response['http_code'] == 200;
@@ -2829,11 +2827,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         // Getting XPath of the element what should be visible after scrolling
         $specElementXpath = $this->_getControlXpath($elementType, $elementName);
         // Getting @ID of the element what should be visible after scrolling
-        $specElementId = $this->getAttribute($specElementXpath . "/@id");
+        $specElementId = $this->getAttribute($specElementXpath . "@id");
         // Getting XPath of the block where scroll is using
         $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
         // Getting @ID of the block where scroll is using
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "@id");
         // Getting offset position of the element what should be visible after scrolling
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
         // Moving scroll bar to previously defined offset
@@ -2858,11 +2856,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         // Getting XPath of the element to move
         $specElementXpath = $this->_getControlXpath($elementType, $elementName);
         // Getting @ID of the element to move
-        $specElementId = $this->getAttribute($specElementXpath . "/@id");
+        $specElementId = $this->getAttribute($specElementXpath . "@id");
         // Getting XPath of the block what is a JS tree
         $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
         // Getting @ID of the block what is a JS tree
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "/@id");
+        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "@id");
         // Getting offset position of the element to move
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
         // Storing of current height of the block with JS tree
@@ -3842,6 +3840,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * @TODO
+     *
      * @param string $controlType
      * @param string $controlName
      * @param null|string $scopePath
@@ -3902,36 +3901,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     ################################################################################
     #                                                                              #
-    #       Should be removed when CodeCoverage work for PHPUnit3.6                #
-    #                                                                              #
-    ################################################################################
-    /**
-     * @return array
-     * @throws Exception
-     */
-    protected function getCodeCoverage()
-    {
-        if (!empty($this->coverageScriptUrl)) {
-            $url = sprintf('%s?PHPUNIT_SELENIUM_TEST_ID=%s', $this->coverageScriptUrl, //$this->testId
-                $_COOKIE['PHPUNIT_SELENIUM_TEST_ID']);
-
-            $buffer = @file_get_contents($url);
-
-            if ($buffer !== FALSE) {
-                $coverageData = unserialize($buffer);
-                if (is_array($coverageData)) {
-                    return $this->matchLocalAndRemotePaths($coverageData);
-                } else {
-                    throw new Exception('Empty or invalid code coverage data received from url "' . $url . '"');
-                }
-            }
-        }
-
-        return array();
-    }
-
-    ################################################################################
-    #                                                                              #
     #       Should be removed when onNotSuccessfulTest is fixed                    #
     #                                                                              #
     ################################################################################
@@ -3948,7 +3917,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             //Remove sessionId used for sharing session.
             $this->shareSession(null);
             try {
-                $this->stop();
+                $this->drivers[0]->stopBrowserSession();
             } catch (RuntimeException $_e) {
             }
             $this->frameworkConfig['shareSession'] = true;
