@@ -13,24 +13,14 @@
 <validation>
     <entity name="test_entity">
         <rules>
-            <rule name="test_rule_constraint">
-                <constraints>
-                    <constraint class="Magento_Validator_Constraint_2"/>
-                </constraints>
-            </rule>
             <rule name="test_rule_constraint_2">
                 <constraints>
-                    <constraint class="Magento_Validator_Constraint_Test"/>
+                    <constraint class="Magento_Validator_Test" field="constraint_field"/>
                 </constraints>
             </rule>
         </rules>
         <groups>
             <group name="test_group_b">
-                <uses>
-                    <use rule="test_rule_constraint_2"/>
-                </uses>
-            </group>
-            <group name="test_group_c">
                 <uses>
                     <use rule="test_rule_constraint_2"/>
                 </uses>
@@ -46,7 +36,7 @@
             </rule>
         </rules>
         <groups>
-            <group name="test_group_d">
+            <group name="test_group_c">
                 <uses>
                     <use rule="test_rule"/>
                 </uses>

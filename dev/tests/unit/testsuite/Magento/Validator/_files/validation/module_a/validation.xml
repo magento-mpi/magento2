@@ -20,8 +20,7 @@
             </rule>
             <rule name="test_rule_constraint">
                 <constraints>
-                    <constraint class="Magento_Validator_Constraint"/>
-                    <constraint class="Magento_Validator_Constraint_Test"/>
+                    <constraint class="Magento_Validator_Test"/>
                 </constraints>
             </rule>
         </rules>

@@ -12,7 +12,7 @@
 /**
  * Validation configuration files handler
  */
-class Magento_Config_Validation extends Magento_Config_XmlAbstract
+class Magento_Validator_Config extends Magento_Config_XmlAbstract
 {
     /**
      * Get absolute path to validation.xsd
@@ -44,8 +44,21 @@ class Magento_Config_Validation extends Magento_Config_XmlAbstract
 
         $result = array();
         $groupRules = $this->_data[$entityName]['groups'][$groupName];
-        foreach ($groupRules as $rule) {
-            $result[$rule] = $this->_data[$entityName]['rules'][$rule];
+        foreach ($groupRules as $ruleName) {
+            $rule = $this->_data[$entityName]['rules'][$ruleName];
+            foreach ($rule['constraints'] as $constraintConfig) {
+                $className = $constraintConfig['class'];
+                $constraint = new $className();
+                if (!($constraint instanceof Zend_Validate_Interface
+                    || $constraint instanceof Magento_Validator_ConstraintInterface)) {
+                    throw new Magento_Exception(sprintf('Constraint "%s" should implement either '
+                        . 'Zend_Validate_Interface or Magento_Validator_ConstraintInterface', $className));
+                }
+                $result[$ruleName][] = array(
+                    'constraint' => $constraint,
+                    'field' => $constraintConfig['field'],
+                );
+            }
         }
 
         return $result;

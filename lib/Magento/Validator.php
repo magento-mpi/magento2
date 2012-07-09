@@ -17,29 +17,86 @@ class Magento_Validator
     protected $_entityName;
     /** @var string */
     protected $_groupName;
-    /** @var Magento_Config_Validation */
+    /** @var Magento_Validator_Config */
     protected $_config;
     /** @var array */
-    protected $_messages;
+    protected $_messages = array();
 
     /**
      * Set validation entity and group names, load validator config.
      *
      * @param string $entityName
      * @param string $groupName
+     * @param Magento_Validator_Config $config (optional)
      * @throws InvalidArgumentException
      */
-    public function __construct($entityName, $groupName)
+    public function __construct($entityName, $groupName, Magento_Validator_Config $config = null)
     {
         if (!$entityName) {
             throw new InvalidArgumentException('Validation entity name is required.');
         }
+        $this->_entityName = $entityName;
 
         if (!$groupName) {
             throw new InvalidArgumentException('Validation group name is required.');
         }
+        $this->_groupName = $groupName;
 
-        $configFiles = glob(Mage::getBaseDir('app') . "code/*/*/*/etc/validation.xml", GLOB_NOSORT);
-        $this->_config = new Magento_Config_Validation($configFiles);
+        if (is_null($config)) {
+            $configFiles = glob(Mage::getBaseDir('app') . "code/*/*/*/etc/validation.xml", GLOB_NOSORT);
+            $config = new Magento_Validator_Config($configFiles);
+        }
+        $this->_config = $config;
+    }
+
+    /**
+     * Validate input data against validation rules, defined in config group.
+     *
+     * @param array $data
+     * @throws Magento_Exception
+     * @return bool
+     */
+    public function isValid(array $data)
+    {
+        $isValid = true;
+        $rules = $this->_config->getValidationRules($this->_entityName, $this->_groupName);
+        foreach ($rules as $rule) {
+            foreach ($rule as $constraintConfig) {
+                $constraint = $constraintConfig['constraint'];
+                $field = isset($constraintConfig['field']) ? $constraintConfig['field'] : null;
+                if ($constraint instanceof Zend_Validate_Interface) {
+                    /** @var Zend_Validate_Interface $constraint */
+                    $value = isset($data[$field]) ? $data[$field] : null;
+                    if (!$constraint->isValid($value)) {
+                        foreach ($constraint->getMessages() as $error) {
+                            $this->_messages[$field][] = $error;
+                        }
+                        $isValid = false;
+                    }
+                } else {
+                    /** @var Magento_Validator_ConstraintInterface $constraint */
+                    if (!$constraint->isValidData($data, $field)) {
+                        foreach ($constraint->getErrors() as $errorFieldName => $errors) {
+                            foreach ($errors as $error) {
+                                $this->_messages[$errorFieldName][] = $error;
+                            }
+                        }
+                        $isValid = false;
+                    }
+                }
+            }
+        }
+
+        return $isValid;
+    }
+
+    /**
+     * Get validation messages.
+     *
+     * @return array
+     */
+    public function getMessages()
+    {
+        return $this->_messages;
     }
 }
