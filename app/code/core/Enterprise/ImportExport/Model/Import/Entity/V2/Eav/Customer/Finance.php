@@ -138,12 +138,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                     $customer->load($customerId);
                 }
 
-                // get website for finance data ID
-                $websiteId = null;
-                if (!empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
-                    $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
-                }
-
+                $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                 // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
                     if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
@@ -176,7 +171,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Update reward points value for customer
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @param int $value reward points value
      * @return Enterprise_Reward_Model_Reward
      */
@@ -215,7 +210,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Update store credit balance for customer
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param int|null $websiteId
+     * @param int $websiteId
      * @param float $value store credit balance
      * @return Enterprise_CustomerBalance_Model_Balance
      */
@@ -253,48 +248,22 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Delete reward points value for customer (just set it to 0)
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param int|null $websiteId
+     * @param int $websiteId
      */
-    protected function _deleteRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId = null)
+    protected function _deleteRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId)
     {
-        if (is_null($websiteId)) {
-            /** @var $rewardModel Enterprise_Reward_Model_Reward */
-            $rewardModel = Mage::getModel('Enterprise_Reward_Model_Reward');
-
-            $customerRewards = $rewardModel
-                ->getCollection()
-                ->addFieldToFilter('customer_id', $customer->getId());
-
-            foreach ($customerRewards as $rewardEntity) {
-                $this->_updateRewardValue($rewardEntity, 0);
-            }
-        } else {
-            $this->_updateRewardPointsForCustomer($customer, $websiteId, 0);
-        }
+        $this->_updateRewardPointsForCustomer($customer, $websiteId, 0);
     }
 
     /**
      * Delete store credit balance for customer (just set it to 0)
      *
      * @param Mage_Customer_Model_Customer $customer
-     * @param int|null $websiteId
+     * @param int $websiteId
      */
-    protected function _deleteCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId = null)
+    protected function _deleteCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId)
     {
-        if (is_null($websiteId)) {
-            /** @var $rewardModel Enterprise_Reward_Model_Reward */
-            $customerBalanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
-
-            $customerBalances = $customerBalanceModel
-                ->getCollection()
-                ->addFieldToFilter('customer_id', $customer->getId());
-
-            foreach ($customerBalances as $customerBalanceEntity) {
-                $this->_updateCustomerBalanceValue($customerBalanceEntity, 0);
-            }
-        } else {
-            $this->_updateCustomerBalanceForCustomer($customer, $websiteId, 0);
-        }
+        $this->_updateCustomerBalanceForCustomer($customer, $websiteId, 0);
     }
 
     /**
