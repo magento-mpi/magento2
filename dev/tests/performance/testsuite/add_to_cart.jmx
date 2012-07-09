@@ -75,7 +75,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract &quot;product_id&quot;" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">product_id</stringProp>
-            <stringProp name="RegexExtractor.regex">&lt;form action=&quot;${base_uri}checkout/cart/add/uenc/.+?/product/(\d+)/&quot;</stringProp>
+            <stringProp name="RegexExtractor.regex">/checkout/cart/add/uenc/.+?/product/(\d+)/</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">FAIL</stringProp>
             <stringProp name="RegexExtractor.match_number"></stringProp>
@@ -157,16 +157,16 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1740930226">${base_uri}checkout/cart/</stringProp>
+              <stringProp name="767898128">http.+/checkout/cart/</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.sample_label</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">8</intProp>
+            <intProp name="Assertion.test_type">1</intProp>
           </ResponseAssertion>
           <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="1554014413">&lt;a href=&quot;${base_uri}${product_url_key}&quot;&gt;${product_name}&lt;/a&gt;</stringProp>
+              <stringProp name="1554014413">&lt;a href=&quot;http.+/${product_url_key}&quot;&gt;${product_name}&lt;/a&gt;</stringProp>
               <stringProp name="1472794794">${product_name} was added to your shopping cart.</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -181,15 +181,6 @@
           <stringProp name="CookieManager.policy">rfc2109</stringProp>
         </CookieManager>
         <hashTree/>
-        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-          <collectionProp name="Arguments.arguments">
-            <elementProp name="base_uri" elementType="Argument">
-              <stringProp name="Argument.name">base_uri</stringProp>
-              <stringProp name="Argument.value">http://${base_host}${base_path}</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-          </collectionProp>
-        </Arguments>
         <hashTree/>
         <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">

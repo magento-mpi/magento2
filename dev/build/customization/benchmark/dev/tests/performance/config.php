@@ -35,7 +35,7 @@ return array(
         ),
     ),
     'scenario' => array(
-        'files' => 'testsuite/{home_page,product_view,category_view,quick_search}.jmx',
+        'files' => 'testsuite/{home_page,product_view,category_view,quick_search,add_to_cart}.jmx',
         'common_params' => array(
             'users' => 10,
             'loops' => 100,

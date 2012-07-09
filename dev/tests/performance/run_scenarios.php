@@ -38,7 +38,7 @@ try {
         $app->install($installOptions, $config->getFixtureFiles());
         echo PHP_EOL;
     }
-    if (!Varien_Io_File::rmdirRecursive($reportDir)) {
+    if (file_exists($reportDir) && !Varien_Io_File::rmdirRecursive($reportDir)) {
         throw new Magento_Exception("Cannot cleanup reports directory '$reportDir'.");
     }
     $scenarioTotalCount = count($config->getScenarios());
