@@ -3912,16 +3912,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     protected function onNotSuccessfulTest(Exception $e)
     {
         if ($this->frameworkConfig['shareSession']) {
-            //Set 'shareSession' to false for stopping session
-            $this->frameworkConfig['shareSession'] = false;
             //Remove sessionId used for sharing session.
             $this->shareSession(null);
-            try {
-                $this->drivers[0]->stopBrowserSession();
-            } catch (RuntimeException $_e) {
-            }
-            $this->frameworkConfig['shareSession'] = true;
         }
+        try {
+            $this->drivers[0]->stopBrowserSession();
+        } catch (RuntimeException $_e) {
+        }
+
         throw $e;
     }
 }
