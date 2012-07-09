@@ -76,8 +76,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         $data[0]['email'] = $userData1['email'];
-        $data[0]['store_credit'] = '25';
-        $data[0]['reward_points'] = '50';
 
         $data[1]['email'] = $userData2['email'];
         $data[1]['store_credit'] = '80';
@@ -117,8 +115,18 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         return array(
             array(
                 array(
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv'),
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv')
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                        array(
+                            'store_credit' => '25',
+                            'reward_points' => '50'
+                        )
+                    ),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                        array(
+                            'store_credit' => '80',
+                            'reward_points' => '100'
+                        )
+                    )
                 )
             )
         );
@@ -181,13 +189,7 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $userData2['update_balance'] = '100';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['email'] = 'not_existing_email_qqqqq@example.co';
-        $data[0]['store_credit'] = '25';
-        $data[0]['reward_points'] = '50';
-
         $data[1]['email'] = $userData2['email'];
-        $data[1]['store_credit'] = '75';
-        $data[1]['reward_points'] = '100';
 
         $this->admin('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
@@ -222,9 +224,20 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         return array(
             array(
                 array(
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv'),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
-                        array('_website' => $this->generate('string', 30, ':digit:')))
+                        array(
+                            'email' => 'not_existing_email_qqqqq@example.co',
+                            'store_credit' => '25',
+                            'reward_points' => '50'
+                        )
+                    ),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                        array(
+                            '_website' => $this->generate('string', 30, ':digit:'),
+                            'store_credit' => '75',
+                            'reward_points' => '100'
+                            )
+                        )
                 )
             )
         );
@@ -302,9 +315,9 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
              'Import has been finished with issues:');
          $this->assertArrayHasKey('error', $report['validation'],
              'Import has been finished with issues:');
-         $this->assertEquals('Invalid value in Finance information website column in rows: 1',
+         $this->assertEquals('Finance information website is not specified in rows: 1',
              $report['validation']['error'][0]);
-         $this->assertEquals('Finance information website is not specified in rows: 2',
+         $this->assertEquals('Invalid value in Finance information website column in rows: 2',
              $report['validation']['error'][1]);
          //Step 8
          $this->navigate('manage_customers');
