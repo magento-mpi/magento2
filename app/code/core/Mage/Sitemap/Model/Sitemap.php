@@ -33,6 +33,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     const OPEN_TAG_KEY = 'start';
     const CLOSE_TAG_KEY = 'end';
     const INDEX_FILE_PREFIX = 'sitemap';
+    const TYPE_INDEX = 'sitemap';
+    const TYPE_URL = 'url';
 
     /**
      * Real file path
@@ -134,9 +136,16 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         ));
 
         $this->_tags = array(
-            self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-            self::CLOSE_TAG_KEY => '</urlset>'
+            self::TYPE_INDEX => array(
+                self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
+                    . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+                self::CLOSE_TAG_KEY => '</sitemapindex>'
+            ),
+            self::TYPE_URL => array(
+                self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
+                    . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+                self::CLOSE_TAG_KEY => '</urlset>'
+            )
         );
     }
 
@@ -278,14 +287,14 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
     protected function _createSitemapIndex()
     {
-        $this->_createSitemap($this->getSitemapFilename());
+        $this->_createSitemap($this->getSitemapFilename(), self::TYPE_INDEX);
         for ($i = 1; $i <= $this->_sitemapIncrement; $i++) {
             $path = rtrim($this->getSitemapPath(), '/') . '/';
             $url =  $path . $this->_getCurrentSitemapFilename($i);
-            $xml = $this->_getSitemapRow($url, $this->_getCurrentDateTime());
+            $xml = $this->_getSitemapIndexRow($url, $this->_getCurrentDateTime());
             $this->_writeSitemapRow($xml);
         }
-        $this->_finalizeSitemap();
+        $this->_finalizeSitemap(self::TYPE_INDEX);
     }
 
     /**
@@ -349,11 +358,32 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get sitemap index row
+     *
+     * @param string $url
+     * @param string $lastmod
+     * @return string
+     */
+    protected function _getSitemapIndexRow($url, $lastmod = null)
+    {
+        $baseUrl = $this->_getStoreBaseUrl($this->getStoreId());
+        $url = str_replace('//', '/', $baseUrl . $url);
+        $row = '<loc>' . htmlspecialchars($url) . '</loc>';
+        if ($lastmod) {
+            $row .= '<lastmod>' . date('c', strtotime($lastmod)) . '</lastmod>';
+        }
+
+        return '<sitemap>' . $row . '</sitemap>';
+    }
+
+    /**
      * Create new sitemap file
      *
      * @param string $fileName
+     * @param string $type
+     * @return void
      */
-    protected function _createSitemap($fileName = null)
+    protected function _createSitemap($fileName = null, $type = self::TYPE_URL)
     {
         if (!$fileName) {
             $this->_sitemapIncrement++;
@@ -371,10 +401,11 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             );
         }
 
+        $fileHeader = sprintf($this->_tags[$type][self::OPEN_TAG_KEY], $type);
         $this->_fileHandler->streamOpen($fileName);
-        $this->_fileHandler->streamWrite($this->_tags[self::OPEN_TAG_KEY]);
+        $this->_fileHandler->streamWrite($fileHeader);
 
-        $this->_fileSize = strlen(implode('', $this->_tags));
+        $this->_fileSize = strlen($fileHeader . sprintf($this->_tags[$type][self::CLOSE_TAG_KEY], $type));
     }
 
     /**
@@ -387,10 +418,15 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $this->_getFileHandler()->streamWrite($row);
     }
 
-    protected function _finalizeSitemap()
+    /**
+     * Write closing tag and close stream
+     *
+     * @param string $type
+     */
+    protected function _finalizeSitemap($type = self::TYPE_URL)
     {
         if ($this->_fileHandler) {
-            $this->_fileHandler->streamWrite($this->_tags[self::CLOSE_TAG_KEY]);
+            $this->_fileHandler->streamWrite(sprintf($this->_tags[$type][self::CLOSE_TAG_KEY], $type));
             $this->_fileHandler->streamClose();
         }
 

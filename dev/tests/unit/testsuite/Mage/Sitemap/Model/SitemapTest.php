@@ -311,14 +311,14 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 . '</urlset>',
 
             'sitemap.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-                . '<url>'
+                . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+                . '<sitemap>'
                 . '<loc>http:/store.com/sitemap-1-1.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</url>'
-                . '<url>'
+                . '</sitemap>'
+                . '<sitemap>'
                 . '<loc>http:/store.com/sitemap-1-2.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</url>'
-                . '</urlset>'
+                . '</sitemap>'
+                . '</sitemapindex>'
         );
 
         return array(
