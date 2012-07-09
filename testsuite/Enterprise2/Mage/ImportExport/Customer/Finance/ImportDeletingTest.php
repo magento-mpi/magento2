@@ -298,12 +298,14 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
          //Step 5, 6, 7
          $report = $this->importExportHelper()->import($data);
          //Check import
-         $this->assertArrayNotHasKey('import', $report, 'Import has been finished with issues:');
-         $this->assertArrayHasKey('error', $report['validation'], 'Import has been finished with issues:');
-         $this->assertEquals('Finance information website is not specified in rows: 1',
-             $report['validation']['error'][0], "No message about finance website value absence");
-         $this->assertEquals('Invalid value in Finance information website column in rows: 2',
-             $report['validation']['error'][1], "No message about invalid finance website value");
+         $this->assertArrayNotHasKey('import', $report,
+             'Import has been finished with issues:');
+         $this->assertArrayHasKey('error', $report['validation'],
+             'Import has been finished with issues:');
+         $this->assertEquals('Invalid value in Finance information website column in rows: 1',
+             $report['validation']['error'][0]);
+         $this->assertEquals('Finance information website is not specified in rows: 2',
+             $report['validation']['error'][1]);
          //Step 8
          $this->navigate('manage_customers');
          //Step 9. First Customer
@@ -327,19 +329,24 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
     public function importFinanceData1()
     {
         return array(
-            array(array($this->loadDataSet('ImportExport', 'generic_finance_csv',
+            array(
                 array(
-
-                    'store_credit' => '100',
-                    'reward_points' => '150',
-                    '_finance_website' => ''
-                )),
-                $this->loadDataSet('ImportExport', 'generic_finance_csv',
-                    array(
-                    'store_credit' => '200',
-                    'reward_points' => '250',
-                    '_finance_website' => $this->generate('string', 30, ':digit:')
-                ))))
-            );
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                                    array(
+                                        'store_credit' => '100',
+                                        'reward_points' => '150',
+                                        '_finance_website' => ''
+                                    )
+                    ),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                                    array(
+                                        'store_credit' => '200',
+                                        'reward_points' => '250',
+                                        '_finance_website' => $this->generate('string', 30, ':digit:')
+                                    )
+                    )
+                )
+            )
+        );
     }
 }
