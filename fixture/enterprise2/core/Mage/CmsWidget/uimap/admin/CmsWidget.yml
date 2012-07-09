@@ -37,7 +37,25 @@ add_widget_options:
                                 widget_options_fieldset:
                                     fields:
                                         sku_link_text: //input[@name='parameters[link_text]']
+                                        frame_size: //input[@name='parameters[limit]']
+                                        scroll: //input[@name='parameters[scroll]']
+                                        block_custom_width: //input[@name='parameters[width]']
                                     dropdowns:
                                         sku_file_link_enable: //*[@name='parameters[link_display]']
+                                    multiselects:
+                                        quick_search_form: //select[@name='parameters[types][]']
+create_cms_widget:
+    mca: widget_instance/new/
+    uimap:
+        form:
+            tabs:
+                -
+                    settings:
+                        fieldsets:
+                            -
+                                settings_fieldset:
+                                    dropdowns:
+                                        design_package_theme: //select[@name='package_theme']
+
 edit_cms_widget:
     uimap: *addWidgetOptions
