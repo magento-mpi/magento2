@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sitemap model
  *
@@ -31,6 +30,10 @@
  */
 class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 {
+    const OPEN_TAG_KEY = 'start';
+    const CLOSE_TAG_KEY = 'end';
+    const INDEX_FILE_PREFIX = 'sitemap';
+
     /**
      * Real file path
      *
@@ -86,12 +89,6 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         $this->_init('Mage_Sitemap_Model_Resource_Sitemap');
-
-        $this->_tags = array(
-            'start' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-            'end' => '</urlset>'
-        );
     }
 
     /**
@@ -121,22 +118,59 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $this->_sitemapItems[] = new Varien_Object(array(
             'changefreq' => $helper->getCategoryChangefreq($storeId),
             'priority' => $helper->getCategoryPriority($storeId),
-            'collection' => Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Category')
-                ->getCollection($storeId)
+            'collection' => $this->_getCategoryItemsCollection($storeId)
         ));
 
         $this->_sitemapItems[] = new Varien_Object(array(
             'changefreq' => $helper->getProductChangefreq($storeId),
             'priority' => $helper->getProductPriority($storeId),
-            'collection' => Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Product')
-                ->getCollection($storeId)
+            'collection' => $this->_getProductItemsCollection($storeId)
         ));
 
         $this->_sitemapItems[] = new Varien_Object(array(
             'changefreq' => $helper->getPageChangefreq($storeId),
             'priority' => $helper->getPagePriority($storeId),
-            'collection' => Mage::getResourceModel('Mage_Sitemap_Model_Resource_Cms_Page')->getCollection($storeId)
+            'collection' => $this->_getPageItemsCollection($storeId)
         ));
+
+        $this->_tags = array(
+            self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
+                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+            self::CLOSE_TAG_KEY => '</urlset>'
+        );
+    }
+
+    /**
+     * Get category items collection
+     *
+     * @param int $storeId
+     * @return array
+     */
+    protected function _getCategoryItemsCollection($storeId)
+    {
+        return Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Category')->getCollection($storeId);
+    }
+
+    /**
+     * Get product items collection
+     *
+     * @param int $storeId
+     * @return array
+     */
+    protected function _getProductItemsCollection($storeId)
+    {
+        return Mage::getResourceModel('Mage_Sitemap_Model_Resource_Catalog_Product')->getCollection($storeId);
+    }
+
+    /**
+     * Get cms page items collection
+     *
+     * @param int $storeId
+     * @return array
+     */
+    protected function _getPageItemsCollection($storeId)
+    {
+        return Mage::getResourceModel('Mage_Sitemap_Model_Resource_Cms_Page')->getCollection($storeId);
     }
 
     /**
@@ -147,15 +181,15 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $file = new Varien_Io_File();
-        $realPath = $file->getCleanPath(Mage::getBaseDir() . '/' . $this->getSitemapPath());
+        $file = $this->_getFileObject();
+        $realPath = $file->getCleanPath($this->_getBaseDir() . '/' . $this->getSitemapPath());
 
         /**
          * Check path is allow
          */
         /** @var $helper Mage_Sitemap_Helper_Data */
         $helper = Mage::helper('Mage_Sitemap_Helper_Data');
-        if (!$file->allowedPath($realPath, Mage::getBaseDir())) {
+        if (!$file->allowedPath($realPath, $this->_getBaseDir())) {
             Mage::throwException($helper->__('Please define correct path'));
         }
         /**
@@ -180,7 +214,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->setSitemapFilename($this->getSitemapFilename() . '.xml');
         }
 
-        $this->setSitemapPath(rtrim(str_replace(str_replace('\\', '/', Mage::getBaseDir()), '', $realPath), '/') . '/');
+        $this->setSitemapPath(
+            rtrim(str_replace(str_replace('\\', '/', $this->_getBaseDir()), '', $realPath), '/') . '/');
 
         return parent::_beforeSave();
     }
@@ -193,7 +228,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected function _getPath()
     {
         if (is_null($this->_filePath)) {
-            $this->_filePath = str_replace('//', '/', Mage::getBaseDir() . $this->getSitemapPath());
+            $this->_filePath = str_replace('//', '/', $this->_getBaseDir() . $this->getSitemapPath());
         }
         return $this->_filePath;
     }
@@ -227,10 +262,11 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $this->_finalizeSitemap();
 
         if ($this->_sitemapIncrement == 1) {
-
+            // In case when only one increment file was created use it as default sitemap
             $this->_getFileHandler()
                 ->mv($this->_getCurrentSitemapFilename($this->_sitemapIncrement), $this->getSitemapFilename());
         } else {
+            // Otherwise create index file with list of generated sitemaps
             $this->_createSitemapIndex();
         }
 
@@ -244,13 +280,23 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     {
         $this->_createSitemap($this->getSitemapFilename());
         for ($i = 1; $i <= $this->_sitemapIncrement; $i++) {
-            $date = new Varien_Date();
-            $path = ltrim($this->getSitemapPath(), '/') . '/';
+            $path = rtrim($this->getSitemapPath(), '/') . '/';
             $url =  $path . $this->_getCurrentSitemapFilename($i);
-            $xml = $this->_getSitemapRow($url, $date->now());
+            $xml = $this->_getSitemapRow($url, $this->_getCurrentDateTime());
             $this->_writeSitemapRow($xml);
         }
         $this->_finalizeSitemap();
+    }
+
+    /**
+     * Get current date time
+     *
+     * @return string
+     */
+    protected function _getCurrentDateTime()
+    {
+        $date = new Varien_Date();
+        return $date->now();
     }
 
     /**
@@ -286,7 +332,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getSitemapRow($url, $lastmod = null, $changefreq = null, $priority = null)
     {
-        $baseUrl = Mage::app()->getStore($this->getStoreId())->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+        $baseUrl = $this->_getStoreBaseUrl($this->getStoreId());
         $url = str_replace('//', '/', $baseUrl . $url);
         $row = '<loc>' . htmlspecialchars($url) . '</loc>';
         if ($lastmod) {
@@ -299,7 +345,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $row .= sprintf('<priority>%.1f</priority>', $priority);
         }
 
-        return '<url>' . $row . '</row>';
+        return '<url>' . $row . '</url>';
     }
 
     /**
@@ -313,7 +359,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->_sitemapIncrement++;
             $fileName = $this->_getCurrentSitemapFilename($this->_sitemapIncrement);
         }
-        $this->_fileHandler = new Varien_Io_File();
+        $this->_fileHandler = $this->_getFileObject();
         $this->_fileHandler->setAllowCreateFolders(true);
         $this->_fileHandler->open(array('path' => $this->_getPath()));
 
@@ -326,7 +372,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         }
 
         $this->_fileHandler->streamOpen($fileName);
-        $this->_fileHandler->streamWrite($this->_tags['start']);
+        $this->_fileHandler->streamWrite($this->_tags[self::OPEN_TAG_KEY]);
 
         $this->_fileSize = strlen(implode('', $this->_tags));
     }
@@ -343,8 +389,10 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
     protected function _finalizeSitemap()
     {
-        $this->_fileHandler->streamWrite($this->_tags['end']);
-        $this->_fileHandler->streamClose();
+        if ($this->_fileHandler) {
+            $this->_fileHandler->streamWrite($this->_tags[self::CLOSE_TAG_KEY]);
+            $this->_fileHandler->streamClose();
+        }
 
         // Reset all counters
         $this->_lineCount = 0;
@@ -359,6 +407,37 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getCurrentSitemapFilename($index)
     {
-        return 'sitemap-' . $index . '.xml';
+        return self::INDEX_FILE_PREFIX . '-' . $this->getStoreId() . '-' . $index . '.xml';
+    }
+
+    /**
+     * Get base dir
+     *
+     * @return string
+     */
+    protected function _getBaseDir()
+    {
+        return Mage::getBaseDir();
+    }
+
+    /**
+     * Get file object
+     *
+     * @return Varien_Io_File
+     */
+    protected function _getFileObject()
+    {
+        return new Varien_Io_File();
+    }
+
+    /**
+     * Get store base url
+     *
+     * @param int $storeId
+     * @return string
+     */
+    protected function _getStoreBaseUrl($storeId)
+    {
+        return Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
     }
 }
