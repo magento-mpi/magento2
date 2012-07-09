@@ -696,8 +696,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         );
 
         // Mock for helper which used inside _importData
-        $helperMock = $this->getMock(
-            'Enterprise_ImportExport_Helper_Data',
+        $helperMock = $this->getMock('Enterprise_ImportExport_Helper_Data',
             array('isRewardPointsEnabled', 'isCustomerBalanceEnabled')
         );
         $helperMock->expects($this->once())
@@ -745,18 +744,12 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
             ->will($this->returnValue(null));
 
         // Prepare method mocks which will check logic of customer behavior for finance data
-        $this->_model->expects($this->once())
-            ->method('_deleteRewardPoints');
-        $this->_model->expects($this->once())
-            ->method('_deleteCustomerBalance');
-        $this->_model->expects($this->exactly(2))
-            ->method('_updateRewardPointsForCustomer');
-        $this->_model->expects($this->exactly(2))
-            ->method('_updateCustomerBalanceForCustomer');
+        $this->_model->expects($this->once())->method('_deleteRewardPoints');
+        $this->_model->expects($this->once())->method('_deleteCustomerBalance');
+        $this->_model->expects($this->exactly(2))->method('_updateRewardPointsForCustomer');
+        $this->_model->expects($this->exactly(2))->method('_updateCustomerBalanceForCustomer');
 
-        $this->_model->setParameters(
-            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM)
-        );
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM));
         $this->_model->importData();
     }
 }
