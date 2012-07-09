@@ -15,12 +15,6 @@
 class Varien_Db_Adapter_Pdo_MssqlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Adapter for test
-     * @var Varien_Db_Adapter_Pdo_Mssql|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_adapter;
-
-    /**
      * List of identity columns for test_table
      *
      * @var array
@@ -35,117 +29,70 @@ class Varien_Db_Adapter_Pdo_MssqlTest extends PHPUnit_Framework_TestCase
     protected $_tableName = 'test_table';
 
     /**
-     * Setup
+     * @var string
      */
-    protected function setUp()
-    {
-        parent::setUp();
+    protected $_identityInsertOn = Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_ON;
 
-        $this->_adapter = $this->getMock(
+    /**
+     * @var string
+     */
+    protected $_identityInsertOff = Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_OFF;
+
+    /**
+     * @param array $identityColumns table identity columns
+     * @param array $columns columns to update
+     * @return string
+     */
+    protected function _wrapEnableIdentityDataInsert(array $identityColumns, array $columns)
+    {
+        $adapter = $this->getMock(
             'Varien_Db_Adapter_Pdo_Mssql',
             array('_getIdentityColumns'),
             array(), '', false
         );
-    }
 
-    protected function tearDown()
-    {
-        $this->_adapter = null;
-
-        parent::tearDown();
-    }
-
-
-    /**
-     * Test wrapEnableIdentityDataInsert() method
-     * in case when updating columns with identity are provided
-     *
-     * @covers Varien_Db_Adapter_Pdo_Mssql::wrapEnableIdentityDataInsert()
-     */
-    public function testWrapEnableIdentityDataInsertWithIdentityColumns()
-    {
-        $this->_adapter->expects($this->once())
+        $adapter->expects($this->any())
              ->method('_getIdentityColumns')
              ->with($this->equalTo($this->_tableName), null)
-             ->will($this->returnValue($this->_identityColumns));
+             ->will($this->returnValue($identityColumns));
 
-        $setIdentityInsertOn = "SET IDENTITY_INSERT %s ON";
-        $setIdentityInsertOff = "SET IDENTITY_INSERT %s OFF";
+        $method = new ReflectionMethod($adapter, '_wrapEnableIdentityDataInsert');
+        $method->setAccessible(true);
 
-        $sql = 'sql';
+        return $method->invoke($adapter, '', $this->_tableName, $columns);
+    }
 
+    /**
+     * @covers Varien_Db_Adapter_Pdo_Mssql::_wrapEnableIdentityDataInsert
+     */
+    public function testWrapEnableIdentityDataInsert()
+    {
+        // insert data with identity fields
         $columns = array('id', 'column');
-        $wrappedSql = $this->_adapter->wrapEnableIdentityDataInsert($sql, $this->_tableName, $columns);
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert($this->_identityColumns, $columns);
 
-        $this->assertContains(sprintf($setIdentityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertContains(sprintf($setIdentityInsertOff, $this->_tableName), $wrappedSql, '', true);
-    }
+        $this->assertContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
+        $this->assertContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
 
-    /**
-     * Test wrapEnableIdentityDataInsert() method
-     * in case when updating columns without identity column are provided
-     *
-     * @covers Varien_Db_Adapter_Pdo_Mssql::wrapEnableIdentityDataInsert()
-     */
-    public function testWrapEnableIdentityDataInsertWithoutIdentityColumns()
-    {
-        $this->_adapter->expects($this->once())
-             ->method('_getIdentityColumns')
-             ->with($this->equalTo($this->_tableName), null)
-             ->will($this->returnValue($this->_identityColumns));
-
-        $setIdentityInsertOn = "SET IDENTITY_INSERT %s ON";
-        $setIdentityInsertOff = "SET IDENTITY_INSERT %s OFF";
-
-        $sql = 'sql';
-
+        // insert data without identity fields
         $columns = array('column');
-        $wrappedSql = $this->_adapter->wrapEnableIdentityDataInsert($sql, $this->_tableName, $columns);
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert($this->_identityColumns, $columns);
 
-        $this->assertNotContains(sprintf($setIdentityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertNotContains(sprintf($setIdentityInsertOff, $this->_tableName), $wrappedSql, '', true);
-    }
+        $this->assertNotContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
+        $this->assertNotContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
 
-    /**
-     * Test wrapEnableIdentityDataInsert() method in case when updating columns are NOT provided
-     *
-     * @covers Varien_Db_Adapter_Pdo_Mssql::wrapEnableIdentityDataInsert()
-     */
-    public function testWrapEnableIdentityDataInsertWithoutColumns()
-    {
-        $this->_adapter->expects($this->never())
-             ->method('_getIdentityColumns');
-
-        $setIdentityInsertOn = "SET IDENTITY_INSERT %s ON";
-        $setIdentityInsertOff = "SET IDENTITY_INSERT %s OFF";
-
-        $sql = 'sql';
+        // insert data with empty update fields list
         $columns = array();
-        $wrappedSql = $this->_adapter->wrapEnableIdentityDataInsert($sql, $this->_tableName, $columns);
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert($this->_identityColumns, $columns);
 
-        $this->assertNotContains(sprintf($setIdentityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertNotContains(sprintf($setIdentityInsertOff, $this->_tableName), $wrappedSql, '', true);
-    }
+        $this->assertNotContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
+        $this->assertNotContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
 
-    /**
-     * Test wrapEnableIdentityDataInsert() method in case when there are no identity columns in table
-     *
-     * @covers Varien_Db_Adapter_Pdo_Mssql::wrapEnableIdentityDataInsert()
-     */
-    public function testWrapEnableIdentityDataInsertNoIdentityInTable()
-    {
-        $this->_adapter->expects($this->once())
-             ->method('_getIdentityColumns')
-             ->will($this->returnValue(array()));
-
-        $setIdentityInsertOn = "SET IDENTITY_INSERT %s ON";
-        $setIdentityInsertOff = "SET IDENTITY_INSERT %s OFF";
-
-        $sql = 'sql';
+        // insert data in table which doesn't have identity fields
         $columns = array('id', 'column');
-        $wrappedSql = $this->_adapter->wrapEnableIdentityDataInsert($sql, $this->_tableName, $columns);
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert(array(), $columns);
 
-        $this->assertNotContains(sprintf($setIdentityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertNotContains(sprintf($setIdentityInsertOff, $this->_tableName), $wrappedSql, '', true);
+        $this->assertNotContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
+        $this->assertNotContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
     }
 }

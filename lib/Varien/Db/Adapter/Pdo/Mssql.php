@@ -48,6 +48,13 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     const LENGTH_INDEX_NAME = 128;
     const LENGTH_FOREIGN_NAME = 128;
 
+    /**#@+
+     * Set identity_insert directive
+     */
+    const SET_IDENTITY_INSERT_ON  = "SET IDENTITY_INSERT %s ON";
+    const SET_IDENTITY_INSERT_OFF = "SET IDENTITY_INSERT %s OFF";
+    /**#@- */
+
     // Capacity of varchar and varbinary types
     const VAR_LIMIT = 8000;
     const VARMAX_LIMIT = 2147483647;
@@ -2325,7 +2332,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $count = $this->fetchOne($query);
 
         if ($count == 0) {
-            $this->insert($table, $data);
+            $this->insertArray($table, array_keys($data), array($data));
         } else {
             $bind = array();
             foreach ($data as $column => $value) {
@@ -2378,8 +2385,10 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         $row = reset($data);
         // support insert syntax
         if (!is_array($row)) {
-            return $this->insert($table, $data);
+            $data = array($data);
         }
+
+        $row = reset($data);
 
         // validate data array
         $cols = array_keys($row);
@@ -2455,7 +2464,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             implode(',', $columns), implode(' UNION ALL ', $values)
         );
 
-        $sql = $this->wrapEnableIdentityDataInsert($sql, $table, $columns);
+        $sql = $this->_wrapEnableIdentityDataInsert($sql, $table, $columns);
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, $bind);
@@ -2469,78 +2478,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
     }
 
     /**
-     * Inserts a table row with specified data.
-     *
-     * @param string $table The table to insert data into.
-     * @param array $bind Column-value pairs.
-     * @throws Zend_Db_Adapter_Exception
-     * @return int The number of affected rows.
-     */
-    public function insert($table, array $bind)
-    {
-        // extract and quote col names from the array keys
-        $cols = array();
-        $vals = array();
-        $i = 0;
-        foreach ($bind as $col => $val) {
-            $cols[] = $this->quoteIdentifier($col, true);
-            if ($val instanceof Zend_Db_Expr) {
-                $vals[] = $val->__toString();
-                unset($bind[$col]);
-            } else {
-                if ($this->supportsParameters('positional')) {
-                    $vals[] = '?';
-                } else {
-                    if ($this->supportsParameters('named')) {
-                        unset($bind[$col]);
-                        $bind[':col'.$i] = $val;
-                        $vals[] = ':col'.$i;
-                        $i++;
-                    } else {
-                        /** @see Zend_Db_Adapter_Exception */
-                        #require_once 'Zend/Db/Adapter/Exception.php';
-                        throw new Zend_Db_Adapter_Exception(
-                            get_class($this) ." doesn't support positional or named binding"
-                        );
-                    }
-                }
-            }
-        }
-
-        // build the statement
-        $sql = $this->_getInsertSqlQuery($table, $cols, $vals);
-
-        // execute the statement and return the number of affected rows
-        if ($this->supportsParameters('positional')) {
-            $bind = array_values($bind);
-        }
-        $stmt = $this->query($sql, $bind);
-        $result = $stmt->rowCount();
-        return $result;
-    }
-
-    /**
-     * Return insert sql query
-     *
-     * @param string $tableName
-     * @param array $columns
-     * @param array $values
-     * @return string
-     */
-    protected function _getInsertSqlQuery($tableName, array $columns, array $values)
-    {
-        // build the statement
-        $sql = "INSERT INTO "
-             . $this->quoteIdentifier($tableName, true)
-             . ' (' . implode(', ', $columns) . ') '
-             . 'VALUES (' . implode(', ', $values) . ')';
-
-        $sql = $this->wrapEnableIdentityDataInsert($sql, $tableName, $columns);
-
-        return $sql;
-    }
-
-    /**
      * Modify query to allow inserting into identity column
      *
      * @param string|Varien_Db_Select $sql
@@ -2548,7 +2485,7 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      * @param array $updatingColumns column(s) in which data will be inserted
      * @return string
      */
-    public function wrapEnableIdentityDataInsert($sql, $tableName, array $updatingColumns)
+    protected function _wrapEnableIdentityDataInsert($sql, $tableName, array $updatingColumns)
     {
         if (!count($updatingColumns)) {
             return $sql;
@@ -2560,9 +2497,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         if (count(array_intersect($identityColumns, $updatingColumns))) {
             $quotedTableName = $this->quoteIdentifier($tableName);
 
-            $sql = sprintf('SET IDENTITY_INSERT %s ON', $quotedTableName) . "\n"
-                . $sql . "\n"
-                . sprintf(';SET IDENTITY_INSERT %s OFF', $quotedTableName);
+            $sql = sprintf(Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_ON, $quotedTableName) . "\n"
+                . $sql . "\n;"
+                . sprintf(Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_OFF, $quotedTableName);
         }
 
         return $sql;
@@ -2582,9 +2519,9 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
             return $this->_sqlsrvInsertForce($table, $bind);
         }
 
-        $this->query(sprintf('SET IDENTITY_INSERT %s ON', $this->quoteIdentifier($table)));
+        $this->query(sprintf(Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_ON, $this->quoteIdentifier($table)));
         $result = parent::insert($table, $bind);
-        $this->query(sprintf('SET IDENTITY_INSERT %s OFF', $this->quoteIdentifier($table)));
+        $this->query(sprintf(Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_OFF, $this->quoteIdentifier($table)));
         return $result;
     }
 
@@ -2625,7 +2562,6 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
      */
     protected function _sqlsrvInsertForce($table, array $bind)
     {
-        $sql = sprintf('SET IDENTITY_INSERT %s ON', $this->quoteIdentifier($table));
         // extract and quote col names from the array keys
         $cols = array();
         $vals = array();
@@ -2640,11 +2576,12 @@ class Varien_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Mssql
         }
 
         // build the statement
-        $sql .= "\n INSERT INTO "
+        $sql = "\n INSERT INTO "
             . $this->quoteIdentifier($table, true)
             . ' (' . implode(', ', $cols) . ') '
-            . 'VALUES (' . implode(', ', $vals) . ')'
-            . sprintf("\nSET IDENTITY_INSERT %s OFF", $this->quoteIdentifier($table));
+            . 'VALUES (' . implode(', ', $vals) . ')';
+
+        $sql = $this->_wrapEnableIdentityDataInsert($sql, $table, $cols);
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, array_values($bind));

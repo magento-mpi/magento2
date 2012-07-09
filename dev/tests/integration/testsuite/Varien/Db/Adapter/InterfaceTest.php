@@ -153,8 +153,6 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test insertArray() method
-     *
      * @param array $columns
      * @param array $data
      * @param array $expected
@@ -164,7 +162,7 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         $this->_connection->insertArray($this->_tableName, $columns, $data);
         $select = $this->_connection->select()
-            ->from($this->_tableName, array('column1', 'column2'))
+            ->from($this->_tableName, array_keys($expected[0]))
             ->order('column1');
         $result = $this->_connection->fetchAll($select);
         $this->assertEquals($expected, $result);
@@ -206,9 +204,9 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
                 array('id', 'column1', 'column2'),
                 array(array(1, 0, 0), array(2, 1, 1), array(3, 2, 2)),
                 array(
-                    array('column1' => 0, 'column2' => 0),
-                    array('column1' => 1, 'column2' => 1),
-                    array('column1' => 2, 'column2' => 2)
+                    array('id' => 1, 'column1' => 0, 'column2' => 0),
+                    array('id' => 2, 'column1' => 1, 'column2' => 1),
+                    array('id' => 3, 'column1' => 2, 'column2' => 2)
                 ),
             )
         );
@@ -223,41 +221,57 @@ class Varien_Db_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test insert() method
-     *
-     * @param array $bind
      * @dataProvider insertDataProvider
      */
-    public function testInsert(array $bind)
+    public function testInsertMultiple($data)
     {
-        $this->_connection->insert($this->_tableName, $bind);
+        $this->_connection->insertMultiple($this->_tableName, $data);
+
         $select = $this->_connection->select()
             ->from($this->_tableName);
-
         $result = $this->_connection->fetchRow($select);
 
-        if (isset($bind['id'])) {
-            $this->assertEquals($bind['id'], $result['id']);
-            unset($bind['id']);
-        }
-        unset($result['id']);
-
-        $this->assertEquals($bind, $result);
+        $this->assertEquals($data, $result);
     }
 
     /**
-     * Data provider for insert() test
+     * @dataProvider insertDataProvider
+     */
+    public function testInsertOnDuplicate($data)
+    {
+        $this->_connection->insertOnDuplicate($this->_tableName, $data);
+
+        $select = $this->_connection->select()
+            ->from($this->_tableName);
+        $result = $this->_connection->fetchRow($select);
+
+        $this->assertEquals($data, $result);
+    }
+
+    /**
+     * @dataProvider insertDataProvider
+     */
+    public function testInsertForce($data)
+    {
+        $this->assertEquals(1, $this->_connection->insertForce($this->_tableName, $data));
+
+        $select = $this->_connection->select()
+            ->from($this->_tableName);
+        $result = $this->_connection->fetchRow($select);
+
+        $this->assertEquals($data, $result);
+    }
+
+    /**
+     * Data provider for insert() tests
      *
      * @return array
      */
     public function insertDataProvider()
     {
         return array(
-            'insert regular data' => array(
-                '$bind' => array('column1' => 1, 'column2' => 2)
-            ),
-            'insert data with identity' => array( // test possibility to insert data with filled identity field
-                '$bind' => array('id' => 10, 'column1' => 100, 'column2' => 200)
+            'column with identity field' => array(
+                array('id' => 1, 'column1' => 10, 'column2' => 20)
             )
         );
     }

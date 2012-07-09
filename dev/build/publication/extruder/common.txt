@@ -29,3 +29,4 @@ lib/Varien/Db/Adapter/Pdo/Mssql.php
 lib/Varien/Db/Statement/Oracle.php
 lib/Varien/Db/Statement/Pdo/Mssql.php
 lib/Varien/Db/Statement/Sqlsrv.php
+/dev/tests/unit/testsuite/Varien/Db/Adapter/Pdo/MssqlTest.php
