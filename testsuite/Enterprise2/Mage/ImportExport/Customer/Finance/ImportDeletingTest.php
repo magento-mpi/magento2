@@ -78,8 +78,6 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $data[0]['email'] = $userData1['email'];
 
         $data[1]['email'] = $userData2['email'];
-        $data[1]['store_credit'] = '80';
-        $data[1]['reward_points'] = '100';
 
         //Step 1,2, 3, 4
         $this->admin('import');
