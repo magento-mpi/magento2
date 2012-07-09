@@ -38,7 +38,7 @@
             </types>
         </cache>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <use>admin</use>
@@ -48,8 +48,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <backend module='Mage_Backend'>

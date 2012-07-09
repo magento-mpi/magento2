@@ -57,7 +57,7 @@
             </export_customer_entities>
         </importexport>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -67,8 +67,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_importexport module="Enterprise_ImportExport">

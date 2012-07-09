@@ -231,8 +231,6 @@
                 </Enterprise_Customer>
             </modules>
         </translate>
-    </adminhtml>
-    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -242,5 +240,5 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
+    </adminhtml>
 </config>

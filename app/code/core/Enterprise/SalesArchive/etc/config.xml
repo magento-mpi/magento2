@@ -127,7 +127,7 @@
             </controller_action_postdispatch_adminhtml_sales_order_massCancel>
         </events>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -137,8 +137,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_salesarchive module="Enterprise_SalesArchive">

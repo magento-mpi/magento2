@@ -43,6 +43,15 @@
                 </find_feed>
             </updates>
         </layout>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <find_feed before="Mage_Adminhtml">Find_Feed_Adminhtml</find_feed>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
     </adminhtml>
     <crontab>
         <jobs>
@@ -56,17 +65,6 @@
             </find_feed_file_send>
         </jobs>
     </crontab>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <find_feed before="Mage_Adminhtml">Find_Feed_Adminhtml</find_feed>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <stores>
         <admin>
             <design>

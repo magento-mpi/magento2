@@ -15,7 +15,7 @@
             <version>1.6.0.0</version>
         </Mage_Connect>
     </modules>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -25,8 +25,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <connect module="Mage_Connect">

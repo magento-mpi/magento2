@@ -285,7 +285,7 @@
             </google_checkout_discount_item_price>
         </events>
     </frontend>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -295,8 +295,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">

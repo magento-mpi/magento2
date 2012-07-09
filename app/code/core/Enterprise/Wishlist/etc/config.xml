@@ -25,7 +25,7 @@
             </enterprise_wishlist_setup>
         </resources>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -35,8 +35,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_wishlist module="Enterprise_Wishlist">

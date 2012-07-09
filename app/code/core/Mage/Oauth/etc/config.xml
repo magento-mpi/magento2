@@ -60,7 +60,7 @@
             </email>
         </template>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -70,8 +70,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <translate>
             <modules>
                 <Mage_Oauth>
