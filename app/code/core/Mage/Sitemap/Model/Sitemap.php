@@ -86,7 +86,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected $_fileSize = 0;
 
     /**
-     * Current sitemap file size
+     * New line possible symbols
      *
      * @var array
      */

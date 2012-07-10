@@ -488,6 +488,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check addition sitemap to file robots.txt
      *
      * @dataProvider validateRowDataProvider
      */
