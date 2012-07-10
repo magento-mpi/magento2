@@ -26,16 +26,16 @@
         <li>
             <div class="input-box">
                 <label for="firstname"><?php echo $this->__('First Name') ?> <span class="required">*</span></label><br/>
-                <input type="text" name="admin[firstname]" id="firstname" value="<?php echo $this->getFormData()->getFirstname() ?>" title="<?php echo $this->__('First Name') ?>" class="required-entry input-text"/>
+                <input type="text" name="admin[firstname]" id="firstname" value="<?php echo $this->getFormData()->getFirstname() ?>" title="<?php echo $this->__('First Name') ?>"  data-validate="{required:true}" class="input-text"/>
             </div>
             <div class="input-box">
                 <label for="lastname"><?php echo $this->__('Last Name') ?> <span class="required">*</span></label><br/>
-                <input type="text" name="admin[lastname]" id="lastname" value="<?php echo $this->getFormData()->getLastname() ?>" title="<?php echo $this->__('Last Name') ?>" class="required-entry input-text"/>
+                <input type="text" name="admin[lastname]" id="lastname" value="<?php echo $this->getFormData()->getLastname() ?>" title="<?php echo $this->__('Last Name') ?>"  data-validate="{required:true}" class="input-text"/>
             </div>
         </li>
         <li>
             <label for="email_address"><?php echo $this->__('Email') ?> <span class="required">*</span></label><br/>
-            <input type="text" name="admin[email]" id="email_address" value="<?php echo $this->getFormData()->getEmail() ?>" title="<?php echo $this->__('Email Address') ?>" class="validate-email required-entry input-text"/>
+            <input type="text" name="admin[email]" id="email_address" value="<?php echo $this->getFormData()->getEmail() ?>" title="<?php echo $this->__('Email Address') ?>"  data-validate="{required:true,validateEmail:true}" class="input-text"/>
         </li>
     </ul>
 </fieldset>
@@ -45,16 +45,16 @@
     <ul>
         <li>
             <label for="username"><?php echo $this->__('Username') ?> <span class="required">*</span></label><br/>
-            <input type="text" name="admin[username]" id="username" value="<?php echo $this->getFormData()->getUsername() ?>" title="<?php echo $this->__('Username') ?>" class="required-entry input-text"/>
+            <input type="text" name="admin[username]" id="username" value="<?php echo $this->getFormData()->getUsername() ?>" title="<?php echo $this->__('Username') ?>"  data-validate="{required:true,validateUrl:true}" class="validate-password input-text"/>
         </li>
         <li>
             <div class="input-box">
                 <label for="password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br/>
-                <input type="password" name="admin[new_password]" id="password" title="<?php echo $this->__('Password') ?>"  class="required-entry validate-admin-password input-text"/>
+                <input type="password" name="admin[new_password]" id="password" title="<?php echo $this->__('Password') ?>"  data-validate="{required:true,validateAdminPassword:true}" class="input-text"/>
             </div>
             <div class="input-box">
                 <label for="confirmation"><?php echo $this->__('Confirm Password') ?> <span class="required">*</span></label><br/>
-                <input type="password" name="admin[password_confirmation]" title="<?php echo $this->__('Password Confirmation') ?>" id="confirmation" class="required-entry validate-cpassword input-text"/>
+                <input type="password" name="admin[password_confirmation]" title="<?php echo $this->__('Password Confirmation') ?>" id="confirmation" data-validate="{required:true,validateCpassword:true}" class="validate-cpassword input-text"/>
             </div>
         </li>
     </ul>
@@ -77,5 +77,6 @@
 </div>
 </form>
 <script type="text/javascript">
-    var dataForm = new VarienForm('form-validate');
+    mage.load.initValidate();
+    mage.load.js('/pub/lib/mage/components/install/create_admin.js');
 </script>

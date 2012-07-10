@@ -257,6 +257,17 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     return !isNaN(v) && v > 0;
   }, "Please enter a number greater than 0 in this field");
 
+
+  /**
+   * Equivalent of     validate-cpassword
+   */
+
+  jQuery.validator.addMethod("validateCpassword", function (v) {
+    return $('#confirmation').val() == $('#password').val()
+     }, "Please make sure your passwords match.");
+
+
+
 })();
 /*
  Translate default error messages
