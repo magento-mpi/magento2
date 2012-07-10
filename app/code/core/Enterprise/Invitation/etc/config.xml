@@ -13,6 +13,13 @@
     <modules>
         <Enterprise_Invitation>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+                <Mage_Customer/>
+                <Enterprise_WebsiteRestriction/>
+            </depends>
         </Enterprise_Invitation>
     </modules>
     <global>

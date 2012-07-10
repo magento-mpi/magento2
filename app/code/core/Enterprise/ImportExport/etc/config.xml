@@ -13,6 +13,11 @@
     <modules>
         <Enterprise_ImportExport>
             <version>1.11.0.1</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_ImportExport/>
+            </depends>
         </Enterprise_ImportExport>
     </modules>
     <global>

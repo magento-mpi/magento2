@@ -13,6 +13,17 @@
     <modules>
         <Enterprise_CustomerSegment>
             <version>1.11.0.0.3</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Customer/>
+                <Enterprise_Customer/>
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_CatalogRule/>
+                <Mage_Rule/>
+                <Mage_Log/>
+            </depends>
         </Enterprise_CustomerSegment>
     </modules>
     <global>

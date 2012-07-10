@@ -397,7 +397,7 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Initialize active modules configuration and data
+     * Initialize configuration of active modules and locales
      *
      * @return Mage_Core_Model_App
      */
@@ -411,6 +411,7 @@ class Mage_Core_Model_App
                 Magento_Profiler::stop('apply_db_schema_updates');
             }
             $this->_config->loadDb();
+            $this->_config->loadLocales();
             $this->_config->saveCache();
         }
         return $this;
