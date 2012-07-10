@@ -41,7 +41,7 @@ class Mage_Core_Controller_Varien_Router_Default extends Mage_Core_Controller_Va
 
         return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Forward',
             $request,
-            Mage::app()->getFrontController()->getResponse()
+            $this->getFront()->getResponse()
         );
     }
 }

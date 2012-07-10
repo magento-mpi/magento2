@@ -36,6 +36,8 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
      *
      * @param Zend_Controller_Request_Http $request
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function match(Zend_Controller_Request_Http $request)
     {
