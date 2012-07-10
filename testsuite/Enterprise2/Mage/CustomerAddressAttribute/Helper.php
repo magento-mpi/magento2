@@ -43,10 +43,16 @@ class Enterprise2_Mage_CustomerAddressAttribute_Helper extends Mage_Selenium_Tes
      */
     public function createAttribute($attrData)
     {
+        if (is_string($attrData)) {
+            $elements = explode('/', $attrData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $attrData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
         $this->clickButton('add_new_attribute');
-        $this->fillForm($attrData, 'properties');
-        $this->fillForm($attrData, 'manage_labels_options');
-        $this->storeViewTitles($attrData);
+        foreach ($attrData as $tabId => $data) {
+            $this->fillTab($data, $tabId);
+        }
+//        $this->storeViewTitles($attrData);
         $this->saveForm('save_attribute');
     }
 

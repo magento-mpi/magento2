@@ -125,6 +125,7 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         $roleUsers = (isset($roleData['role_users_tab'])) ? $roleData['role_users_tab'] : array();
 
         if (!empty($searchUserRole)) {
+            $this->addParameter('roleName', $searchUserRole['role_name']);
             $this->searchAndOpen($searchUserRole);
             $this->addParameter('id', $this->defineIdFromUrl());
         }
@@ -140,5 +141,21 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
             }
         }
         $this->saveForm('save_role');
+    }
+
+    /**
+     * Deletes role
+     *
+     * @param array $roleData
+     */
+    public function deleteRole(array $roleData)
+    {
+        $searchUserRole = (isset($roleData['search_role'])) ? $roleData['search_role'] : array();
+        if (!empty($searchUserRole)) {
+            $this->addParameter('roleName', $searchUserRole['role_name']);
+            $this->searchAndOpen($searchUserRole);
+            $this->addParameter('id', $this->defineIdFromUrl());
+        }
+        $this->saveForm('delete_role');
     }
 }

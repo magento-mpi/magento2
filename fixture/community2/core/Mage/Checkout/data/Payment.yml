@@ -1,0 +1,28 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#*********************************************
+#*          Purchase Order Data              *
+#*********************************************
+purchase_order: &OrderNumber
+    purchase_order_number: 11111
+
+#*********************************************
+#*              Payment Data                 *
+#*********************************************
+payment_banktransfer:
+    payment_method: Bank Transfer Payment
+
+payment_cashondelivery:
+    payment_method: Cash On Delivery
+
+payment_purchaseorder:
+    payment_method: Purchase Order
+    payment_info: *OrderNumber
