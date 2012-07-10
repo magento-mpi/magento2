@@ -282,7 +282,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function __destruct()
     {
-        $this->drivers[0]->stopBrowserSession();
+        try {
+            $this->drivers[0]->stopBrowserSession();
+        } catch (RuntimeException $e) {
+        }
     }
 
     /**
