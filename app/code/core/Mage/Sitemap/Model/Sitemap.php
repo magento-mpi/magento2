@@ -526,12 +526,11 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get domain from store base url
      *
-     * @param int $storeId
      * @return string
      */
-    protected function _getStoreBaseDomain($storeId)
+    protected function _getStoreBaseDomain()
     {
-        $storeParsedUrl = parse_url($this->_getStoreBaseUrl($storeId));
+        $storeParsedUrl = parse_url($this->_getStoreBaseUrl());
         return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'];
     }
 
@@ -543,8 +542,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getSitemapUrl($sitemapFileName)
     {
-        return $this->_getStoreBaseDomain($this->getStoreId())
-            . str_replace('//', '/', $this->getSitemapPath() . '/' . $sitemapFileName);
+        return $this->_getStoreBaseDomain() . str_replace('//', '/', $this->getSitemapPath() . '/' . $sitemapFileName);
     }
 
     /**
@@ -559,8 +557,10 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
 
         $robotsFileHandler = $this->_getFileObject();
         $robotsFileName = $this->_getRobotsTxtFilePath();
-        if (($robotsFullText = $robotsFileHandler->read($robotsFileName)) === false) {
-            $robotsFullText = '';
+        $robotsFullText = '';
+        if ($robotsFileHandler->fileExists($robotsFileName)) {
+            $robotsFileHandler->open(array('path' => $robotsFileHandler->getDestinationFolder($robotsFileName)));
+            $robotsFullText = $robotsFileHandler->read($robotsFileName);
         }
 
         $isReplacedFlag = false;
