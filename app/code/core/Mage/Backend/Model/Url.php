@@ -37,6 +37,11 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      */
     protected $_startupMenuItemId;
 
+    /**
+     * @var Mage_Backend_Helper_Data
+     */
+    protected $_backendHelper;
+
     public function __construct(array $data = array())
     {
         parent::__construct($data);
@@ -45,6 +50,14 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
             Mage::getStoreConfig(self::XML_PATH_STARTUP_MENU_ITEM);
 
         $this->_menu = isset($data['menu']) ? $data['menu'] : null;
+
+        $this->_backendHelper = isset($data['backendHelper']) ?
+            $data['backendHelper'] :
+            Mage::helper('Mage_Backend_Helper_Data');
+
+        if (false == ($this->_backendHelper instanceof Mage_Backend_Helper_Data)) {
+            throw new InvalidArgumentException('Backend helper is corrupted');
+        }
     }
 
 
@@ -262,5 +275,37 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
             $this->_session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         }
         return $this->_session;
+    }
+
+    /**
+     * Return backend area front name, defined in configuration
+     *
+     * @return string
+     */
+    public function getAreaFrontName()
+    {
+        if (!$this->_getData('area_front_name')) {
+            $this->setData('area_front_name', $this->_backendHelper->getAreaFrontName());
+        }
+
+        return $this->_getData('area_front_name');
+    }
+
+    /**
+     * Retrieve action path.
+     * Add backend area front name as a prefix to action path
+     *
+     * @return string
+     */
+    public function getActionPath()
+    {
+        $path = parent::getActionPath();
+        if ($path) {
+            if ($this->getAreaFrontName()) {
+                $path = $this->getAreaFrontName() . '/' . $path;
+            }
+        }
+
+        return $path;
     }
 }

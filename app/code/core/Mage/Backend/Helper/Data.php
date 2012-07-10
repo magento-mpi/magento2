@@ -18,6 +18,8 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 
     protected $_pageHelpUrl;
 
+    protected $_areaFrontName = null;
+
     public function getPageHelpUrl()
     {
         if (!$this->_pageHelpUrl) {
@@ -117,5 +119,33 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getHomePageUrl()
     {
         return Mage::getModel('Mage_Backend_Model_Url')->getRouteUrl('adminhtml');
+    }
+
+    /**
+     * Return Backend area code
+     *
+     * @return string
+     */
+    public function getAreaCode()
+    {
+        return self::BACKEND_AREA_CODE;
+    }
+
+    /**
+     * Return Backend area front name
+     *
+     * @return string
+     */
+    public function getAreaFrontName()
+    {
+        if (null == $this->_areaFrontName) {
+            $areas = Mage::getConfig()->getAreas();
+            $this->_areaFrontName =  '';
+            if (isset($areas[$this->getAreaCode()]) && isset($areas[$this->getAreaCode()]['frontName'])) {
+                $this->_areaFrontName = $areas[$this->getAreaCode()]['frontName'];
+            }
+        }
+
+        return $this->_areaFrontName;
     }
 }
