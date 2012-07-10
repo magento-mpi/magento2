@@ -105,13 +105,14 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     }
 
     /**
-     * Put image into output stream
-     *
+     * @see Varien_Image_Adapter_Abstract::display
+     * @return string
      */
     public function display()
     {
-        header("Content-type: " . $this->getMimeType());
+        ob_start();
         call_user_func($this->_getCallback('output'), $this->_imageHandler);
+        return ob_get_clean();
     }
 
     /**
