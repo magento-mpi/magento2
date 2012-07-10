@@ -138,12 +138,12 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         $this->_tags = array(
             self::TYPE_INDEX => array(
                 self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                    . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+                    . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL,
                 self::CLOSE_TAG_KEY => '</sitemapindex>'
             ),
             self::TYPE_URL => array(
                 self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                    . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+                    . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL,
                 self::CLOSE_TAG_KEY => '</urlset>'
             )
         );
@@ -230,20 +230,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return real file path
-     *
-     * @return string
-     */
-    protected function _getPath()
-    {
-        if (is_null($this->_filePath)) {
-            $this->_filePath = str_replace('//', '/', $this->_getBaseDir() . $this->getSitemapPath());
-        }
-        return $this->_filePath;
-    }
-
-    /**
      * Generate XML file
+     *
+     * @see http://www.sitemaps.org/protocol.html
      *
      * @return Mage_Sitemap_Model_Sitemap
      */
@@ -341,11 +330,10 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getSitemapRow($url, $lastmod = null, $changefreq = null, $priority = null)
     {
-        $baseUrl = $this->_getStoreBaseUrl($this->getStoreId());
-        $url = str_replace('//', '/', $baseUrl . $url);
+        $url = $this->_getUrl($url);
         $row = '<loc>' . htmlspecialchars($url) . '</loc>';
         if ($lastmod) {
-            $row .= '<lastmod>' . date('c', strtotime($lastmod)) . '</lastmod>';
+            $row .= '<lastmod>' . $this->_getFormattedLastmodDate($lastmod) . '</lastmod>';
         }
         if ($changefreq) {
             $row .= '<changefreq>' . $changefreq . '</changefreq>';
@@ -366,11 +354,10 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getSitemapIndexRow($url, $lastmod = null)
     {
-        $baseUrl = $this->_getStoreBaseUrl($this->getStoreId());
-        $url = str_replace('//', '/', $baseUrl . $url);
+        $url = $this->_getUrl($url);
         $row = '<loc>' . htmlspecialchars($url) . '</loc>';
         if ($lastmod) {
-            $row .= '<lastmod>' . date('c', strtotime($lastmod)) . '</lastmod>';
+            $row .= '<lastmod>' . $this->_getFormattedLastmodDate($lastmod) . '</lastmod>';
         }
 
         return '<sitemap>' . $row . '</sitemap>';
@@ -391,12 +378,14 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         }
         $this->_fileHandler = $this->_getFileObject();
         $this->_fileHandler->setAllowCreateFolders(true);
-        $this->_fileHandler->open(array('path' => $this->_getPath()));
+
+        $path = $this->_fileHandler->getCleanPath($this->_getBaseDir() . $this->getSitemapPath());
+        $this->_fileHandler->open(array('path' => $path));
 
         if ($this->_fileHandler->fileExists($fileName) && !$this->_fileHandler->isWriteable($fileName)) {
             Mage::throwException(Mage::helper('Mage_Sitemap_Helper_Data')
                 ->__('File "%s" cannot be saved. Please, make sure the directory "%s" is writable by web server.',
-                    $fileName, $this->_getPath()
+                    $fileName, $path
                 )
             );
         }
@@ -415,7 +404,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _writeSitemapRow($row)
     {
-        $this->_getFileHandler()->streamWrite($row);
+        $this->_getFileHandler()->streamWrite($row . PHP_EOL);
     }
 
     /**
@@ -469,11 +458,39 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get store base url
      *
-     * @param int $storeId
+     * @param string $type
      * @return string
      */
-    protected function _getStoreBaseUrl($storeId)
+    protected function _getStoreBaseUrl($type = Mage_Core_Model_Store::URL_TYPE_LINK)
     {
-        return Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+        return rtrim(Mage::app()->getStore($this->getStoreId())->getBaseUrl($type), '/') . '/';
+    }
+
+    /**
+     * Get url
+     *
+     * @param string $url
+     * @param string $type
+     * @return string
+     */
+    protected function _getUrl($url, $type = Mage_Core_Model_Store::URL_TYPE_LINK)
+    {
+        return $this->_getStoreBaseUrl($type) . ltrim($url, '/');
+    }
+
+    /**
+     * Get media url
+     *
+     * @param string $url
+     * @return string
+     */
+    protected function _getMediaUrl($url)
+    {
+        return $this->_getUrl($url, Mage_Core_Model_Store::URL_TYPE_MEDIA);
+    }
+
+    protected function _getFormattedLastmodDate($date)
+    {
+        return date('c', strtotime($date));
     }
 }

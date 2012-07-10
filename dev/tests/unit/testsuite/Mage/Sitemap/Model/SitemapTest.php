@@ -189,153 +189,88 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for single sitemap
+     * Data provider for sitemaps
+     *
+     * 1) Limit set to 50000 urls and 10M per sitemap file (single file)
+     * 2) Limit set to 1 url and 10M per sitemap file (multiple files, 1 record per file)
+     * 3) Limit set to 50000 urls and 264 bytes per sitemap file (multiple files, 1 record per file)
      *
      * @static
      * @return array
      */
-    public static function singleSitemapsProvider()
+    public static function sitemapDataProvider()
     {
-        $expectedFile = array(
+        $expectedSingleFile = array(
             'sitemap-1-1.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
                 . '<url>'
-                . '<loc>http:/store.com/http:/site.com/category.html</loc>'
+                . '<loc>http://store.com/category.html</loc>'
                 . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
-                . '</url>'
+                . '</url>' . PHP_EOL
                 . '<url>'
-                . '<loc>http:/store.com/http:/site.com/product.html</loc>'
+                . '<loc>http://store.com/category/sub-category.html</loc>'
+                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
+                . '</url>' . PHP_EOL
+                . '<url>'
+                . '<loc>http://store.com/product.html</loc>'
                 . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>'
-                . '</url>'
+                . '</url>' . PHP_EOL
                 . '</urlset>'
         );
 
-        return array(
-            array(50000, 10485760, $expectedFile)
-        );
-    }
-
-    /**
-     * Check generation of single sitemap
-     *
-     * @param int $maxLines
-     * @param int $maxFileSize
-     * @param array $expectedFile
-     * @dataProvider singleSitemapsProvider
-     */
-    public function testGenerateXmlSingle($maxLines, $maxFileSize, $expectedFile)
-    {
-        $dateMock = $this->getMockBuilder('Mage_Core_Model_Date')
-            ->disableOriginalConstructor()
-            ->getMock();
-        Mage::register('_singleton/Mage_Core_Model_Date', $dateMock, true);
-
-        $fileMock = $this->getMockBuilder('Varien_Io_File')
-            ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
-                'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv'))
-            ->getMock();
-        $this->_prepareValidFileMock($fileMock);
-
-        // Check that 4 lines were written in the file
-        $actualFile = array();
-        $currentFile = '';
-        $streamWriteCallback = function ($str) use (&$actualFile, &$currentFile) {
-            if (!array_key_exists($currentFile, $actualFile)) {
-                $actualFile[$currentFile] = '';
-            }
-            $actualFile[$currentFile] .= $str;
-        };
-        $fileMock->expects($this->exactly(4))
-            ->method('streamWrite')
-            ->will($this->returnCallback($streamWriteCallback));;
-        // Check that only 1 sitemap file was created
-        $fileMock->expects($this->once())
-            ->method('streamOpen')
-            ->will($this->returnCallback(
-                function ($file) use (&$currentFile) {
-                    $currentFile = $file;
-                }
-            ));
-        // Check that stream was closed only once
-        $fileMock->expects($this->once())
-            ->method('streamClose');
-        // Check that single sitemap was renamed to sitemap filename
-        $fileMock->expects($this->once())
-            ->method('mv')
-            ->will($this->returnCallback(
-                function ($from, $to) {
-                    PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
-                    PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
-                }
-            ));
-
-        $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
-        $helperMock->expects($this->any())
-            ->method('getMaximumLinesNumber')
-            ->will($this->returnValue($maxLines));
-        $helperMock->expects($this->any())
-            ->method('getMaximumFileSize')
-            ->will($this->returnValue($maxFileSize));
-
-        $model = $this->_getModelMock($fileMock, true);
-        $model->generateXml();
-
-        $this->assertEquals($expectedFile, $actualFile);
-    }
-
-    /**
-     * Data provider for multiple sitemaps
-     * 1) Limit set to 1 url and 10M per sitemap file
-     * 2) Limit set to 50000 urls and 264 bytes per sitemap file
-     *
-     * @static
-     * @return array
-     */
-    public static function multipleSitemapsProvider()
-    {
-        $expectedFile = array(
+        $expectedMultiFile = array(
             'sitemap-1-1.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
                 . '<url>'
-                . '<loc>http:/store.com/http:/site.com/category.html</loc>'
+                . '<loc>http://store.com/category.html</loc>'
                 . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
-                . '</url>'
+                . '</url>' . PHP_EOL
                 . '</urlset>',
-
             'sitemap-1-2.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
                 . '<url>'
-                . '<loc>http:/store.com/http:/site.com/product.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>'
-                . '</url>'
+                . '<loc>http://store.com/category/sub-category.html</loc>'
+                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
+                . '</url>' . PHP_EOL
                 . '</urlset>',
-
+            'sitemap-1-3.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
+                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
+                . '<url>'
+                . '<loc>http://store.com/product.html</loc>'
+                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>'
+                . '</url>' . PHP_EOL
+                . '</urlset>',
             'sitemap.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+                . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
                 . '<sitemap>'
-                . '<loc>http:/store.com/sitemap-1-1.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</sitemap>'
+                . '<loc>http://store.com/sitemap-1-1.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
+                . '</sitemap>' . PHP_EOL
                 . '<sitemap>'
-                . '<loc>http:/store.com/sitemap-1-2.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</sitemap>'
+                . '<loc>http://store.com/sitemap-1-2.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
+                . '</sitemap>' . PHP_EOL
+                . '<sitemap>'
+                . '<loc>http://store.com/sitemap-1-3.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
+                . '</sitemap>' . PHP_EOL
                 . '</sitemapindex>'
         );
 
         return array(
-            array(1, 10485760, $expectedFile),
-            array(50000, 264, $expectedFile)
+            array(50000, 10485760, $expectedSingleFile, 5),
+            array(1, 10485760, $expectedMultiFile, 14),
+            array(50000, 264, $expectedMultiFile, 14)
         );
     }
 
     /**
-     * Check generation of multiple sitemaps
+     * Check generation of sitemaps
      *
      * @param int $maxLines
      * @param int $maxFileSize
      * @param array $expectedFile
-     * @dataProvider multipleSitemapsProvider
+     * @param int $expectedWrites
+     * @dataProvider sitemapDataProvider
      */
-    public function testGenerateXmlMultiple($maxLines, $maxFileSize, $expectedFile)
+    public function testGenerateXml($maxLines, $maxFileSize, $expectedFile, $expectedWrites)
     {
         $dateMock = $this->getMockBuilder('Mage_Core_Model_Date')
             ->disableOriginalConstructor()
@@ -348,7 +283,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $this->_prepareValidFileMock($fileMock);
 
-        // Check that 4 lines were written in the file
+        // Check that all $expectedWrites lines were written
         $actualFile = array();
         $currentFile = '';
         $streamWriteCallback = function ($str) use (&$actualFile, &$currentFile) {
@@ -357,20 +292,35 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             }
             $actualFile[$currentFile] .= $str;
         };
-        $fileMock->expects($this->exactly(10))
+
+        // Check that all expected lines were written
+        $fileMock->expects($this->exactly($expectedWrites))
             ->method('streamWrite')
             ->will($this->returnCallback($streamWriteCallback));
-        // Check that 3 files were created, 2 sitemaps and 1 index
-        $fileMock->expects($this->exactly(3))
+
+        // Check that all expected file descriptors were created
+        $fileMock->expects($this->exactly(count($expectedFile)))
             ->method('streamOpen')
             ->will($this->returnCallback(
                 function ($file) use (&$currentFile) {
                     $currentFile = $file;
                 }
             ));
-        // Check that 3 files were closed, 2 sitemaps and 1 index
-        $fileMock->expects($this->exactly(3))
+
+        // Check that all file descriptors were closed
+        $fileMock->expects($this->exactly(count($expectedFile)))
             ->method('streamClose');
+
+        if (count($expectedFile) == 1) {
+            $fileMock->expects($this->once())
+                ->method('mv')
+                ->will($this->returnCallback(
+                    function ($from, $to) {
+                        PHPUnit_Framework_Assert::assertEquals('sitemap-1-1.xml', $from);
+                        PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
+                    }
+                ));
+        }
 
         $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
         $helperMock->expects($this->any())
@@ -443,7 +393,11 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->method('_getCategoryItemsCollection')
             ->will($this->returnValue(array(
                 new Varien_Object(array(
-                    'url' => 'http://site.com/category.html',
+                    'url' => 'category.html',
+                    'updated_at' => '2012-12-21 00:00:00'
+                )),
+                new Varien_Object(array(
+                    'url' => '/category/sub-category.html',
                     'updated_at' => '2012-12-21 00:00:00'
                 ))
             )));
@@ -451,7 +405,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->method('_getProductItemsCollection')
             ->will($this->returnValue(array(
                 new Varien_Object(array(
-                    'url' => 'http://site.com/product.html',
+                    'url' => 'product.html',
                     'updated_at' => '2012-12-21 00:00:00'
                 ))
             )));
