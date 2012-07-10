@@ -1,32 +1,14 @@
 #
-# Magento
+# {license_notice}
 #
-# NOTICE OF LICENSE
-#
-# This source file is subject to the Academic Free License (AFL 3.0)
-# that is bundled with this package in the file LICENSE_AFL.txt.
-# It is also available through the world-wide-web at this URL:
-# http://opensource.org/licenses/afl-3.0.php
-# If you did not receive a copy of the license and are unable to
-# obtain it through the world-wide-web, please send an email
-# to license@magentocommerce.com so we can send you a copy immediately.
-#
-# DISCLAIMER
-#
-# Do not edit or add to this file if you wish to upgrade Magento to newer
-# versions in the future. If you wish to customize Magento for your
-# needs please refer to http://www.magentocommerce.com for more information.
-#
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
-# @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
-# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+# @category    Magento
+# @package     Mage_ShoppingCart
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
 #
 --- #Manage Statuses and related pages
-
-# 'Manage Statuses' page
+#
 order_statuses:
     mca: sales_order_status/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order_status')]
@@ -98,15 +80,13 @@ assign_order_status:
                         dropdowns:
                             order_status: //select[@id='status']
                             order_state: //select[@id='state']
+                        checkboxes:
+                            use_order_status_as_default: //input[@id='is_default']
                         required: [order_status, order_state]
-                    
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
             save_status_assignment: //button[span='Save Status Assignment']
-        checkboxes:
-            use_order_status_as_default: //input[@id='is_default']
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-            success_saved_status:  //li[normal
-
+            succes_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]

@@ -26,19 +26,11 @@
 #
 ---
 #Test data for Status
+
 generic_status:
-    status_code: user
-    status_label: User
-    
+    status_code: %randomize%_status_code
+    status_label: Generic Label(%randomize%)
+
 assign_status:
-    order_status: User
-    order_state: Processing
-    
-search_status:
-    status: Processing 
-    
-search_status_incorrect:
-    status: 11111
-    
-search_status_part:
-    status: Pr
+    order_status: Generic Label
+    order_state: New

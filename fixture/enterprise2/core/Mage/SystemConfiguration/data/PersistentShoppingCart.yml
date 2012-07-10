@@ -25,25 +25,16 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
-#<-------------------------------Category Permissions------------------------------------>
-category_permissions_enable:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: catalog_catalog
-        configuration:
-            permission_enable: Yes
-            allow_browsing: Yes, for Everyone
-            allow_browsing_customer_groups: %noValue%
-            landing_page: %noValue%
-            display_prices: Yes, for Everyone
-            display_prices_customer_groups: %noValue%
-            allow_adding_to_cart: Yes, for Everyone
-            allow_adding_to_cart_customer_groups: %noValue%
-            disallow_catalog_search: %noValue%
+#Test data for Persistent Shopping Cart
 
-category_permissions_disable:
+enable_persistent_shopping_cart:
     configuration_scope: Default Config
     tab_1:
-        tab_name: catalog_catalog
+        tab_name: customers_persistent_shopping_cart
         configuration:
-            permission_enable: No
+            enable_persistence: Yes
+            persistence_lifetime_seconds: 3153600
+            enable_remember_me: Yes
+            remember_me_default_value: Yes
+            clear_persistence_on_log_out: Yes
+            persist_shopping_cart: Yes
