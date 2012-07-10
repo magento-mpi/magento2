@@ -27,7 +27,7 @@
  */
 
 /**
- * Customer Export
+ * Customer Addresses Tests
  *
  * @package     selenium
  * @subpackage  tests
