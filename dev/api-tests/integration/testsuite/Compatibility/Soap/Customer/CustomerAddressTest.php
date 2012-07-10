@@ -93,8 +93,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
     /**
      * Test customer address info method compatibility.
      * Scenario:
-     * 1. Get customer address info at previous API.
-     * 2. Get customer address info at current API.
+     * 1. Get customer address info, created in testCustomerAddressCreate, at previous API.
+     * 2. Get customer address info, created in testCustomerAddressCreate, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -112,8 +112,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
     /**
      * Test customer address update method compatibility.
      * Scenario:
-     * 1. Update customer address at previous API.
-     * 1. Update customer address at current API.
+     * 1. Update customer address, created in testCustomerAddressCreate, at previous API.
+     * 1. Update customer address, created in testCustomerAddressCreate, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
@@ -143,8 +143,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
     /**
      * Test customer address delete method compatibility.
      * Scenario:
-     * 1. Get customer address info at previous API.
-     * 2. Get customer address info at current API.
+     * 1. Delete customer address, created in testCustomerAddressCreate, at previous API.
+     * 2. Delete customer address, created in testCustomerAddressCreate, at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
      *
