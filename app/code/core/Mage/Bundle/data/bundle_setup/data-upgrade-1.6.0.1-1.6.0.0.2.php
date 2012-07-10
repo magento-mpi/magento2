@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Catalog
+ * @package     Mage_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,14 +11,8 @@
 /** @var $this Mage_Catalog_Model_Resource_Setup */
 
 $attributeCodes = array(
-    'name',
-    'description',
-    'short_description',
-    'sku',
-    'price',
-    'status',
-    'visibility',
-    'weight'
+    'price_type',
+    'price_view',
 );
 
 $entityTypeId = $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY);
