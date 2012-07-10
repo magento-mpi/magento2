@@ -263,7 +263,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    */
 
   jQuery.validator.addMethod("validateCpassword", function (v) {
-    return $('#confirmation').val() == $('#password').val()
+    return $('#confirmation').val() == $('#password').val();
      }, "Please make sure your passwords match.");
 
 
