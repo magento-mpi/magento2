@@ -49,6 +49,13 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     protected $_defaultAttributeSetName = 'Default';
 
     /**
+     * List of excluded attribute set ids
+     *
+     * @var array
+     */
+    protected $_excludedAttributeSetIds = array();
+
+    /**
      * Clean cache
      *
      * @return Mage_Eav_Model_Entity_Setup
@@ -654,6 +661,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $select = $this->_conn->select()
                 ->from($this->getTable('eav_attribute_set'))
                 ->where('entity_type_id = :entity_type_id');
+            if (!empty($this->_excludedAttributeSetIds)) {
+                $select->where('attribute_set_id NOT IN (?)', $this->_excludedAttributeSetIds);
+            }
             $sets = $this->_conn->fetchAll($select, array('entity_type_id' => $entityTypeId));
             foreach ($sets as $set) {
                 if (!empty($attr['group'])) {
@@ -674,6 +684,18 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
             $this->addAttributeOption($option);
         }
 
+        return $this;
+    }
+
+    /**
+     * Set attribute set ids which should be excluded for attributes assigning
+     *
+     * @param array $ids
+     * @return Mage_Eav_Model_Entity_Setup
+     */
+    public function setExcludedAttributeSetIds(array $ids)
+    {
+        $this->_excludedAttributeSetIds = $ids;
         return $this;
     }
 

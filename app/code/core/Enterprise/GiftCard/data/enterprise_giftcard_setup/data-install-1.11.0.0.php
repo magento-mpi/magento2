@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Catalog
+ * @category    Enterprise
+ * @package     Enterprise_GiftCard
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,24 +11,14 @@
 /** @var $this Mage_Catalog_Model_Resource_Setup */
 
 $attributeCodes = array(
-    'name',
-    'description',
-    'short_description',
-    'sku',
-    'price',
-    'price_type',
-    'price_view',
-    'status',
-    'visibility',
-    'tax_class_id',
-    'weight'
+    'allow_open_amount',
+    'giftcard_amounts',
+    'giftcard_type'
 );
 
 $entityTypeId = $this->getEntityTypeId(Mage_Catalog_Model_Product::ENTITY);
 
-$minimalAttributeSetName = 'Minimal';
-$this->addAttributeSet($entityTypeId, $minimalAttributeSetName);
-$setId = $this->getAttributeSetId($entityTypeId, $minimalAttributeSetName);
+$setId = $this->getAttributeSetId($entityTypeId, 'Minimal');
 
 foreach ($attributeCodes as $attributeCode) {
     $attribute = $this->getAttribute(Mage_Catalog_Model_Product::ENTITY, $attributeCode);
