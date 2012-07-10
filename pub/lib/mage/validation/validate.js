@@ -257,7 +257,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
  Translate default error messages
  */
 jQuery.extend(jQuery.validator.messages, {
-  required: mage.localize.translate("This field is required."),
+  required: mage.localize.translate("This is a required field."),
   remote: mage.localize.translate("Please fix this field."),
   email: mage.localize.translate("Please enter a valid email address."),
   url: mage.localize.translate("Please enter a valid URL."),

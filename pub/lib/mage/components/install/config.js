@@ -11,4 +11,8 @@
 $(document).ready(function () {
   $('#form-validate').mage().validate();
 
+  $('#use_secure').on('click',function(){
+    this.checked ? $('#use_secure_options').show():$('#use_secure_options').hide();
+  });
+
 });
