@@ -7,14 +7,33 @@
  * @license     {license_link}
  */
 
-button.disabled{
+button.mage-install-disabled {
     background: none repeat scroll 0% 0% #bbb;
     border-color: #bbb;
     cursor: default;
     color: white;
 }
-button.enabled{
+
+button.mage-install-enabled {
     background: #f18200;
     cursor: pointer;
     color: #c73615;
+}
+
+input.mage-install-error {
+    background: none repeat scroll 0 0 #FAEBE7 !important;
+    border: 1px dashed #EB340A !important;
+
+}
+
+div.mage-install-error {
+    background: url("/pub/media/skin/install/default/default/default/en_US/images/validation_advice_bg.gif") no-repeat scroll 2px 1px transparent;
+    clear: both;
+    font-size: 0.95em;
+    font-weight: bold;
+    line-height: 1.25em;
+    margin-top: 3px;
+    min-height: 15px;
+    padding-left: 17px;
+    color: #DF280A;
 }

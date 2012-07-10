@@ -293,17 +293,16 @@ $.metadata.setType("html5");
   $.fn.mage = function () {
     var jq = this;
     return {
-      validate: function () {
+      validate: function (options) {
+        var defaultOptions = $.extend({
+          meta: "validate",
+          onfocusout: false,
+          onkeyup: false,
+          onclick: false,
+          ignoreTitle:true
+        },options);
         return jq.each(function () {
-          $(this).validate({
-            meta: "validate",
-            onfocusout: false,
-            onkeyup: false,
-            onclick: false,
-            ignoreTitle:true,
-            errorClass:'mage-error',
-            errorElement:'div'
-          });
+          $(this).validate(defaultOptions);
 
         });
       }
