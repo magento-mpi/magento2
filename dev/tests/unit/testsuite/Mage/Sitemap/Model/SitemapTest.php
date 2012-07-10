@@ -201,63 +201,21 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     public static function sitemapDataProvider()
     {
         $expectedSingleFile = array(
-            'sitemap-1-1.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
-                . '<url>'
-                . '<loc>http://store.com/category.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
-                . '</url>' . PHP_EOL
-                . '<url>'
-                . '<loc>http://store.com/category/sub-category.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
-                . '</url>' . PHP_EOL
-                . '<url>'
-                . '<loc>http://store.com/product.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>'
-                . '</url>' . PHP_EOL
-                . '</urlset>'
+            'sitemap-1-1.xml' => __DIR__ . '/_files/sitemap-single.xml'
         );
 
         $expectedMultiFile = array(
-            'sitemap-1-1.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
-                . '<url>'
-                . '<loc>http://store.com/category.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
-                . '</url>' . PHP_EOL
-                . '</urlset>',
-            'sitemap-1-2.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
-                . '<url>'
-                . '<loc>http://store.com/category/sub-category.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>daily</changefreq><priority>1.0</priority>'
-                . '</url>' . PHP_EOL
-                . '</urlset>',
-            'sitemap-1-3.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
-                . '<url>'
-                . '<loc>http://store.com/product.html</loc>'
-                . '<lastmod>2012-12-21T00:00:00-08:00</lastmod><changefreq>monthly</changefreq><priority>0.5</priority>'
-                . '</url>' . PHP_EOL
-                . '</urlset>',
-            'sitemap.xml' => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                . '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
-                . '<sitemap>'
-                . '<loc>http://store.com/sitemap-1-1.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</sitemap>' . PHP_EOL
-                . '<sitemap>'
-                . '<loc>http://store.com/sitemap-1-2.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</sitemap>' . PHP_EOL
-                . '<sitemap>'
-                . '<loc>http://store.com/sitemap-1-3.xml</loc><lastmod>2012-12-21T00:00:00-08:00</lastmod>'
-                . '</sitemap>' . PHP_EOL
-                . '</sitemapindex>'
+            'sitemap-1-1.xml' => __DIR__ . '/_files/sitemap-1-1.xml',
+            'sitemap-1-2.xml' => __DIR__ . '/_files/sitemap-1-2.xml',
+            'sitemap-1-3.xml' => __DIR__ . '/_files/sitemap-1-3.xml',
+            'sitemap-1-4.xml' => __DIR__ . '/_files/sitemap-1-4.xml',
+            'sitemap.xml'     => __DIR__ . '/_files/sitemap-index.xml'
         );
 
         return array(
-            array(50000, 10485760, $expectedSingleFile, 5),
-            array(1, 10485760, $expectedMultiFile, 14),
-            array(50000, 264, $expectedMultiFile, 14)
+            array(50000, 10485760, $expectedSingleFile, 6),
+            array(1, 10485760, $expectedMultiFile, 18),
+            array(50000, 264, $expectedMultiFile, 18)
         );
     }
 
@@ -284,13 +242,13 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $this->_prepareValidFileMock($fileMock);
 
         // Check that all $expectedWrites lines were written
-        $actualFile = array();
+        $actualData = array();
         $currentFile = '';
-        $streamWriteCallback = function ($str) use (&$actualFile, &$currentFile) {
-            if (!array_key_exists($currentFile, $actualFile)) {
-                $actualFile[$currentFile] = '';
+        $streamWriteCallback = function ($str) use (&$actualData, &$currentFile) {
+            if (!array_key_exists($currentFile, $actualData)) {
+                $actualData[$currentFile] = '';
             }
-            $actualFile[$currentFile] .= $str;
+            $actualData[$currentFile] .= $str;
         };
 
         // Check that all expected lines were written
@@ -341,7 +299,12 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $model = $this->_getModelMock($fileMock, true);
         $model->generateXml();
 
-        $this->assertEquals($expectedFile, $actualFile);
+        $this->assertCount(count($expectedFile), $actualData, 'Number of generated files is incorrect');
+        foreach ($expectedFile as $expectedFileName => $expectedFilePath) {
+            $this->assertArrayHasKey($expectedFileName, $actualData,
+                sprintf('File %s was not generated', $expectedFileName));
+            $this->assertXmlStringEqualsXmlFile($expectedFilePath, $actualData[$expectedFileName]);
+        }
     }
 
     /**
@@ -415,6 +378,24 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 new Varien_Object(array(
                     'url' => 'product.html',
                     'updated_at' => '2012-12-21 00:00:00'
+                )),
+                new Varien_Object(array(
+                    'url' => 'product2.html',
+                    'updated_at' => '2012-12-21 00:00:00',
+                    'images' => new Varien_Object(array(
+                        'collection' => array(
+                            new Varien_Object(array(
+                                'url' => 'image1.png',
+                                'caption' => 'caption & > title < "'
+                            )),
+                            new Varien_Object(array(
+                                'url' => 'image_no_caption.png',
+                                'caption' => null
+                            ))
+                        ),
+                        'thumbnail' => 'thumbnail.jpg',
+                        'title' => 'Product & > title < "'
+                    ))
                 ))
             )));
         $model->expects($this->any())

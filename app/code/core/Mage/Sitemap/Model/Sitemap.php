@@ -150,7 +150,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             ),
             self::TYPE_URL => array(
                 self::OPEN_TAG_KEY => '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL
-                    . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL,
+                    . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+                    . ' xmlns:content="http://www.google.com/schemas/sitemap-content/1.0"'
+                    . ' xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . PHP_EOL,
                 self::CLOSE_TAG_KEY => '</urlset>'
             )
         );
@@ -251,7 +253,13 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $changefreq = $sitemapItem->getChangefreq();
             $priority = $sitemapItem->getPriority();
             foreach ($sitemapItem->getCollection() as $item) {
-                $xml = $this->_getSitemapRow($item->getUrl(), $item->getUpdatedAt(), $changefreq, $priority);
+                $xml = $this->_getSitemapRow(
+                    $item->getUrl(),
+                    $item->getUpdatedAt(),
+                    $changefreq,
+                    $priority,
+                    $item->getImages()
+                );
                 if ($this->_isSplitRequired($xml) && $this->_sitemapIncrement > 0) {
                     $this->_finalizeSitemap();
                 }
@@ -331,13 +339,20 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get sitemap row
      *
+     * Sitemap images
+     * @see http://support.google.com/webmasters/bin/answer.py?hl=en&answer=178636
+     *
+     * Sitemap PageMap
+     * @see http://support.google.com/customsearch/bin/answer.py?hl=en&answer=1628213
+     *
      * @param string $url
      * @param string $lastmod
      * @param string $changefreq
      * @param string $priority
+     * @param array $images
      * @return string
      */
-    protected function _getSitemapRow($url, $lastmod = null, $changefreq = null, $priority = null)
+    protected function _getSitemapRow($url, $lastmod = null, $changefreq = null, $priority = null, $images = null)
     {
         $url = $this->_getUrl($url);
         $row = '<loc>' . htmlspecialchars($url) . '</loc>';
@@ -349,6 +364,24 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         }
         if ($priority) {
             $row .= sprintf('<priority>%.1f</priority>', $priority);
+        }
+        if ($images) {
+            // Add Images to sitemap
+            foreach ($images->getCollection() as $image) {
+                $row .= '<image:image>';
+                $row .= '<image:loc>' . htmlspecialchars($this->_getMediaUrl($image->getUrl())) . '</image:loc>';
+                $row .= '<image:title>' . htmlspecialchars($images->getTitle()) . '</image:title>';
+                if ($image->getCaption()) {
+                    $row .= '<image:caption>' . htmlspecialchars($image->getCaption()) . '</image:caption>';
+                }
+                $row .= '</image:image>';
+            }
+            // Add PageMap image for Google web search
+            $row .= '<PageMap xmlns="http://www.google.com/schemas/sitemap-pagemap/1.0"><DataObject type="thumbnail">';
+            $row .= '<Attribute name="name" value="' . htmlspecialchars($images->getTitle()) .'"/>';
+            $row .= '<Attribute name="src" value="'
+                . htmlspecialchars($this->_getMediaUrl($images->getThumbnail())) . '"/>';
+            $row .= '</DataObject></PageMap>';
         }
 
         return '<url>' . $row . '</url>';
