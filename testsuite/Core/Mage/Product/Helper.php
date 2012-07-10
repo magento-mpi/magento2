@@ -836,7 +836,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function verifyDownloadableOptions(array $optionsData, $type)
     {
-        $rowQty = $this->getControlCount('pageelements', 'downloadable_' . $type . '_row');
+        $rowQty = $this->getControlCount('pageelement', 'downloadable_' . $type . '_row');
         $needCount = count($optionsData);
         if ($needCount != $rowQty) {
             $this->addVerificationMessage(
