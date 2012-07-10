@@ -197,7 +197,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 }
             }
             $addressLine = $this->defineAddressToChoose($addressData, $addressType);
-            $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
+            $this->fillForm(array($addressType . '_address_choice' => $addressLine));
         }
     }
 

@@ -43,3 +43,35 @@ online_customers:
     mca: customer_online/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
     title: Online Customers / Customers / Magento Admin
+    uimap:
+        form:
+            fieldsetes:
+                -
+                    online_customer_grid:
+                        xpath: //div[@id='onlineGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            type: //select[@id='onlineGrid_filter_type']
+                        fields:
+                            id_from: //input[@name='entity_id_from']
+                            id_to: //input[@name='entity_id_to']
+                            firstname: //input[@name='firstname']
+                            lastname: //input[@name='lastname']
+                            email: //input[@name='email']
+                            session_start_time_from: //input[@name='session_start_time_from']
+                            session_start_time_to: //input[@name='session_start_time_to']
+                            last_activity_from: //input[@name='last_activity_from']
+                            last_activity_to: //input[@name='last_activity_to']
+                            last_url: //input[@name='last_url']
+                        pageelements:
+                            online_grid_head:  //table[@id='onlineGrid_table']/thead/tr[@class='headings']
+
+
+
+
+
+
+
+

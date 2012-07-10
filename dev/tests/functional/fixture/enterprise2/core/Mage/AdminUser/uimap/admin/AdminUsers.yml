@@ -22,3 +22,41 @@ manage_roles:
     mca: user_role/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'user_role')]
     title: Roles / Permissions / System / Magento Admin
+
+# 'New User' page
+new_admin_user:
+    mca: user/new/
+
+# 'Edit User' page
+edit_admin_user:
+    mca: user/edit/user_id/%id%/
+
+new_admin_user_with_error:
+    mca: user/edit/
+
+# 'New Role' page
+new_role:
+    mca: user_role/editrole/
+    uimap:
+        form:
+             tabs:
+                -
+                    role_resources:
+                        fieldsets:
+                            -
+                                role_scopes:
+                                    xpath: //div[./div/h4[contains(text(), 'Role Scopes')]]//fieldset
+                                    checkboxes:
+                                        websites: //div[@id='gws_container']/ul/li[.//label[contains(.,'%websiteName%')]]/input[@type='checkbox']
+                            -
+                                role_resources:
+                                    dropdowns:
+                                        resource_access: //select[@id='all']
+                                    links:
+                                        root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
+                                        sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                                        expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
+
+# 'Edit Role' page
+edit_role:
+    mca: user_role/editrole/rid/%id%/

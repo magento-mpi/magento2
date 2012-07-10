@@ -1,28 +1,12 @@
-#
 # Magento
 #
-# NOTICE OF LICENSE
+# {license_notice}
 #
-# This source file is subject to the Academic Free License (AFL 3.0)
-# that is bundled with this package in the file LICENSE_AFL.txt.
-# It is also available through the world-wide-web at this URL:
-# http://opensource.org/licenses/afl-3.0.php
-# If you did not receive a copy of the license and are unable to
-# obtain it through the world-wide-web, please send an email
-# to license@magentocommerce.com so we can send you a copy immediately.
-#
-# DISCLAIMER
-#
-# Do not edit or add to this file if you wish to upgrade Magento to newer
-# versions in the future. If you wish to customize Magento for your
-# needs please refer to http://www.magentocommerce.com for more information.
-#
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
-# @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
-# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+# @category    Magento
+# @package     Mage_AdminUser
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
 #
 ---
 # 'Edit Customer' Page
@@ -63,12 +47,157 @@ manage_customer_segments:
     mca: customersegment/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
     title: Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &searchCustomerSegmentGrid
+                    fieldsets:
+                        -
+                            customer_segment_grid:
+                                xpath:  //div[@id='customersegmentGrid']
+                                buttons:
+                                    reset_filter: //button[span='Reset Filter']
+                                    search: //button[span='Search']
+                                fields:
+                                    segment_id: //input[@id='customersegmentGrid_filter_grid_segment_id']
+                                    segment_name: //input[@id='customersegmentGrid_filter_grid_segment_name']
+                                dropdowns:
+                                    status: //select[@id='customersegmentGrid_filter_grid_segment_is_active']
+                                pageelements:
+                                    customer_segment_grid_head: //div[@id='customersegmentGrid']//thead/tr[@class='headings']
+        buttons:
+                    add_new_segment: //button[span='Add Segment']
+        messages: &customerSegmentMessages
+            success_saved_segment: //li[normalize-space(@class)='success-msg' and contains(.,'The segment has been saved.')]
+            segment_name_required_field: //div[@id='advice-required-entry-segment_name']
+            note_apply_to: //p[@id='note_apply_to']
 
+# Add New Customer Segment page
+new_customer_segment:
+    mca: customersegment/new/
+    title: New Segment / Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &newCustomerSegmentForm
+            tabs:
+                -
+                    general properties: &customerSegmentProperties
+                        xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']/span
+                        fieldsets:
+                            -
+                                segment_properties:
+                                    xpath: //div[@id='segment_base_fieldset']
+                                    dropdowns:
+                                        status: //select[@id='segment_is_active']
+                                        apply_to: //select[@id='segment_apply_to']
+                                    fields:
+                                        segment_name: //input[@id='segment_name']
+                                        description: //input[@id='segment_description']
+                                    required: [segment_name]
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save_segment: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *customerSegmentMessages
+
+# Edit Customer Segment page
+edit_customer_segment:
+    mca: customersegment/edit/id/%id%/
+    title: %segment_title% / Customer Segments / Customers / Magento Admin
+    uimap:
+        form: &editCustomerSegmentForm
+            tabs:
+                -
+                    general properties: *customerSegmentProperties
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            refresh_segment_data: //button[span='Refresh Segment Data']
+            delete: //button[span='Delete']
+            save_segment: //button[span='Save']
+            save_and_continue_edit: //button[span='Save and Continue Edit']
+        messages: *customerSegmentMessages
 #Manage Invitations page
 manage_invitations:
     mca: invitation/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'invitation/')]
     title: Invitations / Customers / Magento Admin
+    uimap:
+        form: &searchInvitationsGrid
+            fieldsets:
+                -
+                    invitations_grid:
+                        xpath: //div[@id='invitationGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            submit: //button[span='Submit']
+                        dropdowns:
+                            grid_massaction_select: //select[@id='invitationGrid_massaction-select']
+                            massaction: //select[@name='massaction']
+                            status: //select[@id='invitationGrid_filter_status']
+                            valid_on_website: //select[@id='invitationGrid_filter_website_id']
+                            invitee_group: //select[@id='invitationGrid_filter_group_id']
+                        fields:
+                            id: //input[@id='invitationGrid_filter_enterprise_invitation_id']
+                            email: //input[@id='invitationGrid_filter_email']
+                            sent_from: //input[@name='invitation_date[from]']
+                            sent_to: //input[@name='invitation_date[to]']
+                            registered_from: //input[@name='signup_date[from]']
+                            registered_to: //input[@name='signup_date[to]']
+                        pageelements:
+                            invitations_grid_head: //table[@id='invitationGrid_table']/thead/tr[@class='headings']
+        buttons:
+            add_invitations: //button[span='Add Invitations']
+        messages: &invitationsMessages
+            failed_send_several_items:  //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% of %numberMessagesOf% invitation(s).')]
+            failed_send: //li[normalize-space(@class)='error-msg' and contains(text()='Failed to send %numberMessagesFailed% invitation(s).')]
+            success_send: //li[normalize-space(@class)='success-msg' and contains(.,'1 invitation(s) were sent.')]
+
+# New invitations page
+
+new_invitations:
+    mca: invitation/new/
+    title: Magento Admin
+    uimap:
+        form: &newInvitationsForm
+            tabs:
+                -
+                    fieldsets:
+                        -
+                            invitations_properties:
+                            xpath: //div[@id='base_fieldset']
+                            dropdowns:
+                                invitee_group: //select[@id='group_id']
+                            fields:
+                                email_on_new_line: //textarea[@id='email']
+                                message: //textarea[@id='message']
+            buttons:
+                back: //button[span='Back']
+                reset: //button[span='Reset']
+                save: //button[span='Save']
+
+#Edit Customer Invitations page
+
+edit_invitations:
+    mca: invitation/view/id/%id%/
+    title: Invitations / Customers / Magento Admin
+    uimap:
+        form: &editInvitationsForm
+            tabs:
+                -
+                    general:
+                        xpath: //a[@name='general']/span
+                        fieldsets:
+                        -
+                            invitations_informations:
+                                xpath: //div[@class='fieldset']
+                            fields:
+                                email: //input[@name='email']
+                                message: //textarea[@name='message']
+            buttons:
+                back: //button[span='Back']
+                discard_invitation: //button[span='Discard Invitation']
+                save_invitation: //button[span='Save Invitation']
+                send_invitation: //button[span='Send Invitation']
 
 #Manage Gift Registry Types page
 manage_gift_registry:

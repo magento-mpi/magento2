@@ -11,6 +11,30 @@
 ---
 #Manage Sales Orders and related pages
 
+# 'Orders' page
+manage_sales_orders:
+    mca: sales_order/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
+    title: Orders / Sales / Magento Admin
+    uimap:
+        form: &orderGridMassactionForm
+            fieldsets:
+                -
+                    sales_order_grid:
+                        xpath: //div[@id='sales_order_grid']
+                        dropdowns:
+                            actions: //select[@id='sales_order_grid_massaction-select']
+                            filter_status: //*[@id='sales_order_grid_filter_status']
+                        buttons:
+                            reset_filter: //button[@title='Reset Filter']
+                        links:
+                            select_visible: //a[text()='Select Visible']
+                        pageelements:
+                            sales_order_grid_table: //table[@id='sales_order_grid_table']
+                            linkcable_orders_ingrid: //*[@id='sales_order_grid_table']/tbody//tr[contains(@title, 'http:')]
+                    fields:
+                        filter_order_id: //*[@id='sales_order_grid_filter_real_order_id']
+
 # 'New Order' page
 create_order_for_new_customer:
     uimap: &create_order_for_new_customer
@@ -19,4 +43,4 @@ create_order_for_new_customer:
                 -
                     order_payment_method: &orderPaymentMethod
                         fields:
-                            purchase_order_number: //input[@id='po_number']
+                            purchase_order_number: //input[@id='po_number']                        
