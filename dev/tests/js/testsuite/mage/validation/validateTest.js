@@ -267,9 +267,9 @@ MageValidationTest.prototype.testValidateCssLength = function () {
 };
 
 MageValidationTest.prototype.testValidateData = function () {
-  assertEquals(false, $.validator.methods.validateData(""));
-  assertEquals(false, $.validator.methods.validateData(null));
-  assertEquals(false, $.validator.methods.validateData(undefined));
+  assertEquals(true, $.validator.methods.validateData(""));
+  assertEquals(true, $.validator.methods.validateData(null));
+  assertEquals(true, $.validator.methods.validateData(undefined));
   assertEquals(false, $.validator.methods.validateData("   "));
   assertEquals(false, $.validator.methods.validateData("123abc"));
   assertEquals(true, $.validator.methods.validateData("abc"));

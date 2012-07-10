@@ -40,6 +40,11 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     return  (value === '' || (value == null) || (value.length === 0) || /^\s+$/.test(value));
   }
 
+  function isEmptyNoTrim(value) {
+    // remove html tags and space chars
+    return  (value === '' || (value == null) || (value.length === 0));
+  }
+
   function parseNumber(value) {
     if ( typeof value != 'string' ) {
       return parseFloat(v);
@@ -71,7 +76,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
   }, 'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field');
 
   jQuery.validator.addMethod("validateData", function (v) {
-    return !isEmpty(v) && /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
+    return isEmptyNoTrim(v) || /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
   }, 'Please use only letters (a-z or A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
 
 
