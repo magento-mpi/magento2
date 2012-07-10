@@ -119,7 +119,7 @@
             </modules>
         </translate>
     </frontend>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -129,8 +129,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_catalogevent module="Enterprise_CatalogEvent">

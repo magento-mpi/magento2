@@ -174,8 +174,6 @@
                 </Enterprise_Cms>
             </modules>
         </translate>
-    </adminhtml>
-    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -185,7 +183,7 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
+    </adminhtml>
     <default>
         <cms>
             <hierarchy>

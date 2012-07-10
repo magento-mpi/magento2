@@ -33,6 +33,15 @@
         </index>
     </global>
     <adminhtml>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
         <events>
             <catalog_product_save_after>
                 <observers>
@@ -76,17 +85,6 @@
             </updates>
         </layout>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <frontend>
         <layout>
             <updates>

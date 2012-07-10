@@ -86,7 +86,7 @@
             </catalog_product_delete_after>
         </events>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -96,8 +96,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_giftregistry module="Enterprise_GiftRegistry">

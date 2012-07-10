@@ -16,6 +16,15 @@
         </Mage_Authorizenet>
     </modules>
     <adminhtml>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_Authorizenet before="Mage_Adminhtml">Mage_Authorizenet_Adminhtml</Mage_Authorizenet>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
         <translate>
             <modules>
                 <Mage_Authorizenet>
@@ -88,17 +97,6 @@
             </controller_action_postdispatch_checkout_onepage_saveOrder>
         </events>
     </frontend>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Authorizenet before="Mage_Adminhtml">Mage_Authorizenet_Adminhtml</Mage_Authorizenet>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <payment>
             <authorizenet_directpost>

@@ -17,7 +17,7 @@
     </modules>
     <global>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -27,8 +27,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_checkout module="Enterprise_Checkout">

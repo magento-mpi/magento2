@@ -25,6 +25,8 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      */
     protected $_menuMock;
 
+    protected $_areaFrontName = 'backendArea';
+
     public function setUp()
     {
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
@@ -40,9 +42,14 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Mage_Adminhtml::system_acl_roles'))
             ->will($this->returnValue($mockItem));
 
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $helperMock->expects($this->any())->method('getAreaFrontName')
+            ->will($this->returnValue($this->_areaFrontName));
+
         $this->_model = new Mage_Backend_Model_Url(array(
                 'startupMenuItemId' => 'Mage_Adminhtml::system_acl_roles',
-                'menu' => $this->_menuMock
+                'menu' => $this->_menuMock,
+                'backendHelper' => $helperMock
             )
         );
     }
@@ -111,5 +118,66 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->_model->setSession($mockSession);
         $this->assertEquals('adminhtml/user_role', (string)$this->_model->getStartupPageUrl());
+    }
+
+    public function testGetAreaFrontName()
+    {
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $helperMock->expects($this->once())->method('getAreaFrontName')
+            ->will($this->returnValue($this->_areaFrontName));
+
+        $urlModel = new Mage_Backend_Model_Url(array(
+            'startupMenuItemId' => 'Mage_Adminhtml::system_acl_roles',
+            'menu' => $this->_menuMock,
+            'backendHelper' => $helperMock
+        ));
+
+        $urlModel->getAreaFrontName();
+    }
+
+    public function testGetActionPath()
+    {
+        $moduleFrontName = 'moduleFrontName';
+        $controllerName = 'controllerName';
+        $actionName = 'actionName';
+
+        $this->_model->setRouteName($moduleFrontName);
+        $this->_model->setRouteFrontName($moduleFrontName);
+        $this->_model->setControllerName($controllerName);
+        $this->_model->setActionName($actionName);
+
+        $actionPath = $this->_model->getActionPath();
+
+        $this->assertNotEmpty($actionPath);
+        $this->assertStringStartsWith($this->_areaFrontName . '/', $actionPath);
+        $this->assertStringMatchesFormat($this->_areaFrontName . '/%s/%s/%s', $actionPath);
+    }
+
+    public function testGetActionPathWhenAreaFrontNameIsEmpty()
+    {
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $helperMock->expects($this->once())->method('getAreaFrontName')
+            ->will($this->returnValue(''));
+
+        $urlModel = new Mage_Backend_Model_Url(array(
+            'startupMenuItemId' => 'Mage_Adminhtml::system_acl_roles',
+            'menu' => $this->_menuMock,
+            'backendHelper' => $helperMock
+        ));
+
+        $moduleFrontName = 'moduleFrontName';
+        $controllerName = 'controllerName';
+        $actionName = 'actionName';
+
+        $urlModel->setRouteName($moduleFrontName);
+        $urlModel->setRouteFrontName($moduleFrontName);
+        $urlModel->setControllerName($controllerName);
+        $urlModel->setActionName($actionName);
+
+        $actionPath = $urlModel->getActionPath();
+
+        $this->assertNotEmpty($actionPath);
+        $this->assertStringStartsWith($moduleFrontName . '/', $actionPath);
+        $this->assertStringMatchesFormat($moduleFrontName . '/%s/%s', $actionPath);
     }
 }

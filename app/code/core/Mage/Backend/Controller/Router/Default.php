@@ -122,57 +122,17 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
             }
         }
 
-        $this->_collectRoutes('admin', $useRouterName);
+        parent::collectRoutes($configArea, $useRouterName);
     }
 
     /**
-     * Collect modules routers configuration from configuration
+     * Check whether redirect should be used for secure routes
      *
-     * @param string $configArea
-     * @param string $useRouterName
-     * @return void
+     * @return bool
      */
-    protected function _collectRoutes($configArea, $useRouterName)
+    protected function _shouldRedirectToSecure()
     {
-        $routers = array();
-        $routersConfigNode = Mage::getConfig()->getNode($configArea.'/routers');
-        if($routersConfigNode) {
-            $routers = $routersConfigNode->children();
-        }
-        foreach ($routers as $routerName=>$routerConfig) {
-            $use = (string)$routerConfig->use;
-            if ($use == $useRouterName) {
-                $modules = array();
-                if (isset($routerConfig->args->module)) {
-                    $modules = array((string)$routerConfig->args->module);
-                }
-
-                if ($routerConfig->args->modules) {
-                    foreach ($routerConfig->args->modules->children() as $customModule) {
-                        if ($customModule) {
-                            if ($before = $customModule->getAttribute('before')) {
-                                $position = array_search($before, $modules);
-                                if ($position === false) {
-                                    $position = 0;
-                                }
-                                array_splice($modules, $position, 0, (string)$customModule);
-                            } elseif ($after = $customModule->getAttribute('after')) {
-                                $position = array_search($after, $modules);
-                                if ($position === false) {
-                                    $position = count($modules);
-                                }
-                                array_splice($modules, $position+1, 0, (string)$customModule);
-                            } else {
-                                $modules[] = (string)$customModule;
-                            }
-                        }
-                    }
-                }
-
-                $frontName = (string)$routerConfig->args->frontName;
-                $this->addModule($frontName, $modules, $routerName);
-            }
-        }
+        return false;
     }
 
     public function getControllerFileName($realModule, $controller)

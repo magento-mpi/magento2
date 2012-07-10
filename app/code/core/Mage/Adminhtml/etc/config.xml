@@ -35,7 +35,7 @@
             </admin_user_authenticate_after>
         </events>
     </global>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <use>admin</use>
@@ -46,8 +46,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <events>
             <core_locale_set_locale>
                 <observers>

@@ -26,6 +26,15 @@
         </resources>
     </global>
     <adminhtml>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
         <events>
             <controller_action_predispatch>
                 <observers>
@@ -106,17 +115,6 @@
             </logging>
         </enterprise>
     </adminhtml>
-    <admin>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
-    </admin>
     <default>
         <system>
             <rotation translate="frequency">

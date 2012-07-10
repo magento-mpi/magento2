@@ -127,7 +127,7 @@
             </enterprise_rma_customer_comment>
         </sales_email>
     </default>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -137,8 +137,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_rma module="Enterprise_Rma">

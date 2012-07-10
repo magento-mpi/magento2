@@ -41,15 +41,6 @@
             <description/>
             <image/>
         </attributes>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_GoogleOptimizer before="Mage_Adminhtml">Mage_GoogleOptimizer_Adminhtml</Mage_GoogleOptimizer>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
     </admin>
     <frontend>
         <translate>
@@ -96,6 +87,15 @@
         </events>
     </frontend>
     <adminhtml>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_GoogleOptimizer before="Mage_Adminhtml">Mage_GoogleOptimizer_Adminhtml</Mage_GoogleOptimizer>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
         <translate>
             <modules>
                 <Mage_GoogleOptimizer>

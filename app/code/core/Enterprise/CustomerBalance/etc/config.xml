@@ -256,7 +256,7 @@
             <storecredit_info>/storecredit/info/</storecredit_info>
         </secure_url>
     </frontend>
-    <admin>
+    <adminhtml>
         <routers>
             <adminhtml>
                 <args>
@@ -266,8 +266,6 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>
-    <adminhtml>
         <layout>
             <updates>
                 <enterprise_customerbalance module="Enterprise_CustomerBalance">
