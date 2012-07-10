@@ -11,7 +11,7 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form: &searchProductGrid
@@ -134,7 +134,7 @@ new_product:
                                         general_url_key: //input[@id='url_key']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                     multiselects:
-                                        general_user_attr_multiselect: //input[@id='%attributeCodeMultiselect%']
+                                        general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span

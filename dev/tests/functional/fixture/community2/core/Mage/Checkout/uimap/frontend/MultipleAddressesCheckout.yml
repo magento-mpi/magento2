@@ -1,0 +1,19 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# 'Checkout with Multiple Addresses' page
+checkout_multishipping_payment_methods:
+    uimap:
+        form: &paymentForOrder
+            fieldsets:
+                -
+                    payment_method:
+                        fields:
+                            purchase_order_number: //input[@id='po_number']

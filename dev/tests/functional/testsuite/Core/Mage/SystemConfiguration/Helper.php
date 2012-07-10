@@ -123,8 +123,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
         $this->clickAndWait($xpath, $this->_browserTimeoutPeriod);
         $secureBaseUrlXpath = $this->_getControlXpath('field', 'secure_base_url');
         $url = preg_replace('/http(s)?/', 'https', $this->getValue($secureBaseUrlXpath));
-        $data = array('secure_base_url'             => $url,
-                      'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
+        $data = array('secure_base_url' => $url,
+            'use_secure_urls_in_' . $path => ucwords(strtolower($useSecure)));
         $this->fillForm($data, 'general_web');
         $this->clickButton('save_config');
         if ($this->getTitle() == 'Log into Magento Admin Page') {

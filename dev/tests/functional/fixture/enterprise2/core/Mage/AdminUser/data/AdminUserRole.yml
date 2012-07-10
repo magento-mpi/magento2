@@ -1,0 +1,69 @@
+#  Magento
+#
+#  {license_notice}
+#
+#  @category    Magento
+#  @package     Mage_ACL
+#  @subpackage  tests_data
+#  @copyright   {copyright}
+#  @license     {license_link}
+#
+---
+# Test data for Admin Role
+
+generic_admin_user_role:
+    role_info_tab:
+        role_name: 'My Test Role %randomize%'
+    role_resources_tab:
+        role_scopes:
+            scopes: All
+        role_resources:
+            resource_access : All
+
+generic_admin_user_role_custom:
+    role_info_tab:
+        role_name: 'My Test Role %randomize%'
+    role_resources_tab:
+        role_scopes:
+            scopes: Custom
+            website_1: Main Website Store
+        role_resources:
+            resource_access : Custom
+            resource_1: Sales/Transactions/Fetch
+
+role_users_template: &roleUsersTemplate
+    user_id: %noValue%
+    user_name: admin
+    first_name: %noValue%
+    last_name: %noValue%
+    email: %noValue%
+    status: Active
+
+edit_admin_user_role_custom:
+    search_role:
+        id: %noValue%
+        role_name: %roleName%
+    role_info_tab:
+        role_name: 'Edit Role %randomize%'
+    role_resources_tab:
+        role_scopes:
+            scopes: All
+#            website_1: Main Website Store
+        role_resources:
+            resource_access : Custom
+            resource_1: Sales/Archive/Orders/Move to Archive
+    role_users_tab:
+        role_users_1: *roleUsersTemplate
+        role_users_2: %noValue%
+
+edit_admin_user_role_name:
+    search_role:
+        id: %noValue%
+        role_name: %roleName%
+    role_info_tab:
+        role_name: %newRoleName%
+
+delete_admin_user_role:
+    search_role:
+        id: %noValue%
+        role_name: %roleName%

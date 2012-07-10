@@ -2,28 +2,14 @@
 /**
  * Magento
  *
- * NOTICE OF LICENSE
+ * {license_notice}
  *
- * This source file isthemosti subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
+ * @category    Magento
+ * @package     Mage_AdminUser
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests;
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
@@ -94,7 +80,7 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     public function withRequiredFields()
     {
         //Data
-        $roleData = $this->loadDataSet('AdminUsersRole', 'generic_admin_user_role',
+        $roleData = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role',
             array('role_name' => $this->generate('string', 15, ':alnum:')));
         //Steps
         $this->adminUserHelper()->createRole($roleData);
@@ -123,7 +109,7 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     public function withEmptyRequiredFields()
     {
         //Data
-        $roleData = $this->loadDataSet('AdminUsersRole', 'generic_admin_user_role', array('role_name' => ''));
+        $roleData = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role', array('role_name' => ''));
         //Steps
         $this->adminUserHelper()->createRole($roleData);
         //Verifying
@@ -149,7 +135,7 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     public function withSpecialSymbolsInField()
     {
         //Data
-        $roleData = $this->loadDataSet('AdminUsersRole', 'generic_admin_user_role',
+        $roleData = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role',
             array('role_name' => $this->generate('string', 32, ':punct:')));
         //Steps
         $this->adminUserHelper()->createRole($roleData);
@@ -176,7 +162,7 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
     public function withLongRoleName()
     {
         //Data
-        $roleData = $this->loadDataSet('AdminUsersRole', 'generic_admin_user_role',
+        $roleData = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role',
             array('role_name' => $this->generate('string', 50, ':alnum:')));
         //Steps
         $this->adminUserHelper()->createRole($roleData);
@@ -204,16 +190,15 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
      */
     public function editRoleName($roleData)
     {
+        $editedRole = $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name', null,
+            array('roleName'    => $roleData['role_info_tab']['role_name'],
+                  'newRoleName' => $roleData['role_info_tab']['role_name'] . '_edited'));
         //Data
-        $newRoleName = array('role_name' => $roleData['role_info_tab']['role_name'] . '_edited');
-        //Steps
-        $this->searchAndOpen(array('role_name'=> $roleData['role_info_tab']['role_name']));
-        $this->fillField('role_name', $newRoleName['role_name']);
-        $this->saveForm('save_role');
+        $this->adminUserHelper()->editRole($editedRole);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_role');
 
-        return $newRoleName;
+        return $roleData['role_info_tab']['role_name'] . '_edited';
     }
 
     /**
@@ -234,8 +219,9 @@ class Community2_Mage_AdminUser_CreateRoleTest extends Mage_Selenium_TestCase
      */
     public function deleteRole($newRoleName)
     {
-        $this->searchAndOpen($newRoleName);
-        $this->clickButton('delete_role');
+        $roleToDelete =
+            $this->loadDataSet('AdminUserRole', 'edit_admin_user_role_name', null, array('roleName' => $newRoleName));
+        $this->adminUserHelper()->deleteRole($roleToDelete);
         $this->assertMessagePresent('success', 'success_deleted_role');
     }
 }

@@ -39,15 +39,21 @@ class Enterprise2_Mage_CustomerAttribute_Helper extends Mage_Selenium_TestCase
      * Action_helper method for Create Attribute
      *
      * Preconditions: 'Manage Attributes' page is opened.
-     * @param array $attrData Array which contains DataSet for filling of the current form
+     * @param string|array $attrData Array or string which contains DataSet for filling of the current form or path to dataset
      */
     public function createAttribute($attrData)
     {
+        if (is_string($attrData)) {
+            $elements = explode('/', $attrData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $attrData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
         $this->clickButton('add_new_attribute');
-        $this->fillForm($attrData, 'properties');
-        $this->fillForm($attrData, 'manage_labels_options');
-        $this->storeViewTitles($attrData);
-        $this->attributeOptions($attrData);
+        foreach ($attrData as $tabId => $data) {
+            $this->fillTab($data, $tabId);
+        }
+//        $this->storeViewTitles($attrData);
+//        $this->attributeOptions($attrData);
         $this->saveForm('save_attribute');
     }
 
@@ -63,7 +69,7 @@ class Enterprise2_Mage_CustomerAttribute_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
         $cellId = $this->getColumnIdByName('Attribute Label');
-        $this->addParameter('attribute_code', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->addParameter('admin_title', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);

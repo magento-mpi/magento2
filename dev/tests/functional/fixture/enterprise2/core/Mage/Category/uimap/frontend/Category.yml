@@ -37,13 +37,10 @@ category_page_before_reindex:
                             sku: //tr[%number%]//input[contains(@name, '[sku]')]
                             qty: //tr[%number%]//input[contains(@name, '[qty]')]
                         buttons:
-                            add_to_cart: //button[span='Add to Cart']               
-                            add_row: //span[@title='Add Row']
+                            add_to_cart_by_sku: //button[span='Add to Cart']
+                            add_row_by_sku: //span[@title='Add Row']
                         links:
                             sku_link: //p[@class='link-widget-sku']/a
-                        buttons:
-                            add_to_cart: //button[span='Add to Cart']               
-                            add_row: //span[@title='Add Row']                
         messages:
             sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
             sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
