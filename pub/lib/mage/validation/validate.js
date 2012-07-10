@@ -88,7 +88,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of  validate-phoneLax
    */
   jQuery.validator.addMethod("validatePhoneLax", function (v) {
-    return  !isEmpty(v) && /^((\d[-. ]?)?((\(\d{3}\))|\d{3}))?[-. ]?\d{3}[-. ]?\d{4}$/.test(v);
+    return  !isEmpty(v) && /^((\d[\-. ]?)?((\(\d{3}\))|\d{3}))?[\-. ]?\d{3}[\-. ]?\d{4}$/.test(v);
   }, 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.');
 
   /**
@@ -139,7 +139,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     if ( !(/[a-z]/i.test(v)) || !(/[0-9]/.test(v)) ) {
       return false;
     }
-    if (pass.length < 7){
+    if ( pass.length < 7 ) {
       return false;
     }
     return true;
@@ -153,7 +153,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
       return false;
     }
     v = (v || '').replace(/^\s+/, '').replace(/\s+$/, '');
-    return /^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?(.*)?$/i.test(v);
+    return (/^(http|https|ftp):\/\/(([A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))(\.[A-Z0-9]([A-Z0-9_-]*[A-Z0-9]|))*)(:(\d+))?(\/[A-Z0-9~](([A-Z0-9_~-]|\.)*[A-Z0-9~]|))*\/?(.*)?$/i).test(v);
 
   }, 'Please enter a valid URL. Protocol is required (http://, https:// or ftp://).');
 
@@ -248,52 +248,52 @@ jQuery.validator.addMethod("isEmpty", function (value) {
 
 })();
 /*
-  Translate default error messages
+ Translate default error messages
  */
- jQuery.extend(jQuery.validator.messages, {
-    required: mage.localize.translate("This field is required."),
-    remote: mage.localize.translate("Please fix this field."),
-    email: mage.localize.translate("Please enter a valid email address."),
-    url: mage.localize.translate("Please enter a valid URL."),
-    date: mage.localize.translate("Please enter a valid date."),
-    dateISO: mage.localize.translate("Please enter a valid date (ISO)."),
-    number: mage.localize.translate("Please enter a valid number."),
-    digits: mage.localize.translate("Please enter only digits."),
-    creditcard: mage.localize.translate("Please enter a valid credit card number."),
-    equalTo: mage.localize.translate("Please enter the same value again."),
-    accept: mage.localize.translate("Please enter a value with a valid extension."),
-    maxlength: $.validator.format(mage.localize.translate("Please enter no more than {0} characters.")),
-    minlength: $.validator.format(mage.localize.translate("Please enter at least {0} characters.")),
-    rangelength: $.validator.format(mage.localize.translate("Please enter a value between {0} and {1} characters long.")),
-    range: $.validator.format(mage.localize.translate("Please enter a value between {0} and {1}.")),
-    max: $.validator.format(mage.localize.translate("Please enter a value less than or equal to {0}.")),
-    min: $.validator.format(mage.localize.translate("Please enter a value greater than or equal to {0}."))
-  });
+jQuery.extend(jQuery.validator.messages, {
+  required: mage.localize.translate("This field is required."),
+  remote: mage.localize.translate("Please fix this field."),
+  email: mage.localize.translate("Please enter a valid email address."),
+  url: mage.localize.translate("Please enter a valid URL."),
+  date: mage.localize.translate("Please enter a valid date."),
+  dateISO: mage.localize.translate("Please enter a valid date (ISO)."),
+  number: mage.localize.translate("Please enter a valid number."),
+  digits: mage.localize.translate("Please enter only digits."),
+  creditcard: mage.localize.translate("Please enter a valid credit card number."),
+  equalTo: mage.localize.translate("Please enter the same value again."),
+  accept: mage.localize.translate("Please enter a value with a valid extension."),
+  maxlength: $.validator.format(mage.localize.translate("Please enter no more than {0} characters.")),
+  minlength: $.validator.format(mage.localize.translate("Please enter at least {0} characters.")),
+  rangelength: $.validator.format(mage.localize.translate("Please enter a value between {0} and {1} characters long.")),
+  range: $.validator.format(mage.localize.translate("Please enter a value between {0} and {1}.")),
+  max: $.validator.format(mage.localize.translate("Please enter a value less than or equal to {0}.")),
+  min: $.validator.format(mage.localize.translate("Please enter a value greater than or equal to {0}."))
+});
 /*
-Setting the type as html5 to enable data-validate
+ Setting the type as html5 to enable data-validate
  */
 $.metadata.setType("html5");
 
 /*
-jQuery plugin for validator
-eg:$("#formId").mage().validate()
+ jQuery plugin for validator
+ eg:$("#formId").mage().validate()
  */
-(function($) {
+(function ($) {
   $.fn.mage = function () {
     var jq = this;
     return {
-      validate: function(){
-        return jq.each(function(){
+      validate: function () {
+        return jq.each(function () {
           $(this).validate({
             meta: "validate",
             onfocusout: false,
             onkeyup: false,
             onclick: false
-          })
+          });
 
         });
       }
-    }
+    };
   };
 })(jQuery);
 

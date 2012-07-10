@@ -22,4 +22,4 @@ $(document).ready(function () {
     var url=mage.install.changeUrl+'locale/' + $('#locale').val() + '/?timezone=' + $('#timezone').val() + '&amp;currency=' + $('#currency').val();
     $(location).attr('href',url);
   });
-})
+});

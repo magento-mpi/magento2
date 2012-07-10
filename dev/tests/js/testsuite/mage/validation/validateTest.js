@@ -82,6 +82,7 @@ MageValidationTest.prototype.testValidatePhoneLax = function () {
   assertEquals(true, $.validator.methods.validatePhoneLax("512-123-1234"));
   assertEquals(true, $.validator.methods.validatePhoneLax("(512)123-1234"));
   assertEquals(true, $.validator.methods.validatePhoneLax("(512) 123-1234"));
+  assertEquals(true, $.validator.methods.validatePhoneLax("(512)\123\1234"));
 };
 
 MageValidationTest.prototype.testValidateFax = function () {

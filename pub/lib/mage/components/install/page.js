@@ -11,5 +11,5 @@
 
 $(document).ready(function () {
   $("#bug_tracking_link").attr('target','varien_external');
-})
+});
 

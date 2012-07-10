@@ -71,21 +71,22 @@ mage.localize = (function () {
   }
 
   function async_load() {
+    var x, s, i;
     //add async load js file to asyncQueue
     $('[data-js]').each(function () {
       var jsFiles = $(this).attr('data-js').split(" ");
       asyncQueue = $.merge(jsFiles, asyncQueue);
     });
     asyncQueue = unique(asyncQueue);
-    var x = document.getElementsByTagName('script')[0];
-    for ( var i = 0; i < asyncQueue.length; i++ ) {
-      var s = document.createElement('script');
+    x = document.getElementsByTagName('script')[0];
+    for ( i = 0; i < asyncQueue.length; i++ ) {
+      s = document.createElement('script');
       s.type = 'text/javascript';
       s.src = asyncQueue[i];
       x.parentNode.appendChild(s);
     }
-    for ( var i = 0; i < cssQueue.length; i++ ) {
-      var s = document.createElement('link');
+    for ( i = 0; i < cssQueue.length; i++ ) {
+      s = document.createElement('link');
       s.type = 'text/css';
       s.rel = 'stylesheet';
       s.href = asyncQueue[i];
