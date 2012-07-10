@@ -15,13 +15,6 @@
 class Varien_Db_Adapter_Pdo_MssqlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * List of identity columns for test_table
-     *
-     * @var array
-     */
-    protected $_identityColumns = array('id' => 'id');
-
-    /**
      * Fake table name
      *
      * @var string
@@ -29,14 +22,40 @@ class Varien_Db_Adapter_Pdo_MssqlTest extends PHPUnit_Framework_TestCase
     protected $_tableName = 'test_table';
 
     /**
-     * @var string
+     * @covers Varien_Db_Adapter_Pdo_Mssql::_wrapEnableIdentityDataInsert
      */
-    protected $_identityInsertOn = Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_ON;
+    public function testWrapEnableIdentityDataInsert()
+    {
+        $identityInsertOn = sprintf(Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_ON, $this->_tableName);
+        $identityInsertOff = sprintf(Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_OFF, $this->_tableName);
 
-    /**
-     * @var string
-     */
-    protected $_identityInsertOff = Varien_Db_Adapter_Pdo_Mssql::SET_IDENTITY_INSERT_OFF;
+        // List of identity columns for test_table
+        $identityColumns = array('id' => 'id');
+
+        // insert data with identity fields
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert($identityColumns, array('id', 'column'));
+
+        $this->assertContains($identityInsertOn, $wrappedSql, '', true);
+        $this->assertContains($identityInsertOff, $wrappedSql, '', true);
+
+        // insert data without identity fields
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert($identityColumns, array('column'));
+
+        $this->assertNotContains($identityInsertOn, $wrappedSql, '', true);
+        $this->assertNotContains($identityInsertOff, $wrappedSql, '', true);
+
+        // insert data with empty update fields list
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert($identityColumns, array());
+
+        $this->assertNotContains($identityInsertOn, $wrappedSql, '', true);
+        $this->assertNotContains($identityInsertOff, $wrappedSql, '', true);
+
+        // insert data in table which doesn't have identity fields
+        $wrappedSql = $this->_wrapEnableIdentityDataInsert(array(), array('id', 'column'));
+
+        $this->assertNotContains($identityInsertOn, $wrappedSql, '', true);
+        $this->assertNotContains($identityInsertOff, $wrappedSql, '', true);
+    }
 
     /**
      * @param array $identityColumns table identity columns
@@ -60,39 +79,5 @@ class Varien_Db_Adapter_Pdo_MssqlTest extends PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         return $method->invoke($adapter, '', $this->_tableName, $columns);
-    }
-
-    /**
-     * @covers Varien_Db_Adapter_Pdo_Mssql::_wrapEnableIdentityDataInsert
-     */
-    public function testWrapEnableIdentityDataInsert()
-    {
-        // insert data with identity fields
-        $columns = array('id', 'column');
-        $wrappedSql = $this->_wrapEnableIdentityDataInsert($this->_identityColumns, $columns);
-
-        $this->assertContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
-
-        // insert data without identity fields
-        $columns = array('column');
-        $wrappedSql = $this->_wrapEnableIdentityDataInsert($this->_identityColumns, $columns);
-
-        $this->assertNotContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertNotContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
-
-        // insert data with empty update fields list
-        $columns = array();
-        $wrappedSql = $this->_wrapEnableIdentityDataInsert($this->_identityColumns, $columns);
-
-        $this->assertNotContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertNotContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
-
-        // insert data in table which doesn't have identity fields
-        $columns = array('id', 'column');
-        $wrappedSql = $this->_wrapEnableIdentityDataInsert(array(), $columns);
-
-        $this->assertNotContains(sprintf($this->_identityInsertOn, $this->_tableName), $wrappedSql, '', true);
-        $this->assertNotContains(sprintf($this->_identityInsertOff, $this->_tableName), $wrappedSql, '', true);
     }
 }
