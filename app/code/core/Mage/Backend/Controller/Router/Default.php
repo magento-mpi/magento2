@@ -116,12 +116,12 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     {
         if ((string)Mage::getConfig()->getNode(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)) {
             $customUrl = (string)Mage::getConfig()->getNode(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
-            $xmlPath = Mage_Backend_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME;
+            $xmlPath = Mage_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME;
             if ((string)Mage::getConfig()->getNode($xmlPath) != $customUrl) {
                 Mage::getConfig()->setNode($xmlPath, $customUrl, true);
             }
         }
-        parent::collectRoutes('admin', $useRouterName);
+
         $this->_collectRoutes('admin', $useRouterName);
     }
 
