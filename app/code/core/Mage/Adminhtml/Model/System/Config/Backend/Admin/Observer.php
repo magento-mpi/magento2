@@ -28,7 +28,7 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_Observer
 
         $route = ((bool)(string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH))
             ? Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH)
-            : Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_ADMINHTML_ROUTER_FRONTNAME);
+            : Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_BACKEND_FRONTNAME);
 
         Mage::app()->getResponse()
             ->setRedirect(Mage::getBaseUrl() . $route)
