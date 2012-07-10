@@ -33,6 +33,7 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
      * @param mixed $prevResponse
      * @param mixed $currResponse
      * @param string $apiMethod
+     * @throws Exception
      */
     protected function _checkResponse($prevResponse, $currResponse, $apiMethod)
     {
@@ -50,10 +51,11 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
      */
     protected function _checkVersionSignature($prevResponse, $currResponse, $apiMethod)
     {
-        $prevResponseSignature = array_keys($prevResponse);
-        $currResponseSignature = array_keys($currResponse);
-        $this->assertEquals($prevResponseSignature, $currResponseSignature,
-            "The signature of $apiMethod has changed in the new API version.");
+
+        foreach (array_keys($prevResponse) as $key) {
+            $this->assertArrayHasKey($key, $currResponse,
+                sprintf('Key "%s" was not found in current "%s" API response.', $key, $apiMethod));
+        }
     }
 
     /**
