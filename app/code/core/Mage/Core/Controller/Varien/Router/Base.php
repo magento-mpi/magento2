@@ -387,8 +387,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         $request->setControllerName($controller);
         $request->setActionName($action);
         $request->setControllerModule($currentModuleName);
-        $request->setParams($params['variables']);
-
+        if (isset($params['variables'])) {
+            $request->setParams($params['variables']);
+        }
         return $controllerInstance;
     }
 

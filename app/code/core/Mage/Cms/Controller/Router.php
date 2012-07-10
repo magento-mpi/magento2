@@ -63,17 +63,20 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
                 ->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
             $request->setDispatched(true);
-            return true;
+            return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Forward',
+                $request,
+                Mage::app()->getFrontController()->getResponse()
+            );
         }
 
         if (!$condition->getContinue()) {
-            return false;
+            return null;
         }
 
         $page   = Mage::getModel('Mage_Cms_Model_Page');
         $pageId = $page->checkIdentifier($identifier, Mage::app()->getStore()->getId());
         if (!$pageId) {
-            return false;
+            return null;
         }
 
         $request->setModuleName('cms')
@@ -85,6 +88,9 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
             $identifier
         );
 
-        return true;
+        return Mage::getControllerInstance('Mage_Core_Controller_Varien_Action_Forward',
+            $request,
+            Mage::app()->getFrontController()->getResponse()
+        );
     }
 }

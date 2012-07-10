@@ -173,7 +173,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
-                    $request->setDispatched(true);
                     $controllerInstance->dispatch($request->getActionName());
                     break;
                 }
