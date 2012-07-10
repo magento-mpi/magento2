@@ -126,8 +126,6 @@ class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Seleniu
                                         'group_id' => '1',
                                         'middlename' => '',
                                         'prefix' => '',
-                                        'reward_update_notification' => '1',
-                                        'reward_warning_notification' => '1',
                                         'rp_token' => '',
                                         'rp_token_created_at' => '',
                                         'password_hash' => '48927b9ee38afb672504488a45c0719140769c24c10e5ba34d203ce5a9c15b27:2y',
