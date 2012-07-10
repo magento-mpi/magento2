@@ -445,8 +445,11 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     public function testAddSitemapToRobotsTxt($sitemapName, $replaceSitemapName, $robotsStart, $robotsFinish)
     {
         $varienFile = $this->getMockBuilder('Varien_Io_File')
-            ->setMethods(array('read', 'write'))
+            ->setMethods(array('open', 'read', 'write', 'fileExists'))
             ->getMock();
+        $varienFile->expects($this->any())
+            ->method('fileExists')
+            ->will($this->returnValue(true));
         $model = $this->_getModelMock($varienFile);
 
         $varienFile->expects($this->once())->method('read')
