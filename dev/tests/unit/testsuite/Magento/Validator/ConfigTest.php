@@ -18,7 +18,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_model = new Magento_Validator_Config(glob(__DIR__ . '/_files/validation/*/validation.xml'));
+        self::$_model = new Magento_Validator_Config(glob(__DIR__ . '/_files/validation/positive/*/validation.xml'));
     }
 
     /**
@@ -43,6 +43,26 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidationRulesInvalidGroupName()
     {
         self::$_model->getValidationRules('test_entity', 'invalid_group');
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testGetValidationRulesInvalidZendConstraint()
+    {
+        $configFile = glob(__DIR__ . '/_files/validation/negative/invalid_zend_constraint.xml');
+        $config = new Magento_Validator_Config($configFile);
+        $config->getValidationRules('test_entity', 'test_group_a');
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testGetValidationRulesInvalidMagentoConstraint()
+    {
+        $configFile = glob(__DIR__ . '/_files/validation/negative/invalid_magento_constraint.xml');
+        $config = new Magento_Validator_Config($configFile);
+        $config->getValidationRules('test_entity', 'test_group_a');
     }
 
     /**
@@ -138,13 +158,15 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 }
 
-/** Dummy class to test interface validation. */
+/** Dummy classes to test interface validation. */
+class Magento_Validator_Invalid_Interface {
+}
 class Magento_Validator_Test implements Magento_Validator_ConstraintInterface
 {
-    public function isValidData(array $data, $field = null){
+    public function isValidData(array $data, $field = null) {
         return true;
     }
-    public function getErrors(){
+    public function getErrors() {
         return array();
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<validation>
+    <entity name="test_entity">
+        <rules>
+            <rule name="test_rule_zend">
+                <constraints>
+                    <!-- Class that does not implements any of valid interfaces -->
+                    <constraint class="Magento_Validator_Invalid_Interface"/>
+                </constraints>
+            </rule>
+        </rules>
+        <groups>
+            <group name="test_group_a">
+                <uses>
+                    <use rule="test_rule_zend"/>
+                </uses>
+            </group>
+        </groups>
+    </entity>
+</validation>
