@@ -1,0 +1,15 @@
+#  Magento
+#
+#  {license_notice}
+#
+#  @category    tests
+#  @package     selenium
+#  @subpackage  uimaps
+#  @copyright   {copyright}
+#  @license     {license_link}
+#
+---
+access_denied:
+    mca: index/denied
+    click_xpath:
+    title: Magento Admin
