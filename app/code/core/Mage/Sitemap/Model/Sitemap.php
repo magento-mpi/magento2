@@ -84,6 +84,13 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected $_fileSize = 0;
 
     /**
+     * Current sitemap file size
+     *
+     * @var array
+     */
+    private $_crlf = array("win" => "\r\n", "unix" => "\n", "mac" => "\r");
+
+    /**
      * Init model
      */
     protected function _construct()
@@ -270,6 +277,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->_createSitemapIndex();
         }
 
+        $this->addSitemapToRobotsTxt($this->getSitemapFilename());
+
         $this->setSitemapTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
         $this->save();
 
@@ -440,4 +449,103 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     {
         return Mage::app()->getStore($storeId)->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
     }
+
+    /**
+     * Get base URL
+     *
+     * @return string
+     */
+    protected function _getBaseUrl()
+    {
+        return Mage::app()->getDefaultStoreView()->getBaseUrl();
+    }
+
+    /**
+     * Get path to file robots.txt
+     *
+     * @return string
+     */
+    protected function _getRobotsTxtFilePath()
+    {
+        return $this->_getFileObject()->getCleanPath(Mage::getBaseDir() . '/robots.txt');
+    }
+
+    /**
+     * Get domain from store base url
+     *
+     * @param int $storeId
+     * @return string
+     */
+    protected function _getStoreBaseDomain($storeId)
+    {
+        $storeParsedUrl = parse_url($this->_getStoreBaseUrl($storeId));
+        return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'];
+    }
+
+    /**
+     * Get sitemap.xml URL according to all config options
+     *
+     * @param int $storeId
+     * @return string
+     */
+    protected function _getSitemapUrl($sitemapFileName)
+    {
+        return $this->_getStoreBaseDomain($this->getStoreId())
+            . str_replace('//', '/', $this->getSitemapPath() . '/' . $sitemapFileName);
+    }
+
+    /**
+     * Add sitemap file to robots.txt
+     *
+     * @param string $sitemapFileName
+     * @param string $replaceSitemapFileName
+     */
+    public function addSitemapToRobotsTxt($sitemapFileName, $replaceSitemapFileName = null)
+    {
+        $robotsSitemapLine = 'Sitemap: ' . $this->_getSitemapUrl($sitemapFileName);
+
+        $robotsFileHandler = $this->_getFileObject();
+        $robotsFileName = $this->_getRobotsTxtFilePath();
+        if (($robotsFullText = $robotsFileHandler->read($robotsFileName)) === false) {
+            $robotsFullText = '';
+        }
+
+        $isReplacedFlag = false;
+        if ($replaceSitemapFileName != null) {
+            $regex = '{^sitemap:\s*?' . $replaceSitemapFileName . '}im';
+            if (preg_match($regex, $robotsFullText)) {
+                $robotsFullText = preg_replace($regex, $robotsSitemapLine, $robotsFullText, 1);
+                $isReplacedFlag = true;
+            }
+        }
+
+        if (!$isReplacedFlag) {
+            if (strpos($robotsFullText, $robotsSitemapLine) === false) {
+                if (!empty($robotsFullText)) {
+                    $robotsFullText .= $this->_findNewLinesDelimiter($robotsFullText);
+                }
+                $robotsFullText .= $robotsSitemapLine;
+            }
+        }
+
+        $robotsFileHandler->write($robotsFileName, $robotsFullText);
+    }
+
+    /**
+     * Find new lines delimiter
+     *
+     * @param string $text
+     * @return string
+     */
+    private function _findNewLinesDelimiter($text)
+    {
+        foreach($this->_crlf as $delimiter) {
+            if (strpos($text, $delimiter) !== false) {
+                return $delimiter;
+            }
+        }
+
+        return PHP_EOL;
+    }
+
 }

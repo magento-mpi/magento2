@@ -232,7 +232,8 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 
         $fileMock = $this->getMockBuilder('Varien_Io_File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
-                'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv'))
+                'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv',
+                'read', 'write'))
             ->getMock();
         $this->_prepareValidFileMock($fileMock);
 
@@ -268,6 +269,11 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                     PHPUnit_Framework_Assert::assertEquals('sitemap.xml', $to);
                 }
             ));
+
+        $fileMock->expects($this->any())->method('read')
+            ->will($this->returnValue(''));
+        $fileMock->expects($this->any())->method('write')
+            ->with($this->equalTo('/robots.txt'), $this->equalTo('Sitemap: http://store.com/sitemap.xml'));
 
         $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
         $helperMock->expects($this->any())
@@ -344,7 +350,8 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 
         $fileMock = $this->getMockBuilder('Varien_Io_File')
             ->setMethods(array('streamWrite', 'open', 'streamOpen', 'streamClose',
-                'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv'))
+                'allowedPath', 'getCleanPath', 'fileExists', 'isWriteable', 'mv',
+                'read', 'write'))
             ->getMock();
         $this->_prepareValidFileMock($fileMock);
 
@@ -371,6 +378,11 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         // Check that 3 files were closed, 2 sitemaps and 1 index
         $fileMock->expects($this->exactly(3))
             ->method('streamClose');
+
+        $fileMock->expects($this->any())->method('read')
+            ->will($this->returnValue(''));
+        $fileMock->expects($this->any())->method('write')
+            ->with($this->equalTo('/robots.txt'), $this->equalTo('Sitemap: http://store.com/sitemap.xml'));
 
         $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
         $helperMock->expects($this->any())
@@ -418,7 +430,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         $methods = array('_construct', '_getResource', '_getBaseDir', '_getFileObject', '_afterSave',
             '_getStoreBaseUrl', '_getCurrentDateTime', '_getCategoryItemsCollection', '_getProductItemsCollection',
-            '_getPageItemsCollection');
+            '_getPageItemsCollection', '_getRobotsTxtFilePath', '_getBaseUrl');
         if ($mockBeforeSave) {
             $methods[] = '_beforeSave';
         }
@@ -461,6 +473,12 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $model->expects($this->any())
             ->method('_getCurrentDateTime')
             ->will($this->returnValue('2012-12-21T00:00:00-08:00'));
+        $model->expects($this->any())
+            ->method('_getRobotsTxtFilePath')
+            ->will($this->returnValue('/robots.txt'));
+        $model->expects($this->any())
+            ->method('_getBaseUrl')
+            ->will($this->returnValue('/'));
 
         $model->setSitemapFilename('sitemap.xml');
         $model->setStoreId(1);
@@ -468,4 +486,78 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
 
         return $model;
     }
+
+    /**
+     *
+     * @dataProvider validateRowDataProvider
+     */
+    public function testAddSitemapToRobotsTxt($sitemapName, $replaceSitemapName, $robotsStart, $robotsFinish)
+    {
+        $varienFile = $this->getMockBuilder('Varien_Io_File')
+            ->setMethods(array('read', 'write'))
+            ->getMock();
+        $model = $this->_getModelMock($varienFile);
+
+        $varienFile->expects($this->once())->method('read')
+            ->will($this->returnValue($robotsStart));
+        $varienFile->expects($this->once())->method('write')
+            ->with($this->equalTo('/robots.txt'), $this->equalTo($robotsFinish));
+
+        $model->addSitemapToRobotsTxt($sitemapName, $replaceSitemapName);
+    }
+
+    /**
+     * Data provider of row data and errors
+     *
+     * @return array
+     */
+    public function validateRowDataProvider()
+    {
+        return array(
+            'empty robots file' => array(
+                '$sitemapName' => 'sitemap.xml',
+                '$replaceSitemapName' => null,
+                '$robotsStart'  => '',
+                '$robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
+            ),
+            'not empty robots file EOL' => array(
+                '$sitemapName' => 'sitemap.xml',
+                '$replaceSitemapName' => null,
+                '$robotsStart'  => "User-agent: *",
+                '$robotsFinish' => "User-agent: *"
+                    . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
+            ),
+            'not empty robots file WIN' => array(
+                '$sitemapName' => 'sitemap.xml',
+                '$replaceSitemapName' => null,
+                '$robotsStart'  => "User-agent: *\r\n",
+                '$robotsFinish' => "User-agent: *\r\n\r\nSitemap: http://store.com/sitemap.xml",
+            ),
+            'not empty robots file UNIX' => array(
+                '$sitemapName' => 'sitemap.xml',
+                '$replaceSitemapName' => null,
+                '$robotsStart'  => "User-agent: *\n",
+                '$robotsFinish' => "User-agent: *\n\nSitemap: http://store.com/sitemap.xml",
+            ),
+            'replace EOL' => array(
+                '$sitemapName' => 'sitemap2.xml',
+                '$replaceSitemapName' => 'http://store.com/sitemap.xml',
+                '$robotsStart'  => "User-agent: *" . PHP_EOL . "Sitemap: http://store.com/sitemap.xml",
+                '$robotsFinish' => "User-agent: *" . PHP_EOL . "Sitemap: http://store.com/sitemap2.xml",
+            ),
+            'replace WIN' => array(
+                '$sitemapName' => 'sitemap2.xml',
+                '$replaceSitemapName' => 'http://store.com/sitemap.xml',
+                '$robotsStart'  => "User-agent: *\r\nSitemap: http://store.com/sitemap.xml",
+                '$robotsFinish' => "User-agent: *\r\nSitemap: http://store.com/sitemap2.xml",
+            ),
+            'replace UNIX' => array(
+                '$sitemapName' => 'sitemap2.xml',
+                '$replaceSitemapName' => 'http://store.com/sitemap.xml',
+                '$robotsStart'  => "User-agent: *\nSitemap: http://store.com/sitemap.xml",
+                '$robotsFinish' => "User-agent: *\nSitemap: http://store.com/sitemap2.xml",
+            ),
+        );
+    }
+
 }
