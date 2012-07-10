@@ -48,7 +48,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
      * @param string $attributeCode
      * @param mixed $value
      * @param string $type
-     * @return Zend_Db_Select|false
+     * @return Zend_Db_Select|bool
      */
     protected function _addFilter($storeId, $attributeCode, $value, $type = '=')
     {
@@ -115,7 +115,7 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     /**
      * Get category collection array
      *
-     * @param unknown_type $storeId
+     * @param null|string|bool|int|Mage_Core_Model_Store $storeId
      * @return array
      */
     public function getCollection($storeId)
