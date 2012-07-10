@@ -288,7 +288,10 @@ $.metadata.setType("html5");
             meta: "validate",
             onfocusout: false,
             onkeyup: false,
-            onclick: false
+            onclick: false,
+            ignoreTitle:true,
+            errorClass:'mage-error',
+            errorElement:'div'
           });
 
         });
