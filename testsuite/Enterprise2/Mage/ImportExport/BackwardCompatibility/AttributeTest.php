@@ -27,7 +27,7 @@
  */
 
 /**
- * Customer Export
+ * Customer Backward Compatibility Tests
  *
  * @package     selenium
  * @subpackage  tests
