@@ -2055,6 +2055,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
      *
      * @param string $filePath
+     * @return string Error message or screenshot file path
      */
     private function takeScreenshotIE($filePath)
     {
@@ -2091,6 +2092,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (empty($this->screenshotPath)) {
             return '';
         }
+        $methodResult = '';
 
         if ($fileName == null) {
             $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
@@ -2103,7 +2105,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $browserUserAgent = $this->getEval('navigator.userAgent');
         //Run specific function only for IE
         if (preg_match('|MSIE ([0-9]{1,}[\.0-9]{0,})|', $browserUserAgent)) {
-            return $this->takeScreenshotIE($filePath);
+            $methodResult = $this->takeScreenshotIE($filePath);
         } else {
             try {
                 $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
@@ -2126,7 +2128,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             return 'Screenshot: ' . $filePath . ".png\n";
         }
 
-        return '';
+        return $methodResult;
     }
 
     /**
