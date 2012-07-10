@@ -41,16 +41,8 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
     public function __construct(array $options = array())
     {
-        $this->_area           = null;
-        $this->_baseController = null;
-
-        if (isset($options['area'])) {
-            $this->_area = $options['area'];
-        }
-
-        if (isset($options['base_controller'])) {
-            $this->_baseController = $options['base_controller'];
-        }
+        $this->_area           = isset($options['area']) ? $options['area'] : null;
+        $this->_baseController = isset($options['base_controller']) ? $options['base_controller'] : null;
 
         if (is_null($this->_area) || is_null($this->_baseController)) {
             Mage::throwException("Not enough options to initialize router.");
@@ -61,7 +53,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     {
         $routers = array();
         $routersConfigNode = Mage::getConfig()->getNode($configArea.'/routers');
-        if($routersConfigNode) {
+        if ($routersConfigNode) {
             $routers = $routersConfigNode->children();
         }
         foreach ($routers as $routerName=>$routerConfig) {
@@ -128,6 +120,12 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
         return true;
     }
 
+    /**
+     * Match provided request and if matched - return corresponding controller
+     *
+     * @param Zend_Controller_Request_Http $request
+     * @return Mage_Core_Controller_Front_Action|null
+     */
     public function match(Zend_Controller_Request_Http $request)
     {
         //checking before even try to find out that current module
@@ -142,7 +140,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             return null;
         }
 
-        return $this->_createControllerInstance($request, $params);
+        return $this->_matchController($request, $params);
     }
 
     /**
@@ -169,12 +167,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
         $path = trim($request->getPathInfo(), '/');
 
-        if ($path) {
-            $params = explode('/', $path);
-        } else {
-            $params = explode('/', $this->_getDefaultPath());
-        }
-
+        $params = explode('/', ($path ? $path : $this->_getDefaultPath()));
         foreach ($this->_requiredParams as $paramName) {
             $output[$paramName] = array_shift($params);
         }
@@ -313,7 +306,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      * @param array $params
      * @return Mage_Core_Controller_Front_Action|null
      */
-    protected function _createControllerInstance(Zend_Controller_Request_Http $request, array $params)
+    protected function _matchController(Zend_Controller_Request_Http $request, array $params)
     {
         $this->fetchDefault();
 
@@ -470,7 +463,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             include $controllerFileName;
 
             if (!class_exists($controllerClassName, false)) {
-                throw Mage::exception('Mage_Core', Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist'));
+                throw Mage::exception('Mage_Core',
+                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist')
+                );
             }
         }
         return true;
@@ -590,7 +585,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
         if ($this->_shouldBeSecure($path) && !$request->isSecure()) {
             $url = $this->_getCurrentSecureUrl($request);
-            if ($request->getRouteName() != 'adminhtml' && Mage::app()->getUseSessionInUrl()) {
+            if ($this->_shouldRedirectToSecure()) {
                 $url = Mage::getSingleton('Mage_Core_Model_Url')->getRedirectUrl($url);
             }
 
@@ -599,6 +594,16 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
                 ->sendResponse();
             exit;
         }
+    }
+
+    /**
+     * Check whether redirect url should be used for secure routes
+     *
+     * @return bool
+     */
+    protected function _shouldRedirectToSecure()
+    {
+        return Mage::app()->getUseSessionInUrl();
     }
 
     protected function _getCurrentSecureUrl($request)

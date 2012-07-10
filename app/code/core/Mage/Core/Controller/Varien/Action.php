@@ -125,7 +125,7 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
         $this->_response= $response;
 
         Mage::app()->getFrontController()->setAction($this);
-        if (false == isset($this->_currentArea)) {
+        if (!$this->_currentArea) {
             $this->_currentArea = isset($invokeArgs['areaCode']) ? $invokeArgs['areaCode'] : null;
         }
         $this->_construct();
