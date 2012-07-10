@@ -265,3 +265,15 @@ MageValidationTest.prototype.testValidateCssLength = function () {
   assertEquals(false, $.validator.methods.validateCssLength("-1e"));
   assertEquals(false, $.validator.methods.validateCssLength("-1,234.1234"));
 };
+
+MageValidationTest.prototype.testValidateData = function () {
+  assertEquals(false, $.validator.methods.validateData(""));
+  assertEquals(false, $.validator.methods.validateData(null));
+  assertEquals(false, $.validator.methods.validateData(undefined));
+  assertEquals(false, $.validator.methods.validateData("   "));
+  assertEquals(false, $.validator.methods.validateData("123abc"));
+  assertEquals(true, $.validator.methods.validateData("abc"));
+  assertEquals(false, $.validator.methods.validateData(" abc"));
+  assertEquals(true, $.validator.methods.validateData("abc123"));
+  assertEquals(false, $.validator.methods.validateData("abc-123"));
+};
