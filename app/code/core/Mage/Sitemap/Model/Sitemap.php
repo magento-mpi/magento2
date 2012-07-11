@@ -291,6 +291,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Generate sitemap index XML file
+     */
     protected function _createSitemapIndex()
     {
         $this->_createSitemap($this->getSitemapFilename(), self::TYPE_INDEX);
@@ -531,6 +534,12 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         return $this->_getUrl($url, Mage_Core_Model_Store::URL_TYPE_MEDIA);
     }
 
+    /**
+     * Get date in correct format applicable for lastmod attribute
+     *
+     * @param string $date
+     * @return string
+     */
     protected function _getFormattedLastmodDate($date)
     {
         return date('c', strtotime($date));

@@ -178,8 +178,8 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
                 array()
             );
 
-        $this->_joinAttribute($storeId, 'name');
-        $this->_joinAttribute($storeId, 'thumbnail');
+        $this->_joinAttribute($store->getId(), 'name');
+        $this->_joinAttribute($store->getId(), 'thumbnail');
 
         $this->_select->columns(array(
             'e.' . $this->getIdFieldName(),
@@ -191,14 +191,14 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
 
         $this->_select->where('w.website_id = ?', $store->getWebsiteId());
 
-        $this->_addFilter($storeId, 'visibility',
+        $this->_addFilter($store->getId(), 'visibility',
             Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
-        $this->_addFilter($storeId, 'status',
+        $this->_addFilter($store->getId(), 'status',
             Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
 
         $query = $this->_getWriteAdapter()->query($this->_select);
         while ($row = $query->fetch()) {
-            $product = $this->_prepareProduct($row, $storeId);
+            $product = $this->_prepareProduct($row, $store->getId());
             $products[$product->getId()] = $product;
         }
 
