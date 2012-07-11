@@ -9,6 +9,8 @@
 MageValidationTest = TestCase('MageValidationTest');
 
 MageValidationTest.prototype.testValidateNoHtmlTags = function () {
+  assertEquals(true, $.validator.methods.validateNoHtmlTags(""));
+  assertEquals(true, $.validator.methods.validateNoHtmlTags(null));
   assertEquals(true, $.validator.methods.validateNoHtmlTags("abc"));
   assertEquals(false, $.validator.methods.validateNoHtmlTags("<div>abc</div>"));
 };
@@ -40,10 +42,10 @@ MageValidationTest.prototype.testIsEmpty = function () {
 };
 
 MageValidationTest.prototype.testValidateAlphanumWithSpaces = function () {
-  assertEquals(false, $.validator.methods.validateAlphanumWithSpaces(""));
-  assertEquals(false, $.validator.methods.validateAlphanumWithSpaces(null));
-  assertEquals(false, $.validator.methods.validateAlphanumWithSpaces(undefined));
-  assertEquals(false, $.validator.methods.validateAlphanumWithSpaces("   "));
+  assertEquals(true, $.validator.methods.validateAlphanumWithSpaces(""));
+  assertEquals(true, $.validator.methods.validateAlphanumWithSpaces(null));
+  assertEquals(true, $.validator.methods.validateAlphanumWithSpaces(undefined));
+  assertEquals(true, $.validator.methods.validateAlphanumWithSpaces("   "));
   assertEquals(true, $.validator.methods.validateAlphanumWithSpaces("abc   "));
   assertEquals(true, $.validator.methods.validateAlphanumWithSpaces(" 123  "));
   assertEquals(true, $.validator.methods.validateAlphanumWithSpaces("  abc123 "));
@@ -52,18 +54,20 @@ MageValidationTest.prototype.testValidateAlphanumWithSpaces = function () {
 };
 
 MageValidationTest.prototype.testValidateStreet = function () {
-  assertEquals(false, $.validator.methods.validateStreet(""));
-  assertEquals(false, $.validator.methods.validateStreet(null));
-  assertEquals(false, $.validator.methods.validateStreet(undefined));
+  assertEquals(true, $.validator.methods.validateStreet(""));
+  assertEquals(true, $.validator.methods.validateStreet(null));
+  assertEquals(true, $.validator.methods.validateStreet(undefined));
   assertEquals(false, $.validator.methods.validateStreet("   "));
   assertEquals(true, $.validator.methods.validateStreet("1234 main st"));
   assertEquals(true, $.validator.methods.validateStreet("7700 w parmer ln"));
+  assertEquals(true, $.validator.methods.validateStreet("7700 w parmer ln #125"));
+  assertEquals(false, $.validator.methods.validateStreet("!@# w parmer ln $125"));
 };
 
 MageValidationTest.prototype.testValidatePhoneStrict = function () {
-  assertEquals(false, $.validator.methods.validatePhoneStrict(""));
-  assertEquals(false, $.validator.methods.validatePhoneStrict(null));
-  assertEquals(false, $.validator.methods.validatePhoneStrict(undefined));
+  assertEquals(true, $.validator.methods.validatePhoneStrict(""));
+  assertEquals(true, $.validator.methods.validatePhoneStrict(null));
+  assertEquals(true, $.validator.methods.validatePhoneStrict(undefined));
   assertEquals(false, $.validator.methods.validatePhoneStrict("   "));
   assertEquals(false, $.validator.methods.validatePhoneStrict("5121231234"));
   assertEquals(false, $.validator.methods.validatePhoneStrict("512.123.1234"));
@@ -73,9 +77,9 @@ MageValidationTest.prototype.testValidatePhoneStrict = function () {
 };
 
 MageValidationTest.prototype.testValidatePhoneLax = function () {
-  assertEquals(false, $.validator.methods.validatePhoneLax(""));
-  assertEquals(false, $.validator.methods.validatePhoneLax(null));
-  assertEquals(false, $.validator.methods.validatePhoneLax(undefined));
+  assertEquals(true, $.validator.methods.validatePhoneLax(""));
+  assertEquals(true, $.validator.methods.validatePhoneLax(null));
+  assertEquals(true, $.validator.methods.validatePhoneLax(undefined));
   assertEquals(false, $.validator.methods.validatePhoneLax("   "));
   assertEquals(true, $.validator.methods.validatePhoneLax("5121231234"));
   assertEquals(true, $.validator.methods.validatePhoneLax("512.123.1234"));
@@ -83,12 +87,13 @@ MageValidationTest.prototype.testValidatePhoneLax = function () {
   assertEquals(true, $.validator.methods.validatePhoneLax("(512)123-1234"));
   assertEquals(true, $.validator.methods.validatePhoneLax("(512) 123-1234"));
   assertEquals(true, $.validator.methods.validatePhoneLax("(512)1231234"));
+  assertEquals(false, $.validator.methods.validatePhoneLax("(512)_123_1234"));
 };
 
 MageValidationTest.prototype.testValidateFax = function () {
-  assertEquals(false, $.validator.methods.validateFax(""));
-  assertEquals(false, $.validator.methods.validateFax(null));
-  assertEquals(false, $.validator.methods.validateFax(undefined));
+  assertEquals(true, $.validator.methods.validateFax(""));
+  assertEquals(true, $.validator.methods.validateFax(null));
+  assertEquals(true, $.validator.methods.validateFax(undefined));
   assertEquals(false, $.validator.methods.validateFax("   "));
   assertEquals(false, $.validator.methods.validateFax("5121231234"));
   assertEquals(false, $.validator.methods.validateFax("512.123.1234"));

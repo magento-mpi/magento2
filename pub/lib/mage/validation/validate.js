@@ -72,41 +72,39 @@ jQuery.validator.addMethod("isEmpty", function (value) {
    * Equivalent of  validate-alphanum-with-spaces
    */
   jQuery.validator.addMethod("validateAlphanumWithSpaces", function (v) {
-    return !isEmpty(v) && /^[a-zA-Z0-9 ]+$/.test(v);
+    return isEmptyNoTrim(v) || /^[a-zA-Z0-9 ]+$/.test(v);
   }, 'Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field');
 
   jQuery.validator.addMethod("validateData", function (v) {
     return isEmptyNoTrim(v) || /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
   }, 'Please use only letters (a-z or A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter.');
 
-
-
   /**
    * Equivalent of  validate-street
    */
   jQuery.validator.addMethod("validateStreet", function (v) {
-    return !isEmpty(v) && /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v);
+    return isEmptyNoTrim(v) || /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v);
   }, 'Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field');
 
   /**
    * Equivalent of  validate-phoneStrict
    */
   jQuery.validator.addMethod("validatePhoneStrict", function (v) {
-    return !isEmpty(v) && /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
+    return isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
   }, 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.');
 
   /**
    * Equivalent of  validate-phoneLax
    */
   jQuery.validator.addMethod("validatePhoneLax", function (v) {
-    return  !isEmpty(v) && /^((\d[\-. ]?)?((\(\d{3}\))|\d{3}))?[\-. ]?\d{3}[\-. ]?\d{4}$/.test(v);
+    return isEmptyNoTrim(v) || /^((\d[\-. ]?)?((\(\d{3}\))|\d{3}))?[\-. ]?\d{3}[\-. ]?\d{4}$/.test(v);
   }, 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.');
 
   /**
    * Equivalent of  validate-fax
    */
   jQuery.validator.addMethod("validateFax", function (v) {
-    return  !isEmpty(v) && /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
+    return isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
   }, 'Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.');
 
   /**
@@ -256,18 +254,6 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     v = parseNumber(v);
     return !isNaN(v) && v > 0;
   }, "Please enter a number greater than 0 in this field");
-
-
-  /**
-   * Equivalent of     validate-cpassword
-   */
-
-  jQuery.validator.addMethod("validateCpassword", function (v) {
-    return $('#confirmation').val() == $('#password').val();
-     }, "Please make sure your passwords match.");
-
-
-
 })();
 /*
  Translate default error messages
@@ -282,7 +268,7 @@ jQuery.extend(jQuery.validator.messages, {
   number: mage.localize.translate("Please enter a valid number."),
   digits: mage.localize.translate("Please enter only digits."),
   creditcard: mage.localize.translate("Please enter a valid credit card number."),
-  equalTo: mage.localize.translate("Please enter the same value again."),
+  equalTo: mage.localize.translate("Please make sure your passwords match."),
   accept: mage.localize.translate("Please enter a value with a valid extension."),
   maxlength: $.validator.format(mage.localize.translate("Please enter no more than {0} characters.")),
   minlength: $.validator.format(mage.localize.translate("Please enter at least {0} characters.")),
@@ -310,8 +296,8 @@ $.metadata.setType("html5");
           onfocusout: false,
           onkeyup: false,
           onclick: false,
-          ignoreTitle:true
-        },options);
+          ignoreTitle: true
+        }, options);
         return jq.each(function () {
           $(this).validate(defaultOptions);
 
