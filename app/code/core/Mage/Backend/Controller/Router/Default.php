@@ -17,10 +17,20 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * @var array
      */
     protected $_requiredParams = array(
-        'moduleFrontName',
-        'controllerName',
-        'actionName',
+        'area',
+        'module',
+        'controller',
+        'action',
     );
+
+    protected $_areaFrontname;
+
+    public function __construct(array $options = array())
+    {
+        $this->_areaFrontname = isset($options['frontName']) ? $options['frontName'] : null;
+        parent::__construct($options);
+    }
+
     /**
      * Fetch default path
      */
@@ -29,9 +39,10 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         // set defaults
         $d = explode('/', $this->_getDefaultPath());
         $this->getFront()->setDefault(array(
-            'module'     => !empty($d[0]) ? $d[0] : '',
-            'controller' => !empty($d[1]) ? $d[1] : 'index',
-            'action'     => !empty($d[2]) ? $d[2] : 'index'
+            'area'       => !empty($d[0]) ? $d[0] : '',
+            'module'     => !empty($d[1]) ? $d[1] : 'admin',
+            'controller' => !empty($d[2]) ? $d[2] : 'index',
+            'action'     => !empty($d[3]) ? $d[3] : 'index'
         ));
     }
 
@@ -170,5 +181,20 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         $parts = explode('_', $realModule);
         $realModule = implode('_', array_splice($parts, 0, 2));
         return $realModule . '_' . ucfirst($this->_area) . '_' . uc_words($controller) . 'Controller';
+    }
+
+    protected function _canProcess(Zend_Controller_Request_Http $request, array $params)
+    {
+        if ($request->getAreaFrontname()) {
+            $area = $request->getAreaFrontname();
+        } else {
+            $area = $params['area'];
+        }
+
+        $canProcess = $area == $this->_areaFrontname;
+        if ($canProcess) {
+            $request->setAreaFrontname($area);
+        }
+        return $canProcess;
     }
 }

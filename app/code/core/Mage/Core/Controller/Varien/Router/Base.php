@@ -20,9 +20,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      * @var array
      */
     protected $_requiredParams = array(
-        'moduleFrontName',
-        'controllerName',
-        'actionName',
+        'module',
+        'controller',
+        'action',
     );
 
     /**
@@ -310,7 +310,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     {
         $this->fetchDefault();
 
-        $moduleFrontName = $this->_matchModuleFrontName($request, $params['moduleFrontName']);
+        $moduleFrontName = $this->_matchModuleFrontName($request, $params['module']);
         if (empty($moduleFrontName)) {
             return null;
         }
@@ -343,9 +343,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
             $request->setRouteName($this->getRouteByFrontName($moduleFrontName));
 
-            $controller = $this->_matchControllerName($request, $params['controllerName']);
+            $controller = $this->_matchControllerName($request, $params['controller']);
 
-            $action = $this->_matchActionName($request, $params['actionName']);
+            $action = $this->_matchActionName($request, $params['action']);
 
             //checking if this place should be secure
             $this->_checkShouldBeSecure($request, '/'.$moduleFrontName.'/'.$controller.'/'.$action);

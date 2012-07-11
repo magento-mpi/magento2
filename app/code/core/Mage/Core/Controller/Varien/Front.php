@@ -346,26 +346,19 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     protected function _isAdminFrontNameMatched($request)
     {
         $useCustomAdminPath = (bool)(string)Mage::getConfig()
-            ->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH);
-        $customAdminPath = (string)Mage::getConfig()->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
+            ->getNode(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH);
+        $customAdminPath = (string)Mage::getConfig()->getNode(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
         $adminPath = ($useCustomAdminPath) ? $customAdminPath : null;
 
         if (!$adminPath) {
             $adminPath = (string)Mage::getConfig()
-                ->getNode(Mage_Adminhtml_Helper_Data::XML_PATH_BACKEND_FRONTNAME);
+                ->getNode(Mage_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME);
         }
         $adminFrontNames = array($adminPath);
 
         // Check for other modules that can use admin router (a lot of Magento extensions do that)
-        $adminFrontNameNodes = Mage::getConfig()->getNode('admin/routers')
+        $adminFrontNameNodes = Mage::getConfig()->getNode(Mage_Backend_Helper_Data::BACKEND_AREA_CODE . '/routers')
             ->xpath('*[not(self::adminhtml) and use = "admin"]/args/frontName');
-
-        if (is_array($adminFrontNameNodes)) {
-            foreach ($adminFrontNameNodes as $frontNameNode) {
-                /** @var $frontNameNode SimpleXMLElement */
-                array_push($adminFrontNames, (string)$frontNameNode);
-            }
-        }
 
         if (is_array($adminFrontNameNodes)) {
             foreach ($adminFrontNameNodes as $frontNameNode) {
