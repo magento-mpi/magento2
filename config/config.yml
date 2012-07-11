@@ -157,7 +157,7 @@ applications:
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     magento2enterprise: &m2ee
-        fallbackOrderFixture: 'enterprise2, community2, default '
+        fallbackOrderFixture: 'enterprise2, enterprise, default'
         fallbackOrderHelper: 'Enterprise2, Community2, Core'
         areas:
             admin:
@@ -192,7 +192,25 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    magento2enterprise_sql: &m2.sql
+    magento2enterprise_oracle: &m2dnora
+        fallbackOrderFixture: 'enterprise2, community2, default '
+        fallbackOrderHelper: 'Enterprise2, Community2, Core'
+        areas:
+            admin:
+                url: 'http://dntest.varien.com/m2teamB/magento2_oracle/admin/'
+                base_page_uimap: 'log_in_to_admin'
+                uimap_path: 'admin'
+                login: 'admin'
+                password: '123123q'
+            frontend:
+                url: 'http://dntest.varien.com/m2teamB/magento2_oracle/'
+                base_page_uimap: 'home_page'
+                uimap_path: 'frontend'
+                login: ''
+                password: ''
+            paypal_sandbox: *paypalSandbox
+            paypal_developer: *paypalDeveloper
+    magento2enterprise_sql: &m2sql
         fallbackOrderFixture: 'enterprise2, community2, default '
         fallbackOrderHelper: 'Enterprise2, Community2, Core'
         areas:
@@ -210,25 +228,8 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    magento2community_sql: &m2.sql
-        fallbackOrderFixture: 'community2, default'
-        fallbackOrderHelper: 'Community2, Core'
-        areas:
-            admin:
-                url: 'http://m2.aa/index.php/admin/'
-                base_page_uimap: 'log_in_to_admin'
-                uimap_path: 'admin'
-                login: 'admin'
-                password: '123123qa'
-            frontend:
-                url: 'http://m2.aa/index.php/'
-                base_page_uimap: 'home_page'
-                uimap_path: 'frontend'
-                login: ''
-                password: ''
-            paypal_sandbox: *paypalSandbox
-            paypal_developer: *paypalDeveloper
-    magento2enterprise_dn: &m2dn.ee
+
+    magento2enterprise_dn: &m2dnee
         fallbackOrderFixture: 'enterprise2, community2, default '
         fallbackOrderHelper: 'Enterprise2, Community2, Core'
         areas:
@@ -246,7 +247,7 @@ applications:
                 password: ''
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    magento2community_dn: &m2dn.ce
+    magento2community_dn: &m2dnce
         fallbackOrderFixture: 'community2, default'
         fallbackOrderHelper: 'Community2, Core'
         areas:

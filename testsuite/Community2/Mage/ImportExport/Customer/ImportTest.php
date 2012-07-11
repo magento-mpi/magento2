@@ -2,28 +2,13 @@
 /**
  * Magento
  *
- * NOTICE OF LICENSE
+ * {license_notice}
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -32,10 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
- * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_TestCase
 {
@@ -49,7 +30,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
             'prefix' => 'Mr.',
             'date_of_birth' => '4/21/1963',
@@ -169,7 +150,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             $this->customerHelper()->updateRewardPointsBalance(array('update_balance' =>'120'));
         }
         //export all customer files
-        $this->admin('export');
+        $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format');
         $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         $report = array();
@@ -179,7 +160,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             $report[$customerType] = $this->importExportHelper()->export();
         }
         //Step 1
-        $this->admin('import');
+        $this->navigate('import');
         //Step 2
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format');
@@ -226,12 +207,12 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     public function importWithRequiredColumns()
     {
         //Precondition: create new customer
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         // 0.1. create customer
         $customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->admin('import');
+        $this->navigate('import');
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customers Main File');
@@ -258,7 +239,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:' .
             print_r($report) . print_r($data));
         //Check customers
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         //Check updated customer
         $this->addParameter('customer_first_last_name',
             $data[0]['firstname'] . ' ' . $data[0]['lastname']);
@@ -273,7 +254,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $this->assertTrue($this->verifyForm($customerData, 'account_information'),
             'Existent customer has not been updated');
         //Verify customer account
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
             $data[1]['firstname'] . ' ' . $data[1]['lastname']);
         $this->customerHelper()->openCustomer(
@@ -328,7 +309,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             }
         }
         //Step 1
-        $this->admin('import');
+        $this->navigate('import');
         //Steps 2-4
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', $customerType);
@@ -342,7 +323,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         //Step7
         if($customerType == 'Customers Main File') {
             foreach ($updatedData as $key => $value) {
-                $this->admin('manage_customers');
+                $this->navigate('manage_customers');
                 $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($updatedData[$key]),
                     'New customer has not been created');
                 $this->addParameter('customer_first_last_name', $updatedData[$key]['first_name']
@@ -359,7 +340,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         }
         //Verifying address data
         if($customerType == 'Customer Addresses') {
-            $this->admin('manage_customers');
+            $this->navigate('manage_customers');
             $this->addParameter('customer_first_last_name', self::$customerData['first_name']
                 . ' ' . self::$customerData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
@@ -523,7 +504,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         //Verifying import
         $this->assertEquals($validation, $importData, 'Import has been finished with issues');
         //Step 7
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $newCustomerData['first_name']
             . ' ' . $newCustomerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $newCustomerData['email']));

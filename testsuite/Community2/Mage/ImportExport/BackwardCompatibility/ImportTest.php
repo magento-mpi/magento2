@@ -1,30 +1,15 @@
 <?php
 /**
-* Magento
-*
-* NOTICE OF LICENSE
-*
-* This source file is subject to the Open Software License (OSL 3.0)
-* that is bundled with this package in the file LICENSE.txt.
-* It is also available through the world-wide-web at this URL:
-* http://opensource.org/licenses/osl-3.0.php
-* If you did not receive a copy of the license and are unable to
-* obtain it through the world-wide-web, please send an email
-* to license@magentocommerce.com so we can send you a copy immediately.
-*
-* DISCLAIMER
-*
-* Do not edit or add to this file if you wish to upgrade Magento to newer
-* versions in the future. If you wish to customize Magento for your
-* needs please refer to http://www.magentocommerce.com for more information.
-*
-* @category    tests
-* @package     selenium
-* @subpackage  tests
-* @author      Magento Core Team <core@magentocommerce.com>
-* @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Magento
+ *
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /**
 * Customer Backward Compatibility Tests
@@ -32,10 +17,6 @@
 * @package     selenium
 * @subpackage  tests
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*
-* @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
-* @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
-* @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
 */
 class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Selenium_TestCase
 {
@@ -49,7 +30,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         self::$addressData = $this->loadDataSet('Customers', 'generic_address');
         $this->customerHelper()->createCustomer(self::$customerData, self::$addressData);
@@ -87,7 +68,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
     public function validationResultBlock()
     {
         //Precondition
-        $this->admin('export');
+        $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         $report = $this->importExportHelper()->export();
         //calculate number of entities in csv file
@@ -98,7 +79,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
             }
         }
         //Step 1
-        $this->admin('import');
+        $this->navigate('import');
         //Steps 2-4
         $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data',
             'Magento 1.7 format');
@@ -157,7 +138,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         //Check updated customer
         self::$customerData['first_name'] = $data[0]['firstname'];
         self::$customerData['last_name'] = $data[0]['lastname'];
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
             self::$customerData['first_name'] . ' ' . self::$customerData['last_name']);
         $this->customerHelper()->openCustomer(
@@ -172,7 +153,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
             'first_name' => $data[1]['firstname'],
             'last_name' => $data[1]['lastname'],
         ));
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($customerData),
             'Customer has not been created');
         $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' ' . $customerData['last_name']);

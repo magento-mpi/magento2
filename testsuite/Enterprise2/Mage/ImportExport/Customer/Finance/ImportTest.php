@@ -2,28 +2,13 @@
 /**
  * Magento
  *
- * NOTICE OF LICENSE
+ * {license_notice}
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -32,7 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_TestCase
 {
@@ -45,7 +29,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer(self::$customerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
@@ -103,7 +87,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
         $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '4321'));
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->admin('import');
+        $this->navigate('import');
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customer Finances');
@@ -134,7 +118,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:' .
             print_r($report) . print_r($data));
         //Check customers
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         //Check updated customer
         $this->addParameter('customer_first_last_name',
             $userData1['first_name'] . ' ' . $userData1['last_name']);
@@ -146,7 +130,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
             'Adding customer credit score balance is failed');
         $this->assertEquals('1234', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
             $userData2['first_name'] . ' ' . $userData2['last_name']);
         $this->customerHelper()->openCustomer(
@@ -189,7 +173,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
             }
         }
         //Steps 1-4
-        $this->admin('import');
+        $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
             'Magento 2.0 format', 'Customer Finances');
         //Step 5
@@ -197,7 +181,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         //Verifying import
         $this->assertEquals($validationMessage, $importData, 'Import has been finished with issues');
         //Step 6
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', self::$customerData['first_name'] . ' '
             . self::$customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
