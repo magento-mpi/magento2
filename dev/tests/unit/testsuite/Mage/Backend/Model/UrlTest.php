@@ -42,7 +42,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Mage_Adminhtml::system_acl_roles'))
             ->will($this->returnValue($mockItem));
 
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->any())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
 
@@ -122,7 +122,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetAreaFrontName()
     {
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue($this->_areaFrontName));
 
@@ -155,7 +155,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     public function testGetActionPathWhenAreaFrontNameIsEmpty()
     {
-        $helperMock = $this->getMock('Mage_Backend_Helper_Data');
+        $helperMock = $this->getMock('Mage_Backend_Helper_Data', array(), array(), '', false);
         $helperMock->expects($this->once())->method('getAreaFrontName')
             ->will($this->returnValue(''));
 

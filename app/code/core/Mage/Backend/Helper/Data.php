@@ -18,7 +18,24 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
 
     protected $_pageHelpUrl;
 
+    /**
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
     protected $_areaFrontName = null;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        $this->_config = isset($data['config']) ? $data['config'] : Mage::getConfig();
+
+        if (false == ($this->_config instanceof Mage_Core_Model_Config)) {
+            throw new InvalidArgumentException("Required config object is invalid");
+        }
+    }
 
     public function getPageHelpUrl()
     {
@@ -138,8 +155,8 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getAreaFrontName()
     {
-        if (null == $this->_areaFrontName) {
-            $areas = Mage::getConfig()->getAreas();
+        if (null === $this->_areaFrontName) {
+            $areas = $this->_config->getAreas();
             $this->_areaFrontName =  '';
             if (isset($areas[$this->getAreaCode()]) && isset($areas[$this->getAreaCode()]['frontName'])) {
                 $this->_areaFrontName = $areas[$this->getAreaCode()]['frontName'];
