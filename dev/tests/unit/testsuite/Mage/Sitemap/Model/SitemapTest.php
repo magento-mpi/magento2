@@ -230,6 +230,93 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateXml($maxLines, $maxFileSize, $expectedFile, $expectedWrites)
     {
+        $actualData = array();
+        $model = $this->_prepareSitemapModelMock($actualData, $maxLines, $maxFileSize,
+            $expectedFile, $expectedWrites, null);
+        $model->generateXml();
+
+        $this->assertCount(count($expectedFile), $actualData, 'Number of generated files is incorrect');
+        foreach ($expectedFile as $expectedFileName => $expectedFilePath) {
+            $this->assertArrayHasKey($expectedFileName, $actualData,
+                sprintf('File %s was not generated', $expectedFileName));
+            $this->assertXmlStringEqualsXmlFile($expectedFilePath, $actualData[$expectedFileName]);
+        }
+    }
+
+
+    /**
+     * Data provider for robots.txt
+     *
+     * @static
+     * @return array
+     */
+    public static function robotsDataProvider()
+    {
+        $expectedSingleFile = array(
+            'sitemap-1-1.xml' => __DIR__ . '/_files/sitemap-single.xml'
+        );
+
+        $expectedMultiFile = array(
+            'sitemap-1-1.xml' => __DIR__ . '/_files/sitemap-1-1.xml',
+            'sitemap-1-2.xml' => __DIR__ . '/_files/sitemap-1-2.xml',
+            'sitemap-1-3.xml' => __DIR__ . '/_files/sitemap-1-3.xml',
+            'sitemap-1-4.xml' => __DIR__ . '/_files/sitemap-1-4.xml',
+            'sitemap.xml'     => __DIR__ . '/_files/sitemap-index.xml'
+        );
+
+        return array(
+            array(50000, 10485760, $expectedSingleFile, 6, array(
+                'robotsStart'  => '',
+                'robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
+            )), // empty robots file
+            array(50000, 10485760, $expectedSingleFile, 6, array(
+                'robotsStart'  => "User-agent: *",
+                'robotsFinish' => "User-agent: *"
+                    . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
+            )), // not empty robots file EOL
+            array(1, 10485760, $expectedMultiFile, 18, array(
+                'robotsStart'  => "User-agent: *\r\n",
+                'robotsFinish' => "User-agent: *\r\n\r\nSitemap: http://store.com/sitemap.xml",
+            )), // not empty robots file WIN
+            array(50000, 264, $expectedMultiFile, 18, array(
+                'robotsStart'  => "User-agent: *\n",
+                'robotsFinish' => "User-agent: *\n\nSitemap: http://store.com/sitemap.xml",
+            )), // not empty robots file UNIX
+        );
+    }
+
+    /**
+     * Check pushing of sitemaps to robots.txt
+     *
+     * @param int $maxLines
+     * @param int $maxFileSize
+     * @param array $expectedFile
+     * @param int $expectedWrites
+     * @param array $robotsInfo
+     * @dataProvider robotsDataProvider
+     */
+    public function testAddSitemapToRobotsTxt($maxLines, $maxFileSize, $expectedFile, $expectedWrites, $robotsInfo)
+    {
+        $actualData = array();
+        $model = $this->_prepareSitemapModelMock($actualData, $maxLines, $maxFileSize, $expectedFile, $expectedWrites,
+            $robotsInfo);
+        $model->generateXml();
+    }
+
+    /**
+     * Prepare mock of Sitemap model
+     *
+     * @param array $actualData
+     * @param int $maxLines
+     * @param int $maxFileSize
+     * @param array $expectedFile
+     * @param int $expectedWrites
+     * @param array $robotsInfo
+     * @return Mage_Sitemap_Model_Sitemap|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _prepareSitemapModelMock(&$actualData, $maxLines, $maxFileSize,
+        $expectedFile, $expectedWrites, $robotsInfo)
+    {
         $dateMock = $this->getMockBuilder('Mage_Core_Model_Date')
             ->disableOriginalConstructor()
             ->getMock();
@@ -281,13 +368,17 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         }
 
         // Check robots txt
+        $robotsStart = isset($robotsInfo['robotsStart'])?$robotsInfo['robotsStart']:'';
+        $robotsFinish = isset($robotsInfo['robotsFinish'])?
+            $robotsInfo['robotsFinish']:'Sitemap: http://store.com/sitemap.xml';
         $fileMock->expects($this->any())
             ->method('read')
-            ->will($this->returnValue(''));
+            ->will($this->returnValue($robotsStart));
         $fileMock->expects($this->any())
             ->method('write')
-            ->with($this->equalTo('/robots.txt'), $this->equalTo('Sitemap: http://store.com/sitemap.xml'));
+            ->with($this->equalTo('/robots.txt'), $this->equalTo($robotsFinish));
 
+        // Mock helper methods
         $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
         $helperMock->expects($this->any())
             ->method('getMaximumLinesNumber')
@@ -297,14 +388,8 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($maxFileSize));
 
         $model = $this->_getModelMock($fileMock, true);
-        $model->generateXml();
 
-        $this->assertCount(count($expectedFile), $actualData, 'Number of generated files is incorrect');
-        foreach ($expectedFile as $expectedFileName => $expectedFilePath) {
-            $this->assertArrayHasKey($expectedFileName, $actualData,
-                sprintf('File %s was not generated', $expectedFileName));
-            $this->assertXmlStringEqualsXmlFile($expectedFilePath, $actualData[$expectedFileName]);
-        }
+        return $model;
     }
 
     /**
@@ -331,7 +416,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     /**
      * Get model mock object
      *
-     * @param Varien_Io_File $fileIoMock
+     * @param Varien_Io_File|PHPUnit_Framework_MockObject_MockObject $fileIoMock
      * @param bool $mockBeforeSave
      * @return Mage_Sitemap_Model_Sitemap|PHPUnit_Framework_MockObject_MockObject
      */
@@ -416,82 +501,5 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $model->setSitemapPath('/');
 
         return $model;
-    }
-
-    /**
-     * Check addition sitemap to file robots.txt
-     *
-     * @dataProvider validateRowDataProvider
-     */
-    public function testAddSitemapToRobotsTxt($sitemapName, $replaceSitemapName, $robotsStart, $robotsFinish)
-    {
-        $varienFile = $this->getMockBuilder('Varien_Io_File')
-            ->setMethods(array('open', 'read', 'write', 'fileExists'))
-            ->getMock();
-        $varienFile->expects($this->any())
-            ->method('fileExists')
-            ->will($this->returnValue(true));
-        $model = $this->_getModelMock($varienFile);
-
-        $varienFile->expects($this->once())->method('read')
-            ->will($this->returnValue($robotsStart));
-        $varienFile->expects($this->once())->method('write')
-            ->with($this->equalTo('/robots.txt'), $this->equalTo($robotsFinish));
-
-        $model->addSitemapToRobotsTxt($sitemapName, $replaceSitemapName);
-    }
-
-    /**
-     * Data provider of row data and errors
-     *
-     * @return array
-     */
-    public function validateRowDataProvider()
-    {
-        return array(
-            'empty robots file' => array(
-                '$sitemapName' => 'sitemap.xml',
-                '$replaceSitemapName' => null,
-                '$robotsStart'  => '',
-                '$robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
-            ),
-            'not empty robots file EOL' => array(
-                '$sitemapName' => 'sitemap.xml',
-                '$replaceSitemapName' => null,
-                '$robotsStart'  => "User-agent: *",
-                '$robotsFinish' => "User-agent: *"
-                    . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
-            ),
-            'not empty robots file WIN' => array(
-                '$sitemapName' => 'sitemap.xml',
-                '$replaceSitemapName' => null,
-                '$robotsStart'  => "User-agent: *\r\n",
-                '$robotsFinish' => "User-agent: *\r\n\r\nSitemap: http://store.com/sitemap.xml",
-            ),
-            'not empty robots file UNIX' => array(
-                '$sitemapName' => 'sitemap.xml',
-                '$replaceSitemapName' => null,
-                '$robotsStart'  => "User-agent: *\n",
-                '$robotsFinish' => "User-agent: *\n\nSitemap: http://store.com/sitemap.xml",
-            ),
-            'replace EOL' => array(
-                '$sitemapName' => 'sitemap2.xml',
-                '$replaceSitemapName' => 'http://store.com/sitemap.xml',
-                '$robotsStart'  => "User-agent: *" . PHP_EOL . "Sitemap: http://store.com/sitemap.xml",
-                '$robotsFinish' => "User-agent: *" . PHP_EOL . "Sitemap: http://store.com/sitemap2.xml",
-            ),
-            'replace WIN' => array(
-                '$sitemapName' => 'sitemap2.xml',
-                '$replaceSitemapName' => 'http://store.com/sitemap.xml',
-                '$robotsStart'  => "User-agent: *\r\nSitemap: http://store.com/sitemap.xml",
-                '$robotsFinish' => "User-agent: *\r\nSitemap: http://store.com/sitemap2.xml",
-            ),
-            'replace UNIX' => array(
-                '$sitemapName' => 'sitemap2.xml',
-                '$replaceSitemapName' => 'http://store.com/sitemap.xml',
-                '$robotsStart'  => "User-agent: *\nSitemap: http://store.com/sitemap.xml",
-                '$robotsFinish' => "User-agent: *\nSitemap: http://store.com/sitemap2.xml",
-            ),
-        );
     }
 }

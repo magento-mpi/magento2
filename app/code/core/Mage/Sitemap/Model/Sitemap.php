@@ -582,9 +582,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      * Add sitemap file to robots.txt
      *
      * @param string $sitemapFileName
-     * @param string $replaceSitemapFileName
+     * @param string $replaceFileName
      */
-    public function addSitemapToRobotsTxt($sitemapFileName, $replaceSitemapFileName = null)
+    protected function addSitemapToRobotsTxt($sitemapFileName, $replaceFileName = null)
     {
         $robotsSitemapLine = 'Sitemap: ' . $this->_getSitemapUrl($sitemapFileName);
 
@@ -597,8 +597,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
         }
 
         $isReplacedFlag = false;
-        if ($replaceSitemapFileName != null) {
-            $regex = '{^sitemap:\s*?' . $replaceSitemapFileName . '}im';
+        if ($replaceFileName != null) {
+            $regex = '{^sitemap:\s*?' . $replaceFileName . '}im';
             if (preg_match($regex, $robotsFullText)) {
                 $robotsFullText = preg_replace($regex, $robotsSitemapLine, $robotsFullText, 1);
                 $isReplacedFlag = true;
