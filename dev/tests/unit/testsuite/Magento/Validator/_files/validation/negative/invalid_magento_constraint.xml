@@ -16,7 +16,7 @@
             <rule name="test_rule_zend">
                 <constraints>
                     <!-- Class that does not implements any of valid interfaces -->
-                    <constraint class="Magento_Validator_Invalid_Interface"/>
+                    <constraint class="Magento_Validator_Invalid_Abstract"/>
                 </constraints>
             </rule>
         </rules>

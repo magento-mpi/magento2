@@ -74,7 +74,7 @@ class Magento_Validator
                         $isValid = false;
                     }
                 } else {
-                    /** @var Magento_Validator_ConstraintInterface $constraint */
+                    /** @var Magento_Validator_ConstraintAbstract $constraint */
                     if (!$constraint->isValidData($data, $field)) {
                         foreach ($constraint->getErrors() as $errorFieldName => $errors) {
                             foreach ($errors as $error) {

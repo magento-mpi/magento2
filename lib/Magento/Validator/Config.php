@@ -50,9 +50,9 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 $className = $constraintConfig['class'];
                 $constraint = new $className();
                 if (!($constraint instanceof Zend_Validate_Interface
-                    || $constraint instanceof Magento_Validator_ConstraintInterface)) {
-                    throw new Magento_Exception(sprintf('Constraint "%s" should implement either '
-                        . 'Zend_Validate_Interface or Magento_Validator_ConstraintInterface', $className));
+                    || $constraint instanceof Magento_Validator_ConstraintAbstract)) {
+                    throw new Magento_Exception(sprintf('Constraint "%s" must implement either '
+                        . 'Zend_Validate_Interface or Magento_Validator_ConstraintAbstract', $className));
                 }
                 if ($constraint instanceof Zend_Validate_Interface && empty($constraintConfig['field'])) {
                     throw new Magento_Exception(sprintf('Constraint "%s" must have "field" attribute defined.',
@@ -122,6 +122,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Define id attributes for entities
      *
      * @return array
      */

@@ -26,6 +26,14 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testConstructEmptyGroupNameException()
+    {
+        new Magento_Validator('test_entity', null);
+    }
+
+    /**
      * @param array $dataToValidate
      * @param PHPUnit_Framework_MockObject_MockObject $zendConstraintMock
      * @param PHPUnit_Framework_MockObject_MockObject $magentoConstraintMock
