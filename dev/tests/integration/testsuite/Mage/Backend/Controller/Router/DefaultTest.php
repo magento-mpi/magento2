@@ -19,7 +19,7 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     protected function setUp()
     {
         $options = array(
-            'area' => 'adminhtml',
+            'area' => Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(),
             'base_controller' => 'Mage_Backend_Controller_ActionAbstract'
         );
         $this->_model = new Mage_Backend_Controller_Router_Default($options);
@@ -36,8 +36,11 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
      */
     public function testCollectRoutes()
     {
-        $this->_model->collectRoutes('admin', 'admin');
-        $this->assertEquals('admin', $this->_model->getFrontNameByRoute('adminhtml'));
+        $this->_model->collectRoutes(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode(), 'admin');
+        $this->assertEquals(
+            'admin',
+            $this->_model->getFrontNameByRoute('adminhtml')
+        );
     }
 
     /**
@@ -46,7 +49,8 @@ class Mage_Backend_Controller_Router_DefaultTest extends PHPUnit_Framework_TestC
     public function testFetchDefault()
     {
         $default = array(
-            'module' => '',
+            'area' => '',
+            'module' => 'admin',
             'controller' => 'index',
             'action' => 'index'
         );
