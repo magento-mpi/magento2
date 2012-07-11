@@ -2,28 +2,13 @@
 /**
  * Magento
  *
- * NOTICE OF LICENSE
+ * {license_notice}
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -32,10 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
- * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest extends Mage_Selenium_TestCase
 {
@@ -97,13 +78,14 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
     public function customerAttributeInFilterGrid()
     {
         //Step 1
-        $this->admin('manage_customer_attributes');
+        $this->navigate('manage_customer_attributes');
         //Steps 2-4
-        $attrData = $this->loadDataSet('CustomerAttribute','generic_customer_attribute');
+        $attrData = $this->loadDataSet('CustomerAttribute','generic_customer_attribute',
+            array('values_required' => 'No'));
         $this->customerAttributeHelper()->createAttribute($attrData);
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 5
-        $this->admin('export');
+        $this->navigate('export');
         //Steps 6-7
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
@@ -120,7 +102,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Step 8
-        $this->admin('manage_customer_attributes');
+        $this->navigate('manage_customer_attributes');
         //Step 9
         $this->customerAttributeHelper()->openAttribute(
             array(
@@ -132,7 +114,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
         $this->customerAttributeHelper()->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 12
-        $this->admin('export');
+        $this->navigate('export');
         //Steps 13-14
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying
@@ -149,7 +131,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Step 15
-        $this->admin('manage_customer_attributes');
+        $this->navigate('manage_customer_attributes');
         //Step 16
         $this->customerAttributeHelper()->openAttribute(
             array(
@@ -158,7 +140,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
         $this->clickButtonAndConfirm('delete_attribute','delete_confirm_message');
         $this->assertMessagePresent('success', 'success_deleted_attribute');
         //Step 18
-        $this->admin('export');
+        $this->navigate('export');
         //Steps 13-14
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Verifying

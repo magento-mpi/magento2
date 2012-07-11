@@ -2,28 +2,13 @@
 /**
  * Magento
  *
- * NOTICE OF LICENSE
+ * {license_notice}
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -32,10 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @method Enterprise2_Mage_CustomerAttribute_Helper customerAttributeHelper() customerAttributeHelper()
- * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_TestCase
 {
@@ -47,7 +28,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //logged in once for all tests
         $this->loginAdminUser();
         for ($i = 0; $i < 2; $i++) {
-            $this->admin('manage_customers');
+            $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
@@ -66,7 +47,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             );
         }
         for ($i = 0; $i < 1; $i++) {
-            $this->admin('manage_customers');
+            $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
@@ -98,7 +79,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         }
 
         for ($i = 0; $i < 1; $i++) {
-            $this->admin('manage_customers');
+            $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
@@ -129,7 +110,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             );
         }
         for ($i = 0; $i < 1; $i++) {
-            $this->admin('manage_customers');
+            $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
             $userAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
@@ -206,7 +187,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                 $data[$i]['_entity_id'] = self::$customersUpdateData[$i]['address_id'];
             }
         }
-        $this->admin('import');
+        $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Addresses');
         //Step 5, 6, 7
@@ -227,7 +208,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //Verifying
         $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
         for ($i = 0; $i < 4; $i++){
-             $this->admin('manage_customers');
+             $this->navigate('manage_customers');
              $this->addParameter(
                  'customer_first_last_name',
                  self::$customersUpdateData[$i]['first_name'] . ' ' . self::$customersUpdateData[$i]['last_name']
@@ -270,7 +251,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                 $data[$i]['_entity_id'] = self::$customersEmptyData[$i]['address_id'];
             }
         }
-        $this->admin('import');
+        $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Addresses');
         //Step 5, 6, 7
@@ -290,7 +271,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                                  print_r($importResult));
         //Verifying
         $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter(
             'customer_first_last_name',
             self::$customersEmptyData[0]['first_name'] . ' ' . self::$customersEmptyData[0]['last_name']);
@@ -357,7 +338,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                 $data[$i]['_entity_id'] = self::$customersDeleteData[$i]['address_id'];
             }
         }
-        $this->admin('import');
+        $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
             'Magento 2.0 format', 'Customer Addresses');
         //Step 5, 6, 7
@@ -380,7 +361,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: ' .
                                  print_r($importResult));
         //Verifying
-        $this->admin('manage_customers');
+        $this->navigate('manage_customers');
         $this->addParameter(
             'customer_first_last_name',
             self::$customersDeleteData[0]['first_name'] . ' ' . self::$customersDeleteData[0]['last_name']);
