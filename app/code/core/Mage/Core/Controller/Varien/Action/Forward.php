@@ -64,22 +64,6 @@ class Mage_Core_Controller_Varien_Action_Forward implements Mage_Core_Controller
      */
     public function dispatch($action)
     {
-
-    }
-
-    /**
-     * @return Zend_Controller_Request_Abstract
-     */
-    public function getRequest()
-    {
-        return $this->_request;
-    }
-
-    /**
-     * @return Zend_Controller_Response_Abstract
-     */
-    public function getResponse()
-    {
-        return $this->_response;
+        $this->_request->setDispatched(false);
     }
 }
