@@ -98,22 +98,25 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
      */
     protected function _joinAttribute($storeId, $attributeCode)
     {
+        $adapter = $this->getReadConnection();
         $attribute = $this->_getAttribute($attributeCode);
         $this->_select
-            ->join(
+            ->joinLeft(
                 array('t1_' . $attributeCode => $attribute['table']),
-                'e.entity_id = t1_' . $attributeCode . '.entity_id AND t1_' . $attributeCode . '.store_id = 0',
-                array())
-            ->where('t1_'.$attributeCode . '.attribute_id = ?', $attribute['attribute_id']);
+                'e.entity_id = t1_' . $attributeCode . '.entity_id AND '
+                . $adapter->quoteInto(' t1_' . $attributeCode . '.store_id = ?', Mage_Core_Model_App::ADMIN_STORE_ID)
+                . $adapter->quoteInto(' AND t1_'.$attributeCode . '.attribute_id = ?', $attribute['attribute_id']),
+                array());
 
         if (!$attribute['is_global']) {
-            $this->_select->joinLeft(
-                array('t2_' . $attributeCode => $attribute['table']),
-                $this->_getWriteAdapter()->quoteInto('t1_' . $attributeCode . '.entity_id = t2_'
-                    . $attributeCode . '.entity_id AND t1_' . $attributeCode . '.attribute_id = t2_'
-                    . $attributeCode . '.attribute_id AND t2_' . $attributeCode . '.store_id=?',
-                    $storeId),
-                array()
+            $this->_select
+                ->joinLeft(
+                    array('t2_' . $attributeCode => $attribute['table']),
+                    $this->_getWriteAdapter()->quoteInto('t1_' . $attributeCode . '.entity_id = t2_'
+                        . $attributeCode . '.entity_id AND t1_' . $attributeCode . '.attribute_id = t2_'
+                        . $attributeCode . '.attribute_id AND t2_' . $attributeCode . '.store_id = ?',
+                        $storeId),
+                    array()
             );
         }
     }
