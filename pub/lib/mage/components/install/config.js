@@ -9,7 +9,7 @@
 
 /*jshint eqnull:true */
 $(document).ready(function () {
-  $('#form-validate').mage().validate({errorClass: 'mage-install-error', errorElement: 'div'});
+  $('#form-validate').mage().validate();
   $('#use_secure').on('click', function () {
     return this.checked ? $('#use_secure_options').show() : $('#use_secure_options').hide();
   });

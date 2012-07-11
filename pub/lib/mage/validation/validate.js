@@ -14,17 +14,10 @@ jQuery.validator.addMethod("allowContainerClassName", function (element) {
   }
 }, '');
 
-/**
- * Equivalent of  validate-no-html-tags
- */
-
 jQuery.validator.addMethod("validateNoHtmlTags", function (value) {
   return !/<(\/)?\w+/.test(value);
 }, mage.localize.translate('HTML tags are not allowed'));
 
-/**
- * Equivalent of  validate-select
- */
 jQuery.validator.addMethod("validateSelect", function (value) {
   return ((value !== "none") && (value != null) && (value.length !== 0));
 }, mage.localize.translate('Please select an option'));
@@ -34,14 +27,11 @@ jQuery.validator.addMethod("isEmpty", function (value) {
 }, mage.localize.translate('Empty Value'));
 
 (function () {
-
   function isEmpty(value) {
-    // remove html tags and space chars
     return  (value === '' || (value == null) || (value.length === 0) || /^\s+$/.test(value));
   }
 
   function isEmptyNoTrim(value) {
-    // remove html tags and space chars
     return  (value === '' || (value == null) || (value.length === 0));
   }
 
@@ -49,10 +39,8 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     if ( typeof value != 'string' ) {
       return parseFloat(v);
     }
-
     var isDot = value.indexOf('.');
     var isComa = value.indexOf(',');
-
     if ( isDot != -1 && isComa != -1 ) {
       if ( isComa > isDot ) {
         value = value.replace('.', '').replace(',', '.');
@@ -64,13 +52,9 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     else if ( isComa != -1 ) {
       value = value.replace(',', '.');
     }
-
     return parseFloat(value);
   }
 
-  /**
-   * Equivalent of  validate-alphanum-with-spaces
-   */
   jQuery.validator.addMethod("validateAlphanumWithSpaces", function (v) {
     return isEmptyNoTrim(v) || /^[a-zA-Z0-9 ]+$/.test(v);
   }, mage.localize.translate('Please use only letters (a-z or A-Z), numbers (0-9) or spaces only in this field'));
@@ -79,51 +63,30 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     return isEmptyNoTrim(v) || /^[A-Za-z]+[A-Za-z0-9_]+$/.test(v);
   }, mage.localize.translate('Please use only letters (a-z or A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'));
 
-  /**
-   * Equivalent of  validate-street
-   */
   jQuery.validator.addMethod("validateStreet", function (v) {
     return isEmptyNoTrim(v) || /^[ \w]{3,}([A-Za-z]\.)?([ \w]*\#\d+)?(\r\n| )[ \w]{3,}/.test(v);
   }, mage.localize.translate('Please use only letters (a-z or A-Z) or numbers (0-9) or spaces and # only in this field'));
 
-  /**
-   * Equivalent of  validate-phoneStrict
-   */
   jQuery.validator.addMethod("validatePhoneStrict", function (v) {
     return isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
   }, mage.localize.translate('Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'));
 
-  /**
-   * Equivalent of  validate-phoneLax
-   */
   jQuery.validator.addMethod("validatePhoneLax", function (v) {
     return isEmptyNoTrim(v) || /^((\d[\-. ]?)?((\(\d{3}\))|\d{3}))?[\-. ]?\d{3}[\-. ]?\d{4}$/.test(v);
   }, mage.localize.translate('Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'));
 
-  /**
-   * Equivalent of  validate-fax
-   */
   jQuery.validator.addMethod("validateFax", function (v) {
     return isEmptyNoTrim(v) || /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/.test(v);
   }, mage.localize.translate('Please enter a valid phone number. For example (123) 456-7890 or 123-456-7890.'));
 
-  /**
-   * Equivalent of   validate-email
-   */
   jQuery.validator.addMethod("validateEmail", function (v) {
     return isEmptyNoTrim(v) || /^([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9,!\#\$%&'\*\+\/=\?\^_`\{\|\}~-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*@([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z0-9-]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*\.(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]){2,})$/i.test(v);
   }, mage.localize.translate('Please enter a valid email address. For example johndoe@domain.com.'));
 
-  /**
-   * Equivalent of   validate-emailSender
-   */
   jQuery.validator.addMethod("validateEmailSender", function (v) {
     return isEmptyNoTrim(v) || /^[\S ]+$/.test(v);
   }, mage.localize.translate('Please enter a valid email address. For example johndoe@domain.com.'));
 
-  /**
-   * Equivalent of   validate-password
-   */
   jQuery.validator.addMethod("validatePassword", function (v) {
     if ( v == null ) {
       return false;
@@ -137,9 +100,6 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     return !(pass.length > 0 && pass.length < 6);
   }, mage.localize.translate('Please enter 6 or more characters. Leading or trailing spaces will be ignored.'));
 
-  /**
-   * Equivalent of   validate-admin-password
-   */
   jQuery.validator.addMethod("validateAdminPassword", function (v) {
     if ( v == null ) {
       return false;
@@ -158,9 +118,6 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     return true;
   }, mage.localize.translate('Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.'));
 
-  /**
-   * Equivalent of   validate-url
-   */
   jQuery.validator.addMethod("validateUrl", function (v) {
     if ( isEmptyNoTrim(v) ) {
       return true;
@@ -170,41 +127,26 @@ jQuery.validator.addMethod("isEmpty", function (value) {
 
   }, mage.localize.translate('Please enter a valid URL. Protocol is required (http://, https:// or ftp://).'));
 
-  /**
-   * Equivalent of   validate-clean-url
-   */
   jQuery.validator.addMethod("validateCleanUrl", function (v) {
     return isEmptyNoTrim(v) || /^(http|https|ftp):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v) || /^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i.test(v);
 
   }, mage.localize.translate('Please enter a valid URL. For example http://www.example.com or www.example.com'));
 
-  /**
-   * Equivalent of   validate-xml-identifier
-   */
   jQuery.validator.addMethod("validateXmlIdentifier", function (v) {
     return isEmptyNoTrim(v) || /^[A-Z][A-Z0-9_\/-]*$/i.test(v);
 
   }, mage.localize.translate('Please enter a valid URL. For example http://www.example.com or www.example.com'));
 
-  /**
-   * Equivalent of   validate-ssn
-   */
   jQuery.validator.addMethod("validateSsn", function (v) {
     return isEmptyNoTrim(v) || /^\d{3}-?\d{2}-?\d{4}$/.test(v);
 
   }, mage.localize.translate('Please enter a valid social security number. For example 123-45-6789.'));
 
-  /**
-   * Equivalent of   validate-zip
-   */
   jQuery.validator.addMethod("validateZip", function (v) {
     return isEmptyNoTrim(v) || /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(v);
 
   }, mage.localize.translate('Please enter a valid zip code. For example 90602 or 90602-1234.'));
 
-  /**
-   * Equivalent of       validate-date-au
-   */
   jQuery.validator.addMethod("validateDateAu", function (v) {
     if (isEmptyNoTrim(v)) return true;
     var regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
@@ -216,17 +158,11 @@ jQuery.validator.addMethod("isEmpty", function (value) {
 
   }, mage.localize.translate('Please use this date format: dd/mm/yyyy. For example 17/03/2006 for the 17th of March, 2006.'));
 
-  /**
-   * Equivalent of   validate-currency-dollar
-   */
   jQuery.validator.addMethod("validateCurrencyDollar", function (v) {
     return isEmptyNoTrim(v) || /^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/.test(v);
 
   }, mage.localize.translate('Please enter a valid $ amount. For example $100.00.'));
 
-  /**
-   * Equivalent of   validate-not-negative-number
-   */
   jQuery.validator.addMethod("validateNotNegativeNumber", function (v) {
     if ( isEmptyNoTrim(v) ) {
       return true;
@@ -236,10 +172,6 @@ jQuery.validator.addMethod("isEmpty", function (value) {
 
   }, mage.localize.translate('Please select one of the above options.'));
 
-  /**
-   * Equivalent of   validate-greater-than-zero
-   */
-
   jQuery.validator.addMethod("validateGreaterThanZero", function (v) {
     if ( isEmptyNoTrim(v) ) {
       return true;
@@ -247,10 +179,6 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     v = parseNumber(v);
     return !isNaN(v) && v > 0;
   }, mage.localize.translate('Please enter a number greater than 0 in this field'));
-
-  /**
-   * Equivalent of   validate-css-length
-   */
 
   jQuery.validator.addMethod("validateCssLength", function (v) {
     if ( isEmptyNoTrim(v) ) {
@@ -260,9 +188,7 @@ jQuery.validator.addMethod("isEmpty", function (value) {
     return !isNaN(v) && v > 0;
   }, mage.localize.translate("Please enter a number greater than 0 in this field"));
 })();
-/*
- Translate default error messages
- */
+
 jQuery.extend(jQuery.validator.messages, {
   required: mage.localize.translate("This is a required field."),
   remote: mage.localize.translate("Please fix this field."),
@@ -282,9 +208,8 @@ jQuery.extend(jQuery.validator.messages, {
   max: $.validator.format(mage.localize.translate("Please enter a value less than or equal to {0}.")),
   min: $.validator.format(mage.localize.translate("Please enter a value greater than or equal to {0}."))
 });
-/*
- Setting the type as html5 to enable data-validate
- */
+
+// Setting the type as html5 to enable data-validate
 $.metadata.setType("html5");
 
 /*
@@ -301,11 +226,13 @@ $.metadata.setType("html5");
           onfocusout: false,
           onkeyup: false,
           onclick: false,
-          ignoreTitle: true
+          ignoreTitle: true,
+          errorClass: 'mage-error',
+          errorElement: 'div'
         }, options);
         return jq.each(function () {
           $(this).validate(defaultOptions);
-
+          $(this).mageEventFormValidate();
         });
       }
     };
