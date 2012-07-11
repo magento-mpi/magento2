@@ -14,7 +14,6 @@
  */
 class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 {
-
     /**
      * Wsdl from previous API version
      * @var SimpleXMLElement
@@ -50,7 +49,7 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
     }
 
     /**
-     * Xpath constans
+     * Xpath constants
      */
     const OPERATIONS = '//wsdl:portType/wsdl:operation';
     const OPERATION_NAME = '//wsdl:portType/wsdl:operation[@name="%s"]';
@@ -71,9 +70,8 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
      * Scenario:
      * 1. Load wsdl on previous API.
      * 2. Load wsdl on current API.
-     * 3. Set Namespase. Note: simplexml will work incorrect if Namespase is not set.
+     * 3. Set Namespace. Note: simplexml will work incorrect if Namespace is not set.
      */
-
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
@@ -112,37 +110,37 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
        $this->assertNotEmpty($prevOperations, 'Previous wsdl operations was not loaded.');
 
        foreach ($prevOperations as $operation) {
+           // Finds and compares 'operation['name']'
+           $operationXpath = sprintf(self::OPERATION_NAME, $operation['name']);
+           $currOperation = self::$_currWsdl->xpath($operationXpath);
            try {
-               // Finds and compares 'operation['name']'
-               $operationXpath = sprintf(self::OPERATION_NAME, $operation['name']);
-               $currOperation = self::$_currWsdl->xpath($operationXpath);
                $this->assertNotEmpty($currOperation, 'Operation: "' . $operation['name']
                    . '" was not found in current wsdl.');
-           }
-           catch (Exception $e) {
-               if(!$this->elementIgnored($operationXpath . '[@ignored="1"]')) {
+           } catch (Exception $e) {
+               if (!$this->elementIgnored($operationXpath . '[@ignored="1"]')) {
                    $this->_errors['operationErrors'][] = $e->getMessage();
                }
                continue;
            }
+
+           // Finds and compares 'input['message']' data
+           $operationInputXpath = sprintf(self::OPERATION_INPUT, (string)$operation->input['message']);
+           $foundInputElement = self::$_currWsdl->xpath($operationInputXpath);
            try {
-               // Finds and compares 'input['message']' data
-               $operationInputXpath = sprintf(self::OPERATION_INPUT, (string)$operation->input['message']);
-               $foundInputElement = self::$_currWsdl->xpath($operationInputXpath);
                $this->assertNotEmpty($foundInputElement, 'Input element: "' . (string)$operation->input['message']
                    . '" in operation: "' . $operation['name'] . '" was not found in current wsdl.');
                // Comparing input message part and message data
                $this->compareMessagePart(str_replace('typens:', '', (string)$operation->input['message']));
-           }
-           catch (Exception $e) {
+           } catch (Exception $e) {
                if(!$this->elementIgnored($operationInputXpath)) {
                    $this->_errors['operationErrors'][] = $e->getMessage();
                }
            }
+
+           // Finds and compares 'output['message']' data
+           $operationOutputXpath = sprintf(self::OPERATION_OUTPUT, (string)$operation->output['message']);
+           $foundOutputElement = self::$_currWsdl->xpath($operationOutputXpath);
            try {
-                // Finds and compares 'output['message']' data
-               $operationOutputXpath = sprintf(self::OPERATION_OUTPUT, (string)$operation->output['message']);
-               $foundOutputElement = self::$_currWsdl->xpath($operationOutputXpath);
                $this->assertNotEmpty($foundOutputElement, 'Output element: "' . (string)$operation->output['message']
                    . '" in operation "' . $operation['name'] . '" was not found in current wsdl.');
                // Comparing output message part and message data
@@ -168,36 +166,36 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
         $foundCurrMessage = self::$_currWsdl->xpath($messageXpath);
         $foundPrevMessage = self::$_prevWsdl->xpath($messageXpath);
         try {
-            // Check that messages is loaded in bouth wsdl
+            // Check that messages is loaded in both wsdl
             $this->assertNotEmpty($foundCurrMessage, 'Message: "' . $messageName . '" was not found in current wsdl.');
             $this->assertNotEmpty($foundPrevMessage, 'Message: "' . $messageName . '" was not found in previous wsdl.');
             // Check part['name'] and part['type']
-            $prevMessage = reset($foundPrevMessage);
+            $prevMessage = current($foundPrevMessage);
             if (property_exists($prevMessage, 'part')) {
                 foreach ($prevMessage->part as $prevPart) {
                     // Check if there is 'part' attribute in 'message' on current wsdl
                     $messagePartXpath = sprintf(self::MESSAGE_PART_NAME, $messageName, $prevPart['name']);
                     $currMessagePart = self::$_currWsdl->xpath($messagePartXpath);
                     $this->assertInternalType('array', $currMessagePart);
-                    $currPart = reset($currMessagePart);
+                    $currPart = current($currMessagePart);
                     // Check that part['name'] was founded in current wsdl
                     if (!empty($currPart)) {
                         try {
-                            // Check that part['type'] are equal in bouth wsdl
-                            $this->assertEquals((string)$prevPart['type'], (string)$currPart['type'],
-                                'Message type: "' . $prevPart['type'] . '" was not found in message: "'
-                                    . $messageName . '" part:"' . $prevPart['name'] . '" in current wsdl.');
+                            // Check that part['type'] are equal in both wsdl
+                            $prevPartType = (string)$prevPart['type'];
+                            $this->assertEquals($prevPartType, (string)$currPart['type'],
+                                'Message type: "' . $prevPartType . '" was not found in message: "'
+                                . $messageName . '" part:"' . $prevPart['name'] . '" in current wsdl.');
                             // If part['type'] is ComplexType, compare its using compareComplexType()
-                            list($typeNamespace, $typeName) = explode(':', $prevPart['type']);
+                            list($typeNamespace, $typeName) = explode(':', $prevPartType);
 
                             if ($typeNamespace == 'typens' && $typeName != null && $typeName != 'anyType') {
-                                $this->compareComplexType($typeName, $messageName);
+                                $this->compareComplexType($typeName);
                             }
                         } catch (Exception $e) {
                             if (!$this->elementIgnored($messagePartXpath . '[@typeIgnored="1"]')) {
                                 $this->_errors['messageErrors'][] = $e->getMessage();
                             }
-                            continue;
                         }
                     } else if(!$this->elementIgnored($messagePartXpath . '[@nameIgnored="1"]')) {
                         $this->_errors['messageErrors'][] = 'Message part: "' . $prevPart['name']
@@ -206,7 +204,7 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                 }
             }
         } catch (Exception $e) {
-            if(!$this->elementIgnored($messageXpath . '[@ignored="1"]')) {
+            if (!$this->elementIgnored($messageXpath . '[@ignored="1"]')) {
                 $this->_errors['messageErrors'][] = $e->getMessage();
             }
         }
@@ -214,6 +212,7 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 
     /**
      * Comparing 'message' ComplexType 'type'
+     *
      * @param $typeName
      * @param $parentTypeName
      */
@@ -227,20 +226,18 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
             // Check that 'type' with name = $typeName presents in current wsdl
             $this->assertNotEmpty($foundCurrComplexType,
                 'Complex Type: "' . $typeName . '" was not found in current wsdl.');
-
             // Check 'type' description in case if in previous wsdl 'type' presented but not described
             $this->assertNotEmpty($foundPrevComplexType,
                 'Complex Type: "' . $typeName . '" was not found in previous wsdl.');
 
-            if (array_key_exists('complexContent', reset($foundPrevComplexType))) {
+            if (array_key_exists('complexContent', current($foundPrevComplexType))) {
                 try {
                     // Check that current wsdl complexType still has 'complexContent' key
-                    $this->assertObjectHasAttribute('complexContent', reset($foundCurrComplexType), 'Complex Type: "'
+                    $this->assertObjectHasAttribute('complexContent', current($foundCurrComplexType), 'Complex Type: "'
                         . $typeName . '" does not have "complexContent" attribute in current wsdl.');
 
                     // Compare ComplexType with <ComplexContent> key
                     $this->compareComplexTypeComplexContent($typeName, $parentTypeName);
-
                 } catch (Exception $e) {
                     $this->_errors['complexTypeErrors'][$typeName] = $e->getMessage();
                 }
@@ -265,24 +262,25 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
     protected function compareComplexTypeElement($typeName, $parentTypeName = null)
     {
         $prevComplexTypeElement = self::$_prevWsdl->xpath(sprintf(self::ELEMENTS, $typeName));
-        foreach($prevComplexTypeElement as $element) {
+        foreach ($prevComplexTypeElement as $element) {
             // Search 'element' by element 'name' in current wsdl
-            $elementXpath = sprintf(self::ELEMENT, $typeName, (string)$element['name']);
-
-            $currComplexTypeElement = self::$_currWsdl-> xpath($elementXpath);
-            $currType = reset($currComplexTypeElement);
+            $elementType = (string)$element['type'];
+            $elementName = (string)$element['name'];
+            $elementXpath = sprintf(self::ELEMENT, $typeName, $elementName);
+            $currComplexTypeElement = self::$_currWsdl->xpath($elementXpath);
+            $currType = current($currComplexTypeElement);
 
             // Check element 'name' key in current wsdl
             if(!empty($currType)) {
                 try {
                     // Check element 'type' key in current wsdl
-                    $this->assertEquals((string)$element['type'], (string)$currType['type'],
+                    $this->assertEquals($elementType, (string)$currType['type'],
                         'Complex Type: "' . $typeName . '" with element[name]: "'
-                            . (string)$element['name'] . '" and element[type]= "' . (string)$element['type']
-                            . '" was not fount in current wsdl.');
+                        . $elementName . '" and element[type]= "' . $elementType
+                        . '" was not fount in current wsdl.');
 
                     // If 'arrayType' == typens:typeName ->  compareComplexType($typeName, $messageName)
-                    list($complexTypeNamespace, $complexTypeName) = explode(':', (string)$element['type']);
+                    list($complexTypeNamespace, $complexTypeName) = explode(':', $elementType);
                     $doRecursiveTypeCheck = !is_null($parentTypeName) ? $parentTypeName != $complexTypeName : true;
                     if ($complexTypeNamespace == 'typens' && $complexTypeName != null && $complexTypeName != 'anyType'
                         && $doRecursiveTypeCheck) {
@@ -290,75 +288,81 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
                     }
                 } catch (Exception $e) {
                     if(!$this->elementIgnored($elementXpath . '[@typeIgnored="1"]')) {
-                        $this->_errors['complexTypeElementErrors'][$typeName][(string)$element['type']] =
+                        $this->_errors['complexTypeElementErrors'][$typeName][$elementType] =
                             $e->getMessage();
                     }
                 }
                 try {
                     // If 'minOccurs' key presented in 'element', compare its values
                     if (!is_null($element['minOccurs'])) {
-                        $this->assertEquals((string)$element['minOccurs'], (string)$currType['minOccurs'],
-                            'Complex Type: "' . $typeName . '" with element[name]: "' . (string)$element['name']
-                                . '" and element[minOccurs]: "' . (string)$element['minOccurs']
-                                . '" was not fount in current wsdl.');
+                        $elementMinOccurs = (string)$element['minOccurs'];
+                        $this->assertEquals($elementMinOccurs, (string)$currType['minOccurs'],
+                            'Complex Type: "' . $typeName . '" with element[name]: "' . $elementName
+                            . '" and element[minOccurs]: "' . $elementMinOccurs
+                            . '" was not fount in current wsdl.');
                     }
-                } catch(Exception $e) {
-                    if(!$this->elementIgnored($elementXpath . '[@minOccursIgnored="1"]')) {
-                        $this->_errors['complexTypeElementErrors'][$typeName][(string)$element['minOccurs']] =
-                            $e->getMessage();
+                } catch (Exception $e) {
+                    if (!$this->elementIgnored($elementXpath . '[@minOccursIgnored="1"]')) {
+                        $this->_errors['complexTypeElementErrors'][$typeName][$elementMinOccurs] = $e->getMessage();
                     }
                 }
-            } else if(!$this->elementIgnored($elementXpath . '[@nameIgnored="1"]')) {
-                $this->_errors['complexTypeElementErrors'][$typeName][(string)$element['name']] =
+            } else if (!$this->elementIgnored($elementXpath . '[@nameIgnored="1"]')) {
+                $this->_errors['complexTypeElementErrors'][$typeName][$elementName] =
                     'Complex Type: "' . $typeName . '" with element[name]: "'
-                    . (string)$element['name'] . '" was not fount in current wsdl.';
+                    . $elementName . '" was not fount in current wsdl.';
             }
         }
     }
 
     /**
      * Compare ComplexType types of API responses (current and previous versions)
-     * that contan <ComplexContent> key
-     * @param $typeName
-     * @param null $parentTypeName
+     * that contain <ComplexContent> key
+     * @param string $typeName
+     * @param string|null $parentTypeName
      */
      protected function compareComplexTypeComplexContent($typeName, $parentTypeName = null)
      {
-          try {
-             // Load value for 'arrayType' in ComplexContent 'attribute' that is in spesific namespace
-             $prevAttributeType = self::$_prevWsdl->xpath(sprintf(self::COMPLEX_CONTENT_ATTRIBUTE, $typeName));
-
+         $attributeXpath = sprintf(self::COMPLEX_CONTENT_ATTRIBUTE, $typeName);
+         try {
+             // Load value for 'arrayType' in ComplexContent 'attribute'
+             // that is in specific namespace in previous wsdl
+             $prevAttributeType = self::$_prevWsdl->xpath($attributeXpath);
              // Check that previous wsdl contains Complex Type complexContent attribute
              $this->assertNotEmpty($prevAttributeType, 'Complex Type: "' . $typeName
                  . '" complexContent attribute is empty in previous wsdl.');
-             $prevType = reset($prevAttributeType)->attributes(self::WSDL_NAMESPACE);
+             $prevType = current($prevAttributeType)->attributes(self::WSDL_NAMESPACE);
 
-             // Load ComplexType "type" from current wsdl
-             $attributeXpath = sprintf(self::COMPLEX_CONTENT_ATTRIBUTE, $typeName);
+             // Load value for 'arrayType' in ComplexContent 'attribute'
+             // that is in specific namespace in current wsdl
              $currAttributeType = self::$_currWsdl->xpath($attributeXpath);
-             $currType = reset($currAttributeType)->attributes(self::WSDL_NAMESPACE);
+             // Check that current wsdl contains Complex Type complexContent attribute
+             $this->assertNotEmpty($currAttributeType, 'Complex Type: "' . $typeName
+                 . '" complexContent attribute is empty in current wsdl.');
+             $currType = current($currAttributeType)->attributes(self::WSDL_NAMESPACE);
 
              // Compare found values for 'arrayType'
-             $this->assertEquals((string)$prevType['arrayType'], (string)$currType['arrayType'],
-                 'Complex Type: "' . $typeName . '" with attribute[arrayType] = "' . (string)$prevType['arrayType']
-                     . '" was not found in current wsdl.');
+             $prevArrayType = (string)$prevType['arrayType'];
+             $this->assertEquals($prevArrayType, (string)$currType['arrayType'],
+                 'Complex Type: "' . $typeName . '" with attribute[arrayType] = "' . $prevArrayType
+                 . '" was not found in current wsdl.');
 
              // If 'arrayType' == typens:typeName ->  compareComplexType($typeName, $messageName)
-             list($complexTypeNamespace, $complexTypeName) = explode(':', (string)$prevType['arrayType']);
+             list($complexTypeNamespace, $complexTypeName) = explode(':', $prevArrayType);
              $doRecursiveTypeCheck = !is_null($parentTypeName) ? $parentTypeName != $complexTypeName : true;
              if ($complexTypeNamespace == 'typens' && $complexTypeName != null && $complexTypeName != 'anyType'
                  && $doRecursiveTypeCheck) {
                  $this->compareComplexType(trim($complexTypeName, '[]'), $typeName);
              }
-          } catch (Exception $e) {
-              if(!$this->elementIgnored($attributeXpath . '[@ignored="1"]')) {
-                  $this->_errors['complexTypeErrors'][$typeName] = $e->getMessage();
-              }
-          }
+         } catch (Exception $e) {
+             if(!$this->elementIgnored($attributeXpath . '[@ignored="1"]')) {
+                 $this->_errors['complexTypeErrors'][$typeName] = $e->getMessage();
+             }
+         }
      }
 
     /**
      * This function implodes $errors to string, grouped by keys values
+     *
      * @param $errors array
      * @return string
      */
@@ -383,18 +387,15 @@ class Compatibility_Soap_WsdlTest extends Magento_Test_Webservice_Compatibility
 
     /**
      * Returns result of finding node by xpath in ignore file, that has the same structure as wsdl
+     *
      * @param $xpath
      * @return bool
      */
-    protected  function elementIgnored($xpath)
+    protected function elementIgnored($xpath)
     {
         // Finds wsdl element by $xpath
         $foundElement = self::$_ignoreWsdl->xpath($xpath);
-        // Element has been ignored if it founded
-        if (!empty($foundElement)) {
-            return true;
-        } else {
-            return false;
-        }
+        // Element has been ignored if it is founded
+        return !empty($foundElement);
     }
 }

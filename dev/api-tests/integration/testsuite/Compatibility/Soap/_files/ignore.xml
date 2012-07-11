@@ -5,14 +5,14 @@
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
             <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
-            <complexType name="complexFilter" ignored="0">
+            <complexType name="complexFilter">
                 <all>
                     <element name="value" type="typens:associativeAnyTypeEntity" typeIgnored="1">
                         <comment>Fixed MAGE-6434: API fixes merge</comment>
                     </element>
                 </all>
             </complexType>
-            <complexType name="salesOrderListEntity" ignored="0">
+            <complexType name="salesOrderListEntity">
                 <all>
                     <element name="base_customer_balance_total_refunded" nameIgnored="1" type="xsd:string" minOccurs="0">
                         <comment>MAGETWO-471: Varein_Object old fields replacement</comment>
@@ -79,6 +79,4 @@
             <comment>Fixed APIA-475: WSDL definition for salesOrderInvoiceCreate method incorrect</comment>
         </part>
     </message>
-    <portType name="{{var wsdl.handler}}PortType">
-    </portType>
 </definitions>
