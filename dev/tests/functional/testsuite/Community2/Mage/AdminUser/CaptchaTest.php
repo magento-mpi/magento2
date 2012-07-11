@@ -46,6 +46,8 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
             try {
                 $this->systemConfigurationHelper()->configure($config);
             } catch (Exception $e) { }
+            $this->admin('log_in_to_admin', false);
+            $this->logoutAdminUser();
         }
     }
 
