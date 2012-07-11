@@ -45,7 +45,6 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
      * 2. Get category current store  at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testCatalogCategoryCurrentStore()
     {
@@ -62,7 +61,6 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
      * 2. Create category in current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testCatalogCategoryCreate()
     {
@@ -116,7 +114,6 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
      * 2. Retrieve tree of categories in current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testCatalogCategoryTree()
     {

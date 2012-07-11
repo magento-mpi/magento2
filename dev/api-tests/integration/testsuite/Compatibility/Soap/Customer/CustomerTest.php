@@ -101,8 +101,12 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
             'store_id' => 1,
             'group_id' => 1
         );
-        $prevResponse = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId, 'customerData' => $customerData));
-        $currResponse = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId, 'customerData' => $customerData));
+        $prevResponse = $this->prevCall($apiMethod, array(
+            'customerId' => self::$_prevCustomerId,
+            'customerData' => $customerData));
+        $currResponse = $this->currCall($apiMethod, array(
+            'customerId' => self::$_currCustomerId,
+            'customerData' => $customerData));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 

@@ -45,7 +45,6 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
      * 1. Create customer address at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testCustomerAddressCreate()
     {
@@ -66,8 +65,12 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
             'is_default_billing' => FALSE,
             'is_default_shipping' => FALSE
         );
-        self::$_prevCustomerAddressId = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId, 'addressData' => $addressData));
-        self::$_currCustomerAddressId = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId, 'addressData' => $addressData));
+        self::$_prevCustomerAddressId = $this->prevCall($apiMethod, array(
+            'customerId' => self::$_prevCustomerId,
+            'addressData' => $addressData));
+        self::$_currCustomerAddressId = $this->currCall($apiMethod, array(
+            'customerId' => self::$_currCustomerId,
+            'addressData' => $addressData));
         $this->_checkVersionType(self::$_prevCustomerAddressId, self::$_currCustomerAddressId, $apiMethod);
     }
 
@@ -135,8 +138,12 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
             'is_default_billing' => TRUE,
             'is_default_shipping' => TRUE
         );
-        $prevResponse = $this->prevCall($apiMethod, array('addressId' => self::$_prevCustomerAddressId, 'addressData' => $addressData));
-        $currResponse = $this->currCall($apiMethod, array('addressId' => self::$_currCustomerAddressId, 'addressData' => $addressData));
+        $prevResponse = $this->prevCall($apiMethod, array(
+            'addressId' => self::$_prevCustomerAddressId,
+            'addressData' => $addressData));
+        $currResponse = $this->currCall($apiMethod, array(
+            'addressId' => self::$_currCustomerAddressId,
+            'addressData' => $addressData));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 

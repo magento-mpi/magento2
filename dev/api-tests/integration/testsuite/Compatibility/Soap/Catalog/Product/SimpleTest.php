@@ -139,7 +139,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Compatibility_Soap_S
      * 2. Get the current store at current API.
      * Expected result:
      * Signature of current API is the same as in previous.
-     *
      */
     public function testProductCurrentStore()
     {
@@ -156,7 +155,6 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Compatibility_Soap_S
      * 2. Get the list of products at current API.
      * Expected result:
      * Signature of current API is the same as in previous.
-     *
      */
     public function testProductList()
     {
