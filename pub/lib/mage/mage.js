@@ -51,30 +51,30 @@ mage.localize = (function () {
     return uniqueArr;
   }
 
-  function load_script() {
+  function loadScript() {
     //add sync load js file to syncQueue
-    $('[data-js-sync]').each(function () {
+    /*$('[data-js-sync]').each(function () {
       var jsFiles = $(this).attr('data-js-sync').split(" ");
       syncQueue = $.merge(jsFiles, syncQueue);
-    });
+    });*/
     syncQueue = unique(syncQueue);
     if ( syncQueue.length > 0 ) {
       syncQueue.push(function () {
-        async_load();
+        asyncLoad();
       });
       head.js.apply({}, syncQueue);
     } else {
-      async_load();
+      asyncLoad();
     }
   }
 
-  function async_load() {
+  function asyncLoad() {
     var x, s, i;
     //add async load js file to asyncQueue
-    $('[data-js]').each(function () {
+    /*$('[data-js]').each(function () {
       var jsFiles = $(this).attr('data-js').split(" ");
       asyncQueue = $.merge(jsFiles, asyncQueue);
-    });
+    });*/
     asyncQueue = unique(asyncQueue);
     x = document.getElementsByTagName('script')[0];
     for ( i = 0; i < asyncQueue.length; i++ ) {
@@ -92,7 +92,7 @@ mage.localize = (function () {
     }
   }
 
-  $(window).on('load', load_script);
+  $(window).on('load', loadScript);
   mage.load = (function () {
     return {
       jsSync: function () {
