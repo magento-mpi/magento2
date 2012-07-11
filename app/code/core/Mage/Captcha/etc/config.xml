@@ -112,7 +112,7 @@
             </updates>
         </layout>
     </frontend>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -122,6 +122,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <layout>
             <updates>
                 <captcha module="Mage_Captcha">

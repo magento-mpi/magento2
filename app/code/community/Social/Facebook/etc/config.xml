@@ -25,7 +25,7 @@
             </social_facebook_setup>
         </resources>
     </global>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -35,7 +35,7 @@
                 </args>
             </adminhtml>
         </routers>
-    </adminhtml>
+    </admin>
     <frontend>
         <layout>
             <updates>

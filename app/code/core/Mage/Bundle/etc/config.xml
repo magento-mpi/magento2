@@ -146,7 +146,7 @@
             </product_option_renderer_init>
         </events>
     </frontend>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -156,6 +156,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <translate>
             <modules>
                 <Mage_Bundle>

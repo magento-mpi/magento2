@@ -66,15 +66,6 @@
         </layout>
     </frontend>
     <adminhtml>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_Pbridge after="Mage_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
         <layout>
             <updates>
                 <enterprise_pbridge module="Enterprise_Pbridge">
@@ -93,6 +84,17 @@
             </admin_system_config_changed_section_payment>
         </events>
     </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Enterprise_Pbridge after="Mage_Adminhtml">Enterprise_Pbridge_Adminhtml</Enterprise_Pbridge>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <default>
         <payment>
             <pbridge translate="title" module="Enterprise_Pbridge">

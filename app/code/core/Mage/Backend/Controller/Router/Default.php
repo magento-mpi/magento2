@@ -133,7 +133,7 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
             }
         }
 
-        parent::collectRoutes($configArea, $useRouterName);
+        parent::collectRoutes('admin', $useRouterName);
     }
 
     /**

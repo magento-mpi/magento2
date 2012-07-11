@@ -76,7 +76,7 @@
             </adminhtml_promo_quote_edit_tab_main_prepare_form>
         </events>
     </global>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -86,6 +86,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <layout>
             <updates>
                 <enterprise_reminder module="Enterprise_Reminder">

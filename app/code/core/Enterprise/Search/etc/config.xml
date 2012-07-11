@@ -55,7 +55,7 @@
             </catalogsearch_index_process_complete>
         </events>
     </global>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -65,6 +65,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <layout>
             <updates>
                 <enterprise_search module="Enterprise_Search">

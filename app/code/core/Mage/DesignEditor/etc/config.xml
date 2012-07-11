@@ -77,15 +77,6 @@
         </events>
     </frontend>
     <adminhtml>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <mage_designeditor before="Mage_Adminhtml">Mage_DesignEditor_Adminhtml</mage_designeditor>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
         <layout>
             <updates>
                 <designeditor module="Mage_DesignEditor">
@@ -104,4 +95,15 @@
             </backend_auth_user_logout>
         </events>
     </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <mage_designeditor before="Mage_Adminhtml">Mage_DesignEditor_Adminhtml</mage_designeditor>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
 </config>

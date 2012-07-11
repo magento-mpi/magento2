@@ -77,15 +77,6 @@
         </secure_url>
     </frontend>
     <adminhtml>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Mage_Centinel before="Mage_Adminhtml">Mage_Centinel_Adminhtml</Mage_Centinel>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
         <events>
             <payment_info_block_prepare_specific_information>
                 <observers>
@@ -114,6 +105,17 @@
             </updates>
         </layout>
     </adminhtml>
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_Centinel before="Mage_Adminhtml">Mage_Centinel_Adminhtml</Mage_Centinel>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <global>
         <payment>
             <cc>

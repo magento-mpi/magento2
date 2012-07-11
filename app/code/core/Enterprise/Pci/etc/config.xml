@@ -49,15 +49,6 @@
         </events>
     </global>
     <adminhtml>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_Pci before="Mage_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
         <layout>
             <updates>
                 <enterprise_pci module="Enterprise_Pci">
@@ -101,6 +92,17 @@
             </modules>
         </translate>
     </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Enterprise_Pci before="Mage_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <frontend>
         <events>
             <customer_customer_authenticated>

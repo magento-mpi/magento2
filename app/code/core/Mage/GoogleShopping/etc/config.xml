@@ -24,7 +24,7 @@
             </googleshopping_setup>
         </resources>
     </global>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -34,6 +34,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <translate>
             <modules>
                 <Mage_GoogleShopping>

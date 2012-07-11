@@ -59,7 +59,7 @@
             </customer_balance_save_commit_after>
         </events>
     </global>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -69,6 +69,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <layout>
             <updates>
                 <enterprise_customersegment module="Enterprise_CustomerSegment">

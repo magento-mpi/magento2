@@ -68,8 +68,8 @@
             </updates>
         </layout>
     </frontend>
-    <adminhtml>
-        <routers>
+    <admin>
+         <routers>
             <adminhtml>
                 <args>
                     <modules>
@@ -78,6 +78,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <translate>
             <modules>
                 <Phoenix_Moneybookers>

@@ -232,15 +232,6 @@
         </events>
     </global>
     <adminhtml>
-        <routers>
-            <adminhtml>
-                <args>
-                    <modules>
-                        <Enterprise_Staging before="Mage_Adminhtml">Enterprise_Staging_Adminhtml</Enterprise_Staging>
-                    </modules>
-                </args>
-            </adminhtml>
-        </routers>
         <layout>
             <updates>
                 <enterprise_staging module="Enterprise_Staging">
@@ -330,6 +321,17 @@
             </modules>
         </translate>
     </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Enterprise_Staging before="Mage_Adminhtml">Enterprise_Staging_Adminhtml</Enterprise_Staging>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <crontab>
         <jobs>
             <enterprise_staging_automates>

@@ -143,7 +143,7 @@
             </updates>
         </layout>
     </frontend>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -153,6 +153,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <events>
             <adminhtml_sales_order_create_process_data>
                 <observers>

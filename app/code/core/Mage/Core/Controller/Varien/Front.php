@@ -357,7 +357,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $adminFrontNames = array($adminPath);
 
         // Check for other modules that can use admin router (a lot of Magento extensions do that)
-        $adminFrontNameNodes = Mage::getConfig()->getNode(Mage_Backend_Helper_Data::BACKEND_AREA_CODE . '/routers')
+        $adminFrontNameNodes = Mage::getConfig()->getNode('admin/routers')
             ->xpath('*[not(self::adminhtml) and use = "admin"]/args/frontName');
 
         if (is_array($adminFrontNameNodes)) {

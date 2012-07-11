@@ -41,7 +41,7 @@
             </websiterestriction_frontend>
         </events>
     </global>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -51,6 +51,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <layout>
             <updates>
                 <mage_xmlconnect module="Mage_XmlConnect">

@@ -47,7 +47,7 @@
             </emails>
         </admin>
     </default>
-    <adminhtml>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
@@ -57,6 +57,8 @@
                 </args>
             </adminhtml>
         </routers>
+    </admin>
+    <adminhtml>
         <layout>
             <updates>
                 <user module="Mage_User">
