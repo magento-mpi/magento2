@@ -54,9 +54,9 @@ mage.localize = (function () {
   function loadScript() {
     //add sync load js file to syncQueue
     /*$('[data-js-sync]').each(function () {
-      var jsFiles = $(this).attr('data-js-sync').split(" ");
-      syncQueue = $.merge(jsFiles, syncQueue);
-    });*/
+     var jsFiles = $(this).attr('data-js-sync').split(" ");
+     syncQueue = $.merge(jsFiles, syncQueue);
+     });*/
     syncQueue = unique(syncQueue);
     if ( syncQueue.length > 0 ) {
       syncQueue.push(function () {
@@ -72,9 +72,9 @@ mage.localize = (function () {
     var x, s, i;
     //add async load js file to asyncQueue
     /*$('[data-js]').each(function () {
-      var jsFiles = $(this).attr('data-js').split(" ");
-      asyncQueue = $.merge(jsFiles, asyncQueue);
-    });*/
+     var jsFiles = $(this).attr('data-js').split(" ");
+     asyncQueue = $.merge(jsFiles, asyncQueue);
+     });*/
     asyncQueue = unique(asyncQueue);
     x = document.getElementsByTagName('script')[0];
     for ( i = 0; i < asyncQueue.length; i++ ) {
@@ -87,7 +87,7 @@ mage.localize = (function () {
       s = document.createElement('link');
       s.type = 'text/css';
       s.rel = 'stylesheet';
-      s.href = asyncQueue[i];
+      s.href = cssQueue[i];
       x.parentNode.appendChild(s);
     }
   }
@@ -121,10 +121,9 @@ mage.localize = (function () {
         return syncQueue.length;
       },
       initValidate: function () {
-        var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js','/pub/lib/jquery/jquery.metadata.js',
+        var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js', '/pub/lib/jquery/jquery.metadata.js', '/pub/lib/jquery/jQuery.hook.js',
           '/pub/lib/mage/validation/validate.js'];
         addToQueue(validatorFiles, syncQueue);
-        this.language();
       }
 
     };
