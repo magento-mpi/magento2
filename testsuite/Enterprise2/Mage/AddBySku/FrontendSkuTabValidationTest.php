@@ -157,7 +157,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuTabValidationTest extends Mage_Seleni
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3889
      */
-    public function addEmptyRowQtyFields()
+    public function addEmptyRowQtyFields($data)
     {  
         //Preconditions:
         $this->shoppingCartHelper()->frontClearShoppingCart();

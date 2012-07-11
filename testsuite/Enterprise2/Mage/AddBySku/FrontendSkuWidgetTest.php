@@ -36,7 +36,7 @@
 class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_TestCase
 {    
     /**
-     * <p>Enable Order By SKU functionality on Frontend</p> 
+     * <p>Enable Order By SKU functionality on Frontend</p>
      */
     public function setUpBeforeTests()
     {
@@ -168,7 +168,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
      * 
      * @test
      * @depends createCategory
-     * @depends createSKUWidgetWithoutLink    
+     * @depends createSkuWidgetWithoutLink
      * @TestlinkId TL-MAGE-3974
      */
     public function checkSkuWidgetWithoutLink($category)
@@ -306,7 +306,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
      * @test
      * @depends createCategory
      * @depends preconditionsForTests
-     * @depends checkSKUWidgetWithLink
+     * @depends checkSkuWidgetWithLink
      * @TestlinkId TL-MAGE-3977
      */
     public function clickLinkOnWidget($category, $data)
@@ -376,7 +376,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
      * 
      * @test
      * @depends createCategory
-     * @depends createSKUWidgetWithLink
+     * @depends createSkuWidgetWithLink
      * @depends clickLinkOnWidget
      * @TestlinkId TL-MAGE-3979
      */
@@ -426,7 +426,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
     public function widgetLinkForSpecifiedCustomer($category, $data)
     {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSetting', 'add_by_sku_general_group');        
+        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_general_group');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
@@ -470,7 +470,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
     public function widgetLinkForUnspecifiedCustomer($category, $data)
     {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSetting', 'add_by_sku_retailer_group');        
+        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_retailer_group');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
@@ -505,7 +505,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
     public function widgetLinkForDisabledFrontendSku($category)
     {
         //Preconditions:
-        $config = $this->loadDataSet('OrderBySkuSetting', 'add_by_sku_disabled');        
+        $config = $this->loadDataSet('OrderBySkuSettings', 'add_by_sku_disabled');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
@@ -559,7 +559,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         $this->frontend();  
         $this->categoryHelper()->frontOpenCategory($category);
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array ('sku' => $data['simple_product']['sku'], 'qty' => $qty));   
-        $this->clickButton('add_to_cart', false);
+        $this->clickButton('add_to_cart_by_sku', false);
         $this->waitForAjax();
         //Verifying
         $this->assertMessagePresent('error', $message);                  
@@ -605,7 +605,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         //Steps:
         $this->frontend();  
         $this->categoryHelper()->frontOpenCategory($category);      
-        $this->clickButton('add_to_cart');        
+        $this->clickButton('add_to_cart_by_sku');
         //Verifying
         $this->assertMessagePresent('error', 'no_product_added_from_widget');        
     }
@@ -639,9 +639,9 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         //Steps:
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->clickButton('add_row', false);  
+        $this->clickButton('add_row_by_sku', false);
         $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product']);        
-        $this->clickButton('add_to_cart');        
+        $this->clickButton('add_to_cart_by_sku');
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');       
     }
@@ -677,7 +677,7 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category);  
         $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product']);        
-        $this->clickButton('add_to_cart');        
+        $this->clickButton('add_to_cart_by_sku');
         //Verifying
         $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');       
     } 
@@ -709,9 +709,9 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         //Steps:
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category); 
-        $this->clickButton('add_row', false);     
+        $this->clickButton('add_row_by_sku', false);
         $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product'], array ('1', '2'));        
-        $this->clickButton('add_to_cart');        
+        $this->clickButton('add_to_cart_by_sku');
         //Verifying
         $this->addParameter('number', '2');
         $this->assertMessagePresent('success', 'products_added_to_cart_by_sku');        
@@ -748,11 +748,11 @@ class Enterprise2_Mage_AddBySku_FrontendSkuWidgetTest extends Mage_Selenium_Test
         //Steps:
         $this->frontend();
         $this->categoryHelper()->frontOpenCategory($category); 
-        $this->clickButton('add_row', false);     
+        $this->clickButton('add_row_by_sku', false);
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array ('sku' => $data['simple_product']['sku'], 
                                                           'qty' => '#$%'), array ('1'));
         $this->addBySkuHelper()->frontFulfillSkuQtyRows($data['simple_product'], array('2'));        
-        $this->clickButton('add_to_cart',false);        
+        $this->clickButton('add_to_cart_by_sku',false);
         //Verifying
         $this->assertMessagePresent('error', 'sku_invalid_number');      
     }
