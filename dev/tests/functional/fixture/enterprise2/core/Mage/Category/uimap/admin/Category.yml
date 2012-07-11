@@ -37,7 +37,7 @@ manage_categories:
                          fieldsets:
                              -
                                  category_permissions:
-                                     xpath: //div[@id='category_permissions_']
+                                     xpath: //div[@id='category_permissions_%cat_id%']
                                      dropdowns:
                                          website: //select[@name='general[permissions][%row%][website_id]']
                                          customer_group: //select[@name='general[permissions][%row%][customer_group_id]']
@@ -45,5 +45,8 @@ manage_categories:
                                          browsing_category: //input[@id='category_permissions_%row%_grant_catalog_category_view_%permissionCategory%']
                                          displaying_price: //input[@id='category_permissions_%row%_grant_catalog_product_price_%permissionPrice%']
                                          add_to_cart: //input[@id='category_permissions_%row%_grant_checkout_items_%permissionCart%']
+                                     buttons:
+                                         delete_permissions: //*[@id='category_permissions_%cat_id%_row_%row%_delete_button']
                          buttons:
                              new_permission: //button[span='New Permission']
+

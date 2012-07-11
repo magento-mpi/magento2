@@ -1,0 +1,22 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Tag
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+#
+---
+# Manage Pages Hierarchy page
+manage_pages_hierarchy:
+    mca: cms_hierarchy/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_hierarchy/')]
+    title: Manage Hierarchy / Pages / CMS / Magento Admin
+
+# Manage Banners page
+manage_banners:
+    mca: banner/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'banner/')]
+    title: Banners / CMS / Magento Admin

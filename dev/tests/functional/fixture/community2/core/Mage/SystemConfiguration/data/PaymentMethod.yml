@@ -1,0 +1,80 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+#<-------------Bank Transfer Payment------------------------>
+banktransfer:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            btp_enabled: Yes
+            btp_title: Bank Transfer Payment
+            btp_instruction: Bank Transfer Instruction Data
+            btp_payment_from_applicable_countries: All Allowed Countries
+            btp_payment_from_specific_countries: %noValue%
+            btp_make_check_payable_to: %noValue%
+            btp_send_check_to: %noValue%
+            btp_minimum_order_total: %noValue%
+            btp_maximum_order_total: %noValue%
+            btp_sort_order: %noValue%
+
+banktransfer_payment_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: No
+
+#<-------------Cash On Delivery Payment------------------------>
+cashondelivery:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cod_enabled: Yes
+            cod_title: Cash On Delivery
+            cod_instruction: Cash On Delivery Instruction Data
+            cod_payment_from_applicable_countries: All Allowed Countries
+            cod_payment_from_specific_countries: %noValue%
+            cod_make_check_payable_to: %noValue%
+            cod_send_check_to: %noValue%
+            cod_minimum_order_total: %noValue%
+            cod_maximum_order_total: %noValue%
+            cod_sort_order: %noValue%
+
+cash_on_delivery_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            cmo_enabled: No
+
+#<-------------Purchase Order------------------------>
+purchaseorder:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            po_enabled: Yes
+            po_title: Purchase Order
+            po_payment_from_applicable_countries: All Allowed Countries
+            po_payment_from_specific_countries: %noValue%
+            po_make_check_payable_to: %noValue%
+            po_minimum_order_total: %noValue%
+            po_maximum_order_total: %noValue%
+            po_sort_order: %noValue%
+
+purchaseorder_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            po_enabled: No

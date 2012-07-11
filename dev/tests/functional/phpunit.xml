@@ -12,7 +12,7 @@
 -->
 <phpunit backupGlobals="true"
          backupStaticAttributes="false"
-         bootstrap="./framework/bootstrap.php"
+         bootstrap="framework/bootstrap.php"
          cacheTokens="true"
          colors="false"
          convertErrorsToExceptions="true"

@@ -1,0 +1,43 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# 'Checkout' page
+onepage_checkout:
+    uimap:
+        form: &checkoutForm
+            fieldsets:
+                -
+                    checkout_method:
+                        buttons:
+                            captcha_reload_user_login: //li[@id='captcha-image-box-user_login']/div/img[@id='captcha-reload']
+                        fields:
+                            captcha_user_login: //*[@id='captcha_user_login']
+                        pageelements:
+                            captcha_user_login: //*[@id='user_login']
+                -
+                    billing_information:
+                        buttons:
+                            captcha_reload_register_during_checkout: //li[@id='captcha-image-box-register_during_checkout']/div/img[@id='captcha-reload']
+                            captcha_reload_guest_checkout: //li[@id='captcha-image-box-guest_checkout']/div/img[@id='captcha-reload']
+                        fields:
+                            captcha_guest_checkout: //*[@id='captcha_guest_checkout']
+                            captcha_register_during_checkout: //*[@id='captcha_register_during_checkout']
+                        pageelements:
+                            captcha_guest_checkout: //*[@id='guest_checkout']
+                            captcha_register_during_checkout: //*[@id='register_during_checkout']
+                -
+                    payment_method:
+                        fields:
+                            purchase_order_number: //input[@id='po_number']            
+            messages:
+                empty_captcha_user_login: //*[@id='advice-required-entry-captcha_user_login']
+                empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']
+                incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+                captcha_alert: Incorrect CAPTCHA.
