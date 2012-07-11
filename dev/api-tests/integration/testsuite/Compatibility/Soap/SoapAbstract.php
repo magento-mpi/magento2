@@ -74,12 +74,12 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
             'default_sort_by' => 'position'
         );
         $categoryIds['prevCategoryId'] = $this->prevCall('catalog_category.create', array(
-            Mage_Catalog_Model_Category::TREE_ROOT_ID,
-            $categoryData
+            'parentId' => Mage_Catalog_Model_Category::TREE_ROOT_ID,
+            'categoryData' => $categoryData
         ));
         $categoryIds['currCategoryId'] = $this->currCall('catalog_category.create', array(
-            Mage_Catalog_Model_Category::TREE_ROOT_ID,
-            $categoryData
+            'parentId' => Mage_Catalog_Model_Category::TREE_ROOT_ID,
+            'categoryData' => $categoryData
         ));
         return $categoryIds;
     }
@@ -109,7 +109,7 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
             'is_visible_on_front' => 0,
             'used_in_product_listing' => 0,
             'additional_fields' => array(),
-            'frontend_label' => array(array('store_id' => '0', 'label' => 'some label'))
+            'frontend_label' => array('frontend_label' => array('store_id' => '0', 'label' => 'some label'))
         );
         $productAttributeIds['prevProductAttributeId'] = $this->prevCall($apiMethod, array('data' => $attributeData));
         $productAttributeIds['currProductAttributeId'] = $this->currCall($apiMethod, array('data' => $attributeData));
@@ -138,7 +138,7 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
                 'visibility' => 4,
                 'price' => 9.99,
                 'tax_class_id' => 2,
-                'weight' => 1,
+                'weight' => 1
             )
         );
         $productIds['prevProductId'] = $this->prevCall('catalog_product.create', $productData);
@@ -155,7 +155,7 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
     {
         $customerIds = array();
         $apiMethod = 'customer.create';
-        $customerData = array(array(
+        $customerData = array('customerData' => array(
             'email' => 'customer-mail' . uniqid() . '@example.org',
             'firstname' => 'Test Name',
             'lastname' => 'Test Last Name',
@@ -167,5 +167,19 @@ abstract class Compatibility_Soap_SoapAbstract extends Magento_Test_Webservice_C
         $customerIds['prevCustomerId'] = $this->prevCall($apiMethod, $customerData);
         $customerIds['currCustomerId'] = $this->currCall($apiMethod, $customerData);
         return $customerIds;
+    }
+
+    /**
+     * Create shopping carts in current and previous API and return IDs
+     *
+     * @return array $ShoppingCartIds
+     */
+    protected function _createShoppingCarts()
+    {
+        $shoppingCartIds = array();
+        $apiMethod = 'cart.create';
+        $shoppingCartIds['prevShoppingCartId'] = $this->prevCall($apiMethod);
+        $shoppingCartIds['currShoppingCartId'] = $this->currCall($apiMethod);
+        return $shoppingCartIds;
     }
 }

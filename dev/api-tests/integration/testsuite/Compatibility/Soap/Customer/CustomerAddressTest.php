@@ -66,8 +66,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
             'is_default_billing' => FALSE,
             'is_default_shipping' => FALSE
         );
-        self::$_prevCustomerAddressId = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId, 'addressdata' => $addressData));
-        self::$_currCustomerAddressId = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId, 'addressdata' => $addressData));
+        self::$_prevCustomerAddressId = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId, 'addressData' => $addressData));
+        self::$_currCustomerAddressId = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId, 'addressData' => $addressData));
         $this->_checkVersionType(self::$_prevCustomerAddressId, self::$_currCustomerAddressId, $apiMethod);
     }
 
@@ -84,8 +84,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
     public function testCustomerAddressList()
     {
         $apiMethod = 'customer_address.list';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerId);
-        $currResponse = $this->currCall($apiMethod, self::$_currCustomerId);
+        $prevResponse = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId));
+        $currResponse = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId));
         $this->_checkResponse($prevResponse, $currResponse, $apiMethod);
         $this->_checkVersionSignature($prevResponse[0], $currResponse[0], $apiMethod);
     }
@@ -103,8 +103,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
     public function testCustomerAddressInfo()
     {
         $apiMethod = 'customer_address.info';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerAddressId);
-        $currResponse = $this->currCall($apiMethod, self::$_currCustomerAddressId);
+        $prevResponse = $this->prevCall($apiMethod, array('addressId' => self::$_prevCustomerAddressId));
+        $currResponse = $this->currCall($apiMethod, array('addressId' => self::$_currCustomerAddressId));
         $this->_checkResponse($prevResponse, $currResponse, $apiMethod);
         $this->_checkVersionSignature($prevResponse, $currResponse, $apiMethod);
     }
@@ -135,8 +135,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
             'is_default_billing' => TRUE,
             'is_default_shipping' => TRUE
         );
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerAddressId, $addressData);
-        $currResponse = $this->currCall($apiMethod, self::$_currCustomerAddressId, $addressData);
+        $prevResponse = $this->prevCall($apiMethod, array('addressId' => self::$_prevCustomerAddressId, 'addressData' => $addressData));
+        $currResponse = $this->currCall($apiMethod, array('addressId' => self::$_currCustomerAddressId, 'addressData' => $addressData));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -153,8 +153,8 @@ class Compatibility_Soap_CustomerAddressTest extends Compatibility_Soap_SoapAbst
     public function testCustomerAddressDelete()
     {
         $apiMethod = 'customer_address.delete';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerAddressId);
-        $currResponse = $this->currCall($apiMethod, self::$_currCustomerAddressId);
+        $prevResponse = $this->prevCall($apiMethod, array('addressId' => self::$_prevCustomerAddressId));
+        $currResponse = $this->currCall($apiMethod, array('addressId' => self::$_currCustomerAddressId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 }

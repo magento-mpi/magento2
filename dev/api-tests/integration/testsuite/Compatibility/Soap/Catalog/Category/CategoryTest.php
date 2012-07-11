@@ -144,16 +144,13 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
             'is_active' => '0',
             'include_in_menu' => '0',
             'available_sort_by' => array('name', 'price'),
-            'default_sort_by' => 'name'
-        );
+            'default_sort_by' => 'name');
         $prevResponse = $this->prevCall($apiMethod, array(
-            self::$_prevCategoryId,
-            $updateCategoryData
-        ));
+            'categoryId' => self::$_prevCategoryId,
+            'categoryData' => $updateCategoryData));
         $currResponse = $this->currCall($apiMethod, array(
-            self::$_currCategoryId,
-            $updateCategoryData
-        ));
+            'categoryId' => self::$_currCategoryId,
+            'categoryData' => $updateCategoryData));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -173,12 +170,10 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $parentIds = $this->_createCategories();
         $prevResponse = $this->prevCall($apiMethod, array(
             'categoryId' => self::$_prevCategoryId,
-            'parentId' => $parentIds['prevCategoryId']
-        ));
+            'parentId' => $parentIds['prevCategoryId']));
         $currResponse = $this->currCall($apiMethod, array(
             'categoryId' => self::$_currCategoryId,
-            'parentId' => $parentIds['currCategoryId']
-        ));
+            'parentId' => $parentIds['currCategoryId']));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -198,8 +193,12 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $productIds = $this->_createProducts();
         self::$_currProductId = $productIds['currProductId'];
         self::$_prevProductId = $productIds['prevProductId'];
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevCategoryId, self::$_prevProductId));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currCategoryId, self::$_currProductId));
+        $prevResponse = $this->prevCall($apiMethod, array(
+            'categoryId' => self::$_prevCategoryId,
+            'productId' => self::$_prevProductId));
+        $currResponse = $this->currCall($apiMethod, array(
+            'categoryId' => self::$_currCategoryId,
+            'productId' => self::$_currProductId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -216,8 +215,10 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
     public function testCatalogCategoryAssignedProducts()
     {
         $apiMethod = 'catalog_category.assignedProducts';
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevCategoryId));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currCategoryId));
+        $prevResponse = $this->prevCall($apiMethod, array(
+            'categoryId' => self::$_prevCategoryId));
+        $currResponse = $this->currCall($apiMethod, array(
+            'categoryId' => self::$_currCategoryId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 

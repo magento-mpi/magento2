@@ -83,8 +83,11 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
         $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
         $attributeSetSkeletonId = $entityType->getDefaultAttributeSetId();
         $attributeSetName = 'Test Attribute Set Name' . uniqid();
-        self::$_prevAttributeSetId = $this->prevCall($apiMethod, array($attributeSetName, $attributeSetSkeletonId));
-        self::$_currAttributeSetId = $this->currCall($apiMethod, array($attributeSetName, $attributeSetSkeletonId));
+        self::$_prevAttributeSetId = $this->prevCall($apiMethod, array(
+            'attributeSetName' => $attributeSetName,
+            'skeletonSetId' => $attributeSetSkeletonId
+        ));
+        self::$_currAttributeSetId = $this->currCall($apiMethod, array('attributeSetName' => $attributeSetName, 'skeletonSetId' => $attributeSetSkeletonId));
         $this->_checkVersionType(self::$_prevAttributeSetId, self::$_currAttributeSetId, $apiMethod);
     }
 
@@ -102,8 +105,14 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     {
         $apiMethod = 'product_attribute_set.groupAdd';
         $groupName = 'Test Group Name' . uniqid();
-        self::$_prevAttributeSetGroupId = $this->prevCall($apiMethod, array(self::$_prevAttributeSetId, $groupName));
-        self::$_currAttributeSetGroupId = $this->currCall($apiMethod, array(self::$_currAttributeSetId, $groupName));
+        self::$_prevAttributeSetGroupId = $this->prevCall($apiMethod, array(
+            'attributeSetId' => self::$_prevAttributeSetId,
+            'groupName' => $groupName
+        ));
+        self::$_currAttributeSetGroupId = $this->currCall($apiMethod, array(
+            'attributeSetId' => self::$_currAttributeSetId,
+            'groupName' => $groupName
+        ));
         $this->_checkVersionType(self::$_prevAttributeSetGroupId, self::$_currAttributeSetGroupId, $apiMethod);
     }
 
@@ -121,8 +130,8 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     {
         $apiMethod = 'product_attribute_set.groupRename';
         $newGroupName = 'New Test Group Name' . uniqid();
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevAttributeSetGroupId, $newGroupName));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currAttributeSetGroupId, $newGroupName));
+        $prevResponse = $this->prevCall($apiMethod, array('groupId' => self::$_prevAttributeSetGroupId, 'groupName' => $newGroupName));
+        $currResponse = $this->currCall($apiMethod, array('groupId' => self::$_currAttributeSetGroupId, 'groupName' => $newGroupName));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -139,8 +148,8 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     public function testProductAttributeSetGroupRemove()
     {
         $apiMethod = 'product_attribute_set.groupRemove';
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevAttributeSetGroupId));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currAttributeSetGroupId));
+        $prevResponse = $this->prevCall($apiMethod, array('attributeGroupId' => self::$_prevAttributeSetGroupId));
+        $currResponse = $this->currCall($apiMethod, array('attributeGroupId' => self::$_currAttributeSetGroupId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -160,8 +169,8 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
         $productAttributeIds = $this->_createProductAttributes();
         self::$_prevProductAttributeId = $productAttributeIds['prevProductAttributeId'];
         self::$_currProductAttributeId = $productAttributeIds['currProductAttributeId'];
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevProductAttributeId, self::$_prevAttributeSetId));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currProductAttributeId, self::$_currAttributeSetId));
+        $prevResponse = $this->prevCall($apiMethod, array('productAttributeId' => self::$_prevProductAttributeId, 'attributeSetId' => self::$_prevAttributeSetId));
+        $currResponse = $this->currCall($apiMethod, array('productAttributeId' => self::$_currProductAttributeId, 'attributeSetId' => self::$_currAttributeSetId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -181,8 +190,14 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     public function testProductAttributeSetAttributeRemove()
     {
         $apiMethod = 'product_attribute_set.attributeRemove';
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevProductAttributeId, self::$_prevAttributeSetId));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currProductAttributeId, self::$_currAttributeSetId));
+        $prevResponse = $this->prevCall($apiMethod, array(
+            'productAttributeId' => self::$_prevProductAttributeId,
+            'attributeSetId' => self::$_prevAttributeSetId
+        ));
+        $currResponse = $this->currCall($apiMethod, array(
+            'productAttributeId' => self::$_currProductAttributeId,
+            'attributeSetId' => self::$_currAttributeSetId
+        ));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -199,8 +214,8 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
     public function testProductAttributeSetRemove()
     {
         $apiMethod = 'product_attribute_set.remove';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevAttributeSetId);
-        $currResponse = $this->currCall($apiMethod, self::$_currAttributeSetId);
+        $prevResponse = $this->prevCall($apiMethod, array('attributeSetId' => self::$_prevAttributeSetId));
+        $currResponse = $this->currCall($apiMethod, array('attributeSetId' => self::$_currAttributeSetId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 

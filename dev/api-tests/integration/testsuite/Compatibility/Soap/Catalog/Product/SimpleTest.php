@@ -161,8 +161,8 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Compatibility_Soap_S
     public function testProductList()
     {
         $apiMethod = 'catalog_product.list';
-        $prevResponse = $this->prevCall($apiMethod);
-        $currResponse = $this->currCall($apiMethod);
+        $prevResponse = $this->prevCall($apiMethod, array('filters' => ''));
+        $currResponse = $this->currCall($apiMethod, array('filters' => ''));
         $this->_checkVersionSignature($prevResponse[0], $currResponse[0], $apiMethod);
     }
 
@@ -180,13 +180,13 @@ class Compatibility_Soap_Catalog_Product_SimpleTest extends Compatibility_Soap_S
     {
         $apiMethod = 'catalog_product.setSpecialPrice';
         $prevResponse = $this->prevCall($apiMethod, array(
-            'product' => self::$_prevProductId,
+            'productId' => self::$_prevProductId,
             'specialPrice' => '77.5',
             'fromDate' => '2012-03-29 12:30:51',
             'toDate' => '2012-04-29 12:30:51'
         ));
         $currResponse = $this->currCall($apiMethod, array(
-            'product' => self::$_currProductId,
+            'productId' => self::$_currProductId,
             'specialPrice' => '77.5',
             'fromDate' => '2012-03-29 12:30:51',
             'toDate' => '2012-04-29 12:30:51'
