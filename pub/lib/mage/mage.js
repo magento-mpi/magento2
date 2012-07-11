@@ -6,12 +6,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 var mage = {}; //top level mage namespace
 
 mage.language = {
   cookieKey: 'language',
-  default: 'en'
-}
+  en: 'en'
+};
 // mage.event is a wrapper for jquery event
 mage.event = (function () {
   return {
@@ -114,8 +115,8 @@ mage.localize = (function () {
         return cssQueue.length;
       },
       language: function (lang) {
-        var language = (lang != null) ? lang : $.cookie(mage.language.cookieKey);
-        if ( (language != null ) && (language !== mage.language.default  ) ) {
+        var language = lang || $.cookie(mage.language.cookieKey);
+        if ( language != null && language !== mage.language.en ) {
           var mapping = {
             'localize': ['/pub/lib/globalize/globalize.js', '/pub/lib/globalize/cultures/globalize.culture.' + language + '.js', '/pub/lib/mage/localization/json/translate_' + language + '.js',
               '/pub/lib/mage/localization/localize.js']

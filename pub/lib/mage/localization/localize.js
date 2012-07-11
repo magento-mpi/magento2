@@ -63,7 +63,7 @@
     }
   };
 
-  localize.prototype.translate= function (value) {
+  localize.prototype.translate = function (value) {
     var translatorData = {};
     translatorData.message = value;
     translatorData.translatedMessage = translateJson.hasOwnProperty(value) ? translateJson[value] : value;
@@ -71,14 +71,14 @@
     return translatorData.translatedMessage;
   };
 
-  mage.locale = function(locale){
+  mage.locale = function (locale) {
     if ( locale != null && locale.length > 0 ) {
       mage.localize = new localize(locale);
-    }else{
+    } else {
       mage.localize = new localize();
     }
   };
-  mage.locale($.cookie(mage.language.cookieKey) || mage.language.default);
+  mage.locale($.cookie(mage.language.cookieKey) || mage.language.en);
 }());
 
 
