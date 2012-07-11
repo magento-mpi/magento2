@@ -103,9 +103,9 @@ MageValidationTest.prototype.testValidateFax = function () {
 };
 
 MageValidationTest.prototype.testValidateEmail = function () {
-  assertEquals(false, $.validator.methods.validateEmail(""));
-  assertEquals(false, $.validator.methods.validateEmail(null));
-  assertEquals(false, $.validator.methods.validateEmail(undefined));
+  assertEquals(true, $.validator.methods.validateEmail(""));
+  assertEquals(true, $.validator.methods.validateEmail(null));
+  assertEquals(true, $.validator.methods.validateEmail(undefined));
   assertEquals(false, $.validator.methods.validateEmail("   "));
   assertEquals(true, $.validator.methods.validateEmail("123@123.com"));
   assertEquals(true, $.validator.methods.validateEmail("abc@124.en"));
@@ -113,13 +113,14 @@ MageValidationTest.prototype.testValidateEmail = function () {
   assertEquals(true, $.validator.methods.validateEmail("abc.abc.abc@abc.commmmm"));
   assertEquals(true, $.validator.methods.validateEmail("abc.abc-abc@abc.commmmm"));
   assertEquals(true, $.validator.methods.validateEmail("abc.abc_abc@abc.commmmm"));
+  assertEquals(false, $.validator.methods.validateEmail("abc.abc_abc@abc"));
 };
 
 MageValidationTest.prototype.testValidateEmailSender = function () {
-  assertEquals(false, $.validator.methods.validateEmailSender(""));
-  assertEquals(false, $.validator.methods.validateEmailSender(null));
-  assertEquals(false, $.validator.methods.validateEmailSender(undefined));
-  assertEquals(false, $.validator.methods.validateEmailSender("   "));
+  assertEquals(true, $.validator.methods.validateEmailSender(""));
+  assertEquals(true, $.validator.methods.validateEmailSender(null));
+  assertEquals(true, $.validator.methods.validateEmailSender(undefined));
+  assertEquals(true, $.validator.methods.validateEmailSender("   "));
   assertEquals(true, $.validator.methods.validateEmailSender("123@123.com"));
   assertEquals(true, $.validator.methods.validateEmailSender("abc@124.en"));
   assertEquals(true, $.validator.methods.validateEmailSender("abc@abc.commmmm"));
@@ -129,10 +130,10 @@ MageValidationTest.prototype.testValidateEmailSender = function () {
 };
 
 MageValidationTest.prototype.testValidatePassword = function () {
-  assertEquals(false, $.validator.methods.validatePassword(""));
+  assertEquals(true, $.validator.methods.validatePassword(""));
   assertEquals(false, $.validator.methods.validatePassword(null));
   assertEquals(false, $.validator.methods.validatePassword(undefined));
-  assertEquals(false, $.validator.methods.validatePassword("   "));
+  assertEquals(true, $.validator.methods.validatePassword("   "));
   assertEquals(true, $.validator.methods.validatePassword("123@123.com"));
   assertEquals(false, $.validator.methods.validatePassword("abc"));
   assertEquals(false, $.validator.methods.validatePassword("abc       "));
@@ -153,9 +154,9 @@ MageValidationTest.prototype.testValidateAdminPassword = function () {
 };
 
 MageValidationTest.prototype.testValidateUrl = function () {
-  assertEquals(false, $.validator.methods.validateUrl(""));
-  assertEquals(false, $.validator.methods.validateUrl(null));
-  assertEquals(false, $.validator.methods.validateUrl(undefined));
+  assertEquals(true, $.validator.methods.validateUrl(""));
+  assertEquals(true, $.validator.methods.validateUrl(null));
+  assertEquals(true, $.validator.methods.validateUrl(undefined));
   assertEquals(false, $.validator.methods.validateUrl("   "));
   assertEquals(true, $.validator.methods.validateUrl("http://www.google.com"));
   assertEquals(true, $.validator.methods.validateUrl("http://127.0.0.1:8080/index.php"));
@@ -164,9 +165,9 @@ MageValidationTest.prototype.testValidateUrl = function () {
 };
 
 MageValidationTest.prototype.testValidateCleanUrl = function () {
-  assertEquals(false, $.validator.methods.validateCleanUrl(""));
-  assertEquals(false, $.validator.methods.validateCleanUrl(null));
-  assertEquals(false, $.validator.methods.validateCleanUrl(undefined));
+  assertEquals(true, $.validator.methods.validateCleanUrl(""));
+  assertEquals(true, $.validator.methods.validateCleanUrl(null));
+  assertEquals(true, $.validator.methods.validateCleanUrl(undefined));
   assertEquals(false, $.validator.methods.validateCleanUrl("   "));
   assertEquals(true, $.validator.methods.validateCleanUrl("http://www.google.com"));
   assertEquals(false, $.validator.methods.validateCleanUrl("http://127.0.0.1:8080/index.php"));
@@ -175,9 +176,9 @@ MageValidationTest.prototype.testValidateCleanUrl = function () {
 };
 
 MageValidationTest.prototype.testValidateXmlIdentifier = function () {
-  assertEquals(false, $.validator.methods.validateXmlIdentifier(""));
-  assertEquals(false, $.validator.methods.validateXmlIdentifier(null));
-  assertEquals(false, $.validator.methods.validateXmlIdentifier(undefined));
+  assertEquals(true, $.validator.methods.validateXmlIdentifier(""));
+  assertEquals(true, $.validator.methods.validateXmlIdentifier(null));
+  assertEquals(true, $.validator.methods.validateXmlIdentifier(undefined));
   assertEquals(false, $.validator.methods.validateXmlIdentifier("   "));
   assertEquals(true, $.validator.methods.validateXmlIdentifier("abc"));
   assertEquals(true, $.validator.methods.validateXmlIdentifier("abc_123"));
@@ -186,9 +187,9 @@ MageValidationTest.prototype.testValidateXmlIdentifier = function () {
 };
 
 MageValidationTest.prototype.testValidateSsn = function () {
-  assertEquals(false, $.validator.methods.validateSsn(""));
-  assertEquals(false, $.validator.methods.validateSsn(null));
-  assertEquals(false, $.validator.methods.validateSsn(undefined));
+  assertEquals(true, $.validator.methods.validateSsn(""));
+  assertEquals(true, $.validator.methods.validateSsn(null));
+  assertEquals(true, $.validator.methods.validateSsn(undefined));
   assertEquals(false, $.validator.methods.validateSsn("   "));
   assertEquals(false, $.validator.methods.validateSsn("abc"));
   assertEquals(true, $.validator.methods.validateSsn("123-13-1234"));
@@ -197,9 +198,9 @@ MageValidationTest.prototype.testValidateSsn = function () {
 };
 
 MageValidationTest.prototype.testValidateZip = function () {
-  assertEquals(false, $.validator.methods.validateZip(""));
-  assertEquals(false, $.validator.methods.validateZip(null));
-  assertEquals(false, $.validator.methods.validateZip(undefined));
+  assertEquals(true, $.validator.methods.validateZip(""));
+  assertEquals(true, $.validator.methods.validateZip(null));
+  assertEquals(true, $.validator.methods.validateZip(undefined));
   assertEquals(false, $.validator.methods.validateZip("   "));
   assertEquals(true, $.validator.methods.validateZip("12345-1234"));
   assertEquals(true, $.validator.methods.validateZip("02345"));
@@ -208,9 +209,9 @@ MageValidationTest.prototype.testValidateZip = function () {
 };
 
 MageValidationTest.prototype.testValidateDateAu = function () {
-  assertEquals(false, $.validator.methods.validateDateAu(""));
-  assertEquals(false, $.validator.methods.validateDateAu(null));
-  assertEquals(false, $.validator.methods.validateDateAu(undefined));
+  assertEquals(true, $.validator.methods.validateDateAu(""));
+  assertEquals(true, $.validator.methods.validateDateAu(null));
+  assertEquals(true, $.validator.methods.validateDateAu(undefined));
   assertEquals(false, $.validator.methods.validateDateAu("   "));
   assertEquals(true, $.validator.methods.validateDateAu("01/01/2012"));
   assertEquals(true, $.validator.methods.validateDateAu("30/01/2012"));
@@ -219,9 +220,9 @@ MageValidationTest.prototype.testValidateDateAu = function () {
 };
 
 MageValidationTest.prototype.testValidateCurrencyDollar = function () {
-  assertEquals(false, $.validator.methods.validateCurrencyDollar(""));
-  assertEquals(false, $.validator.methods.validateCurrencyDollar(null));
-  assertEquals(false, $.validator.methods.validateCurrencyDollar(undefined));
+  assertEquals(true, $.validator.methods.validateCurrencyDollar(""));
+  assertEquals(true, $.validator.methods.validateCurrencyDollar(null));
+  assertEquals(true, $.validator.methods.validateCurrencyDollar(undefined));
   assertEquals(false, $.validator.methods.validateCurrencyDollar("   "));
   assertEquals(true, $.validator.methods.validateCurrencyDollar("$123"));
   assertEquals(true, $.validator.methods.validateCurrencyDollar("$1,123.00"));
@@ -230,9 +231,9 @@ MageValidationTest.prototype.testValidateCurrencyDollar = function () {
 };
 
 MageValidationTest.prototype.testValidateNotNegativeNumber = function () {
-  assertEquals(false, $.validator.methods.validateNotNegativeNumber(""));
-  assertEquals(false, $.validator.methods.validateNotNegativeNumber(null));
-  assertEquals(false, $.validator.methods.validateNotNegativeNumber(undefined));
+  assertEquals(true, $.validator.methods.validateNotNegativeNumber(""));
+  assertEquals(true, $.validator.methods.validateNotNegativeNumber(null));
+  assertEquals(true, $.validator.methods.validateNotNegativeNumber(undefined));
   assertEquals(false, $.validator.methods.validateNotNegativeNumber("   "));
   assertEquals(true, $.validator.methods.validateNotNegativeNumber("0"));
   assertEquals(true, $.validator.methods.validateNotNegativeNumber("1"));
@@ -244,9 +245,9 @@ MageValidationTest.prototype.testValidateNotNegativeNumber = function () {
 };
 
 MageValidationTest.prototype.testValidateGreaterThanZero = function () {
-  assertEquals(false, $.validator.methods.validateGreaterThanZero(""));
-  assertEquals(false, $.validator.methods.validateGreaterThanZero(null));
-  assertEquals(false, $.validator.methods.validateGreaterThanZero(undefined));
+  assertEquals(true, $.validator.methods.validateGreaterThanZero(""));
+  assertEquals(true, $.validator.methods.validateGreaterThanZero(null));
+  assertEquals(true, $.validator.methods.validateGreaterThanZero(undefined));
   assertEquals(false, $.validator.methods.validateGreaterThanZero("   "));
   assertEquals(false, $.validator.methods.validateGreaterThanZero("0"));
   assertEquals(true, $.validator.methods.validateGreaterThanZero("1"));
@@ -258,9 +259,9 @@ MageValidationTest.prototype.testValidateGreaterThanZero = function () {
 };
 
 MageValidationTest.prototype.testValidateCssLength = function () {
-  assertEquals(false, $.validator.methods.validateCssLength(""));
-  assertEquals(false, $.validator.methods.validateCssLength(null));
-  assertEquals(false, $.validator.methods.validateCssLength(undefined));
+  assertEquals(true, $.validator.methods.validateCssLength(""));
+  assertEquals(true, $.validator.methods.validateCssLength(null));
+  assertEquals(true, $.validator.methods.validateCssLength(undefined));
   assertEquals(false, $.validator.methods.validateCssLength("   "));
   assertEquals(false, $.validator.methods.validateCssLength("0"));
   assertEquals(true, $.validator.methods.validateCssLength("1"));
