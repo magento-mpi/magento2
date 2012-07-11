@@ -121,7 +121,7 @@ mage.localize = (function () {
         return syncQueue.length;
       },
       initValidate: function () {
-        var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js', '/pub/lib/jquery/jquery.metadata.js', '/pub/lib/jquery/jquery.hook.js',
+        var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js', '/pub/lib/jquery/jquery.metadata.js', '/pub/lib/jquery/jQuery.hook.js',
           '/pub/lib/mage/validation/validate.js'];
         addToQueue(validatorFiles, syncQueue);
       }
