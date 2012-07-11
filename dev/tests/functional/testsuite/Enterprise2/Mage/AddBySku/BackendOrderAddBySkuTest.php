@@ -161,12 +161,11 @@ class Enterprise2_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_T
      * @test
      * @TestlinkId TL-MAGE-4198
      */
-
     public function addBySkuMultipleProducts($data)
     {
         //Data
         $orderData = $this->loadDataSet('Order', 'new_order_sku');
-        $productDataNonExist = $this->loadDataSet('SKUProducts', 'non_exist_product_back');
+        $productDataNonExist = $this->loadDataSet('SkuProducts', 'non_exist_product_back');
         $productExist = array($data['simple_sku']['sku'], $data['virtual_sku']['sku']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -203,13 +202,12 @@ class Enterprise2_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_T
      * @test
      * @TestlinkId TL-MAGE-4237
      */
-
     public function MultipleInvalidSkuDeleteAll()
     {
         //Data
         $orderData = $this->loadDataSet('Order', 'new_order_sku');
-        $productDataNonExist = $this->loadDataSet('SKUProducts', 'non_exist_product_back');
-        $productDataNonExist1 = $this->loadDataSet('SKUProducts', 'non_exist_product_back');
+        $productDataNonExist = $this->loadDataSet('SkuProducts', 'non_exist_product_back');
+        $productDataNonExist1 = $this->loadDataSet('SkuProducts', 'non_exist_product_back');
         $product = array ($productDataNonExist['sku'], $productDataNonExist1['sku']);
         //Steps
         $this->navigate('manage_sales_orders');
@@ -250,14 +248,13 @@ class Enterprise2_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_T
      * @test
      * @TestlinkId TL-MAGE-4239
      */
-
     public function MultipleInvalidSkuDeleteSeparately()
     {
         // Data
         $orderData = $this->loadDataSet('Order', 'new_order_sku');
-        $productDataNonExist = array(('0') => $this->loadDataSet('SKUProducts', 'non_exist_product_back'),
-                                     ('1') => $this->loadDataSet('SKUProducts', 'non_exist_product_back'),
-                                     ('2') => $this->loadDataSet('SKUProducts', 'non_exist_product_back'));
+        $productDataNonExist = array(('0') => $this->loadDataSet('SkuProducts', 'non_exist_product_back'),
+                                     ('1') => $this->loadDataSet('SkuProducts', 'non_exist_product_back'),
+                                     ('2') => $this->loadDataSet('SkuProducts', 'non_exist_product_back'));
         $a = array($productDataNonExist[0]['sku'], $productDataNonExist[1]['sku'], $productDataNonExist[2]['sku']);
 
         //Steps
@@ -332,9 +329,6 @@ class Enterprise2_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_T
      * @test
      * @TestlinkId TL-MAGE-5241
      */
-
-
-
     public function addBySkuQtyValidation ($qtySku, $data)
     {
         //Data
@@ -397,9 +391,6 @@ class Enterprise2_Mage_AddBySku_BackendOrderAddBySkuTest extends Mage_Selenium_T
      * @test
      * @TestlinkId TL-MAGE-5242
      */
-
-
-
     public function addBySkuEmptyValidation ($data)
     {
         //Data
