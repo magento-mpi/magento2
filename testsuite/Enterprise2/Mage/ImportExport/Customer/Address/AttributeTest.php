@@ -33,7 +33,6 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  *
- * @method Enterprise2_Mage_CustomerAddressAttribute_Helper customerAddressAttributeHelper() customerAddressAttributeHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_Selenium_TestCase
@@ -65,7 +64,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
         //step1
         $this->admin('manage_customer_address_attributes');
         $attrData = $this->loadDataSet('ImportExport', 'generic_customer_address_attribute');
-        $this->customerAddressAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
 
@@ -151,7 +150,7 @@ class Enterprise2_Mage_ImportExport_CustomerAddress_AttributeTest extends Mage_S
     {
         //Precondition: delete custom address attribute
         $this->admin('manage_customer_address_attributes');
-        $this->customerAddressAttributeHelper()->openAttribute(array('attribute_code'=> $attrData['attribute_code']));
+        $this->attributesHelper()->openAttribute(array('attribute_code'=> $attrData['attribute_code']));
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying

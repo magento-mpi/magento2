@@ -90,7 +90,7 @@ class Enterprise2_Mage_Attributes_CustomerAddressAttribute_DeleteTest extends Ma
      * @test
      * @dataProvider deleteSystemAttributeDataProvider
      * @TestlinkId TL-MAGE-5597
-    customerAddressAttributeHelper  */
+     */
     public function deletedSystemAttribute($attributeName)
     {
         //Data

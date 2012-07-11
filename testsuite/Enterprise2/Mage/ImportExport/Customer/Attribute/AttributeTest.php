@@ -65,7 +65,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         //step1
         $this->admin('manage_customer_attributes');
         $attrData = $this->loadDataSet('ImportExport','generic_customer_attribute');
-        $this->customerAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 2
@@ -112,13 +112,13 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
     {
         //step1
         $this->admin('manage_customer_attributes');
-        $this->customerAttributeHelper()->openAttribute(
+        $this->attributesHelper()->openAttribute(
             array(
                 'attribute_code'=>$attrData['attribute_code']));
         //Change label
         $attrData['admin_title'] = 'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
-        $this->customerAttributeHelper()->fillForm($attrData, 'manage_labels_options');
-        $this->customerAttributeHelper()->saveForm('save_attribute');
+        $this->attributesHelper()->fillForm($attrData, 'manage_labels_options');
+        $this->attributesHelper()->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Step 2
@@ -167,7 +167,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
     {
         //step1
         $this->admin('manage_customer_attributes');
-        $this->customerAttributeHelper()->openAttribute(
+        $this->attributesHelper()->openAttribute(
             array(
                 'attribute_code'=>$attrData['attribute_code']));
         //Delete attribute
@@ -221,7 +221,7 @@ class Enterprise2_Mage_ImportExport_CustomerAttributeTest extends Mage_Selenium_
         //Precondition: create attribute, create new customer, fill created attribute
         $this->navigate('manage_customer_attributes');
         $attrData = $this->loadDataSet('ImportExport.yml', 'generic_customer_attribute');
-        $this->customerAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         $this->addParameter('attribute_name', $attrData['attribute_code']);
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet('ImportExport.yml', 'customer_account_with_attribute');
