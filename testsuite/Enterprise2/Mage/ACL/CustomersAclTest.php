@@ -109,7 +109,7 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->attributesHelper()
             ->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
-        $this->attributesHelper()->verifyAttribute($attrData);
+        $this->productAttributeHelper()->verifyAttribute($attrData);
     }
 
     /**
@@ -139,7 +139,7 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->attributesHelper()
             ->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
-        $this->attributesHelper()->verifyAttribute($attrData);
+        $this->productAttributeHelper()->verifyAttribute($attrData);
     }
 
     /**
