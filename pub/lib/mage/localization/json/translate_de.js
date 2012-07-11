@@ -8,7 +8,7 @@
  */
 
 var translateJson = {
-  "This field is required.": "Dieses Feld ist ein Pflichtfeld.",
+  "This is a required field.": "Dieses Feld ist ein Pflichtfeld.",
   "Please enter no more than {0} characters.": "Geben Sie bitte maximal {0} Zeichen ein.",
   "Please enter at least {0} characters.": "Geben Sie bitte mindestens {0} Zeichen ein.",
   "Please enter a value between {0} and {1} characters long.": "Geben Sie bitte mindestens {0} und maximal {1} Zeichen ein.",

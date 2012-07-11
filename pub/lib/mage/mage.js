@@ -8,6 +8,10 @@
  */
 var mage = {}; //top level mage namespace
 
+mage.language = {
+  cookieKey: 'language',
+  default: 'en'
+}
 // mage.event is a wrapper for jquery event
 mage.event = (function () {
   return {
@@ -19,6 +23,7 @@ mage.event = (function () {
     }
   };
 }());
+
 mage.localize = (function () {
   return {
     translate: function (val) {
@@ -26,6 +31,7 @@ mage.localize = (function () {
     }
   };
 }());
+
 // load javascript by data attribute or mage.load
 (function () {
   var syncQueue = [];
@@ -108,12 +114,10 @@ mage.localize = (function () {
         return cssQueue.length;
       },
       language: function (lang) {
-        var defaultLangauge = 'en';
-        var cookieName = 'language';
-        var language = (lang != null) ? lang : $.cookie(cookieName);
-        if ( (language != null ) && (language !== defaultLangauge  ) ) {
+        var language = (lang != null) ? lang : $.cookie(mage.language.cookieKey);
+        if ( (language != null ) && (language !== mage.language.default  ) ) {
           var mapping = {
-            'localize': ['/pub/lib/globalize/globalize.js', '/pub/lib/globalize/cultures/globalize.culture.' + language + '.js', '/pub/lib/localization/json/translate_' + language + '.js',
+            'localize': ['/pub/lib/globalize/globalize.js', '/pub/lib/globalize/cultures/globalize.culture.' + language + '.js', '/pub/lib/mage/localization/json/translate_' + language + '.js',
               '/pub/lib/mage/localization/localize.js']
           };
           addToQueue(mapping.localize, syncQueue);
@@ -121,9 +125,11 @@ mage.localize = (function () {
         return syncQueue.length;
       },
       initValidate: function () {
+        this.language();
         var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js', '/pub/lib/jquery/jquery.metadata.js', '/pub/lib/jquery/jquery.hook.js',
           '/pub/lib/mage/validation/validate.js'];
         addToQueue(validatorFiles, syncQueue);
+
       }
 
     };
