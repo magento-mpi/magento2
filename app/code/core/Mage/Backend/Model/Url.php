@@ -148,10 +148,10 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
 
         $p = explode('/', trim($this->getRequest()->getOriginalPathInfo(), '/'));
         if (!$controller) {
-            $controller = !empty($p[1]) ? $p[1] : $this->getRequest()->getControllerName();
+            $controller = !empty($p[2]) ? $p[2] : $this->getRequest()->getControllerName();
         }
         if (!$action) {
-            $action = !empty($p[2]) ? $p[2] : $this->getRequest()->getActionName();
+            $action = !empty($p[3]) ? $p[3] : $this->getRequest()->getActionName();
         }
 
         $secret = $controller . $action . $salt;
