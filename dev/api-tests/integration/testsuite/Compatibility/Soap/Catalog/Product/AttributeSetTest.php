@@ -57,7 +57,6 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
      * 2. Get product attribute set list at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testProductAttributeSetList()
     {
@@ -75,7 +74,6 @@ class Compatibility_Soap_Catalog_Product_AttributeSetTest extends Compatibility_
      * 2. Create product attribute set at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testProductAttributeSetCreate()
     {
