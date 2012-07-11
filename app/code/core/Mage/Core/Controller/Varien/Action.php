@@ -119,13 +119,14 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
      * @param Zend_Controller_Response_Abstract $response
      * @param array $invokeArgs
      */
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
-    {
+    public function __construct(Zend_Controller_Request_Abstract $request,
+        Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
+    ) {
         $this->_request = $request;
         $this->_response= $response;
 
         Mage::app()->getFrontController()->setAction($this);
-        if (false == isset($this->_currentArea)) {
+        if (!$this->_currentArea) {
             $this->_currentArea = isset($invokeArgs['areaCode']) ? $invokeArgs['areaCode'] : null;
         }
         $this->_construct();

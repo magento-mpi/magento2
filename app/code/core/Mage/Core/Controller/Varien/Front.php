@@ -122,12 +122,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 continue;
             }
             if (isset($routerInfo['class'])) {
-                $options = array();
-                if (isset($routerInfo['area']) && isset($routerInfo['base_controller'])) {
-                    $options['area'] = $routerInfo['area'];
-                    $options['base_controller'] = $routerInfo['base_controller'];
-                }
-                $router = new $routerInfo['class']($options);
+                $router = new $routerInfo['class']($routerInfo);
                 if (isset($routerInfo['area'])) {
                     $router->collectRoutes($routerInfo['area'], $routerCode);
                 }
@@ -145,6 +140,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         return $this;
     }
 
+    /**
+     * Dispatch user request
+     *
+     * @return Mage_Core_Controller_Varien_Front
+     */
     public function dispatch()
     {
         $request = $this->getRequest();
@@ -167,8 +167,8 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         Magento_Profiler::stop('dispatch');
 
         Magento_Profiler::start('routers_match');
-        $i = 0;
-        while (!$request->isDispatched() && $i++<100) {
+        $routingCycleCounter = 0;
+        while (!$request->isDispatched() && $routingCycleCounter++<100) {
             foreach ($this->_routers as $router) {
                 /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
@@ -179,7 +179,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             }
         }
         Magento_Profiler::stop('routers_match');
-        if ($i>100) {
+        if ($routingCycleCounter>100) {
             Mage::throwException('Front controller reached 100 router match iterations');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
@@ -212,6 +212,10 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         return $router;
     }
 
+    /**
+     * @param string $frontName
+     * @return Mage_Core_Controller_Varien_Router_Abstract
+     */
     public function getRouterByFrontName($frontName)
     {
         // empty route supplied - return base url
@@ -353,7 +357,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
         $adminFrontNames = array($adminPath);
 
         // Check for other modules that can use admin router (a lot of Magento extensions do that)
-        $adminFrontNameNodes = Mage::getConfig()->getNode(Mage_Backend_Helper_Data::BACKEND_AREA_CODE . '/routers')
+        $adminFrontNameNodes = Mage::getConfig()->getNode('admin/routers')
             ->xpath('*[not(self::adminhtml) and use = "admin"]/args/frontName');
 
         if (is_array($adminFrontNameNodes)) {

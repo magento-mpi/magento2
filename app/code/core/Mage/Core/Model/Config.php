@@ -1457,10 +1457,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     continue;
                 }
 
-                $this->_allowedAreas[$areaCode] = array(
-                    'base_controller' => $areaInfo['base_controller'],
-                    'routers' => $areaInfo['routers']
-                );
+                $this->_allowedAreas[$areaCode] = $areaInfo;
             }
         }
 
@@ -1477,8 +1474,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $routers = array();
         foreach ($this->getAreas() as $areaCode => $areaInfo) {
             foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
+                $routerInfo = array_merge($routerInfo, $areaInfo);
+                unset($routerInfo['routers']);
                 $routerInfo['area'] = $areaCode;
-                $routerInfo['base_controller'] = $areaInfo['base_controller'];
                 $routers[$routerKey] = $routerInfo;
             }
         }

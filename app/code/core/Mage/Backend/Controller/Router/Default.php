@@ -125,6 +125,16 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         parent::collectRoutes($configArea, $useRouterName);
     }
 
+    /**
+     * Check whether redirect should be used for secure routes
+     *
+     * @return bool
+     */
+    protected function _shouldRedirectToSecure()
+    {
+        return false;
+    }
+
     public function getControllerFileName($realModule, $controller)
     {
         /**

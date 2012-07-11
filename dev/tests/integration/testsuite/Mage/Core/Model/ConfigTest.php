@@ -402,13 +402,14 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $testAreaExpected = array(
             'base_controller' => 'Mage_Core_Controller_Varien_Action',
+            'frontName' => 'TESTAREA',
             'routers'         => array(
                 'test_router1' => array(
                     'class'   => 'Mage_Core_Controller_Varien_Router_Default'
                 ),
                 'test_router2' => array(
                     'class'   => 'Mage_Core_Controller_Varien_Router_Default'
-                )
+                ),
             )
         );
         $this->assertEquals($testAreaExpected, $allowedAreas['test_area1'], 'Test area is not loaded correctly');
@@ -434,6 +435,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $testRouterExpected = array(
             'class'           => 'Mage_Core_Controller_Varien_Router_Default',
             'area'            => 'test_area1',
+            'frontName'       => 'TESTAREA',
             'base_controller' => 'Mage_Core_Controller_Varien_Action'
         );
         $this->assertEquals($testRouterExpected, $loadedRouters['test_router1'], 'Test router is not loaded correctly');
