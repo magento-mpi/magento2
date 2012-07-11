@@ -544,16 +544,6 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get base URL
-     *
-     * @return string
-     */
-    protected function _getBaseUrl()
-    {
-        return Mage::app()->getDefaultStoreView()->getBaseUrl();
-    }
-
-    /**
      * Get path to file robots.txt
      *
      * @return string
@@ -589,9 +579,8 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      * Add sitemap file to robots.txt
      *
      * @param string $sitemapFileName
-     * @param string $replaceFileName
      */
-    protected function addSitemapToRobotsTxt($sitemapFileName, $replaceFileName = null)
+    protected function _addSitemapToRobotsTxt($sitemapFileName)
     {
         $robotsSitemapLine = 'Sitemap: ' . $this->_getSitemapUrl($sitemapFileName);
 
@@ -603,22 +592,11 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $robotsFullText = $robotsFileHandler->read($robotsFileName);
         }
 
-        $isReplacedFlag = false;
-        if ($replaceFileName != null) {
-            $regex = '{^sitemap:\s*?' . $replaceFileName . '}im';
-            if (preg_match($regex, $robotsFullText)) {
-                $robotsFullText = preg_replace($regex, $robotsSitemapLine, $robotsFullText, 1);
-                $isReplacedFlag = true;
+        if (strpos($robotsFullText, $robotsSitemapLine) === false) {
+            if (!empty($robotsFullText)) {
+                $robotsFullText .= $this->_findNewLinesDelimiter($robotsFullText);
             }
-        }
-
-        if (!$isReplacedFlag) {
-            if (strpos($robotsFullText, $robotsSitemapLine) === false) {
-                if (!empty($robotsFullText)) {
-                    $robotsFullText .= $this->_findNewLinesDelimiter($robotsFullText);
-                }
-                $robotsFullText .= $robotsSitemapLine;
-            }
+            $robotsFullText .= $robotsSitemapLine;
         }
 
         $robotsFileHandler->write($robotsFileName, $robotsFullText);
