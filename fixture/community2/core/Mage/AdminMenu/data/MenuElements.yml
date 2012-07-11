@@ -1,0 +1,159 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+menu:
+    dashboard:
+    sales:
+        manage_sales_orders:
+        manage_sales_invoices:
+        manage_sales_shipments:
+        manage_sales_credit_memos:
+        manage_sales_transactions:
+        manage_sales_recurring_profile:
+        manage_sales_billing_agreements:
+        manage_sales_checkout_terms_conditions:
+        tax:
+            manage_tax_rule:
+            manage_import_export_tax_rates:
+            manage_customer_tax_class:
+            manage_product_tax_class:
+
+    catalog:
+        manage_products:
+        manage_categories:
+        attributes:
+            manage_attributes:
+            manage_attribute_sets:
+        url_rewrite_management:
+        search_terms:
+        reviews_and_ratings:
+            customer reviews:
+                manage_pending_reviews:
+                manage_all_reviews:
+            manage_ratings:
+        tags:
+            all_tags:
+            pending_tags:
+        google_content:
+            google_content_manage_attributes:
+            google_content_manage_items:
+        google_sitemap:
+
+    mobile:
+        manage_apps:
+        submission_history:
+        message_templates:
+        message_queue:
+
+    customers:
+       manage_customers:
+       manage_customer_groups:
+       online_customers:
+
+    newsletter:
+        newsletter_templates:
+        newsletter_queue:
+        newsletter_subscribers:
+        newsletter_problem_reports:
+
+    cms:
+        manage_cms_pages:
+        manage_cms_static_blocks:
+        manage_cms_widgets:
+        poll_manager:
+
+    reports:
+        sales:
+            reports_sales_sales:
+            report_sales_tax:
+            report_sales_invoiced:
+            report_sales_shipping:
+            report_sales_refunded:
+            report_sales_coupons:
+            paypal_reports:
+        shopping_cart:
+            report_shopcart_product:
+            report_shopcart_abandoned:
+        products:
+            report_sales_bestsellers:
+            report_product_sold:
+            report_product_viewed:
+            report_product_lowstock:
+            report_product_downloads:
+        customers:
+            report_customer_accounts:
+            report_customer_totals:
+            report_customer_orders:
+
+        promotions:
+                    manage_catalog_price_rules:
+                    manage_shopping_cart_price_rules:
+
+        tags:
+            report_tag_customer:
+            report_tag_product:
+            report_tag_popular:
+        reviews:
+            report_review_customer:
+            report_review_product:
+        report_search:
+        report_statistics:
+
+    system:
+        my_account:
+        notification:
+        tools:
+            system_backup:
+        web_services:
+            api_user:
+            api_role:
+            api2_role:
+            api2_attribute:
+            oauth_consumer:
+            oauth_authorizedTokens:
+            oauth_admin_token:
+        design:
+            system_design:
+            system_design_editor:
+        import_export:
+            import:
+            export:
+            system_convert_gui:
+            system_convert_profile:
+        manage_currency:
+            system_currency:
+            system_currencysymbol:
+        system_email_template:
+        system_custom_variables:
+        permisions:
+            manage_admin_users:
+            manage_roles:
+        magento_connect:
+            system_package_extentions:
+        cache_storage_management:
+        index_management:
+        sales_order_status:
+        system_configuration:

@@ -54,8 +54,11 @@
  * @method Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
  * @method Enterprise2_Mage_WebsiteRestrictions websiteRestrictionsHelper()
  * @method Enterprise2_Mage_Status_Helper statusHelper()
- * @method Community2_Mage_AdminUser_Helper adminUserHelper()
- *
+ * @method Community2_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper adminUserHelper()
+ * @method Enterprise2_Mage_customerSegment_Helper CustomerSegmentHelper()
+ * @method Enterprise2_Mage_customerAttribute_Helper CustomerAttributeHelper()
+ * @method Enterprise2_Mage_customerAddressAttribute_Helper CustomerAddressAttributeHelper()
+ * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -3373,7 +3376,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
-                if ($this->getSelectedValue($xpath) != $value) {
+                if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != trim($value, chr(0xC2) . chr(0xA0))) {
                     if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                         $this->select($xpath, 'label=' . $value);
                     } else {
