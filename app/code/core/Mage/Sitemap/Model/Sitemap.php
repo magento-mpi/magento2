@@ -298,9 +298,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     {
         $this->_createSitemap($this->getSitemapFilename(), self::TYPE_INDEX);
         for ($i = 1; $i <= $this->_sitemapIncrement; $i++) {
-            $path = rtrim($this->getSitemapPath(), '/') . '/';
-            $url =  $path . $this->_getCurrentSitemapFilename($i);
-            $xml = $this->_getSitemapIndexRow($url, $this->_getCurrentDateTime());
+            $xml = $this->_getSitemapIndexRow($this->_getCurrentSitemapFilename($i), $this->_getCurrentDateTime());
             $this->_writeSitemapRow($xml);
         }
         $this->_finalizeSitemap(self::TYPE_INDEX);
@@ -393,13 +391,13 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get sitemap index row
      *
-     * @param string $url
+     * @param string $sitemapFilename
      * @param string $lastmod
      * @return string
      */
-    protected function _getSitemapIndexRow($url, $lastmod = null)
+    protected function _getSitemapIndexRow($sitemapFilename, $lastmod = null)
     {
-        $url = $this->_getUrl($url);
+        $url = $this->_getSitemapUrl($sitemapFilename);
         $row = '<loc>' . htmlspecialchars($url) . '</loc>';
         if ($lastmod) {
             $row .= '<lastmod>' . $this->_getFormattedLastmodDate($lastmod) . '</lastmod>';
