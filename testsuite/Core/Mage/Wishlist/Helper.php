@@ -64,7 +64,7 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
             $this->productHelper()->frontFillBuyInfo($options);
         }
         $this->addParameter('productName', $productName);
-        $this->clickControl('link', 'add_to_wishlist');
+        $this->clickControlAndWaitMessage('link', 'add_to_wishlist');
     }
 
     /**
