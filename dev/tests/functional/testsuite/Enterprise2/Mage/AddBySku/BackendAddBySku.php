@@ -113,7 +113,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
      * @depends createCustomer
      * @test
      * @TestlinkId	TL-MAGE-4051
-     *//*
+     */
       public function displayingAddBySku($customer) {
       //Steps
       $this->navigate('manage_customers');
@@ -135,7 +135,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
       $this->assertTrue($this->controlIsPresent('field', 'sku_file'), 'File field is not present');
       $this->assertTrue($this->controlIsPresent('button', 'reset_file'), '"Reset file" button is not present');
       $this->assertTrue($this->controlIsPresent('pageelement', 'allowed_file'), '"Allowed file type label are not displayed under "File" field');
-      } */
+      }
 
     /**
      * <p>Adding to Cart by SKU after entering SKU and QTY</p>
@@ -157,7 +157,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
      * @depends createProduct
      * @test
      * @TestlinkId	TL-MAGE-4052
-     */  /*
+     */
     public function addSimpleProductBySku($customer, $product) {
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_single', array('sku' => $product ['general_sku']));
@@ -176,7 +176,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
         $actualProductData = $this->addBySkuHelper()->getProductInfoInTable();
         $this->shoppingCartHelper()->compareArrays($actualProductData['product_1'], $verifyProductData['product_1']);
         //$this->addBySkuHelper()->clearShoppingCart();
-    }     */
+    }
 
     /**
      * <p>Adding to Cart by SKU after entering values in multiple fields</p>
@@ -199,7 +199,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
      * @depends createProduct
      * @test
      * @TestlinkId	TL-MAGE-4136
-     *//*
+     */
     public function addSimpleProductsWithInvalidData($customer, $product) {
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_multiple_invalid',null, array('validSkuProd1' => $product ['general_sku']));
@@ -218,7 +218,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
         $errorProductData = $this->addBySkuHelper()->getProductInfoInErrorTable();
         $this->shoppingCartHelper()->compareArrays($actualProductData['product_1'], $verifyProductData['valid_table']['product_1']);
         $this->shoppingCartHelper()->compareArrays($errorProductData['product_1'], $verifyProductData['invalid_table']['product_1']);
-    }*/
+    }
 
     /**
      * <p>Adding/Removing all attention products</p>
@@ -241,7 +241,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
      * @depends createCustomer
      * @test
      * @TestlinkId	TL-MAGE-4248
-     *//*
+     */
     public function removeAllProductFromErrorTable($customer) {
         //Data
         $productToAdd = $this->loadDataSet('AddBySku', 'data_to_add_shop_cart_test_remove_invalid');
@@ -255,7 +255,7 @@ class Enterprise2_Mage_AddBySku_BackendAddBySkuTest extends Mage_Selenium_TestCa
         $this->addBySkuHelper()->removeAllItemsFromErrorTable();
         //Verifying
         $this->addBySkuHelper()->verifyErrorTableIsEmpty();
-    }*/
+    }
 
     /**
      * <p>Adding/Removing each attention product separately</p>

@@ -52,7 +52,7 @@ class Enterprise2_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_Tes
     {
         //Preconditions
         $this->navigate('manage_customers');
-        $attrData = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $attrData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($attrData);
         $this->addParameter('customer_first_last_name', $attrData['first_name'] . ' ' . $attrData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $attrData['email']));

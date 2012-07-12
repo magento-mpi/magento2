@@ -102,14 +102,14 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customer_address_attributes');
         //Steps
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'generic_customer_address_attribute');
-        $this->CustomerAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->customerAttributeHelper()
+        $this->attributesHelper()
             ->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
-        $this->customerAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     /**
@@ -132,14 +132,14 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customer_attributes');
         //Steps
         $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute');
-        $this->customerAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->customerAttributeHelper()
+        $this->attributesHelper()
             ->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
-        $this->customerAttributeHelper()->verifyAttribute($attrData);
+        $this->attributesHelper()->verifyAttribute($attrData);
     }
 
     /**

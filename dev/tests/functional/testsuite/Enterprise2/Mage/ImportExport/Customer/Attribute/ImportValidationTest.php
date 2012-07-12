@@ -53,10 +53,10 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
     public function importCustomerFileWithInvalidData($customerData, array $validationMessage)
     {
         $this->navigate('manage_customer_attributes');
-        $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute_yesno',
+        $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_yesno',
             array('values_required' => 'No'));
-        $this->customerAttributeHelper()->createAttribute($attrData);
-        $customerData[$attrData['attribute_code']] = 'gf13gh';
+        $this->attributesHelper()->createAttribute($attrData);
+        $customerData[$attrData['properties']['attribute_code']] = 'gf13gh';
         $this->navigate('import');
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
@@ -70,7 +70,7 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
         //Check import
         $validationMessage['validation']['error'] = str_replace(
             '%attribute_id%',
-            $attrData['attribute_code'],
+            $attrData['properties']['attribute_code'],
             $validationMessage['validation']['error']
         );
         $this->assertEquals($validationMessage, $importReport,

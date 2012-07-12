@@ -106,13 +106,13 @@ system_convert_profile:
 system_currency:
     mca: system_currency/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currency/')]
-    title:
+    title: Manage Currency Rates / System / Magento Admin
 
 # Manage Currency symbols:
 system_currencysymbol:
     mca: system_currencysymbol/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currencysymbol/')]
-    title: Manage Currency Rates / System / Magento Admin
+    title: Manage Currency Symbols / System / Magento Admin
 
 # Transactional email
 system_email_template:
@@ -131,10 +131,3 @@ system_package_extentions:
      mca: extension_custom/
      click_xpath: //ul[@id='nav']//a[contains(@href, 'extension_custom/')]
      title: Edit Extension / Package Extensions / Magento Connect / System / Magento Admin
-
-# 'Order Statuses' page
-sales_order_status:
-    mca: sales_order_status/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order_status/')]
-    title: Order Statuses / Sales / Magento Admin
-

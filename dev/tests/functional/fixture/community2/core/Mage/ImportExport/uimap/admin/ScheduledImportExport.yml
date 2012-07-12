@@ -1,0 +1,136 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ImportExport
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Manage Import/Export page
+
+scheduled_import_export:
+    mca: scheduled_operation/
+    click_xpath: //div[@class='nav-bar']//a[span='Scheduled Import/Export']
+    title: Scheduled Imports/Exports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                -
+                    grid_and_filter:
+                        xpath: //div[@id='operationGrid']
+                        fields:
+                            name: //table[@id='operationGrid_table']//th//input[@id='operationGrid_filter_name']
+                            attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']
+                            date_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%'][contains(@class, 'input-text-range-date')]
+                            date_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%_to'][contains(@class, 'input-text-range-date')]
+                            input_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-export-filter')]
+                            text_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
+                            text_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
+                        buttons:
+                            reset_filter: //table[@class='actions']//button[@title='Reset Filter']
+                            search: //table[@class='actions']//button[@title='Search']
+                        dropdowns:
+                            operation: //table[@id='operationGrid_table']//th//select[@id='operationGrid_filter_operation_type']
+
+                            select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
+
+
+import:
+    mca: import/
+    click_xpath: //div[@class='nav-bar']//a[span='Import']
+    title: Import / Import/Export / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    import_settings:
+                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Settings')]]
+                        dropdowns:
+                            entity_type: //select[@id='entity']
+                        fields:
+                            file_to_import: //input[@id='import_file']
+                        pageelements:
+                            import_file_note: //span[@id='importFileNote' and contains(., 'Import allows to change only status, _shipment_track_number, _shipment_comment_comment, _order_status_history_comment columns. Any changes in other columns will be ignored.')]
+                -
+                    import_behavior:
+                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Behavior')]]
+                        dropdowns:
+                            import_behavior: //select[@name='behavior' and not(@disabled)]
+                -
+                    import_format:
+                        xpath: //div[@id="import_format_version_fieldset"]
+                        dropdowns:
+                            import_file_version: //select[@id='file_format_version']
+                -
+                    customer_entity_type:
+                        xpath: //div[@id="customer_entity_fieldset"]
+                        dropdowns:
+                            import_customer_entity: //select[@id='customer_entity']
+        messages:
+            extension_not_supported: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'%extension% file extension is not supported')]
+            no_extension: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'Uploaded file has no extension')]
+            fix_and_reupload: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Please fix errors and re-upload file')]
+            status_wrong: //div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'The Order Status "pending" must not be set manually in row %row%')]
+            checked_rows: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'Checked rows: %rows%')]"
+            checked_entities: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'checked entities: %entities%')]"
+            invalid_rows: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'invalid rows: %rows%')]"
+            total_errors: "//div[@id='import_validation_messages']//*[@class='notice-msg']//span[contains(text(),'total errors: %errors%')]"
+            task_in_queue: //div[@id='import_validation_messages']//*[@class='success-msg']//span[contains(text(),'Import process has just queued.')]
+            task_complete: //div[@class='notification-global notification-global-notice' and contains(.,'Import order task')][//strong[contains(.,'Latest Finished Task:')]]
+            file_is_valid: //div[@id='import_validation_messages']//*[@class='success-msg']//span[contains(text(),'File is valid! To start import process press "Import" button')]
+        buttons:
+            check_data: //button[@id='upload_button' and span='Check Data']
+            import: //button[span='Import']
+
+export:
+    mca: export
+    click_xpath: //div[@class='nav-bar']//a[span='Export']
+    title: Export / Import/Export / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    export_settings:
+                        xpath: //div[@id="base_fieldset"]
+                        dropdowns:
+                            entity_type: //select[@id='entity']
+                            file_format: //select[@id='file_format']
+                -
+                    export_format:
+                        xpath: //div[@id="export_format_version_fieldset"]
+                        dropdowns:
+                            export_file_version: //select[@id='file_format_version']
+                -
+                    customer_entity_type:
+                        xpath: //div[@id="customer_entity_fieldset"]
+                        dropdowns:
+                            export_file: //select[@id='customer_entity']
+                -
+                    grid_and_filter:
+                        xpath: //div[@id='export_filter_grid_container']
+                        fields:
+                            attribute_label: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_frontend_label']
+                            attribute_code: //table[@id='export_filter_grid_table']//th//input[@id='export_filter_grid_filter_attribute_code']
+                            date_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%'][contains(@class, 'input-text-range-date')]
+                            date_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[@id='export_filter_%attr_code%_to'][contains(@class, 'input-text-range-date')]
+                            input_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-export-filter')]
+                            text_filter_from: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][1]
+                            text_filter_to: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//input[contains(@class, 'input-text-range')][2]
+                        buttons:
+                            reset_filter: //table[@class='actions']//button[@title='Reset Filter']
+                            search: //table[@class='actions']//button[@title='Search']
+                        dropdowns:
+                            select_filter: //table[@id="export_filter_grid_table"]//tr[td[3][normalize-space(text())='%attr_code%']]//select[contains(@class, 'select-export-filter')]
+        messages:
+            task_in_queue: //div[@id='messages']//*[@class='success-msg']//span[contains(text(),'Export task has been added to queue')]
+        buttons:
+            download: //div[@id='export_file_downloader_file_exist']//button[@class='scalable' and @title='Download']
+            remove: //div[@id='export_file_downloader_file_exist']//button[@class='scalable' and @title='Remove']
+            continue: //div[@class='a-right']//button//span[text()='Continue']
+        pageelements:
+            export_file_name: //div[@id='export_file_downloader_file_exist']//*[@id='export_file_downloader_filename']
+            downloader_block: //div[@id='export_file_downloader']
