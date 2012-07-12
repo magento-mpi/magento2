@@ -41,17 +41,18 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
     public function initialize(Enterprise_ImportExport_Model_Scheduled_Operation $operation)
     {
         $fileInfo  = $operation->getFileInfo();
-        $attrsInfo = $operation->getEntityAttributes();
+        $attributes = $operation->getEntityAttributes();
         $data = array(
-            'entity'         => $operation->getEntityType(),
-            'file_format'    => $fileInfo['file_format'],
-            'export_filter'  => $attrsInfo['export_filter'],
-            'operation_type' => $operation->getOperationType(),
-            'run_at'         => $operation->getStartTime(),
+            'entity'                 => $operation->getEntityType(),
+            'entity_subtype'         => $operation->getEntitySubtype(),
+            'file_format'            => $fileInfo['file_format'],
+            'export_filter'          => $attributes['export_filter'],
+            'operation_type'         => $operation->getOperationType(),
+            'run_at'                 => $operation->getStartTime(),
             'scheduled_operation_id' => $operation->getId()
         );
-        if (isset($attrsInfo['skip_attr'])) {
-            $data['skip_attr'] = $attrsInfo['skip_attr'];
+        if (isset($attributes['skip_attr'])) {
+            $data['skip_attr'] = $attributes['skip_attr'];
         }
         $this->setData($data);
         return $this;
@@ -64,7 +65,13 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
      */
     public function getScheduledFileName()
     {
+        if ($this->getEntitySubtype()) {
+            $suffix = $this->getEntitySubtype();
+        } else {
+            $suffix = $this->getEntity();
+        }
+
         return Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '_' . $this->getOperationType()
-            . '_' . $this->getEntity();
+            . '_' . $suffix;
     }
 }

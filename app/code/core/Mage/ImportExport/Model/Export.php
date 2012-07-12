@@ -15,7 +15,7 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  *
- * @method string getCustomerEntity() getCustomerEntity()
+ * @method string getEntitySubtype() getEntitySubtype()
  */
 class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
 {
@@ -64,7 +64,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
             $entityTypes = Mage_ImportExport_Model_Config::getModels(self::CONFIG_KEY_ENTITIES);
             $customerEntityTypes = Mage_ImportExport_Model_Config::getModels(self::CONFIG_KEY_CUSTOMER_ENTITIES);
 
-            $customerEntityType = $this->getCustomerEntity();
+            $customerEntityType = $this->getEntitySubtype();
             if (!empty($customerEntityType)) {
                 if (isset($customerEntityTypes[$customerEntityType])) {
                     try {
@@ -85,7 +85,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
                     }
 
                     // check for entity codes integrity
-                    if ($this->getCustomerEntity() != $this->_entityAdapter->getEntityTypeCode()) {
+                    if ($this->getEntitySubtype() != $this->_entityAdapter->getEntityTypeCode()) {
                         Mage::throwException(
                             Mage::helper('Mage_ImportExport_Helper_Data')
                                 ->__('Input entity code is not equal to entity adapter code')

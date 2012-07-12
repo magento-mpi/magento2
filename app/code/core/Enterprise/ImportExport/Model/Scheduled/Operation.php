@@ -17,6 +17,13 @@
  *
  * @method string getOperationType() getOperationType()
  * @method Enterprise_ImportExport_Model_Scheduled_Operation setOperationType() setOperationType(string $value)
+ * @method string getEntityType() getEntityType()
+ * @method string getEntitySubtype() getEntitySubtype()
+ * @method string getStartTime() getStartTime()
+ * @method string getFileInfo() getFileInfo()
+ * @method string getEntityAttributes() getEntityAttributes()
+ * @method string getBehavior() getBehavior()
+ * @method string getForceImport() getForceImport()
  */
 class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_Abstract
 {
