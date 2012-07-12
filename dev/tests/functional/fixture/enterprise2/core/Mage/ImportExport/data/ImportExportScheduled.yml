@@ -1,0 +1,66 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ImportExport
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+scheduled_export:
+   name: test_export_%randomize%
+   description: test_export_description_%randomize%
+   entity_type: Customers
+   file_format_version: %noValue%
+   file_format: CSV
+   start_time_hours: %noValue%
+   start_time_minutes: %noValue%
+   start_time_seconds: %noValue%
+   frequency: %noValue%
+   status: %noValue%
+   server_type: Remote FTP
+   file_path: "var/export"
+   host: %noValue%
+   user_name: %noValue%
+   password: %noValue%
+   file_mode: %noValue%
+   passive_mode: %noValue%
+   email_receiver: %noValue%
+   email_sender: %noValue%
+   email_template: %noValue%
+   email_copy_method: %noValue%
+   skipped:
+        attribute_1:
+            attribute_code: created_at
+        attribute_2:
+            attribute_code: %noValue%
+        attribute_3:
+            attribute_label: %noValue%
+   filters:
+        email: my@email
+
+scheduled_import:
+   name: test_import_%randomize%
+   description: test_import_description_%randomize%
+   entity_type: Customers
+   behavior: Append Complex Data
+   file_format_version: %noValue%
+   start_time_hours: %noValue%
+   start_time_minutes: %noValue%
+   start_time_seconds: %noValue%
+   frequency: %noValue%
+   status: %noValue%
+   server_type: Remote FTP
+   file_path: "var/export"
+   file_name: 'test.csv'
+   host: %noValue%
+   user_name: %noValue%
+   password: %noValue%
+   file_mode: %noValue%
+   passive_mode: %noValue%
+   email_receiver: %noValue%
+   email_sender: %noValue%
+   email_template: %noValue%
+   email_copy_method: %noValue%
