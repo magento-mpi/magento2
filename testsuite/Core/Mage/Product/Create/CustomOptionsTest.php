@@ -377,10 +377,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function negativeNumberInCustomOptionsPriceNegDataProvider()
     {
         return array(
-            array('custom_options_file'),
-            array('custom_options_date'),
-            array('custom_options_date_time'),
-            array('custom_options_time')
+            array('custom_options_file')
         );
     }
 
@@ -432,7 +429,10 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
             array('custom_options_dropdown'),
             array('custom_options_radiobutton'),
             array('custom_options_checkbox'),
-            array('custom_options_multipleselect')
+            array('custom_options_multipleselect'),
+            array('custom_options_date'),
+            array('custom_options_date_time'),
+            array('custom_options_time')
         );
     }
 }
