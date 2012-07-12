@@ -14,10 +14,41 @@
  * @category    Enterprise
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method string getOperationType() getOperationType()
  */
 class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
     implements Enterprise_ImportExport_Model_Scheduled_Operation_Interface
 {
+    /**
+     * Date model instance
+     *
+     * @var Mage_Core_Model_Date
+     */
+    protected $_dateModel;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+
+        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Mage_Core_Model_Date');
+    }
+
+    /**
+     * Date model instance getter
+     *
+     * @return Mage_Core_Model_Date
+     */
+    public function getDateModel()
+    {
+        return $this->_dateModel;
+    }
+
     /**
      * Run export through cron
      *
@@ -71,7 +102,7 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
             $suffix = $this->getEntity();
         }
 
-        return Mage::getModel('Mage_Core_Model_Date')->date('Y-m-d_H-i-s') . '_' . $this->getOperationType()
+        return $this->getDateModel()->date('Y-m-d_H-i-s') . '_' . $this->getOperationType()
             . '_' . $suffix;
     }
 }

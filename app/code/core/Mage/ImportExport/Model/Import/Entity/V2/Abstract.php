@@ -267,6 +267,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
         $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
         /** @var $coreDataHelper Mage_Core_Helper_Data */
         $coreDataHelper = Mage::helper('Mage_Core_Helper_Data');
+
+        $maxDataSize = $resourceHelper->getMaxDataSize();
         $bunchSize = $dataHelper->getBunchSize();
 
         $source->rewind();
@@ -299,7 +301,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
 
                     $isBunchSizeExceeded = ($bunchSize > 0 && count($bunchRows) >= $bunchSize);
 
-                    if (($processedDataSize + $rowSize) >= $resourceHelper->getMaxDataSize() || $isBunchSizeExceeded) {
+                    if (($processedDataSize + $rowSize) >= $maxDataSize || $isBunchSizeExceeded) {
                         $startNewBunch = true;
                         $nextRowBackup = array($source->key() => $rowData);
                     } else {

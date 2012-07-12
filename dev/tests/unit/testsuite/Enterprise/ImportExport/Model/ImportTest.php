@@ -1,0 +1,98 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Enterprise_ImportExport
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Test class for Enterprise_ImportExport_Model_Import
+ */
+class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
+{
+    /**
+     * Enterprise data import model
+     *
+     * @var Enterprise_ImportExport_Model_Import
+     */
+    protected $_model;
+
+    /**
+     * Map of keys which used inside test model
+     *
+     * @var array
+     */
+    protected $_modelDataMap = array(
+        'entity_type' => 'entity',
+        'start_time'  => 'run_at',
+        'id'          => 'scheduled_operation_id'
+    );
+
+    /**
+     * Init model for future tests
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->_model = new Enterprise_ImportExport_Model_Import();
+    }
+
+    /**
+     * Unset test model
+     */
+    public function tearDown()
+    {
+        unset($this->_model);
+
+        parent::tearDown();
+    }
+
+    /**
+     * Test for method 'initialize'
+     */
+    public function testInitialize()
+    {
+        $operationData = array(
+            'entity_type'    => 'customer',
+            'entity_subtype' => 'customer_address',
+            'behavior'       => 'update',
+            'operation_type' => 'import',
+            'start_time'     => '00:00:00',
+            'id'             => 1
+        );
+        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
+        $operation = $this->getMock('Enterprise_ImportExport_Model_Scheduled_Operation', null, array(), '', false);
+        $operation->setData($operationData);
+        $this->_model->initialize($operation);
+
+        foreach ($operationData as $key => $value) {
+            if (is_array($value)) {
+                foreach ($value as $subKey => $subValue) {
+                    $this->assertEquals($subValue, $this->_model->getData($this->_getMappedValue($subKey)));
+                }
+            } else {
+                $this->assertEquals($value, $this->_model->getData($this->_getMappedValue($key)));
+            }
+        }
+    }
+
+    /**
+     * Retrieve data keys which used inside test model
+     *
+     * @param $key
+     * @return mixed
+     */
+    protected function _getMappedValue($key)
+    {
+        if (array_key_exists($key, $this->_modelDataMap)) {
+            return $this->_modelDataMap[$key];
+        }
+
+        return $key;
+    }
+}
