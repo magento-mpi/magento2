@@ -13,6 +13,8 @@
  */
 class Benchmark_Config
 {
+    const DEFAULT_JMETER_JAR_FILE = 'ApacheJMeter.jar';
+
     /**
      * @var string
      */
@@ -69,7 +71,7 @@ class Benchmark_Config
         if (isset($configData['jmeter_jar_file'])) {
             $this->_jMeterPath = $configData['jmeter_jar_file'];
         } else {
-            $this->_jMeterPath = getenv('jmeter_jar_file') ?: 'ApacheJMeter.jar';
+            $this->_jMeterPath = getenv('jmeter_jar_file') ?: self::DEFAULT_JMETER_JAR_FILE;
         }
 
         if (isset($configData['application']['installation'])) {
