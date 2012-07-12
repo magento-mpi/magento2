@@ -381,11 +381,10 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-3299
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      */
     public function reorderPendingOrder($orderData)
     {
+        $this->markTestIncomplete('MAGETWO-1852');
         //Data
         $cardData = $orderData['payment_data']['payment_info'];
         //Steps

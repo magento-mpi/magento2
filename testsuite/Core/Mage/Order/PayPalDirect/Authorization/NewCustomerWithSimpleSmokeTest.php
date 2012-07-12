@@ -384,7 +384,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      * @test
      * @depends orderWithout3DSecureSmoke
      * @TestlinkId TL-MAGE-3306
-     * @group skip_due_to_bug2.0
      */
     public function reorderPendingOrder($orderData)
     {

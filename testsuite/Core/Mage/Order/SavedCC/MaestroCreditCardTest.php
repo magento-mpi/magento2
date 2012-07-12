@@ -266,7 +266,6 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      * @test
      * @depends orderWithSwitchMaestroCard
      * @TestlinkId TL-MAGE-5397
-     * @group skip_due_to_bug2.0
      */
     public function reorderPendingOrder($orderData)
     {

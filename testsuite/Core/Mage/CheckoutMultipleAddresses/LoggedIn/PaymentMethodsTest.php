@@ -162,7 +162,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
      * @dataProvider paymentsWith3dDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5281
-     * @group skip_due_to_bug2.0
      */
     public function paymentsWith3d($payment, $testData)
     {

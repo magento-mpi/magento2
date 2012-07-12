@@ -97,7 +97,6 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
      * @test
      * @dataProvider validateTaxFrontendDataProvider
      * @depends preconditionsForTests
-     * @group skip_due_to_bug2.0
      */
     public function validateTaxFrontend($configName, $testData)
     {
