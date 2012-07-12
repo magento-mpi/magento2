@@ -66,11 +66,6 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
         </testsuite>
     </testsuites>
-    <groups>
-        <exclude>
-            <group>skip_due_to_bug2.0</group>
-        </exclude>
-    </groups>
     <logging>
         <log type="json" target="./var/logs/logfile.json"/>
         <log type="tap" target="./var/logs/logfile.tap"/>
