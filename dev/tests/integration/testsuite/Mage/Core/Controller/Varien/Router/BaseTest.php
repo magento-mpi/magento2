@@ -83,9 +83,9 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
         $this->assertNull($this->_model->match($request));
 
         $this->_model->collectRoutes('frontend', 'standard');
-        $this->assertTrue($this->_model->match($request));
+        $this->assertInstanceOf('Mage_Core_Controller_Varien_Action', $this->_model->match($request));
         $request->setRequestUri('core/index/index');
-        $this->assertTrue($this->_model->match($request));
+        $this->assertInstanceOf('Mage_Core_Controller_Varien_Action', $this->_model->match($request));
 
         $request->setPathInfo('not_exists/not_exists/not_exists')
             ->setModuleName('not_exists')
