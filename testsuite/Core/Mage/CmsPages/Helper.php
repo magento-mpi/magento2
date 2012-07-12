@@ -249,7 +249,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         $this->frontend('test_page');
         foreach ($this->countElements($pageData) as $key => $value) {
             $actualCount = $this->getControlCount('pageelement', $key);
-            $this->assertSame($value, $actualCount, 'Count of ' . $key . ' is not ' . $value);
+            $this->assertEquals($value, $actualCount, 'Count of ' . $key . ' is not ' . $value);
         }
     }
 
