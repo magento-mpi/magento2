@@ -304,8 +304,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3384
      * @test
-     *
-     * @group skip_due_to_bug
      */
     public function textValueInCustomOptionsPrice($optionDataName)
     {
@@ -363,9 +361,6 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-3380
      * @test
-     *
-     * @group skip_due_to_bug
-     * @group skip_due_to_bug1.12
      */
     public function negativeNumberInCustomOptionsPriceNeg($optionName)
     {
@@ -384,7 +379,7 @@ class Core_Mage_Product_Create_CustomOptionsTest extends Mage_Selenium_TestCase
     public function negativeNumberInCustomOptionsPriceNegDataProvider()
     {
         return array(
-            array('custom_options_file'), //Fails due to MAGE-4609
+            array('custom_options_file'),
             array('custom_options_date'),
             array('custom_options_date_time'),
             array('custom_options_time')
