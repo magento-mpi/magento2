@@ -91,7 +91,7 @@ menu:
     promotions:
             manage_catalog_price_rules:
             manage_shopping_cart_price_rules:
-            automated_email_marketing_reminder_rules:
+            manage_automated_email_reminder_rules:
 
     newsletter:
         newsletter_templates:
