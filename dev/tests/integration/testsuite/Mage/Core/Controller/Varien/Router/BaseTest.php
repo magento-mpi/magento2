@@ -80,7 +80,7 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
         }
 
         $request = new Magento_Test_Request();
-        $this->assertFalse($this->_model->match($request));
+        $this->assertNull($this->_model->match($request));
 
         $this->_model->collectRoutes('frontend', 'standard');
         $this->assertTrue($this->_model->match($request));
@@ -91,7 +91,7 @@ class Mage_Core_Controller_Varien_Router_BaseTest extends PHPUnit_Framework_Test
             ->setModuleName('not_exists')
             ->setControllerName('not_exists')
             ->setActionName('not_exists');
-        $this->assertFalse($this->_model->match($request));
+        $this->assertNull($this->_model->match($request));
     }
 
     /**
