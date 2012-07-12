@@ -16,6 +16,12 @@
 class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * Test getCollection
+     * 1) Check that all products are loaded
+     * 2) Check that products are loaded correctly and all required attributes present\
+     * 3) Check thumbnails
+     * 4) Check images loading
+     *
      * @magentoDataFixture Mage/Sitemap/_files/sitemap_products.php
      */
     public function testGetCollection()
