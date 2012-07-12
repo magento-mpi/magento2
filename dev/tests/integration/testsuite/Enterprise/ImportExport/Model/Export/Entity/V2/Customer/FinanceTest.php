@@ -31,12 +31,10 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
     /**
      * Test export data
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
      */
     public function testExport()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         $validWriters = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
 
         /** @var $customerFinance Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance */

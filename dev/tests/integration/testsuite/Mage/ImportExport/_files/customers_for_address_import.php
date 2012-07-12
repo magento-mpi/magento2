@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*
 //Create customer
 $customer = new Mage_Customer_Model_Customer();
 $customer
@@ -24,6 +23,7 @@ $customer
     ->setFirstname('Betsy')
     ->setLastname('Parker')
     ->setGender(2);
+$customer->isObjectNew(true);
 $customer->save();
 
 // Create and set addresses
@@ -39,6 +39,7 @@ $addressFirst->addData(array(
     'postcode'          => '19107',
     'telephone'         => '215-629-9720',
 ));
+$addressFirst->isObjectNew(true);
 $customer->addAddress($addressFirst);
 $customer->setDefaultBilling($addressFirst->getId());
 
@@ -54,16 +55,17 @@ $addressSecond->addData(array(
     'postcode'          => '72701',
     'telephone'         => '479-899-9849',
 ));
+$addressSecond->isObjectNew(true);
 $customer->addAddress($addressSecond);
 $customer->setDefaultShipping($addressSecond->getId());
-
+$customer->isObjectNew(true);
 $customer->save();
 
 $fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Customer';
 Mage::unregister($fixtureKey);
 Mage::register($fixtureKey, $customer);
 
-// important data from address_import.csv (postcode is key)
+// important data from address_import_update.csv (postcode is key)
 $csvData = array(
     'address' => array( // address records
         'update'            => '19107',  // address with updates
@@ -89,7 +91,16 @@ $csvData = array(
     ),
 );
 
-$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv';
+$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv_Update';
 Mage::unregister($fixtureKey);
 Mage::register($fixtureKey, $csvData);
-*/
+
+// important data from address_import_delete.csv (postcode is key)
+$csvData = array(
+    'delete'     => '19107',  // deleted address
+    'not_delete' => '72701',  // not deleted address
+);
+
+$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv_Delete';
+Mage::unregister($fixtureKey);
+Mage::register($fixtureKey, $csvData);

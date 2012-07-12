@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*
 $customers = array();
 
 $customer = new Mage_Customer_Model_Customer();
@@ -67,4 +66,3 @@ $customer->save();
 $customers[] = $customer;
 
 Mage::register('_fixture/Mage_ImportExport_Customer_Collection', $customers);
-*/

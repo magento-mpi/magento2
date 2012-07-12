@@ -13,6 +13,8 @@
     <modules>
         <Find_Feed>
             <version>1.6.0.0</version>
+            <active>false</active>
+            <codePool>community</codePool>
         </Find_Feed>
     </modules>
     <global>
