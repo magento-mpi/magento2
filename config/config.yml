@@ -129,7 +129,7 @@ applications:
         fallbackOrderHelper: 'Enterprise, Core'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento_enterprise1200/admin/'
+                url: 'http://www.localhost.com/magento_enterprise1200/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
@@ -151,7 +151,7 @@ applications:
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento_enterprise1201/control/'
+                url: 'http://www.localhost.com/magento_enterprise1201/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
@@ -177,13 +177,13 @@ applications:
         fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
         areas:
             admin:
-                url: 'http://m2.aa/admin/'
+                url: 'http://www.localhost.com/magento2_enterprise/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
-                password: '123123qa'
+                password: '123123q'
             frontend:
-                url: 'http://m2.aa/'
+                url: 'http://www.localhost.com/magento2_enterprise/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
