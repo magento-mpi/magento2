@@ -125,10 +125,24 @@
         </exec>
     </target>
 
+    <!-- performance testing framework unit tests -->
+    <target name="unit-tests-performance-framework">
+        <exec dir="dev/tests/performance/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit-tests-performance-framework.xml"/>
+        </exec>
+    </target>
+
     <!-- static code analysis framework unit tests -->
     <target name="unit-tests-static-framework">
         <exec dir="dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit-tests-static-framework.xml"/>
+        </exec>
+    </target>
+
+    <!-- unit testing framework unit tests -->
+    <target name="unit-tests-unit-framework">
+        <exec dir="dev/tests/unit/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit-tests-unit-framework.xml"/>
         </exec>
     </target>
 
@@ -303,6 +317,8 @@
             <target name="unit-tests-magento"/>
             <target name="unit-tests-static-framework"/>
             <target name="unit-tests-integration-framework"/>
+            <target name="unit-tests-unit-framework"/>
+            <target name="unit-tests-performance-framework"/>
             <target name="static-tests-all"/>
             <target name="integration-tests-magento"/>
             <target name="integration-integrity-tests-magento"/>

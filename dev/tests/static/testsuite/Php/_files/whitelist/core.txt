@@ -20,6 +20,7 @@ app/code/core/Mage/Rss/Controller/AdminhtmlAbstract.php
 app/code/core/Mage/User
 dev/shell
 dev/tests/integration
+dev/tests/performance
 dev/tests/static
 dev/tests/unit
 dev/tools
