@@ -344,11 +344,11 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      *
      * @test
      * @depends createSimpleProduct
-     * @group skip_due_to_bug2.0
+     * @group skip_due_to_bug
+     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448'
      */
     public function giftMessageForIndividualItemDisabled($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-2139');
         //Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/ind_items_gift_wrapping_yes_message_no');
@@ -396,11 +396,11 @@ class Enterprise_Mage_GiftWrapping_AdminOrder_GiftWrappingTest extends Mage_Sele
      * @test
      * @depends createSimpleProduct
      * @depends createGiftWrappingMain
-     * @group skip_due_to_bug2.0
+     * @group skip_due_to_bug
+     * @TODO: Blocked by https://jira.magento.com/browse/MAGE-5448
      */
     public function giftWrappingForIndividualItemAllowed($simpleSku, $gwDataMain)
     {
-        $this->markTestIncomplete('MAGETWO-2139');
         //Data
         $giftWrappingData = $this->loadDataSet('SalesOrder', 'gift_wrapping_for_item',
             array('sku_product' => $simpleSku, 'product_gift_wrapping_design' => $gwDataMain['gift_wrapping_design']));

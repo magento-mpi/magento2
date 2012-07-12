@@ -629,6 +629,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @group skip_due_to_bug
+     * MAGE-6679
      */
     public function addProductWithCustomOptionsToWishlist($testData)
     {
@@ -654,6 +656,8 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
+     * @group skip_due_to_bug
+     * MAGE-6679
      */
     public function addProductWithCustomOptionsToShoppingCartFromWishlistNegative($testData)
     {

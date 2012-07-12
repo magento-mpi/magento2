@@ -185,6 +185,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
      * @depends createConfigurableAttribute
      * @depends createProducts
      * @TestlinkId TL-MAGE-3429
+     * @group skip_due_to_bug
      */
     public function duplicateDownloadable($attrData, $assignData)
     {

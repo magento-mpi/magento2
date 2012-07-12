@@ -211,6 +211,7 @@ class Core_Mage_Customer_RegisterTest extends Mage_Selenium_TestCase
      * @dataProvider withLongValuesNotValidDataProvider
      * @depends withRequiredFieldsOnly
      * @TestlinkId TL-MAGE-3243
+     * @group skip_due_to_bug1.12
      */
     public function withLongValuesNotValid($fieldName)
     {
