@@ -345,7 +345,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      *
      * @test
      * @depends orderWithSwitchMaestroCard
-     * @group skip_due_to_bug2.0
      */
     public function reorderPendingOrder($orderData)
     {
