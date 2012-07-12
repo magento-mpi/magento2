@@ -31,7 +31,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_WebsiteRestrictions extends Mage_Selenium_TestCase
+class Enterprise2_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
