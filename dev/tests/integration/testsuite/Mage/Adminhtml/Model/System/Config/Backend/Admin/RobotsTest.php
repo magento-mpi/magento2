@@ -28,6 +28,8 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
 
     /**
      * Check that default value is empty when robots.txt not exists
+     *
+     * @magentoDataFixture Mage/Adminhtml/_files/no_robots_txt.php
      */
     public function testAfterLoadRobotsTxtNotExists()
     {
@@ -86,9 +88,6 @@ class Mage_Adminhtml_Model_System_Config_Backend_Admin_RobotsTest extends PHPUni
      */
     protected function tearDown()
     {
-        $robotsTxtFilePath = Mage::getBaseDir() . DS . 'robots.txt';
-        if (is_file($robotsTxtFilePath)) {
-            @unlink($robotsTxtFilePath);
-        }
+        require 'Mage/Adminhtml/_files/no_robots_txt.php';
     }
 }
