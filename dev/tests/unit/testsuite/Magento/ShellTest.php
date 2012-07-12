@@ -29,10 +29,10 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
     public function executeDataProvider()
     {
         return array(
-            'capture STDOUT' => array('echo "test_output";',           false, '',                      'test_output'),
-            'print STDOUT'   => array('echo "test_output";',           true,  'test_output' . PHP_EOL, 'test_output'),
-            'capture STDERR' => array('fwrite(STDERR, "test_error");', false, '',                      'test_error'),
-            'print STDERR'   => array('fwrite(STDERR, "test_error");', true,  'test_error' . PHP_EOL,  'test_error'),
+            'capture STDOUT' => array('echo 27182;',            false, '',                '27182'),
+            'print STDOUT'   => array('echo 27182;',            true,  '27182' . PHP_EOL, '27182'),
+            'capture STDERR' => array('fwrite(STDERR, 27182);', false, '',                '27182'),
+            'print STDERR'   => array('fwrite(STDERR, 27182);', true,  '27182' . PHP_EOL, '27182'),
         );
     }
 
