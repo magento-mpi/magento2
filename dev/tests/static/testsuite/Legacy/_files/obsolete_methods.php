@@ -148,7 +148,7 @@ return array(
     'createOrderItem' => array('class_scope' => 'Mage_CatalogInventory_Model_Observer'),
     'debugRequest' => array('class_scope' => 'Mage_Paypal_Model_Api_Standard'),
     'deleteProductPrices' => array('class_scope' => 'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Tierprice'),
-    'display' => array('suggestion' => 'Varien_Image_Adapter_Abstract::getImage()'),
+    'display' => array('class_scope' => 'Varien_Image_Adapter_Abstract', 'suggestion' => 'getImage()'),
     'displayFullSummary' => array('class_scope' => 'Mage_Tax_Model_Config'),
     'displayTaxColumn' => array('class_scope' => 'Mage_Tax_Model_Config'),
     'displayZeroTax' => array('class_scope' => 'Mage_Tax_Model_Config'),
