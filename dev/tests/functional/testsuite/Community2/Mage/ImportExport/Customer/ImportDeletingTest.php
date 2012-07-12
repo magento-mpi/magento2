@@ -32,6 +32,7 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         //Step 1
         $this->navigate('import');
     }
+
     /**
      * <p>Deleting Customer via Customers Main File</p>
      * <p>Preconditions:</p>
@@ -77,15 +78,15 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
 
         //Step 1
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
-            'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()
+            ->chooseImportOptions('Customers', 'Delete Entities', 'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
         $importReport = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $importReport,
-            'Import has been finished with issues: ' . print_r($importReport));
+            'Import has been finished with issues: ' . print_r($importReport, true));
         $this->assertArrayHasKey('success', $importReport['import'],
-            'Import has been finished with issues: ' . print_r($importReport));
+            'Import has been finished with issues: ' . print_r($importReport, true));
         //Step 8
         $this->navigate('manage_customers');
         //Verify that the first customer is absent after import 'Delete Entities'
@@ -98,14 +99,11 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
     public function importData()
     {
         return array(
-            array(
-                array(
-                    $this->loadDataSet('ImportExport', 'generic_customer_csv'),
-                    $this->loadDataSet('ImportExport', 'generic_customer_csv')
-                )
-            )
+            array(array($this->loadDataSet('ImportExport', 'generic_customer_csv'),
+                                 $this->loadDataSet('ImportExport', 'generic_customer_csv')))
         );
     }
+
     /**
      * <p>Deleting Customer via Customers Main File</p>
      * <p>Preconditions:</p>
@@ -150,15 +148,14 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
 
         //Step 1, 2, 3, 4
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
-            'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()
+            ->chooseImportOptions('Customers', 'Delete Entities', 'Magento 2.0 format', 'Customers Main File');
         //Step 5, 6, 7
         $importReport = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayNotHasKey('import', $importReport,
-            'Import has been finished with issues: ' . print_r($importReport));
-        $this->assertArrayHasKey('error', $importReport['validation'],
-            'Import has been finished with issues:');
+            'Import has been finished with issues: ' . print_r($importReport, true));
+        $this->assertArrayHasKey('error', $importReport['validation'], 'Import has been finished with issues:');
         //Step 8
         $this->navigate('manage_customers');
         //Verify that the first customer is present after import 'Delete Entities'
@@ -170,13 +167,8 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
     public function importCustomerData()
     {
         return array(
-            array(
-                array(
-                    $this->loadDataSet('ImportExport', 'generic_customer_csv'),
-                    $this->loadDataSet('ImportExport', 'generic_customer_csv',
-                        array('_website' => $this->generate('string', 30, ':digit:')))
-                )
-            )
-        );
+            array(array($this->loadDataSet('ImportExport', 'generic_customer_csv'),
+                                 $this->loadDataSet('ImportExport', 'generic_customer_csv',
+                                     array('_website' => $this->generate('string', 30, ':digit:'))))));
     }
 }
