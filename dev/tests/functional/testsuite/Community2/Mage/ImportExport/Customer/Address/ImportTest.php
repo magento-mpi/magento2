@@ -130,9 +130,9 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $report = $this->importExportHelper()->import($data) ;
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
@@ -153,7 +153,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         );
         //Verify customer account address
         $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($addressData1),
-            'New customer address has not been created '. print_r($addressData1));
+            'New customer address has not been created '. print_r($addressData1, true));
         //Verify customer account
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
@@ -171,7 +171,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $addressData2['telephone']  = $data[1]['telephone'];
         $addressData2['state']  = $data[1]['region'];
         $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($addressData2),
-            'Existent customer address has not been updated ' . print_r($addressData2));
+            'Existent customer address has not been updated ' . print_r($addressData2, true));
     }
 
     /**

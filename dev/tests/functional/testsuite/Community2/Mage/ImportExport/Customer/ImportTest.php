@@ -235,9 +235,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
@@ -317,9 +317,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
         $this->assertArrayHasKey('import', $importData,
-            "$customerType file import has not been finished successfully: " . print_r($importData));
+            "$customerType file import has not been finished successfully: " . print_r($importData, true));
         $this->assertArrayHasKey('success', $importData['import'],
-            "$customerType file import has not been finished successfully" . print_r($importData));
+            "$customerType file import has not been finished successfully" . print_r($importData, true));
         //Step7
         if($customerType == 'Customers Main File') {
             foreach ($updatedData as $key => $value) {

@@ -74,7 +74,7 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
             $validationMessage['validation']['error']
         );
         $this->assertEquals($validationMessage, $importReport,
-            'Import has been finished with issues ' . print_r($importReport));
+            'Import has been finished with issues ' . print_r($importReport, true));
     }
 
     public function importDataInvalid()

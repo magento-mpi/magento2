@@ -94,17 +94,17 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $importResult = $this->importExportHelper()->import($dataCsv);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertEquals(
             "Customer with such email and website code doesn't exist in rows: 2",
             $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         //Verifying
         $i = 0;
         foreach ($dataCsv as $customerData){
@@ -182,17 +182,17 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $importResult = $this->importExportHelper()->import($dataCsv);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertEquals(
             "Customer with such email and website code doesn't exist in rows: 2",
             $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         //Verifying
         $i = 0;
         foreach ($dataCsv as $customerData){
@@ -274,17 +274,17 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $importResult = $this->importExportHelper()->import($dataCsv);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertEquals(
             "Customer with such email and website code doesn't exist in rows: 6",
             $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         //Verifying
         $i = 0;
         foreach ($dataCsv as $customerData){

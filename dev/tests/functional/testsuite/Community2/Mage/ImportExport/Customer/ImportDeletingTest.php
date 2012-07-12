@@ -83,9 +83,9 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         $importReport = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $importReport,
-            'Import has been finished with issues: ' . print_r($importReport));
+            'Import has been finished with issues: ' . print_r($importReport, true));
         $this->assertArrayHasKey('success', $importReport['import'],
-            'Import has been finished with issues: ' . print_r($importReport));
+            'Import has been finished with issues: ' . print_r($importReport, true));
         //Step 8
         $this->navigate('manage_customers');
         //Verify that the first customer is absent after import 'Delete Entities'
@@ -156,7 +156,7 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         $importReport = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayNotHasKey('import', $importReport,
-            'Import has been finished with issues: ' . print_r($importReport));
+            'Import has been finished with issues: ' . print_r($importReport, true));
         $this->assertArrayHasKey('error', $importReport['validation'],
             'Import has been finished with issues:');
         //Step 8

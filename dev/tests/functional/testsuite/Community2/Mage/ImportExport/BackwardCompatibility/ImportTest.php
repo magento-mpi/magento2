@@ -132,9 +132,9 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         $report = $this->importExportHelper()->import($data);
         //Verify import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         //Check updated customer
         self::$customerData['first_name'] = $data[0]['firstname'];
         self::$customerData['last_name'] = $data[0]['lastname'];
