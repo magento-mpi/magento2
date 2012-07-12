@@ -283,7 +283,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->_createSitemapIndex();
         }
 
-        $this->addSitemapToRobotsTxt($this->getSitemapFilename());
+        $this->_addSitemapToRobotsTxt($this->getSitemapFilename());
 
         $this->setSitemapTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
         $this->save();
@@ -397,7 +397,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _getSitemapIndexRow($sitemapFilename, $lastmod = null)
     {
-        $url = $this->_getSitemapUrl($sitemapFilename);
+        $url = $this->getSitemapUrl($this->getSitemapPath(), $sitemapFilename);
         $row = '<loc>' . htmlspecialchars($url) . '</loc>';
         if ($lastmod) {
             $row .= '<lastmod>' . $this->_getFormattedLastmodDate($lastmod) . '</lastmod>';
@@ -544,13 +544,13 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get path to file robots.txt
+     * Get Document root of Magento instance
      *
      * @return string
      */
-    protected function _getRobotsTxtFilePath()
+    protected function _getDocumentRoot()
     {
-        return $this->_getFileObject()->getCleanPath(Mage::getBaseDir() . '/robots.txt');
+        return Mage::app()->getRequest()->getServer('DOCUMENT_ROOT');
     }
 
     /**
@@ -561,7 +561,13 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     protected function _getStoreBaseDomain()
     {
         $storeParsedUrl = parse_url($this->_getStoreBaseUrl());
-        return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'];
+        $url = $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'];
+
+        $documentRoot = trim(str_replace('\\', '/', $this->_getDocumentRoot()), '/');
+        $baseDir = trim(str_replace('\\', '/', $this->_getBaseDir()), '/');
+        $installationFolder = trim(str_replace($documentRoot, '', $baseDir), '/');
+
+        return rtrim($url . '/' . $installationFolder, '/');
     }
 
     /**
@@ -570,9 +576,9 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      * @param string $sitemapFileName
      * @return string
      */
-    protected function _getSitemapUrl($sitemapFileName)
+    public function getSitemapUrl($sitemapPath, $sitemapFileName)
     {
-        return $this->_getStoreBaseDomain() . str_replace('//', '/', $this->getSitemapPath() . '/' . $sitemapFileName);
+        return $this->_getStoreBaseDomain() . str_replace('//', '/', $sitemapPath . '/' . $sitemapFileName);
     }
 
     /**
@@ -582,10 +588,10 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
      */
     protected function _addSitemapToRobotsTxt($sitemapFileName)
     {
-        $robotsSitemapLine = 'Sitemap: ' . $this->_getSitemapUrl($sitemapFileName);
+        $robotsSitemapLine = 'Sitemap: ' . $this->getSitemapUrl($this->getSitemapPath(), $sitemapFileName);
 
         $robotsFileHandler = $this->_getFileObject();
-        $robotsFileName = $this->_getRobotsTxtFilePath();
+        $robotsFileName = $robotsFileHandler->getCleanPath($this->_getBaseDir() . '/robots.txt');
         $robotsFullText = '';
         if ($robotsFileHandler->fileExists($robotsFileName)) {
             $robotsFileHandler->open(array('path' => $robotsFileHandler->getDestinationFolder($robotsFileName)));

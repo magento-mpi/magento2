@@ -25,16 +25,15 @@ class Mage_Adminhtml_Block_Sitemap_Grid_Renderer_Link extends Mage_Adminhtml_Blo
      */
     public function render(Varien_Object $row)
     {
+        /** @var $sitemap Mage_Sitemap_Model_Sitemap */
+        $sitemap = Mage::getModel('Mage_Sitemap_Model_Sitemap');
+        $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
+
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());
-        $storeBaseUrl = Mage::app()->getStore($row->getStoreId())->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
-        $storeParsedUrl = parse_url($storeBaseUrl);
-        $storeBaseDomain = $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host'] . '/';
-
-        $url = $this->escapeHtml($storeBaseDomain . $fileName);
-
         if (file_exists(BP . DS . $fileName)) {
             return sprintf('<a href="%1$s">%1$s</a>', $url);
         }
+
         return $url;
     }
 

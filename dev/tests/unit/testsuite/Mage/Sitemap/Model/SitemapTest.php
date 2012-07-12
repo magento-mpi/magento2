@@ -243,7 +243,6 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         }
     }
 
-
     /**
      * Data provider for robots.txt
      *
@@ -315,8 +314,8 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
      * @return Mage_Sitemap_Model_Sitemap|PHPUnit_Framework_MockObject_MockObject
      */
     protected function _prepareSitemapModelMock(&$actualData, $maxLines, $maxFileSize,
-        $expectedFile, $expectedWrites, $robotsInfo)
-    {
+        $expectedFile, $expectedWrites, $robotsInfo
+    ) {
         $dateMock = $this->getMockBuilder('Mage_Core_Model_Date')
             ->disableOriginalConstructor()
             ->getMock();
@@ -368,15 +367,15 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         }
 
         // Check robots txt
-        $robotsStart = isset($robotsInfo['robotsStart'])?$robotsInfo['robotsStart']:'';
-        $robotsFinish = isset($robotsInfo['robotsFinish'])?
-            $robotsInfo['robotsFinish']:'Sitemap: http://store.com/sitemap.xml';
+        $robotsStart = isset($robotsInfo['robotsStart']) ? $robotsInfo['robotsStart'] : '';
+        $robotsFinish = isset($robotsInfo['robotsFinish']) ?
+            $robotsInfo['robotsFinish'] : 'Sitemap: http://store.com/sitemap.xml';
         $fileMock->expects($this->any())
             ->method('read')
             ->will($this->returnValue($robotsStart));
         $fileMock->expects($this->any())
             ->method('write')
-            ->with($this->equalTo('/robots.txt'), $this->equalTo($robotsFinish));
+            ->with($this->equalTo('/project/robots.txt'), $this->equalTo($robotsFinish));
 
         // Mock helper methods
         $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
@@ -424,7 +423,7 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
     {
         $methods = array('_construct', '_getResource', '_getBaseDir', '_getFileObject', '_afterSave',
             '_getStoreBaseUrl', '_getCurrentDateTime', '_getCategoryItemsCollection', '_getProductItemsCollection',
-            '_getPageItemsCollection', '_getRobotsTxtFilePath', '_getBaseUrl');
+            '_getPageItemsCollection', '_getDocumentRoot');
         if ($mockBeforeSave) {
             $methods[] = '_beforeSave';
         }
@@ -489,17 +488,93 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $model->expects($this->any())
             ->method('_getCurrentDateTime')
             ->will($this->returnValue('2012-12-21T00:00:00-08:00'));
+
         $model->expects($this->any())
-            ->method('_getRobotsTxtFilePath')
-            ->will($this->returnValue('/robots.txt'));
-        $model->expects($this->any())
-            ->method('_getBaseUrl')
-            ->will($this->returnValue('/'));
+            ->method('_getDocumentRoot')
+            ->will($this->returnValue('/project'));
 
         $model->setSitemapFilename('sitemap.xml');
         $model->setStoreId(1);
         $model->setSitemapPath('/');
 
         return $model;
+    }
+
+
+    /**
+     * Check site URL getter
+     *
+     * @param string $storeBaseUrl
+     * @param string $documentRoot
+     * @param string $baseDir
+     * @param string $sitemapPath
+     * @param string $sitemapFileName
+     * @param string $result
+     * @dataProvider siteUrlDataProvider
+     */
+    public function testGetSitemapUrl($storeBaseUrl, $documentRoot, $baseDir, $sitemapPath, $sitemapFileName, $result)
+    {
+        /** @var $model Mage_Sitemap_Model_Sitemap */
+        $model = $this->getMockBuilder('Mage_Sitemap_Model_Sitemap')
+            ->setMethods(array('_getStoreBaseUrl', '_getDocumentRoot', '_getBaseDir'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $model->expects($this->any())
+            ->method('_getStoreBaseUrl')
+            ->will($this->returnValue($storeBaseUrl));
+
+        $model->expects($this->any())
+            ->method('_getDocumentRoot')
+            ->will($this->returnValue($documentRoot));
+
+        $model->expects($this->any())
+            ->method('_getBaseDir')
+            ->will($this->returnValue($baseDir));
+
+        $this->assertEquals($result, $model->getSitemapUrl($sitemapPath, $sitemapFileName));
+    }
+
+    /**
+     * Data provider for Check site URL getter
+     *
+     * @static
+     * @return array
+     */
+    public static function siteUrlDataProvider()
+    {
+        return array(
+            array(
+                'http://store.com',
+                'c:\\http\\mage2\\', 'c:\\http\\mage2\\',
+                '/', 'sitemap.xml',
+                'http://store.com/sitemap.xml'
+            ),
+            array(
+                'http://store.com/store2',
+                'c:\\http\\mage2\\', 'c:\\http\\mage2\\',
+                '/sitemaps/store2', 'sitemap.xml',
+                'http://store.com/sitemaps/store2/sitemap.xml'
+            ),
+
+            array(
+                'http://store.com/store2',
+                'c:\\http\\mage2\\', 'c:\\http\\mage2\\store2',
+                '/sitemaps/store2', 'sitemap.xml',
+                'http://store.com/store2/sitemaps/store2/sitemap.xml'
+            ),
+            array(
+                'http://store2.store.com',
+                'c:\\http\\mage2\\', 'c:\\http\\mage2\\',
+                '/sitemaps/store2', 'sitemap.xml',
+                'http://store2.store.com/sitemaps/store2/sitemap.xml'
+            ),
+            array(
+                'http://store.com',
+                '/var/www/store/', '/var/www/store/',
+                '/', 'sitemap.xml',
+                'http://store.com/sitemap.xml'
+            ),
+        );
     }
 }
