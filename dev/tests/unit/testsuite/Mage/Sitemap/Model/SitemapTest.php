@@ -556,7 +556,6 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 '/sitemaps/store2', 'sitemap.xml',
                 'http://store.com/sitemaps/store2/sitemap.xml'
             ),
-
             array(
                 'http://store.com/store2',
                 'c:\\http\\mage2\\', 'c:\\http\\mage2\\store2',
@@ -574,6 +573,12 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
                 '/var/www/store/', '/var/www/store/',
                 '/', 'sitemap.xml',
                 'http://store.com/sitemap.xml'
+            ),
+            array(
+                'http://store.com/store2',
+                '/var/www/store/', '/var/www/store/store2/',
+                '/sitemaps/store2', 'sitemap.xml',
+                'http://store.com/store2/sitemaps/store2/sitemap.xml'
             ),
         );
     }

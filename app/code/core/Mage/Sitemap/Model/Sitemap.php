@@ -573,6 +573,7 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     /**
      * Get sitemap.xml URL according to all config options
      *
+     * @param string $sitemapPath
      * @param string $sitemapFileName
      * @return string
      */
