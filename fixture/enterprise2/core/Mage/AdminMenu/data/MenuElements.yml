@@ -186,5 +186,5 @@ menu:
            cache_storage_management:
            index_management:
            manage_stores:
-           sales_order_status:
+           order_statuses:
            system_configuration:

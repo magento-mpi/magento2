@@ -74,11 +74,11 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         //Precondition: create 2 new customers
         // 0.1. create two customers
         $this->navigate('manage_customers');
-        $userData1 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('ImportExport', 'generic_customer_account');
+        $userData2 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData2);
         $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData2['email']));

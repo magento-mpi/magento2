@@ -46,9 +46,9 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
     {
         //step1
         $this->navigate('manage_customer_address_attributes');
-        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'generic_customer_address_attribute',
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_textfield',
             array('values_required' => 'No'));
-        $this->customerAddressAttributeHelper()->createAttribute($attrData);
+        $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
 
@@ -94,7 +94,7 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         // search for new custom customer address attribute
-        $this->assertArrayHasKey($attrData['attribute_code'], $report[0],
+        $this->assertArrayHasKey($attrData['properties']['attribute_code'], $report[0],
             'New custom customer address attribute is not present in export file'
         );
 
@@ -127,10 +127,10 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
     {
         //Precondition: delete custom address attribute
         $this->navigate('manage_customer_address_attributes');
-        $this->customerAddressAttributeHelper()->openAttribute(
+        $this->attributesHelper()->openAttribute(
             array(
-                'attribute_code'=> $attrData['attribute_code'],
-                'attribute_label'=> $attrData['admin_title']
+                'attribute_code'=> $attrData['properties']['attribute_code'],
+                'attribute_label'=> $attrData['manage_labels_options']['admin_title']
             ));
         //Delete attribute
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
@@ -146,7 +146,7 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         // search for new custom customer address attribute
-        $this->assertArrayNotHasKey($attrData['attribute_code'], $report[0],
+        $this->assertArrayNotHasKey($attrData['properties']['attribute_code'], $report[0],
             'Deleted custom customer address attribute is present in export file'
         );
     }

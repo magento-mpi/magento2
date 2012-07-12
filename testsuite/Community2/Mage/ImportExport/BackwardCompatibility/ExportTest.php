@@ -30,8 +30,8 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('disable_httponly');
-        $this->systemConfigurationHelper()->configure('disable_secret_key');
+        $this->systemConfigurationHelper()->configure('General/disable_httponly');
+        $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
     /**
      * <p>Preconditions:</p>

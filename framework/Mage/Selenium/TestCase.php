@@ -56,8 +56,9 @@
  * @method Enterprise2_Mage_Status_Helper statusHelper()
  * @method Community2_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper adminUserHelper()
  * @method Enterprise2_Mage_customerSegment_Helper CustomerSegmentHelper()
- * @method Enterprise2_Mage_customerAttribute_Helper CustomerAttributeHelper()
- * @method Enterprise2_Mage_customerAddressAttribute_Helper CustomerAddressAttributeHelper()
+ * @method Enterprise2_Mage_customerAttribute_Helper attributesHelper()
+ * @method Enterprise2_Mage_customerAddressAttribute_Helper attributesHelper()
+ * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase

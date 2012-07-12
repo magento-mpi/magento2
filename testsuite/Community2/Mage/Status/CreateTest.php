@@ -71,6 +71,8 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
         $this->storeHelper()->createStatus($statusData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_status');
+
+        return $statusData;
     }
 
     /**

@@ -155,5 +155,5 @@ menu:
             system_package_extentions:
         cache_storage_management:
         index_management:
-        sales_order_status:
+        order_statuses:
         system_configuration:
