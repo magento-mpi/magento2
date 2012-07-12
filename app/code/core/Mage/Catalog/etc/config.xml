@@ -13,6 +13,15 @@
     <modules>
         <Mage_Catalog>
             <version>1.6.0.0.15</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Eav/>
+                <Mage_Dataflow/>
+                <Mage_Cms/>
+                <Mage_Index/>
+                <Mage_Customer/>
+            </depends>
         </Mage_Catalog>
     </modules>
     <global>

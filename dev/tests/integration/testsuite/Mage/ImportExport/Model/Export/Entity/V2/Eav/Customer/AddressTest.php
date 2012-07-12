@@ -13,7 +13,7 @@
  * Test for customer address export model V2
  *
  * @group module:Mage_ImportExport
- * magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
+ * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
  */
 class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
@@ -53,8 +53,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testExport()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         $websiteCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_WEBSITE;
         $emailCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_EMAIL;
         $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_ADDRESS_ID;
@@ -138,8 +136,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testExportWithFilter($genderFilterValue)
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_ADDRESS_ID;
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
@@ -172,8 +168,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testGetEntityTypeCode()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         $this->assertEquals('customer_address', $this->_model->getEntityTypeCode());
     }
 
@@ -182,8 +176,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testGetAttributeCollection()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         $this->assertInstanceOf('Mage_Customer_Model_Resource_Address_Attribute_Collection',
             $this->_model->getAttributeCollection()
         );
@@ -225,8 +217,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testGetFileName()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         $this->assertEquals($this->_model->getEntityTypeCode(), $this->_model->getFileName());
     }
 }

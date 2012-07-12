@@ -13,7 +13,7 @@ $bunches = array(
     0 => array(
         'entity'         => 'customer',
         'entity_subtype' => 'customer',
-        'behavior'       => 'append',
+        'behavior'       => 'v2_update',
         'data'           => array(
             0 =>
             array(
@@ -79,7 +79,7 @@ $bunches = array(
     1 => array(
         'entity'         => 'customer',
         'entity_subtype' => 'customer',
-        'behavior'       => 'append',
+        'behavior'       => 'v2_update',
         'data'           => array(
             0 =>
             array(
