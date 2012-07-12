@@ -22,7 +22,9 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        new Magento_Validator(null, null);
+        /** @var Magento_Validator_Config $configMock */
+        $configMock = $this->getMockBuilder('Magento_Validator_Config')->disableOriginalConstructor()->getMock();
+        new Magento_Validator(null, null, $configMock);
     }
 
     /**
@@ -30,7 +32,9 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructEmptyGroupNameException()
     {
-        new Magento_Validator('test_entity', null);
+        /** @var Magento_Validator_Config $configMock */
+        $configMock = $this->getMockBuilder('Magento_Validator_Config')->disableOriginalConstructor()->getMock();
+        new Magento_Validator('test_entity', null, $configMock);
     }
 
     /**

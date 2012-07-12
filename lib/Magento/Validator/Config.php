@@ -29,16 +29,16 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
      *
      * @param string $entityName
      * @param string $groupName
-     * @throws Magento_Exception
+     * @throws InvalidArgumentException
      * @return array
      */
     public function getValidationRules($entityName, $groupName)
     {
         if (!isset($this->_data[$entityName])) {
-            throw new Magento_Exception(sprintf('Unknown validation entity "%s"', $entityName));
+            throw new InvalidArgumentException(sprintf('Unknown validation entity "%s"', $entityName));
         }
         if (!isset($this->_data[$entityName]['groups'][$groupName])) {
-            throw new Magento_Exception(sprintf('Unknown validation group "%s" in entity "%s"', $groupName,
+            throw new InvalidArgumentException(sprintf('Unknown validation group "%s" in entity "%s"', $groupName,
                 $entityName));
         }
 
@@ -51,11 +51,11 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                 $constraint = new $className();
                 if (!($constraint instanceof Zend_Validate_Interface
                     || $constraint instanceof Magento_Validator_ConstraintAbstract)) {
-                    throw new Magento_Exception(sprintf('Constraint "%s" must implement either '
+                    throw new InvalidArgumentException(sprintf('Constraint "%s" must implement either '
                         . 'Zend_Validate_Interface or Magento_Validator_ConstraintAbstract', $className));
                 }
                 if ($constraint instanceof Zend_Validate_Interface && empty($constraintConfig['field'])) {
-                    throw new Magento_Exception(sprintf('Constraint "%s" must have "field" attribute defined.',
+                    throw new InvalidArgumentException(sprintf('Constraint "%s" must have "field" attribute defined.',
                         $className));
                 }
                 $result[$ruleName][] = array(

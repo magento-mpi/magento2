@@ -30,7 +30,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidEntityName()
     {
@@ -38,7 +38,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidGroupName()
     {
@@ -46,7 +46,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidZendConstraint()
     {
@@ -56,7 +56,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidMagentoConstraint()
     {
