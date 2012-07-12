@@ -105,10 +105,10 @@ class Varien_Image_Adapter_Gd2 extends Varien_Image_Adapter_Abstract
     }
 
     /**
-     * @see Varien_Image_Adapter_Abstract::display
+     * @see Varien_Image_Adapter_Abstract::getImage
      * @return string
      */
-    public function display()
+    public function getImage()
     {
         ob_start();
         call_user_func($this->_getCallback('output'), $this->_imageHandler);

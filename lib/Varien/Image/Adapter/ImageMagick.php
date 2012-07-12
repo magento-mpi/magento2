@@ -133,10 +133,10 @@ class Varien_Image_Adapter_ImageMagick extends Varien_Image_Adapter_Abstract
     }
 
     /**
-     * @see Varien_Image_Adapter_Abstract::display
+     * @see Varien_Image_Adapter_Abstract::getImage
      * @return string
      */
-    public function display()
+    public function getImage()
     {
         $this->_applyOptions();
         return (string)$this->_imageHandler;

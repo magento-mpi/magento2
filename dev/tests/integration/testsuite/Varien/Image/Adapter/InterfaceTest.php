@@ -172,11 +172,11 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @param Varien_Image_Adapter_Abstract $adapter
      * @dataProvider adaptersDataProvider
      */
-    public function testDisplay($adapter)
+    public function testGetImage($adapter)
     {
         $this->_isAdapterAvailable($adapter);
         $adapter->open($this->_getFixture('image_adapters_test.png'));
-        $this->assertNotEmpty($adapter->display());
+        $this->assertNotEmpty($adapter->getImage());
     }
 
     /**

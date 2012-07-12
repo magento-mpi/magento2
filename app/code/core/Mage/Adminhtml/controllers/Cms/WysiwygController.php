@@ -32,10 +32,10 @@ class Mage_Adminhtml_Cms_WysiwygController extends Mage_Adminhtml_Controller_Act
         $response = $this->getResponse();
         try {
             $image->open($url);
-            $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->display());
+            $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
         } catch (Exception $e) {
             $image->open(Mage::getSingleton('Mage_Cms_Model_Wysiwyg_Config')->getSkinImagePlaceholderUrl());
-            $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->display());
+            $response->setHeader('Content-Type', $image->getMimeType())->setBody($image->getImage());
             Mage::logException($e);
         }
     }
