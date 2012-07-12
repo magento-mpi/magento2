@@ -1,0 +1,40 @@
+<?php
+/**
+* {license_notice}
+*
+* @category    Mage
+* @package     Mage_Adminhtml
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+/* @var $this Mage_Core_Block_Template */
+?>
+<script type="text/javascript">//<[CDATA[
+(function($, window, document){
+    "use strict";
+    $(function(){
+        $('#attribute-set-info').dialog({
+            title: 'Select Attribute Set',
+            autoOpen: false,
+            minWidth: 560,
+            modal: true,
+            resizable: false,
+            buttons: {
+                "Close": function() {
+                    $(this).dialog("close");
+                },
+                "Apply": function() {
+                    var $attibuteSetId = $(this).find('#attribute_set_id');
+                    var $form = $('#product_edit_form');
+                    var uri = document.location.href.replace(
+                        /catalog_product\/(\w+)\/set\/\d+/,
+                        'catalog_product/$1/set/'+ $attibuteSetId.val()
+                    );
+                    $form.attr('action', uri).submit();
+                }
+            }
+        });
+    });
+})(jQuery, window, document);
+//]]>
+</script>

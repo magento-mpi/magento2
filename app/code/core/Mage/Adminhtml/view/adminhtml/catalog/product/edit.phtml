@@ -10,7 +10,7 @@
 ?>
 <?php
 /**
- * Template for Mage_Adminhtml_Block_Catalog_Product_Edit
+ * @var $this Mage_Adminhtml_Block_Catalog_Product_Edit
  */
 ?>
 
@@ -27,6 +27,7 @@
         <?php endif; ?>
     <?php endif; ?>
     <?php if($this->getProductSetId() && $this->getIsConfigured()): ?>
+        <?php echo $this->getChangeAttributeSetButtonnHtml() ?>
         <?php echo $this->getSaveButtonHtml() ?>
         <?php echo $this->getSaveAndEditButtonHtml() ?>
     <?php endif; ?>

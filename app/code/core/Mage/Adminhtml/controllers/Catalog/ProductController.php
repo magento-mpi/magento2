@@ -50,10 +50,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             ->setStoreId($this->getRequest()->getParam('store', 0));
 
         if (!$productId) {
-            if ($setId = (int) $this->getRequest()->getParam('set')) {
-                $product->setAttributeSetId($setId);
-            }
-
             if ($typeId = $this->getRequest()->getParam('type')) {
                 $product->setTypeId($typeId);
             }
@@ -67,6 +63,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $product->setTypeId(Mage_Catalog_Model_Product_Type::DEFAULT_TYPE);
                 Mage::logException($e);
             }
+        }
+        if ($setId = (int)$this->getRequest()->getParam('set')) {
+            $product->setAttributeSetId($setId);
         }
 
         $attributes = $this->getRequest()->getParam('attributes');
@@ -171,6 +170,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function newAction()
     {
         $product = $this->_initProduct();
+
+        if ($productData = $this->getRequest()->getPost('product')) {
+            $this->_filterStockData($productData['stock_data']);
+            $product->addData($productData);
+        }
 
         $this->_title($this->__('New Product'));
 
