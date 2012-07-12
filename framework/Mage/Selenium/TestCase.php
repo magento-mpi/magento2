@@ -3475,7 +3475,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
-                if ($this->getSelectedValue($xpath) != $value) {
+                if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != $value) {
                     if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                         $this->select($xpath, 'label=' . $value);
                     } elseif ($this->isElementPresent($xpath . "//option[@value='" . $value . "']")) {

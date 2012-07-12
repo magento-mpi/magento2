@@ -206,7 +206,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $this->fillCheckbox('shipping_same_as_billing_address', 'No');
             }
             $addressLine = $this->defineAddressToChoose($addressData, $addressType);
-            $this->fillForm(array($addressType . '_address_choice' => 'label=' . $addressLine));
+            $this->fillDropdown($addressType . '_address_choice', $addressLine);
         }
     }
 
