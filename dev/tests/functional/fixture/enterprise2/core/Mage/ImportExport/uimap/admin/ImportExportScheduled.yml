@@ -39,8 +39,8 @@ scheduled_import_export:
                         pageelements:
                             customer_grid_head: //table[@id='operationGrid_table']/thead/tr[@class='headings']
         buttons:
-            add_schedule_import: //button[span='Add Scheduled Import']
-            add_schedule_export: //button[span='Add Scheduled Export']
+            add_scheduled_import: //button[span='Add Scheduled Import']
+            add_scheduled_export: //button[span='Add Scheduled Export']
         messages:
             success_saved_export:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been saved.')]
             success_saved_import:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been saved.')]
@@ -65,9 +65,10 @@ scheduled_importexport_add:
                         xpath: //div[@id="operation_settings"]
                         fields:
                             name: //input[@id='name']
-                            description: //input[@id='details']
+                            description: //textarea[@id='details']
                         dropdowns:
                             entity_type: //select[@id='entity']
+                            file_format_version: //select[@id='file_format_version']
                             behavior: //select[@id='behavior']
                             file_format: //select[@id='file_format']
                             start_time_hours: //input[@id='start_time']/following-sibling::select[1]
