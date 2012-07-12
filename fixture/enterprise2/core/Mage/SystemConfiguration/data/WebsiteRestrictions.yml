@@ -40,7 +40,7 @@ website_closed_response_200:
       configuration:
         access_restriction: Yes
         restriction_mode: "Website Closed"       
-        landing_page: 503 Service Unavailable
+        landing_page_restriction: 503 Service Unavailable
         http_response: 200 OK  
         
 website_closed_response_503:
@@ -50,7 +50,7 @@ website_closed_response_503:
       configuration:
         access_restriction: Yes
         restriction_mode: "Website Closed"       
-        landing_page: 503 Service Unavailable
+        landing_page_restriction: 503 Service Unavailable
         http_response: 503 Service Unavailable     
 
 login_and_register_to_login_form:
@@ -61,7 +61,7 @@ login_and_register_to_login_form:
         access_restriction: Yes
         restriction_mode: "Private Sales: Login and Register"
         startup_page: To login form (302 Found)
-        landing_page: About Us       
+        landing_page_restriction: About Us
       
 login_only_to_login_form:
     configuration_scope: Default Config
@@ -71,7 +71,7 @@ login_only_to_login_form:
         access_restriction: Yes
         restriction_mode: "Private Sales: Login Only"
         startup_page: To login form (302 Found)
-        landing_page: About Us
+        landing_page_restriction: About Us
         http_response: 200 OK   
 
 login_only_to_landing_page:
@@ -82,5 +82,5 @@ login_only_to_landing_page:
         access_restriction: Yes
         restriction_mode: "Private Sales: Login Only"
         startup_page: To landing page (302 Found)
-        landing_page: About Us
+        landing_page_restriction: About Us
         http_response: 200 OK

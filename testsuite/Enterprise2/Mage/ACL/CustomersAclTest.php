@@ -19,11 +19,18 @@
  */
 class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
 {
+    protected function assertPreConditions()
+    {
+        $this->admin('log_in_to_admin', false);
+        $this->logoutAdminUser();
+        $this->loginAdminUser();
+    }
+
     /**
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
      */
-    protected function tearDownAfterTestClass()
+    protected function tearDownAfterTest()
     {
         $this->logoutAdminUser();
     }
@@ -53,10 +60,6 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessAttributeCustomer()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
-        //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
@@ -80,6 +83,8 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
         $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
         $this->assertEquals('0', count($globSearchCount));
+
+        return $loginData;
     }
 
     /**
@@ -97,8 +102,11 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-5580
      */
-    public function CustomerAddressAttributeVerifying()
+    public function customerAddressAttributeVerifying($loginData)
     {
+        $this->admin('log_in_to_admin', false);
+        $this->logoutAdminUser();
+        $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_address_attributes');
         //Steps
         $attrData = $this->loadDataSet('CustomerAddressAttribute', 'generic_customer_address_attribute');
@@ -127,8 +135,11 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      *
      * @depends roleResourceAccessAttributeCustomer
      */
-    public function CustomerAttributeVerifying()
+    public function customerAttributeVerifying($loginData)
     {
+        $this->admin('log_in_to_admin', false);
+        $this->logoutAdminUser();
+        $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_attributes');
         //Steps
         $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute');
@@ -195,6 +206,8 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
         $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
         $this->assertEquals('0', count($globSearchCount));
+
+        return $loginData;
     }
 
     /**
@@ -212,8 +225,11 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      *
      * @depends roleResourceAccessCustomerSegment
      */
-    public function withAllFieldsSegment()
+    public function withAllFieldsSegment($loginData)
     {
+        $this->admin('log_in_to_admin', false);
+        $this->logoutAdminUser();
+        $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_segments');
         $segmData = 'name_' . $this->generate('string', 16, ':lower:');
         $this->customerSegmentHelper()->createSegment($segmData);
@@ -248,9 +264,6 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessCustomerInvitations()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
@@ -276,6 +289,8 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
         $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
         $this->assertEquals('0', count($globSearchCount));
+
+        return $loginData;
     }
 
     /**
@@ -293,8 +308,11 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      *
      * @TestlinkId TL-MAGE-5736
      */
-    public function createInvitations()
+    public function createInvitations($loginData)
     {
+        $this->admin('log_in_to_admin', false);
+        $this->logoutAdminUser();
+        $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_invitations');
         $this->clickButton('add_invitations');
         $this->validatePage('new_invitations');
@@ -329,9 +347,6 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessGiftRegistry()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
@@ -384,9 +399,6 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessGiftCardAccount()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
@@ -439,9 +451,6 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      */
     public function roleResourceAccessRewardPoints()
     {
-        $this->admin('log_in_to_admin', false);
-        $this->logoutAdminUser();
-        $this->loginAdminUser();
         //Preconditions
         //create specific role with test roleResource
         $this->navigate('manage_roles');
