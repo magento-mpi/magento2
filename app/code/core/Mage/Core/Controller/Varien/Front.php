@@ -351,6 +351,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             $pathPrefix = substr($pathPrefix, 0, $urlDelimiterPos);
         }
 
-        return $pathPrefix == Mage::helper('Mage_Backend')->getAreaFrontName();
+        return $pathPrefix == Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
     }
 }
