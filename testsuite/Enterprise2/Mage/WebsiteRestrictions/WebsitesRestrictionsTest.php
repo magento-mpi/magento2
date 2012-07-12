@@ -77,7 +77,7 @@ class Enterprise2_Mage_WebsiteRestrictionsTest extends Mage_Selenium_TestCase
             'There is no "restriction_mode" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'startup_page'),
             'There is no "startup_page" dropdown on the page');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'landing_page'),
+        $this->assertTrue($this->controlIsPresent('dropdown', 'landing_page_restriction'),
             'There is no "landing_page" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'http_response'),
             'There is no "http_response" dropdown on the page');
