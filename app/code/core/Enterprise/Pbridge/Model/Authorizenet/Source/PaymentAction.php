@@ -48,11 +48,11 @@ class Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction
     {
         return array(
             array(
-                'value' => Mage_Paygate_Model_Authorizenet::ACTION_AUTHORIZE,
+                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE,
                 'label' => $this->_getHelper()->__('Authorize Only')
             ),
             array(
-                'value' => Mage_Paygate_Model_Authorizenet::ACTION_AUTHORIZE_CAPTURE,
+                'value' => Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE,
                 'label' => $this->_getHelper()->__('Authorize and Capture')
             ),
         );
