@@ -137,7 +137,7 @@
                     </fields>
                 </authorizenet>
                 <pbridge_ogone_direct translate="label" module="Enterprise_Pbridge">
-                    <label>Ogone Direct Link</label>
+                    <label>Ogone Direct Link (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
@@ -199,7 +199,7 @@
                     </fields>
                 </pbridge_ogone_direct>
                 <paybox_direct translate="label" module="Enterprise_Pbridge">
-                    <label>Paybox Direct</label>
+                    <label>Paybox Direct (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>101</sort_order>
                     <show_in_default>1</show_in_default>
@@ -263,7 +263,7 @@
                    </fields>
                 </paybox_direct>
                 <braintree_basic translate="label" module="Enterprise_Pbridge">
-                    <label>Braintree</label>
+                    <label>Braintree (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
@@ -317,7 +317,7 @@
                     </fields>
                 </braintree_basic>
                 <firstdata translate="label" module="Enterprise_Pbridge">
-                     <label>First Data Global Gateway Web Service API</label>
+                     <label>First Data Global Gateway Web Service API (Payment Bridge only)</label>
                      <sort_order>50</sort_order>
                      <show_in_default>1</show_in_default>
                      <show_in_website>1</show_in_website>
@@ -379,7 +379,7 @@
                      </fields>
                 </firstdata>
                 <payone_gate translate="label" module="Enterprise_Pbridge">
-                     <label>Payone.de</label>
+                     <label>Payone.de (Payment Bridge only)</label>
                      <sort_order>900</sort_order>
                      <show_in_default>1</show_in_default>
                      <show_in_website>1</show_in_website>

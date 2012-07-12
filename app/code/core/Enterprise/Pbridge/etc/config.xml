@@ -111,6 +111,11 @@
                 <model>Enterprise_Pbridge_Model_Payment_Method_Paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
+            <paybox_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
+                <title>Paybox Direct</title>
+                <using_pbridge>1</using_pbridge>
+            </paybox_direct>
             <pbridge_paypaluk_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Paypaluk</model>
                 <active>1</active>
@@ -149,7 +154,7 @@
                 <model>Enterprise_Pbridge_Model_Payment_Method_Firstdata</model>
             </firstdata>
             <payone_gate>
-                <title>Credit Card (Payone.de)</title>
+                <title>Payone.de</title>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Payone_Gate</model>
                 <currency>EUR</currency>
                 <using_pbridge>1</using_pbridge>
