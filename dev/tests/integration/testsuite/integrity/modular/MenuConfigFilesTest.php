@@ -34,6 +34,13 @@ class Integrity_Modular_MenuConfigFilesTest extends PHPUnit_Framework_TestCase
             false
         );
     }
+
+    protected function tearDown()
+    {
+        $this->_model = null;
+        $this->_fileList = null;
+    }
+
     /**
      * Get Configuration File List
      * @return array

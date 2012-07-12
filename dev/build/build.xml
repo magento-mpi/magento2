@@ -59,6 +59,12 @@
         </exec>
     </target>
 
+    <taskdef name="jshint" classname="com.philmander.ant.JsHintAntTask"
+             classpath="${basedir}/dev/build/bin/ant-jshint.jar"/>
+    <target name="runJsHint">
+        <jshint dir="${basedir}/dev/tests/js" includes="**/*.js" />
+        <jshint dir="${basedir}/pub/lib/mage" includes="**/*.js" />
+    </target>
     <target name="js-test">
         <exec executable="cmd" dir="dev\build\bin">
             <arg value="/c"/>

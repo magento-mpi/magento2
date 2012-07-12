@@ -21,6 +21,11 @@ class Mage_Core_Model_App_AreaTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Core_Model_App_Area('frontend');
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     /**
      * @magentoAppIsolation enabled
      */
