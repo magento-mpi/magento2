@@ -194,17 +194,17 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         $importResult = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertEquals(
             "E-mail is invalid in rows: 5",
             $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
-            . print_r($importResult));
+            . print_r($importResult, true));
         //Verifying
         $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
         for ($i = 0; $i < 4; $i++){
@@ -226,8 +226,8 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
                  $userAddressData['middle_name'] = '';
              }
              $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($userAddressData),
-                             "Address not found for address data " . print_r($userAddressData) .
-                             print_r($data[$i]));
+                             "Address not found for address data " . print_r($userAddressData, true) .
+                             print_r($data[$i], true));
         }
     }
     /**
@@ -258,17 +258,17 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         $importResult = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         $this->assertEquals(
             "Invalid value in website column in rows: 4",
             $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         //Verifying
         $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
         $this->navigate('manage_customers');
@@ -307,13 +307,13 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             if ($data[$i]['_website'] == 'invalid'){
                 $this->assertFalse((bool) $this->customerHelper()->isAddressPresent($userAddressData),
                     "Address found for address data =\n" .
-                        print_r($userAddressData) .
+                        print_r($userAddressData, true) .
                         "csv data =\n" .
-                        print_r($data[$i]));
+                        print_r($data[$i], true));
                 $this->clearMessages();
             } else {
                 $this->assertTrue((bool) $this->customerHelper()->isAddressPresent($userAddressData),
-                    "Address not found for" . print_r($userAddressData) .  print_r($data[$i]));
+                    "Address not found for" . print_r($userAddressData, true) .  print_r($data[$i], true));
             }
         }
     }
@@ -345,21 +345,21 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         $importResult = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         $this->assertEquals(
             "Invalid value in website column in rows: 3",
             $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertEquals(
             "Customer address id column is not specified in rows: 4",
             $importResult['validation']['error'][1],
-            'Import has been finished with issues: ' . print_r($importResult));
+            'Import has been finished with issues: ' . print_r($importResult, true));
         $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: ' .
-                                 print_r($importResult));
+                                 print_r($importResult, true));
         //Verifying
         $this->navigate('manage_customers');
         $this->addParameter(
@@ -367,11 +367,11 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             self::$customersDeleteData[0]['first_name'] . ' ' . self::$customersDeleteData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$customersDeleteData[0]['email']));
         $this->assertFalse((bool) $this->customerHelper()->isAddressPresent(self::$customersDeleteData[0]['address']),
-                    'Address found for: ' . print_r(self::$customersDeleteData[0]['address']));
+                    'Address found for: ' . print_r(self::$customersDeleteData[0]['address'], true));
         $this->assertFalse((bool) $this->customerHelper()->isAddressPresent(self::$customersDeleteData[1]['address']),
-                    'Address found for: ' . print_r(self::$customersDeleteData[1]['address']));
+                    'Address found for: ' . print_r(self::$customersDeleteData[1]['address'], true));
         $this->assertTrue((bool) $this->customerHelper()->isAddressPresent(self::$customersDeleteData[2]['address']),
-            'Address not found for: ' . print_r(self::$customersDeleteData[2]['address']));
+            'Address not found for: ' . print_r(self::$customersDeleteData[2]['address'], true));
         $this->clearMessages();
     }
 

@@ -109,9 +109,9 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues: '
-            . print_r($report));
+            . print_r($report, true));
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues: '
-            . print_r($report));
+            . print_r($report, true));
         //Step 8
         $this->navigate('manage_customers');
         //Step 9. First Customer

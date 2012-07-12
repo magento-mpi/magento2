@@ -114,9 +114,9 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $report = $this->importExportHelper()->import($data) ;
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:' .
-            print_r($report) . print_r($data));
+            print_r($report, true) . print_r($data, true));
         //Check customers
         $this->navigate('manage_customers');
         //Check updated customer
