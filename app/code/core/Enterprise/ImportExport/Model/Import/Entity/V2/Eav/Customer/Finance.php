@@ -25,7 +25,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COLUMN_EMAIL           = 'email';
+    const COLUMN_EMAIL           = '_email';
     const COLUMN_WEBSITE         = '_website';
     const COLUMN_FINANCE_WEBSITE = '_finance_website';
     /**#@-*/
