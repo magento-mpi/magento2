@@ -20,9 +20,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
      * @var array
      */
     protected $_requiredParams = array(
-        'module',
-        'controller',
-        'action',
+        'moduleFrontName',
+        'controllerName',
+        'actionName',
     );
 
     /**
@@ -136,7 +136,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
         $params = $this->_parseRequest($request);
 
-        if (false == $this->_canProcess($request, $params)) {
+        if (false == $this->_canProcess($params)) {
             return null;
         }
 
@@ -146,11 +146,10 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     /**
      * Check if router can process provided request
      *
-     * @param Zend_Controller_Request_Http $request
      * @param array $params
      * @return bool
      */
-    protected function _canProcess(Zend_Controller_Request_Http $request, array $params)
+    protected function _canProcess(array $params)
     {
         return true;
     }
@@ -310,7 +309,7 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
     {
         $this->fetchDefault();
 
-        $moduleFrontName = $this->_matchModuleFrontName($request, $params['module']);
+        $moduleFrontName = $this->_matchModuleFrontName($request, $params['moduleFrontName']);
         if (empty($moduleFrontName)) {
             return null;
         }
@@ -343,9 +342,9 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
 
             $request->setRouteName($this->getRouteByFrontName($moduleFrontName));
 
-            $controller = $this->_matchControllerName($request, $params['controller']);
+            $controller = $this->_matchControllerName($request, $params['controllerName']);
 
-            $action = $this->_matchActionName($request, $params['action']);
+            $action = $this->_matchActionName($request, $params['actionName']);
 
             //checking if this place should be secure
             $this->_checkShouldBeSecure($request, '/'.$moduleFrontName.'/'.$controller.'/'.$action);

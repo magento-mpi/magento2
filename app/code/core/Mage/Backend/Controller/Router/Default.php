@@ -17,18 +17,32 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      * @var array
      */
     protected $_requiredParams = array(
-        'area',
-        'module',
-        'controller',
-        'action',
+        'areaFrontName',
+        'moduleFrontName',
+        'controllerName',
+        'actionName',
     );
 
-    protected $_areaFrontname;
+    /**
+     * Url key of area
+     *
+     * @var string
+     */
+    protected $_areaFrontName;
 
+    /**
+     * Fetch area front name from params
+     *
+     * @param array $options
+     * @throws InvalidArgumentException
+     */
     public function __construct(array $options = array())
     {
-        $this->_areaFrontname = isset($options['frontName']) ? $options['frontName'] : null;
         parent::__construct($options);
+        if (!isset($options['frontName'])) {
+            throw new InvalidArgumentException('Area Front Name should be passed to Backend Router constructor');
+        }
+        $this->_areaFrontName = $options['frontName'];
     }
 
     /**
@@ -36,11 +50,12 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     public function fetchDefault()
     {
+        $defaultModuleFrontName = (string) Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName');
         // set defaults
         $d = explode('/', $this->_getDefaultPath());
         $this->getFront()->setDefault(array(
             'area'       => !empty($d[0]) ? $d[0] : '',
-            'module'     => !empty($d[1]) ? $d[1] : 'admin',
+            'module'     => !empty($d[1]) ? $d[1] : $defaultModuleFrontName,
             'controller' => !empty($d[2]) ? $d[2] : 'index',
             'action'     => !empty($d[3]) ? $d[3] : 'index'
         ));
@@ -146,6 +161,13 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         return false;
     }
 
+    /**
+     * Build controller file name based on moduleName and controllerName
+     *
+     * @param string $realModule
+     * @param string $controller
+     * @return string
+     */
     public function getControllerFileName($realModule, $controller)
     {
         /**
@@ -165,6 +187,13 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         return $file . DS . ucfirst($this->_area) . DS . uc_words($controller, DS) . 'Controller.php';
     }
 
+    /**
+     * Build controller class name based on moduleName and controllerName
+     *
+     * @param string $realModule
+     * @param string $controller
+     * @return string
+     */
     public function getControllerClassName($realModule, $controller)
     {
         /**
@@ -183,18 +212,14 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
         return $realModule . '_' . ucfirst($this->_area) . '_' . uc_words($controller) . 'Controller';
     }
 
-    protected function _canProcess(Zend_Controller_Request_Http $request, array $params)
+    /**
+     * Check whether this router should process given request
+     *
+     * @param array $params
+     * @return bool
+     */
+    protected function _canProcess(array $params)
     {
-        if ($request->getAreaFrontname()) {
-            $area = $request->getAreaFrontname();
-        } else {
-            $area = $params['area'];
-        }
-
-        $canProcess = $area == $this->_areaFrontname;
-        if ($canProcess) {
-            $request->setAreaFrontname($area);
-        }
-        return $canProcess;
+        return $params['areaFrontName'] == $this->_areaFrontName;
     }
 }

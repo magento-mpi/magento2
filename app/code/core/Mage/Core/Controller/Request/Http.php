@@ -43,7 +43,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
 
     protected $_directFrontNames = null;
     protected $_controllerModule = null;
-    protected $_areaFrontname = null;
 
     /**
      * Streight request flag.
@@ -317,28 +316,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     public function getControllerModule()
     {
         return $this->_controllerModule;
-    }
-
-    /**
-     * Specify area front name where was found currently used controller
-     *
-     * @param   string $areaFrontname
-     * @return  Mage_Core_Controller_Request_Http
-     */
-    public function setAreaFrontname($areaFrontname)
-    {
-        $this->_areaFrontname = $areaFrontname;
-        return $this;
-    }
-
-    /**
-     * Get area front name of currently used controller
-     *
-     * @return  string
-     */
-    public function getAreaFrontname()
-    {
-        return $this->_areaFrontname;
     }
 
     /**
