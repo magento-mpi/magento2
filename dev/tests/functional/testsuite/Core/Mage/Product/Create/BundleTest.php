@@ -329,6 +329,7 @@ class Core_Mage_Product_Create_BundleTest extends Mage_Selenium_TestCase
      * <p>Product created, confirmation message appears, Weight=0;</p>
      * @test
      * @TestlinkId TL-MAGE-3357
+     * @group skip_due_to_bug
      */
     public function invalidWeightInBundle()
     {
