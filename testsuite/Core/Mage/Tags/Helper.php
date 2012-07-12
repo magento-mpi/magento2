@@ -243,7 +243,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         foreach ($tagsSearchData as $searchData) {
             $this->searchAndChoose($searchData);
         }
-        $this->fillForm(array('tags_massaction' => 'Change status', 'tags_status' => $newStatus));
+        $this->fillDropdown('tags_massaction', 'Change status');
+        $this->fillDropdown('tags_status', $newStatus);
         $this->clickButton('submit');
     }
 

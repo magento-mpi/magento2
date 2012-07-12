@@ -698,10 +698,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->navigate('manage_products');
         $this->productHelper()->openProduct(array('product_name' => $product1));
         $this->chooseOkOnNextConfirmation();
-        $this->fillForm(array('choose_store_view' => 'Default Values'));
+        $this->selectStoreScope('dropdown', 'choose_store_view', 'Default Values');
         $this->productHelper()->fillTab($productGiftSettings, 'gift_options');
-        $this->addParameter('tabId', '0');
-        $this->addParameter('storeId', '0');
         $this->clickButton('save_and_continue_edit');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->chooseOkOnNextConfirmation();

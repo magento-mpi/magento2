@@ -59,6 +59,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Message "This is a required field." for required field appears.</p>
      *
      * @dataProvider createWrappingWithEmptyFieldsDataProvider
+     *
      * @param string $fieldName
      * @param string $fieldType
      *
@@ -97,6 +98,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      * <p>2. Message "Please enter a valid number in this field." for price field appears.</p>
      *
      * @dataProvider incorrectPriceDataProvider
+     *
      * @param string $fieldName
      * @param string $fieldData
      * @param string $messageName
@@ -106,8 +108,8 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
     public function createWrappingWithIncorrectPrice($fieldName, $fieldData, $messageName)
     {
         //Data
-        $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image',
-                                               array($fieldName => $fieldData));
+        $giftWrappingData =
+            $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image', array($fieldName => $fieldData));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->createGiftWrapping($giftWrappingData);
@@ -177,6 +179,7 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
      * <p>1. Gift wrapping is saved;</p>
      *
      * @depends createWrapping
+     *
      * @param string $wrappingDesign
      *
      * @test
@@ -187,9 +190,9 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
         $giftWrappingData = $this->loadDataSet('GiftWrapping', 'gift_wrapping_without_image');
         $editGiftWrappingData = $this->loadDataSet('GiftWrapping', 'edit_gift_wrapping_without_image');
         $searchGiftWrappingBefore = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
-                    array('filter_gift_wrapping_design' => $wrappingDesign));
+            array('filter_gift_wrapping_design' => $wrappingDesign));
         $searchGiftWrappingAfter = $this->loadDataSet('GiftWrapping', 'search_gift_wrapping',
-                    array('filter_gift_wrapping_design' => $editGiftWrappingData['gift_wrapping_design']));
+            array('filter_gift_wrapping_design' => $editGiftWrappingData['gift_wrapping_design']));
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->giftWrappingHelper()->openGiftWrapping($searchGiftWrappingBefore);
@@ -234,7 +237,8 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
-        $this->fillForm(array('massaction_action' => 'Change status', 'massaction_status' => 'Disabled'));
+        $this->fillDropdown('massaction_action', 'Change status');
+        $this->fillDropdown('massaction_status', 'Disabled');
         $this->addParameter('itemCount', '1');
         $this->saveForm('submit');
         //Verification
@@ -242,11 +246,11 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_gift_wrapping');
         $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
-        $this->fillForm(array('massaction_action' => 'Change status', 'massaction_status' => 'Enabled'));
+        $this->fillDropdown('massaction_action', 'Change status');
+        $this->fillDropdown('massaction_status', 'Enabled');
         $this->addParameter('itemCount', '1');
         $this->saveForm('submit');
         //Verification
         $this->assertMessagePresent('success', 'success_massaction_update');
-
     }
 }
