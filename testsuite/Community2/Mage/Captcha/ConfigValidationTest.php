@@ -45,7 +45,7 @@ class Community2_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCas
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'enable_front_login_captcha'));
+        $this->systemConfigurationHelper()->configure($this->loadDataSet('Captcha', 'disable_frontend_captcha'));
     }
 
     /**
