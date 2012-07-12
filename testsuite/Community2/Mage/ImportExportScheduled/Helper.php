@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ScheduledImportExport_Helper extends Mage_Selenium_TestCase
+class Community2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCase
 {
     /**
      * FTP Connection handle
@@ -159,4 +159,98 @@ class Community2_Mage_ScheduledImportExport_Helper extends Mage_Selenium_TestCas
             return false;
         }
     }
+
+    /**
+     * Create scheduled export job
+     *
+     * @param array $exportData
+     *
+     * @return void
+     */
+    public function createExport(array $exportData)
+    {
+        $skipped = array();
+        $filters = array();
+        $this->addParameter('type', 'Export');
+        $this->clickButton('add_scheduled_export');
+        if (isset($exportData['skipped'])){
+            $skipped = $exportData['skipped'];
+            unset($exportData['skipped']);
+        }
+        if (isset($exportData['filters'])){
+            $filters = $exportData['filters'];
+            unset($exportData['filters']);
+        }
+        $this->fillForm($exportData);
+        foreach ($skipped as $attributeToSkip){
+             $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
+        }
+        if (count($filters)>0){
+            $this->importExportHelper()->setFilter($filters);
+        }
+        $this->saveForm('save');
+    }
+    /**
+     * Create scheduled import job
+     *
+     * @param array $importData
+     *
+     * @return void
+     */
+    public function createImport(array $importData)
+    {
+        $this->addParameter('type', 'Import');
+        $this->clickButton('add_scheduled_import');
+        $this->fillForm($importData);
+        $this->saveForm('save');
+    }
+    /**
+     * Open scheduled job
+     *
+     * @param array $searchData
+     *
+     * @return void
+     */
+    public function openImportExport(array $searchData)
+    {
+        $this->addParameter('type', $searchData['operation']);
+        $this->searchAndOpen($searchData, true, 'grid_and_filter');
+    }
+    /**
+     * Get current outcome
+     *
+     * @param array $searchData
+     *
+     * @return string
+     */
+    public function getLastOutcome(array $searchData)
+    {
+        $this->_prepareDataForSearch($searchData);
+        $xpath = $this->search($searchData, 'grid_and_filter');
+        if ($xpath){
+            return $this->getElementByXpath($xpath . '/td[8]');
+        } else {
+            $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
+        }
+    }
+    /**
+     * Apply Action to specific job
+     *
+     * @param array $searchData
+     * @param string $action
+     *
+     * @return void
+     */
+    public function applyAction(array $searchData, $action = 'Run')
+    {
+        $this->_prepareDataForSearch($searchData);
+        $xpath = $this->search($searchData, 'grid_and_filter');
+        if ($xpath){
+            $this->fillDropdown('action', $action, $xpath . '/td[9]/select');
+            $this->waitForPageToLoad();
+        } else {
+            $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
+        }
+    }
+
 }
