@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Benchmark_ApplicationTest extends PHPUnit_Framework_TestCase
+class Benchmark_InstallerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
@@ -17,7 +17,7 @@ class Benchmark_ApplicationTest extends PHPUnit_Framework_TestCase
     protected $_shell;
 
     /**
-     * @var Benchmark_Application|PHPUnit_Framework_MockObject_MockObject
+     * @var Benchmark_Installer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -29,10 +29,12 @@ class Benchmark_ApplicationTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
+        $this->_installerScript = realpath(__DIR__ . '/_files/install_stub.php');
         $this->_object = $this->getMock(
-            'Benchmark_Application', array('_bootstrap', '_reindex'), array(__DIR__ . '/_files', $this->_shell)
+            'Benchmark_Installer',
+            array('_bootstrap', '_reindex'),
+            array($this->_installerScript, $this->_shell)
         );
-        $this->_installerScript = realpath(__DIR__ . '/_files/dev/shell/install.php');
     }
 
     protected function tearDown()
@@ -43,11 +45,11 @@ class Benchmark_ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage Directory 'non_existing_dir' does not seem to be valid Magento root
+     * @expectedExceptionMessage Console installer 'non_existing_script' does not exist.
      */
     public function testConstructorException()
     {
-        new Benchmark_Application('non_existing_dir', $this->_shell);
+        new Benchmark_Installer('non_existing_script', $this->_shell);
     }
 
     public function testUninstall()

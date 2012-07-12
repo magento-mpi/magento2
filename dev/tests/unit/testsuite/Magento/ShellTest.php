@@ -37,7 +37,7 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Shell_Exception
+     * @expectedException Magento_Exception
      * @expectedExceptionMessage Command `non_existing_command` returned non-zero exit code
      * @expectedExceptionCode 0
      */
@@ -59,7 +59,7 @@ class Magento_ShellTest extends PHPUnit_Framework_TestCase
         try {
             /* Force command to return non-zero exit code */
             $this->testExecute($phpCommand . ' exit(42);', $isVerbose, $expectedOutput);
-        } catch (Magento_Shell_Exception $e) {
+        } catch (Magento_Exception $e) {
             $this->assertInstanceOf('Exception', $e->getPrevious());
             $this->assertEquals($expectedError, $e->getPrevious()->getMessage());
             $this->assertEquals(42, $e->getPrevious()->getCode());

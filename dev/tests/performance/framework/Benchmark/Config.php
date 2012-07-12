@@ -29,6 +29,11 @@ class Benchmark_Config
     protected $_reportDir;
 
     /**
+     * @var string
+     */
+    protected $_jMeterPath;
+
+    /**
      * @var array
      */
     protected $_installOptions = array();
@@ -61,6 +66,12 @@ class Benchmark_Config
         $this->_applicationUrlHost = $configData['application']['url_host'];
         $this->_applicationUrlPath = $configData['application']['url_path'];
 
+        if (isset($configData['jmeter_jar_file'])) {
+            $this->_jMeterPath = $configData['jmeter_jar_file'];
+        } else {
+            $this->_jMeterPath = getenv('jmeter_jar_file') ?: 'ApacheJMeter.jar';
+        }
+
         if (isset($configData['application']['installation'])) {
             $installConfig = $configData['application']['installation'];
             $this->_installOptions = $installConfig['options'];
@@ -69,13 +80,24 @@ class Benchmark_Config
             }
         }
 
-        if (isset($configData['scenario']['common_params'])) {
-            $scenarioParamsCommon = $configData['scenario']['common_params'];
+        $this->_expandScenarios($configData['scenario'], $baseDir);
+    }
+
+    /**
+     * Expands scenario options and file paths glob to a list of scenarios
+     * @param array $scenarios
+     * @param string $baseDir
+     * @throws Magento_Exception
+     */
+    protected function _expandScenarios($scenarios, $baseDir)
+    {
+        if (isset($scenarios['common_params'])) {
+            $scenarioParamsCommon = $scenarios['common_params'];
         } else {
             $scenarioParamsCommon = array();
         }
 
-        $scenarioFilesPattern = $baseDir . '/' . $configData['scenario']['files'];
+        $scenarioFilesPattern = $baseDir . '/' . $scenarios['files'];
         $scenarioFiles = glob($scenarioFilesPattern, GLOB_BRACE);
         if (!$scenarioFiles) {
             throw new Magento_Exception("No scenario files match '$scenarioFilesPattern' pattern.");
@@ -86,8 +108,8 @@ class Benchmark_Config
             if ($baseDir . '/' . $oneScenarioName != $oneScenarioFile) {
                 throw new Magento_Exception("Scenario file '$oneScenarioFile' must reside in '$baseDir' directory.");
             }
-            if (isset($configData['scenario']['scenario_params'][$oneScenarioName])) {
-                $oneScenarioParams = $configData['scenario']['scenario_params'][$oneScenarioName];
+            if (isset($scenarios['scenario_params'][$oneScenarioName])) {
+                $oneScenarioParams = $scenarios['scenario_params'][$oneScenarioName];
             } else {
                 $oneScenarioParams = array();
             }
@@ -169,5 +191,15 @@ class Benchmark_Config
     public function getReportDir()
     {
         return $this->_reportDir;
+    }
+
+    /**
+     * Retrieves path to JMeter java file
+     *
+     * @return string
+     */
+    public function getJMeterPath()
+    {
+        return $this->_jMeterPath;
     }
 }

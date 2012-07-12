@@ -22,87 +22,35 @@ class Benchmark_Scenario
     const PARAM_USERS = 'users';
 
     /**
-     * @var string
+     * @var Magento_Shell
      */
-    protected $_scenarioFile;
+    protected $_shell;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $_scenarioParams;
-
+    protected $_jMeterJarFile;
     /**
      * @var string
      */
     protected $_reportDir;
 
     /**
-     * @var string
-     */
-    protected $_reportFile;
-
-    /**
-     * @var string
-     */
-    protected $_jMeterJarFile;
-
-    /**
-     * @var Magento_Shell
-     */
-    protected $_shell;
-
-    /**
      * Constructor
      *
-     * @param string $scenarioFile
-     * @param array $scenarioParams
-     * @param string $reportDir
-     * @param string $jMeterJarFile
      * @param Magento_Shell $shell
+     * @param string $jMeterJarFile
+     * @param string $reportDir
      * @throws Magento_Exception
      */
-    public function __construct($scenarioFile, array $scenarioParams, $reportDir, $jMeterJarFile, Magento_Shell $shell)
+    public function __construct(Magento_Shell $shell, $jMeterJarFile, $reportDir)
     {
-        if (!file_exists($scenarioFile)) {
-            throw new Magento_Exception("Scenario file '$scenarioFile' does not exist.");
-        }
-        if (empty($scenarioParams[self::PARAM_HOST]) || empty($scenarioParams[self::PARAM_PATH])) {
-            throw new Magento_Exception(sprintf(
-                "Scenario parameters '%s' and '%s' must be specified.", self::PARAM_HOST, self::PARAM_PATH
-            ));
-        }
-        $this->_scenarioFile = $scenarioFile;
-        $this->_scenarioParams = $scenarioParams + array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 1);
-        $this->_reportDir = $reportDir;
-        $this->_reportFile = $this->_reportDir . DIRECTORY_SEPARATOR . basename($this->_scenarioFile, '.jmx') . '.jtl';
-        $this->_jMeterJarFile = $jMeterJarFile;
         $this->_shell = $shell;
-    }
+        $this->_jMeterJarFile = $jMeterJarFile;
+        $this->_reportDir = $reportDir;
 
-    /**
-     * Run performance testing scenario and write results to report file
-     */
-    public function run()
-    {
         $this->_validateScenarioExecutable();
         $this->_ensureReportDirExists();
-        list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($this->_scenarioParams, $this->_reportFile);
-        $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
-        $this->_verifyReport($this->_loadReportXml());
-    }
-
-    /**
-     * Run performance testing scenario without writing and result report
-     *
-     * @param int $loops
-     */
-    public function runDry($loops = 1)
-    {
-        $this->_validateScenarioExecutable();
-        $scenarioParams = array(self::PARAM_USERS => 1, self::PARAM_LOOPS => $loops);
-        $scenarioParams = array_merge($this->_scenarioParams, $scenarioParams);
-        list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioParams);
-        $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
     }
 
     /**
@@ -124,16 +72,60 @@ class Benchmark_Scenario
     }
 
     /**
+     * Run performance testing scenario and write results to the report file
+     *
+     * @param string $scenarioFile
+     * @param array $scenarioParams
+     */
+    public function run($scenarioFile, array $scenarioParams)
+    {
+        if (!file_exists($scenarioFile)) {
+            throw new Magento_Exception("Scenario file '$scenarioFile' does not exist.");
+        }
+        if (empty($scenarioParams[self::PARAM_HOST]) || empty($scenarioParams[self::PARAM_PATH])) {
+            throw new Magento_Exception(sprintf(
+                "Scenario parameters '%s' and '%s' must be specified.", self::PARAM_HOST, self::PARAM_PATH
+            ));
+        }
+
+        // Dry run - just to warm-up the system
+        $dryScenarioParams = array_merge($scenarioParams, array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 2));
+        $this->_runScenario($scenarioFile, $dryScenarioParams);
+
+        // Full run
+        $fullScenarioParams = $scenarioParams + array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 1);
+        $reportFile = $this->_reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
+        $this->_runScenario($scenarioFile, $fullScenarioParams, $reportFile);
+    }
+
+    /**
+     * Run performance testing scenario.
+     *
+     * @param string $scenarioFile
+     * @param array $scenarioParams
+     * @param string|null $reportFile
+     */
+    protected function _runScenario($scenarioFile, array $scenarioParams, $reportFile = null)
+    {
+        list($scenarioCmd, $scenarioCmdArgs) = $this->_buildScenarioCmd($scenarioFile, $scenarioParams, $reportFile);
+        $this->_shell->execute($scenarioCmd, $scenarioCmdArgs);
+        if ($reportFile) {
+            $this->_verifyReport($reportFile);
+        }
+    }
+
+    /**
      * Build and return scenario execution command and arguments for it
      *
+     * @param string $scenarioFile
      * @param array $scenarioParams
      * @param string|null $reportFile
      * @return array
      */
-    protected function _buildScenarioCmd(array $scenarioParams, $reportFile = null)
+    protected function _buildScenarioCmd($scenarioFile, array $scenarioParams, $reportFile = null)
     {
         $command = 'java -jar %s -n -t %s';
-        $arguments = array($this->_jMeterJarFile, $this->_scenarioFile);
+        $arguments = array($this->_jMeterJarFile, $scenarioFile);
         if ($reportFile) {
             $command .= ' -l %s';
             $arguments[] = $reportFile;
@@ -146,30 +138,21 @@ class Benchmark_Scenario
     }
 
     /**
-     * Load results from the XML report file
+     * Verify that report XML structure contains no failures and no errors
      *
-     * @return SimpleXMLElement
+     * @param string $reportFile
      * @throws Magento_Exception
      */
-    protected function _loadReportXml()
+    protected function _verifyReport($reportFile)
     {
-        if (!file_exists($this->_reportFile)) {
-            throw new Magento_Exception("Report file '$this->_reportFile' has not been created.");
+        if (!file_exists($reportFile)) {
+            throw new Magento_Exception("Report file '$reportFile' has not been created.");
         }
-        return simplexml_load_file($this->_reportFile);
-    }
+        $reportXml = simplexml_load_file($reportFile);
 
-    /**
-     * Verify that report XML structure contains no failures and errors
-     *
-     * @param SimpleXMLElement $reportXml
-     * @throws Magento_Exception
-     */
-    protected function _verifyReport(SimpleXMLElement $reportXml)
-    {
         $failedAssertions = $reportXml->xpath('//assertionResult[failure[text()="true"] or error[text()="true"]]');
         if ($failedAssertions) {
-            $failureMessages = array("Scenario '$this->_scenarioFile' has failed.");
+            $failureMessages = array("Scenario has failed.");
             foreach ($failedAssertions as $assertionResult) {
                 if (isset($assertionResult->failureMessage)) {
                     $failureMessages[] = (string)$assertionResult->failureMessage;

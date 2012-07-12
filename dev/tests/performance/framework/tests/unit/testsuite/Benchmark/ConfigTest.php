@@ -25,7 +25,7 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
             'url_path' => '/',
             'installation' => array(
                 'options' => array(
-                    'option1' => 'value1',
+                    'option1' => 'value 1',
                     'option2' => 'value 2',
                 ),
                 'fixture_files' => '{fixture}.php',
@@ -34,7 +34,7 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
         'scenario' => array(
             'files' => '*.jmx',
             'common_params' => array(
-                'param1' => 'value1',
+                'param1' => 'value 1',
                 'param2' => 'value 2',
             ),
             'scenario_params' => array(
@@ -101,20 +101,31 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetInstallOptions()
     {
-        $expectedOptions = array('option1' => 'value1', 'option2' => 'value 2');
+        $expectedOptions = array('option1' => 'value 1', 'option2' => 'value 2');
         $this->assertEquals($expectedOptions, $this->_object->getInstallOptions());
     }
 
     public function testGetScenarios()
     {
-        $expectedScenarioFile = str_replace('\\', '/', __DIR__ . '/_files/scenario.jmx');
+        $dir = str_replace('\\', '/', __DIR__ . '/_files');
         $expectedScenarios = array(
-            $expectedScenarioFile => array(
-                'param1' => 'value1',
+            $dir . '/scenario.jmx' => array(
+                'param1' => 'value 1',
                 'param2' => 'overridden value 2',
             ),
+            $dir . '/scenario_error.jmx' => array(
+                'param1' => 'value 1',
+                'param2' => 'value 2',
+            ),
+            $dir . '/scenario_failure.jmx' => array(
+                'param1' => 'value 1',
+                'param2' => 'value 2',
+            ),
         );
-        $this->assertEquals($expectedScenarios, $this->_object->getScenarios());
+
+        $actualScenarios = $this->_object->getScenarios();
+        ksort($actualScenarios);
+        $this->assertEquals($expectedScenarios, $actualScenarios);
     }
 
     public function testGetFixtureFiles()
@@ -127,5 +138,25 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $expectedReportDir = str_replace('\\', '/', __DIR__ . '/_files/report');
         $this->assertEquals($expectedReportDir, $this->_object->getReportDir());
+    }
+
+    public function testGetJMeterPath()
+    {
+        $baseDir = __DIR__ . '/_files';
+        $expectedPath = '/path/to/custom/JMeterFile.jar';
+
+        $configData = $this->_sampleConfigData;
+        $configData['jmeter_jar_file'] = $expectedPath;
+        $object = new Benchmark_Config($configData, $baseDir);
+        $this->assertEquals($expectedPath, $object->getJMeterPath());
+
+        $configData['jmeter_jar_file'] = null;
+        putenv("jmeter_jar_file={$expectedPath}");
+        $object = new Benchmark_Config($configData, $baseDir);
+        $this->assertEquals($expectedPath, $object->getJMeterPath());
+
+        putenv('jmeter_jar_file=');
+        $object = new Benchmark_Config($configData, $baseDir);
+        $this->assertNotEmpty($object->getJMeterPath());
     }
 }

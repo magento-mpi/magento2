@@ -11,12 +11,12 @@
 /**
  * Magento application for performance tests
  */
-class Benchmark_Application
+class Benchmark_Installer
 {
     /**
      * @var string
      */
-    protected $_baseDir;
+    protected $_installerScript;
 
     /**
      * @var Magento_Shell
@@ -24,29 +24,20 @@ class Benchmark_Application
     protected $_shell;
 
     /**
-     * @var string
-     */
-    protected $_installerScript;
-
-    /**
      * Constructor
      *
-     * @param string $baseDir
+     * @param string $installerScript
      * @param Magento_Shell $shell
      * @throws Magento_Exception
      */
-    public function __construct($baseDir, Magento_Shell $shell)
+    public function __construct($installerScript, Magento_Shell $shell)
     {
-        $this->_baseDir = $baseDir;
-        $this->_shell = $shell;
-        $installerScript = $this->_baseDir . '/dev/shell/install.php';
         if (!file_exists($installerScript)) {
-            throw new Magento_Exception(
-                "Console installer '$installerScript' does not exist."
-                . " Directory '$this->_baseDir' does not seem to be valid Magento root."
-            );
+            throw new Magento_Exception("Console installer '$installerScript' does not exist.");
         }
+
         $this->_installerScript = realpath($installerScript);
+        $this->_shell = $shell;
     }
 
     /**
@@ -65,6 +56,19 @@ class Benchmark_Application
      */
     public function install(array $options, array $fixtureFiles = array())
     {
+        $this->_install($options);
+        $this->_bootstrap();
+        $this->_applyFixtures($fixtureFiles);
+        $this->_reindex();
+    }
+
+    /**
+     * Perform installation of Magento app
+     *
+     * @param array $options
+     */
+    protected function _install($options)
+    {
         $installCmd = 'php -f %s --';
         $installCmdArgs = array($this->_installerScript);
         foreach ($options as $optionName => $optionValue) {
@@ -72,9 +76,6 @@ class Benchmark_Application
             $installCmdArgs[] = $optionValue;
         }
         $this->_shell->execute($installCmd, $installCmdArgs);
-        $this->_bootstrap();
-        $this->_applyFixtures($fixtureFiles);
-        $this->_reindex();
     }
 
     /**

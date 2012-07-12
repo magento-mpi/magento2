@@ -34,7 +34,7 @@ class Magento_Shell
      * @param string $command Command with optional argument markers '%s'
      * @param array $arguments Argument values to substitute markers with
      * @return string
-     * @throws Magento_Shell_Exception
+     * @throws Magento_Exception
      */
     public function execute($command, array $arguments = array())
     {
@@ -48,7 +48,7 @@ class Magento_Shell
         }
         if ($exitCode) {
             $commandError = new Exception($output, $exitCode);
-            throw new Magento_Shell_Exception("Command `$command` returned non-zero exit code.", 0, $commandError);
+            throw new Magento_Exception("Command `$command` returned non-zero exit code.", 0, $commandError);
         }
         return $output;
     }

@@ -12,6 +12,11 @@ return array(
     'application' => array(
         'url_host' => '127.0.0.1',
         'url_path' => '/magento/',
+        /**
+         * Path to JMeter executable. If empty, then env value 'jmeter_jar_file' is taken. If this value is empty as
+         * well, then default value is used.
+         */
+        'jmeter_jar_file' => '',
         /* Optional installation configuration. If omitted, no installation occurs. */
         'installation' => array(
             /**
