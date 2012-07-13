@@ -29,23 +29,23 @@ $formatVersions = array(
         if ($('file_format_version')) {
             if ('<?php echo $entitySubtype ?>' == '') {
                 $('file_format_version').value = '<?php echo $formatVersions[1] ?>';
-                $('entity_subtype').up('tr').hide();
+                editForm.showCustomerEntity(false);
             } else {
                 $('file_format_version').value = '<?php echo $formatVersions[2] ?>';
             }
         }
     } else {
-        $('file_format_version').up('tr').hide();
-        $('entity_subtype').up('tr').hide();
+        editForm.showFormatVersion(false);
+        editForm.showCustomerEntity(false);
     }
     if ('<?php echo $operationType ?>' == 'import') {
-        if ($('entity') && $F('entity') == 'customer') {
-            if ('<?php echo $entitySubtype ?>' == '') {
-                editForm.showBehavior(editForm.BEHAVIOR_VERSION_1);
-                $('behavior_v1').value = '<?php echo $entityBehavior ?>';
-            } else {
+        if ($('entity') && $F('entity')) {
+            if ($F('entity') == 'customer' && '<?php echo $entitySubtype ?>' != '') {
                 editForm.showBehavior(editForm.BEHAVIOR_VERSION_2_CUSTOMER);
                 $('behavior_v2_customer').value = '<?php echo $entityBehavior ?>';
+            } else {
+                editForm.showBehavior(editForm.BEHAVIOR_VERSION_1);
+                $('behavior_v1').value = '<?php echo $entityBehavior ?>';
             }
         } else {
             editForm.showBehavior(false);
