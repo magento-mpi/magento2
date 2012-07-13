@@ -52,6 +52,11 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      */
     protected $_coreSession;
 
+    /**
+     * @var array
+     */
+    protected $_routes;
+
     public function __construct(array $data = array())
     {
         parent::__construct($data);
@@ -76,6 +81,32 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
         $this->_coreHelper = isset($data['coreHelper']) ?
             $data['coreHelper'] :
             Mage::helper('Mage_Core_Helper_Data');
+
+        $this->_routes = isset($data['routes']) ?
+            $data['routes'] :
+            array();
+    }
+
+    /**
+     * Get route name by module frontName
+     *
+     * @param $frontName
+     * @return string|null
+     */
+    protected function _getRouteByFrontName($frontName)
+    {
+        if (false == isset($this->_routes[$frontName])) {
+            $requestedRouteName = '';
+            /**
+             * @var Mage_Core_Controller_Varien_Router_Base
+             */
+            $router = Mage::app()->getFrontController()->getRouter('admin');
+            if ($router) {
+                $requestedRouteName = $router->getRouteByFrontName($frontName);
+            }
+            $this->_routes[$frontName] = $requestedRouteName;
+        }
+        return $this->_routes[$frontName];
     }
 
 
@@ -131,15 +162,17 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
             return $result;
         }
 
-        $_route = $this->getRouteName() ? $this->getRouteName() : '*';
-        $_controller = $this->getControllerName() ? $this->getControllerName() : $this->getDefaultControllerName();
-        $_action = $this->getActionName() ? $this->getActionName() : $this->getDefaultActionName();
+        $routeName = $this->getRouteName() ? $this->getRouteName() : '*';
+        $controllerName = $this->getControllerName() ? $this->getControllerName() : $this->getDefaultControllerName();
+        $actionName = $this->getActionName() ? $this->getActionName() : $this->getDefaultActionName();
 
         if ($cacheSecretKey) {
-            $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$_route}/{$_controller}/{$_action}\$");
+            $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$routeName}/{$controllerName}/{$actionName}\$");
         }
         else {
-            $secret = array(self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($_route, $_controller, $_action));
+            $secret = array(
+                self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($routeName, $controllerName, $actionName)
+            );
         }
         if (is_array($routeParams)) {
             $routeParams = array_merge($secret, $routeParams);
@@ -150,7 +183,7 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
             $routeParams = array_merge($this->getRouteParams(), $routeParams);
         }
 
-        return parent::getUrl("{$_route}/{$_controller}/{$_action}", $routeParams);
+        return parent::getUrl("{$routeName}/{$controllerName}/{$actionName}", $routeParams);
     }
 
     /**
@@ -167,7 +200,7 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
 
         $p = explode('/', trim($this->getRequest()->getOriginalPathInfo(), '/'));
         if (!$routeName) {
-            $routeName = !empty($p[1]) ? $p[1] : $this->getRequest()->getRouteName();
+            $routeName = !empty($p[1]) ? $this->_getRouteByFrontName($p[1]) : $this->getRequest()->getRouteName();
         }
 
         if (!$controller) {
