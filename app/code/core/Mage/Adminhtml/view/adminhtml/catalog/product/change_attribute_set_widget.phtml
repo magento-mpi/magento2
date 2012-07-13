@@ -13,30 +13,34 @@
 (function($, window, document) {
     "use strict";
 
-    $(function(){
+    $('#product_edit_form').bind('product:changeAttributeSet', function(event, attributeSetId) {
+        var $form = $(this);
+        var uri = document.location.href.replace(/(\/|&)?set(\/|=)\d+/g, '');
+        uri += /\?/.test(uri) ? '&' : '?';
+        uri += 'set=' + window.encodeURIComponent(attributeSetId);
+        $form.attr('action', uri).submit();
+    });
+
+    $(function() {
         $('#attribute-set-info').dialog({
-            title: 'Select Attribute Set',
+            title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Select Attribute Set'); ?>',
             autoOpen: false,
             id: '<?php echo strtolower($this->getNameInLayout()) ?>',
             minWidth: 560,
             modal: true,
             resizable: false,
             buttons: [{
-                text: "Close",
+                text: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Cancel'); ?>',
                 id: '<?php echo strtolower($this->getNameInLayout()) . '-close-button' ?>',
                 click: function() {
                     $(this).dialog("close");
                 }
-            },{
-                text: "Apply",
+            }, {
+                text: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Apply'); ?>',
                 id: '<?php echo strtolower($this->getNameInLayout()) . '-apply-button' ?>',
                 click: function() {
                     var $attibuteSetId = $(this).find('#attribute_set_id');
-                    var $form = $('#product_edit_form');
-                    var uri = document.location.href.replace(/(\/|&)?set(\/|=)\d+/g, '');
-                    uri += (/\?/.test(uri)? '&' : '?');
-                    uri += 'set=' + window.encodeURIComponent($attibuteSetId.val());
-                    $form.attr('action', uri).submit();
+                    $('#product_edit_form').trigger('product:changeAttributeSet', [$attibuteSetId.val()]);
                 }
             }]
         });

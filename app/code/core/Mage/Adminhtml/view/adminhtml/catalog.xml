@@ -43,7 +43,7 @@
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
-            <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widgest.phtml" />
+            <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widget.phtml" />
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
             <block type="Mage_Core_Block_Template" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
         </reference>
@@ -67,7 +67,7 @@
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs" name="product_tabs"></block>
         </reference>
         <reference name="js">
-            <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widgest.phtml" />
+            <block type="Mage_Core_Block_Template" name="change-attribute-set" template="Mage_Adminhtml::catalog/product/change_attribute_set_widget.phtml" />
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
             <block type="Mage_Core_Block_Template" name="catalog.wysiwyg.js" template="Mage_Adminhtml::catalog/wysiwyg/js.phtml"/>
         </reference>

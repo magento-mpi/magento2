@@ -21,7 +21,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Adminh
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Create Product Settings')));
+        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Product Settings')));
 
         $entityType = Mage::registry('product')->getResource()->getEntityType();
 
