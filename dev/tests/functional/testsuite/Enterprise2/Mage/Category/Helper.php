@@ -43,7 +43,7 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
     public function fillCategoryInfo(array $categoryData)
     {
         parent::fillCategoryInfo($categoryData);
-        if (isset($categoryData['category_permissions']) ) {
+        if (isset($categoryData['category_permissions'])) {
             $this->openTab('category_permissions_tab');
             $count = 1;
             foreach ($categoryData['category_permissions'] as $permission) {
@@ -61,16 +61,21 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
      *
      * @param string $categoryPath
      */
-    public function deletePermissions($categoryPath)
+    public function deleteAllPermissions($categoryPath)
     {
-        $this->navigate('manage_categories');
         $this->categoryHelper()->selectCategory($categoryPath);
-        while ($this->controlIsPresent('pageelement', 'option_box'))
-            {
-            $this->clickButton('delete_all_permissions', false);
+        $this->openTab('category_permissions_tab');
+        $xpath = $this->_getControlXpath('button', 'delete_all_permissions_visible');
+        $count = $this->getXpathCount($xpath);
+        for ($i=0; $i < $count; $i++) {
+            $this->clickButton('delete_all_permissions_visible', false);
             $this->waitForAjax();
-            $this->clickButton('save_category');
-            }
+        }
+//        while ($this->controlIsPresent('pageelement', 'option_box')) {
+//            $this->clickButton('delete_all_permissions', false);
+//            $this->waitForAjax();
+//            $this->clickButton('save_category');
+//        }
     }
 
     /**
@@ -81,7 +86,6 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
      */
     public function setPermissions($permissionsData, $categoryPath)
     {
-        $this->navigate('manage_categories');
         $this->categoryHelper()->selectCategory($categoryPath);
         $this->openTab('category_permissions_tab');
         $count = 1;

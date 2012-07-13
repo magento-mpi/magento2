@@ -53,10 +53,8 @@ manage_categories:
                                         add_to_cart_use_parent: //input[@id='category_permissions_%row%_grant_checkout_items_default']
                                     buttons:
                                         delete_permissions: //button[contains(@id, '_row_%row%_delete_button')]
-                                        delete_all_permissions: //button[contains(@id, '_delete_button')]
+                                        delete_all_permissions_visible: //div[contains(@id, 'category_permissions')]/div/div[not(contains(@class, 'no-display'))]//button[contains(@id, '_delete_button')]
                                         new_permission: //button[span='New Permission']
-                                    pageelements:
-                                        option_box: //*[@class='option-box permission-box']
 
                         messages:
                             duplicate_permissions: //*[contains(@id, '-category_permissions_%row%_duplicate')]
