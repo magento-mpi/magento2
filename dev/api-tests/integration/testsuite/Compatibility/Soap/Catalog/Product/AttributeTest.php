@@ -87,8 +87,8 @@ class Compatibility_Soap_Catalog_Product_AttributeTest extends Compatibility_Soa
     {
         $entityType = Mage::getModel('Mage_Eav_Model_Entity_Type')->loadByCode('catalog_product');
         $apiMethod = 'catalog_product_attribute.list';
-        $prevResponse = $this->prevCall($apiMethod, $entityType->getDefaultAttributeSetId());
-        $currResponse = $this->currCall($apiMethod, $entityType->getDefaultAttributeSetId());
+        $prevResponse = $this->prevCall($apiMethod, array('setId' => $entityType->getDefaultAttributeSetId()));
+        $currResponse = $this->currCall($apiMethod, array('setId' => $entityType->getDefaultAttributeSetId()));
         $this->_checkResponse($prevResponse, $currResponse, $apiMethod);
         $this->_checkVersionSignature($prevResponse[0], $currResponse[0], $apiMethod);
     }
@@ -122,7 +122,7 @@ class Compatibility_Soap_Catalog_Product_AttributeTest extends Compatibility_Soa
      */
     public function testProductAttributeAddOption()
     {
-        $apiMethod = 'catalog_product_attribute.options';
+        $apiMethod = 'catalog_product_attribute.addOption';
         $attributeLabel = array(array(
             'store_id' => array("0"),
             "value" => "test_attribute_code label"
@@ -132,8 +132,12 @@ class Compatibility_Soap_Catalog_Product_AttributeTest extends Compatibility_Soa
             'order' => "1",
             'is_default' => "1"
         );
-        self::$_prevProductAttributeOptionId = $this->prevCall($apiMethod, self::$_prevProductAttributeId, $attributeData);
-        self::$_currProductAttributeOptionId = $this->currCall($apiMethod, self::$_currProductAttributeId, $attributeData);
+        self::$_prevProductAttributeOptionId = $this->prevCall($apiMethod,
+            array('attribute' => self::$_prevProductAttributeId, 'data' => $attributeData)
+        );
+        self::$_currProductAttributeOptionId = $this->currCall($apiMethod,
+            array('attribute' => self::$_currProductAttributeId, 'data' => $attributeData)
+        );
         $this->_checkVersionType(self::$_prevProductAttributeOptionId, self::$_currProductAttributeOptionId, $apiMethod);
     }
 
@@ -150,8 +154,8 @@ class Compatibility_Soap_Catalog_Product_AttributeTest extends Compatibility_Soa
     public function testProductAttributeInfo()
     {
         $apiMethod = 'catalog_product_attribute.info';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevProductAttributeId);
-        $currResponse = $this->currCall($apiMethod, self::$_currProductAttributeId);
+        $prevResponse = $this->prevCall($apiMethod, array('attribute' => self::$_prevProductAttributeId));
+        $currResponse = $this->currCall($apiMethod, array('attribute' => self::$_currProductAttributeId));
         $this->_checkResponse($prevResponse, $currResponse, $apiMethod);
         $this->_checkVersionSignature($prevResponse, $currResponse, $apiMethod);
     }
@@ -169,8 +173,12 @@ class Compatibility_Soap_Catalog_Product_AttributeTest extends Compatibility_Soa
     public function testProductAttributeOptionRemove()
     {
         $apiMethod = 'catalog_product_attribute.removeOption';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevProductAttributeId, self::$_prevProductAttributeOptionId);
-        $currResponse = $this->currCall($apiMethod, self::$_currProductAttributeId, self::$_currProductAttributeOptionId);
+        $prevResponse = $this->prevCall($apiMethod,
+            array('attribute' => self::$_prevProductAttributeId, 'optionId' => self::$_prevProductAttributeOptionId)
+        );
+        $currResponse = $this->currCall($apiMethod,
+            array('attribute' => self::$_currProductAttributeId, 'optionId' => self::$_currProductAttributeOptionId)
+        );
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
