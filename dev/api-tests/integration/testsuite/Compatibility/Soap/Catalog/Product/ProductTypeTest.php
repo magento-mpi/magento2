@@ -21,7 +21,6 @@ class Compatibility_Soap_ProductTypeTest extends Compatibility_Soap_SoapAbstract
      * 2. Get product type list at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testProductTypeList()
     {
@@ -30,6 +29,5 @@ class Compatibility_Soap_ProductTypeTest extends Compatibility_Soap_SoapAbstract
         $currResponse = $this->currCall($apiMethod, array('filters' => ''));
         $this->_checkResponse($prevResponse, $currResponse, $apiMethod);
         $this->_checkVersionSignature($prevResponse, $currResponse, $apiMethod);
-
     }
 }
