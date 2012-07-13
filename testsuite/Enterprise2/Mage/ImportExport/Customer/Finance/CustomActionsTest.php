@@ -42,8 +42,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
     {
         //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
-        $this->navigate('export');
     }
 
     /**
@@ -82,8 +80,8 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['email'] == '<realEmail>'){
-                $dataCsv[$i]['email'] = self::$customersData[$i]['email'];
+            if ($dataCsv[$i]['_email'] == '<realEmail>'){
+                $dataCsv[$i]['_email'] = self::$customersData[$i]['email'];
             }
             $i++;
         }
@@ -109,11 +107,11 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $i = 0;
         foreach ($dataCsv as $customerData){
              $this->navigate('manage_customers');
-             if ($customerData['email'] == 'wrongEmail@example.com'){
+             if ($customerData['_email'] == 'wrongEmail@example.com'){
                  $this->assertFalse(
                       $this->customerHelper()->isCustomerPresentInGrid(
                           array(
-                              'email' =>$dataCsv[$i]['email'])
+                              'email' =>$dataCsv[$i]['_email'])
                       ),
                       'Customer was found!'
                  );
@@ -170,8 +168,8 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['email'] == '<realEmail>'){
-                $dataCsv[$i]['email'] = self::$customersData[$i]['email'];
+            if ($dataCsv[$i]['_email'] == '<realEmail>'){
+                $dataCsv[$i]['_email'] = self::$customersData[$i]['email'];
             }
             $i++;
         }
@@ -197,11 +195,11 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $i = 0;
         foreach ($dataCsv as $customerData){
             $this->navigate('manage_customers');
-            if ($customerData['email'] == 'wrongEmail@example.com'){
+            if ($customerData['_email'] == 'wrongEmail@example.com'){
                 $this->assertFalse(
                     $this->customerHelper()->isCustomerPresentInGrid(
                         array(
-                            'email' =>$dataCsv[$i]['email'])
+                            'email' =>$dataCsv[$i]['_email'])
                     ),
                     'Customer was found!'
                 );
@@ -262,8 +260,8 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['email'] == '<realEmail>'){
-                $dataCsv[$i]['email'] = self::$customersData[$i]['email'];
+            if ($dataCsv[$i]['_email'] == '<realEmail>'){
+                $dataCsv[$i]['_email'] = self::$customersData[$i]['email'];
             }
             $i++;
         }
@@ -289,11 +287,11 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $i = 0;
         foreach ($dataCsv as $customerData){
             $this->navigate('manage_customers');
-            if ($customerData['email'] == 'wrongEmail@example.com'){
+            if ($customerData['_email'] == 'wrongEmail@example.com'){
                 $this->assertFalse(
                     $this->customerHelper()->isCustomerPresentInGrid(
                         array(
-                            'email' =>$dataCsv[$i]['email'])
+                            'email' =>$dataCsv[$i]['_email'])
                     ),
                     'Customer was found!'
                 );
@@ -382,9 +380,9 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $userData2['update_balance'] = '250';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['email'] = $userData1['email'];;
+        $data[0]['_email'] = $userData1['email'];;
 
-        $data[1]['email'] = $userData2['email'];
+        $data[1]['_email'] = $userData2['email'];
 
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
@@ -466,21 +464,21 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             array(
                 $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
-                    'email' => '<realEmail>',
+                    '_email' => '<realEmail>',
                     'store_credit' => '10',
                     'reward_points' => '20',
                     '_action' => 'update'
                 )),
                 $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
-                    'email' => 'wrongEmail@example.com',
+                    '_email' => 'wrongEmail@example.com',
                     'store_credit' => '250',
                     'reward_points' => '300',
                     '_action' => 'UPDATE'
                 )),
                 $this->loadDataSet('ImportExport', 'generic_finance_csv',
                 array(
-                    'email' => '<realEmail>',
+                    '_email' => '<realEmail>',
                     'store_credit' => '0',
                     'reward_points' => '0',
                     '_action' => 'Update'
@@ -510,21 +508,21 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 array(
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '10',
                         'reward_points' => '20',
                         '_action' => ''
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => 'wrongEmail@example.com',
+                        '_email' => 'wrongEmail@example.com',
                         'store_credit' => '250',
                         'reward_points' => '300',
                         '_action' => 'delete me'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '0',
                         'reward_points' => '0',
                         '_action' => 'test action'
@@ -562,42 +560,42 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 array(
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '10',
                         'reward_points' => '20',
                         '_action' => 'delete'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '1',
                         'reward_points' => '1',
                         '_action' => 'DeLeTe'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '101',
                         'reward_points' => '201',
                         '_action' => 'Del'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '',
                         'reward_points' => '1',
                         '_action' => 'Delete'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => '<realEmail>',
+                        '_email' => '<realEmail>',
                         'store_credit' => '1',
                         'reward_points' => '',
                         '_action' => 'DELETE'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        'email' => 'wrongEmail@example.com',
+                        '_email' => 'wrongEmail@example.com',
                         'store_credit' => '250',
                         'reward_points' => '300',
                         '_action' => 'Delete'

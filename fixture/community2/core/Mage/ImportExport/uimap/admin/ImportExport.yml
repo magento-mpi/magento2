@@ -80,7 +80,7 @@ export:
                     customer_entity_type:
                         xpath: //div[@id="customer_entity_fieldset"]
                         dropdowns:
-                            export_file: //select[@id='customer_entity']
+                            export_file: //select[@id='entity_subtype']
                 -
                     grid_and_filter:
                         xpath: //div[@id='export_filter_grid_container']

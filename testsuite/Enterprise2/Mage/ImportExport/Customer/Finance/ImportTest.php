@@ -43,8 +43,6 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
     {
         //logged in once for all tests
         $this->loginAdminUser();
-        //Step 1
-        $this->navigate('export');
     }
 
     /**
@@ -94,13 +92,13 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
-                'email' => $userData1['email'],
+                '_email' => $userData1['email'],
                 'store_credit' => '4321.0000',
                 'reward_points' => '1234'
             ));
         $customerDataRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
-                'email' => $userData2['email'],
+                '_email' => $userData2['email'],
                 '_finance_website' => 'base',
                 'store_credit' => '4321.0000',
                 'reward_points' => '1234'
@@ -168,8 +166,8 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
     {
         //Set correct email for csv data
         foreach ($csvData as $key => $value) {
-            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>'){
-                $csvData[$key]['email'] = self::$customerData['email'];
+            if (array_key_exists('_email', $csvData[$key]) && $csvData[$key]['_email'] == '<realEmail>'){
+                $csvData[$key]['_email'] = self::$customerData['email'];
             }
         }
         //Steps 1-4
@@ -186,7 +184,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
             . self::$customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
         //Verifying finance data
-        $this->assertEquals('$' .$csvData[0]['store_credit'] . '.00', $this->customerHelper()->getStoreCreditBalance(),
+        $this->assertEquals('$' . $csvData[0]['store_credit'] . '.00', $this->customerHelper()->getStoreCreditBalance(),
             'Store credit has not been added');
         $this->assertEquals($csvData[0]['reward_points'], $this->customerHelper()->getRewardPointsBalance(),
             'Reward points have not been added');
@@ -195,13 +193,13 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
     public function partialImportData()
     {
         $csvRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
-                'email' => '<realEmail>',
+                '_email' => '<realEmail>',
                 'store_credit' => '100',
                 'reward_points' => '200',
             )
         );
         $csvRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
-                'email' => '<realEmail>',
+                '_email' => '<realEmail>',
                 'store_credit' => 'store_credit',
                 'reward_points' => 'reward_points',
             )

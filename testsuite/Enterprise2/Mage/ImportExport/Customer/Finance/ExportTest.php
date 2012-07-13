@@ -30,7 +30,6 @@ class Enterprise2_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_Tes
         //logged in once for all tests
         $this->loginAdminUser();
         //Step 1
-        $this->navigate('export');
     }
 
     /**
@@ -65,7 +64,7 @@ class Enterprise2_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_Tes
         $report = $this->ImportExportHelper()->export();
         $this->assertNotNull($this->importExportHelper()->lookForEntity('finance',
                 array(
-                    'email' => $attrData['email'],
+                    '_email' => $attrData['email'],
                     'store_credit' => '10011',
                     'reward_points' => '1002'
                 ),
