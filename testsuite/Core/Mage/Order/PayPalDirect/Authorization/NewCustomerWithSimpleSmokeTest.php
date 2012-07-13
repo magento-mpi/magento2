@@ -370,6 +370,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 

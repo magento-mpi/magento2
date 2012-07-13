@@ -304,6 +304,7 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
         $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
+        $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_canceled_order');
     }
 
