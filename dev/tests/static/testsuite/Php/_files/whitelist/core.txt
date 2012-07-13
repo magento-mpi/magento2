@@ -22,7 +22,6 @@ dev/shell
 dev/tests/integration
 dev/tests/performance
 dev/tests/static
-dev/tests/static/testsuite/Php/_files/whitelist/enterprise.txt
 dev/tests/unit
 dev/tools
 lib/Magento/Convert
