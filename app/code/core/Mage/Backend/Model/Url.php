@@ -42,6 +42,16 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
      */
     protected $_backendHelper;
 
+    /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_coreHelper;
+
+    /**
+     * @var Mage_Core_Model_Session
+     */
+    protected $_coreSession;
+
     public function __construct(array $data = array())
     {
         parent::__construct($data);
@@ -58,6 +68,14 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
         if (false == ($this->_backendHelper instanceof Mage_Backend_Helper_Data)) {
             throw new InvalidArgumentException('Backend helper is corrupted');
         }
+
+        $this->_coreSession = isset($data['coreSession']) ?
+            $data['coreSession'] :
+            Mage::getSingleton('Mage_Core_Model_Session');
+
+        $this->_coreHelper = isset($data['coreHelper']) ?
+            $data['coreHelper'] :
+            Mage::helper('Mage_Core_Helper_Data');
     }
 
 
@@ -118,10 +136,10 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
         $_action = $this->getActionName() ? $this->getActionName() : $this->getDefaultActionName();
 
         if ($cacheSecretKey) {
-            $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$_controller}/{$_action}\$");
+            $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$_route}/{$_controller}/{$_action}\$");
         }
         else {
-            $secret = array(self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($_controller, $_action));
+            $secret = array(self::SECRET_KEY_PARAM_NAME => $this->getSecretKey($_route, $_controller, $_action));
         }
         if (is_array($routeParams)) {
             $routeParams = array_merge($secret, $routeParams);
@@ -138,24 +156,30 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     /**
      * Generate secret key for controller and action based on form key
      *
+     * @param string $routeName
      * @param string $controller Controller name
      * @param string $action Action name
      * @return string
      */
-    public function getSecretKey($controller = null, $action = null)
+    public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
-        $salt = Mage::getSingleton('Mage_Core_Model_Session')->getFormKey();
+        $salt = $this->_coreSession->getFormKey();
 
         $p = explode('/', trim($this->getRequest()->getOriginalPathInfo(), '/'));
+        if (!$routeName) {
+            $routeName = !empty($p[1]) ? $p[1] : $this->getRequest()->getRouteName();
+        }
+
         if (!$controller) {
             $controller = !empty($p[2]) ? $p[2] : $this->getRequest()->getControllerName();
         }
+
         if (!$action) {
             $action = !empty($p[3]) ? $p[3] : $this->getRequest()->getActionName();
         }
 
-        $secret = $controller . $action . $salt;
-        return Mage::helper('Mage_Core_Helper_Data')->getHash($secret);
+        $secret = $routeName . $controller . $action . $salt;
+        return $this->_coreHelper->getHash($secret);
     }
 
     /**

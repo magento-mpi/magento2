@@ -78,7 +78,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function testGetSecretKey()
     {
         Mage::getSingleton('Mage_Core_Model_Session')->setFormKey('salt');
-        $key = $this->_model->getSecretKey('controller', 'action');
+        $key = $this->_model->getSecretKey('route', 'controller', 'action');
         $this->assertGreaterThan(15, strlen($key));
     }
 

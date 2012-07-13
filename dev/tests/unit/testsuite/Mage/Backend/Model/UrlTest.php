@@ -27,9 +27,25 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 
     protected $_areaFrontName = 'backendArea';
 
+    /**
+     * @var Mage_Core_Model_Session|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreSessionMock;
+
+    /**
+     * @var Mage_Core_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_coreHelperMock;
+
     public function setUp()
     {
         $this->_menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
+
+        $this->_coreSessionMock = $this->getMock('Mage_Core_Model_Session', array('getFormKey'), array(), '', false);
+        $this->_coreSessionMock->expects($this->any())->method('getFormKey')->will($this->returnValue('salt'));
+
+        $this->_coreHelperMock = $this->getMock('Mage_Core_Helper_Data', array('getHash'), array(), '', false);
+        $this->_coreHelperMock->expects($this->any())->method('getHash')->will($this->returnArgument(0));
 
         $mockItem = $this->getMock('Mage_Backend_Model_Menu_Item', array(), array(), '', false);
         $mockItem->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
@@ -49,9 +65,14 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Backend_Model_Url(array(
                 'startupMenuItemId' => 'Mage_Adminhtml::system_acl_roles',
                 'menu' => $this->_menuMock,
-                'backendHelper' => $helperMock
+                'backendHelper' => $helperMock,
+                'coreSession' => $this->_coreSessionMock,
+                'coreHelper' => $this->_coreHelperMock,
             )
         );
+
+        $request = new Mage_Core_Controller_Request_Http();
+        $this->_model->setRequest($request);
     }
 
     public function testFindFirstAvailableMenuDenied()
@@ -129,7 +150,9 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $urlModel = new Mage_Backend_Model_Url(array(
             'startupMenuItemId' => 'Mage_Adminhtml::system_acl_roles',
             'menu' => $this->_menuMock,
-            'backendHelper' => $helperMock
+            'backendHelper' => $helperMock,
+            'coreSession' => $this->_coreSessionMock,
+            'coreHelper' => $this->_coreHelperMock,
         ));
 
         $urlModel->getAreaFrontName();
@@ -162,7 +185,9 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $urlModel = new Mage_Backend_Model_Url(array(
             'startupMenuItemId' => 'Mage_Adminhtml::system_acl_roles',
             'menu' => $this->_menuMock,
-            'backendHelper' => $helperMock
+            'backendHelper' => $helperMock,
+            'coreSession' => $this->_coreSessionMock,
+            'coreHelper' => $this->_coreHelperMock,
         ));
 
         $moduleFrontName = 'moduleFrontName';
@@ -180,4 +205,93 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $this->assertStringStartsWith($moduleFrontName . '/', $actionPath);
         $this->assertStringMatchesFormat($moduleFrontName . '/%s/%s', $actionPath);
     }
+
+    /**
+     * Check that secret key generation is based on usage of routeName passed as method param
+     * Params are not equals
+     */
+    public function testGetSecretKeyGenerationWithRouteNameAsParamNotEquals()
+    {
+        $routeName = 'adminhtml';
+        $controllerName = 'catalog';
+        $actionName = 'index';
+        $request = new Mage_Core_Controller_Request_Http();
+        $this->_model->setRequest($request);
+
+        $keyWithRouteName = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
+        $keyWithoutRouteName = $this->_model->getSecretKey(null, $controllerName, $actionName);
+        $keyDummyRouteName = $this->_model->getSecretKey('dummy', $controllerName, $actionName);
+
+        $this->assertNotEquals($keyWithRouteName, $keyWithoutRouteName);
+        $this->assertNotEquals($keyWithRouteName, $keyDummyRouteName);
+    }
+
+    /**
+     * Check that secret key generation is based on usage of routeName passed as method param
+     * Params are equals
+     */
+    public function testGetSecretKeyGenerationWithRouteNameAsParamEquals()
+    {
+        $routeName = 'adminhtml';
+        $controllerName = 'catalog';
+        $actionName = 'index';
+
+        $keyWithRouteName1 = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
+        $keyWithRouteName2 = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
+
+        $this->assertEquals($keyWithRouteName1, $keyWithRouteName2);
+    }
+
+    /**
+     * Check that secret key generation is based on usage of routeName extracted from request
+     */
+    public function testGetSecretKeyGenerationWithRouteNameInRequest()
+    {
+        $routeName = 'adminhtml';
+        $controllerName = 'catalog';
+        $actionName = 'index';
+
+        $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
+
+        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
+            array('getRouteName', 'getControllerName', 'getActionName'),
+            array(),
+            '',
+            false
+        );
+        $requestMock->expects($this->once())->method('getRouteName')->will($this->returnValue($routeName));
+        $requestMock->expects($this->once())->method('getControllerName')->will($this->returnValue($controllerName));
+        $requestMock->expects($this->once())->method('getActionName')->will($this->returnValue($actionName));
+        $this->_model->setRequest($requestMock);
+
+        $keyFromRequest = $this->_model->getSecretKey();
+        $this->assertEquals($keyFromParams, $keyFromRequest);
+    }
+
+    /**
+     * Check that secret key generation is based on usage of routeName extracted from request OriginalPathInfo
+     */
+    public function testGetSecretKeyGenerationWithRouteNameInOriginalPathInfo()
+    {
+        $routeName = 'adminhtml';
+        $controllerName = 'catalog';
+        $actionName = 'index';
+
+        $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
+
+        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
+            array('getOriginalPathInfo'),
+            array(),
+            '',
+            false
+        );
+
+        $requestMock->expects($this->once())
+            ->method('getOriginalPathInfo')
+            ->will($this->returnValue('backend/adminhtml/catalog/index'));
+        $this->_model->setRequest($requestMock);
+        $keyFromRequest = $this->_model->getSecretKey();
+        $this->assertEquals($keyFromParams, $keyFromRequest);
+    }
+
 }
