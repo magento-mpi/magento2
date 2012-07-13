@@ -33,7 +33,6 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
      * 1. Create customer at current API.
      * Expected result:
      * No errors raised and type of current API response is the same as in previous.
-     *
      */
     public function testCustomerCreate()
     {
@@ -57,8 +56,8 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     public function testCustomerList()
     {
         $apiMethod = 'customer.list';
-        $prevResponse = $this->prevCall($apiMethod);
-        $currResponse = $this->currCall($apiMethod);
+        $prevResponse = $this->prevCall($apiMethod, array('filters' => ''));
+        $currResponse = $this->currCall($apiMethod, array('filters' => ''));
         $this->_checkResponse($prevResponse, $currResponse, $apiMethod);
         $this->_checkVersionSignature($prevResponse[0], $currResponse[0], $apiMethod);
     }
@@ -76,8 +75,8 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     public function testCustomerInfo()
     {
         $apiMethod = 'customer.info';
-        $prevResponse = $this->prevCall($apiMethod, array(self::$_prevCustomerId));
-        $currResponse = $this->currCall($apiMethod, array(self::$_currCustomerId));
+        $prevResponse = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId));
+        $currResponse = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId));
         $this->_checkVersionSignature($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -102,8 +101,12 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
             'store_id' => 1,
             'group_id' => 1
         );
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerId, $customerData);
-        $currResponse = $this->currCall($apiMethod, self::$_currCustomerId, $customerData);
+        $prevResponse = $this->prevCall($apiMethod, array(
+            'customerId' => self::$_prevCustomerId,
+            'customerData' => $customerData));
+        $currResponse = $this->currCall($apiMethod, array(
+            'customerId' => self::$_currCustomerId,
+            'customerData' => $customerData));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -120,9 +123,8 @@ class Compatibility_Soap_CustomerTest extends Compatibility_Soap_SoapAbstract
     public function testCustomerDelete()
     {
         $apiMethod = 'customer.delete';
-        $prevResponse = $this->prevCall($apiMethod, self::$_prevCustomerId);
-        $currResponse = $this->currCall($apiMethod, self::$_currCustomerId);
+        $prevResponse = $this->prevCall($apiMethod, array('customerId' => self::$_prevCustomerId));
+        $currResponse = $this->currCall($apiMethod, array('customerId' => self::$_currCustomerId));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
-
 }

@@ -58,8 +58,8 @@ class Compatibility_Soap_Catalog_Category_AttributeTest extends Compatibility_So
     public function testCatalogCategoryAttributeOptions()
     {
         $apiMethod = 'catalog_category_attribute.options';
-        $prevOptionsList = $this->prevCall($apiMethod, array(self::$_prevAttributeId));
-        $currOptionsList = $this->currCall($apiMethod, array(self::$_currAttributeId));
+        $prevOptionsList = $this->prevCall($apiMethod, array('attributeId' => self::$_prevAttributeId));
+        $currOptionsList = $this->currCall($apiMethod, array('attributeId' => self::$_currAttributeId));
         $this->_checkResponse($prevOptionsList, $currOptionsList, $apiMethod);
         $this->_checkVersionSignature($prevOptionsList, $currOptionsList, $apiMethod);
     }

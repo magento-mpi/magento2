@@ -41,10 +41,10 @@
 
     <xs:complexType name="entity">
         <xs:sequence>
-            <xs:element name="rules" type="rules" />
-            <xs:element name="groups" type="groups" />
+            <xs:element name="rules" type="rules"/>
+            <xs:element name="groups" type="groups"/>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
 
     <xs:complexType name="rules">
@@ -52,7 +52,7 @@
             <xs:element name="rule" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="constraints" type="constraints" />
+                        <xs:element name="constraints" type="constraints"/>
                     </xs:sequence>
                     <xs:attribute name="name" type="xs:string" use="required"/>
                 </xs:complexType>
@@ -63,8 +63,8 @@
         <xs:sequence>
             <xs:element name="constraint" maxOccurs="unbounded">
                 <xs:complexType>
-                    <xs:attribute name="class" type="xs:string" use="required" />
-                    <xs:attribute name="field" type="xs:string" />
+                    <xs:attribute name="class" type="xs:string" use="required"/>
+                    <xs:attribute name="field" type="xs:string"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
@@ -75,7 +75,7 @@
             <xs:element name="group" maxOccurs="unbounded">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element name="uses" type="uses" />
+                        <xs:element name="uses" type="uses"/>
                     </xs:sequence>
                     <xs:attribute name="name" type="xs:string" use="required"/>
                 </xs:complexType>
@@ -89,14 +89,14 @@
     <xs:complexType name="uses">
         <xs:annotation>
             <xs:documentation xml:lang="en">
-                Validation group lists rules that it will use in this element
+                All validation rules used by current group are listed in this element
                 "rule" attribute of "use" element must point to one of entity's rules
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="use" maxOccurs="unbounded">
                 <xs:complexType>
-                    <xs:attribute name="rule" type="xs:string" />
+                    <xs:attribute name="rule" type="xs:string"/>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>

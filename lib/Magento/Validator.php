@@ -27,10 +27,10 @@ class Magento_Validator
      *
      * @param string $entityName
      * @param string $groupName
-     * @param Magento_Validator_Config $config (optional)
+     * @param Magento_Validator_Config $config
      * @throws InvalidArgumentException
      */
-    public function __construct($entityName, $groupName, Magento_Validator_Config $config = null)
+    public function __construct($entityName, $groupName, Magento_Validator_Config $config)
     {
         if (!$entityName) {
             throw new InvalidArgumentException('Validation entity name is required.');
@@ -42,10 +42,6 @@ class Magento_Validator
         }
         $this->_groupName = $groupName;
 
-        if (is_null($config)) {
-            $configFiles = glob(Mage::getBaseDir('app') . "code/*/*/*/etc/validation.xml", GLOB_NOSORT);
-            $config = new Magento_Validator_Config($configFiles);
-        }
         $this->_config = $config;
     }
 
@@ -74,7 +70,7 @@ class Magento_Validator
                         $isValid = false;
                     }
                 } else {
-                    /** @var Magento_Validator_ConstraintInterface $constraint */
+                    /** @var Magento_Validator_ConstraintAbstract $constraint */
                     if (!$constraint->isValidData($data, $field)) {
                         foreach ($constraint->getErrors() as $errorFieldName => $errors) {
                             foreach ($errors as $error) {

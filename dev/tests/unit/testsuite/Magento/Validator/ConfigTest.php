@@ -30,7 +30,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidEntityName()
     {
@@ -38,7 +38,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidGroupName()
     {
@@ -46,7 +46,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidZendConstraint()
     {
@@ -56,7 +56,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Magento_Exception
+     * @expectedException InvalidArgumentException
      */
     public function testGetValidationRulesInvalidMagentoConstraint()
     {
@@ -158,15 +158,12 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 }
 
-/** Dummy classes to test interface validation. */
-class Magento_Validator_Invalid_Interface {
+/** Dummy classes to test that constraint classes extend correct abstract. */
+class Magento_Validator_Invalid_Abstract {
 }
-class Magento_Validator_Test implements Magento_Validator_ConstraintInterface
+class Magento_Validator_Test extends Magento_Validator_ConstraintAbstract
 {
     public function isValidData(array $data, $field = null) {
         return true;
-    }
-    public function getErrors() {
-        return array();
     }
 }

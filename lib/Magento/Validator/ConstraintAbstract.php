@@ -11,8 +11,10 @@
 /**
  * Validator constraint interface.
  */
-interface Magento_Validator_ConstraintInterface
+abstract class Magento_Validator_ConstraintAbstract
 {
+    protected $_errors = array();
+
     /**
      * Validate field value in data.
      *
@@ -20,7 +22,7 @@ interface Magento_Validator_ConstraintInterface
      * @param string $field
      * @return boolean
      */
-    public function isValidData(array $data, $field = null);
+    abstract public function isValidData(array $data, $field = null);
 
     /**
      * Get constraint error messages.
@@ -36,5 +38,19 @@ interface Magento_Validator_ConstraintInterface
      *
      * @return array
      */
-    public function getErrors();
+    public function getErrors()
+    {
+        return $this->_errors;
+    }
+
+    /**
+     * Add error message
+     *
+     * @param string $field
+     * @param string $message
+     */
+    public function addError($field, $message)
+    {
+        $this->_errors[$field][] = $message;
+    }
 }
