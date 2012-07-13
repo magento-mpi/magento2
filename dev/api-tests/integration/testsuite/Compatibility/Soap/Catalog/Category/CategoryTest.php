@@ -118,8 +118,8 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
     public function testCatalogCategoryTree()
     {
         $apiMethod = 'catalog_category.tree';
-        $prevResponse = $this->prevCall($apiMethod);
-        $currResponse = $this->currCall($apiMethod);
+        $prevResponse = $this->prevCall($apiMethod, array('parentId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
+        $currResponse = $this->currCall($apiMethod, array('parentId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
@@ -167,10 +167,12 @@ class Compatibility_Soap_Catalog_Category_CategoryTest extends Compatibility_Soa
         $parentIds = $this->_createCategories();
         $prevResponse = $this->prevCall($apiMethod, array(
             'categoryId' => self::$_prevCategoryId,
-            'parentId' => $parentIds['prevCategoryId']));
+            'parentId' => $parentIds['prevCategoryId'],
+            'afterId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
         $currResponse = $this->currCall($apiMethod, array(
             'categoryId' => self::$_currCategoryId,
-            'parentId' => $parentIds['currCategoryId']));
+            'parentId' => $parentIds['currCategoryId'],
+            'afterId' => Mage_Catalog_Model_Category::TREE_ROOT_ID));
         $this->_checkVersionType($prevResponse, $currResponse, $apiMethod);
     }
 
