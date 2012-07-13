@@ -2055,7 +2055,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
      *
      * @param string $filePath
-     * @return string Error message or screenshot file path
+     * @return string Error message(snapsie initialization error) or empty string(if script fails)
      */
     private function takeScreenshotIE($filePath)
     {
