@@ -63,7 +63,7 @@ generic_address_csv:
     _action: %noValue%
 
 generic_finance_csv:
-   email: %noValue%
+   _email: %noValue%
    _website: base
    _finance_website: base
    store_credit: 0

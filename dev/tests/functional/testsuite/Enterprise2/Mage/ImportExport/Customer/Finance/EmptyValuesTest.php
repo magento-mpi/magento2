@@ -93,11 +93,11 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         $userData2['update_balance'] = '250';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['email'] = $userData1['email'];
+        $data[0]['_email'] = $userData1['email'];
         $data[0]['store_credit'] = '';
         $data[0]['reward_points'] = '';
 
-        $data[1]['email'] = $userData2['email'];
+        $data[1]['_email'] = $userData2['email'];
         $data[1]['store_credit'] = '0';
         $data[1]['reward_points'] = '0';
 

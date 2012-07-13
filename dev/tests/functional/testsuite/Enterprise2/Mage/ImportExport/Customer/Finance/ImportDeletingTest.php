@@ -87,9 +87,9 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $userData2['update_balance'] = '10';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['email'] = $userData1['email'];
+        $data[0]['_email'] = $userData1['email'];
 
-        $data[1]['email'] = $userData2['email'];
+        $data[1]['_email'] = $userData2['email'];
 
         //Step 1,2, 3, 4
         $this->navigate('import');
@@ -199,7 +199,7 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
         $userData2['update_balance'] = '100';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[1]['email'] = $userData2['email'];
+        $data[1]['_email'] = $userData2['email'];
 
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
@@ -236,7 +236,7 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
                 array(
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                         array(
-                            'email' => 'not_existing_email_qqqqq@example.co',
+                            '_email' => 'not_existing_email_qqqqq@example.co',
                             'store_credit' => '25',
                             'reward_points' => '50'
                         )
@@ -311,9 +311,9 @@ class Enterprise2_Mage_ImportExport_Deleting_FinanceTest extends Mage_Selenium_T
          $userData2['update_balance'] = '250';
          $this->assertMessagePresent('success', 'success_saved_customer');
 
-         $data[0]['email'] = $userData1['email'];;
+         $data[0]['_email'] = $userData1['email'];;
 
-         $data[1]['email'] = $userData2['email'];
+         $data[1]['_email'] = $userData2['email'];
 
          $this->navigate('import');
          $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',

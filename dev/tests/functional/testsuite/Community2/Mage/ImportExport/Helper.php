@@ -34,7 +34,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             $this->getSelectedValue(
                 $this->_getControlXpath('dropdown', 'file_format'));
         if ($this->controlIsVisible('dropdown', 'export_file')) {
-            $path = $path . "/{$entity_type}_entity/" .
+            $path = $path . "/entity_subtype/" .
                 $this->getSelectedValue(
                     $this->_getControlXpath('dropdown', 'export_file'));
         }
@@ -486,19 +486,25 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
         $this->fillDropdown('entity_type', $entityType);
         if (!is_null($importVersion)){
-            $this->waitForElementVisible(
-                $this->_getControlXpath('dropdown','import_file_version')
-            );
+            if (!$this->waitForElementVisible(
+                $this->_getControlXpath('dropdown','import_file_version')))
+            {
+                $this->fail('Can\'t find element: dropdown - import_file_version');
+            };
             $this->fillDropdown('import_file_version', $importVersion);
             if (!is_null($importBehavior)){
-                $this->waitForElementVisible(
-                    $this->_getControlXpath('dropdown', 'import_behavior')
-                );
+                if (!$this->waitForElementVisible(
+                    $this->_getControlXpath('dropdown', 'import_behavior')))
+                {
+                    $this->fail('Can\'t find element: dropdown - import_behavior');
+                };
                 $this->fillDropdown('import_behavior', $importBehavior);
                 if (!is_null($importEntity)){
-                    $this->waitForElementVisible(
-                        $this->_getControlXpath('dropdown', 'import_customer_entity')
-                    );
+                    if (!$this->waitForElementVisible(
+                        $this->_getControlXpath('dropdown', 'import_customer_entity')))
+                    {
+                        $this->fail('Can\'t find element: dropdown - import_customer_entity');
+                    }
                     $this->fillDropdown('import_customer_entity', $importEntity);
                 }
             }
@@ -521,17 +527,29 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
         $this->fillDropdown('entity_type', $entityType);
         if (!is_null($exportVersion)){
-            $this->waitForElementVisible(
-                $this->_getControlXpath('dropdown','export_file_version')
-            );
+            if (!$this->waitForElementVisible(
+                $this->_getControlXpath('dropdown','export_file_version')))
+            {
+                $this->fail('Can\'t find element: dropdown - export_file_version');
+            }
             $this->fillDropdown('export_file_version', $exportVersion);
             if (!is_null($exportEntity)){
-                $this->waitForElementVisible(
-                    $this->_getControlXpath('dropdown', 'export_file')
-                );
+                if (!$this->waitForElementVisible(
+                    $this->_getControlXpath('dropdown', 'export_file')))
+                {
+                    $this->fail('Can\'t find element: dropdown - export_file');
+                }
                 $this->fillDropdown('export_file', $exportEntity);
-                $this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
-                $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+                if (!$this->waitForElementVisible(
+                    $this->_getControlXpath('fieldset', 'grid_and_filter')))
+                {
+                    $this->fail('Can\'t find element: fieldset - grid_and_filter');
+                }
+                if (!$this->waitForElementVisible(
+                    $this->_getControlXpath('button', 'continue')))
+                {
+                    $this->fail('Can\'t find element: button - continue');
+                }
             }
         }
 
