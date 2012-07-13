@@ -90,4 +90,20 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
             array($section, $group, $field, array($fieldPath => 'value'), false),
         );
     }
+
+    public function testInitFormAddsFieldsets()
+    {
+        new Mage_Core_Controller_Front_Action(Mage::app()->getRequest(), Mage::app()->getResponse());
+        Mage::app()->getRequest()->setParam('section', 'general');
+        $block = new Mage_Adminhtml_Block_System_Config_Form();
+        $block->setLayout(Mage::app()->getLayout());
+        $block->initForm();
+        $expectedIds = array(
+            'general_country', 'general_region', 'general_locale', 'general_restriction', 'general_store_information'
+        );
+        foreach ($block->getForm()->getElements() as $key => $element) {
+            $this->assertInstanceOf('Varien_Data_Form_Element_Fieldset', $element);
+            $this->assertEquals($expectedIds[$key], $element->getId());
+        };
+    }
 }
