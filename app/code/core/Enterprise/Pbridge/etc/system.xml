@@ -84,7 +84,7 @@
                     </fields>
                 </pbridge>
                 <pbridge_authorizenet translate="label" module="Enterprise_Pbridge">
-                    <label>Payment Bridge (Authorizenet)</label>
+                    <label>Authorize.net (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
