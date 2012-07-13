@@ -67,8 +67,8 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
                 'style'  => 'display:none'
             )
         );
-        $fieldsets['customer']->addField('customer_entity', 'select', array(
-            'name'     => 'customer_entity',
+        $fieldsets['customer']->addField('entity_subtype', 'select', array(
+            'name'     => 'entity_subtype',
             'title'    => $helper->__('Customer Entity Type'),
             'label'    => $helper->__('Customer Entity Type'),
             'required' => false,

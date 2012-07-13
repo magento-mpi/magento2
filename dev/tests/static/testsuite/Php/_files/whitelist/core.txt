@@ -1,4 +1,7 @@
 app/bootstrap.php
+app/code/core/Enterprise/ImportExport/Block/Adminhtml/Scheduled/Operation/Edit/Form/Export.php
+app/code/core/Enterprise/ImportExport/Block/Adminhtml/Scheduled/Operation/Grid.php
+app/code/core/Enterprise/ImportExport/Model/Scheduled/Operation/Data.php
 app/code/core/Mage/Adminhtml/Model/Observer.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/Model/Config/Module.php

@@ -25,6 +25,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
      */
     protected function _prepareForm()
     {
+        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
         $form = new Varien_Data_Form(array(
             'id'     => 'edit_form',
@@ -90,8 +91,9 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'required'  => false
         ));
 
-        $entities = Mage::getModel('Mage_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity')
-            ->toOptionArray();
+        $entities = Mage::getModel(
+            'Mage_ImportExport_Model_Source_' . uc_words($operation->getOperationType()) . '_Entity'
+        )->toOptionArray();
 
         $fieldset->addField('entity', 'select', array(
             'name'      => 'entity_type',
@@ -101,6 +103,26 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'values'    => $entities
         ));
 
+        /** @var $sourceModel Mage_ImportExport_Model_Source_Format_Version */
+        $sourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Format_Version');
+        $fieldset->addField('file_format_version', 'select', array(
+            'name'     => 'file_format_version',
+            'title'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Format Version'),
+            'label'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Format Version'),
+            'required' => true,
+            'values'   => $sourceModel->toOptionArray()
+        ));
+
+        /** @var $sourceModel Mage_ImportExport_Model_Source_Export_Customer_Entity */
+        $sourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Customer_Entity');
+        $fieldset->addField('entity_subtype', 'select', array(
+            'name'     => 'entity_subtype',
+            'title'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
+            'label'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
+            'required' => true,
+            'values'   => $sourceModel->toOptionArray()
+        ));
+
         $fieldset->addField('start_time', 'time', array(
             'name'      => 'start_time',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Start Time'),
@@ -108,13 +130,15 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'required'  => true,
         ));
 
+        /** @var $operationData Enterprise_ImportExport_Model_Scheduled_Operation_Data */
+        $operationData = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data');
+
         $fieldset->addField('freq', 'select', array(
             'name'      => 'freq',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Frequency'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Frequency'),
             'required'  => true,
-            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
-                ->getFrequencyOptionArray()
+            'values'    => $operationData->getFrequencyOptionArray()
         ));
 
         $fieldset->addField('status', 'select', array(
@@ -122,8 +146,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'required'  => true,
-            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
-                ->getStatusesOptionArray()
+            'values'    => $operationData->getStatusesOptionArray()
         ));
 
         return $this;
@@ -138,6 +161,9 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
      */
     protected function _addFileSettings($form, $operation)
     {
+        /** @var $operationData Enterprise_ImportExport_Model_Scheduled_Operation_Data */
+        $operationData = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data');
+
         $fieldset = $form->addFieldset('file_settings', array(
             'legend' => $this->getFileSettingsLabel()
         ));
@@ -147,8 +173,7 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Server Type'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Server Type'),
             'required'  => true,
-            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
-                ->getServerTypesOptionArray(),
+            'values'    => $operationData->getServerTypesOptionArray(),
         ));
 
         $fieldset->addField('file_path', 'text', array(
@@ -156,7 +181,8 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Directory'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Directory'),
             'required'  => true,
-            'note'      => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('For Type "Local Server" use relative path to Magento installation, e.g. var/export, var/import, var/export/some/dir')
+            'note'      => Mage::helper('Enterprise_ImportExport_Helper_Data')
+                ->__('For Type "Local Server" use relative path to Magento installation, e.g. var/export, var/import, var/export/some/dir')
         ));
 
         $fieldset->addField('host', 'text', array(
@@ -184,16 +210,17 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'name'      => 'file_info[file_mode]',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Mode'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Mode'),
-            'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
-                ->getFileModesOptionArray(),
+            'values'    => $operationData->getFileModesOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 
+        /** @var $sourceYesNo Mage_Adminhtml_Model_System_Config_Source_Yesno */
+        $sourceYesNo = Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno');
         $fieldset->addField('passive', 'select', array(
             'name'      => 'file_info[passive]',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Passive Mode'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Passive Mode'),
-            'values'    => Mage::getSingleton('Mage_Adminhtml_Model_System_Config_Source_Yesno')->toOptionArray(),
+            'values'    => $sourceYesNo->toOptionArray(),
             'class'     => 'ftp-server server-dependent'
         ));
 
@@ -213,19 +240,21 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'legend' => $this->getEmailSettingsLabel()
         ));
 
-        $emails = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Identity')->toOptionArray();
+        /** @var $sourceEmailIdentity Mage_Adminhtml_Model_System_Config_Source_Email_Identity */
+        $sourceEmailIdentity = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Identity');
+
         $fieldset->addField('email_receiver', 'select', array(
             'name'      => 'email_receiver',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Failed Email Receiver'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Failed Email Receiver'),
-            'values'    => $emails
+            'values'    => $sourceEmailIdentity->toOptionArray()
         ));
 
         $fieldset->addField('email_sender', 'select', array(
             'name'      => 'email_sender',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Failed Email Sender'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Failed Email Sender'),
-            'values'    => $emails
+            'values'    => $sourceEmailIdentity->toOptionArray()
         ));
 
         $fieldset->addField('email_template', 'select', array(
@@ -240,11 +269,14 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Send Failed Email Copy To')
         ));
 
+        /** @var $sourceEmailMethod Mage_Adminhtml_Model_System_Config_Source_Email_Method */
+        $sourceEmailMethod = Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Method');
+
         $fieldset->addField('email_copy_method', 'select', array(
             'name'      => 'email_copy_method',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Send Failed Email Copy Method'),
             'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Send Failed Email Copy Method'),
-            'values'    => Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Method')->toOptionArray()
+            'values'    => $sourceEmailMethod->toOptionArray()
         ));
 
         return $this;

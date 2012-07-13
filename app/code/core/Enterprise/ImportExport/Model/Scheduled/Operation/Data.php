@@ -53,9 +53,12 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getFrequencyOptionArray()
     {
         return array(
-            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY   => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Daily'),
-            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY  => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Weekly'),
-            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Monthly'),
+            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_DAILY
+                => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Daily'),
+            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_WEEKLY
+                => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Weekly'),
+            Mage_Adminhtml_Model_System_Config_Source_Cron_Frequency::CRON_MONTHLY
+                => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Monthly'),
         );
     }
 
@@ -137,5 +140,21 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
                 }
                 return $entities;
         }
+    }
+
+    /**
+     * Get option array for entity subtypes
+     *
+     * @return array
+     */
+    public function getEntitySubtypesOptionArray()
+    {
+        $exportEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
+            Mage_ImportExport_Model_Export::CONFIG_KEY_CUSTOMER_ENTITIES
+        );
+        $importEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
+            Mage_ImportExport_Model_Import::CONFIG_KEY_CUSTOMER_ENTITIES
+        );
+        return array_merge($exportEntities, $importEntities);
     }
 }
