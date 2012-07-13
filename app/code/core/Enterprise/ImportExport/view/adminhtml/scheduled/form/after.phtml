@@ -13,6 +13,8 @@
 /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
 $operation = Mage::registry('current_operation');
 $entitySubtype = $operation->getEntitySubtype();
+$operationType = $operation->getOperationType();
+$entityBehavior = $operation->getBehavior();
 
 $formatVersions = array(
     1 => Mage_ImportExport_Model_Source_Format_Version::VERSION_1,
@@ -35,6 +37,19 @@ $formatVersions = array(
     } else {
         $('file_format_version').up('tr').hide();
         $('entity_subtype').up('tr').hide();
+    }
+    if ('<?php echo $operationType ?>' == 'import') {
+        if ($('entity') && $F('entity') == 'customer') {
+            if ('<?php echo $entitySubtype ?>' == '') {
+                editForm.showBehavior(editForm.BEHAVIOR_VERSION_1);
+                $('behavior_v1').value = '<?php echo $entityBehavior ?>';
+            } else {
+                editForm.showBehavior(editForm.BEHAVIOR_VERSION_2_CUSTOMER);
+                $('behavior_v2_customer').value = '<?php echo $entityBehavior ?>';
+            }
+        } else {
+            editForm.showBehavior(false);
+        }
     }
     var serverType = $('server_type'),
         onChangeCallback = function(e) {

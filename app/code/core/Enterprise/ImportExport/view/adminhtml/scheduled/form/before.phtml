@@ -13,6 +13,53 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
+    /**#@+
+     * Behavior version constants
+     *
+     * @type string
+     */
+    varienForm.prototype.BEHAVIOR_VERSION_1 = 'behaviour_v1';
+    varienForm.prototype.BEHAVIOR_VERSION_2_CUSTOMER = 'behaviour_v2_customer';
+    /**#@-*/
+
+    /**
+     * Show behavior selector
+     *
+     * @param string|boolean behaviorVersion If false, then hide both behavior selectors
+     * @return void
+     */
+    varienForm.prototype.showBehavior = function(behaviorVersion)
+    {
+        if (behaviorVersion == this.BEHAVIOR_VERSION_1) {
+            $('behavior_v1').up('tr').show();
+            $('behavior_v1').enable();
+            $('behavior_v1').addClassName('required-entry');
+
+            $('behavior_v2_customer').up('tr').hide();
+            $('behavior_v2_customer').selectedIndex = 0;
+            $('behavior_v2_customer').disable();
+            $('behavior_v2_customer').removeClassName('required-entry')
+        } else if (behaviorVersion == this.BEHAVIOR_VERSION_2_CUSTOMER) {
+            $('behavior_v1').up('tr').hide();
+            $('behavior_v1').selectedIndex = 0;
+            $('behavior_v1').disable();
+            $('behavior_v1').removeClassName('required-entry');
+
+            $('behavior_v2_customer').up('tr').show();
+            $('behavior_v2_customer').enable();
+            $('behavior_v2_customer').addClassName('required-entry')
+        } else {
+            $('behavior_v1').up('tr').hide();
+            $('behavior_v1').selectedIndex = 0;
+            $('behavior_v1').disable();
+            $('behavior_v1').removeClassName('required-entry');
+
+            $('behavior_v2_customer').up('tr').hide();
+            $('behavior_v2_customer').selectedIndex = 0;
+            $('behavior_v2_customer').disable();
+            $('behavior_v2_customer').removeClassName('required-entry')
+        }
+    };
 
     /**
      * Show import format version selector
@@ -55,7 +102,7 @@
     };
 
     /**
-     * Handle value change in entity type selector
+     * Handle value change in entity type selector for export
      *
      * @return void
      */
@@ -83,6 +130,34 @@
     };
 
     /**
+     * Handle value change in entity type selector for import
+     *
+     * @return void
+     */
+    varienForm.prototype.handleImportEntityTypeSelector = function()
+    {
+        if ($('entity') && $F('entity')) {
+            this.showFormatVersion(false);
+            this.showBehavior(false);
+            this.showCustomerEntity(false);
+            switch ($F('entity')) {
+                case 'customer':
+                    this.showFormatVersion(true);
+                    break;
+                case 'catalog_product':
+                    this.showBehavior(this.BEHAVIOR_VERSION_1);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            this.showFormatVersion(false);
+            this.showBehavior(false);
+            this.showCustomerEntity(false);
+        }
+    };
+
+    /**
      * Handle value change in export format version selector
      *
      * @return void
@@ -105,6 +180,32 @@
         } else {
             this.showCustomerEntity(false);
             $('export_filter_container').hide();
+        }
+    };
+
+    /**
+     * Handle value change in import format version selector
+     *
+     * @return void
+     */
+    varienForm.prototype.handleImportFormatVersionSelector = function()
+    {
+        if ($('file_format_version') && $F('file_format_version')) {
+            switch ($F('file_format_version')) {
+                case '<?php echo Mage_ImportExport_Model_Source_Format_Version::VERSION_1 ?>':
+                    this.showBehavior(this.BEHAVIOR_VERSION_1);
+                    this.showCustomerEntity(false);
+                    break;
+                case '<?php echo Mage_ImportExport_Model_Source_Format_Version::VERSION_2 ?>':
+                    this.showBehavior(this.BEHAVIOR_VERSION_2_CUSTOMER);
+                    this.showCustomerEntity(true);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            this.showBehavior(false);
+            this.showCustomerEntity(false);
         }
     };
 

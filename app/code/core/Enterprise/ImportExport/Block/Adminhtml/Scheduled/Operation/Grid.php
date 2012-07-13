@@ -77,14 +77,14 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         ));
 
         $this->addColumn('entity_type', array(
-            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity type'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Type'),
             'index'         => 'entity_type',
             'type'          => 'options',
             'options'       => $dataModel->getEntitiesOptionArray()
         ));
 
         $this->addColumn('entity_subtype', array(
-            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity subtype'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
             'index'         => 'entity_subtype',
             'type'          => 'options',
             'options'       => $dataModel->getEntitySubtypesOptionArray()
