@@ -11,7 +11,7 @@
 /**
  * Configuration of performance tests
  */
-class Benchmark_Config
+class Magento_Config
 {
     const DEFAULT_JMETER_JAR_FILE = 'ApacheJMeter.jar';
 

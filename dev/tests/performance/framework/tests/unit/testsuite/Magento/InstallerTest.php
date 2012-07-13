@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Benchmark_InstallerTest extends PHPUnit_Framework_TestCase
+class Magento_InstallerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
@@ -17,7 +17,7 @@ class Benchmark_InstallerTest extends PHPUnit_Framework_TestCase
     protected $_shell;
 
     /**
-     * @var Benchmark_Installer|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Installer|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -31,7 +31,7 @@ class Benchmark_InstallerTest extends PHPUnit_Framework_TestCase
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
         $this->_installerScript = realpath(__DIR__ . '/_files/install_stub.php');
         $this->_object = $this->getMock(
-            'Benchmark_Installer',
+            'Magento_Installer',
             array('_bootstrap', '_reindex'),
             array($this->_installerScript, $this->_shell)
         );
@@ -49,7 +49,7 @@ class Benchmark_InstallerTest extends PHPUnit_Framework_TestCase
      */
     public function testConstructorException()
     {
-        new Benchmark_Installer('non_existing_script', $this->_shell);
+        new Magento_Installer('non_existing_script', $this->_shell);
     }
 
     public function testUninstall()

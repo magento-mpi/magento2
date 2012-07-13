@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
+class Magento_ConfigTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Benchmark_Config
+     * @var Magento_Config
      */
     protected $_object;
 
@@ -48,7 +48,7 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = new Benchmark_Config($this->_sampleConfigData, __DIR__ . '/_files');
+        $this->_object = new Magento_Config($this->_sampleConfigData, __DIR__ . '/_files');
     }
 
     protected function tearDown()
@@ -65,7 +65,7 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
     public function testConstructorException(array $configData, $baseDir, $expectedExceptionMsg)
     {
         $this->setExpectedException('Magento_Exception', $expectedExceptionMsg);
-        new Benchmark_Config($configData, $baseDir);
+        new Magento_Config($configData, $baseDir);
     }
 
     public function constructorExceptionDataProvider()
@@ -147,16 +147,16 @@ class Benchmark_ConfigTest extends PHPUnit_Framework_TestCase
 
         $configData = $this->_sampleConfigData;
         $configData['jmeter_jar_file'] = $expectedPath;
-        $object = new Benchmark_Config($configData, $baseDir);
+        $object = new Magento_Config($configData, $baseDir);
         $this->assertEquals($expectedPath, $object->getJMeterPath());
 
         $configData['jmeter_jar_file'] = null;
         putenv("jmeter_jar_file={$expectedPath}");
-        $object = new Benchmark_Config($configData, $baseDir);
+        $object = new Magento_Config($configData, $baseDir);
         $this->assertEquals($expectedPath, $object->getJMeterPath());
 
         putenv('jmeter_jar_file=');
-        $object = new Benchmark_Config($configData, $baseDir);
+        $object = new Magento_Config($configData, $baseDir);
         $this->assertNotEmpty($object->getJMeterPath());
     }
 }

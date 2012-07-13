@@ -11,12 +11,12 @@
  */
 
 try {
-    /** @var $config Benchmark_Config */
+    /** @var $config Magento_Config */
     $config = require_once __DIR__ . '/framework/bootstrap.php';
-    $scenario = new Benchmark_Scenario(new Magento_Shell(true), $config->getJMeterPath(), $config->getReportDir());
+    $scenario = new Magento_Scenario(new Magento_Shell(true), $config->getJMeterPath(), $config->getReportDir());
     $scenarioParamsGlobal = array(
-        Benchmark_Scenario::PARAM_HOST => $config->getApplicationUrlHost(),
-        Benchmark_Scenario::PARAM_PATH => $config->getApplicationUrlPath()
+        Magento_Scenario::PARAM_HOST => $config->getApplicationUrlHost(),
+        Magento_Scenario::PARAM_PATH => $config->getApplicationUrlPath()
     );
     $scenarioTotalCount = count($config->getScenarios());
     $scenarioFailCount = 0;

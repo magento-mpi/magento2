@@ -11,7 +11,7 @@
 /**
  * Scenario for performance tests
  */
-class Benchmark_Scenario
+class Magento_Scenario
 {
     /**
      * Common scenario parameters

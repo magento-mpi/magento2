@@ -11,7 +11,7 @@
 /**
  * Magento application for performance tests
  */
-class Benchmark_Installer
+class Magento_Installer
 {
     /**
      * @var string
