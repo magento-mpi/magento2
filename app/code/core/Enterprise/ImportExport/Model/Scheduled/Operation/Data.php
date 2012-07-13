@@ -17,7 +17,46 @@
  */
 class Enterprise_ImportExport_Model_Scheduled_Operation_Data
 {
+    /**
+     * Pending status constant
+     */
     const STATUS_PENDING = 2;
+
+    /**
+     * Import/export config model
+     *
+     * @var Mage_ImportExport_Model_Config
+     */
+    protected $_importExportConfig;
+
+    /**
+     * Export entity model
+     *
+     * @var Mage_ImportExport_Model_Export
+     */
+    protected $_exportModel;
+
+    /**
+     * Import entity model
+     *
+     * @var Mage_ImportExport_Model_Import
+     */
+    protected $_importModel;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
+            : Mage::getModel('Mage_ImportExport_Model_Config');
+        $this->_exportModel = isset($data['export_model']) ? $data['export_model']
+            : Mage::getModel('Mage_ImportExport_Model_Export');
+        $this->_importModel = isset($data['import_model']) ? $data['import_model']
+            : Mage::getModel('Mage_ImportExport_Model_Import');
+    }
 
     /**
      * Get statuses option array
@@ -149,12 +188,11 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
      */
     public function getEntitySubtypesOptionArray()
     {
-        $exportEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
-            Mage_ImportExport_Model_Export::CONFIG_KEY_CUSTOMER_ENTITIES
-        );
-        $importEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
-            Mage_ImportExport_Model_Import::CONFIG_KEY_CUSTOMER_ENTITIES
-        );
+        $importExportConfig = $this->_importExportConfig;
+        $exportModel = $this->_exportModel;
+        $importModel = $this->_importModel;
+        $exportEntities = $importExportConfig::getModelsArrayOptions($exportModel::CONFIG_KEY_CUSTOMER_ENTITIES);
+        $importEntities = $importExportConfig::getModelsArrayOptions($importModel::CONFIG_KEY_CUSTOMER_ENTITIES);
         return array_merge($exportEntities, $importEntities);
     }
 }
