@@ -11,8 +11,6 @@
 
 /**
  * Test class for Mage_Backend_Model_Url.
- *
- * @group module:Mage_Backend
  */
 class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
 {
@@ -63,8 +61,11 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * App isolation is enabled to protect next tests from polluted registry by getUrl()
+     *
      * @covers Mage_Backend_Model_Url::getSecure
      * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
+     * @magentoAppIsolation enabled
      */
     public function testGetUrl()
     {
@@ -73,18 +74,50 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Mage_Backend_Model_Url::getSecretKey
+     * @param string $controller
+     * @param string $action
+     * @param string $expectedHash
+     * @magentoConfigFixture global/helpers/core/encryption_model Mage_Core_Model_Encryption
+     * @dataProvider getSecretKeyDataProvider
+     * @magentoAppIsolation enabled
      */
-    public function testGetSecretKey()
+    public function testGetSecretKey($controller, $action, $expectedHash)
     {
-        Mage::getSingleton('Mage_Core_Model_Session')->setFormKey('salt');
-        $key = $this->_model->getSecretKey('controller', 'action');
-        $this->assertGreaterThan(15, strlen($key));
+        $request = new Mage_Core_Controller_Request_Http;
+        $request->setControllerName('default_controller')->setActionName('default_action');
+        $this->_model->setRequest($request);
+        Mage::getSingleton('Mage_Core_Model_Session')->setData('_form_key', 'salt');
+        $this->assertEquals($expectedHash, $this->_model->getSecretKey($controller, $action));
     }
 
     /**
-     * @covers Mage_Backend_Model_Url::useSecretKey
+     * @return array
      */
+    public function getSecretKeyDataProvider()
+    {
+        return array(
+            array('', '', 'ae90f9dc052b0f2567b989b38dbfd7f7'),
+            array('', 'action', '3cb46d2fac46f6cecd37803a8ea15109'),
+            array('controller', '', '8ae895734a8706dec3fbd69fb21e1b77'),
+            array('controller', 'action', 'c36d05473b54f437889608cbe8d50339'),
+        );
+        // md5('controlleractionsalt') .
+    }
+
+    /**
+     * @magentoConfigFixture global/helpers/core/encryption_model Mage_Core_Model_Encryption
+     * @magentoAppIsolation enabled
+     */
+    public function testGetSecretKeyForwarded()
+    {
+        $request = new Mage_Core_Controller_Request_Http;
+        $request->setControllerName('controller')->setActionName('action');
+        $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
+        $this->_model->setRequest($request);
+        Mage::getSingleton('Mage_Core_Model_Session')->setData('_form_key', 'salt');
+        $this->assertEquals('c36d05473b54f437889608cbe8d50339', $this->_model->getSecretKey());
+    }
+
     public function testUseSecretKey()
     {
         $this->_model->setNoSecret(true);
