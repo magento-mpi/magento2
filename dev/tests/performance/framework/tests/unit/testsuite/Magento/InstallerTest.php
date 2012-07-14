@@ -44,12 +44,21 @@ class Magento_InstallerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $installerScriptPath
+     * @dataProvider constructorExceptionDataProvider
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage Console installer 'non_existing_script' does not exist.
      */
-    public function testConstructorException()
+    public function testConstructorException($installerScriptPath)
     {
-        new Magento_Installer('non_existing_script', $this->_shell);
+        new Magento_Installer($installerScriptPath, $this->_shell);
+    }
+
+    public function constructorExceptionDataProvider()
+    {
+        return array(
+            'non existing script' => array('non_existing_script'),
+            'directory path' => array(__DIR__)
+        );
     }
 
     public function testUninstall()

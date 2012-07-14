@@ -13,6 +13,9 @@
  */
 class Magento_Config
 {
+    /**
+     * Default value for configuration of benchmarking executable file path
+     */
     const DEFAULT_JMETER_JAR_FILE = 'ApacheJMeter.jar';
 
     /**

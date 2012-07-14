@@ -142,21 +142,28 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
 
     public function testGetJMeterPath()
     {
-        $baseDir = __DIR__ . '/_files';
-        $expectedPath = '/path/to/custom/JMeterFile.jar';
+        $oldEnv = getenv("jmeter_jar_file");
+        try {
+            $baseDir = __DIR__ . '/_files';
+            $expectedPath = '/path/to/custom/JMeterFile.jar';
 
-        $configData = $this->_sampleConfigData;
-        $configData['jmeter_jar_file'] = $expectedPath;
-        $object = new Magento_Config($configData, $baseDir);
-        $this->assertEquals($expectedPath, $object->getJMeterPath());
+            $configData = $this->_sampleConfigData;
+            $configData['jmeter_jar_file'] = $expectedPath;
+            $object = new Magento_Config($configData, $baseDir);
+            $this->assertEquals($expectedPath, $object->getJMeterPath());
 
-        $configData['jmeter_jar_file'] = null;
-        putenv("jmeter_jar_file={$expectedPath}");
-        $object = new Magento_Config($configData, $baseDir);
-        $this->assertEquals($expectedPath, $object->getJMeterPath());
+            $configData['jmeter_jar_file'] = null;
+            putenv("jmeter_jar_file={$expectedPath}");
+            $object = new Magento_Config($configData, $baseDir);
+            $this->assertEquals($expectedPath, $object->getJMeterPath());
 
-        putenv('jmeter_jar_file=');
-        $object = new Magento_Config($configData, $baseDir);
-        $this->assertNotEmpty($object->getJMeterPath());
+            putenv('jmeter_jar_file=');
+            $object = new Magento_Config($configData, $baseDir);
+            $this->assertNotEmpty($object->getJMeterPath());
+        } catch (Exception $e) {
+            putenv("jmeter_jar_file={$oldEnv}");
+            throw $e;
+        }
+        putenv("jmeter_jar_file={$oldEnv}");
     }
 }

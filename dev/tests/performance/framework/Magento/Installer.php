@@ -32,8 +32,8 @@ class Magento_Installer
      */
     public function __construct($installerScript, Magento_Shell $shell)
     {
-        if (!file_exists($installerScript)) {
-            throw new Magento_Exception("Console installer '$installerScript' does not exist.");
+        if (!is_file($installerScript)) {
+            throw new Magento_Exception("File '$installerScript' is not found.");
         }
 
         $this->_installerScript = realpath($installerScript);
