@@ -2609,6 +2609,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string|array $locator XPath locator or array of locator's
      * @param int $timeout Timeout period in seconds (by default = null)
      *
+     * @throws RuntimeException
      * @return bool
      */
     public function waitForElement($locator, $timeout = null)
@@ -2631,7 +2632,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             sleep(1);
         }
-        return false;
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
     }
 
     /**
@@ -2681,6 +2682,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string|array $locator XPath locator or array of locator's
      * @param int $timeout Timeout period in seconds (by default = null)
      *
+     * @throws RuntimeException
      * @return bool
      */
     public function waitForElementVisible($locator, $timeout = null)
@@ -2703,7 +2705,39 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             }
             sleep(1);
         }
-        return false;
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+    }
+
+    /**
+     * Waits for the element(s) to be visible
+     *
+     * @param string|array $locator XPath locator or array of locator's
+     * @param int $timeout Timeout period in seconds (by default = null)
+     *
+     * @throws RuntimeException
+     * @return bool
+     */
+    public function waitForElementEditable($locator, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeoutPeriod / 1000;
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            if (is_array($locator)) {
+                foreach ($locator as $loc) {
+                    if ($this->isElementPresent($loc) && $this->isEditable($loc)) {
+                        return true;
+                    }
+                }
+            } else {
+                if ($this->isElementPresent($locator) && $this->isEditable($locator)) {
+                    return true;
+                }
+            }
+            sleep(1);
+        }
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
     }
 
     /**
@@ -3131,19 +3165,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             foreach ($formDataMap as $formFieldName => $formField) {
                 switch ($formField['type']) {
                     case self::FIELD_TYPE_INPUT:
-                        $this->_fillFormField($formField);
+                        $this->fillField($formFieldName, $formField['value'], $formField['path']);
                         break;
                     case self::FIELD_TYPE_CHECKBOX:
-                        $this->_fillFormCheckbox($formField);
+                        $this->fillCheckbox($formFieldName, $formField['value'], $formField['path']);
                         break;
                     case self::FIELD_TYPE_DROPDOWN:
-                        $this->_fillFormDropdown($formField);
+                        $this->fillDropdown($formFieldName, $formField['value'], $formField['path']);
                         break;
                     case self::FIELD_TYPE_RADIOBUTTON:
-                        $this->_fillFormRadiobutton($formField);
+                        $this->fillRadiobutton($formFieldName, $formField['value'], $formField['path']);
                         break;
                     case self::FIELD_TYPE_MULTISELECT:
-                        $this->_fillFormMultiselect($formField);
+                        $this->fillMultiselect($formFieldName, $formField['value'], $formField['path']);
                         break;
                     default:
                         throw new PHPUnit_Framework_Exception('Unsupported field type');
@@ -3256,7 +3290,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $selectedLabels = array();
                         try {
                             $selectedLabels = $this->getSelectedLabels($formField['path']);
-                            $selectedLabels = array_map('trim', $selectedLabels, array(chr(0xC2) . chr(0xA0)));
+                            foreach ($selectedLabels as $key => $label) {
+                                $selectedLabels[$key] = trim($label, chr(0xC2) . chr(0xA0));
+                            }
                         } catch (RuntimeException $e) {
                             if (strpos($e->getMessage(), 'No option selected') === false) {
                                 throw $e;
@@ -3366,30 +3402,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('field', $name);
         }
-        $errorMessage =
-            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
-            . "Problem with field '$name' and xpath '$xpath':\n";
-        if ($this->isElementPresent($xpath)) {
-            $this->waitForEditable($xpath);
-            $this->type($xpath, $value);
-            $this->waitForAjax();
-        } else {
-            throw new RuntimeException($errorMessage . 'Element is not present on the page');
+        try {
+            $this->waitForElementEditable($xpath);
+        } catch (RuntimeException $e) {
+            $errorMessage =
+                'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\n" . "Problem with field '$name' and xpath '$xpath':\n'Element is not present or not editable'";
+            throw new RuntimeException($errorMessage);
         }
-    }
-
-    /**
-     * Fills 'multiselect' control by selecting the specified values.
-     *
-     * @param array $fieldData Array of a 'path' to control and 'value' to select
-     *
-     * @throws PHPUnit_Framework_Exception
-     * @deprecated
-     * @see fillMultiselect()
-     */
-    protected function _fillFormMultiselect($fieldData)
-    {
-        $this->fillMultiselect('', $fieldData['value'], $fieldData['path']);
+        $this->type($xpath, $value);
     }
 
     /**
@@ -3406,54 +3427,35 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('multiselect', $name);
         }
-        $errorMessage =
-            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
-            . "Problem with multiselect field '$name' and xpath '$xpath':\n";
-        if ($this->isElementPresent($xpath)) {
-            if ($this->isEditable($xpath)) {
-
-                $this->removeAllSelections($xpath);
-                //@TODO
-                //$options = $this->getSelectOptions($xpath);
-                $valuesArray = array();
-                if (strtolower($value) == 'all') {
-                    $count = $this->getXpathCount($xpath . '//option');
-                    for ($i = 1; $i <= $count; $i++) {
-                        $valuesArray[] = $this->getText($xpath . "//option[$i]");
-                    }
-                } else {
-                    $valuesArray = explode(',', $value);
-                    $valuesArray = array_map('trim', $valuesArray);
-                }
-                foreach ($valuesArray as $v) {
-                    if ($value != null) {
-                        if ($this->isElementPresent($xpath . "//option[text()='" . $v . "']")) {
-                            $this->addSelection($xpath, 'label=' . $v);
-                        } else {
-                            $this->addSelection($xpath, 'regexp:' . preg_quote($v));
-                        }
-                    }
-                }
-            } else {
-                throw new RuntimeException($errorMessage . 'Element is not editable');
+        try {
+            $this->waitForElementEditable($xpath);
+        } catch (RuntimeException $e) {
+            $errorMessage =
+                'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\n"
+                . "Problem with multiselect '$name' and xpath '$xpath':\n'Element is not present or not editable'";
+            throw new RuntimeException($errorMessage);
+        }
+        $this->removeAllSelections($xpath);
+        $valuesArray = array();
+        if (strtolower($value) == 'all') {
+            $options = $this->getSelectOptions($xpath);
+            foreach ($options as $key => $opt) {
+                $options[$key] = trim($opt, chr(0xC2) . chr(0xA0));
             }
         } else {
-            throw new RuntimeException($errorMessage . 'Element is not present on the page');
+            $valuesArray = explode(',', $value);
+            $valuesArray = array_map('trim', $valuesArray);
         }
-    }
-
-    /**
-     * Fills the 'dropdown' control by selecting the specified value.
-     *
-     * @param array $fieldData Array of a 'path' to control and 'value' to select
-     *
-     * @throws PHPUnit_Framework_Exception
-     * @deprecated
-     * @see fillDropdown()
-     */
-    protected function _fillFormDropdown($fieldData)
-    {
-        $this->fillDropdown('', $fieldData['value'], $fieldData['path']);
+        foreach ($valuesArray as $v) {
+            if ($value != null) {
+                if ($this->isElementPresent($xpath . "//option[text()='" . $v . "']")) {
+                    $this->addSelection($xpath, 'label=' . $v);
+                } else {
+                    $this->addSelection($xpath, 'regexp:' . preg_quote($v));
+                }
+            }
+        }
     }
 
     /**
@@ -3470,41 +3472,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('dropdown', $name);
         }
-        $errorMessage =
-            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
-            . "Problem with dropdown field '$name' and xpath '$xpath':\n";
-        if ($this->isElementPresent($xpath)) {
-            if ($this->isEditable($xpath)) {
-                if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != $value) {
-                    if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
-                        $this->select($xpath, 'label=' . $value);
-                    } elseif ($this->isElementPresent($xpath . "//option[@value='" . $value . "']")) {
-                        $this->select($xpath, 'value=' . $value);
-                    } else {
-                        $this->select($xpath, 'regexp:' . preg_quote($value));
-                    }
-                    $this->waitForAjax();
-                }
-            } else {
-                throw new RuntimeException($errorMessage . 'Element is not editable');
-            }
-        } else {
-            throw new RuntimeException($errorMessage . 'Element is not present on the page');
+        try {
+            $this->waitForElementEditable($xpath);
+        } catch (RuntimeException $e) {
+            $errorMessage =
+                'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\n" . "Problem with dropdown '$name' and xpath '$xpath':\n'Element is not present or not editable'";
+            throw new RuntimeException($errorMessage);
         }
-    }
-
-    /**
-     * Fills 'checkbox' control by selecting/unselecting it based on the specified value.
-     *
-     * @param array $fieldData Array of a 'path' to control and 'value' to select. Value can be 'Yes' or 'No'.
-     *
-     * @throws PHPUnit_Framework_Exception
-     * @deprecated
-     * @see fillCheckbox()
-     */
-    protected function _fillFormCheckbox($fieldData)
-    {
-        $this->fillCheckbox('', $fieldData['value'], $fieldData['path']);
+        if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != $value) {
+            if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
+                $this->select($xpath, 'label=' . $value);
+            } elseif ($this->isElementPresent($xpath . "//option[@value='" . $value . "']")) {
+                $this->select($xpath, 'value=' . $value);
+            } else {
+                $this->select($xpath, 'regexp:' . preg_quote($value));
+            }
+        }
     }
 
     /**
@@ -3519,44 +3503,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('checkbox', $name);
         }
-        $errorMessage =
-            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
-            . "Problem with checkbox '$name' and xpath '$xpath':\n";
-        if ($this->isElementPresent($xpath)) {
-            if ($this->isEditable($xpath)) {
-                $currentValue = $this->getValue($xpath);
-                if (strtolower($value) == 'yes') {
-                    if ($currentValue == 'off' || $currentValue == '0') {
-                        $this->click($xpath);
-                        $this->waitForAjax();
-                    }
-                } elseif (strtolower($value) == 'no') {
-                    if ($currentValue == 'on' || $currentValue == '1') {
-                        $this->click($xpath);
-                        $this->waitForAjax();
-                    }
-                }
-            } else {
-                throw new RuntimeException($errorMessage . 'Element is not editable');
-            }
-        } else {
-            throw new RuntimeException($errorMessage . 'Element is not present on the page');
+        try {
+            $this->waitForElementEditable($xpath);
+        } catch (RuntimeException $e) {
+            $errorMessage =
+                'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\n" . "Problem with checkbox '$name' and xpath '$xpath':\n'Element is not present or not editable'";
+            throw new RuntimeException($errorMessage);
         }
-    }
-
-    /**
-     * Fills the 'radiobutton' control by selecting the specified value.
-     *
-     * @param array $fieldData Array of a 'path' to control and 'value' to select.<br>
-     * Value should be 'Yes' to select the radiobutton.
-     *
-     * @throws PHPUnit_Framework_Exception
-     * @deprecated
-     * @see fillRadiobutton()
-     */
-    protected function _fillFormRadiobutton($fieldData)
-    {
-        $this->fillRadiobutton('', $fieldData['value'], $fieldData['path']);
+        $currentValue = $this->getValue($xpath);
+        if (strtolower($value) == 'yes') {
+            if ($currentValue == 'off' || $currentValue == '0') {
+                $this->click($xpath);
+            }
+        } elseif (strtolower($value) == 'no') {
+            if ($currentValue == 'on' || $currentValue == '1') {
+                $this->click($xpath);
+            }
+        }
     }
 
     /**
@@ -3571,23 +3535,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('radiobutton', $name);
         }
-        $errorMessage =
-            'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n"
-            . "Problem with radiobutton '$name' and xpath '$xpath':\n";
-        if ($this->isElementPresent($xpath)) {
-            if ($this->isEditable($xpath)) {
-                if (strtolower($value) == 'yes') {
-                    $this->click($xpath);
-                    $this->waitForAjax();
-                } elseif (strtolower($value) == 'no') {
-                    $this->uncheck($xpath);
-                    $this->waitForAjax();
-                }
-            } else {
-                throw new RuntimeException($errorMessage . 'Element is not editable');
-            }
-        } else {
-            throw new RuntimeException($errorMessage . 'Element is not present on the page');
+        try {
+            $this->waitForElementEditable($xpath);
+        } catch (RuntimeException $e) {
+            $errorMessage =
+                'Current location url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                . "'\n"
+                . "Problem with radiobutton '$name' and xpath '$xpath':\n'Element is not present or not editable'";
+            throw new RuntimeException($errorMessage);
+        }
+        if (strtolower($value) == 'yes') {
+            $this->click($xpath);
+        } elseif (strtolower($value) == 'no') {
+            $this->uncheck($xpath);
         }
     }
 
@@ -3680,8 +3640,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $xpath = $this->_getControlXpath('pageelement', $value);
                 $qty = $this->getXpathCount($xpath);
                 for ($i = 1; $i < $qty + 1; $i++) {
-                    $fillData = array('path' => $xpath . '[' . $i . ']//input', 'value' => 'Yes');
-                    $this->_fillFormCheckbox($fillData);
+                    $this->fillCheckbox('', 'Yes', $xpath . '[' . $i . ']//input');
                 }
             }
             $this->fillFieldset(array('cache_action' => 'Refresh'), 'cache_grid');
