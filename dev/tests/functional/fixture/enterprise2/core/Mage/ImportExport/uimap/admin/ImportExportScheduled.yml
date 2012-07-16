@@ -47,7 +47,8 @@ scheduled_import_export:
             success_saved_import:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been saved.')]
             success_delete_export: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been deleted.')]
             success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been deleted.')]
-
+            success_run: //li[normalize-space(@class)='success-msg' and contains(.,'Operation has been successfully run')]
+            error_run: //li[normalize-space(@class)='error-msg' and contains(.,'Unable to run operation')]
 
 #scheduled_import_export_index:
 #    mca: scheduled_operation/
@@ -71,7 +72,7 @@ scheduled_importexport_add:
                             entity_type: //select[@id='entity']
                             entity_subtype: //select[@id='entity_subtype']
                             file_format_version: //select[@id='file_format_version']
-                            behavior: //select[@name='behavior']
+                            behavior: //select[@name='behavior' and not(ancestor::tr[contains(@style,'display: none')])]
                             file_format: //select[@id='file_format']
                             start_time_hours: //input[@id='start_time']/following-sibling::select[1]
                             start_time_minutes: //input[@id='start_time']/following-sibling::select[2]
