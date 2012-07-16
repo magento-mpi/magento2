@@ -134,3 +134,6 @@ $product->setTypeId(Mage_Catalog_Model_Product_Type::TYPE_SIMPLE)
     )
     ->setHasOptions(true)
     ->save();
+
+Mage::unregister('_fixture/Mage_Catalog_Product_Simple');
+Mage::register('_fixture/Mage_Catalog_Product_Simple', $product);
