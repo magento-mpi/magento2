@@ -21,23 +21,24 @@ scheduled_import_export:
                 -
                     grid_and_filter:
                         xpath: //div[@id='operationGrid']
-                        fields:
-                            name: //table[@id='operationGrid_table']//th//input[@id='operationGrid_filter_name']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                             submit: //button[span='Submit']
+                        fields:
+                            name: //input[@id='operationGrid_filter_name']
+                            grid: //table[@id='operationGrid_table']
                         dropdowns:
+                            operation: //select[@id='operationGrid_filter_operation_type']
+                            entity_type: //select[@id='operationGrid_filter_entity_type']
+                            entity_subtype: //select[@id='operationGrid_filter_entity_subtype']
+                            frequency: //select[@id='operationGrid_filter_freq']
+                            status: //select[@id='operationGrid_filter_status']
+                            last_outcome: //select[@id='operationGrid_filter_is_success']
+                            action: //tr[td[2][normalize-space(text())='%attr_code%']]//select[@class = 'action-select']
                             grid_massaction_select: //select[@id='operationGrid_massaction-select']
-                            operation: //table[@id='operationGrid_table']//th//select[@id='operationGrid_filter_operation_type']
-                            entity_type: //table[@id='operationGrid_table']//th//select[@id='operationGrid_filter_entity_type']
-                            frequency: //table[@id='operationGrid_table']//th//select[@id='operationGrid_filter_freq']
-                            status: //table[@id='operationGrid_table']//th//select[@id='operationGrid_filter_status']
-                            last_outcome: //table[@id='operationGrid_table']//th//select[@id='operationGrid_filter_is_success']
-                            action: //table[@id="operationGrid_table"]//tr[td[2][normalize-space(text())='ghgfhhh']]//select[@class = 'action-select']
-                            last_run_date: //table[@id="operationGrid_table"]//tr[td[2][normalize-space(text())='ghgfhhh']]//select[@class = 'action-select']
                         pageelements:
-                            customer_grid_head: //table[@id='operationGrid_table']/thead/tr[@class='headings']
+                            scheduled_grid_head: //thead/tr[@class='headings']
         buttons:
             add_scheduled_import: //button[span='Add Scheduled Import']
             add_scheduled_export: //button[span='Add Scheduled Export']
@@ -68,8 +69,9 @@ scheduled_importexport_add:
                             description: //textarea[@id='details']
                         dropdowns:
                             entity_type: //select[@id='entity']
+                            entity_subtype: //select[@id='entity_subtype']
                             file_format_version: //select[@id='file_format_version']
-                            behavior: //select[@id='behavior']
+                            behavior: //select[@name='behavior']
                             file_format: //select[@id='file_format']
                             start_time_hours: //input[@id='start_time']/following-sibling::select[1]
                             start_time_minutes: //input[@id='start_time']/following-sibling::select[2]

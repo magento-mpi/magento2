@@ -227,8 +227,29 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
+        $columnNumber =  $this->getColumnIdByName('Last Outcome',
+            $this->_getControlXpath('field', 'grid'));
         if ($xpath){
-            return $this->getElementByXpath($xpath . '/td[8]');
+            return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
+        } else {
+            $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
+        }
+    }
+    /**
+     * Get last run date
+     *
+     * @param array $searchData
+     *
+     * @return string  Date as string in format M j, Y g:i:s A
+     */
+    public function getLastRunDate(array $searchData)
+    {
+        $this->_prepareDataForSearch($searchData);
+        $xpath = $this->search($searchData, 'grid_and_filter');
+        $columnNumber =  $this->getColumnIdByName('Last Run Date',
+                                                  $this->_getControlXpath('field', 'grid'));
+        if ($xpath){
+            return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
@@ -245,8 +266,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
+        $columnNumber =  $this->getColumnIdByName('Action',
+            $this->_getControlXpath('field', 'grid'));
         if ($xpath){
-            $this->fillDropdown('action', $action, $xpath . '/td[9]/select');
+            $this->fillDropdown('action', $action, $xpath . "/td[{$columnNumber}]/select");
             $this->waitForPageToLoad();
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
