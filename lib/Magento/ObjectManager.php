@@ -1,8 +1,32 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: VAIO
- * Date: 16.07.12
- * Time: 0:59
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_ObjectManager
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
+
+interface Magento_ObjectManager
+{
+    /**
+     * Create new object instance
+     *
+     * @abstract
+     * @param string $objectName
+     * @param array $arguments
+     * @return mixed
+     */
+    public function create($objectName, array $arguments = array());
+
+    /**
+     * Retreive cached object instance
+     *
+     * @abstract
+     * @param string $objectName
+     * @param array $arguments
+     * @return mixed
+     */
+    public function get($objectName, array $arguments = array());
+}

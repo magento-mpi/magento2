@@ -49,6 +49,13 @@ final class Mage
     static private $_events;
 
     /**
+     * Object manager interface
+     *
+     * @var Magento_ObjectManager
+     */
+    static private $_objectManager;
+
+    /**
      * Object cache instance
      *
      * @var Varien_Object_Cache
@@ -413,7 +420,7 @@ final class Mage
      */
     public static function getModel($modelClass = '', $arguments = array())
     {
-        return self::getConfig()->getModelInstance($modelClass, $arguments);
+        return self::getObjectManager()->create($modelClass, $arguments);
     }
 
     /**
@@ -425,11 +432,21 @@ final class Mage
      */
     public static function getSingleton($modelClass='', array $arguments=array())
     {
-        $registryKey = '_singleton/'.$modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getModel($modelClass, $arguments));
+        return self::getObjectManager()->get($modelClass, $arguments);
+    }
+
+    /**
+     * Retrieve object manager
+     *
+     * @static
+     * @return Magento_ObjectManager
+     */
+    public static function getObjectManager()
+    {
+        if (!self::$_objectManager) {
+            self::$_objectManager = new Magento_ObjectManager_Base(self::getConfig());
         }
-        return self::registry($registryKey);
+        return self::$_objectManager;
     }
 
     /**

@@ -11,11 +11,18 @@
 class Magento_ObjectManager_Base implements Magento_ObjectManager
 {
     /**
+     * Application config
+     *
      * @var Mage_Core_Model_Config
      */
     protected $_config;
 
-    protected $_instances;
+    /**
+     * Created instances
+     *
+     * @var array
+     */
+    protected $_instances = array();
 
     public function __construct($config)
     {
@@ -26,25 +33,39 @@ class Magento_ObjectManager_Base implements Magento_ObjectManager
      * Create new object instance
      *
      * @abstract
-     * @param $objectName
+     * @param string $objectName
      * @param array $arguments
      * @return mixed
      */
-    public function create($objectName, $arguments = array())
+    public function create($objectName, array $arguments = array())
     {
         $className = $this->_config->getModelClassName($objectName);
-        return new $className($arguments);
+
+        switch (count($arguments)) {
+            case 1:
+                return new $className($arguments[0]);
+            case 2:
+                return new $className($arguments[0], $arguments[1]);
+            case 3:
+                return new $className($arguments[0], $arguments[1], $arguments[2]);
+            case 4:
+                return new $className($arguments[0], $arguments[1], $arguments[2], $arguments[3]);
+            case 5:
+                return new $className($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4]);
+        }
+        $class = new ReflectionClass($className);
+        return $class->newInstanceArgs($class);
     }
 
     /**
      * Retreive cached object instance
      *
      * @abstract
-     * @param $objectName
-     * @param $arguments
+     * @param string $objectName
+     * @param array $arguments
      * @return mixed
      */
-    public function get($objectName, $arguments)
+    public function get($objectName, array $arguments = array())
     {
         if (!isset($this->_instances[$objectName])) {
             $this->_instances[$objectName] = $this->create($objectName, $arguments);
