@@ -22,17 +22,6 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
     protected $_model;
 
     /**
-     * Map of keys which used inside test model
-     *
-     * @var array
-     */
-    protected $_modelDataMap = array(
-        'entity_type' => 'entity',
-        'start_time'  => 'run_at',
-        'id'          => 'scheduled_operation_id'
-    );
-
-    /**
      * Date value for tests
      *
      * @var string
@@ -44,8 +33,6 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
      */
     public function setUp()
     {
-        parent::setUp();
-
         $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
@@ -62,8 +49,6 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
     public function tearDown()
     {
         unset($this->_model);
-
-        parent::tearDown();
     }
 
     /**
@@ -89,13 +74,13 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
             ),
             'entity_attributes' => array(
                 'export_filter' => 'test',
-                'skip_attr' => 'test'
+                'skip_attr'     => 'test'
             ),
-            'entity_type' => 'customer',
+            'entity_type'    => 'customer',
             'entity_subtype' => 'customer_address',
             'operation_type' => 'export',
-            'start_time' => '00:00:00',
-            'id' => 1
+            'start_time'     => '00:00:00',
+            'id'             => 1
         );
         $operation = $this->_getOperationMock($operationData);
         $this->_model->initialize($operation);
@@ -115,14 +100,15 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
      * Test for method 'getScheduledFileName'
      *
      * @param $data
+     * @param $expectedSuffix
      * @dataProvider entityTypeDataProvider
      */
-    public function testGetScheduledFileName($data)
+    public function testGetScheduledFileName($data, $expectedSuffix)
     {
         $operation = $this->_getOperationMock($data);
         $this->_model->initialize($operation);
         $this->assertEquals(
-            $this->_date . '_' . $data['expected_suffix'],
+            $this->_date . '_' . $expectedSuffix,
             $this->_model->getScheduledFileName(),
             'File name is wrong'
         );
@@ -141,16 +127,16 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
                     'entity_type'     => 'customer',
                     'entity_subtype'  => null,
                     'operation_type'  => 'export',
-                    'expected_suffix' => 'export_customer'
-                )
+                ),
+                '$expectedSuffix' => 'export_customer'
             ),
             'Test file name when entity subtype provided' => array(
                 '$data' => array(
                     'entity_type'     => 'customer',
                     'entity_subtype'  => 'customer_address',
-                    'operation_type'  => 'export',
-                    'expected_suffix' => 'export_customer_address'
-                )
+                    'operation_type'  => 'export'
+                ),
+                '$expectedSuffix' => 'export_customer_address'
             )
         );
     }
@@ -163,8 +149,14 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
      */
     protected function _getMappedValue($key)
     {
-        if (array_key_exists($key, $this->_modelDataMap)) {
-            return $this->_modelDataMap[$key];
+        $modelDataMap = array(
+            'entity_type' => 'entity',
+            'start_time'  => 'run_at',
+            'id'          => 'scheduled_operation_id'
+        );
+
+        if (array_key_exists($key, $modelDataMap)) {
+            return $modelDataMap[$key];
         }
 
         return $key;

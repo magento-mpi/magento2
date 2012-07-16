@@ -22,23 +22,10 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
     protected $_model;
 
     /**
-     * Map of keys which used inside test model
-     *
-     * @var array
-     */
-    protected $_modelDataMap = array(
-        'entity_type' => 'entity',
-        'start_time'  => 'run_at',
-        'id'          => 'scheduled_operation_id'
-    );
-
-    /**
      * Init model for future tests
      */
     public function setUp()
     {
-        parent::setUp();
-
         $this->_model = new Enterprise_ImportExport_Model_Import();
     }
 
@@ -48,8 +35,6 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
     public function tearDown()
     {
         unset($this->_model);
-
-        parent::tearDown();
     }
 
     /**
@@ -89,8 +74,14 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
      */
     protected function _getMappedValue($key)
     {
-        if (array_key_exists($key, $this->_modelDataMap)) {
-            return $this->_modelDataMap[$key];
+        $modelDataMap = array(
+            'entity_type' => 'entity',
+            'start_time'  => 'run_at',
+            'id'          => 'scheduled_operation_id'
+        );
+
+        if (array_key_exists($key, $modelDataMap)) {
+            return $modelDataMap[$key];
         }
 
         return $key;

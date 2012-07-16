@@ -20,10 +20,10 @@
  * @method string getEntityType() getEntityType()
  * @method string getEntitySubtype() getEntitySubtype()
  * @method Enterprise_ImportExport_Model_Scheduled_Operation setEntitySubtype() setEntitySubtype(string $value)
- * @method string getStartTime() getStartTime()
+ * @method string|array getStartTime() getStartTime()
  * @method Enterprise_ImportExport_Model_Scheduled_Operation setStartTime() setStartTime(string $value)
- * @method string getFileInfo() getFileInfo()
- * @method string getEntityAttributes() getEntityAttributes()
+ * @method string|array getFileInfo() getFileInfo()
+ * @method string|array getEntityAttributes() getEntityAttributes()
  * @method string getBehavior() getBehavior()
  * @method string getForceImport() getForceImport()
  */
