@@ -156,13 +156,16 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            $areas = $this->_config->getAreas();
-            $this->_areaFrontName =  '';
-            if (isset($areas[$this->getAreaCode()]) && isset($areas[$this->getAreaCode()]['frontName'])) {
-                $this->_areaFrontName = $areas[$this->getAreaCode()]['frontName'];
+            if ((string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH)) {
+                $areaFrontName = (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH);
+                if ((string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME) != $areaFrontName) {
+                    $this->_config->setNode(self::XML_PATH_BACKEND_FRONTNAME, $areaFrontName, true);
+                }
+            } else {
+                $areaFrontName = (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
             }
+            $this->_areaFrontName = $areaFrontName;
         }
-
         return $this->_areaFrontName;
     }
 }

@@ -39,10 +39,10 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
     public function __construct(array $options = array())
     {
         parent::__construct($options);
-        if (!isset($options['frontName'])) {
-            throw new InvalidArgumentException('Area Front Name should be passed to Backend Router constructor');
+        $this->_areaFrontName = Mage::helper('Mage_Backend_Helper_Data')->getAreaFrontName();
+        if (empty($this->_areaFrontName)) {
+            throw new InvalidArgumentException('Area Front Name should be defined');
         }
-        $this->_areaFrontName = $options['frontName'];
     }
 
     /**
@@ -140,14 +140,6 @@ class Mage_Backend_Controller_Router_Default extends Mage_Core_Controller_Varien
      */
     public function collectRoutes($configArea, $useRouterName)
     {
-        if ((string)Mage::getConfig()->getNode(Mage_Backend_Helper_Data::XML_PATH_USE_CUSTOM_ADMIN_PATH)) {
-            $customUrl = (string)Mage::getConfig()->getNode(Mage_Backend_Helper_Data::XML_PATH_CUSTOM_ADMIN_PATH);
-            $xmlPath = Mage_Backend_Helper_Data::XML_PATH_BACKEND_FRONTNAME;
-            if ((string)Mage::getConfig()->getNode($xmlPath) != $customUrl) {
-                Mage::getConfig()->setNode($xmlPath, $customUrl, true);
-            }
-        }
-
         parent::collectRoutes('admin', $useRouterName);
     }
 
