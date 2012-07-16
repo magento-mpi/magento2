@@ -2926,7 +2926,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 $this->validatePage();
             } else {
                 $this->click($xpathTR . "/td[contains(text(),'" . $data[array_rand($data)] . "')]");
-                $this->waitForAjax($this->_browserTimeoutPeriod);
+                $this->waitForAjax();
             }
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($data, true));
@@ -3437,22 +3437,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             throw new RuntimeException($errorMessage);
         }
         $this->removeAllSelections($xpath);
-        $valuesArray = array();
         if (strtolower($value) == 'all') {
             $options = $this->getSelectOptions($xpath);
             foreach ($options as $key => $opt) {
                 $options[$key] = trim($opt, chr(0xC2) . chr(0xA0));
             }
         } else {
-            $valuesArray = explode(',', $value);
-            $valuesArray = array_map('trim', $valuesArray);
+            $options = explode(',', $value);
+            $options = array_map('trim', $options);
         }
-        foreach ($valuesArray as $v) {
-            if ($value != null) {
-                if ($this->isElementPresent($xpath . "//option[text()='" . $v . "']")) {
-                    $this->addSelection($xpath, 'label=' . $v);
+        foreach ($options as $option) {
+            if ($option) {
+                if ($this->isElementPresent($xpath . "//option[text()='" . $option . "']")) {
+                    $this->addSelection($xpath, 'label=' . $option);
                 } else {
-                    $this->addSelection($xpath, 'regexp:' . preg_quote($v));
+                    $this->addSelection($xpath, 'regexp:' . preg_quote($option));
                 }
             }
         }
