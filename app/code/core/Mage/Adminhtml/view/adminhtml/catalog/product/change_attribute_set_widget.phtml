@@ -1,27 +1,26 @@
 <?php
 /**
-* {license_notice}
-*
-* @category    Mage
-* @package     Mage_Adminhtml
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 /* @var $this Mage_Core_Block_Template */
 ?>
 <script type="text/javascript">//<[CDATA[
 (function($, window, document) {
     "use strict";
-
-    $('#product_edit_form').bind('product:changeAttributeSet', function(event, attributeSetId) {
-        var $form = $(this);
-        var uri = document.location.href.replace(/(\/|&)?set(\/|=)\d+/g, '');
-        uri += /\?/.test(uri) ? '&' : '?';
-        uri += 'set=' + window.encodeURIComponent(attributeSetId);
-        $form.attr('action', uri).submit();
-    });
-
     $(function() {
+        $('#product_edit_form').bind('product:changeAttributeSet', function(event, attributeSetId) {
+            var $form = $(this);
+            var uri = document.location.href.replace(/(\/|&)?set(\/|=)\d+/g, '');
+            uri += /\?/.test(uri) ? '&' : '?';
+            uri += 'set=' + window.encodeURIComponent(attributeSetId);
+            $form.attr('action', uri).submit();
+        });
+
         $('#attribute-set-info').dialog({
             title: '<?php echo Mage::helper('Mage_Catalog_Helper_Data')->__('Select Attribute Set'); ?>',
             autoOpen: false,
