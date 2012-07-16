@@ -8,8 +8,8 @@
  */
 
 /*jshint eqnull:true */
-
-$(document).ready(function () {
-  $("#bug_tracking_link").attr('target','varien_external');
-});
-
+(function ($) {
+    $(document).ready(function () {
+        $("#bug_tracking_link").attr('target', 'varien_external');
+    });
+}(jQuery));

@@ -8,6 +8,8 @@
  */
 
 /*jshint eqnull:true */
-$(document).ready(function () {
-  $('#form-validate').mage().validate({errorClass: 'mage-error', errorElement: 'div'});
- });
+(function ($) {
+    $(document).ready(function () {
+        $('#form-validate').mage().validate({errorClass: 'mage-error', errorElement: 'div'});
+    });
+}(jQuery));
