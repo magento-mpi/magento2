@@ -156,16 +156,21 @@ class Mage_Backend_Helper_Data extends Mage_Core_Helper_Abstract
     public function getAreaFrontName()
     {
         if (null === $this->_areaFrontName) {
-            if ((string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH)) {
-                $areaFrontName = (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH);
-                if ((string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME) != $areaFrontName) {
-                    $this->_config->setNode(self::XML_PATH_BACKEND_FRONTNAME, $areaFrontName, true);
-                }
-            } else {
-                $areaFrontName = (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
-            }
-            $this->_areaFrontName = $areaFrontName;
+            $this->_areaFrontName = (bool)(string)$this->_config->getNode(self::XML_PATH_USE_CUSTOM_ADMIN_PATH) ?
+                (string)$this->_config->getNode(self::XML_PATH_CUSTOM_ADMIN_PATH) :
+                (string)$this->_config->getNode(self::XML_PATH_BACKEND_FRONTNAME);
         }
         return $this->_areaFrontName;
+    }
+
+    /**
+     * Invalidate cache of area front name
+     *
+     * @return Mage_Backend_Helper_Data
+     */
+    public function clearAreaFrontName()
+    {
+        $this->_areaFrontName = null;
+        return $this;
     }
 }
