@@ -57,7 +57,6 @@
             <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
             <action method="addCss"><file>Mage_Adminhtml::css/ui-lightness/jquery-ui-1.8.21.custom.css</file></action>
         </reference>
-
         <reference name="content">
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit" name="product_edit"></block>
             <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet" name="attribute-set-info" template="Mage_Adminhtml::catalog/product/edit/attribute_set.phtml"></block>

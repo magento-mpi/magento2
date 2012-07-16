@@ -64,7 +64,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 Mage::logException($e);
             }
         }
-        if ($setId = (int)$this->getRequest()->getParam('set')) {
+
+        $setId = (int)$this->getRequest()->getParam('set');
+        if ($setId) {
             $product->setAttributeSetId($setId);
         }
 
@@ -171,7 +173,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $product = $this->_initProduct();
 
-        if ($productData = $this->getRequest()->getPost('product')) {
+        $productData = $this->getRequest()->getPost('product');
+        if ($productData) {
             $this->_filterStockData($productData['stock_data']);
             $product->addData($productData);
         }

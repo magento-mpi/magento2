@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Adminhtml_Block_Widget_Form
 {
@@ -21,7 +21,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Adminh
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('settings', array('legend'=>Mage::helper('Mage_Catalog_Helper_Data')->__('Product Settings')));
+        $fieldset = $form->addFieldset('settings', array(
+            'legend' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Settings')
+        ));
 
         $entityType = Mage::registry('product')->getResource()->getEntityType();
 
@@ -38,5 +40,4 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_AttributeSet extends Mage_Adminh
 
         $this->setForm($form);
     }
-
 }
