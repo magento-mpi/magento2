@@ -244,7 +244,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     public function getLastRunDate(array $searchData)
     {
         $this->_prepareDataForSearch($searchData);
-        $xpath = $this->search(array('name' => $searchData['name']), 'grid_and_filter');
+        $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Run Date',
                                                   $this->_getControlXpath('field', 'grid'));
         if ($xpath){
