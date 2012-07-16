@@ -132,7 +132,6 @@ class Enterprise2_Mage_ImportExportScheduled_Export_Addresses_CustomerTest exten
         $exportData['file_name'] .= 'export_customer_address.csv';
         $csv = $this->importExportScheduledHelper()->getCsvFromFtp($exportData);
         $this->assertEquals(1, count($csv), 'Export with filter returned more than one record');
-        $this->assertArrayNotHasKey('created_at', $csv[0], 'Exported data contains skipped attribute');
         $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $customerData['address'], $csv),
             "Address not found in csv file"
         );
