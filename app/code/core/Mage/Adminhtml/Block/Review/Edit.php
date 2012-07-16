@@ -33,26 +33,26 @@ class Mage_Adminhtml_Block_Review_Edit extends Mage_Adminhtml_Block_Widget_Form_
         $prevId = $actionPager->getPreviousItemId($reviewId);
         $nextId = $actionPager->getNextItemId($reviewId);
         if ($prevId !== false) {
-            $this->addButton('prevoius', array(
-                'label' => 'Previous',
+            $this->addButton('previous', array(
+                'label' => Mage::helper('Mage_Review_Helper_Data')->__('Previous'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('id' => $prevId)) . '\')'
             ), 3, 10);
 
-            $this->addButton('save_and_prevoius', array(
-                'label'   => 'Save and Previous',
+            $this->addButton('save_and_previous', array(
+                'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Previous'),
                 'onclick' => 'submitAndGo(\'' . $prevId . '\')',
                 'class'   => 'save'
             ), 3, 11);
         }
         if ($nextId !== false) {
             $this->addButton('save_and_next', array(
-                'label'   => 'Save and Next',
+                'label'   => Mage::helper('Mage_Review_Helper_Data')->__('Save and Next'),
                 'onclick' => 'submitAndGo(\'' . $nextId . '\')',
                 'class'   => 'save'
             ), 3, 100);
 
             $this->addButton('next', array(
-                'label' => 'Next',
+                'label' => Mage::helper('Mage_Review_Helper_Data')->__('Next'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('*/*/*', array('id' => $nextId)) . '\')'
             ), 3, 105);
         }
