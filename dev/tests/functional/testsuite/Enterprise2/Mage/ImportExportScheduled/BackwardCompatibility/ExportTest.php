@@ -59,7 +59,13 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                 )
             ),'Error is occurred');
         //get file
-        $exportData['file_name'] = $this->importExportScheduledHelper() ->getFilePrefix($exportData);
+        $exportData['file_name'] = $this->importExportScheduledHelper()->
+            getFilePrefix(
+                array(
+                    'name' => $exportData['name'],
+                    'operation' => 'Export'
+                )
+            );
         $exportData['file_name'] .= 'export_customer.csv';
         $csv = $this->importExportScheduledHelper()->getCsvFromFtp($exportData);
         return $csv;
@@ -104,6 +110,5 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                 'operation' => 'Import'
             )
         );
-
     }
 }
