@@ -87,27 +87,51 @@ class Mage_Adminhtml_Block_System_Store_EditTest extends PHPUnit_Framework_TestC
     {
         return array(
             array(
-                array('store_type'=>'website', 'store_data'=> new Mage_Core_Model_Website(), 'store_action' => 'add'),
+                array(
+                    'store_type' => 'website',
+                    'store_data' => new Mage_Core_Model_Website(),
+                    'store_action' => 'add'
+                ),
                 'New Website'
             ),
             array(
-                array('store_type'=>'website', 'store_data'=> new Mage_Core_Model_Website(), 'store_action' => 'edit'),
+                array(
+                    'store_type' => 'website',
+                    'store_data' => new Mage_Core_Model_Website(),
+                    'store_action' => 'edit'
+                ),
                 'Edit Website'
             ),
             array(
-                array('store_type'=>'group', 'store_data'=> new Mage_Core_Model_Store_Group(), 'store_action' => 'add'),
+                array(
+                    'store_type' => 'group',
+                    'store_data' => new Mage_Core_Model_Store_Group(),
+                    'store_action' => 'add'
+                ),
                 'New Store'
             ),
             array(
-                array('store_type'=>'group', 'store_data'=> new Mage_Core_Model_Store_Group(), 'store_action' => 'edit'),
+                array(
+                    'store_type' => 'group',
+                    'store_data' => new Mage_Core_Model_Store_Group(),
+                    'store_action' => 'edit'
+                ),
                 'Edit Store'
             ),
             array(
-                array('store_type'=>'store', 'store_data'=> new Mage_Core_Model_Store(), 'store_action' => 'add'),
+                array(
+                    'store_type' => 'store',
+                    'store_data' => new Mage_Core_Model_Store(),
+                    'store_action' => 'add'
+                ),
                 'New Store View'
             ),
             array(
-                array('store_type'=>'store', 'store_data'=> new Mage_Core_Model_Store(), 'store_action' => 'edit'),
+                array(
+                    'store_type' => 'store',
+                    'store_data' => new Mage_Core_Model_Store(),
+                    'store_action' => 'edit'
+                ),
                 'Edit Store View'
             )
         );
