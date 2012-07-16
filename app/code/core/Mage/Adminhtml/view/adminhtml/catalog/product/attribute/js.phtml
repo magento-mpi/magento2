@@ -304,6 +304,33 @@ function updateRequriedOptions()
     }
 }
 
+function saveAttributeInNewSet(promptMessage, errorMessage)
+{
+    var newAttrSetName = prompt(promptMessage);
+
+    if ((newAttrSetName == null) || (newAttrSetName.length == 0)) {
+        alert(errorMessage);
+        return;
+    }
+
+    var newAttrSetNameInputId = 'new_attribute_set_name';
+
+    if ($(newAttrSetNameInputId)) {
+        $(newAttrSetNameInputId).value = newAttrSetName;
+    } else {
+        $('edit_form').insert({
+            top: new Element('input', {
+                type: 'hidden',
+                id: newAttrSetNameInputId,
+                name: 'new_attribute_set_name',
+                value: newAttrSetName
+            })
+        });
+    }
+
+    saveAttribute();
+}
+
 if($('frontend_input')){
     Event.observe($('frontend_input'), 'change', updateRequriedOptions);
     Event.observe($('frontend_input'), 'change', bindAttributeInputType);

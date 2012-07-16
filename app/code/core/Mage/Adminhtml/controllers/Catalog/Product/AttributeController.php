@@ -156,6 +156,38 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             /** @var $session Mage_Backend_Model_Auth_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
+            $newAttrSet = false;
+
+            if (isset($data['new_attribute_set_name']) && !empty($data['new_attribute_set_name'])) {
+                /** @var $model Mage_Eav_Model_Entity_Attribute_Set */
+                $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
+                $name = $data['new_attribute_set_name'];
+                $attributeSet->setEntityTypeId($this->_entityTypeId)
+                    ->load($name, 'attribute_set_name');
+
+                if ($attributeSet->getId()) {
+                    $session->addError(
+                        Mage::helper('Mage_Catalog_Helper_Data')->__('Attribute Set with name \'%s\' already exists.', $name)
+                    );
+                    $session->setAttributeData($data);
+                    $this->_redirect('*/*/edit', array('_current' => true));
+                    return;
+                }
+
+                try {
+                    $attributeSet->setAttributeSetName(trim($name));
+                    $attributeSet->validate();
+                    $attributeSet->save();
+                    $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'));
+                    $attributeSet->save();
+                    $newAttrSet = true;
+                } catch (Mage_Core_Exception $e) {
+                    $session->addError($e->getMessage());
+                } catch (Exception $e) {
+                    $session->addException($e, Mage::helper('Mage_Catalog_Helper_Data')->__('An error occurred while saving the attribute set.'));
+                }
+            }
+
             $redirectBack   = $this->getRequest()->getParam('back', false);
             /* @var $model Mage_Catalog_Model_Entity_Attribute */
             $model = Mage::getModel('Mage_Catalog_Model_Resource_Eav_Attribute');
@@ -255,8 +287,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             if ($this->getRequest()->getParam('set') && $this->getRequest()->getParam('group')) {
                 // For creating product attribute on product page we need specify attribute set and group
-                $model->setAttributeSetId($this->getRequest()->getParam('set'));
-                $model->setAttributeGroupId($this->getRequest()->getParam('group'));
+
+                $attrSetId = $newAttrSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
+                $attrGroupId = $newAttrSet ? $attributeSet->getDefaultGroupId()
+                    : $this->getRequest()->getParam('group');
+                $model->setAttributeSetId($attrSetId);
+                $model->setAttributeGroupId($attrGroupId);
             }
 
             try {
@@ -270,11 +306,15 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 Mage::app()->cleanCache(array(Mage_Core_Model_Translate::CACHE_TAG));
                 $session->setAttributeData(false);
                 if ($this->getRequest()->getParam('popup')) {
-                    $this->_redirect('adminhtml/catalog_product/addAttribute', array(
+                    $requestParams = array(
                         'id'       => $this->getRequest()->getParam('product'),
                         'attribute'=> $model->getId(),
                         '_current' => true
-                    ));
+                    );
+                    if ($newAttrSet) {
+                        $requestParams['new_attribute_set_id'] = $attrSetId;
+                    }
+                    $this->_redirect('adminhtml/catalog_product/addAttribute', $requestParams);
                 } elseif ($redirectBack) {
                     $this->_redirect('*/*/edit', array('attribute_id' => $model->getId(),'_current'=>true));
                 } else {
