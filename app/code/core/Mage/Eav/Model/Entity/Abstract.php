@@ -1131,20 +1131,6 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         $update     = array();
         $delete     = array();
 
-        $oldAttributeSet = null;
-        if ($newObject->dataHasChangedFor('attribute_set_id') && $newObject->getOrigData('attribute_set_id') > 0) {
-            $optionsContainer = new Varien_Object(array(
-                'attribute_set_id' => $newObject->getOrigData('attribute_set_id'),
-                'store_id' => $newObject->getStoreId(),
-            ));
-            $attributePool = Mage::getSingleton('Mage_Eav_Model_Config');
-            $attributeCodes = $attributePool->getEntityAttributeCodes($this->getEntityType(), $optionsContainer);
-            $oldAttributeSet = array();
-            foreach ($attributeCodes as $code) {
-                $oldAttributeSet[$code] = $attributePool->getAttribute($this->getEntityType(), $code);
-            }
-        }
-
         if (!empty($entityId)) {
             $origData = $newObject->getOrigData();
             /**
@@ -1193,6 +1179,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             if (empty($attribute)) {
                 continue;
             }
+
             if (!$attribute->isInSet($newObject->getAttributeSetId()) && !in_array($k, $staticFields)) {
                 $delete[$attribute->getBackend()->getTable()][] = array(
                     'attribute_id' => $attribute->getAttributeId(),

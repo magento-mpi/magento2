@@ -139,7 +139,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return $this->getChildHtml('save_button');
     }
 
-    public function getChangeAttributeSetButtonnHtml()
+    /**
+     * Get Change AttributeSet Button html
+     *
+     * @return string
+     */
+    public function getChangeAttributeSetButtonHtml()
     {
         return $this->getChildHtml('change_attribute_set_button');
     }
