@@ -137,7 +137,6 @@ class Enterprise2_Mage_ImportExportScheduled_Export_Finances_CustomerTest extend
         $exportData['file_name'] .= 'export_customer_finance.csv';
         $csv = $this->importExportScheduledHelper()->getCsvFromFtp($exportData);
         $this->assertEquals(1, count($csv), 'Export with filter returned more than one record');
-        $this->assertArrayNotHasKey('created_at', $csv[0], 'Exported data contains skipped attribute');
         $this->assertNotNull($this->importExportHelper()->lookForEntity('finance', $customerData['finance'], $csv),
             "Finance not found in csv file"
         );
