@@ -35,7 +35,8 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
      */
     public function simpleScheduledExport()
     {
-        $exportData = $this->loadDataSet('ImportExportScheduled','scheduled_export');
+        $exportData = $this->loadDataSet('ImportExportScheduled','scheduled_export',
+                                         array('file_format_version' => 'Magento 1.7 format'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         $this->importExportScheduledHelper()->openImportExport(
@@ -78,7 +79,9 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
      */
     public function simpleScheduledImport($csv)
     {
-        $importData = $this->loadDataSet('ImportExportScheduled','scheduled_import');
+        $importData = $this->loadDataSet('ImportExportScheduled','scheduled_import',
+                                          array('file_format_version' => 'Magento 1.7 format',
+                                                'behavior'           => 'Append Complex Data'));
         $importData['file_name'] = date('Y-m-d_H-i-s_') . 'export_customer.csv';
         $this->importExportScheduledHelper()->createImport($importData);
         $this->assertMessagePresent('success', 'success_saved_import');
