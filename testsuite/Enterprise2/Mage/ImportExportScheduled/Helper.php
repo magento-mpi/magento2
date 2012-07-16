@@ -235,6 +235,22 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         }
     }
     /**
+     * Check if scheduled import/export is present in grid
+     *
+     * @param array $searchData
+     * @return bool
+     */
+    public function isImportExportPresentInGrid(array $searchData)
+    {
+        $this->_prepareDataForSearch($searchData);
+        $xpath = $this->search($searchData, 'grid_and_filter');
+        if (!is_null($xpath)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
      * Get last run date
      *
      * @param array $searchData
