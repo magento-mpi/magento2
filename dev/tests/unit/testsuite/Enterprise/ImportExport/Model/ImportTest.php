@@ -69,7 +69,7 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
     /**
      * Retrieve data keys which used inside test model
      *
-     * @param $key
+     * @param string $key
      * @return mixed
      */
     protected function _getMappedValue($key)

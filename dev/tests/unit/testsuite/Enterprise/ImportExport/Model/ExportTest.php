@@ -99,8 +99,8 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
     /**
      * Test for method 'getScheduledFileName'
      *
-     * @param $data
-     * @param $expectedSuffix
+     * @param array $data
+     * @param string $expectedSuffix
      * @dataProvider entityTypeDataProvider
      */
     public function testGetScheduledFileName($data, $expectedSuffix)
@@ -144,7 +144,7 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
     /**
      * Retrieve data keys which used inside test model
      *
-     * @param $key
+     * @param string $key
      * @return mixed
      */
     protected function _getMappedValue($key)
