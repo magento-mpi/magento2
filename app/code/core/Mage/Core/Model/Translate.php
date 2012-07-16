@@ -108,10 +108,10 @@ class Mage_Core_Model_Translate
             $this->_localeHierarchy = $data['locale_hierarchy'];
         } else {
             // Try to load locale inheritance from Magento configuration
-            $localeInheritanceNode = Mage::getConfig()->getNode(self::XML_PATH_LOCALE_INHERITANCE);
-            if ($localeInheritanceNode instanceof Varien_Simplexml_Element) {
+            $inheritanceNode = Mage::getConfig()->getNode(self::XML_PATH_LOCALE_INHERITANCE);
+            if ($inheritanceNode instanceof Varien_Simplexml_Element) {
                 $this->_localeHierarchy = Mage::helper('Mage_Core_Helper_Translate')->composeLocaleHierarchy(
-                    $localeInheritanceNode->asCanonicalArray()
+                    $inheritanceNode->asCanonicalArray()
                 );
             }
         }
@@ -329,7 +329,7 @@ class Mage_Core_Model_Translate
      */
     protected function _getModuleFilePath($module, $fileName, $locale)
     {
-        $file = Mage::getBaseDir('locale');
+        $file = Mage::getModuleDir('locale', $module);
         $file .= DS . $locale . DS . $fileName;
         return $file;
     }

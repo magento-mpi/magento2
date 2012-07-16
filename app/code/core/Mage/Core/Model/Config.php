@@ -173,6 +173,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_allowedAreas = null;
 
     /**
+     * Paths to module's directories (etc, sql, locale etc)
+     *
+     * @var array
+     */
+    protected $_moduleDirs = array();
+
+    /**
      * Class construct
      *
      * @param mixed $sourceData
@@ -1037,8 +1044,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getModuleDir($type, $moduleName)
     {
+        if (isset($this->_moduleDirs[$moduleName][$type])) {
+            return $this->_moduleDirs[$moduleName][$type];
+        }
+
         $codePool = (string)$this->getModuleConfig($moduleName)->codePool;
-        $dir = $this->getOptions()->getCodeDir().DS.$codePool.DS.uc_words($moduleName, DS);
+        $dir = $this->getOptions()->getCodeDir() . DS . $codePool . DS . uc_words($moduleName, DS);
 
         switch ($type) {
             case 'etc':
@@ -1053,6 +1064,23 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         $dir = str_replace('/', DS, $dir);
         return $dir;
+    }
+
+    /**
+     * Set path to the corresponding module directory
+     *
+     * @param string $moduleName
+     * @param string $type directory type (etc, controllers, locale etc)
+     * @param string $path
+     * @return Mage_Core_Model_Config
+     */
+    public function setModuleDir($moduleName, $type, $path)
+    {
+        if (!isset($this->_moduleDirs[$moduleName])) {
+            $this->_moduleDirs[$moduleName] = array();
+        }
+        $this->_moduleDirs[$moduleName][$type] = $path;
+        return $this;
     }
 
     /**
