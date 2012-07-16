@@ -22,25 +22,26 @@ scheduled_export:
    frequency: %noValue%
    status: %noValue%
    server_type: Remote FTP
-   file_path: "var/export"
-   host: %noValue%
-   user_name: %noValue%
-   password: %noValue%
-   file_mode: %noValue%
-   passive_mode: %noValue%
+   file_path: "export"
+   file_name: %noValue%
+   host: openserver
+   user_name: taf
+   password: taf
+   file_mode: Binary
+   passive_mode: No
    email_receiver: %noValue%
    email_sender: %noValue%
    email_template: %noValue%
    email_copy_method: %noValue%
    skipped:
         attribute_1:
-            attribute_code: created_at
+            attribute_code: %noValue%
         attribute_2:
             attribute_code: %noValue%
         attribute_3:
             attribute_label: %noValue%
    filters:
-        email: my@email
+        email: %noValue%
 
 scheduled_import:
    name: test_import_%randomize%
@@ -56,13 +57,13 @@ scheduled_import:
    frequency: %noValue%
    status: %noValue%
    server_type: Remote FTP
-   file_path: "var/export"
-   file_name: 'test.csv'
-   host: %noValue%
-   user_name: %noValue%
-   password: %noValue%
-   file_mode: %noValue%
-   passive_mode: %noValue%
+   file_path: "export"
+   file_name: %noValue%
+   host: openserver
+   user_name: taf
+   password: taf
+   file_mode: Binary
+   passive_mode: No
    email_receiver: %noValue%
    email_sender: %noValue%
    email_template: %noValue%

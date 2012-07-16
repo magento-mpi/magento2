@@ -17,7 +17,7 @@
 * @package     selenium
 * @subpackage  tests
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-* @method Community2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+* @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
 */
 class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extends Mage_Selenium_TestCase
 {
@@ -44,15 +44,36 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                 'operation' => 'Export'
             )
         );
+        $this->navigate('scheduled_import_export');
+        $this->importExportScheduledHelper()->applyAction(
+            array(
+                'name' => $exportData['name'],
+                'operation' => 'Export'
+            )
+        );
+        $this->assertEquals('Successful',
+            $this->importExportScheduledHelper()->getLastOutcome(
+                array(
+                    'name' => $exportData['name'],
+                    'operation' => 'Export'
+                )
+            ),'Error is occurred');
+        //get file
+        $exportData['file_name'] = $this->importExportScheduledHelper() ->getFilePrefix($exportData);
+        $exportData['file_name'] .= 'export_customer.csv';
+        $csv = $this->importExportScheduledHelper()->getCsvFromFtp($exportData);
+        return $csv;
     }
     /**
      * Simple Test Scheduled Import
      *
+     * @depends simpleScheduledExport
      * @test
      */
-    public function simpleScheduledImport()
+    public function simpleScheduledImport($csv)
     {
         $importData = $this->loadDataSet('ImportExportScheduled','scheduled_import');
+        $importData['file_name'] = date('Y-m-d_H-i-s_') . 'export_customer.csv';
         $this->importExportScheduledHelper()->createImport($importData);
         $this->assertMessagePresent('success', 'success_saved_import');
         $this->assertEquals('Pending',
@@ -62,12 +83,21 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                 'operation' => 'Import'
             )
         ),'Error is occurred');
+        //upload file to ftp
+        $this->importExportScheduledHelper()->putCsvToFtp($importData, $csv);
         $this->importExportScheduledHelper()->applyAction(
             array(
                 'name' => $importData['name'],
                 'operation' => 'Import'
             )
         );
+        $this->assertEquals('Successful',
+            $this->importExportScheduledHelper()->getLastOutcome(
+                array(
+                    'name' => $importData['name'],
+                    'operation' => 'Import'
+                )
+            ),'Error is occurred');
         $this->importExportScheduledHelper()->openImportExport(
             array(
                 'name' => $importData['name'],

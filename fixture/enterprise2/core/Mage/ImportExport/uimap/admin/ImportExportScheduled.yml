@@ -85,7 +85,7 @@ scheduled_importexport_add:
                         fields:
                             file_path: //input[@id='file_path']
                             file_name: //input[@id='file_name']
-                            ftp_host:  //input[@id='host' and not(ancestor::tr[contains(@style,'display: none')])]
+                            host:  //input[@id='host' and not(ancestor::tr[contains(@style,'display: none')])]
                             user_name: //input[@id='user' and not(ancestor::tr[contains(@style,'display: none')])]
                             password:  //input[@id='password' and not(ancestor::tr[contains(@style,'display: none')])]
                         dropdowns:
