@@ -41,7 +41,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
             /** @var $website Mage_Core_Model_Website */
             foreach (Mage::app()->getWebsites() as $website) {
                 $tableName  = $rewardResourceModel->getMainTable();
-                $tableAlias = $website->getCode() . '_' . $tableName;
+                $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.points_balance';
                 $fieldAlias = $website->getCode() . '_'
                     . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
@@ -78,7 +78,7 @@ class Enterprise_ImportExport_Model_Resource_Customer_Collection
             /** @var $website Mage_Core_Model_Website */
             foreach (Mage::app()->getWebsites() as $website) {
                 $tableName  = $customerBalanceResourceModel->getMainTable();
-                $tableAlias = $website->getCode() . '_' . $tableName;
+                $tableAlias = $tableName . $website->getId();
                 $fieldName  = $tableAlias . '.amount';
                 $fieldAlias = $website->getCode() . '_'
                     . Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
