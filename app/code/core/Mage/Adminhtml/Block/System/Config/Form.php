@@ -160,6 +160,13 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         return $this;
     }
 
+    /**
+     * Initialize element group
+     *
+     * @param Varien_SimpleXml_Element $group
+     * @param Varien_SimpleXml_Element $section
+     * @param Varien_Data_Form $form
+     */
     protected function _initGroup($group, $section, $form)
     {
         if ($group->frontend_model) {
@@ -271,12 +278,18 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     }
                 }
 
-                $this->_initElement($element, $fieldset, $section, $group, $fieldPrefix, $path, $labelPrefix);
+                $this->_initElement($element, $fieldset, $group, $section, $path, $fieldPrefix, $labelPrefix);
             }
         }
         return $this;
     }
 
+    /**
+     * @param Varien_SimpleXml_Element $group
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param array $elements
+     * @return mixed
+     */
     protected function _sortElements($group, $fieldset, $elements)
     {
         if ($group->sort_fields && $group->sort_fields->by) {
@@ -289,7 +302,18 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         return $elements;
     }
 
-    protected function _initElement($element, $fieldset, $section, $group, $fieldPrefix, $path, $labelPrefix)
+    /**
+     * Initialize form element
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
+     * @param Varien_SimpleXml_Element $group
+     * @param Varien_SimpleXml_Element $section
+     * @param string $path
+     * @param string $fieldPrefix
+     * @param string $labelPrefix
+     */
+    protected function _initElement($element, $fieldset, $group, $section, $path, $fieldPrefix = '', $labelPrefix = '')
     {
         $elementId = $section->getName() . '_' . $group->getName() . '_' . $fieldPrefix . $element->getName();
 
@@ -319,7 +343,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         $tooltip = $this->_prepareFieldTooltip($element, $helperName);
 
         if ($element->depends) {
-            $this->_processElementDependencies($element, $section, $group, $fieldPrefix, $elementId);
+            $this->_processElementDependencies($element, $section, $group, $elementId, $fieldPrefix);
         }
 
         $field = $fieldset->addField($elementId, $fieldType, array(
@@ -347,55 +371,56 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         }
     }
 
-    protected function _applyFieldConfiguration($field, $element)
+    /**
+     * Retreive field renderer block
+     *
+     * @param Varien_SimpleXml_Element $element
+     * @return Mage_Adminhtml_Block_System_Config_Form_Field
+     */
+    protected function _getFieldRenderer($element)
     {
-        $this->_prepareFieldOriginalData($field, $element);
-
-        if (isset($element->validate)) {
-            $field->addClass($element->validate);
-        }
-
-        if (isset($element->frontend_type)
-            && 'multiselect' === (string)$element->frontend_type
-            && isset($element->can_be_empty)
-        ) {
-            $field->setCanBeEmpty(true);
-        }
-    }
-
-    protected function _extractDataFromSourceModel($element, $path, $fieldType)
-    {
-        $factoryName = (string)$element->source_model;
-        $method = false;
-        if (preg_match('/^([^:]+?)::([^:]+?)$/', $factoryName, $matches)) {
-            array_shift($matches);
-            list($factoryName, $method) = array_values($matches);
-        }
-
-        $sourceModel = Mage::getSingleton($factoryName);
-        if ($sourceModel instanceof Varien_Object) {
-            $sourceModel->setPath($path);
-        }
-        if ($method) {
-            if ($fieldType == 'multiselect') {
-                $optionArray = $sourceModel->$method();
-            } else {
-                $optionArray = array();
-                foreach ($sourceModel->$method() as $key => $value) {
-                    if (is_array($value)) {
-                        $optionArray[] = $value;
-                    } else {
-                        $optionArray[] = array('label' => $value, 'value' => $key);
-                    }
-                }
-            }
+        if ($element->frontend_model) {
+            $fieldRenderer = Mage::getBlockSingleton((string)$element->frontend_model);
+            return $fieldRenderer;
         } else {
-            $optionArray = $sourceModel->toOptionArray($fieldType == 'multiselect');
+            $fieldRenderer = $this->_defaultFieldRenderer;
+            return $fieldRenderer;
         }
-       return $optionArray;
     }
 
-    protected function _processElementDependencies($element, $section, $group, $fieldPrefix, $elementId)
+    /**
+     * Retreive dvta from bakcend model
+     *
+     * @param Varien_SimpleXml_Element $element
+     * @param string $path
+     * @param mixed $data
+     * @return mixed
+     */
+    protected function _fetchBackendModelData($element, $path, $data)
+    {
+        $model = Mage::getModel((string)$element->backend_model);
+        if (!$model instanceof Mage_Core_Model_Config_Data) {
+            Mage::throwException('Invalid config field backend model: ' . (string)$element->backend_model);
+        }
+        $model->setPath($path)
+            ->setValue($data)
+            ->setWebsite($this->getWebsiteCode())
+            ->setStore($this->getStoreCode())
+            ->afterLoad();
+        $data = $model->getValue();
+        return $data;
+    }
+
+    /**
+     * Apply element dependencies from configuration
+     *
+     * @param Varien_SimpleXml_Element $element
+     * @param Varien_SimpleXml_Element $section
+     * @param Varien_SimpleXml_Element $group
+     * @param string $elementId
+     * @param string $fieldPrefix
+     */
+    protected function _processElementDependencies($element, $section, $group, $elementId, $fieldPrefix = '')
     {
         foreach ($element->depends->children() as $dependent) {
             /* @var $dependent Mage_Core_Model_Config_Element */
@@ -436,30 +461,66 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         }
     }
 
-    protected function _fetchBackendModelData($element, $path, $data)
+    /**
+     * Apply custom element configuration
+     *
+     * @param Varien_Data_Form_Element_Abstract $field
+     * @param Varien_SimpleXml_Element $element
+     */
+    protected function _applyFieldConfiguration($field, $element)
     {
-        $model = Mage::getModel((string)$element->backend_model);
-        if (!$model instanceof Mage_Core_Model_Config_Data) {
-            Mage::throwException('Invalid config field backend model: ' . (string)$element->backend_model);
+        $this->_prepareFieldOriginalData($field, $element);
+
+        if (isset($element->validate)) {
+            $field->addClass($element->validate);
         }
-        $model->setPath($path)
-            ->setValue($data)
-            ->setWebsite($this->getWebsiteCode())
-            ->setStore($this->getStoreCode())
-            ->afterLoad();
-        $data = $model->getValue();
-        return $data;
+
+        if (isset($element->frontend_type)
+            && 'multiselect' === (string)$element->frontend_type
+            && isset($element->can_be_empty)
+        ) {
+            $field->setCanBeEmpty(true);
+        }
     }
 
-    protected function _getFieldRenderer($element)
+    /**
+     * Retreive source model option list
+     *
+     * @param Varien_SimpleXml_Element $element
+     * @param string $path
+     * @param string $fieldType
+     * @return array
+     */
+    protected function _extractDataFromSourceModel($element, $path, $fieldType)
     {
-        if ($element->frontend_model) {
-            $fieldRenderer = Mage::getBlockSingleton((string)$element->frontend_model);
-            return $fieldRenderer;
-        } else {
-            $fieldRenderer = $this->_defaultFieldRenderer;
-            return $fieldRenderer;
+        $factoryName = (string)$element->source_model;
+        $method = false;
+        if (preg_match('/^([^:]+?)::([^:]+?)$/', $factoryName, $matches)) {
+            array_shift($matches);
+            list($factoryName, $method) = array_values($matches);
         }
+
+        $sourceModel = Mage::getSingleton($factoryName);
+        if ($sourceModel instanceof Varien_Object) {
+            $sourceModel->setPath($path);
+        }
+        if ($method) {
+            if ($fieldType == 'multiselect') {
+                $optionArray = $sourceModel->$method();
+            } else {
+                $optionArray = array();
+                foreach ($sourceModel->$method() as $key => $value) {
+                    if (is_array($value)) {
+                        $optionArray[] = $value;
+                    } else {
+                        $optionArray[] = array('label' => $value, 'value' => $key);
+                    }
+                }
+            }
+        } else {
+            $optionArray = $sourceModel->toOptionArray($fieldType == 'multiselect');
+        }
+        return $optionArray;
     }
 
     /**
