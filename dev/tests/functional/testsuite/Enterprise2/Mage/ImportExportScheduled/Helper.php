@@ -77,7 +77,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     public function getFileFromFtp($fileMode, $passive, $filePath, $fileName)
     {
         $temp = tmpfile();
-        $result = ftp_fget(self::$connId, $temp, $filePath . $fileName, $fileMode);
+        $result = ftp_fget(self::$connId, $temp, $filePath . '/' . $fileName, $fileMode);
         if (!$result) {
             return false;
         }
@@ -92,20 +92,19 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     /**
      * Get Csv file from FTP server and return file content
      *
-     * @param string $host
-     * @param string $userName
-     * @param string $userPassword
-     * @param string $fileMode
-     * @param string $passive
-     * @param string $filePath
-     * @param string $fileName
+     * @param array $exportData Information about exported file and job
      *
      * @return array|bool
      */
-    public function getCsvFromFtp($host, $userName, $userPassword, $fileMode, $passive, $filePath, $fileName)
+    public function getCsvFromFtp(array $exportData)
     {
-        if ($this->_connectToFtp($host, $userName, $userPassword)) {
-            $fileContent = $this->getFileFromFtp($fileMode, $passive, $filePath, $fileName);
+        if ($this->_connectToFtp($exportData['host'], $exportData['user_name'], $exportData['password'])) {
+            $exportData['file_mode'] = (strtolower($exportData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
+            $fileContent = $this->getFileFromFtp(
+                                                 $exportData['file_mode'],
+                                                 $exportData['passive_mode'],
+                                                 $exportData['file_path'],
+                                                 $exportData['file_name']);
             return $this->importExportHelper()->csvToArray($fileContent);
         } else {
             return false;
@@ -128,7 +127,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $temp = tmpfile();
         fwrite($temp, $fileContent);
         fseek($temp, 0);
-        $result = ftp_fput(self::$connId, $filePath . $fileName, $temp, $fileMode);
+        $result = ftp_fput(self::$connId, $filePath . '/' . $fileName, $temp, $fileMode);
         if (!$result) {
             return false;
         } else {
@@ -139,22 +138,22 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     /**
      * Put Csv file content to FTP server
      *
-     * @param string $host
-     * @param string $userName
-     * @param string $userPassword
-     * @param string $fileMode
-     * @param string $passive
-     * @param string $filePath
-     * @param string $fileName
+     * @param array $importData
      * @param string $fileContent
      *
      * @return bool
      */
-    public function putCsvToFtp($host, $userName, $userPassword, $fileMode, $passive, $filePath, $fileName, $fileContent)
+    public function putCsvToFtp(array $importData, array $fileContent)
     {
-        if ($this->_connectToFtp($host, $userName, $userPassword)) {
+        if ($this->_connectToFtp($importData['host'], $importData['user_name'], $importData['password'])) {
             $fileContent = $this->importExportHelper()->arrayToCsv($fileContent);
-            return $this->putFileToFtp($fileMode, $passive, $filePath, $fileName, $fileContent);
+            $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
+            return $this->putFileToFtp(
+                                        $importData['file_mode'],
+                                        $importData['passive_mode'],
+                                        $importData['file_path'],
+                                        $importData['file_name'],
+                                        $fileContent);
         } else {
             return false;
         }
@@ -245,7 +244,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     public function getLastRunDate(array $searchData)
     {
         $this->_prepareDataForSearch($searchData);
-        $xpath = $this->search($searchData, 'grid_and_filter');
+        $xpath = $this->search(array('name' => $searchData['name']), 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Run Date',
                                                   $this->_getControlXpath('field', 'grid'));
         if ($xpath){
@@ -254,6 +253,21 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
     }
+    /**
+     * Get last file prefix date
+     *
+     * @param array $searchData
+     *
+     * @return string  Date as string in format Y-m-d_H-i-s_
+     */
+    public function getFilePrefix(array $searchData)
+    {
+        $filePrefix = $this->getLastRunDate($searchData);
+        $filePrefix = strtotime($filePrefix);
+        $filePrefix = date('Y-m-d_H-i-s_', $filePrefix);
+        return $filePrefix;
+    }
+
     /**
      * Apply Action to specific job
      *
