@@ -13,6 +13,11 @@
     <modules>
         <Mage_Backend>
             <version>2.0.0.0</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Directory/>
+            </depends>
         </Mage_Backend>
     </modules>
     <global>
@@ -30,6 +35,13 @@
         <backend>
             <auth/>
         </backend>
+        <cache>
+            <types>
+                <config translate="description" module="Mage_Backend">
+                    <description>System(config.xml, local.xml) and modules configuration files(config.xml, menu.xml).</description>
+                </config>
+            </types>
+        </cache>
     </global>
     <admin>
         <routers>

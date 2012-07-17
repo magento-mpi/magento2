@@ -13,6 +13,12 @@
     <modules>
         <Enterprise_SalesArchive>
             <version>1.11.0.0</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+            </depends>
         </Enterprise_SalesArchive>
     </modules>
     <global>

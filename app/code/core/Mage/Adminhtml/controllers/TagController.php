@@ -21,7 +21,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('catalog/tag')
+            ->_setActiveMenu('Mage_Tag::catalog_tag')
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Catalog'))
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Tags'));
 
@@ -65,7 +65,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('All Tags'))
-            ->_setActiveMenu('catalog/tag/all')
+            ->_setActiveMenu('Mage_Tag::catalog_tag_all')
             ->renderLayout();
     }
 
@@ -218,7 +218,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Pending Tags'), Mage::helper('Mage_Adminhtml_Helper_Data')->__('Pending Tags'))
-            ->_setActiveMenu('catalog/tag/pending')
+            ->_setActiveMenu('Mage_Tag::catalog_tag_pending')
             ->renderLayout();
     }
 

@@ -25,8 +25,9 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COL_EMAIL   = 'email';
-    const COL_WEBSITE = '_website';
+    const COLUMN_EMAIL   = 'email';
+    const COLUMN_WEBSITE = '_website';
+    const COLUMN_FINANCE_WEBSITE = '_finance_website';
     /**#@-*/
 
     /**
@@ -34,7 +35,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
      *
      * @var array
      */
-    protected $_permanentAttributes = array(self::COL_EMAIL, self::COL_WEBSITE);
+    protected $_permanentAttributes = array(self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_FINANCE_WEBSITE);
 
     /**
      * Constructor
@@ -90,21 +91,29 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
 
         // create export file
         $writer->setHeaderCols(array_merge($permanentAttributes, $validAttributeCodes));
+        /** @var $customer Mage_Customer_Model_Customer */
         foreach ($customerCollection as $customer) { // go through all customers
-            /** @var $customer Mage_Customer_Model_Customer */
-            $row = array();
-            foreach ($validAttributeCodes as $code) {
-                $row[$code] = $customer->getData($code);
-            }
-            $row[self::COL_EMAIL] = $customer->getEmail();
-            $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$customer->getWebsiteId()];
+            /** @var $website Mage_Core_Model_Website */
+            foreach (Mage::app()->getWebsites() as $website) {
+                $row = array();
+                foreach ($validAttributeCodes as $code) {
+                    $websiteCode = $website->getCode() . '_' . $code;
+                    $websiteData = $customer->getData($websiteCode);
+                    if (null !== $websiteData) {
+                        $row[$code] = $websiteData;
+                    }
+                }
 
-            $writer->writeRow($row);
+                if (!empty($row)) {
+                    $row[self::COLUMN_EMAIL] = $customer->getEmail();
+                    $row[self::COLUMN_WEBSITE] = $this->_websiteIdToCode[$customer->getWebsiteId()];
+                    $row[self::COLUMN_FINANCE_WEBSITE] = $website->getCode();
+                    $writer->writeRow($row);
+                }
+            }
         }
         return $writer->getContents();
     }
-
-
 
     /**
      * Entity type code getter

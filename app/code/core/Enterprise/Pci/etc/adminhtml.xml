@@ -10,26 +10,6 @@
  */
 -->
 <config>
-    <menu>
-        <system>
-            <children>
-                <crypt_key translate="title" module="Enterprise_Pci">
-                    <title>Manage Encryption Key</title>
-                    <sort_order>75</sort_order>
-                    <action>adminhtml/crypt_key</action>
-                    <depends><module>Enterprise_Pci</module></depends>
-                </crypt_key>
-                <acl>
-                    <children>
-                        <locks translate="title" module="Enterprise_Pci">
-                            <title>Locked Users</title>
-                            <action>adminhtml/locks</action>
-                        </locks>
-                    </children>
-                </acl>
-            </children>
-        </system>
-    </menu>
     <acl>
         <resources>
             <admin>

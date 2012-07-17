@@ -397,7 +397,7 @@ class Mage_Core_Model_App
     }
 
     /**
-     * Initialize active modules configuration and data
+     * Initialize configuration of active modules and locales
      *
      * @return Mage_Core_Model_App
      */
@@ -411,6 +411,7 @@ class Mage_Core_Model_App
                 Magento_Profiler::stop('apply_db_schema_updates');
             }
             $this->_config->loadDb();
+            $this->_config->loadLocales();
             $this->_config->saveCache();
         }
         return $this;
@@ -789,7 +790,7 @@ class Mage_Core_Model_App
     public function getArea($code)
     {
         if (!isset($this->_areas[$code])) {
-            $this->_areas[$code] = new Mage_Core_Model_App_Area($code, $this);
+            $this->_areas[$code] = new Mage_Core_Model_App_Area($code);
         }
         return $this->_areas[$code];
     }

@@ -24,6 +24,11 @@ class Mage_Core_Model_StoreTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     /**
      * @dataProvider loadDataProvider
      */

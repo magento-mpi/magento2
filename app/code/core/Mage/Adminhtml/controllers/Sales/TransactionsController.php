@@ -49,7 +49,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
             ->_title($this->__('Transactions'));
 
         $this->loadLayout()
-            ->_setActiveMenu('sales/transactions')
+            ->_setActiveMenu('Mage_Sales::sales_transactions')
             ->renderLayout();
     }
 
@@ -76,7 +76,7 @@ class Mage_Adminhtml_Sales_TransactionsController extends Mage_Adminhtml_Control
             ->_title(sprintf("#%s", $txn->getTxnId()));
 
         $this->loadLayout()
-            ->_setActiveMenu('sales/transactions')
+            ->_setActiveMenu('Mage_Sales::sales_transactions')
             ->renderLayout();
     }
 

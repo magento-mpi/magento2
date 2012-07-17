@@ -83,61 +83,159 @@
                         </debug>
                     </fields>
                 </pbridge>
-                <authorizenet>
+                <pbridge_authorizenet translate="label" module="Enterprise_Pbridge">
+                    <label>Authorize.net (Payment Bridge only)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[<a href="http://celinks.magento.com/authorize_netRegistration" target="_blank">Click here to sign up for an Authorize.net account</a>]]></comment>
                     <fields>
-                        <using_pbridge translate="label comment" module="Enterprise_Pbridge">
-                            <label>Use via Payment Bridge</label>
-                            <comment>Gives effect only when payment bridge is active.</comment>
-                            <config_path>payment/authorizenet/using_pbridge</config_path>
-                            <frontend_type>select</frontend_type>
-                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <sort_order>2</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </using_pbridge>
-                        <payment_profiles_enabled translate="label comment" module="Enterprise_Pbridge">
+                        <payment_profiles_enabled translate="label comment">
                             <label>Enable CIM</label>
                             <comment>3D Secure Check will be unavailable if CIM enabled.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
-                            <sort_order>1</sort_order>
+                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <depends><using_pbridge>1</using_pbridge></depends>
                         </payment_profiles_enabled>
-                        <cctypes>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </cctypes>
-                        <useccv>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </useccv>
-                        <email_customer>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </email_customer>
-                        <login>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </login>
-                        <merchant_email>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </merchant_email>
-                        <test>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </test>
-                        <trans_key>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </trans_key>
-                        <cgi_url>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </cgi_url>
-                        <allow_partial_authorization>
-                            <depends><using_pbridge>0</using_pbridge></depends>
-                        </allow_partial_authorization>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </active>
+                        <payment_action translate="label">
+                            <label>Payment Action</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Enterprise_Pbridge_Model_Authorizenet_Source_PaymentAction</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </payment_action>
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <order_status translate="label">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Order_Status_Processing</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+                        <debug translate="label">
+                            <label>Debug</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </debug>
+                        <currency translate="label">
+                            <label>Accepted Currency</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Currency</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </currency>
+                        <allowspecific translate="label">
+                            <label>Payment from Applicable Countries</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>80</sort_order>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </allowspecific>
+                        <specificcountry translate="label">
+                            <label>Payment from Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>90</sort_order>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </specificcountry>
+                        <min_order_total translate="label">
+                            <label>Minimum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </min_order_total>
+                        <max_order_total translate="label">
+                            <label>Maximum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </max_order_total>
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </sort_order>
+                        <heading_3dsecure translate="label">
+                            <label>3D Secure</label>
+                            <frontend_model>Mage_Adminhtml_Block_System_Config_Form_Field_Heading</frontend_model>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </heading_3dsecure>
+                        <centinel translate="label">
+                            <label>3D Secure Card Validation</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </centinel>
+                        <centinel_is_mode_strict translate="label comment">
+                            <label>Severe 3D Secure Card Validation</label>
+                            <comment>Severe Validation Removes Chargeback Liability on Merchant</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends><centinel>1</centinel></depends>
+                        </centinel_is_mode_strict>
+                        <centinel_api_url translate="label comment">
+                            <label>Centinel API URL</label>
+                            <comment>If empty, a default value will be used. Custom URL may be provided by CardinalCommerce agreement.</comment>
+                            <frontend_type>text</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <depends><centinel>1</centinel></depends>
+                        </centinel_api_url>
                     </fields>
-                </authorizenet>
+                </pbridge_authorizenet>
                 <pbridge_ogone_direct translate="label" module="Enterprise_Pbridge">
-                    <label>Ogone Direct Link</label>
+                    <label>Ogone Direct Link (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>2</sort_order>
                     <show_in_default>1</show_in_default>
@@ -199,7 +297,7 @@
                     </fields>
                 </pbridge_ogone_direct>
                 <paybox_direct translate="label" module="Enterprise_Pbridge">
-                    <label>Paybox Direct</label>
+                    <label>Paybox Direct (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>101</sort_order>
                     <show_in_default>1</show_in_default>
@@ -263,7 +361,7 @@
                    </fields>
                 </paybox_direct>
                 <braintree_basic translate="label" module="Enterprise_Pbridge">
-                    <label>Braintree</label>
+                    <label>Braintree (Payment Bridge only)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
@@ -317,7 +415,7 @@
                     </fields>
                 </braintree_basic>
                 <firstdata translate="label" module="Enterprise_Pbridge">
-                     <label>First Data Global Gateway Web Service API</label>
+                     <label>First Data Global Gateway Web Service API (Payment Bridge only)</label>
                      <sort_order>50</sort_order>
                      <show_in_default>1</show_in_default>
                      <show_in_website>1</show_in_website>
@@ -379,7 +477,7 @@
                      </fields>
                 </firstdata>
                 <payone_gate translate="label" module="Enterprise_Pbridge">
-                     <label>Payone.de</label>
+                     <label>Payone.de (Payment Bridge only)</label>
                      <sort_order>900</sort_order>
                      <show_in_default>1</show_in_default>
                      <show_in_website>1</show_in_website>

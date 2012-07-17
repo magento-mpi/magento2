@@ -21,6 +21,11 @@ class Enterprise_CatalogEvent_Model_EventTest extends PHPUnit_Framework_TestCase
         $this->_model = new Enterprise_CatalogEvent_Model_Event;
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     protected function _getDate($time = 'now')
     {
         return date('Y-m-d H:i:s', strtotime($time));

@@ -13,6 +13,11 @@
     <modules>
         <Enterprise_ImportExport>
             <version>1.11.0.1</version>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_ImportExport/>
+            </depends>
         </Enterprise_ImportExport>
     </modules>
     <global>
@@ -43,6 +48,12 @@
             </email>
         </template>
         <importexport>
+            <import_customer_entities>
+                <customer_finance translate="label" module="Enterprise_ImportExport">
+                    <model_token>Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance</model_token>
+                    <label>Customer Finances</label>
+                </customer_finance>
+            </import_customer_entities>
             <export_customer_entities>
                 <customer_finance translate="label" module="Enterprise_ImportExport">
                     <model_token>Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance</model_token>

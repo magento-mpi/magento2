@@ -71,6 +71,12 @@ class Mage_ImportExport_Model_Import_Entity_CustomerTest extends PHPUnit_Framewo
         );
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+        $this->_modelDelete = null;
+    }
+
     public function testValidateRowDuplicateEmail()
     {
         $this->_model->validateRow($this->_customerData, 0);

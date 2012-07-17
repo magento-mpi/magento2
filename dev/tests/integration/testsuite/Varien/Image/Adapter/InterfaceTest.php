@@ -17,8 +17,8 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_adapters = array(
-        'Varien_Image_Adapter_Gd2',
-        'Varien_Image_Adapter_ImageMagick'
+        Varien_Image_Adapter::ADAPTER_GD2,
+        Varien_Image_Adapter::ADAPTER_IM
     );
 
     /**
@@ -32,7 +32,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
         $result   = array();
         foreach ($this->_adapters as $adapter) {
             foreach ($data as $row) {
-                $row[] = new $adapter;
+                $row[] = Varien_Image_Adapter::factory($adapter);
                 $result[] = $row;
             }
         }
@@ -135,7 +135,7 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
     {
         $data = array();
         foreach ($this->_adapters as $adapter) {
-            $data[] = array(new $adapter);
+            $data[] = array(Varien_Image_Adapter::factory($adapter));
         }
         return $data;
     }
@@ -166,6 +166,17 @@ class Varien_Image_Adapter_InterfaceTest extends PHPUnit_Framework_TestCase
             array($this->_getFixture('image_adapters_test.tiff')),
             array($this->_getFixture('image_adapters_test.bmp'))
         ));
+    }
+
+    /**
+     * @param Varien_Image_Adapter_Abstract $adapter
+     * @dataProvider adaptersDataProvider
+     */
+    public function testGetImage($adapter)
+    {
+        $this->_isAdapterAvailable($adapter);
+        $adapter->open($this->_getFixture('image_adapters_test.png'));
+        $this->assertNotEmpty($adapter->getImage());
     }
 
     /**

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftCardAccount
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Enterprise_GiftCardAccount::customer_giftcardaccount" title="Gift Card Accounts" module="Enterprise_GiftCardAccount" sortOrder="50" parent="Mage_Customer::customer" action="adminhtml/giftcardaccount" dependsOnModule="Enterprise_GiftCardAccount" />
+    </menu>
+</config>

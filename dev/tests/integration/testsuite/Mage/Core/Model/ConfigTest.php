@@ -59,6 +59,16 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode('global'));
     }
 
+    public function testLoadLocales()
+    {
+        $model = new Mage_Core_Model_Config();
+        $model->init(array(
+            'locale_dir' => dirname(__FILE__) . '/_files/locale'
+        ));
+        $model->loadLocales();
+        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $model->getNode('global/locale'));
+    }
+
     public function testLoadModulesCache()
     {
         $model = $this->_createModel();
@@ -171,7 +181,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     {
         $config = $this->_createModel(true)->loadModulesConfiguration('adminhtml.xml');
         $this->assertInstanceOf('Mage_Core_Model_Config_Base', $config);
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $config->getNode('menu'));
         $this->assertInstanceOf('Mage_Core_Model_Config_Element', $config->getNode('acl'));
     }
 

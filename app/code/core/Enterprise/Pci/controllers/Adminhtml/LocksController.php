@@ -25,7 +25,7 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
              ->_title($this->__('Locked Users'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/acl_locks');
+        $this->_setActiveMenu('Enterprise_Pci::system_acl_locks');
         $this->renderLayout();
     }
 

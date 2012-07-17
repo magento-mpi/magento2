@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftWrapping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Enterprise_GiftWrapping::sales_enterprise_giftwrapping" title="Gift Wrapping" module="Enterprise_GiftWrapping" sortOrder="130" parent="Mage_Sales::sales" action="adminhtml/giftwrapping" dependsOnModule="Enterprise_GiftWrapping" />
+    </menu>
+</config>

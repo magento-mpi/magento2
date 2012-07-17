@@ -39,7 +39,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('customer/giftcardaccount');
+        $this->_setActiveMenu('Enterprise_GiftCardAccount::customer_giftcardaccount');
         $this->renderLayout();
     }
 

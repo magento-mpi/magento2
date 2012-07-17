@@ -40,7 +40,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
              ->_title($this->__('General'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/enterprise_invitation/general')
+            ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_general')
             ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('General Report'))
             ->_addContent(
                 $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General')
@@ -84,7 +84,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
              ->_title($this->__('Customers'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/enterprise_invitation/customer')
+            ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_customer')
             ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'))
             ->_addContent(
                 $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Customer')
@@ -128,7 +128,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
              ->_title($this->__('Order Conversion Rate'));
 
         $this->_initAction()
-            ->_setActiveMenu('report/enterprise_invitation/order')
+            ->_setActiveMenu('Enterprise_Invitation::report_enterprise_invitation_order')
             ->_addBreadcrumb(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Customers'), Mage::helper('Enterprise_Invitation_Helper_Data')->__('Invitation Report by Order Conversion Rate'))
             ->_addContent(
                 $this->getLayout()->createBlock('Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order')

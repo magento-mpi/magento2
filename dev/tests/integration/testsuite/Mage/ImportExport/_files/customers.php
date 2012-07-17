@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 $customers = array();
 
 $customer = new Mage_Customer_Model_Customer();

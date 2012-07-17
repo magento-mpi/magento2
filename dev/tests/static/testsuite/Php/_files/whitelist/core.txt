@@ -17,9 +17,11 @@ app/code/core/Mage/Log/Model/Resource/Helper
 app/code/core/Mage/Log/Model/Resource/Shell.php
 app/code/core/Mage/Log/Model/Shell.php
 app/code/core/Mage/Rss/Controller/AdminhtmlAbstract.php
+app/code/core/Enterprise/Pbridge/Model/Authorizenet/Source/PaymentAction.php
 app/code/core/Mage/User
 dev/shell
 dev/tests/integration
+dev/tests/performance
 dev/tests/static
 dev/tests/unit
 dev/tools

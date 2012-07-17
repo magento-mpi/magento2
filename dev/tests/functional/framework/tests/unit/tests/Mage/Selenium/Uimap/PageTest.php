@@ -10,13 +10,20 @@
  */
 class Mage_Selenium_Uimap_PageTest extends Mage_PHPUnit_TestCase
 {
+    private function getPageContainerData()
+    {
+        return array(
+            'mca' => '',
+            'title' => ''
+        );
+    }
+
     /**
      * @covers Mage_Selenium_Uimap_Page::__construct
      */
     public function test__construct()
     {
-        $pageContainer = array();
-        $uipage = new Mage_Selenium_Uimap_Page('pageId', $pageContainer);
+        $uipage = new Mage_Selenium_Uimap_Page('pageId', $this->getPageContainerData());
         $this->assertInstanceOf('Mage_Selenium_Uimap_Page', $uipage);
     }
 
@@ -26,8 +33,7 @@ class Mage_Selenium_Uimap_PageTest extends Mage_PHPUnit_TestCase
     public function testGetId()
     {
         $pageId = 'testId';
-        $pageContainer = array();
-        $uipage = new Mage_Selenium_Uimap_Page($pageId, $pageContainer);
+        $uipage = new Mage_Selenium_Uimap_Page($pageId, $this->getPageContainerData());
         $this->assertEquals($uipage->getPageId(), $pageId);
     }
 
@@ -37,9 +43,14 @@ class Mage_Selenium_Uimap_PageTest extends Mage_PHPUnit_TestCase
     public function testGetMainButtons()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_config);
-        $pageContainers = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR . '\fixture\default\core\Mage\UnitTest\uimap\frontend\UnitTests.yml');
-        $uipage = new Mage_Selenium_Uimap_Page('pageId', $pageContainers['get_main_buttons']);
+        $pageContainers = $fileHelper->loadYamlFile(
+            SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/uimap/frontend/UnitTests.yml'
+        );
+        $uipage = new Mage_Selenium_Uimap_Page(
+            'pageId',
+            array_merge($this->getPageContainerData(),
+            $pageContainers['get_main_buttons'])
+        );
         $mainButtons = $uipage->getMainButtons();
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $mainButtons);
 

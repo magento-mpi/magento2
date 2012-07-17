@@ -18,7 +18,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     protected function _initAction()
     {
-        $this->loadLayout()->_setActiveMenu('catalog/targetrule');
+        $this->loadLayout()->_setActiveMenu('Enterprise_TargetRule::catalog_targetrule');
         return $this;
     }
 

@@ -26,18 +26,4 @@
             </admin>
         </resources>
     </acl>
-    <menu>
-        <sales>
-            <children>
-                <enterprise_giftwrapping translate="title" module="Enterprise_GiftWrapping">
-                    <title>Gift Wrapping</title>
-                    <action>adminhtml/giftwrapping</action>
-                    <depends>
-                        <module>Enterprise_GiftWrapping</module>
-                    </depends>
-                    <sort_order>130</sort_order>
-                </enterprise_giftwrapping>
-            </children>
-         </sales>
-    </menu>
 </config>

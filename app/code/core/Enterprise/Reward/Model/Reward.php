@@ -20,6 +20,9 @@
  * @method int getPointsBalance()
  * @method Enterprise_Reward_Model_Reward setPointsBalance(int $value)
  * @method Enterprise_Reward_Model_Reward setWebsiteCurrencyCode(string $value)
+ * @method Enterprise_Reward_Model_Reward setPointsDelta() setPointsDelta(int $value)
+ * @method Enterprise_Reward_Model_Reward setAction() setAction(int $value)
+ * @method Enterprise_Reward_Model_Reward setComment() setComment(string $value)
  *
  * @category    Enterprise
  * @package     Enterprise_Reward

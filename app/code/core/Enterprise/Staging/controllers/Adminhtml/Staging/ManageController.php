@@ -69,7 +69,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
              ->_title($this->__('Staging Websites'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -129,7 +129,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->_title($staging->getId() ? $staging->getName() : $this->__('New Staging'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 
@@ -335,7 +335,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         );
 
         $this->loadLayout();
-        $this->_setActiveMenu('system');
+        $this->_setActiveMenu('Mage_Adminhtml::system');
         $this->renderLayout();
     }
 

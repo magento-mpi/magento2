@@ -59,6 +59,12 @@
         </exec>
     </target>
 
+    <taskdef name="jshint" classname="com.philmander.ant.JsHintAntTask"
+             classpath="${basedir}/dev/build/bin/ant-jshint.jar"/>
+    <target name="runJsHint">
+        <jshint dir="${basedir}/dev/tests/js" includes="**/*.js" />
+        <jshint dir="${basedir}/pub/lib/mage" includes="**/*.js" />
+    </target>
     <target name="js-test">
         <exec executable="cmd" dir="dev\build\bin">
             <arg value="/c"/>
@@ -119,10 +125,46 @@
         </exec>
     </target>
 
+    <!-- performance testing framework unit tests -->
+    <target name="unit-tests-performance-framework">
+        <exec dir="dev/tests/performance/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit-tests-performance-framework.xml"/>
+        </exec>
+    </target>
+
     <!-- static code analysis framework unit tests -->
     <target name="unit-tests-static-framework">
         <exec dir="dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit-tests-static-framework.xml"/>
+        </exec>
+    </target>
+
+    <!-- unit testing framework unit tests -->
+    <target name="unit-tests-unit-framework">
+        <exec dir="dev/tests/unit/framework/tests/unit" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/unit-tests-unit-framework.xml"/>
+        </exec>
+    </target>
+
+    <!-- database credentials from agent substitution -->
+    <target name="integration-tests-database-credential-substitution" depends="init">
+        <fail unless="env.db_host" message="Bamboo variable 'db_host' must be defined on your agent"/>
+        <fail unless="env.db_name" message="Bamboo variable 'db_name' must be defined on your agent"/>
+        <fail unless="env.db_user" message="Bamboo variable 'db_user' must be defined on your agent"/>
+        <fail unless="env.db_password" message="Bamboo variable 'db_password' must be defined on your agent"/>
+
+        <replace file="${basedir}/dev/tests/integration/etc/local-mysql.xml">
+            <replacefilter token="{{db_host}}" value="${env.db_host}"/>
+            <replacefilter token="{{db_name}}" value="${env.db_name}"/>
+            <replacefilter token="{{db_user}}" value="${env.db_user}"/>
+            <replacefilter token="{{db_password}}" value="${env.db_password}"/>
+        </replace>
+    </target>
+
+    <!-- product integration integrity tests -->
+    <target name="integration-integrity-tests-magento" depends="integration-tests-database-credential-substitution">
+        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/integration-integrity-tests-magento.xml testsuite/integrity"/>
         </exec>
     </target>
 
@@ -133,8 +175,22 @@
         </exec>
     </target>
 
+    <!-- product integration tests -->
+    <target name="integration-tests-magento-concurent" depends="integration-tests-database-credential-substitution">
+        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/integration-tests-magento.xml"/>
+        </exec>
+    </target>
+
     <!-- product integration tests with xdebug -->
     <target name="integration-tests-magento-xdebug" depends="init,prepare-xdebug">
+        <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
+            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
+        </exec>
+    </target>
+
+    <!-- product integration tests with xdebug -->
+    <target name="integration-tests-magento-xdebug-concurent" depends="integration-tests-database-credential-substitution,prepare-xdebug">
         <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
         </exec>
@@ -174,7 +230,7 @@
     </target>
 
     <!-- deploy and run functional tests -->
-    <target name="functional_tests_with_deploy" description="Deploy Magento">
+    <target name="functional-tests-with-deploy" description="Deploy Magento">
         <fail unless="env.build_customization_dir" message="Bamboo variable 'customization_dir' must be defined" />
         <!-- Functional tests params -->
         <fail unless="env.deploy_directory" message="Bamboo variable 'deploy_directory' must be defined on your agent"/>
@@ -223,7 +279,7 @@
         </replace>
     </target>
 
-    <target name="functional_tests_with_deploy_ee" depends="functional_tests_with_deploy,prepare-ee">
+    <target name="functional-tests-with-deploy-ee" depends="functional-tests-with-deploy,prepare-ee">
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
             <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
             <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/"/>
@@ -261,8 +317,11 @@
             <target name="unit-tests-magento"/>
             <target name="unit-tests-static-framework"/>
             <target name="unit-tests-integration-framework"/>
+            <target name="unit-tests-unit-framework"/>
+            <target name="unit-tests-performance-framework"/>
             <target name="static-tests-all"/>
             <target name="integration-tests-magento"/>
+            <target name="integration-integrity-tests-magento"/>
         </ant>
         <exec dir="${dir.publication_target}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch}"/>

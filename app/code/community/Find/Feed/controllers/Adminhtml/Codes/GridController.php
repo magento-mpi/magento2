@@ -23,7 +23,7 @@ class Find_Feed_Adminhtml_Codes_GridController extends Mage_Adminhtml_Controller
      */
     protected function _init()
     {
-        $this->_setActiveMenu('catalog/feed');
+        $this->_setActiveMenu('Find_Feed::catalog_feed');
         $this
             ->_title($this->__('Catalog'))
             ->_title($this->__('TheFind'));

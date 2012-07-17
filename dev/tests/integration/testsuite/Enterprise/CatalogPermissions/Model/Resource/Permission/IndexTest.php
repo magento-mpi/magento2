@@ -23,6 +23,11 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
         $this->_indexModel = new Enterprise_CatalogPermissions_Model_Permission_Index();
     }
 
+    protected function tearDown()
+    {
+        $this->_indexModel = null;
+    }
+
     /**
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/CatalogPermissions/_files/permission.php

@@ -35,6 +35,12 @@ class Enterprise_PageCache_Model_ObserverTest extends PHPUnit_Framework_TestCase
         ;
     }
 
+    protected function tearDown()
+    {
+        $this->_cookie = null;
+        $this->_observer = null;
+    }
+
     public function testProcessPreDispatchCanProcessRequest()
     {
         $request = new Magento_Test_Request();
