@@ -102,18 +102,13 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
         return Mage::registry('store_action') == 'add' ? $addLabel : $editLabel;
     }
 
-    protected function _prepareLayout()
+    /**
+     * Build child form class form name based on value of store_type in registry
+     *
+     * @return string
+     */
+    protected function _buildFormClassName()
     {
-        if ($this->_blockGroup && $this->_controller && $this->_mode
-            && !$this->_layout->getChildName($this->_nameInLayout, 'form')
-        ) {
-            $this->setChild('form', $this->getLayout()->createBlock(
-                $this->_blockGroup
-                    . '_Block_'
-                    . str_replace(' ', '_', ucwords(str_replace('_', ' ', $this->_controller . '_' . $this->_mode)))
-                    . '_Form' . '_' . ucwords(Mage::registry('store_type'))
-            ));
-        }
-        return parent::_prepareLayout();
+        return parent::_buildFormClassName() . '_' . ucwords(Mage::registry('store_type'));
     }
 }

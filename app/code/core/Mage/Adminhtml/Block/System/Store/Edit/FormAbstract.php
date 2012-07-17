@@ -15,7 +15,7 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+abstract class Mage_Adminhtml_Block_System_Store_Edit_FormAbstract extends Mage_Adminhtml_Block_Widget_Form
 {
 
     /**
@@ -41,7 +41,7 @@ abstract class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtm
             'method'    => 'post'
         ));
 
-        $this->_prepareStoreTypeFieldSet($form);
+        $this->_prepareStoreFieldSet($form);
 
         $form->addField('store_type', 'hidden', array(
             'name'      => 'store_type',
@@ -64,5 +64,11 @@ abstract class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtm
         return parent::_prepareForm();
     }
 
-    abstract protected function _prepareStoreTypeFieldset(Varien_Data_Form $form);
+    /**
+     * Build store type specific fieldset
+     *
+     * @abstract
+     * @param Varien_Data_Form $form
+     */
+    abstract protected function _prepareStoreFieldset(Varien_Data_Form $form);
 }

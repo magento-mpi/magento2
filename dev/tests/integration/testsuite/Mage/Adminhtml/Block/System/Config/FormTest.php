@@ -137,7 +137,7 @@ class Mage_Adminhtml_Block_System_Config_FormTest extends PHPUnit_Framework_Test
             $this->assertArrayHasKey($element->getId(), $expectedIds);
             $fields = $element->getSortedElements();
             $this->assertEquals(count($expectedIds[$element->getId()]), count($fields));
-            foreach($element->getElements() as $field) {
+            foreach ($element->getElements() as $field) {
                 $this->assertArrayHasKey($field->getId(), $expectedIds[$element->getId()]);
                 $this->assertEquals($expectedIds[$element->getId()][$field->getId()], $field->getType());
             }

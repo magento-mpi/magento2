@@ -15,9 +15,14 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_Block_System_Store_Edit_Form
+class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
-    protected function _prepareStoreTypeFieldset(Varien_Data_Form $form)
+    /**
+     * Prepare store specific fieldset
+     *
+     * @param Varien_Data_Form $form
+     */
+    protected function _prepareStoreFieldset(Varien_Data_Form $form)
     {
         $storeModel = Mage::registry('store_data');
         if ($postData = Mage::registry('store_post_data')) {
@@ -101,10 +106,13 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Store extends Mage_Adminhtml_B
             'value'     => $storeModel->getId(),
             'disabled'  => $storeModel->isReadOnly(),
         ));
-
-        return $this;
     }
 
+    /**
+     * Retrieve list of store groups
+     *
+     * @return array
+     */
     protected function _getStoreGroups()
     {
         $websites = Mage::getModel('Mage_Core_Model_Website')->getCollection();
