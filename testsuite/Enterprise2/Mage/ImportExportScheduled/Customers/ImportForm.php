@@ -280,9 +280,9 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
         }
         //Step 1
         foreach ($data as $value) {
-            $this->assertTrue($this->importExportScheduledHelper()->selectImportExportInGrid(array(
+            $this->importExportScheduledHelper()->searchAndChoose(array(
                 'name' => $value['name'],
-            )), "Scheduled Import/Export is not found in the grid");
+            ));
         }
         //Step 2
         $this->fillDropdown('grid_massaction_select', 'Delete');
