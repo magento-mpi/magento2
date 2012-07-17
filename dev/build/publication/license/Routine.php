@@ -50,7 +50,8 @@ class Routine
      */
     public static $fileTypes = array(
         'xml'   => array(
-            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xsd', '*.mxml'
+            '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample',
+            '*.xsd', '*.mxml', '*.jmx', '*.jtl',
         ),
         'php'   => array('*.php', '*.php.dist', '*.php.sample'),
         'phtml' => array('*.phtml'),

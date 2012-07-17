@@ -98,6 +98,9 @@ try {
         $targetDir
     );
 
+    // composer.json
+    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
+
     // commit and push
     execVerbose("$gitCmd add --update");
     execVerbose("$gitCmd status");

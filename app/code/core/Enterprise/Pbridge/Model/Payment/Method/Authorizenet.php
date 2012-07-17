@@ -149,21 +149,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Authorizenet extends Mage_Payment_
     }
 
     /**
-     * Retrieve information from payment configuration
-     *
-     * @param   string $field
-     * @return  mixed
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
-        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
-    }
-
-    /**
      * Check whether payment method can be used
      *
      * @param Mage_Sales_Model_Quote $quote
