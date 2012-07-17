@@ -71,6 +71,8 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
             $this->clickButton('delete_all_permissions_visible', false);
             $this->waitForAjax();
         }
+        $this->clickButton('save_category', false);
+        $this->pleaseWait();
 //        while ($this->controlIsPresent('pageelement', 'option_box')) {
 //            $this->clickButton('delete_all_permissions', false);
 //            $this->waitForAjax();

@@ -35,46 +35,61 @@ sub_category_required_permissions_deny:
     customer_group: All Customer Groups
     browsing_category: deny
 
-permissions:
-    permissions_1:
-        website: All Websites
-        customer_group: Wholesale
-        browsing_category_allow: Yes
-        displaying_price_use_parent: Yes
-        add_to_cart_deny: Yes
-    permission_1:
-        website: newWeb
-        customer_group: General
-        browsing_category_allow: Yes
-        displaying_price_use_parent: Yes
-        add_to_cart_deny: Yes
+several_permissions:
+    category_permissions:
+        permissions_1:
+            website: All Websites
+            customer_group: All Customer Groups
+            browsing_category_deny: Yes
+        permission_1:
+            website: All Websites
+            customer_group: General
+            browsing_category_allow: Yes
+            displaying_price_allow: Yes
+            add_to_cart_deny: Yes
 
 same_permissions:
-    permissions_1:
-        website: All Websites
-        customer_group: General
-        browsing_category_allow: Yes
-        displaying_price_use_parent: Yes
-        add_to_cart_deny: Yes
-    permission_1:
-        website: All Websites
-        customer_group: General
-        browsing_category_allow: Yes
-        displaying_price_use_parent: Yes
-        add_to_cart_deny: Yes
+    category_permissions:
+        permissions_1:
+            website: All Websites
+            customer_group: General
+            browsing_category_deny: Yes
+        permission_2:
+            website: All Websites
+            customer_group: General
+            browsing_category_allow: Yes
+            displaying_price_allow: Yes
+            add_to_cart_deny: Yes
 
-permissions_deny_add_to_cart_for_guest:
-    permissions_1:
-        website: All Websites
-        customer_group: NOT LOGGED IN
-        browsing_category_allow: Yes
-        displaying_price_allow: Yes
-        add_to_cart_deny: Yes
+permissions_allow_all:
+    category_permissions:
+        permissions_1:
+            website: All Websites
+            customer_group: All Customer Groups
+            browsing_category_allow: Yes
+            displaying_price_allow: Yes
+            add_to_cart_allow: Yes
 
-permissions_deny_display_prices_for_guest:
-    permissions_1:
-        website: All Websites
-        customer_group: NOT LOGGED IN
-        browsing_category_allow: Yes
-        displaying_price_deny: Yes
+permissions_deny_add_to_cart:
+    category_permissions:
+        permissions_1:
+            website: All Websites
+            customer_group: All Customer Groups
+            browsing_category_allow: Yes
+            displaying_price_allow: Yes
+            add_to_cart_deny: Yes
 
+permissions_deny_display_prices:
+    category_permissions:
+        permissions_1:
+            website: All Websites
+            customer_group: All Customer Groups
+            browsing_category_allow: Yes
+            displaying_price_deny: Yes
+
+permissions_deny_browsing_category:
+    category_permissions:
+        permissions_1:
+            website: All Websites
+            customer_group: All Customer Groups
+            browsing_category_deny: Yes
