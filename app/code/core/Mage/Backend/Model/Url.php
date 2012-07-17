@@ -88,29 +88,6 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     }
 
     /**
-     * Get route name by module frontName
-     *
-     * @param $frontName
-     * @return string|null
-     */
-    protected function _getRouteByFrontName($frontName)
-    {
-        if (false == isset($this->_routes[$frontName])) {
-            $requestedRouteName = '';
-            /**
-             * @var Mage_Core_Controller_Varien_Router_Base
-             */
-            $router = Mage::app()->getFrontController()->getRouter('admin');
-            if ($router) {
-                $requestedRouteName = $router->getRouteByFrontName($frontName);
-            }
-            $this->_routes[$frontName] = $requestedRouteName;
-        }
-        return $this->_routes[$frontName];
-    }
-
-
-    /**
      * Retrieve is secure mode for ULR logic
      *
      * @return bool
@@ -197,18 +174,30 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
         $salt = $this->_coreSession->getFormKey();
+        $request = $this->getRequest();
 
-        $p = explode('/', trim($this->getRequest()->getOriginalPathInfo(), '/'));
         if (!$routeName) {
-            $routeName = !empty($p[1]) ? $this->_getRouteByFrontName($p[1]) : $this->getRequest()->getRouteName();
+            if ($request->getBeforeForwardInfo('route_name') !== null) {
+                $routeName = $request->getBeforeForwardInfo('route_name');
+            } else {
+                $routeName = $request->getRouteName();
+            }
         }
 
         if (!$controller) {
-            $controller = !empty($p[2]) ? $p[2] : $this->getRequest()->getControllerName();
+            if ($request->getBeforeForwardInfo('controller_name') !== null) {
+                $controller = $request->getBeforeForwardInfo('controller_name');
+            } else {
+                $controller = $request->getControllerName();
+            }
         }
 
         if (!$action) {
-            $action = !empty($p[3]) ? $p[3] : $this->getRequest()->getActionName();
+            if ($request->getBeforeForwardInfo('action_name') !== null) {
+                $action = $request->getBeforeForwardInfo('action_name');
+            } else {
+                $action = $request->getActionName();
+            }
         }
 
         $secret = $routeName . $controller . $action . $salt;

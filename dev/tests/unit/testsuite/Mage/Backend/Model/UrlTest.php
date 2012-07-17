@@ -268,11 +268,12 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
         $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
-            array('getRouteName', 'getControllerName', 'getActionName'),
+            array('getRouteName', 'getControllerName', 'getActionName', 'getBeforeForwardInfo'),
             array(),
             '',
             false
         );
+        $requestMock->expects($this->exactly(3))->method('getBeforeForwardInfo')->will($this->returnValue(null));
         $requestMock->expects($this->once())->method('getRouteName')->will($this->returnValue($routeName));
         $requestMock->expects($this->once())->method('getControllerName')->will($this->returnValue($controllerName));
         $requestMock->expects($this->once())->method('getActionName')->will($this->returnValue($actionName));
@@ -283,9 +284,9 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Check that secret key generation is based on usage of routeName extracted from request OriginalPathInfo
+     * Check that secret key generation is based on usage of routeName extracted from request Forward info
      */
-    public function testGetSecretKeyGenerationWithRouteNameInOriginalPathInfo()
+    public function testGetSecretKeyGenerationWithRouteNameInForwardInfo()
     {
         $routeName = 'adminhtml';
         $controllerName = 'catalog';
@@ -294,44 +295,44 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
         $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
 
         $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
-            array('getOriginalPathInfo'),
+            array('getBeforeForwardInfo'),
             array(),
             '',
             false
         );
 
-        $requestMock->expects($this->once())
-            ->method('getOriginalPathInfo')
-            ->will($this->returnValue('backend/admin/catalog/index'));
+        $requestMock->expects($this->at(0))
+            ->method('getBeforeForwardInfo')
+            ->with('route_name')
+            ->will($this->returnValue('adminhtml'));
+
+        $requestMock->expects($this->at(1))
+            ->method('getBeforeForwardInfo')
+            ->with('route_name')
+            ->will($this->returnValue('adminhtml'));
+
+        $requestMock->expects($this->at(2))
+            ->method('getBeforeForwardInfo')
+            ->with('controller_name')
+            ->will($this->returnValue('catalog'));
+
+        $requestMock->expects($this->at(3))
+            ->method('getBeforeForwardInfo')
+            ->with('controller_name')
+            ->will($this->returnValue('catalog'));
+
+        $requestMock->expects($this->at(4))
+            ->method('getBeforeForwardInfo')
+            ->with('action_name')
+            ->will($this->returnValue('index'));
+
+        $requestMock->expects($this->at(5))
+            ->method('getBeforeForwardInfo')
+            ->with('action_name')
+            ->will($this->returnValue('index'));
+
         $this->_model->setRequest($requestMock);
         $keyFromRequest = $this->_model->getSecretKey();
         $this->assertEquals($keyFromParams, $keyFromRequest);
     }
-
-    /**
-     * Check that secret key generation is based on usage of routeName extracted from request OriginalPathInfo
-     */
-    public function testGetSecretKeyGenerationWithModuleFrontNameInOriginalPathInfo()
-    {
-        $routeName = 'adminhtml';
-        $controllerName = 'catalog';
-        $actionName = 'index';
-
-        $keyFromParams = $this->_model->getSecretKey($routeName, $controllerName, $actionName);
-
-        $requestMock = $this->getMock('Mage_Core_Controller_Request_Http',
-            array('getOriginalPathInfo'),
-            array(),
-            '',
-            false
-        );
-
-        $requestMock->expects($this->once())
-            ->method('getOriginalPathInfo')
-            ->will($this->returnValue('backend/adminhtml/catalog/index'));
-        $this->_model->setRequest($requestMock);
-        $keyFromRequest = $this->_model->getSecretKey();
-        $this->assertNotEquals($keyFromParams, $keyFromRequest);
-    }
-
 }

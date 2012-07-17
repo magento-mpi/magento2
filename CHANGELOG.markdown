@@ -1,3 +1,31 @@
+Update as of 7/16/2012
+=====================
+* Implemented support of locales inheritance. The inheritance can be specified in `app/locale/<locale_name>/config.xml` file
+* Collected all modules' configuration in modules' directories. Moved configuration from `app/etc/modules/<module>.xml` to `app/code/<pool>/<namespace>/<module>/config.xml`
+* Added Minimal Attributes set, which consists of required system attributes only
+* Improved import of customers:
+  * Implemented "Delete" behavior for importing customers, customer addresses and financial data
+  * Implemented "Custom" behavior, which allows to specify behavior for each item directly from the imported file
+* Updated performance tests:
+  * Enabled Product View, Category View, Add to Cart, Quick Search and Advanced Search scenarios
+  * Changed passing of tests configuration parameters to make possible to specify them per each scenario
+* Implemented `mage.js` for base JavaScript initialization of the application
+* Implemented ability to load JavaScript translations by locale code stored in cookies
+* Implemented unit tests for JavaScript widgets in Visual Design Editor
+* Fixed some issues:
+  * Impossible to add configurable product to the cart
+  * Impossible to apply Shopping Cart Price Rule with any conditions to cart with simple and virtual product
+  * Memory leak in email templates
+  * Impossible to place order with Multiple Addresses using 3D Secure
+  * Required product attributes are not exported
+  * "Forgot Your Password" link on checkout page inactive after reload captcha
+  * Validation of "Number of Symbols" field in Captcha configuration doesn't work
+  * Other small fixes
+* GitHub requests:
+  * [#37](https://github.com/magento/magento2/pull/37) -- fixed particular case of "HEADERS ALREADY SENT" error in WYSIWYG thumbnail
+  * [#39](https://github.com/magento/magento2/pull/39) -- added `composer.json`
+  * [#40](https://github.com/magento/magento2/pull/40) -- fixed generation of "secret key" in backend URLs to honor `_forward` in controllers
+
 Update as of 7/3/2012
 =====================
 * Refactored backend (admin) menu generation:
