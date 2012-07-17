@@ -202,9 +202,21 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     private $_isReadOnly = false;
 
+    /**
+     * Url model for current store
+     *
+     * @var Mage_Core_Model_Url
+     */
     protected $_urlModel = null;
+
+    /**
+     * Url class name for current store
+     *
+     * @var bool
+     */
     protected $_urlClassName = null;
 
+    /** Default url class name for current store */
     const DEFAULT_URL_MODEL_NAME = 'Mage_Core_Model_Url';
 
     /**
