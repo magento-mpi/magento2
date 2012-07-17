@@ -12,13 +12,13 @@
  */
 
 /**
-* Scheduled Import Form Tests
-*
-* @package     selenium
-* @subpackage  tests
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-* @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
-*/
+ * Scheduled Import Form Tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ */
 class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -52,7 +52,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
     public function addingNewScheduledImport()
     {
         //Steps 2-4
-        $importData = $this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+        $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
@@ -77,7 +77,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
         $this->checkCurrentPage('scheduled_importexport_edit');
         $this->verifyForm($importData);
         //Step 6
-        $tempImportData = $this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+        $tempImportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
