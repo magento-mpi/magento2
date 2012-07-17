@@ -39,8 +39,6 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
 
     public function setUp()
     {
-        parent::setUp();
-
         // import/export config mock
         $configMock = $this->getMock(
             'Mage_ImportExport_Model_Config',
@@ -61,7 +59,6 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
     public function tearDown()
     {
         unset($this->_dataModel);
-        parent::tearDown();
     }
 
     /**
@@ -79,7 +76,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
     /**
      * Callback to imitate Mage_ImportExport_Model_Config::getModelsArrayOptions
      *
-     * @param $configKey
+     * @param string $configKey
      * @return array|null
      */
     public function getModelsArrayOptionsCallback($configKey)
@@ -87,8 +84,10 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
         switch ($configKey) {
             case Mage_ImportExport_Model_Export::CONFIG_KEY_CUSTOMER_ENTITIES:
                 return $this->_exportEntities;
+
             case Mage_ImportExport_Model_Import::CONFIG_KEY_CUSTOMER_ENTITIES:
                 return $this->_importEntities;
+
             default:
                 return null;
         }

@@ -23,6 +23,31 @@
     /**#@-*/
 
     /**
+     * Show and activate row
+     *
+     * @param string elementId
+     */
+    varienForm.prototype.activateRow = function(elementId)
+    {
+        $(elementId).up('tr').show();
+        $(elementId).enable();
+        $(elementId).addClassName('required-entry');
+    };
+
+    /**
+     * Hide and deactivate row
+     *
+     * @param string elementId
+     */
+    varienForm.prototype.deactivateRow = function(elementId)
+    {
+        $(elementId).up('tr').hide();
+        $(elementId).selectedIndex = 0;
+        $(elementId).disable();
+        $(elementId).removeClassName('required-entry');
+    };
+
+    /**
      * Show behavior selector
      *
      * @param string|boolean behaviorVersion If false, then hide both behavior selectors
@@ -31,33 +56,14 @@
     varienForm.prototype.showBehavior = function(behaviorVersion)
     {
         if (behaviorVersion == this.BEHAVIOR_VERSION_1) {
-            $('behavior_v1').up('tr').show();
-            $('behavior_v1').enable();
-            $('behavior_v1').addClassName('required-entry');
-
-            $('behavior_v2_customer').up('tr').hide();
-            $('behavior_v2_customer').selectedIndex = 0;
-            $('behavior_v2_customer').disable();
-            $('behavior_v2_customer').removeClassName('required-entry')
+            this.activateRow('behavior_v1');
+            this.deactivateRow('behavior_v2_customer');
         } else if (behaviorVersion == this.BEHAVIOR_VERSION_2_CUSTOMER) {
-            $('behavior_v1').up('tr').hide();
-            $('behavior_v1').selectedIndex = 0;
-            $('behavior_v1').disable();
-            $('behavior_v1').removeClassName('required-entry');
-
-            $('behavior_v2_customer').up('tr').show();
-            $('behavior_v2_customer').enable();
-            $('behavior_v2_customer').addClassName('required-entry')
+            this.deactivateRow('behavior_v1');
+            this.activateRow('behavior_v2_customer');
         } else {
-            $('behavior_v1').up('tr').hide();
-            $('behavior_v1').selectedIndex = 0;
-            $('behavior_v1').disable();
-            $('behavior_v1').removeClassName('required-entry');
-
-            $('behavior_v2_customer').up('tr').hide();
-            $('behavior_v2_customer').selectedIndex = 0;
-            $('behavior_v2_customer').disable();
-            $('behavior_v2_customer').removeClassName('required-entry')
+            this.deactivateRow('behavior_v1');
+            this.deactivateRow('behavior_v2_customer');
         }
     };
 
@@ -70,14 +76,9 @@
     varienForm.prototype.showFormatVersion = function(isShow)
     {
         if (isShow == true) {
-            $('file_format_version').up('tr').show();
-            $('file_format_version').enable();
-            $('file_format_version').addClassName('required-entry');
+            this.activateRow('file_format_version');
         } else {
-            $('file_format_version').up('tr').hide();
-            $('file_format_version').disable();
-            $('file_format_version').selectedIndex = 0;
-            $('file_format_version').removeClassName('required-entry');
+            this.deactivateRow('file_format_version');
         }
     };
 
@@ -90,14 +91,9 @@
     varienForm.prototype.showCustomerEntity = function(isShow)
     {
         if (isShow == true) {
-            $('entity_subtype').up('tr').show();
-            $('entity_subtype').enable();
-            $('entity_subtype').addClassName('required-entry');
+            this.activateRow('entity_subtype');
         } else {
-            $('entity_subtype').up('tr').hide();
-            $('entity_subtype').disable();
-            $('entity_subtype').selectedIndex = 0;
-            $('entity_subtype').removeClassName('required-entry');
+            this.deactivateRow('entity_subtype');
         }
     };
 

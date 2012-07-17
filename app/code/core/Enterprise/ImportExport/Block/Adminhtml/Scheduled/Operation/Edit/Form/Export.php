@@ -8,13 +8,19 @@
  * @license     {license_link}
  */
 
+// @codingStandardsIgnoreStart
 /**
  * Scheduled export create/edit form
  *
  * @category    Enterprise
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
+// @codingStandardsIgnoreEnd
 class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
     extends Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
 {
@@ -25,6 +31,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
      */
     protected function _prepareForm()
     {
+        /** @var $helper Enterprise_ImportExport_Helper_Data */
         $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
 
         $this->setGeneralSettingsLabel($helper->__('Export Settings'));
@@ -71,6 +78,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
 
         // prepare filter grid data
         if ($operation->getId()) {
+            // we need to clone existing operation object because it stored in registry and used in other places,
+            // so we can't change it's data to ensure it will not affected on existing logic
             $filterOperation = clone $operation;
             if ($filterOperation->getEntitySubtype()) {
                 $filterOperation->setEntitySubtype('customer');
