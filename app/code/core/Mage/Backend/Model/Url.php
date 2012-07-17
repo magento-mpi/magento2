@@ -322,4 +322,37 @@ class Mage_Backend_Model_Url extends Mage_Core_Model_Url
         }
         return $this->_session;
     }
+
+
+    /**
+     * Return backend area front name, defined in configuration
+     *
+     * @return string
+     */
+    public function getAreaFrontName()
+    {
+        if (!$this->_getData('area_front_name')) {
+            $this->setData('area_front_name', $this->_backendHelper->getAreaFrontName());
+        }
+
+        return $this->_getData('area_front_name');
+    }
+
+    /**
+     * Retrieve action path.
+     * Add backend area front name as a prefix to action path
+     *
+     * @return string
+     */
+    public function getActionPath()
+    {
+        $path = parent::getActionPath();
+        if ($path) {
+            if ($this->getAreaFrontName()) {
+                $path = $this->getAreaFrontName() . '/' . $path;
+            }
+        }
+
+        return $path;
+    }
 }
