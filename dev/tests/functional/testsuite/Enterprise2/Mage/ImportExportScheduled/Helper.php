@@ -311,4 +311,28 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         }
     }
 
+    /**
+     * Select Scheduled Import/Export in grid
+     *
+     * @param array $searchData
+     *
+     * @return void
+     */
+    public function selectImportExportInGrid(array $searchData)
+    {
+        $this->_prepareDataForSearch($searchData);
+        $xpath = $this->search($searchData, 'grid_and_filter');
+        $checkboxXpath = $xpath . '/td/input';
+        if ($xpath){
+            if ($this->isElementPresent($checkboxXpath) && $this->isVisible($checkboxXpath)) {
+                $currentStatus = $this->isChecked($checkboxXpath);
+                if (!$currentStatus) {
+                    $this->click($checkboxXpath);
+                }
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -51,6 +51,9 @@ scheduled_import_export:
             error_run: //li[normalize-space(@class)='error-msg' and contains(.,'Unable to run operation')]
             delete_confirmation_export: Are you sure you want to delete this scheduled export?
             delete_confirmation_import: Are you sure you want to delete this scheduled import?
+            success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedRecords% record(s) have been deleted')]
+            delete_confirmation: Are you sure you want to delete the selected scheduled imports/exports?
+            
 
 
 #scheduled_import_export_index:
