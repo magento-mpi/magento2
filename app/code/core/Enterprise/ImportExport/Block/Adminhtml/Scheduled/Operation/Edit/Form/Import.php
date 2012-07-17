@@ -8,13 +8,19 @@
  * @license     {license_link}
  */
 
+// @codingStandardsIgnoreStart
 /**
  * Scheduled import create/edit form
  *
  * @category    Enterprise
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
+// @codingStandardsIgnoreEnd
 class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Import
     extends Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
 {
@@ -25,6 +31,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
      */
     protected function _prepareForm()
     {
+        /** @var $helper Enterprise_ImportExport_Helper_Data */
         $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
 
         $this->setGeneralSettingsLabel($helper->__('Import Settings'));
