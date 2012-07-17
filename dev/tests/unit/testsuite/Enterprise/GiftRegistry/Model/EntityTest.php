@@ -68,7 +68,7 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
             ->method('getModelInstance')
             ->with($this->equalTo('Mage_Core_Model_Email_Template'))
             ->will($this->returnCallback(
-                function() use ($emailTemplate) {
+                function () use ($emailTemplate) {
                     return clone $emailTemplate;
                 }
             ));
