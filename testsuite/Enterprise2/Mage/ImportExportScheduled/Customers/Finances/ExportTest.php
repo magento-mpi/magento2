@@ -19,7 +19,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
-class Enterprise2_Mage_ImportExportScheduled_Export_Finances_CustomerTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExportScheduled_Export_FinancesTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
