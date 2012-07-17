@@ -305,6 +305,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
                 $this->addParameter('type', $searchData['operation']);
                 $this->addParameter('id', $this->defineIdFromUrl());
                 $this->checkCurrentPage('scheduled_importexport_edit');
+                $this->setCurrentPage('scheduled_importexport_edit');
             }
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
