@@ -219,6 +219,7 @@
             <target name="unit-tests-unit-framework"/>
         </ant>
     </target>
+    <target name="unit-tests-all-ce" depends="prepare-ce,unit-tests-all"/>
 
     <!-- all static tests -->
     <target name="static-tests-all">
