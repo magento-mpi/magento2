@@ -12,13 +12,13 @@
  */
 
 /**
-* Scheduled Import Form Tests
-*
-* @package     selenium
-* @subpackage  tests
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-* @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
-*/
+ * Scheduled Import Form Tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ */
 class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
@@ -52,7 +52,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
     public function addingNewScheduledImport()
     {
         //Steps 2-4
-        $importData = $this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+        $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
@@ -77,7 +77,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
         $this->checkCurrentPage('scheduled_importexport_edit');
         $this->verifyForm($importData);
         //Step 6
-        $tempImportData = $this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+        $tempImportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
@@ -219,7 +219,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
      * <p>Steps:</p>
      * <p>1. In System > Import/Export > Scheduled Import/Export select Scheduled Import from precondition</p>
      * <p>2. Press "Delete" button</p>
-     * <p>Expected:  Prompt with text "Are you sure you want to delete this scheduled export?",</p>
+     * <p>Expected:  Prompt with text "Are you sure you want to delete this scheduled export?"</p>
      * <p>3. Press "OK" button in the dialog box</p>
      * <p>Expected: the page "Scheduled Import/Export" is opened. Import from precondition is absent in the grid.</p>
      * <p>The message "The scheduled import has been deleted." is appeared in the top area.</p>
@@ -247,5 +247,83 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
                 'operation' => 'Import',
             )),
             'Scheduled Import is found in grid');
+    }
+
+    /**
+     * <p>Deleting Scheduled Imports/Exports (through action)</p>
+     * <p>Precondition: three Scheduled Imports/Exports for customers is created</p
+     * <p>Steps:</p>
+     * <p>1. In System > Import/Export > Scheduled Import/Export select one Scheduled Import/Export from precondition</p>
+     * <p>2. In "Actions" drop-down select "Delete"</p>
+     * <p>3. Press "Submit" button</p>
+     * <p>Expected: Prompt with text "Are you sure you want to delete the selected scheduled imports/exports?".</p>
+     * <p>4. Press "OK" button.</p>
+     * <p>Expected: The message "Total of 1 record(s) have been deleted" is appeared in the top area.</p>
+     * <p>Import/Export from precondition is absent in the grid.</p>
+     * <p>5. Repeat steps 1-3 for other 2 imports/exports</p>
+     *
+     * @test
+     * @dataProvider massActionDelete
+     * @TestlinkId TL-MAGE-5788, 5787, 5775, 5807
+     */
+    public function deletingScheduledImportsExportsThroughAction($data)
+    {
+        //Precondition
+        foreach ($data as $value) {
+            if (strstr($value['name'], 'import')) {
+                $this->importExportScheduledHelper()->createImport($value);
+                $this->assertMessagePresent('success', 'success_saved_import');
+            } else {
+                $this->importExportScheduledHelper()->createExport($value);
+                $this->assertMessagePresent('success', 'success_saved_export');
+            }
+        }
+        //Step 1
+        foreach ($data as $value) {
+            $this->assertTrue($this->importExportScheduledHelper()->selectImportExportInGrid(array(
+                'name' => $value['name'],
+            )), "Scheduled Import/Export is not found in the grid");
+        }
+        //Step 2
+        $this->fillDropdown('grid_massaction_select', 'Delete');
+        //Steps 3-4
+        $this->clickButtonAndConfirm('submit', 'delete_confirmation');
+        //Verifying
+        $this->checkCurrentPage('scheduled_import_export');
+        $this->addParameter('qtyDeletedRecords', count($data));
+        $this->assertMessagePresent('success', 'success_delete_records');
+        foreach ($data as $value) {
+            $this->assertFalse($this->importExportScheduledHelper()->isImportExportPresentInGrid(array(
+                    'name' => $value['name'],
+                )), 'Scheduled Import/Export is found in the grid');
+        }
+    }
+
+    public function massActionDelete()
+    {
+        return array(
+            array(array($this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+                'file_format_version' => 'Magento 2.0 format',
+                'behavior' => 'Add/Update Complex Data',
+                'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
+            )))),
+            array(array($this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+                'file_format_version' => 'Magento 2.0 format',
+                'behavior' => 'Delete Entities',
+                'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
+            )), $this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+                'file_format_version' => 'Magento 2.0 format',
+                'behavior' => 'Custom Action',
+                'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
+            )))),
+            array(array($this->loadDataSet('ImportExportScheduled','scheduled_export', array(
+                'file_format_version' => 'Magento 2.0 format',
+            )))),
+            array(array($this->loadDataSet('ImportExportScheduled','scheduled_export', array(
+                'file_format_version' => 'Magento 2.0 format',
+            )), $this->loadDataSet('ImportExportScheduled','scheduled_export', array(
+                'file_format_version' => 'Magento 2.0 format',
+            ))),
+        ));
     }
 }
