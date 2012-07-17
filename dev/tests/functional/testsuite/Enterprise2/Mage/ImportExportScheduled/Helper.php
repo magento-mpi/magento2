@@ -288,7 +288,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      * Apply Action to specific job
      *
      * @param array $searchData
-     * @param string $action
+     * @param string $action Run|Edit
      *
      * @return void
      */
@@ -301,6 +301,11 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         if ($xpath){
             $this->fillDropdown('action', $action, $xpath . "/td[{$columnNumber}]/select");
             $this->waitForPageToLoad();
+            if (strtolower($action) == 'edit'){
+                $this->addParameter('type', $searchData['operation']);
+                $this->addParameter('id', $this->defineIdFromUrl());
+                $this->checkCurrentPage('scheduled_importexport_edit');
+            }
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
