@@ -79,8 +79,9 @@ customer_login:
                         log_in_customer:
                             fields:
                                 captcha: //*[@id='captcha_user_login']
-                            links:
+                            buttons:
                                 captcha_reload: //*[@id='captcha-reload']
+                            links:
                                 what_is_this: //li[@id='remember-me-box']//a[contains(., concat("What", "'s this?"))]
                             pageelements:
                                 captcha: //*[@id='user_login']
