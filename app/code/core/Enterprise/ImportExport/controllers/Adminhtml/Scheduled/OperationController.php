@@ -118,8 +118,11 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 || !isset($data['id']) && (!isset($data['operation_type']) || empty($data['operation_type']))
                 || !is_array($data['start_time'])
             ) {
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Unable to save scheduled operation'));
-                return $this->_redirect('*/*/*', array('_current' => true));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                    ->addError($this->__('Unable to save scheduled operation'));
+                $this->_redirect('*/*/*', array('_current' => true));
+
+                return;
             }
             $data['start_time'] = join(':', $data['start_time']);
             if (isset($data['export_filter']) && is_array($data['export_filter'])) {
@@ -128,12 +131,16 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                     $data['entity_attributes']['skip_attr'] = array_filter($data['skip_attr'], 'intval');
                 }
             }
+            if (!isset($data['entity_subtype'])) {
+                $data['entity_subtype'] = null;
+            }
 
             try {
                 $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setData($data);
                 $operation->save();
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessSaveMessage($operation->getOperationType())
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')
+                        ->getSuccessSaveMessage($operation->getOperationType())
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
