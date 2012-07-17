@@ -2740,9 +2740,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $error = 'Timeout after ' . $timeout . " seconds.\nCurrent location url: '" . $this->getLocation()
                  . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
         if (is_array($locator)) {
-            $error .= "One of the elements should be presented on page:\n" . self::messagesToString($locator);
+            $error .= "One of the elements should be presented(editable):\n" . self::messagesToString($locator);
         } else {
-            $error .= 'Locator ' . $locator . 'is not present on page';
+            $error .= 'Locator ' . $locator . ' is not present(editable)';
         }
         throw new RuntimeException($error);
     }
@@ -3505,7 +3505,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->waitForElementEditable($xpath);
         if (strtolower($value) == 'yes') {
-            $this->check($xpath);
+            $this->click($xpath);
             $this->waitForAjax();
         } elseif (strtolower($value) == 'no') {
             $this->uncheck($xpath);
