@@ -42,13 +42,16 @@ scheduled_import_export:
         buttons:
             add_scheduled_import: //button[span='Add Scheduled Import']
             add_scheduled_export: //button[span='Add Scheduled Export']
-        messages:
+        messages: &messages
             success_saved_export:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been saved.')]
             success_saved_import:  //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been saved.')]
             success_delete_export: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled export has been deleted.')]
             success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been deleted.')]
             success_run: //li[normalize-space(@class)='success-msg' and contains(.,'Operation has been successfully run')]
             error_run: //li[normalize-space(@class)='error-msg' and contains(.,'Unable to run operation')]
+            delete_confirmation_export: Are you sure you want to delete this scheduled export?
+            delete_confirmation_import: Are you sure you want to delete this scheduled import?
+
 
 #scheduled_import_export_index:
 #    mca: scheduled_operation/
@@ -124,9 +127,7 @@ scheduled_importexport_add:
             reset:  //button[span='Reset']
             save:   //button[span='Save']
             delete: //button[span='Delete']
-        messages:
-            delete_confirmation_export: Are you sure you want to delete this scheduled export?
-            delete_confirmation_import: Are you sure you want to delete this scheduled import?
+        messages: *messages
 
 scheduled_importexport_edit:
     mca: scheduled_operation/edit/id/%id%/
