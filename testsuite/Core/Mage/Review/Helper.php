@@ -68,6 +68,62 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
     }
 
     /**
+     * Search reviews
+     *
+     * @param array $reviewSearch
+     */
+    public function fillSearchFormAndOpenReview(array $reviewSearch)
+    {
+        if (isset($reviewSearch['filter_websites']) && !$this->controlIsPresent('dropdown', 'filter_websites')) {
+            unset($reviewSearch['filter_websites']);
+        }
+
+        $waitAjax = true;
+        $xpath = '';
+        $xpathContainer = null;
+        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+        $jsName = $this->getAttribute($resetXpath . '@onclick');
+        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
+
+        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
+        if ($this->isElementPresent($scriptXpath)) {
+            $waitAjax = false;
+        }
+
+        // Click 'Reset' button
+        $this->click($resetXpath);
+        if ($waitAjax) {
+            $this->waitForAjax();
+        } else {
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
+        }
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
+
+        //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
+        $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
+        $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
+
+        $xpathTR = $this->formSearchXpath($reviewSearch);
+
+        // Fill in search form and click 'Search' button
+        $this->fillForm($reviewSearch);
+        $this->clickButton('search', false);
+        $this->waitForElement($xpathPager);
+
+        $xpathTR = $xpath . $xpathTR;
+        if ($this->isElementPresent($xpathTR)) {
+            $itemId = $this->defineIdFromTitle($xpathTR);
+            $this->addParameter('id', $itemId);
+            $this->click($xpathTR . "/td[contains(text(),'" . $reviewSearch[array_rand($reviewSearch)] . "')]");
+            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->validatePage();
+        } else {
+            $this->fail('Can\'t find item in grid for data: ' . print_r($reviewSearch, true));
+        }
+    }
+
+    /**
      * Fills tabs in new/edit review
      *
      * @param string|array $reviewData
