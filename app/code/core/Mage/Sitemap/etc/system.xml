@@ -172,7 +172,7 @@
                     </fields>
                 </generate>
                 <limit translate="label">
-                    <label>Sitemap file limits</label>
+                    <label>Sitemap File Limits</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>5</sort_order>
                     <show_in_default>1</show_in_default>
@@ -180,7 +180,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <max_lines translate="label">
-                            <label>Maximum number of URLs per file</label>
+                            <label>Maximum No of URLs Per File</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
@@ -188,7 +188,7 @@
                             <show_in_store>1</show_in_store>
                         </max_lines>
                         <max_file_size translate="label comment">
-                            <label>Maximum file size</label>
+                            <label>Maximum File Size</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
