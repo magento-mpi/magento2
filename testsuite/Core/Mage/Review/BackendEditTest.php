@@ -72,20 +72,20 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
     public function checkPrevAndNextButtons($data)
     {
         //Data
-        $reviewData = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
+        $reviewDataFirst = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
             array('filter_sku' => $data['sku']));
-        $reviewData2 = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
+        $reviewDataSecond = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
             array('filter_sku' => $data['sku']));
         $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
             array('filter_product_sku' => $data['sku']));
 
         //Steps
         $this->navigate('manage_all_reviews');
-        $this->reviewHelper()->createReview($reviewData);
+        $this->reviewHelper()->createReview($reviewDataFirst);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
 
-        $this->reviewHelper()->createReview($reviewData2);
+        $this->reviewHelper()->createReview($reviewDataSecond);
         $this->assertMessagePresent('success', 'success_saved_review');
 
 
@@ -116,11 +116,11 @@ class Core_Mage_Review_BackendEditTest extends Mage_Selenium_TestCase
         $this->clickButton('prev_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
 
-        $this->assertElementValueEquals($fieldReviewTextXpath, $reviewData2['review']);
+        $this->assertElementValueEquals($fieldReviewTextXpath, $reviewDataSecond['review']);
 
         $this->clickButton('next_review');
         $this->assertMessageNotPresent('success', 'success_saved_review');
-        $this->assertElementValueEquals($fieldReviewTextXpath, $reviewData['review']);
+        $this->assertElementValueEquals($fieldReviewTextXpath, $reviewDataFirst['review']);
 
         $this->fillField('review', 'test text');
         $this->clickButton('prev_save_review');
