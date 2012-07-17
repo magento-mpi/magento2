@@ -202,6 +202,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     private $_isReadOnly = false;
 
+    protected $_urlModel = null;
+    protected $_urlClassName = null;
+
+    const DEFAULT_URL_MODEL_NAME = 'Mage_Core_Model_Url';
+
     /**
      * Initialize object
      */
@@ -475,7 +480,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getUrl($route = '', $params = array())
     {
         /** @var $url Mage_Core_Model_Url */
-        $url = Mage::getModel('Mage_Core_Model_Url')
+        $url = $this->getUrlModel()
             ->setStore($this);
         if (Mage::app()->getStore()->getId() != $this->getId()) {
             $params['_store_to_url'] = true;
@@ -1044,7 +1049,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     public function getCurrentUrl($fromStore = true)
     {
         $sidQueryParam = $this->_getSession()->getSessionIdQueryParam();
-        $requestString = Mage::getSingleton('Mage_Core_Model_Url')->escape(
+        $requestString = $this->getUrlModel()->escape(
             ltrim(Mage::app()->getRequest()->getRequestString(), '/'));
 
         $storeUrl = Mage::app()->getStore()->isCurrentlySecure()
@@ -1182,5 +1187,34 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }
         return $this->_frontendName;
+    }
+
+    /**
+     * Set url class name for current store
+     *
+     * @param string $urlClassName
+     * @return Mage_Core_Model_Store
+     */
+    public function setUrlClassName($urlClassName)
+    {
+        $this->_urlClassName = $urlClassName;
+        return $this;
+    }
+
+    /**
+     * Get url model by class name for current store
+     *
+     * @return Mage_Core_Model_Url
+     */
+    public function getUrlModel()
+    {
+        if (null === $this->_urlModel) {
+            if (null === $this->_urlClassName) {
+                $this->_urlClassName = self::DEFAULT_URL_MODEL_NAME;
+            }
+            $this->_urlModel = Mage::getModel($this->_urlClassName);
+        }
+
+        return $this->_urlModel;
     }
 }

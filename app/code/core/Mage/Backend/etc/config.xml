@@ -42,6 +42,16 @@
                 </config>
             </types>
         </cache>
+        <events>
+            <store_collection_load_after>
+                <observers>
+                    <set_url_class_name>
+                        <class>Mage_Backend_Model_Observer</class>
+                        <method>setUrlClassName</method>
+                    </set_url_class_name>
+                </observers>
+            </store_collection_load_after>
+        </events>
     </global>
     <admin>
         <routers>
