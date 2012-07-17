@@ -3397,7 +3397,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->waitForElementEditable($xpath);
         $this->type($xpath, $value);
-        $this->waitForElementEditable($xpath);
+        $this->waitForAjax();
     }
 
     /**
@@ -3432,9 +3432,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 } else {
                     $this->addSelection($xpath, 'regexp:' . preg_quote($option));
                 }
+                $this->waitForAjax();
             }
         }
-        $this->waitForElementEditable($xpath);
     }
 
     /**
@@ -3460,8 +3460,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->select($xpath, 'regexp:' . preg_quote($value));
             }
+            $this->waitForAjax();
         }
-        $this->waitForElementEditable($xpath);
     }
 
     /**
@@ -3481,13 +3481,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (strtolower($value) == 'yes') {
             if ($currentValue == 'off' || $currentValue == '0') {
                 $this->click($xpath);
+                $this->waitForAjax();
             }
         } elseif (strtolower($value) == 'no') {
             if ($currentValue == 'on' || $currentValue == '1') {
                 $this->click($xpath);
+                $this->waitForAjax();
             }
         }
-        $this->waitForElementEditable($xpath);
     }
 
     /**
@@ -3505,10 +3506,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->waitForElementEditable($xpath);
         if (strtolower($value) == 'yes') {
             $this->check($xpath);
+            $this->waitForAjax();
         } elseif (strtolower($value) == 'no') {
             $this->uncheck($xpath);
+            $this->waitForAjax();
         }
-        $this->waitForElementEditable($xpath);
     }
 
     ################################################################################
