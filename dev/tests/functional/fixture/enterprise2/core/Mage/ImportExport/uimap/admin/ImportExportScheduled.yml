@@ -49,6 +49,8 @@ scheduled_import_export:
             success_delete_import: //li[normalize-space(@class)='success-msg' and contains(.,'The scheduled import has been deleted.')]
             success_run: //li[normalize-space(@class)='success-msg' and contains(.,'Operation has been successfully run')]
             error_run: //li[normalize-space(@class)='error-msg' and contains(.,'Unable to run operation')]
+            success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedRecords% record(s) have been deleted')]
+            delete_confirmation: Are you sure you want to delete the selected scheduled imports/exports?
 
 #scheduled_import_export_index:
 #    mca: scheduled_operation/
