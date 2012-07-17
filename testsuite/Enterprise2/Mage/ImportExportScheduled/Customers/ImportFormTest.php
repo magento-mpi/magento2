@@ -19,7 +19,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
-class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
@@ -294,36 +294,36 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomerTest extends Mage_Se
         $this->assertMessagePresent('success', 'success_delete_records');
         foreach ($data as $value) {
             $this->assertFalse($this->importExportScheduledHelper()->isImportExportPresentInGrid(array(
-                    'name' => $value['name'],
-                )), 'Scheduled Import/Export is found in the grid');
+                'name' => $value['name'],
+            )), 'Scheduled Import/Export is found in the grid');
         }
     }
 
     public function massActionDelete()
     {
         return array(
-            array(array($this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
                 'file_format_version' => 'Magento 2.0 format',
                 'behavior' => 'Add/Update Complex Data',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
             )))),
-            array(array($this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
                 'file_format_version' => 'Magento 2.0 format',
                 'behavior' => 'Delete Entities',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
-            )), $this->loadDataSet('ImportExportScheduled','scheduled_import', array(
+            )), $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
                 'file_format_version' => 'Magento 2.0 format',
                 'behavior' => 'Custom Action',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
             )))),
-            array(array($this->loadDataSet('ImportExportScheduled','scheduled_export', array(
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
                 'file_format_version' => 'Magento 2.0 format',
             )))),
-            array(array($this->loadDataSet('ImportExportScheduled','scheduled_export', array(
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
                 'file_format_version' => 'Magento 2.0 format',
-            )), $this->loadDataSet('ImportExportScheduled','scheduled_export', array(
+            )), $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
                 'file_format_version' => 'Magento 2.0 format',
             ))),
-        ));
+            ));
     }
 }
