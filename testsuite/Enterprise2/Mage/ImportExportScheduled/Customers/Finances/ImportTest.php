@@ -42,7 +42,7 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
     }
 
     /**
-     * Running Scheduled Import of Customer Finances File (Add/Update)
+     * Running Scheduled Import of Customer Finances File (Add/Update, Delete Entities, Custom Action)
      *
      * @dataProvider financeImportData
      * @depends preconditionImport
@@ -98,7 +98,7 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
     }
 
     /**
-     * Running Scheduled Import of Customer Finances File (Add/Update)
+     * Invalid data in Customer Finances File
      *
      * @dataProvider financeInvalidImportData
      * @depends preconditionImport
@@ -141,7 +141,7 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
             )
         );
         return array(
-            array(array($csvRow1, $csvRow1), 'Add/Update Complex Data')
+            array(array($csvRow1, $csvRow2), 'Add/Update Complex Data')
         );
     }
 
