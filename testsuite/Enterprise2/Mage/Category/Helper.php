@@ -67,37 +67,12 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
         $this->openTab('category_permissions_tab');
         $xpath = $this->_getControlXpath('button', 'delete_all_permissions_visible');
         $count = $this->getXpathCount($xpath);
-        for ($i=0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; $i++) {
             $this->clickButton('delete_all_permissions_visible', false);
             $this->waitForAjax();
         }
         $this->clickButton('save_category', false);
         $this->pleaseWait();
-//        while ($this->controlIsPresent('pageelement', 'option_box')) {
-//            $this->clickButton('delete_all_permissions', false);
-//            $this->waitForAjax();
-//            $this->clickButton('save_category');
-//        }
-    }
 
-    /**
-     * Set Category Permissions for Category for existing category
-     *
-     * @param array $permissionsData
-     * @param string $categoryPath
-     */
-    public function setPermissions($permissionsData, $categoryPath)
-    {
-        $this->categoryHelper()->selectCategory($categoryPath);
-        $this->openTab('category_permissions_tab');
-        $count = 1;
-        foreach ($permissionsData as $permission) {
-            $this->clickButton('new_permission', false);
-            $this->waitForAjax();
-            $this->addParameter('row', $count);
-            $this->fillFieldset($permission, 'category_permissions');
-            $count++;
-        }
-        $this->clickButton('save_category');
     }
 }
