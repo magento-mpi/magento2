@@ -1,37 +1,37 @@
 <?php
-    /**
-     * Magento
-     *
-     * NOTICE OF LICENSE
-     *
-     * This source file is subject to the Open Software License (OSL 3.0)
-     * that is bundled with this package in the file LICENSE.txt.
-     * It is also available through the world-wide-web at this URL:
-     * http://opensource.org/licenses/osl-3.0.php
-     * If you did not receive a copy of the license and are unable to
-     * obtain it through the world-wide-web, please send an email
-     * to license@magentocommerce.com so we can send you a copy immediately.
-     *
-     * DISCLAIMER
-     *
-     * Do not edit or add to this file if you wish to upgrade Magento to newer
-     * versions in the future. If you wish to customize Magento for your
-     * needs please refer to http://www.magentocommerce.com for more information.
-     *
-     * @category    Magento
-     * @package     Mage_Category
-     * @subpackage  functional_tests
-     * @author      Magento Core Team <core@magentocommerce.com>
-     * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
-    /**
-     * Category Permissions tests
-     *
-     * @package     Mage_Category
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Magento
+ * @package     Mage_Category
+ * @subpackage  functional_tests
+ * @author      Magento Core Team <core@magentocommerce.com>
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/**
+ * Category Permissions tests
+ *
+ * @package     Mage_Category
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 
 class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mage_Selenium_TestCase
 {
@@ -45,8 +45,10 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
     {
         //Data
         $websiteData = $this->loadDataSet('Website', 'generic_website');
-        $storeData = $this->loadDataSet('Store', 'generic_store', array ('website' => $websiteData['website_name']));
-        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view', array ('store_name' => $storeData['store_name']));
+        $storeData = $this->loadDataSet('Store', 'generic_store',
+                                        array('website' => $websiteData['website_name']));
+        $storeViewData =$this->loadDataSet('StoreView', 'generic_store_view',
+                                           array('store_name' => $storeData['store_name']));
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
         $productCat = array('categories' => $catPath);
@@ -54,13 +56,13 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
         $this->loginAdminUser();
-//        $this->navigate('manage_stores');
-//        $this->storeHelper()->createStore($websiteData, 'website');
-//        $this->assertMessagePresent('success', 'success_saved_website');
-//        $this->storeHelper()->createStore($storeData, 'store');
-//        $this->assertMessagePresent('success', 'success_saved_store');
-//        $this->storeHelper()->createStore($storeViewData, 'store_view');
-//        $this->assertMessagePresent('success', 'success_saved_store_view');
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore($websiteData, 'website');
+        $this->assertMessagePresent('success', 'success_saved_website');
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertMessagePresent('success', 'success_saved_store');
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
         $this->navigate('manage_categories');
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
@@ -73,11 +75,9 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('user'   => array('email' => $userData['email'], 'password' => $userData['password']),
-                     'product'=> array('name' => $simple['general_name'], 'price' =>$simple['prices_price']),
-                     'catName'=> $category['name'],
-                     'catPath'=> $catPath);
+                     'product'=> array('name' => $simple['general_name'], 'price' => $simple['prices_price']),
+                     'catName'=> $category['name'], 'catPath'=> $catPath);
     }
-
 
     /**
      * <p>Disable Category Permissions</p>
@@ -90,7 +90,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>Expected result:</p>
      * <p>1. Category Permissions tab is absent</p>
      *
-     * test
+     * @test
      * @TestlinkId TL-MAGE-5798
      */
     public function disablePermission()
@@ -103,7 +103,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_categories');
         $this->assertFalse($this->controlIsPresent('tab', 'category_permissions_tab'),
-                                                   'Category permissions must be absent');
+                                                   'Category permissions tab must be absent');
     }
 
     /**
@@ -122,7 +122,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>2. After 6 "New Permission" button is present</p>
      * <p>3. After 8 All element are present</p>
      *
-     * test
+     * @test
      * @TestlinkId TL-MAGE-5091, TL-MAGE-5081
      */
     public function enablePermission()
@@ -135,23 +135,34 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_categories');
-        $this->assertTrue($this->controlIsPresent('tab', 'category_permissions_tab'), 'Category permissions must be present');
+        $this->assertTrue($this->controlIsPresent('tab', 'category_permissions_tab'),
+                                                  'Category permissions must be present');
         $this->openTab('category_permissions_tab');
         $this->assertTrue($this->controlIsPresent('button', 'new_permission'), 'Button "New permission" is absent');
         $this->clickControl('button', 'new_permission', false);
         $this->waitForAjax();
         $this->assertTrue($this->controlIsPresent('dropdown', 'website'), 'Dropdown "website" is absent');
         $this->assertTrue($this->controlIsPresent('dropdown', 'customer_group'), 'Dropdown "customer_group" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_allow'), 'Radiobutton "browsing_category_allow" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_deny'), 'Radiobutton "browsing_category_deny" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_use_parent'), 'Radiobutton "browsing_category_use_parent" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'displaying_price_allow'), 'Radiobutton "displaying_price_allow" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'displaying_price_deny'), 'Radiobutton "displaying_price_deny" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'displaying_price_use_parent'), 'Radiobutton "displaying_price_use_parent" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'add_to_cart_allow'), 'Radiobutton "add_to_cart_allow" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'add_to_cart_deny'), 'Radiobutton "add_to_cart_deny" is absent');
-        $this->assertTrue($this->controlIsPresent('radiobutton', 'add_to_cart_use_parent'), 'Radiobutton "add_to_cart_use_parent" is absent');
-        $this->assertTrue($this->controlIsPresent('button', 'delete_permissions'), 'Button "delete_permissions" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_allow'),
+                                                  'Radiobutton "browsing_category_allow" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_deny'),
+                                                  'Radiobutton "browsing_category_deny" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_use_parent'),
+                                                  'Radiobutton "browsing_category_use_parent" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'displaying_price_allow'),
+                                                  'Radiobutton "displaying_price_allow" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'displaying_price_deny'),
+                                                  'Radiobutton "displaying_price_deny" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'displaying_price_use_parent'),
+                                                  'Radiobutton "displaying_price_use_parent" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'add_to_cart_allow'),
+                                                  'Radiobutton "add_to_cart_allow" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'add_to_cart_deny'),
+                                                  'Radiobutton "add_to_cart_deny" is absent');
+        $this->assertTrue($this->controlIsPresent('radiobutton', 'add_to_cart_use_parent'),
+                                                  'Radiobutton "add_to_cart_use_parent" is absent');
+        $this->assertTrue($this->controlIsPresent('button', 'delete_permissions'),
+                                                  'Button "delete_permissions" is absent');
     }
 
     /**
@@ -177,7 +188,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>2. After 13 Product price is visible, "Add to cart" button is missing</p>
      *
      * @param array $testData
-     * test
+     * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5029
      */
@@ -233,7 +244,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>2. After 12 Product price and "Add to cart" button are missing</p>
      *
      * @param array $testData
-     * test
+     * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5028
      */
@@ -290,7 +301,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>2. After 12 Product price and "Add to cart" button are missing</p>
      *
      * @param array $testData
-     * test
+     * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5020
      */
@@ -299,6 +310,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable');
         $permission = $this->loadDataSet('Category', 'permissions_deny_browsing_category');
+        $this->addParameter('catName', $testData['catName']);
         //Preconditions
         $this->logoutCustomer();
         $this->loginAdminUser();
@@ -315,9 +327,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->clearInvalidedCache();
         $this->frontend();
-        $catXpath = '//ul[@id="nav"]' . '//li[contains(a/span,"' . $testData['catName'] . '")]';
-        print_r ($catXpath);
-        $this->assertFalse($this->isElementPresent($catXpath));
+        $this->assertFalse($this->controlIsPresent('button', 'category_button'));
     }
 
     /**
@@ -347,17 +357,19 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>3. After 19 Product price and "Add to cart" button are present</p>
      *
      * @param array $testData
-     * test
+     * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5030, TL-MAGE-5040
      */
     public function allowAll($testData)
     {
         //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array ('allow_browsing' => 'No, Redirect to Landing Page'));
+        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
+                                     array('allow_browsing' => 'No, Redirect to Landing Page'));
         $permission = $this->loadDataSet('Category', 'permissions_allow_all');
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
+        $this->addParameter('catName', $testData['catName']);
         //Preconditions
         $this->logoutCustomer();
         $this->loginAdminUser();
@@ -374,8 +386,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->clearInvalidedCache();
         $this->frontend();
-        $catXpath = '//ul[@id="nav"]' . '//li[contains(a/span,"' . $testData['catName'] . '")]';
-        $this->assertTrue($this->isElementPresent($catXpath));
+        $this->assertTrue($this->controlIsPresent('button', 'category_button'));
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertTrue($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" must be present');
@@ -442,7 +453,6 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->clearInvalidedCache();
         $this->frontend();
-       // $catXpath = '//ul[@id="nav"]' . '//li[contains(a/span,"' . $testData['catName'] . '")]';
         $this->assertFalse($this->controlIsPresent('button', 'category_button'));
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->assertTrue($this->controlIsPresent('button', 'category_button'));
