@@ -208,6 +208,18 @@
         </exec>
     </target>
 
+    <!-- all unit tests -->
+    <target name="unit-tests-all">
+        <ant dir="${basedir}" antfile="dev/build/build.xml" inheritAll="false">
+            <target name="unit-tests-magento"/>
+            <!-- dev/tests/functional/framework/tests/unit are broken -->
+            <target name="unit-tests-integration-framework"/>
+            <target name="unit-tests-performance-framework"/>
+            <target name="unit-tests-static-framework"/>
+            <target name="unit-tests-unit-framework"/>
+        </ant>
+    </target>
+
     <!-- all static tests -->
     <target name="static-tests-all">
         <exec dir="dev/tests/static" executable="phpunit" failonerror="true">
@@ -314,11 +326,7 @@
         </exec>
         <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
             <property name="env.build_customization_dir" value="../../customization/publicce"/>
-            <target name="unit-tests-magento"/>
-            <target name="unit-tests-static-framework"/>
-            <target name="unit-tests-integration-framework"/>
-            <target name="unit-tests-unit-framework"/>
-            <target name="unit-tests-performance-framework"/>
+            <target name="unit-tests-all"/>
             <target name="static-tests-all"/>
             <target name="integration-tests-magento"/>
             <target name="integration-integrity-tests-magento"/>
