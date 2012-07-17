@@ -49,7 +49,7 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
      * @test
      * @testLinkId TL-MAGE-5790, TL-MAGE-5793, TL-MAGE-5797
      */
-    public function importAddUpdate($financesCsv, $behavior, $customerData)
+    public function importValidData($financesCsv, $behavior, $customerData)
     {
         $financesCsv = str_replace('<realEmail>', $customerData['email'], $financesCsv);
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
