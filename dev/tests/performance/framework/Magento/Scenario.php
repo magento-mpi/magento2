@@ -76,6 +76,7 @@ class Magento_Scenario
      *
      * @param string $scenarioFile
      * @param array $scenarioParams
+     * @throws Magento_Exception
      */
     public function run($scenarioFile, array $scenarioParams)
     {

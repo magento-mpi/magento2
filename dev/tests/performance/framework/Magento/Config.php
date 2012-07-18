@@ -110,9 +110,6 @@ class Magento_Config
         foreach ($scenarioFiles as $oneScenarioFile) {
             $oneScenarioFile = str_replace('\\', '/', realpath($oneScenarioFile));
             $oneScenarioName = substr($oneScenarioFile, strlen($baseDir) + 1);
-            if ($baseDir . '/' . $oneScenarioName != $oneScenarioFile) {
-                throw new Magento_Exception("Scenario file '$oneScenarioFile' must reside in '$baseDir' directory.");
-            }
             if (isset($scenarios['scenario_params'][$oneScenarioName])) {
                 $oneScenarioParams = $scenarios['scenario_params'][$oneScenarioName];
             } else {

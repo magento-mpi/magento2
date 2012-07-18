@@ -68,6 +68,9 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
         new Magento_Config($configData, $baseDir);
     }
 
+    /**
+     * @return array
+     */
     public function constructorExceptionDataProvider()
     {
         return array(
@@ -80,11 +83,6 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
                 array_merge($this->_sampleConfigData, array('scenario' => array('files' => 'non_existing_*.jmx'))),
                 __DIR__ . '/_files',
                 'No scenario files match',
-            ),
-            'scenario outside of base dir' => array(
-                array_merge($this->_sampleConfigData, array('scenario' => array('files' => '../*.jmx'))),
-                __DIR__ . '/_files/dev',
-                'must reside in',
             ),
         );
     }
