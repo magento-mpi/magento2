@@ -168,7 +168,10 @@
         </exec>
     </target>
 
-    <!-- product integration tests -->
+  <!-- product integration integrity tests for CE -->
+  <target name="integration-integrity-tests-ce" depends="prepare-ce,integration-integrity-tests-magento"/>
+
+  <!-- product integration tests -->
     <target name="integration-tests-magento" depends="init">
         <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/integration-tests-magento.xml"/>
@@ -182,7 +185,10 @@
         </exec>
     </target>
 
-    <!-- product integration tests with xdebug -->
+  <!-- product integration tests for CE -->
+  <target name="integration-tests-ce" depends="prepare-ce,integration-tests-magento-concurent"/>
+
+  <!-- product integration tests with xdebug -->
     <target name="integration-tests-magento-xdebug" depends="init,prepare-xdebug">
         <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
             <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
@@ -196,7 +202,10 @@
         </exec>
     </target>
 
-    <!-- product integration tests with code coverage report -->
+  <!-- product integration tests with xdebug for CE -->
+  <target name="integration-tests-xdebug-ce" depends="prepare-ce,integration-tests-magento-xdebug-concurent"/>
+
+  <!-- product integration tests with code coverage report -->
     <target name="integration-tests-magento-coverage" depends="init,prepare-xdebug">
         <delete dir="${basedir}/coverage-html"/>
         <mkdir dir="${basedir}/coverage-html"/>
@@ -227,6 +236,9 @@
             <arg line="--log-junit ${basedir}/static-tests-all.xml"/>
         </exec>
     </target>
+
+    <!-- all static tests for CE -->
+    <target name="static-tests-all-ce" depends="prepare-ce,static-tests-all"/>
 
     <target name="functional-tests" description="Functional Tests" depends="init,prepare-installation">
         <condition property="useVmLauncher" value="false" else="true">
