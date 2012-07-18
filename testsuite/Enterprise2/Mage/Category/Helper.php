@@ -1,29 +1,12 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Mage_Category
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
@@ -42,16 +25,34 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
      */
     public function fillCategoryInfo(array $categoryData)
     {
-        parent::fillCategoryInfo($categoryData);
-        if (isset($categoryData['category_permissions'])) {
-            $this->openTab('category_permissions_tab');
-            $count = 1;
-            foreach ($categoryData['category_permissions'] as $permission) {
-                $this->clickButton('new_permission', false);
-                $this->waitForAjax();
-                $this->addParameter('row', $count);
-                $this->fillFieldset($permission, 'category_permissions');
-                $count++;
+        $tabs = $this->getCurrentUimapPage()->getAllTabs();
+        foreach ($tabs as $tab => $values) {
+            switch ($tab) {
+                case 'category_permissions':
+                    if (!isset($categoryData['category_permissions'])) {
+                        break;
+                    }
+                    $this->openTab('category_permissions_tab');
+                    $count = 1;
+                    foreach ($categoryData['category_permissions'] as $permission) {
+                        $this->clickButton('new_permission', false);
+                        $this->addParameter('row', $count);
+                        $this->fillFieldset($permission, 'category_permissions');
+                        $count++;
+                    }
+                    break;
+                case 'category_products':
+                    $arrayKey = $tab . '_data';
+                    if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
+                        $this->openTab($tab);
+                        foreach ($categoryData[$arrayKey] as $value) {
+                            $this->productHelper()->assignProduct($value, $tab);
+                        }
+                    }
+                    break;
+                default:
+                    $this->fillForm($categoryData, $tab);
+                    break;
             }
         }
     }
@@ -65,14 +66,10 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
     {
         $this->categoryHelper()->selectCategory($categoryPath);
         $this->openTab('category_permissions_tab');
-        $xpath = $this->_getControlXpath('button', 'delete_all_permissions_visible');
-        $count = $this->getXpathCount($xpath);
-        for ($i = 0; $i < $count; $i++) {
+        while ($this->buttonIsPresent('delete_all_permissions_visible')) {
             $this->clickButton('delete_all_permissions_visible', false);
-            $this->waitForAjax();
         }
         $this->clickButton('save_category', false);
         $this->pleaseWait();
-
     }
 }
