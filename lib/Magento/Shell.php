@@ -14,6 +14,8 @@
 class Magento_Shell
 {
     /**
+     * Verbosity of command execution - whether command output is printed to the standard output or not
+     *
      * @var bool
      */
     protected $_isVerbose;
@@ -26,6 +28,28 @@ class Magento_Shell
     public function __construct($isVerbose = false)
     {
         $this->_isVerbose = $isVerbose;
+    }
+
+    /**
+     * Set verbosity
+     *
+     * @param bool $isVerbose
+     * @return Magento_Shell
+     */
+    public function setVerbose($isVerbose)
+    {
+        $this->_isVerbose = $isVerbose;
+        return $this;
+    }
+
+    /**
+     * Get verbosity
+     *
+     * @return bool
+     */
+    public function getVerbose()
+    {
+        return $this->_isVerbose;
     }
 
     /**
