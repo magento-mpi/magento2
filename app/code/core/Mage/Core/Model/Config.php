@@ -875,10 +875,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
 
                 foreach ($fileName as $configFile) {
-                    $configFile = $this->getModuleDir('etc', $modName).DS.$configFile;
-                    if ($mergeModel->loadFile($configFile)) {
+                    $configFilePath = $this->getModuleDir('etc', $modName).DS.$configFile;
+                    if ($mergeModel->loadFile($configFilePath)) {
                         $mergeToObject->extend($mergeModel, true);
-                        if ($fileName !== 'config.xml') {
+                        if ($configFile !== 'config.xml') {
                             continue;
                         }
                         //Prevent overriding <active> node of module if it was redefined in etc/modules
