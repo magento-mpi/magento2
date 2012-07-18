@@ -20,7 +20,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
      */
     protected function setUp()
     {
-        $this->_model= new Enterprise_ImportExport_Model_Scheduled_Operation();
+        $this->_model = new Enterprise_ImportExport_Model_Scheduled_Operation();
     }
 
     /**
@@ -68,5 +68,42 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
     public function testGetHistoryFilePathException()
     {
         $this->_model->getHistoryFilePath();
+    }
+
+    /**
+     * @magentoDataFixture Enterprise/ImportExport/_files/operation.php
+     * @magentoDataFixture Mage/Catalog/_files/products_new.php
+     */
+    public function testRunAction()
+    {
+        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
+        $operation = Mage::registry('_fixture/Enterprise_ImportExport_Model_Scheduled_Operation');
+        $fileInfo = unserialize($operation->getFileInfo());
+
+        $this->_model->load($operation->getId());
+
+        // Create export directory if not exist
+        $varDir = Mage::getBaseDir('var');
+        $exportDir = $varDir . DS . $fileInfo['file_path'];
+        if (!is_dir($exportDir)) {
+            mkdir($exportDir, 0777);
+        }
+
+        // Change current working directory to allow save export results
+        $cwd = getcwd();
+        chdir($varDir);
+
+        $this->_model->run();
+
+        $scheduledExport = new Enterprise_ImportExport_Model_Export();
+        $scheduledExport->setEntity($operation->getEntityType());
+        $scheduledExport->setOperationType($operation->getOperationType());
+        $scheduledExport->setRunDate($this->_model->getLastRunDate());
+
+        $filePath = $exportDir . DS . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];
+        $this->assertFileExists($filePath);
+
+        // Restore current working directory
+        chdir($cwd);
     }
 }

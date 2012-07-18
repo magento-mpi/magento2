@@ -11,73 +11,113 @@
 class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_ImportExport_Model_Scheduled_Operation
+     * Default date value
+     *
+     * @var string
      */
-    protected $_model;
+    protected $_date = '00-00-00';
 
     /**
-     * Set up before test
+     * Test getHistoryFilePath() method
+     *
+     * @dataProvider getHistoryFilePathDataProvider
      */
-    protected function setUp()
+    public function testGetHistoryFilePath($fileInfo, $lastRunDate, $expectedPath)
     {
-        $this->_model = $this->getMock(
+        $model = $this->_getScheduledOperationModel($fileInfo);
+
+        $model->setLastRunDate($lastRunDate);
+
+        $this->assertEquals($expectedPath, $model->getHistoryFilePath());
+    }
+
+    /**
+     * Data provider for testGetHistoryFilePath()
+     *
+     * @return array
+     */
+    public function getHistoryFilePathDataProvider()
+    {
+        return array(
+            'empty file name' => array(
+                '$fileInfo'     => array('file_format' => 'csv'),
+                '$lastRunDate'  => null,
+                '$expectedPath' => 'dir/' . $this->_date . '_export_catalog_product.csv'
+            ),
+            'filled file name' => array(
+                '$fileInfo'     => array('file_name' => 'test.xls'),
+                '$lastRunDate'  => null,
+                '$expectedPath' => 'dir/' . $this->_date . '_export_catalog_product.xls'
+            ),
+            'set last run date' => array(
+                '$fileInfo'     => array('file_name' => 'test.xls'),
+                '$lastRunDate'  => '11-11-11',
+                '$expectedPath' => 'dir/11-11-11_export_catalog_product.xls'
+            )
+        );
+    }
+
+    /**
+     * Get mocked model
+     *
+     * @param array $fileInfo
+     * @return Enterprise_ImportExport_Model_Scheduled_Operation|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function _getScheduledOperationModel(array $fileInfo)
+    {
+        $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
+        $dateModelMock->expects($this->any())
+            ->method('date')
+            ->will($this->returnCallback(array($this, 'getDateCallback')));
+
+        //TODO Get rid of mocking methods from testing model when this model will be re-factored
+
+        $model = $this->getMock(
             'Enterprise_ImportExport_Model_Scheduled_Operation',
             array(
                 'getOperationType',
                 'getEntityType',
-                'getFileInfo',
-                '_getCurrentTime',
+                'getDateModel',
                 '_getHistoryDirPath',
-                '_construct'
-            )
+                'getFileInfo'
+            ),
+            array(),
+            '',
+            false
         );
-        $this->_model->expects($this->once())
+
+        $model->expects($this->once())
             ->method('getOperationType')
             ->will($this->returnValue('export'));
-        $this->_model->expects($this->once())
+        $model->expects($this->once())
             ->method('getEntityType')
             ->will($this->returnValue('catalog_product'));
-        $this->_model->expects($this->once())
-            ->method('_getCurrentTime')
-            ->will($this->returnValue('00-00-00'));
-        $this->_model->expects($this->once())
+        $model->expects($this->once())
+            ->method('getDateModel')
+            ->will($this->returnValue($dateModelMock));
+        $model->expects($this->once())
             ->method('_getHistoryDirPath')
             ->will($this->returnValue('dir/'));
-    }
-
-    /**
-     * Tear down before test
-     */
-    protected function tearDown()
-    {
-        unset($this->_model);
-    }
-
-    /**
-     * Test getHistoryFilePath() method in case when file name is not provided
-     */
-    public function testGetHistoryFilePathWithoutFileName()
-    {
-        $fileInfo = array('file_format' => 'csv');
-
-        $this->_model->expects($this->once())
+        $model->expects($this->once())
             ->method('getFileInfo')
             ->will($this->returnValue($fileInfo));
 
-        $this->assertEquals('dir/00-00-00_export_catalog_product.csv', $this->_model->getHistoryFilePath());
+        return $model;
     }
 
     /**
-     * Test getHistoryFilePath() method in case when file name is provided
+     * Callback to use instead of Mage_Core_Model_Date::date()
+     *
+     * @param string $format
+     * @param int|string $input
+     * @return string
      */
-    public function testGetHistoryFilePathWithFileName()
+    public function getDateCallback($format, $input = null)
     {
-        $fileInfo = array('file_name' => 'test.xls');
+        if (!empty($format) && !is_null($input)) {
+            return $input;
+        }
 
-        $this->_model->expects($this->once())
-            ->method('getFileInfo')
-            ->will($this->returnValue($fileInfo));
-
-        $this->assertEquals('dir/00-00-00_export_catalog_product.xls', $this->_model->getHistoryFilePath());
+        return $this->_date;
     }
 }

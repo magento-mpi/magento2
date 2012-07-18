@@ -36,7 +36,7 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
         $dateModelMock = $this->getMock('Mage_Core_Model_Date', array('date'), array(), '', false);
         $dateModelMock->expects($this->any())
             ->method('date')
-            ->will($this->returnValue($this->_date));
+            ->will($this->returnCallback(array($this, 'getDateCallback')));
 
         $this->_model = new Enterprise_ImportExport_Model_Export(
             array('date_model' => $dateModelMock)
@@ -100,15 +100,21 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
      * Test for method 'getScheduledFileName'
      *
      * @param array $data
-     * @param string $expectedSuffix
+     * @param string $expectedFilename
      * @dataProvider entityTypeDataProvider
      */
-    public function testGetScheduledFileName($data, $expectedSuffix)
+    public function testGetScheduledFileName($data, $expectedFilename)
     {
         $operation = $this->_getOperationMock($data);
         $this->_model->initialize($operation);
+
+        // we should set run date because after initialize() resets $operation data
+        if (!empty($data['run_date'])) {
+            $this->_model->setRunDate($data['run_date']);
+        }
+
         $this->assertEquals(
-            $this->_date . '_' . $expectedSuffix,
+            $expectedFilename,
             $this->_model->getScheduledFileName(),
             'File name is wrong'
         );
@@ -126,9 +132,9 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
                 '$data' => array(
                     'entity_type'     => 'customer',
                     'entity_subtype'  => null,
-                    'operation_type'  => 'export',
+                    'operation_type'  => 'export'
                 ),
-                '$expectedSuffix' => 'export_customer'
+                '$expectedFilename' => $this->_date . '_export_customer'
             ),
             'Test file name when entity subtype provided' => array(
                 '$data' => array(
@@ -136,7 +142,16 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
                     'entity_subtype'  => 'customer_address',
                     'operation_type'  => 'export'
                 ),
-                '$expectedSuffix' => 'export_customer_address'
+                '$expectedFilename' => $this->_date . '_export_customer_address'
+            ),
+            'Test file name when run date provided' => array(
+                '$data' => array(
+                    'entity_type'     => 'customer',
+                    'entity_subtype'  => null,
+                    'operation_type'  => 'export',
+                    'run_date'        => '11-11-11'
+                ),
+                '$expectedFilename' => '11-11-11_export_customer'
             )
         );
     }
@@ -175,5 +190,21 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
         $operation->setData($operationData);
 
         return $operation;
+    }
+
+    /**
+     * Callback to use instead Mage_Core_Model_Date::date()
+     *
+     * @param string $format
+     * @param int|string $input
+     * @return string
+     */
+    public function getDateCallback($format, $input = null)
+    {
+        if (!empty($format) && !is_null($input)) {
+            return $input;
+        }
+
+        return $this->_date;
     }
 }

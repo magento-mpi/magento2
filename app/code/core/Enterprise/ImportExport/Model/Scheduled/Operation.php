@@ -26,6 +26,8 @@
  * @method string|array getEntityAttributes() getEntityAttributes()
  * @method string getBehavior() getBehavior()
  * @method string getForceImport() getForceImport()
+ * @method Enterprise_ImportExport_Model_Scheduled_Operation setLastRunDate() setLastRunDate(int $value)
+ * @method int getLastRunDate() getLastRunDate()
  */
 class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_Abstract
 {
@@ -62,13 +64,33 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
     const CRON_JOB_NAME_PREFIX = 'scheduled_operation_';
 
     /**
+     * Date model
+     *
+     * @var Mage_Core_Model_Date
+     */
+    protected $_dateModel;
+
+    /**
      * Initialize operation model
      *
+     * @param array $data
      * @return void
      */
-    protected function _construct()
+    protected function _construct(array $data = array())
     {
         $this->_init('Enterprise_ImportExport_Model_Resource_Scheduled_Operation');
+
+        $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Mage_Core_Model_Date');
+    }
+
+    /**
+     * Date model getter
+     *
+     * @return Mage_Core_Model_Date
+     */
+    public function getDateModel()
+    {
+        return $this->_dateModel;
     }
 
     /**
@@ -302,8 +324,14 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      */
     public function run()
     {
+        $runDate = $this->getDateModel()->date();
+        $runDateTimestamp = $this->getDateModel()->gmtTimestamp($runDate);
+
+        $this->setLastRunDate($runDateTimestamp);
+
         $operation = $this->getInstance();
-        $this->setLastRunDate(Mage::getSingleton('Mage_Core_Model_Date')->gmtTimestamp());
+        $operation->setRunDate($runDateTimestamp);
+
         $result = false;
         try {
             $result = $operation->runSchedule($this);
@@ -324,7 +352,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
                 'operationName'  => $this->getName(),
                 'trace'          => nl2br($operation->getFormatedLogTrace()),
                 'entity'         => $this->getEntityType(),
-                'dateAndTime'    => Mage::getModel('Mage_Core_Model_Date')->date(),
+                'dateAndTime'    => $runDate,
                 'fileName'       => $filePath
             ));
         }
@@ -400,7 +428,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      * Supported import, export
      *
      * @throws Mage_Core_Exception
-     * @return Mage_ImportExport_Model_Export|Mage_ImportExport_Model_Import
+     * @return Enterprise_ImportExport_Model_Export|Enterprise_ImportExport_Model_Import
      */
     public function getInstance()
     {
@@ -521,7 +549,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
         $dirPath = $this->_getHistoryDirPath();
 
         $fileName = join('_', array(
-            $this->_getCurrentTime(),
+            $this->_getRunTime(),
             $this->getOperationType(),
             $this->getEntityType()
         ));
@@ -543,8 +571,9 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      *
      * @return string
      */
-    protected function _getCurrentTime()
+    protected function _getRunTime()
     {
-        return Mage::getModel('Mage_Core_Model_Date')->date('H-i-s');
+        $runDate = $this->getLastRunDate() ? $this->getLastRunDate() : null;
+        return $this->getDateModel()->date('H-i-s', $runDate);
     }
 }

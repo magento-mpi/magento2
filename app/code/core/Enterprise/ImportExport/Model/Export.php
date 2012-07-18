@@ -16,6 +16,10 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method string getOperationType() getOperationType()
+ * @method int getRunDate() getRunDate()
+ * @method Enterprise_ImportExport_Model_Export setRunDate() setRunDate(int $value)
+ * @method Enterprise_ImportExport_Model_Export setEntity() setEntity(string $value)
+ * @method Enterprise_ImportExport_Model_Export setOperationType() setOperationType(string $value)
  */
 class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Export
     implements Enterprise_ImportExport_Model_Scheduled_Operation_Interface
@@ -102,7 +106,8 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
             $suffix = $this->getEntity();
         }
 
-        return $this->getDateModel()->date('Y-m-d_H-i-s') . '_' . $this->getOperationType()
+        $runDate = $this->getRunDate() ? $this->getRunDate() : null;
+        return $this->getDateModel()->date('Y-m-d_H-i-s', $runDate) . '_' . $this->getOperationType()
             . '_' . $suffix;
     }
 }
