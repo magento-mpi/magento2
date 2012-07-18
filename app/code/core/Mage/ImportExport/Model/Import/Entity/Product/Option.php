@@ -18,6 +18,21 @@
 
 class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportExport_Model_Import_Entity_Abstract
 {
+    /**#@+
+     * Custom option column names
+     */
+    const COLUMN_PREFIX      = '_custom_option_';
+    const COLUMN_STORE       = '_custom_option_store';
+    const COLUMN_TYPE        = '_custom_option_type';
+    const COLUMN_TITLE       = '_custom_option_title';
+    const COLUMN_IS_REQUIRED = '_custom_option_is_required';
+    const COLUMN_SORT_ORDER  = '_custom_option_sort_order';
+    const COLUMN_ROW_TITLE   = '_custom_option_row_title';
+    const COLUMN_ROW_PRICE   = '_custom_option_row_price';
+    const COLUMN_ROW_SKU     = '_custom_option_row_sku';
+    const COLUMN_ROW_SORT    = '_custom_option_row_sort';
+    /**#@-*/
+
     /**
      * All stores code-ID pairs
      *
@@ -207,11 +222,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                     continue;
                 }
 
-                $commonData = $this->_getRequiredData($rowData);
-                if (!$commonData) {
+                $requiredData = $this->_getRequiredData($rowData);
+                if (!$requiredData) {
                     continue;
                 }
-                list($productId, $storeId, $optionType, $rowIsMain) = $commonData;
+                list($productId, $storeId, $optionType, $rowIsMain) = $requiredData;
 
                 if ($rowIsMain) {
                     $options[] = $this->_getOptionData($rowData, $productId, $nextOptionId, $optionType);
@@ -254,11 +269,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                     }
                 }
 
-                if (!empty($rowData['_custom_option_title'])) {
+                if (!empty($rowData[self::COLUMN_TITLE])) {
                     if (!isset($titles[$prevOptionId][0])) { // ensure default title is set
-                        $titles[$prevOptionId][0] = $rowData['_custom_option_title'];
+                        $titles[$prevOptionId][0] = $rowData[self::COLUMN_TITLE];
                     }
-                    $titles[$prevOptionId][$storeId] = $rowData['_custom_option_title'];
+                    $titles[$prevOptionId][$storeId] = $rowData[self::COLUMN_TITLE];
                 }
             }
 
@@ -298,21 +313,21 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             return false;
         }
         // Init store
-        if (!empty($rowData['_custom_option_store'])) {
-            if (!isset($this->_storeCodeToId[$rowData['_custom_option_store']])) {
+        if (!empty($rowData[self::COLUMN_STORE])) {
+            if (!isset($this->_storeCodeToId[$rowData[self::COLUMN_STORE]])) {
                 return false;
             }
-            $this->_rowStoreId = $this->_storeCodeToId[$rowData['_custom_option_store']];
+            $this->_rowStoreId = $this->_storeCodeToId[$rowData[self::COLUMN_STORE]];
         } else {
             $this->_rowStoreId = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
         }
         // Init option type and set param which tell that row is main
-        if (!empty($rowData['_custom_option_type'])) { // get CO type if its specified
-            if (!isset($this->_specificTypes[$rowData['_custom_option_type']])) {
+        if (!empty($rowData[self::COLUMN_TYPE])) { // get CO type if its specified
+            if (!isset($this->_specificTypes[$rowData[self::COLUMN_TYPE]])) {
                 $this->_rowType = null;
                 return false;
             }
-            $this->_rowType = $rowData['_custom_option_type'];
+            $this->_rowType = $rowData[self::COLUMN_TYPE];
             $this->_rowIsMain = true;
         } else {
             if (null === $this->_rowType) {
@@ -360,7 +375,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             'updated_at'       => now(),
         );
 
-        if (!empty($rowData['_custom_option_is_required'])) {
+        if (!empty($rowData[self::COLUMN_IS_REQUIRED])) {
             $productData['required_options'] = 1;
         }
 
@@ -387,15 +402,15 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             'image_size_y'   => 0,
             'product_id'     => $productId,
             'type'           => $type,
-            'is_require'     => empty($rowData['_custom_option_is_required']) ? 0 : 1,
-            'sort_order'     => empty($rowData['_custom_option_sort_order'])
-                ? 0 : abs($rowData['_custom_option_sort_order'])
+            'is_require'     => empty($rowData[self::COLUMN_IS_REQUIRED]) ? 0 : 1,
+            'sort_order'     => empty($rowData[self::COLUMN_SORT_ORDER])
+                ? 0 : abs($rowData[self::COLUMN_SORT_ORDER])
         );
 
         if (!$this->_isRowHasSpecificType($type)) { // simple option may have optional params
             foreach ($this->_specificTypes[$type] as $paramSuffix) {
-                if (isset($rowData['_custom_option_' . $paramSuffix])) {
-                    $data = $rowData['_custom_option_' . $paramSuffix];
+                if (isset($rowData[self::COLUMN_PREFIX . $paramSuffix])) {
+                    $data = $rowData[self::COLUMN_PREFIX . $paramSuffix];
 
                     if (array_key_exists($paramSuffix, $optionData)) {
                         $optionData[$paramSuffix] = $data;
@@ -424,8 +439,8 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         );
 
         foreach ($this->_specificTypes[$type] as $paramSuffix) {
-            if (isset($rowData['_custom_option_' . $paramSuffix])) {
-                $data = $rowData['_custom_option_' . $paramSuffix];
+            if (isset($rowData[self::COLUMN_PREFIX . $paramSuffix])) {
+                $data = $rowData[self::COLUMN_PREFIX . $paramSuffix];
 
                 if ('price' == $paramSuffix) {
                     if ('%' == substr($data, -1)) {
@@ -448,29 +463,29 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      */
     protected function _getSpecificTypeData(array $rowData, $optionTypeId)
     {
-        if (!empty($rowData['_custom_option_row_title']) && empty($rowData['_custom_option_store'])) {
+        if (!empty($rowData[self::COLUMN_ROW_TITLE]) && empty($rowData[self::COLUMN_STORE])) {
             $valueData = array(
                 'option_type_id' => $optionTypeId,
-                'sort_order'     => empty($rowData['_custom_option_row_sort'])
-                    ? 0 : abs($rowData['_custom_option_row_sort']),
-                'sku'            => !empty($rowData['_custom_option_row_sku'])
-                    ? $rowData['_custom_option_row_sku'] : ''
+                'sort_order'     => empty($rowData[self::COLUMN_ROW_SORT])
+                    ? 0 : abs($rowData[self::COLUMN_ROW_SORT]),
+                'sku'            => !empty($rowData[self::COLUMN_ROW_SKU])
+                    ? $rowData[self::COLUMN_ROW_SKU] : ''
             );
 
             $priceData = false;
-            if (!empty($rowData['_custom_option_row_price'])) {
+            if (!empty($rowData[self::COLUMN_ROW_PRICE])) {
                 $priceData = array(
-                    'price'      => (float) rtrim($rowData['_custom_option_row_price'], '%'),
+                    'price'      => (float) rtrim($rowData[self::COLUMN_ROW_PRICE], '%'),
                     'price_type' => 'fixed'
                 );
-                if ('%' == substr($rowData['_custom_option_row_price'], -1)) {
+                if ('%' == substr($rowData[self::COLUMN_ROW_PRICE], -1)) {
                     $priceData['price_type'] = 'percent';
                 }
             }
 
             return array(
                 'value' => $valueData,
-                'title' => $rowData['_custom_option_row_title'],
+                'title' => $rowData[self::COLUMN_ROW_TITLE],
                 'price' => $priceData
             );
         }
