@@ -64,7 +64,13 @@ class Core_Mage_Wishlist_Helper extends Mage_Selenium_TestCase
             $this->productHelper()->frontFillBuyInfo($options);
         }
         $this->addParameter('productName', $productName);
-        $this->clickControlAndWaitMessage('link', 'add_to_wishlist');
+        $waitConditions = array($this->getBasicXpathMessagesExcludeCurrent('success'),
+                                $this->_getControlXpath('fieldset', 'log_in_customer',
+                                    $this->getUimapPage('frontend', 'customer_login')));
+        $this->clickControl('link', 'add_to_wishlist', false);
+        $this->waitForElement($waitConditions);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->validatePage();
     }
 
     /**

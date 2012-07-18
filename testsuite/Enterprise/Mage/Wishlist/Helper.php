@@ -48,10 +48,16 @@ class Enterprise_Mage_Wishlist_Helper extends Core_Mage_Wishlist_Helper
             $this->productHelper()->frontFillBuyInfo($options);
         }
         $this->addParameter('productName', $productName);
+        $waitConditions = array($this->getBasicXpathMessagesExcludeCurrent('success'),
+                                $this->_getControlXpath('fieldset', 'log_in_customer',
+                                    $this->getUimapPage('frontend', 'customer_login')));
         if ($this->controlIsVisible('link', 'add_to_wishlist')) {
-            $this->clickControlAndWaitMessage('link', 'add_to_wishlist');
+            $this->clickControl('link', 'add_to_wishlist', false);
         } else {
-            $this->clickControlAndWaitMessage('link', 'customized_add_to_wishlist');
+            $this->clickControlAndWaitMessage('link', '');
         }
+        $this->waitForElement($waitConditions);
+        $this->addParameter('id', $this->defineIdFromUrl());
+        $this->validatePage();
     }
 }

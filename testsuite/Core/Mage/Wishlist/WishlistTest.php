@@ -748,5 +748,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
         $this->wishlistHelper()->frontAddProductToWishlistFromProductPage($testData['productNames']['simple']);
         //Verify
         $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->assertMessagePresent('success', 'successfully_added_product');
     }
 }
