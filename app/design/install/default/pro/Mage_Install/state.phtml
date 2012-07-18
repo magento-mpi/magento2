@@ -10,26 +10,26 @@
 ?>
 <div>
     <h2 style="font-size:1.4em; margin:0;"><strong><?php echo $this->__('Installation') ?></strong></h2>
+
     <div class="content">
         <ol>
-        <?php foreach($this->getDownloaderSteps() as $step): ?>
+            <?php foreach ($this->getDownloaderSteps() as $step): ?>
             <li><?php echo $step ?></li>
-        <?php endforeach; ?>
-        <?php if ($this->isDownloaderInstall()) : ?>
+            <?php endforeach; ?>
+            <?php if ($this->isDownloaderInstall()) : ?>
             <li><?php echo $this->__('Channel Server Authorization')?></li>
-        <?php endif; ?>
+            <?php endif; ?>
             <li><?php echo $this->__('Download')?></li>
-        <?php foreach($steps as $_step): ?>
-            <li <?php if($_step->getActive()): ?>style="color:#f15d22; font-weight:bold; "<?php endif ?>><?php echo $this->__($_step->getCode()) ?></li>
-        <?php endforeach ?>
+            <?php foreach ($steps as $_step): ?>
+            <li <?php if ($_step->getActive()): ?>style="color:#f15d22; font-weight:bold; "<?php endif ?>><?php echo $this->__($_step->getCode()) ?></li>
+            <?php endforeach ?>
         </ol>
         <br/>
+
         <p>
             <?php echo $this->__('Having trouble installing Magento?') ?>
-            <?php echo $this->__('Check out our') ?> <a href="http://www.magentocommerce.com/install" id="installation_guide_link"><?php echo $this->__('Installation Guide') ?></a>
-            <script type="text/javascript">
-                $('installation_guide_link').target = "installation_guide";
-            </script>
+            <?php echo $this->__('Check out our') ?> <a href="http://www.magentocommerce.com/install"
+                                                        target="installation_guide"><?php echo $this->__('Installation Guide') ?></a>
         </p>
     </div>
 </div>
