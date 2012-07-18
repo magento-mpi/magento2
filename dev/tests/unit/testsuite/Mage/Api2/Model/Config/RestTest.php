@@ -21,6 +21,26 @@ class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
         self::$_model = new Mage_Api2_Model_Config_Rest(glob(__DIR__ . '/_files/positive/*/rest.xml'));
     }
 
+    /**
+     * Exception should be thrown if "resource_type" attribute of route is not equal to "item" or "collection"
+     *
+     * @expectedException Magento_Exception
+     */
+    public function testRouteResourceTypeInvalidValue()
+    {
+        new Mage_Api2_Model_Config_Rest(glob(__DIR__ . '/_files/negative/invalid_route_resource_type.xml'));
+    }
+
+    /**
+     * Exception should be thrown if there are not unique routes present in the config
+     *
+     * @expectedException Magento_Exception
+     */
+    public function testNotUniqueRouteValue()
+    {
+        new Mage_Api2_Model_Config_Rest(glob(__DIR__ . '/_files/negative/not_unique_routes.xml'));
+    }
+
     public function testGetSchemaFile()
     {
         $this->assertFileExists(self::$_model->getSchemaFile());

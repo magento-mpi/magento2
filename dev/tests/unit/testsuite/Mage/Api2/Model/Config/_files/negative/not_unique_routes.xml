@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-    <resource name="test_module_a">
+    <resource name="test_module_c">
         <controller>Mage_Test_Module_Api_Controller</controller>
         <routes>
             <route resource_type="item">/test_resource/:id</route>
-            <route resource_type="collection">/test_resource</route>
+            <route resource_type="collection">/test_resource/:id</route>
         </routes>
     </resource>
 </config>
