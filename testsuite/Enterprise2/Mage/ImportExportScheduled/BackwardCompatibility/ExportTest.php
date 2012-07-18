@@ -21,13 +21,21 @@
 */
 class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extends Mage_Selenium_TestCase
 {
+
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $customerData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($customerData);
+        return $customerData;
+    }
     protected function assertPreConditions()
     {
         //logged in once for all tests
         $this->loginAdminUser();
         $this->navigate('scheduled_import_export');
     }
-
     /**
      * Simple Test Scheduled Export
      *
