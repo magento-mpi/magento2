@@ -46,6 +46,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
              ->_title($this->__('Manage Products'));
 
         $productId  = (int) $this->getRequest()->getParam('id');
+        /** @var $product Mage_Catalog_Model_Product */
         $product    = Mage::getModel('Mage_Catalog_Model_Product')
             ->setStoreId($this->getRequest()->getParam('store', 0));
 
@@ -113,9 +114,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                     $data[$attribute->getAttributeCode()] = $configProduct->getData($attribute->getAttributeCode());
                 }
             }
-
             $product->addData($data)
                 ->setWebsiteIds($configProduct->getWebsiteIds());
+        }
+        if ($product->dataHasChangedFor('attribute_set_id')) {
+           $this->_initProductSave($product);
         }
 
         Mage::register('product', $product);
@@ -540,10 +543,12 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
     /**
      * Initialize product before saving
+     *
+     * @param $product Mage_Catalog_Model_Product
+     * @return Mage_Catalog_Model_Product
      */
-    protected function _initProductSave()
+    protected function _initProductSave($product)
     {
-        $product     = $this->_initProduct();
         $productData = $this->getRequest()->getPost('product');
         if ($productData) {
             $this->_filterStockData($productData['stock_data']);
@@ -702,7 +707,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if ($data) {
             $this->_filterStockData($data['product']['stock_data']);
 
-            $product = $this->_initProductSave();
+            $product = $this->_initProductSave($this->_initProduct());
 
             try {
                 $product->save();
