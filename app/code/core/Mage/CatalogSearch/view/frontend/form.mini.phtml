@@ -16,8 +16,16 @@
         <div id="search_autocomplete" class="search-autocomplete"></div>
         <script type="text/javascript">
         //<![CDATA[
-            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Search entire store here...') ?>');
-            searchForm.initAutocomplete('<?php echo $this->helper('Mage_CatalogSearch_Helper_Data')->getSuggestUrl() ?>', 'search_autocomplete');
+
+        mage.event.observe('mage.catalogsearch.initialize', function (e, o) {
+            o.searchFormId = '#search_mini_form';
+            o.searchFieldId = '#search';
+            o.emptyText = '<?php echo $this->__('Search entire store here...') ?>';
+            o.url = '<?php echo $this->helper('Mage_CatalogSearch_Helper_Data')->getSuggestUrl() ?>';
+            o.destinationId = '#search_autocomplete';
+        });
+
+        mage.load.jsSync('/pub/lib/mage/components/catalogsearch/frontend/form_mini.js');
         //]]>
         </script>
     </div>
