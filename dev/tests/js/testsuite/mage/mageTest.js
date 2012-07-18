@@ -27,18 +27,18 @@ MageTest.prototype.testTrigger = function () {
 MageTest.prototype.testLoad = function () {
     // Because the window load evnt already happened, syncQueue size already have 1 elements(the asyncLoad function)
     assertEquals(1, mage.load.js('test1'));
-    assertEquals(2, mage.load.jsSync('test2'));
+    assertEquals(1, mage.load.jsSync('test2'));
     assertEquals(1, mage.load.js('test1'));
-    assertEquals(2, mage.load.jsSync('test2'));
+    assertEquals(1, mage.load.jsSync('test2'));
 };
 
 MageTest.prototype.testLoadLanguage = function () {
-    assertEquals(2, mage.load.language('en'));
-    assertEquals(2, mage.load.language());
-    assertEquals(6, mage.load.language('de'));
+    assertEquals(1, mage.load.language('en'));
+    assertEquals(1, mage.load.language());
+    assertEquals(5, mage.load.language('de'));
     var cookieName = 'language';
     $.cookie(cookieName, 'fr');
-    assertEquals(8, mage.load.language());
+    assertEquals(7, mage.load.language());
     $.cookie(cookieName, null);
 };
 

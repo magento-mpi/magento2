@@ -16,10 +16,19 @@
  */
 ?>
 <?php $_menu = $this->getHtml('level-top') ?>
-<?php if($_menu): ?>
+<?php if ($_menu): ?>
 <div class="nav-container">
     <ul id="nav">
         <?php echo $_menu ?>
     </ul>
 </div>
+<script type="text/javascript">
+    mage.event.observe('mage.menu.initialize', function (event, initData) {
+        initData.menuId = '#nav';
+        initData.parentClass = '.parent';
+        initData.showDelay = 100;
+        initData.hideDelay = 1000;
+    });
+    mage.load.js("/pub/lib/mage/components/menu/frontend/menu.js");
+</script>
 <?php endif ?>

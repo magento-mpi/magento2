@@ -61,6 +61,10 @@ var mage = {};
     }
 
     function loadScript() {
+        if (syncQueue.length === 0) {
+            asyncLoad();
+            return;
+        }
         syncQueue = unique(syncQueue);
         syncQueue.push(asyncLoad);
         head.js.apply({}, syncQueue);
