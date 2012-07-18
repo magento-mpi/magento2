@@ -384,7 +384,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         fseek($temp, 0);
         $data   = array();
         $header = null;
-        while (($line = fgetcsv($temp, 1000, $delimiter, '"', '\\')) !== FALSE) {
+        while (($line = fgetcsv($temp, 10000, $delimiter, '"', '\\')) !== FALSE) {
             if (!$header) {
                 $header = $line;
             } else {
