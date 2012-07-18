@@ -14,6 +14,8 @@
  * @category   Mage
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @method int getParentId() getParentId()
  */
 class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
 {

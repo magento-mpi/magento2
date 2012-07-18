@@ -124,5 +124,19 @@
                 <bunch_size>100</bunch_size>
             </file>
         </general>
+        <export>
+            <format_v2>
+                <customer_page_size>
+                    <customer>10000</customer>
+                    <address>5000</address>
+                </customer_page_size>
+            </format_v2>
+        </export>
+        <import>
+            <format_v2>
+                <page_size>10000</page_size>
+                <bunch_size>100</bunch_size>
+            </format_v2>
+        </import>
     </default>
 </config>

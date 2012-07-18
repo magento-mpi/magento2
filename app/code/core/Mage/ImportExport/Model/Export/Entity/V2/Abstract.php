@@ -17,12 +17,31 @@
  */
 abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
 {
-    /**
-     * DB connection
-     *
-     * @var Varien_Db_Adapter_Pdo_Mysql
+    /**#@+
+     * Attribute collection name
      */
-    protected $_connection;
+    const ATTRIBUTE_COLLECTION_NAME = 'Varien_Data_Collection';
+    /**#@-*/
+
+    /**#@+
+     * XML path to page size parameter
+     */
+    const XML_PATH_PAGE_SIZE = '';
+    /**#@-*/
+
+    /**
+     * Website manager (currently Mage_Core_Model_App works as website manager)
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_websiteManager;
+
+    /**
+     * Store manager (currently Mage_Core_Model_App works as store manager)
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_storeManager;
 
     /**
      * Error codes with arrays of corresponding row numbers
@@ -58,6 +77,13 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      * @var array
      */
     protected $_messageTemplates = array();
+
+    /**
+     * Helper to translate error messages
+     *
+     * @var Mage_ImportExport_Helper_Data
+     */
+    protected $_translator;
 
     /**
      * Parameters
@@ -116,11 +142,43 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     protected $_fileName = null;
 
     /**
-     * Constructor
+     * Address attributes collection
+     *
+     * @var Varien_Data_Collection
      */
-    public function __construct()
+    protected $_attributeCollection;
+
+    /**
+     * Number of items to fetch from db in one query
+     *
+     * @var int
+     */
+    protected $_pageSize;
+
+    /**
+     * Collection by pages iterator
+     *
+     * @var Mage_ImportExport_Model_Resource_CollectionByPagesIterator
+     */
+    protected $_byPagesIterator;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        $this->_connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_translator     = isset($data['translator']) ? $data['translator']
+            : Mage::helper('Mage_ImportExport_Helper_Data');
+        $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
+            : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+        $this->_pageSize = isset($data['page_size']) ? $data['page_size']
+            : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
+        $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
+            : Mage::getResourceModel('Mage_ImportExport_Model_Resource_CollectionByPagesIterator');
     }
 
     /**
@@ -131,7 +189,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     protected function _initStores()
     {
         /** @var $store Mage_Core_Model_Store */
-        foreach (Mage::app()->getStores(true) as $store) {
+        foreach ($this->_storeManager->getStores(true) as $store) {
             $this->_storeIdToCode[$store->getId()] = $store->getCode();
         }
         ksort($this->_storeIdToCode); // to ensure that 'admin' store (ID is zero) goes first
@@ -148,7 +206,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     protected function _initWebsites($withDefault = false)
     {
         /** @var $website Mage_Core_Model_Website */
-        foreach (Mage::app()->getWebsites($withDefault) as $website) {
+        foreach ($this->_websiteManager->getWebsites($withDefault) as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
@@ -192,6 +250,23 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     abstract public function export();
 
     /**
+     * Export one item
+     *
+     * @param Mage_Core_Model_Abstract $item
+     */
+    abstract public function exportItem($item);
+
+    /**
+     * Iterate through given collection page by page and export items
+     *
+     * @param Varien_Data_Collection_Db $collection
+     */
+    protected function _exportCollectionByPages(Varien_Data_Collection_Db $collection)
+    {
+        $this->_byPagesIterator->iterate($collection, $this->_pageSize, array(array($this, 'exportItem')));
+    }
+
+    /**
      * Entity type code getter
      *
      * @abstract
@@ -204,7 +279,10 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      *
      * @return Varien_Data_Collection
      */
-    abstract public function getAttributeCollection();
+    public function getAttributeCollection()
+    {
+        return $this->_attributeCollection;
+    }
 
     /**
      * Clean up attribute collection
@@ -214,14 +292,13 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      */
     public function filterAttributeCollection(Varien_Data_Collection $collection)
     {
-        $collection->load();
-
         /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
         foreach ($collection as $attribute) {
             if (in_array($attribute->getAttributeCode(), $this->_disabledAttributes)) {
                 $collection->removeItemByKey($attribute->getId());
             }
         }
+
         return $collection;
     }
 
@@ -232,14 +309,14 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      */
     public function getErrorMessages()
     {
-        $translator = Mage::helper('Mage_ImportExport_Helper_Data');
         $messages = array();
         foreach ($this->_errors as $errorCode => $errorRows) {
             $message = isset($this->_messageTemplates[$errorCode])
-                ? $translator->__($this->_messageTemplates[$errorCode])
-                : $translator->__("Invalid value for '%s' column", $errorCode);
+                ? $this->_translator->__($this->_messageTemplates[$errorCode])
+                : $this->_translator->__("Invalid value for '%s' column", $errorCode);
             $messages[$message] = $errorRows;
         }
+
         return $messages;
     }
 
@@ -294,6 +371,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
         if (!$this->_writer) {
             Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('No writer specified'));
         }
+
         return $this->_writer;
     }
 

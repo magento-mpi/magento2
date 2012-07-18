@@ -98,5 +98,12 @@
                 </enterprise_import_export_log_clean>
             </jobs>
         </crontab>
+        <export>
+            <format_v2>
+                <customer_page_size>
+                    <finance>10000</finance>
+                </customer_page_size>
+            </format_v2>
+        </export>
     </default>
 </config>

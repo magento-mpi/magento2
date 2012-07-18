@@ -14,6 +14,8 @@
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method Mage_Customer_Model_Resource_Attribute_Collection getAttributeCollection() getAttributeCollection()
  */
 class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
     extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
@@ -24,9 +26,21 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
      * Names that begins with underscore is not an attribute. This name convention is for
      * to avoid interference with same attribute name.
      */
-    const COL_EMAIL   = 'email';
-    const COL_WEBSITE = '_website';
-    const COL_STORE   = '_store';
+    const COLUMN_EMAIL   = 'email';
+    const COLUMN_WEBSITE = '_website';
+    const COLUMN_STORE   = '_store';
+    /**#@-*/
+
+    /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Attribute_Collection';
+    /**#@-*/
+
+    /**#@+
+     * XML path to page size parameter
+     */
+    const XML_PATH_PAGE_SIZE = 'export/format_v2/customer_page_size/customer';
     /**#@-*/
 
     /**
@@ -41,11 +55,11 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
     );
 
     /**
-     * Array of attributes codes which are disabled for export.
+     * Array of attributes codes which are disabled for export
      *
      * @var array
      */
-    protected $_disabledAttrs = array('default_billing', 'default_shipping');
+    protected $_disabledAttributes = array('default_billing', 'default_shipping');
 
     /**
      * Attributes with index (not label) value.
@@ -59,14 +73,26 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
      *
      * @var array
      */
-    protected $_permanentAttributes = array(self::COL_EMAIL, self::COL_WEBSITE, self::COL_STORE);
+    protected $_permanentAttributes = array(self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_STORE);
 
     /**
-     * Constructor.
+     * Customers whose data is exported
+     *
+     * @var Mage_Customer_Model_Resource_Customer_Collection
      */
-    public function __construct()
+    protected $_customerCollection;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        parent::__construct();
+        parent::__construct($data);
+
+        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
+            : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
 
         $this->_initAttributeValues()
             ->_initStores()
@@ -80,22 +106,31 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
      */
     public function export()
     {
-        $collection     = $this->_prepareEntityCollection(
-            Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection')
-        );
+        $collection = $this->_prepareEntityCollection($this->_customerCollection);
         $validAttributeCodes = $this->_getExportAttributeCodes();
-        $writer         = $this->getWriter();
+        $writer = $this->getWriter();
 
         // create export file
         $writer->setHeaderCols(array_merge($this->_permanentAttributes, $validAttributeCodes, array('password')));
-        foreach ($collection as $item) { // go through all customers
-            $row = $this->_addAttributeValuesToRow($item);
-            $row[self::COL_WEBSITE] = $this->_websiteIdToCode[$item->getWebsiteId()];
-            $row[self::COL_STORE]   = $this->_storeIdToCode[$item->getStoreId()];
+        $this->_exportCollectionByPages($collection);
 
-            $writer->writeRow($row);
-        }
         return $writer->getContents();
+    }
+
+    /**
+     * Export given customer data
+     *
+     * @param Mage_Customer_Model_Customer $item
+     * @return string
+     */
+    public function exportItem($item)
+    {
+        $row = $this->_addAttributeValuesToRow($item);
+        $row[self::COLUMN_WEBSITE] = $this->_websiteIdToCode[$item->getWebsiteId()];
+        $row[self::COLUMN_STORE]   = $this->_storeIdToCode[$item->getStoreId()];
+
+        $this->getWriter()
+            ->writeRow($row);
     }
 
     /**
@@ -118,16 +153,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
             }
         }
         return $collection;
-    }
-
-    /**
-     * Entity attributes collection getter.
-     *
-     * @return Mage_Customer_Model_Resource_Attribute_Collection
-     */
-    public function getAttributeCollection()
-    {
-        return Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
     }
 
     /**

@@ -20,6 +20,12 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
 {
     /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
+    /**#@-*/
+
+    /**#@+
      * Permanent column names
      *
      * Names that begins with underscore is not an attribute. This name convention is for
@@ -63,20 +69,71 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     protected $_comment;
 
     /**
-     * Constructor
+     * Address attributes collection
+     *
+     * @var Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
      */
-    public function __construct()
-    {
-        parent::__construct();
+    protected $_attributeCollection;
 
-        /** @var $helper Enterprise_ImportExport_Helper_Data */
-        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+    /**
+     * Helper to translate error messages
+     *
+     * @var Enterprise_ImportExport_Helper_Data
+     */
+    protected $_translator;
+
+    /**
+     * Helper to check whether modules are enabled/disabled
+     *
+     * @var Enterprise_ImportExport_Helper_Data
+     */
+    protected $_moduleHelper;
+
+    /**
+     * Object factory model, currently it is config model
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
+    /**
+     * Admin user object
+     *
+     * @var Mage_User_Model_User
+     */
+    protected $_adminUser;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        if (isset($data['translator'])) {
+            $this->_translator = $data['translator'];
+            unset($data['translator']);
+        } else {
+            $this->_translator = Mage::helper('Enterprise_ImportExport_Helper_Data');
+            $data['translator'] = $this->_translator;
+        }
+        // entity type id has no meaning for finance import
+        $data['entity_type_id'] = -1;
+
+        parent::__construct($data);
+
+        $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
+            : Mage::helper('Enterprise_ImportExport_Helper_Data');
+        $this->_objectFactory = isset($data['object_factory']) ? $data['object_factory']
+            : Mage::app()->getConfig();
+        $this->_adminUser = isset($data['admin_user']) ? $data['admin_user']
+            : Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
-            $helper->__('Finance information website is not specified')
+            $this->_translator->__('Finance information website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
-            $helper->__('Invalid value in Finance information website column')
+            $this->_translator->__('Invalid value in Finance information website column')
         );
 
         $this->_initAttributes();
@@ -89,9 +146,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      */
     protected function _initAttributes()
     {
-        $collection = $this->_getAttributeCollection();
         /** @var $attribute Mage_Eav_Model_Attribute */
-        foreach ($collection as $attribute) {
+        foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
                 'code'        => $attribute->getAttributeCode(),
@@ -109,14 +165,12 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      */
     protected function _importData()
     {
-        /** @var $importExportHelper Enterprise_ImportExport_Helper_Data */
-        $importExportHelper = Mage::helper('Enterprise_ImportExport_Helper_Data');
-        if (!$importExportHelper->isRewardPointsEnabled() && !$importExportHelper->isCustomerBalanceEnabled()) {
+        if (!$this->_moduleHelper->isRewardPointsEnabled() && !$this->_moduleHelper->isCustomerBalanceEnabled()) {
             return false;
         }
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
+        $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer');
         $rewardPointsKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS;
         $customerBalanceKey =
@@ -178,7 +232,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     protected function _updateRewardPointsForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $rewardModel Enterprise_Reward_Model_Reward */
-        $rewardModel = Mage::getModel('Enterprise_Reward_Model_Reward');
+        $rewardModel = $this->_objectFactory->getModelInstance('Enterprise_Reward_Model_Reward');
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
@@ -217,7 +271,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     protected function _updateCustomerBalanceForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $balanceModel Enterprise_CustomerBalance_Model_Balance */
-        $balanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
+        $balanceModel = $this->_objectFactory->getModelInstance('Enterprise_CustomerBalance_Model_Balance');
         $balanceModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
@@ -274,11 +328,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     protected function _getComment()
     {
         if (!$this->_comment) {
-            /** @var $helper Enterprise_ImportExport_Helper_Data */
-            $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
-            /* @var $adminUser Mage_User_Model_User */
-            $adminUser = Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
-            $this->_comment = $helper->__('Data was imported by %s', $adminUser->getUsername());
+            $this->_comment = $this->_translator->__('Data was imported by %s', $this->_adminUser->getUsername());
         }
 
         return $this->_comment;
@@ -360,15 +410,5 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                 }
             }
         }
-    }
-
-    /**
-     * Retrieve entity attribute EAV collection
-     *
-     * @return Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection
-     */
-    protected function _getAttributeCollection()
-    {
-        return Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection');
     }
 }

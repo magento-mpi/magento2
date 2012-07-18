@@ -23,14 +23,12 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
 
     protected function setUp()
     {
-        parent::setUp();
         $this->_model = new Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer();
     }
 
     protected function tearDown()
     {
         unset($this->_model);
-        parent::tearDown();
     }
 
     /**
@@ -47,6 +45,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
         foreach ($collection as $attribute) {
             $expectedAttributes[] = $attribute->getAttributeCode();
         }
+        $expectedAttributes = array_diff($expectedAttributes, $this->_model->getDisabledAttributes());
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
         $data = $this->_model->export();
@@ -135,6 +134,48 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
                 }
             }
         }
+    }
+
+    /**
+     * Test for method filterEntityCollection()
+     *
+     * @magentoDataFixture Mage/ImportExport/_files/customers.php
+     */
+    public function testFilterEntityCollection()
+    {
+        $createdAtDate = '2013-01-01';
+        /**
+         * Change created_at date of first customer for future filter test.
+         */
+        $customers = Mage::registry('_fixture/Mage_ImportExport_Customer_Collection');
+        $customers[0]->setCreatedAt($createdAtDate);
+        $customers[0]->save();
+        /**
+         * Change type of created_at attribute. In this case we have possibility to test date rage filter
+         */
+        $attributeCollection = new Mage_Customer_Model_Resource_Attribute_Collection();
+        $attributeCollection->addFieldToFilter('attribute_code', 'created_at');
+        /** @var $createdAtAttribute Mage_Customer_Model_Attribute */
+        $createdAtAttribute = $attributeCollection->getFirstItem();
+        $createdAtAttribute->setBackendType('datetime');
+        $createdAtAttribute->save();
+        /**
+         * Prepare filter.asd
+         */
+        $parameters = array(
+            Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP => array(
+                'email'      => 'example.com',
+                'created_at' => array($createdAtDate, ''),
+                'store_id'   => Mage::app()->getStore()->getId()
+            )
+        );
+        $this->_model->setParameters($parameters);
+        /** @var $customers Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = $this->_model->filterEntityCollection(new Mage_Customer_Model_Resource_Customer_Collection());
+        $collection->load();
+
+        $this->assertCount(1, $collection);
+        $this->assertEquals($customers[0]->getId(), $collection->getFirstItem()->getId());
     }
 
     /**

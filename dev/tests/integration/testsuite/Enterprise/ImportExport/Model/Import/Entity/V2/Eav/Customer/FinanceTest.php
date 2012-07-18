@@ -15,22 +15,6 @@
 class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test that method returns correct class instance
-     *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_getAttributeCollection
-     */
-    public function testGetAttributeCollection()
-    {
-        $customerFinance = new Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance();
-        $method = new ReflectionMethod($customerFinance, '_getAttributeCollection');
-        $method->setAccessible(true);
-
-        $this->assertInstanceOf('Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection',
-            $method->invoke($customerFinance)
-        );
-    }
-
-    /**
      * Test import data method
      *
      * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
@@ -83,12 +67,10 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         $customerBalanceKey =
             Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE;
 
-        /** @var $customers Mage_Customer_Model_Resource_Customer_Collection */
-        $customers = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        $customerCollection = new Mage_Customer_Model_Resource_Customer_Collection();
         /** @var $customer Mage_Customer_Model_Customer */
-        foreach ($customers as $customer) {
-            /** @var $rewardCollection Enterprise_Reward_Model_Resource_Reward_Collection */
-            $rewardCollection = Mage::getResourceModel('Enterprise_Reward_Model_Resource_Reward_Collection');
+        foreach ($customerCollection as $customer) {
+            $rewardCollection = new Enterprise_Reward_Model_Resource_Reward_Collection();
             $rewardCollection->addFieldToFilter('customer_id', $customer->getId());
             /** @var $rewardPoints Enterprise_Reward_Model_Reward */
             foreach ($rewardCollection as $rewardPoints) {
@@ -104,8 +86,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
                 );
             }
 
-            /** @var $customerBalance Enterprise_CustomerBalance_Model_Resource_Balance_Collection */
-            $customerBalance = Mage::getResourceModel('Enterprise_CustomerBalance_Model_Resource_Balance_Collection');
+            $customerBalance = new Enterprise_CustomerBalance_Model_Resource_Balance_Collection();
             $customerBalance->addFieldToFilter('customer_id', $customer->getId());
             /** @var $balance Enterprise_CustomerBalance_Model_Balance */
             foreach ($customerBalance as $balance) {
@@ -144,15 +125,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
         $model->validateData();
         $model->importData();
 
-        /** @var $rewardModel Enterprise_Reward_Model_Reward */
-        $rewardModel = Mage::getModel('Enterprise_Reward_Model_Reward');
-        /** @var $rewards Enterprise_Reward_Model_Resource_Reward_Collection */
-        $rewards = $rewardModel->getCollection();
-
-        /** @var $customerBalanceModel Enterprise_CustomerBalance_Model_Balance */
-        $customerBalanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
-        /** @var $balances Enterprise_CustomerBalance_Model_Resource_Balance_Collection */
-        $balances = $customerBalanceModel->getCollection();
+        $rewards  = new Enterprise_Reward_Model_Resource_Reward_Collection();
+        $balances = new Enterprise_CustomerBalance_Model_Resource_Balance_Collection();
 
         $expectedRewards = Mage::registry('_fixture/Enterprise_ImportExport_Customers_ExpectedRewards');
         /** @var $reward Enterprise_Reward_Model_Reward */

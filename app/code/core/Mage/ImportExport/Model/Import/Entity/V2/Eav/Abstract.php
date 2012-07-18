@@ -18,6 +18,26 @@
 abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     extends Mage_ImportExport_Model_Import_Entity_V2_Abstract
 {
+    /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Varien_Data_Collection';
+    /**#@-*/
+
+    /**
+     * Website manager (currently Mage_Core_Model_App works as website manager)
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_websiteManager;
+
+    /**
+     * Store manager (currently Mage_Core_Model_App works as store manager)
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_storeManager;
+
     /**
      * Entity type id
      *
@@ -61,6 +81,36 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     protected $_attributes = array();
 
     /**
+     * Attributes collection
+     *
+     * @var Varien_Data_Collection
+     */
+    protected $_attributeCollection;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+
+        $this->_websiteManager = isset($data['website_manager']) ? $data['website_manager'] : Mage::app();
+        $this->_storeManager   = isset($data['store_manager']) ? $data['store_manager'] : Mage::app();
+        $this->_attributeCollection = isset($data['attribute_collection']) ? $data['attribute_collection']
+            : Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+
+        if (isset($data['entity_type_id'])) {
+            $this->_entityTypeId = $data['entity_type_id'];
+        } else {
+            $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
+                ->getEntityType($this->getEntityTypeCode())
+                ->getEntityTypeId();
+        }
+    }
+
+    /**
      * Initialize website values
      *
      * @param bool $withDefault
@@ -69,7 +119,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     protected function _initWebsites($withDefault = false)
     {
         /** @var $website Mage_Core_Model_Website */
-        foreach (Mage::app()->getWebsites($withDefault) as $website) {
+        foreach ($this->_websiteManager->getWebsites($withDefault) as $website) {
             $this->_websiteCodeToId[$website->getCode()] = $website->getId();
         }
         return $this;
@@ -84,7 +134,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     protected function _initStores($withDefault = false)
     {
         /** @var $store Mage_Core_Model_Store */
-        foreach (Mage::app()->getStores($withDefault) as $store) {
+        foreach ($this->_storeManager->getStores($withDefault) as $store) {
             $this->_storeCodeToId[$store->getCode()] = $store->getId();
         }
         return $this;
@@ -97,9 +147,8 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
      */
     protected function _initAttributes()
     {
-        $collection = $this->_getAttributeCollection();
         /** @var $attribute Mage_Eav_Model_Attribute */
-        foreach ($collection as $attribute) {
+        foreach ($this->_attributeCollection as $attribute) {
             $this->_attributes[$attribute->getAttributeCode()] = array(
                 'id'          => $attribute->getId(),
                 'code'        => $attribute->getAttributeCode(),
@@ -115,27 +164,12 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Retrieve entity attribute EAV collection
-     *
-     * @abstract
-     * @return Mage_Eav_Model_Resource_Attribute_Collection
-     */
-    abstract protected function _getAttributeCollection();
-
-    /**
      * Entity type ID getter
      *
      * @return int
      */
     public function getEntityTypeId()
     {
-        if ($this->_entityTypeId == null) {
-            /** @var $eavConfig Mage_Eav_Model_Config */
-            $eavConfig = Mage::getSingleton('Mage_Eav_Model_Config');
-            $entityType = $eavConfig->getEntityType($this->getEntityTypeCode());
-            $this->_entityTypeId = $entityType->getEntityTypeId();
-        }
-
         return $this->_entityTypeId;
     }
 

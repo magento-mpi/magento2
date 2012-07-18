@@ -35,11 +35,9 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
      */
     public function testExport()
     {
-        $validWriters = Mage_ImportExport_Model_Config::getModels(Mage_ImportExport_Model_Export::CONFIG_KEY_FORMATS);
-
-        /** @var $customerFinance Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance */
-        $customerFinance = Mage::getModel('Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance');
-        $customerFinance->setWriter(Mage::getModel($validWriters['csv']['model']));
+        $customerFinance = new Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance();
+        $customerFinance->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
+        $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
 
         // get data from CSV file
@@ -90,8 +88,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
      */
     public function testGetAttributeCollection()
     {
-        /** @var $customerFinance Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance */
-        $customerFinance = Mage::getModel('Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance');
+        $customerFinance = new Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance();
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(

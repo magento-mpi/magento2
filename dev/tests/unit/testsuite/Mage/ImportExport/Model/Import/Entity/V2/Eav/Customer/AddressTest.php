@@ -11,6 +11,8 @@
 
 /**
  * Test class for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
+ *
+ * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
@@ -38,14 +40,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      */
     protected $_attributes = array(
         'country_id' => array(
-            'id'          => 1,
-            'code'        => 'country_id',
-            'table'       => '',
-            'is_required' => true,
-            'is_static'   => false,
-            'rules'       => null,
-            'type'        => 'select',
-            'options'     => null
+            'id'                => 1,
+            'attribute_code'    => 'country_id',
+            'table'             => '',
+            'is_required'       => true,
+            'is_static'         => false,
+            'validate_rules'    => false,
+            'type'              => 'select',
+            'attribute_options' => null
         ),
     );
 
@@ -73,7 +75,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
      * @var array
      */
     protected $_addresses = array(
-        1 => array(1)
+        1 => array(
+            'id'        => 1,
+            'parent_id' => 1
+        )
     );
 
     /**
@@ -117,14 +122,11 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
         'delete_id' => 2,
     );
 
-
     /**
      * Init entity adapter model
      */
     public function setUp()
     {
-        parent::setUp();
-
         $this->_model = $this->_getModelMock();
     }
 
@@ -134,33 +136,140 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     public function tearDown()
     {
         unset($this->_model);
-
-        parent::tearDown();
     }
 
     /**
-     * Create mock for customer address model class (for testInitCountryRegions() method)
+     * Create mocks for all $this->_model dependencies
      *
-     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
+     * @return array
      */
-    protected function _getModelMockForTestInitCountryRegions()
+    protected function _getModelDependencies()
     {
+        $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
+
+        $connection = $this->getMock('stdClass');
+
+        $websiteManager = $this->getMock('stdClass', array('getWebsites'));
+        $websiteManager->expects($this->once())
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
+
+        $translator = $this->getMock('stdClass', array('__'));
+        $translator->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+
+        $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
+        foreach ($this->_attributes as $attributeData) {
+            $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
+                array($attributeData), '', true, true, true, array('_construct', 'getBackend')
+            );
+            $attribute->expects($this->any())
+                ->method('getBackend')
+                ->will($this->returnSelf());
+            $attribute->expects($this->any())
+                ->method('getTable')
+                ->will($this->returnValue($attributeData['table']));
+            $attributeCollection->addItem($attribute);
+        }
+
+        $byPagesIterator = $this->getMock('stdClass', array('iterate'));
+        $byPagesIterator->expects($this->once())
+            ->method('iterate')
+            ->will($this->returnCallback(array($this, 'iterate')));
+
+        $customerCollection = new Varien_Data_Collection();
+        foreach ($this->_customers as $customerData) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
+            $customerCollection->addItem($customer);
+        }
+
+        $customerEntity = $this->getMock('stdClass', array('filterEntityCollection', 'setParameters'));
+        $customerEntity->expects($this->any())
+            ->method('filterEntityCollection')
+            ->will($this->returnArgument(0));
+        $customerEntity->expects($this->any())
+            ->method('setParameters')
+            ->will($this->returnSelf());
+
+        $addressCollection = new Varien_Data_Collection();
+        foreach ($this->_addresses as $address) {
+            $addressCollection->addItem(new Varien_Object($address));
+        }
+
         $regionCollection = new Varien_Data_Collection();
         foreach ($this->_regions as $region) {
             $regionCollection->addItem(new Varien_Object($region));
         }
 
-        $modelMock = $this->getMock('Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address',
-            array('_getRegionCollection'), array(), '', false, true, true
+        $data = array(
+            'data_source_model'            => $dataSourceModel,
+            'connection'                   => $connection,
+            'json_helper'                  => 'not_used',
+            'string_helper'                => new Mage_Core_Helper_String(),
+            'page_size'                    => 1,
+            'max_data_size'                => 1,
+            'bunch_size'                   => 1,
+            'website_manager'              => $websiteManager,
+            'store_manager'                => 'not_used',
+            'translator'                   => $translator,
+            'attribute_collection'         => $attributeCollection,
+            'collection_by_pages_iterator' => $byPagesIterator,
+            'entity_type_id'               => 1,
+            'customer_collection'          => $customerCollection,
+            'customer_entity'              => $customerEntity,
+            'address_collection'           => $addressCollection,
+            'entity_table'                 => 'not_used',
+            'region_collection'            => $regionCollection,
         );
 
-        $modelMock->expects($this->any())
-            ->method('_getRegionCollection')
-            ->will($this->returnValue($regionCollection));
-
-        return $modelMock;
+        return $data;
     }
 
+    /**
+     * Get websites stub
+     *
+     * @param bool $withDefault
+     * @return array
+     */
+    public function getWebsites($withDefault = false)
+    {
+        $websites = array();
+        if (!$withDefault) {
+            unset($websites[0]);
+        }
+        foreach ($this->_websites as $id => $code) {
+            if (!$withDefault && $id == Mage_Core_Model_App::ADMIN_STORE_ID) {
+                continue;
+            }
+            $websiteData = array(
+                'id'   => $id,
+                'code' => $code,
+            );
+            $websites[$id] = new Varien_Object($websiteData);
+        }
+
+        return $websites;
+    }
+
+    /**
+     * Iterate stub
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param Varien_Data_Collection $collection
+     * @param int $pageSize
+     * @param array $callbacks
+     */
+    public function iterate(Varien_Data_Collection $collection, $pageSize, array $callbacks)
+    {
+        foreach ($collection as $customer) {
+            foreach ($callbacks as $callback) {
+                call_user_func($callback, $customer);
+            }
+        }
+    }
 
     /**
      * Create mock for custom behavior test
@@ -275,73 +384,18 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     {
         $modelMock = $this->getMock('Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address',
             array(
-                '_getRegionCollection',
                 'isAttributeValid',
-                '_getCustomerCollection',
             ),
-            array(),
+            array($this->_getModelDependencies()),
             '',
-            false,
+            true,
             true,
             true
         );
 
-        $regionCollection = new Varien_Data_Collection();
-        foreach ($this->_regions as $region) {
-            $regionCollection->addItem(new Varien_Object($region));
-        }
-
-        $modelMock->expects($this->any())
-            ->method('_getRegionCollection')
-            ->will($this->returnValue($regionCollection));
-
-        $modelMock->expects($this->any())
-            ->method('isAttributeValid')
-            ->will($this->returnValue(true));
-
-        $customerCollection = new Varien_Data_Collection();
-        foreach ($this->_customers as $customer) {
-            $customerCollection->addItem(new Varien_Object($customer));
-        }
-
-        $modelMock->expects($this->any())
-            ->method('_getCustomerCollection')
-            ->will($this->returnValue($customerCollection));
-
-        $method = new ReflectionMethod($modelMock, '_initCustomers');
-        $method->setAccessible(true);
-        $method->invoke($modelMock);
-
-        $property = new ReflectionProperty($modelMock, '_addresses');
-        $property->setAccessible(true);
-        $property->setValue($modelMock, $this->_addresses);
-
-        $property = new ReflectionProperty($modelMock, '_websiteCodeToId');
-        $property->setAccessible(true);
-        $property->setValue($modelMock, array_flip($this->_websites));
-
-        $property = new ReflectionProperty($modelMock, '_attributes');
-        $property->setAccessible(true);
-        $property->setValue($modelMock, $this->_attributes);
-
         $property = new ReflectionProperty($modelMock, '_availableBehaviors');
         $property->setAccessible(true);
         $property->setValue($modelMock, $this->_availableBehaviors);
-
-        $regions = array();
-        $countryRegions = array();
-        foreach ($this->_regions as $region) {
-            $countryNormalized = strtolower($region['country_id']);
-            $regionCode = strtolower($region['code']);
-            $regionName = strtolower($region['default_name']);
-            $countryRegions[$countryNormalized][$regionCode] = $region['id'];
-            $countryRegions[$countryNormalized][$regionName] = $region['id'];
-            $regions[$region['id']] = $region['default_name'];
-        }
-
-        $method = new ReflectionMethod($modelMock, '_initCountryRegions');
-        $method->setAccessible(true);
-        $method->invoke($modelMock);
 
         return $modelMock;
     }
@@ -432,40 +486,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
     }
 
     /**
-     * Check whether Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_regions and
-     * Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_countryRegions are filled correctly
-     *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::_initCountryRegions
-     */
-    public function testInitCountryRegions()
-    {
-        $modelMock = $this->_getModelMockForTestInitCountryRegions();
-
-        $regions = array();
-        $countryRegions = array();
-        foreach ($this->_regions as $region) {
-            $countryNormalized = strtolower($region['country_id']);
-            $regionCode = strtolower($region['code']);
-            $regionName = strtolower($region['default_name']);
-            $countryRegions[$countryNormalized][$regionCode] = $region['id'];
-            $countryRegions[$countryNormalized][$regionName] = $region['id'];
-            $regions[$region['id']] = $region['default_name'];
-        }
-
-        $method = new ReflectionMethod($modelMock, '_initCountryRegions');
-        $method->setAccessible(true);
-        $method->invoke($modelMock);
-
-        $this->assertAttributeEquals($regions, '_regions', $modelMock);
-        $this->assertAttributeEquals($countryRegions, '_countryRegions', $modelMock);
-    }
-
-    /**
      * Test Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow() with add/update action
      *
      * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::validateRow
      * @dataProvider validateRowForUpdateDataProvider
-     * @depends testInitCountryRegions
      *
      * @param array $rowData
      * @param array $errors

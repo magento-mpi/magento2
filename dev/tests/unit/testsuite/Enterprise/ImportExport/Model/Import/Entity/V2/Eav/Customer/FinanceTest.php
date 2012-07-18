@@ -14,25 +14,19 @@
  */
 class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
-     * Mage registry helper prefix
-     */
-    const MAGE_REGISTRY_HELPER_PREFIX = '_helper/';
-    /**#@-*/
-
     /**
-     * Abstract customer finance export model
+     * Customer financial data export model
      *
-     * @var Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance|PHPUnit_Framework_MockObject_MockObject
+     * @var Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      */
     protected $_model;
 
     /**
-     * Array of helpers to mock and put to the registry
+     * Bunch counter for getNextBunch() stub method
      *
-     * @var array
+     * @var int
      */
-    protected $_helpers = array('Mage_Core_Helper_String', 'Mage_ImportExport_Helper_Data');
+    protected $_bunchNumber;
 
     /**
      * Websites array (website id => code)
@@ -41,19 +35,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     protected $_websites = array(
         Mage_Core_Model_App::ADMIN_STORE_ID => 'admin',
-        1 => 'website1',
-        2 => 'website2',
-    );
-
-    /**
-     * Websites array (website id => code)
-     *
-     * @var array
-     */
-    protected $_behaviors = array(
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM
+        1                                   => 'website1',
+        2                                   => 'website2',
     );
 
     /**
@@ -99,19 +82,58 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     );
 
     /**
+     * Input data
+     *
+     * @var array
+     */
+    protected $_inputData = array(
+        array(
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test1@email.com',
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'website1',
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                => 'website1',
+            Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => null,
+            Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1,
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
+                => 100,
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
+                => 200
+        ),
+        array(
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test2@email.com',
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'website2',
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                => 'website1',
+            Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION
+                => Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION_VALUE_DELETE,
+            Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2,
+        ),
+        array(
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test2@email.com',
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'website2',
+            Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                => 'website1',
+            Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update',
+            Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2,
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
+                => 100,
+            Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
+                => 200
+        )
+    );
+
+    /**
      * Init entity adapter model
      */
     public function setUp()
     {
-        parent::setUp();
-
-        $this->_unregisterHelpers();
-        $this->_mockHelpersAndRegisterInRegistry();
+        $this->_bunchNumber = 0;
         if ($this->getName() == 'testImportDataCustomBehavior') {
-            $this->_model = $this->_getModelMock(true);
+            $dependencies = $this->_getModelDependencies(true);
         } else {
-            $this->_model = $this->_getModelMock();
+            $dependencies = $this->_getModelDependencies();
         }
+        $this->_model = new Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance($dependencies);
     }
 
     /**
@@ -120,116 +142,232 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     public function tearDown()
     {
         unset($this->_model);
-        $this->_unregisterHelpers();
-
-        parent::tearDown();
+        unset($this->_bunchNumber);
     }
 
     /**
-     * Mock helpers
-     */
-    protected function _mockHelpersAndRegisterInRegistry()
-    {
-        foreach ($this->_helpers as $helperKey) {
-            $helper = $this->getMock($helperKey, array('__'));
-            $helper->expects($this->any())
-                ->method('__')
-                ->will($this->returnArgument(0));
-
-            Mage::register(self::MAGE_REGISTRY_HELPER_PREFIX . $helperKey, $helper);
-        }
-    }
-
-    /**
-     * Un-register mocked helpers
-     */
-    protected function _unregisterHelpers()
-    {
-        foreach ($this->_helpers as $helperKey) {
-            Mage::unregister(self::MAGE_REGISTRY_HELPER_PREFIX . $helperKey);
-        }
-    }
-
-    /**
-     * Create mock for customer finance model class
+     * Create mocks for all $this->_model dependencies
      *
-     * @param bool $forImportDataTest
-     * @return Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
+     * @param bool $addData
+     * @return array
      */
-    protected function _getModelMock($forImportDataTest = false)
+    protected function _getModelDependencies($addData = false)
     {
-        $mockedMethods = array('_getCustomerCollection', '_getAttributeCollection');
-        if ($forImportDataTest) {
-            $mockedMethods = array_merge(
-                $mockedMethods,
-                array('validateRow', '_getCustomerId', '_deleteRewardPoints', '_deleteCustomerBalance',
-                    '_updateRewardPointsForCustomer', '_updateCustomerBalanceForCustomer'
-                )
-            );
+        $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
+        if ($addData) {
+            $dataSourceModel->expects($this->exactly(2))
+                ->method('getNextBunch')
+                ->will($this->returnCallback(array($this, 'getNextBunch')));
         }
-        $modelMock = $this->getMock('Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance',
-            $mockedMethods, array(), '', false, true, true
-        );
+
+        $connection = $this->getMock('stdClass');
+
+        $byPagesIterator = $this->getMock('stdClass', array('iterate'));
+        $byPagesIterator->expects($this->once())
+            ->method('iterate')
+            ->will($this->returnCallback(array($this, 'iterate')));
+
+        $websiteManager = $this->getMock('stdClass', array('getWebsites'));
+        $websiteManager->expects($this->once())
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
+
+        $translator = $this->getMock('stdClass', array('__'));
+        $translator->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
 
         $customerCollection = new Varien_Data_Collection();
-        foreach ($this->_customers as $customer) {
-            $customerCollection->addItem(new Varien_Object($customer));
+        foreach ($this->_customers as $customerData) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
+            $customerCollection->addItem($customer);
         }
 
-        $modelMock->expects($this->any())
-            ->method('_getCustomerCollection')
-            ->will($this->returnValue($customerCollection));
+        $moduleHelper = $this->getMock('stdClass', array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'));
+        $moduleHelper->expects($this->any())
+            ->method('isRewardPointsEnabled')
+            ->will($this->returnValue(true));
+        $moduleHelper->expects($this->any())
+            ->method('isCustomerBalanceEnabled')
+            ->will($this->returnValue(true));
 
-        $method = new ReflectionMethod($modelMock, '_initCustomers');
-        $method->setAccessible(true);
-        $method->invoke($modelMock);
+        $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
+        $objectFactory->expects($this->any())
+            ->method('getModelInstance')
+            ->will($this->returnCallback(array($this, 'getModelInstance')));
 
-        $property = new ReflectionProperty($modelMock, '_websiteCodeToId');
-        $property->setAccessible(true);
-        $property->setValue($modelMock, array_flip($this->_websites));
-
-        $property = new ReflectionProperty($modelMock, '_availableBehaviors');
-        $property->setAccessible(true);
-        $property->setValue($modelMock, $this->_behaviors);
-
-        $attributeCollection = new Varien_Data_Collection();
-        foreach ($this->_attributes as $attribute) {
-            $attributeCollection->addItem(new Varien_Object($attribute));
+        /** @var $attributeCollection Varien_Data_Collection */
+        $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
+        foreach ($this->_attributes as $attributeData) {
+            /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',
+                array($attributeData), '', true, true, true, array('_construct')
+            );
+            $attributeCollection->addItem($attribute);
         }
 
-        $modelMock->expects($this->any())
-            ->method('_getAttributeCollection')
-            ->will($this->returnValue($attributeCollection));
+        $adminUser = $this->getMock('stdClass', array('getUsername'));
+        $adminUser->expects($this->any())
+            ->method('getUsername')
+            ->will($this->returnValue('admin'));
 
-        $method = new ReflectionMethod($modelMock, '_initAttributes');
-        $method->setAccessible(true);
-        $method->invoke($modelMock);
+        $data = array(
+            'data_source_model'            => $dataSourceModel,
+            'connection'                   => $connection,
+            'json_helper'                  => 'not_used',
+            'string_helper'                => new Mage_Core_Helper_String(),
+            'page_size'                    => 1,
+            'max_data_size'                => 1,
+            'bunch_size'                   => 1,
+            'collection_by_pages_iterator' => $byPagesIterator,
+            'website_manager'              => $websiteManager,
+            'store_manager'                => 'not_used',
+            'translator'                   => $translator,
+            'entity_type_id'               => 1,
+            'customer_collection'          => $customerCollection,
+            'module_helper'                => $moduleHelper,
+            'object_factory'               => $objectFactory,
+            'attribute_collection'         => $attributeCollection,
+            'admin_user'                   => $adminUser
+        );
 
-        return $modelMock;
+        return $data;
     }
 
     /**
-     * Create mock for customer finance model class
+     * Stub for next bunch of validated rows getter
      *
-     * @return Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
+     * @return array|null
      */
-    protected function _getModelMockForTestInitAttributes()
+    public function getNextBunch()
     {
-        $modelMock = $this->getMock('Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance',
-            array('_getAttributeCollection'), array(), '', false, true,
-            true
-        );
+        if ($this->_bunchNumber == 0) {
+            $data = $this->_inputData;
+        } else {
+            $data = null;
+        }
+        $this->_bunchNumber++;
 
-        $attributeCollection = new Varien_Data_Collection();
-        foreach ($this->_attributes as $attribute) {
-            $attributeCollection->addItem(new Varien_Object($attribute));
+        return $data;
+    }
+
+    /**
+     * Iterate stub
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param Varien_Data_Collection $collection
+     * @param int $pageSize
+     * @param array $callbacks
+     */
+    public function iterate(Varien_Data_Collection $collection, $pageSize, array $callbacks)
+    {
+        foreach ($collection as $customer) {
+            foreach ($callbacks as $callback) {
+                call_user_func($callback, $customer);
+            }
+        }
+    }
+
+    /**
+     * Get websites stub
+     *
+     * @param bool $withDefault
+     * @return array
+     */
+    public function getWebsites($withDefault = false)
+    {
+        $websites = array();
+        if (!$withDefault) {
+            unset($websites[0]);
+        }
+        foreach ($this->_websites as $id => $code) {
+            if (!$withDefault && $id == Mage_Core_Model_App::ADMIN_STORE_ID) {
+                continue;
+            }
+            $websiteData = array(
+                'id'   => $id,
+                'code' => $code,
+            );
+            $websites[$id] = new Varien_Object($websiteData);
         }
 
-        $modelMock->expects($this->any())
-            ->method('_getAttributeCollection')
-            ->will($this->returnValue($attributeCollection));
+        return $websites;
+    }
 
-        return $modelMock;
+    /**
+     * Callback method for mock object Mage_Core_Model_Config object
+     *
+     * @param string $modelClass
+     * @param array|object $constructArguments
+     * @return PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getModelInstance($modelClass = '', $constructArguments = array())
+    {
+        switch ($modelClass) {
+            case 'Enterprise_CustomerBalance_Model_Balance':
+                $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
+                        'getAmount', 'setAmountDelta', 'setComment', 'save'
+                    ), $constructArguments, '', false
+                );
+                $instance->expects($this->any())
+                    ->method('setCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setWebsiteId')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('loadByCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('getAmount')
+                    ->will($this->returnValue(0));
+                $instance->expects($this->any())
+                    ->method('setAmountDelta')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setComment')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('save')
+                    ->will($this->returnSelf());
+                break;
+            case 'Enterprise_Reward_Model_Reward':
+                $instance = $this->getMock($modelClass, array('setCustomer', 'setWebsiteId', 'loadByCustomer',
+                        'getPointsBalance', 'setPointsDelta', 'setAction', 'setComment', 'updateRewardPoints'
+                    ), $constructArguments, '', false
+                );
+                $instance->expects($this->any())
+                    ->method('setCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setWebsiteId')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('loadByCustomer')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('getPointsBalance')
+                    ->will($this->returnValue(0));
+                $instance->expects($this->any())
+                    ->method('setPointsDelta')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setAction')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('setComment')
+                    ->will($this->returnSelf());
+                $instance->expects($this->any())
+                    ->method('updateRewardPoints')
+                    ->will($this->returnSelf());
+                break;
+            default:
+                $instance = $this->getMock($modelClass, array(), $constructArguments, '', false);
+                break;
+        }
+        return $instance;
     }
 
     /**
@@ -560,36 +698,9 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     }
 
     /**
-     * Test filling attribute array
-     *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_initAttributes
-     */
-    public function testInitAttributes()
-    {
-        $modelMock = $this->_getModelMockForTestInitAttributes();
-
-        $method = new ReflectionMethod($modelMock, '_initAttributes');
-        $method->setAccessible(true);
-        $method->invoke($modelMock);
-
-        $attributes = array();
-        foreach ($this->_attributes as $attribute) {
-            $attributes[$attribute['attribute_code']] = array(
-                'id'          => $attribute['id'],
-                'code'        => $attribute['attribute_code'],
-                'is_required' => $attribute['is_required'],
-                'type'        => $attribute['backend_type'],
-            );
-        }
-
-        $this->assertAttributeEquals($attributes, '_attributes', $modelMock);
-    }
-
-    /**
      * Test Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow() with different values
      * in case when add/update behavior is performed
      *
-     * @depends testInitAttributes
      * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForUpdate
      * @dataProvider validateRowDataProvider
      *
@@ -617,7 +728,6 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      * Test Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::validateRow() with different values
      * in case when delete behavior is performed
      *
-     * @depends testInitAttributes
      * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_validateRowForDelete
      * @dataProvider validateRowDataProvider
      *
@@ -652,104 +762,12 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     }
 
     /**
-     * Test import data method for custom behavior
+     * Test data import
      *
-     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::_importData
+     * @covers Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::importData
      */
     public function testImportDataCustomBehavior()
     {
-        // Input data
-        $customBehaviorRows = array(
-            array(
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test1@email.com',
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'website1',
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                    => 'website1',
-                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => null,
-                Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1,
-                Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
-                    => 100,
-                Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
-                    => 200
-            ),
-            array(
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test2@email.com',
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'website2',
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                    => 'website1',
-                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION
-                    => Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION_VALUE_DELETE,
-                Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2,
-            ),
-            array(
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_EMAIL => 'test2@email.com',
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_WEBSITE => 'website2',
-                Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance::COLUMN_FINANCE_WEBSITE
-                    => 'website1',
-                Mage_ImportExport_Model_Import_Entity_V2_Abstract::COLUMN_ACTION => 'update',
-                Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2,
-                Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
-                    => 100,
-                Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_REWARD_POINTS
-                    => 200
-            )
-        );
-
-        // Mock for helper which used inside _importData
-        $helperMock = $this->getMock('Enterprise_ImportExport_Helper_Data',
-            array('isRewardPointsEnabled', 'isCustomerBalanceEnabled')
-        );
-        $helperMock->expects($this->once())
-            ->method('isRewardPointsEnabled')
-            ->will($this->returnValue(false));
-        $helperMock->expects($this->once())
-            ->method('isCustomerBalanceEnabled')
-            ->will($this->returnValue(true));
-        Mage::register('_helper/Enterprise_ImportExport_Helper_Data', $helperMock);
-
-        // Prepare customer mock object and push it inside config stub class which used for retrieve customer instance
-        $customerMock = $this->getMock('Mage_Customer_Model_Customer', array(), array(), '', false);
-
-        // Prepare config mock
-        $configMock = $this->getMock('Mage_Core_Model_Config', array('getModelInstance'), array(), '', false);
-        $configMock->expects($this->once())
-            ->method('getModelInstance')
-            ->will($this->returnValue($customerMock));
-
-        $property = new ReflectionProperty('Mage', '_config');
-        $property->setAccessible(true);
-        $property->setValue('Mage', $configMock);
-
-        // Prepare mock to imitate data source model
-        $importResourceMock = $this->getMock('Mage_ImportExport_Model_Resource_Import_Data', array('getNextBunch'),
-            array(), '', false
-        );
-        $importResourceMock->expects($this->at(0))
-            ->method('getNextBunch')
-            ->will($this->returnValue($customBehaviorRows));
-        $importResourceMock->expects($this->at(1))
-            ->method('getNextBunch')
-            ->will($this->returnValue(null));
-
-        $dataSourceModel = new ReflectionProperty($this->_model, '_dataSourceModel');
-        $dataSourceModel->setAccessible(true);
-        $dataSourceModel->setValue($this->_model, $importResourceMock);
-
-        // Prepare necessary mocks for custom behavior testing
-        $this->_model->expects($this->any())
-            ->method('validateRow')
-            ->will($this->returnValue(true));
-        $this->_model->expects($this->any())
-            ->method('_getCustomerId')
-            ->will($this->returnValue(null));
-
-        // Prepare method mocks which will check logic of customer behavior for finance data
-        $this->_model->expects($this->once())->method('_deleteRewardPoints');
-        $this->_model->expects($this->once())->method('_deleteCustomerBalance');
-        $this->_model->expects($this->exactly(2))->method('_updateRewardPointsForCustomer');
-        $this->_model->expects($this->exactly(2))->method('_updateCustomerBalanceForCustomer');
-
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM));
-        $this->_model->importData();
+        $this->assertTrue($this->_model->importData());
     }
 }

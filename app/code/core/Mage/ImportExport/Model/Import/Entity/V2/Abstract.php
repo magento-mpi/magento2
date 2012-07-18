@@ -30,12 +30,17 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     /**#@-*/
 
     /**#@+
+     * XML paths to parameters
+     */
+    const XML_PATH_BUNCH_SIZE = 'import/format_v2/bunch_size';
+    const XML_PATH_PAGE_SIZE  = 'import/format_v2/page_size';
+    /**#@-*/
+
+    /**#@+
      * Database constants
      */
-    const DB_MAX_PACKET_COEFFICIENT = 900000;
-    const DB_MAX_PACKET_DATA        = 1048576;
-    const DB_MAX_VARCHAR_LENGTH     = 256;
-    const DB_MAX_TEXT_LENGTH        = 65536;
+    const DB_MAX_VARCHAR_LENGTH = 256;
+    const DB_MAX_TEXT_LENGTH    = 65536;
     /**#@-*/
 
     /**
@@ -109,6 +114,27 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     protected $_notices = array();
 
     /**
+     * Helper to translate error messages
+     *
+     * @var Mage_ImportExport_Helper_Data
+     */
+    protected $_translator;
+
+    /**
+     * Helper to encode/decode json
+     *
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_jsonHelper;
+
+    /**
+     * Helper to manipulate with string
+     *
+     * @var Mage_Core_Helper_String
+     */
+    protected $_stringHelper;
+
+    /**
      * Entity model parameters
      *
      * @var array
@@ -120,7 +146,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      *
      * @var array
      */
-    protected $_particularAttributes = array();
+    protected $_particularAttributes = array(self::COLUMN_ACTION);
 
     /**
      * Permanent entity columns
@@ -180,25 +206,65 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      *
      * @var array
      */
-    protected $_availableBehaviors = array();
+    protected $_availableBehaviors = array(
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
+    );
+
+    /**
+     * Number of items to fetch from db in one query
+     *
+     * @var int
+     */
+    protected $_pageSize;
+
+    /**
+     * Maximum size of packet, that can be sent to DB
+     *
+     * @var int
+     */
+    protected $_maxDataSize;
+
+    /**
+     * Number of items to save to the db in one query
+     *
+     * @var int
+     */
+    protected $_bunchSize;
+
+    /**
+     * Collection by pages iterator
+     *
+     * @var Mage_ImportExport_Model_Resource_CollectionByPagesIterator
+     */
+    protected $_byPagesIterator;
 
     /**
      * Constructor
+     *
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(array $data = array())
     {
-        $this->_dataSourceModel = Mage_ImportExport_Model_Import::getDataSourceModel();
-        /** @var $coreResourceModel Mage_Core_Model_Resource */
-        $coreResourceModel = Mage::getSingleton('Mage_Core_Model_Resource');
-        $this->_connection = $coreResourceModel->getConnection('write');
-
-        $this->_particularAttributes[] = self::COLUMN_ACTION;
-
-        $this->_availableBehaviors = array(
-            Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
-            Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
-            Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
-        );
+        $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
+            : Mage_ImportExport_Model_Import::getDataSourceModel();
+        $this->_connection          = isset($data['connection']) ? $data['connection']
+            : Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+        $this->_translator          = isset($data['translator']) ? $data['translator']
+            : Mage::helper('Mage_ImportExport_Helper_Data');
+        $this->_jsonHelper          = isset($data['json_helper']) ? $data['json_helper']
+            : Mage::helper('Mage_Core_Helper_Data');
+        $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
+            : Mage::helper('Mage_Core_Helper_String');
+        $this->_pageSize            = isset($data['page_size']) ? $data['page_size']
+            : (static::XML_PATH_PAGE_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_PAGE_SIZE) : 0);
+        $this->_maxDataSize         = isset($data['max_data_size']) ? $data['max_data_size']
+            : Mage::getResourceHelper('Mage_ImportExport')->getMaxDataSize();
+        $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
+            : (static::XML_PATH_BUNCH_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_BUNCH_SIZE) : 0);
+        $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
+            : Mage::getResourceModel('Mage_ImportExport_Model_Resource_CollectionByPagesIterator');
     }
 
     /**
@@ -261,16 +327,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
         $startNewBunch     = false;
         $nextRowBackup     = array();
 
-        /** @var $resourceHelper Mage_ImportExport_Model_Resource_Helper_Mysql4 */
-        $resourceHelper = Mage::getResourceHelper('Mage_ImportExport');
-        /** @var $dataHelper Mage_ImportExport_Helper_Data */
-        $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
-        /** @var $coreDataHelper Mage_Core_Helper_Data */
-        $coreDataHelper = Mage::helper('Mage_Core_Helper_Data');
-
-        $maxDataSize = $resourceHelper->getMaxDataSize();
-        $bunchSize = $dataHelper->getBunchSize();
-
         $source->rewind();
         $this->_dataSourceModel->cleanBunches();
 
@@ -297,11 +353,11 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
                 // add row to bunch for save
                 if ($this->validateRow($rowData, $source->key())) {
                     $rowData = $this->_prepareRowForDb($rowData);
-                    $rowSize = strlen($coreDataHelper->jsonEncode($rowData));
+                    $rowSize = strlen($this->_jsonHelper->jsonEncode($rowData));
 
-                    $isBunchSizeExceeded = ($bunchSize > 0 && count($bunchRows) >= $bunchSize);
+                    $isBunchSizeExceeded = ($this->_bunchSize > 0 && count($bunchRows) >= $this->_bunchSize);
 
-                    if (($processedDataSize + $rowSize) >= $maxDataSize || $isBunchSizeExceeded) {
+                    if (($processedDataSize + $rowSize) >= $this->_maxDataSize || $isBunchSizeExceeded) {
                         $startNewBunch = true;
                         $nextRowBackup = array($source->key() => $rowData);
                     } else {
@@ -399,12 +455,11 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     public function getErrorMessages()
     {
-        $translator = Mage::helper('Mage_ImportExport_Helper_Data');
         $messages   = array();
 
         foreach ($this->_errors as $errorCode => $errorRows) {
             if (isset($this->_messageTemplates[$errorCode])) {
-                $errorCode = $translator->__($this->_messageTemplates[$errorCode]);
+                $errorCode = $this->_translator->__($this->_messageTemplates[$errorCode]);
             }
             foreach ($errorRows as $errorRowData) {
                 $key = $errorRowData[1] ? sprintf($errorCode, $errorRowData[1]) : $errorCode;
@@ -483,7 +538,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     public function getSource()
     {
         if (!$this->_source) {
-            Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Source is not set'));
+            Mage::throwException($this->_translator->__('Source is not set'));
         }
         return $this->_source;
     }
@@ -520,13 +575,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
      */
     public function isAttributeValid($attributeCode, array $attributeParams, array $rowData, $rowNumber)
     {
-        /** @var $stringHelper Mage_Core_Helper_String */
-        $stringHelper = Mage::helper('Mage_Core_Helper_String');
-
         switch ($attributeParams['type']) {
             case 'varchar':
-                $value = $stringHelper->cleanString($rowData[$attributeCode]);
-                $valid = $stringHelper->strlen($value) < self::DB_MAX_VARCHAR_LENGTH;
+                $value = $this->_stringHelper->cleanString($rowData[$attributeCode]);
+                $valid = $this->_stringHelper->strlen($value) < self::DB_MAX_VARCHAR_LENGTH;
                 break;
             case 'decimal':
                 $value = trim($rowData[$attributeCode]);
@@ -546,22 +598,21 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
                     || preg_match('/^\d{2}.\d{2}.\d{2,4}(?:\s+\d{1,2}.\d{1,2}(?:.\d{1,2})?)?$/', $value);
                 break;
             case 'text':
-                $value = $stringHelper->cleanString($rowData[$attributeCode]);
-                $valid = $stringHelper->strlen($value) < self::DB_MAX_TEXT_LENGTH;
+                $value = $this->_stringHelper->cleanString($rowData[$attributeCode]);
+                $valid = $this->_stringHelper->strlen($value) < self::DB_MAX_TEXT_LENGTH;
                 break;
             default:
                 $valid = true;
                 break;
         }
 
-        /** @var $dataHelper Mage_ImportExport_Helper_Data */
-        $dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
-
         if (!$valid) {
-            $this->addRowError($dataHelper->__("Invalid value for '%s'"), $rowNumber, $attributeCode);
+            $this->addRowError($this->_translator->__("Invalid value for '%s'"), $rowNumber, $attributeCode);
         } elseif (!empty($attributeParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]])) {
-                $this->addRowError($dataHelper->__("Duplicate Unique Attribute for '%s'"), $rowNumber, $attributeCode);
+                $this->addRowError($this->_translator->__("Duplicate Unique Attribute for '%s'"), $rowNumber,
+                    $attributeCode
+                );
                 return false;
             }
             $this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]] = true;
@@ -646,13 +697,10 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     public function validateData()
     {
         if (!$this->_dataValidated) {
-            /** @var $helper Mage_ImportExport_Helper_Data */
-            $helper = Mage::helper('Mage_ImportExport_Helper_Data');
-
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(
-                    $helper->__('Can not find required columns: %s', implode(', ', $absentColumns))
+                    $this->_translator->__('Can not find required columns: %s', implode(', ', $absentColumns))
                 );
             }
 
@@ -673,12 +721,14 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
 
             if ($emptyHeaderColumns) {
                 Mage::throwException(
-                    $helper->__('Columns number: "%s" have empty headers', implode('", "', $emptyHeaderColumns))
+                    $this->_translator->__('Columns number: "%s" have empty headers',
+                        implode('", "', $emptyHeaderColumns)
+                    )
                 );
             }
             if ($invalidColumns) {
                 Mage::throwException(
-                    $helper->__('Column names: "%s" are invalid', implode('", "', $invalidColumns))
+                    $this->_translator->__('Column names: "%s" are invalid', implode('", "', $invalidColumns))
                 );
             }
 

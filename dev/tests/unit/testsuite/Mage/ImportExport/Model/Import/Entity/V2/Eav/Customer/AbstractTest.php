@@ -11,6 +11,8 @@
 
 /**
  * Test class for Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
+ *
+ * @todo fix in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -106,65 +108,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AbstractTest extends
             ->will($this->returnValue($customerCollection));
 
         return $modelMock;
-    }
-
-    /**
-     * Check whether Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_customers is filled correctly
-     *
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_initCustomers
-     */
-    public function testInitCustomers()
-    {
-        $customers = array();
-        foreach ($this->_customers as $customer) {
-            $email = strtolower($customer['email']);
-            if (!isset($this->_customers[$email])) {
-                $customers[$email] = array();
-            }
-            $customers[$email][$customer['website_id']] = $customer['id'];
-        }
-
-        $method = new ReflectionMethod($this->_model, '_initCustomers');
-        $method->setAccessible(true);
-        $method->invoke($this->_model);
-
-        $this->assertAttributeEquals($customers, '_customers', $this->_model);
-    }
-
-    /**
-     * Check whether Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_getCustomerId() returns
-     * correct values
-     *
-     * @depends testInitCustomers
-     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract::_getCustomerId
-     */
-    public function testGetCustomerId()
-    {
-        $method = new ReflectionMethod($this->_model, '_initCustomers');
-        $method->setAccessible(true);
-        $method->invoke($this->_model);
-
-        $method = new ReflectionMethod($this->_model, '_getCustomerId');
-        $method->setAccessible(true);
-
-        $this->assertEquals($this->_customers[0]['id'],
-            $method->invokeArgs($this->_model, array($this->_customers[0]['email'],
-                $this->_websites[$this->_customers[0]['website_id']])
-            )
-        );
-        $this->assertEquals($this->_customers[1]['id'],
-            $method->invokeArgs($this->_model, array($this->_customers[1]['email'],
-                $this->_websites[$this->_customers[1]['website_id']])
-            )
-        );
-        $this->assertFalse(
-            $method->invokeArgs($this->_model, array($this->_customers[0]['email'], 'website3'))
-        );
-        $this->assertFalse(
-            $method->invokeArgs($this->_model,
-                array('test3@email.com', $this->_websites[$this->_customers[0]['website_id']])
-            )
-        );
     }
 
     /**

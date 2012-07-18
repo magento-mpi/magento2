@@ -11,6 +11,8 @@
 
 /**
  * Test class for Mage_ImportExport_Model_Import_Entity_V2_Abstract
+ *
+ * @todo Fix tests in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
 class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
@@ -34,43 +36,47 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
 
     public function setUp()
     {
-        parent::setUp();
-
-        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Abstract', array(),
-            '', false, true, true, array('_saveValidatedBunches', 'validateRow')
+        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Abstract',
+            array($this->_getModelDependencies())
         );
     }
 
     public function tearDown()
     {
         unset($this->_model);
-
-        parent::tearDown();
     }
 
     /**
-     * Create mock for data helper and push it to registry
+     * Create mocks for all $this->_model dependencies
      *
-     * @return Mage_ImportExport_Helper_Data|PHPUnit_Framework_MockObject_MockObject
+     * @return array
      */
-    protected function _createDataHelperMock()
+    protected function _getModelDependencies()
     {
-        /** @var $helper Mage_ImportExport_Helper_Data */
-        $helper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'), array(), '', false);
-        $helper->expects($this->any())
+        $translator = $this->getMock('stdClass', array('__'));
+        $translator->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        $registryKey = '_helper/Mage_ImportExport_Helper_Data';
-        if (Mage::registry($registryKey)) {
-            Mage::unregister($registryKey);
-        }
-        Mage::register($registryKey, $helper);
 
-        return $helper;
+        $data = array(
+            'data_source_model'            => 'not_used',
+            'connection'                   => 'not_used',
+            'translator'                   => $translator,
+            'json_helper'                  => 'not_used',
+            'string_helper'                => new Mage_Core_Helper_String(),
+            'page_size'                    => 1,
+            'max_data_size'                => 1,
+            'bunch_size'                   => 1,
+            'collection_by_pages_iterator' => 'not_used',
+        );
+
+        return $data;
     }
 
     /**
      * Test for method _prepareRowForDb()
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Abstract::_prepareRowForDb
      */
     public function testPrepareRowForDb()
     {
@@ -97,9 +103,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testAddRowError()
     {
-        $this->_createDataHelperMock();
-
-        $errorCode = 'error_code ';
+        $errorCode       = 'error_code ';
         $errorColumnName = 'error_column';
         $this->_model->addRowError($errorCode . '%s', 0, $errorColumnName);
 
@@ -138,8 +142,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testAddMessageTemplate()
     {
-        $this->_createDataHelperMock();
-
         $errorCode = 'test';
         $message = 'This is test error message';
         $this->_model->addMessageTemplate($errorCode, $message);
@@ -543,8 +545,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testValidateDataPermanentAttributes()
     {
-        $this->_createDataHelperMock();
-
         $columns = array('test1', 'test2');
         $this->_createSourceAdapterMock($columns);
 
@@ -565,7 +565,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testValidateDataEmptyColumnName()
     {
-        $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array(''));
         $this->_model->validateData();
     }
@@ -579,7 +578,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
-        $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array('  '));
         $this->_model->validateData();
     }
@@ -593,7 +591,6 @@ class Mage_ImportExport_Model_Import_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testValidateDataAttributeNames()
     {
-        $this->_createDataHelperMock();
         $this->_createSourceAdapterMock(array('_test1'));
         $this->_model->validateData();
     }

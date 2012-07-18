@@ -14,10 +14,19 @@
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @todo finish moving dependencies to constructor in the scope of
+ * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
 {
+    /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Attribute_Collection';
+    /**#@-*/
+
     /**#@+
      * Permanent column names
      *
@@ -94,11 +103,29 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     protected $_nextEntityId;
 
     /**
-     * Constructor
+     * Address attributes collection
+     *
+     * @var Mage_Customer_Model_Resource_Attribute_Collection
      */
-    public function __construct()
+    protected $_attributeCollection;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        parent::__construct();
+        if (isset($data['attribute_collection'])) {
+            $this->_attributeCollection = $data['attribute_collection'];
+            unset($data['attribute_collection']);
+        } else {
+            $this->_attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $this->_attributeCollection->addSystemHiddenFilterWithPasswordHash();
+            $data['attribute_collection'] = $this->_attributeCollection;
+        }
+
+        parent::__construct($data);
 
         $this->_particularAttributes[] = self::COLUMN_WEBSITE;
         $this->_particularAttributes[] = self::COLUMN_STORE;
@@ -106,20 +133,19 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
         $this->_permanentAttributes[]  = self::COLUMN_WEBSITE;
         $this->_indexValueAttributes[] = 'group_id';
 
-        /** @var $helper Mage_ImportExport_Helper_Data */
-        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
-
-        $this->addMessageTemplate(self::ERROR_DUPLICATE_EMAIL_SITE, $helper->__('E-mail is duplicated in import file'));
+        $this->addMessageTemplate(self::ERROR_DUPLICATE_EMAIL_SITE,
+            $this->_translator->__('E-mail is duplicated in import file')
+        );
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
-            $helper->__('Orphan rows that will be skipped due default row errors')
+            $this->_translator->__('Orphan rows that will be skipped due default row errors')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_STORE,
-            $helper->__('Invalid value in Store column (store does not exists?)')
+            $this->_translator->__('Invalid value in Store column (store does not exists?)')
         );
         $this->addMessageTemplate(self::ERROR_EMAIL_SITE_NOT_FOUND,
-            $helper->__('E-mail and website combination is not found')
+            $this->_translator->__('E-mail and website combination is not found')
         );
-        $this->addMessageTemplate(self::ERROR_PASSWORD_LENGTH, $helper->__('Invalid password length'));
+        $this->addMessageTemplate(self::ERROR_PASSWORD_LENGTH, $this->_translator->__('Invalid password length'));
 
         $this->_initStores(true)
             ->_initAttributes();
@@ -352,25 +378,11 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     /**
      * EAV entity type code getter
      *
-     * @abstract
      * @return string
      */
     public function getEntityTypeCode()
     {
-        return $this->_getAttributeCollection()->getEntityTypeCode();
-    }
-
-    /**
-     * Retrieve customer attribute EAV collection
-     *
-     * @return Mage_Customer_Model_Resource_Attribute_Collection
-     */
-    protected function _getAttributeCollection()
-    {
-        /** @var $collection Mage_Customer_Model_Resource_Attribute_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
-        $collection->addSystemHiddenFilterWithPasswordHash();
-        return $collection;
+        return $this->_attributeCollection->getEntityTypeCode();
     }
 
     /**

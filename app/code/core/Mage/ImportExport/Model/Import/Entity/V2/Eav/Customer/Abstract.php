@@ -63,26 +63,35 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
     protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
 
     /**
-     * Constructor
+     * Customers whose addresses are exported
+     *
+     * @var Mage_Customer_Model_Resource_Customer_Collection
      */
-    public function __construct()
+    protected $_customerCollection;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        parent::__construct();
+        parent::__construct($data);
 
-        /** @var $helper Mage_ImportExport_Helper_Data */
-        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
+        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
+            : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
 
-        $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY, $helper->__('Website is not specified'));
-        $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY, $helper->__('E-mail is not specified'));
+        $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY, $this->_translator->__('Website is not specified'));
+        $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY, $this->_translator->__('E-mail is not specified'));
         $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
-            $helper->__("Invalid value in website column")
+            $this->_translator->__("Invalid value in website column")
         );
-        $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, $helper->__('E-mail is invalid'));
+        $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, $this->_translator->__('E-mail is invalid'));
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
-            $helper->__("Required attribute '%s' has an empty value")
+            $this->_translator->__("Required attribute '%s' has an empty value")
         );
         $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
-            $helper->__("Customer with such email and website code doesn't exist")
+            $this->_translator->__("Customer with such email and website code doesn't exist")
         );
 
         $this->_initCustomers()
@@ -96,29 +105,21 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
      */
     protected function _initCustomers()
     {
-        $collection = $this->_getCustomerCollection();
-        /** @var $customer Mage_Customer_Model_Customer */
-        foreach ($collection->getItems() as $customer) {
-            $email = strtolower($customer->getEmail());
-            if (!isset($this->_customers[$email])) {
-                $this->_customers[$email] = array();
-            }
-            $this->_customers[$email][$customer->getWebsiteId()] = $customer->getId();
+        if (empty($this->_customers)) {
+            $customers = array();
+            $addCustomer = function (Mage_Customer_Model_Customer $customer) use (&$customers) {
+                $email = strtolower($customer->getEmail());
+                if (!isset($customers[$email])) {
+                    $customers[$email] = array();
+                }
+                $customers[$email][$customer->getWebsiteId()] = $customer->getId();
+            };
+
+            $this->_byPagesIterator->iterate($this->_customerCollection, $this->_pageSize, array($addCustomer));
+            $this->_customers = $customers;
         }
 
         return $this;
-    }
-
-    /**
-     * Get customer collection
-     *
-     * @return Mage_Customer_Model_Resource_Customer_Collection
-     */
-    protected function _getCustomerCollection()
-    {
-        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
-        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-        return $collection;
     }
 
     /**

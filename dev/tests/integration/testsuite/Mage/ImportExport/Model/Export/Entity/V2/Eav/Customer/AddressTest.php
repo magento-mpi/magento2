@@ -53,9 +53,9 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testExport()
     {
-        $websiteCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_WEBSITE;
-        $emailCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_EMAIL;
-        $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_ADDRESS_ID;
+        $websiteCode  = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_WEBSITE;
+        $emailCode    = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_EMAIL;
+        $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID;
 
         $expectedAttributes = array();
         /** @var $collection Mage_Customer_Model_Resource_Address_Attribute_Collection */
@@ -69,6 +69,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
         $defaultAddressMap = Mage_ImportExport_Model_Import_Entity_Customer_Address::getDefaultAddressAttrMapping();
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
+        $this->_model->setParameters(array());
 
         $data = $this->_csvToArray($this->_model->export(), $entityIdCode);
 
@@ -136,7 +137,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testExportWithFilter($genderFilterValue)
     {
-        $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COL_ADDRESS_ID;
+        $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID;
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
 

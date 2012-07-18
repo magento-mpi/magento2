@@ -19,14 +19,14 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
 {
     /**
-     * Attribute code to its values. Only attributes with options and only default store values used.
+     * Attribute code to its values. Only attributes with options and only default store values used
      *
      * @var array
      */
     protected $_attributeValues = array();
 
     /**
-     * Attribute code to its values. Only attributes with options and only default store values used.
+     * Attribute code to its values. Only attributes with options and only default store values used
      *
      * @var array
      */
@@ -40,34 +40,39 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     protected $_entityTypeId;
 
     /**
-     * Attributes with index (not label) value.
+     * Attributes with index (not label) value
      *
      * @var array
      */
     protected $_indexValueAttributes = array();
 
     /**
-     * Permanent entity columns.
+     * Permanent entity columns
      *
      * @var array
      */
     protected $_permanentAttributes = array();
 
     /**
-     * Constructor.
+     * Constructor
+     *
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(array $data = array())
     {
-        parent::__construct();
+        parent::__construct($data);
 
-        $entityCode = $this->getEntityTypeCode();
-        $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
-            ->getEntityType($entityCode)
-            ->getEntityTypeId();
+        if (isset($data['entity_type_id'])) {
+            $this->_entityTypeId = $data['entity_type_id'];
+        } else {
+            $this->_entityTypeId = Mage::getSingleton('Mage_Eav_Model_Config')
+                ->getEntityType($this->getEntityTypeCode())
+                ->getEntityTypeId();
+        }
     }
 
     /**
-     * Get attributes codes which are appropriate for export.
+     * Get attributes codes which are appropriate for export
      *
      * @return array
      */
@@ -76,12 +81,15 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
         if (null === $this->_attributeCodes) {
             if (!empty($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP])
                 && is_array($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP])) {
-                $skippedAttributes = array_flip($this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP]);
+                $skippedAttributes = array_flip(
+                    $this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_SKIP]
+                );
             } else {
                 $skippedAttributes = array();
             }
             $attributeCodes = array();
 
+            /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
                 if (!isset($skippedAttributes[$attribute->getAttributeId()])
                     || in_array($attribute->getAttributeCode(), $this->_permanentAttributes)) {
@@ -94,12 +102,13 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Initialize attribute option values.
+     * Initialize attribute option values
      *
      * @return Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
      */
     protected function _initAttributeValues()
     {
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
         foreach ($this->getAttributeCollection() as $attribute) {
             $this->_attributeValues[$attribute->getAttributeCode()] = $this->getAttributeOptions($attribute);
         }
@@ -107,7 +116,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Apply filter to collection and add not skipped attributes to select.
+     * Apply filter to collection and add not skipped attributes to select
      *
      * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
      * @return Mage_Eav_Model_Entity_Collection_Abstract
@@ -120,7 +129,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Apply filter to collection.
+     * Apply filter to collection
      *
      * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
      * @return Mage_Eav_Model_Entity_Collection_Abstract
@@ -134,6 +143,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
             $exportFilter = $this->_parameters[Mage_ImportExport_Model_Export::FILTER_ELEMENT_GROUP];
         }
 
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
         foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
 
@@ -147,7 +157,9 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
                     }
                 } elseif (Mage_ImportExport_Model_Export::FILTER_TYPE_INPUT == $attributeFilterType) {
                     if (is_scalar($exportFilter[$attributeCode]) && trim($exportFilter[$attributeCode])) {
-                        $collection->addAttributeToFilter($attributeCode, array('like' => "%{$exportFilter[$attributeCode]}%"));
+                        $collection->addAttributeToFilter($attributeCode,
+                            array('like' => "%{$exportFilter[$attributeCode]}%")
+                        );
                     }
                 } elseif (Mage_ImportExport_Model_Export::FILTER_TYPE_DATE == $attributeFilterType) {
                     if (is_array($exportFilter[$attributeCode]) && count($exportFilter[$attributeCode]) == 2) {
@@ -182,7 +194,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Add not skipped attributes to select.
+     * Add not skipped attributes to select
      *
      * @param Mage_Eav_Model_Entity_Collection_Abstract $collection
      * @return Mage_Eav_Model_Entity_Collection_Abstract
@@ -195,7 +207,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased.
+     * Returns attributes all values in label-value or value-value pairs form. Labels are lower-cased
      *
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return array
@@ -228,7 +240,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     }
 
     /**
-     * Entity type ID getter.
+     * Entity type ID getter
      *
      * @return int
      */

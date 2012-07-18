@@ -12,7 +12,7 @@
 class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Customer export Eav model
+     * Abstract eav export model
      *
      * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract|PHPUnit_Framework_MockObject_MockObject
      */
@@ -27,7 +27,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
 
     public function setUp()
     {
-        parent::setUp();
         $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract', array(),
             '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
 
@@ -39,7 +38,6 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     public function tearDown()
     {
         unset($this->_model);
-        parent::tearDown();
     }
 
     /**

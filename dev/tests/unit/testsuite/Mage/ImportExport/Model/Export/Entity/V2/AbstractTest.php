@@ -10,12 +10,15 @@
  */
 
 /**
- * Test class for Mage_ImportExport_Model_Export_Entity_V2_Abstract.
+ * Test class for Mage_ImportExport_Model_Export_Entity_V2_Abstract
  */
 class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test for setter and getter of file name property
+     *
+     * @covers Mage_ImportExport_Model_Export_Entity_V2_Abstract::getFileName
+     * @covers Mage_ImportExport_Model_Export_Entity_V2_Abstract::setFileName
      */
     public function testGetFileNameAndSetFileName()
     {

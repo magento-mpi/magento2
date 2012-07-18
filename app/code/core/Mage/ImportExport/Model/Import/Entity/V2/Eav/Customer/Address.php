@@ -14,10 +14,19 @@
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @todo finish moving dependencies to constructor in the scope of
+ * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
 {
+    /**#@+
+     * Attribute collection name
+     */
+    const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Address_Attribute_Collection';
+    /**#@-*/
+
     /**#@+
      * Permanent column names
      *
@@ -162,25 +171,52 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     protected $_regionParameters;
 
     /**
-     * Constructor
+     * Address attributes collection
+     *
+     * @var Mage_Customer_Model_Resource_Address_Attribute_Collection
      */
-    public function __construct()
+    protected $_attributeCollection;
+
+    /**
+     * Collection of existent addresses
+     *
+     * @var Mage_Customer_Model_Resource_Address_Collection
+     */
+    protected $_addressCollection;
+
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
     {
-        parent::__construct();
+        if (isset($data['attribute_collection'])) {
+            $this->_attributeCollection = $data['attribute_collection'];
+            unset($data['attribute_collection']);
+        } else {
+            $this->_attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $this->_attributeCollection->addSystemHiddenFilter()
+                ->addExcludeHiddenFrontendFilter();
+            $data['attribute_collection'] = $this->_attributeCollection;
+        }
 
-        /** @var $addressResource Mage_Customer_Model_Resource_Address */
-        $addressResource = Mage::getModel('Mage_Customer_Model_Address')->getResource();
-        $this->_entityTable = $addressResource->getEntityTable();
+        parent::__construct($data);
 
-        /** @var $helper Mage_ImportExport_Helper_Data */
-        $helper = Mage::helper('Mage_ImportExport_Helper_Data');
+        $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
+            : Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
+        $this->_entityTable = isset($data['entity_table']) ? $data['entity_table']
+            : Mage::getModel('Mage_Customer_Model_Address')->getResource()->getEntityTable();
+        $this->_regionCollection = isset($data['region_collection']) ? $data['region_collection']
+            : Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
+
         $this->addMessageTemplate(self::ERROR_ADDRESS_ID_IS_EMPTY,
-            $helper->__('Customer address id column is not specified')
+            $this->_translator->__('Customer address id column is not specified')
         );
         $this->addMessageTemplate(self::ERROR_ADDRESS_NOT_FOUND,
-            $helper->__("Customer address for such customer doesn't exist")
+            $this->_translator->__("Customer address for such customer doesn't exist")
         );
-        $this->addMessageTemplate(self::ERROR_INVALID_REGION, $helper->__('Region is invalid'));
+        $this->addMessageTemplate(self::ERROR_INVALID_REGION, $this->_translator->__('Region is invalid'));
 
         $this->_initAttributes();
         $this->_initAddresses()
@@ -258,7 +294,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     protected function _initAddresses()
     {
         /** @var $address Mage_Customer_Model_Address */
-        foreach (Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection') as $address) {
+        foreach ($this->_addressCollection as $address) {
             $customerId = $address->getParentId();
             if (!isset($this->_addresses[$customerId])) {
                 $this->_addresses[$customerId] = array();
@@ -272,27 +308,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     }
 
     /**
-     * Get region collection
-     *
-     * @return Mage_Customer_Model_Resource_Customer_Collection
-     */
-    protected function _getRegionCollection()
-    {
-        /** @var $collection Mage_Directory_Model_Resource_Region_Collection */
-        $collection = Mage::getResourceModel('Mage_Directory_Model_Resource_Region_Collection');
-        return $collection;
-    }
-
-    /**
      * Initialize country regions hash for clever recognition
      *
      * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      */
     protected function _initCountryRegions()
     {
-        $collection = $this->_getRegionCollection();
         /** @var $region Mage_Directory_Model_Region */
-        foreach ($collection->getItems() as $region) {
+        foreach ($this->_regionCollection as $region) {
             $countryNormalized = strtolower($region->getCountryId());
             $regionCode = strtolower($region->getCode());
             $regionName = strtolower($region->getDefaultName());
@@ -370,8 +393,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
     protected function _prepareDataForUpdate(array $rowData)
     {
         $email      = strtolower($rowData[self::COLUMN_EMAIL]);
-        $websiteId  = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
-        $customerId = $this->_customers[$email][$websiteId];
+        $customerId = $this->_getCustomerId($email, $rowData[self::COLUMN_WEBSITE]);
 
         $regionParameters    = $this->_getRegionParameters();
         $regionIdTable       = $regionParameters['table'];
@@ -571,8 +593,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
             if (!$this->_getCustomerId($email, $website)) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {
-                $websiteId  = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
-                $customerId = $this->_customers[$email][$websiteId];
+                $customerId = $this->_getCustomerId($email, $website);
 
                 // check simple attributes
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
@@ -618,12 +639,10 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
             $website   = $rowData[self::COLUMN_WEBSITE];
             $addressId = $rowData[self::COLUMN_ADDRESS_ID];
 
-            if (!$this->_getCustomerId($email, $website)) {
+            $customerId = $this->_getCustomerId($email, $website);
+            if (!$customerId) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {
-                $websiteId  = $this->_websiteCodeToId[$rowData[self::COLUMN_WEBSITE]];
-                $customerId = $this->_customers[$email][$websiteId];
-
                 if (!strlen($addressId)) {
                     $this->addRowError(self::ERROR_ADDRESS_ID_IS_EMPTY, $rowNumber);
                 } elseif (!in_array($addressId, $this->_addresses[$customerId])) {
@@ -631,19 +650,5 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
                 }
             }
         }
-    }
-
-    /**
-     * Retrieve entity attribute EAV collection
-     *
-     * @return Mage_Eav_Model_Resource_Attribute_Collection
-     */
-    protected function _getAttributeCollection()
-    {
-        /** @var $addressCollection Mage_Customer_Model_Resource_Address_Attribute_Collection */
-        $addressCollection = Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Attribute_Collection');
-        $addressCollection->addSystemHiddenFilter()
-            ->addExcludeHiddenFrontendFilter();
-        return $addressCollection;
     }
 }

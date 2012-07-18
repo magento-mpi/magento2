@@ -15,89 +15,59 @@
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_AbstractTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
-     * Mage registry singleton prefix
+     * Entity type id
      */
-    const MAGE_REGISTRY_SINGLETON_PREFIX = '_singleton/';
-    /**#@-*/
-
-    /**#@+
-     * Mage_Eav_Model_Config class name
-     */
-    const MAGE_EAV_MODEL_CONFIG = 'Mage_Eav_Model_Config';
-    /**#@-*/
-
-    /**#@+
-     * Mage entity type code and id
-     */
-    const ENTITY_TYPE_CODE = 'type_code';
     const ENTITY_TYPE_ID   = 1;
     /**#@-*/
 
     /**
      * Abstract import entity eav model
      *
-     * @var Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
      */
     protected $_model;
 
     public function setUp()
     {
-        parent::setUp();
-
-        $this->_unregisterMageEavModelConfigSingleton();
-        $this->_mockMageEavModelConfigSingletonAndRegisterInRegistry();
-        $this->_model = $this->_getModelMock();
+        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract',
+            array($this->_getModelDependencies())
+        );
     }
 
     public function tearDown()
     {
         unset($this->_model);
-        $this->_unregisterMageEavModelConfigSingleton();
-
-        parent::tearDown();
     }
 
     /**
-     * Get abstract import entity eav model mock
+     * Create mocks for all $this->_model dependencies
      *
-     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @return array
      */
-    protected function _getModelMock()
+    protected function _getModelDependencies()
     {
-        $modelMock = $this->getMockForAbstractClass('Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract', array(),
-            '', false, true, true, array('getEntityTypeCode')
+        $translator = $this->getMock('stdClass', array('__'));
+        $translator->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+
+        $data = array(
+            'data_source_model'            => 'not_used',
+            'connection'                   => 'not_used',
+            'translator'                   => $translator,
+            'json_helper'                  => 'not_used',
+            'string_helper'                => new Mage_Core_Helper_String(),
+            'page_size'                    => 1,
+            'max_data_size'                => 1,
+            'bunch_size'                   => 1,
+            'collection_by_pages_iterator' => 'not_used',
+            'website_manager'              => 'not_used',
+            'store_manager'                => 'not_used',
+            'attribute_collection'         => 'not_used',
+            'entity_type_id'               => self::ENTITY_TYPE_ID,
         );
 
-        $modelMock->expects($this->once())
-            ->method('getEntityTypeCode')
-            ->will($this->returnValue(self::ENTITY_TYPE_CODE));
-
-        return $modelMock;
-    }
-
-    /**
-     * Create mock for Mage_Eav_Model_Config singleton and put it to the registry
-     */
-    protected function _mockMageEavModelConfigSingletonAndRegisterInRegistry()
-    {
-        $modelMock = $this->getMock(self::MAGE_EAV_MODEL_CONFIG, array('getEntityType'), array(), '', false, true,
-            true
-        );
-
-        $modelMock->expects($this->once())
-            ->method('getEntityType')
-            ->with(self::ENTITY_TYPE_CODE)
-            ->will($this->returnValue(new Stub_Mage_Eav_Model_Entity_Type()));
-
-        Mage::register(self::MAGE_REGISTRY_SINGLETON_PREFIX . self::MAGE_EAV_MODEL_CONFIG, $modelMock);
-    }
-
-    /**
-     * Remove mock for Mage_Eav_Model_Config singleton from the registry
-     */
-    protected function _unregisterMageEavModelConfigSingleton()
-    {
-        Mage::unregister(self::MAGE_REGISTRY_SINGLETON_PREFIX . self::MAGE_EAV_MODEL_CONFIG);
+        return $data;
     }
 
     /**
@@ -109,20 +79,14 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_AbstractTest extends PHPUnit_
     {
         $this->assertEquals(self::ENTITY_TYPE_ID, $this->_model->getEntityTypeId());
     }
-}
 
-/**
- * Stub class for Mage_Eav_Model_Entity_Type
- */
-class Stub_Mage_Eav_Model_Entity_Type
-{
     /**
-     * Stub for Mage_Eav_Model_Entity_Type::getEntityTypeId()
+     * @todo implement in the scope of https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
      *
-     * @return int
+     * @covers Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract::getAttributeOptions
      */
-    public function getEntityTypeId()
+    public function testGetAttributeOptions()
     {
-        return Mage_ImportExport_Model_Import_Entity_V2_Eav_AbstractTest::ENTITY_TYPE_ID;
+        $this->markTestIncomplete('Technical debt - not implemented');
     }
 }
