@@ -28,15 +28,19 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
         $tabs = $this->getCurrentUimapPage()->getAllTabs();
         foreach ($tabs as $tab => $values) {
             switch ($tab) {
-                case 'category_permissions':
+                case 'category_permissions_tab':
                     if (!isset($categoryData['category_permissions'])) {
                         break;
                     }
                     $this->openTab('category_permissions_tab');
                     $count = 1;
                     foreach ($categoryData['category_permissions'] as $permission) {
-                        $this->clickButton('new_permission', false);
                         $this->addParameter('row', $count);
+                        $this->clickButton('new_permission', false);
+                        $this->waitForAjax();
+                        if (!$this->controlIsPresent('dropdown', 'website')){
+                            unset ($permission['website']);
+                        }
                         $this->fillFieldset($permission, 'category_permissions');
                         $count++;
                     }
