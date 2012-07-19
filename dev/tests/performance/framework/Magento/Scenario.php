@@ -11,7 +11,7 @@
 /**
  * Scenario for performance tests
  */
-class Benchmark_Scenario
+class Magento_Scenario
 {
     /**
      * Common scenario parameters
@@ -76,6 +76,7 @@ class Benchmark_Scenario
      *
      * @param string $scenarioFile
      * @param array $scenarioParams
+     * @throws Magento_Exception
      */
     public function run($scenarioFile, array $scenarioParams)
     {
