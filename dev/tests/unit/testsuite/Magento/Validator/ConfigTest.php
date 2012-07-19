@@ -70,9 +70,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      *
      * @dataProvider getValidationRulesForInvalidXmlDataProvider
      * @expectedException Magento_Exception
-     * @param string $entityName
-     * @param string $groupName
-     * @param array $expectedRules
+     * @param string $configFile
      */
     public function testCreateConfigForInvalidXml($configFile)
     {
