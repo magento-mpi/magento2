@@ -16,7 +16,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
 {
     /**
      * <p>Preconditions:</p>
-     * <p>Navigate to System -> Manage Attributes.</p>
+     * <p>Navigate to System - Manage Attributes.</p>
      */
     protected function assertPreConditions()
     {
@@ -84,7 +84,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog -> Manage Products.</p>
+     *  <p>2. Go to Catalog - Manage Products.</p>
      *  <p>3. Click the "Add Product" button.</p>
      *  <p>4. Select "Default" attribute set and correspond product type.</p>
      *  <p>5. Click the "Continue" button.</p>
@@ -162,7 +162,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog -> Manage Products.</p>
+     *  <p>2. Go to Catalog - Manage Products.</p>
      *  <p>3. Click the "Add Product" button.</p>
      *  <p>4. Select "Default" attribute set and simple product type.</p>
      *  <p>5. Click the "Continue" button.</p>
@@ -223,7 +223,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog -> Manage Products.</p>
+     *  <p>2. Go to Catalog - Manage Products.</p>
      *  <p>3. Click the "Add Product" button.</p>
      *  <p>4. Select "Default" attribute set and simple product type.</p>
      *  <p>5. Click the "Continue" button.</p>
@@ -284,7 +284,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog -> Manage Products.</p>
+     *  <p>2. Go to Catalog - Manage Products.</p>
      *  <p>3. Click the "Add Product" button.</p>
      *  <p>4. Select "Default" attribute set and simple product type.</p>
      *  <p>5. Click the "Continue" button.</p>
@@ -336,7 +336,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go to Catalog -> Manage Products.</p>
+     *  <p>2. Go to Catalog - Manage Products.</p>
      *  <p>3. Click the "Add Product" button.</p>
      *  <p>4. Select "Default" attribute set and simple product type.</p>
      *  <p>5. Click the "Continue" button.</p>
