@@ -79,7 +79,7 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
         //Data
         $templateData = $this->loadDataSet('Newsletter', 'generic_template');
         //Steps
-        $this->newsletterAdminHelper()->createNewsletterTemplate($templateData);
+        $this->newsletterHelper()->createNewsletterTemplate($templateData);
         //Verifying
         $this->validatePage('newsletter_templates');
     }
@@ -97,16 +97,14 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
      * @param $emptyField
      *
      * @test
-     *
      * @dataProvider withRequiredFieldsEmptyDataProvider
-     *
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
         $templateData = $this->loadDataSet('Newsletter', 'generic_template', array($emptyField => '%noValue%'));
         //Steps
-        $this->newsletterAdminHelper()->createNewsletterTemplate($templateData);
+        $this->newsletterHelper()->createNewsletterTemplate($templateData);
 
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
