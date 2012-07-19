@@ -42,10 +42,6 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
      * <p>5. Verify that 'Convert to Plain Text' button is present.</p>
      * <p>3. Verify that 'Preview Template' button is present.</p>
      * <p>3. Verify that 'Save Template' button is present.</p>
-     * <p>1. Verify that 'Show / Hide Editor' button is present and click it.</p>
-     * <p>3. Verify that 'Insert Widget...' button is present.</p>
-     * <p>4. Verify that 'Insert Image...' button is present.</p>
-     * <p>5. Verify that 'Insert Variable...' button is present.</p>
      *
      * @test
      *
