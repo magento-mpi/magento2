@@ -606,7 +606,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getUiId()
     {
-        return ' data-ui-id="' . $this->getJsId() . '" ';
+        return ' data-ui-id="' . call_user_func_array(array($this, 'getJsId'), func_get_args()). '" ';
     }
 
     /**
