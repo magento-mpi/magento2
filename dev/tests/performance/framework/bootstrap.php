@@ -19,13 +19,13 @@ Magento_Autoload::getInstance()->addIncludePath("$testsBaseDir/framework");
 $configFile = "$testsBaseDir/config.php";
 $configFile = file_exists($configFile) ? $configFile : "$configFile.dist";
 $configData = require($configFile);
-$config = new Benchmark_Config($configData, $testsBaseDir);
+$config = new Magento_Config($configData, $testsBaseDir);
 
 $installOptions = $config->getInstallOptions();
 if ($installOptions) {
     $baseUrl = 'http://' . $config->getApplicationUrlHost() . $config->getApplicationUrlPath();
     $installOptions = array_merge($installOptions, array('url' => $baseUrl, 'secure_base_url' => $baseUrl));
-    $installer = new Benchmark_Installer($magentoBaseDir . '/dev/shell/install.php', new Magento_Shell(true));
+    $installer = new Magento_Installer($magentoBaseDir . '/dev/shell/install.php', new Magento_Shell(true));
     echo 'Uninstalling application' . PHP_EOL;
     $installer->uninstall();
     echo "Installing application at '$baseUrl'" . PHP_EOL;

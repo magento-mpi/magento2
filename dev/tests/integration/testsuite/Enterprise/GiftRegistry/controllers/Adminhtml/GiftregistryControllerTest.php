@@ -22,7 +22,7 @@ class Enterprise_GiftRegistry_Adminhtml_GiftregistryControllerTest extends Mage_
             'sort_order' => 10,
             'is_listed'  => 1,
         ));
-        $this->dispatch('admin/giftregistry/save/store/0');
+        $this->dispatch('backend/admin/giftregistry/save/store/0');
         /** @var $type Enterprise_GiftRegistry_Model_Type */
         $type = Mage::getModel('Enterprise_GiftRegistry_Model_Type');
         $type->setStoreId(0);

@@ -89,16 +89,12 @@
         <rewrites>
             <Mage_Core_Model_Resource_Helper_Local>Mage_PHPUnit_Db_ResourceHelper</Mage_Core_Model_Resource_Helper_Local>
         </rewrites>
-    </global>
-    <admin>
-        <routers>
+        <areas>
             <adminhtml>
-                <args>
-                    <frontName><![CDATA[admin]]></frontName>
-                </args>
+                <frontName><![CDATA[backend]]></frontName>
             </adminhtml>
-        </routers>
-    </admin>
+        </areas>
+    </global>
     <default>
         <system>
             <filesystem>
