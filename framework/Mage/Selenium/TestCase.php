@@ -1782,6 +1782,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         //Delete action part of mca if it's index
         $mca = preg_replace('|/index/?$|', '/', $mca);
 
+        //@TODO Temporary fix for magento2
+        $mca = preg_replace('/^(\/)?(admin|backend)\//', '',$mca);
+
         return preg_replace('|^/|', '', $mca);
     }
 
@@ -3596,14 +3599,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($this->_findCurrentPageFromUrl() != $this->_firstPageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
-            $closeButton = $this->_getControlXpath('button', 'close');
+//            $closeButton = $this->_getControlXpath('button', 'close');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
             $this->waitForElement(array($dashboardLogo, $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
-            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->waitForElement($closeButton, 5)) {
-                $this->click($closeButton);
-            }
+//            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->waitForElement($closeButton, 5)) {
+//                $this->click($closeButton);
+//            }
         }
         $this->validatePage($this->_firstPageAfterAdminLogin);
         return $this;
