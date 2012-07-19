@@ -24,5 +24,7 @@ class Enterprise_ImportExport_Model_Resource_Scheduled_Operation extends Mage_Co
     protected function _construct()
     {
         $this->_init('enterprise_scheduled_operations', 'id');
+
+        $this->_useIsObjectNew = true;
     }
 }

@@ -76,8 +76,10 @@ class Enterprise_ImportExport_Model_Scheduled_Operation extends Mage_Core_Model_
      * @param array $data
      * @return void
      */
-    protected function _construct(array $data = array())
+    public function __construct(array $data = array())
     {
+        parent::__construct($data);
+
         $this->_init('Enterprise_ImportExport_Model_Resource_Scheduled_Operation');
 
         $this->_dateModel = isset($data['date_model']) ? $data['date_model'] : Mage::getModel('Mage_Core_Model_Date');

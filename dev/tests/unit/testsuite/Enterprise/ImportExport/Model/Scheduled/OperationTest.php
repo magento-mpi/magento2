@@ -77,13 +77,11 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
             array(
                 'getOperationType',
                 'getEntityType',
-                'getDateModel',
                 '_getHistoryDirPath',
-                'getFileInfo'
+                'getFileInfo',
+                '_init'
             ),
-            array(),
-            '',
-            false
+            array(array('date_model' => $dateModelMock))
         );
 
         $model->expects($this->once())
@@ -92,9 +90,6 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
         $model->expects($this->once())
             ->method('getEntityType')
             ->will($this->returnValue('catalog_product'));
-        $model->expects($this->once())
-            ->method('getDateModel')
-            ->will($this->returnValue($dateModelMock));
         $model->expects($this->once())
             ->method('_getHistoryDirPath')
             ->will($this->returnValue('dir/'));

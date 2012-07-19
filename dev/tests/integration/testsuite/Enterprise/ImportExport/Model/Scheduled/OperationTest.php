@@ -76,11 +76,9 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
      */
     public function testRunAction()
     {
-        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
-        $operation = Mage::registry('_fixture/Enterprise_ImportExport_Model_Scheduled_Operation');
-        $fileInfo = unserialize($operation->getFileInfo());
+        $this->_model->load(1);
 
-        $this->_model->load($operation->getId());
+        $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
         $varDir = Mage::getBaseDir('var');
@@ -96,8 +94,8 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
         $this->_model->run();
 
         $scheduledExport = new Enterprise_ImportExport_Model_Export();
-        $scheduledExport->setEntity($operation->getEntityType());
-        $scheduledExport->setOperationType($operation->getOperationType());
+        $scheduledExport->setEntity($this->_model->getEntityType());
+        $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());
 
         $filePath = $exportDir . DS . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];

@@ -108,7 +108,7 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
         $operation = $this->_getOperationMock($data);
         $this->_model->initialize($operation);
 
-        // we should set run date because after initialize() resets $operation data
+        // we should set run date because initialize() resets $operation data
         if (!empty($data['run_date'])) {
             $this->_model->setRunDate($data['run_date']);
         }
