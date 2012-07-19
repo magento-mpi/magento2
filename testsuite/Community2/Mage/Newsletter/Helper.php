@@ -20,11 +20,9 @@ class Community2_Mage_Newsletter_Helper extends Mage_Newsletter_Helper
 {
     /**
      * Create Newsletter Templates
-     *
      * Preconditions: 'New Newsletter Template' page is opened.
      *
      * @param array|string $data
-     *
      */
     public function createNewsletterTemplate($data)
     {

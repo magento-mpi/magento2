@@ -115,8 +115,6 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
 
     public function withRequiredFieldsEmptyDataProvider()
     {
-        return array(
-          array('template_name'),
-          array('template_subject'),);
+        return array(array('template_name'), array('template_subject'),);
     }
 }
