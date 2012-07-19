@@ -1,0 +1,16 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Newsletter
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Create Newsletter Template
+generic_template:
+    template_name: %randomize%_template_name
+    template_subject: %randomize%_template_subject
+    sender_name: CustomerSupport
+    sender email: support@example.com
