@@ -71,18 +71,18 @@ class Magento_Config
         $this->_applicationUrlHost = $configData['application']['url_host'];
         $this->_applicationUrlPath = $configData['application']['url_path'];
 
-        if (isset($configData['jmeter_jar_file'])) {
-            $this->_jMeterPath = $configData['jmeter_jar_file'];
-        } else {
-            $this->_jMeterPath = getenv('jmeter_jar_file') ?: self::DEFAULT_JMETER_JAR_FILE;
-        }
-
         if (isset($configData['application']['installation'])) {
             $installConfig = $configData['application']['installation'];
             $this->_installOptions = $installConfig['options'];
             if (isset($installConfig['fixture_files'])) {
                 $this->_fixtureFiles = glob($baseDir . '/' . $installConfig['fixture_files'], GLOB_BRACE);
             }
+        }
+
+        if (isset($configData['scenario']['jmeter_jar_file'])) {
+            $this->_jMeterPath = $configData['scenario']['jmeter_jar_file'];
+        } else {
+            $this->_jMeterPath = getenv('jmeter_jar_file') ?: self::DEFAULT_JMETER_JAR_FILE;
         }
 
         $this->_expandScenarios($configData['scenario'], $baseDir);
