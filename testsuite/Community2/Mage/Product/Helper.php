@@ -42,4 +42,25 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->clickButton('delete_option', false);
         }
     }
+    /**
+     * Get Custom Option Id By Title
+     *
+     * @param string
+     * @return integer
+     */
+    public function getCustomOptionId($optionTitle)
+    {
+        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
+        if ($this->isElementPresent($fieldSetXpath . "//input[@value='{$optionTitle}']")){
+            $id = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
+        }
+        $optionId = '';
+        $id = explode('_', $id);
+        foreach ($id as $value) {
+            if (is_numeric($value)) {
+                $optionId = $value;
+            }
+        }
+        return $optionId;
+    }
 }

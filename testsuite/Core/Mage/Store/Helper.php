@@ -151,4 +151,17 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         $this->getConfirmation();
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
     }
+    /**
+     * Selects a default store view from 'Choose Store View' drop-down in backend
+     *
+     * @throws PHPUnit_Framework_Exception
+     */
+    public function defaultStoreView($controlName, $defaultStore = 'All Store Views')
+    {
+        if (!$this->controlIsPresent('dropdown', $controlName)) {
+            throw new PHPUnit_Framework_Exception('Cannot find option ' . $storeViewXpath);
+        }
+        $this->fillDropdown($controlName, $defaultStore);
+    }
+
 }
