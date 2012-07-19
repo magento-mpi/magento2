@@ -1,0 +1,79 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Add New Product page
+new_product:
+    uimap: &newProduct
+        form:
+            tabs:
+                -
+                    custom_options:
+                        fieldsets:
+                            -
+                                custom_options:
+                                    buttons:
+                                        import_options: //*[@id='import_new_defined_option']
+                            -
+                                select_product_custom_option:
+                                    xpath: //*[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable']
+                                    buttons:
+                                        close: //*[@id='import-custom-options-close-button']
+                                        import: //*[@id='import-custom-options-apply-button']
+                            -
+                                select_product_custom_option_grid:
+                                    xpath: //*[@id='import-container']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        submit: //button[span='Submit']
+                                    dropdowns:
+                                        product_massaction: //*[@id='productGrid_massaction-select']
+                                        filter_massaction: //*[@id='productGrid_product_filter_massaction']
+                                        product_type: //*[@id='productGrid_product_filter_type']
+                                        product_attribute_set: //*[@id='productGrid_product_filter_set_name']
+                                        product_price_currency: //*[@id='productGrid_product_filter_price_currency']
+                                        website: //*[@id='productGrid_product_filter_websites']
+                                    fields:
+                                        product_id_from: //*[@id='productGrid_product_filter_entity_id_from']
+                                        product_id_to: //*[@id='productGrid_product_filter_entity_id_to']
+                                        product_name: //*[@id='productGrid_product_filter_name']
+                                        product_sku: //*[@id='productGrid_product_filter_sku']
+                                        product_price_from: //*[@id='productGrid_product_filter_price_from']
+                                        product_price_to: //*[@id='productGrid_product_filter_price_to']
+                                        product_qty_from: //*[@id='productGrid_product_filter_qty_from']
+                                        product_qty_to: //*[@id='productGrid_product_filter_qty_to']
+
+new_configurable_product:
+    uimap: *newProduct
+
+duplicated_configurable_product:
+    uimap: *newProduct
+
+edit_product:
+    uimap: *newProduct
+
+edit_saved_product:
+    uimap: *newProduct
+
+edit_product_save_and_continue:
+    uimap: *newProduct
+
+create_empty_simple_from_configurable:
+    uimap: *newProduct
+
+create_simple_from_configurable:
+    uimap: *newProduct
+
+created_simple_from_configurable:
+    uimap: *newProduct
+
+created_empty_simple_from_configurable:
+    uimap: *newProduct
