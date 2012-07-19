@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Benchmark_ScenarioTest extends PHPUnit_Framework_TestCase
+class Magento_ScenarioTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Magento_Shell|PHPUnit_Framework_MockObject_MockObject
@@ -17,7 +17,7 @@ class Benchmark_ScenarioTest extends PHPUnit_Framework_TestCase
     protected $_shell;
 
     /**
-     * @var Benchmark_Scenario|PHPUnit_Framework_MockObject_MockObject
+     * @var Magento_Scenario|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -35,9 +35,9 @@ class Benchmark_ScenarioTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_scenarioParams = array(
-        Benchmark_Scenario::PARAM_HOST  => '127.0.0.1',
-        Benchmark_Scenario::PARAM_PATH  => '/',
-        Benchmark_Scenario::PARAM_USERS => 2,
+        Magento_Scenario::PARAM_HOST  => '127.0.0.1',
+        Magento_Scenario::PARAM_PATH  => '/',
+        Magento_Scenario::PARAM_USERS => 2,
     );
 
     protected function setUp()
@@ -46,7 +46,7 @@ class Benchmark_ScenarioTest extends PHPUnit_Framework_TestCase
         $reportDir = realpath(__DIR__ . '/_files');
         $this->_reportFile = $reportDir . DIRECTORY_SEPARATOR . 'scenario.jtl';
         $this->_shell = $this->getMock('Magento_Shell', array('execute'));
-        $this->_object = new Benchmark_Scenario($this->_shell, 'JMeter.jar', $reportDir);
+        $this->_object = new Magento_Scenario($this->_shell, 'JMeter.jar', $reportDir);
     }
 
     protected function tearDown()
@@ -101,11 +101,11 @@ class Benchmark_ScenarioTest extends PHPUnit_Framework_TestCase
             ),
             'no "host" param' => array(
                 $this->_scenarioFile,
-                array(Benchmark_Scenario::PARAM_PATH => '/'),
+                array(Magento_Scenario::PARAM_PATH => '/'),
             ),
             'no "path" param' => array(
                 $this->_scenarioFile,
-                array(Benchmark_Scenario::PARAM_HOST => '127.0.0.1'),
+                array(Magento_Scenario::PARAM_HOST => '127.0.0.1'),
             ),
             'scenario failure in report' => array(
                 __DIR__ . '/_files/scenario_failure.jmx',
