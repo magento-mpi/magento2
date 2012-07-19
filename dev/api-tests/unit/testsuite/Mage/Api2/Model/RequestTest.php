@@ -250,7 +250,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
         $_SERVER['REQUEST_METHOD'] = $requestMethod;
 
         try {
-            $this->assertEquals($crudOperation, $this->_request->getOperation());
+            $this->assertEquals($crudOperation, $this->_request->getActionName());
         } catch (Mage_Api2_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
@@ -347,13 +347,13 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetResourceType()
     {
-        $this->assertNull($this->_request->getResourceType());
+        $this->assertNull($this->_request->getResourceName());
 
         $resource = 'test_resource';
 
         $this->_request->setParam('type', $resource);
 
-        $this->assertEquals($resource, $this->_request->getResourceType());
+        $this->assertEquals($resource, $this->_request->getResourceName());
     }
 
     /**
@@ -366,7 +366,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
         $_GET['type']  = $resourceType;
         $_POST['type'] = $resourceType;
 
-        $this->assertNull($this->_request->getResourceType());
+        $this->assertNull($this->_request->getResourceName());
     }
 
     /**
@@ -391,7 +391,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     {
         $this->_request->setParam('action_type', Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
         // test preset action type getting
-        $this->assertEquals(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION, $this->_request->getActionType());
+        $this->assertEquals(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION, $this->_request->getResourceType());
     }
 
     /**

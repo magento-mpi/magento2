@@ -210,7 +210,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         // test default operation
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $this->_resource->setRequest($this->_request);
-        $this->assertEquals($this->_request->getOperation(), $this->_resource->getOperation());
+        $this->assertEquals($this->_request->getActionName(), $this->_resource->getOperation());
 
         // test preset operation getting
         $this->_resource->setOperation(Mage_Api2_Model_Resource::OPERATION_DELETE);
@@ -225,7 +225,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         // test default action type
         $this->_request->setParam('action_type', Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
         $this->_resource->setRequest($this->_request);
-        $this->assertEquals($this->_request->getActionType(), $this->_resource->getActionType());
+        $this->assertEquals($this->_request->getResourceType(), $this->_resource->getActionType());
 
         // test preset action type getting
         $this->_resource->setActionType(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);

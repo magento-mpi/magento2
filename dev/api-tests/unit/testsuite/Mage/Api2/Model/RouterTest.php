@@ -78,7 +78,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
             'Mage_Api2_Exception', 'Request does not match any route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND
         );
 
-        $this->_router->route($this->_request);
+        $this->_router->match($this->_request);
     }
 
     /**
@@ -95,7 +95,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
         $options = array('model' => self::RESOURCE_MODEL, 'type' => self::RESOURCE_TYPE);
 
         $this->_router->setRoutes(array($this->_getConfigRoute($options)))
-            ->route($this->_request);
+            ->match($this->_request);
 
         $this->assertEquals(self::PRODUCT_ID, $this->_request->getParam('id'));
         $this->assertEquals(self::RESOURCE_TYPE, $this->_request->getParam('type'));
@@ -115,7 +115,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
         );
 
         $this->_router->setRoutes(array($this->_getConfigRoute(array('type' => self::RESOURCE_TYPE))))
-            ->route($this->_request);
+            ->match($this->_request);
 
         $this->assertNull($this->_request->getParam('type'));
     }
@@ -133,7 +133,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
         );
 
         $this->_router->setRoutes(array($this->_getConfigRoute(array('model' => self::RESOURCE_MODEL))))
-            ->route($this->_request);
+            ->match($this->_request);
 
         $this->assertNull($this->_request->getParam('model'));
     }

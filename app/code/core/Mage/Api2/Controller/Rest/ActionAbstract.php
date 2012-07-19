@@ -3,36 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Api2
- * @copyright  {copyright}
- * @license    {license_link}
+ * @package     Mage_Backend
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 /**
- * API2 Abstract Resource
- *
- * @category   Mage
- * @package    Mage_Api2
- * @author     Magento Core Team <core@magentocommerce.com>
+ * Generic REST controller
  */
-abstract class Mage_Api2_Model_Resource
+// TODO: Remove all unnecessary functionality (coppied from Mage_Api2_Model_Resource)
+// TODO: Remove inheritance if possible
+// TODO: Refactor filtration of attributes
+abstract class Mage_Api2_Controller_Rest_ActionAbstract extends Mage_Core_Controller_Varien_Action
 {
-    /**#@+
-     *  Action types
-     */
-    const ACTION_TYPE_ENTITY = 'entity';
-    const ACTION_TYPE_COLLECTION  = 'collection';
-    /**#@-*/
-
-    /**#@+
-     * Operations. Resource method names
-     */
-    const OPERATION_CREATE   = 'create';
-    const OPERATION_RETRIEVE = 'retrieve';
-    const OPERATION_UPDATE   = 'update';
-    const OPERATION_DELETE   = 'delete';
-    /**#@-*/
-
     /**#@+
      * Common operations for attributes
      */
@@ -40,34 +23,6 @@ abstract class Mage_Api2_Model_Resource
     const OPERATION_ATTRIBUTE_WRITE = 'write';
     /**#@-*/
 
-    /**#@+
-     *  Default error messages
-     */
-    const RESOURCE_NOT_FOUND = 'Resource not found.';
-    const RESOURCE_METHOD_NOT_ALLOWED = 'Resource does not support method.';
-    const RESOURCE_METHOD_NOT_IMPLEMENTED = 'Resource method not implemented yet.';
-    const RESOURCE_INTERNAL_ERROR = 'Resource internal error.';
-    const RESOURCE_DATA_PRE_VALIDATION_ERROR = 'Resource data pre-validation error.';
-    const RESOURCE_DATA_INVALID = 'Resource data invalid.'; //error while checking data inside method
-    const RESOURCE_UNKNOWN_ERROR = 'Resource unknown error.';
-    const RESOURCE_REQUEST_DATA_INVALID = 'The request data is invalid.';
-    /**#@-*/
-
-    /**#@+
-     *  Default collection resources error messages
-     */
-    const RESOURCE_COLLECTION_PAGING_ERROR       = 'Resource collection paging error.';
-    const RESOURCE_COLLECTION_PAGING_LIMIT_ERROR = 'The paging limit exceeds the allowed number.';
-    const RESOURCE_COLLECTION_ORDERING_ERROR     = 'Resource collection ordering error.';
-    const RESOURCE_COLLECTION_FILTERING_ERROR    = 'Resource collection filtering error.';
-    const RESOURCE_COLLECTION_ATTRIBUTES_ERROR   = 'Resource collection including additional attributes error.';
-    /**#@-*/
-
-    /**#@+
-     *  Default success messages
-     */
-    const RESOURCE_UPDATED_SUCCESSFUL = 'Resource updated successful.';
-    /**#@-*/
 
     /**#@+
      * Collection page sizes
@@ -140,20 +95,6 @@ abstract class Mage_Api2_Model_Resource
     protected $_userType;
 
     /**
-     * One of Mage_Api2_Model_Resource::ACTION_TYPE_... constant
-     *
-     * @var string
-     */
-    protected $_actionType;
-
-    /**
-     * One of Mage_Api2_Model_Resource::OPERATION_... constant
-     *
-     * @var string
-     */
-    protected $_operation;
-
-    /**
      * If TRUE - no rendering will be done and dispatch will return data. Otherwise, by default
      *
      * @var bool
@@ -166,85 +107,102 @@ abstract class Mage_Api2_Model_Resource
     protected $_multicall;
 
     /**
-     * Dispatch
-     * To implement the functionality, you must create a method in the parent one.
+     * Call action without excessive checks for REST
      *
-     * Action type is defined in api2.xml in the routes section and depends on entity (single object)
-     * or collection (several objects).
-     *
-     * HTTP_MULTI_STATUS is used for several status codes in the response
+     * @param $action
      */
-    public function dispatch()
+    public function dispatch($action)
     {
-        if ($this->getUserType() != Mage_Api2_Model_Auth_User_Admin::USER_TYPE) {
-            // enable full support of the store-dependent behavior in API for guest and customer
-            Mage::app()->setCurrentStore($this->_getStore()->getCode());
+        $actionMethodName = $this->getActionMethodName($action);
+        $this->$actionMethodName();
+    }
+
+    /**
+     * Create resource
+     */
+    public function create()
+    {
+        // request data must be checked before the create type identification
+        $requestData = $this->_getRequestData();
+        // The create action has the dynamic type which depends on data in the request body
+        if ($this->getRequest()->isAssocArrayInRequestBody()) {
+            $filteredData = $this->getFilter()->in($requestData);
+            $newItemLocation = $this->_create($filteredData);
+            if (is_string($newItemLocation) && !empty($newItemLocation)) {
+                $this->getResponse()->setHeader('Location', $newItemLocation);
+            }
+        } else {
+            $filteredData = $this->getFilter()->collectionIn($requestData);
+            $this->_multiCreate($filteredData);
+            $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
         }
-        switch ($this->getActionType() . $this->getOperation()) {
-            /* Create */
-            case self::ACTION_TYPE_ENTITY . self::OPERATION_CREATE:
-                // Creation of objects is possible only when working with collection
-                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-                break;
-            case self::ACTION_TYPE_COLLECTION . self::OPERATION_CREATE:
-                // request data must be checked before the create type identification
-                $requestData = $this->_getRequestData();
-                // The create action has the dynamic type which depends on data in the request body
-                if ($this->getRequest()->isAssocArrayInRequestBody()) {
-                    $filteredData = $this->getFilter()->in($requestData);
-                    $newItemLocation = $this->_create($filteredData);
-                    if (is_string($newItemLocation) && !empty($newItemLocation)) {
-                        $this->getResponse()->setHeader('Location', $newItemLocation);
-                    }
-                } else {
-                    $filteredData = $this->getFilter()->collectionIn($requestData);
-                    $this->_multiCreate($filteredData);
-                    $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
-                }
-                if ($this->getResponse()->getMessages()) {
-                    $this->_render(array('messages' => $this->getResponse()->getMessages()));
-                }
-                break;
-            /* Retrieve */
-            case self::ACTION_TYPE_ENTITY . self::OPERATION_RETRIEVE:
-                $retrievedData = $this->_retrieve();
-                $filteredData  = $this->getFilter()->out($retrievedData);
-                $this->_render($filteredData);
-                break;
-            case self::ACTION_TYPE_COLLECTION . self::OPERATION_RETRIEVE:
-                $retrievedData = $this->_retrieveCollection();
-                $filteredData  = $this->getFilter()->collectionOut($retrievedData);
-                $this->_render($filteredData);
-                break;
-            /* Update */
-            case self::ACTION_TYPE_ENTITY . self::OPERATION_UPDATE:
-                $filteredData = $this->getFilter()->in($this->_getRequestData());
-                if (empty($filteredData)) {
-                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                }
-                $this->_update($filteredData);
-                break;
-            case self::ACTION_TYPE_COLLECTION . self::OPERATION_UPDATE:
-                $filteredData = $this->getFilter()->collectionIn($this->_getRequestData());
-                if (empty($filteredData)) {
-                    $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
-                }
-                $this->_multiUpdate($filteredData);
-                $this->_render(array('messages' => $this->getResponse()->getMessages()));
-                $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
-                break;
-            /* Delete */
-            case self::ACTION_TYPE_ENTITY . self::OPERATION_DELETE:
-                $this->_delete();
-                break;
-            case self::ACTION_TYPE_COLLECTION . self::OPERATION_DELETE:
-                $this->_multiDelete($this->_getRequestData());
-                $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
-                break;
-            default:
-                $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
-                break;
+        if ($this->getResponse()->getMessages()) {
+            $this->_render(array('messages' => $this->getResponse()->getMessages()));
         }
+    }
+
+    /**
+     * Retrieve resource item
+     */
+    public function get()
+    {
+        $retrievedData = $this->_retrieve();
+        $filteredData  = $this->getFilter()->out($retrievedData);
+        $this->_render($filteredData);
+    }
+
+    /**
+     * Retrieve resource items list
+     */
+    public function multiGet()
+    {
+        $retrievedData = $this->_retrieveCollection();
+        $filteredData  = $this->getFilter()->collectionOut($retrievedData);
+        $this->_render($filteredData);
+    }
+
+    /**
+     * Update resource item
+     */
+    public function update()
+    {
+        $filteredData = $this->getFilter()->in($this->_getRequestData());
+        if (empty($filteredData)) {
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_REQUEST_DATA_INVALID);
+        }
+        $this->_update($filteredData);
+    }
+
+    /**
+     * Update resource items list
+     */
+    public function multiUpdate()
+    {
+
+        $filteredData = $this->getFilter()->collectionIn($this->_getRequestData());
+        if (empty($filteredData)) {
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_REQUEST_DATA_INVALID);
+        }
+        $this->_multiUpdate($filteredData);
+        $this->_render(array('messages' => $this->getResponse()->getMessages()));
+        $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
+    }
+
+    /**
+     * Delete resource item
+     */
+    public function delete()
+    {
+        $this->_delete();
+    }
+
+    /**
+     * Delete resource items list
+     */
+    public function multiDelete()
+    {
+        $this->_multiDelete($this->_getRequestData());
+        $this->getResponse()->setHttpResponseCode(Mage_Api2_Model_Server::HTTP_MULTI_STATUS);
     }
 
     /**
@@ -256,23 +214,9 @@ abstract class Mage_Api2_Model_Resource
     {
         $requestData = $this->getRequest()->getBodyParams();
         if (empty($requestData)) {
-            $this->_critical(self::RESOURCE_REQUEST_DATA_INVALID);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_REQUEST_DATA_INVALID);
         }
         return $requestData;
-    }
-
-    /**
-     * Get request
-     *
-     * @throws Exception
-     * @return Mage_Api2_Model_Request
-     */
-    public function getRequest()
-    {
-        if (!$this->_request) {
-            throw new Exception('Request is not set.');
-        }
-        return $this->_request;
     }
 
     /**
@@ -283,7 +227,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function setRequest(Mage_Api2_Model_Request $request)
     {
-        $this->setResourceType($request->getResourceName());
+        $this->setResourceType($request->getResourceType());
         $this->setApiType($request->getApiType());
         $this->_request = $request;
         return $this;
@@ -298,7 +242,7 @@ abstract class Mage_Api2_Model_Resource
     public function getResourceType()
     {
         if (!$this->_resourceType) {
-            $this->setResourceType($this->getRequest()->getResourceName());
+            $this->setResourceType($this->getRequest()->getResourceType());
         }
         return $this->_resourceType;
     }
@@ -366,19 +310,6 @@ abstract class Mage_Api2_Model_Resource
     public function setVersion($version)
     {
         $this->_version = (int)$version;
-    }
-
-    /**
-     * Get response
-     *
-     * @return Mage_Api2_Model_Response
-     */
-    public function getResponse()
-    {
-        if (!$this->_response) {
-            throw new Exception('Response is not set.');
-        }
-        return $this->_response;
     }
 
     /**
@@ -475,6 +406,7 @@ abstract class Mage_Api2_Model_Resource
      */
     public function getApiUser()
     {
+        $this->_apiUser = new Mage_Api2_Model_Auth_User_Admin();
         if (!$this->_apiUser) {
             throw new Exception('API user is not set.');
         }
@@ -490,58 +422,6 @@ abstract class Mage_Api2_Model_Resource
     public function setApiUser(Mage_Api2_Model_Auth_User_Abstract $apiUser)
     {
         $this->_apiUser = $apiUser;
-        return $this;
-    }
-
-    /**
-     * Get action type
-     * If not exists get from Request
-     *
-     * @return string One of Mage_Api2_Model_Resource::ACTION_TYPE_... constant
-     */
-    public function getActionType()
-    {
-        if (!$this->_actionType) {
-            $this->setActionType($this->getRequest()->getResourceType());
-        }
-        return $this->_actionType;
-    }
-
-    /**
-     * Set route type
-     *
-     * @param string $actionType One of Mage_Api2_Model_Resource::ACTION_TYPE_... constant
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setActionType($actionType)
-    {
-        $this->_actionType = $actionType;
-        return $this;
-    }
-
-    /**
-     * Get operation
-     * If not exists get from Request
-     *
-     * @return string One of Mage_Api2_Model_Resource::OPERATION_... constant
-     */
-    public function getOperation()
-    {
-        if (!$this->_operation) {
-            $this->setOperation($this->getRequest()->getActionName());
-        }
-        return $this->_operation;
-    }
-
-    /**
-     * Set operation
-     *
-     * @param string $operation One of Mage_Api2_Model_Resource::OPERATION_... constant
-     * @return Mage_Api2_Model_Resource
-     */
-    public function setOperation($operation)
-    {
-        $this->_operation = $operation;
         return $this;
     }
 
@@ -574,52 +454,6 @@ abstract class Mage_Api2_Model_Resource
     {
         $this->getResponse()->setMimeType($this->getRenderer()->getMimeType())
             ->setBody($this->getRenderer()->render($data));
-    }
-
-    /**
-     * Throw exception, critical error - stop execution
-     *
-     * @param string $message
-     * @param int $code
-     * @throws Mage_Api2_Exception
-     */
-    protected function _critical($message, $code = null)
-    {
-        if ($code === null) {
-            $errors = $this->_getCriticalErrors();
-            if (!isset($errors[$message])) {
-                throw new Exception(
-                    sprintf('Invalid error "%s" or error code missed.', $message),
-                    Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR
-                );
-            }
-            $code = $errors[$message];
-        }
-        throw new Mage_Api2_Exception($message, $code);
-    }
-
-    /**
-     * Retrieve array with critical errors mapped to HTTP codes
-     *
-     * @return array
-     */
-    protected function _getCriticalErrors()
-    {
-        return array(
-            '' => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_NOT_FOUND => Mage_Api2_Model_Server::HTTP_NOT_FOUND,
-            self::RESOURCE_METHOD_NOT_ALLOWED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_METHOD_NOT_IMPLEMENTED => Mage_Api2_Model_Server::HTTP_METHOD_NOT_ALLOWED,
-            self::RESOURCE_DATA_PRE_VALIDATION_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_INTERNAL_ERROR => Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR,
-            self::RESOURCE_UNKNOWN_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_REQUEST_DATA_INVALID => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ORDERING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_FILTERING_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-            self::RESOURCE_COLLECTION_ATTRIBUTES_ERROR => Mage_Api2_Model_Server::HTTP_BAD_REQUEST,
-        );
     }
 
     /**
@@ -664,7 +498,7 @@ abstract class Mage_Api2_Model_Resource
                 $this->_error($errors[$i], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             } else {
                 // the last error must be critical to halt script execution
-                $this->_critical($errors[$i], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
+                Mage::helper('Mage_Api2_Helper_Rest')->critical($errors[$i], Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
         }
     }
@@ -693,7 +527,7 @@ abstract class Mage_Api2_Model_Resource
     {
         $pageNumber = $this->getRequest()->getPageNumber();
         if ($pageNumber != abs($pageNumber)) {
-            $this->_critical(self::RESOURCE_COLLECTION_PAGING_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_COLLECTION_PAGING_ERROR);
         }
 
         $pageSize = $this->getRequest()->getPageSize();
@@ -701,7 +535,7 @@ abstract class Mage_Api2_Model_Resource
             $pageSize = self::PAGE_SIZE_DEFAULT;
         } else {
             if ($pageSize != abs($pageSize) || $pageSize > self::PAGE_SIZE_MAX) {
-                $this->_critical(self::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR);
+                Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_COLLECTION_PAGING_LIMIT_ERROR);
             }
         }
 
@@ -712,7 +546,7 @@ abstract class Mage_Api2_Model_Resource
             if (!is_string($orderField)
                 || !array_key_exists($orderField, $this->getAvailableAttributes($this->getUserType(), $operation))
             ) {
-                $this->_critical(self::RESOURCE_COLLECTION_ORDERING_ERROR);
+                Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_COLLECTION_ORDERING_ERROR);
             }
             $collection->setOrder($orderField, $this->getRequest()->getOrderDirection());
         }
@@ -735,7 +569,7 @@ abstract class Mage_Api2_Model_Resource
             return $this;
         }
         if (!is_array($filter)) {
-            $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_COLLECTION_FILTERING_ERROR);
         }
         if (method_exists($collection, 'addAttributeToFilter')) {
             $methodName = 'addAttributeToFilter';
@@ -751,7 +585,7 @@ abstract class Mage_Api2_Model_Resource
                 || !array_key_exists('attribute', $filterEntry)
                 || !in_array($filterEntry['attribute'], $allowedAttributes)
             ) {
-                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+                Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_COLLECTION_FILTERING_ERROR);
             }
             $attributeCode = $filterEntry['attribute'];
 
@@ -760,7 +594,7 @@ abstract class Mage_Api2_Model_Resource
             try {
                 $collection->$methodName($attributeCode, $filterEntry);
             } catch(Exception $e) {
-                $this->_critical(self::RESOURCE_COLLECTION_FILTERING_ERROR);
+                Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_COLLECTION_FILTERING_ERROR);
             }
         }
         return $this;
@@ -1038,7 +872,7 @@ abstract class Mage_Api2_Model_Resource
                     $store = Mage::app()->getStore($store);
                 }
                 if (!$store->getIsActive()) {
-                    $this->_critical(self::RESOURCE_NOT_FOUND);
+                    Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
                 }
             } else {
                 // admin role
@@ -1062,7 +896,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _create(array $filteredData)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1072,7 +906,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _multiCreate(array $filteredData)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1082,7 +916,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _retrieve()
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1092,7 +926,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _retrieveCollection()
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1102,7 +936,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _update(array $filteredData)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1112,7 +946,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _multiUpdate(array $filteredData)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1120,7 +954,7 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _delete()
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
@@ -1130,6 +964,17 @@ abstract class Mage_Api2_Model_Resource
      */
     protected function _multiDelete(array $filteredData)
     {
-        $this->_critical(self::RESOURCE_METHOD_NOT_IMPLEMENTED);
+        Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
+    }
+
+    /**
+     * Retrieve action method name
+     *
+     * @param string $action
+     * @return string
+     */
+    public function getActionMethodName($action)
+    {
+        return $action;
     }
 }

@@ -18,15 +18,15 @@
 class Mage_Api2_Model_Acl_Global
 {
     /**
-     * Check if the operation is allowed on resources of given type type for given user type/role
+     * Check user permissions
      *
      * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
-     * @param string $resourceType
+     * @param string $resourceName
      * @param string $operation
      * @return boolean
      * @throws Mage_Api2_Exception
      */
-    public function isAllowed(Mage_Api2_Model_Auth_User_Abstract $apiUser, $resourceType, $operation)
+    public function isAllowed(Mage_Api2_Model_Auth_User_Abstract $apiUser, $resourceName, $operation)
     {
         // skip user without role, e.g. Customer
         if (null === $apiUser->getRole()) {
@@ -35,15 +35,15 @@ class Mage_Api2_Model_Acl_Global
         /** @var $aclInstance Mage_Api2_Model_Acl */
         $aclInstance = Mage::getSingleton(
             'Mage_Api2_Model_Acl',
-            array('resource_type' => $resourceType, 'operation' => $operation)
+            array('resource_name' => $resourceName, 'operation' => $operation)
         );
 
         if (!$aclInstance->hasRole($apiUser->getRole())) {
             throw new Mage_Api2_Exception('Role not found', Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
         }
-        if (!$aclInstance->has($resourceType)) {
+        if (!$aclInstance->has($resourceName)) {
             throw new Mage_Api2_Exception('Resource not found', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
         }
-        return $aclInstance->isAllowed($apiUser->getRole(), $resourceType, $operation);
+        return $aclInstance->isAllowed($apiUser->getRole(), $resourceName, $operation);
     }
 }

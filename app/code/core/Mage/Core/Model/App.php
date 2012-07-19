@@ -737,7 +737,9 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
-        $this->_frontController = new Mage_Core_Controller_Varien_Front();
+        // TODO: Remove hardcode when areas mechanism is implemented
+//        $this->_frontController = new Mage_Core_Controller_Varien_Front();
+        $this->_frontController = new Mage_Api2_Controller_Front_Rest();
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
         Magento_Profiler::stop('init_front_controller');

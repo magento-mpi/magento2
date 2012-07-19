@@ -204,7 +204,7 @@ class Mage_Api2_Model_Server
 
         $router->routeApiType($request, true)
             ->setRoutes($this->_getConfig()->getRoutes($request->getApiType()))
-            ->route($request);
+            ->match($request);
 
         return $this;
     }
@@ -222,7 +222,7 @@ class Mage_Api2_Model_Server
         /** @var $globalAcl Mage_Api2_Model_Acl_Global */
         $globalAcl = Mage::getModel('Mage_Api2_Model_Acl_Global');
 
-        if (!$globalAcl->isAllowed($apiUser, $request->getResourceType(), $request->getOperation())) {
+        if (!$globalAcl->isAllowed($apiUser, $request->getResourceName(), $request->getActionName())) {
             throw new Mage_Api2_Exception('Access denied', self::HTTP_FORBIDDEN);
         }
         return $this;

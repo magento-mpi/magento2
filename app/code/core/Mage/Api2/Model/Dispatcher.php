@@ -48,7 +48,7 @@ class Mage_Api2_Model_Dispatcher
             $request->getModel(),
             $request->getApiType(),
             $this->getApiUser()->getType(),
-            $this->getVersion($request->getResourceType(), $request->getVersion())
+            $this->getVersion($request->getResourceName(), $request->getVersion())
         );
 
         $model->setRequest($request);

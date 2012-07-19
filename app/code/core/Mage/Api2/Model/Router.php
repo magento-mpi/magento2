@@ -52,29 +52,20 @@ class Mage_Api2_Model_Router
      * Find route that match current URL, set parameters of the route to Request object
      *
      * @param Mage_Api2_Model_Request $request
-     * @return Mage_Api2_Model_Request
      * @throws Mage_Api2_Exception
+     * @return Mage_Api2_Model_Route_Rest
      */
-    public function route(Mage_Api2_Model_Request $request)
+    public function match(Mage_Api2_Model_Request $request)
     {
-        $isMatched = false;
-
-        /** @var $route Mage_Api2_Model_Route_Interface */
+        /** @var $route Mage_Api2_Model_Route_Rest */
         foreach ($this->getRoutes() as $route) {
             if ($params = $route->match($request)) {
+                // TODO: Remove params set to $request
                 $request->setParams($params);
-                $isMatched = true;
-                break;
+                return $route;
             }
         }
-        if (!$isMatched) {
-            throw new Mage_Api2_Exception('Request does not match any route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
-        }
-        if (!$request->getResourceType() || !$request->getModel()) {
-            throw new Mage_Api2_Exception('Matched resource is not properly set.',
-                Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
-        }
-        return $request;
+        throw new Mage_Api2_Exception('Request does not match any route.', Mage_Api2_Model_Server::HTTP_NOT_FOUND);
     }
 
     /**

@@ -52,13 +52,13 @@ class Mage_Api2_Model_Acl extends Zend_Acl
      */
     public function __construct($options)
     {
-        if (!isset($options['resource_type']) || empty($options['resource_type'])) {
-            throw new Exception("Passed parameter 'resource_type' is wrong.");
+        if (!isset($options['resource_name']) || empty($options['resource_name'])) {
+            throw new Exception("Passed parameter 'resource_name' is wrong.");
         }
         if (!isset($options['operation']) || empty($options['operation'])) {
             throw new Exception("Passed parameter 'operation' is wrong.");
         }
-        $this->_resourceType = $options['resource_type'];
+        $this->_resourceType = $options['resource_name'];
         $this->_operation = $options['operation'];
 
         $this->_setResources();

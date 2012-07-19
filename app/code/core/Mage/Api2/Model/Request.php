@@ -187,7 +187,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      * @return string
      * @throws Mage_Api2_Exception
      */
-    public function getOperation()
+    public function getActionName()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
             throw new Mage_Api2_Exception('Invalid request method', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
@@ -264,10 +264,10 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      *
      * @return string
      */
-    public function getResourceType()
+    public function getResourceName()
     {
         // getParam() is not used to avoid parameter fetch from $_GET or $_POST
-        return isset($this->_params['type']) ? $this->_params['type'] : null;
+        return isset($this->_params['resource_name']) ? $this->_params['resource_name'] : null;
     }
 
     /**
@@ -285,10 +285,10 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      *
      * @return string|null
      */
-    public function getActionType()
+    public function getResourceType()
     {
         // getParam() is not used to avoid parameter fetch from $_GET or $_POST
-        return isset($this->_params['action_type']) ? $this->_params['action_type'] : null;
+        return isset($this->_params['resource_type']) ? $this->_params['resource_type'] : null;
     }
 
     /**
