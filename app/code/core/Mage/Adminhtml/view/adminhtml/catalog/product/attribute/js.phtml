@@ -306,7 +306,7 @@ function updateRequriedOptions()
 
 function saveAttributeInNewSet(promptMessage, errorMessage)
 {
-    var newAttributeSetName = prompt(promptMessage);
+    var newAttributeSetName = prompt(promptMessage, '');
 
     if (newAttributeSetName == null) {
         return;
