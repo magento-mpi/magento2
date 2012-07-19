@@ -26,6 +26,9 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
         //logged in once for all tests
         $this->loginAdminUser();
         $this->admin('scheduled_import_export');
+        $this->clickControl('link', 'selectall', false);
+        $this->fillDropdown('grid_massaction_select', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'delete_confirmation');
     }
 
     /**
