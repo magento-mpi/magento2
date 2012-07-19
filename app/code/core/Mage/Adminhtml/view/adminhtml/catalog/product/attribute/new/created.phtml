@@ -11,12 +11,12 @@
 <script type="text/javascript">
 var added = false;
 function addAttribute(closeAfter) {
-    if (window.opener!=null && !added) {
+    if (window.opener != null && !added) {
         var data = <?php echo $this->getAttributesBlockJson() ?>;
         if (data.newAttributeSetId) {
-            (function($, window, document) {
+            (function($) {
                 $('#product_edit_form').trigger('product:changeAttributeSet', [data.newAttributeSetId]);
-            })(window.opener.jQuery, window.opener, window.opener.document);
+            })(window.opener.jQuery);
         } else {
             window.opener.Product.AttributesBridge.addAttributeRow(data);
             added = true;

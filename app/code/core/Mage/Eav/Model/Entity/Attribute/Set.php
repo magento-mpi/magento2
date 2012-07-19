@@ -163,9 +163,8 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     /**
      * Validate attribute set name
      *
-     * @param string $name
-     * @throws Mage_Eav_Exception
      * @return bool
+     * @throws Mage_Eav_Exception
      */
     public function validate()
     {

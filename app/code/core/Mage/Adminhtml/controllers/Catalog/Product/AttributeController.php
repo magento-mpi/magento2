@@ -156,12 +156,13 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             /** @var $session Mage_Backend_Model_Auth_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
 
-            $newAttrSet = false;
+            $isNewAttributeSet = false;
 
             if (isset($data['new_attribute_set_name']) && !empty($data['new_attribute_set_name'])) {
-                /** @var $model Mage_Eav_Model_Entity_Attribute_Set */
+                /** @var $attributeSet Mage_Eav_Model_Entity_Attribute_Set */
                 $attributeSet = Mage::getModel('Mage_Eav_Model_Entity_Attribute_Set');
-                $name = $data['new_attribute_set_name'];
+                $name = Mage::helper('Mage_Adminhtml_Helper_Data')->stripTags($data['new_attribute_set_name']);
+                $name = trim($name);
                 $attributeSet->setEntityTypeId($this->_entityTypeId)
                     ->load($name, 'attribute_set_name');
 
@@ -175,12 +176,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 }
 
                 try {
-                    $attributeSet->setAttributeSetName(trim($name));
-                    $attributeSet->validate();
+                    $attributeSet->setAttributeSetName($name)
+                        ->validate();
                     $attributeSet->save();
-                    $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'));
-                    $attributeSet->save();
-                    $newAttrSet = true;
+                    $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'))
+                        ->save();
+                    $isNewAttributeSet = true;
                 } catch (Mage_Core_Exception $e) {
                     $session->addError($e->getMessage());
                 } catch (Exception $e) {
@@ -288,11 +289,11 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             if ($this->getRequest()->getParam('set') && $this->getRequest()->getParam('group')) {
                 // For creating product attribute on product page we need specify attribute set and group
 
-                $attrSetId = $newAttrSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
-                $attrGroupId = $newAttrSet ? $attributeSet->getDefaultGroupId()
+                $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
+                $attributeGroupId = $isNewAttributeSet ? $attributeSet->getDefaultGroupId()
                     : $this->getRequest()->getParam('group');
-                $model->setAttributeSetId($attrSetId);
-                $model->setAttributeGroupId($attrGroupId);
+                $model->setAttributeSetId($attributeSetId);
+                $model->setAttributeGroupId($attributeGroupId);
             }
 
             try {
@@ -311,8 +312,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                         'attribute'=> $model->getId(),
                         '_current' => true
                     );
-                    if ($newAttrSet) {
-                        $requestParams['new_attribute_set_id'] = $attrSetId;
+                    if ($isNewAttributeSet) {
+                        $requestParams['new_attribute_set_id'] = $attributeSetId;
                     }
                     $this->_redirect('adminhtml/catalog_product/addAttribute', $requestParams);
                 } elseif ($redirectBack) {

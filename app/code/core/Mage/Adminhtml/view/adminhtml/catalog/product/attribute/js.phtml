@@ -306,24 +306,28 @@ function updateRequriedOptions()
 
 function saveAttributeInNewSet(promptMessage, errorMessage)
 {
-    var newAttrSetName = prompt(promptMessage);
+    var newAttributeSetName = prompt(promptMessage);
 
-    if ((newAttrSetName == null) || (newAttrSetName.length == 0)) {
+    if (newAttributeSetName == null) {
+        return;
+    }
+
+    if (newAttributeSetName.length == 0) {
         alert(errorMessage);
         return;
     }
 
-    var newAttrSetNameInputId = 'new_attribute_set_name';
+    var newAttributeSetNameInputId = 'new_attribute_set_name';
 
-    if ($(newAttrSetNameInputId)) {
-        $(newAttrSetNameInputId).value = newAttrSetName;
+    if ($(newAttributeSetNameInputId)) {
+        $(newAttributeSetNameInputId).value = newAttributeSetName;
     } else {
         $('edit_form').insert({
             top: new Element('input', {
                 type: 'hidden',
-                id: newAttrSetNameInputId,
+                id: newAttributeSetNameInputId,
                 name: 'new_attribute_set_name',
-                value: newAttrSetName
+                value: newAttributeSetName
             })
         });
     }
