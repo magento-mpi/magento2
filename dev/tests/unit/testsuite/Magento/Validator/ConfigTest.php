@@ -66,6 +66,34 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Check xsd schema rules
+     *
+     * @dataProvider getValidationRulesForInvalidXmlDataProvider
+     * @expectedException Magento_Exception
+     * @param string $entityName
+     * @param string $groupName
+     * @param array $expectedRules
+     */
+    public function testCreateConfigForInvalidXml($configFile)
+    {
+        $configFile = array($configFile);
+        $config = new Magento_Validator_Config($configFile);
+    }
+
+    public function getValidationRulesForInvalidXmlDataProvider()
+    {
+        return array(
+            array(__DIR__ . '/_files/validation/negative/no_constraint.xml'),
+            array(__DIR__ . '/_files/validation/negative/not_unique_use.xml'),
+            array(__DIR__ . '/_files/validation/negative/no_rule_for_reference.xml'),
+            array(__DIR__ . '/_files/validation/negative/no_name_for_entity.xml'),
+            array(__DIR__ . '/_files/validation/negative/no_name_for_rule.xml'),
+            array(__DIR__ . '/_files/validation/negative/no_name_for_group.xml'),
+            array(__DIR__ . '/_files/validation/negative/no_class_for_constraint.xml')
+        );
+    }
+
+    /**
      * @dataProvider getValidationRulesDataProvider
      * @param string $entityName
      * @param string $groupName
@@ -74,7 +102,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidationRules($entityName, $groupName, $expectedRules)
     {
         $actualRules = self::$_model->getValidationRules($entityName, $groupName);
-        $this->assertRulesEqual($expectedRules, $actualRules);
+        $this->_assertRulesEqual($expectedRules, $actualRules);
     }
 
     /**
@@ -83,7 +111,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      * @param array $expectedRules
      * @param array $actualRules
      */
-    public function assertRulesEqual(array $expectedRules, array $actualRules)
+    protected function _assertRulesEqual(array $expectedRules, array $actualRules)
     {
         foreach ($expectedRules as $expectedRule => $expectedConstraints) {
             $this->assertArrayHasKey($expectedRule, $actualRules);
@@ -159,11 +187,13 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 }
 
 /** Dummy classes to test that constraint classes extend correct abstract. */
-class Magento_Validator_Invalid_Abstract {
-}
+class Magento_Validator_Invalid_Abstract
+{}
+
 class Magento_Validator_Test extends Magento_Validator_ConstraintAbstract
 {
-    public function isValidData(array $data, $field = null) {
+    public function isValidData(array $data, $field = null)
+    {
         return true;
     }
 }
