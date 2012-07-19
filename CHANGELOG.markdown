@@ -22,7 +22,6 @@ Update as of 7/19/2012
   * Required product attributes are not exported
   * "Forgot Your Password" link on checkout page inactive after captcha reloading
   * Validation of "Number of Symbols" field in Captcha configuration doesn't work
-  * Fixes in Authorize.Net CIM with payment bridge
   * Other small fixes
 * GitHub requests:
   * [#37](https://github.com/magento/magento2/pull/37) -- fixed particular case of "HEADERS ALREADY SENT" error in WYSIWYG thumbnail
