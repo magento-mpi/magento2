@@ -154,6 +154,16 @@
                 </Mage_Core>
             </modules>
         </translate>
+        <events>
+            <controller_action_predispatch_install_wizard_begin>
+                <observers>
+                    <clean_var_folder>
+                        <class>Mage_Core_Model_Observer</class>
+                        <method>cleanVarFolder</method>
+                    </clean_var_folder>
+                </observers>
+            </controller_action_predispatch_install_wizard_begin>
+        </events>
     </install>
     <default>
         <design>

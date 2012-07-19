@@ -803,4 +803,41 @@ XML;
     {
         return (bool) Mage::getStoreConfig(self::XML_PATH_STATIC_FILE_SIGNATURE);
     }
+
+    /**
+     * Get the list of service direcories located in var folder
+     *
+     * @return array
+     */
+    public function getVarSubfolders()
+    {
+        return array(
+            Mage::getConfig()->getTempVarDir() . DS . 'session',
+            Mage::getConfig()->getTempVarDir() . DS . 'cache',
+            Mage::getConfig()->getTempVarDir() . DS . 'locks',
+            Mage::getConfig()->getTempVarDir() . DS . 'log',
+            Mage::getConfig()->getTempVarDir() . DS . 'report',
+            Mage::getConfig()->getTempVarDir() . DS . 'maps'
+        );
+    }
+
+    /**
+     * Recursively delete directory represented by given path
+     *
+     * @param string $path
+     */
+    public function deleteFolderRecursively($path)
+    {
+        if (is_dir($path)) {
+            $filesystemIterator = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::CHILD_FIRST
+            );
+
+            foreach ($filesystemIterator as $item) {
+                $item->isDir() ? @rmdir($item->__toString()) : @unlink($item->__toString());
+            }
+
+            @rmdir($path);
+        }
+    }
 }

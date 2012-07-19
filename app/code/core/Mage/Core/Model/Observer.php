@@ -89,4 +89,16 @@ class Mage_Core_Model_Observer
         Mage::app()->getCache()->clean(Zend_Cache::CLEANING_MODE_OLD);
         Mage::dispatchEvent('core_clean_cache');
     }
+
+    /**
+     * Delete all service folders from var directory
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function cleanVarFolder(Varien_Event_Observer $observer)
+    {
+        foreach (Mage::helper('Mage_Core_Helper_Data')->getVarSubfolders() as $folder) {
+            Mage::helper('Mage_Core_Helper_Data')->deleteFolderRecursively($folder);
+        }
+    }
 }
