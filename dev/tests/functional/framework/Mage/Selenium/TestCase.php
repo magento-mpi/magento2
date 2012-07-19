@@ -1741,6 +1741,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete secret key from url
             $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
+            //Delete store view part of mca
+            $mca = preg_replace('|/store/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete action part of mca if it's index
             $mca = preg_replace('|/index/?$|', '/', $mca);
         } elseif ($currentArea == 'frontend') {

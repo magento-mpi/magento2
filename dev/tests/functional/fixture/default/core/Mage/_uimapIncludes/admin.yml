@@ -14,6 +14,10 @@ admin_header:
         form:
             fieldsets:
                 -
+                    websites:
+                        dropdowns:
+                             choose_store_view: //select[@id='store_switcher']
+                -
                     incoming_message:
                         xpath: //*[@id='message-popup-window' and @class='message-popup show']
                         buttons:

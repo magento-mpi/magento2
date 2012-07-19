@@ -407,6 +407,8 @@ new_product:
                                         custom_options_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
                                         custom_options_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
                                         custom_options_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
+                                    checkboxes:
+                                        custom_options_default_value: //input[@id='product_option_%optionId%_title_use_default']
                 -
                     bundle_items: &bundleItemsTab
                         xpath: //a[@title='Bundle Items']/span

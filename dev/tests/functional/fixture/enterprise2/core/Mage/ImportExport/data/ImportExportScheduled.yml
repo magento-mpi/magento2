@@ -22,11 +22,11 @@ scheduled_export:
    frequency: %noValue%
    status: %noValue%
    server_type: Remote FTP
-   file_path: "export"
+   file_path: %noValue%
    file_name: %noValue%
-   host: openserver
-   user_name: taf
-   password: taf
+   host: %noValue%
+   user_name: %noValue%
+   password: %noValue%
    file_mode: Binary
    passive_mode: No
    email_receiver: %noValue%
@@ -56,11 +56,11 @@ scheduled_import:
    frequency: %noValue%
    status: %noValue%
    server_type: Remote FTP
-   file_path: "export"
+   file_path: %noValue%
    file_name: %noValue%
-   host: openserver
-   user_name: taf
-   password: taf
+   host: %noValue%
+   user_name: %noValue%
+   password: %noValue%
    file_mode: Binary
    passive_mode: No
    email_receiver: %noValue%
