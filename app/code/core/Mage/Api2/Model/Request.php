@@ -187,7 +187,7 @@ class Mage_Api2_Model_Request extends Zend_Controller_Request_Http
      * @return string
      * @throws Mage_Api2_Exception
      */
-    public function getActionName()
+    public function getHttpMethod()
     {
         if (!$this->isGet() && !$this->isPost() && !$this->isPut() && !$this->isDelete()) {
             throw new Mage_Api2_Exception('Invalid request method', Mage_Api2_Model_Server::HTTP_BAD_REQUEST);

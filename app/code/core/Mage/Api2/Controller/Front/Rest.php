@@ -21,12 +21,12 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     /**#@-*/
 
     /**#@+
-     * REST actions
+     * HTTP methods supported by REST
      */
-    const ACTION_CREATE = 'create';
-    const ACTION_RETRIEVE = 'retrieve';
-    const ACTION_UPDATE = 'update';
-    const ACTION_DELETE = 'delete';
+    const HTTP_METHOD_CREATE = 'create';
+    const HTTP_METHOD_RETRIEVE = 'retrieve';
+    const HTTP_METHOD_UPDATE = 'update';
+    const HTTP_METHOD_DELETE = 'delete';
     /**#@-*/
 
     const DEFAULT_METHOD_VERSION = 1;
@@ -48,34 +48,9 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     protected $_renderer;
 
     /**
-     * Remove routing initialization
+     * Initialize server errors processing mechanism
      */
     public function init()
-    {
-        $this->_initEnvironment();
-
-        // TODO: Temporary workaround. Required ability to configure request and response classes per area
-        Mage::app()->setRequest(Mage::getSingleton('Mage_Api2_Model_Request'));
-        Mage::app()->setResponse(Mage::getSingleton('Mage_Api2_Model_Response'));
-
-        // TODO: Remove param set
-        $this->getRequest()->setParam('api_type', 'rest');
-        $this->getRequest()->setParam('resource_name', 'customer');
-        try {
-            $this->_authenticate($this->getRequest());
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $this->_addException($e);
-        }
-        return $this;
-    }
-
-    /**
-     * Initialize server errors processing mechanism
-     *
-     * @return Mage_Api2_Controller_Front_Rest
-     */
-    protected function _initEnvironment()
     {
         // TODO: Make sure that non-admin users cannot access this area
         Mage::register('isSecureArea', true, true);
@@ -86,6 +61,9 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
 
+        // TODO: Temporary workaround. Required ability to configure request and response classes per area
+        Mage::app()->setRequest(Mage::getSingleton('Mage_Api2_Model_Request'));
+        Mage::app()->setResponse(Mage::getSingleton('Mage_Api2_Model_Response'));
         return $this;
     }
 
@@ -95,11 +73,8 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     public function dispatch()
     {
         try {
-            $route = $this->_matchRoute($this->getRequest());
-
-            $this->_checkAcl($this->getRequest(), $this->_getAuthUser());
-
-            Magento_Profiler::start('routers_match');
+            $route = $this->_matchRoute($this->_getRequest());
+            $this->_checkResourceAcl();
 
             $controllerInstance = $route->getController();
             if (!($controllerInstance instanceof $this->_baseController)) {
@@ -112,13 +87,11 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
             }
             // TODO: Think about passing parameters if they will be available and valid in the resource action
             $controllerInstance->$action();
-            Magento_Profiler::stop('routers_match');
-            // This event gives possibility to launch something before sending output (allow cookie setting)
-            Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_addException($e);
         }
+        Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
         Magento_Profiler::start('send_response');
         $this->_sendResponse();
         Magento_Profiler::stop('send_response');
@@ -137,7 +110,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     {
         /** @var Mage_Api2_Model_Router $router */
         $router = Mage::getModel('Mage_Api2_Model_Router');
-        $route = $router->setRoutes($this->_getConfig()->getRoutes())->match($request);
+        $route = $router->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
         return $route;
     }
 
@@ -149,20 +122,22 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     protected function _getActionName()
     {
         $restMethodsMap = array(
-            self::RESOURCE_TYPE_COLLECTION . self::ACTION_CREATE => 'create',
-            self::RESOURCE_TYPE_COLLECTION . self::ACTION_RETRIEVE => 'multiGet',
-            self::RESOURCE_TYPE_COLLECTION . self::ACTION_UPDATE => 'multiUpdate',
-            self::RESOURCE_TYPE_COLLECTION . self::ACTION_DELETE => 'multiDelete',
-            self::RESOURCE_TYPE_ITEM . self::ACTION_RETRIEVE => 'get',
-            self::RESOURCE_TYPE_ITEM . self::ACTION_UPDATE => 'update',
-            self::RESOURCE_TYPE_ITEM . self::ACTION_DELETE => 'delete',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_RETRIEVE => 'multiGet',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_UPDATE => 'multiUpdate',
+            self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_DELETE => 'multiDelete',
+            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_RETRIEVE => 'get',
+            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_UPDATE => 'update',
+            self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
-        $resourceType = $this->getRequest()->getResourceType();
-        $resourceOperation = $this->getRequest()->getActionName();
-        if (!isset($restMethodsMap[$resourceType . $resourceOperation])) {
+        /** @var Mage_Api2_Model_Request $request */
+        $request = $this->_getRequest();
+        $resourceType = $request->getResourceType();
+        $httpMethod = $request->getHttpMethod();
+        if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
         }
-        $methodName = $restMethodsMap[$resourceType . $resourceOperation];
+        $methodName = $restMethodsMap[$resourceType . $httpMethod];
         $methodVersion = ($this->_getVersion() != self::DEFAULT_METHOD_VERSION) ? $this->_getVersion() : '';
         return $methodName . $methodVersion;
     }
@@ -175,7 +150,9 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getVersion()
     {
-        $requestedVersion = $this->getRequest()->getVersion();
+        /** @var Mage_Api2_Model_Request $request */
+        $request = $this->_getRequest();
+        $requestedVersion = $request->getVersion();
         if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
             throw new Mage_Api2_Exception(
                 sprintf('Invalid version "%s" requested.', htmlspecialchars($requestedVersion)),
@@ -188,33 +165,14 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     }
 
     /**
-     * Get api2 config instance
+     * Retrieve REST specific config
      *
      * @return Mage_Api2_Model_Config_Rest
      */
-    protected function _getConfig()
+    protected function _getRestConfig()
     {
         return Mage::getModel('Mage_Api2_Model_Config_Rest',
             glob(Mage::getBaseDir('app') . DS . '*' .DS . '*' .DS . '*' .DS . '*' . DS . 'etc' . DS . 'api_rest.xml'));
-    }
-
-    /**
-     * Global ACL processing
-     *
-     * @param Mage_Api2_Model_Request $request
-     * @param Mage_Api2_Model_Auth_User_Abstract $apiUser
-     * @return Mage_Api2_Controller_Front_Rest
-     * @throws Mage_Api2_Exception
-     */
-    protected function _checkAcl(Mage_Api2_Model_Request $request, Mage_Api2_Model_Auth_User_Abstract $apiUser)
-    {
-        /** @var $globalAcl Mage_Api2_Model_Acl_Global */
-        $globalAcl = Mage::getModel('Mage_Api2_Model_Acl_Global');
-
-        if (!$globalAcl->isAllowed($apiUser, $request->getResourceName(), $request->getActionName())) {
-            throw new Mage_Api2_Exception('Access denied', Mage_Api2_Model_Server::HTTP_FORBIDDEN);
-        }
-        return $this;
     }
 
     /**
@@ -278,10 +236,10 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     protected function _sendResponse()
     {
         try {
-            if ($this->getResponse()->isException()) {
+            if ($this->_getResponse()->isException()) {
                 $this->_renderMessages();
             }
-            $this->getResponse()->sendResponse();
+            $this->_getResponse()->sendResponse();
         } catch (Exception $e) {
             // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
             // This could happen in renderer factory. Tunnelling of 406(Not acceptable) error
@@ -317,7 +275,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _renderMessages()
     {
-        $response = $this->getResponse();
+        $response = $this->_getResponse();
         $formattedMessages = array();
         $formattedMessages['messages'] = $response->getMessages();
         $lastExceptionHttpCode = null;
@@ -356,7 +314,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     {
         if (!$this->_renderer) {
             /** @var $request Mage_Api2_Model_Request */
-            $request = $this->getRequest();
+            $request = $this->_getRequest();
             $this->_renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
         }
         return $this->_renderer;
@@ -373,10 +331,6 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     // TODO: Currently is used in Mage_Api2_Model_Multicall::_internalCall()
     public function internalCall(Mage_Api2_Model_Request $request, Mage_Api2_Model_Response $response)
     {
-        $apiUser = $this->_getAuthUser();
-        $this->_matchRoute($request)
-            ->_checkAcl($request, $apiUser)
-            ->_dispatch($request, $response, $apiUser);
     }
 
     /**
@@ -433,7 +387,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _addException(Exception $exception)
     {
-        $response = $this->getResponse();
+        $response = $this->_getResponse();
         $response->setException($exception);
         return $this;
     }
