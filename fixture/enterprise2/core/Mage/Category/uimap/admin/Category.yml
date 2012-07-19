@@ -55,6 +55,8 @@ manage_categories:
                                         delete_permissions: //button[contains(@id, '_row_%row%_delete_button')]
                                         delete_all_permissions_visible: //div[contains(@id, 'category_permissions')]/div/div[not(contains(@class, 'no-display'))]//button[contains(@id, '_delete_button')]
                                         new_permission: //button[span='New Permission']
+                                    pegeelements:
+                                        option_box: //div[contains(@id, 'category_permissions__row_')]
 
                         messages:
                             duplicate_permissions: //*[contains(@id, '-category_permissions_%row%_duplicate')]
