@@ -110,12 +110,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      */
     public function __construct(array $data = array())
     {
-        if (isset($data['translator'])) {
-            $this->_translator = $data['translator'];
-            unset($data['translator']);
-        } else {
-            $this->_translator = Mage::helper('Enterprise_ImportExport_Helper_Data');
-            $data['translator'] = $this->_translator;
+        if (!isset($data['translator'])) {
+            $data['translator'] = Mage::helper('Enterprise_ImportExport_Helper_Data');
         }
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;

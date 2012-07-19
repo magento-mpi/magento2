@@ -191,14 +191,12 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      */
     public function __construct(array $data = array())
     {
-        if (isset($data['attribute_collection'])) {
-            $this->_attributeCollection = $data['attribute_collection'];
-            unset($data['attribute_collection']);
-        } else {
-            $this->_attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
-            $this->_attributeCollection->addSystemHiddenFilter()
+        if (!isset($data['attribute_collection'])) {
+            /** @var $attributeCollection Mage_Customer_Model_Resource_Address_Attribute_Collection */
+            $attributeCollection = Mage::getResourceModel(static::ATTRIBUTE_COLLECTION_NAME);
+            $attributeCollection->addSystemHiddenFilter()
                 ->addExcludeHiddenFrontendFilter();
-            $data['attribute_collection'] = $this->_attributeCollection;
+            $data['attribute_collection'] = $attributeCollection;
         }
 
         parent::__construct($data);
