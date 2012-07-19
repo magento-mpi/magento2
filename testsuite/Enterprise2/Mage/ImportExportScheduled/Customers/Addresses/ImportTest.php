@@ -135,17 +135,17 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
     {
         $originalAddressData1 = array(
             $this->loadDataSet('Customers', 'generic_address', array(
-                        'city' => 'Washington',
-                        'company' => 'Sound Warehouse',
-                        'fax' => '586-786-9753',
-                        'first_name' => 'Thomas',
-                        'last_name' => 'Keeney',
-                        'middle_name' => 'A.',
-                        'zip_code' => '48094',
-                        'state' => 'Michigan',
-                        'street_address_line_1' => '3245 Ritter Avenue',
-                        'street_address_line_2' => '',
-                        'telephone' => '586-786-9753',
+                    'city' => 'Washington',
+                    'company' => 'Sound Warehouse',
+                    'fax' => '586-786-9753',
+                    'first_name' => 'Thomas',
+                    'last_name' => 'Keeney',
+                    'middle_name' => 'A.',
+                    'zip_code' => '48094',
+                    'state' => 'Michigan',
+                    'street_address_line_1' => '3245 Ritter Avenue',
+                    'street_address_line_2' => '',
+                    'telephone' => '586-786-9753',
                 )
             ), null
         );
@@ -401,6 +401,97 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
             array($originalAddressData1, $csvFile1, 'Add/Update Complex Data', $newAddressData1),
             array($originalAddressData2, $csvFile2, 'Delete Entities', $newAddressData2),
             array($originalAddressData3, $csvFile3, 'Custom Action', $newAddressData3),
+        );
+    }
+
+    /**
+     * <p>Invalid data in Customer Addresses File</p>
+     * <p>Precondition: one customer with address is created.</p>
+     * <p>Steps:</p>
+     * <p>1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import</p>
+     * <p>2. In "Actions" drop-down select "Run"</p>
+     * <p>Expected: last Outcome of run Scheduled Import changes from Pending to Failed. </p>
+     * <p>Error message “Unable to run operation” in red frame should appear.</p>
+     * <p>3. Open Customers -> Manage Customers</p>
+     * <p>4. Open customer from precondition</p>
+     * <p>Expected: customers address information was not imported</p>
+     *
+     * @dataProvider addressInvalidImportData
+     * @depends preconditionImport
+     * @test
+     * @testLinkId TL-MAGE-5800
+     */
+    public function importInvalidData($addressCsv, $customerData)
+    {
+        //set correct email and address id to csv data
+        foreach ($addressCsv as $key => $value) {
+            $addressCsv[$key] = str_replace('<realEmail>', $customerData['email'], $addressCsv[$key]);
+        }
+        //Precondition: create scheduled import
+        $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
+            'file_format_version' => 'Magento 2.0 format',
+            'entity_subtype' => 'Customer Addresses',
+            'behavior' => 'Add/Update Complex Data',
+            'file_name' => date('Y-m-d_H-i-s_') . 'export_customer_address.csv',
+        ));
+        $this->importExportScheduledHelper()->putCsvToFtp($importData, $addressCsv);
+        $this->importExportScheduledHelper()->createImport($importData);
+        $this->assertMessagePresent('success', 'success_saved_import');
+        //Steps 1-2
+        $this->importExportScheduledHelper()->applyAction(
+            array(
+                'name' => $importData['name'],
+                'operation' => 'Import'
+            )
+        );
+        //Verifying
+        $this->assertMessagePresent('error', 'error_run');
+        $this->assertEquals('Failed',
+            $this->importExportScheduledHelper()->getLastOutcome(
+                array(
+                    'name' => $importData['name'],
+                    'operation' => 'Import'
+                )
+            ), 'Error is occurred');
+    }
+
+    public function addressInvalidImportData()
+    {
+        $csvFile = array(
+            $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+                    '_entity_id' => '',
+                    '_email' => '<realEmail>',
+                    'city' => 'Kingsport',
+                    'company' => 'Weingarten\'s',
+                    'fax' => '423-389-1069',
+                    'firstname' => 'Linda',
+                    'lastname' => 'Gilbert',
+                    'middlename' => 'S.',
+                    'postcode' => '37663',
+                    'region' => 'Tennessee',
+                    'street' => '1596 Public Works Drive',
+                    'telephone' => '423-389-1069',
+                )
+            ),
+            $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+                    '_entity_id' => '',
+                    '_email' => '<realEmail>',
+                    '_website' => 'invalid',
+                    'city' => 'Memphis',
+                    'company' => 'Omni Source',
+                    'fax' => '662-404-3860',
+                    'firstname' => 'Keith',
+                    'lastname' => 'Cox',
+                    'middlename' => 'T.',
+                    'postcode' => '38133',
+                    'region' => 'Mississippi',
+                    'street' => '2774 Brownton Road',
+                    'telephone' => '662-404-3860',
+                )
+            ),
+        );
+        return array(
+            array($csvFile),
         );
     }
 }
