@@ -508,6 +508,11 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                     $this->fillDropdown('import_customer_entity', $importEntity);
                 }
             }
+        } else {
+            if (!is_null($importBehavior) && $this->waitForElementVisible(
+                $this->_getControlXpath('dropdown','import_behavior'))) {
+                $this->fillDropdown('import_behavior', $importBehavior);
+            }
         }
         if (!is_null($fileName) && $this->controlIsVisible('field', 'file_to_import'))
             $this->fillField('file_to_import', $fileName);
