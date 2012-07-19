@@ -110,7 +110,8 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     {
         /** @var Mage_Api2_Model_Router $router */
         $router = Mage::getModel('Mage_Api2_Model_Router');
-        $route = $router->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
+        $route = $router->routeApiType($request, true)
+            ->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
         return $route;
     }
 

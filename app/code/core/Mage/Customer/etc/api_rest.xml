@@ -13,7 +13,7 @@
     <resource name="customer">
         <controller>Mage_Customer_Rest_IndexController</controller>
         <routes>
-            <route resource_type="item">/api/rest/customers/:id</route>
+            <route resource_type="item">/customers/:id</route>
             <route resource_type="collection">/customers</route>
         </routes>
     </resource>
