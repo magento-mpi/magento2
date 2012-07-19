@@ -25,6 +25,8 @@ scheduled_import_export:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
                             submit: //button[span='Submit']
+                        links:
+                            selectall: //div[@id='operationGrid_massaction']//a[contains(.,'Select All')]
                         fields:
                             name: //input[@id='operationGrid_filter_name']
                             grid: //table[@id='operationGrid_table']
