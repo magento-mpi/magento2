@@ -135,6 +135,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
      * @var array
      */
     protected $_particularAttributes = array(
+        self::COLUMN_ACTION,
         self::COLUMN_WEBSITE,
         self::COLUMN_EMAIL,
         self::COLUMN_ADDRESS_ID,

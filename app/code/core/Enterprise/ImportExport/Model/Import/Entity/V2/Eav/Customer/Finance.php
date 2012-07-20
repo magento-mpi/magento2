@@ -19,11 +19,10 @@
 class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
 {
-    /**#@+
+    /**
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
-    /**#@-*/
 
     /**#@+
      * Permanent column names
@@ -56,6 +55,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * @var array
      */
     protected $_particularAttributes = array(
+        self::COLUMN_ACTION,
         self::COLUMN_WEBSITE,
         self::COLUMN_EMAIL,
         self::COLUMN_FINANCE_WEBSITE,

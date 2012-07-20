@@ -32,17 +32,15 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     const COLUMN_FINANCE_WEBSITE = '_finance_website';
     /**#@-*/
 
-    /**#@+
+    /**
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection';
-    /**#@-*/
 
-    /**#@+
+    /**
      * XML path to page size parameter
      */
     const XML_PATH_PAGE_SIZE = 'export/format_v2/customer_page_size/finance';
-    /**#@-*/
 
     /**
      * Website ID-to-code
