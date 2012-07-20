@@ -2,13 +2,13 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_ShoppingCart
+# @package     Mage_StatusManagement
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
-#Test data for Status
+#Test data for BugsCoverage
 generic_status:
     status_code: %randomize%_status_code
     status_label: Generic Label(%randomize%)

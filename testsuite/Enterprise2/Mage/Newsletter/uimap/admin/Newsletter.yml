@@ -1,0 +1,66 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Newsletter
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Newsletter Templates Manager page
+newsletter_templates:
+    mca: newsletter_template/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'newsletter_template/')]
+    title: Newsletter Templates / Newsletter / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    newsletter_templates:
+                        xpath: //div[@id='page:main-container']
+                        fields:
+                            id: //input[@name='template_code']
+                            template_name: //input[@name='code']
+                            date_added_from: //input[@name='added_at[from]']
+                            date_added_to: //input[@name='added_at[to]']
+                            date_updated_from: //input[@name='modified_at[from]']
+                            date_updated_to: //input[@name='modified_at[to]']
+                            template_subject: //input[@name='subject']
+                            sender_name: //input[@name='sender']
+                        buttons:
+                            add_new_template: //button[span='Add New Template']
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            template_type: //select[@name='type']
+
+# 'New Newsletter Template' Page
+new_newsletter_template:
+    mca: newsletter_template/new
+    title: New Template / Newsletter Templates / Newsletter / Magento Admin
+    uimap:
+        form: &createNewNewsletterTemplate
+            fieldsets:
+                -
+                    newsletter_add_template:
+                        xpath: //form[@id='newsletter_template_edit_form']
+                        fields:
+                            template_name: //input[@id='code']
+                            template_subject: //input[@id='subject']
+                            sender_name: //input[@id='sender_name']
+                            sender_email: //input[@id='sender_email']
+                            required: [template_name, template_subject, sender_name, sender_email]
+
+            buttons:
+                back: //button[span='Back']
+                reset: //button[span='Reset']
+                convert_to_plain_text: //button[span='Convert to Plain Text']
+                preview_template: //button[span='Preview Template']
+                save_template: //button[span='Save Template']
+
+            messages:
+                empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
+
+
+
