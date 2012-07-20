@@ -11,7 +11,7 @@
 /**
  * Front controller for REST area
  */
-class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
+class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
 {
     /**#@+
      * Resource types
@@ -35,7 +35,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
     // TODO: Take base controller from configuration
     /** @var string */
-    protected $_baseController = 'Mage_Core_Controller_Varien_Action';
+    protected $_baseActionController = 'Mage_Core_Controller_Varien_Action';
 
     /**
      * @var Mage_Api2_Model_Auth_User_Abstract
@@ -50,34 +50,24 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     /**
      * Initialize server errors processing mechanism
      */
-    public function init()
+    protected function _init()
     {
-        // TODO: Make sure that non-admin users cannot access this area
-        Mage::register('isSecureArea', true, true);
-        // make sure all errors will not be displayed
-        ini_set('display_startup_errors', 0);
-        ini_set('display_errors', 0);
-
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
-
-        // TODO: Temporary workaround. Required ability to configure request and response classes per area
-        Mage::app()->setRequest(Mage::getSingleton('Mage_Api2_Model_Request'));
-        Mage::app()->setResponse(Mage::getSingleton('Mage_Api2_Model_Response'));
         return $this;
     }
 
     /**
-     * @return Mage_Api2_Controller_FrontAbstract|Mage_Api2_Controller_Front_Rest
+     * @return Mage_Api2_Controller_Front_Base|Mage_Api2_Controller_Front_Rest
      */
-    public function dispatch()
+    protected function _dispatch()
     {
         try {
             $route = $this->_matchRoute($this->_getRequest());
             $this->_checkResourceAcl();
 
             $controllerInstance = $route->getController();
-            if (!($controllerInstance instanceof $this->_baseController)) {
+            if (!($controllerInstance instanceof $this->_baseActionController)) {
                 Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
             }
             $action = $this->_getActionName();
@@ -110,8 +100,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     {
         /** @var Mage_Api2_Model_Router $router */
         $router = Mage::getModel('Mage_Api2_Model_Router');
-        $route = $router->routeApiType($request, true)
-            ->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
+        $route = $router->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
         return $route;
     }
 
@@ -378,18 +367,5 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
             $this->_renderInternalError($errorMessage);
         }
-    }
-
-    /**
-     * Add exception to response
-     *
-     * @param Exception $exception
-     * @return Mage_Api2_Controller_Front_Rest
-     */
-    protected function _addException(Exception $exception)
-    {
-        $response = $this->_getResponse();
-        $response->setException($exception);
-        return $this;
     }
 }
