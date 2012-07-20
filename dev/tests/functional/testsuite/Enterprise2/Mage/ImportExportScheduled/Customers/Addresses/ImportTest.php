@@ -74,7 +74,8 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                     $this->assertMessagePresent('success', 'success_saved_customer');
                     $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
                     $this->openTab('addresses');
-                };
+                }
+                ;
                 $addressCsv[$key]['_entity_id'] = $this->customerHelper()->isAddressPresent($value);
             }
         }
@@ -117,7 +118,8 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
         //Verifying
         foreach ($newAddressData as $key => $value) {
             if ((isset($addressCsv[$key]['_action']) && strtolower($addressCsv[$key]['_action']) == 'delete')
-                || $behavior == 'Delete Entities') {
+                || $behavior == 'Delete Entities'
+            ) {
                 $this->assertEquals(0, $this->customerHelper()->isAddressPresent($value),
                     'Customer address is found');
             } else {
@@ -340,6 +342,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
             $this->loadDataSet('ImportExport', 'generic_address_csv', array(
                     '_entity_id' => '',
                     '_email' => '<realEmail>',
+                    '_action' => '',
                     'city' => 'San Diego',
                     'company' => 'Security Sporting Goods',
                     'fax' => '619-696-3735',

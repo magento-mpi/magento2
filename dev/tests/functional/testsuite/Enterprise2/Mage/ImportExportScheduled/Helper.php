@@ -65,6 +65,33 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     }
 
     /**
+     * Read and fill Ftp parameters
+     *
+     * @param array $connectionData
+     */
+    protected function _fillConnectionParameters(array &$connectionData)
+    {
+        if (isset($connectionData['server_type']) && strtolower($connectionData['server_type']) == 'remote ftp') {
+            //Read application config
+            $appConfig = $this->getApplicationConfig();
+            if (!isset($appConfig['ftp'])) {
+                $this->fail('FTP settings are not defined in Config.yml file');
+            }
+            if (!isset($connectionData['host'])) {
+                $connectionData['host'] = $appConfig['ftp']['url'];
+            }
+            if (!isset($connectionData['file_path'])) {
+                $connectionData['file_path'] = $appConfig['ftp']['base_dir'];
+            }
+            if (!isset($connectionData['user_name'])) {
+                $connectionData['user_name'] = $appConfig['ftp']['login'];
+            }
+            if (!isset($connectionData['password'])) {
+                $connectionData['password'] = $appConfig['ftp']['password'];
+            }
+        }
+    }
+    /**
      * Get file from FTP server and return file content as string
      *
      * @param string $fileMode
@@ -98,6 +125,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function getCsvFromFtp(array $exportData)
     {
+        $this->_fillConnectionParameters($exportData);
         if ($this->_connectToFtp($exportData['host'], $exportData['user_name'], $exportData['password'])) {
             $exportData['file_mode'] = (strtolower($exportData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             $fileContent = $this->getFileFromFtp(
@@ -145,6 +173,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function putCsvToFtp(array $importData, array $fileContent)
     {
+        $this->_fillConnectionParameters($importData);
         if ($this->_connectToFtp($importData['host'], $importData['user_name'], $importData['password'])) {
             $fileContent = $this->importExportHelper()->arrayToCsv($fileContent);
             $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
@@ -168,25 +197,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function createExport(array &$exportData)
     {
-        if (isset($exportData['server_type']) && strtolower($exportData['server_type']) == 'remote ftp') {
-            //Read application config
-            $appConfig = $this->getApplicationConfig();
-            if (!isset($appConfig['ftp'])) {
-                $this->fail('FTP settings are not defined in Config.yml file');
-            }
-            if (!isset($exportData['host'])) {
-                $exportData['host'] = $appConfig['ftp']['url'];
-            }
-            if (!isset($exportData['file_path'])) {
-                $exportData['file_path'] = $appConfig['ftp']['base_dir'];
-            }
-            if (!isset($exportData['user_name'])) {
-                $exportData['user_name'] = $appConfig['ftp']['login'];
-            }
-            if (!isset($exportData['password'])) {
-                $exportData['password'] = $appConfig['ftp']['password'];
-            }
-        }
+        $this->_fillConnectionParameters($exportData);
         $skipped = array();
         $filters = array();
         $this->addParameter('type', 'Export');
@@ -217,25 +228,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function createImport(array &$importData)
     {
-        if (isset($importData['server_type']) && strtolower($importData['server_type']) == 'remote ftp') {
-            //Read application config
-            $appConfig = $this->getApplicationConfig();
-            if (!isset($appConfig['ftp'])) {
-                $this->fail('FTP settings are not defined in Config.yml file');
-            }
-            if (!isset($importData['host'])) {
-                $importData['host'] = $appConfig['ftp']['url'];
-            }
-            if (!isset($importData['file_path'])) {
-                $importData['file_path'] = $appConfig['ftp']['base_dir'];
-            }
-            if (!isset($importData['user_name'])) {
-                $importData['user_name'] = $appConfig['ftp']['login'];
-            }
-            if (!isset($importData['password'])) {
-                $importData['password'] = $appConfig['ftp']['password'];
-            }
-        }
+        $this->_fillConnectionParameters($importData);
         $this->addParameter('type', 'Import');
         $this->clickButton('add_scheduled_import');
         $this->fillForm($importData);
