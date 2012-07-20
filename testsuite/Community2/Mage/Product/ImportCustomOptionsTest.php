@@ -127,12 +127,13 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
                 array('configurable_attribute_title' => $attrData['admin_title']));
         }
         $productDataCustomOption['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
+        $selectProduct = array('product_sku' => $productDataCustomOption['general_sku']);
         //Preconditions
         $this->productHelper()->createProduct($productDataCustomOption, $type);
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProductWithoutSave($productData, $type);
-        $this->productHelper()->importCustomOptions($productDataCustomOption['general_sku']);
+        $this->productHelper()->importCustomOptions(array ($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
@@ -204,10 +205,11 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         //Data
         $simpleField = $simpleProducts['simpleField'];
         $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $selectProduct = array('product_sku' => $simpleField['general_sku']);
         //Steps
         $this->productHelper()->createProductWithoutSave($productData);
-        $this->productHelper()->importCustomOptions($simpleField['general_sku']);
-        $this->productHelper()->importCustomOptions($simpleField['general_sku']);
+        $this->productHelper()->importCustomOptions(array ($selectProduct));
+        $this->productHelper()->importCustomOptions(array ($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
@@ -266,9 +268,11 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $simpleField = $simpleProducts['simpleField'];
         $simpleDate = $simpleProducts['simpleDate'];
         $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $selectProductField = array('product_sku' => $simpleField['general_sku']);
+        $selectProductDate = array('product_sku' => $simpleDate['general_sku']);
         //Steps
         $this->productHelper()->createProductWithoutSave($productData);
-        $this->productHelper()->importCustomOptions(array($simpleField['general_sku'], $simpleDate['general_sku']));
+        $this->productHelper()->importCustomOptions(array($selectProductField, $selectProductDate));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
@@ -318,12 +322,13 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         //Data
         $simpleField = $simpleProducts['simpleField'];
         $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $selectProduct = array('product_sku' => $simpleField['general_sku']);
         //Steps
         $this->productHelper()->createProductWithoutSave($productData);
-        $this->productHelper()->importCustomOptions(array('sku' => $simpleField['general_sku']));
+        $this->productHelper()->importCustomOptions(array($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
-        $this->productHelper()->deleteAllCustomOptions($simpleField['custom_options_data']);
+        $this->productHelper()->deleteAllCustomOptions();
         //Verifying
         $this->assertEquals(0, $this->getXpathCount($this->_getControlXpath('fieldset', 'custom_option_set')),
             'Not all custom options were deleted');
@@ -373,9 +378,10 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         //Data
         $simpleField = $simpleProducts['simpleField'];
         $simpleDate = $simpleProducts['simpleDate'];
+        $selectProduct = array('product_sku' => $simpleDate['general_sku']);
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
-        $this->productHelper()->importCustomOptions($simpleDate['general_sku']);
+        $this->productHelper()->importCustomOptions(array($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
         //Verifying
