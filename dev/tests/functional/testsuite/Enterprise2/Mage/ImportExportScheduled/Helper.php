@@ -65,6 +65,33 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     }
 
     /**
+     * Read and fill Ftp parameters
+     *
+     * @param array $connectionData
+     */
+    protected function _fillConnectionParameters(array &$connectionData)
+    {
+        if (isset($connectionData['server_type']) && strtolower($connectionData['server_type']) == 'remote ftp') {
+            //Read application config
+            $appConfig = $this->getApplicationConfig();
+            if (!isset($appConfig['ftp'])) {
+                $this->fail('FTP settings are not defined in Config.yml file');
+            }
+            if (!isset($connectionData['host'])) {
+                $connectionData['host'] = $appConfig['ftp']['url'];
+            }
+            if (!isset($connectionData['file_path'])) {
+                $connectionData['file_path'] = $appConfig['ftp']['base_dir'];
+            }
+            if (!isset($connectionData['user_name'])) {
+                $connectionData['user_name'] = $appConfig['ftp']['login'];
+            }
+            if (!isset($connectionData['password'])) {
+                $connectionData['password'] = $appConfig['ftp']['password'];
+            }
+        }
+    }
+    /**
      * Get file from FTP server and return file content as string
      *
      * @param string $fileMode
@@ -98,13 +125,14 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function getCsvFromFtp(array $exportData)
     {
+        $this->_fillConnectionParameters($exportData);
         if ($this->_connectToFtp($exportData['host'], $exportData['user_name'], $exportData['password'])) {
             $exportData['file_mode'] = (strtolower($exportData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             $fileContent = $this->getFileFromFtp(
-                                                 $exportData['file_mode'],
-                                                 $exportData['passive_mode'],
-                                                 $exportData['file_path'],
-                                                 $exportData['file_name']);
+                $exportData['file_mode'],
+                $exportData['passive_mode'],
+                $exportData['file_path'],
+                $exportData['file_name']);
             return $this->importExportHelper()->csvToArray($fileContent);
         } else {
             return false;
@@ -145,15 +173,16 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function putCsvToFtp(array $importData, array $fileContent)
     {
+        $this->_fillConnectionParameters($importData);
         if ($this->_connectToFtp($importData['host'], $importData['user_name'], $importData['password'])) {
             $fileContent = $this->importExportHelper()->arrayToCsv($fileContent);
             $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             return $this->putFileToFtp(
-                                        $importData['file_mode'],
-                                        $importData['passive_mode'],
-                                        $importData['file_path'],
-                                        $importData['file_name'],
-                                        $fileContent);
+                $importData['file_mode'],
+                $importData['passive_mode'],
+                $importData['file_path'],
+                $importData['file_name'],
+                $fileContent);
         } else {
             return false;
         }
@@ -166,8 +195,9 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      *
      * @return void
      */
-    public function createExport(array $exportData)
+    public function createExport(array &$exportData)
     {
+        $this->_fillConnectionParameters($exportData);
         $skipped = array();
         $filters = array();
         $this->addParameter('type', 'Export');
@@ -182,7 +212,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         }
         $this->fillForm($exportData);
         foreach ($skipped as $attributeToSkip){
-             $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
+            $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
         }
         if (count($filters)>0){
             $this->importExportHelper()->setFilter($filters);
@@ -196,8 +226,9 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      *
      * @return void
      */
-    public function createImport(array $importData)
+    public function createImport(array &$importData)
     {
+        $this->_fillConnectionParameters($importData);
         $this->addParameter('type', 'Import');
         $this->clickButton('add_scheduled_import');
         $this->fillForm($importData);
@@ -262,7 +293,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Run Date',
-                                                  $this->_getControlXpath('field', 'grid'));
+            $this->_getControlXpath('field', 'grid'));
         if ($xpath){
             return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
         } else {
@@ -311,21 +342,45 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
     }
-        /**
-         * Check if import is present in grid
-         *
-         * @param array $importData
-         * @return bool
-         */
-        public function isImportPresentInGrid($importData)
+    /**
+     * Searches the specified data in the specific grid. Returns null or XPath of the found data.
+     *
+     * @param array $data Array of data to look up.
+     * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     *
+     * @return string|null
+     */
+    public function searchImportExport(array $data, $fieldSetName = null)
     {
-        $data = array('name' => $importData['name']);
-        $this->_prepareDataForSearch($importData);
-        $xpathTR = $this->search($importData, 'grid_and_filter');
-        if (!is_null($xpathTR)) {
-            return true;
-        } else {
-            return false;
+        $waitAjax = true;
+        $xpath = '';
+        $xpathContainer = null;
+        if ($fieldSetName) {
+            $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
+            $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
+        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+        $jsName = $this->getAttribute($resetXpath . '@onclick');
+        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
+        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
+        if ($this->isElementPresent($scriptXpath)) {
+            $waitAjax = false;
+        }
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
+
+        //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
+        $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
+        $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
+
+        $xpathTR = $this->formSearchXpath($data);
+        //fill filter
+        $this->fillForm($data);
+        $this->clickButton('search', false);
+        $this->waitForElement($xpathPager);
+        if ($this->isElementPresent($xpath . $xpathTR)) {
+            return $xpath . $xpathTR;
+        }
+        return null;
     }
+
 }

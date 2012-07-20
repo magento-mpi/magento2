@@ -294,50 +294,41 @@ public function scheduledImportStatuses()
         $data[3]['name'] = $importData4['name'];
         // Step 1, 2
         $this->admin('scheduled_import_export');
-        $this->fillForm(
-            array(
-                'name' => $importData['name'],
-                'entity_type' => 'Customers',
-                'grid_and_filter'
-            ));
-        $this->clickButton('search', false);
-        $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid($importData),
+        $this->assertNull($this->searchImportExport(
+                array(
+                        'name' => $importData['name'],
+                        'entity_type' => 'Customers'
+                )
+            ),
             'Import was found'
         );
 
         $this->admin('scheduled_import_export');
-        $this->fillForm(
-            array(
-                'name' => $importData['name'],
-                'entity_type' => 'Products',
-                'grid_and_filter'
-            ));
-        $this->clickButton('search', false);
-        $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid($importData),
-            'Import was not found'
+        $this->assertNotNull($this->searchImportExport(
+                array(
+                    'name' => $importData['name'],
+                    'entity_type' => 'Products'
+                )
+            ),
+            'Import was found'
         );
-
         $this->admin('scheduled_import_export');
         foreach ($data as $value)
         {
-            $this->fillForm(
-                array(
-                    'name' => $value['name'],
-                    'entity_type' => 'Customers',
-                    'grid_and_filter'
-                ));
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid($value),
+            $this->assertNotNull($this->searchImportExport(
+                    array(
+                        'name' => $value['name'],
+                        'entity_type' => 'Customers'
+                    )
+                ),
                 'Import was not found'
             );
-            $this->fillForm(
-                array(
-                    'name' => $value['name'],
-                    'entity_type' => 'Products',
-                    'grid_and_filter'
-                ));
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid($value),
+            $this->assertNull($this->searchImportExport(
+                    array(
+                        'name' => $value['name'],
+                        'entity_type' => 'Products'
+                    )
+                ),
                 'Import was found'
             );
         }
