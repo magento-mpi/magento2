@@ -33,60 +33,37 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     /**
      * Import custom options from existent product
      *
-     * @param mixed $productSku String or Array of SKUs
+     * @param array $productData
      */
-    public function importCustomOptions($productSku)
+    public function importCustomOptions(array $productData)
     {
         $this->openTab('custom_options');
         $this->clickButton('import_options', false);
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'select_product_custom_option');
-        if ($this->isElementPresent($fieldSetXpath)) {
-            if (is_string($productSku)) {
-                $this->searchAndChoose(array('product_sku' => $productSku));
-            }
-            if (is_array($productSku)) {
-                foreach ($productSku as $value) {
-                    $this->searchAndChoose(array('product_sku' => $value));
-                }
-            }
-        } else {
-            $this->fail("Dialog window 'Select Product' wasn't appeared.");
+        $this->waitForElement($this->_getControlXpath('fieldset', 'select_product_custom_option'));
+        foreach ($productData as $value) {
+            $this->searchAndChoose($value);
         }
         $this->clickButton('import', false);
+        $this->pleaseWait();
     }
 
     /**
      * Delete all custom options
      *
-     * @param $customOptionData
-     *
      * @return bool
      */
-    public function deleteAllCustomOptions($customOptionData)
+    public function deleteAllCustomOptions()
     {
         $this->openTab('custom_options');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionsQty = $this->getXpathCount($fieldSetXpath);
-        $needCount = count($customOptionData);
-        if ($needCount != $optionsQty) {
-            $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
-            return false;
-        }
-        $numRow = 1;
-        foreach ($customOptionData as $value) {
-            if (is_array($value)) {
-                $optionId = $this->getOptionId($numRow);
-                $this->addParameter('optionId', $optionId);
-                $xpath = "//div[@id='option_" . $optionId . "']//button[span='Delete Option']";
-                if (!$this->isElementPresent($xpath) || !$this->isVisible($xpath)) {
-                    $this->fail("Current location url: '" . $this->getLocation() . "'\nCurrent page: '"
-                                . $this->getCurrentPage() . "'\nProblem with 'Delete Option' button, xpath '$xpath':\n"
-                                . 'Control is not present on the page');
-                }
-                $this->click($xpath);
-                $numRow++;
+        while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set') . '[1]')) {
+            $xpath = $this->_getControlXpath('fieldset', 'custom_option_set') . "[1]//button[span='Delete Option']";
+            if (!$this->isElementPresent($xpath) || !$this->isVisible($xpath)) {
+                $this->fail(
+                    "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                    . "'\nProblem with 'Delete Option' button, xpath '$xpath':\n"
+                    . 'Control is not present on the page');
             }
+            $this->click($xpath);
         }
         return true;
     }
@@ -101,8 +78,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     public function verifyCustomOption(array $customOptionData)
     {
         $this->openTab('custom_options');
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $optionsQty = $this->getXpathCount($fieldSetXpath);
+        $optionsQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'custom_option_set'));
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
             $this->addVerificationMessage(
@@ -130,14 +106,12 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function getOptionId($rowNum)
     {
-        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        $id = $this->getAttribute($fieldSetXpath . "[$rowNum]/@id");
+        $id = $this->getAttribute($this->_getControlXpath('fieldset', 'custom_option_set') . "[$rowNum]@id");
         $id = explode('_', $id);
         foreach ($id as $value) {
             if (is_numeric($value)) {
                 return $value;
             }
         }
-
     }
 }
