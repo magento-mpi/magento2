@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <resource name="test_module_a">
+        <controller>Mage_Test_Module_Api_Controller</controller>
+    </resource>
+    <resource name="test_module_b">
+        <controller>Mage_Test_Moduleb_Api_Controller</controller>
+    </resource>
+</config>

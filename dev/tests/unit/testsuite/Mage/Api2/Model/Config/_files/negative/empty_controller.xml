@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <resource name="test_module_c">
+        <controller></controller>
+    </resource>
+</config>
