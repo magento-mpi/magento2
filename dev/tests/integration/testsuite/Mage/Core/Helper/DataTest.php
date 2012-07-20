@@ -291,16 +291,4 @@ XML;
     {
         $this->assertEquals('US', $this->_helper->getDefaultCountry());
     }
-
-    public function testDeleteFolderRecursively()
-    {
-        $rootFolder = Mage::getConfig()->getVarDir() . DIRECTORY_SEPARATOR . 'recursivelyDeleteFolder';
-        $subFolderA = $rootFolder . DIRECTORY_SEPARATOR . 'subFolderA' . DIRECTORY_SEPARATOR ;
-        $subFolderB = $rootFolder . DIRECTORY_SEPARATOR . 'subFolderA' . DIRECTORY_SEPARATOR;
-        @mkdir($subFolderA, 0777, true);
-        @mkdir($subFolderB, 0777, true);
-        @file_put_contents($subFolderB . 'test.txt', 'Some text here');
-        $this->_helper->deleteFolderRecursively($rootFolder);
-        $this->assertFalse(is_dir($rootFolder));
-    }
 }
