@@ -290,7 +290,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
         parent::__construct();
 
         $this->_optionEntity = isset($data['option_entity']) ? $data['option_entity']
-            : Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product_Option');
+            : Mage::getModel('Mage_ImportExport_Model_Import_Entity_Product_Option',
+                array('product_entity' => $this)
+            );
 
         $this->_initWebsites()
             ->_initStores()
@@ -1590,6 +1592,9 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
                 $sku = false; // mark SCOPE_DEFAULT row as invalid for future child rows if product not in DB already
             }
         }
+        // validate custom options
+        $this->getOptionEntity()->validateRow($rowData, $rowNum);
+
         return !isset($this->_invalidRows[$rowNum]);
     }
 

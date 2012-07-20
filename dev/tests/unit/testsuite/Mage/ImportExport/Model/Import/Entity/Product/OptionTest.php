@@ -300,19 +300,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      */
     protected function _getModelDependencies($addExpectations = false, $deleteBehavior = false)
     {
-        $csvData = $this->_loadCsvFile();
-
-        // Prepare mock to imitate data source model
-        $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
-        if ($addExpectations) {
-            $dataSourceModel->expects($this->at(0))
-                ->method('getNextBunch')
-                ->will($this->returnValue($csvData['data']));
-            $dataSourceModel->expects($this->at(1))
-                ->method('getNextBunch')
-                ->will($this->returnValue(null));
-        }
-
         $connection = $this->getMock('stdClass', array('delete', 'quoteInto', 'insertMultiple', 'insertOnDuplicate'));
         if ($addExpectations) {
             if ($deleteBehavior) {
@@ -339,33 +326,118 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 ->will($this->returnValue(1));
         }
 
+        $dataHelper = $this->getMock('stdClass', array('__'));
+        if ($addExpectations) {
+            $dataHelper->expects($this->any())
+                ->method('__')
+                ->will($this->returnArgument(0));
+        }
+
+        $coreResource = $this->getMock('stdClass', array('getTableName'));
+        if ($addExpectations) {
+            $coreResource->expects($this->any())
+                ->method('getTableName')
+                ->will($this->returnValue('catalog_product_option_title'));
+        }
+
+        $stores = array();
+        foreach ($this->_testStore as $store) {
+            $stores[$store['code']] = $store['id'];
+        }
+
+        $data = array(
+            'connection'        => $connection,
+            'tables'            => $this->_tables,
+            'resource_helper'   => $resourceHelper,
+            'data_helper'       => $dataHelper,
+            'core_resource'     => $coreResource,
+            'is_price_global'   => true,
+            'stores'            => $stores,
+        );
+        $sourceData = $this->_getSourceDataMocks($addExpectations);
+
+        return array_merge($data, $sourceData);
+    }
+
+    /**
+     * Get source data mocks
+     *
+     * @param bool $addExpectations
+     * @return array
+     */
+    protected function _getSourceDataMocks($addExpectations)
+    {
+        $csvData = $this->_loadCsvFile();
+
+        $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
+        if ($addExpectations) {
+            $dataSourceModel->expects($this->at(0))
+                ->method('getNextBunch')
+                ->will($this->returnValue($csvData['data']));
+            $dataSourceModel->expects($this->at(1))
+                ->method('getNextBunch')
+                ->will($this->returnValue(null));
+        }
+
         $products = array();
         foreach ($csvData['data'] as $rowIndex => $csvDataRow) {
             if (!empty($csvDataRow['sku']) && !array_key_exists($csvDataRow['sku'], $products)) {
+                $elementIndex = $rowIndex + 1;
                 $products[$csvDataRow['sku']] = array(
-                    'sku'       => $csvDataRow['sku'],
-                    'entity_id' => $rowIndex + 1
+                    'sku'        => $csvDataRow['sku'],
+                    'id'         => $elementIndex,
+                    'entity_id'  => $elementIndex,
+                    'product_id' => $elementIndex,
+                    'type'       => $csvDataRow[Mage_ImportExport_Model_Import_Entity_Product_Option::COLUMN_TYPE],
+                    'title'      => $csvDataRow[Mage_ImportExport_Model_Import_Entity_Product_Option::COLUMN_TITLE],
                 );
             }
         }
 
-        $productModelMock = $this->getMock('stdClass', array('getProductEntitiesInfo'), array(), '', false);
+        $productEntity = $this->getMock('stdClass', array('addMessageTemplate'));
         if ($addExpectations) {
-            $productModelMock->expects($this->any())
-                ->method('getProductEntitiesInfo')
-                ->will($this->returnValue($products));
+            $productEntity->expects($this->any())
+                ->method('addMessageTemplate')
+                ->will($this->returnValue(true));
         }
+
+        $productModelMock = $this->getMock('stdClass', array('getProductEntitiesInfo'), array(), '', false);
+        $productModelMock->expects($this->any())
+            ->method('getProductEntitiesInfo')
+            ->will($this->returnValue($products));
+
+        $optionCollection = $this->getMock(
+            'Varien_Data_Collection_Db',
+            array('reset', 'addProductToFilter', 'getSelect', '_fetchAll')
+        );
+
+        $select = $this->getMock('stdClass', array('join', 'where'));
+        $select->expects($this->any())
+            ->method('join')
+            ->will($this->returnValue($select));
+        $select->expects($this->any())
+            ->method('where')
+            ->will($this->returnValue($select));
+
+        $optionCollection->expects($this->any())
+            ->method('reset')
+            ->will($this->returnValue($optionCollection));
+        $optionCollection->expects($this->any())
+            ->method('addProductToFilter')
+            ->will($this->returnValue($optionCollection));
+        $optionCollection->expects($this->any())
+            ->method('getSelect')
+            ->will($this->returnValue($select));
+        $optionCollection->expects($this->any())
+            ->method('_fetchAll')
+            ->will($this->returnValue($products));
 
         $data = array(
             'data_source_model' => $dataSourceModel,
-            'connection'        => $connection,
-            'tables'            => $this->_tables,
-            'resource_helper'   => $resourceHelper,
             'product_model'     => $productModelMock,
-            'is_price_global'   => true,
-            'stores'            => array(new Varien_Object($this->_testStore))
+            'product_entity'    => $productEntity,
+            'option_collection' => $optionCollection,
         );
-
         return $data;
     }
 
