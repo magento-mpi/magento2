@@ -17,17 +17,15 @@
  */
 abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
 {
-    /**#@+
+    /**
      * Custom row import behavior column name
      */
     const COLUMN_ACTION = '_action';
-    /**#@-*/
 
-    /**#@+
+    /**
      * Value in custom column for delete behaviour
      */
     const COLUMN_ACTION_VALUE_DELETE = 'delete';
-    /**#@-*/
 
     /**#@+
      * XML paths to parameters

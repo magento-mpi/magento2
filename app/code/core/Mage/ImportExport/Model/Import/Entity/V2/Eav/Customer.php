@@ -21,11 +21,10 @@
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer
     extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
 {
-    /**#@+
+    /**
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Mage_Customer_Model_Resource_Attribute_Collection';
-    /**#@-*/
 
     /**#@+
      * Permanent column names

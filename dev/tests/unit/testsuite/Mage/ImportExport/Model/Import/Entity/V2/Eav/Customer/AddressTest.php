@@ -159,6 +159,7 @@ class Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest extends 
             ->method('__')
             ->will($this->returnArgument(0));
 
+        /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         foreach ($this->_attributes as $attributeData) {
             $attribute = $this->getMockForAbstractClass('Mage_Eav_Model_Entity_Attribute_Abstract',

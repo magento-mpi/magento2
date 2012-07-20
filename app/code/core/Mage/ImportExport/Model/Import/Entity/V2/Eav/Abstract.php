@@ -18,11 +18,10 @@
 abstract class Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
     extends Mage_ImportExport_Model_Import_Entity_V2_Abstract
 {
-    /**#@+
+    /**
      * Attribute collection name
      */
     const ATTRIBUTE_COLLECTION_NAME = 'Varien_Data_Collection';
-    /**#@-*/
 
     /**
      * Website manager (currently Mage_Core_Model_App works as website manager)

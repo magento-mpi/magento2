@@ -236,7 +236,8 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
     }
 
     /**
-     * Stub for next bunch of validated rows getter
+     * Stub for next bunch of validated rows getter. It is callback function which is used to emulate work of data
+     * source model. It should return data on first call and null on next call to emulate end of bunch.
      *
      * @return array|null
      */

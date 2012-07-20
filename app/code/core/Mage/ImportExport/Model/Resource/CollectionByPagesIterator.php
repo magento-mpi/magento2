@@ -9,7 +9,7 @@
  */
 
 /**
- * Operation abstract class
+ * Collection by pages iterator
  *
  * @category    Mage
  * @package     Mage_ImportExport
@@ -18,7 +18,7 @@
 class Mage_ImportExport_Model_Resource_CollectionByPagesIterator
 {
     /**
-     * Load collection page by page and apply apply callbacks to each collection item
+     * Load collection page by page and apply callbacks to each collection item
      *
      * @param Varien_Data_Collection_Db $collection Collection to load page by page
      * @param int $pageSize Number of items to fetch from db in one query

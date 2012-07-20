@@ -11,11 +11,10 @@
 
 class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Test attribute code
      */
     const ATTRIBUTE_CODE = 'code1';
-    /**#@-*/
 
     /**
      * Websites array (website id => code)
@@ -101,6 +100,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
             ->method('__')
             ->will($this->returnArgument(0));
 
+        /** @var $attributeCollection Varien_Data_Collection|PHPUnit_Framework_TestCase */
         $attributeCollection = $this->getMock('Varien_Data_Collection', array('getEntityTypeCode'));
         $attributeCollection->expects($this->once())
             ->method('getEntityTypeCode')

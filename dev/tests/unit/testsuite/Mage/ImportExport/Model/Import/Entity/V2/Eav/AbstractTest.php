@@ -14,11 +14,10 @@
  */
 class Mage_ImportExport_Model_Import_Entity_V2_Eav_AbstractTest extends PHPUnit_Framework_TestCase
 {
-    /**#@+
+    /**
      * Entity type id
      */
     const ENTITY_TYPE_ID   = 1;
-    /**#@-*/
 
     /**
      * Abstract import entity eav model
