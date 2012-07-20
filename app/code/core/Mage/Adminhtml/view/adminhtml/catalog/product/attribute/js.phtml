@@ -317,6 +317,12 @@ function saveAttributeInNewSet(promptMessage, errorMessage)
         return;
     }
 
+    var validator = Validation.get('validate-no-html-tags');
+    if (!validator.test(newAttributeSetName)) {
+        alert(validator.error);
+        return;
+    }
+
     var newAttributeSetNameInputId = 'new_attribute_set_name';
 
     if ($(newAttributeSetNameInputId)) {

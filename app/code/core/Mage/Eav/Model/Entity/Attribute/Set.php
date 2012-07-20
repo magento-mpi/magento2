@@ -168,9 +168,16 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
      */
     public function validate()
     {
-        if (!$this->_getResource()->validate($this, $this->getAttributeSetName())) {
+        $attributeSetName = $this->getAttributeSetName();
+        if ($attributeSetName == '') {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Attribute set with the "%s" name already exists.', $this->getAttributeSetName())
+                Mage::helper('Mage_Eav_Helper_Data')->__('Attribute set name is empty.')
+            );
+        }
+
+        if (!$this->_getResource()->validate($this, $attributeSetName)) {
+            throw Mage::exception('Mage_Eav',
+                Mage::helper('Mage_Eav_Helper_Data')->__('Attribute set with the "%s" name already exists.', $attributeSetName)
             );
         }
 
@@ -247,11 +254,18 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         if ($setId === null) {
             $setId = $this->getId();
         }
-        if ($setId) {
-            $groupId = $this->_getResource()->getDefaultGroupId($setId);
-        } else {
-            $groupId = null;
-        }
-        return $groupId;
+
+        return ($setId) ? $this->_getResource()->getDefaultGroupId($setId) : null;
+    }
+
+    /**
+     * Add validation on beforeSave event
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _beforeSave()
+    {
+        $this->validate();
+        return parent::_beforeSave();
     }
 }
