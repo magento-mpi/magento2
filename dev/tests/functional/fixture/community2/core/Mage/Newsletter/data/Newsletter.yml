@@ -14,3 +14,14 @@ generic_template:
     template_subject: %randomize%_template_subject
     sender_name: CustomerSupport
     sender email: support@example.com
+
+template_search:
+    id: %noValue%
+    template_name: %noValue%
+    type: %noValue%
+    template_subject: %noValue%
+    sender_name: %noValue%
+    data_added_from: %noValue%
+    data_added_to: %noValue%
+    data_updated_from: %noValue%
+    data_updated_to: %noValue%

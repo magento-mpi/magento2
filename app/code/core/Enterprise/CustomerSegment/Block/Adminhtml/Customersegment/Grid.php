@@ -70,7 +70,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         ));
 
         $this->addColumn('grid_segment_is_active', array(
-            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('BugsCoverage'),
             'align'     => 'left',
             'width'     => 80,
             'index'     => 'is_active',
