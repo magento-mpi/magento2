@@ -40,7 +40,7 @@ class Mage_ImportExport_Model_Resource_CollectionByPagesIteratorTest extends Mag
         /** @var $callbackMock PHPUnit_Framework_MockObject_MockObject */
         $callbackMock = $this->getMock('stdClass', array('callback'));
 
-        /** @var $collectionMock PHPUnit_Framework_MockObject_MockObject */
+        /** @var $collectionMock Varien_Data_Collection_Db|PHPUnit_Framework_MockObject_MockObject */
         $collectionMock = $this->getMock('Varien_Data_Collection_Db',
             array('clear', 'setPageSize', 'setCurPage', 'count', 'getLastPageNumber'),
             array(), '', false, false
