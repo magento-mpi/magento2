@@ -737,6 +737,30 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             if (is_array($value)) {
                 $this->addParameter('optionId', $optionId);
                 $this->verifyForm($value, 'custom_options');
+                //get count of rows
+                $rowsQty = 0;
+                $fieldRowsXpath = $this->_getControlXpath('field', 'custom_options_rows');
+                if ($this->isElementPresent($fieldRowsXpath)){
+                    $rowsQty = $this->getXpathCount($fieldRowsXpath);
+                }
+                $i = 1;
+                while (isset($value['custom_option_row_' . $i]) && $i <= $rowsQty)
+                {
+                    if ($i <= $rowsQty) {
+                        $id = $this->getAttribute($fieldRowsXpath . "[{$i}]/@id");
+                        $id = explode('_', $id);
+                        $rowId = end($id);
+                        $this->addParameter('rowId', $rowId);
+                        $this->verifyForm($value['custom_option_row_' . $i], 'custom_options');
+                        $i++;
+                    }
+                }
+                $i--;
+                if ($i != $rowsQty) {
+                    $this->addVerificationMessage(
+                        'Product custom option must be contains ' . $i . ' Custom Option(s), but contains ' . $rowsQty);
+                    return false;
+                }
                 $optionId--;
             }
         }
