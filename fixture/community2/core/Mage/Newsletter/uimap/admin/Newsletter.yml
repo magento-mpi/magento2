@@ -61,37 +61,6 @@ new_newsletter_template:
 
             messages:
                 empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-                confirmation_for_delete: Are you sure that you want to delete this template?
 
-# 'Edit Newsletter Template' Page
-edit_newsletter_template:
-    mca: admin/newsletter_template/edit/id/%id%/
-    title: %templateName% / Newsletter Templates / Newsletter / Magento Admin
-    uimap:
-        form: *createNewNewsletterTemplate
-        buttons:
-            back: //button[span='Back']
-            reset: //button[span='Reset']
-            delete_template: //button[span='Delete Template']
-            save_template: //button[span='Save Template']
-            save_as: //button[span='Save As']
-        messages: confirmation_for_delete: Are you sure that you want to delete this template?
 
-# Newsletter Newsletter Queue page
-newsletter_queue:
-    mca: newsletter_queue/
-    click_xpath: //div[@class='nav-bar']//a[span='Newsletter Queue']
-    title: Newsletter Queue / Newsletter / Magento Admin
-    uimap:
-            form:
-                fieldsets:
-                    -
-                         newsletter_queue:
-                             xpath: //div[@id='queueGrid']
-                             fields:
-                                 template_subject: //input[@id='queueGrid_filter_newsletter_subject']
-                             buttons:
-                                 search: //button[span='Search']
-                                 reset_filter: //button[span='Reset Filter']
-                             messages:
-                                 search_no_result: //table[@id='queueGrid_table']
+
