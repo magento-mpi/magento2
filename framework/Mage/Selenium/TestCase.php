@@ -1783,7 +1783,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $mca = preg_replace('|/index/?$|', '/', $mca);
 
         //@TODO Temporary fix for magento2
-        $mca = preg_replace('/^(\/)?(admin|backend)\//', '',$mca);
+        $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '',$mca);
 
         return preg_replace('|^/|', '', $mca);
     }
