@@ -26,8 +26,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Options_AjaxTest extends PHPUnit_Fram
     }
 
     /**
-     * @magentoDataFixture Mage/Catalog/_files/products_with_options.php
-     * @magentoAppIsolation enabled
+     * @magentoDataFixture Mage/Catalog/_files/product_with_options.php
      */
     public function testToHtml()
     {

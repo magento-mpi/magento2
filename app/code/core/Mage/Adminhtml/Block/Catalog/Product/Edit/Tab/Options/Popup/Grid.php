@@ -22,6 +22,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid extends M
      *
      * @param Mage_Catalog_Model_Product|Varien_Object
      * @return string|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getRowUrl($row)
     {
@@ -48,10 +49,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid extends M
     public function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()->setFormFieldName('product');
-        $this->getMassactionBlock()->addItem('import', array(
-            'label'   => Mage::helper('Mage_Catalog_Helper_Data')->__('Import')
-        ));
+        $this->getMassactionBlock()
+            ->setFormFieldName('product')
+            ->addItem('import', array('label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Import')));
+
         return $this;
     }
 

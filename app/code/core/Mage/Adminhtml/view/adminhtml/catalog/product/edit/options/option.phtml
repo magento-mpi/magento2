@@ -338,9 +338,9 @@ window.productOptionScope.bindScopeCheckbox();
         $('#import_new_defined_option').click(function (){
             $('#import-container').load("<?php echo $this->getProductGridUrl()?>", function() {
                 $('#productGrid_massaction-form button').click(function (){
-                    $("#import-custom-options-apply-button").trigger('click', "massActionTrigger");
+                    $('#import-custom-options-apply-button').trigger('click', 'massActionTrigger');
                 });
-                $('#import-container').dialog("open");
+                $('#import-container').dialog('open');
             });
 
         });
@@ -352,32 +352,32 @@ window.productOptionScope.bindScopeCheckbox();
             modal: true,
             resizable: true,
             buttons: [{
-                text: "Close",
+                text: 'Close',
                 id: 'import-custom-options-close-button',
                 click: function() {
-                    $(this).dialog("close");
+                    $(this).dialog('close');
                 }
             }, {
-                text: "Import",
+                text: 'Import',
                 id: 'import-custom-options-apply-button',
                 click: function(event, massActionTrigger) {
-                    var $request = [];
+                    var request = [];
                     $(this).find('input.massaction-checkbox:checked').map(function(){
-                        $request.push(this.value);
+                        request.push(this.value);
                     });
 
-                    if ($request.length == 0) {
+                    if (request.length == 0) {
                         if (!massActionTrigger) {
                             alert('<?php echo Mage::helper('Mage_Backend_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Backend_Helper_Data')->__('Please select items.')) ?>');
                         }
                         return;
                     }
 
-                    $.post("<?php echo $this->getCustomOptionsUrl()?>", {
-                        'products[]': $request,
-                        'form_key': "<?php echo $this->getFormKey() ?>"
+                    $.post('<?php echo $this->getCustomOptionsUrl()?>', {
+                        'products[]': request,
+                        'form_key': '<?php echo $this->getFormKey() ?>'
                     }, function ($data) {
-                            $.parseJSON($data).each(function (el){
+                            $.parseJSON($data).each(function(el){
                                 el.id = window.productOption.getFreeOptionId(el.id);
                                 el.option_id = el.id;
                                 if (typeof el.optionValues != 'undefined') {
@@ -391,11 +391,9 @@ window.productOptionScope.bindScopeCheckbox();
                                 window.productOptionType.addDataToValues(el);
                                 //Will save new option on server side
                                 $('#product_option_' + el.id + '_option_id').val(0);
-                                $('#option_' + el.id + ' input[name$="option_type_id]"]').each(function(index, el) {
-                                    el.value = -1;
-                                });
+                                $('#option_' + el.id + ' input[name$="option_type_id]"]').val(-1);
                             });
-                        $('#import-container').dialog("close");
+                        $('#import-container').dialog('close');
                     });
                 }
             }]

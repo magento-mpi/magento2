@@ -14,6 +14,11 @@
  */
 class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers Mage_Backend_Block_Widget_Grid::addRssList
+     * @covers Mage_Backend_Block_Widget_Grid::clearRss
+     * @covers Mage_Backend_Block_Widget_Grid::getRssLists
+     */
     public function testAddGetClearRss()
     {
         /** @var $block Mage_Backend_Block_Widget_Grid */
