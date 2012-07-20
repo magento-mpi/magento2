@@ -26,7 +26,7 @@ $product->setTypeId('simple')
     ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)
 
     ->setCanSaveCustomOptions(true)
-    ->setProductOptions(array(array('title' => 'test_option_code_1', 'type' => 'field')))
+    ->setProductOptions(array(array('title' => 'test_option_code_1', 'type' => 'field', 'is_require' => true)))
 
     ->save()
 ;
