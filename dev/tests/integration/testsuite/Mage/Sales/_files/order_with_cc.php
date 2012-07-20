@@ -19,11 +19,11 @@ $shippingAddress->setId(null)
     ->setAddressType('shipping');
 
 $payment = new Mage_Sales_Model_Order_Payment();
-$payment->setMethod('verisign');
-$payment->setCcExpMonth('5');
-$payment->setCcLast4('0005');
-$payment->setCcType('AE');
-$payment->setCcExpYear('2016');
+$payment->setMethod('verisign')
+    ->setCcExpMonth('5')
+    ->setCcLast4('0005')
+    ->setCcType('AE')
+    ->setCcExpYear('2016');
 
 $order = new Mage_Sales_Model_Order();
 $order->setIncrementId('100000001')
