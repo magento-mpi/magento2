@@ -129,10 +129,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         if ($this->_connectToFtp($exportData['host'], $exportData['user_name'], $exportData['password'])) {
             $exportData['file_mode'] = (strtolower($exportData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             $fileContent = $this->getFileFromFtp(
-                                                 $exportData['file_mode'],
-                                                 $exportData['passive_mode'],
-                                                 $exportData['file_path'],
-                                                 $exportData['file_name']);
+                $exportData['file_mode'],
+                $exportData['passive_mode'],
+                $exportData['file_path'],
+                $exportData['file_name']);
             return $this->importExportHelper()->csvToArray($fileContent);
         } else {
             return false;
@@ -178,11 +178,11 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $fileContent = $this->importExportHelper()->arrayToCsv($fileContent);
             $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             return $this->putFileToFtp(
-                                        $importData['file_mode'],
-                                        $importData['passive_mode'],
-                                        $importData['file_path'],
-                                        $importData['file_name'],
-                                        $fileContent);
+                $importData['file_mode'],
+                $importData['passive_mode'],
+                $importData['file_path'],
+                $importData['file_name'],
+                $fileContent);
         } else {
             return false;
         }
@@ -212,7 +212,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         }
         $this->fillForm($exportData);
         foreach ($skipped as $attributeToSkip){
-             $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
+            $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
         }
         if (count($filters)>0){
             $this->importExportHelper()->setFilter($filters);
@@ -293,7 +293,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Run Date',
-                                                  $this->_getControlXpath('field', 'grid'));
+            $this->_getControlXpath('field', 'grid'));
         if ($xpath){
             return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
         } else {
@@ -342,4 +342,45 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
     }
+    /**
+     * Searches the specified data in the specific grid. Returns null or XPath of the found data.
+     *
+     * @param array $data Array of data to look up.
+     * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     *
+     * @return string|null
+     */
+    public function searchImportExport(array $data, $fieldSetName = null)
+    {
+        $waitAjax = true;
+        $xpath = '';
+        $xpathContainer = null;
+        if ($fieldSetName) {
+            $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
+            $xpath = $xpathContainer->getXpath($this->_paramsHelper);
+        }
+        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+        $jsName = $this->getAttribute($resetXpath . '@onclick');
+        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
+        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
+        if ($this->isElementPresent($scriptXpath)) {
+            $waitAjax = false;
+        }
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
+
+        //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
+        $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
+        $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
+
+        $xpathTR = $this->formSearchXpath($data);
+        //fill filter
+        $this->fillForm($data);
+        $this->clickButton('search', false);
+        $this->waitForElement($xpathPager);
+        if ($this->isElementPresent($xpath . $xpathTR)) {
+            return $xpath . $xpathTR;
+        }
+        return null;
+    }
+
 }
