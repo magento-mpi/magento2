@@ -1,12 +1,28 @@
 <?php
 /**
- * {license_notice}
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Magento
  * @package     Mage_Category
  * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 /**
  * Category Permissions tests
@@ -202,14 +218,12 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->fillCategoryInfo($permission);
-        sleep(5);
         $this->clickButton('save_category');
         $this->pleaseWait();
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
         $this->logoutCustomer();
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
-        sleep(5);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
         $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
         $this->productHelper()->frontOpenProduct($testData['product']['name']);
@@ -320,6 +334,55 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->productHelper()->frontOpenProduct($testData['product']['name']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
         $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
+    }
+
+    /**
+     * <p>Permissions are apply for products in Wishlist</p>
+     * <p>Steps</p>
+     * <p>1.Go to Catalog -> Categories -> Manage Categories</p>
+     * <p>2.Select "Category" in category tree</p>
+     * <p>3.Open Category Permissions tab</p>
+     * <p>4.Click "New Permission" button</p>
+     * <p>5.Select "All Website"</p>
+     * <p>6.Select "All Customer Groups" in Customer Group</p>
+     * <p>7.Select "Allow" in Browsing Category column</p>
+     * <p>8.Select "Deny" in Display Product Prices column</p>
+     * <p>9.Click "Save Category" button</p>
+     * <p>10.Clear Magento Cache </p>
+     * <p>11.Open Frontend</p>
+     * <p>12.Open any category</p>
+     * <p>13.Add any product to Wishlist</p>
+     * <p>14. Open Wishlist</p>
+     * <p>Expected result:</p>
+     * <p> Product price is not visible. "Add to cart" button is missing</p>
+     *
+     * @param array $testData
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-5166
+     */
+    public function permissionsInWishlist($testData)
+    {
+        //Data
+        $permission = $this->loadDataSet('Category', 'permissions_deny_display_prices');
+        $this->addParameter('productName', $testData['product']['name']);
+        $this->addParameter('price', '$' . $testData['product']['price']);
+        //Steps
+        $this->navigate('manage_categories');
+        $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->categoryHelper()->fillCategoryInfo($permission);
+        $this->clickButton('save_category');
+        $this->pleaseWait();
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->flushCache();
+        $this->logoutCustomer();
+        $this->customerHelper()->frontLoginCustomer($testData['user']);
+        $this->wishlistHelper()
+            ->frontAddProductToWishlistFromCatalogPage($testData['product']['name'], $testData['catName']);
+        $this->navigate('my_wishlist');
+        $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price should be absent');
+        $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
     }
 
     /**

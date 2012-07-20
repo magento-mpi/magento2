@@ -17,8 +17,8 @@
 # versions in the future. If you wish to customize Magento for your
 # needs please refer to http://www.magentocommerce.com for more information.
 #
-# @category    tests
-# @package     selenium
+# @category    Magento
+# @package     Mage_Category
 # @subpackage  uimaps
 # @author      Magento Core Team <core@magentocommerce.com>
 # @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
@@ -55,8 +55,8 @@ manage_categories:
                                         delete_permissions: //button[contains(@id, '_row_%row%_delete_button')]
                                         delete_all_permissions_visible: //div[contains(@id, 'category_permissions')]/div/div[not(contains(@class, 'no-display'))]//button[contains(@id, '_delete_button')]
                                         new_permission: //button[span='New Permission']
-                                    pegeelements:
-                                        option_box: //div[contains(@id, 'category_permissions__row_')]
+                                    pageelements:
+                                        option_box: //*[@class='option-box permission-box']
 
                         messages:
                             duplicate_permissions: //*[contains(@id, '-category_permissions_%row%_duplicate')]
