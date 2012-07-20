@@ -569,7 +569,7 @@ public function scheduledImportStatuses()
             $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => 'Team_B',
-                    'operation' => $value['operation']
+                    'operation' => $value['operation'],
                 )
             ));
 
