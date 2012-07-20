@@ -255,17 +255,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
             $setId = $this->getId();
         }
 
-        return ($setId) ? $this->_getResource()->getDefaultGroupId($setId) : null;
-    }
-
-    /**
-     * Add validation on beforeSave event
-     *
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _beforeSave()
-    {
-        $this->validate();
-        return parent::_beforeSave();
+        return $setId ? $this->_getResource()->getDefaultGroupId($setId) : null;
     }
 }
