@@ -29,6 +29,8 @@ scheduled_import_export:
                             selectall: //div[@id='operationGrid_massaction']//a[contains(.,'Select All')]
                         fields:
                             name: //input[@id='operationGrid_filter_name']
+                            date_from: //input[@name='last_run_date[from]']
+                            date_to: //input[@name='last_run_date[to]']
                             grid: //table[@id='operationGrid_table']
                         dropdowns:
                             operation: //select[@id='operationGrid_filter_operation_type']
@@ -38,6 +40,7 @@ scheduled_import_export:
                             status: //select[@id='operationGrid_filter_status']
                             last_outcome: //select[@id='operationGrid_filter_is_success']
                             action: //tr[td[2][normalize-space(text())='%attr_code%']]//select[@class = 'action-select']
+                            status_visibility: //select[@id='visibility']
                             grid_massaction_select: //select[@id='operationGrid_massaction-select']
                         pageelements:
                             scheduled_grid_head: //thead/tr[@class='headings']
@@ -55,6 +58,7 @@ scheduled_import_export:
             delete_confirmation_import: Are you sure you want to delete this scheduled import?
             success_delete_records: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedRecords% record(s) have been deleted')]
             delete_confirmation: Are you sure you want to delete the selected scheduled imports/exports?
+            success_update_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedRecords% record(s) have been updated')]
 
 
 #scheduled_import_export_index:
