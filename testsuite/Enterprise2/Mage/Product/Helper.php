@@ -15,17 +15,6 @@
 class Enterprise2_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
     /**
-     * Create Product without saving
-     *
-     * @param array $productData
-     * @param string $productType
-     */
-    public function createProductWithoutSave(array $productData, $productType = 'simple')
-    {
-        $this->helper('Community2/Mage/Product')->createProductWithoutSave($productData, $productType);
-    }
-
-    /**
      * Import custom options from existent product
      *
      * @param mixed $productSku String or Array of SKUs

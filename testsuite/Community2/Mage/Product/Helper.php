@@ -15,22 +15,6 @@
 class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
 {
     /**
-     * Create Product without saving
-     *
-     * @param array $productData
-     * @param string $productType
-     */
-    public function createProductWithoutSave(array $productData, $productType = 'simple')
-    {
-        $this->clickButton('add_new_product');
-        $this->fillProductSettings($productData, $productType);
-        if ($productType == 'configurable') {
-            $this->fillConfigurableSettings($productData);
-        }
-        $this->fillProductInfo($productData, $productType);
-    }
-
-    /**
      * Import custom options from existent product
      *
      * @param array $productData

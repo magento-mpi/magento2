@@ -132,7 +132,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->productHelper()->createProduct($productDataCustomOption, $type);
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->createProductWithoutSave($productData, $type);
+        $this->productHelper()->createProduct($productData, $type, false);
         $this->productHelper()->importCustomOptions(array ($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
@@ -207,7 +207,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $selectProduct = array('product_sku' => $simpleField['general_sku']);
         //Steps
-        $this->productHelper()->createProductWithoutSave($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->importCustomOptions(array ($selectProduct));
         $this->productHelper()->importCustomOptions(array ($selectProduct));
         $this->saveForm('save');
@@ -271,7 +271,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $selectProductField = array('product_sku' => $simpleField['general_sku']);
         $selectProductDate = array('product_sku' => $simpleDate['general_sku']);
         //Steps
-        $this->productHelper()->createProductWithoutSave($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->importCustomOptions(array($selectProductField, $selectProductDate));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
@@ -324,7 +324,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $selectProduct = array('product_sku' => $simpleField['general_sku']);
         //Steps
-        $this->productHelper()->createProductWithoutSave($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productHelper()->importCustomOptions(array($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
