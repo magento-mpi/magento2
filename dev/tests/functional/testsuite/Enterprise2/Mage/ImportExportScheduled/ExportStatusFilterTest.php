@@ -225,7 +225,8 @@ public function scheduledExportStatuses()
             array(
                 'entity_type' => 'Products',
                 'status' => 'Disabled',
-                'frequency' => 'Weekly'
+                'frequency' => 'Weekly',
+                'file_path' => 'not_exist'
             ));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
@@ -236,7 +237,8 @@ public function scheduledExportStatuses()
                 'name' => 'Team_B_Export_1',
                 'file_format_version' => 'Magento 1.7 format',
                 'status' => 'Enabled',
-                'frequency' => 'Daily'
+                'frequency' => 'Daily',
+                'file_path' => 'not_exist'
                 ));
         $this->importExportScheduledHelper()->createExport($exportData1);
         $this->assertMessagePresent('success', 'success_saved_export');
@@ -256,7 +258,8 @@ public function scheduledExportStatuses()
                 'file_format_version' => 'Magento 2.0 format',
                 'entity_subtype' => 'Customer Addresses',
                 'status' => 'Enabled',
-                'frequency' => 'Monthly'
+                'frequency' => 'Monthly',
+                'file_path' => 'not_exist'
             ));
         $this->importExportScheduledHelper()->createExport($exportData2);
         $this->assertMessagePresent('success', 'success_saved_export');
@@ -268,7 +271,8 @@ public function scheduledExportStatuses()
                 'file_format_version' => 'Magento 2.0 format',
                 'entity_subtype' => 'Customers Main File',
                 'status' => 'Disabled',
-                'frequency' => 'Daily'
+                'frequency' => 'Daily',
+                'file_path' => 'not_exist'
             ));
         $this->importExportScheduledHelper()->createExport($exportData3);
         $this->assertMessagePresent('success', 'success_saved_export');
@@ -279,7 +283,8 @@ public function scheduledExportStatuses()
                 'file_format_version' => 'Magento 2.0 format',
                 'entity_subtype' => 'Customer Finances',
                 'status' => 'Enabled',
-                'frequency' => 'Monthly'
+                'frequency' => 'Monthly',
+                'file_path' => 'not_exist'
             ));
         $this->importExportScheduledHelper()->createExport($exportData4);
         $this->assertMessagePresent('success', 'success_saved_export');
