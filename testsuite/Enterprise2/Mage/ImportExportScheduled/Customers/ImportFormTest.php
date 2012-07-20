@@ -21,14 +21,27 @@
  */
 class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Precondition:</p>
+     * <p>Delete all existing imports/exports</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->admin('scheduled_import_export');
+        if ($this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Export')) ||
+            $this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Import'))) {
+            $this->clickControl('link', 'selectall', false);
+            $this->fillDropdown('grid_massaction_select', 'Delete');
+            $this->clickButtonAndConfirm('submit', 'delete_confirmation');
+        }
+    }
+
     protected function assertPreConditions()
     {
         //logged in once for all tests
         $this->loginAdminUser();
         $this->admin('scheduled_import_export');
-        $this->clickControl('link', 'selectall', false);
-        $this->fillDropdown('grid_massaction_select', 'Delete');
-        $this->clickButtonAndConfirm('submit', 'delete_confirmation');
     }
 
     /**
