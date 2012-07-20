@@ -155,7 +155,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
      * <p>Expected:</p>
      * <p>Validation error is shown. Message 'Please fix errors and re-upload file' is shown.</p>
      *
-     * @dataProvider AmbiguousData
+     * @dataProvider ambiguousData
      * @test
      * @TestlinkId TL-MAGE-5830, 5834
      */
@@ -182,7 +182,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         $this->assertEquals($validationMessage, $importResult, 'Import has been finished with issues');
     }
 
-    public function AmbiguousData()
+    public function ambiguousData()
     {
         $productData1 = $this->loadDataSet('Product', 'simple_product_required');
         $productData1['custom_options_data'] = array(
