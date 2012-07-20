@@ -348,7 +348,6 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_MaestroSoloCreditCardsTest ex
      */
     public function reorderPendingOrder($orderData)
     {
-        $this->markTestIncomplete('MAGETWO-1852');
         //Data
         $cardData = $orderData['payment_data']['payment_info'];
         //Steps

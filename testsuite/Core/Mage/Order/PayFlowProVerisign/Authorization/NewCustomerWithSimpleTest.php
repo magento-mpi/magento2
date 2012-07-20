@@ -324,7 +324,6 @@ class Core_Mage_Order_PayFlowProVerisign_Authorization_NewCustomerWithSimpleTest
      */
     public function reorderPendingOrder($orderData)
     {
-        $this->markTestIncomplete('MAGETWO-1852');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
