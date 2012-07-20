@@ -11,6 +11,7 @@ app/code/core/Mage/Core/Model/Design/Fallback
 app/code/core/Mage/Core/Model/Design/Fallback.php
 app/code/core/Mage/Core/Model/Design/FallbackInterface.php
 app/code/core/Mage/DesignEditor
+app/code/core/Mage/ImportExport/Model/Import/Entity/Product/Option.php
 app/code/core/Mage/Index/Model/Indexer/Abstract.php
 app/code/core/Mage/Index/Model/Shell.php
 app/code/core/Mage/Log/Model/Resource/Helper
@@ -33,4 +34,5 @@ lib/Magento/Convert
 lib/Magento/Profiler
 lib/Magento/Profiler.php
 lib/Varien/Convert
+lib/Varien/Date.php
 lib/Varien/Object.php
