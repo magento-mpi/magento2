@@ -37,3 +37,31 @@ div.mage-error {
     padding-left: 17px;
     color: #DF280A;
 }
+
+input.mage-ee-error {
+    background: none repeat scroll 0 0 #FFF7F5 !important;
+    border: 1px solid #F47D4E !important;
+}
+
+div.mage-ee-error {
+    clear: both;
+    color: #D91A00 !important;
+    font-size: 11px !important;
+    padding: 3px 0 0 !important;
+}
+
+input.mage-ce-modern-error {
+    background: none repeat scroll 0 0 #FAEBE7 !important;
+    border: 1px solid #EB340A !important;
+}
+
+div.mage-ce-modern-error {
+    background: url("/pub/media/skin/frontend/default/modern/default/en_US/images/validation_advice_bg.gif") no-repeat scroll 2px 3px transparent;
+    clear: both;
+    color: #EB340A;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 3px 0 0;
+    min-height: 13px;
+    padding-left: 13px;
+}
