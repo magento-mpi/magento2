@@ -10,7 +10,7 @@
 
 
 /**
- * CatalogInventory Stock Status Indexer Model
+ * CatalogInventory Stock BugsCoverage Indexer Model
  *
  * @method Mage_CatalogInventory_Model_Resource_Indexer_Stock _getResource()
  * @method Mage_CatalogInventory_Model_Resource_Indexer_Stock getResource()
@@ -98,7 +98,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getName()
     {
-        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Stock Status');
+        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Stock BugsCoverage');
     }
 
     /**
@@ -108,7 +108,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Index Product Stock Status');
+        return Mage::helper('Mage_CatalogInventory_Helper_Data')->__('Index Product Stock BugsCoverage');
     }
 
     /**

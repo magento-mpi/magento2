@@ -257,7 +257,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Returns value of Zero Subtotal Checkout / New Order Status
+     * Returns value of Zero Subtotal Checkout / New Order BugsCoverage
      *
      * @param mixed $store
      * @return string

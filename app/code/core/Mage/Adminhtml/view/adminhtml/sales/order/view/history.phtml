@@ -13,7 +13,7 @@
     <div id="history_form" class="order-history-form">
         <div><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Add Order Comments') ?></div>
         <span class="field-row">
-            <label class="normal" for="history_status"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('Status') ?></label><br/>
+            <label class="normal" for="history_status"><?php echo Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage') ?></label><br/>
             <select name="history[status]" class="select" id="history_status">
             <?php foreach ($this->getStatuses() as $_code=>$_label): ?>
                 <option value="<?php echo $_code ?>"<?php if($_code==$this->getOrder()->getStatus()): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>

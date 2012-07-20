@@ -89,8 +89,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page Status'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('BugsCoverage'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Page BugsCoverage'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => $model->getAvailableStatuses(),

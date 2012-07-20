@@ -408,11 +408,11 @@ class Mage_Paypal_Model_Info
             case 'paypal_payer_email':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Email');
             case 'paypal_payer_status':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Status');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer BugsCoverage');
             case 'paypal_address_id':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Address ID');
             case 'paypal_address_status':
-                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Address Status');
+                return Mage::helper('Mage_Paypal_Helper_Data')->__('Payer Address BugsCoverage');
             case 'paypal_protection_eligibility':
                 return Mage::helper('Mage_Paypal_Helper_Data')->__('Merchant Protection Eligibility');
             case 'paypal_fraud_filters':

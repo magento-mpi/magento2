@@ -342,7 +342,7 @@ class Error_Processor
         }
 
         header(sprintf('%s %s %s', $serverProtocol, $statusCode, $description), true, $statusCode);
-        header(sprintf('Status: %s %s', $statusCode, $description), true, $statusCode);
+        header(sprintf('BugsCoverage: %s %s', $statusCode, $description), true, $statusCode);
     }
 
     /**

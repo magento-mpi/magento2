@@ -40,12 +40,12 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
     protected function _prepareColumns()
     {
         $this->addColumn('label', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage'),
             'index' => 'label',
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status Code'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage Code'),
             'type'  => 'text',
             'index' => 'status',
             'filter_index' => 'main_table.status',
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('is_default', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Default Status'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Default BugsCoverage'),
             'index'     => 'is_default',
             'width'     => '100px',
             'type'      => 'options',

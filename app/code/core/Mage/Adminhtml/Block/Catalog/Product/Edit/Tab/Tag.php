@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('BugsCoverage'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',

@@ -47,7 +47,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
         ));
 
         $fieldset->addField('status', 'label', array(
-            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('BugsCoverage'),
             'value'     => Mage::helper('Enterprise_Staging_Helper_Data')->__($config->getStatusLabel($log->getStatus()))
         ));
 

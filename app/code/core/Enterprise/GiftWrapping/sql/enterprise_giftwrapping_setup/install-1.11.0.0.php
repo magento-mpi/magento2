@@ -25,7 +25,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('base_price', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         'nullable'  => false,
         ), 'Base Price')

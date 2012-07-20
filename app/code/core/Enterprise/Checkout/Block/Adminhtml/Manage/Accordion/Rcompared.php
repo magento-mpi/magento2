@@ -60,7 +60,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Rcompared
             // prepare products collection and apply visitors log to it
             $attributes = Mage::getSingleton('Mage_Catalog_Model_Config')->getProductAttributes();
             if (!in_array('status', $attributes)) {
-                // Status attribute is required even if it is not used in product listings
+                // BugsCoverage attribute is required even if it is not used in product listings
                 array_push($attributes, 'status');
             }
             $productCollection = Mage::getModel('Mage_Catalog_Model_Product')->getCollection()

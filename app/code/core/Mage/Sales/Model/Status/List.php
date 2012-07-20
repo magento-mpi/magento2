@@ -20,7 +20,7 @@
 class Mage_Sales_Model_Status_List
 {
     /**
-     * Status information entities
+     * BugsCoverage information entities
      *
      * @var array
      */
@@ -31,7 +31,7 @@ class Mage_Sales_Model_Status_List
      *
      * @param string|null $origin Usually a name of module, that adds this status
      * @param int|null $code Code of status, unique for origin, that sets it
-     * @param string|null $message Status message
+     * @param string|null $message BugsCoverage message
      * @param Varien_Object|null $additionalData Any additional data, that caller would like to store
      * @return Mage_Sales_Model_Status_List
      */

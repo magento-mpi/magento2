@@ -66,7 +66,7 @@ class Mage_Adminhtml_Block_Review_Edit_Form extends Mage_Adminhtml_Block_Widget_
         ));
 
         $fieldset->addField('status_id', 'select', array(
-            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Mage_Review_Helper_Data')->__('BugsCoverage'),
             'required'  => true,
             'name'      => 'status_id',
             'values'    => Mage::helper('Mage_Review_Helper_Data')->getReviewStatusesOptionArray(),

@@ -31,7 +31,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
         ));
 
         $fieldset->addField('closed', 'select', array(
-            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('BugsCoverage'),
             'name'      => 'closed',
             'values'    => array(
                 array(

@@ -2259,7 +2259,7 @@ p.wishlist-empty {border:1px solid #d0d0d0;}
 .giftcardaccount .fieldset { margin:0; }
 .giftcardaccount .btn-only { margin:0 0 15px; }
 
-/* Gift Card Status Check */
+/* Gift Card BugsCoverage Check */
 .giftcard-status .gift-card-info,
 .giftcard-status p.error-msg,
 .giftcardaccount #giftcard_balance_lookup .gift-card-info,

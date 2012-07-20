@@ -15,20 +15,19 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Core_Mage_AdminUser_Helper|Community2_Mage_AdminUser_Helper adminUserHelper()
+ * @method Core_Mage_AdminUser_Helper adminUserHelper()
  * @method Core_Mage_AttributeSet_Helper attributeSetHelper()
- * @method Core_Mage_Category_Helper|Enterprise2_Mage_Category_Helper categoryHelper()
+ * @method Core_Mage_Category_Helper categoryHelper()
  * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
  * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper checkoutOnePageHelper()
  * @method Core_Mage_CmsPages_Helper cmsPagesHelper()
  * @method Core_Mage_CmsPolls_Helper cmsPollsHelper()
  * @method Core_Mage_CmsStaticBlocks_Helper cmsStaticBlocksHelper()
- * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper|Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
+ * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper cmsWidgetsHelper()
  * @method Core_Mage_CompareProducts_Helper compareProductsHelper()
  * @method Core_Mage_CustomerGroups_Helper customerGroupsHelper()
  * @method Core_Mage_Customer_Helper customerHelper()
  * @method Core_Mage_Installation_Helper installationHelper()
- * @method Core_Mage_Newsletter_Helper newsletterHelper()
  * @method Core_Mage_OrderCreditMemo_Helper orderCreditMemoHelper()
  * @method Core_Mage_OrderInvoice_Helper orderInvoiceHelper()
  * @method Core_Mage_OrderShipment_Helper orderShipmentHelper()
@@ -50,8 +49,11 @@
  * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
  * @method Enterprise2_Mage_AddBySku_Helper addBySkuHelper()
+ * @method Enterprise2_Mage_Category_Helper categoryHelper()
+ * @method Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
  * @method Enterprise2_Mage_WebsiteRestrictions websiteRestrictionsHelper()
- * @method Enterprise2_Mage_Status_Helper statusHelper()
+ * @method Community2_Mage_AdminUser_Helper adminUserHelper()
+ * @method Community2_Mage_Newsletter_Helper newsletterHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

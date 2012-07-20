@@ -50,7 +50,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 8, array(
         'nullable'  => false,
         'default'   => 'new',
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addIndex($installer->getIdxName('enterprise_invitation', array('customer_id')),
         array('customer_id'))
     ->addIndex($installer->getIdxName('enterprise_invitation', array('referral_id')),
@@ -94,13 +94,13 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 8, array(
         'nullable'  => false,
         'default'   => 'new',
-        ), 'Invitation Status')
+        ), 'Invitation BugsCoverage')
     ->addIndex($installer->getIdxName('enterprise_invitation_status_history', array('invitation_id')),
         array('invitation_id'))
     ->addForeignKey($installer->getFkName('enterprise_invitation_status_history', 'invitation_id', 'enterprise_invitation', 'invitation_id'),
         'invitation_id', $installer->getTable('enterprise_invitation'), 'invitation_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Enterprise Invitation Status History');
+    ->setComment('Enterprise Invitation BugsCoverage History');
 $installer->getConnection()->createTable($table);
 
 /**

@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('BugsCoverage'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => Mage::getSingleton('Mage_Cms_Model_Page')->getAvailableStatuses()

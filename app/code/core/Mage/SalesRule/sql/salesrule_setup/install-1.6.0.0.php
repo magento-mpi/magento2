@@ -321,7 +321,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Store Id')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('coupon_code', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Coupon Code')
     ->addColumn('coupon_uses', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -380,7 +380,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Store Id')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('coupon_code', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Coupon Code')
     ->addColumn('coupon_uses', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(

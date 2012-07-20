@@ -90,7 +90,7 @@ class Mage_ImportExport_Adminhtml_ImportController extends Mage_Adminhtml_Contro
                 $importModel->importSource();
                 $importModel->invalidateIndex();
                 $resultBlock->addAction('show', 'import_validation_container')
-                    ->addAction('innerHTML', 'import_validation_container_header', $this->__('Status'));
+                    ->addAction('innerHTML', 'import_validation_container_header', $this->__('BugsCoverage'));
             } catch (Exception $e) {
                 $resultBlock->addError($e->getMessage());
                 $this->renderLayout();

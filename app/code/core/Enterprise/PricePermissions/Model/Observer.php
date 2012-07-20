@@ -39,7 +39,7 @@ class Enterprise_PricePermissions_Model_Observer
     protected $_canReadProductPrice;
 
     /**
-     * Edit Product Status flag
+     * Edit Product BugsCoverage flag
      *
      * @var boolean
      */
@@ -356,7 +356,7 @@ class Enterprise_PricePermissions_Model_Observer
         $product = Mage::registry('product');
         if ($product->isObjectNew()) {
             $form = $observer->getEvent()->getForm();
-            // Disable Status drop-down if needed
+            // Disable BugsCoverage drop-down if needed
             if (!$this->_canEditProductStatus) {
                 $statusElement = $form->getElement('status');
                 if (!is_null($statusElement)) {

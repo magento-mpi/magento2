@@ -295,7 +295,7 @@ class Mage_Sales_Block_Recurring_Profile_View extends Mage_Core_Block_Template
             )),
             new Varien_Object(array(
                 'index' => 'status',
-                'title' => $this->__('Order Status'),
+                'title' => $this->__('Order BugsCoverage'),
                 'is_nobr' => true,
                 'width' => 1,
             )),

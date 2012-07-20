@@ -666,7 +666,7 @@
       $heads = $this->parse_headers($response);
       $body = $this->get_body_x($response);
 
-//      // Get HTTP Status code from the response
+//      // Get HTTP BugsCoverage code from the response
       $status_code = array();
       preg_match('/\d\d\d/', $heads[0], $status_code);
 

@@ -38,7 +38,7 @@ class Enterprise_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SKU_ALLOWED_GROUPS = 'sales/product_sku/allowed_groups';
 
     /**
-     * Status of item, that was added by SKU
+     * BugsCoverage of item, that was added by SKU
      */
     const ADD_ITEM_STATUS_SUCCESS = 'success';
     const ADD_ITEM_STATUS_FAILED_SKU = 'failed_sku';

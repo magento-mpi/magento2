@@ -113,7 +113,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         ));
 
         $this->addColumn('salesrule_is_active', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('BugsCoverage'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

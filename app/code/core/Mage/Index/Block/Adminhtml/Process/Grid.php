@@ -106,7 +106,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Index_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_Index_Helper_Data')->__('BugsCoverage'),
             'width'     => '120',
             'align'     => 'left',
             'index'     => 'status',

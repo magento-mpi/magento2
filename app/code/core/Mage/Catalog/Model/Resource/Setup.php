@@ -624,7 +624,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                     ),
                     'status'             => array(
                         'type'                       => 'int',
-                        'label'                      => 'Status',
+                        'label'                      => 'BugsCoverage',
                         'input'                      => 'select',
                         'source'                     => 'Mage_Catalog_Model_Product_Status',
                         'sort_order'                 => 9,

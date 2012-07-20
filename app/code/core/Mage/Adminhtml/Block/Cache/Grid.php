@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Cache_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('status', array(
-            'header'    => $this->__('Status'),
+            'header'    => $this->__('BugsCoverage'),
             'width'     => '120',
             'align'     => 'left',
             'index'     => 'status',

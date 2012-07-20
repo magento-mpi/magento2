@@ -113,7 +113,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
 
         $this->addColumn('state',
             array(
-                'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status'),
+                'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('BugsCoverage'),
                 'width'     => 100,
                 'align'     => 'center',
                 'index'     => 'state',

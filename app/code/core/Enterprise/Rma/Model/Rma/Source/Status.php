@@ -18,7 +18,7 @@
 class Enterprise_Rma_Model_Rma_Source_Status extends Enterprise_Rma_Model_Rma_Source_Abstract
 {
     /**
-     * Status constants
+     * BugsCoverage constants
      */
     const STATE_PENDING            = 'pending';
     const STATE_AUTHORIZED         = 'authorized';

@@ -28,7 +28,7 @@ $table = $installer->getConnection()
         ), 'Code')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('date_created', Varien_Db_Ddl_Table::TYPE_DATE, null, array(
         'nullable'  => false,
         ), 'Date Created')
@@ -71,7 +71,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '0'
-        ), 'Status')
+        ), 'BugsCoverage')
     ->setComment('Enterprise Giftcardaccount Pool');
 $installer->getConnection()->createTable($table);
 

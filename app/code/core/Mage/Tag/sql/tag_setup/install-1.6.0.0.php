@@ -29,7 +29,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '0',
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('first_customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         ), 'First Customer Id')

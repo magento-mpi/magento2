@@ -37,7 +37,7 @@ $table = $installer->getConnection()
         'default'   => '0',
         ), 'Store Id')
     ->addColumn('change_status_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
-        ), 'Change Status At')
+        ), 'Change BugsCoverage At')
     ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -50,7 +50,7 @@ $table = $installer->getConnection()
     ->addColumn('subscriber_status', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
-        ), 'Subscriber Status')
+        ), 'Subscriber BugsCoverage')
     ->addColumn('subscriber_confirm_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'default'   => 'NULL',
         ), 'Subscriber Confirm Code')
@@ -141,7 +141,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Queue Status')
+        ), 'Queue BugsCoverage')
     ->addColumn('queue_start_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Queue Start At')
     ->addColumn('queue_finish_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(

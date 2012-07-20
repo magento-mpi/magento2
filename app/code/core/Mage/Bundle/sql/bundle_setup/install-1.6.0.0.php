@@ -243,7 +243,7 @@ $table = $installer->getConnection()
         ), 'Option Id')
     ->addColumn('stock_status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'default'   => '0',
-        ), 'Stock Status')
+        ), 'Stock BugsCoverage')
     ->setComment('Catalog Product Bundle Stock Index');
 $installer->getConnection()->createTable($table);
 

@@ -315,7 +315,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      *
      * <p>Steps</p>
      * <p>1. Select created review from the list at "All Reviews" page (by checking checkbox);</p>
-     * <p>2. Select in "Actions" - "Update Status";</p>
+     * <p>2. Select in "Actions" - "Update BugsCoverage";</p>
      * <p>3. Update status to "Approved";</p>
      * <p>4. Click "Submit" button;</p>
      * <p>Expected result:</p>

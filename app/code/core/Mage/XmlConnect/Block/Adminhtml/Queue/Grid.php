@@ -104,7 +104,7 @@ class Mage_XmlConnect_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('status', array(
-            'header'    => $this->__('Status'),
+            'header'    => $this->__('BugsCoverage'),
             'align'     => 'left',
             'index'     => 'main_table.status',
             'type'      => 'options',

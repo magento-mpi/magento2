@@ -276,7 +276,7 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form extends Mage_Adminhtml_Block_W
 
             $fieldset->addField('store_is_active', 'select', array(
                 'name'      => 'store[is_active]',
-                'label'     => Mage::helper('Mage_Core_Helper_Data')->__('Status'),
+                'label'     => Mage::helper('Mage_Core_Helper_Data')->__('BugsCoverage'),
                 'value'     => $storeModel->getIsActive(),
                 'options'   => array(
                     0 => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Disabled'),

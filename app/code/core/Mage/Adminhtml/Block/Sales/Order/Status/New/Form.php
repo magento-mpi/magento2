@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
         ));
 
         $fieldset   = $form->addFieldset('base_fieldset', array(
-            'legend'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order Status Information')
+            'legend'    => Mage::helper('Mage_Sales_Helper_Data')->__('Order BugsCoverage Information')
         ));
 
         $fieldset->addField('is_new', 'hidden', array('name' => 'is_new', 'value' => 1));
@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
         $fieldset->addField('status', 'text',
             array(
                 'name'      => 'status',
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Status Code'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage Code'),
                 'class'     => 'required-entry validate-code',
                 'required'  => true,
             )
@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Sales_Order_Status_New_Form extends Mage_Adminhtml_Bl
         $fieldset->addField('label', 'text',
             array(
                 'name'      => 'label',
-                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Status Label'),
+                'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage Label'),
                 'class'     => 'required-entry',
                 'required'  => true,
             )

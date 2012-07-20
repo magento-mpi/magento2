@@ -144,7 +144,7 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     {
         $options = Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getOptionArray();
 
-        array_splice($options, 0, 0, array(''=>$this->__('Any Status')));
+        array_splice($options, 0, 0, array(''=>$this->__('Any BugsCoverage')));
         return $options;
     }
 

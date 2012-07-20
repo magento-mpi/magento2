@@ -28,7 +28,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'RMA Id')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('is_active', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -89,7 +89,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'RMA Id')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Increment Id')
     ->addColumn('date_requested', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
@@ -160,7 +160,7 @@ $table = $installer->getConnection()
     ->addColumn('comment', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Comment')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'default' => Varien_Db_Ddl_Table::TIMESTAMP_INIT,
         ), 'Created At')
@@ -219,7 +219,7 @@ $table = $installer->getConnection()
     ->addColumn('qty_approved', Varien_Db_Ddl_Table::TYPE_DECIMAL, '12,4', array(
         ), 'Qty of approved items')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('order_item_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
         'nullable'  => false,

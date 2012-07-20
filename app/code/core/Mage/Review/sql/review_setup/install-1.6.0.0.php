@@ -46,10 +46,10 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'primary'   => true,
-        ), 'Status id')
+        ), 'BugsCoverage id')
     ->addColumn('status_code', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
-        ), 'Status code')
+        ), 'BugsCoverage code')
     ->setComment('Review statuses');
 $installer->getConnection()->createTable($table);
 
@@ -81,7 +81,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Status code')
+        ), 'BugsCoverage code')
     ->addIndex($installer->getIdxName('review', array('entity_id')),
         array('entity_id'))
     ->addIndex($installer->getIdxName('review', array('status_id')),

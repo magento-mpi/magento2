@@ -86,7 +86,7 @@ class Mage_Adminhtml_Block_Promo_Catalog_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('BugsCoverage'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

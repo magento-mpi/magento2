@@ -62,7 +62,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 ->setData($data);
             Mage::register('current_status', $status);
         }
-        $this->_title($this->__('Sales'))->_title($this->__('Create New Order Status'));
+        $this->_title($this->__('Sales'))->_title($this->__('Create New Order BugsCoverage'));
         $this->loadLayout()
             ->renderLayout();
     }
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
         $status = $this->_initStatus();
         if ($status) {
             Mage::register('current_status', $status);
-            $this->_title($this->__('Sales'))->_title($this->__('Edit Order Status'));
+            $this->_title($this->__('Sales'))->_title($this->__('Edit Order BugsCoverage'));
             $this->loadLayout()
                 ->renderLayout();
         } else {
@@ -151,7 +151,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
      */
     public function assignAction()
     {
-        $this->_title($this->__('Sales'))->_title($this->__('Assign Order Status to State'));
+        $this->_title($this->__('Sales'))->_title($this->__('Assign Order BugsCoverage to State'));
         $this->loadLayout()
             ->renderLayout();
     }
@@ -177,7 +177,7 @@ class Mage_Adminhtml_Sales_Order_StatusController extends Mage_Adminhtml_Control
                 } catch (Exception $e) {
                     $this->_getSession()->addException(
                         $e,
-                        Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while assigning order status. Status has not been assigned.')
+                        Mage::helper('Mage_Sales_Helper_Data')->__('An error occurred while assigning order status. BugsCoverage has not been assigned.')
                     );
                 }
             } else {

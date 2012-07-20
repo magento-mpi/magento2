@@ -67,7 +67,7 @@ class Mage_User_Block_User_Grid extends Mage_Backend_Block_Widget_Grid
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_User_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('BugsCoverage'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(

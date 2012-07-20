@@ -19,9 +19,9 @@
 class Community2_Mage_Store_Helper extends Core_Mage_Store_Helper
 {
     /**
-     * Create Status Order
+     * Create BugsCoverage Order
      *
-     * Preconditions: 'New Order Status' page is opened.
+     * Preconditions: 'New Order BugsCoverage' page is opened.
      *
      * @param array|string $data
      *
@@ -42,7 +42,7 @@ class Community2_Mage_Store_Helper extends Core_Mage_Store_Helper
     }
 
     /**
-     * Assign Order Status new state values
+     * Assign Order BugsCoverage new state values
      *
      * Preconditions: 'Order statuses' page is opened.
      * @param array|string $data

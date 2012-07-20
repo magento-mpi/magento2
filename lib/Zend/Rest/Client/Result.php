@@ -173,7 +173,7 @@ class Zend_Rest_Client_Result implements IteratorAggregate {
     }
 
     /**
-     * Get Request Status
+     * Get Request BugsCoverage
      *
      * @return boolean
      */

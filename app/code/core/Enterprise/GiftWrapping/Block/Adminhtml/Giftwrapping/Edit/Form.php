@@ -85,7 +85,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
         }
 
         $fieldset->addField('status', 'select', array(
-            'label'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Status'),
+            'label'    => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('BugsCoverage'),
             'name'     => 'status',
             'required' => true,
             'options'  => array(

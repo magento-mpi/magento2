@@ -24,9 +24,9 @@ class Mage_Adminhtml_Block_Sales_Order_Status extends Mage_Adminhtml_Block_Widge
     {
         $this->_controller = 'sales_order_status';
         $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Order Statuses');
-        $this->_addButtonLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Create New Status');
+        $this->_addButtonLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Create New BugsCoverage');
         $this->_addButton('assign', array(
-            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Assign Status to State'),
+            'label'     => Mage::helper('Mage_Sales_Helper_Data')->__('Assign BugsCoverage to State'),
             'onclick'   => 'setLocation(\'' . $this->getAssignUrl() .'\')',
             'class'     => 'add',
         ));

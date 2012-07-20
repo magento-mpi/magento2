@@ -124,7 +124,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'Stock Status Changed Automatically')
+        ), 'Stock BugsCoverage Changed Automatically')
     ->addColumn('use_config_qty_increments', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -194,7 +194,7 @@ $table = $installer->getConnection()
     ->addColumn('stock_status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Stock Status')
+        ), 'Stock BugsCoverage')
     ->addIndex($installer->getIdxName('cataloginventory_stock_status', array('stock_id')),
         array('stock_id')
     )
@@ -219,7 +219,7 @@ $table = $installer->getConnection()
         'website_id', $installer->getTable('core_website'), 'website_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE
     )
-    ->setComment('Cataloginventory Stock Status');
+    ->setComment('Cataloginventory Stock BugsCoverage');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -249,14 +249,14 @@ $table = $installer->getConnection()
     ->addColumn('stock_status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Stock Status')
+        ), 'Stock BugsCoverage')
     ->addIndex($installer->getIdxName('cataloginventory_stock_status_idx', array('stock_id')),
         array('stock_id')
     )
     ->addIndex($installer->getIdxName('cataloginventory_stock_status_idx', array('website_id')),
         array('website_id')
     )
-    ->setComment('Cataloginventory Stock Status Indexer Idx');
+    ->setComment('Cataloginventory Stock BugsCoverage Indexer Idx');
 $installer->getConnection()->createTable($table);
 
 /**
@@ -286,14 +286,14 @@ $table = $installer->getConnection()
     ->addColumn('stock_status', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
-        ), 'Stock Status')
+        ), 'Stock BugsCoverage')
     ->addIndex($installer->getIdxName('cataloginventory_stock_status_tmp', array('stock_id')),
         array('stock_id')
     )
     ->addIndex($installer->getIdxName('cataloginventory_stock_status_tmp', array('website_id')),
         array('website_id')
     )
-    ->setComment('Cataloginventory Stock Status Indexer Tmp');
+    ->setComment('Cataloginventory Stock BugsCoverage Indexer Tmp');
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();

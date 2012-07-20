@@ -105,7 +105,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
             $this->setChild('reset_status_button',
                 $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')
                     ->setData(array(
-                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset Status'),
+                        'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset BugsCoverage'),
                         'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/resetStatus', array('_current'=>true)) . '\')',
                         'class' => 'reset'
                 ))

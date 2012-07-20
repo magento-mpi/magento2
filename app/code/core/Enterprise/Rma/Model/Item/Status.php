@@ -9,7 +9,7 @@
  */
 
 /**
- * RMA Item Status Manager
+ * RMA Item BugsCoverage Manager
  *
  * @category   Enterprise
  * @package    Enterprise_Rma

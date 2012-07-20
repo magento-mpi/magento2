@@ -37,7 +37,7 @@ $table = $installer->getConnection()
     ->addColumn('info', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Additional information')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 15, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('user', Varien_Db_Ddl_Table::TYPE_TEXT, 40, array(
         ), 'User name')
     ->addColumn('user_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(

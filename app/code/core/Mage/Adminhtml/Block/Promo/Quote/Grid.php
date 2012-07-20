@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Promo_Quote_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('BugsCoverage'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

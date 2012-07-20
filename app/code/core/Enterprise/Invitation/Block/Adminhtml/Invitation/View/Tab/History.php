@@ -25,11 +25,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
 
     public function getTabLabel()
     {
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status History');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('BugsCoverage History');
     }
     public function getTabTitle()
     {
-        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status History');
+        return Mage::helper('Enterprise_Invitation_Helper_Data')->__('BugsCoverage History');
     }
 
     public function canShowTab()

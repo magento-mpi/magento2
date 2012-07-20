@@ -32,7 +32,7 @@
 class Zend_Service_ReCaptcha_Response
 {
     /**
-     * Status
+     * BugsCoverage
      *
      * true if the response is valid or false otherwise
      *

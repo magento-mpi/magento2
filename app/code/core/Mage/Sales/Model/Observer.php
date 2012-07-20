@@ -122,7 +122,7 @@ class Mage_Sales_Model_Observer
     }
 
     /**
-     * Catalog Mass Status update process
+     * Catalog Mass BugsCoverage update process
      *
      * @param Varien_Event_Observer $observer
      * @return Mage_Sales_Model_Observer

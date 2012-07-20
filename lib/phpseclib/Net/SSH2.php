@@ -479,7 +479,7 @@ class Net_SSH2 {
     var $channel_buffers = array();
 
     /**
-     * Channel Status
+     * Channel BugsCoverage
      *
      * Contains the type of the last sent message
      *

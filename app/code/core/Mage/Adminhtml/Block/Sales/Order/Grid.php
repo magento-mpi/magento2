@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage'),
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',

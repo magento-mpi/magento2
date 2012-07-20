@@ -273,7 +273,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * Reset Staging Status to allow next merge
+     * Reset Staging BugsCoverage to allow next merge
      * needs if previous create/merge/rollback process was not fully finished
      *
      */

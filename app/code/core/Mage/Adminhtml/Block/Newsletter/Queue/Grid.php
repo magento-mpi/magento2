@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
          $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Status'),
+            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('BugsCoverage'),
             'index'		=> 'queue_status',
             'type'      => 'options',
             'options'   => array(

@@ -95,8 +95,8 @@ class Mage_Adminhtml_Block_Promo_Quote_Edit_Tab_Main
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
-            'title'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('BugsCoverage'),
+            'title'     => Mage::helper('Mage_SalesRule_Helper_Data')->__('BugsCoverage'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(

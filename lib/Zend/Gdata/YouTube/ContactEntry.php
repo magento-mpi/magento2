@@ -29,7 +29,7 @@
 /**
  * @see Zend_Gdata_YouTube_Extension_Status
  */
-#require_once 'Zend/Gdata/YouTube/Extension/Status.php';
+#require_once 'Zend/Gdata/YouTube/Extension/BugsCoverage.php';
 
 /**
  * The YouTube contacts flavor of an Atom Entry with media support
@@ -52,7 +52,7 @@ class Zend_Gdata_YouTube_ContactEntry extends Zend_Gdata_YouTube_UserProfileEntr
     protected $_entryClassName = 'Zend_Gdata_YouTube_ContactEntry';
 
     /**
-     * Status of the user as a contact
+     * BugsCoverage of the user as a contact
      *
      * @var string
      */

@@ -26,7 +26,7 @@ $table = $installer->getConnection()
     ->addColumn('state', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         ), 'State')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('coupon_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Coupon Code')
     ->addColumn('protect_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -245,7 +245,7 @@ $table = $installer->getConnection()
     ->addColumn('hold_before_state', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Hold Before State')
     ->addColumn('hold_before_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Hold Before Status')
+        ), 'Hold Before BugsCoverage')
     ->addColumn('order_currency_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Order Currency Code')
     ->addColumn('original_increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
@@ -344,7 +344,7 @@ $table = $installer->getConnection()
         'primary'   => true,
         ), 'Entity Id')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         ), 'Store Id')
@@ -503,7 +503,7 @@ $table = $installer->getConnection()
     ->addColumn('comment', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Comment')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Created At')
     ->addIndex($installer->getIdxName('sales_flat_order_status_history', array('parent_id')),
@@ -513,7 +513,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('sales_flat_order_status_history', 'parent_id', 'sales_flat_order', 'entity_id'),
         'parent_id', $installer->getTable('sales_flat_order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Sales Flat Order Status History');
+    ->setComment('Sales Flat Order BugsCoverage History');
 $installer->getConnection()->createTable($table);
 
 
@@ -802,7 +802,7 @@ $table = $installer->getConnection()
     ->addColumn('cc_last4', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Cc Last4')
     ->addColumn('cc_status_description', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Cc Status Description')
+        ), 'Cc BugsCoverage Description')
     ->addColumn('echeck_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Echeck Type')
     ->addColumn('cc_debug_response_serialized', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -814,7 +814,7 @@ $table = $installer->getConnection()
     ->addColumn('last_trans_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Last Trans Id')
     ->addColumn('cc_cid_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Cc Cid Status')
+        ), 'Cc Cid BugsCoverage')
     ->addColumn('cc_owner', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Cc Owner')
     ->addColumn('cc_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -824,11 +824,11 @@ $table = $installer->getConnection()
     ->addColumn('cc_exp_year', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Cc Exp Year')
     ->addColumn('cc_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Cc Status')
+        ), 'Cc BugsCoverage')
     ->addColumn('echeck_routing_number', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Echeck Routing Number')
     ->addColumn('account_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Account Status')
+        ), 'Account BugsCoverage')
     ->addColumn('anet_trans_method', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Anet Trans Method')
     ->addColumn('cc_debug_response_body', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
@@ -838,13 +838,13 @@ $table = $installer->getConnection()
     ->addColumn('echeck_account_name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Echeck Account Name')
     ->addColumn('cc_avs_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Cc Avs Status')
+        ), 'Cc Avs BugsCoverage')
     ->addColumn('cc_number_enc', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Cc Number Enc')
     ->addColumn('cc_trans_id', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Cc Trans Id')
     ->addColumn('address_status', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
-        ), 'Address Status')
+        ), 'Address BugsCoverage')
     ->addColumn('additional_information', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Additional Information')
     ->addIndex($installer->getIdxName('sales_flat_order_payment', array('parent_id')),
@@ -888,7 +888,7 @@ $table = $installer->getConnection()
     ->addColumn('billing_address_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         ), 'Billing Address Id')
     ->addColumn('shipment_status', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Shipment Status')
+        ), 'Shipment BugsCoverage')
     ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Increment Id')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
@@ -942,7 +942,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Order Id')
     ->addColumn('shipment_status', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Shipment Status')
+        ), 'Shipment BugsCoverage')
     ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         ), 'Increment Id')
     ->addColumn('order_increment_id', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
@@ -1493,7 +1493,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Email Sent')
     ->addColumn('creditmemo_status', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Creditmemo Status')
+        ), 'Creditmemo BugsCoverage')
     ->addColumn('state', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         ), 'State')
     ->addColumn('shipping_address_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -1587,7 +1587,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Order Id')
     ->addColumn('creditmemo_status', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        ), 'Creditmemo Status')
+        ), 'Creditmemo BugsCoverage')
     ->addColumn('state', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         ), 'State')
     ->addColumn('invoice_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -2556,7 +2556,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Store Id')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
@@ -2604,7 +2604,7 @@ $table = $installer->getConnection()
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
@@ -2652,7 +2652,7 @@ $table = $installer->getConnection()
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
@@ -2829,7 +2829,7 @@ $table = $installer->getConnection()
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
         'default'   => '',
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
@@ -2874,7 +2874,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Store Id')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
@@ -2919,7 +2919,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Store Id')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('shipping_description', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Shipping Description')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -2964,7 +2964,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         ), 'Store Id')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'Order Status')
+        ), 'Order BugsCoverage')
     ->addColumn('shipping_description', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Shipping Description')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -3212,7 +3212,7 @@ $table = $installer->getConnection()
         ), 'Reference Id')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         'nullable'  => false,
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Created At')
@@ -3499,11 +3499,11 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('label', Varien_Db_Ddl_Table::TYPE_TEXT, 128, array(
         'nullable'  => false,
         ), 'Label')
-    ->setComment('Sales Order Status Table');
+    ->setComment('Sales Order BugsCoverage Table');
 $installer->getConnection()->createTable($table);
 
 
@@ -3515,7 +3515,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('state', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
@@ -3528,7 +3528,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('sales_order_status_state', 'status', 'sales_order_status', 'status'),
         'status', $installer->getTable('sales_order_status'), 'status',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Sales Order Status Table');
+    ->setComment('Sales Order BugsCoverage Table');
 $installer->getConnection()->createTable($table);
 
 
@@ -3540,7 +3540,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 32, array(
         'nullable'  => false,
         'primary'   => true,
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('store_id', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -3557,7 +3557,7 @@ $table = $installer->getConnection()
     ->addForeignKey($installer->getFkName('sales_order_status_label', 'store_id', 'core_store', 'store_id'),
         'store_id', $installer->getTable('core_store'), 'store_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->setComment('Sales Order Status Label Table');
+    ->setComment('Sales Order BugsCoverage Label Table');
 $installer->getConnection()->createTable($table);
 
 

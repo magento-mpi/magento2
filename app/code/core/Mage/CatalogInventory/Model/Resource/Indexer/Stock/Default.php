@@ -10,7 +10,7 @@
 
 
 /**
- * CatalogInventory Default Stock Status Indexer Resource Model
+ * CatalogInventory Default Stock BugsCoverage Indexer Resource Model
  *
  * @category    Mage
  * @package     Mage_CatalogInventory

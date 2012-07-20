@@ -55,7 +55,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         // reload order to obtain new status
         $order->load($order->getId());
 
-        $this->assertEquals(Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'Status is not CANCELED');
+        $this->assertEquals(Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'BugsCoverage is not CANCELED');
     }
 
     /**
@@ -84,7 +84,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         $order->load($order->getId());
 
         $this->assertNotEquals(
-            Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'Status is changed to CANCELED'
+            Mage_Sales_Model_Order::STATE_CANCELED, $order->getStatus(), 'BugsCoverage is changed to CANCELED'
         );
     }
 
@@ -110,7 +110,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         // reload order to obtain new status
         $order->load($order->getId());
 
-        $this->assertEquals(Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is not HOLDED');
+        $this->assertEquals(Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'BugsCoverage is not HOLDED');
     }
 
     /**
@@ -137,7 +137,7 @@ class Api_SalesOrder_StatusTest extends Magento_Test_Webservice
         $order->load($order->getId());
 
         $this->assertNotEquals(
-            Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'Status is changed to HOLDED'
+            Mage_Sales_Model_Order::STATE_HOLDED, $order->getStatus(), 'BugsCoverage is changed to HOLDED'
         );
     }
 }

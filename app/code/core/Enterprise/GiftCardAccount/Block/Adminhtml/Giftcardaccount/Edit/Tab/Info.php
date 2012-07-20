@@ -37,8 +37,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
 
             $fieldset->addField('state_text', 'label', array(
                 'name'      => 'state_text',
-                'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status'),
-                'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status')
+                'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('BugsCoverage'),
+                'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('BugsCoverage')
             ));
         }
 

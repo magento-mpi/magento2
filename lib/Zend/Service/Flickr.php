@@ -109,7 +109,7 @@ class Zend_Service_Flickr
              * @see Zend_Service_Exception
              */
             #require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception('An error occurred sending request. Status code: '
+            throw new Zend_Service_Exception('An error occurred sending request. BugsCoverage code: '
                                            . $response->getStatus());
         }
 
@@ -173,7 +173,7 @@ class Zend_Service_Flickr
              * @see Zend_Service_Exception
              */
             #require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception('An error occurred sending request. Status code: '
+            throw new Zend_Service_Exception('An error occurred sending request. BugsCoverage code: '
                                            . $response->getStatus());
         }
 
@@ -228,7 +228,7 @@ class Zend_Service_Flickr
             * @see Zend_Service_Exception
             */
             #require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception('An error occurred sending request. Status code: '
+            throw new Zend_Service_Exception('An error occurred sending request. BugsCoverage code: '
                                            . $response->getStatus());
         }
 
@@ -278,7 +278,7 @@ class Zend_Service_Flickr
              * @see Zend_Service_Exception
              */
             #require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception('An error occurred sending request. Status code: '
+            throw new Zend_Service_Exception('An error occurred sending request. BugsCoverage code: '
                                            . $response->getStatus());
         }
 
@@ -322,7 +322,7 @@ class Zend_Service_Flickr
              * @see Zend_Service_Exception
              */
             #require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception('An error occurred sending request. Status code: '
+            throw new Zend_Service_Exception('An error occurred sending request. BugsCoverage code: '
                                            . $response->getStatus());
         }
 

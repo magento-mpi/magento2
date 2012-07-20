@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
     }
 
     /**
-     * Status history date/datetime getter
+     * BugsCoverage history date/datetime getter
      *
      * @param array $item
      * @param string $dateType
@@ -138,7 +138,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
     }
 
     /**
-     * Status history item title getter
+     * BugsCoverage history item title getter
      *
      * @param array $item
      * @return string
@@ -164,7 +164,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_History
     }
 
     /**
-     * Status history item comment getter
+     * BugsCoverage history item comment getter
      *
      * @param array $item
      * @return string

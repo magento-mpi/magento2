@@ -32,10 +32,10 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     /**
      * <p>Test navigation.</p>
      * <p>Steps:</p>
-     * <p>1. Verify that 'Create New Status' button is present and click her.</p>
+     * <p>1. Verify that 'Create New BugsCoverage' button is present and click her.</p>
      * <p>2. Verify that the new order status page is opened.</p>
      * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Save Status' button is present.</p>
+     * <p>4. Verify that 'Save BugsCoverage' button is present.</p>
      * <p>5. Verify that 'Reset' button is present.</p>
      *
      * @test
@@ -43,7 +43,7 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     public function navigation()
     {
         $this->assertTrue($this->controlIsPresent('button', 'create_new_status'),
-            'There is no "Create Status" button on the page');
+            'There is no "Create BugsCoverage" button on the page');
         $this->clickButton('create_new_status');
         $this->assertTrue($this->controlIsPresent('button', 'back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->controlIsPresent('button', 'save_status'), 'There is no "Save" button on the page');
@@ -51,13 +51,13 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create Custom Order Status. Fill in only required fields.</p>
+     * <p>Create Custom Order BugsCoverage. Fill in only required fields.</p>
      * <p>Steps:</p>
-     * <p>1. Click 'Create New Status' button.</p>
+     * <p>1. Click 'Create New BugsCoverage' button.</p>
      * <p>2. Fill in required fields.</p>
-     * <p>3. Click 'Save Status' button.</p>
+     * <p>3. Click 'Save BugsCoverage' button.</p>
      * <p>Expected result:</p>
-     * <p>Status is created.</p>
+     * <p>BugsCoverage is created.</p>
      * <p>Success Message is displayed</p>
      *
      * @test
@@ -66,7 +66,7 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsOnly()
     {
         //Data
-        $statusData = $this->loadDataSet('Status', 'generic_status');
+        $statusData = $this->loadDataSet('BugsCoverage', 'generic_status');
         //Steps
         $this->storeHelper()->createStatus($statusData);
         //Verifying
@@ -74,14 +74,14 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create New Order Status.  Fill in field 'Code' by using code that already exist.</p>
+     * <p>Create New Order BugsCoverage.  Fill in field 'Code' by using code that already exist.</p>
      * <p>Steps:</p>
-     * <p>1. Click 'Create new Order Status' button.</p>
+     * <p>1. Click 'Create new Order BugsCoverage' button.</p>
      * <p>2. Fill in 'Code' field by using code that already exist.</p>
      * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Status' button.</p>
+     * <p>4. Click 'Save BugsCoverage' button.</p>
      * <p>Expected result:</p>
-     * <p>Status is not created.</p>
+     * <p>BugsCoverage is not created.</p>
      * <p>Error Message is displayed.</p>
      *
      * @param array $statusData
@@ -99,13 +99,13 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create New Order Status. Fill in all required fields except one field.</p>
+     * <p>Create New Order BugsCoverage. Fill in all required fields except one field.</p>
      * <p>Steps:</p>
-     * <p>1. Click 'Create New Order Status' button.</p>
+     * <p>1. Click 'Create New Order BugsCoverage' button.</p>
      * <p>2. Fill in required fields except one field.</p>
      * <p>3. Click 'Save Order' button.</p>
      * <p>Expected result:</p>
-     * <p>Status is not created.</p>
+     * <p>BugsCoverage is not created.</p>
      * <p>Error Message is displayed.</p>
      *
      * @param $emptyField
@@ -120,7 +120,7 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $statusData = $this->loadDataSet('Status', 'generic_status', array($emptyField => '%noValue%'));
+        $statusData = $this->loadDataSet('BugsCoverage', 'generic_status', array($emptyField => '%noValue%'));
         //Steps
         $this->storeHelper()->createStatus($statusData);
         //Verifying
@@ -138,14 +138,14 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create New Status Order. Fill in field 'Label' by using special characters.</p>
+     * <p>Create New BugsCoverage Order. Fill in field 'Label' by using special characters.</p>
      * <p>Steps:</p>
-     * <p>1. Click 'New Status Order' button.</p>
+     * <p>1. Click 'New BugsCoverage Order' button.</p>
      * <p>2. Fill in 'Label' field by special characters.</p>
      * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Status' button.</p>
+     * <p>4. Click 'Save BugsCoverage' button.</p>
      * <p>Expected result:</p>
-     * <p>New Status Order is created.</p>
+     * <p>New BugsCoverage Order is created.</p>
      * <p>Success Message is displayed</p>
      *
      * @test
@@ -155,7 +155,7 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialCharactersInLabel()
     {
         //Data
-        $statusData = $this->loadDataSet('Status', 'generic_status',
+        $statusData = $this->loadDataSet('BugsCoverage', 'generic_status',
             array('status_label' => $this->generate('string', 32, ':punct:')));
         //Steps
         $this->storeHelper()->createStatus($statusData);
@@ -164,14 +164,14 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Create New Order Status.  Fill in field "Code" by using wrong values.</p>
+     * <p>Create New Order BugsCoverage.  Fill in field "Code" by using wrong values.</p>
      * <p>Steps:</p>
-     * <p>1. Click 'New Order Status' button.</p>
+     * <p>1. Click 'New Order BugsCoverage' button.</p>
      * <p>2. Fill in 'Code' field by wrong value.</p>
      * <p>3. Fill other required fields by regular data.</p>
-     * <p>4. Click 'Save Status' button.</p>
+     * <p>4. Click 'Save BugsCoverage' button.</p>
      * <p>Expected result:</p>
-     * <p>New Order Status is not created.</p>
+     * <p>New Order BugsCoverage is not created.</p>
      * <p>Error Message is displayed.</p>
      *
      * @param $invalidCode
@@ -184,7 +184,7 @@ class Community2_Mage_Status_CreateTest extends Mage_Selenium_TestCase
     public function withWrongCode($invalidCode)
     {
         //Data
-        $statusData = $this->loadDataSet('Status', 'generic_status', array('status_code' => $invalidCode));
+        $statusData = $this->loadDataSet('BugsCoverage', 'generic_status', array('status_code' => $invalidCode));
         //Steps
         $this->storeHelper()->createStatus($statusData);
         //Verifying

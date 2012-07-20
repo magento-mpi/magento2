@@ -33,7 +33,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 7, array(
         'nullable'  => false,
         'default'   => 'pending',
-        ), 'Status')
+        ), 'BugsCoverage')
     ->addColumn('messages', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
         ), 'Messages')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
