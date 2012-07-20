@@ -17,17 +17,20 @@ class Mage_Api2_Model_Config_SoapTest extends PHPUnit_Framework_TestCase
         $this->assertFileExists($config->getSchemaFile());
     }
 
-    public function testGetControllers()
+    public function testGetControllerClassByResourceName()
     {
         $config = new Mage_Api2_Model_Config_Soap(array(__DIR__ . '/_files/positive/module_a/soap.xml'));
-        $controllers = $config->getControllers();
-        $this->assertInternalType('array', $controllers);
+        $controller = $config->getControllerClassByResourceName('test_module_a');
+        $this->assertEquals('Mage_Test_Module_Api_Controller', $controller);
+    }
 
-        $expected = array(
-            'test_module_a' => 'Mage_Test_Module_Api_Controller',
-            'test_module_b' => 'Mage_Test_Moduleb_Api_Controller',
-        );
-        $this->assertEquals($expected, $controllers);
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetControllerClassByResourceNameInvalidNameException()
+    {
+        $config = new Mage_Api2_Model_Config_Soap(array(__DIR__ . '/_files/positive/module_a/soap.xml'));
+        $config->getControllerClassByResourceName('invalid_resource_name');
     }
 
     /**

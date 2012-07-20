@@ -28,13 +28,18 @@ class Mage_Api2_Model_Config_Soap extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Get all controllers defined for each resource from config
+     * Retrieve controller class name for given resource.
      *
-     * @return array
+     * @param $resourceName
+     * @return mixed
+     * @throws InvalidArgumentException
      */
-    public function getControllers()
+    public function getControllerClassByResourceName($resourceName)
     {
-        return $this->_data;
+        if (!array_key_exists($resourceName, $this->_data)) {
+            throw new InvalidArgumentException(sprintf('Resource "%s" not found in config.', $resourceName));
+        }
+        return $this->_data[$resourceName];
     }
 
     /**
