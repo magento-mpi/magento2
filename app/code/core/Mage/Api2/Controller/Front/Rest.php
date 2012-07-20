@@ -54,11 +54,10 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     {
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
-        return $this;
     }
 
     /**
-     * @return Mage_Api2_Controller_Front_Base|Mage_Api2_Controller_Front_Rest
+     * Dispatch REST request
      */
     protected function _dispatch()
     {
@@ -66,11 +65,9 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
             $route = $this->_matchRoute($this->_getRequest());
             $this->_checkResourceAcl();
 
-            $controllerInstance = $route->getController();
-            if (!($controllerInstance instanceof $this->_baseActionController)) {
-                Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
-            }
-            $action = $this->_getActionName();
+            $controllerClassName = $this->_getRestConfig()->getControllerClassByResourceName($route->getResourceName());
+            $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
+            $action = $this->_getActionName($route->getResourceType());
             if (!$controllerInstance->hasAction($action)) {
                 // TODO: Think about better messages
                 Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
@@ -86,7 +83,6 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
         $this->_sendResponse();
         Magento_Profiler::stop('send_response');
         Mage::dispatchEvent('controller_front_send_response_after', array('front' => $this));
-        return $this;
     }
 
     /**
@@ -94,22 +90,23 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
      * Find route that match current URL, set parameters of the route to Request object
      *
      * @param Mage_Api2_Model_Request $request
-     * @return Mage_Api2_Model_Route_Rest
+     * @return Mage_Api2_Controller_Router_Route_Rest
      */
     protected function _matchRoute(Mage_Api2_Model_Request $request)
     {
-        /** @var Mage_Api2_Model_Router $router */
-        $router = Mage::getModel('Mage_Api2_Model_Router');
-        $route = $router->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
+        $router = new Mage_Api2_Controller_Router_Rest();
+        $route = $router->routeApiType($request, true)
+            ->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
         return $route;
     }
 
     /**
      * Identify required action name based on HTTP request parameters
      *
+     * @param string $resourceType
      * @return string
      */
-    protected function _getActionName()
+    protected function _getActionName($resourceType)
     {
         $restMethodsMap = array(
             self::RESOURCE_TYPE_COLLECTION . self::HTTP_METHOD_CREATE => 'create',
@@ -122,7 +119,6 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
         );
         /** @var Mage_Api2_Model_Request $request */
         $request = $this->_getRequest();
-        $resourceType = $request->getResourceType();
         $httpMethod = $request->getHttpMethod();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
@@ -131,6 +127,101 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
         $methodVersion = ($this->_getVersion() != self::DEFAULT_METHOD_VERSION) ? $this->_getVersion() : '';
         return $methodName . $methodVersion;
     }
+
+    /**
+     * Instantiate and validate action controller
+     *
+     * @param $className
+     * @return Mage_Core_Controller_Varien_Action
+     */
+    protected function _getActionControllerInstance($className)
+    {
+        if (!$this->_validateControllerClassName($className)) {
+            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_NOT_FOUND);
+        }
+
+        $controllerInstance = new $className(Mage::app()->getRequest(), Mage::app()->getResponse());
+        if (!($controllerInstance instanceof $this->_baseActionController)) {
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
+        }
+
+        return $controllerInstance;
+    }
+
+
+    /**
+     * Generating and validating class file name,
+     * class and if everything ok do include if needed and return of class name
+     *
+     * @param $controllerClassName
+     * @return bool
+     */
+    protected function _validateControllerClassName($controllerClassName)
+    {
+        $controllerFileName = $this->getControllerFileName($controllerClassName);
+        if (!$this->validateControllerFileName($controllerFileName)) {
+            return false;
+        }
+
+        // include controller file if needed
+        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Include the file containing controller class if this class is not defined yet
+     *
+     * @param string $controllerFileName
+     * @param string $controllerClassName
+     * @return bool
+     * @throws Mage_Core_Exception
+     */
+    protected function _includeControllerClass($controllerFileName, $controllerClassName)
+    {
+        if (!class_exists($controllerClassName, false)) {
+            if (!file_exists($controllerFileName)) {
+                return false;
+            }
+            include $controllerFileName;
+
+            if (!class_exists($controllerClassName, false)) {
+                throw Mage::exception('Mage_Core',
+                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist'));
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if controller file name is valid
+     *
+     * @param string $fileName
+     * @return bool
+     */
+    public function validateControllerFileName($fileName)
+    {
+        if ($fileName && is_readable($fileName) && false===strpos($fileName, '//')) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Identify controller file name by its class name
+     *
+     * @param string $controllerClassName
+     * @return string
+     */
+    public function getControllerFileName($controllerClassName)
+    {
+        $parts = explode('_', $controllerClassName);
+        $realModule = implode('_', array_splice($parts, 0, 2));
+        $file = Mage::getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
+        return $file;
+    }
+
 
     /**
      * Get correct version of the resource model

@@ -52,6 +52,7 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
             Mage::logException($e);
             $this->_addException($e);
         }
+        return $this;
     }
 
     /**
@@ -63,6 +64,7 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
     {
         // TODO: Think how to implement resource ACL check here. Try to implement this method as a 'template method'
         $this->_getConcreteFrontController()->_dispatch();
+        return $this;
     }
 
     /**
@@ -142,11 +144,8 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
     private function _getConcreteFrontController()
     {
         if (is_null($this->_concreteFrontController)) {
-            /** @var Mage_Api2_Model_Router $router */
-            $router = Mage::getModel('Mage_Api2_Model_Router');
-            // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
-            $router->routeApiType($this->_getRequest(), true);
-            $apiType = $this->_getRequest()->getParam('api_type');
+            $apiType = $this->_determineApiType();
+
             if (!isset($this->_concreteFrontControllers[$apiType])) {
                 throw new Mage_Core_Exception(Mage::helper('Mage_Api2_Helper_Data')
                     ->__('The specified API type "%s" is not implemented.', $apiType));
@@ -155,6 +154,30 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
             $this->_setConcreteFrontController(new $concreteFrontControllerClass());
         }
         return $this->_concreteFrontController;
+    }
+
+    /**
+     * Determine API type from request.
+     *
+     * @return string
+     * @throws Mage_Core_Exception
+     */
+    private function _determineApiType()
+    {
+        // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
+        $request = $this->_getRequest();
+        $apiTypeRoute = new Mage_Api2_Controller_Router_Route_ApiType();
+
+        if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
+            throw new Mage_Core_Exception(Mage::helper('Mage_Api2_Helper_Data')
+                ->__('Request does not match any API type route.'));
+        }
+
+        $apiType = $apiTypeMatch['api_type'];
+        // TODO: required for multicall, needs refactoring
+        $request->setParam('api_type', $apiType);
+
+        return $apiType;
     }
 
     /**

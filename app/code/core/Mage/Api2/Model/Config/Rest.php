@@ -28,6 +28,21 @@ class Mage_Api2_Model_Config_Rest extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Retrieve controller class name for given resource.
+     *
+     * @param $resourceName
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    public function getControllerClassByResourceName($resourceName)
+    {
+        if (!isset($this->_data[$resourceName])) {
+            throw new InvalidArgumentException(sprintf('Resource "%s" not found in config.', $resourceName));
+        }
+        return $this->_data[$resourceName]['controller'];
+    }
+
+    /**
      * Get all modules routes defined in config
      *
      * @return array
@@ -35,13 +50,13 @@ class Mage_Api2_Model_Config_Rest extends Magento_Config_XmlAbstract
     public function getRoutes()
     {
         $routes = array();
-        foreach ($this->_data as $route => $routeData) {
-            $arguments = array(
-                Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => $route,
-                Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => $routeData
-            );
-
-            $routes[] = new Mage_Api2_Model_Route_Rest($arguments);
+        foreach ($this->_data as $resourceName => $resourceData) {
+            foreach ($resourceData['routes'] as $routeData) {
+                $route = new Mage_Api2_Controller_Router_Route_Rest($routeData['path']);
+                $route->setResourceName($resourceName);
+                $route->setResourceType($routeData['resource_type']);
+                $routes[] = $route;
+            }
         }
 
         return $routes;
@@ -60,11 +75,13 @@ class Mage_Api2_Model_Config_Rest extends Magento_Config_XmlAbstract
 
         /** @var DOMElement $resource */
         foreach ($dom->getElementsByTagName('resource') as $resource) {
+            $resourceName = $resource->getAttribute('name');
+            $result[$resourceName]['controller'] = $resource->getElementsByTagName('controller')->item(0)->nodeValue;
             /** @var DOMElement $route */
             foreach ($resource->getElementsByTagName('route') as $route) {
-                $result[$route->nodeValue] = array(
+                $result[$resourceName]['routes'][] = array(
                     'resource_type' => $route->getAttribute('resource_type'),
-                    'controller' => $resource->getElementsByTagName('controller')->item(0)->nodeValue,
+                    'path' => $route->nodeValue,
                 );
             }
         }

@@ -49,12 +49,27 @@ class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
     public function testGetRoutes()
     {
         $actualRoutes = self::$_model->getRoutes();
-        /** @var Mage_Api2_Model_Route_Rest $route */
+        /** @var Mage_Api2_Controller_Router_Route_Rest $route */
         foreach ($actualRoutes as $route) {
-            $this->assertInstanceOf('Mage_Api2_Model_Route_Rest', $route);
-            $defaults = $route->getDefaults();
-            $this->assertArrayHasKey('controller', $defaults);
-            $this->assertArrayHasKey('resource_type', $defaults);
+            $this->assertInstanceOf('Mage_Api2_Controller_Router_Route_Rest', $route);
         }
+    }
+
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetControllerClassByResourceNameInvalidNameException()
+    {
+        self::$_model->getControllerClassByResourceName('invalid_resource_name');
+    }
+
+    public function testGetControllerClassByResourceName()
+    {
+        /** @var Mage_Api2_Controller_Router_Route_Rest $route */
+        $route = current(self::$_model->getRoutes());
+        $resourceName = $route->getResourceName();
+        $this->assertEquals('test_module_a', $resourceName);
+        $this->assertEquals('Mage_Test_Module_Api_Controller',
+            self::$_model->getControllerClassByResourceName($resourceName));
     }
 }

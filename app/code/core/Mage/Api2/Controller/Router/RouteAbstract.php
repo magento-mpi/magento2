@@ -9,13 +9,13 @@
  */
 
 /**
- * Webservice apia2 route interface
+ * Webservice apia2 route abstract
  *
  * @category   Mage
  * @package    Mage_Api2
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Api2_Model_Route_Interface
+abstract class Mage_Api2_Controller_Router_RouteAbstract extends Zend_Controller_Router_Route
 {
     /**
      * Matches a Request with parts defined by a map. Assigns and
@@ -23,7 +23,10 @@ interface Mage_Api2_Model_Route_Interface
      *
      * @param Mage_Api2_Model_Request $request
      * @param boolean $partial Partial path matching
-     * @return array|false An array of assigned values or a false on a mismatch
+     * @return array|bool An array of assigned values or a boolean false on a mismatch
      */
-    public function match($request, $partial = false);
+    public function match($request, $partial = false)
+    {
+        return parent::match(ltrim($request->getPathInfo(), $this->_urlDelimiter), $partial);
+    }
 }
