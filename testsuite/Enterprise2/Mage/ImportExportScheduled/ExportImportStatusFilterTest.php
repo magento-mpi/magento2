@@ -233,7 +233,7 @@ public function scheduledImportStatuses()
         $this->importExportScheduledHelper()->createImport($importData);
         // 2. Create Customer Old Import
         $importData1 = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'name' => 'test 1',
+            'name' => 'Team_B_1',
             'file_format_version' => 'Magento 1.7 format',
             'behavior' => 'Delete Entities',
             'file_name' => date('Y-m-d_H-i-s_') . 'old_customer.csv',
@@ -250,7 +250,7 @@ public function scheduledImportStatuses()
         $this->assertMessagePresent('error', 'error_run');
         // 3. Create Customer New Import with other status and behavior
         $importData2 = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'name' => 'test 2',
+            'name' => 'Team_B_2',
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Delete Entities',
             'entity_subtype' => 'Customer Addresses',
@@ -260,7 +260,7 @@ public function scheduledImportStatuses()
         $this->importExportScheduledHelper()->createImport($importData2);
         // 4. Create Customer New Import
         $importData3 = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'name' => 'test 3',
+            'name' => 'Team_B_3',
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'import_customer_3.csv',
@@ -294,403 +294,295 @@ public function scheduledImportStatuses()
         $data[3]['name'] = $importData4['name'];
         // Step 1, 2
         $this->admin('scheduled_import_export');
-        $this->assertNull($this->searchImportExport(
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                         'name' => $importData['name'],
                         'entity_type' => 'Customers'
-                )
-            ),
-            'Import was found'
-        );
+            )
+        ));
 
         $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->searchImportExport(
-                array(
-                    'name' => $importData['name'],
-                    'entity_type' => 'Products'
-                )
-            ),
-            'Import was found'
-        );
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
+            array(
+                'name' => $importData['name'],
+                'entity_type' => 'Products'
+            )
+        ));
         $this->admin('scheduled_import_export');
         foreach ($data as $value)
         {
-            $this->assertNotNull($this->searchImportExport(
-                    array(
-                        'name' => $value['name'],
-                        'entity_type' => 'Customers'
-                    )
-                ),
-                'Import was not found'
-            );
-            $this->assertNull($this->searchImportExport(
-                    array(
-                        'name' => $value['name'],
-                        'entity_type' => 'Products'
-                    )
-                ),
-                'Import was found'
-            );
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
+                array(
+                    'name' => $value['name'],
+                    'entity_type' => 'Customers'
+                )
+            ));
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
+                array(
+                    'name' => $value['name'],
+                    'entity_type' => 'Products'
+                )
+            ));
         }
             // Step 3
             $this->admin('scheduled_import_export');
             $arr = array($importData, $importData2, $importData4);
             foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'frequency' => 'Daily',
-                    'grid_and_filter'
+                    'frequency' => 'Daily'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
-
             $arr = array($importData1, $importData3);
             foreach ($arr as $value)
             {
-                $this->fillForm(
+                $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                     array(
                         'name' => $value['name'],
-                        'frequency' => 'Daily',
-                        'grid_and_filter'
+                        'frequency' => 'Daily'
                     )
-                );
-                $this->clickButton('search', false);
-                $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                    'Import was not found'
-                );
+                ));
             }
         // Step 4
         $this->admin('scheduled_import_export');
-       $this->fillForm(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
             array(
                 'name' => $importData['name'],
-                'frequency' => 'Weekly',
-                'grid_and_filter'
-            ));
-        $this->clickButton('search', false);
-        $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($importData)),
-            'Import was not found'
-        );
+                'frequency' => 'Weekly'
+            )
+        ));
         foreach ($data as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'frequency' => 'Weekly',
-                    'grid_and_filter'
-                ));
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+                    'frequency' => 'Weekly'
+                )
+            ));
         }
         // Step 5
         $this->admin('scheduled_import_export');
         $arr = array($importData2, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'frequency' => 'Monthly',
+                    'frequency' => 'Monthly'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
+            ));
         }
         $this->admin('scheduled_import_export');
         $arr = array($importData, $importData1, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'frequency' => 'Monthly',
+                    'frequency' => 'Monthly'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         // Step 6
         $this->admin('scheduled_import_export');
         $arr = array($importData, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'status' => 'Disabled',
+                    'status' => 'Disabled'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
+            ));
         }
         $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData2, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'status' => 'Disabled',
+                    'status' => 'Disabled'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         // Step 7
         $this->admin('scheduled_import_export');
         $arr = array($importData, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'status' => 'Enabled',
+                    'status' => 'Enabled'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData2, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'status' => 'Enabled',
+                    'status' => 'Enabled'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
+            ));
         }
         // Step 8, 9, 10
         $this->admin('scheduled_import_export');
         $arr = array($importData, $importData2, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'last_outcome' => 'Pending',
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
-            $this->fillForm(
-            array(
-                'name' => $value['name'],
-                'last_outcome' => 'Failed',
-            )
-        );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
-            $this->fillForm(
+            ));
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
+                array(
+                    'name' => $value['name'],
+                    'last_outcome' => 'Failed',
+                )
+            ));
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'last_outcome' => 'Successful',
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'last_outcome' => 'Pending'
+                    'last_outcome' => 'Pending',
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
-            $this->fillForm(
+            ));
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'last_outcome' => 'Successful',
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
-            $this->fillForm(
+            ));
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'last_outcome' => 'Failed',
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
+            ));
         }
-        // Step 11 "Customers Main FIle"
+        // Step 11 "Customers Main File"
         $this->admin('scheduled_import_export');
-        $this->fillForm(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
             array(
                 'name' => $importData3['name'],
-                'entity_subtype' => 'Customers Main File',));
-        $this->clickButton('search', false);
-        $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($importData3)),
-            'Import was not found'
-        );
+                'entity_subtype' => 'Customers Main File'
+            )
+        ));
 
         $arr = array($importData, $importData1, $importData2, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'entity_subtype' => 'Customers Main File',
+                    'entity_subtype' => 'Customers Main File'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         // Step 12 'Customer Addresses'
         $this->admin('scheduled_import_export');
-        $this->fillForm(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
             array(
                 'name' => $importData2['name'],
                 'entity_subtype' => 'Customer Addresses'
-            ));
-        $this->clickButton('search', false);
-        $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($importData2)),
-            'Import was not found'
-        );
+            )
+        ));
 
         $arr = array($importData, $importData1, $importData3, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->admin('scheduled_import_export');
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'entity_subtype' => 'Customer Addresses',
+                    'entity_subtype' => 'Customer Addresses'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         // Step 13  'Customer Finances'
         $this->admin('scheduled_import_export');
-        $this->fillForm(array
-        ('name' => $importData4['name'],
-            'entity_subtype' => 'Customer Finances',
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
+            array(
+                'name' => $importData4['name'],
+                'entity_subtype' => 'Customer Finances'
+            )
         ));
-        $this->clickButton('search', false);
-        $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($importData4)),
-            'Import was not found'
-        );
         $arr = array($importData, $importData1, $importData2, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
-                    'entity_subtype' => 'Customer Finances',
+                    'entity_subtype' => 'Customer Finances'
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         // Step 14
         $this->admin('scheduled_import_export');
         $arr = array($importData, $importData2, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'date_from' => date("d/m/Y"),
-                    'date_from' => date("d/m/Y")
+                    'date_to' => date("d/m/Y")
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was found'
-            );
+            ));
         }
         $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData4);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'date_from' => date("d/m/Y"),
-                    'date_from' => date("d/m/Y")
+                    'date_to' => date("d/m/Y")
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
+            ));
         }
         // Step 15
         $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData2, $importData3);
         foreach ($arr as $value)
         {
-            $this->fillForm(
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
-                    'name' => 'test',
+                    'name' => 'Team_B',
                     'operation' => $value['operation']
                 )
-            );
-            $this->clickButton('search', false);
-            $this->assertTrue($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                'Import was not found'
-            );
+            ));
+
             $arr = array($importData, $importData4);
         }
             foreach ($arr as $value)
             {
-                $this->fillForm(
+                $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                     array(
-                        'name' => 'test',
+                        'name' => 'Team_B',
                         'operation' => $value['operation']
                     )
-                );
-                $this->clickButton('search', false);
-                $this->assertFalse($this->importExportScheduledHelper()->isImportPresentInGrid(($value)),
-                    'Import was found'
-                );
+                ));
         }
     }
 }
