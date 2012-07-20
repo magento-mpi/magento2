@@ -1,28 +1,12 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Magento
  * @package     Mage_Category
  * @subpackage  functional_tests
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 /**
  * Category Permissions tests
@@ -31,12 +15,26 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Mage_Selenium_TestCase
 {
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('CategoryPermissions/category_permissions_enable');
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+    }
+
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+    }
+
+    protected function tearDownAfterTest()
+    {
+        $this->logoutCustomer();
     }
 
     /**
@@ -47,20 +45,12 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
     public function preconditionsForTests()
     {
         //Data
-        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');
         $category = $this->loadDataSet('Category', 'sub_category_required');
         $catPath = $category['parent_category'] . '/' . $category['name'];
-        $productCat = array('categories' => $catPath);
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
+        $simple = $this->loadDataSet('Product', 'simple_product_visible', array('categories' => $catPath));
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable');
         //Steps
-        $this->loginAdminUser();
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore($storeViewData, 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
         $this->navigate('manage_categories');
-        $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->navigate('manage_products');
@@ -69,8 +59,6 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
 
         return array('user'   => array('email' => $userData['email'], 'password' => $userData['password']),
                      'product'=> array('name' => $simple['general_name'], 'price' => $simple['prices_price']),
@@ -93,21 +81,24 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p>2. After 6 "New Permission" button is present</p>
      * <p>3. After 8 All element are present</p>
      *
+     * @param array $testData
+     *
      * @test
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5091, TL-MAGE-5081
      */
-    public function enablePermission()
+    public function enablePermission($testData)
     {
         //Data
         $this->addParameter('row', '1');
         //Steps
         $this->navigate('manage_categories');
+        $this->categoryHelper()->selectCategory($testData['catPath']);
         $this->assertTrue($this->controlIsPresent('tab', 'category_permissions_tab'),
             'Category permissions must be present');
         $this->openTab('category_permissions_tab');
-        $this->assertTrue($this->controlIsPresent('button', 'new_permission'), 'Button "New permission" is absent');
-        $this->clickControl('button', 'new_permission', false);
-        $this->waitForAjax();
+        $this->clickButton('new_permission', false);
+        $this->waitForElement($this->_getControlXpath('button', 'delete_permissions'));
         $this->assertTrue($this->controlIsPresent('dropdown', 'website'), 'Dropdown "website" is absent');
         $this->assertTrue($this->controlIsPresent('dropdown', 'customer_group'), 'Dropdown "customer_group" is absent');
         $this->assertTrue($this->controlIsPresent('radiobutton', 'browsing_category_allow'),
@@ -167,13 +158,11 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->fillCategoryInfo($permission);
-        $this->clickButton('save_category');
-        $this->pleaseWait();
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
-        $this->logoutCustomer();
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
         $this->assertTrue($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
@@ -216,13 +205,11 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->fillCategoryInfo($permission);
-        $this->clickButton('save_category');
-        $this->pleaseWait();
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
-        $this->logoutCustomer();
+        $this->frontend();
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
         $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price must be present');
@@ -264,13 +251,11 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->fillCategoryInfo($permission);
-        $this->clickButton('save_category');
-        $this->pleaseWait();
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
-        $this->logoutCustomer();
+        $this->frontend();
         $this->assertFalse($this->controlIsPresent('button', 'category_button'));
     }
 
@@ -318,13 +303,11 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->fillCategoryInfo($permission);
-        $this->clickButton('save_category');
-        $this->pleaseWait();
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
-        $this->logoutCustomer();
+        $this->frontend();
         $this->assertFalse($this->controlIsPresent('button', 'category_button'));
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->assertTrue($this->controlIsPresent('button', 'category_button'));
@@ -357,6 +340,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      * <p> Product price is not visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5166
@@ -370,13 +354,10 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         //Steps
         $this->navigate('manage_categories');
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->fillCategoryInfo($permission);
-        $this->clickButton('save_category');
-        $this->pleaseWait();
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
-        $this->logoutCustomer();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()
             ->frontAddProductToWishlistFromCatalogPage($testData['product']['name'], $testData['catName']);
@@ -431,13 +412,11 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
         $this->systemConfigurationHelper()->configure($config);
         $this->navigate('manage_categories');
         $this->categoryHelper()->deleteAllPermissions($testData['catPath']);
-        $this->assertMessagePresent('success', 'success_saved_category');
-        $this->categoryHelper()->fillCategoryInfo($permission);
-        $this->clickButton('save_category');
-        $this->pleaseWait();
+        $this->categoryHelper()->addNewCategoryPermissions($permission);
+        $this->saveForm('save_category', false);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->flushCache();
-        $this->logoutCustomer();
+        $this->frontend();
         $this->assertTrue($this->controlIsPresent('button', 'category_button'));
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
@@ -464,11 +443,9 @@ class Enterprise2_Mage_Category_CategoryPermissions_CategoryLevelTest extends Ma
      */
     public function disablePermission()
     {
-        //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_disable');
         //Steps
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('CategoryPermissions/category_permissions_disable');
         $this->navigate('manage_categories');
         $this->assertFalse($this->controlIsPresent('tab', 'category_permissions_tab'),
             'Category permissions tab must be absent');
