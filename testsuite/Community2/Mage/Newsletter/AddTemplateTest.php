@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_NewsletterAdmin
+ * @package     Mage_Newsletter
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -12,11 +12,11 @@
 /**
  * Test adding new Template.
  *
- * @package     selenium
- * @subpackage  tests
+ * @package     Mage_Newsletter
+ * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_TestCase
+class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 {
 
     /**
@@ -44,7 +44,6 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
      * <p>3. Verify that 'Save Template' button is present.</p>
      *
      * @test
-     *
      */
     public function navigation()
     {
@@ -72,7 +71,6 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
      * <p>Success Message is displayed</p>
      *
      * @test
-     *
      */
     public function withRequiredFields()
     {
@@ -102,7 +100,7 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $templateData = $this->loadDataSet('Newsletter', 'generic_template', array($emptyField => '%noValue%'));
+        $templateData = $this->loadDataSet('Newsletter', 'generic_template', array($emptyField => ''));
         //Steps
         $this->newsletterHelper()->createNewsletterTemplate($templateData);
 
@@ -115,6 +113,11 @@ class Community2_Mage_NewsletterAdmin_AddTemplateTest extends Mage_Selenium_Test
 
     public function withRequiredFieldsEmptyDataProvider()
     {
-        return array(array('template_name'), array('template_subject'),);
+        return array(
+            array('template_name'),
+            array('template_subject'),
+            array('sender_name'),
+            array('sender_email')
+            );
     }
 }
