@@ -74,4 +74,27 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
 
         $this->assertFalse($order->getShippingAddress()->getSameAsBilling());
     }
+
+    /**
+     * @magentoDataFixture Mage/Sales/_files/order_with_cc.php
+     */
+    public function testInitFromOrderCCInformatingDelete()
+    {
+        $order = new Mage_Sales_Model_Order();
+        $order->loadByIncrementId('100000001');
+
+        $payment = $order->getPayment();
+        $this->assertEquals($payment->getCcExpMonth(), '5');
+        $this->assertEquals($payment->getCcExpYear(), '2016');
+        $this->assertEquals($payment->getCcType(), 'AE');
+        $this->assertEquals($payment->getCcLast4(), '0005');
+
+        Mage::unregister('rule_data');
+        $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
+
+        $this->assertNull($payment->getCcExpMonth());
+        $this->assertNull($payment->getCcExpYear());
+        $this->assertNull($payment->getCcType());
+        $this->assertNull($payment->getCcLast4());
+    }
 }

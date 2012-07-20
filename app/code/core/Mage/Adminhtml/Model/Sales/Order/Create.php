@@ -297,7 +297,9 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
         $this->setShippingMethod($order->getShippingMethod());
         $quote->getShippingAddress()->setShippingDescription($order->getShippingDescription());
 
-        $paymentData = $this->_deleteCCData($order->getPayment()->getData());
+        $paymentData = $order->getPayment()->getData();
+        unset($paymentData['cc_exp_month'], $paymentData['cc_last4'],
+            $paymentData['cc_type'], $paymentData['cc_exp_year']);
         $quote->getPayment()->addData($paymentData);
 
         $orderCouponCode = $order->getCouponCode();
@@ -1607,22 +1609,5 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object implements M
             $this->setData('account', $account);
         }
         return $email;
-    }
-
-    /**
-     * Delete data related to CC from order
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function _deleteCCData($data)
-    {
-        $ccDataToDelete = array('method', 'cc_exp_month', 'cc_last4', 'cc_type', 'cc_exp_year');
-        foreach ($data as $k => $v) {
-            if (in_array($k, $ccDataToDelete)) {
-                unset($data[$k]);
-            }
-        }
-        return $data;
     }
 }
