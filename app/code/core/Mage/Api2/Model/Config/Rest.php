@@ -50,12 +50,14 @@ class Mage_Api2_Model_Config_Rest extends Magento_Config_XmlAbstract
     public function getRoutes()
     {
         $routes = array();
+        $apiTypeRoutePath = str_replace(':api_type', 'rest', Mage_Api2_Controller_Router_Route_ApiType::API_ROUTE);
+
         foreach ($this->_data as $resourceName => $resourceData) {
             foreach ($resourceData['routes'] as $routeData) {
-                $route = new Mage_Api2_Controller_Router_Route_Rest($routeData['path']);
+                $route = new Mage_Api2_Controller_Router_Route_Rest($apiTypeRoutePath . $routeData['path']);
                 $route->setResourceName($resourceName);
                 $route->setResourceType($routeData['resource_type']);
-                $routes[] = $route;
+                $routes[] =$route;
             }
         }
 

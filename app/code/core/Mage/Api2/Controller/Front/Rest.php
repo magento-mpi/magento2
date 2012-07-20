@@ -95,8 +95,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     protected function _matchRoute(Mage_Api2_Model_Request $request)
     {
         $router = new Mage_Api2_Controller_Router_Rest();
-        $route = $router->routeApiType($request, true)
-            ->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
+        $route = $router->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
         return $route;
     }
 

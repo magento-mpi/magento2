@@ -59,7 +59,8 @@ class Mage_Api2_Controller_Router_Rest
     {
         /** @var $route Mage_Api2_Controller_Router_Route_Rest */
         foreach ($this->getRoutes() as $route) {
-            if ($params = $route->match($request)) {
+            $params = $route->match($request);
+            if ($params !== false) {
                 // TODO: Remove params set to $request
                 $request->setParams($params);
                 return $route;
