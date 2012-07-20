@@ -273,6 +273,14 @@ AdminRma.prototype = {
                 if (element.type != 'hidden') {
                     element.value = '';
                 }
+                /**
+                 * Split line action must copy attribute values to the new line
+                 */
+                if (element.type.toLowerCase() == 'text') {
+                    var changedElement = new Element ('input', {'id' : element.id, 'value': element.value, 'cless': element.class, 'name' : element.name});
+                    element.remove();
+                    newDiv.insert(changedElement);
+                }
             }
         })
 

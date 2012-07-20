@@ -805,7 +805,7 @@ XML;
     }
 
     /**
-     * Get the list of service direcories located in var folder
+     * Get the list of service directories located in var folder
      *
      * @return array
      */
