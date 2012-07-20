@@ -330,4 +330,16 @@ Additional block in composite_fieldset block dependant on product type
         </reference>
     </catalog_product_view_type_grouped>
 
+    <adminhtml_catalog_product_optionsimportgrid>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Popup_Grid" name="catalog.product.import.custom.options" />
+        </container>
+    </adminhtml_catalog_product_optionsimportgrid>
+
+    <adminhtml_catalog_product_customoptions>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_Catalog_Product_Options_Ajax" name="catalog.product.import.custom.options"/>
+        </container>
+    </adminhtml_catalog_product_customoptions>
+
 </layout>

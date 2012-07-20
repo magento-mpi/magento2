@@ -1080,4 +1080,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             return false;
         }
     }
+
+    /**
+     * Show product grid for custom options import popup
+     */
+    public function optionsImportGridAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Show custom options in JSON format for specified products
+     */
+    public function customOptionsAction()
+    {
+        Mage::register('import_option_products', $this->getRequest()->getPost('products'));
+        $this->loadLayout();
+        $this->renderLayout();
+    }
 }
