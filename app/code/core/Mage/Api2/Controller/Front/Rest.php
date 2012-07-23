@@ -35,7 +35,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
     // TODO: Take base controller from configuration
     /** @var string */
-    protected $_baseActionController = 'Mage_Core_Controller_Varien_Action';
+    protected $_baseActionController = 'Mage_Api2_Controller_Rest_ActionAbstract';
 
     /**
      * @var Mage_Api2_Model_Auth_User_Abstract
@@ -53,7 +53,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     /**
      * Initialize server errors processing mechanism
      */
-    public  function init()
+    public function init()
     {
         /** @var Mage_Api2_Model_Config_Rest $restConfig */
         $restConfig = Mage::getModel('Mage_Api2_Model_Config_Rest',
