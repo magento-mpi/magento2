@@ -71,7 +71,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+            $this->setAcl(Mage::getResourceModel('Mage_User_Model_Resource_Acl')->loadAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('password');
@@ -175,7 +175,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
             }
 
             $this->setIsFirstPageAfterLogin(true);
-            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+            $this->setAcl(Mage::getResourceModel('Mage_User_Model_Resource_Acl')->loadAcl());
             $this->setUpdatedAt(time());
         }
         return $this;

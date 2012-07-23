@@ -2,34 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Admin
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  Acl
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
 /**
- * Acl model
- * 
- * @category   Mage
- * @package    Mage_Admin
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Access Control List. Is used to store and check permissions of users.
  */
-class Mage_Admin_Model_Acl extends Zend_Acl
+class Magento_Acl extends Zend_Acl
 {
-    /**
-     * All the group roles are prepended by G
-     *
-     */
-    const ROLE_TYPE_GROUP = 'G';
-    
-    /**
-     * All the user roles are prepended by U
-     *
-     */
-    const ROLE_TYPE_USER = 'U';
-    
     /**
      * Permission level to deny access
      *
@@ -47,18 +31,10 @@ class Mage_Admin_Model_Acl extends Zend_Acl
      *
      */
     const RULE_PERM_ALLOW = 2;
-    
-    /**
-     * Get role registry object or create one
-     *
-     * @return Mage_Admin_Model_Acl_Role_Registry
-     */
-    protected function _getRoleRegistry()
+
+    public function __construct()
     {
-        if (null === $this->_roleRegistry) {
-            $this->_roleRegistry = Mage::getModel('Mage_Admin_Model_Acl_Role_Registry');
-        }
-        return $this->_roleRegistry;
+        $this->_roleRegistry = new Magento_Acl_Role_Registry();
     }
     
     /**
@@ -66,7 +42,7 @@ class Mage_Admin_Model_Acl extends Zend_Acl
      *
      * @param Zend_Acl_Role $role
      * @param Zend_Acl_Role $parent
-     * @return Mage_Admin_Model_Acl
+     * @return Magento_Acl
      */
     public function addRoleParent($role, $parent)
     {

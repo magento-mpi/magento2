@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,12 +11,12 @@
 
 /**
  * User acl role
- * 
- * @category   Mage
- * @package    Mage_Admin
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Acl_Role_User extends Mage_Admin_Model_Acl_Role_Generic 
+class Mage_User_Model_Acl_Role_User extends Mage_User_Model_Acl_Role_Generic
 {
-
+    /**
+     * All the user roles are prepended by U
+     *
+     */
+    const ROLE_TYPE = 'U';
 }
