@@ -203,7 +203,7 @@ class Core_Mage_CmsPolls_CreateTest extends Mage_Selenium_TestCase
         $this->frontend('about_us');
         $this->assertTrue($this->cmsPollsHelper()->frontCheckPoll($name), 'There is no ' . $name . ' poll on the page');
         //Steps
-        $this->admin();
+        $this->loginAdminUser();
         $this->navigate('poll_manager');
         $this->cmsPollsHelper()->setPollState($searchPollData, 'Closed');
         //Verifying
