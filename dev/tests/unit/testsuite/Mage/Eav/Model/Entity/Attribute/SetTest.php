@@ -23,19 +23,6 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
     {
         $resource = $this->getMock('Mage_Eav_Model_Resource_Entity_Attribute_Set', array(), array(), '', false);
 
-        $resource->expects($this->any())
-            ->method('validate')
-            ->will($this->returnCallback(
-            //@codingStandardsIgnoreStart
-                function($model, $name) {
-                    if ($model instanceof Mage_Eav_Model_Entity_Attribute_Set) {
-                        return $name == 'non_existed_name';
-                    }
-                    return false;
-                }
-            //@codingStandardsIgnoreEnd
-            ));
-
         $helper = $this->getMock('Mage_Eav_Helper_Data', array('__'));
         $helper->expects($this->any())
             ->method('__')
@@ -54,6 +41,11 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
      */
     public function testValidateWithExistedNameThrowsException($attributeSetName, $exceptionMessage)
     {
+        $this->_model->getResource()
+            ->expects($this->any())
+            ->method('validate')
+            ->will($this->returnValue(false));
+
         $this->setExpectedException('Mage_Eav_Exception', $exceptionMessage);
         $this->_model->setAttributeSetName($attributeSetName);
         $this->_model->validate();
@@ -61,6 +53,11 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
 
     public function testValidateWithNonExistedValidNameReturnsSuccess()
     {
+        $this->_model->getResource()
+            ->expects($this->any())
+            ->method('validate')
+            ->will($this->returnValue(true));
+
         $this->_model->setAttributeSetName('non_existed_name');
         $this->assertTrue($this->_model->validate());
     }
