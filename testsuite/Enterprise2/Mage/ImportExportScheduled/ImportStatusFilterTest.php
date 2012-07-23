@@ -21,6 +21,22 @@
      */
 class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_CustomerTest extends Mage_Selenium_TestCase
 {
+    /**
+     * <p>Precondition:</p>
+     * <p>Delete all existing imports/exports</p>
+     */
+    public function setUpBeforeTests()
+    {
+        $this->loginAdminUser();
+        $this->admin('scheduled_import_export');
+        if ($this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Export')) ||
+            $this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Import'))) {
+            $this->clickControl('link', 'selectall', false);
+            $this->fillDropdown('grid_massaction_select', 'Delete');
+            $this->clickButtonAndConfirm('submit', 'delete_confirmation');
+        }
+    }
+
     protected function assertPreConditions()
     {
         //logged in once for all tests
@@ -39,142 +55,142 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
      * <p>4. Change status to "Disable" with a help "Actions"</p>
      * <p>Result: Status is changed to "Disable"</p>
      * <p>5. Create new import with status disabled</p>
-     * <p>6. Choose both impors in the grid </p>
+     * <p>6. Choose both imports in the grid </p>
      * <p>7. Change status to "Enabled" with a help "Actions for both imports"</p>
      * <p> Result: Status is changed to "Enabled" for both imports</p>
      * @test
      * @TestlinkId TL-MAGE-5802
      */
-public function scheduledImportStatuses()
-{
-    // Step 1
-    $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-        'file_format_version' => 'Magento 2.0 format',
-        'behavior' => 'Add/Update Complex Data',
-        'file_name' => date('Y-m-d_H-i-s_') . 'import_customer.csv',
-        'status' => 'Disabled',
-    ));
-    $importRecordsCount = 1;
-
-    $this->importExportScheduledHelper()->createImport($importData);
-    //Verifying
-    $this->checkCurrentPage('scheduled_import_export');
-    $this->assertMessagePresent('success', 'success_saved_import');
-    $this->importExportScheduledHelper()->openImportExport(
-        array(
-            'name' => $importData['name'],
-            'operation' => 'Import',
-        )
-    );
-    $updateImportData = array(
-        'status' => 'Disabled',
-    );
-    $this->verifyForm($updateImportData);
-    // Step 2
-    $this->fillDropdown('status', 'Enabled');
-    $this->clickButton('save');
-    $this->assertMessagePresent('success', 'success_saved_import');
-    // Verifying
-    $this->importExportScheduledHelper()->openImportExport(
-        array(
-            'name' => $importData['name'],
-            'operation' => 'Import',
-        )
-    );
-    $updateData = array(
-        'status' => 'Enabled',
-    );
-    $this->verifyForm($updateData);
-    // Step 3
-    $this->admin('scheduled_import_export');
-    $this->importExportScheduledHelper()->searchAndChoose(array(
-            'name' => $importData['name'],
-            'operation' => 'Import',
+    public function scheduledImportStatuses()
+    {
+        // Step 1
+        $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
+            'file_format_version' => 'Magento 2.0 format',
+            'behavior' => 'Add/Update Complex Data',
+            'file_name' => date('Y-m-d_H-i-s_') . 'import_customer.csv',
+            'status' => 'Disabled',
         ));
-    // Step 4
-    $this->fillDropdown('grid_massaction_select', 'Change status');
-    $this->fillDropdown('status_visibility', 'Disabled');
-    $this->clickButton('submit');
-    //Verifying
-    $this->checkCurrentPage('scheduled_import_export');
-    $this->addParameter('qtyUpdatedRecords', count($importRecordsCount));
-    $this->assertMessagePresent('success', 'success_update_status');
-    $this->importExportScheduledHelper()->openImportExport(
-        array(
+        $importRecordsCount = 1;
+
+        $this->importExportScheduledHelper()->createImport($importData);
+        //Verifying
+        $this->checkCurrentPage('scheduled_import_export');
+        $this->assertMessagePresent('success', 'success_saved_import');
+        $this->importExportScheduledHelper()->openImportExport(
+            array(
+                'name' => $importData['name'],
+                'operation' => 'Import',
+            )
+        );
+        $updateImportData = array(
+            'status' => 'Disabled',
+        );
+        $this->verifyForm($updateImportData);
+        // Step 2
+        $this->fillDropdown('status', 'Enabled');
+        $this->clickButton('save');
+        $this->assertMessagePresent('success', 'success_saved_import');
+        // Verifying
+        $this->importExportScheduledHelper()->openImportExport(
+            array(
+                'name' => $importData['name'],
+                'operation' => 'Import',
+            )
+        );
+        $updateData = array(
+            'status' => 'Enabled',
+        );
+        $this->verifyForm($updateData);
+        // Step 3
+        $this->admin('scheduled_import_export');
+        $this->importExportScheduledHelper()->searchAndChoose(array(
+                'name' => $importData['name'],
+                'operation' => 'Import',
+            ));
+        // Step 4
+        $this->fillDropdown('grid_massaction_select', 'Change status');
+        $this->fillDropdown('status_visibility', 'Disabled');
+        $this->clickButton('submit');
+        //Verifying
+        $this->checkCurrentPage('scheduled_import_export');
+        $this->addParameter('qtyUpdatedRecords', count($importRecordsCount));
+        $this->assertMessagePresent('success', 'success_update_status');
+        $this->importExportScheduledHelper()->openImportExport(
+            array(
+                'name' => $importData['name'],
+                'operation' => 'Import',
+            )
+        );
+        $actionImportData = array(
+            'status' => 'Disabled',
+        );
+        $this->verifyForm($actionImportData);
+        // Step 5
+        $this->admin('scheduled_import_export');
+        $importDataTwo = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
+            'file_format_version' => 'Magento 2.0 format',
+            'behavior' => 'Delete Entities',
+            'file_name' => date('Y-m-d_H-i-s_') . 'import_1_customer.csv',
+            'status' => 'Disabled',
+        ));
+        $importRecordsCount2 = 2;
+
+        $this->importExportScheduledHelper()->createImport($importDataTwo);
+        //Verifying
+        $this->checkCurrentPage('scheduled_import_export');
+        $this->assertMessagePresent('success', 'success_saved_import');
+        $this->importExportScheduledHelper()->openImportExport(
+            array(
+                'name' => $importDataTwo['name'],
+                'operation' => 'Import',
+            ));
+        $updateImportDataTwo = array(
+            'status' => 'Disabled',
+        );
+        $this->verifyForm($updateImportDataTwo);
+        // Step 6
+        $this->admin('scheduled_import_export');
+        $this->importExportScheduledHelper()->searchAndChoose(array(
             'name' => $importData['name'],
             'operation' => 'Import',
-        )
-    );
-    $actionImportData = array(
-        'status' => 'Disabled',
-    );
-    $this->verifyForm($actionImportData);
-    // Step 5
-    $this->admin('scheduled_import_export');
-    $importDataTwo = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-        'file_format_version' => 'Magento 2.0 format',
-        'behavior' => 'Delete Entities',
-        'file_name' => date('Y-m-d_H-i-s_') . 'import_1_customer.csv',
-        'status' => 'Disabled',
-    ));
-    $importRecordsCount2 = 2;
-
-    $this->importExportScheduledHelper()->createImport($importDataTwo);
-    //Verifying
-    $this->checkCurrentPage('scheduled_import_export');
-    $this->assertMessagePresent('success', 'success_saved_import');
-    $this->importExportScheduledHelper()->openImportExport(
-        array(
+            'status' => 'Disabled',
+            )
+        );
+            $this->importExportScheduledHelper()->searchAndChoose(array(
             'name' => $importDataTwo['name'],
             'operation' => 'Import',
         ));
-    $updateImportDataTwo = array(
-        'status' => 'Disabled',
-    );
-    $this->verifyForm($updateImportDataTwo);
-    // Step 6
-    $this->admin('scheduled_import_export');
-    $this->importExportScheduledHelper()->searchAndChoose(array(
-        'name' => $importData['name'],
-        'operation' => 'Import',
-        'status' => 'Disabled',
-        )
-    );
-        $this->importExportScheduledHelper()->searchAndChoose(array(
-        'name' => $importDataTwo['name'],
-        'operation' => 'Import',
-    ));
-    // Step 7
-    $this->fillDropdown('grid_massaction_select', 'Change status');
-    $this->fillDropdown('status_visibility', 'Enabled');
-    $this->clickButton('submit');
-    //Verifying first import
-    $this->checkCurrentPage('scheduled_import_export');
-    $this->addParameter('qtyUpdatedRecords', $importRecordsCount2);
-    $this->assertMessagePresent('success', 'success_update_status');
-    $this->importExportScheduledHelper()->openImportExport(
+        // Step 7
+        $this->fillDropdown('grid_massaction_select', 'Change status');
+        $this->fillDropdown('status_visibility', 'Enabled');
+        $this->clickButton('submit');
+        //Verifying first import
+        $this->checkCurrentPage('scheduled_import_export');
+        $this->addParameter('qtyUpdatedRecords', $importRecordsCount2);
+        $this->assertMessagePresent('success', 'success_update_status');
+        $this->importExportScheduledHelper()->openImportExport(
+            array(
+                'name' => $importData['name'],
+                'operation' => 'Import',
+            )
+        );
+        $importData = array(
+            'status' => 'Enabled',
+        );
+        $this->verifyForm($importData);
+        // Verifying second import
+        $this->admin('scheduled_import_export');
+        $this->importExportScheduledHelper()->openImportExport(
         array(
-            'name' => $importData['name'],
+            'name' => $importDataTwo['name'],
             'operation' => 'Import',
         )
-    );
-    $importData = array(
-        'status' => 'Enabled',
-    );
-    $this->verifyForm($importData);
-    // Verifying second import
-    $this->admin('scheduled_import_export');
-    $this->importExportScheduledHelper()->openImportExport(
-    array(
-        'name' => $importDataTwo['name'],
-        'operation' => 'Import',
-    )
-    );
-    $importDataTwo = array(
-        'status' => 'Enabled',
-    );
-    $this->verifyForm($importDataTwo);
-}
+        );
+        $importDataTwo = array(
+            'status' => 'Enabled',
+        );
+        $this->verifyForm($importDataTwo);
+    }
     /**
      * <p>Scheduled Import statuses</p>
      * <p> Create Product Import in System-> Import/Export-> Scheduled Import/Export</p>
@@ -249,8 +265,7 @@ public function scheduledImportStatuses()
         );
         $this->assertMessagePresent('error', 'error_run');
         // 3. Create Customer New Import with other status and behavior
-        $importData2 = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'name' => 'Team_B_2',
+        $importData2 = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array('name' => 'Team_B_2',
             'file_format_version' => 'Magento 2.0 format',
             'behavior' => 'Delete Entities',
             'entity_subtype' => 'Customer Addresses',
@@ -280,8 +295,7 @@ public function scheduledImportStatuses()
         ));
         $this->importExportScheduledHelper()->createImport($importData4);
         // Run customer import
-        $this->importExportScheduledHelper()->applyAction(
-            array(
+        $this->importExportScheduledHelper()->applyAction(array(
                 'name' => $importData4['name'],
                 'operation' => 'Import'
             )
@@ -294,295 +308,245 @@ public function scheduledImportStatuses()
         $data[3]['name'] = $importData4['name'];
         // Step 1, 2
         $this->admin('scheduled_import_export');
-        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
-                        'name' => $importData['name'],
-                        'entity_type' => 'Customers'
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $importData['name'],
+                'entity_type' => 'Customers'
             )
         ));
 
         $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-            array(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                 'name' => $importData['name'],
                 'entity_type' => 'Products'
             )
         ));
         $this->admin('scheduled_import_export');
-        foreach ($data as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($data as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'entity_type' => 'Customers'
                 )
             ));
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+            $this->admin('scheduled_import_export');
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'entity_type' => 'Products'
                 )
             ));
-        }
-            // Step 3
             $this->admin('scheduled_import_export');
-            $arr = array($importData, $importData2, $importData4);
-            foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        }
+        // Step 3
+        $arr = array($importData, $importData2, $importData4);
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'frequency' => 'Daily'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
-            $arr = array($importData1, $importData3);
-            foreach ($arr as $value)
-            {
-                $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                    array(
-                        'name' => $value['name'],
-                        'frequency' => 'Daily'
-                    )
-                ));
-            }
+        $arr = array($importData1, $importData3);
+        foreach ($arr as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                    'name' => $value['name'],
+                    'frequency' => 'Daily'
+                )
+            ));
+            $this->admin('scheduled_import_export');
+        }
         // Step 4
-        $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-            array(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                 'name' => $importData['name'],
                 'frequency' => 'Weekly'
             )
         ));
-        foreach ($data as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        $this->admin('scheduled_import_export');
+        foreach ($data as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'frequency' => 'Weekly'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 5
-        $this->admin('scheduled_import_export');
         $arr = array($importData2, $importData4);
-        foreach ($arr as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'frequency' => 'Monthly'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
-        $this->admin('scheduled_import_export');
         $arr = array($importData, $importData1, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'frequency' => 'Monthly'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 6
-        $this->admin('scheduled_import_export');
         $arr = array($importData, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'status' => 'Disabled'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
-        $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData2, $importData4);
-        foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'status' => 'Disabled'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 7
-        $this->admin('scheduled_import_export');
         $arr = array($importData, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'status' => 'Enabled'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
-        $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData2, $importData4);
-        foreach ($arr as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'status' => 'Enabled'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 8, 9, 10
-        $this->admin('scheduled_import_export');
         $arr = array($importData, $importData2, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'last_outcome' => 'Pending',
                 )
             ));
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+            $this->admin('scheduled_import_export');
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'last_outcome' => 'Failed',
                 )
             ));
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+            $this->admin('scheduled_import_export');
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'last_outcome' => 'Successful',
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
-        $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData4);
-        foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'last_outcome' => 'Pending',
                 )
             ));
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+            $this->admin('scheduled_import_export');
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'last_outcome' => 'Successful',
                 )
             ));
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+            $this->admin('scheduled_import_export');
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'last_outcome' => 'Failed',
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 11 "Customers Main File"
-        $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-            array(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                 'name' => $importData3['name'],
                 'entity_subtype' => 'Customers Main File'
             )
         ));
+        $this->admin('scheduled_import_export');
 
         $arr = array($importData, $importData1, $importData2, $importData4);
-        foreach ($arr as $value)
-        {
+        foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
                 array(
                     'name' => $value['name'],
                     'entity_subtype' => 'Customers Main File'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 12 'Customer Addresses'
-        $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-            array(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                 'name' => $importData2['name'],
                 'entity_subtype' => 'Customer Addresses'
             )
         ));
+        $this->admin('scheduled_import_export');
 
         $arr = array($importData, $importData1, $importData3, $importData4);
         foreach ($arr as $value)
         {
-            $this->admin('scheduled_import_export');
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'entity_subtype' => 'Customer Addresses'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 13  'Customer Finances'
-        $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-            array(
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                 'name' => $importData4['name'],
                 'entity_subtype' => 'Customer Finances'
             )
         ));
+        $this->admin('scheduled_import_export');
         $arr = array($importData, $importData1, $importData2, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'entity_subtype' => 'Customer Finances'
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 14
-        $this->admin('scheduled_import_export');
         $arr = array($importData, $importData2, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
-                    'date_from' => date("d/m/Y"),
-                    'date_to' => date("d/m/Y")
+                    'date_from' => date("m/d/Y"),
+                    'date_to' => date("m/d/Y")
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
-        $this->admin('scheduled_import_export');
         $arr = array($importData1, $importData4);
-        foreach ($arr as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
+        foreach ($arr as $value) {
+            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
-                    'date_from' => date("d/m/Y"),
-                    'date_to' => date("d/m/Y")
+                    'date_from' => date("m/d/Y"),
+                    'date_to' => date("m/d/Y")
                 )
             ));
+            $this->admin('scheduled_import_export');
         }
         // Step 15
-        $this->admin('scheduled_import_export');
-        $arr = array($importData1, $importData2, $importData3);
-        foreach ($arr as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
-                    'name' => 'Team_B',
-                    'operation' => $value['operation'],
-                )
-            ));
-
-            $arr = array($importData, $importData4);
-        }
-            foreach ($arr as $value)
-            {
-                $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                    array(
-                        'name' => 'Team_B',
-                        'operation' => $value['operation']
-                    )
-                ));
-        }
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => 'Team_B',
+                'operation' => 'Import',
+            )
+        ));
     }
 }
