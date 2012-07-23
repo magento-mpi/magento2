@@ -242,7 +242,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function changeTagsStatus(array $tagsSearchData, $newStatus)
     {
         foreach ($tagsSearchData as $searchData) {
-            $this->searchAndChoose($searchData);
+            $this->searchAndChoose($searchData, 'pending_tags_grid');
         }
         $this->fillDropdown('tags_massaction', 'Change status');
         $this->fillDropdown('tags_status', $newStatus);

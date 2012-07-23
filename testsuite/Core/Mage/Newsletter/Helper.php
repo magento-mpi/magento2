@@ -55,7 +55,7 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
     public function massAction($action, $searchDataSet)
     {
         foreach ($searchDataSet as $searchData) {
-            $this->searchAndChoose($searchData);
+            $this->searchAndChoose($searchData, 'subscribers_grid');
         }
         $this->addParameter('qtyOfRecords', count($searchDataSet));
         $this->fillDropdown('subscribers_massaction', ucfirst(strtolower($action)));
@@ -73,6 +73,6 @@ class Core_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
     public function checkStatus($status, $searchData)
     {
         $searchData['filter_status'] = ucfirst(strtolower($status));
-        return !is_null($this->search($searchData));
+        return !is_null($this->search($searchData, 'subscribers_grid'));
     }
 }

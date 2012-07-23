@@ -138,6 +138,6 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         if ($this->getCurrentPage() !== 'manage_attribute_sets') {
             $this->navigate('manage_attribute_sets');
         }
-        $this->searchAndOpen($searchData);
+        $this->searchAndOpen($searchData, 'attribute_sets_grid');
     }
 }

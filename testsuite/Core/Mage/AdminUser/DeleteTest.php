@@ -70,7 +70,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->navigate('manage_admin_users');
-        $this->searchAndOpen($search);
+        $this->searchAndOpen($search, 'permissionsUserGrid');
         //Steps
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying
@@ -97,7 +97,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         $this->addParameter('elementTitle',
             $searchDataCurrentUser['first_name'] . ' ' . $searchDataCurrentUser['last_name']);
-        $this->searchAndOpen($searchDataCurrentUser);
+        $this->searchAndOpen($searchDataCurrentUser, 'permissionsUserGrid');
         //Verifying
         $this->clickButtonAndConfirm('delete_user', 'confirmation_for_delete');
         //Verifying

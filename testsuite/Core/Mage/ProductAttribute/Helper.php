@@ -215,7 +215,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_TestCase
     public function defineAttributeId(array $searchData)
     {
         $this->navigate('manage_attributes');
-        $attrXpath = $this->search($searchData);
+        $attrXpath = $this->search($searchData, 'attributes_grid');
         $this->assertNotEquals(null, $attrXpath);
 
         return $this->defineIdFromTitle($attrXpath);

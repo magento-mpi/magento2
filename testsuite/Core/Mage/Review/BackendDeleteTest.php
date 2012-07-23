@@ -180,7 +180,7 @@ class Core_Mage_Review_BackendDeleteTest extends Mage_Selenium_TestCase
         //Verification
         $this->assertMessagePresent('success', 'success_saved_review');
         //Steps
-        $this->searchAndChoose($search);
+        $this->searchAndChoose($search, 'all_reviews_grid');
         $this->fillDropdown('actions', 'Delete');
         $this->clickButtonAndConfirm('submit', 'confirmation_for_delete_all');
         //Verification

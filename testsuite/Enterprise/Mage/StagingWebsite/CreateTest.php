@@ -98,14 +98,15 @@ class Enterprise_Mage_StagingWebsite_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_created_website');
         $this->addParameter('websiteName', $website['general_information']['staging_website_name']);
         $this->addParameter('latestEvent', 'Staging Website Creation');
-        $this->search(array('filter_website_name' => $website['general_information']['staging_website_name']));
+        $this->search(array('filter_website_name' => $website['general_information']['staging_website_name']),
+            'staging_websites_grid');
         //search is used for getting on the page with the matched row
         $this->assertTrue($this->controlIsPresent('pageelement', 'latest_event'));
         //Verification on log page
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($creationStarted);
+        $this->searchAndOpen($creationStarted, 'staging_operations_log_grid');
         $this->navigate('manage_staging_operations_log');
-        $this->stagingLogHelper()->openLog($creationCompleted);
+        $this->searchAndOpen($creationCompleted, 'staging_operations_log_grid');
         $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->frontend();
         return $website['general_information']['staging_website_code'];

@@ -169,7 +169,7 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
 
     public function disableAllGiftWrapping()
     {
-        $xpathTR = $this->search(array('filter_status' => 'Enabled'));
+        $xpathTR = $this->search(array('filter_status' => 'Enabled'), 'gift_wrapping_grid');
         $id = $this->getColumnIdByName('Gift Wrapping Design');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $id);

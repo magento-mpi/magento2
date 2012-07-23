@@ -102,7 +102,7 @@ class Core_Mage_Customer_DeleteTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
         for ($i = 1; $i <= $customerQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'customers_grid');
         }
         $this->addParameter('qtyDeletedCustomers', $customerQty);
         $this->fillDropdown('grid_massaction_select', 'Delete');

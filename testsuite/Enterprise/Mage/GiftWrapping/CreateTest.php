@@ -236,7 +236,8 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         //Steps
         $this->navigate('manage_gift_wrapping');
-        $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
+        $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+            'gift_wrapping_grid');
         $this->fillDropdown('massaction_action', 'Change status');
         $this->fillDropdown('massaction_status', 'Disabled');
         $this->addParameter('itemCount', '1');
@@ -245,7 +246,8 @@ class Enterprise_Mage_GiftWrapping_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_massaction_update');
         //Steps
         $this->navigate('manage_gift_wrapping');
-        $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']));
+        $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
+            'gift_wrapping_grid');
         $this->fillDropdown('massaction_action', 'Change status');
         $this->fillDropdown('massaction_status', 'Enabled');
         $this->addParameter('itemCount', '1');

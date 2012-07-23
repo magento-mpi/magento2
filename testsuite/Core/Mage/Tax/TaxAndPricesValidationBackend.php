@@ -192,7 +192,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftInvOnInv, $totAftInvOnInv);
         //Verify prices after creating Refund on Refund page
         $this->navigate('manage_sales_credit_memos');
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_creditmemo_grid');
         $this->shoppingCartHelper()->verifyPricesDataOnPage($priceAftRefOnRef, $totAftRefOnRef);
     }
 

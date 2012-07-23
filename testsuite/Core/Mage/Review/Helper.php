@@ -81,7 +81,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         if (isset($reviewSearch['filter_websites']) && !$this->controlIsPresent('dropdown', 'filter_websites')) {
             unset($reviewSearch['filter_websites']);
         }
-        $this->searchAndOpen($reviewSearch);
+        $this->searchAndOpen($reviewSearch, 'all_reviews_grid');
     }
 
     /**

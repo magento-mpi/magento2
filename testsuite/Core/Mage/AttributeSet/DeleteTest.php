@@ -89,8 +89,7 @@ class Core_Mage_AttributeSet_DeleteTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_attribute_set_deleted');
         $this->navigate('manage_products');
-        $xpath = $this->search($search);
-        $this->assertNull($xpath, 'Product is not deleted');
+        $this->assertNull($this->search($search, 'product_grid'), 'Product is not deleted');
     }
 
     /**

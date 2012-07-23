@@ -231,7 +231,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftMessage($checkoutData['shipping_data']['add_gift_options']);
     }
 
@@ -430,7 +430,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftMessage($vrfGiftData);
     }
 
@@ -557,7 +557,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $priceXpath = $this->_getControlXpath('pageelement', 'printed_card_price');
         $printedCardPrice = trim($this->getElementByXpath($priceXpath), '$\t\n\r');
         $this->assertEquals($expectedPrintedCardPrice, $printedCardPrice,
@@ -661,7 +661,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftMessage(array('entire_order' => array('order_send_gift_receipt' => 'Yes')));
     }
 
@@ -1127,7 +1127,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->loginAdminUser();
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', '#' . $orderId);
-        $this->searchAndOpen(array('filter_order_id' => $orderId));
+        $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
         $this->orderHelper()->verifyGiftMessage($vrfGiftData);
         $this->orderHelper()->verifyGiftWrapping($vrfGiftWrapping);
     }

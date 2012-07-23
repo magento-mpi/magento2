@@ -473,7 +473,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      */
     public function defineAttributeSetUsedInProduct(array $productSearchData)
     {
-        $productXpath = $this->search($productSearchData);
+        $productXpath = $this->search($productSearchData, 'product_grid');
         $this->assertNotEquals(null, $productXpath);
         $columnId = $this->getColumnIdByName('Attrib. Set Name');
         $this->addParameter('cellIndex', $columnId);

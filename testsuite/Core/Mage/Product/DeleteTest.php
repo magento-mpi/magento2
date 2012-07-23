@@ -267,7 +267,7 @@ class Core_Mage_Product_DeleteTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_product');
         }
         for ($i = 1; $i <= $productQty; $i++) {
-            $this->searchAndChoose(${'searchData' . $i});
+            $this->searchAndChoose(${'searchData' . $i}, 'product_grid');
         }
         $this->addParameter('qtyDeletedProducts', $productQty);
         $this->fillDropdown('product_massaction', 'Delete');

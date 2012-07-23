@@ -106,7 +106,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
             if (isset($searchWebsiteData['filter_website_name'])) {
                 $this->addParameter('elementTitle', $searchWebsiteData['filter_website_name']);
             }
-            $this->searchAndOpen($searchWebsiteData);
+            $this->searchAndOpen($searchWebsiteData, 'staging_websites_grid');
         }
     }
 
