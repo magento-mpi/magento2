@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
@@ -674,5 +674,26 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         }
 
         return $fileMediaName;
+    }
+
+    /**
+     * Retrieve Data For Update Attribute
+     *
+     * @param  Mage_Catalog_Model_Product $object
+     * @return array
+     */
+    public function getValueUpdateInfo($object)
+    {
+        $data = array();
+        $images = (array)$object->getData($this->getAttribute()->getName());
+        $tableName = $this->_getResource()->getMainTable();
+        foreach ($images['images'] as $value) {
+            $data[$tableName][] = array(
+                'attribute_id' => $this->getAttribute()->getAttributeId(),
+                'value_id' => $value['value_id'],
+                'entity_id' => $object->getId(),
+            );
+        }
+        return $data;
     }
 } // Class Mage_Catalog_Model_Product_Attribute_Backend_Media End

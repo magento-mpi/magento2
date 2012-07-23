@@ -307,4 +307,20 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     {
         return $this;
     }
+
+    /**
+     * Retrieve Data For Update Attribute
+     *
+     * @param Varien_Object $object
+     * @return array
+     */
+    public function getValueUpdateInfo($object)
+    {
+        $data = array();
+        $data[$this->getTable()][] = array(
+            'attribute_id' => $this->getAttribute()->getAttributeId(),
+            'value_id' => $this->getEntityValueId($object),
+        );
+        return $data;
+    }
 }
