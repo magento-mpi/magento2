@@ -34,7 +34,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
      */
     public function testValidateCatalogPermissionsWebsites()
     {
-        $this->dispatch('admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/admin/catalog_category/edit/id/3');
         $result = $this->getResponse()->getBody();
         $this->assertContains('category_permissions_3', $result);
         $this->assertContains('limited_website_ids', $result);
@@ -47,7 +47,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
      */
     public function testValidateCatalogPermissionsStoreGroups()
     {
-        $this->dispatch('admin/catalog_category/edit/id/3');
+        $this->dispatch('backend/admin/catalog_category/edit/id/3');
         $result = $this->getResponse()->getBody();
         $expected = 'title="New Permission" type="button" class="scalable delete disabled disabled" onclick="" style=""'
             . ' disabled="disabled">';
@@ -61,7 +61,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
      */
     public function testBackendUserRoleEditContainsGwsBlock()
     {
-        $this->dispatch('admin/user_role/editrole');
+        $this->dispatch('backend/admin/user_role/editrole');
 
         $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws',
@@ -85,7 +85,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
      */
     public function testBackendUserRoleIndexContainsGwsBlock()
     {
-        $this->dispatch('admin/user_role/index');
+        $this->dispatch('backend/admin/user_role/index');
 
         $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',
@@ -100,7 +100,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
      */
     public function testBackendUserRoleEditRoleGridContainsGwsBlock()
     {
-        $this->dispatch('admin/user_role/editrolegrid');
+        $this->dispatch('backend/admin/user_role/editrolegrid');
 
         $this->assertInstanceOf(
             'Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role',

@@ -111,6 +111,11 @@
                 <model>Enterprise_Pbridge_Model_Payment_Method_Paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
+            <paybox_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
+                <title>Paybox Direct</title>
+                <using_pbridge>1</using_pbridge>
+            </paybox_direct>
             <pbridge_paypaluk_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Paypaluk</model>
                 <active>1</active>
@@ -118,6 +123,15 @@
             <pbridge_authorizenet>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Authorizenet</model>
                 <enabled>1</enabled>
+                <active>0</active>
+                <debug>0</debug>
+                <order_status>processing</order_status>
+                <payment_action>authorize</payment_action>
+                <title>Authorize.net</title>
+                <allowspecific>0</allowspecific>
+                <currency>USD</currency>
+                <partial_authorization_checksum_checking>1</partial_authorization_checksum_checking>
+                <using_pbridge>1</using_pbridge>
             </pbridge_authorizenet>
             <pbridge_eway_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
@@ -149,7 +163,7 @@
                 <model>Enterprise_Pbridge_Model_Payment_Method_Firstdata</model>
             </firstdata>
             <payone_gate>
-                <title>Credit Card (Payone.de)</title>
+                <title>Payone.de</title>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Payone_Gate</model>
                 <currency>EUR</currency>
                 <using_pbridge>1</using_pbridge>
