@@ -28,10 +28,33 @@
 class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 {
     /**
+     * Resource instance
+     *
+     * @var null
+     */
+    protected $_resource;
+
+    /**
+     * @var Mage_Core_Helper_Abstract
+     */
+    protected $_helperInstance;
+
+    /**
      * Prefix of model events names
      * @var string
      */
     protected $_eventPrefix = 'eav_entity_attribute_set';
+
+    /**
+     * Initialize data
+     *
+     * @param array $data
+     */
+    public function __construct(array $data= array())
+    {
+        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        parent::__construct($data);
+    }
 
     /**
      * Initialize resource model
@@ -171,13 +194,13 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         $attributeSetName = $this->getAttributeSetName();
         if ($attributeSetName == '') {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Attribute set name is empty.')
+                $this->_helper('Mage_Eav_Helper_Data')->__('Attribute set name is empty.')
             );
         }
 
         if (!$this->_getResource()->validate($this, $attributeSetName)) {
             throw Mage::exception('Mage_Eav',
-                Mage::helper('Mage_Eav_Helper_Data')->__('Attribute set with the "%s" name already exists.', $attributeSetName)
+                $this->_helper('Mage_Eav_Helper_Data')->__('Attribute set with the "%s" name already exists.', $attributeSetName)
             );
         }
 
@@ -256,5 +279,41 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         }
 
         return $setId ? $this->_getResource()->getDefaultGroupId($setId) : null;
+    }
+
+    /**
+     * Set helper instance
+     *
+     * @param Mage_Core_Helper_Abstract $helperInstance
+     * @return Mage_Eav_Model_Entity_Attribute_Set
+     */
+    public function setHelper(Mage_Core_Helper_Abstract $helperInstance)
+    {
+        $this->_helperInstance = $helperInstance;
+        return $this;
+    }
+
+    /**
+     * Retrieve helper instance by specified helper name
+     *
+     * @param $helperName
+     * @return Mage_Core_Helper_Abstract
+     */
+    protected function _helper($helperName)
+    {
+        return $this->_helperInstance instanceof $helperName ? $this->_helperInstance : Mage::helper($helperName);
+    }
+
+    /**
+     * Get resource instance
+     *
+     * @return Mage_Core_Model_Resource_Db_Abstract
+     */
+    protected function _getResource()
+    {
+        if (is_null($this->_resource)) {
+            return parent::_getResource();
+        }
+        return $this->_resource;
     }
 }
