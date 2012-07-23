@@ -40,18 +40,18 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
     /**
      * @param array $dataToValidate
      * @param PHPUnit_Framework_MockObject_MockObject $zendConstraintMock
-     * @param PHPUnit_Framework_MockObject_MockObject $magentoConstraintMock
+     * @param PHPUnit_Framework_MockObject_MockObject $mageConstraintMock
      * @param Magento_Validator_Config $configMock
      * @dataProvider dataProviderForValidator
      */
-    public function testIsValid($dataToValidate, $zendConstraintMock, $magentoConstraintMock, $configMock)
+    public function testIsValid($dataToValidate, $zendConstraintMock, $mageConstraintMock, $configMock)
     {
         $zendConstraintMock->expects($this->once())
             ->method('isValid')
             ->with($dataToValidate['test_field'])
             ->will($this->returnValue(true));
 
-        $magentoConstraintMock->expects($this->once())
+        $mageConstraintMock->expects($this->once())
             ->method('isValidData')
             ->with($dataToValidate, 'test_field_constraint')
             ->will($this->returnValue(true));
@@ -63,36 +63,36 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
     /**
      * @param array $dataToValidate
      * @param PHPUnit_Framework_MockObject_MockObject $zendConstraintMock
-     * @param PHPUnit_Framework_MockObject_MockObject $magentoConstraintMock
+     * @param PHPUnit_Framework_MockObject_MockObject $mageConstraintMock
      * @param Magento_Validator_Config $configMock
      * @dataProvider dataProviderForValidator
      */
-    public function testGetErrors($dataToValidate, $zendConstraintMock, $magentoConstraintMock, $configMock)
+    public function testGetErrors($dataToValidate, $zendConstraintMock, $mageConstraintMock, $configMock)
     {
-        $expectedZendValidationErrors = array('Test Zend_Validate_Interface constraint error.');
+        $expectedZendErrors = array('Test Zend_Validate_Interface constraint error.');
         $zendConstraintMock->expects($this->once())
             ->method('isValid')
             ->with($dataToValidate['test_field'])
             ->will($this->returnValue(false));
         $zendConstraintMock->expects($this->once())
             ->method('getMessages')
-            ->will($this->returnValue($expectedZendValidationErrors));
+            ->will($this->returnValue($expectedZendErrors));
 
-        $expectedMagentoValidationErrors = array(
+        $expectedMageErrors = array(
             'test_field_constraint' => array('Test Magento_Validator_ConstraintInterface constraint error.')
         );
-        $magentoConstraintMock->expects($this->once())
+        $mageConstraintMock->expects($this->once())
             ->method('isValidData')
             ->with($dataToValidate, 'test_field_constraint')
             ->will($this->returnValue(false));
-        $magentoConstraintMock->expects($this->once())
+        $mageConstraintMock->expects($this->once())
             ->method('getErrors')
-            ->will($this->returnValue($expectedMagentoValidationErrors));
+            ->will($this->returnValue($expectedMageErrors));
 
         $validator = new Magento_Validator('test_entity', 'test_group_a', $configMock);
         $this->assertFalse($validator->isValid($dataToValidate));
-        $expectedErrors = array_merge(array('test_field' => $expectedZendValidationErrors),
-            $expectedMagentoValidationErrors);
+        $expectedErrors = array_merge(array('test_field' => $expectedZendErrors),
+            $expectedMageErrors);
         $actualErrors = $validator->getMessages();
         $this->assertEquals($expectedErrors, $actualErrors);
     }
@@ -105,7 +105,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
         );
 
         $zendConstraintMock = $this->getMock('Zend_Validate_Alnum', array('isValid', 'getMessages'));
-        $magentoConstraintMock = $this->getMock('Magento_Validator_Constraint', array('isValidData', 'getErrors'));
+        $mageConstraintMock = $this->getMock('Magento_Validator_Constraint', array('isValidData', 'getErrors'));
         $validationRules = array(
             'test_rule' => array(
                 array(
@@ -113,7 +113,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
                     'field' => 'test_field'
                 ),
                 array(
-                    'constraint' => $magentoConstraintMock,
+                    'constraint' => $mageConstraintMock,
                     'field' => 'test_field_constraint'
                 ),
             ),
@@ -126,7 +126,7 @@ class Magento_ValidatorTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($validationRules));
 
         return array(
-            array($dataToValidate, $zendConstraintMock, $magentoConstraintMock, $configMock)
+            array($dataToValidate, $zendConstraintMock, $mageConstraintMock, $configMock)
         );
     }
 }
