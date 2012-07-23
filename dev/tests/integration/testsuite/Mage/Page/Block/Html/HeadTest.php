@@ -85,6 +85,14 @@ class Mage_Page_Block_Html_HeadTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test getRobots default value
+     */
+    public function testGetRobotsDefaultValue()
+    {
+        $this->assertEquals('INDEX,FOLLOW', $this->_block->getRobots());
+    }
+
+    /**
      * Test getRobots
      *
      * @magentoConfigFixture default_store design/search_engine_robots/default_robots INDEX,NOFOLLOW
