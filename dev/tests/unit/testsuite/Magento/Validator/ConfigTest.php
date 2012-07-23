@@ -164,6 +164,13 @@ class Magento_Validator_Invalid_Abstract
 }
 class Magento_Validator_Test extends Magento_Validator_ConstraintAbstract
 {
+    /**
+     * @param array $data
+     * @param null $field
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function isValidData(array $data, $field = null)
     {
         return true;
