@@ -30,12 +30,13 @@ return array(
                 'admin_email'                => 'admin@example.com',
                 'admin_username'             => 'admin',
                 'admin_password'             => '123123q',
+                'admin_no_form_key'          => 'yes',
             ),
             'fixture_files' => 'testsuite/fixtures/*.php',
         ),
     ),
     'scenario' => array(
-        'files' => 'testsuite/{home_page,product_view,category_view,quick_search,advanced_search}.jmx',
+        'files' => 'testsuite/{home_page,product_view,category_view,quick_search,advanced_search,product_edit}.jmx',
         'common_params' => array(
             'users' => 10,
             'loops' => 100,
