@@ -46,8 +46,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit extends Mage_Adminhtml
                     'class'     => 'save',
                     'onclick'   => 'saveAttributeInNewSet(\''
                         . Mage::helper('Mage_Catalog_Helper_Data')->__('Enter Name for New Attribute Set')
-                        . '\', \''
-                        . Mage::helper('Mage_Catalog_Helper_Data')->__('Specified Attribute Set name is invalid.')
                         . '\')',
                 )
             );

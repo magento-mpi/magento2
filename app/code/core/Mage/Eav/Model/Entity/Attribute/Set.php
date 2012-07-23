@@ -30,11 +30,13 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     /**
      * Resource instance
      *
-     * @var null
+     * @var Mage_Eav_Model_Resource_Entity_Attribute_Set
      */
     protected $_resource;
 
     /**
+     * Helper instance
+     *
      * @var Mage_Core_Helper_Abstract
      */
     protected $_helperInstance;
@@ -50,9 +52,16 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(array $data = array())
     {
-        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        if (isset($data['resource'])) {
+            $this->_resource = $data['resource'];
+            unset($data['resource']);
+        }
+        if (isset($data['helper'])) {
+            $this->_helperInstance = $data['helper'];
+            unset($data['helper']);
+        }
         parent::__construct($data);
     }
 
@@ -282,21 +291,9 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Set helper instance
-     *
-     * @param Mage_Core_Helper_Abstract $helperInstance
-     * @return Mage_Eav_Model_Entity_Attribute_Set
-     */
-    public function setHelper(Mage_Core_Helper_Abstract $helperInstance)
-    {
-        $this->_helperInstance = $helperInstance;
-        return $this;
-    }
-
-    /**
      * Retrieve helper instance by specified helper name
      *
-     * @param $helperName
+     * @param string $helperName
      * @return Mage_Core_Helper_Abstract
      */
     protected function _helper($helperName)
@@ -311,9 +308,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
      */
     protected function _getResource()
     {
-        if (is_null($this->_resource)) {
-            return parent::_getResource();
-        }
-        return $this->_resource;
+        return $this->_resource ?: parent::_getResource();
     }
 }

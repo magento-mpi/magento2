@@ -29,17 +29,24 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $this->_model = new Mage_Eav_Model_Entity_Attribute_Set(array(
-            'resource'  => $resource
+            'resource'  => $resource,
+            'helper'    => $helper
         ));
-        $this->_model->setHelper($helper);
     }
+
+    protected function tearDown()
+    {
+        unset($this->_model);
+        parent::tearDown();
+    }
+
 
     /**
      * @param string $attributeSetName
      * @param string $exceptionMessage
      * @dataProvider invalidAttributeSetDataProvider
      */
-    public function testValidateWithExistedNameThrowsException($attributeSetName, $exceptionMessage)
+    public function testValidateWithExistingName($attributeSetName, $exceptionMessage)
     {
         $this->_model->getResource()
             ->expects($this->any())
@@ -51,14 +58,14 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
         $this->_model->validate();
     }
 
-    public function testValidateWithNonExistedValidNameReturnsSuccess()
+    public function testValidateWithNonExistingValidName()
     {
         $this->_model->getResource()
             ->expects($this->any())
             ->method('validate')
             ->will($this->returnValue(true));
 
-        $this->_model->setAttributeSetName('non_existed_name');
+        $this->_model->setAttributeSetName('non_existing_name');
         $this->assertTrue($this->_model->validate());
     }
 
@@ -71,7 +78,7 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array('', 'Attribute set name is empty.'),
-            array('existed_name', 'Attribute set with the "%s" name already exists.')
+            array('existing_name', 'Attribute set with the "%s" name already exists.')
         );
     }
 }

@@ -304,7 +304,7 @@ function updateRequriedOptions()
     }
 }
 
-function saveAttributeInNewSet(promptMessage, errorMessage)
+function saveAttributeInNewSet(promptMessage)
 {
     var newAttributeSetName = prompt(promptMessage, '');
 
@@ -312,15 +312,13 @@ function saveAttributeInNewSet(promptMessage, errorMessage)
         return;
     }
 
-    if (newAttributeSetName.length == 0) {
-        alert(errorMessage);
-        return;
-    }
-
-    var validator = Validation.get('validate-no-html-tags');
-    if (!validator.test(newAttributeSetName)) {
-        alert(validator.error);
-        return;
+    var rules = ['required-entry', 'validate-no-html-tags'], validator;
+    for (var i = 0; i < rules.length; i++) {
+        validator = Validation.get(rules[i]);
+        if (!validator.test(newAttributeSetName)) {
+            alert(validator.error);
+            return;
+        }
     }
 
     var newAttributeSetNameInputId = 'new_attribute_set_name';
