@@ -150,7 +150,7 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
             $object = new Magento_Config($configData, $baseDir);
             $this->assertEquals($expectedPath, $object->getJMeterPath());
 
-            $configData['scenario']['jmeter_jar_file'] = null;
+            $configData['scenario']['jmeter_jar_file'] = '';
             putenv("jmeter_jar_file={$expectedPath}");
             $object = new Magento_Config($configData, $baseDir);
             $this->assertEquals($expectedPath, $object->getJMeterPath());

@@ -79,7 +79,7 @@ class Magento_Config
             }
         }
 
-        if (isset($configData['scenario']['jmeter_jar_file'])) {
+        if (!empty($configData['scenario']['jmeter_jar_file'])) {
             $this->_jMeterPath = $configData['scenario']['jmeter_jar_file'];
         } else {
             $this->_jMeterPath = getenv('jmeter_jar_file') ?: self::DEFAULT_JMETER_JAR_FILE;

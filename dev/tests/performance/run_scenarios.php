@@ -13,10 +13,14 @@
 try {
     /** @var $config Magento_Config */
     $config = require_once __DIR__ . '/framework/bootstrap.php';
+
+    $installationOptions = $config->getInstallOptions();
     $scenario = new Magento_Scenario(new Magento_Shell(true), $config->getJMeterPath(), $config->getReportDir());
     $scenarioParamsGlobal = array(
         Magento_Scenario::PARAM_HOST => $config->getApplicationUrlHost(),
-        Magento_Scenario::PARAM_PATH => $config->getApplicationUrlPath()
+        Magento_Scenario::PARAM_PATH => $config->getApplicationUrlPath(),
+        Magento_Scenario::PARAM_ADMIN_USERNAME => $installationOptions['admin_username'],
+        Magento_Scenario::PARAM_ADMIN_PASSWORD => $installationOptions['admin_password']
     );
     $scenarioTotalCount = count($config->getScenarios());
     $scenarioFailCount = 0;
