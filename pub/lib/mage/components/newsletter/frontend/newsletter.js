@@ -23,11 +23,13 @@
 
                 // check if we have a generated label, replace the message then
                 if (label.attr("generated")) {
+                    hasError = true;
                     label.hide().html(message).fadeIn('slow');
 
                 }
             } else {
                 // create label
+                hasError = true;
                 label = $("<" + this.settings.errorElement + "/>")
                     .attr({"for": this.idOrName(element), generated: true})
                     .addClass(this.settings.errorClass)
@@ -61,7 +63,7 @@
     $(document).ready(function () {
         // Trigger initalize event
         mage.event.trigger("mage.newsletter.initialize", newsletterInit);
-        $(newsletterInit.newsletterId).mage().validate({errorClass: newsletterInit.errorClass});
+        $(newsletterInit.newsletterId).mage().validate();
         $(newsletterInit.newsletterInputId).on('click', function () {
             if ($(this).val() === newsletterInit.placeholderMessage) {
                 $(this).val('');
@@ -69,12 +71,12 @@
         });
         $(newsletterInit.newsletterInputId).on('focusout', function () {
             var inputField = $(this);
-            // use setTimeout to make sure submit event happens before focusout event
             setTimeout(function () {
                 if ($.trim(inputField.val()) === '') {
                     inputField.val(newsletterInit.placeholderMessage);
                 }
-            }, 400);
+                hasError = false;
+            }, 1);
         });
     });
 }(jQuery));

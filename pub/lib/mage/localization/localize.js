@@ -78,7 +78,7 @@
             mage.localize = new localize();
         }
     };
-    mage.locale($.cookie(mage.language.cookieKey) || mage.language.en);
+    mage.locale(mage.language.code);
 }(jQuery));
 
 

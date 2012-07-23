@@ -13,7 +13,8 @@ var mage = {};
 (function ($) {
     mage.language = {
         cookieKey: 'language',
-        en: 'en'
+        en: 'en',
+        code: 'en'
     };
     // Use mage.event as a wrapper for jquery event
     mage.event = {
@@ -99,7 +100,7 @@ var mage = {};
             return cssQueue.length;
         },
         language: function (lang) {
-            var language = lang || $.cookie(mage.language.cookieKey);
+            var language = lang || mage.language.code;
             if (language != null && language !== mage.language.en) {
                 var mapping = {
                     'localize': ['/pub/lib/globalize/globalize.js',
@@ -112,12 +113,12 @@ var mage = {};
             return syncQueue.length;
         },
         initValidate: function () {
-            this.language();
             var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js',
                 '/pub/lib/jquery/jquery.metadata.js', '/pub/lib/jquery/jquery.hook.js',
                 '/pub/lib/mage/validation/validate.js'];
             addToQueue(validatorFiles, syncQueue);
         }
     };
+    mage.event.trigger("mage.load.language");
 
 }(jQuery));
