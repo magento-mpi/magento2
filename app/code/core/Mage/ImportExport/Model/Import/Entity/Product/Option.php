@@ -935,17 +935,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             'price_type' => 'fixed'
         );
 
-        foreach ($this->_specificTypes[$type] as $paramSuffix) {
-            if (isset($rowData[self::COLUMN_PREFIX . $paramSuffix])) {
-                $data = $rowData[self::COLUMN_PREFIX . $paramSuffix];
+        if (in_array('price', $this->_specificTypes[$type]) && isset($rowData[self::COLUMN_PREFIX . 'price'])) {
+            $data = $rowData[self::COLUMN_PREFIX . 'price'];
 
-                if ('price' == $paramSuffix) {
-                    if ('%' == substr($data, -1)) {
-                        $priceData['price_type'] = 'percent';
-                    }
-                    $priceData['price'] = (float) rtrim($data, '%');
-                }
+            if ('%' == substr($data, -1)) {
+                $priceData['price_type'] = 'percent';
             }
+            $priceData['price'] = (float) rtrim($data, '%');
         }
 
         return $priceData;
