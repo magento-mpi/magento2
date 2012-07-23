@@ -1,14 +1,15 @@
 <?php
-# Magento
-#
-# {license_notice}
-#
-# @category    Magento
-# @package     Mage_Product
-# @subpackage  functional_tests
-# @copyright   {copyright}
-# @license     {license_link}
-#
+/**
+ * Magento
+ *
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Product
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 /**
  * Importing custom option functionality
  */
@@ -117,10 +118,10 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
     public function withDifferentProductTypes($type, $attrData)
     {
         //Data
-        if ($type != 'configurable'){
+        if ($type != 'configurable') {
             $productDataCustomOption = $this->loadDataSet('Product', $type . '_product_required');
             $productData = $this->loadDataSet('Product', $type . '_product_required');
-        }else{
+        } else {
             $productDataCustomOption = $this->loadDataSet('Product', $type . '_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']));
             $productData = $this->loadDataSet('Product', $type . '_product_required',
@@ -133,7 +134,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($productData, $type, false);
-        $this->productHelper()->importCustomOptions(array ($selectProduct));
+        $this->productHelper()->importCustomOptions(array($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
@@ -208,8 +209,8 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $selectProduct = array('product_sku' => $simpleField['general_sku']);
         //Steps
         $this->productHelper()->createProduct($productData, 'simple', false);
-        $this->productHelper()->importCustomOptions(array ($selectProduct));
-        $this->productHelper()->importCustomOptions(array ($selectProduct));
+        $this->productHelper()->importCustomOptions(array($selectProduct));
+        $this->productHelper()->importCustomOptions(array($selectProduct));
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying

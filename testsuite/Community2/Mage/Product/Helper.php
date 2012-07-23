@@ -1,14 +1,15 @@
 <?php
-# Magento
-#
-# {license_notice}
-#
-# @category    Magento
-# @package     Mage_Product
-# @subpackage  functional_tests
-# @copyright   {copyright}
-# @license     {license_link}
-#
+/**
+ * Magento
+ *
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_Product
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 /**
  * Helper class
  */
@@ -33,23 +34,18 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
 
     /**
      * Delete all custom options
-     *
-     * @return bool
      */
     public function deleteAllCustomOptions()
     {
         $this->openTab('custom_options');
-        while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set') . '[1]')) {
-            $xpath = $this->_getControlXpath('fieldset', 'custom_option_set') . "[1]//button[span='Delete Option']";
-            if (!$this->isElementPresent($xpath) || !$this->isVisible($xpath)) {
+        while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set'))) {
+            if (!$this->controlIsPresent('button', 'delete_custom_option')) {
                 $this->fail(
                     "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
-                    . "'\nProblem with 'Delete Option' button, xpath '$xpath':\n"
-                    . 'Control is not present on the page');
+                    . "'\nProblem with 'Delete Option' button.\n" . 'Control is not present on the page');
             }
-            $this->click($xpath);
+            $this->clickButton('delete_custom_option', false);
         }
-        return true;
     }
 
     /**
