@@ -11,7 +11,7 @@
 /**
  * Front controller for REST area
  */
-class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
+class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 {
     /**#@+
      * Resource types
@@ -47,11 +47,19 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
      */
     protected $_renderer;
 
+    /** @var Mage_Api2_Model_Config_Rest */
+    protected $_restConfig;
+
     /**
      * Initialize server errors processing mechanism
      */
-    protected function _init()
+    public  function init()
     {
+        /** @var Mage_Api2_Model_Config_Rest $restConfig */
+        $restConfig = Mage::getModel('Mage_Api2_Model_Config_Rest',
+        glob(Mage::getBaseDir('app') . DS . '*' .DS . '*' .DS . '*' .DS . '*' . DS . 'etc' . DS . 'api_rest.xml'));
+        $this->setRestConfig($restConfig);
+
         // redeclare custom shutdown function to handle fatal errors correctly
         $this->registerShutdownFunction(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
     }
@@ -59,13 +67,13 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     /**
      * Dispatch REST request
      */
-    protected function _dispatch()
+    public function dispatch()
     {
         try {
-            $route = $this->_matchRoute($this->_getRequest());
+            $route = $this->_matchRoute($this->getRequest());
             $this->_checkResourceAcl();
 
-            $controllerClassName = $this->_getRestConfig()->getControllerClassByResourceName($route->getResourceName());
+            $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
             $action = $this->_getActionName($route->getResourceType());
             if (!$controllerInstance->hasAction($action)) {
@@ -78,6 +86,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
             Mage::logException($e);
             $this->_addException($e);
         }
+
         Mage::dispatchEvent('controller_front_send_response_before', array('front' => $this));
         Magento_Profiler::start('send_response');
         $this->_sendResponse();
@@ -95,7 +104,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     protected function _matchRoute(Mage_Api2_Model_Request $request)
     {
         $router = new Mage_Api2_Controller_Router_Rest();
-        $route = $router->setRoutes($this->_getRestConfig()->getRoutes())->match($request);
+        $route = $router->setRoutes($this->getRestConfig()->getRoutes())->match($request);
         return $route;
     }
 
@@ -117,7 +126,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
             self::RESOURCE_TYPE_ITEM . self::HTTP_METHOD_DELETE => 'delete',
         );
         /** @var Mage_Api2_Model_Request $request */
-        $request = $this->_getRequest();
+        $request = $this->getRequest();
         $httpMethod = $request->getHttpMethod();
         if (!isset($restMethodsMap[$resourceType . $httpMethod])) {
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_METHOD_NOT_ALLOWED);
@@ -136,10 +145,10 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     protected function _getActionControllerInstance($className)
     {
         if (!$this->_validateControllerClassName($className)) {
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_NOT_FOUND);
+            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
         }
 
-        $controllerInstance = new $className(Mage::app()->getRequest(), Mage::app()->getResponse());
+        $controllerInstance = new $className($this->getRequest(), $this->getResponse());
         if (!($controllerInstance instanceof $this->_baseActionController)) {
             Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
         }
@@ -157,8 +166,8 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
      */
     protected function _validateControllerClassName($controllerClassName)
     {
-        $controllerFileName = $this->getControllerFileName($controllerClassName);
-        if (!$this->validateControllerFileName($controllerFileName)) {
+        $controllerFileName = $this->_getControllerFileName($controllerClassName);
+        if (!$this->_validateControllerFileName($controllerFileName)) {
             return false;
         }
 
@@ -199,7 +208,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
      * @param string $fileName
      * @return bool
      */
-    public function validateControllerFileName($fileName)
+    protected function _validateControllerFileName($fileName)
     {
         if ($fileName && is_readable($fileName) && false===strpos($fileName, '//')) {
             return true;
@@ -213,7 +222,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
      * @param string $controllerClassName
      * @return string
      */
-    public function getControllerFileName($controllerClassName)
+    protected function _getControllerFileName($controllerClassName)
     {
         $parts = explode('_', $controllerClassName);
         $realModule = implode('_', array_splice($parts, 0, 2));
@@ -231,7 +240,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     protected function _getVersion()
     {
         /** @var Mage_Api2_Model_Request $request */
-        $request = $this->_getRequest();
+        $request = $this->getRequest();
         $requestedVersion = $request->getVersion();
         if (false !== $requestedVersion && !preg_match('/^[1-9]\d*$/', $requestedVersion)) {
             throw new Mage_Api2_Exception(
@@ -245,14 +254,25 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     }
 
     /**
+     * Set config for REST.
+     *
+     * @param Mage_Api2_Model_Config_Rest $config
+     * @return Mage_Api2_Controller_Front_Rest
+     */
+    public function setRestConfig(Mage_Api2_Model_Config_Rest $config)
+    {
+        $this->_restConfig = $config;
+        return $this;
+    }
+
+    /**
      * Retrieve REST specific config
      *
      * @return Mage_Api2_Model_Config_Rest
      */
-    protected function _getRestConfig()
+    public function getRestConfig()
     {
-        return Mage::getModel('Mage_Api2_Model_Config_Rest',
-            glob(Mage::getBaseDir('app') . DS . '*' .DS . '*' .DS . '*' .DS . '*' . DS . 'etc' . DS . 'api_rest.xml'));
+        return $this->_restConfig;
     }
 
     /**
@@ -316,10 +336,10 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     protected function _sendResponse()
     {
         try {
-            if ($this->_getResponse()->isException()) {
+            if ($this->getResponse()->isException()) {
                 $this->_renderMessages();
             }
-            $this->_getResponse()->sendResponse();
+            $this->getResponse()->sendResponse();
         } catch (Exception $e) {
             // If the server does not support all MIME types accepted by the client it SHOULD send 406 (not acceptable).
             // This could happen in renderer factory. Tunnelling of 406(Not acceptable) error
@@ -355,7 +375,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
      */
     protected function _renderMessages()
     {
-        $response = $this->_getResponse();
+        $response = $this->getResponse();
         $formattedMessages = array();
         $formattedMessages['messages'] = $response->getMessages();
         $lastExceptionHttpCode = null;
@@ -394,7 +414,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_Front_Base
     {
         if (!$this->_renderer) {
             /** @var $request Mage_Api2_Model_Request */
-            $request = $this->_getRequest();
+            $request = $this->getRequest();
             $this->_renderer = Mage_Api2_Model_Renderer::factory($request->getAcceptTypes());
         }
         return $this->_renderer;

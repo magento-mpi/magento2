@@ -17,17 +17,22 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
      *
      * @var array array({api type} => {API front controller class})
      */
-    private $_concreteFrontControllers = array(
+    protected $_concreteFrontControllers = array(
         'rest' => 'Mage_Api2_Controller_Front_Rest',
     );
 
     /**
      * Specific front controller for current API type.
-     * This variable must not be available in concrete front controllers
      *
-     * @var Mage_Api2_Controller_Front_Base
+     * @var Mage_Api2_Controller_FrontAbstract
      */
-    private $_concreteFrontController;
+    protected $_concreteFrontController;
+
+    /** @var Mage_Api2_Model_Request */
+    protected $_request;
+
+    /** @var Mage_Api2_Model_Response */
+    protected $_response;
 
     /**
      * Determine concrete API front controller to use. Initialize it
@@ -36,22 +41,22 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
      */
     public function init()
     {
-        try {
-            // TODO: Temporary workaround. Required ability to configure request and response classes per area
-            Mage::app()->setRequest(Mage::getSingleton('Mage_Api2_Model_Request'));
-            Mage::app()->setResponse(Mage::getSingleton('Mage_Api2_Model_Response'));
+        // TODO: Temporary workaround. Required ability to configure request and response classes per area
+        $this->_request = Mage::getSingleton('Mage_Api2_Model_Request');
+        $this->_response = Mage::getSingleton('Mage_Api2_Model_Response');
 
-            // TODO: Make sure that non-admin users cannot access this area
-            Mage::register('isSecureArea', true, true);
-            // make sure all errors will not be displayed
-            ini_set('display_startup_errors', 0);
-            ini_set('display_errors', 0);
+        // TODO: Make sure that non-admin users cannot access this area
+        Mage::register('isSecureArea', true, true);
+        // make sure all errors will not be displayed
+        ini_set('display_startup_errors', 0);
+        ini_set('display_errors', 0);
 
-            $this->_getConcreteFrontController()->_init();
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $this->_addException($e);
-        }
+        // TODO: Implement error handling on this stage
+        $this->_getConcreteFrontController()
+            ->setRequest($this->_request)
+            ->setResponse($this->_response)
+            ->init();
+
         return $this;
     }
 
@@ -63,85 +68,27 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
     public function dispatch()
     {
         // TODO: Think how to implement resource ACL check here. Try to implement this method as a 'template method'
-        $this->_getConcreteFrontController()->_dispatch();
+        $this->_getConcreteFrontController()->dispatch();
         return $this;
     }
 
     /**
-     * Should be implemented in child classes
-     */
-    protected function _init()
-    {
-        throw new LogicException('This method must be overridden in child');
-    }
-
-    /**
-     * Should be implemented in child classes
-     */
-    protected function _dispatch()
-    {
-        throw new LogicException('This method must be overridden in child');
-    }
-
-    /**
-     * Retrieve config describing resources available in all APIs
-     * The same resource config must be used in all API types
-     */
-    final protected function _getResourceConfig()
-    {
-        // TODO: Implement
-    }
-
-    /**
-     * Check permissions on specific resource in ACL. No information about roles must be used on this level.
-     * ACL check must be performed in the same way for all API types
-     */
-    final protected function _checkResourceAcl()
-    {
-        // TODO: Implement
-    }
-
-    /**
-     * Retrieve request object
-     *
-     * TODO: Check return type
-     * @return Mage_Core_Controller_Request_Http
-     */
-    protected function _getRequest()
-    {
-        return Mage::app()->getRequest();
-    }
-
-    /**
-     * Retrieve response object
-     *
-     * TODO: Check return type
-     * @return Zend_Controller_Response_Http
-     */
-    protected function _getResponse()
-    {
-        return Mage::app()->getResponse();
-    }
-
-    /**
      * Set front controller for concrete API type.
-     * This method must not be available in concrete front controller
      *
-     * @param Mage_Api2_Controller_Front_Base $concreteFrontController
+     * @param Mage_Api2_Controller_FrontAbstract $concreteFrontController
      */
-    private function _setConcreteFrontController(Mage_Api2_Controller_Front_Base $concreteFrontController)
+    protected function _setConcreteFrontController(Mage_Api2_Controller_FrontAbstract $concreteFrontController)
     {
         $this->_concreteFrontController = $concreteFrontController;
     }
 
     /**
      * Retrieve front controller for concrete API type (factory method).
-     * This method must not be available in concrete front controller
      *
-     * @return Mage_Api2_Controller_Front_Base
+     * @return Mage_Api2_Controller_FrontAbstract
      * @throws Mage_Core_Exception
      */
-    private function _getConcreteFrontController()
+    protected function _getConcreteFrontController()
     {
         if (is_null($this->_concreteFrontController)) {
             $apiType = $this->_determineApiType();
@@ -165,7 +112,7 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
     private function _determineApiType()
     {
         // TODO: Multicall problem: currently it is not possible to pass custom request object to API type routing
-        $request = $this->_getRequest();
+        $request = $this->_request;
         $apiTypeRoute = new Mage_Api2_Controller_Router_Route_ApiType();
 
         if (!($apiTypeMatch = $apiTypeRoute->match($request, true))) {
@@ -178,18 +125,5 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
         $request->setParam('api_type', $apiType);
 
         return $apiType;
-    }
-
-    /**
-     * Add exception to response
-     *
-     * @param Exception $exception
-     * @return Mage_Api2_Controller_Front_Base
-     */
-    protected function _addException(Exception $exception)
-    {
-        $response = $this->_getResponse();
-        $response->setException($exception);
-        return $this;
     }
 }

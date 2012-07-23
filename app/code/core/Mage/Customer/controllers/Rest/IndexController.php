@@ -46,7 +46,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
 
         /** @var $customer Mage_Customer_Model_Customer */
@@ -58,7 +58,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         } catch (Mage_Core_Exception $e) {
             $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_INTERNAL_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
 
         return $this->_getLocation($customer);
@@ -96,7 +96,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
             foreach ($validator->getErrors() as $error) {
                 $this->_error($error, Mage_Api2_Model_Server::HTTP_BAD_REQUEST);
             }
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_DATA_PRE_VALIDATION_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_DATA_PRE_VALIDATION_ERROR);
         }
 
         $customer->addData($data);
@@ -106,7 +106,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         } catch (Mage_Core_Exception $e) {
             $this->_error($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_INTERNAL_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
     }
 
@@ -122,7 +122,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
         if (!$customer->getId()) {
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_NOT_FOUND);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
         }
         return $customer;
     }
@@ -180,9 +180,9 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         try {
             $customer->delete();
         } catch (Mage_Core_Exception $e) {
-            Mage::helper('Mage_Rest_Helper_Data')->critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical($e->getMessage(), Mage_Api2_Model_Server::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            Mage::helper('Mage_Rest_Helper_Data')->critical(Mage_Rest_Helper_Data::RESOURCE_INTERNAL_ERROR);
+            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
     }
 }

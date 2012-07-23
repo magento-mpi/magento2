@@ -739,7 +739,7 @@ class Mage_Core_Model_App
     {
         // TODO: Remove hardcode when areas mechanism is implemented
 //        $this->_frontController = new Mage_Core_Controller_Varien_Front();
-        $this->_frontController = new Mage_Api2_Controller_Front_Rest();
+        $this->_frontController = new Mage_Api2_Controller_Front_Base();
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
         Magento_Profiler::stop('init_front_controller');
