@@ -310,7 +310,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $this->_storeCodeToId = $data['stores'];
         } else {
             /** @var $store Mage_Core_Model_Store */
-            foreach (Mage::app()->getStores() as $store) {
+            foreach (Mage::app()->getStores(true) as $store) {
                 $this->_storeCodeToId[$store->getCode()] = $store->getId();
             }
         }
@@ -440,6 +440,45 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 }
             }
         }
+        return false;
+    }
+
+    /**
+     * Check is option existed in DB
+     *
+     * @param array $newOptionData
+     * @param array $newOptionTitles
+     * @return bool
+     */
+    protected function _isOptionEquals(array $newOptionData, array $newOptionTitles)
+    {
+        $optionIds = array();
+        $productId = $newOptionData['product_id'];
+
+        if (isset($this->_oldCustomOptions[$productId])) {
+            $existedOptions = $this->_oldCustomOptions[$productId];
+
+            foreach ($newOptionTitles as $storeId => $newOptionTitle) {
+                if (isset($existedOptions[$storeId])) {
+                    foreach ($existedOptions[$storeId] as $existedOption) {
+                        if ($existedOption['type'] == $newOptionData['type']
+                            && $existedOption['title'] == $newOptionTitle
+                        ) {
+                            $optionIds[] = $existedOption['id'];
+                        }
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if ($optionIds) {
+            $optionIds = array_flip($optionIds);
+            $keys = array_keys($optionIds);
+            return $keys[0];
+        }
+
         return false;
     }
 
@@ -629,6 +668,32 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
+     * Check is complex options contain values
+     *
+     * @param array $options
+     * @param array $titles
+     * @param array $typeValues
+     * @return bool
+     */
+    protected function _isReadyForSaving(array $options, array $titles, array $typeValues)
+    {
+        // if complex options does not contain values - ignore them
+        foreach ($options as $key => $optionData) {
+            $optionId = $optionData['option_id'];
+            $optionType = $optionData['type'];
+            if ($this->_specificTypes[$optionType] === true && !isset($typeValues[$optionId])) {
+                unset($options[$key], $titles[$optionId]);
+            }
+        }
+
+        if ($options) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Import data rows
      *
      * @return boolean
@@ -675,8 +740,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 $this->_deleteEntities(array_keys($products));
             }
 
-            if ($this->_saveOptions($options, $titles, $typeValues)) {
-                $this->_saveTitles($titles)
+            if ($this->_isReadyForSaving($options, $titles, $typeValues)) {
+                $this->_compareOptionsWithExisted($options, $titles, $prices, $typeValues)
+                    ->_saveOptions($options)
+                    ->_saveTitles($titles)
                     ->_savePrices($prices)
                     ->_saveSpecificTypeValues($typeValues)
                     ->_saveSpecificTypePrices($typePrices)
@@ -725,7 +792,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $optionData = $this->_getOptionData($rowData, $this->_rowProductId, $nextOptionId, $this->_rowType);
 
             if (!$this->_isRowHasSpecificType($this->_rowType)) {
-                $prices[] = $this->_getPriceData($rowData, $nextOptionId, $this->_rowType);
+                $prices[$nextOptionId] = $this->_getPriceData($rowData, $nextOptionId, $this->_rowType);
             }
 
             if (!isset($products[$this->_rowProductId])) {
@@ -794,6 +861,36 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             }
             $titles[$prevOptionId][$this->_rowStoreId] = $rowData[self::COLUMN_TITLE];
         }
+    }
+
+    /**
+     * Find duplicated custom options and update existed options data
+     *
+     * @param array $options
+     * @param array $titles
+     * @param array $prices
+     * @param array $typeValues
+     * @return Mage_ImportExport_Model_Import_Entity_Product_Option
+     */
+    protected function _compareOptionsWithExisted(array &$options, array &$titles, array &$prices, array &$typeValues)
+    {
+        foreach ($options as &$optionData) {
+            $newOptionId = $optionData['option_id'];
+            if ($optionId = $this->_isOptionEquals($optionData, $titles[$newOptionId])) {
+                $optionData['option_id'] = $optionId;
+                $titles[$optionId] = $titles[$newOptionId];
+                unset($titles[$newOptionId]);
+                if (isset($prices[$newOptionId])) {
+                    $prices[$newOptionId]['option_id'] = $optionId;
+                }
+                if (isset($typeValues[$newOptionId])) {
+                    $typeValues[$optionId] = $typeValues[$newOptionId];
+                    unset($typeValues[$newOptionId]);
+                }
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -1000,31 +1097,31 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
+     * Delete custom option type values
+     *
+     * @param array $optionIds
+     * @return Mage_ImportExport_Model_Import_Entity_Product_Option
+     */
+    protected function _deleteSpecificTypeValues(array $optionIds)
+    {
+        $this->_connection->delete($this->_tables['catalog_product_option_type_value'],
+            $this->_connection->quoteInto('option_id IN (?)', $optionIds)
+        );
+
+        return $this;
+    }
+
+    /**
      * Save custom options main info
      *
      * @param array $options options data
-     * @param array $titles option titles data
-     * @param array $typeValues option type values
-     * @return bool
+     * @return Mage_ImportExport_Model_Import_Entity_Product_Option
      */
-    protected function _saveOptions(array $options, array $titles, array $typeValues)
+    protected function _saveOptions(array $options)
     {
-        // if complex options does not contain values - ignore them
-        foreach ($options as $key => $optionData) {
-            $optionId = $optionData['option_id'];
-            $optionType = $optionData['type'];
-            if ($this->_specificTypes[$optionType] === true && !isset($typeValues[$optionId])) {
-                unset($options[$key], $titles[$optionId]);
-            }
-        }
+        $this->_connection->insertOnDuplicate($this->_tables['catalog_product_option'], $options);
 
-        if ($options) {
-            $this->_connection->insertMultiple($this->_tables['catalog_product_option'], $options);
-        } else {
-            return false;
-        }
-
-        return true;
+        return $this;
     }
 
     /**
@@ -1081,6 +1178,8 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      */
     protected function _saveSpecificTypeValues(array $typeValues)
     {
+        $this->_deleteSpecificTypeValues(array_keys($typeValues));
+
         $typeValueRows = array();
         foreach ($typeValues as $optionId => $optionInfo) {
             foreach ($optionInfo as $row) {

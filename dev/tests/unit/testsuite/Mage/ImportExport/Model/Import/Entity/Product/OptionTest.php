@@ -24,9 +24,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      *
      * @var array
      */
-    protected $_testStore = array(
-        'code' => 'test',
-        'id'   => 1
+    protected $_testStores = array(
+        array(
+            'code' => 'admin',
+            'id'   => 0
+        )
     );
 
     /**
@@ -56,25 +58,25 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      */
     protected $_expectedTitles = array(
         array(
-            'option_id' => 1,
-            'store_id'  => 0,
-            'title'     => 'Test Field Title',
-        ),
-        array(
-            'option_id' => 2,
+            'option_id' => 3,
             'store_id'  => 0,
             'title'     => 'Test Date and Time Title',
         ),
         array(
-            'option_id' => 3,
+            'option_id' => 4,
             'store_id'  => 0,
             'title'     => 'Test Select',
         ),
         array(
-            'option_id' => 4,
+            'option_id' => 5,
             'store_id'  => 0,
             'title'     => 'Test Radio',
         ),
+        array(
+            'option_id' => 1,
+            'store_id'  => 0,
+            'title'     => 'Test Field Title',
+        )
     );
 
     /**
@@ -83,14 +85,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @var array
      */
     protected $_expectedPrices = array(
-        array(
+        2 => array(
             'option_id'  => 1,
             'store_id'   => 0,
             'price'      => 1,
             'price_type' => 'fixed',
         ),
-        array(
-            'option_id'  => 2,
+        3 => array(
+            'option_id'  => 3,
             'store_id'   => 0,
             'price'      => 2,
             'price_type' => 'fixed',
@@ -106,12 +108,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         array(
             'price'          => 3,
             'price_type'     => 'fixed',
-            'option_type_id' => 1,
-            'store_id'       => 0,
-        ),
-        array(
-            'price'          => 3,
-            'price_type'     => 'fixed',
             'option_type_id' => 2,
             'store_id'       => 0,
         ),
@@ -125,6 +121,12 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
             'price'          => 3,
             'price_type'     => 'fixed',
             'option_type_id' => 4,
+            'store_id'       => 0,
+        ),
+        array(
+            'price'          => 3,
+            'price_type'     => 'fixed',
+            'option_type_id' => 5,
             'store_id'       => 0,
         ),
     );
@@ -136,22 +138,22 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      */
     protected $_expectedTypeTitles = array(
         array(
-            'option_type_id' => 1,
-            'store_id'       => 0,
-            'title'          => 'Option 1',
-        ),
-        array(
             'option_type_id' => 2,
             'store_id'       => 0,
-            'title'          => 'Option 2',
+            'title'          => 'Option 1',
         ),
         array(
             'option_type_id' => 3,
             'store_id'       => 0,
-            'title'          => 'Option 1',
+            'title'          => 'Option 2',
         ),
         array(
             'option_type_id' => 4,
+            'store_id'       => 0,
+            'title'          => 'Option 1',
+        ),
+        array(
+            'option_type_id' => 5,
             'store_id'       => 0,
             'title'          => 'Option 2',
         ),
@@ -233,28 +235,28 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      */
     protected $_expectedTypeValues = array(
         array(
-            'option_type_id' => 1,
-            'sort_order'     => 0,
-            'sku'            => '3-1-select',
-            'option_id'      => 3,
-        ),
-        array(
             'option_type_id' => 2,
             'sort_order'     => 0,
-            'sku'            => '3-2-select',
-            'option_id'      => 3,
+            'sku'            => '3-1-select',
+            'option_id'      => 4,
         ),
         array(
             'option_type_id' => 3,
             'sort_order'     => 0,
-            'sku'            => '4-1-radio',
+            'sku'            => '3-2-select',
             'option_id'      => 4,
         ),
         array(
             'option_type_id' => 4,
             'sort_order'     => 0,
+            'sku'            => '4-1-radio',
+            'option_id'      => 5,
+        ),
+        array(
+            'option_type_id' => 5,
+            'sort_order'     => 0,
             'sku'            => '4-2-radio',
-            'option_id'      => 4,
+            'option_id'      => 5,
         ),
     );
 
@@ -263,7 +265,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      *
      * @var string
      */
-    protected $_whereForDelete = 'product_id IN (1)';
+    protected $_whereForOption = 'product_id IN (1)';
+
+    /**
+     * Where which should be generate in case of deleting custom option types
+     *
+     * @var string
+     */
+    protected $_whereForType = 'option_id IN (4, 5)';
 
     /**
      * Init entity adapter model
@@ -303,17 +312,17 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         $connection = $this->getMock('stdClass', array('delete', 'quoteInto', 'insertMultiple', 'insertOnDuplicate'));
         if ($addExpectations) {
             if ($deleteBehavior) {
-                $connection->expects($this->once())
+                $connection->expects($this->exactly(2))
                     ->method('quoteInto')
                     ->will($this->returnCallback(array($this, 'stubQuoteInto')));
-                $connection->expects($this->once())
+                $connection->expects($this->exactly(2))
                     ->method('delete')
                     ->will($this->returnCallback(array($this, 'verifyDelete')));
             } else {
-                $connection->expects($this->exactly(2))
+                $connection->expects($this->once())
                     ->method('insertMultiple')
                     ->will($this->returnCallback(array($this, 'verifyInsertMultiple')));
-                $connection->expects($this->exactly(5))
+                $connection->expects($this->exactly(6))
                     ->method('insertOnDuplicate')
                     ->will($this->returnCallback(array($this, 'verifyInsertOnDuplicate')));
             }
@@ -323,7 +332,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         if ($addExpectations) {
             $resourceHelper->expects($this->any())
                 ->method('getNextAutoincrement')
-                ->will($this->returnValue(1));
+                ->will($this->returnValue(2));
         }
 
         $dataHelper = $this->getMock('stdClass', array('__'));
@@ -341,7 +350,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         }
 
         $stores = array();
-        foreach ($this->_testStore as $store) {
+        foreach ($this->_testStores as $store) {
             $stores[$store['code']] = $store['id'];
         }
 
@@ -464,8 +473,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      */
     public function verifyDelete($table, $where)
     {
-        $this->assertEquals($this->_tables['catalog_product_option'], $table);
-        $this->assertEquals($this->_whereForDelete, $where);
+        if ($table == 'catalog_product_option') {
+            $this->assertEquals($this->_tables['catalog_product_option'], $table);
+            $this->assertEquals($this->_whereForOption, $where);
+        } else {
+            $this->assertEquals($this->_tables['catalog_product_option_type_value'], $table);
+            $this->assertEquals($this->_whereForType, $where);
+        }
     }
 
     /**
