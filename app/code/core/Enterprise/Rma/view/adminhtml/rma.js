@@ -270,16 +270,8 @@ AdminRma.prototype = {
         $(newDetailsDivId).descendants().each(function(element){
             if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select')) {
                 element.name = element.name.replace('[' + itemId + ']', '[' + itemId + '_' + timeSuffix + ']');
-                if (element.type != 'hidden') {
+                if (element.type.toLowerCase() != 'hidden' && element.type.toLowerCase() != 'text') {
                     element.value = '';
-                }
-                /**
-                 * Split line action must copy attribute values to the new line
-                 */
-                if (element.type.toLowerCase() == 'text') {
-                    var changedElement = new Element ('input', {'id' : element.id, 'value': element.value, 'cless': element.class, 'name' : element.name});
-                    element.remove();
-                    newDiv.insert(changedElement);
                 }
             }
         })
