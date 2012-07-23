@@ -161,13 +161,13 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
      * <p>5. Go to System -> Import/ Export -> Export</p>
      * <p>6. In "Entity Type" drop-down field choose "Products" parameter</p>
      * <p>7. Go to Catalog -> Attributes -> Manage Attributes</p>
-     * <p>8. Edit attribute from precondition</p>
+     * <p>8. Edit attribute label from precondition</p>
      * <p>9. Change admin title</p>
      * <p>10. Click "Save Attribute" button</p>
      * <p>11. Go to System -> Import/ Export -> Export</p>
      * <p>12. In "Entity Type" drop-down field choose "Products" parameter</p>
      * <p>13. Go to Catalog -> Attributes -> Manage Attributes</p>
-     * <p>14. Edit attribute from precondition</p>
+     * <p>14. Open edit page of attribute from precondition</p>
      * <p>15. Click "Delete Attribute" button, confirm</p>
      * <p>16. Go to System -> Import/ Export -> Export</p>
      * <p>17. In "Entity Type" drop-down field choose "Products" parameter</p>
@@ -176,7 +176,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
      * <p>Expected after step 17: Check that "Entity Attributes" block doesn't contain the attribute any more</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-1305, TL-MAGE-1306, TL-MAGE-1307
+     * @TestlinkId TL-MAGE-5925, TL-MAGE-5926, TL-MAGE-5927
      */
     public function productAttributeInFilterGrid()
     {
@@ -258,7 +258,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
         );
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
-                'attribute_label' => $attrData['manage_labels_options']['admin_title'],
+                'attribute_code' => $attrData['attribute_code'],
             ),
             'grid_and_filter'
         );
