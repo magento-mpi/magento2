@@ -17,7 +17,7 @@
                     <catalog>
                         <children>
                             <sitemap translate="title" module="Mage_Sitemap">
-                                <title>Google Sitemap</title>
+                                <title>XML Sitemap</title>
                             </sitemap>
                         </children>
                     </catalog>
@@ -26,7 +26,7 @@
                             <config>
                                 <children>
                                     <sitemap translate="title" module="Mage_Shipping">
-                                        <title>Google Sitemap Section</title>
+                                        <title>XML Sitemap Section</title>
                                     </sitemap>
                                 </children>
                             </config>
