@@ -270,7 +270,7 @@ AdminRma.prototype = {
         $(newDetailsDivId).descendants().each(function(element){
             if ((element.tagName.toLowerCase() == 'input') || (element.tagName.toLowerCase() == 'select')) {
                 element.name = element.name.replace('[' + itemId + ']', '[' + itemId + '_' + timeSuffix + ']');
-                if (element.type.toLowerCase() != 'hidden' && element.type.toLowerCase() != 'text') {
+                if (element.type.toLowerCase() != 'hidden' && element.type.toLowerCase() != 'text' && element.tagName.toLowerCase() != 'select') {
                     element.value = '';
                 }
             }
