@@ -133,6 +133,9 @@
             </format_v2>
         </export>
         <import>
+            <format_v1>
+                <page_size>5000</page_size>
+            </format_v1>
             <format_v2>
                 <page_size>10000</page_size>
                 <bunch_size>100</bunch_size>

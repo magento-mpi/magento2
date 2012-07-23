@@ -25,10 +25,8 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @var array
      */
     protected $_testStores = array(
-        array(
-            'code' => 'admin',
-            'id'   => 0
-        )
+        'admin' => 0,
+        'test'  => 1,
     );
 
     /**
@@ -47,9 +45,18 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     );
 
     /**
+     * Test entity
+     *
      * @var Mage_ImportExport_Model_Import_Entity_Product_Option
      */
     protected $_model;
+
+    /**
+     * Parent product entity
+     *
+     * @var Mage_ImportExport_Model_Import_Entity_Product
+     */
+    protected $_productEntity;
 
     /**
      * Array of expected (after import) option titles
@@ -275,6 +282,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     protected $_whereForType = 'option_id IN (4, 5)';
 
     /**
+     * Page size for product option collection iterator
+     *
+     * @var int
+     */
+    protected $_iteratorPageSize = 100;
+
+    /**
      * Init entity adapter model
      */
     public function setUp()
@@ -287,8 +301,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
             $deleteBehavior = $this->getName() == 'testImportDataDeleteBehavior' ? true : false;
         }
 
+        $doubleOptions = false;
+        if ($testName == 'testValidateOldOptionsWithTheSameName') {
+            $doubleOptions = true;
+        }
+
         $this->_model = new Mage_ImportExport_Model_Import_Entity_Product_Option(
-            $this->_getModelDependencies($addExpectations, $deleteBehavior)
+            $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
         );
     }
 
@@ -298,6 +317,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     public function tearDown()
     {
         unset($this->_model);
+        unset($this->_productEntity);
     }
 
     /**
@@ -305,9 +325,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      *
      * @param bool $addExpectations
      * @param bool $deleteBehavior
+     * @param bool $doubleOptions
      * @return array
      */
-    protected function _getModelDependencies($addExpectations = false, $deleteBehavior = false)
+    protected function _getModelDependencies($addExpectations = false, $deleteBehavior = false, $doubleOptions = false)
     {
         $connection = $this->getMock('stdClass', array('delete', 'quoteInto', 'insertMultiple', 'insertOnDuplicate'));
         if ($addExpectations) {
@@ -342,28 +363,15 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 ->will($this->returnArgument(0));
         }
 
-        $coreResource = $this->getMock('stdClass', array('getTableName'));
-        if ($addExpectations) {
-            $coreResource->expects($this->any())
-                ->method('getTableName')
-                ->will($this->returnValue('catalog_product_option_title'));
-        }
-
-        $stores = array();
-        foreach ($this->_testStores as $store) {
-            $stores[$store['code']] = $store['id'];
-        }
-
         $data = array(
             'connection'        => $connection,
             'tables'            => $this->_tables,
             'resource_helper'   => $resourceHelper,
             'data_helper'       => $dataHelper,
-            'core_resource'     => $coreResource,
             'is_price_global'   => true,
-            'stores'            => $stores,
+            'stores'            => $this->_testStores,
         );
-        $sourceData = $this->_getSourceDataMocks($addExpectations);
+        $sourceData = $this->_getSourceDataMocks($addExpectations, $doubleOptions);
 
         return array_merge($data, $sourceData);
     }
@@ -372,9 +380,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * Get source data mocks
      *
      * @param bool $addExpectations
+     * @param bool $doubleOptions
      * @return array
      */
-    protected function _getSourceDataMocks($addExpectations)
+    protected function _getSourceDataMocks($addExpectations, $doubleOptions)
     {
         $csvData = $this->_loadCsvFile();
 
@@ -389,6 +398,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         }
 
         $products = array();
+        $elementIndex = 0;
         foreach ($csvData['data'] as $rowIndex => $csvDataRow) {
             if (!empty($csvDataRow['sku']) && !array_key_exists($csvDataRow['sku'], $products)) {
                 $elementIndex = $rowIndex + 1;
@@ -403,12 +413,9 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
             }
         }
 
-        $productEntity = $this->getMock('stdClass', array('addMessageTemplate'));
-        if ($addExpectations) {
-            $productEntity->expects($this->any())
-                ->method('addMessageTemplate')
-                ->will($this->returnValue(true));
-        }
+        $this->_productEntity = $this->getMock(
+            'Mage_ImportExport_Model_Import_Entity_Product', null, array(), '', false
+        );
 
         $productModelMock = $this->getMock('stdClass', array('getProductEntitiesInfo'), array(), '', false);
         $productModelMock->expects($this->any())
@@ -417,37 +424,85 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
 
         $optionCollection = $this->getMock(
             'Varien_Data_Collection_Db',
-            array('reset', 'addProductToFilter', 'getSelect', '_fetchAll')
+            array('reset', 'addProductToFilter', 'getSelect', '_fetchAll', 'getNewEmptyItem')
         );
 
         $select = $this->getMock('stdClass', array('join', 'where'));
         $select->expects($this->any())
             ->method('join')
-            ->will($this->returnValue($select));
+            ->will($this->returnSelf());
         $select->expects($this->any())
             ->method('where')
-            ->will($this->returnValue($select));
+            ->will($this->returnSelf());
 
         $optionCollection->expects($this->any())
+            ->method('getNewEmptyItem')
+            ->will($this->returnCallback(array($this, 'getNewOptionMock')));
+        $optionCollection->expects($this->any())
             ->method('reset')
-            ->will($this->returnValue($optionCollection));
+            ->will($this->returnSelf());
         $optionCollection->expects($this->any())
             ->method('addProductToFilter')
-            ->will($this->returnValue($optionCollection));
+            ->will($this->returnSelf());
         $optionCollection->expects($this->any())
             ->method('getSelect')
             ->will($this->returnValue($select));
+
+        $optionsData = array_values($products);
+        if ($doubleOptions) {
+            foreach ($products as $product) {
+                $elementIndex++;
+                $product['id'] = $elementIndex;
+                $optionsData[] = $product;
+            }
+        }
+
         $optionCollection->expects($this->any())
             ->method('_fetchAll')
-            ->will($this->returnValue($products));
+            ->will($this->returnValue($optionsData));
+
+        $collectionIterator = $this->getMock('stdClass', array('iterate'));
+        $collectionIterator->expects($this->any())
+            ->method('iterate')
+            ->will($this->returnCallback(array($this, 'iterate')));
 
         $data = array(
-            'data_source_model' => $dataSourceModel,
-            'product_model'     => $productModelMock,
-            'product_entity'    => $productEntity,
-            'option_collection' => $optionCollection,
+            'data_source_model'            => $dataSourceModel,
+            'product_model'                => $productModelMock,
+            'product_entity'               => $this->_productEntity,
+            'option_collection'            => $optionCollection,
+            'collection_by_pages_iterator' => $collectionIterator,
+            'page_size'                    => $this->_iteratorPageSize,
         );
         return $data;
+    }
+
+    /**
+     * Iterate stub
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param Varien_Data_Collection_Db $collection
+     * @param int $pageSize
+     * @param array $callbacks
+     */
+    public function iterate(Varien_Data_Collection_Db $collection, $pageSize, array $callbacks)
+    {
+        foreach ($collection as $option) {
+            foreach ($callbacks as $callback) {
+                call_user_func($callback, $option);
+            }
+        }
+    }
+
+    /**
+     * Get new object mock for Mage_Catalog_Model_Product_Option
+     *
+     * @return Mage_Catalog_Model_Product_Option|PHPUnit_Framework_MockObject_MockObject
+     */
+    public function getNewOptionMock()
+    {
+        return $this->getMock('Mage_Catalog_Model_Product_Option', null, array(), '', false);
     }
 
     /**
@@ -551,18 +606,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     }
 
     /**
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateRow
-     * @todo   Implement testValidateRow()
-     */
-    public function testValidateRow()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::importData
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_importData
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_saveOptions
@@ -623,5 +666,185 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
             }
         }
         return $data;
+    }
+
+    /**
+     * Test for simple cases of row validation (without existing related data)
+     *
+     * @param array $rowData
+     * @param array $errors
+     * @param null $behavior
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isMainOptionRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateMainRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSecondaryRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificTypesParameters
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificParameterData
+     * @dataProvider validateRowDataProvider
+     */
+    public function testValidateRow(array $rowData, array $errors, $behavior = null)
+    {
+        if ($behavior) {
+            $this->_model->setParameters(array('behavior' => $behavior));
+        }
+
+        if (empty($errors)) {
+            $this->assertTrue($this->_model->validateRow($rowData, 0));
+        } else {
+            $this->assertFalse($this->_model->validateRow($rowData, 0));
+        }
+        $this->assertAttributeEquals($errors, '_errors', $this->_productEntity);
+    }
+
+    /**
+     * Test for validation of row without custom option
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
+     */
+    public function testValidateRowNoCustomOption()
+    {
+        $rowData = include __DIR__ . '/_files/row_data_no_custom_option.php';
+        $this->assertFalse($this->_model->validateRow($rowData, 0));
+    }
+
+    /**
+     * Test for validation if there are two options in the same name in import file
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isNewOptionsWithTheSameName
+     */
+    public function testValidateNewOptionsWithTheSameName()
+    {
+        $rowData = include __DIR__ . '/_files/row_data_main_valid.php';
+
+        // first validation, data saves in _newCustomOptions - no error
+        $this->_model->validateRow($rowData, 0);
+        $this->assertAttributeEmpty('_errors', $this->_productEntity);
+
+        // second validation of row with the same name - error must occur
+        $this->_model->validateRow($rowData, 1);
+        $expectedError = array(
+            Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_NEW_NAMES => array(array(2, null))
+        );
+        $this->assertAttributeEquals($expectedError, '_errors', $this->_productEntity);
+    }
+
+    /**
+     * Test for validation if there are two options in the same name in DB
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isOldOptionsWithTheSameName
+     */
+    public function testValidateOldOptionsWithTheSameName()
+    {
+        // validation method invokes only for append behaviour
+        $this->_model->setParameters(array());
+        $rowData = include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php';
+
+        $this->_model->validateRow($rowData, 0);
+        $expectedError = array(
+            Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_OLD_NAMES => array(array(1, null))
+        );
+        $this->assertAttributeEquals($expectedError, '_errors', $this->_productEntity);
+    }
+
+    /**
+     * Data provider of row data and errors
+     *
+     * @return array
+     */
+    public function validateRowDataProvider()
+    {
+        return array(
+            'main_valid' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
+                '$errors' => array()
+            ),
+            'main_incorrect_type' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_incorrect_type.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_TYPE => array(array(1, null))
+                )
+            ),
+            'main_no_title' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_no_title.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_EMPTY_TITLE => array(array(1, null))
+                )
+            ),
+            'main_empty_title' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_empty_title.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_EMPTY_TITLE => array(array(1, null))
+                )
+            ),
+            'main_invalid_price' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_price.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_PRICE => array(array(1, null))
+                )
+            ),
+            'main_invalid_max_characters' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_max_characters.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_MAX_CHARACTERS
+                        => array(array(1, null))
+                )
+            ),
+            'main_max_characters_less_zero' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_max_characters_less_zero.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_MAX_CHARACTERS
+                    => array(array(1, null))
+                )
+            ),
+            'main_invalid_sort_order' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_sort_order.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_SORT_ORDER
+                        => array(array(1, null))
+                )
+            ),
+            'main_sort_order_less_zero' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_sort_order_less_zero.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_SORT_ORDER
+                    => array(array(1, null))
+                )
+            ),
+            'secondary_valid' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_secondary_valid.php',
+                '$errors' => array()
+            ),
+            'secondary_incorrect_price' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_price.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_PRICE
+                        => array(array(1, null))
+                )
+            ),
+            'secondary_incorrect_row_sort' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_row_sort.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_SORT
+                    => array(array(1, null))
+                )
+            ),
+            'secondary_row_sort_less_zero' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_secondary_row_sort_less_zero.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_SORT
+                    => array(array(1, null))
+                )
+            ),
+            'ambiguity_different_type' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_different_type.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_TYPES
+                    => array(array(1, null))
+                ),
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
+            ),
+        );
     }
 }
