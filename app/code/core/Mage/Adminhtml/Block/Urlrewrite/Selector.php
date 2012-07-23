@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
 {
@@ -29,13 +29,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
      * Set block template and get available modes
      *
      */
-    public function __construct()
-    {
+    public function __construct( ) {
         $this->setTemplate('urlrewrite/selector.phtml');
+
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
         $this->_modes = array(
-            'category' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For category'),
-            'product'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For product'),
-            'id'       => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom'),
+            'category' => $helper->__('For category'),
+            'product' => $helper->__('For product'),
+            'cmspage' => $helper->__('For CMS page'),
+            'id' => $helper->__('Custom'),
         );
     }
 
@@ -52,7 +54,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
     /**
      * Label getter
      *
-     * @return array
+     * @return string
      */
     public function getSelectorLabel()
     {
