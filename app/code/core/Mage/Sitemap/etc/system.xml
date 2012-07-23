@@ -12,7 +12,7 @@
 <config>
    <sections>
         <sitemap translate="label" module="Mage_Sitemap">
-            <label>Google Sitemap</label>
+            <label>XML Sitemap</label>
             <tab>catalog</tab>
             <frontend_type>text</frontend_type>
             <sort_order>70</sort_order>
