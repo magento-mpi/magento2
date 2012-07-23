@@ -26,12 +26,14 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
         $resource->expects($this->any())
             ->method('validate')
             ->will($this->returnCallback(
+            //@codingStandardsIgnoreStart
                 function($model, $name) {
                     if ($model instanceof Mage_Eav_Model_Entity_Attribute_Set) {
                         return $name == 'non_existed_name';
                     }
                     return false;
                 }
+            //@codingStandardsIgnoreEnd
             ));
 
         $helper = $this->getMock('Mage_Eav_Helper_Data', array('__'));
