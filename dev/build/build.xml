@@ -240,13 +240,6 @@
     <!-- all static tests for CE -->
     <target name="static-tests-all-ce" depends="prepare-ce,static-tests-all"/>
 
-    <target name="functional-tests" description="Functional Tests" depends="init,prepare-installation">
-        <condition property="useVmLauncher" value="false" else="true">
-            <os family="windows"/>
-        </condition>
-        <exec dir="${env.build_customization_dir}" executable="phpunit" vmlauncher="${useVmLauncher}" failonerror="true"/>
-    </target>
-
     <!-- benchmark tests -->
     <target name="performance_tests" description="Performance Tests" depends="init,prepare-ce,prepare-installation">
         <exec executable="php" failonerror="true">
