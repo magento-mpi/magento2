@@ -30,7 +30,6 @@ class Magento_ObjectManager_FactoryAbstract implements Magento_ObjectManager_Fac
      */
     public function createFromArray(array $arguments = array(), $className = null)
     {
-        return new $className
 
     }
 }

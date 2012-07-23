@@ -38,9 +38,9 @@ class Mage_Core_Model_Resource_Setup_Query_Modifier
      * @param $adapter Varien_Db_Adapter_Pdo_Mysql
      * @return void
      */
-    public function __construct($args)
+    public function __construct(array $data = array())
     {
-        $this->_adapter = $args[0];
+        $this->_adapter = $data[0];
     }
 
     /**

@@ -87,21 +87,21 @@ class Mage_Core_Model_Layout_Update
     /**
      * Constructor
      *
-     * @param array $arguments
+     * @param array $data
      */
-    public function __construct(array $arguments = array())
+    public function __construct(array $data = array())
     {
         /* Default values */
-        $arguments += array(
+        $data += array(
             'area'    => Mage::getDesign()->getArea(),
             'package' => Mage::getDesign()->getPackageName(),
             'theme'   => Mage::getDesign()->getTheme(),
             'store'   => null,
         );
-        $this->_area    = $arguments['area'];
-        $this->_package = $arguments['package'];
-        $this->_theme   = $arguments['theme'];
-        $this->_storeId = Mage::app()->getStore($arguments['store'])->getId();
+        $this->_area    = $data['area'];
+        $this->_package = $data['package'];
+        $this->_theme   = $data['theme'];
+        $this->_storeId = Mage::app()->getStore($data['store'])->getId();
         foreach (Mage::getConfig()->getPathVars() as $key => $value) {
             $this->_subst['from'][] = '{{' . $key . '}}';
             $this->_subst['to'][] = $value;

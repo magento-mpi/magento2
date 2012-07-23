@@ -321,9 +321,9 @@ class Mage_Core_Model_Url extends Varien_Object
      * @param mixed $data
      * @return Mage_Core_Model_Url
      */
-    public function setStore($data)
+    public function setStore($params)
     {
-        $this->setData('store', Mage::app()->getStore($data));
+        $this->setData('store', Mage::app()->getStore($params));
         return $this;
     }
 

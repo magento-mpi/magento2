@@ -8,15 +8,8 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_Base implements Magento_ObjectManager
+class Magento_ObjectManager_Base extends Magento_ObjectManager_ObjectManagerAbstract
 {
-    /**
-     * Application config
-     *
-     * @var Mage_Core_Model_Config
-     */
-    protected $_config;
-
     /**
      * Created instances
      *
@@ -33,11 +26,6 @@ class Magento_ObjectManager_Base implements Magento_ObjectManager
      * @var Magento_ObjectManager_Factory[]
      */
     protected $_factoriesByClasses = array();
-
-    public function __construct($config)
-    {
-        $this->_config = $config;
-    }
 
     /**
      * Retreive object factory for class name

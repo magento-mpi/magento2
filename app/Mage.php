@@ -444,7 +444,8 @@ final class Mage
     public static function getObjectManager()
     {
         if (!self::$_objectManager) {
-            self::$_objectManager = new Magento_ObjectManager_Base(self::getConfig());
+            $di = new \Zend\Di\Di();
+            self::$_objectManager = new Magento_ObjectManager_Zend(self::getConfig(), $di);
         }
         return self::$_objectManager;
     }
