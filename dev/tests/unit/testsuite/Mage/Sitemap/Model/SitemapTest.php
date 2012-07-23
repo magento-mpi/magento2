@@ -36,7 +36,8 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             'getProductPriority',
             'getPagePriority',
             'getMaximumLinesNumber',
-            'getMaximumFileSize'
+            'getMaximumFileSize',
+            'getEnableSubmissionRobots'
         ));
         $helperMockSitemap->expects($this->any())
             ->method('__')
@@ -267,20 +268,29 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             array(50000, 10485760, $expectedSingleFile, 6, array(
                 'robotsStart'  => '',
                 'robotsFinish' => 'Sitemap: http://store.com/sitemap.xml',
+                'pushToRobots' => 1,
             )), // empty robots file
             array(50000, 10485760, $expectedSingleFile, 6, array(
                 'robotsStart'  => "User-agent: *",
                 'robotsFinish' => "User-agent: *"
                     . PHP_EOL . 'Sitemap: http://store.com/sitemap.xml',
+                'pushToRobots' => 1,
             )), // not empty robots file EOL
             array(1, 10485760, $expectedMultiFile, 18, array(
                 'robotsStart'  => "User-agent: *\r\n",
                 'robotsFinish' => "User-agent: *\r\n\r\nSitemap: http://store.com/sitemap.xml",
+                'pushToRobots' => 1,
             )), // not empty robots file WIN
             array(50000, 264, $expectedMultiFile, 18, array(
                 'robotsStart'  => "User-agent: *\n",
                 'robotsFinish' => "User-agent: *\n\nSitemap: http://store.com/sitemap.xml",
+                'pushToRobots' => 1,
             )), // not empty robots file UNIX
+            array(50000, 10485760, $expectedSingleFile, 6, array(
+                'robotsStart'  => '',
+                'robotsFinish' => '',
+                'pushToRobots' => 0,
+            )), // empty robots file
         );
     }
 
@@ -385,6 +395,11 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $helperMock->expects($this->any())
             ->method('getMaximumFileSize')
             ->will($this->returnValue($maxFileSize));
+
+        $pushToRobots = isset($robotsInfo['pushToRobots']) ? (int) $robotsInfo['pushToRobots'] : 0;
+        $helperMock->expects($this->any())
+            ->method('getEnableSubmissionRobots')
+            ->will($this->returnValue($pushToRobots));
 
         $model = $this->_getModelMock($fileMock, true);
 

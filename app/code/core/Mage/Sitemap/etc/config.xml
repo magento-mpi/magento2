@@ -68,6 +68,9 @@
                 <error_email_template>sitemap_generate_error_email_template</error_email_template>
                 <error_email_identity>general</error_email_identity>
             </generate>
+            <search_engines>
+                <submission_robots>0</submission_robots>
+            </search_engines>
         </sitemap>
     </default>
     <crontab>

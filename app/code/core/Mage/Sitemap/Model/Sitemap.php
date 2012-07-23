@@ -283,7 +283,10 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
             $this->_createSitemapIndex();
         }
 
-        $this->_addSitemapToRobotsTxt($this->getSitemapFilename());
+        // Push sitemap to robots.txt
+        if ($this->_isEnabledSubmissionRobots()) {
+            $this->_addSitemapToRobotsTxt($this->getSitemapFilename());
+        }
 
         $this->setSitemapTime(Mage::getSingleton('Mage_Core_Model_Date')->gmtDate('Y-m-d H:i:s'));
         $this->save();
@@ -580,6 +583,19 @@ class Mage_Sitemap_Model_Sitemap extends Mage_Core_Model_Abstract
     public function getSitemapUrl($sitemapPath, $sitemapFileName)
     {
         return $this->_getStoreBaseDomain() . str_replace('//', '/', $sitemapPath . '/' . $sitemapFileName);
+    }
+
+    /**
+     * Check is enabled submission to robots.txt
+     *
+     * @return bool
+     */
+    protected function _isEnabledSubmissionRobots()
+    {
+        /** @var $helper Mage_Sitemap_Helper_Data */
+        $helper = Mage::helper('Mage_Sitemap_Helper_Data');
+        $storeId = $this->getStoreId();
+        return (bool) $helper->getEnableSubmissionRobots($storeId);
     }
 
     /**

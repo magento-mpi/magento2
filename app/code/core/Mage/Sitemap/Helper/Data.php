@@ -39,6 +39,11 @@ class Mage_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_PAGE_PRIORITY = 'sitemap/page/priority';
     /**#@-*/
 
+    /**#@+
+     * Search Engine Submission Settings
+     */
+    const XML_PATH_SUBMISSION_ROBOTS = 'sitemap/search_engines/submission_robots';
+    /**#@-*/
 
     /**
      * Get maximum sitemap.xml URLs number
@@ -126,5 +131,16 @@ class Mage_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
     public function getPagePriority($storeId)
     {
         return (string) Mage::getStoreConfig(self::XML_PATH_PAGE_PRIORITY, $storeId);
+    }
+
+    /**
+     * Get enable Submission to Robots.txt
+     *
+     * @param int $storeId
+     * @return int
+     */
+    public function getEnableSubmissionRobots($storeId)
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SUBMISSION_ROBOTS, $storeId);
     }
 }
