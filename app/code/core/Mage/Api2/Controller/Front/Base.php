@@ -42,6 +42,9 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
     public function init()
     {
         // TODO: Temporary workaround. Required ability to configure request and response classes per area
+        Mage::app()->setRequest(Mage::getSingleton('Mage_Api2_Model_Request'));
+        Mage::app()->setResponse(Mage::getSingleton('Mage_Api2_Model_Response'));
+
         $this->_request = Mage::getSingleton('Mage_Api2_Model_Request');
         $this->_response = Mage::getSingleton('Mage_Api2_Model_Response');
 

@@ -139,7 +139,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     /**
      * Instantiate and validate action controller
      *
-     * @param $className
+     * @param string $className
      * @return Mage_Core_Controller_Varien_Action
      */
     protected function _getActionControllerInstance($className)
@@ -156,12 +156,11 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
         return $controllerInstance;
     }
 
-
     /**
      * Generating and validating class file name,
      * class and if everything ok do include if needed and return of class name
      *
-     * @param $controllerClassName
+     * @param string $controllerClassName
      * @return bool
      */
     protected function _validateControllerClassName($controllerClassName)
@@ -196,7 +195,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
             if (!class_exists($controllerClassName, false)) {
                 throw Mage::exception('Mage_Core',
-                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist'));
+                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist.'));
             }
         }
         return true;
