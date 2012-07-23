@@ -675,7 +675,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      * @param array $typeValues
      * @return bool
      */
-    protected function _isReadyForSaving(array $options, array $titles, array $typeValues)
+    protected function _isReadyForSaving(array &$options, array &$titles, array $typeValues)
     {
         // if complex options does not contain values - ignore them
         foreach ($options as $key => $optionData) {
@@ -741,8 +741,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             }
 
             if ($this->_isReadyForSaving($options, $titles, $typeValues)) {
-                $this->_compareOptionsWithExisted($options, $titles, $prices, $typeValues)
-                    ->_saveOptions($options)
+                if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+                    $this->_compareOptionsWithExisted($options, $titles, $prices, $typeValues);
+                }
+                $this->_saveOptions($options)
                     ->_saveTitles($titles)
                     ->_savePrices($prices)
                     ->_saveSpecificTypeValues($typeValues)
