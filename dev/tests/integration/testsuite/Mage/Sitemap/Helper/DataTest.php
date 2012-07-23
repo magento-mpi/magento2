@@ -90,6 +90,15 @@ class Mage_Sitemap_Helper_DataTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoConfigFixture default_store sitemap/page/priority 100
+     */
+    public function testGetPagePriority()
+    {
+        $this->assertEquals(0.25, $this->_helper->getPagePriority(Mage_Core_Model_App::ADMIN_STORE_ID));
+        $this->assertEquals(100, $this->_helper->getPagePriority(Mage_Core_Model_App::DISTRO_STORE_ID));
+    }
+
+    /**
      * @magentoConfigFixture default_store sitemap/search_engines/submission_robots 1
      */
     public function testGetEnableSubmissionRobots()
