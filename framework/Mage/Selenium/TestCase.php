@@ -63,7 +63,6 @@
  * @method Core_Mage_Tax_Helper taxHelper()
  * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper wishlistHelper()
  * @method Enterprise_Mage_StagingWebsite_Helper stagingWebsiteHelper()
- * @method Enterprise_Mage_StagingLog_Helper stagingLogHelper()
  * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
  */
@@ -1726,7 +1725,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             'Fatal error on page: \'There has been an error processing your request\'');
         $this->assertTextNotPresent('Notice:', 'Notice error on page');
         $this->assertTextNotPresent('Parse error', 'Parse error on page');
-        if (!$this->isElementPresent($this->_getMessageXpath('general_notice'))) {
+        if (!$this->controlIsPresent('message', 'general_notice')) {
             $this->assertTextNotPresent('Warning:', 'Warning on page');
         }
         $this->assertTextNotPresent('If you typed the URL directly', 'The requested page was not found.');
@@ -2907,14 +2906,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function moveScrollToElement($elementType, $elementName, $blockType, $blockName)
     {
-        // Getting XPath of the element what should be visible after scrolling
-        $specElementXpath = $this->_getControlXpath($elementType, $elementName);
         // Getting @ID of the element what should be visible after scrolling
-        $specElementId = $this->getAttribute($specElementXpath . "@id");
-        // Getting XPath of the block where scroll is using
-        $specFieldsetXpath = $this->_getControlXpath($blockType, $blockName);
+        $specElementId = $this->getControlAttribute($elementType, $elementName, 'id');
         // Getting @ID of the block where scroll is using
-        $specFieldsetId = $this->getAttribute($specFieldsetXpath . "@id");
+        $specFieldsetId = $this->getControlAttribute($blockType, $blockName, 'id');
         // Getting offset position of the element what should be visible after scrolling
         $destinationOffsetTop = $this->getEval("this.browserbot.findElement('id=" . $specElementId . "').offsetTop");
         // Moving scroll bar to previously defined offset
@@ -3448,9 +3443,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('field', $name);
         }
-        $this->waitForElementEditable($xpath);
         $this->type($xpath, $value);
-        $this->waitForAjax();
+        $this->waitForElementEditable($xpath);
     }
 
     /**
@@ -3485,7 +3479,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 } else {
                     $this->addSelection($xpath, 'regexp:' . preg_quote($option));
                 }
-                $this->waitForAjax();
             }
         }
     }
@@ -3504,7 +3497,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('dropdown', $name);
         }
-        $this->waitForElementEditable($xpath);
         if (trim($this->getSelectedLabel($xpath), chr(0xC2) . chr(0xA0)) != $value) {
             if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                 $this->select($xpath, 'label=' . $value);
@@ -3513,7 +3505,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->select($xpath, 'regexp:' . preg_quote($value));
             }
-            $this->waitForAjax();
+            $this->waitForElementEditable($xpath);
         }
     }
 
@@ -3529,17 +3521,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('checkbox', $name);
         }
-        $this->waitForElementEditable($xpath);
         $currentValue = $this->getValue($xpath);
         if (strtolower($value) == 'yes') {
             if ($currentValue == 'off' || $currentValue == '0') {
                 $this->click($xpath);
-                $this->waitForAjax();
+                $this->waitForElementEditable($xpath);
             }
         } elseif (strtolower($value) == 'no') {
             if ($currentValue == 'on' || $currentValue == '1') {
                 $this->click($xpath);
-                $this->waitForAjax();
+                $this->waitForElementEditable($xpath);
             }
         }
     }
@@ -3556,13 +3547,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('radiobutton', $name);
         }
-        $this->waitForElementEditable($xpath);
         if (strtolower($value) == 'yes') {
             $this->click($xpath);
-            $this->waitForAjax();
+            $this->waitForElementEditable($xpath);
         } elseif (strtolower($value) == 'no') {
             $this->uncheck($xpath);
-            $this->waitForAjax();
+            $this->waitForElementEditable($xpath);
         }
     }
 
@@ -3735,7 +3725,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                         $error .= $this->getText("//*[@id='errorTitleText']") . '. ';
                     }
                     if ($this->isElementPresent("//*[@id='errorShortDescText']")) {
-                        $error .= $this->getText("//*[@id='errorTitleText']");
+                        $error .= $this->getText("//*[@id='errorShortDescText']");
                     }
                     throw new RuntimeException($error);
                 }
