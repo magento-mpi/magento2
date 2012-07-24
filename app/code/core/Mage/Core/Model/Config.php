@@ -1466,6 +1466,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Retrieve area config by area code
+     *
+     * @param string $areaCode
+     * @return Mage_Core_Model_Config_Element
+     */
+    public function getAreaConfig($areaCode)
+    {
+        return $this->getNode('global/areas')->$areaCode;
+    }
+
+    /**
      * Load allowed areas from config
      *
      * @return Mage_Core_Model_Config
