@@ -42,6 +42,15 @@ return array(
             'users' => 10,
             'loops' => 100,
         ),
+        'scenario_params' => array(
+            'testsuite/product_view.jmx' => array(
+                'product_url_key' => 'product-1.html',
+                'product_name'    => 'Product 1',
+            ),
+            'testsuite/product_edit.jmx' => array(
+                'product_sku' => 'product_1'
+            ),
+        ),
     ),
     'report_dir' => 'report',
 );
