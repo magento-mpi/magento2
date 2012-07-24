@@ -377,9 +377,14 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         }
 
         // Check robots txt
-        $robotsStart = isset($robotsInfo['robotsStart']) ? $robotsInfo['robotsStart'] : '';
-        $robotsFinish = isset($robotsInfo['robotsFinish']) ?
-            $robotsInfo['robotsFinish'] : 'Sitemap: http://store.com/sitemap.xml';
+        $robotsStart = '';
+        if (isset($robotsInfo['robotsStart'])) {
+            $robotsStart = $robotsInfo['robotsStart'];
+        }
+        $robotsFinish = 'Sitemap: http://store.com/sitemap.xml';
+        if (isset($robotsInfo['robotsFinish'])) {
+            $robotsFinish = $robotsInfo['robotsFinish'];
+        }
         $fileMock->expects($this->any())
             ->method('read')
             ->will($this->returnValue($robotsStart));
@@ -387,7 +392,12 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
             ->method('write')
             ->with($this->equalTo('/project/robots.txt'), $this->equalTo($robotsFinish));
 
+
         // Mock helper methods
+        $pushToRobots = 0;
+        if (isset($robotsInfo['pushToRobots'])) {
+            $pushToRobots = (int) $robotsInfo['pushToRobots'];
+        }
         $helperMock = Mage::registry('_helper/Mage_Sitemap_Helper_Data');
         $helperMock->expects($this->any())
             ->method('getMaximumLinesNumber')
@@ -395,8 +405,6 @@ class Mage_Sitemap_Model_SitemapTest extends PHPUnit_Framework_TestCase
         $helperMock->expects($this->any())
             ->method('getMaximumFileSize')
             ->will($this->returnValue($maxFileSize));
-
-        $pushToRobots = isset($robotsInfo['pushToRobots']) ? (int) $robotsInfo['pushToRobots'] : 0;
         $helperMock->expects($this->any())
             ->method('getEnableSubmissionRobots')
             ->will($this->returnValue($pushToRobots));
