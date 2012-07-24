@@ -863,7 +863,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                         array(2, null),
                     )
                 ),
-                '$behaviour' => null,
+                '$behavior' => null,
                 '$numberOfValidations' => 2,
             ),
             'ambiguity_different_type' => array(
@@ -872,7 +872,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                     Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_TYPES
                     => array(array(1, null))
                 ),
-                '$behaviour' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
             ),
             'ambiguity_several_db_rows' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php',
@@ -880,7 +880,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                     Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_OLD_NAMES
                     => array(array(1, null))
                 ),
-                '$behaviour' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
             ),
         );
     }

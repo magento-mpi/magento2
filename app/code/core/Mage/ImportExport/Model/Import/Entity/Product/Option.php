@@ -113,7 +113,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     /**
      * Keep product sku value for every row during validation
      *
-     * @var int
+     * @var string
      */
     protected $_rowProductSku;
 
