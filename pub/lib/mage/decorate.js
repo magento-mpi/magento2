@@ -44,34 +44,26 @@
             }
 
             // decorate elements
-            if (_decorateParams.first) {
+            if (_decorateParams.first && !$(elements[0]).hasClass('first')) {
                 $(elements[0]).addClass('first');
             }
-            if (_decorateParams.last) {
+            if (_decorateParams.last && !$(elements[0]).hasClass('last')) {
                 $(elements[total - 1]).addClass('last');
             }
             for (var i = 0; i < total; i++) {
-                if ((i + 1) % 2 == 0) {
-                    if (_decorateParams.even) {
+                if ((i + 1) % 2 === 0 && _decorateParams.even) {
+                    $(elements[i]).removeClass('odd');
+                    if (!$(elements[i]).hasClass('even')) {
                         $(elements[i]).addClass('even');
                     }
                 }
-                else {
-                    if (_decorateParams.odd) {
+                if ((i + 1) % 2 === 1 && _decorateParams.odd) {
+                    $(elements[i]).removeClass('even');
+                    if (!$(elements[i]).hasClass('odd')) {
                         $(elements[i]).addClass('odd');
                     }
                 }
             }
         }
-
     };
-
-    mage.decorator.dataList = function (list) {
-        var list = $(list);
-        if (list.length > 1) {
-            this.general(list.find('dt'), ['odd', 'even', 'last']);
-            this.general(list.find('dd'), ['odd', 'even', 'last']);
-        }
-    }
-
 }(jQuery));

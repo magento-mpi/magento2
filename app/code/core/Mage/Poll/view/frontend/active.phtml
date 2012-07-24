@@ -9,24 +9,11 @@
  */
 ?>
 <?php if (isset($poll)) : ?>
-<script type="text/javascript">
-    //<![CDATA[
-    function validatePollAnswerIsSelected() {
-        var options = $$('input.poll_vote');
-        for (i in options) {
-            if (options[i].checked == true) {
-                return true;
-            }
-        }
-        return false;
-    }
-    //]]>
-</script>
 <div class="block block-poll">
     <div class="block-title">
         <strong><span><?php echo $this->__('Community Poll') ?></span></strong>
     </div>
-    <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
+    <form id="pollForm" action="<?php echo $action ?>" method="post">
         <div class="block-content">
             <p class="block-subtitle"><?php echo $this->escapeHtml($poll->getPollTitle()); ?></p>
             <?php if ($poll_answers): ?>
@@ -40,7 +27,6 @@
                 </li>
                 <?php endforeach; ?>
             </ul>
-            <!--            <script type="text/javascript">decorateList('poll-answers');</script>-->
             <?php endif; ?>
             <div class="actions">
                 <button type="submit" title="<?php echo $this->__('Vote') ?>" class="button">
@@ -49,4 +35,13 @@
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    //<![CDATA[
+    mage.event.observe('mage.poll.initialize', function (event, initData) {
+        initData.formId = '#pollForm';
+    });
+    mage.load.js('/pub/lib/mage/decorate.js');
+    mage.load.js('/pub/lib/mage/components/poll/frontend/poll.js');
+    //]]>
+</script>
 <?php endif; ?>
