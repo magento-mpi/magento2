@@ -511,7 +511,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      *
      * @param array $newOptionData
      * @param array $newOptionTitles
-     * @return bool
+     * @return bool|int
      */
     protected function _findExistingOptionId(array $newOptionData, array $newOptionTitles)
     {
