@@ -50,23 +50,23 @@ class Mage_Adminhtml_Block_UrlrewriteTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 array('category' => 'For category', 'product' => 'For product', 'id' => 'Custom',
-                    'cmspage' => 'For CMS page'),
+                    'cms_page' => 'For CMS page'),
                 'http://localhost/admin/urlrewrite/edit/category',
             ),
             array(
                 array('product' => 'For product', 'category' => 'For category', 'id' => 'Custom',
-                    'cmspage' => 'For CMS page'),
+                    'cms_page' => 'For CMS page'),
                 'http://localhost/admin/urlrewrite/edit/product',
             ),
             array(
                 array('id' => 'Custom', 'product' => 'For product', 'category' => 'For category',
-                    'cmspage' => 'For CMS page'),
+                    'cms_page' => 'For CMS page'),
                 'http://localhost/admin/urlrewrite/edit/id',
             ),
             array(
-                array('cmspage' => 'For CMS page', 'product' => 'For product', 'category' => 'For category',
+                array('cms_page' => 'For CMS page', 'product' => 'For product', 'category' => 'For category',
                     'id' => 'Custom'),
-                'http://localhost/admin/urlrewrite/edit/cmspage',
+                'http://localhost/admin/urlrewrite/edit/cms_page',
             ),
         );
     }

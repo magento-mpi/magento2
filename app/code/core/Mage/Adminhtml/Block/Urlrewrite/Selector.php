@@ -32,13 +32,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
     public function __construct()
     {
         $this->setTemplate('urlrewrite/selector.phtml');
-
-        $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
         $this->_modes = array(
-            'category' => $helper->__('For category'),
-            'product' => $helper->__('For product'),
-            'cmspage' => $helper->__('For CMS page'),
-            'id' => $helper->__('Custom'),
+            'category' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For category'),
+            'product' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For product'),
+            'cms_page' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For CMS page'),
+            'id' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom'),
         );
     }
 
