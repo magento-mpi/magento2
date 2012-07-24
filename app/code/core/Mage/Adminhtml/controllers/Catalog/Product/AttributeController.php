@@ -24,7 +24,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function preDispatch()
     {
         parent::preDispatch();
-        $this->_entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
+        $this->_entityTypeId = Mage::getModel('Mage_Eav_Model_Entity')->setType(Mage_Catalog_Model_Product::ENTITY)
+            ->getTypeId();
     }
 
     protected function _initAction()
@@ -140,7 +141,7 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
             /** @var $helperCatalog Mage_Catalog_Helper_Data */
             $helperCatalog = Mage::helper('Mage_Catalog_Helper_Data');
             //labels
-            foreach ($data['frontend_label'] as & $value) {
+            foreach ($data['frontend_label'] as &$value) {
                 if ($value) {
                     $value = $helperCatalog->stripTags($value);
                 }
@@ -231,10 +232,10 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
 
             //validate frontend_input
             if (isset($data['frontend_input'])) {
-                /** @var $validatorInputType Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
-                $validatorInputType = Mage::getModel('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
-                if (!$validatorInputType->isValid($data['frontend_input'])) {
-                    foreach ($validatorInputType->getMessages() as $message) {
+                /** @var $validatorInput Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator */
+                $validatorInput = Mage::getModel('Mage_Eav_Model_Adminhtml_System_Config_Source_Inputtype_Validator');
+                if (!$validatorInput->isValid($data['frontend_input'])) {
+                    foreach ($validatorInput->getMessages() as $message) {
                         $session->addError($message);
                     }
                     $this->_redirect('*/*/edit', array('attribute_id' => $id, '_current' => true));
