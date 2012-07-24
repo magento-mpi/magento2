@@ -23,6 +23,11 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
         'application' => array(
             'url_host' => '127.0.0.1',
             'url_path' => '/',
+            'admin' => array(
+                'frontname' => 'backend',
+                'username' => 'admin',
+                'password' => 'password1',
+            ),
             'installation' => array(
                 'options' => array(
                     'option1' => 'value 1',
@@ -95,6 +100,16 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetApplicationUrlPath()
     {
         $this->assertEquals('/', $this->_object->getApplicationUrlPath());
+    }
+
+    public function testGetAdminOptions()
+    {
+        $expectedOptions = array(
+            'frontname' => 'backend',
+            'username' => 'admin',
+            'password' => 'password1',
+        );
+        $this->assertEquals($expectedOptions, $this->_object->getAdminOptions());
     }
 
     public function testGetInstallOptions()

@@ -12,6 +12,11 @@ return array(
     'application' => array(
         'url_host' => 'mage2.magentocommerce.com',
         'url_path' => '/bamboo-agent/',
+        'admin' => array(
+            'frontname' => 'backend',
+            'username'  => 'admin',
+            'password'  => '123123q',
+        ),
         'installation' => array(
             'options' => array(
                 'license_agreement_accepted' => 'yes',
@@ -25,12 +30,9 @@ return array(
                 'use_secure'                 => 'no',
                 'use_secure_admin'           => 'no',
                 'use_rewrites'               => 'no',
-                'admin_frontname'            => 'backend',
                 'admin_lastname'             => 'Admin',
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',
-                'admin_username'             => 'admin',
-                'admin_password'             => '123123q',
                 'admin_no_form_key'          => 'yes',
             ),
             'fixture_files' => 'testsuite/fixtures/*.php',
