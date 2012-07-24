@@ -76,7 +76,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Mage/Sales/_files/order_with_cc.php
+     * @magentoDataFixture Mage/Sales/_files/order_paid_with_verisign.php
      */
     public function testInitFromOrderCcInformationDeleted()
     {
@@ -99,7 +99,7 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
     }
 
     /**
-     * @magentoDataFixture Mage/Sales/_files/order_with_saved_cc.php
+     * @magentoDataFixture Mage/Sales/_files/order_paid_with_saved_cc.php
      */
     public function testInitFromOrderSavedCcInformationNotDeleted()
     {
