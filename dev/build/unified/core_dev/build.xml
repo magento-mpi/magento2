@@ -137,20 +137,18 @@
         <condition property="developer_mode" value="enabled">
             <not><isset property="developer_mode"/></not>
         </condition>
-        <copy file="${basedir}/dev/build/unified/core_dev/integration_tests/local-${db_vendor_name}.xml" todir="${basedir}/dev/tests/integration/etc">
-            <filterset begintoken="{{" endtoken="}}">
-                <filter token="db_table_prefix" value="${db_table_prefix}"/>
-            </filterset>
-        </copy>
+        <copy file="${basedir}/dev/build/unified/core_dev/integration_tests/local-${db_vendor_name}.xml" todir="${basedir}/dev/tests/integration/etc"/>
         <antcall target="_database_credential_substitution">
             <param name="db_config_file" value="${basedir}/dev/tests/integration/etc/local-${db_vendor_name}.xml"/>
         </antcall>
-        <copy file="${basedir}/dev/build/unified/core_dev/integration_tests/phpunit.xml" todir="${basedir}/dev/tests/integration">
-            <filterset begintoken="{{" endtoken="}}">
-                <filter token="local_config_file" value="etc/local-${db_vendor_name}.xml"/>
-                <filter token="developer_mode" value="${developer_mode}"/>
-            </filterset>
-        </copy>
+        <replace file="${basedir}/dev/tests/integration/etc/local-${db_vendor_name}.xml">
+            <replacefilter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
+        </replace>
+        <copy file="${basedir}/dev/build/unified/core_dev/integration_tests/phpunit.xml" todir="${basedir}/dev/tests/integration"/>
+        <replace file="${basedir}/dev/tests/integration/phpunit.xml">
+            <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
+            <replacefilter token="{{developer_mode}}" value="${developer_mode}"/>
+        </replace>
     </target>
 
 
@@ -299,15 +297,14 @@
     <target name="_performance_tests_configuration" description="Generation of configuration for product performance tests">
         <fail unless="env.web_access_host" message="Environment variable 'web_access_host' must be defined"/>
         <fail unless="env.web_access_path" message="Environment variable 'web_access_path' must be defined"/>
-        <copy file="${basedir}/dev/build/unified/core_dev/performance_tests/config.xml" todir="${basedir}/dev/tests/performance">
-            <filterset begintoken="{{" endtoken="}}">
-                <filter token="web_access_host" value="${env.web_access_host}"/>
-                <filter token="web_access_path" value="${env.web_access_path}"/>
-            </filterset>
-        </copy>
+        <copy file="${basedir}/dev/build/unified/core_dev/performance_tests/config.xml" todir="${basedir}/dev/tests/performance"/>
         <antcall target="_database_credential_substitution">
             <param name="db_config_file" value="${basedir}/dev/tests/performance/config.xml"/>
         </antcall>
+        <replace file="${basedir}/dev/tests/performance/config.xml">
+            <replacefilter token="{{web_access_host}}" value="${env.web_access_host}"/>
+            <replacefilter token="{{web_access_path}}" value="${env.web_access_path}"/>
+        </replace>
     </target>
     <target name="performance_tests_ce_mysql" description="Performance tests on MySQL for CE">
         <antcall>
