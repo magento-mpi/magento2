@@ -97,4 +97,27 @@ class Mage_Adminhtml_Model_Sales_Order_CreateTest extends PHPUnit_Framework_Test
         $this->assertNull($payment->getCcType());
         $this->assertNull($payment->getCcLast4());
     }
+
+    /**
+     * @magentoDataFixture Mage/Sales/_files/order_with_saved_cc.php
+     */
+    public function testInitFromOrderSavedCcInformationNotDeleted()
+    {
+        $order = new Mage_Sales_Model_Order();
+        $order->loadByIncrementId('100000001');
+
+        $payment = $order->getPayment();
+        $this->assertEquals('5', $payment->getCcExpMonth());
+        $this->assertEquals('2016', $payment->getCcExpYear());
+        $this->assertEquals('AE', $payment->getCcType());
+        $this->assertEquals('0005', $payment->getCcLast4());
+
+        Mage::unregister('rule_data');
+        $payment = $this->_model->initFromOrder($order)->getQuote()->getPayment();
+
+        $this->assertEquals('5', $payment->getCcExpMonth());
+        $this->assertEquals('2016', $payment->getCcExpYear());
+        $this->assertEquals('AE', $payment->getCcType());
+        $this->assertEquals('0005', $payment->getCcLast4());
+    }
 }
