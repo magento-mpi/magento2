@@ -40,7 +40,7 @@ class Mage_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework_Te
     public function testSetWithoutDefaultFilter()
     {
         $this->_collection->setWithoutDefaultFilter();
-        $this->assertContains('store_id > 0', (string)$this->_collection->getSelect());
+        $this->assertContains('`store_id` > 0', (string)$this->_collection->getSelect());
     }
 
     /**
