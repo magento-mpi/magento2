@@ -49,11 +49,6 @@ return array(
                 'product_url_key' => 'product-1.html',
                 'product_name'    => 'Product 1',
             ),
-            'testsuite/product_edit.jmx' => array(
-                'product_sku' => 'product_1',
-                'users' => 2,
-                'loops' => 100,
-            ),
         ),
     ),
     'report_dir' => 'report',
