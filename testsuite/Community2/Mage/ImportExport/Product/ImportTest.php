@@ -182,6 +182,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             '_custom_option_type',
             '_custom_option_title',
             '_custom_option_is_required',
+            '_custom_option_price',
             '_custom_option_sku',
             '_custom_option_max_characters',
             '_custom_option_sort_order',
