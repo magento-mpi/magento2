@@ -9,7 +9,7 @@
 
 var translateJson = {
     "This is a required field.": "Dieses Feld ist ein Pflichtfeld.",
-    "Please enter a valid email address. For example johndoe@domain.com.": "Geben Sie bitte maximal {0} Zeichen ein.",
+    "Please enter no more than {0} characters.": "Geben Sie bitte maximal {0} Zeichen ein.",
     "Please enter at least {0} characters.": "Geben Sie bitte mindestens {0} Zeichen ein.",
     "Please enter a value between {0} and {1} characters long.": "Geben Sie bitte mindestens {0} und maximal {1} Zeichen ein.",
     "Please enter a valid email address.": "Geben Sie bitte eine gültige E-Mail Adresse ein.",
