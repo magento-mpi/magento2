@@ -36,8 +36,7 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        unset($this->_model);
-        parent::tearDown();
+        $this->_model = null;
     }
 
 
@@ -58,14 +57,14 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
         $this->_model->validate();
     }
 
-    public function testValidateWithNonExistingValidName()
+    public function testValidateWithNonExistentValidName()
     {
         $this->_model->getResource()
             ->expects($this->any())
             ->method('validate')
             ->will($this->returnValue(true));
 
-        $this->_model->setAttributeSetName('non_existing_name');
+        $this->_model->setAttributeSetName('nonexistent_name');
         $this->assertTrue($this->_model->validate());
     }
 
