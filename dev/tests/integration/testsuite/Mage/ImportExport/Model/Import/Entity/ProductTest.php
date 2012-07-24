@@ -59,8 +59,6 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
      */
     public function testSaveCustomOptionsDuplicate($behavior)
     {
-        $this->markTestIncomplete('MAGETWO-2249');
-
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToFile);
@@ -74,12 +72,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
         $options = $product->getProductOptionsCollection();
 
         $expectedData = $this->_getExpectedOptionsData($pathToFile);
+        $expectedData = $this->_mergeWithExistingData($expectedData, $options);
         $actualData = $this->_getActualOptionsData($options);
-
-        // temporary solution for incorrect behaviour of adding custom options
-        if ($behavior == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
-            $expectedData = $this->_prepareExpectedDataForAppend($expectedData, $actualData);
-        }
 
         // assert of equal type+titles
         $expectedOptions = $expectedData['options']; // we need to save key values
@@ -107,39 +101,6 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             }
             $this->assertTrue($elementExist, 'Element must exist.');
         }
-    }
-
-    /**
-     * Modify expected data according to actual data because of incorrect append behaviour
-     *
-     * @param array $expectedData
-     * @param array $actualData
-     * @return array
-     */
-    protected function _prepareExpectedDataForAppend(array $expectedData, array $actualData)
-    {
-        // find difference between actual and expected (including the same values)
-        $differenceOptions = $actualData['options'];
-        foreach ($expectedData['options'] as $expectedOption) {
-            foreach ($differenceOptions as $differenceId => $differenceOption) {
-                if ($differenceOption == $expectedOption) {
-                    unset($differenceOptions[$differenceId]);
-                    break;
-                }
-            }
-        }
-
-        // add differ options to expected options arrays
-        foreach ($differenceOptions as $differenceId => $differenceOption) {
-            $expectedData['id']++;
-            $expectedOptionId = $expectedData['id'];
-            $expectedData['options'][$expectedOptionId] = $differenceOption;
-            $expectedData['data'][$expectedOptionId] = $actualData['data'][$differenceId];
-            if (array_key_exists($differenceId, $actualData['values'])) {
-                $expectedData['values'][$expectedOptionId] = $actualData['values'][$differenceId];
-            }
-        }
-        return $expectedData;
     }
 
     /**
@@ -177,6 +138,39 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
                 $expectedValues[$expectedOptionId][] = $optionData;
             }
         }
+
+        return array(
+            'id'      => $expectedOptionId,
+            'options' => $expectedOptions,
+            'data'    => $expectedData,
+            'values'  => $expectedValues,
+        );
+    }
+
+    /**
+     * @param array $expected
+     * @param Mage_Catalog_Model_Resource_Product_Option_Collection $options
+     * @return array
+     */
+    protected function _mergeWithExistingData(array $expected,
+        Mage_Catalog_Model_Resource_Product_Option_Collection $options
+    ) {
+        $expectedOptionId = $expected['id'];
+        $expectedOptions = $expected['options'];
+        $expectedData = $expected['data'];
+        $expectedValues = $expected['values'];
+        foreach ($options->getItems() as $option) {
+            $optionKey = $option->getType() . '|' . $option->getTitle();
+            if (!in_array($optionKey, $expectedOptions)) {
+                $expectedOptionId++;
+                $expectedOptions[$expectedOptionId] = $optionKey;
+                $expectedData[$expectedOptionId] = $this->_getOptionData($option);
+                if ($optionValues = $this->_getOptionValues($option)) {
+                    $expectedValues[$expectedOptionId] = $optionValues;
+                }
+            }
+        }
+
         return array(
             'id'      => $expectedOptionId,
             'options' => $expectedOptions,
@@ -202,23 +196,9 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             $lastOptionKey = $option->getType() . '|' . $option->getTitle();
             $actualOptionId++;
             $actualOptions[$actualOptionId] = $lastOptionKey;
-            $actualData[$actualOptionId] = array();
-            foreach (array_keys($this->_assertOptions) as $assertKey) {
-                $actualData[$actualOptionId][$assertKey] = $option->getData($assertKey);
-            }
-            $values = $option->getValues();
-            if (!empty($values)) {
-                $actualValues[$actualOptionId] = array();
-                /** @var $value Mage_Catalog_Model_Product_Option_Value */
-                foreach ($values as $value) {
-                    $optionData = array();
-                    foreach ($this->_assertOptionValues as $assertKey) {
-                        if ($value->hasData($assertKey)) {
-                            $optionData[$assertKey] = $value->getData($assertKey);
-                        }
-                    }
-                    $actualValues[$actualOptionId][] = $optionData;
-                }
+            $actualData[$actualOptionId] = $this->_getOptionData($option);
+            if ($optionValues = $this->_getOptionValues($option)) {
+                $actualValues[$actualOptionId] = $optionValues;
             }
         }
         return array(
@@ -227,6 +207,48 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
             'data'    => $actualData,
             'values'  => $actualValues,
         );
+    }
+
+    /**
+     * Retrieve option data
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return array
+     */
+    protected function _getOptionData(Mage_Catalog_Model_Product_Option $option)
+    {
+        $result = array();
+        foreach (array_keys($this->_assertOptions) as $assertKey) {
+            $result[$assertKey] = $option->getData($assertKey);
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve option values or false for options which has no values
+     *
+     * @param Mage_Catalog_Model_Product_Option $option
+     * @return array|bool
+     */
+    protected function _getOptionValues(Mage_Catalog_Model_Product_Option $option)
+    {
+        $values = $option->getValues();
+        if (!empty($values)) {
+            $result = array();
+            /** @var $value Mage_Catalog_Model_Product_Option_Value */
+            foreach ($values as $value) {
+                $optionData = array();
+                foreach ($this->_assertOptionValues as $assertKey) {
+                    if ($value->hasData($assertKey)) {
+                        $optionData[$assertKey] = $value->getData($assertKey);
+                    }
+                }
+                $result[] = $optionData;
+            }
+            return $result;
+        }
+
+        return false;
     }
 
     /**

@@ -25,8 +25,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @var array
      */
     protected $_testStores = array(
-        'admin' => 0,
-        'test'  => 1,
+        'admin' => 0
     );
 
     /**

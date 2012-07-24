@@ -516,7 +516,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected function _findExistingOptionId(array $newOptionData, array $newOptionTitles)
     {
         $productId = $newOptionData['product_id'];
-        $newOptionTitles = ksort($newOptionTitles);
+        ksort($newOptionTitles);
 
         if (isset($this->_oldCustomOptions[$productId])) {
             $existingOptions = $this->_oldCustomOptions[$productId];
