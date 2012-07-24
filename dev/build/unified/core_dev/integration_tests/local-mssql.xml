@@ -32,7 +32,7 @@
                     <initStatements><![CDATA[]]></initStatements>
                     <model><![CDATA[mssql]]></model>
                     <type><![CDATA[pdo_mssql]]></type>
-                    <pdoType><![CDATA[sqlsrv]]></pdoType>
+                    <pdoType><![CDATA[pdo_dblib]]></pdoType>
                     <active>1</active>
                 </connection>
             </default_setup>

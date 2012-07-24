@@ -177,7 +177,7 @@
         <antcall target="_integration_tests_configuration">
             <param name="db_table_prefix" value="pfx_"/>
         </antcall>
-        <antcall target="integration_tests_magento"/>
+        <antcall target="_integration_tests_magento"/>
     </target>
     <target name="integration_tests_ee_dev_xd_mysql" description="Integration tests in dev mode with Xdebug on MySQL for EE">
         <antcall target="_integration_tests_configuration"/>
