@@ -22,7 +22,12 @@
             </li>
         <?php endforeach; ?>
         </ol>
-        <script type="text/javascript">decorateList('recently-viewed-items');</script>
+        <script type="text/javascript">
+            mage.event.observe('mage.productView.initialize', function (e, o) {
+                o.recentlyViewedItemsId = '#recently-viewed-items';
+            });
+            mage.load.jsSync('/pub/lib/mage/decorate.js', '/pub/lib/mage/components/checkout/frontend/cart/product_view.js');
+        </script>
     </div>
 </div>
 <?php endif; ?>

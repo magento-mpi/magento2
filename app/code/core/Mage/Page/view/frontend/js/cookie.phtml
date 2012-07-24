@@ -18,7 +18,10 @@
 
 <script type="text/javascript">
 //<![CDATA[
-Mage.Cookies.path     = '<?php echo $this->getPath()?>';
-Mage.Cookies.domain   = '<?php echo $this->getDomain()?>';
+mage.event.observe('mage.cookie.initialize', function (e, o) {
+    o.path = '<?php echo $this->getPath()?>',
+    o.domain = '<?php echo $this->getDomain()?>'
+});
+mage.load.jsSync('/pub/lib/mage/components/cookie/cookie.js');
 //]]>
 </script>

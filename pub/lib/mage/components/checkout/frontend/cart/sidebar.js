@@ -15,5 +15,9 @@
             $(location).attr('href', checkout.checkOutUrl);
         })
 
+        $('a[title=\'' + checkout.closeBtnTitle + '\']').on('click', function () {
+            return confirm(checkout.confirmMessage);
+        })
+
     });
 }(jQuery));
