@@ -59,6 +59,48 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode('global'));
     }
 
+    /**
+     * @param string $localConfigValue
+     * @param bool $expectedResult
+     * @dataProvider loadBaseLocalConfigDataProvider
+     * @throws Exception
+     */
+    public function testLoadBaseLocalConfig($localConfigValue, $expectedResult)
+    {
+        $options = self::$_options;
+        $customDir = $options['etc_dir'] . '/test';
+        $customLocalXml = $customDir . '/custom_local.xml';
+        $this->assertFileNotExists($customLocalXml, 'Test isolation is broken.');
+        mkdir($customDir, 0777, true);
+        copy(__DIR__ . '/_files/custom_local.xml', $customLocalXml);
+        try {
+            $model = $this->_createModel();
+            $this->assertFalse($model->getNode());
+            $options['local_config'] = $localConfigValue;
+            $model->setOptions($options);
+            $model->loadBase();
+            $this->assertSame($expectedResult, (bool)$model->getNode('global/custom_node'));
+            unlink($customLocalXml);
+            rmdir($customDir);
+        } catch (Exception $e) {
+            unlink($customLocalXml);
+            rmdir($customDir);
+            throw $e;
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function loadBaseLocalConfigDataProvider()
+    {
+        return array(
+            'valid fixture' => array('test/custom_local.xml', true),
+            'non-existing file' => array('test/nonexisting.xml', false),
+            'invalid format' => array('local.xml', false),
+        );
+    }
+
     public function testLoadLocales()
     {
         $model = new Mage_Core_Model_Config();
