@@ -57,7 +57,7 @@ class Mage_Eav_Model_Entity_Attribute_SetTest extends PHPUnit_Framework_TestCase
         $this->_model->validate();
     }
 
-    public function testValidateWithNonExistentValidName()
+    public function testValidateWithNonexistentValidName()
     {
         $this->_model->getResource()
             ->expects($this->any())
