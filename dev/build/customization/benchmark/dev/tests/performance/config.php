@@ -48,7 +48,9 @@ return array(
                 'product_name'    => 'Product 1',
             ),
             'testsuite/product_edit.jmx' => array(
-                'product_sku' => 'product_1'
+                'product_sku' => 'product_1',
+                'users' => 5,
+                'loops' => 100,
             ),
         ),
     ),
