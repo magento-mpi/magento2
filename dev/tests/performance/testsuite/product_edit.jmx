@@ -9,7 +9,6 @@
  * @license     {license_link}
  */
 -->
-<?xml version="1.0" encoding="UTF-8"?>
 <jmeterTestPlan version="1.2" properties="2.3">
   <hashTree>
     <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Admin - Edit Product" enabled="true">
