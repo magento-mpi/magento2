@@ -24,14 +24,6 @@
 </script>
 <![endif]-->
 
-<script type="text/javascript">
-    //<![CDATA[
-    mage.event.observe('mage.load.language', function (event) {
-        mage.load.language('<?php echo substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2)?>');
-    });
-    //]]>
-</script>
-
 <?php echo $this->getCssJsHtml() ?>
 <script type="text/javascript" src="/pub/lib/jquery/jquery.js"></script>
 <script type="text/javascript" src="/pub/lib/jquery/head.js"></script>
@@ -39,6 +31,9 @@
 <script type="text/javascript" src="/pub/lib/mage/mage.js"></script>
 <link rel="stylesheet" href="/pub/lib/mage/components/install/mage-js-style.css" type="text/css" media="all"/>
 
-
-
+<script type="text/javascript">
+    //<![CDATA[
+    mage.load.language('<?php echo substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2)?>');
+    //]]>
+</script>
 

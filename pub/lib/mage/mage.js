@@ -100,7 +100,7 @@ var mage = {};
             return cssQueue.length;
         },
         language: function (lang) {
-            var language = lang || mage.language.code;
+            var language = mage.language.code = lang;
             if (language != null && language !== mage.language.en) {
                 var mapping = {
                     'localize': ['/pub/lib/globalize/globalize.js',
@@ -119,6 +119,5 @@ var mage = {};
             addToQueue(validatorFiles, syncQueue);
         }
     };
-    mage.event.trigger("mage.load.language");
 
 }(jQuery));
