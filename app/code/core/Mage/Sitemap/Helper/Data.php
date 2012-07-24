@@ -45,6 +45,8 @@ class Mage_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_SUBMISSION_ROBOTS = 'sitemap/search_engines/submission_robots';
     /**#@-*/
 
+    const XML_PATH_PRODUCT_IMAGES_INCLUDE = 'sitemap/product/image_include';
+
     /**
      * Get maximum sitemap.xml URLs number
      *
@@ -142,5 +144,16 @@ class Mage_Sitemap_Helper_Data extends Mage_Core_Helper_Abstract
     public function getEnableSubmissionRobots($storeId)
     {
         return Mage::getStoreConfig(self::XML_PATH_SUBMISSION_ROBOTS, $storeId);
+    }
+
+    /**
+     * Get product image include policy
+     *
+     * @param int $storeId
+     * @return string
+     */
+    public function getProductImageIncludePolicy($storeId)
+    {
+        return (string) Mage::getStoreConfig(self::XML_PATH_PRODUCT_IMAGES_INCLUDE, $storeId);
     }
 }
