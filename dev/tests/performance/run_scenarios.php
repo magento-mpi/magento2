@@ -14,7 +14,7 @@ try {
     /** @var $config Magento_Config */
     $config = require_once __DIR__ . '/framework/bootstrap.php';
 
-    $adminOptions = $config->getInstallOptions();
+    $adminOptions = $config->getAdminOptions();
     $scenario = new Magento_Scenario(new Magento_Shell(true), $config->getJMeterPath(), $config->getReportDir());
     $scenarioParamsGlobal = array(
         Magento_Scenario::PARAM_HOST => $config->getApplicationUrlHost(),
