@@ -29,7 +29,7 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
         $model = new Mage_Sitemap_Model_Resource_Catalog_Product();
         $products = $model->getCollection(Mage_Core_Model_App::DISTRO_STORE_ID);
 
-        $this->_assertProductCollection($products);
+        $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
         // Check that no image attributes were loaded
         foreach ($products as $product) {
@@ -54,7 +54,7 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
         $model = new Mage_Sitemap_Model_Resource_Catalog_Product();
         $products = $model->getCollection(Mage_Core_Model_App::DISTRO_STORE_ID);
 
-        $this->_assertProductCollection($products);
+        $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
         // Check name attribute was loaded
         foreach ($products as $product) {
@@ -105,7 +105,7 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
         $model = new Mage_Sitemap_Model_Resource_Catalog_Product();
         $products = $model->getCollection(Mage_Core_Model_App::DISTRO_STORE_ID);
 
-        $this->_assertProductCollection($products);
+        $this->_checkProductCollection($products, 3, array(1, 4, 5));
 
         // Check name attribute was loaded
         foreach ($products as $product) {
@@ -142,14 +142,17 @@ class Mage_Sitemap_Model_Resource_Catalog_ProductTest extends PHPUnit_Framework_
      * 2) Check that products are loaded correctly and all required attributes present
      *
      * @param array $products
+     * @param int $expectedCount
+     * @param array $expectedKeys
+     * @return void
      */
-    protected function _assertProductCollection(array $products)
+    protected function _checkProductCollection(array $products, $expectedCount, array $expectedKeys)
     {
         // Check all expected products were added into collection
-        $this->assertCount(3, $products, 'Number of loaded products is incorrect');
-        $this->assertArrayHasKey(1, $products);
-        $this->assertArrayHasKey(4, $products);
-        $this->assertArrayHasKey(5, $products);
+        $this->assertCount($expectedCount, $products, 'Number of loaded products is incorrect');
+        foreach ($expectedKeys as $expectedKey) {
+            $this->assertArrayHasKey($expectedKey, $products);
+        }
 
         // Check all expected attributes are present
         foreach ($products as $product) {

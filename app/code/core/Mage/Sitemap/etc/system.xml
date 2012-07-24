@@ -76,7 +76,7 @@
                             <show_in_store>1</show_in_store>
                             <comment>Valid values range: from 0.0 to 1.0.</comment>
                         </priority>
-                        <image_include translate="label comment">
+                        <image_include translate="label">
                             <label>Add Images into Sitemap</label>
                             <frontend_type>select</frontend_type>
                             <source_model>Mage_Sitemap_Model_Source_Product_Image_Include</source_model>

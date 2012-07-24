@@ -260,15 +260,15 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
             )));
         }
 
-        // Determine thumbnail path
-        $thumbnail = $product->getThumbnail();
-        if ($thumbnail && $product->getThumbnail() != self::NOT_SELECTED_IMAGE) {
-            $thumbnail = $this->_getMediaConfig()->getBaseMediaUrlAddition() . $thumbnail;
-        } elseif ($imagesCollection) {
-            $thumbnail = $imagesCollection[0]->getUrl();
-        }
-
         if ($imagesCollection) {
+            // Determine thumbnail path
+            $thumbnail = $product->getThumbnail();
+            if ($thumbnail && $product->getThumbnail() != self::NOT_SELECTED_IMAGE) {
+                $thumbnail = $this->_getMediaConfig()->getBaseMediaUrlAddition() . $thumbnail;
+            } else {
+                $thumbnail = $imagesCollection[0]->getUrl();
+            }
+
             $product->setImages(new Varien_Object(array(
                 'collection' => $imagesCollection,
                 'title' => $product->getName(),
