@@ -73,8 +73,15 @@
             <target name="_unit_tests_unit_framework"/>
         </antcall>
     </target>
-    <target name="unit_tests_ee" depends="_unit_tests_all" description="Unit tests for EE"/>
-    <target name="unit_tests_ce" depends="_community_edition,_unit_tests_all" description="Unit tests for CE"/>
+    <target name="unit_tests_ee" description="Unit tests for EE">
+        <antcall target="_unit_tests_all"/>
+    </target>
+    <target name="unit_tests_ce" description="Unit tests for CE">
+        <antcall>
+            <target name="_community_edition"/>
+            <target name="_unit_tests_all"/>
+        </antcall>
+    </target>
 
 
     <target name="_static_tests_all" description="All static tests">
@@ -82,8 +89,15 @@
             <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
         </exec>
     </target>
-    <target name="static_tests_ee" depends="_static_tests_all" description="Static tests for EE"/>
-    <target name="static_tests_ce" depends="_community_edition,_static_tests_all" description="Static tests for CE"/>
+    <target name="static_tests_ee" description="Static tests for EE">
+        <antcall target="_static_tests_all"/>
+    </target>
+    <target name="static_tests_ce" description="Static tests for CE">
+        <antcall>
+            <target name="_community_edition"/>
+            <target name="_static_tests_all"/>
+        </antcall>
+    </target>
 
 
     <target name="sanity_check_ce" depends="_community_edition" description="License replacement and sanity check for CE">
@@ -124,17 +138,17 @@
             <not><isset property="developer_mode"/></not>
         </condition>
         <copy file="${basedir}/dev/build/unified/core_dev/integration_tests/local-${db_vendor_name}.xml" todir="${basedir}/dev/tests/integration/etc">
-            <filterset>
-                <filter token="{{db_table_prefix}}" value="${db_table_prefix}"/>
+            <filterset begintoken="{{" endtoken="}}">
+                <filter token="db_table_prefix" value="${db_table_prefix}"/>
             </filterset>
         </copy>
         <antcall target="_database_credential_substitution">
             <param name="db_config_file" value="${basedir}/dev/tests/integration/etc/local-${db_vendor_name}.xml"/>
         </antcall>
         <copy file="${basedir}/dev/build/unified/core_dev/integration_tests/phpunit.xml" todir="${basedir}/dev/tests/integration">
-            <filterset>
-                <filter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
-                <filter token="{{developer_mode}}" value="${developer_mode}"/>
+            <filterset begintoken="{{" endtoken="}}">
+                <filter token="local_config_file" value="etc/local-${db_vendor_name}.xml"/>
+                <filter token="developer_mode" value="${developer_mode}"/>
             </filterset>
         </copy>
     </target>
@@ -286,9 +300,9 @@
         <fail unless="env.web_access_host" message="Environment variable 'web_access_host' must be defined"/>
         <fail unless="env.web_access_path" message="Environment variable 'web_access_path' must be defined"/>
         <copy file="${basedir}/dev/build/unified/core_dev/performance_tests/config.xml" todir="${basedir}/dev/tests/performance">
-            <filterset>
-                <filter token="{{web_access_host}}" value="${env.web_access_host}"/>
-                <filter token="{{web_access_path}}" value="${env.web_access_path}"/>
+            <filterset begintoken="{{" endtoken="}}">
+                <filter token="web_access_host" value="${env.web_access_host}"/>
+                <filter token="web_access_path" value="${env.web_access_path}"/>
             </filterset>
         </copy>
         <antcall target="_database_credential_substitution">
