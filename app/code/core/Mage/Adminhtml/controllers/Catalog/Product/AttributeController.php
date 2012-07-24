@@ -152,6 +152,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
+        $groupId = $this->getRequest()->getParam('group');
+
         if ($data) {
             /** @var $session Mage_Backend_Model_Auth_Session */
             $session = Mage::getSingleton('Mage_Adminhtml_Model_Session');
@@ -181,6 +183,23 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                     $attributeSet->save();
                     $attributeSet->initFromSkeleton($this->getRequest()->getParam('set'))
                         ->save();
+
+                    /** @var $requestedGroup Mage_Catalog_Model_Product_Attribute_Group */
+                    $requestedGroup = Mage::getModel('Mage_Catalog_Model_Product_Attribute_Group')->load($groupId);
+
+                    if (!$requestedGroup->getId()) {
+                        throw Mage::exception('Mage_Adminhtml',
+                            $this->_helper('Mage_Catalog_Helper_Data')->__('Specified Attribute group id is invalid.')
+                        );
+                    }
+
+                    foreach ($attributeSet->getGroups() as $group) {
+                        if ($group->getAttributeGroupName() == $requestedGroup->getAttributeGroupName()) {
+                            $targetGroupId = $group->getAttributeGroupId();
+                            break;
+                        }
+                    }
+
                     $isNewAttributeSet = true;
                 } catch (Mage_Core_Exception $e) {
                     $session->addError($e->getMessage());
@@ -285,13 +304,12 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
                 $model->setIsUserDefined(1);
             }
 
-
-            if ($this->getRequest()->getParam('set') && $this->getRequest()->getParam('group')) {
+            if ($this->getRequest()->getParam('set') && $groupId) {
                 // For creating product attribute on product page we need specify attribute set and group
 
                 $attributeSetId = $isNewAttributeSet ? $attributeSet->getId() : $this->getRequest()->getParam('set');
-                $attributeGroupId = $isNewAttributeSet ? $attributeSet->getDefaultGroupId()
-                    : $this->getRequest()->getParam('group');
+                $attributeGroupId = $isNewAttributeSet ? $targetGroupId : $groupId;
+
                 $model->setAttributeSetId($attributeSetId);
                 $model->setAttributeGroupId($attributeGroupId);
             }
