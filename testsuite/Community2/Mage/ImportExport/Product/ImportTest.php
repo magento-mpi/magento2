@@ -39,7 +39,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
      * @test
      * @return array
      */
-    public function preconditionImport()
+    public function preconditionAppendImport()
     {
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
@@ -56,11 +56,11 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
     /**
      * <p>Existing Custom Option - Yes, Imported Custom Option - No</p>
      *
-     * @depends preconditionImport
+     * @depends preconditionAppendImport
      * @test
      * @TestlinkId TL-MAGE-1120
      */
-    public function importWithoutOptions(array $productData)
+    public function appendWithoutOptions(array $productData)
     {
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Products');
@@ -97,11 +97,11 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
     /**
      * <p>Existing Custom Option - No, Imported Custom Option - Yes</p>
      *
-     * @depends preconditionImport
+     * @depends preconditionAppendImport
      * @test
      * @TestlinkId TL-MAGE-1121
      */
-    public function importWithOptions(array $productData)
+    public function appendWithOptions(array $productData)
     {
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Products');
@@ -123,6 +123,125 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         //Import csv file with custom options
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Products', 'Append Complex Data');
+        $importResult = $this->importExportHelper()->import($csv);
+        //Verify import result
+        $this->assertArrayHasKey('import', $importResult,
+            "Import has not been finished successfully: " . print_r($importResult, true));
+        $this->assertArrayHasKey('success', $importResult['import'],
+            "Import has not been finished successfully" . print_r($importResult, true));
+        //Open Product and verify custom options
+        $this->navigate('manage_products');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        $this->productHelper()->verifyProductInfo($productData);
+    }
+
+    /**
+     * <p>Precondition:</p>
+     * <p>Create new product</p>
+     *
+     * @test
+     * @return array
+     */
+    public function preconditionReplaceImport()
+    {
+        $this->navigate('manage_products');
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
+        unset($productData['custom_options_data']['custom_options_file']);
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        return $productData;
+    }
+
+    /**
+     * <p>Existing Custom Option - Yes, Imported Custom Option - No</p>
+     *
+     * @depends preconditionReplaceImport
+     * @test
+     * @TestlinkId TL-MAGE-1141
+     */
+    public function replaceWithoutOptions(array $productData)
+    {
+        $this->navigate('export');
+        $this->importExportHelper()->chooseExportOptions('Products');
+        //set filter by sku
+        $this->importExportHelper()->setFilter(array('sku' => $productData['general_sku']));
+        //Perform export
+        $csv = $this->importExportHelper()->export();
+        //Verify export result
+        $this->assertNotNull($csv,
+            'Export has not been finished successfully');
+        //Remove custom options columns from export csv
+        $csvWithoutCustomOptions = array($csv[0]);
+        $customOptionsData = array(
+            '_custom_option_store',
+            '_custom_option_type',
+            '_custom_option_title',
+            '_custom_option_is_required',
+            '_custom_option_sku',
+            '_custom_option_max_characters',
+            '_custom_option_sort_order',
+            '_custom_option_row_title',
+            '_custom_option_row_price',
+            '_custom_option_row_sku',
+            '_custom_option_row_sort',
+        );
+        foreach ($customOptionsData as $value) {
+            $csvWithoutCustomOptions[0][$value] = '';
+        }
+        $this->navigate('import');
+        $this->importExportHelper()->chooseImportOptions('Products', 'Replace Existing Complex Data');
+        $importResult = $this->importExportHelper()->import($csvWithoutCustomOptions);
+        //Verify import result
+        $this->assertArrayHasKey('import', $importResult,
+            "Import has not been finished successfully: " . print_r($importResult, true));
+        $this->assertArrayHasKey('success', $importResult['import'],
+            "Import has not been finished successfully" . print_r($importResult, true));
+        //Open Product and verify custom options
+        $this->navigate('manage_products');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        //Verifying
+        unset($productData['custom_options_data']);
+        $this->productHelper()->verifyProductInfo($productData);
+    }
+
+    /**
+     * <p>Existing Custom Option - No, Imported Custom Option - Yes</p>
+     *
+     * @depends preconditionReplaceImport
+     * @test
+     * @TestlinkId TL-MAGE-1142
+     */
+    public function replaceWithOptions(array $productData)
+    {
+        $this->navigate('export');
+        $this->importExportHelper()->chooseExportOptions('Products');
+        //set filter by sku
+        $this->importExportHelper()->setFilter(array('sku' => $productData['general_sku']));
+        //Perform export
+        $csv = $this->importExportHelper()->export();
+        //Verify export result
+        $this->assertNotNull($csv,
+            'Export has not been finished successfully');
+        //Clear Products Custom options
+        $this->navigate('manage_products');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $csv[0]['sku']));
+        //Steps
+        $this->productHelper()->openProduct($productSearch);
+        $this->productHelper()->deleteCustomOptions();
+        $this->productHelper()->saveForm('save');
+        //Import csv file with custom options
+        $this->navigate('import');
+        $this->importExportHelper()->chooseImportOptions('Products', 'Replace Existing Complex Data');
         $importResult = $this->importExportHelper()->import($csv);
         //Verify import result
         $this->assertArrayHasKey('import', $importResult,
