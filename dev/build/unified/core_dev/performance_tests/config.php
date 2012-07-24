@@ -12,6 +12,11 @@ return array(
     'application' => array(
         'url_host' => '{{web_access_host}}',
         'url_path' => '{{web_access_path}}',
+        'admin' => array(
+            'frontname' => 'backend',
+            'username'  => 'admin',
+            'password'  => '123123q',
+        ),
         'installation' => array(
             'options' => array(
                 'license_agreement_accepted' => 'yes',
@@ -28,17 +33,22 @@ return array(
                 'admin_lastname'             => 'Admin',
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',
-                'admin_username'             => 'admin',
-                'admin_password'             => '123123q',
+                'admin_no_form_key'          => 'yes',
             ),
             'fixture_files' => 'testsuite/fixtures/*.php',
         ),
     ),
     'scenario' => array(
-        'files' => 'testsuite/{home_page,product_view,category_view,quick_search,advanced_search}.jmx',
+        'files' => 'testsuite/*.jmx',
         'common_params' => array(
             'users' => 10,
             'loops' => 100,
+        ),
+        'scenario_params' => array(
+            'testsuite/product_view.jmx' => array(
+                'product_url_key' => 'product-1.html',
+                'product_name'    => 'Product 1',
+            ),
         ),
     ),
     'report_dir' => 'report',
