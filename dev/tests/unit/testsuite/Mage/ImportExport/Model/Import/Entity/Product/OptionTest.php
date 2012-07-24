@@ -25,7 +25,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @var array
      */
     protected $_testStores = array(
-        'admin' => 0
+        'admin' => 0,
     );
 
     /**
@@ -294,14 +294,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     {
         $addExpectations = false;
         $deleteBehavior  = false;
-        $testName = $this->getName(false);
+        $testName = $this->getName(true);
         if ($testName == 'testImportDataAppendBehavior' || $testName == 'testImportDataDeleteBehavior') {
             $addExpectations = true;
             $deleteBehavior = $this->getName() == 'testImportDataDeleteBehavior' ? true : false;
         }
 
         $doubleOptions = false;
-        if ($testName == 'testValidateOldOptionsWithTheSameName') {
+        if ($testName == 'testValidateAmbiguousData with data set "ambiguity_several_db_rows"') {
             $doubleOptions = true;
         }
 
@@ -630,10 +630,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         $this->_model->importData();
     }
 
+    /**
+     * Load and return CSV source data
+     *
+     * @return array
+     */
     protected function _loadCsvFile()
     {
         $data = $this->_csvToArray(file_get_contents(__DIR__ . self::PATH_TO_CSV_FILE));
-
         return $data;
     }
 
@@ -668,36 +672,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     }
 
     /**
-     * Test for simple cases of row validation (without existing related data)
-     *
-     * @param array $rowData
-     * @param array $errors
-     * @param null $behavior
-     *
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateRow
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isMainOptionRow
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateMainRow
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSecondaryRow
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificTypesParameters
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificParameterData
-     * @dataProvider validateRowDataProvider
-     */
-    public function testValidateRow(array $rowData, array $errors, $behavior = null)
-    {
-        if ($behavior) {
-            $this->_model->setParameters(array('behavior' => $behavior));
-        }
-
-        if (empty($errors)) {
-            $this->assertTrue($this->_model->validateRow($rowData, 0));
-        } else {
-            $this->assertFalse($this->_model->validateRow($rowData, 0));
-        }
-        $this->assertAttributeEquals($errors, '_errors', $this->_productEntity);
-    }
-
-    /**
      * Test for validation of row without custom option
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
@@ -709,42 +683,63 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
     }
 
     /**
-     * Test for validation if there are two options in the same name in import file
+     * Test for simple cases of row validation (without existing related data)
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isNewOptionsWithTheSameName
+     * @param array $rowData
+     * @param array $errors
+     * @param null $behavior
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isMainOptionRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isSecondaryOptionRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateMainRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateMainRowAdditionalData
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSecondaryRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificTypesParameters
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificParameterData
+     * @dataProvider validateRowDataProvider
      */
-    public function testValidateNewOptionsWithTheSameName()
+    public function testValidateRow(array $rowData, array $errors)
     {
-        $rowData = include __DIR__ . '/_files/row_data_main_valid.php';
-
-        // first validation, data saves in _newCustomOptions - no error
-        $this->_model->validateRow($rowData, 0);
-        $this->assertAttributeEmpty('_errors', $this->_productEntity);
-
-        // second validation of row with the same name - error must occur
-        $this->_model->validateRow($rowData, 1);
-        $expectedError = array(
-            Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_NEW_NAMES => array(array(2, null))
-        );
-        $this->assertAttributeEquals($expectedError, '_errors', $this->_productEntity);
+        if (empty($errors)) {
+            $this->assertTrue($this->_model->validateRow($rowData, 0));
+        } else {
+            $this->assertFalse($this->_model->validateRow($rowData, 0));
+        }
+        $this->assertAttributeEquals($errors, '_errors', $this->_productEntity);
     }
 
     /**
-     * Test for validation if there are two options in the same name in DB
+     * Test for validation of ambiguous data
      *
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isOldOptionsWithTheSameName
+     * @param array $rowData
+     * @param array $errors
+     * @param string|null $behavior
+     * @param int $validationNumber
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateAmbiguousData
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findNewOptionsWithTheSameTitles
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findOldOptionsWithTheSameTitles
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findOldOptionWithDifferentType
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_saveNewOptionData
+     * @dataProvider validateAmbiguousDataDataProvider
      */
-    public function testValidateOldOptionsWithTheSameName()
+    public function testValidateAmbiguousData(array $rowData, array $errors, $behavior = null, $numberOfValidations = 1)
     {
-        // validation method invokes only for append behaviour
-        $this->_model->setParameters(array());
-        $rowData = include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php';
+        if ($behavior) {
+            $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND));
+        }
+        for ($i = 0; $i < $numberOfValidations; $i++) {
+            $this->_model->validateRow($rowData, $i);
+        }
 
-        $this->_model->validateRow($rowData, 0);
-        $expectedError = array(
-            Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_OLD_NAMES => array(array(1, null))
-        );
-        $this->assertAttributeEquals($expectedError, '_errors', $this->_productEntity);
+        if (empty($errors)) {
+            $this->assertTrue($this->_model->validateAmbiguousData());
+        } else {
+            $this->assertFalse($this->_model->validateAmbiguousData());
+        }
+        $this->assertAttributeEquals($errors, '_errors', $this->_productEntity);
     }
 
     /**
@@ -758,6 +753,12 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
             'main_valid' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
                 '$errors' => array()
+            ),
+            'main_invalid_store' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_store.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE => array(array(1, null))
+                )
             ),
             'main_incorrect_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_main_incorrect_type.php',
@@ -787,7 +788,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_max_characters.php',
                 '$errors' => array(
                     Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_MAX_CHARACTERS
-                        => array(array(1, null))
+                    => array(array(1, null))
                 )
             ),
             'main_max_characters_less_zero' => array(
@@ -801,7 +802,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_sort_order.php',
                 '$errors' => array(
                     Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_SORT_ORDER
-                        => array(array(1, null))
+                    => array(array(1, null))
                 )
             ),
             'main_sort_order_less_zero' => array(
@@ -815,11 +816,18 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_valid.php',
                 '$errors' => array()
             ),
+            'secondary_invalid_store' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_secondary_invalid_store.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_STORE
+                    => array(array(1, null))
+                )
+            ),
             'secondary_incorrect_price' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_price.php',
                 '$errors' => array(
                     Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_INVALID_ROW_PRICE
-                        => array(array(1, null))
+                    => array(array(1, null))
                 )
             ),
             'secondary_incorrect_row_sort' => array(
@@ -836,13 +844,43 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                     => array(array(1, null))
                 )
             ),
+        );
+    }
+
+    /**
+     * Data provider for test of method validateAmbiguousData
+     *
+     * @return array
+     */
+    public function validateAmbiguousDataDataProvider()
+    {
+        return array(
+            'ambiguity_several_input_rows' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_NEW_NAMES => array(
+                        array(1, null),
+                        array(2, null),
+                    )
+                ),
+                '$behaviour' => null,
+                '$numberOfValidations' => 2,
+            ),
             'ambiguity_different_type' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_different_type.php',
                 '$errors' => array(
                     Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_TYPES
                     => array(array(1, null))
                 ),
-                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
+                '$behaviour' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
+            ),
+            'ambiguity_several_db_rows' => array(
+                '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php',
+                '$errors' => array(
+                    Mage_ImportExport_Model_Import_Entity_Product_Option::ERROR_AMBIGUOUS_OLD_NAMES
+                    => array(array(1, null))
+                ),
+                '$behaviour' => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
             ),
         );
     }

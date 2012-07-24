@@ -39,11 +39,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     const COLUMN_ROW_SORT    = '_custom_option_row_sort';
     /**#@-*/
 
-    /**#@+
+    /**
      * XML path to page size parameter
      */
     const XML_PATH_PAGE_SIZE = 'import/format_v1/page_size';
-    /**#@-*/
 
     /**
      * All stores code-ID pairs
@@ -190,11 +189,25 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected $_oldCustomOptions;
 
     /**
-     * New custom options data
+     * New custom options data for existing products
      *
      * @var array
      */
-    protected $_newCustomOptions;
+    protected $_newOptionsOldData = array();
+
+    /**
+     * New custom options data for not existing products
+     *
+     * @var array
+     */
+    protected $_newOptionsNewData = array();
+
+    /**
+     * New custom options counter
+     *
+     * @var int
+     */
+    protected $_newCustomOptionId = 0;
 
     /**
      * Product options collection
@@ -206,6 +219,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     /**#@+
      * Error codes
      */
+    const ERROR_INVALID_STORE          = 'optionInvalidStore';
     const ERROR_INVALID_TYPE           = 'optionInvalidType';
     const ERROR_EMPTY_TITLE            = 'optionEmptyTitle';
     const ERROR_INVALID_PRICE          = 'optionInvalidPrice';
@@ -224,6 +238,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      * @var array
      */
     protected $_messageTemplates = array(
+        self::ERROR_INVALID_STORE          => 'Invalid custom option store',
         self::ERROR_INVALID_TYPE           => 'Invalid custom option type',
         self::ERROR_EMPTY_TITLE            => 'Empty custom option title',
         self::ERROR_INVALID_PRICE          => 'Invalid custom option price',
@@ -231,8 +246,8 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         self::ERROR_INVALID_SORT_ORDER     => 'Invalid custom option sort order',
         self::ERROR_INVALID_ROW_PRICE      => 'Invalid custom option value price',
         self::ERROR_INVALID_ROW_SORT       => 'Invalid custom option value sort order',
-        self::ERROR_AMBIGUOUS_NEW_NAMES    => 'Custom option with this name already declared in source file',
-        self::ERROR_AMBIGUOUS_OLD_NAMES    => 'There are several existing custom options with current name',
+        self::ERROR_AMBIGUOUS_NEW_NAMES    => 'Custom option with such title already declared in source file',
+        self::ERROR_AMBIGUOUS_OLD_NAMES    => 'There are several existing custom options with such name',
         self::ERROR_AMBIGUOUS_TYPES        => 'Custom option has different type',
     );
 
@@ -432,78 +447,141 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
+     * Validate ambiguous situations:
+     * - several custom options have the same name in input file;
+     * - several custom options have the same name in DB;
+     * - custom options with the same name has different data types.
+     *
+     * @return bool
+     */
+    public function validateAmbiguousData()
+    {
+        $errorRows = $this->_findNewOptionsWithTheSameTitles();
+        if ($errorRows) {
+            $this->_addRowsErrors(self::ERROR_AMBIGUOUS_NEW_NAMES, $errorRows);
+            return false;
+        }
+        if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+            $errorRows = $this->_findOldOptionsWithTheSameTitles();
+            if ($errorRows) {
+                $this->_addRowsErrors(self::ERROR_AMBIGUOUS_OLD_NAMES, $errorRows);
+                return false;
+            }
+            $errorRows = $this->_findOldOptionWithDifferentType();
+            if ($errorRows) {
+                $this->_addRowsErrors(self::ERROR_AMBIGUOUS_TYPES, $errorRows);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Find options with the same titles for input data
+     *
      * Is option with the same name already exist in imported file
      *
-     * @param string $productSku
-     * @param string $optionTitle
-     * @return bool
+     * @return array
      */
-    protected function _isNewOptionsWithTheSameName($productSku, $optionTitle)
+    protected function _findNewOptionsWithTheSameTitles()
     {
-        if (!isset($this->_newCustomOptions[$productSku])) {
-            return false;
-        }
-        foreach ($this->_newCustomOptions[$productSku] as $optionData) {
-            if ($optionTitle == $optionData['title']) {
-                return true;
-            }
-        }
-        return false;
+        $errorRows = array_unique(array_merge(
+            $this->_getNewOptionsWithTheSameTitlesErrorRows($this->_newOptionsNewData),
+            $this->_getNewOptionsWithTheSameTitlesErrorRows($this->_newOptionsOldData)
+        ));
+        sort($errorRows);
+        return $errorRows;
     }
 
     /**
-     * Is there several existing custom options with the same name
+     * Get error rows numbers for required product data
      *
-     * @param string $productSku
-     * @param string $optionTitle
-     * @return bool
+     * @param array $sourceProductData
+     * @return array
      */
-    protected function _isOldOptionsWithTheSameName($productSku, $optionTitle)
+    protected function _getNewOptionsWithTheSameTitlesErrorRows(array $sourceProductData)
     {
-        if (!isset($this->_productsSkuToId[$productSku])) {
-            return false;
-        }
-        $productId = $this->_productsSkuToId[$productSku];
-        if (!isset($this->_oldCustomOptions[$productId])) {
-            return false;
-        }
-        $optionsCount = 0;
-        foreach ($this->_oldCustomOptions[$productId] as $optionData) {
-            if ($optionTitle == $optionData['titles'][Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID]) {
-                $optionsCount++;
-                if ($optionsCount > 1) {
-                    return true;
+        $errorRows = array();
+        foreach ($sourceProductData as $options) {
+            foreach ($options as $outerKey => $outerData) {
+                foreach ($options as $innerKey => $innerData) {
+                    if ($innerKey != $outerKey) {
+                        if (count($outerData['titles']) == count($innerData['titles'])) {
+                            $outerTitles = $outerData['titles'];
+                            $innerTitles = $innerData['titles'];
+                            ksort($outerTitles);
+                            ksort($innerTitles);
+                            if ($outerTitles === $innerTitles) {
+                                $errorRows = array_merge($errorRows, $innerData['rows'], $outerData['rows']);
+                            }
+                        }
+                    }
                 }
             }
         }
-        return false;
+        return $errorRows;
     }
 
     /**
-     * Is there existing custom option with the same name and different type
+     * Find options with the same titles in DB
      *
-     * @param string $productSku
-     * @param string $optionTitle
-     * @param string $optionType
-     * @return bool
+     * @return array
      */
-    protected function _isOldOptionWithDifferentType($productSku, $optionTitle, $optionType)
+    protected function _findOldOptionsWithTheSameTitles()
     {
-        if (!isset($this->_productsSkuToId[$productSku])) {
-            return false;
-        }
-        $productId = $this->_productsSkuToId[$productSku];
-        if (!isset($this->_oldCustomOptions[$productId])) {
-            return false;
-        }
-        foreach ($this->_oldCustomOptions[$productId] as $optionData) {
-            foreach ($optionData['titles'] as $title) {
-                if ($optionTitle == $title && $optionData['type'] != $optionType) {
-                    return true;
+        $errorRows = array();
+        foreach ($this->_newOptionsOldData as $productId => $options) {
+            foreach ($options as $outerData) {
+                if (isset($this->_oldCustomOptions[$productId])) {
+                    $optionsCount = 0;
+                    foreach ($this->_oldCustomOptions[$productId] as $innerData) {
+                        if (count($outerData['titles']) == count($innerData['titles'])) {
+                            $outerTitles = $outerData['titles'];
+                            $innerTitles = $innerData['titles'];
+                            ksort($outerTitles);
+                            ksort($innerTitles);
+                            if ($outerTitles === $innerTitles) {
+                                $optionsCount++;
+                            }
+                        }
+                    }
+                    if ($optionsCount > 1) {
+                        $errorRows = array_merge($errorRows, $outerData['rows']);
+                    }
                 }
             }
         }
-        return false;
+        sort($errorRows);
+        return $errorRows;
+    }
+
+    /**
+     * Find existing products with different type
+     *
+     * @return array
+     */
+    protected function _findOldOptionWithDifferentType()
+    {
+        $errorRows = array();
+        foreach ($this->_newOptionsOldData as $productId => $options) {
+            foreach ($options as $outerData) {
+                if (isset($this->_oldCustomOptions[$productId])) {
+                    foreach ($this->_oldCustomOptions[$productId] as $innerData) {
+                        if (count($outerData['titles']) == count($innerData['titles'])) {
+                            $outerTitles = $outerData['titles'];
+                            $innerTitles = $innerData['titles'];
+                            ksort($outerTitles);
+                            ksort($innerTitles);
+                            if ($outerTitles === $innerTitles && $outerData['type'] != $innerData['type']) {
+                                $errorRows = array_merge($errorRows, $outerData['rows']);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        sort($errorRows);
+        return $errorRows;
     }
 
     /**
@@ -531,36 +609,57 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Validate ambiguous situations:
-     * - several custom options has the same name in input file;
-     * - several custom options has the same name in DB;
-     * - custom options with the same name has different data types.
+     * Add errors for all required rows
+     *
+     * @param string $errorCode
+     * @param array $errorNumbers
+     */
+    protected function _addRowsErrors($errorCode, array $errorNumbers)
+    {
+        foreach ($errorNumbers as $rowNumber) {
+            $this->_productEntity->addRowError($errorCode, $rowNumber);
+        }
+    }
+
+    /**
+     * Validate main custom option row
      *
      * @param array $rowData
      * @param int $rowNumber
      * @return bool
      */
-    protected function _validateAmbiguousData(array $rowData, $rowNumber)
+    protected function _validateMainRow(array $rowData, $rowNumber)
     {
-        $optionType  = $rowData[self::COLUMN_TYPE];
-        $optionTitle = $rowData[self::COLUMN_TITLE];
-
-        if (!empty($rowData[Mage_ImportExport_Model_Import_Entity_Product::COL_SKU])) {
-            $this->_rowProductSku = $rowData[Mage_ImportExport_Model_Import_Entity_Product::COL_SKU];
-        } elseif (empty($this->_rowProductSku)) {
-            return false;
-        }
-
-        if ($this->_isNewOptionsWithTheSameName($this->_rowProductSku, $optionTitle)) {
-            $this->_productEntity->addRowError(self::ERROR_AMBIGUOUS_NEW_NAMES, $rowNumber);
-        } elseif ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
-            if ($this->_isOldOptionsWithTheSameName($this->_rowProductSku, $optionTitle)) {
-                $this->_productEntity->addRowError(self::ERROR_AMBIGUOUS_OLD_NAMES, $rowNumber);
-            } elseif ($this->_isOldOptionWithDifferentType($this->_rowProductSku, $optionTitle, $optionType)) {
-                $this->_productEntity->addRowError(self::ERROR_AMBIGUOUS_TYPES, $rowNumber);
-            } else {
+        if (!empty($rowData[self::COLUMN_STORE])
+            && !array_key_exists($rowData[self::COLUMN_STORE], $this->_storeCodeToId)) {
+            $this->_productEntity->addRowError(self::ERROR_INVALID_STORE, $rowNumber);
+        } elseif (!empty($rowData[self::COLUMN_TYPE])
+            && !array_key_exists($rowData[self::COLUMN_TYPE], $this->_specificTypes)) {   // type
+            $this->_productEntity->addRowError(self::ERROR_INVALID_TYPE, $rowNumber);
+        } elseif (empty($rowData[self::COLUMN_TITLE])) {                             // title
+            $this->_productEntity->addRowError(self::ERROR_EMPTY_TITLE, $rowNumber);
+        } elseif ($this->_validateSpecificTypesParameters($rowData, $rowNumber)) {     // price, max_character
+            if ($this->_validateMainRowAdditionalData($rowData, $rowNumber)) {
+                $this->_saveNewOptionData($rowData, $rowNumber);
                 return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * Validation of additional data in main row
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return bool
+     */
+    protected function _validateMainRowAdditionalData(array $rowData, $rowNumber)
+    {
+        if (!empty($rowData[self::COLUMN_SORT_ORDER])
+            && (!is_numeric($rowData[self::COLUMN_SORT_ORDER]) || $rowData[self::COLUMN_SORT_ORDER] < 0)
+        ) {
+            $this->_productEntity->addRowError(self::ERROR_INVALID_SORT_ORDER, $rowNumber);
         } else {
             return true;
         }
@@ -568,48 +667,78 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Validate main custom option row
+     * Save validated option data
      *
      * @param array $rowData
-     * @param string $rowNumber
-     * @return bool
+     * @param $rowNumber
      */
-    protected function _validateMainRow(array $rowData, $rowNumber)
+    protected function _saveNewOptionData(array $rowData, $rowNumber)
     {
-        if (!array_key_exists($rowData[self::COLUMN_TYPE], $this->_specificTypes)) {   // type
-            $this->_productEntity->addRowError(self::ERROR_INVALID_TYPE, $rowNumber);
-        } elseif (empty($rowData[self::COLUMN_TITLE])) {                             // title
-            $this->_productEntity->addRowError(self::ERROR_EMPTY_TITLE, $rowNumber);
-        } elseif ($this->_validateSpecificTypesParameters($rowData, $rowNumber)) {     // price, max_character
-            if (!empty($rowData[self::COLUMN_SORT_ORDER])                              // sort order
-                && (!is_numeric($rowData[self::COLUMN_SORT_ORDER]) || $rowData[self::COLUMN_SORT_ORDER] < 0)
-            ) {
-                $this->_productEntity->addRowError(self::ERROR_INVALID_SORT_ORDER, $rowNumber);
-            } elseif ($this->_validateAmbiguousData($rowData, $rowNumber)) {
-                // add new column
-                if (!isset($this->_newCustomOptions[$this->_rowProductSku])) {
-                    $this->_newCustomOptions[$this->_rowProductSku] = array();
-                }
-                $this->_newCustomOptions[$this->_rowProductSku][] = array(
-                    'type'  => $rowData[self::COLUMN_TYPE],
-                    'title' => $rowData[self::COLUMN_TITLE],
-                );
-                return true;
-            }
+        if (!empty($rowData[self::COLUMN_SKU])) {
+            $this->_rowProductSku = $rowData[self::COLUMN_SKU];
         }
-        return false;
+        if (!empty($rowData[self::COLUMN_TYPE])) {
+            $this->_newCustomOptionId++;
+        }
+        // get store ID
+        if (!empty($rowData[self::COLUMN_STORE])) {
+            $storeCode = $rowData[self::COLUMN_STORE];
+            $storeId = $this->_storeCodeToId[$storeCode];
+        } else {
+            $storeId = Mage_Core_Model_App::ADMIN_STORE_ID;
+        }
+        if (isset($this->_productsSkuToId[$this->_rowProductSku])) {
+            // save in existing data array
+            $productId = $this->_productsSkuToId[$this->_rowProductSku];
+            if (!isset($this->_newOptionsOldData[$productId])) {
+                $this->_newOptionsOldData[$productId] = array();
+            }
+            if (!isset($this->_newOptionsOldData[$productId][$this->_newCustomOptionId])) {
+                $this->_newOptionsOldData[$productId][$this->_newCustomOptionId] = array(
+                    'titles' => array(),
+                    'rows'   => array(),
+                    'type'   => $rowData[self::COLUMN_TYPE],
+                );
+            }
+            // set title
+            $this->_newOptionsOldData[$productId][$this->_newCustomOptionId]['titles'][$storeId]
+                = $rowData[self::COLUMN_TITLE];
+            // set row number
+            $this->_newOptionsOldData[$productId][$this->_newCustomOptionId]['rows'][] = $rowNumber;
+        } else {
+            // save in new data array
+            $productSku = $this->_rowProductSku;
+            if (!isset($this->_newOptionsNewData[$this->_rowProductSku])) {
+                $this->_newOptionsNewData[$this->_rowProductSku] = array();
+            }
+            if (!isset($this->_newOptionsNewData[$productSku][$this->_newCustomOptionId])) {
+                $this->_newOptionsNewData[$productSku][$this->_newCustomOptionId] = array(
+                    'titles' => array(),
+                    'rows'   => array(),
+                    'type'   => $rowData[self::COLUMN_TYPE],
+                );
+            }
+            // set title
+            $this->_newOptionsNewData[$productSku][$this->_newCustomOptionId]['titles'][$storeId]
+                = $rowData[self::COLUMN_TITLE];
+            // set row number
+            $this->_newOptionsNewData[$productSku][$this->_newCustomOptionId]['rows'][] = $rowNumber;
+        }
     }
 
     /**
      * Validate secondary custom option row
      *
      * @param array $rowData
-     * @param string $rowNumber
+     * @param int $rowNumber
      * @return bool
      */
     protected function _validateSecondaryRow(array $rowData, $rowNumber)
     {
-        if (!empty($rowData[self::COLUMN_ROW_PRICE])
+        if (!empty($rowData[self::COLUMN_STORE])
+            && !array_key_exists($rowData[self::COLUMN_STORE], $this->_storeCodeToId)) {
+            $this->_productEntity->addRowError(self::ERROR_INVALID_STORE, $rowNumber);
+        } elseif (!empty($rowData[self::COLUMN_ROW_PRICE])
             && !is_numeric(rtrim($rowData[self::COLUMN_ROW_PRICE], '%'))) {
             $this->_productEntity->addRowError(self::ERROR_INVALID_ROW_PRICE, $rowNumber);
         } elseif (!empty($rowData[self::COLUMN_ROW_SORT])                         // row sort
@@ -617,6 +746,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         ) {
             $this->_productEntity->addRowError(self::ERROR_INVALID_ROW_SORT, $rowNumber);
         } else {
+            if (isset($this->_productsSkuToId[$this->_rowProductSku])) {
+                $productId = $this->_productsSkuToId[$this->_rowProductSku];
+                $this->_newOptionsOldData[$productId][$this->_newCustomOptionId]['rows'][] = $rowNumber;
+            } else {
+                $productSku = $this->_rowProductSku;
+                $this->_newOptionsNewData[$productSku][$this->_newCustomOptionId]['rows'][] = $rowNumber;
+            }
             return true;
         }
         return false;
@@ -638,10 +774,16 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
 
         if ($this->_isRowWithCustomOption($rowData)) {
             if ($this->_isMainOptionRow($rowData)) {
-                return $this->_validateMainRow($rowData, $rowNumber);
-            } else {
-                return $this->_validateSecondaryRow($rowData, $rowNumber);
+                if (!$this->_validateMainRow($rowData, $rowNumber)) {
+                    return false;
+                }
             }
+            if ($this->_isSecondaryOptionRow($rowData)) {
+                if (!$this->_validateSecondaryRow($rowData, $rowNumber)) {
+                    return false;
+                }
+            }
+            return true;
         }
         return false;
     }
@@ -656,11 +798,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected function _validateSpecificTypesParameters(array $rowData, $rowNumber)
     {
         $isValid = true;
-        $typeParameters = $this->_specificTypes[$rowData[self::COLUMN_TYPE]];
-        if (is_array($typeParameters)) {
-            foreach ($typeParameters as $typeParameter) {
-                if (!$this->_validateSpecificParameterData($typeParameter, $rowData, $rowNumber)) {
-                    $isValid = false;
+        if (!empty($rowData[self::COLUMN_TYPE])) {
+            $typeParameters = $this->_specificTypes[$rowData[self::COLUMN_TYPE]];
+            if (is_array($typeParameters)) {
+                foreach ($typeParameters as $typeParameter) {
+                    if (!$this->_validateSpecificParameterData($typeParameter, $rowData, $rowNumber)) {
+                        $isValid = false;
+                    }
                 }
             }
         }
@@ -702,7 +846,9 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      */
     protected function _isRowWithCustomOption(array $rowData)
     {
-        return !empty($rowData[self::COLUMN_TYPE]) || !empty($rowData[self::COLUMN_ROW_TITLE]);
+        return !empty($rowData[self::COLUMN_TYPE])
+            || !empty($rowData[self::COLUMN_TITLE])
+            || !empty($rowData[self::COLUMN_ROW_TITLE]);
     }
 
     /**
@@ -713,7 +859,18 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      */
     protected function _isMainOptionRow(array $rowData)
     {
-        return !empty($rowData[self::COLUMN_TYPE]);
+        return !empty($rowData[self::COLUMN_TYPE]) || !empty($rowData[self::COLUMN_TITLE]);
+    }
+
+    /**
+     * Is current row a secondary option row (i.e. contains option value data)
+     *
+     * @param array $rowData
+     * @return bool
+     */
+    protected function _isSecondaryOptionRow(array $rowData)
+    {
+        return !empty($rowData[self::COLUMN_ROW_TITLE]);
     }
 
     /**
@@ -773,7 +930,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 if (!$this->_parseRequiredData($rowData)) {
                     continue;
                 }
-
                 $optionData = $this->_collectOptionMainData($rowData, $prevOptionId, $nextOptionId, $products, $prices);
                 if ($optionData != null) {
                     $options[] = $optionData;
@@ -958,6 +1114,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         } elseif (!isset($this->_rowProductId)) {
             return false;
         }
+
         // Init store
         if (!empty($rowData[self::COLUMN_STORE])) {
             if (!isset($this->_storeCodeToId[$rowData[self::COLUMN_STORE]])) {

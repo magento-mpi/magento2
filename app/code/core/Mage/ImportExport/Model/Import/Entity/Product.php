@@ -1599,6 +1599,27 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
     }
 
     /**
+     * Validate data rows and save bunches to DB
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_Product
+     */
+    protected function _saveValidatedBunches()
+    {
+        $source = $this->_getSource();
+        $source->rewind();
+        while ($source->valid()) {
+            if ($this->_errorsCount >= $this->_errorsLimit) { // errors limit check
+                return $this;
+            }
+            $rowData = $source->current();
+            $this->validateRow($rowData, $source->key());
+            $source->next();
+        }
+        $this->getOptionEntity()->validateAmbiguousData();
+        return parent::_saveValidatedBunches();
+    }
+
+    /**
      * Get array of affected products
      *
      * @return array
