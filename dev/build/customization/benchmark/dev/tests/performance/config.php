@@ -25,6 +25,7 @@ return array(
                 'use_secure'                 => 'no',
                 'use_secure_admin'           => 'no',
                 'use_rewrites'               => 'no',
+                'admin_frontname'            => 'backend',
                 'admin_lastname'             => 'Admin',
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',

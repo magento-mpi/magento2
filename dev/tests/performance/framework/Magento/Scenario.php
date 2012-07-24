@@ -22,6 +22,7 @@ class Magento_Scenario
     const PARAM_USERS = 'users';
     const PARAM_ADMIN_USERNAME = 'admin_username';
     const PARAM_ADMIN_PASSWORD = 'admin_password';
+    const PARAM_ADMIN_FRONTNAME = 'admin_frontname';
 
     /**
      * @var Magento_Shell
