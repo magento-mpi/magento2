@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 /**
- * Apache Ant's build file for unified "Core, Development" CI builds
+ * Apache Ant's build file for unified core development CI builds
  *
  * {license_notice}
  *
@@ -11,7 +11,7 @@
  * @license    {license_link}
  */
 -->
-<project name="Magento 2 Unified CI Builds" basedir="../../../../" default="_default">
+<project name="Unified Core Development CI Builds" basedir="../../../../" default="_default">
     <property environment="env"/>
 
     <!--
