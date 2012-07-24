@@ -49,7 +49,7 @@ return array(
             ),
             'testsuite/product_edit.jmx' => array(
                 'product_sku' => 'product_1',
-                'users' => 5,
+                'users' => 2,
                 'loops' => 100,
             ),
         ),
