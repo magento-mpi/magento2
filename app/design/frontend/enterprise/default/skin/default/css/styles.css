@@ -2046,7 +2046,7 @@ li#remember-me-box.control .link-tip { display:inline-block; font-size:11px; lin
 .captcha-image { float:left; margin:0 0 0 240px; position:relative; width:228px; }
 .captcha-image .captcha-img { border:1px solid #c7c7c7; vertical-align:bottom; width:100%; }
 .registered-users .captcha-image    { margin:-12px 0 0 113px; }
-#checkout-step-login .captcha-image { margin:-24px 0 0 105px; width:214px; }
+#checkout-step-login .captcha-image { margin:-24px 0 0 105px; overflow:hidden; width:214px; }
 .captcha-reload { cursor:pointer; position:absolute; top:2px; right:2px;}
 .captcha-reload.refreshing  { animation:rotate 1.5s infinite linear; -webkit-animation:rotate 1.5s infinite linear; -moz-animation:rotate 1.5s infinite linear; }
 #checkout-step-login #advice-required-entry-captcha_user_login { min-height: 30px; }

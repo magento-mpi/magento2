@@ -33,12 +33,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     /**
      * Test join with reward points
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
      */
     public function testJoinWithRewardPoints()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $collection->joinWithRewardPoints();
@@ -60,12 +58,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     /**
      * Test join with customer balance
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance.php
      */
     public function testJoinWithCustomerBalance()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $collection->joinWithCustomerBalance();
@@ -87,12 +83,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     /**
      * Test filter with reward points and customer balance
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      */
     public function testFilterWithRewardPointsAndCustomerBalance()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $collection->joinWithCustomerBalance()
@@ -114,12 +108,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     /**
      * Test filter only with reward points
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      */
     public function testFilterWithRewardPoints()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $collection->joinWithRewardPoints();
@@ -140,12 +132,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     /**
      * Test filter only with customer balance
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      */
     public function testFilterWithCustomerBalance()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $collection->joinWithCustomerBalance();
@@ -166,12 +156,10 @@ class Enterprise_ImportExport_Model_Resource_Customer_CollectionTest extends PHP
     /**
      * Test filter only without customer balance and reward points
      *
-     * magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
+     * @magentoDataFixture Enterprise/ImportExport/_files/customer_finance_all_cases.php
      */
     public function testFilterWithoutRewardPointsAndCustomerBalance()
     {
-        $this->markTestIncomplete('BUG MAGETWO-1953');
-
         /** @var $collection Enterprise_ImportExport_Model_Resource_Customer_Collection */
         $collection = Mage::getModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $items = $collection->getItems();
