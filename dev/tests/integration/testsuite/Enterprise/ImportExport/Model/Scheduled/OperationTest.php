@@ -76,7 +76,7 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
      */
     public function testRunAction()
     {
-        $this->_model->load(1);
+        $this->_model->load('export', 'operation_type');
 
         $fileInfo = $this->_model->getFileInfo();
 
