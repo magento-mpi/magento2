@@ -18,6 +18,8 @@
  */
 class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resource_Db_Abstract
 {
+    const NOT_SELECTED_IMAGE = 'no_selection';
+
     /**
      * Collection Zend Db select
      *
@@ -166,35 +168,44 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
             $this->_getWriteAdapter()->quoteInto('ur.is_system = ?', 1),
         );
         $this->_select = $this->_getWriteAdapter()->select()
-            ->from(array('e' => $this->getMainTable()), array())
-            ->join(
+            ->from(
+                array('e' => $this->getMainTable()),
+                array($this->getIdFieldName(), 'updated_at'))
+            ->joinInner(
                 array('w' => $this->getTable('catalog_product_website')),
                 'e.entity_id = w.product_id',
-                array()
-            )
+                array())
             ->joinLeft(
                 array('ur' => $this->getTable('core_url_rewrite')),
                 join(' AND ', $urConditions),
-                array()
-            );
-
-        $this->_joinAttribute($store->getId(), 'name');
-        $this->_joinAttribute($store->getId(), 'thumbnail');
-
-        $this->_select->columns(array(
-            'e.' . $this->getIdFieldName(),
-            'e.updated_at',
-            'url' => 'ur.request_path',
-            'name' => new Zend_Db_Expr('IFNULL(t2_name.value, t1_name.value)'),
-            'thumbnail' => new Zend_Db_Expr('IFNULL(t2_thumbnail.value, t1_thumbnail.value)')
-        ));
-
-        $this->_select->where('w.website_id = ?', $store->getWebsiteId());
+                array('url' => 'request_path'))
+            ->where('w.website_id = ?', $store->getWebsiteId());
 
         $this->_addFilter($store->getId(), 'visibility',
             Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInSiteIds(), 'in');
         $this->_addFilter($store->getId(), 'status',
             Mage::getSingleton('Mage_Catalog_Model_Product_Status')->getVisibleStatusIds(), 'in');
+
+        // Join product images required attributes
+        $imageIncludePolicy = Mage::helper('Mage_Sitemap_Helper_Data')->getProductImageIncludePolicy($store->getId());
+        if (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_NONE != $imageIncludePolicy) {
+            $this->_joinAttribute($store->getId(), 'name');
+            $this->_select->columns(array(
+                'name' => new Zend_Db_Expr('IFNULL(t2_name.value, t1_name.value)')
+            ));
+
+            if (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_ALL == $imageIncludePolicy) {
+                $this->_joinAttribute($store->getId(), 'thumbnail');
+                $this->_select->columns(array(
+                    'thumbnail' => new Zend_Db_Expr('IFNULL(t2_thumbnail.value, t1_thumbnail.value)')
+                ));
+            } elseif (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_BASE == $imageIncludePolicy) {
+                $this->_joinAttribute($store->getId(), 'image');
+                $this->_select->columns(array(
+                    'image' => new Zend_Db_Expr('IFNULL(t2_image.value, t1_image.value)')
+                ));
+            }
+        }
 
         $query = $this->_getWriteAdapter()->query($this->_select);
         while ($row = $query->fetch()) {
@@ -216,33 +227,72 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
     {
         $product = new Varien_Object();
 
-        $product->setId($productRow[$this->getIdFieldName()]);
-        $productUrl = !empty($productRow['url']) ? $productRow['url'] : 'catalog/product/view/id/' . $product->getId();
-        $product->setUrl($productUrl);
-        $product->setUpdatedAt($productRow['updated_at']);
-        $product->setName($productRow['name']);
-        $product->setThumbnail($productRow['thumbnail']);
-
-        // Load product images
-        $product->setStoreId($storeId);
-        $this->_loadProductImages($product);
+        $product['id'] = $productRow[$this->getIdFieldName()];
+        if (empty($productRow['url'])) {
+            $productRow['url'] = 'catalog/product/view/id/' . $product->getId();
+        }
+        $product->addData($productRow);
+        $this->_loadProductImages($product, $storeId);
 
         return $product;
     }
 
     /**
-     * Load product images for sitemap
+     * Load product images
      *
      * @param Varien_Object $product
+     * @param int $storeId
      */
-    protected function _loadProductImages($product)
+    protected function _loadProductImages($product, $storeId)
     {
+        /** @var $helper Mage_Sitemap_Helper_Data */
+        $helper = Mage::helper('Mage_Sitemap_Helper_Data');
+        $imageIncludePolicy = $helper->getProductImageIncludePolicy($storeId);
+
+        // Get product images
+        $imagesCollection = array();
+        if (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_ALL == $imageIncludePolicy) {
+            $imagesCollection = $this->_getAllProductImages($product, $storeId);
+        } elseif (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_BASE == $imageIncludePolicy
+            && $product->getImage() && $product->getImage() != self::NOT_SELECTED_IMAGE) {
+            $imagesCollection = array(new Varien_Object(array(
+                'url' => $this->_getMediaConfig()->getBaseMediaUrlAddition() . $product->getImage()
+            )));
+        }
+
+        // Determine thumbnail path
+        $thumbnail = $product->getThumbnail();
+        if ($thumbnail && $product->getThumbnail() != self::NOT_SELECTED_IMAGE) {
+            $thumbnail = $this->_getMediaConfig()->getBaseMediaUrlAddition() . $thumbnail;
+        } elseif ($imagesCollection) {
+            $thumbnail = $imagesCollection[0]->getUrl();
+        }
+
+        if ($imagesCollection) {
+            $product->setImages(new Varien_Object(array(
+                'collection' => $imagesCollection,
+                'title' => $product->getName(),
+                'thumbnail' => $thumbnail
+            )));
+        }
+    }
+
+    /**
+     * Get all product images
+     *
+     * @param Varien_Object $product
+     * @param int $storeId
+     * @return array
+     */
+    protected function _getAllProductImages($product, $storeId)
+    {
+        $product->setStoreId($storeId);
         /** @var $mediaGallery Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media */
         $mediaGallery = Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media');
         $gallery = $mediaGallery->loadGallery($product, $this->_getMediaGalleryModel());
 
+        $imagesCollection = array();
         if ($gallery) {
-            $imagesCollection = array();
             $productMediaPath = $this->_getMediaConfig()->getBaseMediaUrlAddition();
             foreach ($gallery as $image) {
                 $imagesCollection[] = new Varien_Object(array(
@@ -250,17 +300,9 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
                     'caption' => $image['label'] ? $image['label'] : $image['label_default']
                 ));
             }
-
-            $thumbnail = $product->getThumbnail();
-            if (!$thumbnail || $thumbnail == 'no_selection') {
-                $thumbnail = $imagesCollection[0]->getUrl();
-            }
-            $product->setImages(new Varien_Object(array(
-                'collection' => $imagesCollection,
-                'title' => $product->getName(),
-                'thumbnail' => $thumbnail
-            )));
         }
+
+        return $imagesCollection;
     }
 
     /**

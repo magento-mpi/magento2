@@ -61,6 +61,7 @@
             <product>
                 <priority>1</priority>
                 <changefreq>daily</changefreq>
+                <image_include>all</image_include>
             </product>
             <generate>
                 <enabled>0</enabled>

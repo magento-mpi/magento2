@@ -106,4 +106,13 @@ class Mage_Sitemap_Helper_DataTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->_helper->getEnableSubmissionRobots(Mage_Core_Model_App::ADMIN_STORE_ID));
         $this->assertEquals(1, $this->_helper->getEnableSubmissionRobots(Mage_Core_Model_App::DISTRO_STORE_ID));
     }
+
+    /**
+     * @magentoConfigFixture default_store sitemap/product/image_include base
+     */
+    public function testGetProductImageIncludePolicy()
+    {
+        $this->assertEquals('all', $this->_helper->getProductImageIncludePolicy(Mage_Core_Model_App::ADMIN_STORE_ID));
+        $this->assertEquals('base', $this->_helper->getProductImageIncludePolicy(Mage_Core_Model_App::DISTRO_STORE_ID));
+    }
 }
