@@ -44,8 +44,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        unset($productData['custom_options_data']['custom_options_file']);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -209,8 +208,9 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         //Steps
         $this->productHelper()->openProduct($productSearch);
         //Verifying
-        unset($productData['custom_options_data']);
-        $this->productHelper()->verifyProductInfo($productData);
+        $this->openTab('custom_options');
+        $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
+        $this->assertEquals(0, $this->getXpathCount($fieldSetXpath), 'Custom options were not deleted');
     }
 
     /**
