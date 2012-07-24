@@ -75,7 +75,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testCreateConfigForInvalidXml($configFile)
     {
         $configFile = array($configFile);
-        $config = new Magento_Validator_Config($configFile);
+        new Magento_Validator_Config($configFile);
     }
 
     public function getValidationRulesForInvalidXmlDataProvider()
@@ -186,10 +186,18 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
 
 /** Dummy classes to test that constraint classes extend correct abstract. */
 class Magento_Validator_Invalid_Abstract
-{}
+{
+}
 
 class Magento_Validator_Test extends Magento_Validator_ConstraintAbstract
 {
+    /**
+     * @param array $data
+     * @param null $field
+     * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function isValidData(array $data, $field = null)
     {
         return true;

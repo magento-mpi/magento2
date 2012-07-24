@@ -123,7 +123,7 @@ abstract class Mage_Catalog_Model_Api2_Product_Rest extends Mage_Catalog_Model_A
             /** @var $stockItem Mage_CatalogInventory_Model_Stock_Item */
             $stockItem = $product->getStockItem();
             if (!$stockItem) {
-                $stockItem = Mage::getModel('Mage_Cataloginventory_Model_Stock_Item');
+                $stockItem = Mage::getModel('Mage_CatalogInventory_Model_Stock_Item');
                 $stockItem->loadByProduct($product);
             }
             $productData['is_in_stock'] = $stockItem->getIsInStock();
