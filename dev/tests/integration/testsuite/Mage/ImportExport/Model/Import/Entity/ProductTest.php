@@ -59,6 +59,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
      */
     public function testSaveCustomOptionsDuplicate($behavior)
     {
+        $this->markTestIncomplete('MAGETWO-2249');
+
         // import data from CSV file
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToFile);
