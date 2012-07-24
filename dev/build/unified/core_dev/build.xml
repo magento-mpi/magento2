@@ -297,11 +297,11 @@
     <target name="_performance_tests_configuration" description="Generation of configuration for product performance tests">
         <fail unless="env.web_access_host" message="Environment variable 'web_access_host' must be defined"/>
         <fail unless="env.web_access_path" message="Environment variable 'web_access_path' must be defined"/>
-        <copy file="${basedir}/dev/build/unified/core_dev/performance_tests/config.xml" todir="${basedir}/dev/tests/performance" overwrite="true"/>
+        <copy file="${basedir}/dev/build/unified/core_dev/performance_tests/config.php" todir="${basedir}/dev/tests/performance" overwrite="true"/>
         <antcall target="_database_credential_substitution">
-            <param name="db_config_file" value="${basedir}/dev/tests/performance/config.xml"/>
+            <param name="db_config_file" value="${basedir}/dev/tests/performance/config.php"/>
         </antcall>
-        <replace file="${basedir}/dev/tests/performance/config.xml">
+        <replace file="${basedir}/dev/tests/performance/config.php">
             <replacefilter token="{{web_access_host}}" value="${env.web_access_host}"/>
             <replacefilter token="{{web_access_path}}" value="${env.web_access_path}"/>
         </replace>
