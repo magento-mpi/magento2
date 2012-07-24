@@ -52,16 +52,16 @@ class Mage_Core_Model_Resource_Store_CollectionTest extends PHPUnit_Framework_Te
     public function testAddFilters()
     {
         $this->_collection->addGroupFilter(1);
-        $this->assertContains('group_id IN', (string)$this->_collection->getSelect(), 'Group filter');
+        $this->assertContains('`group_id` IN', (string)$this->_collection->getSelect(), 'Group filter');
 
         $this->_collection->addIdFilter(1);
-        $this->assertContains('store_id IN', (string)$this->_collection->getSelect(), 'Id filter');
+        $this->assertContains('`store_id` IN', (string)$this->_collection->getSelect(), 'Id filter');
 
         $this->_collection->addWebsiteFilter(1);
-        $this->assertContains('website_id IN', (string)$this->_collection->getSelect(), 'Website filter');
+        $this->assertContains('`website_id` IN', (string)$this->_collection->getSelect(), 'Website filter');
 
         $this->_collection->addCategoryFilter(1);
-        $this->assertContains('root_category_id IN', (string)$this->_collection->getSelect(), 'Category filter');
+        $this->assertContains('`root_category_id` IN', (string)$this->_collection->getSelect(), 'Category filter');
     }
 
     public function testToOptionArrayHash()

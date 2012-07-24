@@ -277,7 +277,7 @@ class Mage_Core_Controller_Varien_ActionTest extends PHPUnit_Framework_TestCase
             'install'  => array('Mage_Install_Controller_Action',    'install',   'default', 'default/default/default'),
             'frontend' => array('Mage_Core_Controller_Front_Action', 'frontend',  'default', 'default/iphone/default'),
             'backend'  => array('Mage_Adminhtml_Controller_Action',  'adminhtml', 'admin',   'default/default/default'),
-            'api'      => array('Mage_Api_Controller_Action',        'adminhtml', 'admin',   ''),
+            'api'      => array('Mage_Api_Controller_Action',        'frontend', 'admin',   ''),
         );
     }
 
