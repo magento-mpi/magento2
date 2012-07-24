@@ -91,11 +91,11 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
         $adapter = $this->_getAdapterMock('Zend_Db_Adapter_Pdo_Mysql', array('prepareSqlCondition'), null);
         $adapter->expects($this->at(0))
             ->method('prepareSqlCondition')
-            ->with('weight', array('in' => array(1, 3)))
+            ->with('`weight`', array('in' => array(1, 3)))
             ->will($this->returnValue('weight in (1, 3)'));
         $adapter->expects($this->at(1))
             ->method('prepareSqlCondition')
-            ->with('name', array('like' => 'M%'))
+            ->with('`name`', array('like' => 'M%'))
             ->will($this->returnValue("name like 'M%'"));
         $this->_collection->setConnection($adapter);
         $select = $this->_collection->getSelect()->from("test");
@@ -113,7 +113,7 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
         $adapter->expects($this->at(0))
             ->method('prepareSqlCondition')
             ->with(
-                'is_imported',
+                '`is_imported`',
                 $this->anything()
             )
             ->will($this->returnValue('is_imported = 1'));
@@ -137,7 +137,7 @@ class Varien_Data_Collection_DbTest extends Magento_Test_TestCase_ZendDbAdapterA
         );
         $adapter->expects($this->once())
             ->method('prepareSqlCondition')
-            ->with('email', array('like' => 'value?'))
+            ->with('`email`', array('like' => 'value?'))
             ->will($this->returnValue('email LIKE \'%value?%\''));
         $adapter->expects($this->once())
             ->method('select')
