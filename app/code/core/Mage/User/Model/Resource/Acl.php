@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Admin
+ * @package     Mage_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,12 +11,8 @@
 
 /**
  * Resource model for admin ACL
- *
- * @category    Mage
- * @package     Mage_Admin
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_User_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 {
     const ACL_ALL_RULES = 'all';
 
@@ -32,11 +28,11 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Load ACL for the user
      *
-     * @return Mage_Admin_Model_Acl
+     * @return Magento_Acl
      */
     public function loadAcl()
     {
-        $acl = Mage::getModel('Mage_Admin_Model_Acl');
+        $acl = Mage::getModel('Magento_Acl');
 
         Mage::getSingleton('Mage_Admin_Model_Config')->loadAclResources($acl);
 
@@ -72,24 +68,24 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Load roles
      *
-     * @param Mage_Admin_Model_Acl $acl
+     * @param Magento_Acl $acl
      * @param array $rolesArr
-     * @return Mage_Admin_Model_Resource_Acl
+     * @return Mage_User_Model_Resource_Acl
      */
-    public function loadRoles(Mage_Admin_Model_Acl $acl, array $rolesArr)
+    public function loadRoles(Magento_Acl $acl, array $rolesArr)
     {
         foreach ($rolesArr as $role) {
-            $parent = ($role['parent_id'] > 0) ? Mage_Admin_Model_Acl::ROLE_TYPE_GROUP . $role['parent_id'] : null;
+            $parent = ($role['parent_id'] > 0) ? Mage_User_Model_Acl_Role_Group::ROLE_TYPE . $role['parent_id'] : null;
             switch ($role['role_type']) {
-                case Mage_Admin_Model_Acl::ROLE_TYPE_GROUP:
+                case Mage_User_Model_Acl_Role_Group::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['role_id'];
-                    $acl->addRole(Mage::getModel('Mage_Admin_Model_Acl_Role_Group', $roleId), $parent);
+                    $acl->addRole(Mage::getModel('Mage_User_Model_Acl_Role_Group', $roleId), $parent);
                     break;
 
-                case Mage_Admin_Model_Acl::ROLE_TYPE_USER:
+                case Mage_User_Model_Acl_Role_User::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('Mage_Admin_Model_Acl_Role_User', $roleId), $parent);
+                        $acl->addRole(Mage::getModel('Mage_User_Model_Acl_Role_User', $roleId), $parent);
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }
@@ -103,11 +99,11 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
     /**
      * Load rules
      *
-     * @param Mage_Admin_Model_Acl $acl
+     * @param Magento_Acl $acl
      * @param array $rulesArr
-     * @return Mage_Admin_Model_Resource_Acl
+     * @return Mage_User_Model_Resource_Acl
      */
-    public function loadRules(Mage_Admin_Model_Acl $acl, array $rulesArr)
+    public function loadRules(Magento_Acl $acl, array $rulesArr)
     {
         foreach ($rulesArr as $rule) {
             $role = $rule['role_type'] . $rule['role_id'];
@@ -116,7 +112,9 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 
             $assert = null;
             if (0 != $rule['assert_id']) {
-                $assertClass = Mage::getSingleton('Mage_Admin_Model_Config')->getAclAssert($rule['assert_type'])->getClassName();
+                $assertClass = Mage::getSingleton('Mage_Admin_Model_Config')
+                    ->getAclAssert($rule['assert_type'])
+                    ->getClassName();
                 $assert = new $assertClass(unserialize($rule['assert_data']));
             }
             try {
@@ -133,18 +131,19 @@ class Mage_Admin_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
                 //if ( eregi("^Resource '(.*)' not found", $m) ) {
                     // Deleting non existent resource rule from rules table
                     //$cond = $this->_write->quoteInto('resource_id = ?', $resource);
-                    //$this->_write->delete(Mage::getSingleton('Mage_Core_Model_Resource')->getTableName('admin_rule'), $cond);
+                    //$this->_write->delete(Mage::getSingleton('Mage_Core_Model_Resource')
+                    //    ->getTableName('admin_rule'), $cond);
                 //} else {
                     //TODO: We need to log such exceptions to somewhere like a system/errors.log
                 //}
             }
             /*
             switch ($rule['permission']) {
-                case Mage_Admin_Model_Acl::RULE_PERM_ALLOW:
+                case Magento_Acl::RULE_PERM_ALLOW:
                     $acl->allow($role, $resource, $privileges, $assert);
                     break;
 
-                case Mage_Admin_Model_Acl::RULE_PERM_DENY:
+                case Magento_Acl::RULE_PERM_DENY:
                     $acl->deny($role, $resource, $privileges, $assert);
                     break;
             }

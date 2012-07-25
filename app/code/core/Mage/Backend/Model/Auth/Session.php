@@ -28,11 +28,28 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
     protected $_isFirstPageAfterLogin;
 
     /**
+     * Access Control List builder
+     *
+     * @var Mage_Core_Model_Acl_Builder
+     */
+    protected $_aclBuilder;
+
+    /**
      * Class constructor
      *
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(array $data = array())
     {
+        if (isset($data['aclBuilder'])) {
+            $this->_aclBuilder = $data['aclBuilder'];
+        } else {
+            $areaConfig = Mage::getConfig()->getAreaConfig(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
+            $this->_aclBuilder = Mage::getModel('Mage_Core_Model_Acl_Builder', array(
+                'areaConfig' => $areaConfig,
+                'objectFactory' => Mage::getConfig()
+            ));
+        }
         $this->init('admin');
     }
 
@@ -71,7 +88,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
             return $this;
         }
         if (!$this->getAcl() || $user->getReloadAclFlag()) {
-            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+            $this->setAcl($this->_aclBuilder->getAcl());
         }
         if ($user->getReloadAclFlag()) {
             $user->unsetData('password');
@@ -175,7 +192,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
             }
 
             $this->setIsFirstPageAfterLogin(true);
-            $this->setAcl(Mage::getResourceModel('Mage_Admin_Model_Resource_Acl')->loadAcl());
+            $this->setAcl($this->_aclBuilder->getAcl());
             $this->setUpdatedAt(time());
         }
         return $this;
