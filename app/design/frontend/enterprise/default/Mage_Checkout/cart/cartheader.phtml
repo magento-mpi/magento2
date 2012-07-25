@@ -90,12 +90,14 @@
     <script type="text/javascript">
 
         mage.event.observe('mage.checkout.initialize', function (e, o) {
-            o.cartId = '#cart-sidebar',
+            o.cartId = '#mini-cart',
                 o.nonRecursive = 'nonRecursive',
                 o.checkOutUrl = '<?php echo $this->getCheckoutUrl();?>',
                 o.title = '<?php echo $this->__('Checkout') ?>',
                 o.container = '#topCartContent',
-                o.closeButton = '.close-btn'
+                o.closeButton = '.close-btn',
+                o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>;',
+                o.closeBtnTitle = '<?php echo $this->__('Remove item')?>';
         });
         mage.load.jsSync('/pub/lib/mage/decorate.js', '/pub/lib/mage/components/checkout/frontend/cart/sidebar.js', '/pub/lib/mage/components/enterprise/default/checkout_topcart.js');
 

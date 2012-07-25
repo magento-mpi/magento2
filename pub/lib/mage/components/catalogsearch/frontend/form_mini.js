@@ -15,10 +15,8 @@
         //default values
         searchInit.minSrchKeyLen = 2;
         searchInit.responseFieldElements = 'ul li';
-        searchInit.intervalDuration = 4000;
         searchInit.selectClass = 'selected';
         mage.event.trigger('mage.catalogsearch.initialize', searchInit);
-        searchInit.interval = null;
         searchInit.indexList = null;
         searchInit.selected = null;
 
@@ -43,24 +41,18 @@
         var resetSearchInit = function (all) {
             searchInit.selected = null;
             if (all === true) {
-                searchInit.interval = null;
-                searchInit.indexList = null;
+               searchInit.indexList = null;
             }
         };
 
-        $(searchInit.searchFormId).on("mouseleave",function () {
-            searchInit.interval = setTimeout(function () {
-                $(searchInit.destinationId).hide();
-            }, searchInit.intervalDuration);
-
-        }).on("mouseenter", function () {
-                clearTimeout(searchInit.interval);
-                $(searchInit.destinationId).show();
-            });
         $(searchInit.searchFieldId).on('focusout', function () {
             if ($(this).val() === '') {
                 $(this).val(searchInit.emptyText);
             }
+            // needed to make click events working
+            setTimeout(function () {
+                $(searchInit.destinationId).hide();
+            }, 250);
         });
         $(searchInit.searchFieldId).trigger('focusout');
 
