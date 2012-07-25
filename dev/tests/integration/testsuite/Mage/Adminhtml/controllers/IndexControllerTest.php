@@ -21,7 +21,7 @@ class Mage_Adminhtml_IndexControllerTest extends Mage_Adminhtml_Utility_Controll
     {
         $expected = 'de_DE';
         $this->getRequest()->setParam('locale', $expected);
-        $this->dispatch('admin/index/changeLocale');
+        $this->dispatch('backend/admin/index/changeLocale');
         $actual = Mage::getSingleton('Mage_Backend_Model_Session')->getLocale();
         $this->assertEquals($expected, $actual);
     }
@@ -33,7 +33,7 @@ class Mage_Adminhtml_IndexControllerTest extends Mage_Adminhtml_Utility_Controll
     {
         $this->getRequest()->setParam('isAjax', 'true');
         $this->getRequest()->setPost('query', 'dummy');
-        $this->dispatch('admin/index/globalSearch');
+        $this->dispatch('backend/admin/index/globalSearch');
 
         $actual = $this->getResponse()->getBody();
         $this->assertStringEndsWith('</ul>', trim($actual));

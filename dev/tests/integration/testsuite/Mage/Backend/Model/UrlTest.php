@@ -74,6 +74,7 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $routeName
      * @param string $controller
      * @param string $action
      * @param string $expectedHash
@@ -81,13 +82,16 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
      * @dataProvider getSecretKeyDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testGetSecretKey($controller, $action, $expectedHash)
+    public function testGetSecretKey($routeName, $controller, $action, $expectedHash)
     {
         $request = new Mage_Core_Controller_Request_Http;
-        $request->setControllerName('default_controller')->setActionName('default_action');
+        $request->setControllerName('default_controller')
+            ->setActionName('default_action')
+            ->setRouteName('default_router');
+
         $this->_model->setRequest($request);
         Mage::getSingleton('Mage_Core_Model_Session')->setData('_form_key', 'salt');
-        $this->assertEquals($expectedHash, $this->_model->getSecretKey($controller, $action));
+        $this->assertEquals($expectedHash, $this->_model->getSecretKey($routeName, $controller, $action));
     }
 
     /**
@@ -96,10 +100,14 @@ class Mage_Backend_Model_UrlTest extends PHPUnit_Framework_TestCase
     public function getSecretKeyDataProvider()
     {
         return array(
-            array('', '', 'ae90f9dc052b0f2567b989b38dbfd7f7'),
-            array('', 'action', '3cb46d2fac46f6cecd37803a8ea15109'),
-            array('controller', '', '8ae895734a8706dec3fbd69fb21e1b77'),
-            array('controller', 'action', 'c36d05473b54f437889608cbe8d50339'),
+            array('', '', '', '6f1957ed8fd24547bf3c2e75e97e965b'),
+            array('', '', 'action', 'b7b02c691d8b36cd4c85dbb06fb78d63'),
+            array('', 'controller', '', '8893bfa4185d5704449ab42b8b246e40'),
+            array('', 'controller', 'action', '88b2bcff0469c6105cca241f76d0f5da'),
+            array('adminhtml', '', '', '21c4e3709e616e6efb9d63a38184b8cc'),
+            array('adminhtml', '', 'action', 'c0899247e4d9312541d06f44577b44ae'),
+            array('adminhtml', 'controller', '', '39ee521775d46fc245d6791ca5cf1951'),
+            array('adminhtml', 'controller', 'action', '6c9c1edd5bc6415506cab1ae9f11f581'),
         );
         // md5('controlleractionsalt') .
     }
