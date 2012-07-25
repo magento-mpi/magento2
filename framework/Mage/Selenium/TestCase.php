@@ -3497,6 +3497,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('dropdown', $name);
         }
+        $this->waitForElementEditable($xpath);
         if (trim($this->getSelectedLabel($xpath), chr(0xC2) . chr(0xA0)) != $value) {
             if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                 $this->select($xpath, 'label=' . $value);

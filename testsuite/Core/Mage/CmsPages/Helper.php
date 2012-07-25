@@ -100,18 +100,19 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     public function insertWidget(array $widgetData)
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
+        $widgetFieldset = $this->_getControlXpath('dropdown', 'widget_type');
         if ($this->controlIsPresent('link', 'wysiwyg_insert_widget')) {
             $this->clickControl('link', 'wysiwyg_insert_widget', false);
         } else {
             $this->clickButton('insert_widget', false);
         }
-        $this->waitForAjax();
+        $this->waitForElement($widgetFieldset);
         $this->fillForm($widgetData);
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);
         }
         $this->clickButton('submit_widget_insert', false);
-        $this->waitForAjax();
+        $this->waitForElementNotPresent($widgetFieldset);
     }
 
     /**
