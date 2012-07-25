@@ -39,8 +39,7 @@
             <?php $_items = $this->getRecentItems() ?>
             <?php if (count($_items)): ?>
                 <p class="block-subtitle">
-                    <span onclick="Enterprise.TopCart.hideCart()"
-                          class="close-btn"><?php echo $this->__('Close'); ?></span>
+                    <span class="close-btn"><?php echo $this->__('Close'); ?></span>
                     <?php echo $this->__('Recently added item(s)') ?>
                 </p>
                 <ol id="mini-cart" class="mini-products-list">
@@ -48,11 +47,10 @@
                     <?php echo $this->getItemHtml($_item) ?>
                     <?php endforeach; ?>
                 </ol>
-                <script type="text/javascript">decorateList('mini-cart', 'none-recursive')</script>
+
                 <?php else: ?>
                 <p class="block-subtitle">
-                    <span onclick="Enterprise.TopCart.hideCart()"
-                          class="close-btn"><?php echo $this->__('Close'); ?></span>
+                    <span class="close-btn"><?php echo $this->__('Close'); ?></span>
                     <?php echo $this->__('Recently added item(s)') ?>
                 </p>
                 <p class="cart-empty">
@@ -79,7 +77,7 @@
                 <div class="actions">
                     <?php if ($isPossibleOnepageCheckout): ?>
                     <?php echo $this->getChildHtml('extra_actions') ?>
-                    <button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')">
+                    <button class="button" type="button" title="<?php echo $this->__('Checkout') ?>">
                         <span><span><?php echo $this->__('Checkout') ?></span></span></button>
                     <?php endif ?>
                     <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo $this->__('Go to Shopping Cart') ?></span></a>
@@ -96,7 +94,7 @@
                 o.title = '<?php echo $this->__('Checkout') ?>',
                 o.container = '#topCartContent',
                 o.closeButton = '.close-btn',
-                o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>;',
+                o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>',
                 o.closeBtnTitle = '<?php echo $this->__('Remove item')?>';
         });
         mage.load.jsSync('/pub/lib/mage/decorate.js', '/pub/lib/mage/components/checkout/frontend/cart/sidebar.js', '/pub/lib/mage/components/enterprise/default/checkout_topcart.js');
