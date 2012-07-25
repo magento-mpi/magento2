@@ -28,6 +28,7 @@ class Mage_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-1931');
         $attribute = new Mage_Catalog_Model_Entity_Attribute();
         $attribute->loadByCode('catalog_product', 'attribute_with_option');
         foreach ($attribute->getSource()->getAllOptions() as $optionInfo) {
