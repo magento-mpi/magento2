@@ -13,11 +13,11 @@
         mage.decorator.list(checkout.cartId, checkout.nonRecursive);
         $(':button[title=' + checkout.title + ']').on('click', function () {
             $(location).attr('href', checkout.checkOutUrl);
-        })
+        });
 
         $('a[title=\'' + checkout.closeBtnTitle + '\']').on('click', function () {
             return confirm(checkout.confirmMessage);
-        })
+        });
 
     });
 }(jQuery));

@@ -24,7 +24,7 @@
 
         var getFirstElement = function () {
             if (indexListNotNull) {
-                return  searchInit.indexList.first().is(':visible') == false ? searchInit.indexList.first().next() : searchInit.indexList.first();
+                return  searchInit.indexList.first().is(':visible') === false ? searchInit.indexList.first().next() : searchInit.indexList.first();
             }
             return false;
         };
@@ -34,19 +34,19 @@
                 return searchInit.indexList.last();
             }
             return false;
-        }
+        };
 
         var indexListNotNull = function () {
             return  (searchInit.indexList == null) ? false : true;
-        }
+        };
 
         var resetSearchInit = function (all) {
             searchInit.selected = null;
-            if (all == true) {
+            if (all === true) {
                 searchInit.interval = null;
                 searchInit.indexList = null;
             }
-        }
+        };
 
         $(searchInit.searchFormId).on("mouseleave",function () {
             searchInit.interval = setTimeout(function () {
@@ -58,7 +58,7 @@
                 $(searchInit.destinationId).show();
             });
         $(searchInit.searchFieldId).on('focusout', function () {
-            if ($(this).val() == '') {
+            if ($(this).val() === '') {
                 $(this).val(searchInit.emptyText);
             }
         });
@@ -118,11 +118,11 @@
         });
 
         $(searchInit.searchFormId).on('submit', function (e) {
-            if ($(searchInit.searchFieldId).val() == searchInit.emptyText || searchInit.searchFieldId == '') {
+            if ($(searchInit.searchFieldId).val() === searchInit.emptyText || searchInit.searchFieldId === '') {
                 e.preventDefault();
             }
             if (searchInit.selected != null) {
-                $(searchInit.searchFieldId).val(searchInit.selected.attr('title'))
+                $(searchInit.searchFieldId).val(searchInit.selected.attr('title'));
             }
 
         });
@@ -135,7 +135,7 @@
                 'top': $this.offset().top + $this.outerHeight(),
                 'width': $this.outerWidth()
             };
-            if ($(this).val().length >= parseInt(searchInit.minSrchKeyLen)) {
+            if ($(this).val().length >= parseInt(searchInit.minSrchKeyLen, 10)) {
                 $.get(searchInit.url, {q: $(this).val()}, function (data) {
                     searchInit.indexList = $(searchInit.destinationId).html(data)
                         .css(clonePostion)

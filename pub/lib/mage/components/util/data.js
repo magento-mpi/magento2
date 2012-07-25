@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint evil:true*/
 (function ($) {
     $(document).ready(function () {
         $('[data-mage-redirect]').each(function () {

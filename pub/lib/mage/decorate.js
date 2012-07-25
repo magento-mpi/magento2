@@ -12,11 +12,12 @@
 (function ($) {
     mage.decorator = {};
     mage.decorator.list = function (list, nonRecursive) {
+        var items;
         if ($(list).length > 0) {
             if (typeof nonRecursive != 'undefined') {
-                var items = $(list).find('li');
+                items = $(list).find('li');
             } else {
-                var items = $(list).children();
+                items = $(list).children();
             }
             this.general(items, ['odd', 'even', 'last']);
         }
@@ -27,6 +28,7 @@
         var allSupportedParams = ['odd', 'even', 'first', 'last'];
         var _decorateParams = {};
         var total = elements.length;
+        var k;
 
         if (total) {
             // determine params called
@@ -36,10 +38,10 @@
             if (!decorateParams.length) {
                 return;
             }
-            for (var k in allSupportedParams) {
+            for (k in allSupportedParams) {
                 _decorateParams[allSupportedParams[k]] = false;
             }
-            for (var k in decorateParams) {
+            for (k in decorateParams) {
                 _decorateParams[decorateParams[k]] = true;
             }
 

@@ -20,8 +20,8 @@
         mage.decorator.list(pollInit.pollAnswersId);
         $(pollInit.formId).on('submit', function () {
             var options = $('input.poll_vote');
-            for (i in options) {
-                if (options[i].checked == true) {
+            for (var i in options) {
+                if (options[i].checked === true) {
                     return true;
                 }
             }

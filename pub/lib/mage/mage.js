@@ -49,7 +49,7 @@ var mage = {};
         KEY_END: 35,
         KEY_PAGEUP: 33,
         KEY_PAGEDOWN: 34
-    }
+    };
 
     // Load javascript by calling mage.load
 
