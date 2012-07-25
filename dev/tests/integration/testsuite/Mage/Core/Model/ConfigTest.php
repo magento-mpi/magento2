@@ -402,7 +402,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
     {
-        $model = Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
     }
 
     /**
