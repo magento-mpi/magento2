@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<root>
+  <resource id="admin" xpath="/admin">
+    <resource id="customer" xpath="/admin/customer" title="Customers" module="Module_Name" sortOrder="40">
+      <resource id="group" xpath="/admin/customer/group" title="Customer Groups" module="Module_Name" sortOrder="10"/>
+      <resource id="manage" xpath="/admin/customer/manage" title="Manage Customers" module="Module_Name" sortOrder="0"/>
+      <resource id="online" xpath="/admin/customer/online" title="Online Customers" module="Module_Name" sortOrder="100"/>
+    </resource>
+    <resource id="system" xpath="/admin/system">
+      <resource id="config" xpath="/admin/system/config">
+        <resource id="customer" xpath="/admin/system/config/customer" title="Customers Section" module="Module_Name" sortOrder="50"/>
+      </resource>
+    </resource>
+  </resource>
+</root>
