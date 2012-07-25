@@ -103,6 +103,31 @@
             </head>
             <search_engine_robots>
                 <default_robots>INDEX,FOLLOW</default_robots>
+                <default_custom_instructions>
+                    <![CDATA[
+User-agent: *
+Disallow: /index.php/
+Disallow: /*?
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /checkout/
+Disallow: /tag/
+Disallow: /app/
+Disallow: /downloader/
+Disallow: /js/
+Disallow: /lib/
+Disallow: /*.php$
+Disallow: /pkginfo/
+Disallow: /report/
+Disallow: /skin/
+Disallow: /var/
+Disallow: /catalog/
+Disallow: /customer/
+Disallow: /sendfriend/
+Disallow: /review/
+Disallow: /*SID=
+                    ]]>
+                </default_custom_instructions>
             </search_engine_robots>
             <header translate="welcome" module="Mage_Page">
                 <logo_src>images/logo.gif</logo_src>
