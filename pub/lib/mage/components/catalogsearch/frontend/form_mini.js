@@ -41,7 +41,7 @@
         var resetSearchInit = function (all) {
             searchInit.selected = null;
             if (all === true) {
-               searchInit.indexList = null;
+                searchInit.indexList = null;
             }
         };
 
@@ -68,6 +68,7 @@
             switch (keyCode) {
 
                 case mage.constant.KEY_ESC:
+                    resetSearchInit(true);
                     $(searchInit.destinationId).hide();
                     break;
                 case mage.constant.KEY_TAB:
@@ -121,11 +122,11 @@
 
         $(searchInit.searchFieldId).on('input propertychange', function () {
 
-            var $this = $(this);
+            var searchField = $(this);
             var clonePostion = {'position': 'absolute',
-                'left': $this.offset().left,
-                'top': $this.offset().top + $this.outerHeight(),
-                'width': $this.outerWidth()
+                'left': searchField.offset().left,
+                'top': searchField.offset().top + searchField.outerHeight(),
+                'width': searchField.outerWidth()
             };
             if ($(this).val().length >= parseInt(searchInit.minSrchKeyLen, 10)) {
                 $.get(searchInit.url, {q: $(this).val()}, function (data) {
