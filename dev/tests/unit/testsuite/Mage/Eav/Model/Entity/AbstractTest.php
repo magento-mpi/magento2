@@ -45,7 +45,7 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
     public static function compareAttributesDataProvider()
     {
         return array(
-            'attribute1 bigger than attribute 2' => array(
+            'attribute1 bigger than attribute2' => array(
                 'attribute1Sort' => array(
                     'group_sort' => 7,
                     'sort' => 5
@@ -56,7 +56,7 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
                 ),
                 'expected' => 1
             ),
-            'attribute2 smaller than attribute 2' => array(
+            'attribute1 smaller than attribute2' => array(
                 'attribute1Sort' => array(
                     'group_sort' => 7,
                     'sort' => 5
@@ -67,7 +67,7 @@ class Mage_Eav_Model_Entity_AbstractTest extends PHPUnit_Framework_TestCase
                 ),
                 'expected' => -1
             ),
-            'attribute1 equals to attribute 2' => array(
+            'attribute1 equals to attribute2' => array(
                 'attribute1Sort' => array(
                     'group_sort' => 7,
                     'sort' => 5
