@@ -60,33 +60,19 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param string $localConfigValue
-     * @param bool $expectedResult
+     * @param string $etcDir
+     * @param string $option
+     * @param string $expectedNode
+     * @param string $expectedValue
      * @dataProvider loadBaseLocalConfigDataProvider
-     * @throws Exception
      */
-    public function testLoadBaseLocalConfig($localConfigValue, $expectedResult)
+    public function testLoadBaseLocalConfig($etcDir, $option, $expectedNode, $expectedValue)
     {
-        $options = self::$_options;
-        $customDir = $options['etc_dir'] . '/test';
-        $customLocalXml = $customDir . '/custom_local.xml';
-        $this->assertFileNotExists($customLocalXml, 'Test isolation is broken.');
-        mkdir($customDir, 0777, true);
-        copy(__DIR__ . '/_files/custom_local.xml', $customLocalXml);
-        try {
-            $model = $this->_createModel();
-            $this->assertFalse($model->getNode());
-            $options['local_config'] = $localConfigValue;
-            $model->setOptions($options);
-            $model->loadBase();
-            $this->assertSame($expectedResult, (bool)$model->getNode('global/custom_node'));
-            unlink($customLocalXml);
-            rmdir($customDir);
-        } catch (Exception $e) {
-            unlink($customLocalXml);
-            rmdir($customDir);
-            throw $e;
-        }
+        $model = new Mage_Core_Model_Config;
+        $model->setOptions(array('etc_dir' => __DIR__ . "/_files/local_config/{$etcDir}", 'local_config' => $option));
+        $model->loadBase();
+        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
+        $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
     }
 
     /**
@@ -95,9 +81,11 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     public function loadBaseLocalConfigDataProvider()
     {
         return array(
-            'valid fixture' => array('test/custom_local.xml', true),
-            'non-existing file' => array('test/nonexisting.xml', false),
-            'invalid format' => array('local.xml', false),
+            array('no_local_config_no_custom_config', '', 'a/value', 'b'),
+            array('no_local_config_custom_config', 'custom/local.xml', 'a', ''),
+            array('local_config_no_custom_config', '', 'value', 'local'),
+            array('local_config_custom_config', 'custom/local.xml', 'value', 'custom'),
+            array('local_config_custom_config', 'custom/invalid.pattern.xml', 'value', 'local'),
         );
     }
 
