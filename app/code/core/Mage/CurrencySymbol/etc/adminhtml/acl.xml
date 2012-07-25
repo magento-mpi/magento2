@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Mage
+* @package     Mage_CurrencySymbol
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_CurrencySymbol::currency" title="Manage Currency">
+                        <resource id="Mage_CurrencySymbol::rates" title="Rates" sortOrder="50" />
+                        <resource id="Mage_CurrencySymbol::symbols" title="Symbols" sortOrder="100" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

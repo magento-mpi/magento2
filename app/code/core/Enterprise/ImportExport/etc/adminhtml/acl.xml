@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Enterprise
+* @package     Enterprise_ImportExport
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Adminhtml::convert">
+                        <resource id="Enterprise_ImportExport::enterprise_scheduled_operation" title="Scheduled Import/Export" sortOrder="30" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

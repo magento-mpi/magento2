@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Enterprise
+* @package     Enterprise_Invitation
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Customer::customer">
+                    <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitations" sortOrder="30" />
+                </resource>
+                <resource id="Mage_Reports::report">
+                    <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitations" sortOrder="40">
+                        <resource id="Enterprise_Invitation::general" title="General" sortOrder="10" />
+                        <resource id="Enterprise_Invitation::customer" title="Customers" sortOrder="20" />
+                        <resource id="Enterprise_Invitation::order" title="Order Conversion Rate" sortOrder="30" />
+                    </resource>
+                </resource>
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Adminhtml::config">
+                        <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitation Section" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
