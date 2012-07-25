@@ -1,5 +1,6 @@
 app/bootstrap.php
 app/code/core/Mage/Adminhtml/Model/Observer.php
+app/code/core/Mage/Adminhtml/Block/Page/System/Config/Robots/Reset.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/Model/Config/Module.php
 app/code/core/Mage/Core/Model/Design.php
@@ -23,6 +24,7 @@ app/code/core/Mage/Core/Controller/Varien/DispatchableInterface.php
 app/code/core/Mage/Core/Controller/Varien/Router/Standard.php
 app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php
 app/code/core/Mage/Cms/Controller/Router.php
+app/code/core/Mage/Page/Helper/Robots.php
 dev/shell
 dev/tests/integration
 dev/tests/performance

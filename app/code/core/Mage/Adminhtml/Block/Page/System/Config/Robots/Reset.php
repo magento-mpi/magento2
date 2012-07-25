@@ -71,6 +71,7 @@ class Mage_Adminhtml_Block_Page_System_Config_Robots_Reset extends Mage_Adminhtm
      *
      * @param  Varien_Data_Form_Element_Abstract $element
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
