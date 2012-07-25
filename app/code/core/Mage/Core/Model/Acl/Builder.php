@@ -68,7 +68,10 @@ class Mage_Core_Model_Acl_Builder
      */
     protected function _getLoaderClass($loaderType)
     {
-        $loaderClass = (string) $this->_areaConfig->{$loaderType . 'Loader'};
+        $loaderClass = (string) (isset($this->_areaConfig['acl'][$loaderType . 'Loader'])
+            ? $this->_areaConfig['acl'][$loaderType . 'Loader']
+            : '');
+
         return $loaderClass ?: 'Magento_Acl_Loader_Default';
     }
 }
