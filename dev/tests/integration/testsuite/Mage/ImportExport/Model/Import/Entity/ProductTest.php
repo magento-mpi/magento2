@@ -148,6 +148,8 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     }
 
     /**
+     * Updates expected options data array with existing unique options data
+     *
      * @param array $expected
      * @param Mage_Catalog_Model_Resource_Product_Option_Collection $options
      * @return array
