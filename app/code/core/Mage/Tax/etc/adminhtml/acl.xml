@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Mage
+* @package     Mage_Tax
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Sales::sales">
+                    <resource id="Mage_Tax::tax" title="Tax" sortOrder="500">
+                        <resource id="Mage_Tax::classes_customer" title="Customer Tax Classes" sortOrder="0" />
+                        <resource id="Mage_Tax::classes_product" title="Product Tax Classes" sortOrder="10" />
+                        <resource id="Mage_Tax::import_export" title="Import / Export Tax Rates" sortOrder="20" />
+                        <resource id="Mage_Tax::rates" title="Manage Tax Zones &amp; Rates" sortOrder="30" />
+                        <resource id="Mage_Tax::rules" title="Manage Tax Rules" sortOrder="40" />
+                    </resource>
+                </resource>
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Adminhtml::config">
+                        <resource id="Mage_Tax::tax" title="Tax Section" sortOrder="55" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Mage
+* @package     Mage_GoogleAnalytics
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Adminhtml::config">
+                        <resource id="Mage_GoogleCheckout::google" title="Google API" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

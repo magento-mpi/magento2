@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Mage
+* @package     Mage_Shipping
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Adminhtml::config">
+                        <resource id="Mage_Shipping::shipping" title="Shipping Settings Section" sortOrder="0" />
+                        <resource id="Mage_Shipping::carriers" title="Shipping Methods Section" sortOrder="0" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

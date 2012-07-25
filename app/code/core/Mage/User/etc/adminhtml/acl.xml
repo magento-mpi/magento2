@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Mage
+* @package     Mage_User
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_User::acl" title="Permissions" sortOrder="0">
+                        <resource id="Mage_User::roles" title="Roles" sortOrder="10" />
+                        <resource id="Mage_User::users" title="Users" sortOrder="20" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
