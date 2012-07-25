@@ -31,7 +31,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
             'method' => 'post'
         ));
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => $helper->__('Export Settings')));
+        $fieldset = $form->addFieldset('settings_fieldset', array('legend' => $helper->__('Export Settings')));
         /** @var $entitySourceModel Mage_ImportExport_Model_Source_Export_Entity */
         $entitySourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Entity');
         $fieldset->addField('entity', 'select', array(
