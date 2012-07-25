@@ -1,14 +1,14 @@
 Update as of 7/25/2012
 =====================
 * Implemented Magento Validator library in order to have clear solid mechanism and formal rules of input data validation
-* Moved translations to module folders, so that it is much more convenient to manage module resources
+* Moved translations to module directories, so that it is much more convenient to manage module resources
 * Updated inline translation mechanism to support locales inheritance
 * Implemented ability to navigate through pending reviews with Prev/Next buttons, no need to switch to grid and back
 * Fixed issues:
   * Unable to use shell-installer after changes in Backend area routing process
   * Incorrect redirect after entering wrong captcha on the "Forgot your user name or password?" backend page
-  * Translation is absent for several strings in Sales module `guest\form.phtml` template
-  * Exception during installation process, when `var` folder is not empty
+  * Translation is absent for several strings in Sales module `guest/form.phtml` template
+  * Exception during installation process, when `var` directory is not empty
   * Node `modules` is merged to all modules' config XML-files, although it must be merged to `config.xml` only
 * GitHub requests:
   * [#39](https://github.com/magento/magento2/pull/39) -- added `composer.json`, which was announced at previous update, but mistakenly omitted from publishing
