@@ -282,6 +282,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $files = array_merge($files, $deferred);
 
         $this->loadFile(current($files));
+        array_shift($files);
         foreach ($files as $file) {
             $merge = clone $this->_prototype;
             $merge->loadFile($file);
