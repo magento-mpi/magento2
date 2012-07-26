@@ -2656,6 +2656,40 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
+     * Combine elements to one xPath or css element
+     * @TODO verify work with css
+     * @static
+     *
+     * @param array $locators
+     *
+     * @return string
+     * @throws RuntimeException
+     */
+    static function combineLocatorsToOne(array $locators)
+    {
+        $values = array_values($locators);
+        $locatorDeterminants = array('//' => '|', 'css='=> ', ');
+        $implodeParameter = '';
+        foreach ($locatorDeterminants as $matchValue => $implodeValue) {
+            $isOneType = true;
+            foreach ($values as $value) {
+                if (!strpos($value, $matchValue) === 0) {
+                    $isOneType = false;
+                    break;
+                }
+            }
+            if ($isOneType) {
+                $implodeParameter = $implodeValue;
+                break;
+            }
+        }
+        if (!$implodeParameter) {
+            throw new RuntimeException('Locators must be the same type: ' . print_r($values, true));
+        }
+        return implode($implodeParameter, $values);
+    }
+
+    /**
      * Waits for the element to appear
      *
      * @param string|array $locator XPath locator or array of locator's
@@ -2669,59 +2703,43 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeoutPeriod / 1000;
         }
+        if (is_array($locator)) {
+            $locator = self::combineLocatorsToOne($locator);
+        }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if (is_array($locator)) {
-                foreach ($locator as $loc) {
-                    if ($this->isElementPresent($loc)) {
-                        return true;
-                    }
-                }
-            } else {
-                if ($this->isElementPresent($locator)) {
-                    return true;
-                }
+            if ($this->isElementPresent($locator)) {
+                return true;
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException('Timeout after ' . $timeout . 'seconds');
     }
 
     /**
      * Waits for the element(alert) to appear
      *
-     * @param string|array $messageXpath
+     * @param string|array $locator
      * @param int $timeout
      *
      * @throws RuntimeException
      * @return bool
      */
-    public function waitForElementOrAlert($messageXpath, $timeout = null)
+    public function waitForElementOrAlert($locator, $timeout = null)
     {
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeoutPeriod / 1000;
         }
-        $wait = array('alert');
-        if (is_array($messageXpath)) {
-            $wait = array_merge($messageXpath, $wait);
-        } else {
-            $wait[] = $messageXpath;
+        if (is_array($locator)) {
+            $locator = self::combineLocatorsToOne($locator);
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            foreach ($wait as $condition) {
-                switch ($condition) {
-                    case 'alert':
-                        if ($this->isAlertPresent()) {
-                            return true;
-                        }
-                        break;
-                    default:
-                        if ($this->isElementPresent($condition)) {
-                            return true;
-                        }
-                        break;
-                }
+            if ($this->isElementPresent($locator)) {
+                return true;
+            }
+            if ($this->isAlertPresent()) {
+                return true;
             }
             sleep(1);
         }
@@ -2742,18 +2760,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeoutPeriod / 1000;
         }
+        if (is_array($locator)) {
+            $locator = self::combineLocatorsToOne($locator);
+        }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if (is_array($locator)) {
-                foreach ($locator as $loc) {
-                    if ($this->isElementPresent($loc) && $this->isVisible($loc)) {
-                        return true;
-                    }
-                }
-            } else {
-                if ($this->isElementPresent($locator) && $this->isVisible($locator)) {
-                    return true;
-                }
+            if ($this->isElementPresent($locator) && $this->isVisible($locator)) {
+                return true;
             }
             sleep(1);
         }
@@ -2774,29 +2787,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeoutPeriod / 1000;
         }
+        if (is_array($locator)) {
+            $locator = self::combineLocatorsToOne($locator);
+        }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if (is_array($locator)) {
-                foreach ($locator as $loc) {
-                    if ($this->isElementPresent($loc) && $this->isEditable($loc)) {
-                        return true;
-                    }
-                }
-            } else {
-                if ($this->isElementPresent($locator) && $this->isEditable($locator)) {
-                    return true;
-                }
+            if ($this->isElementPresent($locator) && $this->isEditable($locator)) {
+                return true;
             }
             sleep(1);
         }
-        $error = 'Timeout after ' . $timeout . " seconds.\nCurrent location url: '" . $this->getLocation()
-                 . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
-        if (is_array($locator)) {
-            $error .= "One of the elements should be presented(editable):\n" . self::messagesToString($locator);
-        } else {
-            $error .= 'Locator ' . $locator . ' is not present(editable)';
-        }
-        throw new RuntimeException($error);
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
     }
 
     /**
