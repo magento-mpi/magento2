@@ -14,10 +14,10 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_Review::reviews_ratings" title="Reviews and Ratings" module="Mage_Review">
-                        <resource id="Mage_Review::reviews" title="Customer Reviews" module="Mage_Review">
-                            <resource id="Mage_Review::reviews_all" title="All Reviews" module="Mage_Review" />
-                            <resource id="Mage_Review::pending" title="Pending Reviews" module="Mage_Review" />
+                    <resource id="Mage_Review::reviews_ratings" module="Mage_Review" title="Reviews and Ratings">
+                        <resource id="Mage_Review::reviews" title="Customer Reviews">
+                            <resource id="Mage_Review::reviews_all" title="All Reviews" />
+                            <resource id="Mage_Review::pending" title="Pending Reviews" />
                         </resource>
                     </resource>
                 </resource>

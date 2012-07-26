@@ -15,18 +15,18 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Catalog::config_catalog" title="Catalog Section" module="Mage_Catalog" />
+                        <resource id="Mage_Catalog::config_catalog" module="Mage_Catalog" title="Catalog Section" />
                     </resource>
                 </resource>
-                <resource id="Mage_Catalog::catalog" title="Catalog" module="Mage_Catalog" sortOrder="30">
-                    <resource id="Mage_Catalog::catalog_attributes" title="Attributes" module="Mage_Catalog">
-                        <resource id="Mage_Catalog::attributes_attributes" title="Manage Attributes" module="Mage_Catalog" />
-                        <resource id="Mage_Catalog::sets" title="Manage Attribute Sets" module="Mage_Catalog" />
+                <resource id="Mage_Catalog::catalog" module="Mage_Catalog" title="Catalog" sortOrder="30">
+                    <resource id="Mage_Catalog::catalog_attributes" title="Attributes">
+                        <resource id="Mage_Catalog::attributes_attributes" title="Manage Attributes" />
+                        <resource id="Mage_Catalog::sets" title="Manage Attribute Sets" />
                     </resource>
-                    <resource id="Mage_Catalog::categories" title="Manage Categories" module="Mage_Catalog" />
-                    <resource id="Mage_Catalog::products" title="Manage Products" module="Mage_Catalog" />
-                    <resource id="Mage_Catalog::update_attributes" title="Update Attributes" module="Mage_Catalog" />
-                    <resource id="Mage_Catalog::urlrewrite" title="URL Rewrite Management" module="Mage_Catalog" />
+                    <resource id="Mage_Catalog::categories" title="Manage Categories" />
+                    <resource id="Mage_Catalog::products" title="Manage Products" />
+                    <resource id="Mage_Catalog::update_attributes" title="Update Attributes" />
+                    <resource id="Mage_Catalog::urlrewrite" title="URL Rewrite Management" />
                 </resource>
             </resource>
         </resources>

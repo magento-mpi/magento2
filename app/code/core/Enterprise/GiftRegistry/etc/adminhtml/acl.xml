@@ -15,11 +15,11 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Enterprise_GiftRegistry::enterprise_giftregistry" title="Gift Registry Section" module="Enterprise_GiftRegistry" />
+                        <resource id="Enterprise_GiftRegistry::enterprise_giftregistry" module="Enterprise_GiftRegistry" title="Gift Registry Section" />
                     </resource>
                 </resource>
                 <resource id="Mage_Customer::customer">
-                    <resource id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" title="Gift Registry" module="Enterprise_GiftRegistry" sortOrder="30" />
+                    <resource id="Enterprise_GiftRegistry::customer_enterprise_giftregistry" module="Enterprise_GiftRegistry" title="Gift Registry" sortOrder="30" />
                 </resource>
             </resource>
         </resources>

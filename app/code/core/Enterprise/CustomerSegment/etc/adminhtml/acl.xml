@@ -14,11 +14,11 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Customer::customer">
-                    <resource id="Enterprise_CustomerSegment::customersegment" title="Customer Segments" module="Enterprise_CustomerSegment" sortOrder="20" />
+                    <resource id="Enterprise_CustomerSegment::customersegment" module="Enterprise_CustomerSegment" title="Customer Segments" sortOrder="20" />
                 </resource>
                 <resource id="Mage_Reports::report">
                     <resource id="Mage_Reports::customers">
-                        <resource id="Enterprise_CustomerSegment::segment" title="Customer Segments" module="Enterprise_CustomerSegment" sortOrder="100" />
+                        <resource id="Enterprise_CustomerSegment::segment" module="Enterprise_CustomerSegment" title="Customer Segments" sortOrder="100" />
                     </resource>
                 </resource>
             </resource>

@@ -13,14 +13,14 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Customer::customer" title="Customers" module="Mage_Customer" sortOrder="40">
-                    <resource id="Mage_Customer::group" title="Customer Groups" module="Mage_Customer" sortOrder="10" />
-                    <resource id="Mage_Customer::manage" title="Manage Customers" module="Mage_Customer" sortOrder="0" />
-                    <resource id="Mage_Customer::online" title="Online Customers" module="Mage_Customer" sortOrder="100" />
+                <resource id="Mage_Customer::customer" module="Mage_Customer" title="Customers" sortOrder="40">
+                    <resource id="Mage_Customer::group" title="Customer Groups" sortOrder="10" />
+                    <resource id="Mage_Customer::manage" title="Manage Customers" sortOrder="0" />
+                    <resource id="Mage_Customer::online" title="Online Customers" sortOrder="100" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Customer::config_customer" title="Customers Section" module="Mage_Customer" sortOrder="50" />
+                        <resource id="Mage_Customer::config_customer" module="Mage_Customer" title="Customers Section" sortOrder="50" />
                     </resource>
                 </resource>
             </resource>

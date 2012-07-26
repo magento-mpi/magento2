@@ -14,14 +14,14 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Sales::sales">
-                    <resource id="Enterprise_SalesArchive::archive" title="Archive" module="Enterprise_SalesArchive">
-                        <resource id="Enterprise_SalesArchive::orders" title="Orders" module="Enterprise_SalesArchive">
-                            <resource id="Enterprise_SalesArchive::add" title="Move to Archive" module="Enterprise_SalesArchive" />
-                            <resource id="Enterprise_SalesArchive::remove" title="Restore from Archive" module="Enterprise_SalesArchive" />
+                    <resource id="Enterprise_SalesArchive::archive" module="Enterprise_SalesArchive" title="Archive">
+                        <resource id="Enterprise_SalesArchive::orders" title="Orders">
+                            <resource id="Enterprise_SalesArchive::add" title="Move to Archive" />
+                            <resource id="Enterprise_SalesArchive::remove" title="Restore from Archive" />
                         </resource>
-                        <resource id="Enterprise_SalesArchive::invoices" title="Invoices" module="Enterprise_SalesArchive" />
-                        <resource id="Enterprise_SalesArchive::shipments" title="Shipments" module="Enterprise_SalesArchive" />
-                        <resource id="Enterprise_SalesArchive::creditmemos" title="Credit Memos" module="Enterprise_SalesArchive" />
+                        <resource id="Enterprise_SalesArchive::invoices" title="Invoices" />
+                        <resource id="Enterprise_SalesArchive::shipments" title="Shipments" />
+                        <resource id="Enterprise_SalesArchive::creditmemos" title="Credit Memos" />
                     </resource>
                 </resource>
             </resource>

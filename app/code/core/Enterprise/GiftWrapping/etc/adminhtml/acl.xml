@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Sales::sales">
-                    <resource id="Enterprise_GiftWrapping::enterprise_giftwrapping" title="Gift Wrapping" module="Enterprise_GiftWrapping" sortOrder="130" />
+                    <resource id="Enterprise_GiftWrapping::enterprise_giftwrapping" module="Enterprise_GiftWrapping" title="Gift Wrapping" sortOrder="130" />
                 </resource>
             </resource>
         </resources>

@@ -15,11 +15,11 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Enterprise_Logging::logging" title="Logging" module="Enterprise_Logging" />
+                        <resource id="Enterprise_Logging::logging" module="Enterprise_Logging" title="Logging" />
                     </resource>
-                    <resource id="Enterprise_Logging::enterprise_logging" title="Admin Logging" module="Enterprise_Logging">
-                        <resource id="Enterprise_Logging::enterprise_logging_events" title="Report" module="Enterprise_Logging" />
-                        <resource id="Enterprise_Logging::backups" title="Archive" module="Enterprise_Logging" />
+                    <resource id="Enterprise_Logging::enterprise_logging" module="Enterprise_Logging" title="Admin Logging">
+                        <resource id="Enterprise_Logging::enterprise_logging_events" title="Report" />
+                        <resource id="Enterprise_Logging::backups" title="Archive" />
                     </resource>
                 </resource>
             </resource>

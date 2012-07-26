@@ -15,8 +15,8 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::tools">
-                        <resource id="Mage_Backup::backup" title="Backups" module="Mage_Backup">
-                            <resource id="Mage_Backup::rollback" title="Rollback" module="Mage_Backup" />
+                        <resource id="Mage_Backup::backup" module="Mage_Backup" title="Backups">
+                            <resource id="Mage_Backup::rollback" module="Mage_Backup" title="Rollback" />
                         </resource>
                     </resource>
                 </resource>

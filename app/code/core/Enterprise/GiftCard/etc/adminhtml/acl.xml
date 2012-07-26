@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Enterprise_GiftCard::giftcard" title="Gift Cards" module="Enterprise_GiftCard" />
+                        <resource id="Enterprise_GiftCard::giftcard" title="Gift Cards" />
                     </resource>
                 </resource>
             </resource>

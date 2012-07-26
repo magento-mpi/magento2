@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Downloadable::downloadable" title="Downloadable Product Section" module="Mage_Downloadable" />
+                        <resource id="Mage_Downloadable::downloadable" module="Mage_Downloadable" title="Downloadable Product Section" />
                     </resource>
                 </resource>
             </resource>

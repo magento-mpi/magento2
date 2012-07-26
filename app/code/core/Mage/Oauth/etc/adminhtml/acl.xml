@@ -15,15 +15,15 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Api::api">
-                        <resource id="Mage_Oauth::consumer" title="OAuth Consumers" module="Mage_Oauth" sortOrder="20">
-                            <resource id="Mage_Oauth::consumer_edit" title="Edit" module="Mage_Oauth" sortOrder="30" />
-                            <resource id="Mage_Oauth::consumer_delete" title="Delete" module="Mage_Oauth" sortOrder="40" />
+                        <resource id="Mage_Oauth::consumer" module="Mage_Oauth" title="OAuth Consumers" sortOrder="20">
+                            <resource id="Mage_Oauth::consumer_edit" title="Edit" sortOrder="30" />
+                            <resource id="Mage_Oauth::consumer_delete" title="Delete" sortOrder="40" />
                         </resource>
-                        <resource id="Mage_Oauth::authorizedTokens" title="OAuth Authorized Tokens" module="Mage_Oauth" sortOrder="30" />
-                        <resource id="Mage_Oauth::oauth_admin_token" title="OAuth Admin My Apps" module="Mage_Oauth" sortOrder="40" />
+                        <resource id="Mage_Oauth::authorizedTokens" module="Mage_Oauth" title="OAuth Authorized Tokens" sortOrder="30" />
+                        <resource id="Mage_Oauth::oauth_admin_token" module="Mage_Oauth" title="OAuth Admin My Apps" sortOrder="40" />
                     </resource>
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Oauth::oauth" title="OAuth" module="Mage_Oauth" sortOrder="20" />
+                        <resource id="Mage_Oauth::oauth" title="OAuth" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

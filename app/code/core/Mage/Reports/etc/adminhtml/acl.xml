@@ -13,46 +13,46 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Reports::report" title="Reports" module="Mage_Reports" sortOrder="80">
-                    <resource id="Mage_Reports::salesroot" title="Sales" module="Mage_Reports">
-                        <resource id="Mage_Reports::salesroot_sales" title="Sales Report" module="Mage_Reports" />
-                        <resource id="Mage_Reports::tax" title="Tax" module="Mage_Reports" />
-                        <resource id="Mage_Reports::shipping" title="Shipping" module="Mage_Reports" />
-                        <resource id="Mage_Reports::invoiced" title="Total invoiced" module="Mage_Reports" />
-                        <resource id="Mage_Reports::refunded" title="Total refunded" module="Mage_Reports" />
-                        <resource id="Mage_Reports::coupons" title="Coupons" module="Mage_Reports" />
+                <resource id="Mage_Reports::report" module="Mage_Reports" title="Reports" sortOrder="80">
+                    <resource id="Mage_Reports::salesroot" title="Sales">
+                        <resource id="Mage_Reports::salesroot_sales" title="Sales Report" />
+                        <resource id="Mage_Reports::tax" title="Tax" />
+                        <resource id="Mage_Reports::shipping" title="Shipping" />
+                        <resource id="Mage_Reports::invoiced" title="Total invoiced" />
+                        <resource id="Mage_Reports::refunded" title="Total refunded" />
+                        <resource id="Mage_Reports::coupons" title="Coupons" />
                     </resource>
-                    <resource id="Mage_Reports::shopcart" title="Shopping Cart" module="Mage_Reports">
-                        <resource id="Mage_Reports::product" title="Products in carts" module="Mage_Reports" />
-                        <resource id="Mage_Reports::abandoned" title="Abandoned carts" module="Mage_Reports" />
+                    <resource id="Mage_Reports::shopcart" title="Shopping Cart">
+                        <resource id="Mage_Reports::product" title="Products in carts" />
+                        <resource id="Mage_Reports::abandoned" title="Abandoned carts" />
                     </resource>
-                    <resource id="Mage_Reports::report_products" title="Products" module="Mage_Reports">
-                        <resource id="Mage_Reports::bestsellers" title="Bestsellers" module="Mage_Reports" />
-                        <resource id="Mage_Reports::sold" title="Products Ordered" module="Mage_Reports" />
-                        <resource id="Mage_Reports::viewed" title="Most Viewed" module="Mage_Reports" />
-                        <resource id="Mage_Reports::lowstock" title="Low stock" module="Mage_Reports" />
-                        <resource id="Mage_Reports::downloads" title="Downloads" module="Mage_Reports" />
+                    <resource id="Mage_Reports::report_products" title="Products">
+                        <resource id="Mage_Reports::bestsellers" title="Bestsellers" />
+                        <resource id="Mage_Reports::sold" title="Products Ordered" />
+                        <resource id="Mage_Reports::viewed" title="Most Viewed" />
+                        <resource id="Mage_Reports::lowstock" title="Low stock" />
+                        <resource id="Mage_Reports::downloads" title="Downloads" />
                     </resource>
-                    <resource id="Mage_Reports::customers" title="Customers" module="Mage_Reports">
-                        <resource id="Mage_Reports::accounts" title="New Accounts" module="Mage_Reports" />
-                        <resource id="Mage_Reports::totals" title="Customers by orders total" module="Mage_Reports" />
-                        <resource id="Mage_Reports::customers_orders" title="Customers by number of orders" module="Mage_Reports" />
+                    <resource id="Mage_Reports::customers" title="Customers">
+                        <resource id="Mage_Reports::accounts" title="New Accounts" />
+                        <resource id="Mage_Reports::totals" title="Customers by orders total" />
+                        <resource id="Mage_Reports::customers_orders" title="Customers by number of orders" />
                     </resource>
-                    <resource id="Mage_Reports::review" title="Reviews" module="Mage_Reports">
-                        <resource id="Mage_Reports::review_customer" title="Customers Reviews" module="Mage_Reports" />
-                        <resource id="Mage_Reports::review_product" title="Products Reviews" module="Mage_Reports" />
+                    <resource id="Mage_Reports::review" module="Mage_Catalog" title="Reviews">
+                        <resource id="Mage_Reports::review_customer" title="Customers Reviews" />
+                        <resource id="Mage_Reports::review_product" title="Products Reviews" />
                     </resource>
-                    <resource id="Mage_Reports::tags" title="Tags" module="Mage_Reports">
-                        <resource id="Mage_Reports::tags_customer" title="Customers" module="Mage_Reports" />
-                        <resource id="Mage_Reports::popular" title="Popular" module="Mage_Reports" />
-                        <resource id="Mage_Reports::tags_product" title="Products" module="Mage_Reports" />
+                    <resource id="Mage_Reports::tags" module="Mage_Tag" title="Tags">
+                        <resource id="Mage_Reports::tags_customer" module="Mage_Tag" title="Customers" />
+                        <resource id="Mage_Reports::popular" module="Mage_Tag" title="Popular" />
+                        <resource id="Mage_Reports::tags_product" module="Mage_Tag" title="Products" />
                     </resource>
-                    <resource id="Mage_Reports::report_search" title="Search Terms" module="Mage_Reports" />
-                    <resource id="Mage_Reports::statistics" title="Statistics" module="Mage_Reports" />
+                    <resource id="Mage_Reports::report_search" title="Search Terms" />
+                    <resource id="Mage_Reports::statistics" title="Statistics" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Reports::reports" title="Reports" module="Mage_Reports" />
+                        <resource id="Mage_Reports::reports" module="Mage_Reports" title="Reports" />
                     </resource>
                 </resource>
             </resource>

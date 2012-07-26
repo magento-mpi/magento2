@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_CatalogSearch::search" title="Search Terms" module="Mage_CatalogSearch" />
+                    <resource id="Mage_CatalogSearch::search" module="Mage_CatalogSearch" title="Search Terms" />
                 </resource>
             </resource>
         </resources>

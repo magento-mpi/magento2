@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::convert">
-                        <resource id="Enterprise_ImportExport::enterprise_scheduled_operation" title="Scheduled Import/Export" module="Enterprise_ImportExport" sortOrder="30" />
+                        <resource id="Enterprise_ImportExport::enterprise_scheduled_operation" module="Enterprise_ImportExport" title="Scheduled Import/Export" sortOrder="30" />
                     </resource>
                 </resource>
             </resource>
