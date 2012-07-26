@@ -63,4 +63,15 @@ class Enterprise2_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
         }
         return $optionId;
     }
+    public function isProductPresentInGrid($productData)
+    {
+        $data = array('product_sku' => $productData['product_sku']);
+        $this->_prepareDataForSearch($data);
+        $xpathTR = $this->search($data, 'product_grid');
+        if (!is_null($xpathTR)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
