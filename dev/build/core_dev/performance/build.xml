@@ -12,6 +12,7 @@
  */
 -->
 <project name="Core Development Performance Tests" basedir="../../../../" default="performance_tests_ce_mysql">
+    <property environment="env"/>
 
     <target name="_performance_tests_configuration" description="Generation of configuration for product performance tests">
         <fail unless="env.web_access_host" message="Environment variable 'web_access_host' must be defined"/>
