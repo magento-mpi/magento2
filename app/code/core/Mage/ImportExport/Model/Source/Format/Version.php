@@ -14,8 +14,9 @@
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @todo delete in the scope of https://jira.magento.com/browse/MAGETWO-2341
  */
-
 class Mage_ImportExport_Model_Source_Format_Version
 {
     /**#@+

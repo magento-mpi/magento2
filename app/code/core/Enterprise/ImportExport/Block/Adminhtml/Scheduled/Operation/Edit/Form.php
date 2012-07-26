@@ -112,26 +112,6 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
             'values'    => $entities
         ));
 
-        /** @var $sourceModel Mage_ImportExport_Model_Source_Format_Version */
-        $sourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Format_Version');
-        $fieldset->addField('file_format_version', 'select', array(
-            'name'     => 'file_format_version',
-            'title'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Format Version'),
-            'label'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Format Version'),
-            'required' => true,
-            'values'   => $sourceModel->toOptionArray()
-        ));
-
-        /** @var $sourceModel Mage_ImportExport_Model_Source_Export_Customer_Entity */
-        $sourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Customer_Entity');
-        $fieldset->addField('entity_subtype', 'select', array(
-            'name'     => 'entity_subtype',
-            'title'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
-            'label'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
-            'required' => true,
-            'values'   => $sourceModel->toOptionArray()
-        ));
-
         $fieldset->addField('start_time', 'time', array(
             'name'      => 'start_time',
             'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Start Time'),

@@ -54,7 +54,8 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/convert/enterprise_scheduled_operation');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+            ->isAllowed('system/convert/enterprise_scheduled_operation');
     }
 
     /**
@@ -77,7 +78,9 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
     {
         $operationType = $this->getRequest()->getParam('type');
         $this->_initAction()
-            ->_title(Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new'));
+            ->_title(
+                Mage::helper('Enterprise_ImportExport_Helper_Data')->getOperationHeaderText($operationType, 'new')
+            );
 
         $this->renderLayout();
     }
@@ -167,7 +170,9 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
             try {
                 Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setId($id)->delete();
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess(
-                    Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessDeleteMessage($request->getParam('type'))
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->getSuccessDeleteMessage(
+                        $request->getParam('type')
+                    )
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
@@ -259,7 +264,8 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                 Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($e->getMessage());
             } catch (Exception $e) {
                 Mage::logException($e);
-                Mage::getSingleton('Mage_Adminhtml_Model_Session')->addError($this->__('Can not change status for all items'));
+                Mage::getSingleton('Mage_Adminhtml_Model_Session')
+                    ->addError($this->__('Can not change status for all items'));
             }
         }
         $this->_redirect('*/scheduled_operation/index');
@@ -359,7 +365,9 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
         $result = Mage::getModel('Enterprise_ImportExport_Model_Observer')->scheduledLogClean($schedule, true);
         if ($result) {
             $this->_getSession()
-                ->addSuccess(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('History files have been deleted'));
+                ->addSuccess(
+                    Mage::helper('Enterprise_ImportExport_Helper_Data')->__('History files have been deleted')
+                );
         } else {
             $this->_getSession()
                 ->addError(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Unable to delete history files'));

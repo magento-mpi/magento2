@@ -25,20 +25,20 @@ $formatVersions = array(
     if (!$('export_filter_grid') && $('export_filter_container')) {
         $('export_filter_container').hide();
     }
-    if ($('entity') && $F('entity') == 'customer') {
-        if ($('file_format_version')) {
-            if ('<?php echo $entitySubtype ?>' == '') {
-                $('file_format_version').value = '<?php echo $formatVersions[1] ?>';
-                editForm.showCustomerEntity(false);
-            } else {
-                $('file_format_version').value = '<?php echo $formatVersions[2] ?>';
-            }
-        }
-    } else {
-        editForm.showFormatVersion(false);
-        editForm.showCustomerEntity(false);
-    }
     if ('<?php echo $operationType ?>' == 'import') {
+        if ($('entity') && $F('entity') == 'customer') {
+            if ($('file_format_version')) {
+                if ('<?php echo $entitySubtype ?>' == '') {
+                    $('file_format_version').value = '<?php echo $formatVersions[1] ?>';
+                    editForm.showCustomerEntity(false);
+                } else {
+                    $('file_format_version').value = '<?php echo $formatVersions[2] ?>';
+                }
+            }
+        } else {
+            editForm.showFormatVersion(false);
+            editForm.showCustomerEntity(false);
+        }
         if ($('entity') && $F('entity')) {
             if ($F('entity') == 'customer' && '<?php echo $entitySubtype ?>' != '') {
                 editForm.showBehavior(editForm.BEHAVIOR_VERSION_2_CUSTOMER);
@@ -68,4 +68,9 @@ $formatVersions = array(
         };
     serverType.observe('change', onChangeCallback);
     onChangeCallback.call(serverType, {type: 'change'});
+
+    if ('<?php echo $operationType ?>' == 'export') {
+        // show/hide checkboxes depending on current export entity (edit scheduled export page)
+        editForm.modifyFilterGrid();
+    }
 </script>

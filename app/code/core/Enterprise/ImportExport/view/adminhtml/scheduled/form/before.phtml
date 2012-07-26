@@ -13,6 +13,13 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
+    /**
+     * Previous selected entity for grid
+     *
+     * @var string
+     */
+    varienForm.prototype.previousGridEntity = '';
+
     /**#@+
      * Behavior version constants
      *
@@ -98,34 +105,6 @@
     };
 
     /**
-     * Handle value change in entity type selector for export
-     *
-     * @return void
-     */
-    varienForm.prototype.handleExportEntityTypeSelector = function()
-    {
-        if ($('entity') && $F('entity')) {
-            this.showFormatVersion(false);
-            this.showCustomerEntity(false);
-
-            switch ($F('entity')) {
-                case 'customer':
-                    this.showFormatVersion(true);
-                    $('export_filter_grid_container').update();
-                    $('export_filter_container').hide();
-                    break;
-                default:
-                    this.getFilter();
-                    break;
-            }
-        } else {
-            this.showFormatVersion(false);
-            this.showCustomerEntity(false);
-            $('export_filter_container').hide();
-        }
-    };
-
-    /**
      * Handle value change in entity type selector for import
      *
      * @return void
@@ -150,32 +129,6 @@
             this.showFormatVersion(false);
             this.showBehavior(false);
             this.showCustomerEntity(false);
-        }
-    };
-
-    /**
-     * Handle value change in export format version selector
-     *
-     * @return void
-     */
-    varienForm.prototype.handleExportFormatVersionSelector = function()
-    {
-        if ($('file_format_version') && $F('file_format_version')) {
-            switch ($F('file_format_version')) {
-                case '<?php echo Mage_ImportExport_Model_Source_Format_Version::VERSION_1 ?>':
-                    this.showCustomerEntity(false);
-                    this.getFilter();
-                    break;
-                case '<?php echo Mage_ImportExport_Model_Source_Format_Version::VERSION_2 ?>':
-                    this.showCustomerEntity(true);
-                    this.getCustomerFilter();
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            this.showCustomerEntity(false);
-            $('export_filter_container').hide();
         }
     };
 
@@ -210,28 +163,30 @@
      *
      * @return void
      */
-    varienForm.prototype.handleCustomerEntityTypeSelector = function()
+    varienForm.prototype.modifyFilterGrid = function()
     {
-        if (!$('entity_subtype') || $F('entity_subtype') == 'customer') {
-            $$('col:first-child').each(function(el) {
-                el.show();
-            });
-            $$('th.no-link:first-child').each(function(el) {
-                el.show();
-            });
-            $$('td.a-center').each(function(el) {
-                el.show();
-            });
-        } else {
-            $$('col:first-child').each(function(el) {
-                el.hide();
-            });
-            $$('th.no-link:first-child').each(function(el) {
-                el.hide();
-            });
-            $$('td.a-center').each(function(el) {
-                el.hide();
-            });
+        if ($('entity') && $F('entity') && $F('entity') != 'catalog_product') {
+            if ($F('entity') == 'customer') {
+                $$('col:first-child').each(function(el) {
+                    el.show();
+                });
+                $$('th.no-link:first-child').each(function(el) {
+                    el.show();
+                });
+                $$('td.a-center').each(function(el) {
+                    el.show();
+                });
+            } else {
+                $$('col:first-child').each(function(el) {
+                    el.hide();
+                });
+                $$('th.no-link:first-child').each(function(el) {
+                    el.hide();
+                });
+                $$('td.a-center').each(function(el) {
+                    el.hide();
+                });
+            }
         }
     };
 
@@ -243,46 +198,28 @@
     varienForm.prototype.getFilter = function()
     {
         if ($('entity') && $F('entity')) {
-            var url = "<?php echo $this->getUrl('*/*/getFilter') ?>";
-            url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity');
+            var entity = $F('entity');
+            if (entity != 'catalog_product') {
+                entity = 'customer';
+            }
+            if (entity != this.previousGridEntity) {
+                this.previousGridEntity = entity;
+                var url = "<?php echo $this->getUrl('*/*/getFilter') ?>";
+                url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + entity;
 
-            new Ajax.Request(url, {
-                method:      'post',
-                evalScripts: true,
-                onComplete:  function(transport) {
-                    var responseText = transport.responseText.replace(/>\s+</g, '><');
-                    $('export_filter_grid_container').update(responseText);
-                    $('export_filter_container').show();
-                }
-            });
-        } else {
-            $('export_filter_container').hide();
-        }
-    };
-
-    /**
-     * Post form data and process response via AJAX.
-     *
-     * @return void
-     */
-    varienForm.prototype.getCustomerFilter = function()
-    {
-        if ($('entity') && $F('entity')) {
-            var url = "<?php echo $this->getUrl('*/*/getFilter') ?>";
-            url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + $F('entity');
-            // because we didn't get instructions from UX team, we will use filter by customer attributes
-            // for all customer entity types for now
-            url += '/' + 'customer_entity/customer';
-
-            new Ajax.Request(url, {
-                method:      'post',
-                evalScripts: true,
-                onComplete:  function(transport) {
-                    var responseText = transport.responseText.replace(/>\s+</g, '><');
-                    $('export_filter_grid_container').update(responseText);
-                    $('export_filter_container').show();
-                }
-            });
+                new Ajax.Request(url, {
+                    method:      'post',
+                    evalScripts: true,
+                    onComplete:  function(transport) {
+                        var responseText = transport.responseText.replace(/>\s+</g, '><');
+                        $('export_filter_grid_container').update(responseText);
+                        this.modifyFilterGrid();
+                        $('export_filter_container').show();
+                    }.bind(this)
+                });
+            } else {
+                this.modifyFilterGrid();
+            }
         } else {
             $('export_filter_container').hide();
         }

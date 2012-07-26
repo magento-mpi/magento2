@@ -63,13 +63,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
 
         /** @var $element Varien_Data_Form_Element_Abstract */
         $element = $form->getElement('entity');
-        $element->setData('onchange', 'editForm.handleExportEntityTypeSelector();');
-
-        $element = $form->getElement('file_format_version');
-        $element->setData('onchange', 'editForm.handleExportFormatVersionSelector();');
-
-        $element = $form->getElement('entity_subtype');
-        $element->setData('onchange', 'editForm.handleCustomerEntityTypeSelector();');
+        $element->setData('onchange', 'editForm.getFilter();');
 
         $fieldset = $form->addFieldset('export_filter_grid_container', array(
             'legend' => $helper->__('Entity Attributes'),
@@ -78,11 +72,14 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
 
         // prepare filter grid data
         if ($operation->getId()) {
-            // we need to clone existing operation object because it stored in registry and used in other places,
-            // so we can't change it's data to ensure it will not affected on existing logic
+            // $operation object is stored in registry and used in other places.
+            // that's why we will not change its data to ensure that existing logic will not be affected.
+            // instead we will clone existing operation object.
             $filterOperation = clone $operation;
-            if ($filterOperation->getEntitySubtype()) {
-                $filterOperation->setEntitySubtype('customer');
+            if ($filterOperation->getEntityType() == 'customer_address'
+                || $filterOperation->getEntityType() == 'customer_finance'
+            ) {
+                $filterOperation->setEntityType('customer');
             }
             $fieldset->setData('html_content', $this->_getFilterBlock($filterOperation)->toHtml());
         }
@@ -100,13 +97,15 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
      */
     protected function _getFilterBlock($operation)
     {
-        $export = $operation->getInstance();
+        $exportOperation = $operation->getInstance();
         /** @var $block Enterprise_ImportExport_Block_Adminhtml_Export_Filter */
         $block = $this->getLayout()
             ->createBlock('Enterprise_ImportExport_Block_Adminhtml_Export_Filter')
-            ->setOperation($export);
+            ->setOperation($exportOperation);
 
-        $export->filterAttributeCollection($block->prepareCollection($export->getEntityAttributeCollection()));
+        $exportOperation->filterAttributeCollection(
+            $block->prepareCollection($exportOperation->getEntityAttributeCollection())
+        );
         return $block;
     }
 }
