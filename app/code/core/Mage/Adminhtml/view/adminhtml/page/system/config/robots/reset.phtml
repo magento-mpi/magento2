@@ -18,8 +18,9 @@ $coreHelper = Mage::helper('Mage_Core_Helper_Data');
 <script type="text/javascript">
     function resetRobotsToDefault()
     {
-        var resetValue = <?php echo $coreHelper->jsonEncode($this->getRobotsDefaultCustomInstructions()) ?>;
-        $('design_search_engine_robots_custom_instructions').innerHTML = resetValue;
+        $('design_search_engine_robots_custom_instructions').value = <?php
+            echo $coreHelper->jsonEncode($this->getRobotsDefaultCustomInstructions())
+        ?>;
     }
 </script>
 
