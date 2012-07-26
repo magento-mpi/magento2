@@ -103,37 +103,6 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      */
     public function loadAclResources(Magento_Acl $acl, $resource = null, $parentName = null)
     {
-        if (is_null($resource)) {
-            $resource = $this->getAdminhtmlConfig()->getNode("acl/resources");
-            $resourceName = null;
-        } else {
-            $resourceName = (is_null($parentName) ? '' : $parentName . '/') . $resource->getName();
-            $acl->add(Mage::getModel('Magento_Acl_Resource', $resourceName), $parentName);
-        }
-
-        if (isset($resource->all)) {
-            $acl->add(Mage::getModel('Magento_Acl_Resource', 'all'), null);
-        }
-
-        if (isset($resource->admin)) {
-            $children = $resource->admin;
-        } elseif (isset($resource->children)){
-            $children = $resource->children->children();
-        }
-
-
-
-        if (empty($children)) {
-            return $this;
-        }
-
-        foreach ($children as $res) {
-            if (1 == $res->disabled) {
-                continue;
-            }
-            $this->loadAclResources($acl, $res, $resourceName);
-        }
-        return $this;
     }
 
     /**
