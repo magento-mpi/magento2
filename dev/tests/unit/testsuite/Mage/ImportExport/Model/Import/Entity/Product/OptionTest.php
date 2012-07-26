@@ -361,12 +361,15 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 ->method('__')
                 ->will($this->returnArgument(0));
         }
+        $helpers = array(
+            'Mage_ImportExport_Helper_Data' => $dataHelper
+        );
 
         $data = array(
             'connection'        => $connection,
             'tables'            => $this->_tables,
             'resource_helper'   => $resourceHelper,
-            'data_helper'       => $dataHelper,
+            'helpers'           => $helpers,
             'is_price_global'   => true,
             'stores'            => $this->_testStores,
         );
@@ -696,7 +699,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateMainRow
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateMainRowAdditionalData
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSecondaryRow
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificTypesParameters
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificTypeParameters
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_validateSpecificParameterData
      * @dataProvider validateRowDataProvider
      */
@@ -721,7 +724,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateAmbiguousData
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findNewOptionsWithTheSameTitles
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findOldOptionsWithTheSameTitles
-     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findOldOptionWithDifferentType
+     * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findNewOldOptionsTypeMismatch
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_saveNewOptionData
      * @dataProvider validateAmbiguousDataDataProvider
      */

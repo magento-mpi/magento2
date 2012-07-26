@@ -59,13 +59,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected $_productsSkuToId = array();
 
     /**
-     * Core resource model
-     *
-     * @var Mage_Core_Model_Resource
-     */
-    protected $_coreResource;
-
-    /**
      * Instance of import/export resource helper
      *
      * @var Mage_ImportExport_Model_Resource_Helper_Mysql4
@@ -73,11 +66,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected $_resourceHelper;
 
     /**
-     * Import/export data helper
+     * Array of data helpers
      *
-     * @var Mage_ImportExport_Helper_Data
+     * @var array
      */
-    protected $_dataHelper;
+    protected $_helpers;
 
     /**
      * Flag for global prices property
@@ -233,25 +226,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     /**#@-*/
 
     /**
-     * Validation failure message template definitions
-     *
-     * @var array
-     */
-    protected $_messageTemplates = array(
-        self::ERROR_INVALID_STORE          => 'Invalid custom option store',
-        self::ERROR_INVALID_TYPE           => 'Invalid custom option type',
-        self::ERROR_EMPTY_TITLE            => 'Empty custom option title',
-        self::ERROR_INVALID_PRICE          => 'Invalid custom option price',
-        self::ERROR_INVALID_MAX_CHARACTERS => 'Invalid custom option maximum characters value',
-        self::ERROR_INVALID_SORT_ORDER     => 'Invalid custom option sort order',
-        self::ERROR_INVALID_ROW_PRICE      => 'Invalid custom option value price',
-        self::ERROR_INVALID_ROW_SORT       => 'Invalid custom option value sort order',
-        self::ERROR_AMBIGUOUS_NEW_NAMES    => 'Custom option with such title already declared in source file',
-        self::ERROR_AMBIGUOUS_OLD_NAMES    => 'There are several existing custom options with such name',
-        self::ERROR_AMBIGUOUS_TYPES        => 'Custom option has different type',
-    );
-
-    /**
      * Collection by pages iterator
      *
      * @var Mage_ImportExport_Model_Resource_CollectionByPagesIterator
@@ -282,10 +256,9 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         } else {
             $this->_resourceHelper = Mage::getResourceHelper('Mage_ImportExport');
         }
-        if (isset($data['data_helper'])) {
-            $this->_dataHelper = $data['data_helper'];
-        } else {
-            $this->_dataHelper = Mage::helper('Mage_ImportExport_Helper_Data');
+
+        if (isset($data['helpers'])) {
+            $this->_helpers = $data['helpers'];
         }
 
         if (isset($data['is_price_global'])) {
@@ -300,12 +273,66 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             ->_initTables($data)
             ->_initStores($data);
 
-        foreach ($this->_messageTemplates as $errorCode => $message) {
-            $this->_productEntity->addMessageTemplate($errorCode, $message);
-        }
+        $this->_initMessageTemplates();
 
         $this->_initProductsSku()
             ->_initOldCustomOptions();
+    }
+
+    /**
+     * Initialization of error message templates
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_Product_Option
+     */
+    protected function _initMessageTemplates()
+    {
+        // @codingStandardsIgnoreStart
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_STORE,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option store.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_TYPE,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option type.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_EMPTY_TITLE,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Empty custom option title.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_PRICE,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option price.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_MAX_CHARACTERS,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option maximum characters value.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_SORT_ORDER,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option sort order.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_ROW_PRICE,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option value price.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_INVALID_ROW_SORT,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid custom option value sort order.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_NEW_NAMES,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Custom option with such title already declared in source file.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_OLD_NAMES,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('There are several existing custom options with such name.')
+        );
+        $this->_productEntity->addMessageTemplate(self::ERROR_AMBIGUOUS_TYPES,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Custom options have different types.')
+        );
+        // @codingStandardsIgnoreEnd
+        return $this;
+    }
+
+    /**
+     * Helper getter
+     *
+     * @param string $helperName
+     * @return Mage_Core_Helper_Abstract
+     */
+    protected function _helper($helperName)
+    {
+        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
     }
 
     /**
@@ -374,7 +401,9 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         if (isset($data['product_entity'])) {
             $this->_productEntity = $data['product_entity'];
         } else {
-            Mage::throwException($this->_dataHelper->__('Option entity must have a parent product entity.'));
+            Mage::throwException(
+                $this->_helper('Mage_ImportExport_Helper_Data')->__('Option entity must have a parent product entity.')
+            );
         }
         if (isset($data['collection_by_pages_iterator'])) {
             $this->_byPagesIterator = $data['collection_by_pages_iterator'];
@@ -450,7 +479,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      * Validate ambiguous situations:
      * - several custom options have the same name in input file;
      * - several custom options have the same name in DB;
-     * - custom options with the same name has different data types.
+     * - custom options with the same name have different data types.
      *
      * @return bool
      */
@@ -467,7 +496,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 $this->_addRowsErrors(self::ERROR_AMBIGUOUS_OLD_NAMES, $errorRows);
                 return false;
             }
-            $errorRows = $this->_findOldOptionWithDifferentType();
+            $errorRows = $this->_findNewOldOptionsTypeMismatch();
             if ($errorRows) {
                 $this->_addRowsErrors(self::ERROR_AMBIGUOUS_TYPES, $errorRows);
                 return false;
@@ -478,8 +507,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
 
     /**
      * Find options with the same titles for input data
-     *
-     * Is option with the same name already exist in imported file
      *
      * @return array
      */
@@ -556,11 +583,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Find existing products with different type
+     * Find source file options, which have analogs in DB with the same name, but with different type
      *
      * @return array
      */
-    protected function _findOldOptionWithDifferentType()
+    protected function _findNewOldOptionsTypeMismatch()
     {
         $errorRows = array();
         foreach ($this->_newOptionsOldData as $productId => $options) {
@@ -585,7 +612,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Check is option existed in DB
+     * Check if option exist in DB
      *
      * @param array $newOptionData
      * @param array $newOptionTitles
@@ -637,7 +664,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $this->_productEntity->addRowError(self::ERROR_INVALID_TYPE, $rowNumber);
         } elseif (empty($rowData[self::COLUMN_TITLE])) {                             // title
             $this->_productEntity->addRowError(self::ERROR_EMPTY_TITLE, $rowNumber);
-        } elseif ($this->_validateSpecificTypesParameters($rowData, $rowNumber)) {     // price, max_character
+        } elseif ($this->_validateSpecificTypeParameters($rowData, $rowNumber)) {     // price, max_character
             if ($this->_validateMainRowAdditionalData($rowData, $rowNumber)) {
                 $this->_saveNewOptionData($rowData, $rowNumber);
                 return true;
@@ -655,9 +682,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
      */
     protected function _validateMainRowAdditionalData(array $rowData, $rowNumber)
     {
-        if (!empty($rowData[self::COLUMN_SORT_ORDER])
-            && (!is_numeric($rowData[self::COLUMN_SORT_ORDER]) || $rowData[self::COLUMN_SORT_ORDER] < 0)
-        ) {
+        if (!empty($rowData[self::COLUMN_SORT_ORDER]) && !ctype_digit((string)$rowData[self::COLUMN_SORT_ORDER])) {
             $this->_productEntity->addRowError(self::ERROR_INVALID_SORT_ORDER, $rowNumber);
         } else {
             return true;
@@ -740,9 +765,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         } elseif (!empty($rowData[self::COLUMN_ROW_PRICE])
             && !is_numeric(rtrim($rowData[self::COLUMN_ROW_PRICE], '%'))) {
             $this->_productEntity->addRowError(self::ERROR_INVALID_ROW_PRICE, $rowNumber);
-        } elseif (!empty($rowData[self::COLUMN_ROW_SORT])                         // row sort
-            && (!is_numeric($rowData[self::COLUMN_ROW_SORT]) || $rowData[self::COLUMN_ROW_SORT] < 0)
-        ) {
+        } elseif (!empty($rowData[self::COLUMN_ROW_SORT]) && !ctype_digit((string)$rowData[self::COLUMN_ROW_SORT])) {
             $this->_productEntity->addRowError(self::ERROR_INVALID_ROW_SORT, $rowNumber);
         } else {
             if (isset($this->_productsSkuToId[$this->_rowProductSku])) {
@@ -788,26 +811,29 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Validation of specific types parameters
+     * Validation of specific type parameters
      *
      * @param array $rowData
      * @param int $rowNumber
      * @return bool
      */
-    protected function _validateSpecificTypesParameters(array $rowData, $rowNumber)
+    protected function _validateSpecificTypeParameters(array $rowData, $rowNumber)
     {
-        $isValid = true;
         if (!empty($rowData[self::COLUMN_TYPE])) {
-            $typeParameters = $this->_specificTypes[$rowData[self::COLUMN_TYPE]];
-            if (is_array($typeParameters)) {
-                foreach ($typeParameters as $typeParameter) {
-                    if (!$this->_validateSpecificParameterData($typeParameter, $rowData, $rowNumber)) {
-                        $isValid = false;
+            if (isset($this->_specificTypes[$rowData[self::COLUMN_TYPE]])) {
+                $typeParameters = $this->_specificTypes[$rowData[self::COLUMN_TYPE]];
+                if (is_array($typeParameters)) {
+                    foreach ($typeParameters as $typeParameter) {
+                        if (!$this->_validateSpecificParameterData($typeParameter, $rowData, $rowNumber)) {
+                            return false;
+                        }
                     }
                 }
+            } else {
+                return false;
             }
         }
-        return $isValid;
+        return true;
     }
 
     /**
@@ -827,9 +853,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 return false;
             }
         } elseif ($typeParameter == 'max_characters') {
-            if (!empty($rowData[$fieldName])
-                && (!is_numeric($rowData[$fieldName]) || $rowData[$fieldName] < 0)
-            ) {
+            if (!empty($rowData[$fieldName]) && !ctype_digit((string)$rowData[$fieldName])) {
                 $this->_productEntity->addRowError(self::ERROR_INVALID_MAX_CHARACTERS, $rowNumber);
                 return false;
             }
@@ -838,7 +862,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Is current row contains custom option information
+     * Checks that current row contains custom option information
      *
      * @param array $rowData
      * @return bool
@@ -851,7 +875,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Is current row a main option row (i.e. contains type, title, etc.)
+     * Checks that current row a main option row (i.e. contains option data)
      *
      * @param array $rowData
      * @return bool
@@ -862,7 +886,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Is current row a secondary option row (i.e. contains option value data)
+     * Checks that current row a secondary option row (i.e. contains option value data)
      *
      * @param array $rowData
      * @return bool
@@ -873,7 +897,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Check is complex options contain values
+     * Checks that complex options contain values
      *
      * @param array $options
      * @param array $titles
@@ -890,7 +914,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
                 unset($options[$key], $titles[$optionId]);
             }
         }
-
         if ($options) {
             return true;
         } else {
@@ -1124,7 +1147,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
             $this->_rowStoreId = Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID;
         }
         // Init option type and set param which tell that row is main
-        if (!empty($rowData[self::COLUMN_TYPE])) { // get CO type if its specified
+        if (!empty($rowData[self::COLUMN_TYPE])) { // get custom option type if its specified
             if (!isset($this->_specificTypes[$rowData[self::COLUMN_TYPE]])) {
                 $this->_rowType = null;
                 return false;
