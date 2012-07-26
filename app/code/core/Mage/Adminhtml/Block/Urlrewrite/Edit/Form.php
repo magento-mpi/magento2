@@ -13,10 +13,15 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * @var Mage_Core_Model_Url_Rewrite
+     */
+    protected $_model = null;
+
     /**
      * @var array
      */
@@ -58,12 +63,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         $model = $this->_getModel();
         $this->_formValues = array(
-            'store_id'        => $model->getStoreId(),
-            'id_path'         => $model->getIdPath(),
-            'request_path'    => $model->getRequestPath(),
-            'target_path'     => $model->getTargetPath(),
-            'options'         => $model->getOptions(),
-            'description'     => $model->getDescription(),
+            'store_id'     => $model->getStoreId(),
+            'id_path'      => $model->getIdPath(),
+            'request_path' => $model->getRequestPath(),
+            'target_path'  => $model->getTargetPath(),
+            'options'      => $model->getOptions(),
+            'description'  => $model->getDescription(),
         );
 
         $sessionData = $this->_getSessionData();
@@ -105,7 +110,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'title'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Type'),
             'name'     => 'is_system',
             'required' => true,
-            'options'   => $typesModel->getAllOptions(),
+            'options'  => $typesModel->getAllOptions(),
             'disabled' => true,
             'value'    => $this->_getModel()->getIsSystem()
         ));
@@ -142,7 +147,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Redirect'),
             'title'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Redirect'),
             'name'    => 'options',
-            'options'   => $optionsModel->getAllOptions(),
+            'options' => $optionsModel->getAllOptions(),
             'value'   => $this->_formValues['options']
         ));
 
@@ -167,7 +172,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     /**
      * Prepare store element
      *
-     * @param $fieldset
+     * @param Varien_Data_Form_Element_Fieldset $fieldset
      */
     protected function _prepareStoreElement($fieldset)
     {
@@ -205,7 +210,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         $form->setAction(
             Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
-                'id'       => $this->_getModel()->getId()
+                'id' => $this->_getModel()->getId()
             ))
         );
 
@@ -232,7 +237,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
      */
     protected function _getModel()
     {
-        return Mage::registry('current_urlrewrite');
+        if (is_null($this->_model)) {
+            $this->_model = Mage::registry('current_urlrewrite');
+            if (!$this->_model) {
+                $this->_model = Mage::getModel('Mage_Core_Model_Url_Rewrite');
+            }
+        }
+        return $this->_model;
     }
 
     /**
@@ -264,7 +275,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
      * Stores should be filtered only if custom entity is specified.
      * If we use custom rewrite, all stores are accepted.
      *
-     * @throws Mage_Core_Model_Store_Exception
      * @return array
      */
     protected function _getRestrictedStoresList()
@@ -276,6 +286,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
         return $stores;
     }
 
+    /**
+     *  Is custom entity present
+     *
+     * @return bool
+     */
     protected function _hasCustomEntity()
     {
        return false;

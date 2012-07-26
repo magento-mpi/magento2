@@ -8,8 +8,20 @@
  * @license     {license_link}
  */
 
+/**
+ * Urlrewrites edit form for cms page
+ *
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_Block_Urlrewrite_Edit_Form
 {
+    /**
+     * @var Mage_Cms_Model_Page
+     */
+    protected $_page = null;
+
     /**
      * Form post init
      *
@@ -91,7 +103,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _hasCustomEntity()
     {
-        return $this->_getCmsPage() && $this->_getCmsPage()->getId();
+        return $this->_getCmsPage()->getId() > 0;
     }
 
     /**
@@ -101,6 +113,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _getCmsPage()
     {
-        return Mage::registry('current_cms_page');
+        if (is_null($this->_page)) {
+            $this->_page = Mage::registry('current_cms_page');
+            if (!$this->_page) {
+                $this->_page = Mage::getModel('Mage_Cms_Model_Page');
+            }
+        }
+        return $this->_page;
     }
 }

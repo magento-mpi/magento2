@@ -219,26 +219,14 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
+     * Override urlrewrite data, basing on current catalog registry combination
+     *
      * @param Mage_Core_Model_Url_Rewrite $model
      */
     protected function _handleCatalogUrlrewrite($model)
     {
-        // override urlrewrite data, basing on current catalog registry combination
-        /** @var $product Mage_Catalog_Model_Product */
-        $product = Mage::registry('current_product');
-        if ($product && $product->getId()) {
-            $model->setProductId($product->getId());
-        } else {
-            $product = null;
-        }
-
-        /** @var $category Mage_Catalog_Model_Category */
-        $category = Mage::registry('current_category');
-        if ($category && $category->getId()) {
-            $model->setCategoryId($category->getId());
-        } else {
-            $category = null;
-        }
+        $product = $this->_getInitializedProduct($model);
+        $category = $this->_getInitializedCategory($model);
 
         if ($product || $category) {
             /** @var $catalogUrlModel Mage_Catalog_Model_Url */
@@ -248,7 +236,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
 
             // if redirect specified try to find friendly URL
             $generateTarget = true;
-            if ($this->_hasRedirectOptions($model)) {
+            if (Mage::helper('Mage_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
                 /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
                 $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
                 /** @var $rewrite Mage_Core_Model_Url_Rewrite */
@@ -273,6 +261,45 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
+     * Get product instance applicable for generatePath
+     *
+     * @param Mage_Core_Model_Url_Rewrite $model
+     * @return Mage_Catalog_Model_Product|null
+     */
+    protected function _getInitializedProduct($model)
+    {
+        /** @var $product Mage_Catalog_Model_Product */
+        $product = Mage::registry('current_product');
+        if ($product && $product->getId()) {
+            $model->setProductId($product->getId());
+        } else {
+            $product = null;
+        }
+
+        return $product;
+    }
+
+    /**
+     * Get category instance applicable for generatePath
+     *
+     * @param Mage_Core_Model_Url_Rewrite $model
+     * @return Mage_Catalog_Model_Category|null
+     */
+    protected function _getInitializedCategory($model)
+    {
+        /** @var $category Mage_Catalog_Model_Category */
+        $category = Mage::registry('current_category');
+        if ($category && $category->getId()) {
+            $model->setCategoryId($category->getId());
+        } else {
+            $category = null;
+        }
+        return $category;
+    }
+
+    /**
+     * Override urlrewrite data, basing on current cms page registry
+     *
      * @param Mage_Core_Model_Url_Rewrite $model
      */
     protected function _handleCmsPageUrlrewrite($model)
@@ -287,7 +314,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
 
            // if redirect specified try to find friendly URL
            $generateTarget = true;
-           if ($this->_hasRedirectOptions($model)) {
+           if (Mage::helper('Mage_Core_Helper_Url_Rewrite')->hasRedirectOptions($model)) {
                /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
                $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
                /** @var $rewrite Mage_Core_Model_Url_Rewrite */
@@ -307,19 +334,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Has redirect options set
+     * Save cms page rewrite additional information
      *
-     * @param Mage_Core_Model_Url_Rewrite $model
-     * @return bool
-     */
-    protected function _hasRedirectOptions($model)
-    {
-        /** @var $options Mage_Core_Model_Source_Urlrewrite_Options */
-        $options = Mage::getModel('Mage_Core_Model_Source_Urlrewrite_Options');
-        return in_array($model->getOptions(), $options->getRedirectOptions());
-    }
-
-    /**
      * @param Mage_Core_Model_Url_Rewrite $model
      */
     protected function _handleCmsPageUrlrewriteSave($model)

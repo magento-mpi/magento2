@@ -19,10 +19,10 @@ class Mage_Core_Model_Source_Urlrewrite_TypesTest extends PHPUnit_Framework_Test
      */
     protected function setUp()
     {
-        $helper = $this->getMock(
-            'Mage_Adminhtml_Helper_Data',
-            array('__')
-        );
+        $helper = $this->getMockBuilder('Mage_Adminhtml_Helper_Data')
+            ->setMethods(array('__'))
+            ->disableOriginalConstructor()
+            ->getMock();
         $helper->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
