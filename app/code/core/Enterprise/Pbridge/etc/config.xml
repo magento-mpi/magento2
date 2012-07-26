@@ -151,7 +151,7 @@
                 <useccv>1</useccv>
             </pbridge_ogone_direct>
             <pbridge_paybox_direct>
-                <model>enterprise_pbridge/payment_method_paybox_direct</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
                 <active>1</active>
             </pbridge_paybox_direct>
             <worldpay_direct>
@@ -160,7 +160,7 @@
                 <using_pbridge>1</using_pbridge>
             </worldpay_direct>
             <pbridge_worldpay_direct>
-                <model>enterprise_pbridge/payment_method_worldpay_direct</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct</model>
                 <active>1</active>
             </pbridge_worldpay_direct>
             <cybersource_soap>
@@ -168,14 +168,14 @@
                 <title>Credit Card (Cybersource)</title>
             </cybersource_soap>
             <pbridge_cybersource_soap>
-                <model>enterprise_pbridge/payment_method_cybersource_soap</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap</model>
             </pbridge_cybersource_soap>
             <dibs>
                 <title>Credit Card (DIBS)</title>
                 <using_pbridge>1</using_pbridge>
             </dibs>
             <pbridge_dibs>
-                <model>enterprise_pbridge/payment_method_dibs</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Dibs</model>
                 <active>1</active>
             </pbridge_dibs>
             <braintree_basic>
@@ -185,7 +185,7 @@
                 <using_pbridge>1</using_pbridge>
             </braintree_basic>
             <sagepay_direct>
-                <model>enterprise_pbridge/payment_method_sagepay_direct</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct</model>
                 <payment_action>authorize</payment_action>
                 <title>Credit Card (Sage Pay Direct)</title>
                 <using_pbridge>1</using_pbridge>
@@ -213,7 +213,7 @@
                 <using_pbridge>1</using_pbridge>
             </psigate_basic>
             <pbridge_psigate_basic>
-                <model>enterprise_pbridge/payment_method_psigate_basic</model>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic</model>
                 <active>1</active>
             </pbridge_psigate_basic>
         </payment>

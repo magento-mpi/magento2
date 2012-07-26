@@ -85,7 +85,7 @@ class Mage_XmlConnect_PbridgeController extends Mage_Core_Controller_Front_Actio
         $this->loadLayout(false);
 
         /** @var $helper Mage_Core_Helper_Data */
-        $helper = Mage::helper('core');
+        $helper = Mage::helper('Mage_Core_Helper_Data');
         $method = $helper->escapeHtml($this->getRequest()->getParam('method', false));
         $originalPaymentMethod = $helper->escapeHtml($this->getRequest()->getParam('original_payment_method', false));
         $token = $helper->escapeHtml($this->getRequest()->getParam('token', false));

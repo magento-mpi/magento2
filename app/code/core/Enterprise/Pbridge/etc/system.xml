@@ -83,7 +83,7 @@
                         </debug>
                     </fields>
                 </pbridge>
-                <cybersource_soap translate="label" module="enterprise_pbridge">
+                <cybersource_soap translate="label" module="Enterprise_Pbridge">
                     <label>Cybersource (SOAP Toolkit)</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>500</sort_order>
@@ -94,7 +94,7 @@
                         <active translate="label">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -111,7 +111,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_pbridge/source_cybersource_paymentAction</source_model>
+                            <source_model>Enterprise_Pbridge_Model_Source_Cybersource_PaymentAction</source_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -121,7 +121,7 @@
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>50</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -130,7 +130,7 @@
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>51</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -143,12 +143,12 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sort_order>
-                        <using_pbridge translate="label comment" module="enterprise_pbridge">
+                        <using_pbridge translate="label comment" module="Enterprise_Pbridge">
                             <label>Use via Payment Bridge</label>
                             <comment>Gives effect only when payment bridge is active.</comment>
                             <config_path>payment/cybersource_soap/using_pbridge</config_path>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -175,7 +175,7 @@
                     </fields>
                 </cybersource_soap>
 
-                <dibs translate="label" module="enterprise_pbridge">
+                <dibs translate="label" module="Enterprise_Pbridge">
                     <label>DIBS Payment Services</label>
                     <sort_order>1000</sort_order>
                     <show_in_default>1</show_in_default>
@@ -186,7 +186,7 @@
                             <label>Enabled</label>
                             <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -203,7 +203,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_pbridge/source_paymentAction</source_model>
+                            <source_model>Enterprise_Pbridge_Model_Source_PaymentAction</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -213,7 +213,7 @@
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>40</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -222,7 +222,7 @@
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>41</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -238,7 +238,7 @@
                     </fields>
                 </dibs>
 
-                <eway_direct translate="label" module="enterprise_pbridge">
+                <eway_direct translate="label" module="Enterprise_Pbridge">
                     <label>eWAY Direct</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>201</sort_order>
@@ -250,7 +250,7 @@
                             <label>Enabled</label>
                             <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -268,7 +268,7 @@
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>10</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -277,7 +277,7 @@
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>11</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -724,7 +724,7 @@
                      </fields>
                 </payone_gate>
 
-                <psigate_basic translate="label" module="enterprise_pbridge">
+                <psigate_basic translate="label" module="Enterprise_Pbridge">
                     <label>PSi Gate</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>
@@ -736,7 +736,7 @@
                             <label>Enabled</label>
                             <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -753,7 +753,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_pbridge/source_paymentAction</source_model>
+                            <source_model>Enterprise_Pbridge_Model_Source_PaymentAction</source_model>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -770,7 +770,7 @@
                     </fields>
                 </psigate_basic>
 
-                <sagepay_direct translate="label" module="enterprise_pbridge">
+                <sagepay_direct translate="label" module="Enterprise_Pbridge">
                     <label>Sage Pay Direct</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>10</sort_order>
@@ -782,7 +782,7 @@
                             <label>Enabled</label>
                             <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -791,7 +791,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_pbridge/source_paymentAction</source_model>
+                            <source_model>Enterprise_Pbridge_Model_Source_PaymentAction</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -808,7 +808,7 @@
                         <enable3ds translate="label">
                             <label>3D Secure Card Validation</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>46</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -817,7 +817,7 @@
                             <label>Payment from Applicable Countries</label>
                             <frontend_type>allowspecific</frontend_type>
                             <sort_order>50</sort_order>
-                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Payment_Allspecificcountries</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -826,7 +826,7 @@
                             <label>Payment from Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>51</sort_order>
-                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Country</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -842,7 +842,7 @@
                     </fields>
                 </sagepay_direct>
 
-                <worldpay_direct translate="label" module="enterprise_pbridge">
+                <worldpay_direct translate="label" module="Enterprise_Pbridge">
                     <label>Worldpay</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>30</sort_order>
@@ -854,7 +854,7 @@
                             <label>Enabled</label>
                             <comment>This payment method will work only if the Payment Bridge is enabled and configured correctly.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -871,7 +871,7 @@
                         <payment_action translate="label">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>enterprise_pbridge/source_paymentAction</source_model>
+                            <source_model>Enterprise_Pbridge_Model_Source_PaymentAction</source_model>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>

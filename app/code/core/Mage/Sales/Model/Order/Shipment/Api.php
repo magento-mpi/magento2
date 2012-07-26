@@ -48,7 +48,7 @@ class Mage_Sales_Model_Order_Shipment_Api extends Mage_Sales_Model_Api_Resource
             ->joinAttribute('order_created_at', 'order/created_at', 'order_id', null, 'left');
 
         /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('api');
+        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
         try {
             $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['shipment']);
             foreach ($filters as $field => $value) {

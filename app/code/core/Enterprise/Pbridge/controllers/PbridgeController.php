@@ -78,16 +78,16 @@ class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Ac
     {
         $methodCode = $this->getRequest()->getParam('method_code', null);
         if ($methodCode) {
-            $methodInstance = Mage::helper('payment')->getMethodInstance($methodCode);
+            $methodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->getLayout()->createBlock('enterprise_pbridge/checkout_payment_review_iframe');
+                $block = $this->getLayout()->createBlock('Enterprise_Pbridge_Block_Checkout_Payment_Review_Iframe');
                 $block->setMethod($methodInstance);
                 if ($block) {
                     $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
                 }
             }
         } else {
-            Mage::throwException(Mage::helper('enterprise_pbridge')->__('Payment Method Code is not passed.'));
+            Mage::throwException(Mage::helper('Enterprise_Pbridge_Helper_Data')->__('Payment Method Code is not passed.'));
         }
     }
 
@@ -132,7 +132,7 @@ class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Ac
     {
         $result = array();
         $result['success'] = true;
-        $requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
+        $requiredAgreements = Mage::helper('Mage_Checkout_Helper_Data')->getRequiredAgreementIds();
         if ($requiredAgreements) {
             $postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
             $diff = array_diff($requiredAgreements, $postedAgreements);
@@ -142,6 +142,6 @@ class Enterprise_Pbridge_PbridgeController extends Mage_Core_Controller_Front_Ac
                 $result['error_messages'] = $this->__('Please agree to all the terms and conditions before placing the order.');
             }
         }
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result));
     }
 }

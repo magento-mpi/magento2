@@ -1,29 +1,12 @@
 <?php
 /**
- * Magento Enterprise Edition
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
- * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 
 /**
  * Sagepay Direct dummy payment method model
@@ -72,13 +55,13 @@ class Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct extends Mage_Paymen
      * Form block type for the frontend
      * @var string
      */
-    protected $_formBlockType = 'enterprise_pbridge/checkout_payment_sagepay_direct';
+    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Sagepay_Direct';
 
     /**
      * Form block type for the backend
      * @var string
      */
-    protected $_backendFormBlockType = 'enterprise_pbridge/adminhtml_sales_order_create_sagepay_direct';
+    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Sagepay_Direct';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -157,7 +140,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct extends Mage_Paymen
     public function getPbridgeMethodInstance()
     {
         if ($this->_pbridgeMethodInstance === null) {
-            $this->_pbridgeMethodInstance = Mage::helper('payment')->getMethodInstance('pbridge');
+            $this->_pbridgeMethodInstance = Mage::helper('Mage_Payment_Helper_Data')->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
         }
         return $this->_pbridgeMethodInstance;
@@ -288,7 +271,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Sagepay_Direct extends Mage_Paymen
     public function setStore($store)
     {
         $this->setData('store', $store);
-        Mage::helper('enterprise_pbridge')->setStoreId(is_object($store) ? $store->getId() : $store);
+        Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
         return $this;
     }
 

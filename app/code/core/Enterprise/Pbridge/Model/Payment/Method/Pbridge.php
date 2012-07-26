@@ -132,7 +132,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Pbridge extends Mage_Payment_Model
 
         parent::assignData($data);
         $this->setPbridgeResponse($pbridgeData);
-        Mage::getSingleton('enterprise_pbridge/session')->setToken($this->getPbridgeResponse('token'));
+        Mage::getSingleton('Enterprise_Pbridge_Model_Session')->setToken($this->getPbridgeResponse('token'));
         return $this;
     }
 

@@ -9,12 +9,12 @@
  */
 
 /**
- * Worldpay payment block
+ * Cybersource.Com payment block
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Block_Checkout_Payment_Worldpay_Direct extends Enterprise_Pbridge_Block_Payment_Form_Abstract
+class Enterprise_Pbridge_Block_Checkout_Payment_Cybersource extends Enterprise_Pbridge_Block_Payment_Form_Abstract
 {
 }

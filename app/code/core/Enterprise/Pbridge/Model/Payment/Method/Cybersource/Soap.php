@@ -4,37 +4,19 @@
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /**
- * PSi Gate dummy payment method model
+ * Cybersource.Com dummy payment method model
  *
  * @category    Enterprise
  * @package     Enterprise_Pbridge
- * @author      Magento
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment_Model_Method_Cc
+class Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap extends Mage_Payment_Model_Method_Cc
 {
-    /**
-     * Payment method code
-     * @var string
-     */
-    const METHOD_CODE = 'psigate_basic';
-
-    /**
-     * Payment code
-     * @var string
-     */
-    protected $_code  = self::METHOD_CODE;
-
-    /**
-     * List of allowed currency codes
-     * @var array
-     */
-    protected $_allowCurrencyCode = array('USD', 'CAD');
-
     /**
      * Availability options
      */
@@ -43,7 +25,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
     protected $_canRefund               = true;
-    protected $_canRefundInvoicePartial = true;
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
@@ -55,14 +36,14 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
      *
      * @var string
      */
-    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Psigate_Basic';
+    protected $_formBlockType = 'Enterprise_Pbridge_Block_Checkout_Payment_Cybersource';
 
     /**
      * Form block type for the backend
      *
      * @var string
      */
-    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Psigate_Basic';
+    protected $_backendFormBlockType = 'Enterprise_Pbridge_Block_Adminhtml_Sales_Order_Create_Cybersource';
 
     /**
      * Payment Bridge Payment Method Instance
@@ -70,28 +51,37 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
      * @var Enterprise_Pbridge_Model_Payment_Method_Pbridge
      */
     protected $_pbridgeMethodInstance = null;
+
+    /**
+     * Payment Bridge Payment Method Code
+     *
+     * @var string
+     */
+    protected $_code = 'cybersource_soap';
+
+    /**
+     * Check method for processing with base currency
+     *
+     * @param string $currencyCode
+     * @return boolean
+     */
+    public function canUseForCurrency($currencyCode)
+    {
+        if ($currencyCode == 'USD') {
+            return true;
+        }
+        return false;
+    }
+
+
     /**
      * Return that current payment method is dummy
+     *
      * @return boolean
      */
     public function getIsDummy()
     {
         return true;
-    }
-
-    /**
-     * Check method for processing with base currency
-     * Only USD and CAD allowed
-     *
-     * @param $currencyCode
-     * @return bool
-     */
-    public function canUseForCurrency($currencyCode)
-    {
-        if (in_array($currencyCode, $this->_allowCurrencyCode)) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -109,6 +99,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
         }
         return $this->_pbridgeMethodInstance;
     }
+
     /**
      * Retrieve dummy payment method code
      *
@@ -118,6 +109,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
     {
         return 'pbridge_' . parent::getCode();
     }
+
     /**
      * Retrieve original payment method code
      *
@@ -129,41 +121,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
     }
 
     /**
-     * Retrieve payment method title
-     *
+     * Getter for Payment method title
      * @return string
      */
     public function getTitle()
     {
         return parent::getTitle();
-    }
-
-    /**
-     * Check whether payment method can be used
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     * @return boolean
-     */
-    public function isAvailable($quote = null)
-    {
-        return $this->getPbridgeMethodInstance() ?
-            $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote) : false;
-    }
-
-    /**
-     * Retrieve information from payment configuration
-     *
-     * @param   string $field
-     * @param null $storeId
-     * @return  mixed
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
-        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
-        return Mage::getStoreConfig($path, $storeId);
     }
 
     /**
@@ -179,9 +142,48 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
     }
 
     /**
+     * Retrieve information from payment configuration
+     *
+     * @param   string $field
+     * @return  mixed
+     */
+    public function getConfigData($field, $storeId = null)
+    {
+        if (null === $storeId) {
+            $storeId = $this->getStore();
+        }
+        $path = 'payment/'.$this->getOriginalCode().'/'.$field;
+        return Mage::getStoreConfig($path, $storeId);
+    }
+
+    /**
+     * Check whether payment method can be used
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return boolean
+     */
+    public function isAvailable($quote = null)
+    {
+        return $this->getPbridgeMethodInstance() ?
+            $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote) : false;
+    }
+
+    /**
+     * Retrieve block type for method form generation
+     *
+     * @return string
+     */
+    public function getFormBlockType()
+    {
+        return Mage::app()->getStore()->isAdmin() ?
+            $this->_backendFormBlockType :
+            $this->_formBlockType;
+    }
+
+    /**
      * Validate payment method information object
      *
-     * @return Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function validate()
     {
@@ -190,24 +192,28 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
     }
 
     /**
-     * PSi Gate method being executed via Payment Bridge
+     * Authorization method being executed via Payment Bridge
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function authorize(Varien_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
+        if (isset($response['ccAuthReply_forwardCode']) && $response['ccAuthReply_forwardCode']) {
+            $payment->setAdditionalInformation('ccAuthReply_forwardCode', $response['ccAuthReply_forwardCode']);
+        }
         return $this;
     }
+
     /**
      * Capturing method being executed via Payment Bridge
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function capture(Varien_Object $payment, $amount)
     {
@@ -224,13 +230,12 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
      *
      * @param Varien_Object $payment
      * @param float $amount
-     * @return Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function refund(Varien_Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(1);
         return $this;
     }
 
@@ -238,7 +243,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
      * Voiding method being executed via Payment Bridge
      *
      * @param Varien_Object $payment
-     * @return Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
     public function void(Varien_Object $payment)
     {
@@ -246,48 +251,30 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
         $payment->addData((array)$response);
         return $this;
     }
+
     /**
-     * Check refund availability
+     * Cancel method being executed via Payment Bridge
      *
-     * @return bool
+     * @param Varien_Object $payment
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource
      */
-    public function canRefund()
+    public function cancel(Varien_Object $payment)
     {
-        return $this->_canRefund;
-    }
-    /**
-     * Retrieve block type for method form generation
-     *
-     * @return string
-     */
-    public function getFormBlockType()
-    {
-        return Mage::app()->getStore()->isAdmin() ?
-            $this->_backendFormBlockType :
-            $this->_formBlockType;
+        $response = $this->getPbridgeMethodInstance()->void($payment);
+        $payment->addData((array)$response);
+        return $this;
     }
 
     /**
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic
+     * @return Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap
      */
     public function setStore($store)
     {
         $this->setData('store', $store);
         Mage::helper('Enterprise_Pbridge_Helper_Data')->setStoreId(is_object($store) ? $store->getId() : $store);
-        return $this;
-    }
-    /**
-     * Set capture transaction ID to invoice for informational purposes
-     * @param Mage_Sales_Model_Order_Invoice $invoice
-     * @param Mage_Sales_Model_Order_Payment $payment
-     * @return Mage_Payment_Model_Method_Abstract
-     */
-    public function processInvoice($invoice, $payment)
-    {
-        $invoice->setTransactionId($payment->getLastTransId());
         return $this;
     }
 }

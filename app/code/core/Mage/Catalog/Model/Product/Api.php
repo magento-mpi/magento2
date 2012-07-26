@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Product_Api extends Mage_Catalog_Model_Api_Resource
             ->addAttributeToSelect('name');
 
         /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('api');
+        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
         $filters = $apiHelper->parseFilters($filters, $this->_filtersMap);
         try {
             foreach ($filters as $field => $value) {

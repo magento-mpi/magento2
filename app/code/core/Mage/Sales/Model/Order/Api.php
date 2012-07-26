@@ -87,7 +87,7 @@ class Mage_Sales_Model_Order_Api extends Mage_Sales_Model_Api_Resource
         );
 
         /** @var $apiHelper Mage_Api_Helper_Data */
-        $apiHelper = Mage::helper('api');
+        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
         $filters = $apiHelper->parseFilters($filters, $this->_attributesMap['order']);
         try {
             foreach ($filters as $field => $value) {
