@@ -72,9 +72,9 @@
                     onComplete:  function(transport) {
                         var responseText = transport.responseText.replace(/>\s+</g, '><');
                         $('export_filter_grid_container').update(responseText);
-                        varienForm.prototype.modifyFilterGrid();
+                        this.modifyFilterGrid();
                         $('export_filter_container').show();
-                    }
+                    }.bind(this)
                 });
             } else {
                 this.modifyFilterGrid();
@@ -85,7 +85,7 @@
     };
 
     /**
-     * Continue export process after filter settings.
+     * Continue export process after filter settings
      *
      * return void
      */

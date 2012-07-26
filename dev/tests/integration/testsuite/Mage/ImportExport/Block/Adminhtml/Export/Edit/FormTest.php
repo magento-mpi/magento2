@@ -71,7 +71,7 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_FormTest extends PHPUnit_Fra
         }
 
         // assert fieldsets and fields
-        $this->assertCount(count($this->_expectedFields), $actualFieldsets);
+        $this->assertSameSize($this->_expectedFields, $actualFieldsets);
         /** @var $actualFieldset Varien_Data_Form_Element_Fieldset */
         foreach ($actualFieldsets as $actualFieldset) {
             $this->assertArrayHasKey($actualFieldset->getId(), $this->_expectedFields);
