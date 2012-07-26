@@ -320,8 +320,9 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
     /**
      * Process email template code
      *
-     * @param   array $variables
-     * @return  string
+     * @param array $variables
+     * @return string
+     * @throws Exception if rendering fails
      */
     public function getProcessedTemplate(array $variables = array())
     {
@@ -334,29 +335,31 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Template
         }
 
         $processor->setIncludeProcessor(array($this, 'getInclude'));
+        $storeId = $this->getDesignConfig()->getStore();
+        $processor->setStoreId($storeId);
+
+        // Use observer to modify variables and template processor settings
+        $transport = new Varien_Object(array(
+            'variables'     => $variables,
+            'template_text' => $this->getPreparedTemplateText(),
+            'store_id'      => $storeId
+        ));
+        Mage::dispatchEvent('core_email_template_filter_before', array(
+            'processor' => $processor,
+            'transport' => $transport
+        ));
+        $variables = $transport->getData('variables');
+        $storeId = $transport->getData('store_id');
+        $processor->setStoreId($storeId);
 
         $this->_applyDesignConfig();
-        $storeId = $this->getDesignConfig()->getStore();
         try {
-            $processor->setStoreId($storeId);
-            $transport = new Varien_Object(array(
-                'variables'     => $variables,
-                'template_text' => $this->getPreparedTemplateText(),
-                'store_id'      => $storeId
-            ));
-            // Use observer to modify variables and template processor settings
-            Mage::dispatchEvent('core_email_template_filter_before', array(
-                'processor' => $processor,
-                'transport' => $transport
-            ));
-            $variables = $transport->getData('variables');
             if (!isset($variables['logo_url'])) {
-                $variables['logo_url'] = $this->_getLogoUrl($transport->getData('store_id'));
+                $variables['logo_url'] = $this->_getLogoUrl($storeId);
             }
             if (!isset($variables['logo_alt'])) {
-                $variables['logo_alt'] = $this->_getLogoAlt($transport->getData('store_id'));
+                $variables['logo_alt'] = $this->_getLogoAlt($storeId);
             }
-
             $processedResult = $processor->setVariables($variables)
                 ->filter($transport->getData('template_text'));
         } catch (Exception $e) {
