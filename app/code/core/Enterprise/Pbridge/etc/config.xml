@@ -150,12 +150,46 @@
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>
+            <pbridge_paybox_direct>
+                <model>enterprise_pbridge/payment_method_paybox_direct</model>
+                <active>1</active>
+            </pbridge_paybox_direct>
+            <worldpay_direct>
+                <title>Worldpay</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+            </worldpay_direct>
+            <pbridge_worldpay_direct>
+                <model>enterprise_pbridge/payment_method_worldpay_direct</model>
+                <active>1</active>
+            </pbridge_worldpay_direct>
+            <cybersource_soap>
+                <payment_action>authorize</payment_action>
+                <title>Credit Card (Cybersource)</title>
+            </cybersource_soap>
+            <pbridge_cybersource_soap>
+                <model>enterprise_pbridge/payment_method_cybersource_soap</model>
+            </pbridge_cybersource_soap>
+            <dibs>
+                <title>Credit Card (DIBS)</title>
+                <using_pbridge>1</using_pbridge>
+            </dibs>
+            <pbridge_dibs>
+                <model>enterprise_pbridge/payment_method_dibs</model>
+                <active>1</active>
+            </pbridge_dibs>
             <braintree_basic>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic</model>
                 <title>Braintree</title>
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
             </braintree_basic>
+            <sagepay_direct>
+                <model>enterprise_pbridge/payment_method_sagepay_direct</model>
+                <payment_action>authorize</payment_action>
+                <title>Credit Card (Sage Pay Direct)</title>
+                <using_pbridge>1</using_pbridge>
+            </sagepay_direct>
             <firstdata>
                 <title>First Data Global Gateway</title>
                 <currency>USD</currency>
@@ -168,6 +202,20 @@
                 <currency>EUR</currency>
                 <using_pbridge>1</using_pbridge>
             </payone_gate>
+            <paybox_direct>
+                <payment_action>authorize</payment_action>
+                <title>Paybox Direct</title>
+                <using_pbridge>1</using_pbridge>
+            </paybox_direct>
+            <psigate_basic>
+                <title>Psigate</title>
+                <payment_action>authorize</payment_action>
+                <using_pbridge>1</using_pbridge>
+            </psigate_basic>
+            <pbridge_psigate_basic>
+                <model>enterprise_pbridge/payment_method_psigate_basic</model>
+                <active>1</active>
+            </pbridge_psigate_basic>
         </payment>
     </default>
 </config>
