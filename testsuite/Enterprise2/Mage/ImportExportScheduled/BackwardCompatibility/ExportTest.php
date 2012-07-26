@@ -54,9 +54,18 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
         $this->navigate('scheduled_import_export');
     }
     /**
-     * Simple Test Scheduled Export
-     *
+     * <p> Running Scheduled Export </p>
+     * <p> Precondition: </p>
+     * <p> 1. Two Old Scheduled Exports for customers and for products are created </p>
+     * <p> Steps: </p>
+     * <p> 1. In System->Import/Export->Scheduled Import Export select export for customers </p>
+     * <p> 2. Select "Run" in "Action" column </p>
+     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
+     * <p> 3. In System->Import/Export->Scheduled Import Export select export for products </p>
+     * <p> 4. Select "Run" in "Action" column </p>
+     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared</p>
      * @test
+     * TL-MAGE-1499
      */
     public function simpleScheduledExport()
     {
@@ -137,10 +146,19 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
 
     }
     /**
-     * Simple Test Scheduled Import
-     *
+     * Running Scheduled Import
+     * <p> Precondition: </p>
+     * <p> 1. Two old Scheduled Imports are created for customers and products </p>
+     * <p> "Steps:" </p>
+     * <p> 1. In System > Import/Export > Scheduled Import/Export select import for customers </p>
+     * <p> 2. in "Action" column select "Run" </p>
+     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
+     * <p> 3. In System > Import/Export > Scheduled Import/Export select import for products </p>
+     * <p> in "Action" column select "Run" </p>
+     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
      * @depends simpleScheduledExport
      * @test
+     * TL-MAGE-1528
      */
     public function simpleScheduledImport($csv)
     {
