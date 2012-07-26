@@ -1,4 +1,4 @@
-Update as of 7/25/2012
+Update as of 7/26/2012
 =====================
 * Implemented Magento Validator library in order to have clear solid mechanism and formal rules of input data validation
 * Moved translations to module directories, so that it is much more convenient to manage module resources

@@ -337,9 +337,10 @@
             <target name="integration-tests-magento"/>
             <target name="integration-integrity-tests-magento"/>
         </ant>
+        <!--Temporary disabled to check composer.json to be added to commit
         <exec dir="${dir.publication_target}" executable="git" failonerror="true">
             <arg line="push origin ${env.bamboo_target_branch}"/>
-        </exec>
+        </exec>-->
     </target>
 
     <target name="init-build-directory" unless="build.directory.initialized">
