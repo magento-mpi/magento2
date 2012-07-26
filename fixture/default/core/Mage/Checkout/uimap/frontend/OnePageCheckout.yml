@@ -229,6 +229,6 @@ onepage_checkout_success:
         form: &successForm
         messages:
             success_checkout: //h1[contains(.,'Your order has been received')]
-            success_checkout_guest: //*[contains(text(),'Your order')]
+            success_checkout_guest: //p[contains(text(),'Your order')]
         links:
             order_number: //a[contains(@href, '/sales/order/view/order_id/')]

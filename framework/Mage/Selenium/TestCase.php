@@ -3443,6 +3443,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (is_null($xpath)) {
             $xpath = $this->_getControlXpath('field', $name);
         }
+        $this->waitForElementEditable($xpath);
         $this->type($xpath, $value);
         $this->waitForElementEditable($xpath);
     }
