@@ -216,6 +216,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
 
     /**
      * <p>Existing Custom Option - No, Imported Custom Option - Yes</p>
+     * <p>Delete product with custom options</p>
      *
      * @depends preconditionReplaceImport
      * @test
