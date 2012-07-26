@@ -18,6 +18,18 @@
         </Mage_User>
     </modules>
     <global>
+        <areas>
+            <adminhtml>
+                <auth>
+                    <credential_storage>Mage_User_Model_User</credential_storage>
+                </auth>
+                <acl>
+                    <resourceLoader>Magento_Acl_Loader_Default</resourceLoader>
+                    <ruleLoader>Magento_Acl_Loader_Default</ruleLoader>
+                    <roleLoader>Magento_Acl_Loader_Default</roleLoader>
+                </acl>
+            </adminhtml>
+        </areas>
         <resources>
             <user_setup>
                 <setup>
@@ -34,11 +46,6 @@
                 </admin_emails_forgot_email_template>
             </email>
         </template>
-        <backend>
-            <auth>
-                <credential_storage>Mage_User_Model_User</credential_storage>
-            </auth>
-        </backend>
     </global>
     <default>
         <admin>
