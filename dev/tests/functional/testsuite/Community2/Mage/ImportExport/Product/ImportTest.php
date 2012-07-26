@@ -219,7 +219,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
      *
      * @depends preconditionReplaceImport
      * @test
-     * @TestlinkId TL-MAGE-1142
+     * @TestlinkId TL-MAGE-1142, TL-MAGE-1161
      */
     public function replaceWithOptions(array $productData)
     {
@@ -257,6 +257,18 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         $this->productHelper()->openProduct($productSearch);
         //Verifying
         $this->productHelper()->verifyProductInfo($productData);
+        //Steps
+        $this->navigate('import');
+        $this->importExportHelper()->chooseImportOptions('Products', 'Delete Entities');
+        $importResult = $this->importExportHelper()->import($csv);
+        //Verify import result
+        $this->assertArrayHasKey('import', $importResult,
+            "Import has not been finished successfully: " . print_r($importResult, true));
+        $this->assertArrayHasKey('success', $importResult['import'],
+            "Import has not been finished successfully" . print_r($importResult, true));
+        //Open Product and verify custom options
+        $this->navigate('manage_products');
+        $this->assertFalse($this->productHelper()->isProductPresentInGrid($productSearch), 'Product is found');
     }
 
     /**
