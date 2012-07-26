@@ -63,8 +63,8 @@
             if (entity != 'catalog_product') {
                 entity = 'customer';
             }
-            if (entity != this.previousEntity) {
-                this.previousEntity = entity;
+            if (entity != this.previousGridEntity) {
+                this.previousGridEntity = entity;
                 url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + entity;
                 new Ajax.Request(url, {
                     method:      'post',
