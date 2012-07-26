@@ -3581,7 +3581,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      */
     public function pleaseWait($waitAppear = 10, $waitDisappear = 30)
     {
-        $this->waitForElementPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
+        //$this->waitForElementPresent(self::$xpathLoadingHolder, $waitAppear * 1000);
+        $this->waitForAjax();
         $this->waitForElementNotPresent(self::$xpathLoadingHolder, $waitDisappear * 1000);
 
         return $this;
