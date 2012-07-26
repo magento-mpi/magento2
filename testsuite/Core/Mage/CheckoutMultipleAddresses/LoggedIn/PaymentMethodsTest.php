@@ -165,7 +165,6 @@ class Core_Mage_CheckoutMultipleAddresses_LoggedIn_PaymentMethodsTest extends Ma
      */
     public function paymentsWith3d($payment, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-1656');
         //Data
         $paymentData = $this->loadDataSet('Payment', 'payment_' . $payment);
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_signed_in',
