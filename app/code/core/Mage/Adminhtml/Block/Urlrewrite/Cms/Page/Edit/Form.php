@@ -8,13 +8,13 @@
  * @license     {license_link}
  */
 
-class Mage_Adminhtml_Block_Urlrewrite_Edit_CmsPage_Form extends Mage_Adminhtml_Block_Urlrewrite_Edit_Form
+class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_Block_Urlrewrite_Edit_Form
 {
     /**
      * Form post init
      *
      * @param Varien_Data_Form $form
-     * @return Mage_Adminhtml_Block_Urlrewrite_Edit_Form
+     * @return Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form
      */
     protected function _formPostInit($form)
     {

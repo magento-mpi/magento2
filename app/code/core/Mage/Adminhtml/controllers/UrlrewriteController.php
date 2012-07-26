@@ -198,6 +198,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
+     * Call before save urlrewrite handlers
+     *
      * @param Mage_Core_Model_Url_Rewrite $model
      */
     protected function _onUrlrewriteSaveBefore($model)
@@ -206,6 +208,11 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $this->_handleCmsPageUrlrewrite($model);
     }
 
+    /**
+     * Call after save urlrewrite handlers
+     *
+     * @param Mage_Core_Model_Url_Rewrite $model
+     */
     protected function _onUrlrewriteSaveAfter($model)
     {
         $this->_handleCmsPageUrlrewriteSave($model);
@@ -241,7 +248,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
 
             // if redirect specified try to find friendly URL
             $generateTarget = true;
-            if (in_array($model->getOptions(), array('R', 'RP'))) {
+            if ($this->_hasRedirectOptions($model)) {
                 /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
                 $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
                 /** @var $rewrite Mage_Core_Model_Url_Rewrite */
@@ -280,7 +287,7 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
 
            // if redirect specified try to find friendly URL
            $generateTarget = true;
-           if (in_array($model->getOptions(), array('R', 'RP'))) {
+           if ($this->_hasRedirectOptions($model)) {
                /** @var $rewriteResource Mage_Catalog_Model_Resource_Url */
                $rewriteResource = Mage::getResourceModel('Mage_Catalog_Model_Resource_Url');
                /** @var $rewrite Mage_Core_Model_Url_Rewrite */
@@ -297,6 +304,19 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                $model->setTargetPath($cmsPageUrlrewrite->generateTargetPath($cmsPage));
            }
         }
+    }
+
+    /**
+     * Has redirect options set
+     *
+     * @param Mage_Core_Model_Url_Rewrite $model
+     * @return bool
+     */
+    protected function _hasRedirectOptions($model)
+    {
+        /** @var $options Mage_Core_Model_Source_Urlrewrite_Options */
+        $options = Mage::getModel('Mage_Core_Model_Source_Urlrewrite_Options');
+        return in_array($model->getOptions(), $options->getRedirectOptions());
     }
 
     /**
