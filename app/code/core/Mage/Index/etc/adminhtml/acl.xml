@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_Index::index" title="Index Management" />
+                    <resource id="Mage_Index::index" title="Index Management" module="Mage_Index" />
                 </resource>
             </resource>
         </resources>

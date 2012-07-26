@@ -14,11 +14,11 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_CatalogRule::promo">
-                    <resource id="Enterprise_Reminder::enterprise_reminder" title="Automated Email Reminder Rules" sortOrder="20" />
+                    <resource id="Enterprise_Reminder::enterprise_reminder" title="Automated Email Reminder Rules" module="Enterprise_Reminder" sortOrder="20" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_SalesRule::promo" title="Promo Section" sortOrder="10" />
+                        <resource id="Mage_SalesRule::config_promo" title="Promo Section" module="Enterprise_Reminder" sortOrder="10" />
                     </resource>
                 </resource>
             </resource>

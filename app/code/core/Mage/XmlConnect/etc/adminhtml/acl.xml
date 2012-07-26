@@ -13,11 +13,11 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_XmlConnect::xmlconnect" title="Mobile" sortOrder="100">
-                    <resource id="Mage_XmlConnect::mobile" title="Manage Apps" sortOrder="10" />
-                    <resource id="Mage_XmlConnect::history" title="Submission History" sortOrder="20" />
-                    <resource id="Mage_XmlConnect::templates" title="Message Templates" sortOrder="30" />
-                    <resource id="Mage_XmlConnect::queue" title="Message Queue" sortOrder="40" />
+                <resource id="Mage_XmlConnect::xmlconnect" title="Mobile" module="Mage_XmlConnect" sortOrder="100">
+                    <resource id="Mage_XmlConnect::mobile" title="Manage Apps" module="Mage_XmlConnect" sortOrder="10" />
+                    <resource id="Mage_XmlConnect::history" title="Submission History" module="Mage_XmlConnect" sortOrder="20" />
+                    <resource id="Mage_XmlConnect::templates" title="Message Templates" module="Mage_XmlConnect" sortOrder="30" />
+                    <resource id="Mage_XmlConnect::xmlconnect_queue" title="Message Queue" module="Mage_XmlConnect" sortOrder="40" />
                 </resource>
             </resource>
         </resources>

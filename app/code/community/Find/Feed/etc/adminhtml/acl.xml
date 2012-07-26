@@ -14,14 +14,14 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Find_Feed::feed" title="TheFind" sortOrder="130">
-                        <resource id="Find_Feed::import_products" title="Manage Attributes" sortOrder="10" />
-                        <resource id="Find_Feed::import_items" title="Manage Items" sortOrder="20" />
+                    <resource id="Find_Feed::feed" title="TheFind" module="Find_Feed" sortOrder="130">
+                        <resource id="Find_Feed::import_products" title="Manage Attributes" module="Find_Feed" sortOrder="10" />
+                        <resource id="Find_Feed::import_items" title="Manage Items" module="Find_Feed" sortOrder="20" />
                     </resource>
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Find_Feed::feed" title="Feed" />
+                        <resource id="Find_Feed::config_feed" title="Feed" module="Find_Feed" />
                     </resource>
                 </resource>
             </resource>

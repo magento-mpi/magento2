@@ -15,8 +15,8 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Shipping::shipping" title="Shipping Settings Section" sortOrder="0" />
-                        <resource id="Mage_Shipping::carriers" title="Shipping Methods Section" sortOrder="0" />
+                        <resource id="Mage_Shipping::config_shipping" title="Shipping Settings Section" module="Mage_Shipping" sortOrder="0" />
+                        <resource id="Mage_Shipping::carriers" title="Shipping Methods Section" module="Mage_Shipping" sortOrder="0" />
                     </resource>
                 </resource>
             </resource>

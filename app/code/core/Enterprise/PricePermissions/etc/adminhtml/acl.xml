@@ -15,10 +15,10 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
                     <resource id="Mage_Catalog::products">
-                        <resource id="Enterprise_PricePermissions::read_product_price" title="Read Product Price">
-                            <resource id="Enterprise_PricePermissions::edit_product_price" title="Edit Product Price" />
+                        <resource id="Enterprise_PricePermissions::read_product_price" title="Read Product Price" module="Enterprise_PricePermissions">
+                            <resource id="Enterprise_PricePermissions::edit_product_price" title="Edit Product Price" module="Enterprise_PricePermissions" />
                         </resource>
-                        <resource id="Enterprise_PricePermissions::edit_product_status" title="Edit Product Status" />
+                        <resource id="Enterprise_PricePermissions::edit_product_status" title="Edit Product Status" module="Enterprise_PricePermissions" />
                     </resource>
                 </resource>
             </resource>

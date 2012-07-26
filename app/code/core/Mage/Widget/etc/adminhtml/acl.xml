@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Cms::cms">
-                    <resource id="Mage_Widget::widget_instance" title="Widgets" sortOrder="15" />
+                    <resource id="Mage_Widget::widget_instance" title="Widgets" module="Mage_Widget" sortOrder="15" />
                 </resource>
             </resource>
         </resources>

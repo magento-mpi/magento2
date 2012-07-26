@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Phoenix_Moneybookers::moneybookers" title="Moneybookers Settings" />
+                        <resource id="Phoenix_Moneybookers::moneybookers" title="Moneybookers Settings" module="Phoenix_Moneybookers" />
                     </resource>
                 </resource>
             </resource>

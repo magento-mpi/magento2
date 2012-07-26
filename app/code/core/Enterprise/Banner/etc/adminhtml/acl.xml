@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Cms::cms">
-                    <resource id="Enterprise_Banner::enterprise_banner" title="Banners" sortOrder="15" />
+                    <resource id="Enterprise_Banner::enterprise_banner" title="Banners" module="Enterprise_Banner" sortOrder="15" />
                 </resource>
             </resource>
         </resources>

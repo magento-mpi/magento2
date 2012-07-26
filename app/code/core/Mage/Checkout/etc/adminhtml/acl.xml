@@ -14,11 +14,11 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Sales::sales">
-                    <resource id="Mage_Checkout::checkoutagreement" title="Terms and Conditions" sortOrder="50" />
+                    <resource id="Mage_Checkout::checkoutagreement" title="Terms and Conditions" module="Mage_Checkout" sortOrder="50" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Checkout::checkout" title="Checkout Section" sortOrder="70" />
+                        <resource id="Mage_Checkout::checkout" title="Checkout Section" module="Mage_Checkout" sortOrder="70" />
                     </resource>
                 </resource>
             </resource>

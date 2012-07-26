@@ -14,9 +14,9 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Customer::customer">
-                    <resource id="Enterprise_Customer::attributes" title="Attributes">
-                        <resource id="Enterprise_Customer::customer_attributes" title="Manage Customer Attributes" />
-                        <resource id="Enterprise_Customer::customer_address_attributes" title="Manage Customer Address Attributes" />
+                    <resource id="Enterprise_Customer::attributes" title="Attributes" module="Enterprise_Customer">
+                        <resource id="Enterprise_Customer::customer_attributes" title="Manage Customer Attributes" module="Enterprise_Customer" />
+                        <resource id="Enterprise_Customer::customer_address_attributes" title="Manage Customer Address Attributes" module="Enterprise_Customer" />
                     </resource>
                 </resource>
             </resource>

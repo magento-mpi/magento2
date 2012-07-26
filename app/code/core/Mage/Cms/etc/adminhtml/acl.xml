@@ -13,17 +13,17 @@
     <acl>
         <resources>
             <resource id="Mage_Adminhtml::admin">
-                <resource id="Mage_Cms::cms" title="CMS" sortOrder="70">
-                    <resource id="Mage_Cms::block" title="Static Blocks" sortOrder="10" />
-                    <resource id="Mage_Cms::page" title="Pages" sortOrder="0">
-                        <resource id="Mage_Cms::save" title="Save Page" sortOrder="0" />
-                        <resource id="Mage_Cms::delete" title="Delete Page" sortOrder="10" />
+                <resource id="Mage_Cms::cms" title="CMS" module="Mage_Cms" sortOrder="70">
+                    <resource id="Mage_Cms::block" title="Static Blocks" module="Mage_Cms" sortOrder="10" />
+                    <resource id="Mage_Cms::page" title="Pages" module="Mage_Cms" sortOrder="0">
+                        <resource id="Mage_Cms::save" title="Save Page" module="Mage_Cms" sortOrder="0" />
+                        <resource id="Mage_Cms::page_delete" title="Delete Page" module="Mage_Cms" sortOrder="10" />
                     </resource>
-                    <resource id="Mage_Cms::media_gallery" title="Media Gallery" sortOrder="20" />
+                    <resource id="Mage_Cms::media_gallery" title="Media Gallery" module="Mage_Cms" sortOrder="20" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Cms::cms" title="Content Management" />
+                        <resource id="Mage_Cms::config_cms" title="Content Management" module="Mage_Cms" />
                     </resource>
                 </resource>
             </resource>

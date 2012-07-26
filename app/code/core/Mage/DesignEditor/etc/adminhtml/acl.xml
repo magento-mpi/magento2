@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::design">
-                        <resource id="Mage_DesignEditor::editor" title="Editor" sortOrder="20" />
+                        <resource id="Mage_DesignEditor::editor" title="Editor" module="Mage_DesignEditor" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

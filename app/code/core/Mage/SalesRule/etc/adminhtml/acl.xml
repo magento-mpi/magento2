@@ -14,11 +14,11 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_CatalogRule::promo">
-                    <resource id="Mage_SalesRule::quote" title="Shopping Cart Price Rules" />
+                    <resource id="Mage_SalesRule::quote" title="Shopping Cart Price Rules" module="Mage_SalesRule" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_SalesRule::promo" title="Shopping Cart Price Rules" />
+                        <resource id="Mage_SalesRule::config_promo" title="Shopping Cart Price Rules" module="Mage_SalesRule" />
                     </resource>
                 </resource>
             </resource>

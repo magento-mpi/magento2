@@ -14,9 +14,9 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
-                    <resource id="Mage_CurrencySymbol::currency" title="Manage Currency">
-                        <resource id="Mage_CurrencySymbol::rates" title="Rates" sortOrder="50" />
-                        <resource id="Mage_CurrencySymbol::symbols" title="Symbols" sortOrder="100" />
+                    <resource id="Mage_CurrencySymbol::system_currency" title="Manage Currency" module="Mage_CurrencySymbol">
+                        <resource id="Mage_CurrencySymbol::currency_rates" title="Rates" module="Mage_CurrencySymbol" sortOrder="50" />
+                        <resource id="Mage_CurrencySymbol::symbols" title="Symbols" module="Mage_CurrencySymbol" sortOrder="100" />
                     </resource>
                 </resource>
             </resource>

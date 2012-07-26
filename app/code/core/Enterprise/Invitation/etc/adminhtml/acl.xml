@@ -14,18 +14,18 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Customer::customer">
-                    <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitations" sortOrder="30" />
+                    <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitations" module="Enterprise_Invitation" sortOrder="30" />
                 </resource>
                 <resource id="Mage_Reports::report">
-                    <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitations" sortOrder="40">
-                        <resource id="Enterprise_Invitation::general" title="General" sortOrder="10" />
-                        <resource id="Enterprise_Invitation::customer" title="Customers" sortOrder="20" />
-                        <resource id="Enterprise_Invitation::order" title="Order Conversion Rate" sortOrder="30" />
+                    <resource id="Enterprise_Invitation::report_enterprise_invitation" title="Invitations" module="Enterprise_Invitation" sortOrder="40">
+                        <resource id="Enterprise_Invitation::general" title="General" module="Enterprise_Invitation" sortOrder="10" />
+                        <resource id="Enterprise_Invitation::enterprise_invitation_customer" title="Customers" module="Enterprise_Invitation" sortOrder="20" />
+                        <resource id="Enterprise_Invitation::order" title="Order Conversion Rate" module="Enterprise_Invitation" sortOrder="30" />
                     </resource>
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Enterprise_Invitation::enterprise_invitation" title="Invitation Section" />
+                        <resource id="Enterprise_Invitation::config_enterprise_invitation" title="Invitation Section" module="Enterprise_Invitation" />
                     </resource>
                 </resource>
             </resource>

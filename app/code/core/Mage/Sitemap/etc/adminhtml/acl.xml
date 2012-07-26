@@ -14,11 +14,11 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_Sitemap::sitemap" title="Google Sitemap" />
+                    <resource id="Mage_Sitemap::sitemap" title="Google Sitemap" module="Mage_Sitemap" />
                 </resource>
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Sitemap::sitemap" title="Google Sitemap Section" />
+                        <resource id="Mage_Sitemap::config_sitemap" title="Google Sitemap Section" module="Mage_Sitemap" />
                     </resource>
                 </resource>
             </resource>

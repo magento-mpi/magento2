@@ -14,9 +14,9 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
-                    <resource id="Enterprise_Pci::crypt_key" title="Manage Encryption Key" sortOrder="30" />
+                    <resource id="Enterprise_Pci::crypt_key" title="Manage Encryption Key" module="Enterprise_Pci" sortOrder="30" />
                     <resource id="Mage_User::acl">
-                        <resource id="Enterprise_Pci::locks" title="Locked Admins" sortOrder="100" />
+                        <resource id="Enterprise_Pci::locks" title="Locked Admins" module="Enterprise_Pci" sortOrder="100" />
                     </resource>
                 </resource>
             </resource>

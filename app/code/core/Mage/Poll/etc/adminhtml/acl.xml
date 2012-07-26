@@ -14,7 +14,7 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Cms::cms">
-                    <resource id="Mage_Poll::poll" title="Polls" sortOrder="20" />
+                    <resource id="Mage_Poll::poll" title="Polls" module="Mage_Poll" sortOrder="20" />
                 </resource>
             </resource>
         </resources>

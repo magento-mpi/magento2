@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_Persistent::persistent" title="Persistent Shopping Cart" />
+                        <resource id="Mage_Persistent::persistent" title="Persistent Shopping Cart" module="Mage_Persistent" />
                     </resource>
                 </resource>
             </resource>

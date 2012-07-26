@@ -15,11 +15,11 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Enterprise_CatalogPermissions::enterprise_catalogpermissions" title="Category Permissions Section" />
+                        <resource id="Enterprise_CatalogPermissions::enterprise_catalogpermissions" title="Category Permissions Section" module="Enterprise_CatalogPermissions" />
                     </resource>
                 </resource>
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Enterprise_CatalogPermissions::enterprise_catalogpermissions" title="Category Permissions" />
+                    <resource id="Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions" title="Category Permissions" module="Enterprise_CatalogPermissions" />
                 </resource>
             </resource>
         </resources>

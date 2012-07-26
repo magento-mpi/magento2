@@ -14,9 +14,9 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Sales::sales">
-                    <resource id="Enterprise_Rma::enterprise_rma" title="RMA" sortOrder="35">
-                        <resource id="Enterprise_Rma::rma_manage" title="Manage RMA" sortOrder="10" />
-                        <resource id="Enterprise_Rma::rma_attribute" title="Manage RMA Items Attributes" sortOrder="20" />
+                    <resource id="Enterprise_Rma::enterprise_rma" title="RMA" module="Enterprise_Rma" sortOrder="35">
+                        <resource id="Enterprise_Rma::rma_manage" title="Manage RMA" module="Enterprise_Rma" sortOrder="10" />
+                        <resource id="Enterprise_Rma::rma_attribute" title="Manage RMA Items Attributes" module="Enterprise_Rma" sortOrder="20" />
                     </resource>
                 </resource>
             </resource>

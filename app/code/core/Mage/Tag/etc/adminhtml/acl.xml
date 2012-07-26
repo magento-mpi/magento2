@@ -14,9 +14,9 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Catalog::catalog">
-                    <resource id="Mage_Tag::tag" title="Tags">
-                        <resource id="Mage_Tag::all" title="All Tags" />
-                        <resource id="Mage_Tag::pending" title="Pending Tags" />
+                    <resource id="Mage_Tag::tag" title="Tags" module="Mage_Tag">
+                        <resource id="Mage_Tag::tag_all" title="All Tags" module="Mage_Tag" />
+                        <resource id="Mage_Tag::tag_pending" title="Pending Tags" module="Mage_Tag" />
                     </resource>
                 </resource>
             </resource>

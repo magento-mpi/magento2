@@ -14,19 +14,19 @@
         <resources>
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
-                    <resource id="Enterprise_Staging::enterprise_staging" title="Content Staging" sortOrder="21">
-                        <resource id="Enterprise_Staging::staging_grid" title="Staging Websites" sortOrder="10">
+                    <resource id="Enterprise_Staging::enterprise_staging" title="Content Staging" module="Enterprise_Staging" sortOrder="21">
+                        <resource id="Enterprise_Staging::staging_grid" title="Staging Websites" module="Enterprise_Staging" sortOrder="10">
                             <resource id="::action" />
                         </resource>
-                        <resource id="Enterprise_Staging::staging_backup" title="Backups" sortOrder="20">
-                            <resource id="::action" />
+                        <resource id="Enterprise_Staging::staging_backup" title="Backups" module="Enterprise_Staging" sortOrder="20">
+                            <resource id="::staging_backup_action" />
                         </resource>
-                        <resource id="Enterprise_Staging::staging_log" title="Log" sortOrder="30">
-                            <resource id="::action" />
+                        <resource id="Enterprise_Staging::staging_log" title="Log" module="Enterprise_Staging" sortOrder="30">
+                            <resource id="::staging_log_action" />
                         </resource>
                     </resource>
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Enterprise_Staging::content_staging" title="Content Staging" sortOrder="201" />
+                        <resource id="Enterprise_Staging::content_staging" title="Content Staging" module="Enterprise_Staging" sortOrder="201" />
                     </resource>
                 </resource>
             </resource>

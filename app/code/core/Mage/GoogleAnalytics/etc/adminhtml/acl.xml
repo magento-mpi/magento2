@@ -15,7 +15,7 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Adminhtml::config">
-                        <resource id="Mage_GoogleCheckout::google" title="Google API" />
+                        <resource id="Mage_GoogleCheckout::google" title="Google API" module="Mage_GoogleAnalytics" />
                     </resource>
                 </resource>
             </resource>

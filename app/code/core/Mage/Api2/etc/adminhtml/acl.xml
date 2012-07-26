@@ -15,13 +15,13 @@
             <resource id="Mage_Adminhtml::admin">
                 <resource id="Mage_Adminhtml::system">
                     <resource id="Mage_Api::api">
-                        <resource id="Mage_Api2::rest_roles" title="REST - Roles" sortOrder="30">
-                            <resource id="Mage_Api2::add" title="Add" sortOrder="10" />
-                            <resource id="Mage_Api2::edit" title="Edit" sortOrder="20" />
-                            <resource id="Mage_Api2::delete" title="Delete" sortOrder="30" />
+                        <resource id="Mage_Api2::rest_roles" title="REST - Roles" module="Mage_Api2" sortOrder="30">
+                            <resource id="Mage_Api2::rest_roles_add" title="Add" module="Mage_Api2" sortOrder="10" />
+                            <resource id="Mage_Api2::rest_roles_edit" title="Edit" module="Mage_Api2" sortOrder="20" />
+                            <resource id="Mage_Api2::delete" title="Delete" module="Mage_Api2" sortOrder="30" />
                         </resource>
-                        <resource id="Mage_Api2::rest_attributes" title="REST - Attributes" sortOrder="40">
-                            <resource id="Mage_Api2::edit" title="Edit" sortOrder="10" />
+                        <resource id="Mage_Api2::rest_attributes" title="REST - Attributes" module="Mage_Api2" sortOrder="40">
+                            <resource id="Mage_Api2::rest_attributes_edit" title="Edit" module="Mage_Api2" sortOrder="10" />
                         </resource>
                     </resource>
                 </resource>
