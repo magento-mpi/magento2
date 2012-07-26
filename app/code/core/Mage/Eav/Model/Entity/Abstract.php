@@ -1110,6 +1110,23 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     }
 
     /**
+     * Aggregate Data for attributes that will be deleted
+     *
+     * @param array $delete
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Mage_Eav_Model_Entity_Abstract $object
+     */
+    private function _aggregateDeleteData(&$delete, $attribute, $object)
+    {
+        foreach ($attribute->getBackend()->getValueUpdateInfo($object) as $tableName => $valuesData) {
+            if (!isset($delete[$tableName])) {
+                $delete[$tableName] = array();
+            }
+            $delete[$tableName] = array_merge((array)$delete[$tableName], $valuesData);
+        }
+    }
+
+    /**
      * Prepare entity object data for save
      *
      * result array structure:
@@ -1163,12 +1180,6 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
 
         foreach ($newData as $k => $v) {
             /**
-             * Check attribute information
-             */
-            if (is_numeric($k) || is_array($v)) {
-                continue;
-            }
-            /**
              * Check if data key is presented in static fields or attribute codes
              */
             if (!in_array($k, $staticFields) && !in_array($k, $attributeCodes)) {
@@ -1178,6 +1189,10 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
             $attribute = $this->getAttribute($k);
             if (empty($attribute)) {
                 continue;
+            }
+
+            if (!$attribute->isInSet($newObject->getAttributeSetId()) && !in_array($k, $staticFields)) {
+                $this->_aggregateDeleteData($delete, $attribute, $newObject);
             }
 
             $attrId = $attribute->getAttributeId();
@@ -1195,10 +1210,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
              */
             if ($this->_canUpdateAttribute($attribute, $v, $origData)) {
                 if ($this->_isAttributeValueEmpty($attribute, $v)) {
-                    $delete[$attribute->getBackend()->getTable()][] = array(
-                        'attribute_id'  => $attrId,
-                        'value_id'      => $attribute->getBackend()->getEntityValueId($newObject)
-                    );
+                    $this->_aggregateDeleteData($delete, $attribute, $newObject);
                 } elseif ($v !== $origData[$k]) {
                     $update[$attrId] = array(
                         'value_id' => $attribute->getBackend()->getEntityValueId($newObject),

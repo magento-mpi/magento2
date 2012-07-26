@@ -1,3 +1,52 @@
+Update as of 7/19/2012
+=====================
+* Implemented inheritance of locales. Inheritance is declared in `app/locale/<locale_name>/config.xml`
+* Moved declaration of modules from `app/etc/modules/<module>.xml` to `app/code/<pool>/<namespace>/<module>/config.xml`
+* Implemented ability to match URLs in format `protocol://base_url/area/module/controller/action` (as opposite to only `module/controller/action`), utilized this feature in backend (admin) area
+* Added product attribute set "Minimal Attributes", which consists of required system attributes only
+* Improved customers import:
+  * Implemented "Delete" behavior for importing customers, customer addresses and financial data
+  * Implemented "Custom" behavior, which allows to specify behavior for each item directly from the imported file
+* Updated performance tests:
+  * Enabled Product View, Category View, Add to Cart, Quick Search and Advanced Search scenarios
+  * Added ability to specify configuration parameters per scenario and refactored bootstrap of performance tests
+* Implemented `mage.js` for base JavaScript initialization of the application
+* Implemented new JS translation mechanism. JavaScript translations are loaded by locale code stored in cookies
+* Implemented unit tests for JavaScript widgets in Visual Design Editor
+* Added jQuery plugins: Cookie, Metadata, Validation, Head JS
+* Fixed issues:
+  * Impossible to add configurable product to the cart
+  * Impossible to apply Shopping Cart Price Rule with any conditions to cart with simple and virtual product
+  * Memory leak in email templates
+  * Impossible to place order with Multiple Addresses using 3D Secure
+  * Required product attributes are not exported
+  * "Forgot Your Password" link on checkout page inactive after captcha reloading
+  * Validation of "Number of Symbols" field in Captcha configuration doesn't work
+  * Other small fixes
+* GitHub requests:
+  * [#37](https://github.com/magento/magento2/pull/37) -- fixed particular case of "HEADERS ALREADY SENT" error in WYSIWYG thumbnail
+  * [#39](https://github.com/magento/magento2/pull/39) -- added `composer.json`
+  * [#40](https://github.com/magento/magento2/pull/40) -- fixed generation of "secret key" in backend URLs to honor `_forward` in controllers
+
+Update as of 7/3/2012
+=====================
+* Refactored backend (admin) menu generation:
+  * Menu is separated from `adminhtml.xml` files into `menu.xml` files
+  * Rendering menu became responsibility of `Mage_Backend` instead of `Mage_Adminhtml` module
+  * Implemented XML-Schema for `menu.xml`
+  * Actions with menu items defined in schema: add, remove, move, update, change parent and position
+* Refactored customers import feature. New ability to provide import data in 3 files: master file (key customer information) + address file (customer id + address info) + financial file (customer id + reward points & store credit)
+* Optimized memory consumption in integration tests:
+  * Found and eliminated memory leaks in `Mage_Core_Model_App_Area`, `Mage_Core_Model_Layout`
+  * Manually unset objects from PHPUnit test case object in `tearDown()` in integration tests. Garbage collector didn't purge them because of these references
+  * Disabled running `integrity` test suite by default in integration tests
+* Improvements in visual design editor JavaScript:
+  * eliminated dependency of code on HTML-literals, reduced code coupling between templates and JavaScript files
+  * implemented blocking unwanted JavaScript activity in visual design editor mode
+* Various fixes in UX, code stability, modularity
+* GitHub requests:
+  * [#23](https://github.com/magento/magento2/pull/23) -- added `Mage_Customer_Block_Account_Navigation::removeLink()`
+
 Update as of 6/20/2012
 =====================
 * Implemented locale translation inheritance
@@ -8,7 +57,7 @@ Update as of 6/20/2012
 * Implemented optional tracking of changes in view files fallback - cached by default, tracked in developer mode
 * Introduced `@magentoDbIsolation` annotation in integration tests - isolates DB modifications made by tests
 * Started refactoring of Visual Design Editor Javascript architecture
-* Github requests:
+* GitHub requests:
   * [#25](https://github.com/magento/magento2/issues/25) Removed unused `Mage_Core_Block_Abstract::getHelper()` method
 * Fixed:
   * "$_FILES array is empty" messages in exception log upon installation
@@ -26,8 +75,8 @@ Update as of 6/7/2012
 * Eliminated "after commit callback" workaround from integration tests by implementing "transparent transactions" capability in integration testing framework
 * Refactored admin authentication/authorization in RSS module. Removed program termination and covered the controllers with tests
 * Removed HTML-report feature of copy-paste detector which never worked anyway (`dev/tests/static/framework/Inspection/CopyPasteDetector/html_report.xslt` and all related code)
-* Github requests:
-** [#19](https://github.com/magento/magento2/pull/19) Implemented "soft" dependency between modules and performed several improvements in the related code, covered with tests
+* GitHub requests:
+  * [#19](https://github.com/magento/magento2/pull/19) Implemented "soft" dependency between modules and performed several improvements in the related code, covered with tests
 
 Update as of 5/31/2012
 ======================

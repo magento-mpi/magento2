@@ -45,6 +45,7 @@ return array(
     'pub/js/scriptaculous',
     'pub/js/tiny_mce',
     'pub/lib/globalize',
+    'pub/lib/jquery',
     'pub/media',
     'var',
 );

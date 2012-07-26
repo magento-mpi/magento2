@@ -23,13 +23,17 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
         $this->_indexModel = new Enterprise_CatalogPermissions_Model_Permission_Index();
     }
 
+    protected function tearDown()
+    {
+        $this->_indexModel = null;
+    }
+
     /**
      * @magentoDataFixture Mage/Catalog/_files/categories.php
      * @magentoDataFixture Enterprise/CatalogPermissions/_files/permission.php
      */
     public function testReindex()
     {
-        $this->markTestIncomplete('MAGETWO-1664');
         $fixturePermission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission')->load(1);
         unset($fixturePermission['permission_id']);
 

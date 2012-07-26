@@ -35,6 +35,11 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout->getUpdate()->load('layout_test_handle_extra');
     }
 
+    protected function tearDown()
+    {
+        $this->_layout = null;
+    }
+
     /**
      * @param array $inputArguments
      * @param string $expectedArea
@@ -69,6 +74,14 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     public function testConstructorWrongStructure()
     {
         new Mage_Core_Model_Layout(array('structure' => false));
+    }
+
+    public function testDestructor()
+    {
+        $this->_layout->addBlock('Mage_Core_Block_Text', 'test');
+        $this->assertNotEmpty($this->_layout->getAllBlocks());
+        $this->_layout->__destruct();
+        $this->assertEmpty($this->_layout->getAllBlocks());
     }
 
     public function testGetUpdate()
@@ -133,11 +146,11 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     {
         $utility = new Mage_Core_Utility_Layout($this);
         $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
-        $layout->getUpdate()->load('a_handle');
+        $layout->getUpdate()->load(array('first_handle', 'a_handle', 'another_handle'));
         $layout->generateXml()->generateElements();
         $this->assertEmpty($layout->renderElement('nonexisting_element'));
-        $this->assertEquals('Value: 1Value: 2', $layout->renderElement('container1'));
-        $this->assertEquals('Value: 1', $layout->renderElement('block1'));
+        $this->assertEquals("Value: 1 Reference: 1.1\nValue: 2 Reference: 2.2\n", $layout->renderElement('container1'));
+        $this->assertEquals("Value: 1 Reference: 1.1\n", $layout->renderElement('block1'));
     }
 
     public function testGetElementProperty()
@@ -394,6 +407,42 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->_layout->hasElement($containerName);
         $this->_layout->renameElement($containerName, $expContainerName);
         $this->_layout->hasElement($expContainerName);
+    }
+
+    public function testGetBlock()
+    {
+        $this->assertFalse($this->_layout->getBlock('test'));
+        $block = new Mage_Core_Block_Text;
+        $this->_layout->setBlock('test', $block);
+        $this->assertSame($block, $this->_layout->getBlock('test'));
+    }
+
+    /**
+     * Invoke getBlock() while layout is being generated
+     *
+     * Assertions in this test are pure formalism. The point is to emulate situation where block refers to other block
+     * while the latter hasn't been generated yet, and assure that there is no crash
+     */
+    public function testGetBlockUnscheduled()
+    {
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
+        $layout->getUpdate()->load(array('get_block_special_case'));
+        $layout->generateXml()->generateElements();
+        $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block1'));
+        $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block2'));
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testGetBlockUnscheduledException()
+    {
+        $utility = new Mage_Core_Utility_Layout($this);
+        $layout = $utility->getLayoutFromFixture(__DIR__ . '/_files/valid_layout_updates.xml');
+        $layout->getUpdate()->load(array('get_block_special_case_exception'));
+        $layout->generateXml();
+        $layout->generateElements();
     }
 
     public function testGetParentName()

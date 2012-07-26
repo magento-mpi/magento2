@@ -16,7 +16,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
      */
     public function testNewAction()
     {
-        $this->dispatch('admin/customersegment/new/');
+        $this->dispatch('backend/admin/customersegment/new/');
         $body = $this->getResponse()->getBody();
         $this->assertSelectCount('form#edit_form', 1, $body);
         $this->assertSelectCount('ul#enterprise_customersegment_segment_tabs', 1, $body);
@@ -29,7 +29,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentControllerTest extends
     {
         $segment = new Enterprise_CustomerSegment_Model_Segment;
         $segment->load('Customer Segment 1', 'name');
-        $this->dispatch('admin/customersegment/save/id/' . $segment->getId());
+        $this->dispatch('backend/admin/customersegment/save/id/' . $segment->getId());
         $content = $this->getResponse()->getBody();
         $this->assertNotContains('Unable to save the segment.', $content);
     }

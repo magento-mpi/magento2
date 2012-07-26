@@ -1,4 +1,6 @@
 app/bootstrap.php
+app/code/core/Mage/Adminhtml/Block/Catalog/Product/Edit/Tab/Options/Popup/Grid.php
+app/code/core/Mage/Adminhtml/Block/Catalog/Product/Options/Ajax.php
 app/code/core/Mage/Adminhtml/Model/Observer.php
 app/code/core/Mage/Core/Block/Abstract.php
 app/code/core/Mage/Core/Model/Config/Module.php
@@ -18,8 +20,14 @@ app/code/core/Mage/Log/Model/Resource/Shell.php
 app/code/core/Mage/Log/Model/Shell.php
 app/code/core/Mage/Rss/Controller/AdminhtmlAbstract.php
 app/code/core/Mage/User
+app/code/core/Mage/Core/Controller/Varien/Action/Forward.php
+app/code/core/Mage/Core/Controller/Varien/DispatchableInterface.php
+app/code/core/Mage/Core/Controller/Varien/Router/Standard.php
+app/code/core/Mage/Core/Controller/Varien/Router/Abstract.php
+app/code/core/Mage/Cms/Controller/Router.php
 dev/shell
 dev/tests/integration
+dev/tests/performance
 dev/tests/static
 dev/tests/unit
 dev/tools

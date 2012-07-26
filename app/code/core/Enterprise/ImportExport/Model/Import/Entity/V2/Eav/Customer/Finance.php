@@ -76,7 +76,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
             $helper->__('Finance information website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
-            $helper->__('Invalid value in Finance information website column (website does not exists?)')
+            $helper->__('Invalid value in Finance information website column')
         );
 
         $this->_initAttributes();
@@ -137,14 +137,27 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
                     $customer->reset();
                     $customer->load($customerId);
                 }
-                // save finance data for customer
+
                 $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
+                // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
+                    if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
                         if ($attributeCode == $rewardPointsKey) {
-                            $this->_updateRewardPoints($customer, $websiteId, $rowData[$attributeCode]);
+                            $this->_deleteRewardPoints($customer, $websiteId);
                         } elseif ($attributeCode == $customerBalanceKey) {
-                            $this->_updateCustomerBalance($customer, $websiteId, $rowData[$attributeCode]);
+                            $this->_deleteCustomerBalance($customer, $websiteId);
+                        }
+                    } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+                        if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
+                            if ($attributeCode == $rewardPointsKey) {
+                                $this->_updateRewardPointsForCustomer(
+                                    $customer, $websiteId, $rowData[$attributeCode]
+                                );
+                            } elseif ($attributeCode == $customerBalanceKey) {
+                                $this->_updateCustomerBalanceForCustomer(
+                                    $customer, $websiteId, $rowData[$attributeCode]
+                                );
+                            }
                         }
                     }
                 }
@@ -162,18 +175,30 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * @param int $value reward points value
      * @return Enterprise_Reward_Model_Reward
      */
-    protected function _updateRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateRewardPointsForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $rewardModel Enterprise_Reward_Model_Reward */
         $rewardModel = Mage::getModel('Enterprise_Reward_Model_Reward');
         $rewardModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
+
+        return $this->_updateRewardValue($rewardModel, $value);
+    }
+
+    /**
+     * Update reward points value for reward model
+     *
+     * @param Enterprise_Reward_Model_Reward $rewardModel
+     * @param int $value reward points value
+     * @return Enterprise_Reward_Model_Reward
+     */
+    protected function _updateRewardValue(Enterprise_Reward_Model_Reward $rewardModel, $value)
+    {
         $pointsDelta = $value - $rewardModel->getPointsBalance();
         if ($pointsDelta != 0) {
             $rewardModel->setPointsDelta($pointsDelta)
                 ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
-                ->setActionEntity($customer)
                 ->setComment($this->_getComment())
                 ->updateRewardPoints();
         }
@@ -189,13 +214,26 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
      * @param float $value store credit balance
      * @return Enterprise_CustomerBalance_Model_Balance
      */
-    protected function _updateCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId, $value)
+    protected function _updateCustomerBalanceForCustomer(Mage_Customer_Model_Customer $customer, $websiteId, $value)
     {
         /** @var $balanceModel Enterprise_CustomerBalance_Model_Balance */
         $balanceModel = Mage::getModel('Enterprise_CustomerBalance_Model_Balance');
         $balanceModel->setCustomer($customer)
             ->setWebsiteId($websiteId)
             ->loadByCustomer();
+
+        return $this->_updateCustomerBalanceValue($balanceModel, $value);
+    }
+
+    /**
+     * Update balance for customer balance model
+     *
+     * @param Enterprise_CustomerBalance_Model_Balance $balanceModel
+     * @param float $value store credit balance
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
+    protected function _updateCustomerBalanceValue(Enterprise_CustomerBalance_Model_Balance $balanceModel, $value)
+    {
         $amountDelta = $value - $balanceModel->getAmount();
         if ($amountDelta != 0) {
             $balanceModel->setAmountDelta($amountDelta)
@@ -204,6 +242,28 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
         }
 
         return $balanceModel;
+    }
+
+    /**
+     * Delete reward points value for customer (just set it to 0)
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param int $websiteId
+     */
+    protected function _deleteRewardPoints(Mage_Customer_Model_Customer $customer, $websiteId)
+    {
+        $this->_updateRewardPointsForCustomer($customer, $websiteId, 0);
+    }
+
+    /**
+     * Delete store credit balance for customer (just set it to 0)
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param int $websiteId
+     */
+    protected function _deleteCustomerBalance(Mage_Customer_Model_Customer $customer, $websiteId)
+    {
+        $this->_updateCustomerBalanceForCustomer($customer, $websiteId, 0);
     }
 
     /**
@@ -235,57 +295,71 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance
     }
 
     /**
-     * Validate data row
+     * Validate data row for add/update behaviour
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return null
      */
-    public function validateRow(array $rowData, $rowNumber)
+    protected function _validateRowForUpdate(array $rowData, $rowNumber)
     {
-        if (isset($this->_validatedRows[$rowNumber])) { // check that row is already validated
-            return !isset($this->_invalidRows[$rowNumber]);
-        }
-        $this->_validatedRows[$rowNumber] = true;
-        $this->_processedEntitiesCount++;
-
-        if (empty($rowData[self::COLUMN_WEBSITE])) {
-            $this->addRowError(self::ERROR_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_WEBSITE);
-        } elseif (empty($rowData[self::COLUMN_EMAIL])) {
-            $this->addRowError(self::ERROR_EMAIL_IS_EMPTY, $rowNumber, self::COLUMN_EMAIL);
-        } elseif (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
-            $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
-        } else {
-            $email   = strtolower($rowData[self::COLUMN_EMAIL]);
-            $website = $rowData[self::COLUMN_WEBSITE];
-            $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
-
-            if (!Zend_Validate::is($email, 'EmailAddress')) {
-                $this->addRowError(self::ERROR_INVALID_EMAIL, $rowNumber, self::COLUMN_EMAIL);
-            } elseif (!isset($this->_websiteCodeToId[$website])) {
-                $this->addRowError(self::ERROR_INVALID_WEBSITE, $rowNumber, self::COLUMN_WEBSITE);
-            } elseif (!isset($this->_websiteCodeToId[$financeWebsite])
-                || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_App::ADMIN_STORE_ID
-            ) {
-                $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
-            } elseif (!$this->_getCustomerId($email, $website)) {
-                $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+        if ($this->_checkUniqueKey($rowData, $rowNumber)) {
+            if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
+                $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } else {
-                // check simple attributes
-                foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if (in_array($attributeCode, $this->_ignoredAttributes)) {
-                        continue;
-                    }
-                    if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
-                        $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                    } elseif ($attributeParams['is_required']) {
-                        $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
+                $email   = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website = $rowData[self::COLUMN_WEBSITE];
+                $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
+
+                if (!isset($this->_websiteCodeToId[$financeWebsite])
+                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_App::ADMIN_STORE_ID
+                ) {
+                    $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
+                } elseif (!$this->_getCustomerId($email, $website)) {
+                    $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+                } else {
+                    // check simple attributes
+                    foreach ($this->_attributes as $attributeCode => $attributeParams) {
+                        if (in_array($attributeCode, $this->_ignoredAttributes)) {
+                            continue;
+                        }
+                        if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
+                            $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
+                        } elseif ($attributeParams['is_required']) {
+                            $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
+                        }
                     }
                 }
             }
         }
+    }
 
-        return !isset($this->_invalidRows[$rowNumber]);
+    /**
+     * Validate data row for delete behaviour
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return null
+     */
+    protected function _validateRowForDelete(array $rowData, $rowNumber)
+    {
+        if ($this->_checkUniqueKey($rowData, $rowNumber)) {
+            if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
+                $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
+            } else {
+                $email   = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website = $rowData[self::COLUMN_WEBSITE];
+                $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
+
+                if (!isset($this->_websiteCodeToId[$financeWebsite])
+                    || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_App::ADMIN_STORE_ID
+                ) {
+                    $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
+                } elseif (!$this->_getCustomerId($email, $website)) {
+                    $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+                }
+            }
+        }
     }
 
     /**

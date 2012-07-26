@@ -12,11 +12,6 @@
 class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Enterprise_GiftCard_Model_Observer
-     */
-    protected $_model;
-
-    /**
      * @magentoConfigFixture current_store giftcard/general/order_item_status 2
      * @magentoDataFixture Enterprise/GiftCard/_files/gift_card.php
      * @magentoDataFixture Enterprise/GiftCard/_files/order_with_gift_card.php
@@ -30,10 +25,10 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $observer = new Varien_Event_Observer(array('event' => $event));
 
         $emailTemplateModel = new Mage_Core_Model_Email_Template();
-        $this->_model = new Enterprise_GiftCard_Model_Observer(array(
+        $model = new Enterprise_GiftCard_Model_Observer(array(
             'email_template_model' => $emailTemplateModel,
         ));
-        $this->_model->generateGiftCardAccounts($observer);
+        $model->generateGiftCardAccounts($observer);
 
         $this->assertEquals(
             array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),

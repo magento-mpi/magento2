@@ -26,6 +26,11 @@ class Mage_Backend_Model_MenuTest extends PHPUnit_Framework_TestCase
         $this->_model = new Mage_Backend_Model_Auth();
     }
 
+    protected function tearDown()
+    {
+        $this->_model = null;
+    }
+
     public function testMenuItemManipulation()
     {
         /* @var $menu Mage_Backend_Model_Menu */

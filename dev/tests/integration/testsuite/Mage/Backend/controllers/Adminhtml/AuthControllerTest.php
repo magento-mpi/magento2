@@ -25,10 +25,12 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     protected $_auth;
 
-    /**
-     * @var Mage_User_Model_User
-     */
-    protected static $_newUser;
+    protected function tearDown()
+    {
+        $this->_session = null;
+        $this->_auth = null;
+        parent::tearDown();
+    }
 
     /**
      * Performs user login
@@ -57,7 +59,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
      */
     public function testNotLoggedLoginAction()
     {
-        $this->dispatch('admin/auth/login');
+        $this->dispatch('backend/admin/auth/login');
         $this->assertFalse($this->getResponse()->isRedirect());
         $expected = 'Log in to Admin Panel';
         $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
@@ -72,7 +74,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->_login();
 
-        $this->dispatch('admin/auth/login');
+        $this->dispatch('backend/admin/auth/login');
         $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
         $this->assertRedirect($this->stringStartsWith($expected));
 
@@ -91,7 +93,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
             )
         ));
 
-        $this->dispatch('admin/index/index');
+        $this->dispatch('backend/admin/index/index');
 
         $response = Mage::app()->getResponse();
         $code = $response->getHttpResponseCode();
@@ -107,7 +109,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     public function testLogoutAction()
     {
         $this->_login();
-        $this->dispatch('admin/auth/logout');
+        $this->dispatch('backend/admin/auth/logout');
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
         $this->assertFalse($this->_session->isLoggedIn(), 'User is not logouted');
     }
@@ -120,7 +122,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     public function testDeniedJsonAction()
     {
         $this->_login();
-        $this->dispatch('admin/auth/deniedJson');
+        $this->dispatch('backend/admin/auth/deniedJson');
         $data = array(
             'ajaxExpired' => 1,
             'ajaxRedirect' => Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl(),
@@ -139,7 +141,7 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     {
         $this->_login();
         $homeUrl = Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl();
-        $this->dispatch('admin/auth/deniedIframe');
+        $this->dispatch('backend/admin/auth/deniedIframe');
         $expected = '<script type="text/javascript">parent.window.location =';
         $this->assertStringStartsWith($expected, $this->getResponse()->getBody());
         $this->assertContains($homeUrl, $this->getResponse()->getBody());
@@ -156,26 +158,8 @@ class Mage_Backend_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Co
     public function testIncorrectLogin($params)
     {
         $this->getRequest()->setPost($params);
-        $this->dispatch('admin/auth/login');
+        $this->dispatch('backend/admin/auth/login');
         $this->assertContains('Invalid User Name or Password', $this->getResponse()->getBody());
-    }
-
-    public static function userDataFixture()
-    {
-        self::$_newUser = new Mage_User_Model_User;
-        self::$_newUser->setFirstname('admin_role')
-            ->setUsername('test2')
-            ->setPassword(Magento_Test_Bootstrap::ADMIN_PASSWORD)
-            ->setIsActive(1)
-            ->save();
-
-        self::$_newUser = new Mage_User_Model_User;
-        self::$_newUser->setFirstname('admin_role')
-            ->setUsername('test3')
-            ->setPassword(Magento_Test_Bootstrap::ADMIN_PASSWORD)
-            ->setIsActive(0)
-            ->setRoleId(1)
-            ->save();
     }
 
     public function incorrectLoginDataProvider()

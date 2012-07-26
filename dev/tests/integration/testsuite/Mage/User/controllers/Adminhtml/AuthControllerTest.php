@@ -21,6 +21,13 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     protected $_auth;
 
+
+    protected function tearDown()
+    {
+        $this->_auth = null;
+        parent::tearDown();
+    }
+
     protected  function _login()
     {
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
@@ -41,7 +48,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
      */
     public function testFormForgotpasswordAction()
     {
-        $this->dispatch('admin/auth/forgotpassword');
+        $this->dispatch('backend/admin/auth/forgotpassword');
         $expected = 'Forgot your user name or password?';
         $this->assertContains($expected, $this->getResponse()->getBody());
     }
@@ -54,7 +61,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     public function testForgotpasswordAction()
     {
         $this->getRequest()->setPost('email', 'test@test.com');
-        $this->dispatch('admin/auth/forgotpassword');
+        $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
     }
 
@@ -79,7 +86,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
         $this->getRequest()
             ->setQuery('token', $resetPasswordToken)
             ->setQuery('id', $user->getId());
-        $this->dispatch('admin/auth/resetpassword');
+        $this->dispatch('backend/admin/auth/resetpassword');
 
         $this->assertEquals('adminhtml', $this->getRequest()->getRouteName());
         $this->assertEquals('auth', $this->getRequest()->getControllerName());
@@ -95,7 +102,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     public function testResetPasswordActionWithDummyToken()
     {
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
-        $this->dispatch('admin/auth/resetpassword');
+        $this->dispatch('backend/admin/auth/resetpassword');
         $this->assertRedirect();
     }
 
@@ -123,7 +130,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
             ->setPost('password', $newDummyPassword)
             ->setPost('confirmation', $newDummyPassword);
 
-        $this->dispatch('admin/auth/resetpasswordpost');
+        $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
 
@@ -141,7 +148,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
     public function testResetPaswordPostActionWithDummyToken()
     {
         $this->getRequest()->setQuery('token', 'dummy')->setQuery('id', 1);
-        $this->dispatch('admin/auth/resetpasswordpost');
+        $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         $this->assertRedirect($this->equalTo(Mage::helper('Mage_Backend_Helper_Data')->getHomePageUrl()));
     }
@@ -170,7 +177,7 @@ class Mage_User_Adminhtml_AuthControllerTest extends Magento_Test_TestCase_Contr
             ->setPost('password', $newDummyPassword)
             ->setPost('confirmation', 'invalid');
 
-        $this->dispatch('admin/auth/resetpasswordpost');
+        $this->dispatch('backend/admin/auth/resetpasswordpost');
 
         $this->assertRedirect();
     }
