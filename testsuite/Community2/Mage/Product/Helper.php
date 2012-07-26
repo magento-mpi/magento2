@@ -63,4 +63,21 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
         return $optionId;
     }
+    /**
+     * Check if product is present in products grid
+     *
+     * @param array $productData
+     * @return bool
+     */
+    public function isProductPresentInGrid($productData)
+    {
+        $data = array('product_sku' => $productData['product_sku']);
+        $this->_prepareDataForSearch($data);
+        $xpathTR = $this->search($data, 'product_grid');
+        if (!is_null($xpathTR)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
