@@ -612,7 +612,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Check if option exist in DB
+     * Checks that option exists in DB
      *
      * @param array $newOptionData
      * @param array $newOptionTitles
@@ -1170,7 +1170,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Check is current row has specific type
+     * Checks that current row has specific type
      *
      * @param string $type
      * @return bool
