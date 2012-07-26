@@ -30,11 +30,10 @@
                     </admin>
                 </routers>
                 <frontName>backend</frontName>
+                <auth/>
+                <acl/>
             </adminhtml>
         </areas>
-        <backend>
-            <auth/>
-        </backend>
         <cache>
             <types>
                 <config translate="description" module="Mage_Backend">
