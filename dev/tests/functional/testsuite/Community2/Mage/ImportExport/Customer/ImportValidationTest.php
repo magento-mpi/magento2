@@ -212,4 +212,114 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
         );
     }
 
+    /**
+     * Precondition for importFileWithDuplicatedRows()
+     *
+     * @test
+     */
+    public function duplicatedRowsPrecondition()
+    {
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $addressData = $this->loadDataSet('Customers', 'generic_address');
+
+        $this->navigate('manage_customers');
+        $this->customerHelper()->createCustomer($userData, $addressData);
+
+        $this->assertMessagePresent('success', 'success_saved_customer');
+
+        $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData['email']));
+        $this->openTab('addresses');
+        $addressData['entity_id'] = $this->customerHelper()->isAddressPresent($addressData);
+
+        $userData['address'] = $addressData;
+
+        return $userData;
+    }
+
+    /**
+     * <p>Import File with duplicated rows</p>
+     * <p>Precondition: csv files (main file, address file) prepared that contains two identical rows</p>
+     * <p>Steps</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>2. Select Customers entity type</p>
+     * <p>3. Select "Magento 2.0 format"</p>
+     * <p>4. Select Add/Update Complex Data import behavior</p>
+     * <p>5. Select Customers Main File customer entity type</p>
+     * <p>6. Select customer main file from precondition</p>
+     * <p>7. Press "Check Data" button</p>
+     * <p>Expected: validation error 'E-mail is duplicated in import file in rows: X''</p>
+     * <p>8. Add column '_action' with 'update' value to csv file</p>
+     * <p>9. Repeat steps 6-7</p>
+     * <p>10. Repeat all steps for addresses file</p>
+     *
+     * @test
+     * @depends duplicatedRowsPrecondition
+     * @dataProvider fileDuplicatedRows
+     *
+     * @TestlinkId TL-MAGE-5951
+     */
+    public function importFileWithDuplicatedRows($customerEntity, $csv, $errorMessage, $userData)
+    {
+        // set email and address id in csv file
+        if ($customerEntity == 'Customers Main File') {
+            foreach ($csv as $key => $value) {
+                $csv[$key]['email'] = $userData['email'];
+            }
+        }
+        if ($customerEntity == 'Customer Addresses') {
+            foreach ($csv as $key => $value) {
+                $csv[$key]['_email'] = $userData['email'];
+                $csv[$key]['_entity_id'] = $userData['address']['entity_id'];
+            }
+        }
+
+        //Steps 1-5
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
+            'Magento 2.0 format', $customerEntity);
+
+        //Steps 6-8
+        $csvCustomAction = $csv;
+        foreach ($csvCustomAction as $key => $value) {
+            $csvCustomAction[$key]['_action'] = 'update';
+        }
+
+        $csv = array($csv, $csvCustomAction);
+
+        foreach ($csv as $value) {
+            $report = $this->importExportHelper()->import($value);
+
+            //Verifying
+            $this->assertArrayHasKey('import', $report, 'Import is not done');
+            $this->assertArrayHasKey('error', $report['validation'],
+                'Error notification is missing on the Check Data');
+            $this->assertContains($errorMessage, $report['validation']['error'][0],
+                'Incorrect error message is displayed');
+            $this->assertContains(
+                "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
+                $report['validation']['validation'][0], 'Wrong validation message is shown');
+            $this->assertContains('Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+                $report['validation']['validation'][1], 'Wrong message about checked rows');
+        }
+    }
+
+    public function fileDuplicatedRows()
+    {
+        $csvMain = array(
+            $this->loadDataSet('ImportExport', 'generic_customer_csv'),
+            $this->loadDataSet('ImportExport', 'generic_customer_csv')
+        );
+        $errorMessageMain = 'E-mail is duplicated in import file in rows: 2';
+
+        $csvAddress = array(
+            $this->loadDataSet('ImportExport', 'generic_address_csv'),
+            $this->loadDataSet('ImportExport', 'generic_address_csv'),
+        );
+        $errorMessageAddress = 'E-mail is duplicated in import file in rows: 2';
+
+        return array(
+            array('Customers Main File', $csvMain, $errorMessageMain),
+            array('Customer Addresses', $csvAddress, $errorMessageAddress),
+        );
+    }
 }
