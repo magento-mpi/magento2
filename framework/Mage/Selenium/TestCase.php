@@ -1786,7 +1786,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
         //Delete action part of mca if it's index
         $mca = preg_replace('|/index/?$|', '/', $mca);
-
+        //Delete action part of mca if it's ?SID=
+        $mca = preg_replace('|(\?)?SID=([a-zA-Z\d]+)?|', '', $mca);
         //@TODO Temporary fix for magento2
         $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '',$mca);
 
