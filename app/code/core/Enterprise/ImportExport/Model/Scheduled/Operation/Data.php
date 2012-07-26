@@ -30,13 +30,6 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     protected $_importExportConfig;
 
     /**
-     * Export entity model
-     *
-     * @var Mage_ImportExport_Model_Export
-     */
-    protected $_exportModel;
-
-    /**
      * Import entity model
      *
      * @var Mage_ImportExport_Model_Import
@@ -52,8 +45,6 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     {
         $this->_importExportConfig = isset($data['import_export_config']) ? $data['import_export_config']
             : Mage::getModel('Mage_ImportExport_Model_Config');
-        $this->_exportModel = isset($data['export_model']) ? $data['export_model']
-            : Mage::getModel('Mage_ImportExport_Model_Export');
         $this->_importModel = isset($data['import_model']) ? $data['import_model']
             : Mage::getModel('Mage_ImportExport_Model_Import');
     }
@@ -189,10 +180,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
     public function getEntitySubtypesOptionArray()
     {
         $importExportConfig = $this->_importExportConfig;
-        $exportModel = $this->_exportModel;
         $importModel = $this->_importModel;
-        $exportEntities = $importExportConfig::getModelsArrayOptions($exportModel::CONFIG_KEY_CUSTOMER_ENTITIES);
-        $importEntities = $importExportConfig::getModelsArrayOptions($importModel::CONFIG_KEY_CUSTOMER_ENTITIES);
-        return array_merge($exportEntities, $importEntities);
+        return $importExportConfig::getModelsArrayOptions($importModel::CONFIG_KEY_CUSTOMER_ENTITIES);
     }
 }

@@ -18,16 +18,6 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
     protected $_dataModel;
 
     /**
-     * Test export entities
-     *
-     * @var array
-     */
-    protected $_exportEntities = array(
-        'export_key_1' => 'export_value_1',
-        'export_key_2' => 'export_value_2',
-    );
-
-    /**
      * Test import entities
      *
      * @var array
@@ -50,9 +40,8 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
 
         // data model test object
         $this->_dataModel = new Enterprise_ImportExport_Model_Scheduled_Operation_Data(array(
-                'import_export_config' => $configMock,
-                'export_model'         => new Mage_ImportExport_Model_Export(),
-                'import_model'         => new Mage_ImportExport_Model_Import(),
+            'import_export_config' => $configMock,
+            'import_model'         => new Mage_ImportExport_Model_Import(),
         ));
     }
 
@@ -69,8 +58,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
     public function testGetEntitySubtypesOptionArray()
     {
         $testArray = $this->_dataModel->getEntitySubtypesOptionArray();
-        $correctArray = array_merge($this->_exportEntities, $this->_importEntities);
-        $this->assertEquals($correctArray, $testArray, 'Incorrect entity subtypes array.');
+        $this->assertEquals($this->_importEntities, $testArray, 'Incorrect entity subtypes array.');
     }
 
     /**
@@ -81,15 +69,7 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_DataTest extends PHPUnit
      */
     public function getModelsArrayOptionsCallback($configKey)
     {
-        switch ($configKey) {
-            case Mage_ImportExport_Model_Export::CONFIG_KEY_CUSTOMER_ENTITIES:
-                return $this->_exportEntities;
-
-            case Mage_ImportExport_Model_Import::CONFIG_KEY_CUSTOMER_ENTITIES:
-                return $this->_importEntities;
-
-            default:
-                return null;
-        }
+        $this->assertEquals(Mage_ImportExport_Model_Import::CONFIG_KEY_CUSTOMER_ENTITIES, $configKey);
+        return $this->_importEntities;
     }
 }

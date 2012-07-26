@@ -79,7 +79,6 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
         $attributes = $operation->getEntityAttributes();
         $data = array(
             'entity'                 => $operation->getEntityType(),
-            'entity_subtype'         => $operation->getEntitySubtype(),
             'file_format'            => $fileInfo['file_format'],
             'export_filter'          => $attributes['export_filter'],
             'operation_type'         => $operation->getOperationType(),
@@ -100,14 +99,8 @@ class Enterprise_ImportExport_Model_Export extends Mage_ImportExport_Model_Expor
      */
     public function getScheduledFileName()
     {
-        if ($this->getEntitySubtype()) {
-            $suffix = $this->getEntitySubtype();
-        } else {
-            $suffix = $this->getEntity();
-        }
-
         $runDate = $this->getRunDate() ? $this->getRunDate() : null;
-        return $this->getDateModel()->date('Y-m-d_H-i-s', $runDate) . '_' . $this->getOperationType()
-            . '_' . $suffix;
+        return $this->getDateModel()->date('Y-m-d_H-i-s', $runDate) . '_' . $this->getOperationType() . '_'
+            . $this->getEntity();
     }
 }

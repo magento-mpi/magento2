@@ -77,7 +77,6 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
                 'skip_attr'     => 'test'
             ),
             'entity_type'    => 'customer',
-            'entity_subtype' => 'customer_address',
             'operation_type' => 'export',
             'start_time'     => '00:00:00',
             'id'             => 1
@@ -131,15 +130,13 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
             'Test file name when entity type provided' => array(
                 '$data' => array(
                     'entity_type'     => 'customer',
-                    'entity_subtype'  => null,
                     'operation_type'  => 'export'
                 ),
                 '$expectedFilename' => $this->_date . '_export_customer'
             ),
             'Test file name when entity subtype provided' => array(
                 '$data' => array(
-                    'entity_type'     => 'customer',
-                    'entity_subtype'  => 'customer_address',
+                    'entity_type'     => 'customer_address',
                     'operation_type'  => 'export'
                 ),
                 '$expectedFilename' => $this->_date . '_export_customer_address'
@@ -147,7 +144,6 @@ class Enterprise_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCas
             'Test file name when run date provided' => array(
                 '$data' => array(
                     'entity_type'     => 'customer',
-                    'entity_subtype'  => null,
                     'operation_type'  => 'export',
                     'run_date'        => '11-11-11'
                 ),
