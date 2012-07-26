@@ -9,8 +9,9 @@
  */
 
 /**
- * Front controller for REST area
+ * Front controller for REST API
  */
+// TODO: Add profiler calls
 class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 {
     /**#@+

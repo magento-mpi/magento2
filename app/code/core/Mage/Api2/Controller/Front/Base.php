@@ -10,6 +10,7 @@
 /**
  * Generic front controller for all API types
  */
+// TODO: Add profiler calls
 class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInterface
 {
     /**
@@ -19,6 +20,7 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
      */
     protected $_concreteFrontControllers = array(
         'rest' => 'Mage_Api2_Controller_Front_Rest',
+        'soap' => 'Mage_Api2_Controller_Front_Soap',
     );
 
     /**
