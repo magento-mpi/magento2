@@ -234,7 +234,7 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         $parent->setAttribute('xpath', 'root');
         $dom->appendChild($parent);
         $nodeName = 'testNode';
-        $newNode = $this->_model->createNode($dom, $nodeName, $parent);
+        $newNode = $this->_model->createNode($dom, $nodeName, $parent, 'Some_Module');
 
         $this->assertEquals(1, $parent->childNodes->length);
         $this->assertEquals($newNode, $parent->childNodes->item(0));
@@ -294,8 +294,9 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         $sourceDom->load($this->_fixturePath . DIRECTORY_SEPARATOR . 'parse_node_source.xml');
         $nodeList = $sourceDom->getElementsByTagName('resources');
         $this->_model->parseNode($nodeList->item(0), $dom, $parentNode, $moduleName);
-        $expected = file_get_contents($this->_fixturePath . DIRECTORY_SEPARATOR . 'parse_node_result.xml');
-        $this->assertEquals($expected, $dom->saveXML());
+        $expectedDom = new DOMDocument();
+        $expectedDom->load($this->_fixturePath . DIRECTORY_SEPARATOR . 'parse_node_result.xml');
+        $this->assertEquals($expectedDom->saveXML(), $dom->saveXML());
     }
 
     public function testGetResultDomDocument()

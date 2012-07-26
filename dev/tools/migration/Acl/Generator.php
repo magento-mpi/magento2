@@ -298,15 +298,20 @@ class Tools_Migration_Acl_Generator
      * @param DOMDocument $resultDom
      * @param string $nodeName
      * @param DOMNode $parent
+     * @param string $moduleName
+     *
      * @return DOMNode
      */
-    public function createNode(DOMDocument $resultDom, $nodeName, DOMNode $parent)
+    public function createNode(DOMDocument $resultDom, $nodeName, DOMNode $parent, $moduleName)
     {
         $newNode = $resultDom->createElement('resource');
         $xpath = $parent->getAttribute('xpath');
         $newNode->setAttribute('xpath', $xpath . '/' . $nodeName);
         $parent->appendChild($newNode);
         $newNode->setAttribute('id', $this->generateId($newNode, $xpath, $nodeName));
+        if ($moduleName) {
+            $newNode->setAttribute('module', $moduleName);
+        }
         return $newNode;
     }
 
@@ -340,8 +345,8 @@ class Tools_Migration_Acl_Generator
     {
         $node->setAttribute($this->_metaNodeNames[$dataNode->nodeName], $dataNode->nodeValue);
         if ($dataNode->nodeName == 'title') {
-            $node->setAttribute('module', $module);
-            $resourceId = $node->getAttribute('module') . '::' . $node->getAttribute('id');
+            $node->setAttribute('moduleOwner', $module);
+            $resourceId = $node->getAttribute('moduleOwner') . '::' . $node->getAttribute('id');
             $xpath = $node->getAttribute('xpath');
             $this->_aclResourceMaps[$xpath] = $resourceId;
         }
@@ -410,7 +415,7 @@ class Tools_Migration_Acl_Generator
             } elseif ($this->isMetaNode($item->nodeName)) {
                 $this->setMetaInfo($parentNode, $item, $moduleName);
             } else {
-                $newNode = $this->createNode($dom, $item->nodeName, $parentNode);
+                $newNode = $this->createNode($dom, $item->nodeName, $parentNode, $item->getAttribute('module'));
                 if ($item->childNodes->length > 0) {
                     $this->parseNode($item, $dom, $newNode, $moduleName);
                 }
@@ -521,12 +526,13 @@ class Tools_Migration_Acl_Generator
                 continue;
             }
             $xpath = $item->getAttribute('xpath');
-            $id = $item->getAttribute('module') . '::' . $item->getAttribute('id');
+            $resourceId = $item->getAttribute('moduleOwner') . '::' . $item->getAttribute('id');
             if (isset($this->_aclResourceMaps[$xpath])) {
-                $id = $this->_aclResourceMaps[$xpath];
+                $resourceId = $this->_aclResourceMaps[$xpath];
             }
-            $item->setAttribute('id', $id);
+            $item->setAttribute('id', $resourceId);
             $item->removeAttribute('xpath');
+            $item->removeAttribute('moduleOwner');
 
             if ($item->childNodes->length > 0) {
                 $this->updateChildAclNodes($item);
