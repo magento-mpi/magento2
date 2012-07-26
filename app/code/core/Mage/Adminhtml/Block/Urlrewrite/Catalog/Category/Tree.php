@@ -9,13 +9,13 @@
  */
 
 /**
- * Categories tree block for urlrewrites
+ * Categories tree block for URL rewrites editing process
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Abstract
+class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
     /**
      * List of allowed category ids

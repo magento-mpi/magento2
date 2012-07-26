@@ -9,7 +9,9 @@
  */
 
 /**
- * Urlrewrites edit form for cms page
+ * Edit form for CMS page URL rewrites
+ *
+ * @method Mage_Cms_Model_Page getCmsPage()
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -18,11 +20,6 @@
 class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_Block_Urlrewrite_Edit_Form
 {
     /**
-     * @var Mage_Cms_Model_Page
-     */
-    protected $_page = null;
-
-    /**
      * Form post init
      *
      * @param Varien_Data_Form $form
@@ -30,7 +27,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _formPostInit($form)
     {
-        $cmsPage = $this->_getCmsPage();
+        $cmsPage = $this->getCmsPage();
         $form->setAction(
             Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
@@ -77,7 +74,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _getEntityStores()
     {
-        $cmsPage = $this->_getCmsPage();
+        $cmsPage = $this->getCmsPage();
         $entityStores = array();
 
         // showing websites that only associated to cms page
@@ -103,22 +100,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _hasCustomEntity()
     {
-        return $this->_getCmsPage()->getId() > 0;
-    }
-
-    /**
-     * Get cms page model instance
-     *
-     * @return Mage_Cms_Model_Page
-     */
-    protected function _getCmsPage()
-    {
-        if (is_null($this->_page)) {
-            $this->_page = Mage::registry('current_cms_page');
-            if (!$this->_page) {
-                $this->_page = Mage::getModel('Mage_Cms_Model_Page');
-            }
-        }
-        return $this->_page;
+        return $this->getCmsPage() && $this->getCmsPage()->getId();
     }
 }

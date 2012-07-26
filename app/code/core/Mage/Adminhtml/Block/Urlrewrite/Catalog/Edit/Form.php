@@ -9,7 +9,10 @@
  */
 
 /**
- * Urlrewrites edit form for catalog entities
+ * Edit form for Catalog product and category URL rewrites
+ *
+ * @method Mage_Catalog_Model_Product getProduct()
+ * @method Mage_Catalog_Model_Category getCategory()
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -17,16 +20,6 @@
  */
 class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_Block_Urlrewrite_Edit_Form
 {
-    /**
-     * @var Mage_Catalog_Model_Product
-     */
-    protected $_product = null;
-
-    /**
-     * @var Mage_Catalog_Model_Category
-     */
-    protected $_category = null;
-
     /**
      * Form post init
      *
@@ -39,12 +32,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         $form->setAction(
             Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
-                'product'  => $this->_getProduct()->getId(),
-                'category' => $this->_getCategory()->getId()
+                'product'  => $this->getProduct() ? $this->getProduct()->getId() : null,
+                'category' => $this->getCategory()->getId(),
             ))
         );
 
-        // Fill id path, request path and target path elements
         /** @var $idPath Varien_Data_Form_Element_Abstract */
         $idPath = $this->getForm()->getElement('id_path');
         /** @var $requestPath Varien_Data_Form_Element_Abstract */
@@ -55,13 +47,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         $model = $this->_getModel();
         $disablePaths = false;
         if (!$model->getId()) {
-            $product  = null;
+            $product = null;
             if ($this->_hasProduct()) {
-                $product = $this->_getProduct();
+                $product = $this->getProduct();
             }
             $category = null;
             if ($product || $this->_hasCategory()) {
-                $category = $this->_getCategory();
+                $category = $this->getCategory();
             }
 
             if ($this->_hasCustomEntity()) {
@@ -79,8 +71,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         } else {
             $disablePaths = $model->getProductId() || $model->getCategoryId();
         }
-
-        // Disable id_path and target_path elements
         if ($disablePaths) {
             $idPath->setData('disabled', true);
             $targetPath->setData('disabled', true);
@@ -97,8 +87,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _getEntityStores()
     {
-        $product = $this->_getProduct();
-        $category = $this->_getCategory();
+        $product = $this->getProduct();
+        $category = $this->getCategory();
         $entityStores = array();
 
         // showing websites that only associated to products
@@ -114,7 +104,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
             if (!$entityStores) {
                 throw new Mage_Core_Model_Store_Exception(
                     Mage::helper('Mage_Adminhtml_Helper_Data')
-                        ->__('Chosen product does not associated with any website, so url rewrite is not possible.')
+                        ->__('Chosen product does not associated with any website, so URL rewrite is not possible.')
                 );
             }
             $this->_requireStoresFilter = true;
@@ -123,7 +113,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
             if (!$entityStores) {
                 throw new Mage_Core_Model_Store_Exception(
                     Mage::helper('Mage_Adminhtml_Helper_Data')
-                        ->__('Chosen category does not associated with any website, so url rewrite is not possible.')
+                        ->__('Chosen category does not associated with any website, so URL rewrite is not possible.')
                 );
             }
             $this->_requireStoresFilter = true;
@@ -139,7 +129,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _hasProduct()
     {
-        return $this->_getProduct()->getId() > 0;
+        return $this->getProduct() && $this->getProduct()->getId();
     }
 
     /**
@@ -149,7 +139,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _hasCategory()
     {
-        return $this->_getCategory()->getId() > 0;
+        return $this->getCategory() && $this->getCategory()->getId();
     }
 
     /**
@@ -160,37 +150,5 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
     protected function _hasCustomEntity()
     {
         return $this->_hasProduct() || $this->_hasCategory();
-    }
-
-    /**
-     * Get product model instance
-     *
-     * @return Mage_Catalog_Model_Product
-     */
-    protected function _getProduct()
-    {
-        if (is_null($this->_product)) {
-            $this->_product = Mage::registry('current_product');
-            if (!$this->_product) {
-                $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
-            }
-        }
-        return $this->_product;
-    }
-
-    /**
-     * Get category model instance
-     *
-     * @return Mage_Catalog_Model_Category
-     */
-    protected function _getCategory()
-    {
-        if (is_null($this->_category)) {
-            $this->_category = Mage::registry('current_category');
-            if (!$this->_category) {
-                $this->_category = Mage::getModel('Mage_Catalog_Model_Category');
-            }
-        }
-        return $this->_category;
     }
 }

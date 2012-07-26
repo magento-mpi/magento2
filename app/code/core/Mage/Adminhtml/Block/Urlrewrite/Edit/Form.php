@@ -9,7 +9,9 @@
  */
 
 /**
- * Urlrewrites edit form
+ * URL rewrites edit form
+ *
+ * @method Mage_Core_Model_Url_Rewrite getUrlRewrite()
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -231,19 +233,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     }
 
     /**
-     * Get url rewrite model instance
+     * Get URL rewrite model instance
      *
      * @return Mage_Core_Model_Url_Rewrite
      */
     protected function _getModel()
     {
-        if (is_null($this->_model)) {
-            $this->_model = Mage::registry('current_urlrewrite');
-            if (!$this->_model) {
-                $this->_model = Mage::getModel('Mage_Core_Model_Url_Rewrite');
-            }
-        }
-        return $this->_model;
+        return $this->getUrlRewrite();
     }
 
     /**
@@ -293,7 +289,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
      */
     protected function _hasCustomEntity()
     {
-       return false;
+        return false;
     }
 
     /**

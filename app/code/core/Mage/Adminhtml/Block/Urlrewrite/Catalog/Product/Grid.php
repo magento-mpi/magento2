@@ -9,18 +9,18 @@
  */
 
 /**
- * Products grid for urlrewrites
+ * Products grid for URL rewrites editing
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_Catalog_Product_Grid
+class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Mage_Adminhtml_Block_Catalog_Product_Grid
 {
     /**
      * Disable massaction
      *
-     * @return Mage_Adminhtml_Block_Urlrewrite_Product_Grid
+     * @return Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid
      */
     protected function _prepareMassaction()
     {
@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
     /**
      * Prepare columns layout
      *
-     * @return Mage_Adminhtml_Block_Urlrewrite_Product_Grid
+     * @return Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid
      */
     protected function _prepareColumns()
     {
@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Get url for dispatching grid ajax requests
+     * Get URL for dispatching grid ajax requests
      *
      * @return string
      */
@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Get row url
+     * Get row URL
      *
      * @return string
      */

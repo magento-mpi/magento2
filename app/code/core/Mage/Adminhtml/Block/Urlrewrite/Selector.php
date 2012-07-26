@@ -9,7 +9,7 @@
  */
 
 /**
- * Modes selector for Urlrewrites modes
+ * Modes selector for URL rewrites modes
  *
  * @category   Mage
  * @package    Mage_Adminhtml
