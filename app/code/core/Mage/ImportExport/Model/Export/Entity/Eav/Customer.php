@@ -17,8 +17,8 @@
  *
  * @method Mage_Customer_Model_Resource_Attribute_Collection getAttributeCollection() getAttributeCollection()
  */
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
-    extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
+class Mage_ImportExport_Model_Export_Entity_Eav_Customer
+    extends Mage_ImportExport_Model_Export_Entity_EavAbstract
 {
     /**#@+
      * Permanent column names.
@@ -40,7 +40,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
     /**#@+
      * XML path to page size parameter
      */
-    const XML_PATH_PAGE_SIZE = 'export/format_v2/customer_page_size/customer';
+    const XML_PATH_PAGE_SIZE = 'export/customer_page_size/customer';
     /**#@-*/
 
     /**

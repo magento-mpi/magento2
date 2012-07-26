@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test attribute code
@@ -63,13 +63,13 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
     /**
      * Customer export model
      *
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
+     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_model;
 
     public function setUp()
     {
-        $this->_model = new Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer($this->_getModelDependencies());
+        $this->_model = new Mage_ImportExport_Model_Export_Entity_Eav_Customer($this->_getModelDependencies());
     }
 
     public function tearDown()
@@ -176,7 +176,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
     /**
      * Test for method exportItem()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer::exportItem
+     * @covers Mage_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
      */
     public function testExportItem()
     {
@@ -204,8 +204,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_
      */
     public function validateWriteRow(array $row)
     {
-        $websiteColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer::COLUMN_WEBSITE;
-        $storeColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer::COLUMN_STORE;
+        $websiteColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer::COLUMN_WEBSITE;
+        $storeColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer::COLUMN_STORE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
         $this->assertEquals($this->_stores[$this->_customerData['store_id']], $row[$storeColumn]);
         $this->assertEquals($this->_customerData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

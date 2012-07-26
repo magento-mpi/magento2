@@ -10,20 +10,20 @@
  */
 
 /**
- * Test for customer export model V2
+ * Test for customer export model
  *
  * @group module:Mage_ImportExport
  */
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_CustomerTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_Eav_CustomerTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
+     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer();
+        $this->_model = new Mage_ImportExport_Model_Export_Entity_Eav_Customer();
     }
 
     protected function tearDown()

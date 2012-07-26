@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Test attribute code
@@ -68,14 +68,14 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
     /**
      * Customer address export model
      *
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
+     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_model
-            = new Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address($this->_getModelDependencies());
+            = new Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address($this->_getModelDependencies());
     }
 
     public function tearDown()
@@ -192,7 +192,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
     /**
      * Test for method exportItem()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer::exportItem
+     * @covers Mage_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
      */
     public function testExportItem()
     {
@@ -221,19 +221,19 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function validateWriteRow(array $row)
     {
-        $billingColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_NAME_DEFAULT_BILLING;
+        $billingColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_NAME_DEFAULT_BILLING;
         $this->assertEquals($this->_customerData['default_billing'], $row[$billingColumn]);
 
-        $shippingColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_NAME_DEFAULT_SHIPPING;
+        $shippingColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_NAME_DEFAULT_SHIPPING;
         $this->assertEquals($this->_customerData['default_shipping'], $row[$shippingColumn]);
 
-        $idColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID;
+        $idColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
         $this->assertEquals($this->_addressData['id'], $row[$idColumn]);
 
-        $emailColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_EMAIL;
+        $emailColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_WEBSITE;
+        $websiteColumn = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
         $this->assertEquals($this->_addressData[self::ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

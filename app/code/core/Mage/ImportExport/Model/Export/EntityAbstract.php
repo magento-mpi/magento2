@@ -15,7 +15,7 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
+abstract class Mage_ImportExport_Model_Export_EntityAbstract
 {
     /**#@+
      * Attribute collection name
@@ -184,7 +184,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
     /**
      * Initialize stores hash
      *
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected function _initStores()
     {
@@ -201,7 +201,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected function _initWebsites($withDefault = false)
     {
@@ -217,7 +217,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_EntityAbstract
      */
     public function addRowError($errorCode, $errorRowNum)
     {
@@ -233,7 +233,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_EntityAbstract
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -379,7 +379,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      * Set parameters
      *
      * @param array $parameters
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_EntityAbstract
      */
     public function setParameters(array $parameters)
     {
@@ -392,7 +392,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Abstract
      * Writer model setter
      *
      * @param Mage_ImportExport_Model_Export_Adapter_Abstract $writer
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_EntityAbstract
      */
     public function setWriter(Mage_ImportExport_Model_Export_Adapter_Abstract $writer)
     {

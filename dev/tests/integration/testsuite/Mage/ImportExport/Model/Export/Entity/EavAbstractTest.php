@@ -10,11 +10,11 @@
  */
 
 /**
- * Test for abstract export model V2
+ * Test for eav abstract export model
  *
  * @group module:Mage_ImportExport
  */
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Skipped attribute codes
@@ -24,7 +24,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     protected static $_skippedAttributes = array('confirmation', 'lastname');
 
     /**
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
+     * @var Mage_ImportExport_Model_Export_Entity_EavAbstract
      */
     protected $_model;
 
@@ -39,7 +39,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     {
         $customerAttributes = new Mage_Customer_Model_Resource_Attribute_Collection();
 
-        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_EavAbstract', array(),
             '', false);
         $this->_model->expects($this->any())
             ->method('getEntityTypeCode')
@@ -71,7 +71,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     /**
      * Test for method _getExportAttrCodes()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract::_getExportAttrCodes
+     * @covers Mage_ImportExport_Model_Export_Entity_EavAbstract::_getExportAttrCodes
      */
     public function testGetExportAttrCodes()
     {

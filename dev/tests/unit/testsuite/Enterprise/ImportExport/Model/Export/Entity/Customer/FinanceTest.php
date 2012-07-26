@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_ImportExport_Model_Export_Entity_V2_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Export_Entity_Eav_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**#@+
      * Test attribute code and website specific attribute code
@@ -54,14 +54,14 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Customer financial data export model
      *
-     * @var Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
+     * @var Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      */
     protected $_model;
 
     public function setUp()
     {
         $this->_model
-            = new Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance($this->_getModelDependencies());
+            = new Enterprise_ImportExport_Model_Export_Entity_Customer_Finance($this->_getModelDependencies());
     }
 
     public function tearDown()
@@ -140,7 +140,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Eav_Customer_FinanceTest ex
     /**
      * Test for method exportItem()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer::exportItem
+     * @covers Mage_ImportExport_Model_Export_Entity_Eav_Customer::exportItem
      */
     public function testExportItem()
     {
@@ -168,13 +168,13 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function validateWriteRow(array $row)
     {
-        $emailColumn = Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_EMAIL;
+        $emailColumn = Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL;
         $this->assertEquals($this->_customerData['email'], $row[$emailColumn]);
 
-        $websiteColumn = Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_WEBSITE;
+        $websiteColumn = Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$websiteColumn]);
 
-        $financeWebsiteCol = Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteCol = Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE;
         $this->assertEquals($this->_websites[$this->_customerData['website_id']], $row[$financeWebsiteCol]);
 
         $this->assertEquals($this->_customerData[self::WEBSITE_ATTRIBUTE_CODE], $row[self::ATTRIBUTE_CODE]);

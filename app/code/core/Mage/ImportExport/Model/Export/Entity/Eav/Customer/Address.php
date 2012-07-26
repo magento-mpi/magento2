@@ -18,8 +18,8 @@
  *
  * @method Mage_Customer_Model_Resource_Address_Attribute_Collection getAttributeCollection() getAttributeCollection()
  */
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
-    extends Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
+class Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
+    extends Mage_ImportExport_Model_Export_Entity_EavAbstract
 {
     /**#@+
      * Permanent column names
@@ -48,7 +48,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
     /**#@+
      * XML path to page size parameter
      */
-    const XML_PATH_PAGE_SIZE = 'export/format_v2/customer_page_size/address';
+    const XML_PATH_PAGE_SIZE = 'export/customer_page_size/address';
     /**#@-*/
 
     /**
@@ -85,7 +85,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
     /**
      * Customers whose address are exported
      *
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
+     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_customerEntity;
 
@@ -116,7 +116,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
             : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
 
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : Mage::getModel('Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer');
+            : Mage::getModel('Mage_ImportExport_Model_Export_Entity_Eav_Customer');
 
         $this->_addressCollection = isset($data['address_collection']) ? $data['address_collection']
             : Mage::getResourceModel('Mage_Customer_Model_Resource_Address_Collection');
@@ -128,7 +128,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
     /**
      * Initialize existent customers data
      *
-     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Abstract
+     * @return Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     protected function _initCustomers()
     {
@@ -208,7 +208,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
      * Set parameters (push filters from post into export customer model)
      *
      * @param array $parameters
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
+     * @return Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     public function setParameters(array $parameters)
     {

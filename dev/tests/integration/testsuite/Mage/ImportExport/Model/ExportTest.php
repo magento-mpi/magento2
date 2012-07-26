@@ -64,11 +64,11 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
             ),
             'customer main data' => array(
                 '$entity'             => 'customer',
-                '$expectedEntityType' => 'Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer'
+                '$expectedEntityType' => 'Mage_ImportExport_Model_Export_Entity_Eav_Customer'
             ),
             'customer address'   => array(
                 '$entity'             => 'customer_address',
-                '$expectedEntityType' => 'Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address'
+                '$expectedEntityType' => 'Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address'
             )
         );
     }

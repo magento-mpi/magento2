@@ -50,7 +50,7 @@
         <importexport>
             <export_entities>
                 <customer_finance translate="label" module="Enterprise_ImportExport">
-                    <model_token>Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance</model_token>
+                    <model_token>Enterprise_ImportExport_Model_Export_Entity_Customer_Finance</model_token>
                     <label>Customer Finances</label>
                 </customer_finance>
             </export_entities>
@@ -99,11 +99,9 @@
             </jobs>
         </crontab>
         <export>
-            <format_v2>
-                <customer_page_size>
-                    <finance>10000</finance>
-                </customer_page_size>
-            </format_v2>
+            <customer_page_size>
+                <finance>10000</finance>
+            </customer_page_size>
         </export>
     </default>
 </config>

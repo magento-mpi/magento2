@@ -15,7 +15,7 @@
  * @magentoConfigFixture current_store enterprise_reward/general/is_enabled            1
  * @magentoConfigFixture current_store customer/enterprise_customerbalance/is_enabled  1
  */
-class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Export_Entity_Customer_FinanceTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Remove not used websites
@@ -35,7 +35,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
      */
     public function testExport()
     {
-        $customerFinance = new Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance();
+        $customerFinance = new Enterprise_ImportExport_Model_Export_Entity_Customer_Finance();
         $customerFinance->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
         $customerFinance->setParameters(array());
         $csvExportString = $customerFinance->export();
@@ -65,11 +65,11 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
 
             // prepare correct data
             $correctCustomerData = array(
-                Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_EMAIL
+                Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_EMAIL
                     => Mage::registry('customer_finance_email'),
-                Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_WEBSITE
+                Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_WEBSITE
                     => Mage::app()->getStore()->getWebsite()->getCode(),
-                Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_FINANCE_WEBSITE
+                Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE
                     => $websiteCode,
                 Enterprise_ImportExport_Model_Resource_Customer_Attribute_Finance_Collection::COLUMN_CUSTOMER_BALANCE
                     => Mage::registry('customer_balance_' . $websiteCode),
@@ -88,7 +88,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
      */
     public function testGetAttributeCollection()
     {
-        $customerFinance = new Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance();
+        $customerFinance = new Enterprise_ImportExport_Model_Export_Entity_Customer_Finance();
         $attributeCollection = $customerFinance->getAttributeCollection();
 
         $this->assertInstanceOf(
@@ -132,7 +132,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_FinanceTest extend
      */
     protected function _getRecordByFinanceWebsite(array $records, $website)
     {
-        $financeWebsiteKey = Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance::COLUMN_FINANCE_WEBSITE;
+        $financeWebsiteKey = Enterprise_ImportExport_Model_Export_Entity_Customer_Finance::COLUMN_FINANCE_WEBSITE;
         foreach ($records as $record) {
             if ($record[$financeWebsiteKey] == $website) {
                 return $record;

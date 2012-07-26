@@ -53,7 +53,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
      * Create instance of entity adapter and returns it.
      *
      * @throws Exception
-     * @return Mage_ImportExport_Model_Export_Entity_Abstract|Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @return Mage_ImportExport_Model_Export_Entity_Abstract|Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected function _getEntityAdapter()
     {
@@ -70,12 +70,12 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
                     );
                 }
                 if (!$this->_entityAdapter instanceof Mage_ImportExport_Model_Export_Entity_Abstract
-                        && !$this->_entityAdapter instanceof Mage_ImportExport_Model_Export_Entity_V2_Abstract) {
+                        && !$this->_entityAdapter instanceof Mage_ImportExport_Model_Export_EntityAbstract) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
                             ->__('Entity adapter object must be an instance of %s or %s',
                                 'Mage_ImportExport_Model_Export_Entity_Abstract',
-                                'Mage_ImportExport_Model_Export_Entity_V2_Abstract'
+                                'Mage_ImportExport_Model_Export_EntityAbstract'
                             )
                     );
                 }
@@ -260,7 +260,7 @@ class Mage_ImportExport_Model_Export extends Mage_ImportExport_Model_Abstract
     {
         $fileName = null;
         $entityAdapter = $this->_getEntityAdapter();
-        if ($entityAdapter instanceof Mage_ImportExport_Model_Export_Entity_V2_Abstract) {
+        if ($entityAdapter instanceof Mage_ImportExport_Model_Export_EntityAbstract) {
             $fileName = $entityAdapter->getFileName();
         }
         if (!$fileName) {

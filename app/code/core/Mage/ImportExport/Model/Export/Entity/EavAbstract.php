@@ -15,8 +15,8 @@
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
-    extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
+abstract class Mage_ImportExport_Model_Export_Entity_EavAbstract
+    extends Mage_ImportExport_Model_Export_EntityAbstract
 {
     /**
      * Attribute code to its values. Only attributes with options and only default store values used
@@ -104,7 +104,7 @@ abstract class Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
     /**
      * Initialize attribute option values
      *
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract
+     * @return Mage_ImportExport_Model_Export_Entity_EavAbstract
      */
     protected function _initAttributeValues()
     {

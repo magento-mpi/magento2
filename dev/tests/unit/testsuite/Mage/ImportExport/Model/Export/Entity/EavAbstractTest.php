@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_EavAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Abstract eav export model
      *
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract|PHPUnit_Framework_MockObject_MockObject
+     * @var Mage_ImportExport_Model_Export_Entity_EavAbstract|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
 
     public function setUp()
     {
-        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract', array(),
+        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_EavAbstract', array(),
             '', false, true, true, array('_getExportAttributeCodes', 'getAttributeCollection', 'getAttributeOptions'));
 
         $this->_model->expects($this->once())
@@ -43,13 +43,13 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     /**
      * Test for method _addAttributesToCollection()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract::_addAttributesToCollection
+     * @covers Mage_ImportExport_Model_Export_Entity_EavAbstract::_addAttributesToCollection
      */
     public function testAddAttributesToCollection()
     {
         $method = new ReflectionMethod($this->_model, '_addAttributesToCollection');
         $method->setAccessible(true);
-        $stubCollection = new Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection();
+        $stubCollection = new Stub_ImportExport_Model_Export_Entity_Eav_Collection();
         $stubCollection = $method->invoke($this->_model, $stubCollection);
 
         $this->assertEquals($this->_expectedAttributes, $stubCollection->getSelectedAttributes());
@@ -58,8 +58,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
     /**
      * Test for methods _addAttributeValuesToRow()
      *
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract::_initAttrValues
-     * @covers Mage_ImportExport_Model_Export_Entity_V2_Eav_Abstract::_addAttributeValuesToRow
+     * @covers Mage_ImportExport_Model_Export_Entity_EavAbstract::_initAttrValues
+     * @covers Mage_ImportExport_Model_Export_Entity_EavAbstract::_addAttributeValuesToRow
      */
     public function testAddAttributeValuesToRow()
     {
@@ -109,7 +109,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_AbstractTest extends PHPUnit_
 /**
  * Stub class which used for test which check list of attributes which will be fetched from DB
  */
-class Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+class Stub_ImportExport_Model_Export_Entity_Eav_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
 {
     /**
      * Selected attribute(s)
@@ -134,7 +134,7 @@ class Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection extends Mage_Eav_M
      *
      * @param array|int|Mage_Core_Model_Config_Element|string $attribute
      * @param bool $joinType
-     * @return Stub_ImportExport_Model_Export_Entity_V2_Eav_Collection
+     * @return Stub_ImportExport_Model_Export_Entity_Eav_Collection
      */
     public function addAttributeToSelect($attribute, $joinType = false)
     {

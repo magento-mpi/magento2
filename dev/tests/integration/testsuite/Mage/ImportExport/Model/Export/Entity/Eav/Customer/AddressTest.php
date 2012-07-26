@@ -10,15 +10,15 @@
  */
 
 /**
- * Test for customer address export model V2
+ * Test for customer address export model
  *
  * @group module:Mage_ImportExport
  * @magentoDataFixture Mage/ImportExport/_files/customer_with_addresses.php
  */
-class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_Entity_Eav_Customer_AddressTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
+     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     protected $_model;
 
@@ -32,7 +32,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = new Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address();
+        $this->_model = new Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address();
 
         /** @var $website Mage_Core_Model_Website */
         foreach (Mage::app()->getWebsites(true) as $website) {
@@ -53,9 +53,9 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testExport()
     {
-        $websiteCode  = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_WEBSITE;
-        $emailCode    = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_EMAIL;
-        $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID;
+        $websiteCode  = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_WEBSITE;
+        $emailCode    = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_EMAIL;
+        $entityIdCode = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
 
         $expectedAttributes = array();
         /** @var $collection Mage_Customer_Model_Resource_Address_Attribute_Collection */
@@ -137,7 +137,7 @@ class Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_AddressTest extends 
      */
     public function testExportWithFilter($genderFilterValue)
     {
-        $entityIdCode = Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address::COLUMN_ADDRESS_ID;
+        $entityIdCode = Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID;
 
         $this->_model->setWriter(new Mage_ImportExport_Model_Export_Adapter_Csv());
 

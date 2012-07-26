@@ -10,21 +10,21 @@
  */
 
 /**
- * Test for abstract export model V2
+ * Test for abstract export model
  *
  * @group module:Mage_ImportExport
  */
-class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Framework_TestCase
+class Mage_ImportExport_Model_Export_EntityAbstractTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Abstract
+     * @var Mage_ImportExport_Model_Export_EntityAbstract
      */
     protected $_model;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_Entity_V2_Abstract');
+        $this->_model = $this->getMockForAbstractClass('Mage_ImportExport_Model_Export_EntityAbstract');
     }
 
     protected function tearDown()
@@ -73,8 +73,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
      */
     public function testFilterAttributeCollection()
     {
-        /** @var $model Stub_Mage_ImportExport_Model_Export_Entity_V2_Abstract */
-        $model = $this->getMockForAbstractClass('Stub_Mage_ImportExport_Model_Export_Entity_V2_Abstract');
+        /** @var $model Stub_Mage_ImportExport_Model_Export_EntityAbstract */
+        $model = $this->getMockForAbstractClass('Stub_Mage_ImportExport_Model_Export_EntityAbstract');
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Attribute_Collection');
         $collection = $model->filterAttributeCollection($collection);
         /**
@@ -99,8 +99,8 @@ class Mage_ImportExport_Model_Export_Entity_V2_AbstractTest extends PHPUnit_Fram
 /**
  * Stub abstract class which provide to change protected property "$_disabledAttrs" and test methods depended on it
  */
-abstract class Stub_Mage_ImportExport_Model_Export_Entity_V2_Abstract
-    extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
+abstract class Stub_Mage_ImportExport_Model_Export_EntityAbstract
+    extends Mage_ImportExport_Model_Export_EntityAbstract
 {
     public function __construct()
     {

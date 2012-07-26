@@ -18,8 +18,8 @@
  *
  * @method      array getData() getData()
  */
-class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
-    extends Mage_ImportExport_Model_Export_Entity_V2_Abstract
+class Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
+    extends Mage_ImportExport_Model_Export_EntityAbstract
 {
     /**#@+
      * Permanent column names
@@ -40,7 +40,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     /**
      * XML path to page size parameter
      */
-    const XML_PATH_PAGE_SIZE = 'export/format_v2/customer_page_size/finance';
+    const XML_PATH_PAGE_SIZE = 'export/customer_page_size/finance';
 
     /**
      * Website ID-to-code
@@ -73,7 +73,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     /**
      * Customers whose financial data is exported
      *
-     * @var Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer
+     * @var Mage_ImportExport_Model_Export_Entity_Eav_Customer
      */
     protected $_customerEntity;
 
@@ -96,7 +96,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
         $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
             : Mage::getResourceModel('Enterprise_ImportExport_Model_Resource_Customer_Collection');
         $this->_customerEntity = isset($data['customer_entity']) ? $data['customer_entity']
-            : Mage::getModel('Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer');
+            : Mage::getModel('Mage_ImportExport_Model_Export_Entity_Eav_Customer');
         $this->_moduleHelper = isset($data['module_helper']) ? $data['module_helper']
             : Mage::helper('Enterprise_ImportExport_Helper_Data');
 
@@ -108,7 +108,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
     /**
      * Initialize frontend websites
      *
-     * @return Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
+     * @return Enterprise_ImportExport_Model_Export_Entity_Customer_Finance
      */
     protected function _initFrontendWebsites()
     {
@@ -181,7 +181,7 @@ class Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance
      * Set parameters (push filters from post into export customer model)
      *
      * @param array $parameters
-     * @return Mage_ImportExport_Model_Export_Entity_V2_Eav_Customer_Address
+     * @return Mage_ImportExport_Model_Export_Entity_Eav_Customer_Address
      */
     public function setParameters(array $parameters)
     {
