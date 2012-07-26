@@ -853,7 +853,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                     $isFound = ($currentKey === $overrideKey);
                     break;
                 case 'byValueParam':
-                    $isFound = preg_match('/' . preg_quote('%' . $overrideKey . '%') . '/', $currentValue);
+                    $isFound = (!is_array($currentValue))
+                        ? preg_match('/' . preg_quote('%' . $overrideKey . '%') . '/', $currentValue)
+                        : false;
                     break;
                 default:
                     throw new OutOfRangeException('Wrong condition');
