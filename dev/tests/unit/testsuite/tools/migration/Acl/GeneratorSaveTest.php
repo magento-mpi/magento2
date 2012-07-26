@@ -37,6 +37,10 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        if (false == function_exists('tidy_parse_string')) {
+            $this->markTestSkipped('Tidy extension is required');
+        }
+
         $this->_model = new Tools_Migration_Acl_Generator();
         $this->_fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $this->_fixturePath . DIRECTORY_SEPARATOR . 'save' . DIRECTORY_SEPARATOR;

@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category   Mage
- * @package    Mage
+ * @category   Magento
+ * @package    tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -63,9 +63,9 @@ class Tools_Migration_Acl_Menu_Generator
     protected $_isPreviewMode;
 
     /**
-     * @param $basePath
-     * @param $validNodeTypes
-     * @param $aclXPathToId
+     * @param $basePath string
+     * @param $validNodeTypes array
+     * @param $aclXPathToId array
      * @param bool $preview
      */
     public function __construct($basePath, $validNodeTypes, $aclXPathToId, $preview = true)
@@ -225,7 +225,7 @@ class Tools_Migration_Acl_Menu_Generator
      */
     public function buildMenuItemsXPath()
     {
-        foreach ($this->_menuIdMaps as $menuId => $menuParentId) {
+        foreach (array_keys($this->_menuIdMaps) as $menuId) {
             $this->initParentItems($menuId);
             $this->buildXPath($menuId);
         }
@@ -284,45 +284,58 @@ class Tools_Migration_Acl_Menu_Generator
         $aclPrefix = 'config/acl/resources/admin/';
         /** @var $dom DOMDocument **/
         foreach ($this->_menuDomList as $file => $dom) {
-            $xpath = new DOMXPath($dom);
-            $menus = $dom->getElementsByTagName('menu');
-            /** @var $menu DOMNode **/
-            foreach ($menus as $menu) {
+            $menu = $dom->getElementsByTagName('menu')->item(0);
                 /** @var $childNode DOMNode **/
-                foreach ($menu->childNodes as $childNode) {
-                    if (false == in_array($childNode->nodeType, $this->_validNodeTypes) ||
-                        false == array_key_exists($childNode->nodeName, $this->_updateNodes)
-                    ) {
+            foreach ($menu->childNodes as $childNode) {
+
+                if (!$this->_isNodeValidToUpdate($childNode)) {
+                    continue;
+                }
+
+                $attributeName = $this->_updateNodes[$childNode->nodeName]['attribute'];
+                $required = $this->_updateNodes[$childNode->nodeName]['required'];
+                $resource = $childNode->getAttribute($attributeName);
+                $menuId = $childNode->getAttribute('id');
+
+                if (false == array_key_exists($menuId, $this->_menuIdToAclId)) {
+                    $errors[] = 'File: ' . $file . ' :: Menu: ' . $menuId . ' is not mapped to ACL id';
+                    continue;
+                }
+                $aclId = $this->_menuIdToAclId[$menuId];
+
+                if ($resource) {
+                    $aclXPath = $aclPrefix . $resource;
+                    if (false == array_key_exists($aclXPath, $this->_aclXPathToId)) {
+                        $errors[] = 'File: ' . $file . ' :: Menu: ' . $menuId
+                            . '. There is no ACL resource with XPath ' . $aclXPath;
                         continue;
                     }
-
-                    $attributeName = $this->_updateNodes[$childNode->nodeName]['attribute'];
-                    $required = $this->_updateNodes[$childNode->nodeName]['required'];
-                    $resource = $childNode->getAttribute($attributeName);
-                    $menuId = $childNode->getAttribute('id');
-                    if (false == array_key_exists($menuId, $this->_menuIdToAclId)) {
-                        $errors[] = 'File: ' . $file . ' :: Menu: ' . $menuId . ' is not mapped to ACL id';
-                        continue;
-                    }
-                    $aclId = $this->_menuIdToAclId[$menuId];
-
-                    if ($resource) {
-                        $aclXPath = $aclPrefix . $resource;
-                        if (false == array_key_exists($aclXPath, $this->_aclXPathToId)) {
-                            $errors[] = 'File: ' . $file . ' :: Menu: ' . $menuId
-                                . '. There is no ACL resource with XPath ' . $aclXPath;
-                            continue;
-                        }
-                        $aclId = $this->_aclXPathToId[$aclXPath];
-                    }
-                    if ($required || $resource) {
-                        $childNode->setAttribute($attributeName, $aclId);
-                    }
+                    $aclId = $this->_aclXPathToId[$aclXPath];
+                }
+                if ($required || $resource) {
+                    $childNode->setAttribute($attributeName, $aclId);
                 }
             }
         }
 
         return $errors;
+    }
+
+    /**
+     * Check if node has to be updated
+     *
+     * @param DOMNode $node
+     * @return bool
+     */
+    protected function _isNodeValidToUpdate(DOMNode $node)
+    {
+        if (false == in_array($node->nodeType, $this->_validNodeTypes) ||
+            false == array_key_exists($node->nodeName, $this->_updateNodes)
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -368,8 +381,6 @@ class Tools_Migration_Acl_Menu_Generator
      */
     public function run()
     {
-        $this->getMenuFiles();
-
         $this->parseMenuFiles();
 
         $this->buildMenuItemsXPath();

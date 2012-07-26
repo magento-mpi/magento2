@@ -149,18 +149,18 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testIsRestrictedNode()
+    public function testIsForwardedNode()
     {
-        $restricted = array(
+        $forwarded = array(
             'restricted_one',
             'restricted_two',
         );
-        $this->_model->setRestrictedNodeNames($restricted);
-        $this->assertEquals($restricted, $this->_model->getRestrictedNodeNames());
+        $this->_model->setForwardNodeNames($forwarded);
+        $this->assertEquals($forwarded, $this->_model->getForwardNodeNames());
 
-        $this->assertTrue($this->_model->isRestrictedNode('restricted_one'));
-        $this->assertTrue($this->_model->isRestrictedNode('restricted_two'));
-        $this->assertFalse($this->_model->isRestrictedNode('restricted_three'));
+        $this->assertTrue($this->_model->isForwardNode('restricted_one'));
+        $this->assertTrue($this->_model->isForwardNode('restricted_two'));
+        $this->assertFalse($this->_model->isForwardNode('restricted_three'));
 
     }
 
@@ -265,7 +265,6 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(100, $parent->getAttribute('test_SortOrder'), 'Incorrect set of sort order');
         $this->assertEquals('TestTitle', $parent->getAttribute('test_Title'), 'Incorrect set of title');
-        $this->assertEquals('Module_Name', $parent->getAttribute('module'), 'Incorrect set of module name');
         $maps = array('root' => 'Module_Name::root_id');
         $this->assertEquals($maps, $this->_model->getAclResourceMaps()); //test setting of id maps
     }
@@ -279,6 +278,10 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers Tools_Migration_Acl_Generator::parseNode
+     * @covers Tools_Migration_Acl_Generator::generateId
+     */
     public function testParseNode()
     {
         $dom = new DOMDocument();

@@ -2,19 +2,11 @@
 /**
  * {license_notice}
  *
- * @category   Mage
- * @package    Mage
+ * @category   Magento
+ * @package    tools
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-define('USAGE', <<<USAGE
-$>./acl.php -- [-dseh]
-    additional parameters:
-    -h          print usage
-    -p          preview result
-USAGE
-);
 require_once ( __DIR__ . '/Menu/Generator.php');
 
 class Tools_Migration_Acl_Generator
@@ -32,6 +24,13 @@ class Tools_Migration_Acl_Generator
     protected $_metaNodeNames = array();
 
     /**
+     * Forward node names
+     *
+     * @var array
+     */
+    protected $_forwardNodeNames = array();
+
+    /**
      * Restricted node names
      *
      * @var array
@@ -44,13 +43,6 @@ class Tools_Migration_Acl_Generator
      * @var array|null
      */
     protected $_adminhtmlFiles = null;
-
-    /**
-     * Menu files
-     *
-     * @var array|null
-     */
-    protected $_menuFiles = null;
 
     /**
      * Valid node types
@@ -113,23 +105,31 @@ class Tools_Migration_Acl_Generator
     protected $_isPreviewMode = false;
 
     /**
-     * Default constructor
+     * List of unique ACL ids
+     *
+     * @var array
+     */
+    protected $_uniqueName = array();
+
+    /**
+     * @param array $options configuration options
      */
     public function __construct($options = array())
     {
-        if (false == function_exists('tidy_parse_string')) {
-            throw new Exception('Error! php_tidy extension is required');
-        }
         $this->_printHelp = array_key_exists('h', $options);
         $this->_isPreviewMode = array_key_exists('p', $options);
 
         $this->_metaNodeNames = array(
             'sort_order' => 'sortOrder',
-            'title' => 'title',
+            'title' => 'title'
+        );
+
+        $this->_forwardNodeNames = array(
+            'children',
         );
 
         $this->_restrictedNodeNames = array(
-            'children',
+            'privilegeSets',
         );
 
         $this->_validNodeTypes = array(
@@ -149,8 +149,8 @@ class Tools_Migration_Acl_Generator
     /**
      * Get Comment text
      *
-     * @param $category
-     * @param $package
+     * @param $category string
+     * @param $package string
      * @return string
      */
     public function getCommentText($category, $package)
@@ -171,7 +171,7 @@ class Tools_Migration_Acl_Generator
     /**
      * Get module name from file name
      *
-     * @param $fileName
+     * @param $fileName string
      * @return string
      */
     public function getModuleName($fileName)
@@ -184,7 +184,7 @@ class Tools_Migration_Acl_Generator
     /**
      * Get category name from file name
      *
-     * @param $fileName
+     * @param $fileName string
      * @return string
      */
     public function getCategory($fileName)
@@ -194,14 +194,14 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * Get is restricted node
+     * Get is forward node
      *
      * @param string $nodeName
      * @return bool
      */
-    public function isRestrictedNode($nodeName)
+    public function isForwardNode($nodeName)
     {
-        return in_array($nodeName, $this->getRestrictedNodeNames());
+        return in_array($nodeName, $this->getForwardNodeNames());
     }
 
     /**
@@ -216,19 +216,19 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * @param array $restrictedNodeNames
+     * @param array $forwardNodeNames
      */
-    public function setRestrictedNodeNames($restrictedNodeNames)
+    public function setForwardNodeNames($forwardNodeNames)
     {
-        $this->_restrictedNodeNames = $restrictedNodeNames;
+        $this->_forwardNodeNames = $forwardNodeNames;
     }
 
     /**
      * @return array
      */
-    public function getRestrictedNodeNames()
+    public function getForwardNodeNames()
     {
-        return $this->_restrictedNodeNames;
+        return $this->_forwardNodeNames;
     }
 
     /**
@@ -263,7 +263,7 @@ class Tools_Migration_Acl_Generator
      *
      * @param string $codePool
      * @param string $namespace
-     * @return null|string
+     * @return string
      */
     public function getEtcDirPattern($codePool = '*', $namespace = '*')
     {
@@ -277,7 +277,7 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * @param null|string $basePath
+     * @param string $basePath
      */
     public function setBasePath($basePath)
     {
@@ -285,7 +285,7 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     public function getBasePath()
     {
@@ -303,10 +303,30 @@ class Tools_Migration_Acl_Generator
     public function createNode(DOMDocument $resultDom, $nodeName, DOMNode $parent)
     {
         $newNode = $resultDom->createElement('resource');
-        $newNode->setAttribute('id', $nodeName);
-        $newNode->setAttribute('xpath', $parent->getAttribute('xpath') . '/' . $nodeName);
+        $xpath = $parent->getAttribute('xpath');
+        $newNode->setAttribute('xpath', $xpath . '/' . $nodeName);
         $parent->appendChild($newNode);
+        $newNode->setAttribute('id', $this->generateId($newNode, $xpath, $nodeName));
         return $newNode;
+    }
+
+    /**
+     * Generate unique id for ACL item
+     *
+     * @param DOMNode $node
+     * @param $xpath string
+     * @param $resourceId string
+     * @return mixed
+     */
+    public function generateId(DOMNode $node, $xpath, $resourceId)
+    {
+        if (isset($this->_uniqueName[$resourceId]) && $this->_uniqueName[$resourceId] != $xpath) {
+            $parts = explode('/', $node->parentNode->getAttribute('xpath'));
+            $suffix = end($parts);
+            $resourceId = $this->generateId($node->parentNode, $xpath, $suffix . '_' . $resourceId);
+        }
+        $this->_uniqueName[$resourceId] = $xpath;
+        return $resourceId;
     }
 
     /**
@@ -321,8 +341,9 @@ class Tools_Migration_Acl_Generator
         $node->setAttribute($this->_metaNodeNames[$dataNode->nodeName], $dataNode->nodeValue);
         if ($dataNode->nodeName == 'title') {
             $node->setAttribute('module', $module);
-            $id = $node->getAttribute('module') . '::' . $node->getAttribute('id');
-            $this->_aclResourceMaps[$node->getAttribute('xpath')] = $id;
+            $resourceId = $node->getAttribute('module') . '::' . $node->getAttribute('id');
+            $xpath = $node->getAttribute('xpath');
+            $this->_aclResourceMaps[$xpath] = $resourceId;
         }
     }
 
@@ -350,7 +371,7 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * @param array|null $adminhtmlFiles
+     * @param array $adminhtmlFiles
      */
     public function setAdminhtmlFiles($adminhtmlFiles)
     {
@@ -375,11 +396,16 @@ class Tools_Migration_Acl_Generator
      */
     public function parseNode(DOMNode $node, DOMDocument $dom, DOMNode $parentNode, $moduleName)
     {
+        if ($this->isRestrictedNode($node->nodeName)) {
+            return;
+        }
+
         foreach ($node->childNodes as $item) {
-            if (false == $this->isValidNodeType($item->nodeType)) {
+            if (false == $this->isValidNodeType($item->nodeType) || $this->isRestrictedNode($item->nodeName)) {
                 continue;
             }
-            if ($this->isRestrictedNode($item->nodeName)) {
+
+            if ($this->isForwardNode($item->nodeName)) {
                 $this->parseNode($item, $dom, $parentNode, $moduleName);
             } elseif ($this->isMetaNode($item->nodeName)) {
                 $this->setMetaInfo($parentNode, $item, $moduleName);
@@ -393,11 +419,26 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
+     * Check if node is restricted
+     *
+     * @param $nodeName string
+     * @return bool
+     */
+    public function isRestrictedNode($nodeName)
+    {
+        return in_array($nodeName, $this->_restrictedNodeNames);
+    }
+
+    /**
      * Print help message
      */
     public function printHelpMessage()
     {
-        echo USAGE;
+        $output = './acl.php -- [-hp]' . PHP_EOL;
+        $output .= 'additional parameters:' . PHP_EOL;
+        $output .= ' -h          print usage' . PHP_EOL;
+        $output .= ' -p          preview result' . PHP_EOL;
+        echo $output;
     }
 
     /**
@@ -486,7 +527,6 @@ class Tools_Migration_Acl_Generator
             }
             $item->setAttribute('id', $id);
             $item->removeAttribute('xpath');
-            $item->removeAttribute('module');
 
             if ($item->childNodes->length > 0) {
                 $this->updateChildAclNodes($item);
@@ -504,6 +544,8 @@ class Tools_Migration_Acl_Generator
 
     /**
      * Save ACL files
+     *
+     * @throws Exception if tidy extension is not installed
      */
     public function saveAclFiles()
     {
@@ -519,6 +561,10 @@ class Tools_Migration_Acl_Generator
             if (false == $this->_isPreviewMode) {
                 $dom->preserveWhiteSpace = false;
                 $dom->formatOutput = true;
+
+                if (false == function_exists('tidy_parse_string')) {
+                    throw new Exception('Error! php_tidy extension is required');
+                }
                 $tidy = tidy_parse_string($dom->saveXml(), array(
                     'indent' => true,
                     'input-xml' => true,
@@ -607,6 +653,7 @@ class Tools_Migration_Acl_Generator
         foreach ($node->childNodes as $item) {
             if ($this->isValidNodeType($item->nodeType)) {
                 $output = false;
+                break;
             }
         }
         return $output;
@@ -689,7 +736,7 @@ class Tools_Migration_Acl_Generator
 
         $output .= PHP_EOL;
         $output .= 'Artifacts: ' . PHP_EOL;
-        foreach ($artifacts as $file => $data) {
+        foreach (array_keys($artifacts) as $file) {
             $output .= ' - ' . $this->_artifactsPath . $file . PHP_EOL;
         }
 
