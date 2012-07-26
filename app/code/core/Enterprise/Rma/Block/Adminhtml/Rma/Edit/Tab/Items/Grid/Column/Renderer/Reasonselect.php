@@ -42,7 +42,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid_Column_Renderer_Rea
         }
 
         if ($rmaItemAttribute && $rmaItemAttribute->getId()) {
-            $selected = $value == 0 && $row->getReasonOther() != '' ? ' selected="selected"' : '';
+            $selected = $selectedIndex == 0 && $row->getReasonOther() != '' ? ' selected="selected"' : '';
             $html .= '<option value="other"' . $selected . '>' . $rmaItemAttribute->getStoreLabel() . '</option>';
         }
 

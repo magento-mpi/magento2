@@ -51,7 +51,7 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
      */
     public function testNotLoggedIndexAction()
     {
-        $this->dispatch('admin/index/index');
+        $this->dispatch('backend/admin/index/index');
         $this->assertFalse($this->getResponse()->isRedirect());
         $expected = 'Log in to Admin Panel';
         $this->assertContains($expected, $this->getResponse()->getBody(), 'There is no login form');
@@ -65,7 +65,7 @@ class Mage_Backend_Adminhtml_IndexControllerTest extends Magento_Test_TestCase_C
     public function testLoggedIndexAction()
     {
         $this->_login();
-        $this->dispatch('admin/index/index');
+        $this->dispatch('backend/admin/index/index');
         $this->assertRedirect();
         $this->_logout();
     }
