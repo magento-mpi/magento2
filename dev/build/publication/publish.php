@@ -65,9 +65,6 @@ try {
         execVerbose("$gitCmd rm -f %s", $file);
     }
 
-    // composer.json, must be before extruder, as the latter removes it
-    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
-
     // remove files that must not be published
     $extruderDir = __DIR__ . '/extruder';
     execVerbose(
@@ -100,6 +97,10 @@ try {
         "$licenseToolDir/license-tool.php",
         $targetDir
     );
+
+    // composer.json
+    copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
+    execVerbose("$gitCmd add composer.json");
 
     // commit and push
     execVerbose("$gitCmd add --update");
