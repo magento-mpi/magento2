@@ -57,7 +57,11 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
         ini_set('display_errors', 0);
 
         // TODO: Implement error handling on this stage
-        $this->_getConcreteFrontController()
+        $concreteFrontController = $this->_getConcreteFrontController();
+
+        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('api_resource.xml');
+        $resourceConfig = new Mage_Api2_Model_Config_Resource($configFiles);
+        $concreteFrontController->setResourceConfig($resourceConfig)
             ->setRequest($this->_request)
             ->setResponse($this->_response)
             ->init();

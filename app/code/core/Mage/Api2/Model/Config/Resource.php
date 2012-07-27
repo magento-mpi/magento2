@@ -58,6 +58,16 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Retrieve list of resources with methods
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        return $this->_data['resources'];
+    }
+
+    /**
      * Extract configuration data from the DOM structure
      *
      * @param DOMDocument $dom
@@ -69,11 +79,11 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
         $this->_paramsElementNameByMessageName = $this->_extractMessages($dom);
         $this->_dataTypes = $this->_extractDataTypes($dom);
         $this->_params = $this->_extractOperationsParams($dom);
-        
+
         $result = array();
         $result['resources'] = array();
         $result['types'] = $this->_dataTypes;
-        
+
         /** @var DOMElement $portType */
         foreach ($dom->getElementsByTagName('portType') as $portType) {
             $resourceName = $portType->getAttribute('name');
@@ -269,6 +279,16 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     public function getSchemaFile()
     {
         return __DIR__ . '/resource.xsd';
+    }
+
+    /**
+     * Retrieve config DOM Document
+     *
+     * @return DOMDocument
+     */
+    public function getDom()
+    {
+        return $this->_domConfig->getDom();
     }
 
     /**

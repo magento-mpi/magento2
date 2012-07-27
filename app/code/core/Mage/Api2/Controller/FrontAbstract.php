@@ -17,6 +17,8 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
     protected $_request;
     /** @var Mage_Api2_Model_Response */
     protected $_response;
+    /** @var Mage_Api2_Model_Config_Resource */
+    protected $_resourceConfig;
 
     abstract public function init();
 
@@ -25,10 +27,12 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
     /**
      * Retrieve config describing resources available in all APIs
      * The same resource config must be used in all API types
+     *
+     * @return Mage_Api2_Model_Config_Resource
      */
     public function getResourceConfig()
     {
-        // TODO: Implement
+        return $this->_resourceConfig;
     }
 
     /**
@@ -39,7 +43,8 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
      */
     public function setResourceConfig(Mage_Api2_Model_Config_Resource $config)
     {
-        // TODO: Implement
+        $this->_resourceConfig = $config;
+
         return $this;
     }
 

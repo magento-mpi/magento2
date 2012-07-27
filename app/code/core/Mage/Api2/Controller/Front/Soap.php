@@ -42,9 +42,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     {
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
-                // TODO: Load WSDL
-                $wsdl = '<?xml version="1.0" encoding="UTF-8"?><fake>TODO: Implement WSDL content loading</fake>';
-                $responseBody = $wsdl;
+                $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML());
+                $responseBody = $wsdl->toDom()->saveXML();
             } else {
                 $responseBody = $this->_getSoapServer()->handle();
             }
