@@ -64,8 +64,8 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
      * <p>3. Create new customer</p>
      *
      * <p>Steps</p>
-     * <p>1. In System-> Import/Export-> Export select "Customers" entity type</p>
-     * <p>2. Select "Magento2.0" format and "Address Type" file</p>
+     * <p>1. Go to System-> Import/Export-> Export</p>
+     * <p>2. Select "Address Type" file</p>
      * <p>3. Click on "Continue" button, save and open CSV file.</p>
      * <p>Expected: All customer addresses attributes are presented in opening file with new attribute from
      *    the precondition.</p>
@@ -87,8 +87,8 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
 
         //Step 1
         $this->navigate('export');
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
-
+        //Step 2
+        $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         //Step 3
         $report = $this->ImportExportHelper()->export();
         //Verifying
@@ -111,8 +111,8 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
      * </p>
      *
      * <p>Steps</p>
-     * <p>1. In System-> Import/Export-> Export select "Customers" entity type</p>
-     * <p>2. Select "Magento2.0" format and "Address Type" file</p>
+     * <p>1. Go to System-> Import/Export-> Export</p>
+     * <p>2. Select "Address Type" file</p>
      * <p>3. Click on "Continue" button, save and open CSV file.</p>
      * <p>Expected: All customer addresses attributes are presented in opening file except new deleted attribute from
      *    the precondition.</p>
@@ -139,8 +139,8 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
 
         //Step 1
         $this->navigate('export');
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
-
+        //Step 2
+        $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         //Step 3
         $report = $this->ImportExportHelper()->export();
         //Verifying

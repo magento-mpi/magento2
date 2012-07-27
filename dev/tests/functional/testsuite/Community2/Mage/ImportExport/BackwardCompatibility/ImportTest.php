@@ -51,6 +51,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
     }
 
     /**
+     * <p>Has been excluded from functionality scope</p>
      * <p>Validation Result block</p>
      * <p>Verify that Validation Result block will be displayed after checking data of import file</p>
      * <p>Precondition: at least one customer exists, one file is generated after export</p>
@@ -65,6 +66,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      *
      * @test
      * @TestlinkId TL-MAGE-1108
+     * @group skip_due_to_bug
      */
     public function validationResultBlock()
     {

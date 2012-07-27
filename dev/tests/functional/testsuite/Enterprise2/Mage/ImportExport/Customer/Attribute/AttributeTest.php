@@ -38,8 +38,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * <p>Steps</p>
      * <p>1. Admin is logged in at backend</p>
      * <p>2. New Customers Attribute is created in Customers -> Attributes -> Manage Customers Attributes</p>
-     * <p>3. In System-> Import/Export-> Export select "Customers" entity type</p>
-     * <p>4. Select "Magento2.0" format and "Master Type" file</p>
+     * <p>3. In System-> Import/Export-> Export select "Master Type" file</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5484
@@ -47,23 +46,23 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      */
     public function addCustomerAttribute()
     {
-        //step1
+        //Step 2
         $this->navigate('manage_customer_attributes');
         $attrData = $this->loadDataSet('CustomerAttribute','customer_attribute_textfield',
             array('values_required' => 'No'));
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Step 2
+        //Step 3
         $this->navigate('export');
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
-        //Step 5
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
+        //Step 4
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
                 'attribute_code' => $attrData['properties']['attribute_code']
             )
         );
-        //Step 6
+        //Step 5
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
                 'attribute_code' => $attrData['properties']['attribute_code']
@@ -71,7 +70,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
-        //Step 7
+        //Step 6
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
         return $attrData;
@@ -82,8 +81,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * <p>Steps</p>
      * <p>1. Admin is logged in at backend</p>
      * <p>2. In Customers -> Attributes -> Manage Customers Attributes change a info in the field "Attribute Label" for existing Customer Attribute</p>
-     * <p>3. In System-> Import/Export-> Export select "Customers" entity type</p>
-     * <p>4. Select "Magento2.0" format and "Master Type" file</p>
+     * <p>3. In System-> Import/Export-> Export select "Master Type" file</p>
      *
      * @test
      * @param array $attrData
@@ -103,22 +101,22 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
         $this->attributesHelper()->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Steps 2-4
+        //Steps 2-3
         $this->navigate('export');
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
-        //Step 5
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
+        //Step 4
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
                 'attribute_code' => $attrData['properties']['attribute_code']
             ));
-        //Step 6
+        //Step 5
         $isFound = $this->ImportExportHelper()->customerSearchAttributes(
             array(
                 'attribute_code' => $attrData['properties']['attribute_code']),
             'grid_and_filter'
             );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
-        //Step 7
+        //Step 6
         $this->clickButton('reset_filter', false);
         $this->waitForAjax();
         return $attrData;
@@ -130,8 +128,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * <p>1. Admin is logged in at backend</p>
      * <p>2. Create new customer attribute in Customers -> Attributes -> Manage Customers Attributes</p>
      * <p>3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customers Attributes</p>
-     * <p>4. In System-> Import/Export-> Export select "Customers" entity type</p>
-     * <p>5. Select "Magento2.0" format and "Master Type" file</p>
+     * <p>4. In System-> Import/Export-> Export select "Master Type" file</p>
      *
      * @test
      * @param array $attrData
@@ -151,7 +148,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
         $this->assertMessagePresent('success', 'success_deleted_attribute');
         //Steps 2-4
         $this->navigate('export');
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 5
         $this->ImportExportHelper()->customerFilterAttributes(
             array(
@@ -174,11 +171,10 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
     /**
      * <p>Customer Master file export with using some filters</p>
      * <p>Steps</p>
-     * <p>1. On backend in System -> Import/ Export -> Export select "Customers" entity type</p>
-     * <p>2. Select the export version "Magento 2.0" and "Master Type File"</p>
-     * <p>3. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
-     * <p>4. Press "Continue" button and save current file</p>
-     * <p>5. Open file</p>
+     * <p>1. On backend in System -> Import/ Export -> Export select "Master Type File"</p>
+     * <p>2. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
+     * <p>3. Press "Continue" button and save current file</p>
+     * <p>4. Open file</p>
      * <p>Expected: In generated file just your customer with selected option of attribute is present</p>
      *
      * @test
@@ -200,7 +196,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
         //Steps 1-2
         $this->navigate('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-		$this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step3
         $this->ImportExportHelper()->setFilter(array(
                 $attrData['properties']['attribute_code'] => $userData[$attrData['properties']['attribute_code']])

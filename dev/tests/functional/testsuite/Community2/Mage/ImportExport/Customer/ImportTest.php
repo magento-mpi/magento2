@@ -105,11 +105,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * Customer Main, Address, Finance files must be generated after export</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Customers Entity Type: Customer Main File/Customer Addresses/Customer Finances</p>
-     * <p>5. Select file to import</p>
-     * <p>6. Click "Check Data" button.</p>
+     * <p>2. Select Customers Entity Type: Customer Main File/Customer Addresses/Customer Finances</p>
+     * <p>3. Select file to import</p>
+     * <p>4. Click "Check Data" button.</p>
      * <p>Expected: validation and success messages are correct</p>
      *
      * @test
@@ -134,12 +132,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         }
         //export all customer files
         $this->navigate('export');
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
         $report = array();
         foreach ($customerTypes as $customerType) {
-            $this->fillDropdown('export_file', $customerType);
-            $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
+            $this->importExportHelper()->chooseExportOptions($customerType);
             $report[$customerType] = $this->importExportHelper()->export();
         }
         //Step 1

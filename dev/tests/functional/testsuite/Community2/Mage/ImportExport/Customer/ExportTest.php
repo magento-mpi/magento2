@@ -38,9 +38,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * <p>Export Settings General View</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "New Export"</p>
-     * <p>Expected: dropdowns contain correct values</p>
+     * <p>Expected: dropdown contain correct values</p>
      *
      * @test
      * @TestlinkId TL-MAGE-5479
@@ -51,33 +49,8 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $entityTypes = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'entity_type') . '/option',
             'text');
-        $this->assertEquals(array('-- Please Select --', 'Products', 'Customers'), $entityTypes,
-            'Entity Type dropdown contains incorrect values');
-        $fileFormat = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'file_format') . '/option',
-            'text');
-        $this->assertEquals(array('CSV'), $fileFormat,
-            'Export File Format dropdown contains incorrect values');
-        //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Verifying
-        $exportFileVersion = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'export_file_version') . '/option',
-            'text');
-        $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
-            $exportFileVersion,
-            'Export File Version dropdown contains incorrect values');
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Verifying
-        $exportFileVersion = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'export_file') . '/option',
-            'text');
-        $this->assertEquals($this->importExportHelper()->getCustomerEntityType(),
-            $exportFileVersion,
-            'Export File Version dropdown contains incorrect values');
+        $this->assertEquals(array('-- Please Select --', 'Products', 'Customers Main File','Customer Addresses'),
+            $entityTypes, 'Entity Type dropdown contains incorrect values');
     }
 
     /**
@@ -88,10 +61,10 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet('Customers','generic_customer_account');
         $userDataAddress = $this->loadDataSet('Customers','generic_address');
-        $this->customerHelper()->createCustomer($userData,$userDataAddress);
+        //$this->customerHelper()->createCustomer($userData,$userDataAddress);
         //Step 1
         $this->navigate('export');
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         $report = $this->importExportHelper()->export();
     }
 
@@ -101,7 +74,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleExportAddress()
     {
         //Step 1
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         $report = $this->importExportHelper()->export();
         $csv =  $this->importExportHelper()->arrayToCsv($report);
     }
@@ -110,12 +83,10 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * <p>Simple Export Master file</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>3. Select new Export flow</p>
-     * <p>4. Choose Customer (Master) file to export</p>
-     * <p>5. Click on the Continue button</p>
-     * <p>6. Save file to your computer</p>
-     * <p>7. Open it.</p>
+     * <p>2. Choose Customer (Master) file to export</p>
+     * <p>3. Click on the Continue button</p>
+     * <p>4. Save file to your computer</p>
+     * <p>5. Open it.</p>
      * <p>Expected: Check that among all customers your customer with attribute is present</p>
      *
      * @test
@@ -132,9 +103,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 1
         $this->navigate('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        //Steps 2-4
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
-        //Steps 5-6
+        //Step 2
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
+        //Steps 3-6
         $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
@@ -145,8 +116,8 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     /**
      * <p>Customer Master file export with using some filters</p>
      * <p>Steps</p>
-     * <p>1. On backend in System -> Import/ Export -> Export select "Customers" entity type</p>
-     * <p>2. Select the export version "Magento 2.0" and "Master Type File"</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. Select "Master Type File"</p>
      * <p>3. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
      * <p>4. Press "Continue" button and save current file</p>
      * <p>5. Open file</p>
@@ -166,7 +137,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Steps 1-2
         $this->navigate('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step3
         $this->importExportHelper()
             ->setFilter(array('firstname' => $userData['first_name']));
@@ -184,10 +155,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleExportCustomer()
     {
         //Step 1
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         $customersMain = $this->importExportHelper()->export();
-        $this->fillDropdown('export_file', 'Customer Addresses');
-        $this->waitForAjax();
+        $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         $customerAddresses = $this->ImportExportHelper()->export();
     }
 
@@ -197,7 +167,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleAttributeFilterAndSearch()
     {
         //Step 1
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         $this->importExportHelper()->customerFilterAttributes(
             array(
                 'attribute_label' => 'Created At',
@@ -227,34 +197,29 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * <p>Verify the search by fields "Attribute Label" and "Attribute Code"</p>
      * <p>This search should work with each file type</p>
      * <p>Steps:</p>
-     * <p>1. In System-> Import/Export-> Export select "Customers" entity type</p>
-     * <p>2. Select "Magento2.0" format</p>
-     * <p>3. Select file type (Customers Main File/Customer Addresses)</p>
-     * <p>4. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button</p>
-     * <p>5. Verify that attribute is found</p>
-     * <p>6. Click 'Reset filter' button</p>
-     * <p>7. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button</p>
-     * <p>8. Verify that attribute is found</p>
-     * <p>6. Click 'Reset filter' button</p>
+     * <p>1. Go to System-> Import/Export-> Export</p>
+     * <p>2. Select file type (Customers Main File/Customer Addresses)</p>
+     * <p>3. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button</p>
+     * <p>4. Verify that attribute is found</p>
+     * <p>5. Click 'Reset filter' button</p>
+     * <p>6. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button</p>
+     * <p>7. Verify that attribute is found</p>
+     * <p>8. Click 'Reset filter' button</p>
      * @test
      * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
      */
     public function searchByAttributeLabelCode()
     {
         //Steps 1-2
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file'));
-        //Step 3
         $arr = $this->importExportHelper()->getCustomerEntityType();
         foreach ($arr as $value) {
-            $this->fillDropdown('export_file', $value);
-            $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
-            //Step 4
+            $this->importExportHelper()->chooseExportOptions($value);
+            //Step 3
             $this->importExportHelper()->customerFilterAttributes(
                 array(
                     'attribute_code' => 'email'
                 ));
-            //Step 5
+            //Step 4
             $isFound = $this->importExportHelper()->customerSearchAttributes(
                 array(
                     'attribute_code' => 'email'
@@ -262,15 +227,15 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
                 'grid_and_filter'
             );
             $this->assertNotNull($isFound, 'Attribute was not found after filtering');
-            //Step 6
+            //Step 5
             $this->clickButton('reset_filter', false);
             $this->waitForAjax();
-            //Step 7
+            //Step 6
             $this->importExportHelper()->customerFilterAttributes(
                 array(
                     'attribute_label' => 'Email'
                 ));
-            //Step 8
+            //Step 7
             $isFound = $this->importExportHelper()->customerSearchAttributes(
                 array(
                     'attribute_label' => 'Email'
@@ -278,7 +243,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
                 'grid_and_filter'
             );
             $this->assertNotNull($isFound, 'Attribute was not found after filtering');
-            //Step 9
+            //Step 8
             $this->clickButton('reset_filter', false);
             $this->waitForAjax();
         }
@@ -293,24 +258,21 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      */
     public function entityAttributesBlockAllFileTypes()
     {
-        //Step 1-3
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
-        //Step 4
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
+        //Verify
         $isFound = $this->importExportHelper()->customerSkipAttribute(
             array(
                 'attribute_label' => 'Created At'
             ), 'grid_and_filter'
         );
-        $this->assertTrue($isFound, 'Checkbox was not found');
-        //Step 5
-
+        $this->assertTrue($isFound, 'Skip checkbox was not found');
+        //Steps
         $customerTypes = $this->importExportHelper()->getCustomerEntityType();
         foreach (array_slice($customerTypes, 1) as $customerType) {
-            $this->fillDropdown('export_file', $customerType);
-            //Verify
+            $this->importExportHelper()->chooseExportOptions($customerType);
             $this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter'));
             $this->waitForElementVisible($this->_getControlXpath('button', 'continue'));
-            //Step 6
+            //Steps
             $isFound = $this->importExportHelper()->customerSkipAttribute(
                 array(
                     'attribute_label' => 'Created At'
@@ -324,7 +286,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * <p>Export with skipped some attributes</p>
      * <p>Steps</p>
      * <p>1. Admin is logged in at backend</p>
-     * <p>2. Select the export version "Magento 2.0" and "Master Type File"</p>
+     * <p>2. Select "Master Type File"</p>
      * <p>3. Select  "SKIP" checkbox for the row with the attribute Date of Birth (for example)</p>
      * <p>4. Press "Continue" button and save file to your computer</p>
      * <p>5. Verify exported file</p>
@@ -335,7 +297,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function exportCustomerWithSkippedAttribute()
     {
         //Step 1,2
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 3
         $isFound = $this->importExportHelper()->customerSkipAttribute(
             array(
@@ -355,12 +317,10 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * <p>Simple Export Address file</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>3. Select new Export flow</p>
-     * <p>4. Choose Customer Address file to export</p>
-     * <p>5. Click on the Continue button</p>
-     * <p>6. Save file to your computer</p>
-     * <p>7. Open it.</p>
+     * <p>2. Choose Customer Address file to export</p>
+     * <p>3. Click on the Continue button</p>
+     * <p>4. Save file to your computer</p>
+     * <p>5. Open it.</p>
      * <p>Expected: Check that among all customers addresses your customer address with attribute is present</p>
      *
      * @test
@@ -377,9 +337,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 1
         $this->navigate('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
-        //Step 2-4
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
-        //Step5-6
+        //Step 2
+        $this->importExportHelper()->chooseExportOptions('Customer Addresses');
+        //Steps 3-5
         $report = $this->importExportHelper()->export();
         //Verifying
         $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $addressData, $report),
@@ -390,8 +350,8 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     /**
      * <p>Customer Address file export with some filters</p>
      * <p>Steps</p>
-     * <p>1. On backend in System -> Import/ Export -> Export select "Customers" entity type</p>
-     * <p>2. Select the export version "Magento 2.0" and "Address Type File"</p>
+     * <p>1. Go to System -> Import/ Export -> Export</p>
+     * <p>2. Select "Address Type File"</p>
      * <p>3. In the "Filter" column select "Male" for the attribute "Gender"</p>
      * <p>4. Press "Continue" button and save current file</p>
      * <p>5. Open file</p>
@@ -419,14 +379,12 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->navigate('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Step 2
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 2.0 format', 'Customer Addresses');
-
+        $this->importExportHelper()->chooseExportOptions('Customer Addresses');
+        //Step 3
         $this->importExportHelper()
             ->setFilter(array('gender ' => 'Male'));
-
-        //Step 5
+        //Step 4-5
         $report = $this->importExportHelper()->export();
-
         //Verifying
         $this->assertNotNull($report, "Export csv file is empty");
         $this->assertNotNull($this->importExportHelper()->lookForEntity('address', $maleUserAddressData, $report),

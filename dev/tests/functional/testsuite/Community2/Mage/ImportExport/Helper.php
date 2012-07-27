@@ -33,11 +33,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $path        = $path . '/file_format/' .
             $this->getSelectedValue(
                 $this->_getControlXpath('dropdown', 'file_format'));
-        if ($this->controlIsVisible('dropdown', 'export_file')) {
-            $path = $path . "/entity_subtype/" .
-                $this->getSelectedValue(
-                    $this->_getControlXpath('dropdown', 'export_file'));
-        }
         return $path;
     }
     /**
@@ -522,40 +517,15 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     /**
      * Choose Export dialog options
      *
-     * @param string $entityType Entity type to Export (Products/Customers)
-     * @param string $exportVersion Export version (Magento 2.0 format or Magento 1.7 format)
-     * @param string $exportEntity Export entity for Magento 2.0 format
+     * @param string $entityType Entity type to Export (Products/Customers Main File/Customer Addresses/Customer Finances)
      *
      * @return $this
      */
-    public function chooseExportOptions($entityType, $exportVersion = Null, $exportEntity = Null){
+    public function chooseExportOptions($entityType) {
 
         $this->fillDropdown('entity_type', $entityType);
-        if (!is_null($exportVersion)){
-            if (!$this->waitForElementVisible(
-                $this->_getControlXpath('dropdown','export_file_version')))
-            {
-                $this->fail('Can\'t find element: dropdown - export_file_version');
-            }
-            $this->fillDropdown('export_file_version', $exportVersion);
-            if (!is_null($exportEntity)){
-                if (!$this->waitForElementVisible(
-                    $this->_getControlXpath('dropdown', 'export_file')))
-                {
-                    $this->fail('Can\'t find element: dropdown - export_file');
-                }
-                $this->fillDropdown('export_file', $exportEntity);
-                if (!$this->waitForElementVisible(
-                    $this->_getControlXpath('fieldset', 'grid_and_filter')))
-                {
-                    $this->fail('Can\'t find element: fieldset - grid_and_filter');
-                }
-                if (!$this->waitForElementVisible(
-                    $this->_getControlXpath('button', 'continue')))
-                {
+        if (!$this->waitForElementVisible($this->_getControlXpath('button', 'continue'))) {
                     $this->fail('Can\'t find element: button - continue');
-                }
-            }
         }
 
         return $this;
