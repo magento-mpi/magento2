@@ -24,9 +24,8 @@
                     <credential_storage>Mage_User_Model_User</credential_storage>
                 </auth>
                 <acl>
-                    <resourceLoader>Magento_Acl_Loader_Default</resourceLoader>
-                    <ruleLoader>Magento_Acl_Loader_Default</ruleLoader>
-                    <roleLoader>Magento_Acl_Loader_Default</roleLoader>
+                    <ruleLoader>Mage_User_Acl_Loader_Rule</ruleLoader>
+                    <roleLoader>Mage_User_Acl_Loader_Role</roleLoader>
                 </acl>
             </adminhtml>
         </areas>

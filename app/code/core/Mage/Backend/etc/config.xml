@@ -31,7 +31,9 @@
                 </routers>
                 <frontName>backend</frontName>
                 <auth/>
-                <acl/>
+                <acl>
+                    <resourceLoader>Mage_Backend_Acl_Loader_Resource</resourceLoader>
+                </acl>
             </adminhtml>
         </areas>
         <cache>

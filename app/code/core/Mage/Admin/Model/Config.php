@@ -103,37 +103,6 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
      */
     public function loadAclResources(Magento_Acl $acl, $resource = null, $parentName = null)
     {
-        if (is_null($resource)) {
-            $resource = $this->getAdminhtmlConfig()->getNode("acl/resources");
-            $resourceName = null;
-        } else {
-            $resourceName = (is_null($parentName) ? '' : $parentName . '/') . $resource->getName();
-            $acl->add(Mage::getModel('Magento_Acl_Resource', $resourceName), $parentName);
-        }
-
-        if (isset($resource->all)) {
-            $acl->add(Mage::getModel('Magento_Acl_Resource', 'all'), null);
-        }
-
-        if (isset($resource->admin)) {
-            $children = $resource->admin;
-        } elseif (isset($resource->children)){
-            $children = $resource->children->children();
-        }
-
-
-
-        if (empty($children)) {
-            return $this;
-        }
-
-        foreach ($children as $res) {
-            if (1 == $res->disabled) {
-                continue;
-            }
-            $this->loadAclResources($acl, $res, $resourceName);
-        }
-        return $this;
     }
 
     /**
@@ -266,26 +235,6 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
     protected function _buildFullResourceName(Varien_Simplexml_Element $resource, $path = null)
     {
         return (is_null($path) ? '' : $path . '/') . $resource->getName();
-    }
-
-    /**
-     * Get acl assert config
-     *
-     * @param string $name
-     * @return Mage_Core_Model_Config_Element|boolean
-     */
-    public function getAclAssert($name = '')
-    {
-        $asserts = $this->getNode("admin/acl/asserts");
-        if ('' === $name) {
-            return $asserts;
-        }
-
-        if (isset($asserts->$name)) {
-            return $asserts->$name;
-        }
-
-        return false;
     }
 
     /**
