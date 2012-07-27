@@ -29,7 +29,10 @@ class Mage_Page_Helper_RobotsTest extends PHPUnit_Framework_TestCase
      */
     public function testGetRobotsDefaultCustomInstructions()
     {
-        $expectedInstructions = file_get_contents(__DIR__ . '/../_files/robots.txt');
-        $this->assertEquals($expectedInstructions, $this->_helper->getRobotsDefaultCustomInstructions());
+        $this->assertStringEqualsFile(
+            __DIR__ . '/../_files/robots.txt',
+            $this->_helper->getRobotsDefaultCustomInstructions(),
+            'robots.txt default custom instructions are invalid'
+        );
     }
 }
