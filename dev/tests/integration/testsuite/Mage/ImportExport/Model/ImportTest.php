@@ -62,7 +62,7 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      * Test _getEntityAdapter() through validateSource() method in case when entity was not set
      *
      * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Entity is unknown
+     * @expectedExceptionMessage Invalid entity
      */
     public function testGetEntityAdapterEntityIsNotSet()
     {
