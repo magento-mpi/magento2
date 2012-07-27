@@ -16,10 +16,11 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method string getBehavior() getBehavior()
+ * @method Mage_ImportExport_Model_Import setEntity() setEntity(string $value)
  */
 class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
 {
-    /**#
+    /**
      * Import entities config key
      */
     const CONFIG_KEY_ENTITIES          = 'global/importexport/import_entities';
@@ -240,7 +241,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      * @throw Mage_Core_Exception
      * @return string
      */
-    public function xxgetEntity()
+    public function getEntity()
     {
         if (empty($this->_data['entity'])) {
             Mage::throwException(Mage::helper('Mage_ImportExport_Helper_Data')->__('Entity is unknown'));
@@ -335,18 +336,15 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
      */
     public function importSource()
     {
-        $entitySubtype = self::getDataSourceModel()->getUniqueColumnData('entity_subtype');
         $this->setData(array(
             'entity'         => self::getDataSourceModel()->getEntityTypeCode(),
             'behavior'       => self::getDataSourceModel()->getBehavior(),
-            'entity_subtype' => $entitySubtype
         ));
 
         $this->addLogComment(
             Mage::helper('Mage_ImportExport_Helper_Data')
-                ->__('Begin import of "%s" "%s" with "%s" behavior',
+                ->__('Begin import of "%s" with "%s" behavior',
                     $this->getEntity(),
-                    $entitySubtype,
                     $this->getBehavior()
                 )
         );

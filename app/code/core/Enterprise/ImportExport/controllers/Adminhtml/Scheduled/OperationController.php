@@ -134,9 +134,6 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
                     $data['entity_attributes']['skip_attr'] = array_filter($data['skip_attr'], 'intval');
                 }
             }
-            if (!isset($data['entity_subtype'])) {
-                $data['entity_subtype'] = null;
-            }
 
             try {
                 $operation = Mage::getModel('Enterprise_ImportExport_Model_Scheduled_Operation')->setData($data);

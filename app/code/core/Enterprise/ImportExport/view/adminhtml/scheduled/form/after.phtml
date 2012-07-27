@@ -12,6 +12,7 @@
 <?php
 /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
 $operation = Mage::registry('current_operation');
+//TODO: entity_subtype was deleted, UI will be fixed in the scope of https://jira.magento.com/browse/MAGETWO-2511
 $entitySubtype = 'deleted';
 $operationType = $operation->getOperationType();
 $entityBehavior = $operation->getBehavior();
