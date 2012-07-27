@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Magento"
+              xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              xmlns:tns="urn:Magento"
+              targetNamespace="urn:Magento">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <xs:complexType name="ArrayOfString">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="customerEntityCreate">
+                <xs:sequence>
+                    <xs:element name="email" type="xs:string" minOccurs="1" />
+                    <xs:element name="firstname" type="xs:string" minOccurs="1" />
+                    <xs:element name="lastname" type="xs:string" minOccurs="1" />
+                    <xs:element name="password" type="xs:string" minOccurs="1" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="customerEntity">
+                <xs:sequence>
+                    <xs:element name="customer_id" type="xs:int" minOccurs="0" />
+                    <xs:element name="created_at" type="xs:string" minOccurs="0" />
+                    <xs:element name="firstname" type="xs:string" minOccurs="0" />
+                    <xs:element name="middlename" type="xs:string" minOccurs="0" />
+                    <xs:element name="lastname" type="xs:string" minOccurs="0" />
+                    <xs:element name="password_hash" type="xs:string" minOccurs="0" />
+                    <xs:element name="additional_strings" type="tns:ArrayOfString" minOccurs="0" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="productEntityCreate">
+                <xs:sequence>
+                    <xs:element name="sku" type="xs:string" minOccurs="1" />
+                    <xs:element name="name" type="xs:string" minOccurs="1" />
+                    <xs:element name="price" type="xs:float" minOccurs="1" />
+                    <xs:element name="description" type="xs:string" minOccurs="1" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="productEntity">
+                <xs:sequence>
+                    <xs:element name="sku" type="xs:string" minOccurs="0" />
+                    <xs:element name="name" type="xs:string" minOccurs="0" />
+                    <xs:element name="price" type="xs:float" minOccurs="0" />
+                    <xs:element name="description" type="xs:string" minOccurs="0" />
+                    <xs:element name="created_at" type="xs:string" minOccurs="0" />
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:element name="customerCreateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="customerData" type="tns:customerEntityCreate" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerCreateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerInfoRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="customerId" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerInfoResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:customerEntity" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="productCreateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="productData" type="tns:productEntityCreate" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="productCreateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="productInfoRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="productId" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="productInfoResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:productEntity" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="customerCreateRequest">
+        <wsdl:part name="parameters" element="tns:customerCreateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerCreateResponse">
+        <wsdl:part name="parameters" element="tns:customerCreateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="customerInfoRequest">
+        <wsdl:part name="parameters" element="tns:customerInfoRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerInfoResponse">
+        <wsdl:part name="parameters" element="tns:customerInfoResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="productCreateRequest">
+        <wsdl:part name="parameters" element="tns:productCreateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="productCreateResponse">
+        <wsdl:part name="parameters" element="tns:productCreateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="productInfoRequest">
+        <wsdl:part name="parameters" element="tns:productInfoRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="productInfoResponse">
+        <wsdl:part name="parameters" element="tns:productInfoResponseParam" />
+    </wsdl:message>
+
+    <wsdl:portType name="customer">
+        <wsdl:operation name="customerCreate">
+            <wsdl:documentation>Create customer</wsdl:documentation>
+            <wsdl:input message="tns:customerCreateRequest" />
+            <wsdl:output message="tns:customerCreateResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="customerInfo">
+            <wsdl:documentation>Retrieve customer data</wsdl:documentation>
+            <wsdl:input message="tns:customerInfoRequest" />
+            <wsdl:output message="tns:customerInfoResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="product">
+        <wsdl:operation name="catalogProductCreate">
+            <wsdl:documentation>Create product</wsdl:documentation>
+            <wsdl:input message="tns:productCreateRequest" />
+            <wsdl:output message="tns:productCreateResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="productInfo">
+            <wsdl:documentation>Retrieve product data</wsdl:documentation>
+            <wsdl:input message="tns:productInfoRequest" />
+            <wsdl:output message="tns:productInfoResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

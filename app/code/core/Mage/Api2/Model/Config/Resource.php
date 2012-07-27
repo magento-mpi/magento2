@@ -58,6 +58,21 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Retrieve data type details for for given type name.
+     *
+     * @param $typeName
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public function getDataType($typeName)
+    {
+        if (!array_key_exists($typeName, $this->_data['types'])) {
+            throw new InvalidArgumentException(sprintf('Data type "%s" not found in config.', $typeName));
+        }
+        return $this->_data['types'][$typeName];
+    }
+
+    /**
      * Retrieve list of resources with methods
      *
      * @return array
@@ -92,7 +107,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
                 $operationName = $operation->getAttribute('name');
                 if (strpos($operationName, $resourceName) !== 0) {
                     throw new Magento_Exception(
-                        sprintf('Operation "%s" has no relation to resource "%s".', $operationName, $resourceName));
+                        sprintf('Operation "%s" is not related to resource "%s".', $operationName, $resourceName));
                 }
                 $methodName = lcfirst(substr($operationName, strlen($resourceName)));
                 $result['resources'][$resourceName][$methodName] = $this->_getOperationData($operation);

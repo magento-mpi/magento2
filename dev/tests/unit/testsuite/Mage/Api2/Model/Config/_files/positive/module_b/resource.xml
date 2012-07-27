@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Magento"
+              xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              xmlns:tns="urn:Magento"
+              targetNamespace="urn:Magento">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <xs:complexType name="ArrayOfCatalogCategoryEntities">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="tns:catalogCategoryEntity" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogCategoryTree">
+                <xs:sequence>
+                    <xs:element name="category_id" type="xs:int" />
+                    <xs:element name="parent_id" type="xs:int" />
+                    <xs:element name="name" type="xs:string" />
+                    <xs:element name="position" type="xs:int" />
+                    <xs:element name="level" type="xs:int" />
+                    <xs:element name="children" type="tns:ArrayOfCatalogCategoryEntities" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogCategoryEntity">
+                <xs:sequence>
+                    <xs:element name="category_id" type="xs:int" />
+                    <xs:element name="parent_id" type="xs:int" />
+                    <xs:element name="name" type="xs:string" />
+                    <xs:element name="is_active" type="xs:int" />
+                    <xs:element name="position" type="xs:int" />
+                    <xs:element name="level" type="xs:int" />
+                    <xs:element name="children" type="tns:ArrayOfCatalogCategoryEntities" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogCategoryEntityCreate">
+                <xs:sequence>
+                    <xs:element name="name" type="xs:string" minOccurs="0" />
+                    <xs:element name="is_active" type="xs:int" minOccurs="0" />
+                    <xs:element name="position" type="xs:int" minOccurs="0" />
+                    <xs:element name="available_sort_by" type="tns:ArrayOfString" minOccurs="0" />
+                    <xs:element name="custom_design" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_design_apply" type="xs:int" minOccurs="0" />
+                    <xs:element name="custom_design_from" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_design_to" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_layout_update" type="xs:string" minOccurs="0" />
+                    <xs:element name="default_sort_by" type="xs:string" minOccurs="0" />
+                    <xs:element name="description" type="xs:string" minOccurs="0" />
+                    <xs:element name="display_mode" type="xs:string" minOccurs="0" />
+                    <xs:element name="is_anchor" type="xs:int" minOccurs="0" />
+                    <xs:element name="landing_page" type="xs:int" minOccurs="0" />
+                    <xs:element name="meta_description" type="xs:string" minOccurs="0" />
+                    <xs:element name="meta_keywords" type="xs:string" minOccurs="0" />
+                    <xs:element name="meta_title" type="xs:string" minOccurs="0" />
+                    <xs:element name="page_layout" type="xs:string" minOccurs="0" />
+                    <xs:element name="url_key" type="xs:string" minOccurs="0" />
+                    <xs:element name="include_in_menu" type="xs:int" minOccurs="0" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogCategoryInfo">
+                <xs:sequence>
+                    <xs:element name="category_id" type="xs:string" />
+                    <xs:element name="is_active" type="xs:int" />
+                    <xs:element name="position" type="xs:string" />
+                    <xs:element name="level" type="xs:string" />
+                    <xs:element name="parent_id" type="xs:string" />
+                    <xs:element name="all_children" type="xs:string" />
+                    <xs:element name="children" type="xs:string" />
+                    <xs:element name="created_at" type="xs:string" minOccurs="0" />
+                    <xs:element name="updated_at" type="xs:string" minOccurs="0" />
+                    <xs:element name="name" type="xs:string" minOccurs="0" />
+                    <xs:element name="url_key" type="xs:string" minOccurs="0" />
+                    <xs:element name="description" type="xs:string" minOccurs="0" />
+                    <xs:element name="meta_title" type="xs:string" minOccurs="0" />
+                    <xs:element name="meta_keywords" type="xs:string" minOccurs="0" />
+                    <xs:element name="meta_description" type="xs:string" minOccurs="0" />
+                    <xs:element name="path" type="xs:string" minOccurs="0" />
+                    <xs:element name="url_path" type="xs:string" minOccurs="0" />
+                    <xs:element name="children_count" type="xs:int" minOccurs="0" />
+                    <xs:element name="display_mode" type="xs:string" minOccurs="0" />
+                    <xs:element name="is_anchor" type="xs:int" minOccurs="0" />
+                    <xs:element name="available_sort_by" type="tns:ArrayOfString" minOccurs="0" />
+                    <xs:element name="custom_design" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_design_apply" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_design_from" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_design_to" type="xs:string" minOccurs="0" />
+                    <xs:element name="page_layout" type="xs:string" minOccurs="0" />
+                    <xs:element name="custom_layout_update" type="xs:string" minOccurs="0" />
+                    <xs:element name="default_sort_by" type="xs:string" minOccurs="0" />
+                    <xs:element name="landing_page" type="xs:int" minOccurs="0" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogProductAttributeFrontendLabelEntity">
+                <xs:sequence>
+                    <xs:element name="store_id" type="xs:string" />
+                    <xs:element name="label" type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogProductAttributeFrontendLabelArray">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="complexObjectArray" type="tns:catalogProductAttributeFrontendLabelEntity" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="catalogProductAttributeEntityToCreate">
+                <xs:sequence>
+                    <xs:element name="attribute_code" type="xs:string" minOccurs="1" maxOccurs="1" />
+                    <xs:element name="frontend_input" type="xs:string" minOccurs="1" maxOccurs="1" />
+                    <xs:element name="scope" type="xs:string" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="default_value" type="xs:string" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_unique" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_required" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="apply_to" type="tns:ArrayOfString" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_configurable" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_searchable" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_visible_in_advanced_search" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_comparable" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_used_for_promo_rules" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="is_visible_on_front" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="used_in_product_listing" type="xs:int" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="additional_fields" type="tns:associativeArray" minOccurs="0" maxOccurs="1" />
+                    <xs:element name="frontend_label" type="tns:catalogProductAttributeFrontendLabelArray" minOccurs="0" maxOccurs="1" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="catalogCategoryInfoRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="sessionId" type="xs:string" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="categoryId" type="xs:int" />
+                        <xs:element minOccurs="0" maxOccurs="1" name="store" type="xs:string" />
+                        <xs:element minOccurs="0" maxOccurs="1" name="attributes" type="tns:ArrayOfString" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryInfoResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:catalogCategoryInfo" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryCreateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="sessionId" type="xs:string" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="parentId" type="xs:int" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="categoryData" type="tns:catalogCategoryEntityCreate" />
+                        <xs:element minOccurs="0" maxOccurs="1" name="store" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryCreateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryUpdateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="sessionId" type="xs:string" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="categoryId" type="xs:int" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="categoryData" type="tns:catalogCategoryEntityCreate" />
+                        <xs:element minOccurs="0" maxOccurs="1" name="store" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryUpdateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:boolean" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryTreeRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="sessionId" type="xs:string" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="parentId" type="xs:string" />
+                        <xs:element minOccurs="0" maxOccurs="1" name="store" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogCategoryTreeResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:catalogCategoryTree" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogProductAttributeCreateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="sessionId" type="xs:string" />
+                        <xs:element minOccurs="1" maxOccurs="1" name="data" type="tns:catalogProductAttributeEntityToCreate" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="catalogProductAttributeCreateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:string" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="catalogCategoryInfoRequest">
+        <wsdl:part name="parameters" element="tns:catalogCategoryInfoRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryInfoResponse">
+        <wsdl:part name="parameters" element="tns:catalogCategoryInfoResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryCreateRequest">
+        <wsdl:part name="parameters" element="tns:catalogCategoryCreateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryCreateResponse">
+        <wsdl:part name="parameters" element="tns:catalogCategoryCreateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryUpdateRequest">
+        <wsdl:part name="parameters" element="tns:catalogCategoryUpdateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryUpdateResponse">
+        <wsdl:part name="parameters" element="tns:catalogCategoryUpdateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryTreeRequest">
+        <wsdl:part name="parameters" element="tns:catalogCategoryTreeRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogCategoryTreeResponse">
+        <wsdl:part name="parameters" element="tns:catalogCategoryTreeResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeCreateRequest">
+        <wsdl:part name="parameters" element="tns:catalogProductAttributeCreateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="catalogProductAttributeCreateResponse">
+        <wsdl:part name="parameters" element="tns:catalogProductAttributeCreateResponseParam" />
+    </wsdl:message>
+    <wsdl:portType name="catalogCategory">
+        <wsdl:operation name="catalogCategoryTree">
+            <wsdl:documentation>Retrieve hierarchical tree of categories.</wsdl:documentation>
+            <wsdl:input message="tns:catalogCategoryTreeRequest" />
+            <wsdl:output message="tns:catalogCategoryTreeResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogCategoryGet">
+            <wsdl:documentation>Retrieve hierarchical tree of categories.</wsdl:documentation>
+            <wsdl:input message="tns:catalogCategoryInfoRequest" />
+            <wsdl:output message="tns:catalogCategoryInfoResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogCategoryCreate">
+            <wsdl:documentation>Create new category and return its id.</wsdl:documentation>
+            <wsdl:input message="tns:catalogCategoryCreateRequest" />
+            <wsdl:output message="tns:catalogCategoryCreateResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="catalogCategoryUpdate">
+            <wsdl:documentation>Update category</wsdl:documentation>
+            <wsdl:input message="tns:catalogCategoryUpdateRequest" />
+            <wsdl:output message="tns:catalogCategoryUpdateResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="catalogProductAttribute">
+        <wsdl:operation name="catalogProductAttributeCreate">
+            <wsdl:documentation>Create new attribute</wsdl:documentation>
+            <wsdl:input message="tns:catalogProductAttributeCreateRequest" />
+            <wsdl:output message="tns:catalogProductAttributeCreateResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
