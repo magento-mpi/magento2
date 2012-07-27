@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Attributes extends Mage_Admi
 
             $values = $product->getData();
 
-            // Set default attribute values for new product or on change attribute set
+            // Set default attribute values for new product or on attribute set change
             if (!$product->getId() || $product->dataHasChangedFor('attribute_set_id')) {
                 foreach ($attributes as $attribute) {
                     if (!isset($values[$attribute->getAttributeCode()])) {
