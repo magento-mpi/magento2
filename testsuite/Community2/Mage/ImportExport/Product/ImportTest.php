@@ -391,4 +391,18 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             array($productData2, array($customOptionCsv2), $validation2),
         );
     }
+
+    /**
+     * @test
+     */
+    public function deleteProducts()
+    {
+        //Precondition: create product
+        $this->navigate('manage_products');
+        if ($this->search(array('status' => 'Enabled')) || $this->search(array('status' => 'Disabled'))) {
+            $this->clickControl('link', 'selectall', false);
+            $this->fillDropdown('product_massaction', 'Delete');
+            $this->clickButton('submit');
+        }
+    }
 }

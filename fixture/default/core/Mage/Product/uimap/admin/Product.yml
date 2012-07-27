@@ -19,6 +19,8 @@ manage_products:
                 -
                     product_grid:
                         xpath: //div[@id='productGrid']
+                        links:
+                            selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
