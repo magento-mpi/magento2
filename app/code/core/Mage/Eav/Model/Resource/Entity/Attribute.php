@@ -403,7 +403,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
      * @param int $optionId
      * @param array $defaultValue
      */
-    protected function _updateDefaultValue($object, $optionId, $defaultValue)
+    protected function _updateDefaultValue($object, $optionId, &$defaultValue)
     {
         if (in_array($optionId, $object->getDefault())) {
             $frontendInput = $object->getFrontendInput();
