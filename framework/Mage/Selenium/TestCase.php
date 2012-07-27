@@ -865,7 +865,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
                 if ($condition == 'byValueParam') {
                     $currentValue = (!is_array($overrideValue))
                         ? str_replace('%' . $overrideKey . '%', $overrideValue, $currentValue)
-                        : $overrideKey;
+                        : $overrideValue;
                 } else {
                     $currentValue = $overrideValue;
                 }
