@@ -9,9 +9,6 @@
  * @license     {license_link}
  */
 
-/**
- * Tests for Export model
- */
 class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -36,7 +33,7 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
      *
      * @param string $entity
      * @param string $expectedEntityType
-     * @dataProvider getEntities
+     * @dataProvider getEntityDataProvider
      * @covers Mage_ImportExport_Model_Export::_getEntityAdapter
      */
     public function testGetEntityAdapterWithValidEntity($entity, $expectedEntityType)
@@ -51,11 +48,9 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Data provider for test 'testGetEntityAdapter'
-     *
      * @return array
      */
-    public function getEntities()
+    public function getEntityDataProvider()
     {
         return array(
             'product'            => array(
