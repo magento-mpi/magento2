@@ -66,7 +66,6 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
      */
     protected function _extractData(DOMDocument $dom)
     {
-        $dom->save('E:\dump.xml');
         $this->_paramsElementNameByMessageName = $this->_extractMessages($dom);
         $this->_dataTypes = $this->_extractDataTypes($dom);
         $this->_params = $this->_extractOperationsParams($dom);
