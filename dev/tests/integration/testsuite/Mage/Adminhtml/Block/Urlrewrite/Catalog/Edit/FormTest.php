@@ -55,9 +55,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testFormPostInitNew($productData, $categoryData, $action, $idPath, $requestPath, $targetPath)
     {
-        $args = array(
-            'url_rewrite' => new Varien_Object()
-        );
+        $args = array();
         if ($productData) {
             $args['product'] = new Varien_Object($productData);
         }
@@ -76,6 +74,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
     }
 
     /**
+     * Test entity stores
+     *
      * @dataProvider getEntityStoresDataProvider
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
@@ -86,9 +86,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      */
     public function testGetEntityStores($productData, $categoryData, $expectedStores)
     {
-        $args = array(
-            'url_rewrite' => new Varien_Object()
-        );
+        $args = array();
         if ($productData) {
             $args['product'] = new Varien_Object($productData);
         }
@@ -106,12 +104,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
-     * @expectedExceptionMessage Chosen product does not associated with any website, so url rewrite is not possible.
+     * @expectedExceptionMessage Chosen product does not associated with any website, so URL rewrite is not possible.
      */
     public function testGetEntityStoresProductStoresException()
     {
         $args = array(
-            'url_rewrite' => new Varien_Object(),
             'product' => new Varien_Object(array('id' => 1))
         );
         $this->_initForm($args);
@@ -124,12 +121,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
-     * @expectedExceptionMessage Chosen product does not associated with any website, so url rewrite is not possible.
+     * @expectedExceptionMessage Chosen product does not associated with any website, so URL rewrite is not possible.
      */
     public function testGetEntityStoresProductCategoryStoresException()
     {
         $args = array(
-            'url_rewrite' => new Varien_Object(),
             'product' => new Varien_Object(array('id' => 1, 'store_ids' => array(1))),
             'category' => new Varien_Object(array('id' => 1, 'store_ids' => array(3)))
         );
@@ -143,12 +139,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
      * @magentoDataFixture Mage/Core/_files/store.php
      *
      * @expectedException Mage_Core_Model_Store_Exception
-     * @expectedExceptionMessage Chosen category does not associated with any website, so url rewrite is not possible.
+     * @expectedExceptionMessage Chosen category does not associated with any website, so URL rewrite is not possible.
      */
     public function testGetEntityStoresCategoryStoresException()
     {
         $args = array(
-            'url_rewrite' => new Varien_Object(),
             'category' => new Varien_Object(array('id' => 1))
         );
         $this->_initForm($args);
@@ -181,6 +176,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
         );
     }
 
+    /**
+     * Entity stores data provider
+     * 1) Category assigned to 1 store
+     * 2) Product assigned to 1 store
+     * 3) Product and category are assigned to same store
+     *
+     * @static
+     * @return array
+     */
     public static function getEntityStoresDataProvider()
     {
         return array(

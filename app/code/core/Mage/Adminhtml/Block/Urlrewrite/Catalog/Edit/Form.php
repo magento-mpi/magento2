@@ -13,6 +13,8 @@
  *
  * @method Mage_Catalog_Model_Product getProduct()
  * @method Mage_Catalog_Model_Category getCategory()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setProduct(Mage_Catalog_Model_Product $model)
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setCategory(Mage_Catalog_Model_Category $cat)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -28,15 +30,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _formPostInit($form)
     {
-        // Set for action
+        // Set form action
         $form->setAction(
             Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
-                'product'  => $this->getProduct() ? $this->getProduct()->getId() : null,
-                'category' => $this->getCategory()->getId(),
+                'product'  => $this->_getProduct()->getId(),
+                'category' => $this->_getCategory()->getId()
             ))
         );
 
+        // Fill id path, request path and target path elements
         /** @var $idPath Varien_Data_Form_Element_Abstract */
         $idPath = $this->getForm()->getElement('id_path');
         /** @var $requestPath Varien_Data_Form_Element_Abstract */
@@ -49,11 +52,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         if (!$model->getId()) {
             $product = null;
             if ($this->_hasProduct()) {
-                $product = $this->getProduct();
+                $product = $this->_getProduct();
             }
             $category = null;
             if ($product || $this->_hasCategory()) {
-                $category = $this->getCategory();
+                $category = $this->_getCategory();
             }
 
             if ($this->_hasCustomEntity()) {
@@ -71,6 +74,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         } else {
             $disablePaths = $model->getProductId() || $model->getCategoryId();
         }
+
+        // Disable id_path and target_path elements
         if ($disablePaths) {
             $idPath->setData('disabled', true);
             $targetPath->setData('disabled', true);
@@ -87,8 +92,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _getEntityStores()
     {
-        $product = $this->getProduct();
-        $category = $this->getCategory();
+        $product = $this->_getProduct();
+        $category = $this->_getCategory();
         $entityStores = array();
 
         // showing websites that only associated to products
@@ -129,7 +134,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _hasProduct()
     {
-        return $this->getProduct() && $this->getProduct()->getId();
+        return $this->_getProduct()->getId() > 0;
     }
 
     /**
@@ -139,7 +144,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
      */
     protected function _hasCategory()
     {
-        return $this->getCategory() && $this->getCategory()->getId();
+        return $this->_getCategory()->getId() > 0;
     }
 
     /**
@@ -150,5 +155,31 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
     protected function _hasCustomEntity()
     {
         return $this->_hasProduct() || $this->_hasCategory();
+    }
+
+    /**
+     * Get product model instance
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        if (!$this->hasData('product')) {
+            $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
+        }
+        return $this->getProduct();
+    }
+
+    /**
+     * Get category model instance
+     *
+     * @return Mage_Catalog_Model_Category
+     */
+    protected function _getCategory()
+    {
+        if (!$this->hasData('category')) {
+            $this->setCategory(Mage::getModel('Mage_Catalog_Model_Category'));
+        }
+        return $this->getCategory();
     }
 }

@@ -12,6 +12,7 @@
  * Edit form for CMS page URL rewrites
  *
  * @method Mage_Cms_Model_Page getCmsPage()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form setCmsPage(Mage_Cms_Model_Page $model)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -27,14 +28,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _formPostInit($form)
     {
-        $cmsPage = $this->getCmsPage();
+        $cmsPage = $this->_getCmsPage();
         $form->setAction(
             Mage::helper('Mage_Adminhtml_Helper_Data')->getUrl('*/*/save', array(
                 'id'       => $this->_getModel()->getId(),
-                'cms_page'  => $cmsPage->getId()
+                'cms_page' => $cmsPage->getId()
             ))
         );
 
+        // Fill id path, request path and target path elements
         /** @var $idPath Varien_Data_Form_Element_Abstract */
         $idPath = $this->getForm()->getElement('id_path');
         /** @var $requestPath Varien_Data_Form_Element_Abstract */
@@ -74,10 +76,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _getEntityStores()
     {
-        $cmsPage = $this->getCmsPage();
+        $cmsPage = $this->_getCmsPage();
         $entityStores = array();
 
-        // showing websites that only associated to cms page
+        // showing websites that only associated to CMS page
         if ($this->_hasCustomEntity()) {
             $entityStores = (array) $cmsPage->getResource()->lookupStoreIds($cmsPage->getId());
             $this->_requireStoresFilter = !in_array(0, $entityStores);
@@ -100,6 +102,19 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
      */
     protected function _hasCustomEntity()
     {
-        return $this->getCmsPage() && $this->getCmsPage()->getId();
+        return $this->_getCmsPage()->getId() > 0;
+    }
+
+    /**
+     * Get CMS page model instance
+     *
+     * @return Mage_Cms_Model_Page
+     */
+    protected function _getCmsPage()
+    {
+        if (!$this->hasData('cms_page')) {
+            $this->setCmsPage(Mage::getModel('Mage_Cms_Model_Page'));
+        }
+        return $this->getCmsPage();
     }
 }

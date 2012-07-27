@@ -18,12 +18,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
 
     /**
      * Initialize form
+     *
+     * @param array $args
      */
-    protected function _initForm()
+    protected function _initForm($args = array())
     {
         $layout = new Mage_Core_Model_Layout();
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
-        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block');
+        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', $args);
         $block->toHtml();
         $this->_form = $block->getForm();
     }
@@ -33,7 +35,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     protected function tearDown()
     {
-        Mage::unregister('current_cms_page');
         unset($this->_form);
         parent::tearDown();
     }
@@ -53,10 +54,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     public function testFormPostInit($cmsPageData, $action, $idPath, $requestPath, $targetPath)
     {
+        $args = array();
         if ($cmsPageData) {
-            Mage::register('current_cms_page', new Varien_Object($cmsPageData));
+            $args['cms_page'] = new Varien_Object($cmsPageData);
         }
-        $this->_initForm();
+        $this->_initForm($args);
         $this->assertContains($action, $this->_form->getAction());
 
         $this->assertEquals($idPath, $this->_form->getElement('id_path')->getValue());
@@ -68,13 +70,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
     }
 
     /**
+     * Test entity stores
+     *
      * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
      */
     public function testGetEntityStores()
     {
-        Mage::register('current_cms_page', $this->_getCmsPageWithStoresMock(array(1)));
-        $this->_initForm();
+        $args = array(
+            'cms_page' => $this->_getCmsPageWithStoresMock(array(1))
+        );
+        $this->_initForm($args);
 
         $expectedStores = array(
             array(
@@ -105,8 +111,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
      */
     public function testGetEntityStoresProductStoresException()
     {
-        Mage::register('current_cms_page', $this->_getCmsPageWithStoresMock(array()));
-        $this->_initForm();
+        $args = array(
+            'cms_page' => $this->_getCmsPageWithStoresMock(array())
+        );
+        $this->_initForm($args);
     }
 
     /**
@@ -126,6 +134,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
         );
     }
 
+    /**
+     * Get CMS page model mock
+     *
+     * @param $stores
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Cms_Model_Page
+     */
     protected function _getCmsPageWithStoresMock($stores)
     {
         $resourceMock = $this->getMockBuilder('Mage_Cms_Model_Resource_Page')

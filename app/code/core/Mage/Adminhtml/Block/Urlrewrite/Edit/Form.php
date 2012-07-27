@@ -12,6 +12,7 @@
  * URL rewrites edit form
  *
  * @method Mage_Core_Model_Url_Rewrite getUrlRewrite()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Edit_Form setUrlRewrite(Mage_Core_Model_Url_Rewrite $model)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -19,11 +20,6 @@
  */
 class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * @var Mage_Core_Model_Url_Rewrite
-     */
-    protected $_model = null;
-
     /**
      * @var array
      */
@@ -239,6 +235,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
      */
     protected function _getModel()
     {
+        if (!$this->hasData('url_rewrite')) {
+            $this->setUrlRewrite(Mage::getModel('Mage_Core_Model_Url_Rewrite'));
+        }
         return $this->getUrlRewrite();
     }
 
