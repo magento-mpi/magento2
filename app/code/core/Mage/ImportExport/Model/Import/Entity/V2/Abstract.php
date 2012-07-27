@@ -282,16 +282,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
     abstract public function getEntityTypeCode();
 
     /**
-     * Imported entity type code getter
-     *
-     * @return string
-     */
-    public function getEntitySubtype()
-    {
-        return !empty($this->_parameters['entity_subtype']) ? $this->_parameters['entity_subtype'] : null;
-    }
-
-    /**
      * Change row data before saving in DB table
      *
      * @param array $rowData
@@ -333,8 +323,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_V2_Abstract
                 $this->_dataSourceModel->saveBunch(
                     $this->getEntityTypeCode(),
                     $this->getBehavior(),
-                    $bunchRows,
-                    $this->getEntitySubtype()
+                    $bunchRows
                 );
 
                 $bunchRows         = $nextRowBackup;

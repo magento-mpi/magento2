@@ -14,6 +14,9 @@
  * @category    Mage
  * @package     Mage_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @todo delete in the scope of https://jira.magento.com/browse/MAGETWO-2510
+ * @todo or https://jira.magento.com/browse/MAGETWO-2511
  */
 class Mage_ImportExport_Model_Source_Import_Customer_Entity
 {
@@ -24,8 +27,6 @@ class Mage_ImportExport_Model_Source_Import_Customer_Entity
      */
     public function toOptionArray()
     {
-        return Mage_ImportExport_Model_Config::getModelsComboOptions(
-            Mage_ImportExport_Model_Import::CONFIG_KEY_CUSTOMER_ENTITIES
-        );
+        return array();
     }
 }

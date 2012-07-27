@@ -44,7 +44,6 @@ class Enterprise_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCas
     {
         $operationData = array(
             'entity_type'    => 'customer',
-            'entity_subtype' => 'customer_address',
             'behavior'       => 'update',
             'operation_type' => 'import',
             'start_time'     => '00:00:00',

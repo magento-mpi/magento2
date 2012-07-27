@@ -71,7 +71,6 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
     {
         $this->setData(array(
             'entity'                 => $operation->getEntityType(),
-            'entity_subtype'         => $operation->getEntitySubtype(),
             'behavior'               => $operation->getBehavior(),
             'operation_type'         => $operation->getOperationType(),
             'run_at'                 => $operation->getStartTime(),

@@ -83,13 +83,6 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
             'options'       => $dataModel->getEntitiesOptionArray()
         ));
 
-        $this->addColumn('entity_subtype', array(
-            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
-            'index'         => 'entity_subtype',
-            'type'          => 'options',
-            'options'       => $dataModel->getEntitySubtypesOptionArray()
-        ));
-
         $this->addColumn('last_run_date', array(
             'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Last Run Date'),
             'index'         => 'last_run_date',

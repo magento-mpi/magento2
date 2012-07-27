@@ -12,7 +12,7 @@
 <?php
 /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
 $operation = Mage::registry('current_operation');
-$entitySubtype = $operation->getEntitySubtype();
+$entitySubtype = 'deleted';
 $operationType = $operation->getOperationType();
 $entityBehavior = $operation->getBehavior();
 

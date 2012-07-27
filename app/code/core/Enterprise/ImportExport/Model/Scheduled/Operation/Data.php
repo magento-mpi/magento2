@@ -171,16 +171,4 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
                 return $entities;
         }
     }
-
-    /**
-     * Get option array for entity subtypes
-     *
-     * @return array
-     */
-    public function getEntitySubtypesOptionArray()
-    {
-        $importExportConfig = $this->_importExportConfig;
-        $importModel = $this->_importModel;
-        return $importExportConfig::getModelsArrayOptions($importModel::CONFIG_KEY_CUSTOMER_ENTITIES);
-    }
 }

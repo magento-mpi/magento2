@@ -25,16 +25,12 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         $this->_model = new Mage_ImportExport_Model_Import();
     }
 
     protected function tearDown()
     {
         unset($this->_model);
-
-        parent::tearDown();
     }
 
     /**
@@ -70,60 +66,6 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      */
     public function testGetEntityAdapterEntityIsNotSet()
     {
-        $this->_model->validateSource('');
-    }
-
-    /**
-     * Test _getEntityAdapter() through validateSource() method
-     * in case when not valid customer entity subtype was passed
-     *
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Invalid entity
-     */
-    public function testGetEntityAdapterInvalidCustomerSubtype()
-    {
-        $this->_model->setEntitySubtype(microtime());
-
-        $this->_model->validateSource('');
-    }
-
-    /**
-     * Test _getEntityAdapter() through validateSource() method
-     * in case when not valid customer entity model was set in config
-     *
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Invalid entity model
-     *
-     * @magentoConfigFixture global/importexport/import_customer_entities/customer_address/model_token Varien_Image
-     *
-     */
-    public function testGetEntityAdapterInvalidCustomerEntityModel()
-    {
-        $addressesImport = new Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address();
-
-        $this->_model->setEntitySubtype($addressesImport->getEntityTypeCode());
-
-        $this->_model->validateSource('');
-    }
-
-    // @codingStandardsIgnoreStart
-    /**
-     * Test _getEntityAdapter() through validateSource() method
-     * in case when in config was set customer entity model which not
-     * extends Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address
-     *
-     * @magentoConfigFixture global/importexport/import_customer_entities/customer_address/model_token Mage_ImportExport_Model_Import_Entity_Customer
-     *
-     * @expectedException Mage_Core_Exception
-     * @expectedExceptionMessage Entity adapter object must be an instance of Mage_ImportExport_Model_Import_Entity_V2_Abstract
-     */
-    // @codingStandardsIgnoreEnd
-    public function testGetEntityAdapterInvalidCustomerEntityObject()
-    {
-        $addressesImport = new Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_Address();
-
-        $this->_model->setEntitySubtype($addressesImport->getEntityTypeCode());
-
         $this->_model->validateSource('');
     }
 }
