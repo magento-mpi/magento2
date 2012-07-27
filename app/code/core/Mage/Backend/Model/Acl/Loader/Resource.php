@@ -8,14 +8,29 @@
  * @license     {license_link}
  */
 
-class Mage_User_Acl_Loader_Resource implements Magento_Acl_Loader
+class Mage_Backend_Model_Acl_Loader_Resource implements Magento_Acl_Loader
 {
+    /**
+     * Acl config
+     *
+     * @var Mage_Backend_Model_Acl_Config
+     */
+    protected $_config;
+
+    /**
+     * Application object factory
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_objectFactory;
+
     /**
      * @param array $data
      */
     public function __construct(array $data = array())
     {
         $this->_config = isset($data['config']) ? $data['config'] : Mage::getSingleton('Mage_Backend_Model_Acl_Config');
+        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
     }
 
     /**
@@ -25,34 +40,32 @@ class Mage_User_Acl_Loader_Resource implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        if (is_null($resource)) {
-            $resource = $this->getAdminhtmlConfig()->getNode("acl/resources");
-            $resourceName = null;
-        } else {
-            $resourceName = (is_null($parentName) ? '' : $parentName . '/') . $resource->getName();
-            $acl->add(Mage::getModel('Magento_Acl_Resource', $resourceName), $parentName);
-        }
+        $this->_addResourceTree($acl, $this->_config->getAclResources(), null);
+    }
 
-        if (isset($resource->all)) {
-            $acl->add(Mage::getModel('Magento_Acl_Resource', 'all'), null);
-        }
-
-        if (isset($resource->admin)) {
-            $children = $resource->admin;
-        } elseif (isset($resource->children)){
-            $children = $resource->children->children();
-        }
-
-
-
-        if (empty($children)) {
-        }
-
-        foreach ($children as $res) {
-            if (1 == $res->disabled) {
+    /**
+     * Add list of nodes and their children to acl
+     *
+     * @param Magento_Acl $acl
+     * @param DOMNodeList $resources
+     * @param Magento_Acl_Resource $parent
+     */
+    protected function _addResourceTree(Magento_Acl $acl, DOMNodeList $resources, Magento_Acl_Resource $parent = null)
+    {
+        /** @var $resourceConfig DOMElement */
+        foreach ($resources as $resourceConfig) {
+            if (!($resourceConfig instanceof DOMElement)){
                 continue;
             }
-            $this->loadAclResources($acl, $res, $resourceName);
+            /** @var $resource Magento_Acl_Resource */
+            $resource = $this->_objectFactory->getModelInstance(
+                'Magento_Acl_Resource',
+                $resourceConfig->getAttribute('id')
+            );
+            $acl->addResource($resource, $parent);
+            if ($resourceConfig->hasChildNodes()) {
+                $this->_addResourceTree($acl, $resourceConfig->childNodes, $resource);
+            }
         }
     }
 }

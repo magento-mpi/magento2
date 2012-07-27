@@ -238,26 +238,6 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Get acl assert config
-     *
-     * @param string $name
-     * @return Mage_Core_Model_Config_Element|boolean
-     */
-    public function getAclAssert($name = '')
-    {
-        $asserts = $this->getNode("admin/acl/asserts");
-        if ('' === $name) {
-            return $asserts;
-        }
-
-        if (isset($asserts->$name)) {
-            return $asserts->$name;
-        }
-
-        return false;
-    }
-
-    /**
      * Retrieve privilege set by name
      *
      * @param string $name

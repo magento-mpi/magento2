@@ -14,26 +14,6 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'admin_assert'
- */
-$table = $installer->getConnection()
-    ->newTable($installer->getTable('admin_assert'))
-    ->addColumn('assert_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'identity'  => true,
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        ), 'Assert ID')
-    ->addColumn('assert_type', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        'nullable'  => true,
-        'default'   => null,
-        ), 'Assert Type')
-    ->addColumn('assert_data', Varien_Db_Ddl_Table::TYPE_TEXT, '64k', array(
-        ), 'Assert Data')
-    ->setComment('Admin Assert Table');
-$installer->getConnection()->createTable($table);
-
-/**
  * Create table 'admin_role'
  */
 $table = $installer->getConnection()
@@ -102,11 +82,6 @@ $table = $installer->getConnection()
     ->addColumn('privileges', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         'nullable'  => true,
         ), 'Privileges')
-    ->addColumn('assert_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '0',
-        ), 'Assert ID')
     ->addColumn('role_type', Varien_Db_Ddl_Table::TYPE_TEXT, 1, array(
         ), 'Role Type')
     ->addColumn('permission', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(

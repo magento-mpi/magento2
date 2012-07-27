@@ -49,13 +49,18 @@ class Mage_Core_Model_Acl_Builder
      * Build Access Control List
      *
      * @return Magento_Acl
+     * @throws LogicException
      */
     public function getAcl()
     {
-        $acl = $this->_objectFactory->getModelInstance('Magento_Acl');
-        $this->_objectFactory->getModelInstance($this->_getLoaderClass('resource'))->populateAcl($acl);
-        $this->_objectFactory->getModelInstance($this->_getLoaderClass('role'))->populateAcl($acl);
-        $this->_objectFactory->getModelInstance($this->_getLoaderClass('rule'))->populateAcl($acl);
+        try {
+            $acl = $this->_objectFactory->getModelInstance('Magento_Acl');
+            $this->_objectFactory->getModelInstance($this->_getLoaderClass('resource'))->populateAcl($acl);
+            $this->_objectFactory->getModelInstance($this->_getLoaderClass('role'))->populateAcl($acl);
+            $this->_objectFactory->getModelInstance($this->_getLoaderClass('rule'))->populateAcl($acl);
+        } catch (Exception $e) {
+            throw new LogicException('Could not create acl object: ' . $e->getMessage());
+        }
 
         return $acl;
     }

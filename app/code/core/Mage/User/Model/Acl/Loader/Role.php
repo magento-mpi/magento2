@@ -26,7 +26,6 @@ class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_Loader
             : Mage::getConfig();
     }
 
-
     /**
      * Populate ACL with roles from external storage
      *

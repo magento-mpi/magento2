@@ -31,18 +31,12 @@ class Mage_User_Model_Acl_Loader_Rule implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $assertTable = $this->_resource->getTableName("admin_assert");
         $ruleTable = $this->_resource->getTableName("admin_rule");
 
         $adapter = $this->_resource->getConnection('read');
 
         $select = $adapter->select()
-            ->from(array('r' => $ruleTable))
-            ->joinLeft(
-                array('a' => $assertTable),
-                'a.assert_id = r.assert_id',
-                array('assert_type', 'assert_data')
-            );
+            ->from(array('r' => $ruleTable));
 
         $rulesArr = $adapter->fetchAll($select);
 
@@ -51,14 +45,13 @@ class Mage_User_Model_Acl_Loader_Rule implements Magento_Acl_Loader
             $resource = $rule['resource_id'];
             $privileges = !empty($rule['privileges']) ? explode(',', $rule['privileges']) : null;
 
-            $assert = null;
-            if ( $rule['permission'] == 'allow' ) {
+            if ( $rule['permission'] == 'allow') {
                 if ($resource === self::ACL_ALL_RULES) {
-                    $acl->allow($role, null, $privileges, $assert);
+                    $acl->allow($role, null, $privileges);
                 }
-                $acl->allow($role, $resource, $privileges, $assert);
+                $acl->allow($role, $resource, $privileges);
             } else if ( $rule['permission'] == 'deny' ) {
-                $acl->deny($role, $resource, $privileges, $assert);
+                $acl->deny($role, $resource, $privileges);
             }
         }
     }

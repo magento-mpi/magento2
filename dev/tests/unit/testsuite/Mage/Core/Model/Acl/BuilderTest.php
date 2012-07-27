@@ -105,4 +105,22 @@ class Mage_Core_Model_Acl_BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->_aclMock, $model->getAcl());
     }
+
+    /**
+     * @expectedException LogicException
+     */
+    public function testGetAclRethrowsException()
+    {
+        $this->_objectFactoryMock->expects($this->once())
+            ->method('getModelInstance')
+            ->will($this->throwException(new InvalidArgumentException()));
+        $model = $this->_createModel(array(
+            'acl' => array(
+                'resourceLoader' => 'default',
+                'roleLoader' => 'default',
+                'ruleLoader' => 'default',
+            )
+        ));
+        $model->getAcl();
+    }
 }
