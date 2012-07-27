@@ -47,6 +47,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
+     * <p>Has been excluded from functionality scope</p>
      * <p>Need to verify that it is possible search by "Attribute Label" and after pressing "Reset Filter"</p>
      * <p>button result will be reset(list of all attributes will be displayed)</p>
      * <p>Steps:</p>
@@ -64,6 +65,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      *
      * @test
      * @TestlinkId TL-MAGE-1308, 1309
+     * @group skip_due_to_bug
      */
     public function searchByAttributeLabelAndResetFilter()
     {
@@ -138,6 +140,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
+     * <p>Has been excluded from functionality scope</p>
      * <p>Simple Export</p>
      * <p>Precondition: At least one attribute for your customer must be created</p>
      * <p>Steps</p>
@@ -151,6 +154,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      *
      * @test
      * @TestlinkId TL-MAGE-1192
+     * @group skip_due_to_bug
      */
     public function simpleExportMasterFile()
     {
@@ -176,6 +180,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
+     * <p>Has been excluded from functionality scope</p>
      * <p>Customer export using some filters</p>
      * <p>Steps</p>
      * <p>1. On backend in System -> Import/ Export -> Export select "Customers" entity type</p>
@@ -189,6 +194,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * @test
      * @depends simpleExportMasterFile
      * @TestlinkId TL-MAGE-1193
+     * @group skip_due_to_bug
      */
     public function exportWithFilters($userData)
     {
@@ -208,6 +214,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
+     * <p>Has been excluded from functionality scope</p>
      * <p>Export with skipped some attributes</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
@@ -222,6 +229,7 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
      * @test
      * @depends simpleExportMasterFile
      * @TestlinkId TL-MAGE-1194
+     * @group skip_due_to_bug
      */
     public function exportWithSkippedAttribute($userData)
     {

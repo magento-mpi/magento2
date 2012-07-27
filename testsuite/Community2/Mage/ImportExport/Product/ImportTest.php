@@ -177,6 +177,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
      * @depends preconditionReplaceImport
      * @test
      * @TestlinkId TL-MAGE-1141
+     * @group skip_due_to_bug
      */
     public function replaceWithoutOptions(array $productData)
     {
@@ -362,10 +363,10 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         );
         $validation1 = array('validation' => array(
             'error' => array(
-                "Customer with such email and website code doesn't exist in rows: 1"
+                "Custom options have different types. in rows: 1"
             ),
             'validation' => array(
-                "TBD",
+                "File is totally invalid. Please fix errors and re-upload file",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")),
         );
         $productData2 = $this->loadDataSet('Product', 'simple_product_required');
@@ -380,7 +381,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         );
         $validation2 = array('validation' => array(
             'error' => array(
-                "TBD"
+                "There are several existing custom options with such name. in rows: 1"
             ),
             'validation' => array(
                 "File is totally invalid. Please fix errors and re-upload file",

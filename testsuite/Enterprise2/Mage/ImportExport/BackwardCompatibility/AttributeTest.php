@@ -35,6 +35,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
     }
 
     /**
+     * <p>Has been excluded from functionality scope</p>
      * <p>Need to verify that after customer attribute creation it's shown in "Entity Attributes" block</p>
      * <p>Need to verify that after customer attribute updating it's updated in "Entity Attributes" block</p>
      * <p>Need to verify that after customer attribute deletion it's not shown in "Entity Attributes" block</p>
@@ -65,6 +66,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest exten
      *
      * @test
      * @TestlinkId TL-MAGE-1310, TL-MAGE-1311, TL-MAGE-1312
+     * @group skip_due_to_bug
      */
     public function customerAttributeInFilterGrid()
     {
