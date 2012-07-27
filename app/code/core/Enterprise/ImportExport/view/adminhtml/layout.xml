@@ -14,7 +14,7 @@
         <container name="root" label="Root" output="1">
             <block type="Enterprise_ImportExport_Block_Adminhtml_Export_Filter" name="export.filter"/>
             <block type="Mage_Adminhtml_Block_Template"
-                   template="Enterprise_ImportExport::scheduled/form/export/filter/after.phtml"
+                   template="Mage_ImportExport::export/form/filter/after.phtml"
                    name="export.form.after" alias="form_after"/>
         </container>
     </adminhtml_scheduled_operation_getfilter>
@@ -34,7 +34,7 @@
             <block type="Mage_Adminhtml_Block_Template" template="Enterprise_ImportExport::scheduled/form/after.phtml"
                    name="operation.form.after" />
             <block type="Mage_Adminhtml_Block_Template"
-                   template="Enterprise_ImportExport::scheduled/form/export/filter/after.phtml"
+                   template="Mage_ImportExport::export/form/filter/after.phtml"
                    name="export.form.after" alias="form_after"/>
         </reference>
     </adminhtml_scheduled_operation_edit>
