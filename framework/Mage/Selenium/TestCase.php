@@ -3453,7 +3453,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
         $this->waitForElementEditable($xpath);
         $this->type($xpath, $value);
-        $this->waitForElementEditable($xpath);
+        $this->waitForAjax();
     }
 
     /**
@@ -3515,7 +3515,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             } else {
                 $this->select($xpath, 'regexp:' . preg_quote($value));
             }
-            $this->waitForElementEditable($xpath);
+            $this->waitForAjax();
         }
     }
 

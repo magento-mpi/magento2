@@ -112,7 +112,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
             $this->selectOptionItem($chooseOption);
         }
         $this->clickButton('submit_widget_insert', false);
-        $this->waitForElementNotPresent($widgetFieldset);
+        $this->waitForAjax();
     }
 
     /**
