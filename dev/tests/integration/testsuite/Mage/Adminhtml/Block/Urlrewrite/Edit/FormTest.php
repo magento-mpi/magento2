@@ -22,19 +22,19 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
     protected function setUp()
     {
         parent::setUp();
-
-        Mage::register('current_urlrewrite', new Varien_Object(array('id' => 3)));
-        $this->_initForm();
+        $this->_initForm(array('url_rewrite' => new Varien_Object(array('id' => 3))));
     }
 
     /**
      * Initialize form
+     *
+     * @param array $args
      */
-    protected function _initForm()
+    protected function _initForm($args = array())
     {
         $layout = new Mage_Core_Model_Layout();
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
-        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', 'block');
+        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', $args);
         $block->toHtml();
         $this->_form = $block->getForm();
     }
@@ -44,7 +44,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     protected function tearDown()
     {
-        Mage::unregister('current_urlrewrite');
         unset($this->_form);
         parent::tearDown();
     }
@@ -93,7 +92,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
         );
         Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
-        $this->_initForm();
+        $this->_initForm(array('url_rewrite' => new Varien_Object()));
 
         // Check that all fields values are restored from session
         foreach ($sessionValues as $field => $value) {
@@ -118,6 +117,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
     /**
      * Test store selection is available and correctly configured
      *
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Mage/Core/_files/store.php
      */
     public function testStoreElementMultiStores()
