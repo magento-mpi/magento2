@@ -58,7 +58,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         'id' => 'item',
         'title' => 'Item Title',
         'action' => '/system/config',
-        'resource' => 'system/config',
+        'resource' => 'Mage_Backend::config',
         'dependsOnModule' => 'Mage_Backend',
         'dependsOnConfig' => 'system/config/isEnabled',
         'tooltip' => 'Item tooltip',
@@ -231,7 +231,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     {
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
-            ->with('admin/system/config')
+            ->with('Mage_Backend::config')
             ->will($this->returnValue(true));
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $this->assertTrue($item->isAllowed());
@@ -241,7 +241,7 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
     {
         $this->_aclMock->expects($this->once())
             ->method('isAllowed')
-            ->with('admin/system/config')
+            ->with('Mage_Backend::config')
             ->will($this->throwException(new Magento_Exception()));
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $this->assertFalse($item->isAllowed());

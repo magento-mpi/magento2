@@ -59,8 +59,8 @@ class Mage_Backend_Model_Menu_Item_Validator
         $textValidator = new Zend_Validate_StringLength(array('min' => 3, 'max' => 50));
 
         $titleValidator = $tooltipValidator = $textValidator;
-        $actionValidator = $resourceValidator = $resourceValidator = $moduleDependencyValidator
-            = $configDependencyValidator = $attributeValidator;
+        $actionValidator = $moduleDependencyValidator = $configDependencyValidator = $attributeValidator;
+        $resourceValidator = $idValidator;
 
         $this->_validators['id'] = $idValidator;
         $this->_validators['title'] = $titleValidator;

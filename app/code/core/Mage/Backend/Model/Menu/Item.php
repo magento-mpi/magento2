@@ -441,8 +441,7 @@ class Mage_Backend_Model_Menu_Item
     public function isAllowed()
     {
         try {
-            $aclResource = 'admin/' . ($this->_resource ? (string)$this->_resource : $this->getFullPath());
-            return $this->_acl->isAllowed($aclResource);
+            return $this->_acl->isAllowed((string)$this->_resource);
         } catch (Exception $e) {
             return false;
         }
