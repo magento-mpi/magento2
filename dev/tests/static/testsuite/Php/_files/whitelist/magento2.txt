@@ -1,1 +1,4 @@
 dev/build/publication
+dev/tests/functional/testsuite/Community2
+dev/tests/functional/testsuite/Enterprise2
+dev/tests/functional/testsuite/themes
