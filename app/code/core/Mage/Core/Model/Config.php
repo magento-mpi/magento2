@@ -1500,11 +1500,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * Retrieve area config by area code
      *
      * @param string $areaCode
-     * @return Mage_Core_Model_Config_Element
+     * @return array
      */
     public function getAreaConfig($areaCode)
     {
-        return $this->getNode('global/areas')->$areaCode;
+        $areas = $this->getAreas();
+        if (!isset($areas[$areaCode])) {
+            throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
+        }
+        return $areas[$areaCode];
     }
 
     /**

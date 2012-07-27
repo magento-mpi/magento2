@@ -11,8 +11,8 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_CatalogEvent::catalog_enterprise_catalogevent" title="Categories" module="Enterprise_CatalogEvent" sortOrder="10" parent="Mage_Catalog::catalog" resource="catalog/categories" />
-        <update id="Mage_Catalog::catalog_categories" sortOrder="0" parent="Enterprise_CatalogEvent::catalog_enterprise_catalogevent" action="adminhtml/catalog_category/" resource="catalog/categories"/>
-        <add id="Enterprise_CatalogEvent::catalog_enterprise_catalogevent_events" title="Catalog Events" module="Enterprise_CatalogEvent" sortOrder="10" parent="Enterprise_CatalogEvent::catalog_enterprise_catalogevent" action="adminhtml/catalog_event" resource="catalog/events" dependsOnModule="Enterprise_CatalogEvent" dependsOnConfig="catalog/enterprise_catalogevent/enabled" />
+        <add id="Enterprise_CatalogEvent::catalog_enterprise_catalogevent" title="Categories" module="Enterprise_CatalogEvent" sortOrder="10" parent="Mage_Catalog::catalog" resource="Mage_Catalog::categories"/>
+        <update id="Mage_Catalog::catalog_categories" sortOrder="0" parent="Enterprise_CatalogEvent::catalog_enterprise_catalogevent" action="adminhtml/catalog_category/" resource="Mage_Catalog::categories"/>
+        <add id="Enterprise_CatalogEvent::catalog_enterprise_catalogevent_events" title="Catalog Events" module="Enterprise_CatalogEvent" sortOrder="10" parent="Enterprise_CatalogEvent::catalog_enterprise_catalogevent" action="adminhtml/catalog_event" resource="Enterprise_CatalogEvent::events" dependsOnModule="Enterprise_CatalogEvent" dependsOnConfig="catalog/enterprise_catalogevent/enabled"/>
     </menu>
 </config>

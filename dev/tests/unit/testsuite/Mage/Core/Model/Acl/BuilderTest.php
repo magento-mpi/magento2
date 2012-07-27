@@ -12,11 +12,6 @@
 class Mage_Core_Model_Acl_BuilderTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Acl_Builder
-     */
-    protected $_model;
-
-    /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectFactoryMock;
@@ -40,17 +35,18 @@ class Mage_Core_Model_Acl_BuilderTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento_Acl'))
             ->will($this->returnValue($this->_aclMock));
         $this->_areaConfigMock = new StdClass();
-        $this->_model = new Mage_Core_Model_Acl_Builder(array(
+    }
+
+    protected function _createModel($config)
+    {
+        return new Mage_Core_Model_Acl_Builder(array(
             'objectFactory' => $this->_objectFactoryMock,
-            'areaConfig' => $this->_areaConfigMock
+            'areaConfig' => $config
         ));
     }
 
     public function testGetAclUsesDefaultLoadersWhenNothingSetInConfiguration()
     {
-        $this->_areaConfigMock->resourceLoader = null;
-        $this->_areaConfigMock->ruleLoader = null;
-        $this->_areaConfigMock->roleLoader = null;
         $defaultLoaderMock = $this->getMock('Magento_Acl_Loader_Default');
         $defaultLoaderMock->expects($this->exactly(3))
             ->method('populateAcl')
@@ -68,15 +64,19 @@ class Mage_Core_Model_Acl_BuilderTest extends PHPUnit_Framework_TestCase
             ->method('getModelInstance')
             ->with($this->equalTo('Magento_Acl_Loader_Default'))
             ->will($this->returnValue($defaultLoaderMock));
+        $model = $this->_createModel(array(
+            'acl' => array(
+                'resourceLoader' => null,
+                'ruleLoader' => null,
+                'roleLoader' => null,
+            )
+        ));
 
-        $this->_model->getAcl();
+        $this->assertEquals($this->_aclMock, $model->getAcl());
     }
 
     public function testGetAclUsesLoadersProvidedInconfigurationToPopulateAcl()
     {
-        $this->_areaConfigMock->resourceLoader = 'test1';
-        $this->_areaConfigMock->roleLoader = 'test2';
-        $this->_areaConfigMock->ruleLoader = 'test3';
         $defaultLoaderMock = $this->getMock('Magento_Acl_Loader_Default');
         $defaultLoaderMock->expects($this->exactly(3))
             ->method('populateAcl')
@@ -95,6 +95,14 @@ class Mage_Core_Model_Acl_BuilderTest extends PHPUnit_Framework_TestCase
             ->with($this->equalTo('test3'))
             ->will($this->returnValue($defaultLoaderMock));
 
-        $this->_model->getAcl();
+        $model = $this->_createModel(array(
+            'acl' => array(
+                'resourceLoader' => 'test1',
+                'roleLoader' => 'test2',
+                'ruleLoader' => 'test3',
+            )
+        ));
+
+        $this->assertEquals($this->_aclMock, $model->getAcl());
     }
 }

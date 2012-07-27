@@ -20,7 +20,6 @@ interface Magento_Acl_Loader
      *
      * @abstract
      * @param Magento_Acl $acl
-     * @return mixed
      */
     public function populateAcl(Magento_Acl $acl);
 }

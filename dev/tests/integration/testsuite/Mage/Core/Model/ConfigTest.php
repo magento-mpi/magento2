@@ -398,6 +398,14 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
+    {
+        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
+    }
+
+    /**
      * Check if areas loaded correctly from configuration
      *
      * @magentoAppIsolation enabled
