@@ -42,8 +42,8 @@ class Mage_ImportExport_Block_Adminhtml_Export_Edit_Form extends Mage_Backend_Bl
             'onchange' => 'editForm.getFilter();',
             'values'   => $entitySourceModel->toOptionArray()
         ));
-        /** @var $formatSourceModel Mage_ImportExport_Model_Source_Export_Format_File */
-        $formatSourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Format_File');
+        /** @var $formatSourceModel Mage_ImportExport_Model_Source_Export_Format */
+        $formatSourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Format');
         $fieldset->addField('file_format', 'select', array(
             'name'     => 'file_format',
             'title'    => $helper->__('Export File Format'),
