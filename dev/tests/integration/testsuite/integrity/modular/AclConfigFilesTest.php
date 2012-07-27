@@ -27,8 +27,21 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_schemeFile = Mage::getModuleDir(null, 'Mage_Backend') . DIRECTORY_SEPARATOR
-            . 'Model' . DIRECTORY_SEPARATOR . 'Acl' . DIRECTORY_SEPARATOR . 'acl.xsd';
+        $readerMock = $this->getMock('Mage_Backend_Model_Acl_Config_Reader', array('getShemaFile'), array(), '', false);
+        $this->_schemeFile = $readerMock->getSchemaFile();
+        $this->_prepareFileList();
+    }
+
+    /**
+     * Prepare file list of ACL resources
+     *
+     * @return void
+     */
+    protected function _prepareFileList()
+    {
+        if (empty($this->_fileList)) {
+            $this->_fileList = glob(Mage::getBaseDir('app') . '/*/*/*/*/etc/adminhtml/acl.xml');
+        }
     }
 
     /**
@@ -52,12 +65,12 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
      */
     public function aclConfigFileDataProvider()
     {
-        if (empty($this->_fileList)) {
-            foreach (glob(Mage::getBaseDir('app') . '/*/*/*/*/etc/adminhtml/acl.xml') as $file) {
-                $this->_fileList[$file] = array($file);
-            }
+        $this->_prepareFileList();
+        $dataProviderResult = array();
+        foreach ($this->_fileList as $file) {
+            $dataProviderResult[$file] = array($file);
         }
-        return $this->_fileList;
+        return $dataProviderResult;
     }
 
     /**
@@ -66,9 +79,9 @@ class Integrity_Modular_AclConfigFilesTest extends PHPUnit_Framework_TestCase
     public function testMergedConfiguration()
     {
         /** @var $dom DOMDocument **/
-        $dom = Mage::getModel('Mage_Backend_Model_Acl_Config_Reader')->getMergedAclResources();
+        $dom = Mage::getModel('Mage_Backend_Model_Acl_Config_Reader', $this->_fileList)->getAclResources();
 
-        $domConfig = new Magento_Config_Dom($dom->saveXML());
+        $domConfig = new Mage_Backend_Model_Acl_Config_Reader_Dom($dom->saveXML());
         $errors = array();
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid merged ACL config\n";
