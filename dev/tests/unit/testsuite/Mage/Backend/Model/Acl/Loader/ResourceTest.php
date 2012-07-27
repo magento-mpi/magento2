@@ -41,9 +41,12 @@ class Mage_Backend_Model_Acl_Loader_ResourceTest extends PHPUnit_Framework_TestC
         $this->_objectFactoryMock->expects($this->any())
             ->method('getModelInstance')
             ->with('Magento_Acl_Resource', $this->anything())
-            ->will($this->returnCallback(function($class, $id) {
-                return new $class($id);
-            }));
+            ->will($this->returnCallback(
+                function($class, $id) {
+                    return new $class($id);
+                }
+            )
+        );
 
         $resourcesDocument = new DOMDocument();
         $resourcesDocument->load(realpath(__DIR__)  .  '/../../_files/acl.xml');
