@@ -25,7 +25,6 @@ class Mage_User_Acl_Loader_Resource implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-
         if (is_null($resource)) {
             $resource = $this->getAdminhtmlConfig()->getNode("acl/resources");
             $resourceName = null;
@@ -47,7 +46,6 @@ class Mage_User_Acl_Loader_Resource implements Magento_Acl_Loader
 
 
         if (empty($children)) {
-            return $this;
         }
 
         foreach ($children as $res) {
@@ -56,6 +54,5 @@ class Mage_User_Acl_Loader_Resource implements Magento_Acl_Loader
             }
             $this->loadAclResources($acl, $res, $resourceName);
         }
-        return $this;
     }
 }

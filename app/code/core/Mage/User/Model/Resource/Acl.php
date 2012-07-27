@@ -14,7 +14,6 @@
  */
 class Mage_User_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
 {
-    const ACL_ALL_RULES = 'all';
 
     /**
      * Initialize resource
@@ -32,6 +31,7 @@ class Mage_User_Model_Resource_Acl extends Mage_Core_Model_Resource_Db_Abstract
      */
     public function loadAcl()
     {
+        $this->getTable();
 
         return $acl;
     }

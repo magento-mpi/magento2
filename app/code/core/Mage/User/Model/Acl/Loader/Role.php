@@ -8,8 +8,25 @@
  * @license     {license_link}
  */
 
-class Mage_User_Acl_Loader_Role implements Magento_Acl_Loader
+class Mage_User_Model_Acl_Loader_Role implements Magento_Acl_Loader
 {
+    /**
+     * @var Mage_Core_Model_Resource
+     */
+    protected $_resource;
+
+    public function __construct(array $data = array())
+    {
+        $this->_resource = isset($data['resource'])
+            ? $data['resource']
+            : Mage::getSingleton('Mage_Core_Model_Resource');
+
+        $this->_objectFactory = isset($data['objectFactory'])
+            ? $data['objectFactory']
+            : Mage::getConfig();
+    }
+
+
     /**
      * Populate ACL with roles from external storage
      *
@@ -17,12 +34,11 @@ class Mage_User_Acl_Loader_Role implements Magento_Acl_Loader
      */
     public function populateAcl(Magento_Acl $acl)
     {
-        $roleTable   = $this->getTable('admin_role');
-
-        $adapter = $this->_getReadAdapter();
+        $roleTableName = $this->_resource->getTableName('admin_role');
+        $adapter = $this->_resource->getConnection('read');
 
         $select = $adapter->select()
-            ->from($roleTable)
+            ->from($roleTableName)
             ->order('tree_level');
 
         foreach ($adapter->fetchAll($select) as $role) {
@@ -30,13 +46,19 @@ class Mage_User_Acl_Loader_Role implements Magento_Acl_Loader
             switch ($role['role_type']) {
                 case Mage_User_Model_Acl_Role_Group::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['role_id'];
-                    $acl->addRole(Mage::getModel('Mage_User_Model_Acl_Role_Group', $roleId), $parent);
+                    $acl->addRole(
+                        $this->_objectFactory->getModelInstance('Mage_User_Model_Acl_Role_Group', $roleId),
+                        $parent
+                    );
                     break;
 
                 case Mage_User_Model_Acl_Role_User::ROLE_TYPE:
                     $roleId = $role['role_type'] . $role['user_id'];
                     if (!$acl->hasRole($roleId)) {
-                        $acl->addRole(Mage::getModel('Mage_User_Model_Acl_Role_User', $roleId), $parent);
+                        $acl->addRole(
+                            $this->_objectFactory->getModelInstance('Mage_User_Model_Acl_Role_User', $roleId),
+                            $parent
+                        );
                     } else {
                         $acl->addRoleParent($roleId, $parent);
                     }
