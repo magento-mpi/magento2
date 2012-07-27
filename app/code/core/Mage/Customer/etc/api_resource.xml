@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions name="Magento"
-                  targetNamespace="http://mage2.magento/soap.xml"
-                  xmlns:tns="http://mage2.magento/soap.xml"
+                  targetNamespace="urn:Magento"
+                  xmlns:tns="urn:Magento"
                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     <wsdl:types>
-        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mage2.magento/soap.xml">
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
             <xs:complexType name="customerEntityCreate">
                 <xs:sequence>
                     <xs:element name="email" type="xs:string" minOccurs="1" />

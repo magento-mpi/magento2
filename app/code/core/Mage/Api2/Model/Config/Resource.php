@@ -317,6 +317,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
               xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
               xmlns:tns="urn:Magento"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+              xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
               targetNamespace="urn:Magento"></wsdl:definitions>';
     }
 

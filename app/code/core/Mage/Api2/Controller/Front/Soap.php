@@ -42,8 +42,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     {
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
-                $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML());
-                $responseBody = $wsdl->toDom()->saveXML();
+                $responseBody = $this->_getWsdlContent();
             } else {
                 $responseBody = $this->_getSoapServer()->handle();
             }
@@ -54,6 +53,34 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         }
         $this->getResponse()->sendResponse();
         return $this;
+    }
+
+    /**
+     * Generate WSDL content based on resource config.
+     *
+     * @return string
+     */
+    protected function _getWsdlContent()
+    {
+        $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML(), 'wsdl', 'soap12');
+        $service = $wsdl->addService('MagentoAPI');
+
+        foreach ($this->getResourceConfig()->getResources() as $resourceName => $methods) {
+            $bindingName = ucfirst($resourceName);
+            $binding = $wsdl->addBinding($bindingName, $resourceName);
+            $wsdl->addSoapBinding($binding);
+            // @TODO: URL should be generated
+            $portUrl = 'http://mage2.magento/api/soap/' . $resourceName;
+            $wsdl->addServicePort($service, $bindingName . '_Soap12', $bindingName, $portUrl);
+
+            foreach ($methods as $methodName => $methodData) {
+                $operation = $wsdl->addBindingOperation($binding, $resourceName . ucfirst($methodName),
+                    array('use' => 'literal'), array('use' => 'literal'));
+                $wsdl->addSoapOperation($operation, $resourceName . ucfirst($methodName));
+            }
+        }
+
+        return $wsdl->getDom()->saveXML();
     }
 
     /**

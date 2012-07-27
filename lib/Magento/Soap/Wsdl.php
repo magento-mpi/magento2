@@ -23,16 +23,20 @@ class Magento_Soap_Wsdl
     protected $_nsWsdl;
 
     /** @var string SOAP namespace */
-    protected $_nsSoap;
+    protected $_nsSoap12;
 
-    public function __construct($xml, $namespaceWsdl = 'wsdl', $namespaceSoap = 'soap')
+    /** @var string Types namespace */
+    protected $_nsTypes;
+
+    public function __construct($xml, $namespaceWsdl = 'wsdl', $namespaceSoap12 = 'soap12', $namespaceTypes = 'tns')
     {
         $this->_dom = new DOMDocument();
         $this->_dom->loadXML($xml);
 
         $this->_wsdl = $this->_dom->documentElement;
         $this->_nsWsdl = $namespaceWsdl;
-        $this->_nsSoap = $namespaceSoap;
+        $this->_nsSoap12 = $namespaceSoap12;
+        $this->_nsTypes = $namespaceTypes;
     }
 
     /**
@@ -46,7 +50,7 @@ class Magento_Soap_Wsdl
     {
         $binding = $this->_dom->createElement($this->_nsWsdl . ':binding');
         $binding->setAttribute('name', $name);
-        $binding->setAttribute('type', $portType);
+        $binding->setAttribute('type', $this->_nsTypes . ':' . $portType);
 
         $this->_wsdl->appendChild($binding);
 
@@ -70,21 +74,21 @@ class Magento_Soap_Wsdl
 
         if (is_array($input)) {
             $node = $this->_dom->createElement($this->_nsWsdl . ':input');
-            $soap_node = $this->_dom->createElement($this->_nsSoap . ':body');
+            $soapNode = $this->_dom->createElement($this->_nsSoap12 . ':body');
             foreach ($input as $name => $value) {
-                $soap_node->setAttribute($name, $value);
+                $soapNode->setAttribute($name, $value);
             }
-            $node->appendChild($soap_node);
+            $node->appendChild($soapNode);
             $operation->appendChild($node);
         }
 
         if (is_array($output)) {
             $node = $this->_dom->createElement($this->_nsWsdl . ':output');
-            $soap_node = $this->_dom->createElement($this->_nsSoap . ':body');
+            $soapNode = $this->_dom->createElement($this->_nsSoap12 . ':body');
             foreach ($output as $name => $value) {
-                $soap_node->setAttribute($name, $value);
+                $soapNode->setAttribute($name, $value);
             }
-            $node->appendChild($soap_node);
+            $node->appendChild($soapNode);
             $operation->appendChild($node);
         }
 
@@ -99,11 +103,11 @@ class Magento_Soap_Wsdl
                 $node->setAttribute('name', $fault['name']);
             }
 
-            $soap_node = $this->_dom->createElement($this->_nsSoap . ':fault');
+            $soapNode = $this->_dom->createElement($this->_nsSoap12 . ':fault');
             foreach ($fault as $name => $value) {
-                $soap_node->setAttribute($name, $value);
+                $soapNode->setAttribute($name, $value);
             }
-            $node->appendChild($soap_node);
+            $node->appendChild($soapNode);
             $operation->appendChild($node);
         }
 
@@ -123,71 +127,83 @@ class Magento_Soap_Wsdl
     public function addSoapBinding(DOMElement $binding, $style = 'document',
         $transport = 'http://schemas.xmlsoap.org/soap/http')
     {
-        $soap_binding = $this->_dom->createElement($this->_nsSoap . ':binding');
-        $soap_binding->setAttribute('style', $style);
-        $soap_binding->setAttribute('transport', $transport);
+        $soapBinding = $this->_dom->createElement($this->_nsSoap12 . ':binding');
+        $soapBinding->setAttribute('style', $style);
+        $soapBinding->setAttribute('transport', $transport);
 
-        $binding->appendChild($soap_binding);
+        $binding->appendChild($soapBinding);
 
-        return $soap_binding;
+        return $soapBinding;
     }
 
     /**
      * Add a {@link http://www.w3.org/TR/wsdl#_soap:operation SOAP operation} to an operation element
      *
-     * @param DOMElement $binding An operation XML_Tree_Node returned by {@link function addBindingOperation}
-     * @param string $soap_action SOAP Action
+     * @param DOMElement $operation An operation XML_Tree_Node returned by {@link function addBindingOperation}
+     * @param string $soapAction SOAP Action
      * @return boolean
      */
-    public function addSoapOperation($binding, $soap_action)
+    public function addSoapOperation($operation, $soapAction)
     {
-        if ($soap_action instanceof Zend_Uri_Http) {
-            $soap_action = $soap_action->getUri();
+        if ($soapAction instanceof Zend_Uri_Http) {
+            $soapAction = $soapAction->getUri();
         }
-        $soap_operation = $this->_dom->createElement($this->_nsSoap . ':operation');
-        $soap_operation->setAttribute('soapAction', $soap_action);
+        $soapOperation = $this->_dom->createElement($this->_nsSoap12 . ':operation');
+        $soapOperation->setAttribute('soapAction', $soapAction);
 
-        $binding->insertBefore($soap_operation, $binding->firstChild);
+        $operation->insertBefore($soapOperation, $operation->firstChild);
 
-        return $soap_operation;
+        return $soapOperation;
     }
 
     /**
      * Add a {@link http://www.w3.org/TR/wsdl#_services service} element to the WSDL
      *
      * @param string $name Service Name
+     * @return DOMElement The new service's XML_Tree_Node for use with {@link function addDocumentation}
+     */
+    public function addService($name)
+    {
+
+        $service = $this->_dom->createElement($this->_nsWsdl . ':service');
+        $service->setAttribute('name', $name);
+
+        $this->_wsdl->appendChild($service);
+        return $service;
+    }
+
+    /**
+     * Add port element to service.
+     *
+     * @param DOMElement $service
      * @param string $portName Name of the port for the service
      * @param string $binding Binding for the port
      * @param string $location SOAP Address for the service
-     * @return object The new service's XML_Tree_Node for use with {@link function addDocumentation}
+     * @return DOMElement The new port's XML_Tree_Node
      */
-    public function addService($name, $portName, $binding, $location)
+    public function addServicePort(DOMElement $service, $portName, $binding, $location)
     {
         if ($location instanceof Zend_Uri_Http) {
             $location = $location->getUri();
         }
-        $service = $this->_dom->createElement($this->_nsWsdl . 'service');
-        $service->setAttribute('name', $name);
 
-        $port = $this->_dom->createElement($this->_nsWsdl . 'port');
+        $port = $this->_dom->createElement($this->_nsWsdl . ':port');
         $port->setAttribute('name', $portName);
-        $port->setAttribute('binding', $binding);
+        $port->setAttribute('binding', $this->_nsTypes . ':' . $binding);
 
-        $soap_address = $this->_dom->createElement($this->_nsSoap . ':address');
-        $soap_address->setAttribute('location', $location);
+        $soapAddress = $this->_dom->createElement($this->_nsSoap12 . ':address');
+        $soapAddress->setAttribute('location', $location);
 
-        $port->appendChild($soap_address);
+        $port->appendChild($soapAddress);
         $service->appendChild($port);
 
-        $this->_wsdl->appendChild($service);
-
-        return $service;
+        return $port;
     }
 
     /**
      * @return DOMDocument
      */
-    public function toDom()
+    public function getDom()
     {
         return $this->_dom;
     }

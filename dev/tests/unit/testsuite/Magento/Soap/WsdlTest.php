@@ -11,25 +11,29 @@
 
 /**
  * Test case for Magento_Soap_Wsdl library.
- *
- * @group validator
  */
 class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
 {
-    public function testAddBinding()
+    /**
+     * @dataProvider dataPositiveWsdl
+     * @param $validXml
+     */
+    public function testAddBinding($validXml)
     {
-        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
         $wsdl = new Magento_Soap_Wsdl($validXml);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
 
         $this->assertInstanceOf('DOMElement', $binding);
-        $bindings = $wsdl->toDom()->getElementsByTagName('binding');
+        $bindings = $wsdl->getDom()->getElementsByTagName('binding');
         $this->assertEquals(1, count($bindings));
     }
 
-    public function testAddBindingOperation()
+    /**
+     * @dataProvider dataPositiveWsdl
+     * @param $validXml
+     */
+    public function testAddBindingOperation($validXml)
     {
-        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
         $wsdl = new Magento_Soap_Wsdl($validXml);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
         $operation = $wsdl->addBindingOperation($binding, 'testOperation', array('use' => 'literal'),
@@ -38,9 +42,12 @@ class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('DOMElement', $operation);
     }
 
-    public function testAddSoapBinding()
+    /**
+     * @dataProvider dataPositiveWsdl
+     * @param $validXml
+     */
+    public function testAddSoapBinding($validXml)
     {
-        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
         $wsdl = new Magento_Soap_Wsdl($validXml);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
         $soapBinding = $wsdl->addSoapBinding($binding);
@@ -48,9 +55,12 @@ class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('DOMElement', $soapBinding);
     }
 
-    public function testAddSoapOperation()
+    /**
+     * @dataProvider dataPositiveWsdl
+     * @param $validXml
+     */
+    public function testAddSoapOperation($validXml)
     {
-        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
         $wsdl = new Magento_Soap_Wsdl($validXml);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
         $soapOperation = $wsdl->addSoapOperation($binding, 'testSoapAction');
@@ -58,12 +68,36 @@ class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('DOMElement', $soapOperation);
     }
 
-    public function testAddService()
+    /**
+     * @dataProvider dataPositiveWsdl
+     * @param $validXml
+     */
+    public function testAddService($validXml)
     {
-        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
         $wsdl = new Magento_Soap_Wsdl($validXml);
-        $service = $wsdl->addService('TestService', 'testPort', 'testBinding', 'http://test.location/');
+        $service = $wsdl->addService('TestService');
 
         $this->assertInstanceOf('DOMElement', $service);
+    }
+
+    /**
+     * @dataProvider dataPositiveWsdl
+     * @param $validXml
+     */
+    public function testAddServicePort($validXml)
+    {
+        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $service = $wsdl->addService('TestService');
+        $servicePort = $wsdl->addServicePort($service, 'testPort', 'testBinding', 'http://test.location/');
+
+        $this->assertInstanceOf('DOMElement', $servicePort);
+    }
+
+    public function dataPositiveWsdl()
+    {
+        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
+        return array(
+            array($validXml),
+        );
     }
 }
