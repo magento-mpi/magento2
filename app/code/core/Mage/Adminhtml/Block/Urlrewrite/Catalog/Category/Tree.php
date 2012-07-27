@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {

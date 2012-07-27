@@ -12,6 +12,7 @@
  * Block for CMS pages URL rewrites
  *
  * @method Mage_Cms_Model_Page getCmsPage()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit setCmsPage(Mage_Cms_Model_Page $cmsPage)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -28,7 +29,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Mage_Adminhtml_Block
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
         $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for CMS page');
 
-        if ($this->getCmsPage()->getId()) {
+        if ($this->_getCmsPage()->getId()) {
             $this->_addCmsPageLinkBlock();
             $this->_addEditFormBlock();
             $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . 'cms_page');
@@ -39,15 +40,26 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Mage_Adminhtml_Block
     }
 
     /**
-     * Add child CMS page link block
+     * Get or create new instance of CMS page
      *
-     * @param Mage_Catalog_Model_Category $category
+     * @return Mage_Cms_Model_Page
+     */
+    private function _getCmsPage()
+    {
+        if (!$this->hasData('cms_page')) {
+            $this->setCmsPage(Mage::getModel('Mage_Cms_Model_Page'));
+        }
+        return $this->getCmsPage();
+    }
+
+    /**
+     * Add child CMS page link block
      */
     private function _addCmsPageLinkBlock()
     {
         /** @var $helper Mage_Adminhtml_Helper_Data */
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
-        $this->setChild('category_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
+        $this->setChild('cms_page_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
             ->setData(array(
                 'item_url'  => $helper->getUrl('*/*/*') . 'cms_page',
                 'item_name' => $this->getCmsPage()->getTitle(),
@@ -75,8 +87,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Mage_Adminhtml_Block
     protected function _createEditFormBlock()
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', '', array(
-            'cms_page'    => $this->getCmsPage(),
-            'url_rewrite' => $this->getUrlRewrite()
+            'cms_page'    => $this->_getCmsPage(),
+            'url_rewrite' => $this->_getUrlRewrite()
         ));
     }
 }

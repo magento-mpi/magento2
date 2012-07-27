@@ -12,7 +12,9 @@
  * Block for Catalog Category URL rewrites editing
  *
  * @method Mage_Catalog_Model_Category getCategory()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Mage_Catalog_Model_Category $product)
  * @method Mage_Catalog_Model_Product getProduct()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setProduct(Mage_Catalog_Model_Product $product)
  * @method bool getIsCategoryMode()
  *
  * @category   Mage
@@ -31,19 +33,19 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
 
         $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Product');
 
-        if ($this->getProduct()->getId()) {
-            $this->_addProductLinkBlock($this->getProduct());
+        if ($this->_getProduct()->getId()) {
+            $this->_addProductLinkBlock($this->_getProduct());
         }
 
-        if ($this->getCategory()->getId()) {
+        if ($this->_getCategory()->getId()) {
             $this->_addCategoryLinkBlock();
         }
 
-        if ($this->getProduct()->getId()) {
-            if ($this->getCategory()->getId() || !$this->getIsCategoryMode()) {
+        if ($this->_getProduct()->getId()) {
+            if ($this->_getCategory()->getId() || !$this->getIsCategoryMode()) {
                 $this->_addEditFormBlock();
                 $this->_updateBackButtonLink(
-                    $helper->getUrl('*/*/edit', array('product' => $this->getProduct()->getId())) . 'category'
+                    $helper->getUrl('*/*/edit', array('product' => $this->_getProduct()->getId())) . 'category'
                 );
             } else {
                 // categories selector & skip categories button
@@ -58,6 +60,32 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
     }
 
     /**
+     * Get or create new instance of product
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    private function _getProduct()
+    {
+        if (!$this->hasData('product')) {
+            $this->setProduct(Mage::getModel('Mage_Catalog_Model_Product'));
+        }
+        return $this->getProduct();
+    }
+
+    /**
+     * Get or create new instance of category
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    private function _getCategory()
+    {
+        if (!$this->hasData('category')) {
+            $this->setCategory(Mage::getModel('Mage_Catalog_Model_Category'));
+        }
+        return $this->getCategory();
+    }
+
+    /**
      * Add child product link block
      */
     private function _addProductLinkBlock()
@@ -67,7 +95,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
         $this->setChild('product_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
             ->setData(array(
                 'item_url'  => $helper->getUrl('*/*/*') . 'product',
-                'item_name' => $this->getProduct()->getName(),
+                'item_name' => $this->_getProduct()->getName(),
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Product:')
             ))
         );
@@ -82,8 +110,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
         $this->setChild('category_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
             ->setData(array(
-                'item_url'  => $helper->getUrl('*/*/*', array('product' => $this->getProduct()->getId())) . 'category',
-                'item_name' => $this->getCategory()->getName(),
+                'item_url'  => $helper->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . 'category',
+                'item_name' => $this->_getCategory()->getName(),
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Category:')
             ))
         );
@@ -101,24 +129,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
     }
 
     /**
-     * Add child Skip Categories block
-     */
-    private function _addSkipCategoriesBlock()
-    {
-        /** @var $helper Mage_Adminhtml_Helper_Data */
-        $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
-        $this->setChild('skip_categories',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
-                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Skip Category Selection'),
-                'onclick' => 'window.location = \''
-                    . $helper->getUrl('*/*/*', array('product' => $this->getProduct()->getId())) . '\'',
-                'class' => 'save',
-                'level' => -1
-            ))
-        );
-    }
-
-    /**
      * Add child Categories Tree block
      */
     private function _addCategoriesTreeBlock()
@@ -130,6 +140,24 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
     }
 
     /**
+     * Add child Skip Categories block
+     */
+    private function _addSkipCategoriesBlock()
+    {
+        /** @var $helper Mage_Adminhtml_Helper_Data */
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
+        $this->setChild('skip_categories',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Widget_Button')->setData(array(
+                'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Skip Category Selection'),
+                'onclick' => 'window.location = \''
+                    . $helper->getUrl('*/*/*', array('product' => $this->_getProduct()->getId())) . '\'',
+                'class' => 'save',
+                'level' => -1
+            ))
+        );
+    }
+
+    /**
      * Creates edit form block
      *
      * @return Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form
@@ -137,9 +165,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
     protected function _createEditFormBlock()
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', '', array(
-            'product'     => $this->getProduct(),
-            'category'    => $this->getCategory(),
-            'url_rewrite' => $this->getUrlRewrite()
+            'product'     => $this->_getProduct(),
+            'category'    => $this->_getCategory(),
+            'url_rewrite' => $this->_getUrlRewrite()
         ));
     }
 }

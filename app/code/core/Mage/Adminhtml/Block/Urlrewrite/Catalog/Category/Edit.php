@@ -12,6 +12,7 @@
  * Block for Catalog Category URL rewrites
  *
  * @method Mage_Catalog_Model_Category getCategory()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Mage_Catalog_Model_Category $product)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -29,7 +30,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
 
         $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Category');
 
-        if ($this->getCategory()->getId()) {
+        if ($this->_getCategory()->getId()) {
             $this->_addCategoryLinkBlock();
             $this->_addEditFormBlock();
             $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . 'category');
@@ -43,6 +44,19 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
     }
 
     /**
+     * Get or create new instance of category
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    private function _getCategory()
+    {
+        if (!$this->hasData('category')) {
+            $this->setCategory(Mage::getModel('Mage_Catalog_Model_Category'));
+        }
+        return $this->getCategory();
+    }
+
+    /**
      * Add child category link block
      */
     private function _addCategoryLinkBlock()
@@ -52,7 +66,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
         $this->setChild('category_link', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Link')
             ->setData(array(
                 'item_url'  => $helper->getUrl('*/*/*') . 'category',
-                'item_name' => $this->getCategory()->getName(),
+                'item_name' => $this->_getCategory()->getName(),
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Category:')
             ))
         );
@@ -66,8 +80,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
     protected function _createEditFormBlock()
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', '', array(
-            'category'    => $this->getCategory(),
-            'url_rewrite' => $this->getUrlRewrite()
+            'category'    => $this->_getCategory(),
+            'url_rewrite' => $this->_getUrlRewrite()
         ));
     }
 }

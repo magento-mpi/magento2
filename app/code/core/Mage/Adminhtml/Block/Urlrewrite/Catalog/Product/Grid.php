@@ -13,7 +13,7 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Mage_Adminhtml_Block_Catalog_Product_Grid
 {
@@ -75,8 +75,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Grid extends Mage_Adminhtm
     }
 
     /**
-     * Get row URL
+     * Return row url for js event handlers
      *
+     * @param Mage_Catalog_Model_Product|Varien_Object
      * @return string
      */
     public function getRowUrl($row)

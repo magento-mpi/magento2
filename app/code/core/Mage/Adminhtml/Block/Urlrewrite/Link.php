@@ -12,8 +12,8 @@
  * Label & link block
  *
  * @method string getLabel()
- * @method string getName()
- * @method string getUrl()
+ * @method string getItemUrl()
+ * @method string getItemName()
  *
  * @category   Mage
  * @package    Mage_Adminhtml

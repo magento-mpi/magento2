@@ -12,6 +12,7 @@
  * Block for URL rewrites edit page
  *
  * @method Mage_Core_Model_Url_Rewrite getUrlRewrite()
+ * @method Mage_Adminhtml_Block_Urlrewrite_Edit setUrlRewrite(Mage_Core_Model_Url_Rewrite $urlRewrite)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -109,7 +110,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
     protected function _createEditFormBlock()
     {
         return $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', '', array(
-            'url_rewrite' => $this->getUrlRewrite()
+            'url_rewrite' => $this->_getUrlRewrite()
         ));
     }
 
@@ -154,5 +155,18 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
             }
         }
         return $this->_buttonsHtml;
+    }
+
+    /**
+     * Get or create new instance of URL rewrite
+     *
+     * @return Mage_Core_Model_Url_Rewrite
+     */
+    protected function _getUrlRewrite()
+    {
+        if (!$this->hasData('url_rewrite')) {
+            $this->setUrlRewrite(Mage::getModel('Mage_Core_Model_Url_Rewrite'));
+        }
+        return $this->getUrlRewrite();
     }
 }
