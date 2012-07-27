@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Widg
      */
     public function getRowUrl($row)
     {
-        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order/shipment')) {
+        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Adminhtml::all')) {
             return false;
         }
 

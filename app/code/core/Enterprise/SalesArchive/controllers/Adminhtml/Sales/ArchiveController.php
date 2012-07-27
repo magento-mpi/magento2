@@ -298,36 +298,36 @@ class Enterprise_SalesArchive_Adminhtml_Sales_ArchiveController extends Mage_Adm
         switch (strtolower($this->getRequest()->getActionName())) {
             case 'orders':
             case 'ordersgrid':
-                $acl = 'sales/archive/orders';
+                $acl = 'Enterprise_SalesArchive::orders';
                 break;
 
             case 'invoices':
             case 'invoicesgrid':
-                $acl = 'sales/archive/invoices';
+                $acl = 'Enterprise_SalesArchive::invoices';
                 break;
 
            case 'creditmemos':
            case 'creditmemosgrid':
-                $acl = 'sales/archive/creditmemos';
+                $acl = 'Enterprise_SalesArchive::creditmemos';
                 break;
 
            case 'shipments':
            case 'shipmentsgrid':
-                $acl = 'sales/archive/shipments';
+                $acl = 'Enterprise_SalesArchive::shipments';
                 break;
 
            case 'massadd':
            case 'add':
-               $acl = 'sales/archive/orders/add';
+               $acl = 'Enterprise_SalesArchive::add';
                 break;
 
            case 'massremove':
            case 'remove':
-                $acl = 'sales/archive/orders/remove';
+                $acl = 'Enterprise_SalesArchive::remove';
                 break;
 
            default:
-                $acl = 'sales/archive/orders';
+                $acl = 'Enterprise_SalesArchive::orders';
                 break;
         }
 

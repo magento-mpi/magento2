@@ -493,6 +493,6 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/categories');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Catalog::categories');
     }
 }

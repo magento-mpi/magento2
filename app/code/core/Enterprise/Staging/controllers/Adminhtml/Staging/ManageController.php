@@ -471,6 +471,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/enterprise_staging/staging_grid');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Staging::staging_grid');
     }
 }

@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             $hasChildren = $configFields->hasChildren($section, $websiteCode, $storeCode);
 
             //$code = $section->getPath();
-            $code = $section->getName();
+            $code = $section->getName(); //TODO: $code has to be equals ACL resource id
 
             $sectionAllowed = $this->checkSectionPermissions($code);
             if ((empty($current) && $sectionAllowed)) {
@@ -301,14 +301,14 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     /**
      * Enter description here...
      *
-     * @param string $code
+     * @param string $aclResourceId
      * @return boolean
      */
-    public function checkSectionPermissions($code=null)
+    public function checkSectionPermissions($aclResourceId=null)
     {
         static $permissions;
 
-        if (!$code or trim($code) == "") {
+        if (!$aclResourceId or trim($aclResourceId) == "") {
             return false;
         }
 
@@ -317,7 +317,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         }
 
         $showTab = false;
-        if ( $permissions->isAllowed('system/config/'.$code) ) {
+        if ( $permissions->isAllowed($aclResourceId) ) {
             $showTab = true;
         }
         return $showTab;

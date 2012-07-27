@@ -100,8 +100,8 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
     /**
      * Check current user permission on resource and privilege
      *
-     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/catalog')
-     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog')
+     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Catalog::catalog')
+     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Catalog::catalog')
      *
      * @param   string $resource
      * @param   string $privilege

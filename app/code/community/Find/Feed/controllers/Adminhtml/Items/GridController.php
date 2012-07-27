@@ -105,6 +105,6 @@ class Find_Feed_Adminhtml_Items_GridController extends Mage_Adminhtml_Controller
      * @return boolean
      */
     protected function _isAllowed() {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/feed/import_items');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Find_Feed::import_items');
     }
 }

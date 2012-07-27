@@ -141,16 +141,16 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/shopcart/customer');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Adminhtml::all');
                 break;
             case 'product':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/shopcart/product');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Reports::product');
                 break;
             case 'abandoned':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/shopcart/abandoned');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Reports::abandoned');
                 break;
             default:
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('report/shopcart');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Reports::shopcart');
                 break;
         }
     }
