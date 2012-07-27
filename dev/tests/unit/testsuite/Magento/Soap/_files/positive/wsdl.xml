@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="TestWsdl"
+                  targetNamespace="urn:test_wsdl"
+                  xmlns:tns="urn:test_wsdl"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:portType name="testPortType">
+        <wsdl:operation name="testPortTypeOperation">
+            <wsdl:documentation>Test Operaion</wsdl:documentation>
+            <wsdl:input message="tns:testRequest" />
+            <wsdl:output message="tns:testResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
