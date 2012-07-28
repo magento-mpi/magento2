@@ -436,17 +436,20 @@ final class Mage
     }
 
     /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public static function setObjectManager(Magento_ObjectManager $objectManager)
+    {
+        self::$_objectManager = $objectManager;
+    }
+
+    /**
      * Retrieve object manager
      *
-     * @static
      * @return Magento_ObjectManager
      */
     public static function getObjectManager()
     {
-        if (!self::$_objectManager) {
-            $di = new \Zend\Di\Di();
-            self::$_objectManager = new Magento_ObjectManager_Zend(self::getConfig(), $di);
-        }
         return self::$_objectManager;
     }
 

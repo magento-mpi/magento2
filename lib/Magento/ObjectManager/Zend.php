@@ -9,10 +9,9 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     protected $_di;
 
-    public function __construct($config, \Zend\Di\Di $di)
+    public function __construct(\Zend\Di\Di $di)
     {
         $this->_di = $di;
-        parent::__construct($config);
     }
 
     /**
@@ -24,7 +23,6 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function create($className, array $arguments = array())
     {
-        $className = $this->_config->getModelClassName($className);
         return $this->_di->newInstance($className, array('data' => $arguments));
     }
 
@@ -37,7 +35,6 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function get($className, array $arguments = array())
     {
-        $className = $this->_config->getModelClassName($className);
         return $this->_di->get($className, array('data' => $arguments));
     }
 
