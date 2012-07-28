@@ -1104,7 +1104,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ($block && is_string($block)) {
             $block = Mage::getConfig()->getBlockClassName($block);
             if (Magento_Autoload::getInstance()->classExists($block)) {
-                $block = new $block($attributes);
+                $block = Mage::getModel($block, $attributes);
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {
@@ -1233,7 +1233,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid block type: %s', $type));
             }
 
-            $helper = new $className();
+            $helper = Mage::getModel($type);
             if ($helper) {
                 if ($helper instanceof Mage_Core_Block_Abstract) {
                     $helper->setLayout($this);

@@ -23,7 +23,7 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function create($className, array $arguments = array())
     {
-        return $this->_di->newInstance($className, array('data' => $arguments));
+        return $this->_di->newInstance($className, $arguments);
     }
 
     /**
@@ -35,7 +35,7 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function get($className, array $arguments = array())
     {
-        return $this->_di->get($className, array('data' => $arguments));
+        return $this->_di->get($className, $arguments);
     }
 
 }

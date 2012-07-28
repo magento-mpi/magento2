@@ -351,7 +351,7 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getModel('Mage_Core_Model_Url')->getUrl($route, $params);
+        return self::getObjectManager()->create('Mage_Core_Model_Url')->getUrl($route, $params);
     }
 
     /**
@@ -361,7 +361,7 @@ final class Mage
      */
     public static function getDesign()
     {
-        return self::getSingleton('Mage_Core_Model_Design_Package');
+        return self::getObjectManager()->get('Mage_Core_Model_Design_Package');
     }
 
     /**
@@ -420,7 +420,7 @@ final class Mage
      */
     public static function getModel($modelClass = '', $arguments = array())
     {
-        return self::getObjectManager()->create($modelClass, $arguments);
+        return self::getObjectManager()->create($modelClass, array('data' => $arguments));
     }
 
     /**
@@ -432,7 +432,7 @@ final class Mage
      */
     public static function getSingleton($modelClass='', array $arguments=array())
     {
-        return self::getObjectManager()->get($modelClass, $arguments);
+        return self::getObjectManager()->get($modelClass, array('data' => $arguments));
     }
 
     /**
@@ -462,7 +462,7 @@ final class Mage
      */
     public static function getResourceModel($modelClass, $arguments = array())
     {
-        return self::getConfig()->getResourceModelInstance($modelClass, $arguments);
+        return self::getObjectManager()->create($modelClass, array('data' => $arguments));
     }
 
     /**
@@ -476,7 +476,11 @@ final class Mage
      */
     public static function getControllerInstance($class, $request, $response, array $invokeArgs = array())
     {
-        return new $class($request, $response, $invokeArgs);
+        return self::getObjectManager()->create($class, array(
+            'request' => $request,
+            'response' => $response,
+            'invokeArgs' => $invokeArgs
+        ));
     }
 
     /**
@@ -488,11 +492,7 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '', array $arguments = array())
     {
-        $registryKey = '_resource_singleton/'.$modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getResourceModel($modelClass, $arguments));
-        }
-        return self::registry($registryKey);
+        return self::getObjectManager()->get($modelClass, array('data' => $arguments));
     }
 
     /**
@@ -520,12 +520,8 @@ final class Mage
             $name .= '_Helper_Data';
         }
 
-        $registryKey = '_helper/' . $name;
-        if (!self::registry($registryKey)) {
-            $helperClass = self::getConfig()->getHelperClassName($name);
-            self::register($registryKey, new $helperClass);
-        }
-        return self::registry($registryKey);
+        $helperClass = self::getConfig()->getHelperClassName($name);
+        return self::getObjectManager()->get($helperClass);
     }
 
     /**
@@ -536,13 +532,14 @@ final class Mage
      */
     public static function getResourceHelper($moduleName)
     {
-        $registryKey = '_resource_helper/' . $moduleName;
-        if (!self::registry($registryKey)) {
-            $helperClass = self::getConfig()->getResourceHelper($moduleName);
-            self::register($registryKey, $helperClass);
-        }
+        $connectionModel = self::getConfig()->getResourceConnectionModel('core');
 
-        return self::registry($registryKey);
+        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
+        $connection = strtolower($moduleName);
+        if (substr($moduleName, 0, 5) == 'Mage_') {
+            $connection = substr($connection, 5);
+        }
+        return self::getObjectManager()->get($helperClassName);
     }
 
     /**

@@ -319,7 +319,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Magento_Profiler::start('load_modules');
         $this->_loadDeclaredModules();
 
-        $resourceConfig = sprintf('config.%s.xml', $this->_getResourceConnectionModel('core'));
+        $resourceConfig = sprintf('config.%s.xml', $this->getResourceConnectionModel('core'));
         $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
 
         /**
@@ -1159,27 +1159,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         return $this->getModelClassName($helperClass);
     }
 
-    /**
-     * Retrieve resource helper instance
-     *
-     * Example:
-     * $config->getResourceHelper('Mage_Core')
-     * will instantiate Mage_Cms_Model_Resource_Helper_<db_adapter_name>
-     *
-     * @param string $moduleName
-     * @return Mage_Core_Model_Resource_Helper_Abstract|false
-     */
-    public function getResourceHelper($moduleName)
-    {
-        $connectionModel = $this->_getResourceConnectionModel('core');
-
-        $helperClassName = $moduleName . '_Model_Resource_Helper_' . ucfirst($connectionModel);
-        $connection = strtolower($moduleName);
-        if (substr($moduleName, 0, 5) == 'Mage_') {
-            $connection = substr($connection, 5);
-        }
-        return $this->getModelInstance($helperClassName, $connection);
-    }
 
     /**
      * Retrieve module class name
@@ -1426,7 +1405,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param string $moduleName
      * @return string
      */
-    protected function _getResourceConnectionModel($moduleName = null)
+    public function getResourceConnectionModel($moduleName = null)
     {
         $config = null;
         if (!is_null($moduleName)) {

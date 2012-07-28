@@ -125,7 +125,7 @@ abstract class Mage_Core_Model_Resource_Db_Abstract extends Mage_Core_Model_Reso
      * @param array $arguments
      * @throws InvalidArgumentException
      */
-    public function __construct(array $arguments = array())
+    public function __construct(array $data = array())
     {
         if (isset($arguments['resource'])) {
             $this->_resources = $arguments['resource'];
