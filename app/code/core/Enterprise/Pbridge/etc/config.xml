@@ -111,11 +111,6 @@
                 <model>Enterprise_Pbridge_Model_Payment_Method_Paypal</model>
                 <active>1</active>
             </pbridge_paypal_direct>
-            <paybox_direct>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
-                <title>Paybox Direct</title>
-                <using_pbridge>1</using_pbridge>
-            </paybox_direct>
             <pbridge_paypaluk_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Paypaluk</model>
                 <active>1</active>
@@ -133,10 +128,11 @@
                 <partial_authorization_checksum_checking>1</partial_authorization_checksum_checking>
                 <using_pbridge>1</using_pbridge>
             </pbridge_authorizenet>
-            <pbridge_eway_direct>
+            <eway_direct>
+                <title>eWay</title>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
                 <active>1</active>
-            </pbridge_eway_direct>
+            </eway_direct>
             <pbridge_verisign>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro</model>
                 <enabled>1</enabled>
@@ -150,34 +146,24 @@
                 <payment_action>authorize</payment_action>
                 <useccv>1</useccv>
             </pbridge_ogone_direct>
-            <pbridge_paybox_direct>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
-                <active>1</active>
-            </pbridge_paybox_direct>
             <worldpay_direct>
                 <title>Worldpay</title>
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
-            </worldpay_direct>
-            <pbridge_worldpay_direct>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Worldpay_Direct</model>
                 <active>1</active>
-            </pbridge_worldpay_direct>
+            </worldpay_direct>
             <cybersource_soap>
                 <payment_action>authorize</payment_action>
                 <title>Credit Card (Cybersource)</title>
-            </cybersource_soap>
-            <pbridge_cybersource_soap>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap</model>
-            </pbridge_cybersource_soap>
+            </cybersource_soap>
             <dibs>
                 <title>Credit Card (DIBS)</title>
                 <using_pbridge>1</using_pbridge>
-            </dibs>
-            <pbridge_dibs>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Dibs</model>
                 <active>1</active>
-            </pbridge_dibs>
+            </dibs>
             <braintree_basic>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Braintree_Basic</model>
                 <title>Braintree</title>
@@ -203,6 +189,7 @@
                 <using_pbridge>1</using_pbridge>
             </payone_gate>
             <paybox_direct>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
                 <payment_action>authorize</payment_action>
                 <title>Paybox Direct</title>
                 <using_pbridge>1</using_pbridge>
@@ -211,11 +198,9 @@
                 <title>Psigate</title>
                 <payment_action>authorize</payment_action>
                 <using_pbridge>1</using_pbridge>
-            </psigate_basic>
-            <pbridge_psigate_basic>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic</model>
                 <active>1</active>
-            </pbridge_psigate_basic>
+            </psigate_basic>
         </payment>
     </default>
 </config>
