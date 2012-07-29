@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_FactoryAbstract implements Magento_ObjectManager_Factory
+class Magento_ObjectManager_Factory_FactoryAbstract implements Magento_ObjectManager_Factory
 {
     /**
      * @var Magento_ObjectManager

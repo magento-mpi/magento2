@@ -131,7 +131,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * @param array $arguments
      * @throws InvalidArgumentException
      */
-    public function __construct(array $arguments = array())
+    public function __construct(array $data = array())
     {
         $this->_area = isset($arguments['area']) ? $arguments['area'] : Mage_Core_Model_Design_Package::DEFAULT_AREA;
         if (isset($arguments['structure'])) {

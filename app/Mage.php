@@ -351,7 +351,8 @@ final class Mage
      */
     public static function getUrl($route = '', $params = array())
     {
-        return self::getObjectManager()->create('Mage_Core_Model_Url')->getUrl($route, $params);
+        return self::getObjectManager()->create('Mage_Core_Model_Url', array('data' => array()))
+            ->getUrl($route, $params);
     }
 
     /**
@@ -372,6 +373,15 @@ final class Mage
     public static function getConfig()
     {
         return self::$_config;
+    }
+
+    /**
+     * @static
+     * @param Mage_Core_Model_Config $config
+     */
+    public static function setConfig(Mage_Core_Model_Config $config)
+    {
+        self::$_config = $config;
     }
 
     /**
@@ -572,6 +582,15 @@ final class Mage
     }
 
     /**
+     * @static
+     * @param Mage_Core_Model_App $app
+     */
+    public static function setApp(Mage_Core_Model_App $app)
+    {
+        self::$_app = $app;
+    }
+
+    /**
      * Get initialized application object.
      *
      * @param string $code
@@ -635,7 +654,7 @@ final class Mage
      * @param string $type
      * @param string|array $options
      */
-    public static function run($code = '', $type = 'store', $options = array())
+/*    public static function run($code = '', $type = 'store', $options = array())
     {
         try {
             Magento_Profiler::start('mage');
@@ -666,7 +685,7 @@ final class Mage
         } catch (Exception $e) {
             self::printException($e);
         }
-    }
+    }*/
 
     /**
      * Set application isInstalled flag based on given options

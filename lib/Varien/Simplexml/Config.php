@@ -270,17 +270,17 @@ class Varien_Simplexml_Config
     /**
      * Enter description here...
      *
-     * @param string $data
+     * @param string $checksumKey
      * @return Varien_Simplexml_Config
      */
-    public function setCacheChecksum($data)
+    public function setCacheChecksum($checksumKey)
     {
-        if (is_null($data)) {
+        if (is_null($checksumKey)) {
             $this->_cacheChecksum = null;
-        } elseif (false===$data || 0===$data) {
+        } elseif (false===$checksumKey || 0===$checksumKey) {
             $this->_cacheChecksum = false;
         } else {
-            $this->_cacheChecksum = md5($data);
+            $this->_cacheChecksum = md5($checksumKey);
         }
         return $this;
     }

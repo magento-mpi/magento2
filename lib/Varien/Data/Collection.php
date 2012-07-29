@@ -543,7 +543,7 @@ class Varien_Data_Collection implements IteratorAggregate, Countable
      */
     public function getNewEmptyItem()
     {
-        return new $this->_itemObjectClass();
+        return Mage::getModel($this->_itemObjectClass);
     }
 
     /**

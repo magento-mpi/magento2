@@ -24,6 +24,11 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
+    public function __construct()
+    {
+
+    }
+
     public function setDefault($key, $value=null)
     {
         if (is_array($key)) {
@@ -147,6 +152,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     public function dispatch()
     {
+        $this->init();
         $request = $this->getRequest();
 
         // If pre-configured, check equality of base URL and requested URL

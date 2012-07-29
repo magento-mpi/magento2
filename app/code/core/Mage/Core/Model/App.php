@@ -17,7 +17,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_App
+class Mage_Core_Model_App implements Magento_RequestProcessor
 {
 
     const XML_PATH_INSTALL_DATE = 'global/install/date';
@@ -225,10 +225,26 @@ class Mage_Core_Model_App
     protected $_isCacheLocked = null;
 
     /**
-     * Constructor
+     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param Mage_Core_Controller_Varien_Front $frontController
      */
-    public function __construct()
-    {
+    public function __construct(
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Controller_Varien_Front $frontController,
+        $scopeCode = '',
+        $scopeType= 'store',
+        array $applicationOptions = array()
+    ) {
+        $this->_config = $applicationConfig;
+        $this->_cache = $cacheManager;
+        $this->_frontController = $frontController;
+
+        Mage::register(
+            'application_params',
+            array('scope_code' => $scopeCode, 'scope_type' => $scopeType, 'options' => $applicationOptions)
+        );
     }
 
     /**
@@ -307,46 +323,26 @@ class Mage_Core_Model_App
 
     /**
      * Run application. Run process responsible for request processing and sending response.
-     * List of supported parameters:
-     *  scope_code - code of default scope (website/store_group/store code)
-     *  scope_type - type of default scope (website/group/store)
-     *  options    - configuration options
      *
-     * @param  array $params application run parameters
+     * @param string $scopeCode code of default scope (website/store_group/store code)
+     * @param string $scopeType type of default scope (website/group/store)
+     * @param array $options configuration options
      * @return Mage_Core_Model_App
      */
-    public function run($params)
+    public function process(Zend_Controller_Request_Abstract $request)
     {
-        $options = isset($params['options']) ? $params['options'] : array();
-
         Magento_Profiler::start('init');
 
-        $this->baseInit($options);
-        Mage::register('application_params', $params);
+        $this->_initModules();
+        $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
 
-        Magento_Profiler::stop('init');
-
-        if ($this->_cache->processRequest()) {
-            $this->getResponse()->sendResponse();
-        } else {
-            Magento_Profiler::start('init');
-
-            $this->_initModules();
-            $this->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
-
-            if ($this->_config->isLocalConfigLoaded()) {
-                $scopeCode = isset($params['scope_code']) ? $params['scope_code'] : '';
-                $scopeType = isset($params['scope_type']) ? $params['scope_type'] : 'store';
-                $this->_initCurrentStore($scopeCode, $scopeType);
-                $this->_initRequest();
-                Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
-            }
-
-            $controllerFront = $this->getFrontController();
-            Magento_Profiler::stop('init');
-            $controllerFront->dispatch();
+        if ($this->_config->isLocalConfigLoaded()) {
+            Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
         }
-        return $this;
+
+        $controllerFront = $this->getFrontController();
+        Magento_Profiler::stop('init');
+        $controllerFront->dispatch();
     }
 
     /**
@@ -454,7 +450,7 @@ class Mage_Core_Model_App
      * @param string $scopeType type of default scope (website/group/store)
      * @return unknown_type
      */
-    protected function _initCurrentStore($scopeCode, $scopeType)
+    public function initCurrentStore($scopeCode, $scopeType)
     {
         Magento_Profiler::start('init_stores');
         $this->_initStores();
@@ -737,7 +733,6 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
-        $this->_frontController = new Mage_Core_Controller_Varien_Front();
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
         Magento_Profiler::stop('init_front_controller');
