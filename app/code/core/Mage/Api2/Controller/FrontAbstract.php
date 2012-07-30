@@ -20,7 +20,27 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
     /** @var Mage_Api2_Model_Config_Resource */
     protected $_resourceConfig;
 
-    abstract public function init();
+    /**
+     * Generic action controller for all controllers in current area
+     *
+     * @var string
+     */
+    protected $_baseActionController;
+
+    /**
+     * Initialize resource config which is used by all API types
+     *
+     * @return Mage_Core_Controller_FrontInterface
+     */
+    public function init()
+    {
+        // Initialize resource config
+        $resourceConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_resource.xml');
+        /** @var Mage_Api2_Model_Config_Resource $resourceConfig */
+        $resourceConfig = Mage::getModel('Mage_Api2_Model_Config_Resource', $resourceConfigFiles);
+        $this->setResourceConfig($resourceConfig);
+        return $this;
+    }
 
     abstract public function dispatch();
 
@@ -44,7 +64,6 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
     public function setResourceConfig(Mage_Api2_Model_Config_Resource $config)
     {
         $this->_resourceConfig = $config;
-
         return $this;
     }
 
@@ -113,5 +132,101 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
         $response = $this->getResponse();
         $response->setException($exception);
         return $this;
+    }
+
+    /**
+     * Instantiate and validate action controller
+     *
+     * @param string $className
+     * @return Mage_Core_Controller_Varien_Action
+     * @throws Mage_Core_Exception
+     */
+    protected function _getActionControllerInstance($className)
+    {
+        if (!$this->_validateControllerClassName($className)) {
+            throw Mage::exception('Mage_Core',
+                Mage::helper('Mage_Core_Helper_Data')->__('Specified action controller not found.'));
+        }
+
+        $controllerInstance = new $className($this->getRequest(), $this->getResponse());
+        if (!($controllerInstance instanceof $this->_baseActionController)) {
+            throw Mage::exception('Mage_Core',
+                Mage::helper('Mage_Core_Helper_Data')->__('Action controller type is invalid.'));
+        }
+
+        return $controllerInstance;
+    }
+
+    /**
+     * Generating and validating class file name,
+     * class and if everything ok do include if needed and return of class name
+     *
+     * @param $controllerClassName
+     * @return bool
+     */
+    protected function _validateControllerClassName($controllerClassName)
+    {
+        $controllerFileName = $this->_getControllerFileName($controllerClassName);
+        if (!$this->_validateControllerFileName($controllerFileName)) {
+            return false;
+        }
+
+        // include controller file if needed
+        if (!$this->_includeControllerClass($controllerFileName, $controllerClassName)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Include the file containing controller class if this class is not defined yet
+     *
+     * @param string $controllerFileName
+     * @param string $controllerClassName
+     * @return bool
+     * @throws Mage_Core_Exception
+     */
+    protected function _includeControllerClass($controllerFileName, $controllerClassName)
+    {
+        if (!class_exists($controllerClassName, false)) {
+            if (!file_exists($controllerFileName)) {
+                return false;
+            }
+            include $controllerFileName;
+
+            if (!class_exists($controllerClassName, false)) {
+                throw Mage::exception('Mage_Core',
+                    Mage::helper('Mage_Core_Helper_Data')->__('Controller file was loaded but class does not exist'));
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if controller file name is valid
+     *
+     * @param string $fileName
+     * @return bool
+     */
+    protected function _validateControllerFileName($fileName)
+    {
+        if ($fileName && is_readable($fileName) && false===strpos($fileName, '//')) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Identify controller file name by its class name
+     *
+     * @param string $controllerClassName
+     * @return string
+     */
+    protected function _getControllerFileName($controllerClassName)
+    {
+        $parts = explode('_', $controllerClassName);
+        $realModule = implode('_', array_splice($parts, 0, 2));
+        $file = Mage::getModuleDir('controllers', $realModule) . DS . implode(DS, $parts) . '.php';
+        return $file;
     }
 }

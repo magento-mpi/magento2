@@ -14,28 +14,88 @@
 // TODO: Add profiler calls
 class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
 {
-    /**
-     * @var Zend_Soap_Server
-     */
+    const FAULT_CODE_SENDER = 'Sender';
+    const FAULT_CODE_RECEIVER = 'Receiver';
+
+    const FAULT_REASON_INTERNAL = 'Internal Error.';
+
+    /** @var Zend_Soap_Server */
     protected $_soapServer;
+
+    /**
+     * TODO: Change base controller to Generic controller for SOAP API
+     *
+     * @var string
+     */
+    protected $_baseActionController = 'Mage_Core_Controller_Varien_Action';
+
+    /** @var Mage_Api2_Model_Config_Soap */
+    protected $_soapConfig;
 
     /**
      * Handler for all SOAP operations
      *
-     * @param string $method
+     * @param string $operation
      * @param array $arguments
+     * @return stdClass
      */
-    public function __call($method, $arguments)
+    // TODO: Rename $functions to $method
+    // TODO: Think about situations when custom error handler is required for this method (that can throw soap faults)
+    public function __call($operation, $arguments)
     {
-        // TODO: Routing
+        $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
+        if (!$resourceName) {
+            $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
+        }
+        $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
+        $controller = $this->_getActionControllerInstance($controllerClass);
+        $action = $this->getResourceConfig()->getMethodNameByOperation($operation);
+        // TODO: ACL check is not implemented yet
+        $this->_checkResourceAcl();
 
-        // TODO: ACL check
+        // TODO: Think about the best format for method parameters (objects, arrays)
+        $arguments = $arguments[0];
+        /** @var Mage_Api_Helper_Data $helper */
+        $helper = Mage::helper('Mage_Api_Helper_Data');
+        // TODO: Move wsiArrayUnpacker from helper to this class
+        $helper->wsiArrayUnpacker($arguments);
+        $arguments = get_object_vars($arguments);
 
-        // TODO: Method invocation
+        $methodParams = $this->getMethodParams($controllerClass, $action);
+
+        $arguments = $this->prepareArgs($methodParams, $arguments);
+        try {
+            if (!$controller->hasAction($action)) {
+                $this->_soapFault();
+            }
+            $result = $controller->$action($arguments);
+            // TODO: Move wsiArrayPacker from helper to this class
+            $obj = $helper->wsiArrayPacker($result);
+            $stdObj = new stdClass();
+            $stdObj->result = $obj;
+            return $stdObj;
+            // TODO: Implement proper exception handling
+        } catch (Mage_Api_Exception $e) {
+            $this->_soapFault($e->getCustomMessage(), 'Receiver', $e);
+        } catch (Exception $e) {
+            Mage::logException($e);
+            $this->_soapFault();
+        }
     }
 
+    /**
+     * Extend parent with SOAP specific config initialization
+     *
+     * @return Mage_Api2_Controller_Front_Soap|Mage_Core_Controller_FrontInterface
+     */
     public function init()
     {
+        parent::init();
+        $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_soap.xml');
+        /** @var Mage_Api2_Model_Config_Soap $soapConfig */
+        $soapConfig = Mage::getModel('Mage_Api2_Model_Config_Soap', $soapConfigFiles);
+        $this->setSoapConfig($soapConfig);
+        return $this;
     }
 
     public function dispatch()
@@ -43,14 +103,16 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 $responseBody = $this->_getWsdlContent();
+                // TODO: Load real WSDL instead of fake one
+//                $wsdl = file_get_contents(__DIR__ . '/wsdl.xml');
+//                $responseBody = $wsdl;
             } else {
                 $responseBody = $this->_getSoapServer()->handle();
             }
-            $this->_setResponseBody($responseBody);
         } catch (Exception $e) {
-            // TODO: Fix logic error. Who is responsible for handling this soap fault?
-            $this->_soapFault($e->getMessage(), $e);
+            $responseBody = $this->_getSoapFaultMessage();
         }
+        $this->_setResponseBody($responseBody);
         $this->getResponse()->sendResponse();
         return $this;
     }
@@ -62,7 +124,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getWsdlContent()
     {
-        $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML(), 'wsdl', 'soap12');
+        $soapNamespace = 'soap12';
+        $wsdlNamespace = 'wsdl';
+        $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML(), $wsdlNamespace, $soapNamespace);
         $service = $wsdl->addService('MagentoAPI');
 
         foreach ($this->getResourceConfig()->getResources() as $resourceName => $methods) {
@@ -70,7 +134,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             $binding = $wsdl->addBinding($bindingName, $resourceName);
             $wsdl->addSoapBinding($binding);
             // @TODO: URL should be generated
-            $portUrl = 'http://mage2.magento/api/soap/' . $resourceName;
+//            $portUrl = 'http://mage2.magento/api/soap/' . $resourceName;
+            $portUrl = 'http://dd.varien.com/dev/alex.paliarush/api2/api/soap/';
             $wsdl->addServicePort($service, $bindingName . '_Soap12', $bindingName, $portUrl);
 
             foreach ($methods as $methodName => $methodData) {
@@ -81,6 +146,47 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         }
 
         return $wsdl->getDom()->saveXML();
+    }
+
+    /**
+     * Return an array of parameters for the callable method.
+     *
+     * @param String $modelName
+     * @param String $methodName
+     * @return Array of ReflectionParameter
+     */
+    public function getMethodParams($modelName, $methodName) {
+
+        $method = new ReflectionMethod($modelName, $methodName);
+        return $method->getParameters();
+    }
+
+    /**
+     * Prepares arguments for the method calling. Sort in correct order, set default values for omitted parameters.
+     *
+     * @param array $params Action parameters
+     * @param array $soapArguments SOAP operation arguments
+     * @return array
+     */
+    public function prepareArgs($params, $soapArguments)
+    {
+        $callArgs = array();
+        /** @var $parameter ReflectionParameter */
+        foreach ($params as $parameter) {
+            $pName = $parameter->getName();
+            if (isset($soapArguments[$pName])) {
+                $callArgs[$pName] = $soapArguments[$pName];
+            } else {
+                if ($parameter->isOptional()) {
+                    $callArgs[$pName] = $parameter->getDefaultValue();
+                } else {
+                    $errorMessage = "Required parameter \"$pName\" is missing.";
+                    Mage::logException(new Exception($errorMessage, 0));
+                    $this->_soapFault($errorMessage, self::FAULT_CODE_SENDER);
+                }
+            }
+        }
+        return $callArgs;
     }
 
     /**
@@ -112,8 +218,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
                 }
             } while ($soapSchemaImportFailed && $soapSchemaImportTriesCount < 5);
             use_soap_error_handler(false);
-            /** Front controller plays role of SOAP handler */
-            $this->_soapServer->setReturnResponse(true)->setClass($this);
+            // Front controller plays the role of SOAP handler
+            $this->_soapServer->setReturnResponse(true)->setObject($this);
         }
         return $this->_soapServer;
     }
@@ -156,8 +262,12 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getWsdlUrl()
     {
-        // TODO: Implement
         $wsdlUrl = 'http://dd.varien.com/dev/alex.paliarush/api2/api/soap/?wsdl';
+         /** TODO: Implement. Code below does not work as Mage_Core_Model_Url requires every front controller to have router */
+        /** @var Mage_Core_Model_Url $urlModel */
+//        $urlModel = Mage::getModel('Mage_Core_Model_Url')->setUseSession(false);
+//        $params = array('wsdl' => 1);
+//        $wsdlUrl = $urlModel->getUrl('*/*/*', array('_query' => $params));
         return $wsdlUrl;
     }
 
@@ -165,26 +275,52 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      * Generate SOAP fault
      *
      * @param string $reason Human-readable explanation of the fault
-     * @param Exception $e Exception can be used to add information to Detail node of SOAP message
      * @param string $code SOAP fault code
+     * @param Exception $e Exception can be used to add information to Detail node of SOAP message
      * @throws SoapFault
      */
-    protected function _soapFault($reason, Exception $e = null, $code = 'Sender')
-    {
-        $details = null;
-        if (!is_null($e)) {
-            $details = (object)array('ExceptionCode' => $e->getCode());
-            // add detailed message only if it differs from fault reason
-            if ($e->getMessage() != $reason) {
-                $details->ExceptionMessage = $e->getMessage();
-            }
-        }
+    protected function _soapFault($reason = self::FAULT_REASON_INTERNAL, $code = self::FAULT_CODE_RECEIVER,
+        Exception $e = null
+    ) {
         if ($this->_isSoapExtensionLoaded()) {
-            // TODO: Investigate if $this->_getSoapServer()->fault() can be used here
+            $details = null;
+            if (!is_null($e)) {
+                $details = (object)array('ExceptionCode' => $e->getCode());
+                // add detailed message only if it differs from fault reason
+                if ($e->getMessage() != $reason) {
+                    $details->ExceptionMessage = $e->getMessage();
+                }
+            }
             throw new SoapFault($code, $reason, null, $details);
         } else {
-            // TODO: die with proper fault message or put it into response object. Generate fault message manually
+            die($this->_getSoapFaultMessage(self::FAULT_CODE_RECEIVER, 'SOAP extension is not loaded.'));
         }
+    }
+
+    /**
+     * Generate SOAP fault message in xml format
+     *
+     * @param string $reason Human-readable explanation of the fault
+     * @param string $code SOAP fault code
+     * @return string
+     */
+    protected function _getSoapFaultMessage($reason = self::FAULT_REASON_INTERNAL, $code = self::FAULT_CODE_RECEIVER)
+    {
+        $message = <<<FAULT_MESSAGE
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+   <env:Body>
+      <env:Fault>
+         <env:Code>
+            <env:Value>$code</env:Value>
+         </env:Code>
+         <env:Reason>
+            <env:Text>$reason</env:Text>
+         </env:Reason>
+      </env:Fault>
+   </env:Body>
+</env:Envelope>
+FAULT_MESSAGE;
+        return $message;
     }
 
     /**
@@ -195,5 +331,27 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     protected function _isSoapExtensionLoaded()
     {
         return class_exists('SoapServer', false);
+    }
+
+    /**
+     * Set SOAP config
+     *
+     * @param Mage_Api2_Model_Config_Soap $config
+     * @return Mage_Api2_Model_Config_Soap
+     */
+    public function setSoapConfig(Mage_Api2_Model_Config_Soap $config)
+    {
+        $this->_soapConfig = $config;
+        return $this;
+    }
+
+    /**
+     * Retrieve SOAP specific config
+     *
+     * @return Mage_Api2_Model_Config_Soap
+     */
+    public function getSoapConfig()
+    {
+        return $this->_soapConfig;
     }
 }

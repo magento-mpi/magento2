@@ -83,6 +83,33 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
+     * Identify resource name by operation name.
+     * This method relies on convention that port type value equals to resource name
+     *
+     * @param string $operationName
+     * @return string|bool Resource name on success; false on failure
+     */
+    public function getResourceNameByOperation($operationName)
+    {
+        return isset($this->_data['operations'][$operationName])
+            ? $this->_data['operations'][$operationName]['resource_name']
+            : false;
+    }
+
+    /**
+     * Identify method name by operation name.
+     *
+     * @param string $operationName
+     * @return string|bool Method name on success; false on failure
+     */
+    public function getMethodNameByOperation($operationName)
+    {
+        return isset($this->_data['operations'][$operationName])
+            ? $this->_data['operations'][$operationName]['method_name']
+            : false;
+    }
+
+    /**
      * Extract configuration data from the DOM structure
      *
      * @param DOMDocument $dom
@@ -97,6 +124,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
 
         $result = array();
         $result['resources'] = array();
+        $result['operations'] = array();
         $result['types'] = $this->_dataTypes;
 
         /** @var DOMElement $portType */
@@ -111,6 +139,10 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
                 }
                 $methodName = lcfirst(substr($operationName, strlen($resourceName)));
                 $result['resources'][$resourceName][$methodName] = $this->_getOperationData($operation);
+                $result['operations'][$operationName] = array(
+                    'resource_name' => $resourceName,
+                    'method_name' => $methodName
+                );
             }
         }
         return $result;
