@@ -57,8 +57,8 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends PHP
      * @var array
      */
     protected $_availableBehaviors = array(
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
     );
 
     public function setUp()
@@ -214,7 +214,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends PHP
         $this->assertAttributeEquals(0, '_processedEntitiesCount', $this->_model);
 
         // update action
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE));
         $this->_clearValidatedRows();
 
         $this->assertAttributeEquals(array(), '_validatedRows', $this->_model);
@@ -236,7 +236,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstractTest extends PHP
             ->method('_validateRowForDelete');
 
         // delete action
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE));
         $this->_clearValidatedRows();
 
         $this->assertAttributeEquals(array(), '_validatedRows', $this->_model);

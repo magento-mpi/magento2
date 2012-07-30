@@ -28,18 +28,11 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**#@+
      * Import behaviors
      */
-    const BEHAVIOR_APPEND  = 'append';
-    const BEHAVIOR_REPLACE = 'replace';
-    const BEHAVIOR_DELETE  = 'delete';
-    const BEHAVIOR_CUSTOM  = 'custom';
-    /**#@-*/
-
-    /**#@+
-     * Import behaviors for version 2
-     */
-    const BEHAVIOR_V2_ADD_UPDATE = 'v2_update';
-    const BEHAVIOR_V2_DELETE     = 'v2_delete';
-    const BEHAVIOR_V2_CUSTOM     = 'v2_custom';
+    const BEHAVIOR_APPEND     = 'append';
+    const BEHAVIOR_ADD_UPDATE = 'add_update';
+    const BEHAVIOR_REPLACE    = 'replace';
+    const BEHAVIOR_DELETE     = 'delete';
+    const BEHAVIOR_CUSTOM     = 'custom';
     /**#@-*/
 
     /**#@+
@@ -512,5 +505,60 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Gets array of customer entities and appropriate behaviours
+     * array(
+     *     <entity_code> => array(
+     *         'token' => <behavior_class_name>,
+     *         'code'  => <behavior_model_code>,
+     *     ),
+     *     ...
+     * )
+     *
+     * @static
+     * @return array
+     */
+    public static function getEntityBehaviors()
+    {
+        $behaviourData = array();
+        $entitiesConfig = Mage::getConfig()->getNode(self::CONFIG_KEY_ENTITIES)
+            ->asArray();
+        foreach ($entitiesConfig as $entityCode => $entityData) {
+            $behaviorToken = isset($entityData['behavior_token']) ? $entityData['behavior_token'] : null;
+            if ($behaviorToken && class_exists($behaviorToken)) {
+                /** @var $behaviorModel Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
+                $behaviorModel = Mage::getModel($behaviorToken);
+                $behaviourData[$entityCode] = array(
+                    'token' => $behaviorToken,
+                    'code'  => $behaviorModel->getCode() . '_behavior',
+                );
+            }
+        }
+        return $behaviourData;
+    }
+
+    /**
+     * Get array of unique entity behaviors
+     * array(
+     *     <behavior_model_code> => <behavior_class_name>,
+     *     ...
+     * )
+     *
+     * @static
+     * @return array
+     */
+    public static function getUniqueEntityBehaviors()
+    {
+        $uniqueBehaviors = array();
+        $behaviourData = self::getEntityBehaviors();
+        foreach ($behaviourData as $behavior) {
+            $behaviorCode = $behavior['code'];
+            if (!isset($uniqueBehaviors[$behaviorCode])) {
+                $uniqueBehaviors[$behaviorCode] = $behavior['token'];
+            }
+        }
+        return $uniqueBehaviors;
     }
 }

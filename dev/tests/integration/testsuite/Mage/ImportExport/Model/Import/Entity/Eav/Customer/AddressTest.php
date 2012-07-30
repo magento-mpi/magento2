@@ -312,7 +312,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     {
         // set behaviour
         $this->_entityAdapter->setParameters(
-            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE)
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
         );
 
         // set fixture CSV file
@@ -402,7 +402,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     {
         // set behaviour
         $this->_entityAdapter->setParameters(
-            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE)
+            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE)
         );
 
         // set fixture CSV file

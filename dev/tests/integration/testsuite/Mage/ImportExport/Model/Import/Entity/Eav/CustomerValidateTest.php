@@ -39,7 +39,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends PHP
 
         $this->_model = new Mage_ImportExport_Model_Import_Entity_Eav_Customer();
         $this->_model->setParameters(array(
-            'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE
+            'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
         ));
 
         $propertyAccessor = new ReflectionProperty($this->_model, '_messageTemplates');
@@ -181,7 +181,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerValidateTest extends PHP
             = 'new.customer@example.com';
 
         $this->_model->setParameters(array(
-            'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE
+            'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
         ));
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());

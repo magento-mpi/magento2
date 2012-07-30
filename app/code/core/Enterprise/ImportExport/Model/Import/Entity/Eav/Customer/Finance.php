@@ -191,13 +191,13 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 $websiteId = $this->_websiteCodeToId[$rowData[self::COLUMN_FINANCE_WEBSITE]];
                 // save finance data for customer
                 foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+                    if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
                         if ($attributeCode == $rewardPointsKey) {
                             $this->_deleteRewardPoints($customer, $websiteId);
                         } elseif ($attributeCode == $customerBalanceKey) {
                             $this->_deleteCustomerBalance($customer, $websiteId);
                         }
-                    } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+                    } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
                         if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
                             if ($attributeCode == $rewardPointsKey) {
                                 $this->_updateRewardPointsForCustomer(

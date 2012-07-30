@@ -41,8 +41,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
         parent::_prepareForm();
         $form = $this->getForm();
 
-        /** @var $behavior Mage_ImportExport_Model_Source_Import_Behavior */
-        $behavior = Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior');
+        /** @var $behavior Mage_ImportExport_Model_Source_Import_Behavior_Basic */
+        $behavior = Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior_Basic');
 
         /** @var $fieldset Varien_Data_Form_Element_Abstract */
         $fieldset = $form->getElement('operation_settings');
@@ -75,8 +75,8 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
             'values'   => $behavior->toOptionArray()
         ), 'file_format_version');
 
-        /** @var $behavior Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior */
-        $behavior = Mage::getModel('Mage_ImportExport_Model_Source_Import_Customer_V2_Behavior');
+        /** @var $behavior Mage_ImportExport_Model_Source_Import_Behavior_Custom */
+        $behavior = Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior_Custom');
         $fieldset->addField('behavior_v2_customer', 'select', array(
             'name'     => 'behavior',
             'title'    => $helper->__('Import Behavior'),

@@ -157,9 +157,9 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
         $this->_validatedRows[$rowNumber] = true;
         $this->_processedEntitiesCount++;
 
-        if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+        if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
             $this->_validateRowForUpdate($rowData, $rowNumber);
-        } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+        } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
             $this->_validateRowForDelete($rowData, $rowNumber);
         }
 

@@ -27,9 +27,9 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_Fra
      * @var array
      */
     protected $_availableBehaviors = array(
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
+        Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
     );
 
     /**
@@ -163,7 +163,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerTest extends PHPUnit_Fra
     public function testImportDataWithCustomBehaviour()
     {
         $this->_model = $this->_getModelMockForTestImportDataWithCustomBehaviour();
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM));
 
         // validation in validateSaveCustomerEntities and validateDeleteCustomerEntities
         $this->_model->importData();

@@ -345,12 +345,12 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
                     continue;
                 }
 
-                if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE) {
+                if ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE) {
                     $addUpdateResult = $this->_prepareDataForUpdate($rowData);
                     $addUpdateRows[] = $addUpdateResult['entity_row'];
                     $attributes = $this->_mergeEntityAttributes($addUpdateResult['attributes'], $attributes);
                     $defaults   = $this->_mergeEntityAttributes($addUpdateResult['defaults'], $defaults);
-                } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE) {
+                } elseif ($this->getBehavior($rowData) == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
                     $deleteRowIds[] = $rowData[self::COLUMN_ADDRESS_ID];
                 }
             }

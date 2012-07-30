@@ -383,10 +383,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'valid' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_valid.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array()
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array()
                     ),
                 )
@@ -394,7 +394,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'no website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
@@ -402,7 +402,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                                 ))
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
@@ -415,7 +415,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'empty website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
@@ -423,7 +423,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                                 ))
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_WEBSITE_IS_EMPTY
                                 => array(array(1,
@@ -436,7 +436,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'no email' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_no_email.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
                             array(
@@ -447,7 +447,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                             )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
                             array(
@@ -463,7 +463,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'empty email' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_email.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
                             array(
@@ -474,7 +474,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                             )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_EMAIL_IS_EMPTY =>
                             array(
@@ -490,7 +490,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'empty finance website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_finance_website.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_FINANCE_WEBSITE_IS_EMPTY =>
@@ -503,7 +503,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                                 )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_FINANCE_WEBSITE_IS_EMPTY =>
@@ -521,7 +521,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'invalid email' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_email.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_INVALID_EMAIL =>
                             array(
@@ -532,7 +532,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                             )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_INVALID_EMAIL =>
                             array(
@@ -548,7 +548,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'invalid website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_website.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_INVALID_WEBSITE =>
@@ -561,7 +561,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                                 )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_INVALID_WEBSITE =>
@@ -579,7 +579,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'invalid finance website' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_INVALID_FINANCE_WEBSITE =>
@@ -592,7 +592,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                             )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_INVALID_FINANCE_WEBSITE =>
@@ -610,7 +610,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'invalid finance website (admin)' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website_admin.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_INVALID_FINANCE_WEBSITE =>
@@ -623,7 +623,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
                                 )
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_INVALID_FINANCE_WEBSITE =>
@@ -641,14 +641,14 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'no customer' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_no_customer.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_CUSTOMER_NOT_FOUND =>
                                 array(array(1, null))
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::
                             ERROR_CUSTOMER_NOT_FOUND =>
@@ -660,12 +660,12 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'invalid_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_attribute_value.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors' => array(
                             "Invalid value for '%s'" => array(array(1, 'store_credit'), array(1, 'reward_points'))
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(),
                     )
                 )
@@ -673,10 +673,10 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'empty_optional_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_optional_attribute_value.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors'  => array()
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(),
                     )
                 )
@@ -684,13 +684,13 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'empty_required_attribute_value' => array(
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_required_attribute_value.php',
                 '$behaviors' => array(
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE => array(
                         'errors'  => array(
                             Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_VALUE_IS_REQUIRED
                                 => array(array(1, 'store_credit'))
                         ),
                     ),
-                    Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE => array(
+                    Mage_ImportExport_Model_Import::BEHAVIOR_DELETE => array(
                         'errors' => array(),
                     )
                 )
@@ -710,7 +710,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      */
     public function testValidateRowForUpdate(array $rowData, array $behaviors)
     {
-        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
+        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
 
         $this->_model->setParameters(
             array('behavior' => $behavior)
@@ -737,7 +737,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
      */
     public function testValidateRowForDelete(array $rowData, array $behaviors)
     {
-        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE;
+        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_DELETE;
 
         $this->_model->setParameters(
             array('behavior' => $behavior)

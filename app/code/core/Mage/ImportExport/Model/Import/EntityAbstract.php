@@ -205,9 +205,9 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
      * @var array
      */
     protected $_availableBehaviors = array(
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
+        Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
     );
 
     /**
@@ -402,11 +402,11 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
             && in_array($this->_parameters['behavior'], $this->_availableBehaviors)
         ) {
             $behavior = $this->_parameters['behavior'];
-            if ($rowData !== null && $behavior == Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM) {
+            if ($rowData !== null && $behavior == Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM) {
                 // try analyze value in self::COLUMN_CUSTOM column and return behavior for given $rowData
                 if (array_key_exists(self::COLUMN_ACTION, $rowData)) {
                     if (strtolower($rowData[self::COLUMN_ACTION]) == self::COLUMN_ACTION_VALUE_DELETE) {
-                        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE;
+                        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_DELETE;
                     } else {
                         // as per task description, if column value is different to self::COLUMN_CUSTOM_VALUE_DELETE,
                         // we should always use default behavior
@@ -432,7 +432,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
      */
     public static function getDefaultBehavior()
     {
-        return Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
+        return Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
     }
 
     /**

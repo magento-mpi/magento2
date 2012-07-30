@@ -34,18 +34,22 @@
                 <catalog_product translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Product</model_token>
                     <label>Products</label>
+                    <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Basic</behavior_token>
                 </catalog_product>
                 <customer_aggregate translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Customer</model_token>
                     <label>Customers</label>
+                    <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Basic</behavior_token>
                 </customer_aggregate>
                 <customer translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Eav_Customer</model_token>
                     <label>Customers Main File</label>
+                    <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>
                 </customer>
                 <customer_address translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address</model_token>
                     <label>Customer Addresses</label>
+                    <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>
                 </customer_address>
             </import_entities>
             <export_entities>

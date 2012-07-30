@@ -107,9 +107,9 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      * @var array
      */
     protected $_availableBehaviors = array(
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE,
-        Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM,
+        Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+        Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM,
     );
 
     /**
@@ -498,7 +498,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      */
     public function testValidateRowForUpdate(array $rowData, array $errors, $isValid = false)
     {
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE));
 
         if ($isValid) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));
@@ -520,7 +520,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      */
     public function testValidateRowForDelete(array $rowData, array $errors, $isValid = false)
     {
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE));
 
         if ($isValid) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));
@@ -565,7 +565,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     public function testImportDataWithCustomBehaviour()
     {
         $this->_model = $this->_getModelMockForTestImportDataWithCustomBehaviour();
-        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_CUSTOM));
+        $this->_model->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_CUSTOM));
 
         // validation in validateSaveAddressEntities and validateDeleteAddressEntities
         $this->_model->importData();

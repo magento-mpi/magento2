@@ -64,7 +64,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
 
         $this->_model->setParameters(
                 array(
-                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE
+                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
                 )
             )
             ->setSource($source)
@@ -113,7 +113,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_CustomerImportTest extends PHPUn
 
         $this->_model->setParameters(
                 array(
-                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_V2_DELETE
+                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
                 )
             )
             ->setSource($source)
