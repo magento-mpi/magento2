@@ -28,11 +28,18 @@ class Magento_Soap_Wsdl
     /** @var string Types namespace */
     protected $_nsTypes;
 
-    public function __construct($xml, $namespaceWsdl = 'wsdl', $namespaceSoap12 = 'soap12', $namespaceTypes = 'tns')
+    /**
+     * Construct WSDL based on existing DOM Document.
+     *
+     * @param DOMDocument $baseDomDocument
+     * @param string $namespaceWsdl
+     * @param string $namespaceSoap12
+     * @param string $namespaceTypes
+     */
+    public function __construct(DOMDocument $baseDomDocument, $namespaceWsdl = 'wsdl', $namespaceSoap12 = 'soap12',
+        $namespaceTypes = 'tns')
     {
-        $this->_dom = new DOMDocument();
-        $this->_dom->loadXML($xml);
-
+        $this->_dom = $baseDomDocument;
         $this->_wsdl = $this->_dom->documentElement;
         $this->_nsWsdl = $namespaceWsdl;
         $this->_nsSoap12 = $namespaceSoap12;
@@ -44,7 +51,7 @@ class Magento_Soap_Wsdl
      *
      * @param string $name Name of the Binding
      * @param string $portType name of the portType to bind
-     * @return DOMElement The new binding's XML_Tree_Node for use with {@link function addBindingOperation} and {@link function addDocumentation}
+     * @return DOMElement The new binding's XML_Tree_Node for use with {@link function addBindingOperation}
      */
     public function addBinding($name, $portType)
     {
@@ -65,7 +72,7 @@ class Magento_Soap_Wsdl
      * @param array|bool $input An array of attributes for the input element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @param array|bool $output An array of attributes for the output element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @param array|bool $fault An array of attributes for the fault element, allowed keys are: 'name', 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
-     * @return DOMElement The new Operation's XML_Tree_Node for use with {@link function addSoapOperation} and {@link function addDocumentation}
+     * @return DOMElement The new Operation's XML_Tree_Node for use with {@link function addSoapOperation}
      */
     public function addBindingOperation(DOMElement $binding, $name, $input = false, $output = false, $fault = false)
     {
@@ -141,13 +148,10 @@ class Magento_Soap_Wsdl
      *
      * @param DOMElement $operation An operation XML_Tree_Node returned by {@link function addBindingOperation}
      * @param string $soapAction SOAP Action
-     * @return boolean
+     * @return DOMElement
      */
     public function addSoapOperation($operation, $soapAction)
     {
-        if ($soapAction instanceof Zend_Uri_Http) {
-            $soapAction = $soapAction->getUri();
-        }
         $soapOperation = $this->_dom->createElement($this->_nsSoap12 . ':operation');
         $soapOperation->setAttribute('soapAction', $soapAction);
 
@@ -160,11 +164,10 @@ class Magento_Soap_Wsdl
      * Add a {@link http://www.w3.org/TR/wsdl#_services service} element to the WSDL
      *
      * @param string $name Service Name
-     * @return DOMElement The new service's XML_Tree_Node for use with {@link function addDocumentation}
+     * @return DOMElement
      */
     public function addService($name)
     {
-
         $service = $this->_dom->createElement($this->_nsWsdl . ':service');
         $service->setAttribute('name', $name);
 
@@ -183,10 +186,6 @@ class Magento_Soap_Wsdl
      */
     public function addServicePort(DOMElement $service, $portName, $binding, $location)
     {
-        if ($location instanceof Zend_Uri_Http) {
-            $location = $location->getUri();
-        }
-
         $port = $this->_dom->createElement($this->_nsWsdl . ':port');
         $port->setAttribute('name', $portName);
         $port->setAttribute('binding', $this->_nsTypes . ':' . $binding);
@@ -201,10 +200,12 @@ class Magento_Soap_Wsdl
     }
 
     /**
-     * @return DOMDocument
+     * Convert DOMDocument to xml.
+     *
+     * @return string
      */
-    public function getDom()
+    public function toXml()
     {
-        return $this->_dom;
+        return $this->_dom->saveXML();
     }
 }

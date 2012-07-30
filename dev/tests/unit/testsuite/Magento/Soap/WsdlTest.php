@@ -15,40 +15,40 @@
 class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider dataPositiveWsdl
-     * @param $validXml
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
      */
-    public function testAddBinding($validXml)
+    public function testAddBinding($baseDomDocument)
     {
-        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
 
         $this->assertInstanceOf('DOMElement', $binding);
-        $bindings = $wsdl->getDom()->getElementsByTagName('binding');
-        $this->assertEquals(1, count($bindings));
+        $this->assertEquals($binding->getAttribute('name'), 'testBinding');
     }
 
     /**
-     * @dataProvider dataPositiveWsdl
-     * @param $validXml
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
      */
-    public function testAddBindingOperation($validXml)
+    public function testAddBindingOperation($baseDomDocument)
     {
-        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
         $operation = $wsdl->addBindingOperation($binding, 'testOperation', array('use' => 'literal'),
             array('use' => 'literal'), array('name' => 'testFault', 'use' => 'literal'));
 
         $this->assertInstanceOf('DOMElement', $operation);
+        $this->assertEquals($operation->getAttribute('name'), 'testOperation');
     }
 
     /**
-     * @dataProvider dataPositiveWsdl
-     * @param $validXml
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
      */
-    public function testAddSoapBinding($validXml)
+    public function testAddSoapBinding($baseDomDocument)
     {
-        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
         $soapBinding = $wsdl->addSoapBinding($binding);
 
@@ -56,12 +56,12 @@ class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataPositiveWsdl
-     * @param $validXml
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
      */
-    public function testAddSoapOperation($validXml)
+    public function testAddSoapOperation($baseDomDocument)
     {
-        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
         $binding = $wsdl->addBinding('testBinding', 'testPortType');
         $soapOperation = $wsdl->addSoapOperation($binding, 'testSoapAction');
 
@@ -69,35 +69,47 @@ class Magento_Soap_WsdlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider dataPositiveWsdl
-     * @param $validXml
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
      */
-    public function testAddService($validXml)
+    public function testAddService($baseDomDocument)
     {
-        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
         $service = $wsdl->addService('TestService');
 
         $this->assertInstanceOf('DOMElement', $service);
     }
 
     /**
-     * @dataProvider dataPositiveWsdl
-     * @param $validXml
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
      */
-    public function testAddServicePort($validXml)
+    public function testAddServicePort($baseDomDocument)
     {
-        $wsdl = new Magento_Soap_Wsdl($validXml);
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
         $service = $wsdl->addService('TestService');
         $servicePort = $wsdl->addServicePort($service, 'testPort', 'testBinding', 'http://test.location/');
 
         $this->assertInstanceOf('DOMElement', $servicePort);
     }
 
-    public function dataPositiveWsdl()
+    /**
+     * @dataProvider dataProviderBaseDomDocument
+     * @param $baseDomDocument
+     */
+    public function testToXml($baseDomDocument)
     {
-        $validXml = file_get_contents(__DIR__ . '/_files/positive/wsdl.xml');
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument);
+        $xml = $wsdl->toXml();
+        $this->assertStringStartsWith('<?xml version="1.0" encoding="UTF-8"?>', $xml);
+    }
+
+    public function dataProviderBaseDomDocument()
+    {
+        $baseDomDocument = new DOMDocument();
+        $baseDomDocument->load(__DIR__ . '/_files/positive/wsdl.xml');
         return array(
-            array($validXml),
+            array($baseDomDocument),
         );
     }
 }
