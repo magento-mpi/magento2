@@ -55,6 +55,14 @@
                     </captcha>
                 </observers>
             </controller_action_predispatch_customer_account_createpost>
+            <controller_action_predispatch_adminhtml_auth_forgotpassword>
+                <observers>
+                    <captcha>
+                        <class>Mage_Captcha_Model_Observer</class>
+                        <method>checkUserForgotPasswordBackend</method>
+                    </captcha>
+                </observers>
+            </controller_action_predispatch_adminhtml_auth_forgotpassword>
             <admin_user_authenticate_before>
                 <observers>
                     <captcha>
@@ -110,6 +118,15 @@
                 </captcha>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Mage_Captcha>
+                    <files>
+                        <default>Mage_Captcha.csv</default>
+                    </files>
+                </Mage_Captcha>
+            </modules>
+        </translate>
     </frontend>
     <admin>
         <routers>
@@ -130,6 +147,15 @@
                 </captcha>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Mage_Captcha>
+                    <files>
+                        <default>Mage_Captcha.csv</default>
+                    </files>
+                </Mage_Captcha>
+            </modules>
+        </translate>
         <events>
             <controller_action_predispatch_adminhtml_auth_forgotpassword>
                 <observers>
