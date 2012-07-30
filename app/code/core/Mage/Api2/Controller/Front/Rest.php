@@ -58,7 +58,6 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      */
     public function init()
     {
-        parent::init();
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('api_rest.xml');
         /** @var Mage_Api2_Model_Config_Rest $restConfig */
         $restConfig = Mage::getModel('Mage_Api2_Model_Config_Rest', $configFiles);

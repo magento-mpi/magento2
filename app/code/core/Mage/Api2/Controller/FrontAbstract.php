@@ -27,20 +27,7 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
      */
     protected $_baseActionController;
 
-    /**
-     * Initialize resource config which is used by all API types
-     *
-     * @return Mage_Core_Controller_FrontInterface
-     */
-    public function init()
-    {
-        // Initialize resource config
-        $resourceConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_resource.xml');
-        /** @var Mage_Api2_Model_Config_Resource $resourceConfig */
-        $resourceConfig = Mage::getModel('Mage_Api2_Model_Config_Resource', $resourceConfigFiles);
-        $this->setResourceConfig($resourceConfig);
-        return $this;
-    }
+    abstract public function init();
 
     abstract public function dispatch();
 

@@ -19,6 +19,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
 
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
+    const SOAP_CACHE_ID = 'soap_wsdl';
+    const SOAP_CACHE_TAG = 'SOAP_WSDL';
+
     /** @var Zend_Soap_Server */
     protected $_soapServer;
 
@@ -90,7 +93,6 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     public function init()
     {
-        parent::init();
         $soapConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_soap.xml');
         /** @var Mage_Api2_Model_Config_Soap $soapConfig */
         $soapConfig = Mage::getModel('Mage_Api2_Model_Config_Soap', $soapConfigFiles);
@@ -103,9 +105,6 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 $responseBody = $this->_getWsdlContent();
-                // TODO: Load real WSDL instead of fake one
-//                $wsdl = file_get_contents(__DIR__ . '/wsdl.xml');
-//                $responseBody = $wsdl;
             } else {
                 $responseBody = $this->_getSoapServer()->handle();
             }
@@ -124,16 +123,18 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getWsdlContent()
     {
-        if (Mage::app()->useCache('soap_wsdl')) {
-            $loadedCache = Mage::app()->getCache()->load('SOAP_WSDL');
-            if ($loadedCache) {
-                return $loadedCache;
+        if (Mage::app()->useCache(self::SOAP_CACHE_ID)) {
+            $cachedWsdlContent = Mage::app()->getCache()->load(self::SOAP_CACHE_TAG);
+            if ($cachedWsdlContent !== false) {
+                return $cachedWsdlContent;
             }
         }
 
         $soapNamespace = 'soap12';
         $wsdlNamespace = 'wsdl';
-        $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML(), $wsdlNamespace, $soapNamespace);
+        // we use resource config as base for WSDL file generation
+        $baseDomDocument = $this->getResourceConfig()->getDom();
+        $wsdl = new Magento_Soap_Wsdl($baseDomDocument, $wsdlNamespace, $soapNamespace);
         $service = $wsdl->addService('MagentoAPI');
 
         foreach ($this->getResourceConfig()->getResources() as $resourceName => $methods) {
@@ -152,10 +153,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             }
         }
 
-        $wsdlContent = $wsdl->getDom()->saveXML();
-        if (Mage::app()->useCache('soap_wsdl')) {
-            Mage::app()->getCache()
-                ->save($wsdlContent, 'SOAP_WSDL');
+        $wsdlContent = $wsdl->toXml();
+        if (Mage::app()->useCache(self::SOAP_CACHE_ID)) {
+            Mage::app()->getCache()->save($wsdlContent, self::SOAP_CACHE_TAG);
         }
 
         return $wsdlContent;

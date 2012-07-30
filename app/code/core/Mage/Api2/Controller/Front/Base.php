@@ -59,8 +59,9 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
         // TODO: Implement error handling on this stage
         $concreteFrontController = $this->_getConcreteFrontController();
 
-        $configFiles = Mage::getConfig()->getModuleConfigurationFiles('api_resource.xml');
-        $resourceConfig = new Mage_Api2_Model_Config_Resource($configFiles);
+        $resourceConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_resource.xml');
+        /** @var Mage_Api2_Model_Config_Resource $resourceConfig */
+        $resourceConfig = Mage::getModel('Mage_Api2_Model_Config_Resource', $resourceConfigFiles);
         $concreteFrontController->setResourceConfig($resourceConfig)
             ->setRequest($this->_request)
             ->setResponse($this->_response)
