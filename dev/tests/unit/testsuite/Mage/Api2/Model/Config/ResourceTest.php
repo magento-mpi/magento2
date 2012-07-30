@@ -134,7 +134,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * @expectedException Magento_Exception
      * @expectedExceptionMessage Operation "catalogProductCreate" is not related to resource "product".
      */
-    public function testInvalideOperationName()
+    public function testInvalidOperationName()
     {
         new Mage_Api2_Model_Config_Resource(
             array(__DIR__ . '/_files/negative/resource_with_incorrect_operation_name.xml'));
@@ -144,7 +144,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * @expectedException Magento_Exception
      * @expectedExceptionMessage There is no element "customerCreateRequestParam" with parameters not found.
      */
-    public function testInvalideMissingParams()
+    public function testInvalidMissingParams()
     {
         new Mage_Api2_Model_Config_Resource(
             array(__DIR__ . '/_files/negative/resource_missing_element_with_parameters.xml'));
@@ -154,7 +154,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      * @expectedException Magento_Exception
      * @expectedExceptionMessage There is no proper element with parameters for message "customerCreateRequest".
      */
-    public function testInvalideMissingParams2()
+    public function testInvalidMissingParams2()
     {
         new Mage_Api2_Model_Config_Resource(
             array(__DIR__ . '/_files/negative/resource_missing_proper_message_node.xml'));
@@ -162,29 +162,29 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Resource "invalideResource" not found in config.
+     * @expectedExceptionMessage Resource "invalidResource" not found in config.
      */
-    public function testGetResourceMethodDataInvalideResource()
+    public function testGetResourceMethodDataInvalidResource()
     {
-        self::$_model->getResourceMethodData('invalideResource', null);
+        self::$_model->getResourceMethodData('invalidResource', null);
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Method "invalide" for resource "customer" not found in config.
+     * @expectedExceptionMessage Method "invalid" for resource "customer" not found in config.
      */
-    public function testGetResourceMethodDataInvalideMethod()
+    public function testGetResourceMethodDataInvalidMethod()
     {
-        self::$_model->getResourceMethodData('customer', 'invalide');
+        self::$_model->getResourceMethodData('customer', 'invalid');
     }
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Data type "invalideTypeName" not found in config.
+     * @expectedExceptionMessage Data type "invalidTypeName" not found in config.
      */
-    public function testGetDataTypeInvalideName()
+    public function testGetDataTypeInvalidName()
     {
-        self::$_model->getDataType('invalideTypeName');
+        self::$_model->getDataType('invalidTypeName');
     }
 
     /**

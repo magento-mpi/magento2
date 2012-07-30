@@ -30,7 +30,7 @@ class Mage_Api2_Model_Config_Rest extends Magento_Config_XmlAbstract
     /**
      * Retrieve controller class name for given resource.
      *
-     * @param $resourceName
+     * @param string $resourceName
      * @return mixed
      * @throws InvalidArgumentException
      */

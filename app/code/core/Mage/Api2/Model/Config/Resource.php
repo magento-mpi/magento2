@@ -19,28 +19,24 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
 {
     /**
      * List of all defined custom data types
-     *
-     * @var array
      */
     protected $_dataTypes = array();
 
     /**
-     * List of all defined parameters sets
-     *
-     * @var array
+     * List of all defined parameter sets
      */
     protected $_params = array();
 
     /**
-     * @var array
+     * Array of names of <element> tags with parameters indexed by corresponding <message> tag name
      */
     protected $_paramsElementNameByMessageName = array();
 
     /**
-     * Retrieve method data for for given resource name and method name.
+     * Retrieve method data for given resource name and method name.
      *
-     * @param $resourceName
-     * @param $methodName
+     * @param string $resourceName
+     * @param string $methodName
      * @return array
      * @throws InvalidArgumentException
      */
@@ -48,26 +44,26 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     {
         if (!array_key_exists($resourceName, $this->_data['resources'])) {
             throw new InvalidArgumentException(
-                sprintf('Resource "%s" not found in config.', $resourceName));
+                sprintf('Resource "%s" is not found in config.', $resourceName));
         }
         if (!array_key_exists($methodName, $this->_data['resources'][$resourceName])) {
             throw new InvalidArgumentException(
-                sprintf('Method "%s" for resource "%s" not found in config.', $methodName, $resourceName));
+                sprintf('Method "%s" for resource "%s" is not found in config.', $methodName, $resourceName));
         }
         return $this->_data['resources'][$resourceName][$methodName];
     }
 
     /**
-     * Retrieve data type details for for given type name.
+     * Retrieve data type details for the given type name.
      *
-     * @param $typeName
+     * @param string $typeName
      * @return array
      * @throws InvalidArgumentException
      */
     public function getDataType($typeName)
     {
         if (!array_key_exists($typeName, $this->_data['types'])) {
-            throw new InvalidArgumentException(sprintf('Data type "%s" not found in config.', $typeName));
+            throw new InvalidArgumentException(sprintf('Data type "%s" is not found in config.', $typeName));
         }
         return $this->_data['types'][$typeName];
     }
@@ -133,6 +129,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
             /** @var DOMElement $operation */
             foreach ($portType->getElementsByTagName('operation') as $operation) {
                 $operationName = $operation->getAttribute('name');
+                // operation name consists of resource name and method name
                 if (strpos($operationName, $resourceName) !== 0) {
                     throw new Magento_Exception(
                         sprintf('Operation "%s" is not related to resource "%s".', $operationName, $resourceName));
@@ -149,7 +146,8 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Get links between operations' input/output messages elements and its parameters elements
+     * Get array of names of <element> tags with parameters.
+     * Returned array is indexed by corresponding <message> tag name.
      *
      * @param DOMDocument $dom
      * @return array
@@ -204,7 +202,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Get full operation's description: description, input and output parameters
+     * Get full operation description: description, input and output parameters
      *
      * @param DOMElement $operation
      * @return array
@@ -239,7 +237,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
         $paramsElementName = $this->_paramsElementNameByMessageName[$messageName];
         if (!array_key_exists($paramsElementName, $this->_params)) {
             throw new Magento_Exception(
-                sprintf('There is no element "%s" with parameters not found.', $paramsElementName));
+                sprintf('There is no element "%s" with parameters.', $paramsElementName));
         }
         return $this->_params[$paramsElementName];
     }
@@ -265,7 +263,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Is given parameter required?
+     * Get if given parameter is required
      *
      * @param DOMElement $param
      * @return boolean
@@ -276,7 +274,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     }
 
     /**
-     * Get number of occurrence for given parameter in request or responce
+     * Get the number of occurrences for given parameter in request or response
      * Can be numeric string or "unbounded"
      *
      * @param DOMElement $param
@@ -309,7 +307,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
      * @param string $string
      * @return string
      */
-    protected function _cleanFromNamespace($string)
+    protected function _truncateNamespace($string)
     {
         if (strpos($string, ':') !== false) {
             $array = explode(':', $string);
