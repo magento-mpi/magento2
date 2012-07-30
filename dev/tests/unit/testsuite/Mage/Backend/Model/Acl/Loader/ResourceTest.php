@@ -28,7 +28,9 @@ class Mage_Backend_Model_Acl_Loader_ResourceTest extends PHPUnit_Framework_TestC
 
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Mage_Backend_Model_Acl_Config', array('getAclResources'));
+        $this->_configMock = $this->getMock(
+            'Mage_Backend_Model_Acl_Config', array('getAclResources'), array(), '', false
+        );
         $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
         $this->_model = new Mage_Backend_Model_Acl_Loader_Resource(array(
             'config' => $this->_configMock,
