@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/** @var $installer Enterprise_Rma_Model_Resource_Setup */
+/** @var $installer Mage_ImportExport_Model_Resource_Setup */
 $installer = $this;
 
 $installer->getConnection()
