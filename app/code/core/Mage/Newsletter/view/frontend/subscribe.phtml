@@ -34,7 +34,7 @@
         mage.event.observe('mage.newsletter.initialize', function (event, initData) {
             initData.newsletterId = '#newsletter-validate-detail';
             initData.newsletterInputId = '#newsletter';
-            initData.placeholderMessage = '<?php echo $this->__('Enter your email address') ?>';
+            initData.placeholder = '<?php echo $this->__('Enter your email address') ?>';
         });
         mage.load.initValidate();
         mage.load.js('/pub/lib/mage/components/newsletter/frontend/newsletter.js');

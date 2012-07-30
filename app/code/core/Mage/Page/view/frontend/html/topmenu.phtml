@@ -24,10 +24,9 @@
 </div>
 <script type="text/javascript">
     mage.event.observe('mage.menu.initialize', function (event, initData) {
-        initData.menuId = '#nav';
-        initData.parentClass = '.parent';
+        initData.menuSelector = '#nav .parent';
         initData.showDelay = 100;
-        initData.hideDelay = 1000;
+        initData.hideDelay = 100;
     });
     mage.load.js("/pub/lib/mage/components/menu/frontend/menu.js");
 </script>

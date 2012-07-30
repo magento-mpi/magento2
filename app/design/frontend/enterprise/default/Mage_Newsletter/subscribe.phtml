@@ -25,7 +25,7 @@
     mage.event.observe('mage.newsletter.initialize', function (event, initData) {
         initData.newsletterId = '#newsletter-validate-detail';
         initData.newsletterInputId = '#newsletter';
-        initData.placeholderMessage = '<?php echo $this->__('Enter your email address') ?>';
+        initData.placeholder = '<?php echo $this->__('Enter your email address') ?>';
         initData.errorClass = 'mage-ee-error';
     });
     mage.load.initValidate();

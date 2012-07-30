@@ -36,10 +36,6 @@ MageTest.prototype.testLoadLanguage = function () {
     assertEquals(1, mage.load.language('en'));
     assertEquals(1, mage.load.language());
     assertEquals(5, mage.load.language('de'));
-    var cookieName = 'language';
-    $.cookie(cookieName, 'fr');
-    assertEquals(7, mage.load.language());
-    $.cookie(cookieName, null);
 };
 
 

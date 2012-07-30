@@ -8,10 +8,11 @@
  */
 
 (function ($) {
-    // Default value for menu
+    // Default fields to initialize for poll
     var pollInit = {
         formId: '#pollForm',
-        pollAnswersId: '#poll-answers'
+        pollAnswersId: '#poll-answers',
+        pollCheckedOption: 'input.poll_vote:checked'
     };
 
     $(document).ready(function () {
@@ -19,13 +20,7 @@
         mage.event.trigger("mage.poll.initialize", pollInit);
         mage.decorator.list(pollInit.pollAnswersId);
         $(pollInit.formId).on('submit', function () {
-            var options = $('input.poll_vote');
-            for (var i in options) {
-                if (options[i].checked === true) {
-                    return true;
-                }
-            }
-            return false;
+            return $(pollInit.pollCheckedOption).length > 0;
         });
     });
 }(jQuery));

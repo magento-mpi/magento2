@@ -8,20 +8,22 @@
  */
 
 (function ($) {
-    // No default value because we want to get it from user
-    var gridInit = {};
+    // Default fields to initialize for grid
+    var gridInit = {
+        listId: nulll,
+        decoratorParams: null
+    };
 
     $(document).ready(function () {
         // Trigger initalize event
         mage.event.trigger("mage.grid.initialize", gridInit);
 
-        //
         if (gridInit.listId) {
             mage.decorator.list(gridInit.listId);
         }
         if (gridInit.genericSelector) {
-            if (gridInit.decoratorParam) {
-                mage.decorator.general($(gridInit.genericSelector), gridInit.decoratorParam);
+            if (gridInit.decoratorParams) {
+                mage.decorator.general($(gridInit.genericSelector), gridInit.decoratorParams);
             }
             else {
                 mage.decorator.general($(gridInit.genericSelector));

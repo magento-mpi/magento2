@@ -8,19 +8,18 @@
  */
 
 (function ($) {
-    // Default value for menu
+    // Default fields to initialize for menu
     var menuInit = {
         showDelay: 100,
         hideDelay: 100,
-        menuId: '#nav',
-        parentClass: '.parent'
+        menuSelector: '#nav .parent'
     };
 
     function show(subElement) {
-        if (subElement.attr('hideTimeId')) {
-            clearTimeout(subElement.attr('hideTimeId'));
+        if (subElement.data('hideTimeId')) {
+            clearTimeout(subElement.data('hideTimeId'));
         }
-        subElement.attr('showTimeId', setTimeout(function () {
+        subElement.data('showTimeId', setTimeout(function () {
             if (!subElement.hasClass('shown-sub')) {
                 subElement.addClass('shown-sub');
             }
@@ -28,10 +27,10 @@
     }
 
     function hide(subElement) {
-        if (subElement.attr('showTimeId')) {
-            clearTimeout(subElement.attr('showTimeId'));
+        if (subElement.data('showTimeId')) {
+            clearTimeout(subElement.data('showTimeId'));
         }
-        subElement.attr('hideTimeId', setTimeout(function () {
+        subElement.data('hideTimeId', setTimeout(function () {
             if (subElement.hasClass('shown-sub')) {
                 subElement.removeClass('shown-sub');
             }
@@ -41,12 +40,11 @@
     $(document).ready(function () {
         // Trigger initalize event
         mage.event.trigger("mage.menu.initialize", menuInit);
-        var menuSelector = menuInit.menuId + ' ' + menuInit.parentClass;
-        $(menuSelector).on('mouseover', function () {
+        $(menuInit.menuSelector).on('mouseover', function () {
             $(this).addClass('over');
             show($(this).children('ul'));
         });
-        $(menuSelector).on('mouseout', function () {
+        $(menuInit.menuSelector).on('mouseout', function () {
             $(this).removeClass('over');
             hide($(this).children('ul'));
         });

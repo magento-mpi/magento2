@@ -8,9 +8,9 @@
  */
 
 (function ($) {
-    // Default value for menu
+    // Default fields to initialize for newsletter
     var newsletterInit = {
-        placeholderMessage: 'Enter your email address',
+        placeholder: 'Enter your email address',
         errorClass: 'mage-error'
     };
     // Overwrite default showLabel method from jQuery validator to have fadeIn effect on error messages
@@ -65,7 +65,7 @@
         mage.event.trigger("mage.newsletter.initialize", newsletterInit);
         $(newsletterInit.newsletterId).mage().validate();
         $(newsletterInit.newsletterInputId).on('click', function () {
-            if ($(this).val() === newsletterInit.placeholderMessage) {
+            if ($(this).val() === newsletterInit.placeholder) {
                 $(this).val('');
             }
         });
@@ -73,7 +73,7 @@
             var inputField = $(this);
             setTimeout(function () {
                 if ($.trim(inputField.val()) === '') {
-                    inputField.val(newsletterInit.placeholderMessage);
+                    inputField.val(newsletterInit.placeholder);
                 }
                 hasError = false;
             }, 1);
