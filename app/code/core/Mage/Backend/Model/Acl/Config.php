@@ -20,6 +20,8 @@ class Mage_Backend_Model_Acl_Config
 {
     const CACHE_ID = 'backend_acl_resources';
 
+    const ACL_RESOURCE_ALL = 'Mage_Adminhtml::all';
+
     /**
      * @var Mage_Core_Model_Config
      */

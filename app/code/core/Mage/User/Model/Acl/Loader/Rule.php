@@ -10,8 +10,6 @@
 
 class Mage_User_Model_Acl_Loader_Rule implements Magento_Acl_Loader
 {
-    const ACL_ALL_RULES = 'Mage_Adminhtml::all';
-
     /**
      * @var Mage_Core_Model_Resource
      */
@@ -46,7 +44,7 @@ class Mage_User_Model_Acl_Loader_Rule implements Magento_Acl_Loader
             $privileges = !empty($rule['privileges']) ? explode(',', $rule['privileges']) : null;
 
             if ( $rule['permission'] == 'allow') {
-                if ($resource === self::ACL_ALL_RULES) {
+                if ($resource === Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL) {
                     $acl->allow($role, null, $privileges);
                 }
                 $acl->allow($role, $resource, $privileges);

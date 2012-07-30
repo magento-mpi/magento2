@@ -161,7 +161,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array("all");
+            $resource = array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
         }
 
         $role = $this->_initRole('role_id');

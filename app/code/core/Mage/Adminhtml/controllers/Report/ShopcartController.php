@@ -141,7 +141,8 @@ class Mage_Adminhtml_Report_ShopcartController extends Mage_Adminhtml_Controller
     {
         switch ($this->getRequest()->getActionName()) {
             case 'customer':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Adminhtml::all');
+                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+                    ->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
                 break;
             case 'product':
                 return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Reports::product');

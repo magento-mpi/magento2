@@ -274,7 +274,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                 }
             }
 
-            if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Adminhtml::all')
+            if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+                ->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)
                 && !$customer->getConfirmation()
             ) {
                 $customer->setIsSubscribed(isset($data['subscription']));
