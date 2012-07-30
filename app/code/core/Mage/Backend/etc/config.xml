@@ -32,7 +32,7 @@
                 <frontName>backend</frontName>
                 <auth/>
                 <acl>
-                    <resourceLoader>Mage_Backend_Acl_Loader_Resource</resourceLoader>
+                    <resourceLoader>Mage_Backend_Model_Acl_Loader_Resource</resourceLoader>
                 </acl>
             </adminhtml>
         </areas>
