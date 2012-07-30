@@ -83,6 +83,51 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $data);
     }
 
+    public function testGetResourceNameByOperation()
+    {
+        $actualResourceName = self::$_model->getResourceNameByOperation('catalogCategoryTree');
+        $expectedResourceName = 'catalogCategory';
+        $this->assertEquals($expectedResourceName, $actualResourceName,
+            'Resource name was defined incorrectly by given operation.');
+    }
+
+    public function testGetResourceNameByOperationInvalidOperation()
+    {
+        $actualResourceName = self::$_model->getResourceNameByOperation('invalid');
+        $this->assertFalse($actualResourceName, "In case of invalid operation 'false' is expected.");
+    }
+
+    public function testGetMethodNameByOperation()
+    {
+        $actualMethodName = self::$_model->getMethodNameByOperation('customerInfo');
+        $expectedMethodName = 'info';
+        $this->assertEquals($expectedMethodName, $actualMethodName,
+            'Method name was identified incorrectly by given operation');
+    }
+
+    public function testGetMethodNameByOperationInvalidOperation()
+    {
+        $actualMethodName = self::$_model->getMethodNameByOperation('invalid');
+        $this->assertFalse($actualMethodName, "In case of invalid operation 'false' is expected.");
+    }
+
+    public function testGetDom()
+    {
+        $domDocument = self::$_model->getDom();
+        $this->assertInstanceOf('DOMDocument', $domDocument);
+        $xml = $domDocument->saveXML();
+        $this->assertValidXml($xml);
+    }
+
+    public function testGetResources()
+    {
+        $actualResources = self::$_model->getResources();
+        $expectedResourceNames = array('customer', 'product', 'catalogCategory', 'catalogProductAttribute');
+        // check the first level keys only
+        $actualResourceNames = array_keys($actualResources);
+        $this->assertSame($expectedResourceNames, $actualResourceNames);
+    }
+
     /**
      * Exception should be thrown if resource operation described into wrong port type (resource)
      *
@@ -140,5 +185,19 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
     public function testGetDataTypeInvalideName()
     {
         self::$_model->getDataType('invalideTypeName');
+    }
+
+    /**
+     * Custom assertion for XML document validation
+     *
+     * @param string $xmlDocument
+     */
+    public static function assertValidXml($xmlDocument)
+    {
+        try {
+            simplexml_load_string($xmlDocument);
+        } catch (Exception $e) {
+            self::fail("Provided document is not valid XML document.");
+        }
     }
 }
