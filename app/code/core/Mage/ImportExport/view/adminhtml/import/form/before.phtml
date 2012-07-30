@@ -25,7 +25,7 @@
      *
      * @var array
      */
-    varienForm.prototype.behaviors = <?php echo $this->getBehaviors() ?>;
+    varienForm.prototype.uniqueBehaviors = <?php echo $this->getUniqueBehaviors() ?>;
 
     /**
      * Behaviour codes for import entities
@@ -52,8 +52,8 @@
     varienForm.prototype.showBehavior = function(entity)
     {
         var requiredBehavior = this.entityBehaviors[entity];
-        for (i = 0; i < this.behaviors.length; i++) {
-            var currentBehavior = this.behaviors[i];
+        for (i = 0; i < this.uniqueBehaviors.length; i++) {
+            var currentBehavior = this.uniqueBehaviors[i];
             this.showBehaviorFieldset(currentBehavior, requiredBehavior == currentBehavior);
         }
     };

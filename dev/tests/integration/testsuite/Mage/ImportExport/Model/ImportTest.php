@@ -21,6 +21,40 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * Expected entity behaviors
+     *
+     * @var array
+     */
+    protected $_entityBehaviors = array(
+        'catalog_product' => array(
+            'token' => 'Mage_ImportExport_Model_Source_Import_Behavior_Basic',
+            'code'  => 'basic_behavior',
+        ),
+        'customer_aggregate' => array(
+            'token' => 'Mage_ImportExport_Model_Source_Import_Behavior_Basic',
+            'code'  => 'basic_behavior',
+        ),
+        'customer' => array(
+            'token' => 'Mage_ImportExport_Model_Source_Import_Behavior_Custom',
+            'code'  => 'custom_behavior',
+        ),
+        'customer_address' => array(
+            'token' => 'Mage_ImportExport_Model_Source_Import_Behavior_Custom',
+            'code'  => 'custom_behavior',
+        ),
+    );
+
+    /**
+     * Expected unique behaviors
+     *
+     * @var array
+     */
+    protected $_uniqueBehaviors = array(
+        'basic_behavior'  => 'Mage_ImportExport_Model_Source_Import_Behavior_Basic',
+        'custom_behavior' => 'Mage_ImportExport_Model_Source_Import_Behavior_Custom',
+    );
+
     protected function setUp()
     {
         $this->_model = new Mage_ImportExport_Model_Import();
@@ -86,5 +120,54 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     public function testGetEntityEntityIsNotSet()
     {
         $this->_model->getEntity();
+    }
+
+    /**
+     * Test getEntityBehaviors with all required data
+     * Can't check array on equality because this test should be useful for CE
+     *
+     * @covers Mage_ImportExport_Model_Import::getEntityBehaviors
+     */
+    public function testGetEntityBehaviors()
+    {
+        $importModel = $this->_model;
+        $actualBehaviors = $importModel::getEntityBehaviors();
+
+        foreach ($this->_entityBehaviors as $entityKey => $behaviorData) {
+            $this->assertArrayHasKey($entityKey, $actualBehaviors);
+            $this->assertEquals($behaviorData, $actualBehaviors[$entityKey]);
+        }
+    }
+
+    /**
+     * Test getEntityBehaviors with not existing behavior class
+     *
+     * @magentoConfigFixture global/importexport/import_entities/customer/behavior_token Unknown_Behavior_Class
+     *
+     * @expectedException Mage_Core_Exception
+     * @expectedExceptionMessage Invalid behavior token for customer
+     */
+    public function testGetEntityBehaviorsWithUnknownBehavior()
+    {
+        $importModel = $this->_model;
+        $actualBehaviors = $importModel::getEntityBehaviors();
+        $this->assertArrayNotHasKey('customer', $actualBehaviors);
+    }
+
+    /**
+     * Test getUniqueEntityBehaviors with all required data
+     * Can't check array on equality because this test should be useful for CE
+     *
+     * @covers Mage_ImportExport_Model_Import::getUniqueEntityBehaviors
+     */
+    public function testGetUniqueEntityBehaviors()
+    {
+        $importModel = $this->_model;
+        $actualBehaviors = $importModel::getUniqueEntityBehaviors();
+
+        foreach ($this->_uniqueBehaviors as $behaviorCode => $behaviorClass) {
+            $this->assertArrayHasKey($behaviorCode, $actualBehaviors);
+            $this->assertEquals($behaviorClass, $actualBehaviors[$behaviorCode]);
+        }
     }
 }

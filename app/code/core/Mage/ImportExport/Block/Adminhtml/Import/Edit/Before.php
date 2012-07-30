@@ -72,7 +72,7 @@ class Mage_ImportExport_Block_Adminhtml_Import_Edit_Before extends Mage_Backend_
      *
      * @return string
      */
-    public function getBehaviors()
+    public function getUniqueBehaviors()
     {
         $importModel = $this->_importModel;
         $uniqueBehaviors = $importModel::getUniqueEntityBehaviors();

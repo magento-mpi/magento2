@@ -23,7 +23,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     /**
      * Import entities config key
      */
-    const CONFIG_KEY_ENTITIES          = 'global/importexport/import_entities';
+    const CONFIG_KEY_ENTITIES = 'global/importexport/import_entities';
 
     /**#@+
      * Import behaviors
@@ -505,7 +505,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     }
 
     /**
-     * Gets array of customer entities and appropriate behaviours
+     * Get array of customer entities and appropriate behaviours
      * array(
      *     <entity_code> => array(
      *         'token' => <behavior_class_name>,
@@ -524,12 +524,16 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
             ->asArray();
         foreach ($entitiesConfig as $entityCode => $entityData) {
             $behaviorToken = isset($entityData['behavior_token']) ? $entityData['behavior_token'] : null;
-            if ($behaviorToken && class_exists($behaviorToken)) {
+            if ($behaviorToken && Magento_Autoload::getInstance()->classExists($behaviorToken)) {
                 /** @var $behaviorModel Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
                 $behaviorModel = Mage::getModel($behaviorToken);
                 $behaviourData[$entityCode] = array(
                     'token' => $behaviorToken,
                     'code'  => $behaviorModel->getCode() . '_behavior',
+                );
+            } else {
+                Mage::throwException(
+                    Mage::helper('Mage_ImportExport_Helper_Data')->__('Invalid behavior token for %s', $entityCode)
                 );
             }
         }
