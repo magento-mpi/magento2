@@ -103,11 +103,8 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
                     );
                 }
 
-                // TODO: comparison with 'customer_aggregate' will be deleted when MAGETWO-2502 will be implemented
                 // check for entity codes integrity
-                if ($this->getEntity() != 'customer_aggregate'
-                    && $this->getEntity() != $this->_entityAdapter->getEntityTypeCode()
-                ) {
+                if ($this->getEntity() != $this->_entityAdapter->getEntityTypeCode()) {
                     Mage::throwException(
                         Mage::helper('Mage_ImportExport_Helper_Data')
                             ->__('Input entity code is not equal to entity adapter code')

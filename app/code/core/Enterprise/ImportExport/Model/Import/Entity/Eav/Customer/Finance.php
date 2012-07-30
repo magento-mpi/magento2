@@ -138,7 +138,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Initialize entity attributes
      *
-     * @return Mage_ImportExport_Model_Import_Entity_V2_Eav_Abstract
+     * @return Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     protected function _initAttributes()
     {

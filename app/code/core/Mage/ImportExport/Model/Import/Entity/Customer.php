@@ -203,7 +203,10 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     public function __construct()
     {
-        parent::__construct();
+        $entityType = Mage::getSingleton('Mage_Eav_Model_Config')->getEntityType('customer');
+        $this->_entityTypeId    = $entityType->getEntityTypeId();
+        $this->_dataSourceModel = Mage_ImportExport_Model_Import::getDataSourceModel();
+        $this->_connection      = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
 
         $this->_initWebsites()
             ->_initStores()
@@ -502,7 +505,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      */
     public function getEntityTypeCode()
     {
-        return 'customer';
+        return 'customer_aggregate';
     }
 
     /**
