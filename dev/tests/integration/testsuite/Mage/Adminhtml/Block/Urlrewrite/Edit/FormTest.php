@@ -9,43 +9,24 @@
  * @license     {license_link}
  */
 
+/**
+ * Test for Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest
+ */
 class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Data_Form
-     */
-    protected $_form = null;
-
-    /**
-     * Initialize block
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->_initForm(array('url_rewrite' => new Varien_Object(array('id' => 3))));
-    }
-
-    /**
-     * Initialize form
+     * Get form instance
      *
      * @param array $args
+     * @return Varien_Data_Form
      */
-    protected function _initForm($args = array())
+    protected function _getFormInstance($args = array())
     {
         $layout = new Mage_Core_Model_Layout();
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', 'block', $args);
         $block->toHtml();
-        $this->_form = $block->getForm();
-    }
-
-    /**
-     * Unset block
-     */
-    protected function tearDown()
-    {
-        unset($this->_form);
-        parent::tearDown();
+        return $block->getForm();
     }
 
     /**
@@ -54,12 +35,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
     public function testPrepareForm()
     {
         // Test form was configured correctly
-        $this->assertInstanceOf('Varien_Data_Form', $this->_form);
-        $this->assertNotEmpty($this->_form->getAction());
-        $this->assertEquals('edit_form', $this->_form->getId());
-        $this->assertEquals('post', $this->_form->getMethod());
-        $this->assertTrue($this->_form->getUseContainer());
-        $this->assertContains('/id/3', $this->_form->getAction());
+        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
+        $this->assertInstanceOf('Varien_Data_Form', $form);
+        $this->assertNotEmpty($form->getAction());
+        $this->assertEquals('edit_form', $form->getId());
+        $this->assertEquals('post', $form->getMethod());
+        $this->assertTrue($form->getUseContainer());
+        $this->assertContains('/id/3', $form->getAction());
 
         // Check all expected form elements are present
         $expectedElements = array(
@@ -72,7 +54,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
             'store_id'
         );
         foreach ($expectedElements as $expectedElement) {
-            $this->assertNotNull($this->_form->getElement($expectedElement));
+            $this->assertNotNull($form->getElement($expectedElement));
         }
     }
 
@@ -90,13 +72,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
             'options'      => 'options',
             'description'  => 'description'
         );
-        Mage::getSingleton('Mage_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
+        Mage::getModel('Mage_Adminhtml_Model_Session')->setUrlrewriteData($sessionValues);
         // Re-init form to use newly set session data
-        $this->_initForm(array('url_rewrite' => new Varien_Object()));
+        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object()));
 
         // Check that all fields values are restored from session
         foreach ($sessionValues as $field => $value) {
-            $this->assertEquals($value, $this->_form->getElement($field)->getValue());
+            $this->assertEquals($value, $form->getElement($field)->getValue());
         }
     }
 
@@ -105,8 +87,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testStoreElementSingleStore()
     {
+        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
         /** @var $storeElement Varien_Data_Form_Element_Abstract */
-        $storeElement = $this->_form->getElement('store_id');
+        $storeElement = $form->getElement('store_id');
         $this->assertInstanceOf('Varien_Data_Form_Element_Hidden', $storeElement);
 
         // Check that store value set correctly
@@ -122,8 +105,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
      */
     public function testStoreElementMultiStores()
     {
+        $form = $this->_getFormInstance(array('url_rewrite' => new Varien_Object(array('id' => 3))));
         /** @var $storeElement Varien_Data_Form_Element_Abstract */
-        $storeElement = $this->_form->getElement('store_id');
+        $storeElement = $form->getElement('store_id');
 
         // Check store selection elements has correct type
         $this->assertInstanceOf('Varien_Data_Form_Element_Select', $storeElement);

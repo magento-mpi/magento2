@@ -9,34 +9,24 @@
  * @license     {license_link}
  */
 
+/**
+ * Test for Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest
+ */
 class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Data_Form
-     */
-    protected $_form = null;
-
-    /**
-     * Initialize form
+     * Get form instance
      *
      * @param array $args
+     * @return Varien_Data_Form
      */
-    protected function _initForm($args = array())
+    protected function _getFormInstance($args = array())
     {
         $layout = new Mage_Core_Model_Layout();
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', 'block', $args);
         $block->toHtml();
-        $this->_form = $block->getForm();
-    }
-
-    /**
-     * Unset block
-     */
-    protected function tearDown()
-    {
-        unset($this->_form);
-        parent::tearDown();
+        return $block->getForm();
     }
 
     /**
@@ -58,15 +48,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
         if ($cmsPageData) {
             $args['cms_page'] = new Varien_Object($cmsPageData);
         }
-        $this->_initForm($args);
-        $this->assertContains($action, $this->_form->getAction());
+        $form = $this->_getFormInstance($args);
+        $this->assertContains($action, $form->getAction());
 
-        $this->assertEquals($idPath, $this->_form->getElement('id_path')->getValue());
-        $this->assertEquals($requestPath, $this->_form->getElement('request_path')->getValue());
-        $this->assertEquals($targetPath, $this->_form->getElement('target_path')->getValue());
+        $this->assertEquals($idPath, $form->getElement('id_path')->getValue());
+        $this->assertEquals($requestPath, $form->getElement('request_path')->getValue());
+        $this->assertEquals($targetPath, $form->getElement('target_path')->getValue());
 
-        $this->assertTrue($this->_form->getElement('id_path')->getData('disabled'));
-        $this->assertTrue($this->_form->getElement('target_path')->getData('disabled'));
+        $this->assertTrue($form->getElement('id_path')->getData('disabled'));
+        $this->assertTrue($form->getElement('target_path')->getData('disabled'));
     }
 
     /**
@@ -80,7 +70,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
         $args = array(
             'cms_page' => $this->_getCmsPageWithStoresMock(array(1))
         );
-        $this->_initForm($args);
+        $form = $this->_getFormInstance($args);
 
         $expectedStores = array(
             array(
@@ -97,7 +87,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
                 )
             )
         );
-        $this->assertEquals($expectedStores, $this->_form->getElement('store_id')->getValues());
+        $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
     }
 
     /**
@@ -114,7 +104,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_FormTest extends PHPUnit_Fra
         $args = array(
             'cms_page' => $this->_getCmsPageWithStoresMock(array())
         );
-        $this->_initForm($args);
+        $this->_getFormInstance($args);
     }
 
     /**

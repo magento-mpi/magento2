@@ -20,6 +20,9 @@ class Mage_Core_Model_Source_Urlrewrite_Types
     const SYSTEM = 1;
     const CUSTOM = 0;
 
+    /**
+     * @var array|null
+     */
     protected $_options = null;
 
     /**

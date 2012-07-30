@@ -9,34 +9,24 @@
  * @license     {license_link}
  */
 
+/**
+ * Test for Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest
+ */
 class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Varien_Data_Form
-     */
-    protected $_form = null;
-
-    /**
-     * Initialize form
+     * Get form instance
      *
      * @param array $args
+     * @return Varien_Data_Form
      */
-    protected function _initForm($args = array())
+    protected function _getFormInstance($args = array())
     {
         $layout = new Mage_Core_Model_Layout();
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', 'block', $args);
         $block->toHtml();
-        $this->_form = $block->getForm();
-    }
-
-    /**
-     * Unset block
-     */
-    protected function tearDown()
-    {
-        unset($this->_form);
-        parent::tearDown();
+        return $block->getForm();
     }
 
     /**
@@ -62,15 +52,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
         if ($categoryData) {
             $args['category'] = new Varien_Object($categoryData);
         }
-        $this->_initForm($args);
-        $this->assertContains($action, $this->_form->getAction());
+        $form = $this->_getFormInstance($args);
+        $this->assertContains($action, $form->getAction());
 
-        $this->assertEquals($idPath, $this->_form->getElement('id_path')->getValue());
-        $this->assertEquals($requestPath, $this->_form->getElement('request_path')->getValue());
-        $this->assertEquals($targetPath, $this->_form->getElement('target_path')->getValue());
+        $this->assertEquals($idPath, $form->getElement('id_path')->getValue());
+        $this->assertEquals($requestPath, $form->getElement('request_path')->getValue());
+        $this->assertEquals($targetPath, $form->getElement('target_path')->getValue());
 
-        $this->assertTrue($this->_form->getElement('id_path')->getData('disabled'));
-        $this->assertTrue($this->_form->getElement('target_path')->getData('disabled'));
+        $this->assertTrue($form->getElement('id_path')->getData('disabled'));
+        $this->assertTrue($form->getElement('target_path')->getData('disabled'));
     }
 
     /**
@@ -93,8 +83,8 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
         if ($categoryData) {
             $args['category'] = new Varien_Object($categoryData);
         }
-        $this->_initForm($args);
-        $this->assertEquals($expectedStores, $this->_form->getElement('store_id')->getValues());
+        $form = $this->_getFormInstance($args);
+        $this->assertEquals($expectedStores, $form->getElement('store_id')->getValues());
     }
 
     /**
@@ -111,7 +101,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
         $args = array(
             'product' => new Varien_Object(array('id' => 1))
         );
-        $this->_initForm($args);
+        $this->_getFormInstance($args);
     }
 
     /**
@@ -129,7 +119,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
             'product' => new Varien_Object(array('id' => 1, 'store_ids' => array(1))),
             'category' => new Varien_Object(array('id' => 1, 'store_ids' => array(3)))
         );
-        $this->_initForm($args);
+        $this->_getFormInstance($args);
     }
 
     /**
@@ -146,7 +136,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_FormTest extends PHPUnit_Fram
         $args = array(
             'category' => new Varien_Object(array('id' => 1))
         );
-        $this->_initForm($args);
+        $this->_getFormInstance($args);
     }
 
     /**

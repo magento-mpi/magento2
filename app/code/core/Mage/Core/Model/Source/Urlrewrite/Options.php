@@ -20,6 +20,9 @@ class Mage_Core_Model_Source_Urlrewrite_Options
     const TEMPORARY = 'R';
     const PERMANENT = 'RP';
 
+    /**
+     * @var array|null
+     */
     protected $_options = null;
 
     /**

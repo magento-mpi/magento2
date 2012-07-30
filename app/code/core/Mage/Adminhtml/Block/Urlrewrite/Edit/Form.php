@@ -223,7 +223,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     protected function _getSessionData()
     {
         if (is_null($this->_sessionData)) {
-            $this->_sessionData = Mage::getSingleton('Mage_Adminhtml_Model_Session')->getData('urlrewrite_data', true);
+            $this->_sessionData = Mage::getModel('Mage_Adminhtml_Model_Session')->getData('urlrewrite_data', true);
         }
         return $this->_sessionData;
     }
@@ -276,35 +276,38 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     {
         $stores = $this->_getAllStores();
         $entityStores = $this->_getEntityStores();
-        $this->_restrictStoresList($stores, $entityStores);
+        $stores = $this->_getStoresListRestrictedByEntityStores($stores, $entityStores);
 
         return $stores;
     }
 
     /**
-     * Restrict stores list by entity stores
+     * Get stores list restricted by entity stores
      *
-     * @param array $restrictedStores
+     * @param array $stores
      * @param array $entityStores
+     * @return array
      */
-    protected function _restrictStoresList(array &$restrictedStores, array $entityStores)
+    private function _getStoresListRestrictedByEntityStores(array $stores, array $entityStores)
     {
         if ($this->_requireStoresFilter) {
-            foreach ($restrictedStores as $i => $store) {
+            foreach ($stores as $i => $store) {
                 if (isset($store['value']) && $store['value']) {
                     $found = false;
                     foreach ($store['value'] as $k => $v) {
                         if (isset($v['value']) && in_array($v['value'], $entityStores)) {
                             $found = true;
                         } else {
-                            unset($restrictedStores[$i]['value'][$k]);
+                            unset($stores[$i]['value'][$k]);
                         }
                     }
                     if (!$found) {
-                        unset($restrictedStores[$i]);
+                        unset($stores[$i]);
                     }
                 }
             }
         }
+
+        return $stores;
     }
 }

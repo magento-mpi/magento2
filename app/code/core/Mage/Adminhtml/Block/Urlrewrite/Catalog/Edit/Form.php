@@ -13,8 +13,8 @@
  *
  * @method Mage_Catalog_Model_Product getProduct()
  * @method Mage_Catalog_Model_Category getCategory()
- * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setProduct(Mage_Catalog_Model_Product $model)
- * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setCategory(Mage_Catalog_Model_Category $cat)
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setProduct(Mage_Catalog_Model_Product $product)
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form setCategory(Mage_Catalog_Model_Category $category)
  *
  * @category   Mage
  * @package    Mage_Adminhtml

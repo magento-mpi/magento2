@@ -9,6 +9,9 @@
  * @license     {license_link}
  */
 
+/**
+ * Test for Mage_Cms_Model_Page_UrlrewriteTest
+ */
 class Mage_Cms_Model_Page_UrlrewriteTest extends PHPUnit_Framework_TestCase
 {
     /**
