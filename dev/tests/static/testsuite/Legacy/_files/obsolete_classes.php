@@ -84,6 +84,7 @@ return array(
     'Mage_Catalog_Model_Entity_Product_Attribute_Frontend_Image',
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image',
     'Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice',
+    'Mage_Core_Block_Flush',
     'Mage_Core_Block_Template_Facade',
     'Mage_Core_Controller_Varien_Router_Admin' => array('suggestion' => 'Mage_Backend_Controller_Router_Default'),
     'Mage_Core_Model_Design_Source_Apply',
