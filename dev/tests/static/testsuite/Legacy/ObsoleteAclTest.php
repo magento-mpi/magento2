@@ -10,7 +10,7 @@
  */
 
 /**
- * Legacy tests to find obsolete menu declaration
+ * Legacy tests to find obsolete acl declaration
  */
 class Legacy_ObsoleteAclTest extends PHPUnit_Framework_TestCase
 {

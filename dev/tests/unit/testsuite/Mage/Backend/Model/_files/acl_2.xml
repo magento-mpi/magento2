@@ -16,7 +16,7 @@
             <resource id="Dummy1::parent">
                 <resource id="Dummy1::first">
                     <resource id="Dummy2::parent" title="Dummy 2 Resource Parent" module="Dummy2" sortOrder="0">
-                        <resource id="Dummy2::first" title="Dummy 2 Resource #2" module="Dummy2" sortOrder="10" />
+                        <resource id="Dummy2::first" title="Dummy 2 Resource #1" module="Dummy2" sortOrder="10" />
                         <resource id="Dummy2::second" title="Dummy 2 Resource #2" module="Dummy2" sortOrder="20" />
                     </resource>
                 </resource>

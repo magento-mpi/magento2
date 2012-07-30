@@ -100,6 +100,7 @@ try {
 
     // composer.json
     copy(__DIR__ . '/composer.json_', $targetDir . '/composer.json');
+    execVerbose("$gitCmd add composer.json");
 
     // commit and push
     execVerbose("$gitCmd add --update");

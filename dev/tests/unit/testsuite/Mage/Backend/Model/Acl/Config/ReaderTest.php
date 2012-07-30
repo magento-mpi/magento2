@@ -42,13 +42,12 @@ class Mage_Backend_Model_Acl_Config_ReaderTest extends PHPUnit_Framework_TestCas
     {
         $expectedFile = realpath(__DIR__) . '/../../_files/acl_merged.xml';
         $expectedResources = new DOMDocument();
-        $expectedResources->preserveWhiteSpace = false;
         $expectedResources->load($expectedFile);
 
         $actualResources = $this->_model->getAclResources();
-        $actualResources->preserveWhiteSpace = false;
 
         $this->assertNotEmpty($actualResources);
         $this->assertEqualXMLStructure($expectedResources->documentElement, $actualResources->documentElement, true);
+        $this->assertEquals($expectedResources, $actualResources);
     }
 }
