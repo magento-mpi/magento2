@@ -61,7 +61,7 @@ $customer->setDefaultShipping($addressSecond->getId());
 $customer->isObjectNew(true);
 $customer->save();
 
-$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Customer';
+$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest_Customer';
 Mage::unregister($fixtureKey);
 Mage::register($fixtureKey, $customer);
 
@@ -91,7 +91,7 @@ $csvData = array(
     ),
 );
 
-$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv_Update';
+$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest_Csv_Update';
 Mage::unregister($fixtureKey);
 Mage::register($fixtureKey, $csvData);
 
@@ -101,6 +101,6 @@ $csvData = array(
     'not_delete' => '72701',  // not deleted address
 );
 
-$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_V2_Eav_Customer_AddressTest_Csv_Delete';
+$fixtureKey = '_fixture/Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest_Csv_Delete';
 Mage::unregister($fixtureKey);
 Mage::register($fixtureKey, $csvData);
