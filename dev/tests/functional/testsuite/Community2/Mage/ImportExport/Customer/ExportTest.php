@@ -49,8 +49,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $entityTypes = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'entity_type') . '/option',
             'text');
-        $this->assertEquals(array('-- Please Select --', 'Products', 'Customers Main File','Customer Addresses'),
-            $entityTypes, 'Entity Type dropdown contains incorrect values');
+        $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products'),
+            $this->importExportHelper()->getCustomerEntityType());
+        $this->assertEquals($expectedEntityTypeValues, $entityTypes, 'Entity Type dropdown contains incorrect values');
     }
 
     /**
@@ -61,7 +62,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $this->navigate('manage_customers');
         $userData = $this->loadDataSet('Customers','generic_customer_account');
         $userDataAddress = $this->loadDataSet('Customers','generic_address');
-        //$this->customerHelper()->createCustomer($userData,$userDataAddress);
+        $this->customerHelper()->createCustomer($userData,$userDataAddress);
         //Step 1
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers Main File');

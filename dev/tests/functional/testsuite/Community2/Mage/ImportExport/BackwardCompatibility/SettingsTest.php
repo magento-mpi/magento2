@@ -32,10 +32,9 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
      * <p>Old Export Settings General View</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 1.7 format"</p>
+     * <p>2. In the drop-down "Entity Type" select "Products"</p>
      * <p>Expected: The grid with attributes presents with buttons "Reset Filter", "Search", "Continue"</p>
-     *<p>The same result should be if "Products" entity type is selected</p>
+     * <p> The same result should be if "Products" entity type is selected</p>
      * @test
      * @TestlinkId TL-MAGE-1181
      */
@@ -45,35 +44,15 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
         $entityTypes = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'entity_type') . '/option',
             'text');
-        $this->assertEquals(array('-- Please Select --', 'Products', 'Customers'), $entityTypes,
-            'Entity Type dropdown contains incorrect values');
+        $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products'),
+            $this->importExportHelper()->getCustomerEntityType());
+        $this->assertEquals($expectedEntityTypeValues, $entityTypes, 'Entity Type dropdown contains incorrect values');
         $fileFormat = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'file_format') . '/option',
             'text');
         $this->assertEquals(array('CSV'), $fileFormat,
             'Export File Format dropdown contains incorrect values');
         //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'export_file_version'));
-        //Verifying
-        $exportFileVersion = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'export_file_version') . '/option',
-            'text');
-        $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
-            $exportFileVersion,
-            'Export File Version dropdown contains incorrect values');
-        //Step 3
-        $this->fillDropdown('export_file_version', 'Magento 1.7 format');
-        //Verifying
-        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter')),
-            'Grid and filter are not displayed');
-        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter')),
-            'Reset button is not displayed');
-        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'search')),
-            'Search button is not displayed');
-        $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'continue')),
-            'Continue button is not displayed');
-        //Step 4
         $this->fillDropdown('entity_type', 'Products');
         //Verifying
         $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter')),
@@ -89,8 +68,7 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
      * <p>Old Import Settings General View</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 1.7 format"</p>
+     * <p>2. In the drop-down "Entity Type" select "Products"</p>
      * <p>Expected: Verify that the Import Behavior drop-down is present with proper elements</p>
      * <p>The button "Check Data" is present in the top area</p>
      * <p>The possibility to upload the csv file is present</p>
@@ -104,25 +82,13 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
           $entityTypes = $this->getElementsByXpath(
               $this->_getControlXpath('dropdown', 'entity_type') . '/option',
               'text');
-          $this->assertEquals(array(
-                  '-- Please Select --',
-                  'Products',
-                  'Customers'
-              ), $entityTypes,
+          $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products'),
+              $this->importExportHelper()->getCustomerEntityType());
+          $this->assertEquals($expectedEntityTypeValues, $entityTypes,
               'Entity Type dropdown contains incorrect values');
-          $this->importExportHelper()->chooseImportOptions('Customers');
           //Step 2
-          $this->fillDropdown('entity_type', 'Customers');
-          $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
+          $this->importExportHelper()->chooseImportOptions('Products');
           //Verifying
-          $importFileVersion = $this->getElementsByXpath(
-              $this->_getControlXpath('dropdown', 'import_file_version') . '/option',
-              'text');
-          $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
-              $importFileVersion,
-              'Import File Version dropdown contains incorrect values');
-          //Step 3
-          $this->fillDropdown('import_file_version', 'Magento 1.7 format');
           $entityBehavior = $this->getElementsByXpath(
               $this->_getControlXpath('dropdown', 'import_behavior') . '/option',
               'text');

@@ -171,8 +171,8 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
         $addressRows[3]['_website'] = 'admin';
         //row 5: different address id
         $addressRows[4]['_entity_id'] = '10000';
-		//row 6: empty address id
-		$addressRows[5]['_entity_id'] = '';
+        //row 6: empty address id
+        $addressRows[5]['_entity_id'] = '';
 
         //validation messages
         $successfulImport = array('validation' => array(
@@ -201,14 +201,14 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
                 )
             )
         );
-		$emptyEntityId = array('validation' => array(
-			'error' => array("Customer address id column is not specified in rows: 1"),
-			'validation' => array(
-				"File is totally invalid. Please fix errors and re-upload file",
-				"Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-			)
-		)
-		);
+        $emptyEntityId = array('validation' => array(
+            'error' => array("Customer address id column is not specified in rows: 1"),
+            'validation' => array(
+                "File is totally invalid. Please fix errors and re-upload file",
+                "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
+            )
+        )
+        );
 
         return array(
             array($addressData[0], array($addressRows[0]), true, $successfulImport),
@@ -216,7 +216,7 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
             array($addressData[2], array($addressRows[2]), false, $customerNotFound),
             array($addressData[3], array($addressRows[3]), false, $customerNotFound),
             array($addressData[4], array($addressRows[4]), false, $addressNotFound),
-			array($addressData[5], array($addressRows[5]), false, $emptyEntityId),
+            array($addressData[5], array($addressRows[5]), false, $emptyEntityId),
             );
     }
 }

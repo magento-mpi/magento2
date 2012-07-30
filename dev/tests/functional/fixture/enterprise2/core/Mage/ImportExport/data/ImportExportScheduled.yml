@@ -12,9 +12,7 @@
 scheduled_export:
    name: test_export_%randomize%
    description: test_export_description_%randomize%
-   entity_type: Customers
-   file_format_version: %noValue%
-   entity_subtype: %noValue%
+   entity_type: %noValue%
    file_format: CSV
    start_time_hours: %noValue%
    start_time_minutes: %noValue%
