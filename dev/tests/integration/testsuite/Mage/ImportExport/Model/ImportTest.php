@@ -10,14 +10,12 @@
  */
 
 /**
- * Tests for Import model
- *
  * @magentoDataFixture Mage/ImportExport/_files/import_data.php
  */
 class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Model object which used for tests
+     * Model object which is used for tests
      *
      * @var Mage_ImportExport_Model_Import
      */
@@ -34,9 +32,6 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test import from import data storage.
-     * Covers _getEntityAdapter() in case when entity adapter was successfully returned
-     *
      * @covers Mage_ImportExport_Model_Import::_getEntityAdapter
      */
     public function testImportSource()
@@ -59,8 +54,6 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test _getEntityAdapter() through validateSource() method in case when entity was not set
-     *
      * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage Entity is unknown
      */
@@ -70,8 +63,6 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test _getEntityAdapter() through validateSource() method in case when entity name is invalid
-     *
      * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage Invalid entity
      */
@@ -81,9 +72,6 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
         $this->_model->validateSource('');
     }
 
-    /**
-     * Test getEntity method in case when entity was set,, it should return set value
-     */
     public function testGetEntity()
     {
         $entityName = 'entity_name';
@@ -92,8 +80,6 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getEntity method in case when entity was not set
-     *
      * @expectedException Mage_Core_Exception
      * @expectedExceptionMessage Entity is unknown
      */
