@@ -119,18 +119,18 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
     {
         //Data
         if ($type != 'configurable') {
-            $productDataCustomOption = $this->loadDataSet('Product', $type . '_product_required');
+            $productWithOptions = $this->loadDataSet('Product', $type . '_product_required');
             $productData = $this->loadDataSet('Product', $type . '_product_required');
         } else {
-            $productDataCustomOption = $this->loadDataSet('Product', $type . '_product_required',
+            $productWithOptions = $this->loadDataSet('Product', $type . '_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']));
             $productData = $this->loadDataSet('Product', $type . '_product_required',
                 array('configurable_attribute_title' => $attrData['admin_title']));
         }
-        $productDataCustomOption['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
-        $selectProduct = array('product_sku' => $productDataCustomOption['general_sku']);
+        $productWithOptions['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
+        $selectProduct = array('product_sku' => $productWithOptions['general_sku']);
         //Preconditions
-        $this->productHelper()->createProduct($productDataCustomOption, $type);
+        $this->productHelper()->createProduct($productWithOptions, $type);
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->createProduct($productData, $type, false);
@@ -138,7 +138,7 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
-        $this->productHelper()->verifyCustomOption($productDataCustomOption['custom_options_data']);
+        $this->productHelper()->verifyCustomOption($productWithOptions['custom_options_data']);
     }
 
     /**
@@ -214,9 +214,9 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
-        $custom_options_data ['custom_options_field_1'] = $simpleField['custom_options_data']['custom_options_field'];
-        $custom_options_data ['custom_options_field_2'] = $simpleField['custom_options_data']['custom_options_field'];
-        $this->productHelper()->verifyCustomOption($custom_options_data);
+        $customOptionsData ['custom_options_field_1'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData ['custom_options_field_2'] = $simpleField['custom_options_data']['custom_options_field'];
+        $this->productHelper()->verifyCustomOption($customOptionsData);
     }
 
     /**
@@ -277,9 +277,9 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
-        $custom_options_data ['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
-        $custom_options_data ['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
-        $this->productHelper()->verifyCustomOption($custom_options_data);
+        $customOptionsData ['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData ['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
+        $this->productHelper()->verifyCustomOption($customOptionsData);
     }
 
     /**
@@ -386,8 +386,8 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
         //Verifying
-        $custom_options_data ['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
-        $custom_options_data ['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
-        $this->productHelper()->verifyCustomOption($custom_options_data);
+        $customOptionsData ['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData ['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
+        $this->productHelper()->verifyCustomOption($customOptionsData);
     }
 }

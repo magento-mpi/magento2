@@ -13,9 +13,10 @@
 /**
  * Check the possibility to set default value to system attributes with dropdown type
  */
-class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Community2_Mage_ProductAttribute_SystemDefaultValueTest
 {
     /**
+     * @codingStandardsIgnoreStart
      * <p>Preconditions:</p>
      * <p>Navigate to System - Manage Attributes.</p>
      */
@@ -51,7 +52,8 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Sele
      *  <p>10. Select "Default" as "Attribute Set".</p>
      *  <p>11. Select "Simple Product" as "Product Type"</p>
      *  <p>12. Press the "Continue" button</p>
-     *  <p>13. Verify that system attribute is used Default value and fill all required field, and press the "Save" button</p>
+     *  <p>13. Verify that system attribute is used Default value and fill all required field.</p>
+     *  <p>14. Press the "Save" button</p>
      *  <p>14. Find created product in grid and click on it.</p>
      *
      * <p>Expected result:</p>
@@ -64,39 +66,11 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Sele
      * @test
      * @dataProvider systemAttributeDataProvider
      * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836
+     * @codingStandardsIgnoreEnd
      */
     public function checkSystemAttributeDefaultValue($attr, $productType, $uimapName)
     {
-        //Data
-        $attrData = $this->loadDataSet('SystemAttributes', $attr);
-        $productData = $this->loadDataSet('Product', $productType . '_product_required');
-        if (array_key_exists($uimapName, $productData)) {
-            unset($productData[$uimapName]);
-        }
-        //Steps
-        $this->searchAndOpen(array('attribute_code' => $attrData['attribute_code']));
-        //Verifying
-        $this->productAttributeHelper()->verifySystemAttribute($attrData);
-        //Steps
-        $this->productAttributeHelper()->setDefaultAttributeValue($attrData);
-        $this->saveForm('save_attribute');
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Steps
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, $productType);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $this->searchAndOpen(array('product_sku' => $productData['general_sku']));
-        //Verifying
-        if ($attr == 'custom_design') {
-            $this->openTab('design');
-            $this->assertEquals(strtolower(str_replace(' ', '', $attrData['default_value'])),
-                $this->getValue($this->_getControlXpath('dropdown', $uimapName) . "//option[@selected='selected']"),
-                "Incorrect default value for custom design attribute.");
-        } else {
-            $productData[$uimapName] = $attrData['default_value'];
-        }
-        $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
+        parent::checkSystemAttributeDefaultValue($attr, $productType, $uimapName);
     }
 
     /**
@@ -106,8 +80,7 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Sele
      */
     public function systemAttributeDataProvider()
     {
-        return array(array('allow_open_amount', 'gift', 'price_allow_open_amount'), //waiting for gift card realization
-                     array('country_of_manufacture', 'simple', 'general_country_manufacture'),
+        return array(array('country_of_manufacture', 'simple', 'general_country_manufacture'),
                      array('custom_design', 'simple', 'design_custom_design'),
                      array('enable_googlecheckout', 'simple', 'prices_enable_googlecheckout'),
                      array('gift_message_available', 'simple', 'gift_options_allow_gift_message'),
