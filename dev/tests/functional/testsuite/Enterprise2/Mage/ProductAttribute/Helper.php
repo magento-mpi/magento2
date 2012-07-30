@@ -26,8 +26,9 @@ class Enterprise2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribut
     }
 
     /**
-     * Verify dropdown system attribute on Manage Options tab: Manage Titles is present, Manage Options are present
-     * and disabled, Delete and Add Option buttons are absent
+     * Verify dropdown system attribute on Manage Options tab:
+     * Manage Titles is present, Manage Options are present and disabled,
+     * Delete and Add Option buttons are absent
      *
      * @param array $attrData
      */
