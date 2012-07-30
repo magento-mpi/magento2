@@ -82,7 +82,8 @@ class Mage_Backend_Model_Acl_Config
             $aclResources = $this->_getReader()->getAclResources();
             $this->_saveAclResourcesToCache($aclResources->saveXML());
         }
-        return $aclResources;
+        $xpath = new DOMXPath($aclResources);
+        return $xpath->query('/config/acl/resources/*');
     }
 
     /**

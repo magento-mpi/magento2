@@ -71,7 +71,16 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetAclResourcesWithEnabledAndCleanedUpCache()
     {
         $originalAclResources = new DOMDocument();
-        $originalAclResources->loadXML('<?xml version="1.0" encoding="utf-8"?><config><acl></acl></config>');
+        $originalAclResources->loadXML(
+            '<?xml version="1.0" encoding="utf-8"?>'
+            . '<config>'
+                . '<acl>'
+                    . '<resources>'
+                        . '<resource id="res"></resource>'
+                    . '</resources>'
+                . '</acl>'
+            . '</config>'
+        );
 
         $this->_configMock->expects($this->once())->method('getModelInstance')
             ->with($this->equalTo('Mage_Backend_Model_Acl_Config_Reader'))
@@ -92,9 +101,9 @@ class Mage_Backend_Model_Acl_ConfigTest extends PHPUnit_Framework_TestCase
 
         $aclResources = $this->_model->getAclResources();
 
-        $this->assertNotEmpty($aclResources);
-
-        $this->assertEquals($originalAclResources, $aclResources);
+        $this->assertInstanceOF('DOMNodeList', $aclResources);
+        $this->assertEquals(1, $aclResources->length);
+        $this->assertEquals('res', $aclResources->item(0)->getAttribute('id'));
     }
 
     public function testGetAclResourcesWithEnabledAndGeneratedCache()

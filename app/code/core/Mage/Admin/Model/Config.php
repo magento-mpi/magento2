@@ -94,18 +94,6 @@ class Mage_Admin_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Load Acl resources from config
-     *
-     * @param Magento_Acl $acl
-     * @param Mage_Core_Model_Config_Element $resource
-     * @param string $parentName
-     * @return Mage_Admin_Model_Config
-     */
-    public function loadAclResources(Magento_Acl $acl, $resource = null, $parentName = null)
-    {
-    }
-
-    /**
      * Retrieve Acl Resource Tree with module and path information
      *
      * @return Varien_Simplexml_Element

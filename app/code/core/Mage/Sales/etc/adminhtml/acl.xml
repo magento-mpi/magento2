@@ -30,7 +30,6 @@
                             <resource id="Mage_Sales::unhold" title="Unhold" />
                             <resource id="Mage_Sales::ship" title="Ship" />
                             <resource id="Mage_Sales::comment" title="Comment" />
-                            <resource id="Mage_Sales::reorder" title="Reorder" />
                             <resource id="Mage_Sales::emails" title="Send Sales Emails" />
                         </resource>
                     </resource>

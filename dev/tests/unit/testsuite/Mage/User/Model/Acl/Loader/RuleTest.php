@@ -45,7 +45,7 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
         $adapterMock->expects($this->once())
             ->method('fetchAll')
             ->will($this->returnValue(array(
-            array('role_id' => 1, 'role_type' => 'G', 'resource_id' => 'all', 'permission' => 'allow'),
+            array('role_id' => 1, 'role_type' => 'G', 'resource_id' => 'Mage_Adminhtml::git all', 'permission' => 'allow'),
             array('role_id' => 2, 'role_type' => 'U', 'resource_id' => 1, 'permission' => 'allow'),
             array('role_id' => 3, 'role_type' => 'U', 'resource_id' => 1, 'permission' => 'deny'),
         )));
@@ -56,7 +56,7 @@ class Mage_User_Model_Acl_Loader_RuleTest extends PHPUnit_Framework_TestCase
 
         $aclMock = $this->getMock('Magento_Acl');
         $aclMock->expects($this->at(0))->method('allow')->with('G1', null, null);
-        $aclMock->expects($this->at(1))->method('allow')->with('G1', 'all', null);
+        $aclMock->expects($this->at(1))->method('allow')->with('G1', 'Mage_Adminhtml::all', null);
         $aclMock->expects($this->at(2))->method('allow')->with('U2', 1, null);
         $aclMock->expects($this->at(3))->method('deny')->with('U3', 1, null);
 

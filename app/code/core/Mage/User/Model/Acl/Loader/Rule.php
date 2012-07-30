@@ -10,7 +10,7 @@
 
 class Mage_User_Model_Acl_Loader_Rule implements Magento_Acl_Loader
 {
-    const ACL_ALL_RULES = 'all';
+    const ACL_ALL_RULES = 'Mage_Adminhtml::all';
 
     /**
      * @var Mage_Core_Model_Resource
