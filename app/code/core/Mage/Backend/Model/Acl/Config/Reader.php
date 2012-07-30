@@ -85,7 +85,7 @@ class Mage_Backend_Model_Acl_Config_Reader extends Magento_Config_XmlAbstract
 
     /**
      * Retrieve ACL resources
-     * @return mixed
+     * @return DOMDocument
      */
     function getAclResources()
     {
