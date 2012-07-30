@@ -13,10 +13,10 @@
 /**
  * Check the possibility to set default value to system attributes with dropdown type
  */
-class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Community2_Mage_ProductAttribute_SystemDefaultValueTest
+class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends
+    Community2_Mage_ProductAttribute_SystemDefaultValueTest
 {
     /**
-     * @codingStandardsIgnoreStart
      * <p>Preconditions:</p>
      * <p>Navigate to System - Manage Attributes.</p>
      */
@@ -26,6 +26,7 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Community
         $this->navigate('manage_attributes');
     }
 
+    // @codingStandardsIgnoreStart
     /**
      * <p>Default value for System attributes</p>
      * <p>Preconditions:</p>
@@ -65,9 +66,9 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest extends Community
      *
      * @test
      * @dataProvider systemAttributeDataProvider
-     * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836
-     * @codingStandardsIgnoreEnd
+     * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836     *
      */
+    // @codingStandardsIgnoreEnd
     public function checkSystemAttributeDefaultValue($attr, $productType, $uimapName)
     {
         parent::checkSystemAttributeDefaultValue($attr, $productType, $uimapName);
