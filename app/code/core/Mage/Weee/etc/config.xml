@@ -138,6 +138,15 @@
                 </observers>
             </adminhtml_catalog_product_edit_element_types>
         </events>
+        <translate>
+            <modules>
+                <Mage_Weee>
+                    <files>
+                        <default>Mage_Weee.csv</default>
+                    </files>
+                </Mage_Weee>
+            </modules>
+        </translate>
     </adminhtml>
     <default>
         <sales>
@@ -173,5 +182,14 @@
                 </weee>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Mage_Weee>
+                    <files>
+                        <default>Mage_Weee.csv</default>
+                    </files>
+                </Mage_Weee>
+            </modules>
+        </translate>
     </frontend>
 </config>

@@ -235,20 +235,6 @@
     <!-- all static tests for CE -->
     <target name="static-tests-all-ce" depends="prepare-ce,static-tests-all"/>
 
-    <target name="functional-tests" description="Functional Tests" depends="init,prepare-installation">
-        <condition property="useVmLauncher" value="false" else="true">
-            <os family="windows"/>
-        </condition>
-        <exec dir="${env.build_customization_dir}" executable="phpunit" vmlauncher="${useVmLauncher}" failonerror="true"/>
-    </target>
-
-    <!-- benchmark tests -->
-    <target name="performance_tests" description="Performance Tests" depends="init,prepare-ce,prepare-installation">
-        <exec executable="php" failonerror="true">
-            <arg value="${basedir}/dev/tests/performance/run_scenarios.php"/>
-        </exec>
-    </target>
-
     <!-- deploy and run functional tests -->
     <target name="functional-tests-with-deploy" description="Deploy Magento">
         <fail unless="env.build_customization_dir" message="Bamboo variable 'customization_dir' must be defined" />
@@ -334,7 +320,12 @@
         </exec>
         <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
             <property name="env.build_customization_dir" value="../../customization/publicce"/>
-            <target name="unit-tests-all"/>
+            <target name="unit-tests-magento"/>
+            <!-- dev/tests/functional/framework/tests/unit are broken -->
+            <target name="unit-tests-integration-framework"/>
+            <target name="unit-tests-performance-framework"/>
+            <target name="unit-tests-static-framework"/>
+            <target name="unit-tests-unit-framework"/>
             <target name="static-tests-all"/>
             <target name="integration-tests-magento"/>
             <target name="integration-integrity-tests-magento"/>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Apache Ant's build file for core development static tests
+ *
+ * {license_notice}
+ *
+ * @category   dev
+ * @package    build
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<project name="Core Development Static Tests" basedir="../../../../" default="_static_tests_all">
+
+    <target name="_static_tests_all" description="All static tests">
+        <exec dir="dev/tests/static" executable="phpunit" failonerror="true">
+            <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
+        </exec>
+    </target>
+    <target name="_license_replacement" description="License notices replacement">
+        <fail unless="product_edition" message="Property 'product_edition' must be defined"/>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/publication/license/license-tool.php --
+                -w ${basedir} -e ${product_edition} -v"/>
+        </exec>
+    </target>
+    <target name="_sanity_check" description="Static sanity check">
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
+                -w ${basedir} -c ${basedir}/dev/build/publication/sanity/ce.xml -v"/>
+        </exec>
+    </target>
+
+    <target name="static_tests_ee" description="Static tests for EE">
+        <antcall target="_static_tests_all"/>
+    </target>
+    <target name="static_tests_ce" description="Static tests for CE">
+        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="community_edition"/>
+        <antcall target="_license_replacement">
+            <param name="product_edition" value="ce"/>
+        </antcall>
+        <antcall target="_static_tests_all"/>
+        <antcall target="_sanity_check"/>
+    </target>
+
+</project>
