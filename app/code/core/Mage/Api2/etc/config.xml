@@ -29,6 +29,11 @@
                     <description>Web Services definition files (api2.xml).</description>
                     <tags>CONFIG_API2</tags>
                 </config_api2>
+                <soap_wsdl translate="label,description" module="Mage_Api2">
+                    <label>SOAP WSDL</label>
+                    <description>WSDL file generated based on config files (wsdl.xml).</description>
+                    <tags>SOAP_WSDL</tags>
+                </soap_wsdl>
             </types>
         </cache>
         <resources>

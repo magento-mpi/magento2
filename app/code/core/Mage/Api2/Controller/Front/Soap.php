@@ -124,6 +124,13 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getWsdlContent()
     {
+        if (Mage::app()->useCache('soap_wsdl')) {
+            $loadedCache = Mage::app()->getCache()->load('SOAP_WSDL');
+            if ($loadedCache) {
+                return $loadedCache;
+            }
+        }
+
         $soapNamespace = 'soap12';
         $wsdlNamespace = 'wsdl';
         $wsdl = new Magento_Soap_Wsdl($this->getResourceConfig()->getDom()->saveXML(), $wsdlNamespace, $soapNamespace);
@@ -145,7 +152,13 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             }
         }
 
-        return $wsdl->getDom()->saveXML();
+        $wsdlContent = $wsdl->getDom()->saveXML();
+        if (Mage::app()->useCache('soap_wsdl')) {
+            Mage::app()->getCache()
+                ->save($wsdlContent, 'SOAP_WSDL');
+        }
+
+        return $wsdlContent;
     }
 
     /**
