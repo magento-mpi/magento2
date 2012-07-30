@@ -17,6 +17,11 @@
  */
 class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Action
 {
+    const ID_MODE = 'id';
+    const PRODUCT_MODE = 'product';
+    const CATEGORY_MODE = 'category';
+    const CMS_PAGE_MODE = 'cms_page';
+
     /**
      * @var Mage_Catalog_Model_Product
      */
@@ -62,58 +67,62 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_urlrewrite');
 
-        /** @var $urlRewrite Mage_Core_Model_Url_Rewrite */
-        $urlRewrite = Mage::getModel('Mage_Core_Model_Url_Rewrite')
-            ->load((int) $this->getRequest()->getParam('id', 0));
+        $mode = $this->_getMode();
 
-        if ($this->_isMode('id')) {
-            $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', array(
-                'url_rewrite' => $urlRewrite
-            ));
-        } elseif ($this->_isMode('product')) {
-            /** @var $cmsPage Mage_Catalog_Model_Product */
-            $product = Mage::getModel('Mage_Catalog_Model_Product')
-                ->load((int) $this->getRequest()->getParam('product', 0));
-
-            /** @var $cmsPage Mage_Catalog_Model_Category */
-            $category = Mage::getModel('Mage_Catalog_Model_Category')
-                ->load((int) $this->getRequest()->getParam('category', 0));
-
-            $editBlock = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit', '', array(
-                'category'         => $category,
-                'product'          => $product,
-                'is_category_mode' => $this->_isMode('category'),
-                'url_rewrite'      => $urlRewrite
-            ));
-        } elseif ($this->_isMode('category')) {
-            /** @var $cmsPage Mage_Catalog_Model_Category */
-            $category = Mage::getModel('Mage_Catalog_Model_Category')
-                ->load((int) $this->getRequest()->getParam('category', 0));
-
-            $editBlock = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array(
-                'category' => $category,
-                'url_rewrite' => $urlRewrite
-            ));
-        } elseif ($this->_isMode('cms_page')) {
-            /** @var $cmsPage Mage_Cms_Model_Page */
-            $cmsPage = Mage::getModel('Mage_Cms_Model_Page')
-                ->load((int) $this->getRequest()->getParam('cms_page', 0));
-
-            $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', array(
-                'cms_page'    => $cmsPage,
-                'url_rewrite' => $urlRewrite
-            ));
-        } else {
-            $editBlock = $this->getLayout()
-                ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array(
-                'url_rewrite' => $urlRewrite
-            ));
+        switch ($mode) {
+            case self::ID_MODE:
+                $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', array(
+                    'url_rewrite' => $this->_getUrlRewrite()
+                ));
+                break;
+            case self::PRODUCT_MODE:
+                $editBlock = $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit', '', array(
+                        'category'         => $this->_getCategory(),
+                        'product'          => $this->_getProduct(),
+                        'is_category_mode' => $this->getRequest()->has('category'),
+                        'url_rewrite'      => $this->_getUrlRewrite()
+                    ));
+                break;
+            case self::CATEGORY_MODE:
+                $editBlock = $this->getLayout()
+                    ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', array(
+                        'category' => $this->_getCategory(),
+                        'url_rewrite' => $this->_getUrlRewrite()
+                    ));
+                break;
+            case self::CMS_PAGE_MODE:
+                $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', array(
+                    'cms_page'    => $this->_getCmsPage(),
+                    'url_rewrite' => $this->_getUrlRewrite()
+                ));
+                break;
         }
+
         $this->_addContent($editBlock);
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         $this->renderLayout();
+    }
+
+    /**
+     * Get current mode
+     *
+     * @return string
+     */
+    private function _getMode()
+    {
+        if ($this->_getProduct()->getId() || $this->getRequest()->has('product')) {
+            $mode = self::PRODUCT_MODE;
+        } elseif ($this->_getCategory()->getId() || $this->getRequest()->has('category')) {
+            $mode = self::CATEGORY_MODE;
+        } elseif ($this->_getCmsPage()->getId() || $this->getRequest()->has('cms_page')) {
+            $mode = self::CMS_PAGE_MODE;
+        } elseif ($this->getRequest()->has('id')) {
+            $mode = self::ID_MODE;
+        } else {
+            $mode = Mage::getBlockSingleton('Mage_Adminhtml_Block_Urlrewrite_Selector')->getDefaultMode();
+        }
+        return $mode;
     }
 
     /**
@@ -396,17 +405,6 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     }
 
     /**
-     * Check whether specified selection mode is set in request
-     *
-     * @param string $mode
-     * @return bool
-     */
-    private function _isMode($mode)
-    {
-        return $this->getRequest()->has($mode);
-    }
-
-    /**
      * Get Category from request
      *
      * @return Mage_Catalog_Model_Category
@@ -415,8 +413,12 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     {
         if (!$this->_category) {
             $this->_category = Mage::getModel('Mage_Catalog_Model_Category');
-
             $categoryId = (int) $this->getRequest()->getParam('category', 0);
+
+            if (!$categoryId && $this->_getUrlRewrite()->getId()) {
+                $categoryId = $this->_getUrlRewrite()->getCategoryId();
+            }
+
             if ($categoryId) {
                 $this->_category->load($categoryId);
             }
@@ -433,8 +435,12 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
     {
         if (!$this->_product) {
             $this->_product = Mage::getModel('Mage_Catalog_Model_Product');
-
             $productId = (int) $this->getRequest()->getParam('product', 0);
+
+            if (!$productId && $this->_getUrlRewrite()->getId()) {
+                $productId = $this->_getUrlRewrite()->getProductId();
+            }
+
             if ($productId) {
                 $this->_product->load($productId);
             }

@@ -70,4 +70,13 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
     {
         return $this->getRequest()->has($mode);
     }
+
+    /**
+     * Get default mode
+     */
+    public function getDefaultMode()
+    {
+        $keys = array_keys($this->_modes);
+        return array_shift($keys);
+    }
 }

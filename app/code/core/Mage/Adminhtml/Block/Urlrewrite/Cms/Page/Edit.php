@@ -27,7 +27,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit extends Mage_Adminhtml_Block
     {
         /** @var $helper Mage_Adminhtml_Helper_Data */
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
-        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for CMS page');
+
+        if ($this->_getUrlRewrite()->getId()) {
+            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit URL Rewrite for CMS page');
+        } else {
+            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for CMS page');
+        }
 
         if ($this->_getCmsPage()->getId()) {
             $this->_addCmsPageLinkBlock();

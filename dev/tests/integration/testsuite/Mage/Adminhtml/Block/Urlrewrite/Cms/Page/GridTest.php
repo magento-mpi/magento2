@@ -36,7 +36,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_GridTest extends PHPUnit_Framewor
             'Grid row URL is invalid');
 
         $this->assertEmpty(0, $gridBlock->getMassactionBlock()->getItems(), 'Grid should not have mass action items');
-        $this->assertEquals(1, $gridBlock->getUseAjax(), '"use_ajax" value of grid is incorrect');
+        $this->assertTrue($gridBlock->getUseAjax(), '"use_ajax" value of grid is incorrect');
     }
 
     /**

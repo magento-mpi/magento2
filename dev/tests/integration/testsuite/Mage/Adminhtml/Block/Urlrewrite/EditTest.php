@@ -15,37 +15,160 @@
 class Mage_Adminhtml_Block_Urlrewrite_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test block prepare layout when CMS page selected
+     * Test prepare layout
+     *
+     * @dataProvider prepareLayoutDataProvider
+     *
+     * @param array $blockAttributes
+     * @param array $expected
      */
-    public function testPrepareLayoutWhenCmsPageSelected()
+    public function testPrepareLayout($blockAttributes, $expected)
     {
         $layout = Mage::app()->getLayout();
 
-        $urlRewrite = new Mage_Core_Model_Url_Rewrite();
-
-
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Edit */
-        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', array(
-            'url_rewrite' => $urlRewrite
-        ));
+        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', $blockAttributes);
+
+        $this->_checkSelector($block, $expected);
+        $this->_checkButtons($block, $expected);
+        $this->_checkForm($block, $expected);
+    }
+
+    /**
+     * Check entity selector
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Edit $block
+     * @param array $expected
+     */
+    private function _checkSelector($block, $expected)
+    {
+        $layout = $block->getLayout();
+
+        if ($expected['selector']) {
+            /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector */
+            $selectorBlock = $layout->getChildBlock($block->getNameInLayout(), 'selector');
+            $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
+                'Child block with entity selector is invalid');
+        } else {
+            $this->assertFalse($layout->getChildBlock($block->getNameInLayout(), 'selector'),
+                'Child block with entity selector should not present in block');
+        }
+    }
+
+    /**
+     * Check form
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Edit $block
+     * @param array $expected
+     */
+    private function _checkForm($block, $expected)
+    {
+        $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        // Check buttons
+        if ($expected['form']) {
+            /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
+            $formBlock = $layout->getChildBlock($blockName, 'form');
+
+            $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', $formBlock,
+                'Child block with form is invalid');
+
+            $this->assertSame($expected['form']['url_rewrite'], $formBlock->getUrlRewrite(),
+                'Form block should have same URL rewrite attribute');
+        } else {
+            $this->assertFalse($layout->getChildBlock($blockName, 'form'),
+                'Child block with form should not present in block');
+        }
+    }
+
+    /**
+     * Check buttons
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Edit $block
+     * @param array $expected
+     */
+    private function _checkButtons($block, $expected)
+    {
         $buttonsHtml = $block->getButtonsHtml();
-        $this->assertSelectCount('button[title="Reset"]', 1, $buttonsHtml,
-            'Back button is not present in block');
 
-        $this->assertSelectCount('button.delete', 1, $buttonsHtml,
-            'Save button is not present in block');
+        if ($expected['back_button']) {
+            $this->assertSelectCount('button.back', 1, $buttonsHtml,
+                'Back button is not present in block');
+        } else {
+            $this->assertSelectCount('button.back', 0, $buttonsHtml,
+                'Back button should not present in block');
+        }
 
-        // Check form
-        /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Edit_Form */
-        $formBlock = $layout->getChildBlock($blockName, 'form');
+        if ($expected['save_button']) {
+            $this->assertSelectCount('button.save', 1, $buttonsHtml,
+                'Save button is not present in block');
+        } else {
+            $this->assertSelectCount('button.save', 0, $buttonsHtml,
+                'Save button should not present in block');
+        }
 
-        $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Edit_Form', $formBlock,
-            'Child block with form is invalid');
+        if ($expected['reset_button']) {
+            $this->assertSelectCount('button[title="Reset"]', 1, $buttonsHtml,
+                'Reset button is not present in block');
+        } else {
+            $this->assertSelectCount('button[title="Reset"]', 0, $buttonsHtml,
+                'Reset button should not present in block');
+        }
 
-        $this->assertSame($urlRewrite, $formBlock->getUrlRewrite(),
-            'Form block should have same URL rewrite attribute');
+        if ($expected['delete_button']) {
+            $this->assertSelectCount('button.delete', 1, $buttonsHtml,
+                'Delete button is not present in block');
+        } else {
+            $this->assertSelectCount('button.delete', 0, $buttonsHtml,
+                'Delete button should not present in block');
+        }
+    }
+
+    /**
+     * Data provider
+     *
+     * @return array
+     */
+    public function prepareLayoutDataProvider()
+    {
+        $urlRewrite = new Mage_Core_Model_Url_Rewrite();
+        $existingUrlRewrite = new Mage_Core_Model_Url_Rewrite(array(
+            'url_rewrite_id' => 1,
+        ));
+
+        return array(
+            // Creating new URL rewrite
+            array(
+                array(
+                    'url_rewrite' => $urlRewrite
+                ),
+                array(
+                    'selector' => true,
+                    'back_button' => true,
+                    'save_button' => true,
+                    'reset_button' => false,
+                    'delete_button' => false,
+                    'form' => array(
+                        'url_rewrite' => $urlRewrite
+                    )
+                )
+            ),
+            // Editing URL rewrite
+            array(
+                array(
+                    'url_rewrite' => $existingUrlRewrite
+                ),
+                array(
+                    'selector' => true,
+                    'back_button' => true,
+                    'save_button' => true,
+                    'reset_button' => true,
+                    'delete_button' => true,
+                    'form' => array(
+                        'url_rewrite' => $existingUrlRewrite
+                    )
+                )
+            )
+        );
     }
 }

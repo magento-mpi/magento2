@@ -12,7 +12,7 @@
  * Block for Catalog Category URL rewrites
  *
  * @method Mage_Catalog_Model_Category getCategory()
- * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Mage_Catalog_Model_Category $product)
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit setCategory(Mage_Catalog_Model_Category $category)
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -28,7 +28,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
         /** @var $helper Mage_Adminhtml_Helper_Data */
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
 
-        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Category');
+        if ($this->_getUrlRewrite()->getId()) {
+            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit URL Rewrite for a Category');
+        } else {
+            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Category');
+        }
 
         if ($this->_getCategory()->getId()) {
             $this->_addCategoryLinkBlock();
@@ -36,10 +40,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
             $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . 'category');
         } else {
             $this->_addUrlRewriteSelectorBlock();
-            $this->setChild(
-                'categories_tree',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree')
-            );
+            $this->_addCategoryTreeBlock();
         }
     }
 
@@ -69,6 +70,17 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit extends Mage_Adminht
                 'item_name' => $this->_getCategory()->getName(),
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Category:')
             ))
+        );
+    }
+
+    /**
+     * Add child category tree block
+     */
+    private function _addCategoryTreeBlock()
+    {
+        $this->setChild(
+            'categories_tree',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree')
         );
     }
 

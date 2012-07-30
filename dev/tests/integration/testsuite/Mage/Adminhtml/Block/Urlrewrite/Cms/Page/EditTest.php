@@ -15,111 +15,256 @@
 class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test block prepare layout when CMS page selected
+     * Test prepare layout
+     *
+     * @dataProvider prepareLayoutDataProvider
+     *
+     * @param array $blockAttributes
+     * @param array $expected
      */
-    public function testPrepareLayoutWhenCmsPageSelected()
+    public function testPrepareLayout($blockAttributes, $expected)
     {
         $layout = Mage::app()->getLayout();
 
-        $urlRewrite = new Mage_Core_Model_Url_Rewrite();
-        $cmsPage = new Mage_Cms_Model_Page();
-        $cmsPage->addData(array(
-            'page_id' => 1,
-            'title' => 'Test CMS Page'
-        ));
-
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */
-        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', array(
-            'cms_page' => $cmsPage,
-            'url_rewrite' => $urlRewrite
-        ));
-        $blockName = $block->getNameInLayout();
+        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', $blockAttributes);
 
-        // Check entity selector
-        $this->assertFalse($layout->getChildBlock($blockName, 'selector'),
-            'Child block with entity selector should not present in block');
-
-        // Check links
-        /** @var $cmsPageLinkBlock Mage_Adminhtml_Block_Urlrewrite_Link */
-        $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
-        $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Link', $cmsPageLinkBlock,
-            'Child block with CMS page link is invalid');
-
-        $this->assertEquals('CMS page:', $cmsPageLinkBlock->getLabel(),
-            'Child block with CMS page has invalid item label');
-
-        $this->assertEquals($cmsPage->getTitle(), $cmsPageLinkBlock->getItemName(),
-            'Child block with CMS page has invalid item name');
-
-        $this->assertRegExp('/http:\/\/localhost\/index.php\/.*\/cms_page/', $cmsPageLinkBlock->getItemUrl(),
-            'Child block with CMS page contains invlalid URL');
-
-        // Check buttons
-        $buttonsHtml = $block->getButtonsHtml();
-        $this->assertSelectCount('button.back[onclick~="\/cms_page"]', 1, $buttonsHtml,
-            'Back button is not present in block');
-
-        $this->assertSelectCount('button.save', 1, $buttonsHtml,
-            'Save button is not present in block');
-
-        // Check form
-        /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
-        $formBlock = $layout->getChildBlock($blockName, 'form');
-
-        $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', $formBlock,
-            'Child block with form is invalid');
-
-        $this->assertSame($cmsPage, $formBlock->getCmsPage(),
-            'Form block should have same CMS page attribute');
-
-        $this->assertSame($urlRewrite, $formBlock->getUrlRewrite(),
-            'Form block should have same URL rewrite attribute');
-
-        // Check grid
-        $this->assertFalse($layout->getChildBlock($blockName, 'cms_pages_grid'),
-            'Child block with CMS pages grid should not present in block');
+        $this->_checkSelector($block, $expected);
+        $this->_checkLinks($block, $expected);
+        $this->_checkButtons($block, $expected);
+        $this->_checkForm($block, $expected);
+        $this->_checkGrid($block, $expected);
     }
 
     /**
-     * Test block prepare layout when CMS page not selected
+     * Check selector
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param array $expected
      */
-    public function testPrepareLayoutWhenCmsPageNotSelected()
+    private function _checkSelector($block, $expected)
     {
-        $layout = Mage::app()->getLayout();
-
-        /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */
-        $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit');
+        $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        // Check entity selector
-        /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector */
-        $selectorBlock = $layout->getChildBlock($blockName, 'selector');
-        $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
-            'Child block with entity selector is invalid');
+        if ($expected['selector']) {
+            /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector */
+            $selectorBlock = $layout->getChildBlock($blockName, 'selector');
+            $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
+                'Child block with entity selector is invalid');
+        } else {
+            $this->assertFalse($layout->getChildBlock($blockName, 'selector'),
+                'Child block with entity selector should not present in block');
+        }
+    }
 
-        // Check links
-        $this->assertFalse($layout->getChildBlock($blockName, 'cms_page_link'),
-            'Child block with CMS page link should not present in block');
+    /**
+     * Check links
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param array $expected
+     */
+    private function _checkLinks($block, $expected)
+    {
+        $layout = $block->getLayout();
+        $blockName = $block->getNameInLayout();
 
-        // Check buttons
+        if ($expected['cms_page_link']) {
+            /** @var $cmsPageLinkBlock Mage_Adminhtml_Block_Urlrewrite_Link */
+            $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
+            $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Link', $cmsPageLinkBlock,
+                'Child block with CMS page link is invalid');
+
+            $this->assertEquals('CMS page:', $cmsPageLinkBlock->getLabel(),
+                'Child block with CMS page has invalid item label');
+
+            $this->assertEquals($expected['cms_page_link']['name'], $cmsPageLinkBlock->getItemName(),
+                'Child block with CMS page has invalid item name');
+
+            $this->assertRegExp('/http:\/\/localhost\/index.php\/.*\/cms_page/', $cmsPageLinkBlock->getItemUrl(),
+                'Child block with CMS page contains invalid URL');
+        } else {
+            $this->assertFalse($layout->getChildBlock($blockName, 'cms_page_link'),
+                'Child block with CMS page link should not present in block');
+        }
+    }
+
+    /**
+     * Check buttons
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param array $expected
+     */
+    private function _checkButtons($block, $expected, $blockAttributes)
+    {
         $buttonsHtml = $block->getButtonsHtml();
-        $this->assertSelectCount('button.back', 1, $buttonsHtml,
-            'Back button is not present in block');
 
-        $this->assertSelectCount('button.back[onclick~="\/cms_page"]', 0, $buttonsHtml,
-            'Back button has invalid URL');
+        if ($expected['back_button']) {
+            if ($blockAttributes['cms_page']) {
+                $this->assertSelectCount('button.back[onclick~="\/cms_page"]', 1, $buttonsHtml,
+                    'Back button is not present in CMS page URL rewrite edit block');
+            } else {
+                $this->assertSelectCount('button.back', 1, $buttonsHtml,
+                    'Back button is not present in CMS page URL rewrite edit block');
+            }
+        } else {
+            $this->assertSelectCount('button.back', 0, $buttonsHtml,
+                'Back button should not present in CMS page URL rewrite edit block');
+        }
 
-        $this->assertSelectCount('button.save', 0, $buttonsHtml,
-            'Save button should not present in block');
+        if ($expected['save_button']) {
+            $this->assertSelectCount('button.save', 1, $buttonsHtml,
+                'Save button is not present in CMS page URL rewrite edit block');
+        } else {
+            $this->assertSelectCount('button.save', 0, $buttonsHtml,
+                'Save button should not present in CMS page URL rewrite edit block');
+        }
 
-        // Check form
-        $this->assertFalse($layout->getChildBlock($blockName, 'form'),
-            'Child block with form should not present in block');
+        if ($expected['reset_button']) {
+            $this->assertSelectCount('button[title="Reset"]', 1, $buttonsHtml,
+                'Reset button is not present in CMS page URL rewrite edit block');
+        } else {
+            $this->assertSelectCount('button[title="Reset"]', 0, $buttonsHtml,
+                'Reset button should not present in CMS page URL rewrite edit block');
+        }
 
-        // Check grid
-        /** @var $gridBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid */
-        $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
-        $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid', $gridBlock,
-            'Child block with CMS pages grid is invalid');
+        if ($expected['delete_button']) {
+            $this->assertSelectCount('button.delete', 1, $buttonsHtml,
+                'Delete button is not present in CMS page URL rewrite edit block');
+        } else {
+            $this->assertSelectCount('button.delete', 0, $buttonsHtml,
+                'Delete button should not present in CMS page URL rewrite edit block');
+        }
+    }
+
+    /**
+     * Check form
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param array $expected
+     */
+    private function _checkForm($block, $expected)
+    {
+        $layout = $block->getLayout();
+        $blockName = $block->getNameInLayout();
+
+        if ($expected['form']) {
+            /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
+            $formBlock = $layout->getChildBlock($blockName, 'form');
+
+            $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', $formBlock,
+                'Child block with form is invalid');
+
+            $this->assertSame($expected['form']['cms_page'], $formBlock->getCmsPage(),
+                'Form block should have same CMS page attribute');
+
+            $this->assertSame($expected['form']['url_rewrite'], $formBlock->getUrlRewrite(),
+                'Form block should have same URL rewrite attribute');
+        } else {
+            $this->assertFalse($layout->getChildBlock($blockName, 'form'),
+                'Child block with form should not present in block');
+        }
+    }
+
+    /**
+     * Check grid
+     *
+     * @param Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
+     * @param array $expected
+     */
+    private function _checkGrid($block, $expected)
+    {
+        $layout = $block->getLayout();
+        $blockName = $block->getNameInLayout();
+
+        if ($expected['cms_pages_grid']) {
+            /** @var $gridBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid */
+            $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
+            $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid', $gridBlock,
+                'Child block with CMS pages grid is invalid');
+        } else {
+            $this->assertFalse($layout->getChildBlock($blockName, 'cms_pages_grid'),
+                'Child block with CMS pages grid should not present in block');
+        }
+    }
+
+    /**
+     * Data provider
+     *
+     * @return array
+     */
+    public function prepareLayoutDataProvider()
+    {
+        $urlRewrite = new Mage_Core_Model_Url_Rewrite();
+        $cmsPage = new Mage_Cms_Model_Page(array(
+            'page_id' => 1,
+            'title' => 'Test CMS Page'
+        ));
+        $existingUrlRewrite = new Mage_Core_Model_Url_Rewrite(array(
+            'url_rewrite_id' => 1,
+        ));
+
+        return array(
+            // Creating URL rewrite when CMS page selected
+            array(
+                array(
+                    'cms_page' => $cmsPage,
+                    'url_rewrite' => $urlRewrite
+                ),
+                array(
+                    'selector' => false,
+                    'cms_page_link' => array(
+                        'name' => $cmsPage->getTitle()
+                    ),
+                    'back_button' => true,
+                    'save_button' => true,
+                    'reset_button' => false,
+                    'delete_button' => false,
+                    'form' => array(
+                        'cms_page' => $cmsPage,
+                        'url_rewrite' => $urlRewrite
+                    ),
+                    'cms_pages_grid' => false
+                )
+            ),
+            // Creating URL rewrite when CMS page not selected
+            array(
+                array(
+                    'url_rewrite' => $urlRewrite
+                ),
+                array(
+                    'selector' => true,
+                    'cms_page_link' => false,
+                    'back_button' => true,
+                    'save_button' => false,
+                    'reset_button' => false,
+                    'delete_button' => false,
+                    'form' => false,
+                    'cms_pages_grid' => true
+                )
+            ),
+            // Editing existing URL rewrite with CMS page
+            array(
+                array(
+                    'url_rewrite' => $existingUrlRewrite,
+                    'cms_page' => $cmsPage
+                ),
+                array(
+                    'selector' => false,
+                    'cms_page_link' => array(
+                        'name' => $cmsPage->getTitle(),
+                    ),
+                    'back_button' => true,
+                    'save_button' => true,
+                    'reset_button' => true,
+                    'delete_button' => true,
+                    'form' => array(
+                        'cms_page' => $cmsPage,
+                        'url_rewrite' => $existingUrlRewrite
+                    ),
+                    'cms_pages_grid' => false
+                )
+            ),
+        );
     }
 }

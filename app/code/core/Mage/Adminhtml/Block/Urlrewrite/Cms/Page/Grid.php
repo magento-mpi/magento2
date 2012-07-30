@@ -44,35 +44,34 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid extends Mage_Adminhtml_Block
     protected function _prepareColumns()
     {
         $this->addColumn('title', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
-            'align'     => 'left',
-            'index'     => 'title',
+            'header' => Mage::helper('Mage_Cms_Helper_Data')->__('Title'),
+            'align'  => 'left',
+            'index'  => 'title',
         ));
 
         $this->addColumn('identifier', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
-            'align'     => 'left',
-            'index'     => 'identifier'
+            'header' => Mage::helper('Mage_Cms_Helper_Data')->__('URL Key'),
+            'align'  => 'left',
+            'index'  => 'identifier'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'        => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
-                'index'         => 'store_id',
-                'type'          => 'store',
-                'store_all'     => true,
-                'store_view'    => true,
-                'sortable'      => false,
-                'filter_condition_callback'
-                                => array($this, '_filterStoreCondition'),
+                'header'                    => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
+                'index'                     => 'store_id',
+                'type'                      => 'store',
+                'store_all'                 => true,
+                'store_view'                => true,
+                'sortable'                  => false,
+                'filter_condition_callback' => array($this, '_filterStoreCondition'),
             ));
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
-            'index'     => 'is_active',
-            'type'      => 'options',
-            'options'   => Mage::getSingleton('Mage_Cms_Model_Page')->getAvailableStatuses()
+            'header'  => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'index'   => 'is_active',
+            'type'    => 'options',
+            'options' => Mage::getSingleton('Mage_Cms_Model_Page')->getAvailableStatuses()
         ));
 
         return $this;

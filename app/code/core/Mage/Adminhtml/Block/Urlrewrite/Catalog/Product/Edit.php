@@ -12,7 +12,7 @@
  * Block for Catalog Category URL rewrites editing
  *
  * @method Mage_Catalog_Model_Category getCategory()
- * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Mage_Catalog_Model_Category $product)
+ * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setCategory(Mage_Catalog_Model_Category $category)
  * @method Mage_Catalog_Model_Product getProduct()
  * @method Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit setProduct(Mage_Catalog_Model_Product $product)
  * @method bool getIsCategoryMode()
@@ -31,7 +31,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
         /** @var $helper Mage_Adminhtml_Helper_Data */
         $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
 
-        $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Product');
+        if ($this->_getUrlRewrite()->getId()) {
+            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit URL Rewrite for a Product');
+        } else {
+            $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add URL Rewrite for a Product');
+        }
 
         if ($this->_getProduct()->getId()) {
             $this->_addProductLinkBlock($this->_getProduct());
@@ -75,7 +79,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit extends Mage_Adminhtm
     /**
      * Get or create new instance of category
      *
-     * @return Mage_Catalog_Model_Product
+     * @return Mage_Catalog_Model_Category
      */
     private function _getCategory()
     {
