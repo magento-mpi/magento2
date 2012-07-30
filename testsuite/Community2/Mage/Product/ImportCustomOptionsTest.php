@@ -214,8 +214,8 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
-        $customOptionsData ['custom_options_field_1'] = $simpleField['custom_options_data']['custom_options_field'];
-        $customOptionsData ['custom_options_field_2'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData['custom_options_field_1'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData['custom_options_field_2'] = $simpleField['custom_options_data']['custom_options_field'];
         $this->productHelper()->verifyCustomOption($customOptionsData);
     }
 
@@ -277,8 +277,8 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_sku']));
         //Verifying
-        $customOptionsData ['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
-        $customOptionsData ['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
+        $customOptionsData['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
         $this->productHelper()->verifyCustomOption($customOptionsData);
     }
 
@@ -386,8 +386,8 @@ class Community2_Mage_Product_ImportCustomOptionsTest extends Mage_Selenium_Test
         $this->saveForm('save');
         $this->productHelper()->openProduct(array('product_sku' => $simpleField['general_sku']));
         //Verifying
-        $customOptionsData ['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
-        $customOptionsData ['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
+        $customOptionsData['custom_options_field'] = $simpleField['custom_options_data']['custom_options_field'];
+        $customOptionsData['custom_options_date'] = $simpleDate['custom_options_data']['custom_options_date'];
         $this->productHelper()->verifyCustomOption($customOptionsData);
     }
 }

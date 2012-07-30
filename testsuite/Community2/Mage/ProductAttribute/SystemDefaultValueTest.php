@@ -71,17 +71,17 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
     public function checkSystemAttributeDefaultValue($attr, $productType, $uimapName)
     {
         //Data
-        $attrData = $this->loadDataSet('SystemAttributes', $attr);
+        $attributeData = $this->loadDataSet('SystemAttributes', $attr);
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
         if (array_key_exists($uimapName, $productData)) {
             unset($productData[$uimapName]);
         }
         //Steps
-        $this->searchAndOpen(array('attribute_code' => $attrData['attribute_code']));
+        $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
         //Verifying
-        $this->productAttributeHelper()->verifySystemAttribute($attrData);
+        $this->productAttributeHelper()->verifySystemAttribute($attributeData);
         //Steps
-        $this->productAttributeHelper()->setDefaultAttributeValue($attrData);
+        $this->productAttributeHelper()->setDefaultAttributeValue($attributeData);
         $this->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -93,11 +93,11 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
         //Verifying
         if ($attr == 'custom_design') {
             $this->openTab('design');
-            $this->assertEquals(strtolower(str_replace(' ', '', $attrData['default_value'])),
+            $this->assertEquals(strtolower(str_replace(' ', '', $attributeData['default_value'])),
                 $this->getValue($this->_getControlXpath('dropdown', $uimapName) . "//option[@selected='selected']"),
                 "Incorrect default value for custom design attribute.");
         } else {
-            $productData[$uimapName] = $attrData['default_value'];
+            $productData[$uimapName] = $attributeData['default_value'];
         }
         $this->productHelper()->verifyProductInfo($productData, array('product_attribute_set'));
     }
@@ -109,18 +109,19 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
      */
     public function systemAttributeDataProvider()
     {
-        return array(//array('country_of_manufacture', 'simple', 'general_country_manufacture'),
-                     array('custom_design', 'simple', 'design_custom_design'),
-                     array('enable_googlecheckout', 'simple', 'prices_enable_googlecheckout'),
-                     array('gift_message_available', 'simple', 'gift_options_allow_gift_message'),
-                     array('is_recurring', 'simple', 'recurring_profile_enable_recurring_profile'),
-                     array('msrp_enabled', 'simple', 'prices_apply_map'),
-                     array('msrp_display_actual_price_type', 'simple', 'prices_display_actual_price'),
-                     array('options_container', 'simple', 'design_display_product_options_in'),
-                     array('page_layout', 'simple', 'design_page_layout'),
-                     array('price_view', 'bundle', 'prices_price_view_bundle'),
-                     array('status', 'simple', 'general_status'),
-                     array('tax_class_id', 'simple', 'prices_tax_class'),
-                     array('visibility', 'simple', 'general_visibility'));
+        return array(
+            array('country_of_manufacture', 'simple', 'general_country_manufacture'),
+            array('custom_design', 'simple', 'design_custom_design'),
+            array('enable_googlecheckout', 'simple', 'prices_enable_googlecheckout'),
+            array('gift_message_available', 'simple', 'gift_options_allow_gift_message'),
+            array('is_recurring', 'simple', 'recurring_profile_enable_recurring_profile'),
+            array('msrp_enabled', 'simple', 'prices_apply_map'),
+            array('msrp_display_actual_price_type', 'simple', 'prices_display_actual_price'),
+            array('options_container', 'simple', 'design_display_product_options_in'),
+            array('page_layout', 'simple', 'design_page_layout'),
+            array('price_view', 'bundle', 'prices_price_view_bundle'),
+            array('status', 'simple', 'general_status'),
+            array('tax_class_id', 'simple', 'prices_tax_class'),
+            array('visibility', 'simple', 'general_visibility'));
     }
 }
