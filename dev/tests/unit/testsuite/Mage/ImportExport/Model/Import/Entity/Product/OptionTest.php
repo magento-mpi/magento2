@@ -94,14 +94,13 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
         2 => array(
             'option_id'  => 1,
             'store_id'   => 0,
-            'price'      => 1,
-            'price_type' => 'fixed',
+            'price_type' => 'fixed'
         ),
         3 => array(
             'option_id'  => 3,
             'store_id'   => 0,
-            'price'      => 2,
             'price_type' => 'fixed',
+            'price'      => 2
         ),
     );
 
@@ -575,7 +574,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 break;
             case $this->_tables['catalog_product_option_price']:
                 $this->assertEquals($this->_expectedPrices, $data);
-                $this->assertEquals(array('price', 'price_type'), $fields);
                 break;
             case $this->_tables['catalog_product_option_type_price']:
                 $this->assertEquals($this->_expectedTypePrices, $data);
@@ -690,7 +688,6 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      *
      * @param array $rowData
      * @param array $errors
-     * @param null $behavior
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateRow
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_isRowWithCustomOption
@@ -719,7 +716,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @param array $rowData
      * @param array $errors
      * @param string|null $behavior
-     * @param int $validationNumber
+     * @param int $numberOfValidations
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::validateAmbiguousData
      * @covers Mage_ImportExport_Model_Import_Entity_Product_Option::_findNewOptionsWithTheSameTitles

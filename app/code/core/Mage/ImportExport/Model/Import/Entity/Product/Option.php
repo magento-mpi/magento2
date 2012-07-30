@@ -1258,11 +1258,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         $priceData = array(
             'option_id'  => $optionId,
             'store_id'   => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
-            'price'      => 0,
             'price_type' => 'fixed'
         );
 
-        if (in_array('price', $this->_specificTypes[$type]) && isset($rowData[self::COLUMN_PREFIX . 'price'])) {
+        if (in_array('price', $this->_specificTypes[$type]) && isset($rowData[self::COLUMN_PREFIX . 'price'])
+            && strlen($rowData[self::COLUMN_PREFIX . 'price']) > 0) {
             $data = $rowData[self::COLUMN_PREFIX . 'price'];
 
             if ('%' == substr($data, -1)) {
@@ -1391,10 +1391,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected function _savePrices(array $prices)
     {
         if ($prices) {
-            $this->_connection->insertOnDuplicate($this->_tables['catalog_product_option_price'],
-                $prices,
-                array('price', 'price_type')
-            );
+            $this->_connection->insertOnDuplicate($this->_tables['catalog_product_option_price'], $prices);
         }
 
         return $this;
