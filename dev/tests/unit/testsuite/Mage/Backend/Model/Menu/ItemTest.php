@@ -103,12 +103,6 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         new Mage_Backend_Model_Menu_Item($this->_params);
     }
 
-    public function testGetFullPathReturnsPathWithItemId()
-    {
-        $item = new Mage_Backend_Model_Menu_Item($this->_params);
-        $this->assertEquals('item', $item->getFullPath());
-    }
-
     public function testGetUrlWithEmptyActionReturnsHashSign()
     {
         $this->_params['action'] = '';
@@ -254,29 +248,13 @@ class Mage_Backend_Model_Menu_ItemTest extends PHPUnit_Framework_TestCase
         $this->_menuFactoryMock->expects($this->once())
             ->method('getMenuInstance')
             ->with(
-                array('path' => 'item')
+                array()
             )
             ->will($this->returnValue($menuMock));
 
         $item = new Mage_Backend_Model_Menu_Item($this->_params);
         $item->getChildren();
         $item->getChildren();
-    }
-
-    public function testSetParentUpdatesAllChildren()
-    {
-        $menuMock = $this->getMock('Mage_Backend_Model_Menu', array(), array(), '', false);
-        $menuMock->expects($this->once())
-            ->method('setPath')
-            ->with($this->equalTo('root/item'));
-
-        $this->_menuFactoryMock->expects($this->once())
-            ->method('getMenuInstance')
-            ->will($this->returnValue($menuMock));
-
-        $item = new Mage_Backend_Model_Menu_Item($this->_params);
-        $item->getChildren();
-        $item->setPath('root/');
     }
 }
 
