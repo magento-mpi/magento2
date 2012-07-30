@@ -45,6 +45,15 @@
                 </find_feed>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Find_Feed>
+                    <files>
+                        <default>Find_Feed.csv</default>
+                    </files>
+                </Find_Feed>
+            </modules>
+        </translate>
     </adminhtml>
     <crontab>
         <jobs>
