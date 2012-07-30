@@ -63,8 +63,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_FinancesTest extends Mage_Se
     {
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Finances'));
+                'entity_type' => 'Customer Finances'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         $this->importExportScheduledHelper()->applyAction(
@@ -107,8 +106,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_FinancesTest extends Mage_Se
     {
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Finances',
+                'entity_type' => 'Customer Finances',
                 'filters' => array('email' => $customerData['customer']['email'])));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');

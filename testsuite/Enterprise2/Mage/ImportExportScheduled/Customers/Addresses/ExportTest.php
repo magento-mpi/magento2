@@ -58,8 +58,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_S
     {
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Addresses'));
+                'entity_type' => 'Customer Addresses'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         $this->importExportScheduledHelper()->applyAction(
@@ -102,8 +101,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_S
     {
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Addresses',
+                'entity_type' => 'Customer Addresses',
                 'filters' => array('email' => $customerData['customer']['email'])));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');

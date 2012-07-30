@@ -52,8 +52,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_CustomerTest extends Mage_Se
     {
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         $this->importExportScheduledHelper()->applyAction(
@@ -96,8 +95,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_CustomerTest extends Mage_Se
     {
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customers Main File',
+                'entity_type' => 'Customers Main File',
                 'filters' => array('email' => $customerData['email']),
                 'skipped' => array('attribute_1' => array('attribute_code' => 'created_at'))));
         $this->importExportScheduledHelper()->createExport($exportData);

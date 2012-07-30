@@ -32,15 +32,13 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * <p>Adding new Scheduled Export</p>
      * <p>Steps:</p>
      * <p>1. Press "Add Scheduled Export" button in System > Import/Export > Scheduled Import/Export.</p>
-     * <p>2. Select entity type "Customers"</p>
-     * <p>3. Select "Magento 2.0" export format</p>
-     * <p>4. Select "Customers Main File" type</p>
-     * <p>5. Fill all other fields</p>
-     * <p>6. Click "Reset" button</p>
-     * <p>7. Repeat steps 2-5</p>
-     * <p>8. Click "Back" button</p>
-     * <p>9. Repeat steps 1-5</p>
-     * <p>10. Press "Save" button</p>
+     * <p>2. Select entity type "Customers Main File"</p>
+     * <p>3. Fill all other fields</p>
+     * <p>4. Click "Reset" button</p>
+     * <p>5. Repeat steps 2-5</p>
+     * <p>6. Click "Back" button</p>
+     * <p>7. Repeat steps 1-5</p>
+     * <p>8. Press "Save" button</p>
      * <p>Result1: After step 6 the creation form should be cleared</p>
      * <p>Result2: After step 8 the grid "Scheduled Import/Export" is opened, new export isn't created</p>
      * <p>Result3: After step 10 the grid "Scheduled Import/Export" is opened, new export is created</p>
@@ -56,17 +54,13 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
         // Verify
         $this->assertTrue($this->checkCurrentPage('scheduled_importexport_add'));
         // Step 2
-        $this->fillDropdown('entity_type', 'Customers');
+        $this->fillDropdown('entity_type', 'Customers Main File');
         // Step 3
-        $this->fillDropdown('file_format_version', 'Magento 2.0 format');
-        // Step 4
-        $this->fillDropdown('entity_subtype', 'Customers Main File');
-        // Step 5
         $this->fillField('name', 'test_name_export');
         $this->fillField('description', 'test_description_export');
         $this->fillDropdown('server_type', 'Local Server');
         $this->fillField('file_path', 'var/export');
-        // Step 6
+        // Step 4
         $this->clickButton('reset');
         // Result
         $this->assertTrue($this->checkCurrentPage('scheduled_importexport_add'));
@@ -78,28 +72,20 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
             'file_path' => '',
         );
         $this->verifyForm($emptyExportData);
-        $this->assertFalse($this->controlIsVisible('dropdown', 'file_format_version'), '"File Format Version" is present on the page');
-        $this->assertFalse($this->controlIsVisible('dropdown', 'entity_subtype'), '"Entity Subtype" is present on the page');
 
-        // Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        // Step 3
-        $this->fillDropdown('file_format_version', 'Magento 2.0 format');
-        // Step 4
-        $this->fillDropdown('entity_subtype', 'Customer Addresses');
         // Step 5
+        $this->fillDropdown('entity_type', 'Customer Addresses');
         $this->fillField('name', 'test_name_export');
         $this->fillField('description', 'test_description_export');
         $this->fillDropdown('server_type', 'Local Server');
         $this->fillField('file_path', 'var/export');
-        // Step 8
+        // Step 6
         $this->clickButton('back');
         $this->assertTrue($this->checkCurrentPage('scheduled_import_export'), 'The grid is not appeared');
         // Step 1, 2, 3, 4 ,5
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Finances'));
+                'entity_type' => 'Customer Finances'));
         $this->importExportScheduledHelper()->createExport($exportData);
         // Step 10
         $this->assertMessagePresent('success', 'success_saved_export');
@@ -117,16 +103,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * <p>The Scheduled export for new export format with entity subtype "Customers Main File" exists</p>
      * <p>Steps: </p>
      * <p>1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.</p>
-     * <p>2. Select entity type "Customers"</p>
-     * <p>3. Select "Magento 2.0" export format</p>
-     * <p>4. Select "Customer Addresses" type</p>
-     * <p>5. Edit info in all others fields all other fields</p>
-     * <p>6. Click "Save" button</p>
-     * <p>7. Open this export</p>
+     * <p>2. Select "Customer Addresses" type, edit info in all others fields all other fields</p>
+     * <p>3. Click "Save" button</p>
+     * <p>4. Open this export</p>
      * <p> Result: The  changed info is saved
-     * <p>8.Select "Customer Finances" entity subtype</p>
-     * <p>9. Edit info in all others fields again</p>
-     * <p>10. Press "Save" button</p>
+     * <p>5.Select "Customer Finances" entity subtype, edit info in all others fields again</p>
+     * <p>6. Press "Save" button</p>
      * <p>Result: The changes should be applied</p>
      * @test
      * @TestlinkId TL-MAGE-5770
@@ -136,8 +118,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         //Step 1
@@ -148,40 +129,37 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
             )
         );
         // Step 2
-        $this->fillDropdown('entity_type', 'Customers');
         $this->fillField('name', 'Edit_Export_Name_1078769789');
         $this->fillField('description', 'Edit_Export_Description');
-        $this->fillDropdown('entity_subtype', 'Customer Addresses');
+        $this->fillDropdown('entity_type', 'Customer Addresses');
         $this->fillDropdown('frequency', 'Monthly');
         $this->fillField('file_path', 'test/directory');
         // Step 3
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_export');
-        // Verifying
+        // Step 4
         $this->importExportScheduledHelper()->openImportExport(
             array(
                 'name' => 'Edit_Export_Name_1078769789',
                 'operation' => 'Export',
             )
         );
+        // Verifying
         $updateExportData = array(
             'name' => 'Edit_Export_Name_1078769789',
             'description' => 'Edit_Export_Description',
-            'entity_type' => 'Customers',
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customer Addresses',
+            'entity_type' => 'Customer Addresses',
             'frequency' => 'Monthly',
             'file_path' => 'test/directory'
         );
         $this->verifyForm($updateExportData);
-        // Step2
-        $this->fillDropdown('entity_type', 'Customers');
+        // Step 5
         $this->fillField('name', 'Edit_Export_Name_again');
         $this->fillField('description', 'Edit_Export_Description_again');
-        $this->fillDropdown('entity_subtype', 'Customer Finances');
+        $this->fillDropdown('entity_type', 'Customer Finances');
         $this->fillDropdown('frequency', 'Weekly');
         $this->fillField('file_path', 'test/directory/again');
-        // Step 3
+        // Step 6
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Verifying
@@ -194,9 +172,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
         $updateExportData = array(
             'name' => 'Edit_Export_Name_again',
             'description' => 'Edit_Export_Description_again',
-            'entity_type' => 'Customers',
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customer Finances',
+            'entity_type' => 'Customer Finances',
             'frequency' => 'Weekly',
             'file_path' => 'test/directory/again'
         );
@@ -207,7 +183,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
      * <p>Editing new Scheduled Export</p>
      * <p>Preconditions:</p>
      * <p>The Scheduled export for new export format with entity subtype "Customers Main File" exists</p>
-     * <p>Steps: </p>
+     * <p>Steps:</p>
      * <p>1. Search export from precondition in System > Import/Export > Scheduled Import/Export.</p>
      * <p>2. In column "Action"  select "Edit"</p>
      * <p> Result: The  edit page of export from precondition is opened</p>
@@ -219,8 +195,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 1, 2
@@ -253,8 +228,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
         // Precondition
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customers Main File'));
+                'entity_type' => 'Customers Main File'));
         $this->importExportScheduledHelper()->createExport($exportData);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Step 1, 2

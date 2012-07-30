@@ -56,52 +56,18 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
     /**
      * <p> Running Scheduled Export </p>
      * <p> Precondition: </p>
-     * <p> 1. Two Old Scheduled Exports for customers and for products are created </p>
+     * <p> Scheduled Export for products is created </p>
      * <p> Steps: </p>
-     * <p> 1. In System->Import/Export->Scheduled Import Export select export for customers </p>
+     * <p> 1. In System->Import/Export->Scheduled Import Export select export for products </p>
      * <p> 2. Select "Run" in "Action" column </p>
      * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
-     * <p> 3. In System->Import/Export->Scheduled Import Export select export for products </p>
-     * <p> 4. Select "Run" in "Action" column </p>
-     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared</p>
+     *
      * @test
      * TL-MAGE-1499
      */
     public function simpleScheduledExport()
     {
-        // Export Customer
-        $this->navigate('scheduled_import_export');
-        $exportDataCustomers = $this->loadDataSet('ImportExportScheduled','scheduled_export');
-        $this->importExportScheduledHelper()->createExport($exportDataCustomers);
-        $this->assertMessagePresent('success', 'success_saved_export');
-        // Run export
-        $this->navigate('scheduled_import_export');
-        $this->importExportScheduledHelper()->applyAction(
-            array(
-                'name' => $exportDataCustomers['name'],
-                'operation' => 'Export'
-            )
-        );
-        //Verifying
-        $this->assertEquals('Successful',
-            $this->importExportScheduledHelper()->getLastOutcome(
-                array(
-                    'name' => $exportDataCustomers['name'],
-                    'operation' => 'Export'
-                )
-            ),'Error is occurred');
-        $this->assertMessagePresent('success', 'success_run');
-        //get file
-        $exportDataCustomers['file_name'] = $this->importExportScheduledHelper()->
-            getFilePrefix(
-            array(
-                'name' => $exportDataCustomers['name'],
-                'operation' => 'Export'
-            )
-        );
-        $exportDataCustomers['file_name'] .= 'export_customer.csv';
-        $csv['customers'] = $this->importExportScheduledHelper()->getCsvFromFtp($exportDataCustomers);
-        // Export Product
+        // Precondition
         $exportDataProducts = $this->loadDataSet('ImportExportScheduled','scheduled_export',
             array(
                 'entity_type' => 'Products'
@@ -134,7 +100,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
             )
         );
         $exportDataProducts['file_name'] .= 'export_catalog_product.csv';
-        $csv['products'] = $this->importExportScheduledHelper()->getCsvFromFtp($exportDataProducts);
+        $csv = $this->importExportScheduledHelper()->getCsvFromFtp($exportDataProducts);
         return $csv;
 
     }
@@ -149,15 +115,18 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
      * <p> 3. In System > Import/Export > Scheduled Import/Export select import for products </p>
      * <p> in "Action" column select "Run" </p>
      * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
+     *
+     * @dataProvider simpleScheduledImportData
      * @depends simpleScheduledExport
      * @test
      * TL-MAGE-1528
      */
-    public function simpleScheduledImport($csv)
+    public function simpleScheduledImport($customersCsv, $productsCsv)
     {
         // Import Customer
         $importDataCustomers = $this->loadDataSet('ImportExportScheduled','scheduled_import',
             array('file_format_version' => 'Magento 1.7 format',
+                'entity_type' => 'Customers Main File',
                 'behavior'  => 'Append Complex Data'));
         $importDataCustomers['file_name'] = date('Y-m-d_H-i-s_') . 'export_customer.csv';
         $this->importExportScheduledHelper()->createImport($importDataCustomers);
@@ -170,7 +139,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
             )
         ),'Error is occurred');
         //upload file to ftp
-        $this->importExportScheduledHelper()->putCsvToFtp($importDataCustomers, $csv['customers']);
+        $this->importExportScheduledHelper()->putCsvToFtp($importDataCustomers, $customersCsv);
         $this->importExportScheduledHelper()->applyAction(
             array(
                 'name' => $importDataCustomers['name'],
@@ -203,7 +172,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                 )
             ),'Error is occurred');
         //upload file to ftp
-        $this->importExportScheduledHelper()->putCsvToFtp($importDataProducts, $csv['products']);
+        $this->importExportScheduledHelper()->putCsvToFtp($importDataProducts, $productsCsv);
         $this->importExportScheduledHelper()->applyAction(
             array(
                 'name' => $importDataProducts['name'],
@@ -219,5 +188,25 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                 )
             ),'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
+    }
+
+    public function simpleScheduledImportData()
+    {
+        $customerCsvFile = $this->loadDataSet('ImportExport', 'generic_customer_csv');
+        $customerCsvFile['_address_city'] = 'Kingsport';
+        $customerCsvFile['_address_company'] = 'Weingarten\'s';
+        $customerCsvFile['_address_country_id'] = 'US';
+        $customerCsvFile['_address_fax'] = '423-389-1069';
+        $customerCsvFile['_address_firstname'] = 'Linda';
+        $customerCsvFile['_address_lastname'] = 'Gilbert';
+        $customerCsvFile['_address_middlename'] = 'S.';
+        $customerCsvFile['_address_postcode'] = '37663';
+        $customerCsvFile['_address_region'] = 'Tennessee';
+        $customerCsvFile['_address_street'] = '1596 Public Works Drive';
+        $customerCsvFile['_address_telephone'] = '423-389-1069';
+
+        return array(
+            array(array($customerCsvFile)),
+        );
     }
 }

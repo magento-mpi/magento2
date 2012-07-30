@@ -66,8 +66,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         // Step 1
         $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Finances',
+                'entity_type' => 'Customer Finances',
                 'status' => 'Disabled'
             ));
         $this->importExportScheduledHelper()->createExport($exportData);
@@ -128,8 +127,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         $this->admin('scheduled_import_export');
         $exportData1 = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Finances',
+                'entity_type' => 'Customer Finances',
                 'status' => 'Disabled'
             ));
         $this->importExportScheduledHelper()->createExport($exportData1);
@@ -193,16 +191,16 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     /**
      * <p>Scheduled Export statuses</p>
      * <p> Create Product Export in System-> Import/Export-> Scheduled Import/Export</p>
-     * <p> Create old Customer Export with keyword 'test' in the name</p>
-     * <p> Create New Customer Export with keyword 'test' in the name</p>
-     * <p> Create yet another New Customer Export with keyword 'test' in the name</p>
-     * <p> Create yet another New Customer Export with another name</p>
+     * <p> Create Customer Export with keyword 'test' in the name</p>
+     * <p> Create another New Customer Export with keyword 'test' in the name</p>
+     * <p> Create another New Customer Export with another name</p>
      * <p> All Exports have different 'entity subtype', 'status', 'frequency','last run date'</p>
      * <p> Steps: </p>
      * <p>1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'</p>
      * <p> Result: Only 'product Exports' should be displayed in the grid</p>
-     * <p>2. in filter 'Entity Type' select 'Customers' and press 'Search'</p>
+     * <p>2. in filter 'Entity Type' select Customers Main File entity type and press 'Search'</p>
      * <p>Result: Only 'customer Exports' should be displayed in the grid</p>
+     * <p>Repeat step 2 for Customer Addresses and Customer Finances entity types</p>
      * <p>3. Select 'Daily' frequency and press 'Search'</p>
      * <p> Result: Only the Exports with frequency 'Daily' are displayed in the grid</p>
      * <p>4. Select 'Weekly' frequency and press 'Search'</p>
@@ -219,15 +217,9 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
      * <p>Result: Only Successful Exports  are displayed in the grid</p>
      * <p>10. In the filter 'Last Outcome' select 'Failed' and press 'Search'</p>
      * <p>Result: Only Failed Exports  are displayed in the grid</p></p>
-     * <p>11. In grid select 'entity subtype' 'Customers Main File'</p>
-     * <p>Result:Only the Exports with subtype 'Customers Main File' are displayed in the grid</p>
-     * <p>12. In grid select 'entity subtype' 'Customer Addresses'</p>
-     * <p>Result: Only the Exports with subtype 'Customer Addresses' are displayed in the grid</p>
-     * <p>13. In grid select 'entity subtype' 'Customer Finances'</p>
-     * <p>Result: Only the Exports with subtype 'Customer Finances' are displayed in the grid</p>
-     * <p>14. Enter in the grid proper date to the fields 'From' and 'To'</p>
+     * <p>11. Enter in the grid proper date to the fields 'From' and 'To'</p>
      * <p>Result: Only Exports with this last run date  are displayed in the grid</p>
-     * <p>15. In grid in the field 'Name' enter 'test' and press 'Search' button</p>
+     * <p>12. In grid in the field 'Name' enter 'test' and press 'Search' button</p>
      * <p>Result: Only Exports which have the key 'test' in the name are displayed in the grid </p>
      * @test
      *
@@ -236,110 +228,139 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     public function scheduledExportSearchByFilter()
     {
         //Preconditions:
-        // Create old product export
-        $exportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+        // Create product export
+        $exportDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
                 'entity_type' => 'Products',
                 'status' => 'Disabled',
                 'frequency' => 'Weekly',
             ));
-        $this->importExportScheduledHelper()->createExport($exportData);
+        $this->importExportScheduledHelper()->createExport($exportDataProducts);
         $this->assertMessagePresent('success', 'success_saved_export');
-        // 2. Create Customer Old Export
+
+        // Create New Customer Export
         $this->checkCurrentPage('scheduled_import_export');
-        $exportData1 = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'name' => 'Team_B_Export_1',
-                'file_format_version' => 'Magento 1.7 format',
-                'status' => 'Enabled',
-                'frequency' => 'Daily',
-                'user_name' => 'not_exist'
-                ));
-        $this->importExportScheduledHelper()->createExport($exportData1);
-        $this->assertMessagePresent('success', 'success_saved_export');
-        // Run operation
-        $this->importExportScheduledHelper()->applyAction(array(
-                'name' => $exportData1['name'],
-                'operation' => 'Export'
-            )
-        );
-        $this->assertMessagePresent('error', 'error_run');
-        // 3. Create New Customer Export
-        $this->checkCurrentPage('scheduled_import_export');
-        $exportData2 = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+        $exportDataAddresses = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
                 'name' => 'Team_B_Export_2',
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Addresses',
+                'entity_type' => 'Customer Addresses',
                 'status' => 'Enabled',
                 'frequency' => 'Monthly',
             ));
-        $this->importExportScheduledHelper()->createExport($exportData2);
+        $this->importExportScheduledHelper()->createExport($exportDataAddresses);
         $this->assertMessagePresent('success', 'success_saved_export');
-        // 4. CreateNew  Customer Export
+
+        // Create New  Customer Export
         $this->checkCurrentPage('scheduled_import_export');
-        $exportData3 = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+        $exportDataMain = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
                 'name' => 'Team_B_Export_3',
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customers Main File',
+                'entity_type' => 'Customers Main File',
                 'status' => 'Disabled',
                 'frequency' => 'Daily',
             ));
-        $this->importExportScheduledHelper()->createExport($exportData3);
+        $this->importExportScheduledHelper()->createExport($exportDataMain);
         $this->assertMessagePresent('success', 'success_saved_export');
+
         // Create New Customer Export
         $this->checkCurrentPage('scheduled_import_export');
-        $exportData4 = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'file_format_version' => 'Magento 2.0 format',
-                'entity_subtype' => 'Customer Finances',
+        $exportDataFinances = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+                'entity_type' => 'Customer Finances',
                 'status' => 'Enabled',
                 'frequency' => 'Monthly',
                 'user_name' => 'not_exist'
             ));
-        $this->importExportScheduledHelper()->createExport($exportData4);
+        $this->importExportScheduledHelper()->createExport($exportDataFinances);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Run operation
         $this->importExportScheduledHelper()->applyAction(array(
-                'name' => $exportData4['name'],
+                'name' => $exportDataFinances['name'],
                 'operation' => 'Export'
             )
         );
         $this->assertMessagePresent('error', 'error_run');
 
-        $data[0]['name'] = $exportData1['name'];
-        $data[1]['name'] = $exportData2['name'];
-        $data[2]['name'] = $exportData3['name'];
-        $data[3]['name'] = $exportData4['name'];
-
         // Step 1, 2
+        // Verifying filter by Products entity type
         $this->admin('scheduled_import_export');
         $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportData['name'],
+                'name' => $exportDataProducts['name'],
                 'entity_type' => 'Customers'
             )
         ));
-        $this->admin('scheduled_import_export');
 
+        $this->admin('scheduled_import_export');
         $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportData['name'],
+                'name' => $exportDataProducts['name'],
                 'entity_type' => 'Products'
             )
         ));
+
+        // Verifying filter by Customers Main File entity type
         $this->admin('scheduled_import_export');
-        foreach ($data as $value)
-        {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'entity_type' => 'Customers'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'entity_type' => 'Products'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataMain['name'],
+                'entity_type' => 'Customer Addresses'
+            )
+        ));
+
+        $this->admin('scheduled_import_export');
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataMain['name'],
+                'entity_type' => 'Customer Finances'
+            )
+        ));
+
+        $this->admin('scheduled_import_export');
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataMain['name'],
+                'entity_type' => 'Customers Main File'
+            )
+        ));
+
+        // Verifying filter by Customer Addresses entity type
+        $this->admin('scheduled_import_export');
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataAddresses['name'],
+                'entity_type' => 'Customers Main File'
+            )
+        ));
+
+        $this->admin('scheduled_import_export');
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataAddresses['name'],
+                'entity_type' => 'Customer Finances'
+            )
+        ));
+
+        $this->admin('scheduled_import_export');
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataAddresses['name'],
+                'entity_type' => 'Customer Addresses'
+            )
+        ));
+
+        // Verifying filter by Customer Finances entity type
+        $this->admin('scheduled_import_export');
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataFinances['name'],
+                'entity_type' => 'Customers Main File'
+            )
+        ));
+
+        $this->admin('scheduled_import_export');
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataFinances['name'],
+                'entity_type' => 'Customer Addresses'
+            )
+        ));
+
+        $this->admin('scheduled_import_export');
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataFinances['name'],
+                'entity_type' => 'Customer Finances'
+            )
+        ));
+
         // Step 3
-        $arr = array($exportData, $exportData2, $exportData4);
+        $arr = array($exportDataProducts, $exportDataAddresses, $exportDataFinances);
         foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -348,23 +369,23 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
             $this->admin('scheduled_import_export');
         }
-        $arr = array($exportData1, $exportData3);
-        foreach ($arr as $value) {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'frequency' => 'Daily'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataMain['name'],
+                'frequency' => 'Daily'
+            )
+        ));
+        $this->admin('scheduled_import_export');
         // Step 4
         $this->admin('scheduled_import_export');
         $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportData['name'],
+                'name' => $exportDataProducts['name'],
                 'frequency' => 'Weekly'
             )
         ));
         $this->admin('scheduled_import_export');
+        $data[0]['name'] = $exportDataAddresses['name'];
+        $data[1]['name'] = $exportDataMain['name'];
+        $data[2]['name'] = $exportDataFinances['name'];
         foreach ($data as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -374,7 +395,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             $this->admin('scheduled_import_export');
         }
         // Step 5
-        $arr = array($exportData2, $exportData4);
+        $arr = array($exportDataAddresses, $exportDataFinances);
         foreach ($arr as $value) {
             $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -384,7 +405,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             $this->admin('scheduled_import_export');
         }
         $this->admin('scheduled_import_export');
-        $arr = array($exportData, $exportData1, $exportData3);
+        $arr = array($exportDataProducts, $exportDataMain);
         foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -394,7 +415,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             $this->admin('scheduled_import_export');
         }
         // Step 6
-        $arr = array($exportData, $exportData3);
+        $arr = array($exportDataProducts, $exportDataMain);
         foreach ($arr as $value) {
             $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -403,7 +424,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
             $this->admin('scheduled_import_export');
         }
-        $arr = array($exportData1, $exportData2, $exportData4);
+        $arr = array($exportDataAddresses, $exportDataFinances);
         foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -413,7 +434,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             $this->admin('scheduled_import_export');
         }
         // Step 7
-        $arr = array($exportData, $exportData3);
+        $arr = array($exportDataProducts, $exportDataMain);
         foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -422,7 +443,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
             $this->admin('scheduled_import_export');
         }
-        $arr = array($exportData1, $exportData2, $exportData4);
+        $arr = array($exportDataAddresses, $exportDataFinances);
         foreach ($arr as $value) {
             $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -432,7 +453,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             $this->admin('scheduled_import_export');
         }
         // Step 8, 9, 10
-        $arr = array($exportData, $exportData2, $exportData3);
+        $arr = array($exportDataProducts, $exportDataAddresses, $exportDataMain);
         foreach ($arr as $value) {
             $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -453,81 +474,26 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
             $this->admin('scheduled_import_export');
         }
-        $arr = array($exportData1, $exportData4);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'last_outcome' => 'Pending',
-                )
-            ));
-            $this->admin('scheduled_import_export');
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'last_outcome' => 'Successful',
-                )
-            ));
-            $this->admin('scheduled_import_export');
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'last_outcome' => 'Failed',
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 11 "Customers Main File"
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportData3['name'],
-                'entity_subtype' => 'Customers Main File'
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataFinances['name'],
+                'last_outcome' => 'Pending',
             )
         ));
         $this->admin('scheduled_import_export');
-
-        $arr = array($exportData, $exportData1, $exportData2, $exportData4);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(
-                array(
-                    'name' => $value['name'],
-                    'entity_subtype' => 'Customers Main File'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 12 'Customer Addresses'
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportData2['name'],
-                'entity_subtype' => 'Customer Addresses'
+        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataFinances['name'],
+                'last_outcome' => 'Successful',
             )
         ));
         $this->admin('scheduled_import_export');
-
-        $arr = array($exportData, $exportData1, $exportData3, $exportData4);
-        foreach ($arr as $value) {
-            $this->admin('scheduled_import_export');
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'entity_subtype' => 'Customer Addresses'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 13  'Customer Finances'
         $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportData4['name'],
-                'entity_subtype' => 'Customer Finances'
+                'name' => $exportDataFinances['name'],
+                'last_outcome' => 'Failed',
             )
         ));
         $this->admin('scheduled_import_export');
-        $arr = array($exportData, $exportData1, $exportData2, $exportData3);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'entity_subtype' => 'Customer Finances'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 14
-        $arr = array($exportData, $exportData2, $exportData3);
+        // Step 11
+        $arr = array($exportDataProducts, $exportDataAddresses, $exportDataMain);
         foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
@@ -537,18 +503,14 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
             $this->admin('scheduled_import_export');
         }
-        $arr = array($exportData1, $exportData4);
-        foreach ($arr as $value) {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'date_from' => date("m/d/Y"),
-                    'date_to' => date("m/d/Y")
-                )
-            ));
-            $this->admin('scheduled_import_export');
-
-        }
-        // Step 15
+        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
+                'name' => $exportDataFinances['name'],
+                'date_from' => date("m/d/Y"),
+                'date_to' => date("m/d/Y")
+            )
+        ));
+        $this->admin('scheduled_import_export');
+        // Step 12
         $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
                 'name' => 'Team_B',
                 'operation' => 'Export',
