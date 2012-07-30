@@ -46,45 +46,21 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
 
         /** @var $fieldset Varien_Data_Form_Element_Abstract */
         $fieldset = $form->getElement('operation_settings');
-        /** @var $sourceModel Mage_ImportExport_Model_Source_Format_Version */
-        $sourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Format_Version');
-        $fieldset->addField('file_format_version', 'select', array(
-            'name'     => 'file_format_version',
-            'title'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Format Version'),
-            'label'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Format Version'),
-            'required' => true,
-            'values'   => $sourceModel->toOptionArray()
-        ), 'entity');
 
-        /** @var $sourceModel Mage_ImportExport_Model_Source_Import_Customer_Entity */
-        $sourceModel = Mage::getModel('Mage_ImportExport_Model_Source_Import_Customer_Entity');
-        $fieldset->addField('entity_subtype', 'select', array(
-            'name'     => 'entity_subtype',
-            'title'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
-            'label'    => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Subtype'),
-            'required' => true,
-            'values'   => $sourceModel->toOptionArray()
-        ), 'file_format_version');
-
-        $fieldset->addField('behavior_v1', 'select', array(
-            'name'     => 'behavior',
-            'title'    => $helper->__('Import Behavior'),
-            'label'    => $helper->__('Import Behavior'),
-            'required' => true,
-            'disabled' => true,
-            'values'   => $behavior->toOptionArray()
-        ), 'file_format_version');
-
-        /** @var $behavior Mage_ImportExport_Model_Source_Import_Behavior_Custom */
-        $behavior = Mage::getModel('Mage_ImportExport_Model_Source_Import_Behavior_Custom');
-        $fieldset->addField('behavior_v2_customer', 'select', array(
-            'name'     => 'behavior',
-            'title'    => $helper->__('Import Behavior'),
-            'label'    => $helper->__('Import Behavior'),
-            'required' => true,
-            'disabled' => true,
-            'values'   => $behavior->toOptionArray()
-        ), 'behavior_v1');
+        // add behaviour fields
+        $uniqueBehaviors = Mage_ImportExport_Model_Import::getUniqueEntityBehaviors();
+        foreach ($uniqueBehaviors as $behaviorCode => $behaviorClass) {
+            /** @var $behaviorSource Mage_ImportExport_Model_Source_Import_BehaviorAbstract */
+            $behaviorSource = Mage::getModel($behaviorClass);
+            $fieldset->addField($behaviorCode, 'select', array(
+                'name'     => 'behavior',
+                'title'    => $helper->__('Import Behavior'),
+                'label'    => $helper->__('Import Behavior'),
+                'required' => true,
+                'disabled' => true,
+                'values'   => $behaviorSource->toOptionArray()
+            ), 'entity');
+        }
 
         /** @var $operationData Enterprise_ImportExport_Model_Scheduled_Operation_Data */
         $operationData = Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data');
@@ -112,10 +88,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Impo
 
         /** @var $element Varien_Data_Form_Element_Abstract */
         $element = $form->getElement('entity');
-        $element->setData('onchange', 'editForm.handleImportEntityTypeSelector();');
-
-        $element = $form->getElement('file_format_version');
-        $element->setData('onchange', 'editForm.handleImportFormatVersionSelector();');
+        $element->setData('onchange', 'editForm.handleEntityTypeSelector();');
 
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');

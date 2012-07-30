@@ -12,46 +12,14 @@
 <?php
 /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
 $operation = Mage::registry('current_operation');
-//TODO: entity_subtype was deleted, UI will be fixed in the scope of https://jira.magento.com/browse/MAGETWO-2511
-$entitySubtype = 'deleted';
 $operationType = $operation->getOperationType();
 $entityBehavior = $operation->getBehavior();
-
-$formatVersions = array(
-    1 => Mage_ImportExport_Model_Source_Format_Version::VERSION_1,
-    2 => Mage_ImportExport_Model_Source_Format_Version::VERSION_2,
-);
 ?>
 <script type="text/javascript">
     if (!$('export_filter_grid') && $('export_filter_container')) {
         $('export_filter_container').hide();
     }
-    if ('<?php echo $operationType ?>' == 'import') {
-        if ($('entity') && $F('entity') == 'customer') {
-            if ($('file_format_version')) {
-                if ('<?php echo $entitySubtype ?>' == '') {
-                    $('file_format_version').value = '<?php echo $formatVersions[1] ?>';
-                    editForm.showCustomerEntity(false);
-                } else {
-                    $('file_format_version').value = '<?php echo $formatVersions[2] ?>';
-                }
-            }
-        } else {
-            editForm.showFormatVersion(false);
-            editForm.showCustomerEntity(false);
-        }
-        if ($('entity') && $F('entity')) {
-            if ($F('entity') == 'customer' && '<?php echo $entitySubtype ?>' != '') {
-                editForm.showBehavior(editForm.BEHAVIOR_VERSION_2_CUSTOMER);
-                $('behavior_v2_customer').value = '<?php echo $entityBehavior ?>';
-            } else {
-                editForm.showBehavior(editForm.BEHAVIOR_VERSION_1);
-                $('behavior_v1').value = '<?php echo $entityBehavior ?>';
-            }
-        } else {
-            editForm.showBehavior(false);
-        }
-    }
+
     var serverType = $('server_type'),
         onChangeCallback = function(e) {
             var serverTypeValue = $(this).value;
@@ -70,6 +38,15 @@ $formatVersions = array(
     serverType.observe('change', onChangeCallback);
     onChangeCallback.call(serverType, {type: 'change'});
 
+    if ('<?php echo $operationType ?>' == 'import') {
+        // hide all behavior fields
+        editForm.handleEntityTypeSelector();
+        // set current behavior
+        if ($('entity') && $F('entity')) {
+            var requiredBehavior = editForm.entityBehaviors[$F('entity')];
+            $(requiredBehavior).value = '<?php echo $entityBehavior ?>';
+        }
+    }
     if ('<?php echo $operationType ?>' == 'export') {
         // show/hide checkboxes depending on current export entity (edit scheduled export page)
         editForm.modifyFilterGrid();

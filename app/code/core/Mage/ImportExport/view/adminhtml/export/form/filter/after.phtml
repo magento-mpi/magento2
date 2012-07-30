@@ -10,11 +10,13 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-export_filter_gridJsObject.resetFilter = function () {
-    return varienGrid.prototype.resetFilter.call(this, editForm.modifyFilterGrid);
-};
-export_filter_gridJsObject.doFilter = function () {
-    return varienGrid.prototype.doFilter.call(this, editForm.modifyFilterGrid);
-};
+if (window['export_filter_gridJsObject'] != undefined) {
+    export_filter_gridJsObject.resetFilter = function () {
+        return varienGrid.prototype.resetFilter.call(this, editForm.modifyFilterGrid);
+    };
+    export_filter_gridJsObject.doFilter = function () {
+        return varienGrid.prototype.doFilter.call(this, editForm.modifyFilterGrid);
+    };
+}
 //]]>
 </script>
