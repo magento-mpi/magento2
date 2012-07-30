@@ -51,15 +51,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         $disablePaths = false;
         if (!$model->getId()) {
             $product = null;
-            if ($this->_hasProduct()) {
-                $product = $this->_getProduct();
-            }
             $category = null;
-            if ($product || $this->_hasCategory()) {
+            if ($this->_getProduct()->getId()) {
+                $product = $this->_getProduct();
+                $category = $this->_getCategory();
+            } elseif ($this->_getCategory()->getId()) {
                 $category = $this->_getCategory();
             }
 
-            if ($this->_hasCustomEntity()) {
+            if ($product || $category) {
                 /** @var $catalogUrlModel Mage_Catalog_Model_Url */
                 $catalogUrlModel = Mage::getSingleton('Mage_Catalog_Model_Url');
                 $idPath->setValue($catalogUrlModel->generatePath('id', $product, $category));
@@ -97,12 +97,11 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         $entityStores = array();
 
         // showing websites that only associated to products
-        $hasCategory = $this->_hasCategory();
-        if ($this->_hasProduct()) {
+        if ($product->getId()) {
             $entityStores = (array) $product->getStoreIds();
 
             //if category is chosen, reset stores which are not related with this category
-            if ($hasCategory) {
+            if ($category->getId()) {
                 $categoryStores = (array) $category->getStoreIds();
                 $entityStores = array_intersect($entityStores, $categoryStores);
             }
@@ -113,7 +112,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
                 );
             }
             $this->_requireStoresFilter = true;
-        } elseif ($hasCategory) {
+        } elseif ($category->getId()) {
             $entityStores = (array) $category->getStoreIds();
             if (!$entityStores) {
                 throw new Mage_Core_Model_Store_Exception(
@@ -125,36 +124,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form extends Mage_Adminhtml_B
         }
 
         return $entityStores;
-    }
-
-    /**
-     * Has product entity
-     *
-     * @return bool
-     */
-    protected function _hasProduct()
-    {
-        return $this->_getProduct()->getId() > 0;
-    }
-
-    /**
-     * Has category entity
-     *
-     * @return bool
-     */
-    protected function _hasCategory()
-    {
-        return $this->_getCategory()->getId() > 0;
-    }
-
-    /**
-     * Has custom catalog entity
-     *
-     * @return bool
-     */
-    protected function _hasCustomEntity()
-    {
-        return $this->_hasProduct() || $this->_hasCategory();
     }
 
     /**

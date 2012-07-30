@@ -80,7 +80,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
         $entityStores = array();
 
         // showing websites that only associated to CMS page
-        if ($this->_hasCustomEntity()) {
+        if ($this->_getCmsPage()->getId()) {
             $entityStores = (array) $cmsPage->getResource()->lookupStoreIds($cmsPage->getId());
             $this->_requireStoresFilter = !in_array(0, $entityStores);
 
@@ -93,16 +93,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form extends Mage_Adminhtml_
         }
 
         return $entityStores;
-    }
-
-    /**
-     * Has CMS page entity
-     *
-     * @return bool
-     */
-    protected function _hasCustomEntity()
-    {
-        return $this->_getCmsPage()->getId() > 0;
     }
 
     /**

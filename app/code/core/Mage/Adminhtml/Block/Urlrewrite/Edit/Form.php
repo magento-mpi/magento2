@@ -282,16 +282,6 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
     }
 
     /**
-     *  Is custom entity present
-     *
-     * @return bool
-     */
-    protected function _hasCustomEntity()
-    {
-        return false;
-    }
-
-    /**
      * Restrict stores list by entity stores
      *
      * @param array $restrictedStores
