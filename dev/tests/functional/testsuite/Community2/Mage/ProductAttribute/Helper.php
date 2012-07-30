@@ -25,15 +25,15 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         $num = 1;
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
         $option = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
-        foreach ($attrData as $fKey => $dValue) {
-            if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
+        foreach (array_keys($attrData) as $key) {
+            if (preg_match('/^option_/', $key) and is_array($attrData[$key])) {
                 if ($this->controlIsPresent('fieldset', 'manage_options')) {
                     if ($option > 0) {
                         $fieldOptionNumber = $this->getAttribute(
                             $fieldSetXpath . "//tr[contains(@class,'option-row')][" . $num
                             . "]//input[@class='input-radio']/@value");
                         $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                        if ($attrData[$fKey]['admin_option_name'] == $attrData['default_value']) {
+                        if ($attrData[$key]['admin_option_name'] == $attrData['default_value']) {
                             $this->fillFieldset(array('is_default' => 'Yes'), 'manage_options');
                         }
                         $num++;
@@ -45,7 +45,8 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
     }
 
     /**
-     * Verify dropdown system attribute on Manage Options tab: Manage Titles is present, Manage Options are present and disabled, Delete and Add Option buttons are absent
+     * Verify dropdown system attribute on Manage Options tab: Manage Titles is present, Manage Options are present
+     * and disabled, Delete and Add Option buttons are absent
      *
      * @param array $attrData
      */
@@ -58,8 +59,8 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'manage_options');
         $option = $this->getXpathCount($fieldSetXpath . "//tr[contains(@class,'option-row')]");
         $num = 1;
-        foreach ($attrData as $fKey => $dValue) {
-            if (preg_match('/^option_/', $fKey) and is_array($attrData[$fKey])) {
+        foreach (array_keys($attrData) as $key) {
+            if (preg_match('/^option_/', $key) and is_array($attrData[$key])) {
                 if ($this->controlIsPresent('fieldset', 'manage_options')) {
                     if ($option > 0) {
                         $fieldOptionNumber = $this->getAttribute(
@@ -67,7 +68,7 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
                             . "]//input[@class='input-radio']/@value");
                         $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
                         $this->assertTrue($this->isElementPresent("//tr[contains(@class,'option-row')][" . $num
-                                                                  . "]//input[@class='input-text required-option' and @disabled='disabled']"),
+                            . "]//input[@class='input-text required-option' and @disabled='disabled']"),
                             'Admin value attribute is not disabled');
                         $num++;
                         $option--;

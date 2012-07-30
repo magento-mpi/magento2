@@ -86,9 +86,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function getOptionId($rowNum)
     {
-        $id = $this->getAttribute($this->_getControlXpath('fieldset', 'custom_option_set') . "[$rowNum]@id");
-        $id = explode('_', $id);
-        foreach ($id as $value) {
+        $optionId = $this->getAttribute($this->_getControlXpath('fieldset', 'custom_option_set') . "[$rowNum]@id");
+        $optionId = explode('_', $optionId);
+        foreach ($optionId as $value) {
             if (is_numeric($value)) {
                 return $value;
             }
