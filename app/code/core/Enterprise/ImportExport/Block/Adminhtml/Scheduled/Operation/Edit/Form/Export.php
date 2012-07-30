@@ -53,7 +53,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
             'label'     => $helper->__('File Format'),
             'required'  => true,
             'values'    => $fileFormatModel->toOptionArray()
-        ), 'entity_subtype');
+        ));
 
         $form->getElement('email_template')
             ->setValues(Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template')
