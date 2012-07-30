@@ -18,7 +18,7 @@
         'module' => 'Module_One',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        'resource' => '/one/two',
+        'resource' => 'Module_One::one_zero',
         'dependsOnModule' => 'Module_One',
         'dependsOnConfig' => '/one/two',
         ),
@@ -30,6 +30,7 @@
         'module' => 'Module_One',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
+        'resource' => 'Module_One::one_one',
         'parent' => 'elem_one_zero',
         ),
     array (
@@ -52,6 +53,7 @@
         'title' => 'Title two.zero',
         'toolTip' => 'toolTip 4',
         'module' => 'Module_Two',
+        'resource' => 'Module_Two::two_zero',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
         ),
@@ -63,6 +65,7 @@
         'module' => 'Module_Two',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
+        'resource' => 'Module_Two::two_two',
         'parent' => 'elem_two_zero',
         ),
     array (

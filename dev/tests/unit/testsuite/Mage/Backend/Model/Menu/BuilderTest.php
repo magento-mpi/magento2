@@ -84,14 +84,23 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
 
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
-                array('id' => 'item1', 'title' => 'Item 1', 'module' => 'Mage_Backend', 'sortOrder' => 2)
+                array(
+                    'id' => 'item1',
+                    'title' => 'Item 1',
+                    'module' => 'Mage_Backend',
+                    'sortOrder' => 2,
+                    'resource' => 'Mage_Backend::item1')
             )
         );
         $this->_model->processCommand(
             new Mage_Backend_Model_Menu_Builder_Command_Add(
                 array(
-                    'id' => 'item2', 'parent' => 'item1', 'title' => 'two',
-                    'module' => 'Mage_Backend', 'sortOrder' => 4
+                    'id' => 'item2',
+                    'parent' => 'item1',
+                    'title' => 'two',
+                    'module' => 'Mage_Backend',
+                    'sortOrder' => 4,
+                    'resource' => 'Mage_Backend::item2'
                 )
             )
         );
@@ -104,7 +113,8 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
         $this->_model->processCommand(new Mage_Backend_Model_Menu_Builder_Command_Add(array(
                 'id' => 1,
                 'title' => 'Item 1',
-                'module' => 'Mage_Backend'
+                'module' => 'Mage_Backend',
+                'resource' => 'Mage_Backend::i1'
             )
         ));
         $this->_model->processCommand(
@@ -132,7 +142,8 @@ class Mage_Backend_Model_Menu_BuilderTest extends PHPUnit_Framework_TestCase
                 'id' => 'item1',
                 'parent' => 'not_exists',
                 'title' => 'Item 1',
-                'module' => 'Mage_Backend'
+                'module' => 'Mage_Backend',
+                'resource' => 'Mage_Backend::item1'
             )
         ));
 

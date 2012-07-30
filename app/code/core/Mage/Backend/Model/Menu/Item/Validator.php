@@ -15,7 +15,7 @@ class Mage_Backend_Model_Menu_Item_Validator
      * @var array
      */
     protected $_required = array(
-        'acl', 'appConfig', 'menuFactory', 'urlModel', 'storeConfig', 'id', 'title', 'module'
+        'acl', 'appConfig', 'menuFactory', 'urlModel', 'storeConfig', 'id', 'title', 'module', 'resource'
     );
 
     /**
