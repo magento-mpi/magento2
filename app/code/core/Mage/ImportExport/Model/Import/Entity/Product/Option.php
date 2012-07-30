@@ -1020,8 +1020,9 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
         if ($this->_rowIsMain) {
             $optionData = $this->_getOptionData($rowData, $this->_rowProductId, $nextOptionId, $this->_rowType);
 
-            if (!$this->_isRowHasSpecificType($this->_rowType)) {
-                $prices[$nextOptionId] = $this->_getPriceData($rowData, $nextOptionId, $this->_rowType);
+            if (!$this->_isRowHasSpecificType($this->_rowType)
+                && $priceData = $this->_getPriceData($rowData, $nextOptionId, $this->_rowType)) {
+                $prices[$nextOptionId] = $priceData;
             }
 
             if (!isset($products[$this->_rowProductId])) {
@@ -1246,32 +1247,33 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     }
 
     /**
-     * Retrieve price data
+     * Retrieve price data or false in case when price is empty
      *
      * @param array $rowData
      * @param int $optionId
      * @param string $type
-     * @return array
+     * @return array|bool
      */
     protected function _getPriceData(array $rowData, $optionId, $type)
     {
-        $priceData = array(
-            'option_id'  => $optionId,
-            'store_id'   => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
-            'price_type' => 'fixed'
-        );
-
         if (in_array('price', $this->_specificTypes[$type]) && isset($rowData[self::COLUMN_PREFIX . 'price'])
             && strlen($rowData[self::COLUMN_PREFIX . 'price']) > 0) {
-            $data = $rowData[self::COLUMN_PREFIX . 'price'];
+            $priceData = array(
+                'option_id'  => $optionId,
+                'store_id'   => Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID,
+                'price_type' => 'fixed'
+            );
 
+            $data = $rowData[self::COLUMN_PREFIX . 'price'];
             if ('%' == substr($data, -1)) {
                 $priceData['price_type'] = 'percent';
             }
             $priceData['price'] = (float) rtrim($data, '%');
+
+            return $priceData;
         }
 
-        return $priceData;
+        return false;
     }
 
     /**
@@ -1391,7 +1393,10 @@ class Mage_ImportExport_Model_Import_Entity_Product_Option extends Mage_ImportEx
     protected function _savePrices(array $prices)
     {
         if ($prices) {
-            $this->_connection->insertOnDuplicate($this->_tables['catalog_product_option_price'], $prices);
+            $this->_connection->insertOnDuplicate($this->_tables['catalog_product_option_price'],
+                $prices,
+                array('price', 'price_type')
+            );
         }
 
         return $this;

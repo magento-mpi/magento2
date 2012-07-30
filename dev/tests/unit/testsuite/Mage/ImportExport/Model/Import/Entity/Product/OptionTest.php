@@ -91,17 +91,12 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
      * @var array
      */
     protected $_expectedPrices = array(
-        2 => array(
-            'option_id'  => 1,
-            'store_id'   => 0,
-            'price_type' => 'fixed'
-        ),
         3 => array(
             'option_id'  => 3,
             'store_id'   => 0,
             'price_type' => 'fixed',
             'price'      => 2
-        ),
+        )
     );
 
     /**
@@ -574,6 +569,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_OptionTest extends PHPUnit_F
                 break;
             case $this->_tables['catalog_product_option_price']:
                 $this->assertEquals($this->_expectedPrices, $data);
+                $this->assertEquals(array('price', 'price_type'), $fields);
                 break;
             case $this->_tables['catalog_product_option_type_price']:
                 $this->assertEquals($this->_expectedTypePrices, $data);
