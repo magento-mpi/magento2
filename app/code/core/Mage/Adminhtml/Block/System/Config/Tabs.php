@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             //$code = $section->getPath();
             $code = $section->getName(); //TODO: $code has to be equals ACL resource id
 
-            $sectionAllowed = $this->checkSectionPermissions($code);
+            $sectionAllowed = $this->checkSectionPermissions($section->resource);
             if ((empty($current) && $sectionAllowed)) {
 
                 $current = $code;
