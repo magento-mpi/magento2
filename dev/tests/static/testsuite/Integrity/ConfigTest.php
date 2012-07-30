@@ -34,10 +34,10 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
             foreach ($nodes as $node) {
                 $localeFile = dirname($configFile) . '/../locale/en_US/' . (string)$node;
                 $this->assertFileExists($localeFile);
-                $verifiedFiles[] = realpath($localeFile);
+                $verifiedFiles[realpath($localeFile)] = $moduleName;
             }
         }
-        return array_unique($verifiedFiles);
+        return $verifiedFiles;
     }
 
     /**
@@ -46,18 +46,20 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     public function testExistingFilesDeclared($verifiedFiles)
     {
         $root = Utility_Files::init()->getPathToSource();
-        foreach (glob($root . "/app/code/*/*/*", GLOB_ONLYDIR) as $modulePath) {
-            $localeFiles = glob($modulePath . "/locale/en_US/*.csv");
+        $failures = array();
+        foreach (glob("{$root}/app/code/*/*/*", GLOB_ONLYDIR) as $modulePath) {
+            $localeFiles = glob("{$modulePath}/locale/*/*.csv");
             foreach ($localeFiles as $file) {
                 $file = realpath($file);
-                $key = array_search($file, $verifiedFiles);
-                if (false !== $key) {
-                    unset($verifiedFiles[$key]);
+                $assertFile = dirname(dirname($file)) . DIRECTORY_SEPARATOR . 'en_US' . DIRECTORY_SEPARATOR
+                    . basename($file);
+                if (!isset($verifiedFiles[$assertFile])) {
+                    $failures[] = $file;
                 }
             }
         }
-        $this->assertEmpty($verifiedFiles,
-            'Translation files exist, but not declared in configuration:' . "\n" . var_export($verifiedFiles, 1)
+        $this->assertEmpty($failures,
+            'Translation files exist, but not declared in configuration:' . "\n" . var_export($failures, 1)
         );
     }
 }
