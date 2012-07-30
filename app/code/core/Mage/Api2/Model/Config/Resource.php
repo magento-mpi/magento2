@@ -159,7 +159,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
         foreach ($dom->getElementsByTagName('message') as $message) {
             // definitions/message/part
             $part = $message->getElementsByTagName('part')->item(0);
-            $elementName = $this->_cleanFromNamespace($part->getAttribute('element'));
+            $elementName = $this->_truncateNamespace($part->getAttribute('element'));
             $messages[$message->getAttribute('name')] = $elementName;
         }
         return $messages;
@@ -228,7 +228,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
     {
         // definitions/portType/operation/input[@message]
         // definitions/portType/operation/output[@message]
-        $messageName = $this->_cleanFromNamespace($operationInputOutputElement->getAttribute('message'));
+        $messageName = $this->_truncateNamespace($operationInputOutputElement->getAttribute('message'));
         if (!array_key_exists($messageName, $this->_paramsElementNameByMessageName)) {
             throw new Magento_Exception(
                 sprintf('There is no proper element with parameters for message "%s".', $messageName));
@@ -298,7 +298,7 @@ class Mage_Api2_Model_Config_Resource extends Magento_Config_XmlAbstract
      */
     protected function _getType(DOMElement $param)
     {
-        return $this->_cleanFromNamespace($param->getAttribute('type'));
+        return $this->_truncateNamespace($param->getAttribute('type'));
     }
 
     /**

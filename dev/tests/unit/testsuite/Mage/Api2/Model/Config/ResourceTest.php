@@ -142,7 +142,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException Magento_Exception
-     * @expectedExceptionMessage There is no element "customerCreateRequestParam" with parameters not found.
+     * @expectedExceptionMessage There is no element "customerCreateRequestParam" with parameters.
      */
     public function testInvalidMissingParams()
     {
@@ -162,7 +162,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Resource "invalidResource" not found in config.
+     * @expectedExceptionMessage Resource "invalidResource" is not found in config.
      */
     public function testGetResourceMethodDataInvalidResource()
     {
@@ -171,7 +171,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Method "invalid" for resource "customer" not found in config.
+     * @expectedExceptionMessage Method "invalid" for resource "customer" is not found in config.
      */
     public function testGetResourceMethodDataInvalidMethod()
     {
@@ -180,7 +180,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Data type "invalidTypeName" not found in config.
+     * @expectedExceptionMessage Data type "invalidTypeName" is not found in config.
      */
     public function testGetDataTypeInvalidName()
     {
