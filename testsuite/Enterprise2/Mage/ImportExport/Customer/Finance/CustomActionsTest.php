@@ -325,15 +325,13 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * <p>2. Update for both customers "Store Credit" and "Reward Points"</p>
      * <p>3. Create csv file with empty _finance_website for customer1, with incorrect  _finance_website for customer2</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"</p>
      * <p>2. Select "Delete" in selector "Import Behavior"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customer Finances"</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Press "Check Data"</p>
-     * <p>7. Open Customers-> Manage Customers</p>
-     * <p>Expected: After step 6 the message 'File is totaly invalid' is appeared</p>
-     * <p>Expected: After step 7 the finances for both customers aren't deleted</p>
+     * <p>3. Choose file from precondition</p>
+     * <p>4. Press "Check Data"</p>
+     * <p>5. Open Customers-> Manage Customers</p>
+     * <p>Expected: After step 4 the message 'File is totaly invalid' is appeared</p>
+     * <p>Expected: After step 6 the finances for both customers aren't deleted</p>
      *
      * @test
      * @dataProvider importFinanceData1
@@ -380,10 +378,10 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $data[0]['_email'] = $userData1['email'];;
 
         $data[1]['_email'] = $userData2['email'];
-
+        //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Delete Entities');
-        //Step 5, 6, 7
+        //Steps 3-4
         $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayNotHasKey('import', $report,
@@ -394,9 +392,9 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             $report['validation']['error'][0]);
         $this->assertEquals('Invalid value in Finance information website column in rows: 2',
             $report['validation']['error'][1]);
-        //Step 8
+        //Step 5
         $this->navigate('manage_customers');
-        //Step 9. First Customer
+        //Step 6. First Customer
         $this->addParameter('customer_first_last_name', $userData1['first_name'] . ' ' . $userData1['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
         //Verify customer account
@@ -404,7 +402,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             'Store Credit balance is deleted');
         $this->assertEquals('150', $this->customerHelper()->getRewardPointsBalance(),
             'Reward Points Balance is deleted');
-        //Step 9. Second Customer
+        //Step 6. Second Customer
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
