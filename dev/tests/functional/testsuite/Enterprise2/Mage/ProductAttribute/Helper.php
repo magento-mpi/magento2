@@ -19,11 +19,11 @@ class Enterprise2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribut
      * Set default value for dropdown attribute and verify admin values if $isVerify = true
      *
      * @param array $attributeData
-     * @param bool $isVerify
+     * @param bool $isCheck
      */
-    public function setDefaultAttributeValue(array $attributeData, $isVerify = false)
+    public function processAttributeValue(array $attributeData, $isCheck = false)
     {
-        $this->helper('Community2/Mage/ProductAttribute')->setDefaultAttributeValue($attributeData, $isVerify);
+        $this->helper('Community2/Mage/ProductAttribute')->processAttributeValue($attributeData, $isCheck);
     }
 
     /**

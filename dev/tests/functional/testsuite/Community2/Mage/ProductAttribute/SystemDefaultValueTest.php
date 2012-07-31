@@ -79,7 +79,7 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
         //Verifying
         $this->productAttributeHelper()->verifySystemAttribute($attributeData);
         //Steps
-        $this->productAttributeHelper()->setDefaultAttributeValue($attributeData);
+        $this->productAttributeHelper()->processAttributeValue($attributeData);
         $this->saveForm('save_attribute');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -93,7 +93,7 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
             $this->openTab('design');
             $this->assertEquals($attributeData['default_control_value'],
                 $this->getValue($this->_getControlXpath('dropdown', $uimapName) . "//option[@selected='selected']"),
-                "Incorrect default value for custom design attribute.");
+                'Incorrect default value for custom design attribute.');
         } else {
             $productData[$uimapName] = $attributeData['default_value'];
         }
