@@ -54,7 +54,7 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     {
         $this->fillTab($storeCreditData, 'store_credit');
         $this->clearMessages();
-        if (!$continue){
+        if (!$continue) {
             $this->saveForm('save_customer');
         }
     }
@@ -69,7 +69,7 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     {
         $this->fillTab($rewardPointsData, 'reward_points');
         $this->clearMessages();
-        if (!$continue){
+        if (!$continue) {
             $this->saveForm('save_customer');
         }
     }
@@ -83,7 +83,7 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     {
         $this->openTab('store_credit');
         $this->addParameter('webSiteName', 'No records found');
-        if ($this->controlIsPresent('field', 'current_balance')){
+        if ($this->controlIsPresent('field', 'current_balance')) {
             return 'No records found.';
         }
         $this->addParameter('webSiteName', $webSiteName);
@@ -99,7 +99,7 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
     {
         $this->openTab('reward_points');
         $this->addParameter('webSiteName', 'No records found');
-        if ($this->controlIsPresent('field', 'balance_is_present')){
+        if ($this->controlIsPresent('field', 'balance_is_present')) {
             return 'No records found.';
         }
         $this->addParameter('webSiteName', $webSiteName);
