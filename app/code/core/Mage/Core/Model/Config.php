@@ -179,6 +179,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected $_moduleDirs = array();
 
+    /*
+     * Cache for declared modules to prevent loading modules' config twice
+     *
+     * @var array
+     */
+    protected $_modulesCache = array();
+
     /**
      * Class construct
      *
@@ -343,14 +350,15 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         Magento_Profiler::start('load_modules');
         $this->_loadDeclaredModules();
 
-        $resourceConfig = sprintf('config.%s.xml', $this->_getResourceConnectionModel('core'));
-        $this->loadModulesConfiguration(array('config.xml',$resourceConfig), $this);
+        Magento_Profiler::start('load_modules_configuration');
+        $this->loadModulesConfiguration(array('config.xml'), $this);
+        Magento_Profiler::stop('load_modules_configuration');
 
         /**
          * Prevent local.xml directives overwriting
          */
         $mergeConfig = clone $this->_prototype;
-        $this->_isLocalConfigLoaded = $mergeConfig->loadFile($this->getOptions()->getEtcDir().DS.'local.xml');
+        $this->_isLocalConfigLoaded = $mergeConfig->loadFile($this->getOptions()->getEtcDir() . DS . 'local.xml');
         if ($this->_isLocalConfigLoaded) {
             $this->extend($mergeConfig);
         }
@@ -793,27 +801,47 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _loadDeclaredModules()
     {
+        Magento_Profiler::start('load_modules_files');
         $moduleFiles = $this->_getDeclaredModuleFiles();
         if (!$moduleFiles) {
             return $this;
         }
+        Magento_Profiler::stop('load_modules_files');
 
         Magento_Profiler::start('load_modules_declaration');
-
         $unsortedConfig = new Mage_Core_Model_Config_Base('<config/>');
+        $emptyConfig = new Mage_Core_Model_Config_Element('<config><modules/></config>');
+        $declaredModules = array();
         foreach ($moduleFiles as $oneConfigFile) {
-            $fileConfig = new Mage_Core_Model_Config_Base($oneConfigFile);
-            foreach ($fileConfig->_xml->xpath('modules/*') as $module) {
-                $newModule = new Mage_Core_Model_Config_Element('<config><modules/></config>');
+            $path = explode(DIRECTORY_SEPARATOR, $oneConfigFile);
+            $moduleConfig = new Mage_Core_Model_Config_Base($oneConfigFile);
+            $cPath = count($path);
+            if ($cPath > 4) {
+                $moduleName = $path[$cPath - 4] . '_' . $path[$cPath - 3];
+                $this->_modulesCache[$moduleName] = $moduleConfig;
+            }
+            foreach ($moduleConfig->_xml->xpath('modules/*') as $module) {
+                $moduleName = strtolower($module->getName());
+                $isActive = (string)$module->active;
+                if (!isset($declaredModules[$moduleName]) && $isActive == 'false') {
+                    continue;
+                }
+                $newModule = clone $emptyConfig;
                 $newModule->modules->appendChild($module);
-                $unsortedConfig->extend(new Mage_Core_Model_Config_Base($newModule));
+                $declaredModules[$moduleName] = array(
+                    'active' => $isActive,
+                    'module' => $newModule,
+                );
             }
         }
-
+        foreach ($declaredModules as $moduleName => $module) {
+            if ($module['active'] == 'true') {
+                $unsortedConfig->extend(new Mage_Core_Model_Config_Base($module['module']));
+            }
+        }
         $sortedConfig = new Mage_Core_Model_Config_Module($unsortedConfig, $this->_allowedModules);
 
         $this->extend($sortedConfig);
-
         Magento_Profiler::stop('load_modules_declaration');
         return $this;
     }
@@ -890,23 +918,24 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 if (!is_array($fileName)) {
                     $fileName = array($fileName);
                 }
-
                 foreach ($fileName as $configFile) {
-                    $configFilePath = $this->getModuleDir('etc', $modName).DS.$configFile;
-                    if ($mergeModel->loadFile($configFilePath)) {
-                        $mergeToObject->extend($mergeModel, true);
-                        if ($configFile !== 'config.xml') {
-                            continue;
-                        }
+                    if ($configFile == 'config.xml' && isset($this->_modulesCache[$modName])) {
+                        $mergeToObject->extend($this->_modulesCache[$modName], true);
                         //Prevent overriding <active> node of module if it was redefined in etc/modules
                         $mergeToObject->extend(new Mage_Core_Model_Config_Base(
                             "<config><modules><{$modName}><active>true</active></{$modName}></modules></config>"),
                             true
                         );
+                    } else {
+                        $configFilePath = $this->getModuleDir('etc', $modName) . DS . $configFile;
+                        if ($mergeModel->loadFile($configFilePath)) {
+                            $mergeToObject->extend($mergeModel, true);
+                        }
                     }
                 }
             }
         }
+        unset($this->_modulesCache);
         return $mergeToObject;
     }
 
