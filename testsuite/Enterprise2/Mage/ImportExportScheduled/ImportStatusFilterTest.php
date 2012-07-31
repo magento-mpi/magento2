@@ -1,29 +1,28 @@
 <?php
-    /**
-     * Magento
-     *
-     * {license_notice}
-     *
-     * @category    Magento
-     * @package     Mage_ImportExport
-     * @subpackage  functional_tests
-     * @copyright   {copyright}
-     * @license     {license_link}
-     */
+/**
+ * Magento
+ *
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
-    /**
-     * Scheduled Import Form Tests
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
-     */
+/**
+ * Scheduled Import Form Tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Precondition:</p>
-     * <p>Delete all existing imports/exports</p>
+     * Precondition:
+     * Delete all existing imports/exports
      */
     public function setUpBeforeTests()
     {
@@ -45,19 +44,19 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
     }
 
     /**
-     * <p>Scheduled Import statuses</p>
-     * <p>Steps: </p>
-     * <p>1. Create new import with status "Disable"</p>
-     * <p>Result: Import was saved with the status "Disable"</p>
-     * <p>2. Edit Import - change status to "Enable"</p>
-     * <p>Result: The changes was saved with "Enable" status</p>
-     * <p>3. Select this Import in grid</p>
-     * <p>4. Change status to "Disable" with a help "Actions"</p>
-     * <p>Result: Status is changed to "Disable"</p>
-     * <p>5. Create new import with status disabled</p>
-     * <p>6. Choose both imports in the grid </p>
-     * <p>7. Change status to "Enabled" with a help "Actions for both imports"</p>
-     * <p> Result: Status is changed to "Enabled" for both imports</p>
+     * Scheduled Import statuses
+     * Steps:
+     * 1. Create new import with status "Disable"
+     * Result: Import was saved with the status "Disable"
+     * 2. Edit Import - change status to "Enable"
+     * Result: The changes was saved with "Enable" status
+     * 3. Select this Import in grid
+     * 4. Change status to "Disable" with a help "Actions"
+     * Result: Status is changed to "Disable"
+     * 5. Create new import with status disabled
+     * 6. Choose both imports in the grid
+     * 7. Change status to "Enabled" with a help "Actions for both imports"
+     *  Result: Status is changed to "Enabled" for both imports
      * @test
      * @TestlinkId TL-MAGE-5802
      */
@@ -70,7 +69,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
             'file_name' => date('Y-m-d_H-i-s_') . 'import_customer.csv',
             'status' => 'Disabled',
         ));
-        $importRecordsCount = 1;
+        $importRecordsCountOne = 1;
 
         $this->importExportScheduledHelper()->createImport($importData);
         //Verifying
@@ -113,7 +112,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
         $this->clickButton('submit');
         //Verifying
         $this->checkCurrentPage('scheduled_import_export');
-        $this->addParameter('qtyUpdatedRecords', count($importRecordsCount));
+        $this->addParameter('qtyUpdatedRecords', count($importRecordsCountOne));
         $this->assertMessagePresent('success', 'success_update_status');
         $this->importExportScheduledHelper()->openImportExport(
             array(
@@ -133,7 +132,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
             'file_name' => date('Y-m-d_H-i-s_') . 'import_1_customer.csv',
             'status' => 'Disabled',
         ));
-        $importRecordsCount2 = 2;
+        $importRecordsCountTwo = 2;
 
         $this->importExportScheduledHelper()->createImport($importDataTwo);
         //Verifying
@@ -166,7 +165,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
         $this->clickButton('submit');
         //Verifying first import
         $this->checkCurrentPage('scheduled_import_export');
-        $this->addParameter('qtyUpdatedRecords', $importRecordsCount2);
+        $this->addParameter('qtyUpdatedRecords', $importRecordsCountTwo);
         $this->assertMessagePresent('success', 'success_update_status');
         $this->importExportScheduledHelper()->openImportExport(
             array(
@@ -192,42 +191,41 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
         $this->verifyForm($importDataTwo);
     }
     /**
-     * <p>Scheduled Import statuses</p>
-     * <p> Create Product Import in System-> Import/Export-> Scheduled Import/Export</p>
-     * <p> Create three customer imports with keyword 'test' in the name</p>
-     * <p> Create another new customer import with another name</p>
-     * <p> All imports have different 'entity subtype', 'status', 'frequency','last run date'</p>
-     * <p> Steps: </p>
-     * <p>1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'</p>
-     * <p> Result: Only 'product imports' should be displayed in the grid</p>
-     * <p>2. in filter 'Entity Type' select all customer entity types and press 'Search'</p>
-     * <p>Result: Only 'customer imports' should be displayed in the grid</p>
-     * <p>3. Select 'Daily' frequency and press 'Search'</p>
-     * <p> Result: Only the imports with frequency 'Daily' are displayed in the grid</p>
-     * <p>4. Select 'Weekly' frequency and press 'Search'</p>
-     * <p> Result: Only the imports with frequency 'Weekly' are displayed in the grid</p>
-     * <p>5. Select 'Monthly' frequency and press 'Search'</p>
-     * <p> Result: Only the imports with frequency 'Monthly' are displayed in the grid</p>
-     * <p>6. In the filter select 'Disabled' status and press 'Search'</p>
-     * <p>Result: Only the imports with status 'Disabled' are displayed in the grid</p>
-     * <p>7. In the filter select 'Enabled' status and press 'Search'</p>
-     * <p>Result: Only the imports with status 'Enabled' are displayed in the grid</p>
-     * <p>8. In the filter 'Last Outcome' select 'Pending' and press 'Search'</p>
-     * <p>Result: Only Pending imports  are displayed in the grid</p>
-     * <p>9. In the filter 'Last Outcome' select 'Successful' and press 'Search'</p>
-     * <p>Result: Only Successful imports  are displayed in the grid</p>
-     * <p>10. In the filter 'Last Outcome' select 'Failed' and press 'Search'</p>
-     * <p>Result: Only Failed imports  are displayed in the grid</p></p>
-     * <p>11. Enter in the grid proper date to the fields 'From' and 'To'</p>
-     * <p>Result: Only imports with this last run date  are displayed in the grid</p>
-     * <p>12. In grid in the field 'Name' enter 'test' and press 'Search' button</p>
-     * <p>Result: Only imports which have the key 'test' in the name are displayed in the grid </p>
+     * Scheduled Import statuses
+     *  Create Product Import in System-> Import/Export-> Scheduled Import/Export
+     *  Create three customer imports with keyword 'test' in the name
+     *  Create another new customer import with another name
+     *  All imports have different 'entity subtype', 'status', 'frequency','last run date'
+     *  Steps:
+     * 1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'
+     *  Result: Only 'product imports' should be displayed in the grid
+     * 2. in filter 'Entity Type' select all customer entity types and press 'Search'
+     * Result: Only 'customer imports' should be displayed in the grid
+     * 3. Select 'Daily' frequency and press 'Search'
+     *  Result: Only the imports with frequency 'Daily' are displayed in the grid
+     * 4. Select 'Weekly' frequency and press 'Search'
+     *  Result: Only the imports with frequency 'Weekly' are displayed in the grid
+     * 5. Select 'Monthly' frequency and press 'Search'
+     *  Result: Only the imports with frequency 'Monthly' are displayed in the grid
+     * 6. In the filter select 'Disabled' status and press 'Search'
+     * Result: Only the imports with status 'Disabled' are displayed in the grid
+     * 7. In the filter select 'Enabled' status and press 'Search'
+     * Result: Only the imports with status 'Enabled' are displayed in the grid
+     * 8. In the filter 'Last Outcome' select 'Pending' and press 'Search'
+     * Result: Only Pending imports  are displayed in the grid
+     * 9. In the filter 'Last Outcome' select 'Successful' and press 'Search'
+     * Result: Only Successful imports  are displayed in the grid
+     * 10. In the filter 'Last Outcome' select 'Failed' and press 'Search'
+     * Result: Only Failed imports  are displayed in the grid
+     * 11. Enter in the grid proper date to the fields 'From' and 'To'
+     * Result: Only imports with this last run date  are displayed in the grid
+     * 12. In grid in the field 'Name' enter 'test' and press 'Search' button
+     * Result: Only imports which have the key 'test' in the name are displayed in the grid
      * @test
      *
      * @TestlinkId TL-MAGE-5803
      */
     public function scheduledImportSearchByFilter()
-
     {
         //Preconditions:
         // 1. Create Product Import
