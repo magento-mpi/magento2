@@ -59,7 +59,7 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
      * <p>Expected result:</p>
      *  <p>1. Product page opens with saved changes. For system attribute default value is selected.</p>
      *
-     * @param string $attr
+     * @param string $attributeCode
      * @param string $productType
      * @param string $uimapName
      *
@@ -68,14 +68,12 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
      * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836
      */
     // @codingStandardsIgnoreEnd
-    public function checkSystemAttributeDefaultValue($attr, $productType, $uimapName)
+    public function checkSystemAttributeDefaultValue($attributeCode, $productType, $uimapName)
     {
         //Data
-        $attributeData = $this->loadDataSet('SystemAttributes', $attr);
+        $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
-        if (array_key_exists($uimapName, $productData)) {
-            unset($productData[$uimapName]);
-        }
+        unset($productData[$uimapName]);
         //Steps
         $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
         //Verifying
@@ -91,9 +89,9 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->searchAndOpen(array('product_sku' => $productData['general_sku']));
         //Verifying
-        if ($attr == 'custom_design') {
+        if ($attributeCode == 'custom_design') {
             $this->openTab('design');
-            $this->assertEquals(strtolower(str_replace(' ', '', $attributeData['default_value'])),
+            $this->assertEquals($attributeData['default_control_value'],
                 $this->getValue($this->_getControlXpath('dropdown', $uimapName) . "//option[@selected='selected']"),
                 "Incorrect default value for custom design attribute.");
         } else {

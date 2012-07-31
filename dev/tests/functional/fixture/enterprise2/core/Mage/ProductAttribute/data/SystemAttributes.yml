@@ -46,6 +46,7 @@ custom_design:
     option_12:
         admin_option_name: Professional / Professional / default (incompatible version)
     default_value: Enterprise / Iphone / default
+    default_control_value: enterprise/iphone/default
 
 enable_googlecheckout:
     attribute_code: enable_googlecheckout
