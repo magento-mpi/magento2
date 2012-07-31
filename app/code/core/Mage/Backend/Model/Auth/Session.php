@@ -113,10 +113,6 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
         $acl = $this->getAcl();
 
         if ($user && $acl) {
-            if (!preg_match('/^admin/', $resource)) {
-                $resource = 'admin/' . $resource;
-            }
-
             try {
                 return $acl->isAllowed($user->getAclRole(), $resource, $privilege);
             } catch (Exception $e) {

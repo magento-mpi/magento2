@@ -256,9 +256,9 @@ class Mage_Adminhtml_System_ConfigController extends Mage_Adminhtml_Controller_A
     {
         try {
             $session = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-            $resourceLookup = "admin/system/config/{$section}";
             if ($session->getData('acl') instanceof Magento_Acl) {
-                $resourceId = $session->getData('acl')->get($resourceLookup)->getResourceId();
+                $resourceId = (string) Mage::getSingleton('Mage_Adminhtml_Model_Config')
+                    ->getSection($section)->resource;
                 if (!$session->isAllowed($resourceId)) {
                     throw new Exception('');
                 }

@@ -71,7 +71,7 @@ class Mage_User_Model_RulesTest extends PHPUnit_Framework_TestCase
         $ruleSelect = $adapter->select()
             ->from($this->_model->getResource()->getMainTable());
 
-        $resources = array('all');
+        $resources = array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
 
         $this->_model->setRoleId(1)
             ->setResources($resources)
