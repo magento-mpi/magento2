@@ -117,6 +117,9 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
         $page = $this->getCurrentUimapPage();
         $tabs = $page->getAllTabs();
         foreach ($tabs as $tab => $values) {
+            if (!$this->controlIsPresent('tab', $tab)) {
+                continue;
+            }
             if ($tab != 'category_products') {
                 $this->fillForm($categoryData, $tab);
             } else {

@@ -1,52 +1,45 @@
 #
-# Magento
+# {license_notice}
 #
-# NOTICE OF LICENSE
-#
-# This source file is subject to the Academic Free License (AFL 3.0)
-# that is bundled with this package in the file LICENSE_AFL.txt.
-# It is also available through the world-wide-web at this URL:
-# http://opensource.org/licenses/afl-3.0.php
-# If you did not receive a copy of the license and are unable to
-# obtain it through the world-wide-web, please send an email
-# to license@magentocommerce.com so we can send you a copy immediately.
-#
-# DISCLAIMER
-#
-# Do not edit or add to this file if you wish to upgrade Magento to newer
-# versions in the future. If you wish to customize Magento for your
-# needs please refer to http://www.magentocommerce.com for more information.
-#
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
-# @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
-# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+# @category    Magento
+# @package     Mage_Category
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
 #
 ---
 # Manage categories page and related pages
-
 manage_categories:
     uimap:
         form:
             tabs:
                 -
-                     category_pemissions:
-                         xpath: //a[@id='category_info_tabs_permissions']/span
-                         fieldsets:
-                             -
-                                 category_permissions:
-                                     xpath: //div[@id='category_permissions_%cat_id%']
-                                     dropdowns:
-                                         website: //select[@name='general[permissions][%row%][website_id]']
-                                         customer_group: //select[@name='general[permissions][%row%][customer_group_id]']
-                                     fields:
-                                         browsing_category: //input[@id='category_permissions_%row%_grant_catalog_category_view_%permissionCategory%']
-                                         displaying_price: //input[@id='category_permissions_%row%_grant_catalog_product_price_%permissionPrice%']
-                                         add_to_cart: //input[@id='category_permissions_%row%_grant_checkout_items_%permissionCart%']
-                                     buttons:
-                                         delete_permissions: //*[@id='category_permissions_%cat_id%_row_%row%_delete_button']
-                         buttons:
-                             new_permission: //button[span='New Permission']
-
+                    category_permissions_tab:
+                        xpath: //a[@id='category_info_tabs_permissions']/span
+                        fieldsets:
+                            -
+                                category_permissions:
+                                    xpath: //div[@id='category_info_tabs_permissions_content']
+                                    buttons:
+                                        new_permission: //button[span='New Permission']
+                            -
+                                new_category_permission:
+                                    xpath: //*[contains(@class,'option-box permission-box')]
+                                    dropdowns:
+                                        website: //select[@name='general[permissions][%row%][website_id]']
+                                        customer_group: //select[@name='general[permissions][%row%][customer_group_id]']
+                                    radiobuttons:
+                                        browsing_category_allow: //input[@id='category_permissions_%row%_grant_catalog_category_view_allow']
+                                        browsing_category_deny: //input[@id='category_permissions_%row%_grant_catalog_category_view_deny']
+                                        browsing_category_use_parent: //input[@id='category_permissions_%row%_grant_catalog_category_view_default']
+                                        displaying_price_allow: //input[@id='category_permissions_%row%_grant_catalog_product_price_allow']
+                                        displaying_price_deny: //input[@id='category_permissions_%row%_grant_catalog_product_price_deny']
+                                        displaying_price_use_parent: //input[@id='category_permissions_%row%_grant_catalog_product_price_default']
+                                        add_to_cart_allow: //input[@id='category_permissions_%row%_grant_checkout_items_allow']
+                                        add_to_cart_deny: //input[@id='category_permissions_%row%_grant_checkout_items_deny']
+                                        add_to_cart_use_parent: //input[@id='category_permissions_%row%_grant_checkout_items_default']
+                                    buttons:
+                                        delete_permissions: //button[contains(@id, '_row_%row%_delete_button')]
+                                        delete_all_permissions_visible: "[not(contains(@class,'no-display'))]//button[contains(@id, '_delete_button')]"
+                        messages:
+                            duplicate_permissions: //*[contains(@id, '-category_permissions_%row%_duplicate')]
