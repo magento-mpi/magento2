@@ -51,7 +51,6 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
                     'role_type'   => 'G',
                     'resource_id' => Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL,
                     'privileges'  => '', // not used yet
-                    'assert_id'   => 0,
                     'role_id'     => $roleId,
                     'permission'  => 'allow'
                 );
