@@ -153,22 +153,21 @@ class Enterprise_ImportExport_Model_Scheduled_Operation_Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $entitiesPath = Mage_ImportExport_Model_Import::CONFIG_KEY_ENTITIES;
-        $importEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions($entitiesPath);
-
-        $entitiesPath = Mage_ImportExport_Model_Export::CONFIG_KEY_ENTITIES;
-        $entities = Mage_ImportExport_Model_Config::getModelsArrayOptions($entitiesPath);
-
+        $importEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
+            Mage_ImportExport_Model_Import::CONFIG_KEY_ENTITIES
+        );
+        $exportEntities = Mage_ImportExport_Model_Config::getModelsArrayOptions(
+            Mage_ImportExport_Model_Export::CONFIG_KEY_ENTITIES
+        );
         switch ($type) {
             case 'import':
                 return $importEntities;
+
             case 'export':
-                return $entities;
+                return $exportEntities;
+
             default:
-                foreach ($importEntities as $key => &$entityName) {
-                    $entities[$key] = $entityName;
-                }
-                return $entities;
+                return array_merge($importEntities, $exportEntities);
         }
     }
 }
