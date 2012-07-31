@@ -23,9 +23,9 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
 {
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export
      *
      * @return void
      */
@@ -38,43 +38,34 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
     }
 
     /**
-     * <p>Has been excluded from functionality scope</p>
-     * <p>Need to verify that after customer attribute creation
-     * it's shown in "Entity Attributes" block</p>
-     * <p>Need to verify that after customer attribute updating
-     * it's updated in "Entity Attributes" block</p>
-     * <p>Need to verify that after customer attribute deletion
-     * it's not shown in "Entity Attributes" block</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Customers -> Attributes -> Manage Customers Attributes</p>
-     * <p>2. Click "Add New Attribute" button</p>
-     * <p>3. Fill required values</p>
-     * <p>4. Click "Save Attribute" button</p>
-     * <p>5. Go to System -> Import/ Export -> Export</p>
-     * <p>6. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>7. In "Export Format Version" drop-down field choose
-     * "Magento 1.7 format" parameter</p>
-     * <p>8. Go to Customers -> Attributes -> Manage Customer Attributes</p>
-     * <p>9. Edit attribute from precondition</p>
-     * <p>10. Change admin title</p>
-     * <p>11. Click "Save Attribute" button</p>
-     * <p>12. Go to System -> Import/ Export -> Export</p>
-     * <p>13. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>14. In "Export Format Version" drop-down field choose
-     * "Magento 1.7 format" parameter</p>
-     * <p>15. Go to Customers -> Attributes -> Manage Customer Attributes</p>
-     * <p>16. Edit attribute from precondition</p>
-     * <p>17. Click "Delete Attribute" button, confirm</p>
-     * <p>18. Go to System -> Import/ Export -> Export</p>
-     * <p>19. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>20. In "Export Format Version" drop-down field choose
-     * "Magento 1.7 format" parameter</p>
-     * <p>Expected after steps 7: Check that added to system attribute
-     * is displayed in "Entity Attributes" list</p>
-     * <p>Expected after step 14: Check that changes are applied
-     * for attribute in "Entity Attributes" block</p>
-     * <p>Expected after step 20: Check that "Entity Attributes" block
-     * doesn't contain the attribute any more</p>
+     * Has been excluded from functionality scope
+     * Need to verify that after customer attribute creation it's shown in "Entity Attributes" block
+     * Need to verify that after customer attribute updating it's updated in "Entity Attributes" block
+     * Need to verify that after customer attribute deletion it's not shown in "Entity Attributes" block
+     * Steps:
+     * 1. Go to Customers -> Attributes -> Manage Customers Attributes
+     * 2. Click "Add New Attribute" button
+     * 3. Fill required values
+     * 4. Click "Save Attribute" button
+     * 5. Go to System -> Import/ Export -> Export
+     * 6. In "Entity Type" drop-down field choose "Customers" parameter
+     * 7. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
+     * 8. Go to Customers -> Attributes -> Manage Customer Attributes
+     * 9. Edit attribute from precondition
+     * 10. Change admin title
+     * 11. Click "Save Attribute" button
+     * 12. Go to System -> Import/ Export -> Export
+     * 13. In "Entity Type" drop-down field choose "Customers" parameter
+     * 14. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
+     * 15. Go to Customers -> Attributes -> Manage Customer Attributes
+     * 16. Edit attribute from precondition
+     * 17. Click "Delete Attribute" button, confirm
+     * 18. Go to System -> Import/ Export -> Export
+     * 19. In "Entity Type" drop-down field choose "Customers" parameter
+     * 20. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
+     * Expected after steps 7: Check that added to system attribute is displayed in "Entity Attributes" list
+     * Expected after step 14: Check that changes are applied for attribute in "Entity Attributes" block
+     * Expected after step 20: Check that "Entity Attributes" block doesn't contain the attribute any more
      *
      * @test
      * @TestlinkId TL-MAGE-1310, TL-MAGE-1311, TL-MAGE-1312
@@ -189,36 +180,30 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
     }
 
     /**
-     * <p>Need to verify that after product attribute creation
-     * it's shown in "Entity Attributes" block</p>
-     * <p>Need to verify that after product attribute updating
-     * it's updated in "Entity Attributes" block</p>
-     * <p>Need to verify that after product attribute deletion
-     * it's not shown in "Entity Attributes" block</p>
-     * <p>Steps:</p>
-     * <p>1. Go to Catalog -> Attributes -> Manage Attributes</p>
-     * <p>2. Click "Add New Attribute" button</p>
-     * <p>3. Fill required values</p>
-     * <p>4. Click "Save Attribute" button</p>
-     * <p>5. Go to System -> Import/ Export -> Export</p>
-     * <p>6. In "Entity Type" drop-down field choose "Products" parameter</p>
-     * <p>7. Go to Catalog -> Attributes -> Manage Attributes</p>
-     * <p>8. Edit attribute label from precondition</p>
-     * <p>9. Change admin title</p>
-     * <p>10. Click "Save Attribute" button</p>
-     * <p>11. Go to System -> Import/ Export -> Export</p>
-     * <p>12. In "Entity Type" drop-down field choose "Products" parameter</p>
-     * <p>13. Go to Catalog -> Attributes -> Manage Attributes</p>
-     * <p>14. Open edit page of attribute from precondition</p>
-     * <p>15. Click "Delete Attribute" button, confirm</p>
-     * <p>16. Go to System -> Import/ Export -> Export</p>
-     * <p>17. In "Entity Type" drop-down field choose "Products" parameter</p>
-     * <p>Expected after steps 6: Check that added to system attribute
-     * is displayed in "Entity Attributes" list</p>
-     * <p>Expected after step 12: Check that changes are applied
-     * for attribute in "Entity Attributes" block</p>
-     * <p>Expected after step 17: Check that "Entity Attributes" block
-     * doesn't contain the attribute any more</p>
+     * Need to verify that after product attribute creation it's shown in "Entity Attributes" block
+     * Need to verify that after product attribute updating it's updated in "Entity Attributes" block
+     * Need to verify that after product attribute deletion it's not shown in "Entity Attributes" block
+     * Steps:
+     * 1. Go to Catalog -> Attributes -> Manage Attributes
+     * 2. Click "Add New Attribute" button
+     * 3. Fill required values
+     * 4. Click "Save Attribute" button
+     * 5. Go to System -> Import/ Export -> Export
+     * 6. In "Entity Type" drop-down field choose "Products" parameter
+     * 7. Go to Catalog -> Attributes -> Manage Attributes
+     * 8. Edit attribute label from precondition
+     * 9. Change admin title
+     * 10. Click "Save Attribute" button
+     * 11. Go to System -> Import/ Export -> Export
+     * 12. In "Entity Type" drop-down field choose "Products" parameter
+     * 13. Go to Catalog -> Attributes -> Manage Attributes
+     * 14. Open edit page of attribute from precondition
+     * 15. Click "Delete Attribute" button, confirm
+     * 16. Go to System -> Import/ Export -> Export
+     * 17. In "Entity Type" drop-down field choose "Products" parameter
+     * Expected after steps 6: Check that added to system attribute is displayed in "Entity Attributes" list
+     * Expected after step 12: Check that changes are applied for attribute in "Entity Attributes" block
+     * Expected after step 17: Check that "Entity Attributes" block doesn't contain the attribute any more
      *
      * @return void
      * @test
