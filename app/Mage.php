@@ -440,7 +440,7 @@ final class Mage
      * @param   array $arguments
      * @return  Mage_Core_Model_Abstract
      */
-    public static function getSingleton($modelClass='', array $arguments=array())
+    public static function getSingleton($modelClass = '', array $arguments=array())
     {
         return self::getObjectManager()->get($modelClass, array('data' => $arguments));
     }

@@ -16,13 +16,13 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
 {
     /**
      * Check redirection to startup page for logged user
-     * @magentoConfigFixture admin/routers/adminhtml/args/frontName admin
+     * @magentoConfigFixture global/areas/adminhtml/frontName backend
      * @magentoConfigFixture current_store admin/security/use_form_key 1
      */
     public function testPreDispatchWithEmptyUrlRedirectsToStartupPage()
     {
         $expected = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/dashboard');
-        $this->dispatch('/admin');
+        $this->dispatch('backend');
         $this->assertRedirect($this->stringStartsWith($expected));
     }
 
@@ -48,7 +48,7 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
         $url = Mage::getSingleton('Mage_Backend_Model_Url')->getUrl('adminhtml/system_account/index');
         $this->dispatch($url);
 
-        $expected = 'admin/system_account/index';
+        $expected = 'backend/admin/system_account/index';
         $this->assertRedirect($this->stringContains($expected));
     }
 }

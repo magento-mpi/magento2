@@ -11,6 +11,18 @@
 
 class Magento_ShellTest extends PHPUnit_Framework_TestCase
 {
+    public function testGetSetVerbose()
+    {
+        $shell = new Magento_Shell(false);
+        $this->assertFalse($shell->getVerbose());
+
+        $shell->setVerbose(true);
+        $this->assertTrue($shell->getVerbose());
+
+        $shell->setVerbose(false);
+        $this->assertFalse($shell->getVerbose());
+    }
+
     /**
      * @dataProvider executeDataProvider
      * @param string $phpCommand

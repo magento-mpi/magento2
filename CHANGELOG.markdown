@@ -1,3 +1,48 @@
+Update as of 7/26/2012
+=====================
+* Implemented Magento Validator library in order to have clear solid mechanism and formal rules of input data validation
+* Moved translations to module directories, so that it is much more convenient to manage module resources
+* Updated inline translation mechanism to support locales inheritance
+* Implemented ability to navigate through pending reviews with Prev/Next buttons, no need to switch to grid and back
+* Fixed issues:
+  * Unable to use shell-installer after changes in Backend area routing process
+  * Incorrect redirect after entering wrong captcha on the "Forgot your user name or password?" backend page
+  * Translation is absent for several strings in Sales module `guest/form.phtml` template
+  * Exception during installation process, when `var` directory is not empty
+  * Node `modules` is merged to all modules' config XML-files, although it must be merged to `config.xml` only
+* GitHub requests:
+  * [#39](https://github.com/magento/magento2/pull/39) -- added `composer.json`, which was announced at previous update, but mistakenly omitted from publishing
+
+Update as of 7/19/2012
+=====================
+* Implemented inheritance of locales. Inheritance is declared in `app/locale/<locale_name>/config.xml`
+* Moved declaration of modules from `app/etc/modules/<module>.xml` to `app/code/<pool>/<namespace>/<module>/config.xml`
+* Implemented ability to match URLs in format `protocol://base_url/area/module/controller/action` (as opposite to only `module/controller/action`), utilized this feature in backend (admin) area
+* Added product attribute set "Minimal Attributes", which consists of required system attributes only
+* Improved customers import:
+  * Implemented "Delete" behavior for importing customers, customer addresses and financial data
+  * Implemented "Custom" behavior, which allows to specify behavior for each item directly from the imported file
+* Updated performance tests:
+  * Enabled Product View, Category View, Add to Cart, Quick Search and Advanced Search scenarios
+  * Added ability to specify configuration parameters per scenario and refactored bootstrap of performance tests
+* Implemented `mage.js` for base JavaScript initialization of the application
+* Implemented new JS translation mechanism. JavaScript translations are loaded by locale code stored in cookies
+* Implemented unit tests for JavaScript widgets in Visual Design Editor
+* Added jQuery plugins: Cookie, Metadata, Validation, Head JS
+* Fixed issues:
+  * Impossible to add configurable product to the cart
+  * Impossible to apply Shopping Cart Price Rule with any conditions to cart with simple and virtual product
+  * Memory leak in email templates
+  * Impossible to place order with Multiple Addresses using 3D Secure
+  * Required product attributes are not exported
+  * "Forgot Your Password" link on checkout page inactive after captcha reloading
+  * Validation of "Number of Symbols" field in Captcha configuration doesn't work
+  * Other small fixes
+* GitHub requests:
+  * [#37](https://github.com/magento/magento2/pull/37) -- fixed particular case of "HEADERS ALREADY SENT" error in WYSIWYG thumbnail
+  * [#39](https://github.com/magento/magento2/pull/39) -- added `composer.json` (actually, doesn't come with this update due to a mistake in publishing process)
+  * [#40](https://github.com/magento/magento2/pull/40) -- fixed generation of "secret key" in backend URLs to honor `_forward` in controllers
+
 Update as of 7/3/2012
 =====================
 * Refactored backend (admin) menu generation:

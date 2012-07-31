@@ -59,6 +59,36 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode('global'));
     }
 
+    /**
+     * @param string $etcDir
+     * @param string $option
+     * @param string $expectedNode
+     * @param string $expectedValue
+     * @dataProvider loadBaseLocalConfigDataProvider
+     */
+    public function testLoadBaseLocalConfig($etcDir, $option, $expectedNode, $expectedValue)
+    {
+        $model = new Mage_Core_Model_Config;
+        $model->setOptions(array('etc_dir' => __DIR__ . "/_files/local_config/{$etcDir}", 'local_config' => $option));
+        $model->loadBase();
+        $this->assertInstanceOf('Varien_Simplexml_Element', $model->getNode($expectedNode));
+        $this->assertEquals($expectedValue, (string)$model->getNode($expectedNode));
+    }
+
+    /**
+     * @return array
+     */
+    public function loadBaseLocalConfigDataProvider()
+    {
+        return array(
+            array('no_local_config_no_custom_config', '', 'a/value', 'b'),
+            array('no_local_config_custom_config', 'custom/local.xml', 'a', ''),
+            array('local_config_no_custom_config', '', 'value', 'local'),
+            array('local_config_custom_config', 'custom/local.xml', 'value', 'custom'),
+            array('local_config_custom_config', 'custom/invalid.pattern.xml', 'value', 'local'),
+        );
+    }
+
     public function testLoadLocales()
     {
         $model = new Mage_Core_Model_Config();
@@ -412,13 +442,14 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
 
         $testAreaExpected = array(
             'base_controller' => 'Mage_Core_Controller_Varien_Action',
+            'frontName' => 'TESTAREA',
             'routers'         => array(
                 'test_router1' => array(
                     'class'   => 'Mage_Core_Controller_Varien_Router_Default'
                 ),
                 'test_router2' => array(
                     'class'   => 'Mage_Core_Controller_Varien_Router_Default'
-                )
+                ),
             )
         );
         $this->assertEquals($testAreaExpected, $allowedAreas['test_area1'], 'Test area is not loaded correctly');
@@ -444,6 +475,7 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $testRouterExpected = array(
             'class'           => 'Mage_Core_Controller_Varien_Router_Default',
             'area'            => 'test_area1',
+            'frontName'       => 'TESTAREA',
             'base_controller' => 'Mage_Core_Controller_Varien_Action'
         );
         $this->assertEquals($testRouterExpected, $loadedRouters['test_router1'], 'Test router is not loaded correctly');

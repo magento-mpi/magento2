@@ -9,19 +9,12 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     protected $_di;
 
-    public function __construct(\Zend\Di\Di $di, Mage_Core_Model_Config $config)
+    public function __construct(\Zend\Di\Di $di)
     {
         $this->_di = $di;
         $definitions = $this->_di->definitions();
         $definitions[0]->getIntrospectionStrategy()->setMethodNameInclusionPatterns(array());
         $definitions[0]->getIntrospectionStrategy()->setInterfaceInjectionInclusionPatterns(array());
-        $this->_di->instanceManager()->setParameters(
-            'Mage_Core_Model_Cache',
-            array(
-                'cacheOptions' => $config->getNode('global/cache')->asArray(),
-                'Mage_Core_Model_Config' => $config
-            )
-        );
     }
 
     /**
@@ -48,4 +41,12 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
         return $this->_di->get($className, $arguments);
     }
 
+    /**
+     * @param string $class
+     * @param array $parameters
+     */
+    public function setParameters($class, array $parameters)
+    {
+        $this->_di->instanceManager()->setParameters($class, $parameters);
+    }
 }
