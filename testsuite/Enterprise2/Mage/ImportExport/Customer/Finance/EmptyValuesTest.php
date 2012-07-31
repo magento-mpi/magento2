@@ -21,9 +21,9 @@
 class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export
      */
     protected function assertPreConditions()
     {
@@ -33,22 +33,22 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         $this->navigate('import');
     }
     /**
-     * <p>Empty values for existing attributes in csv for Customer Finances</p>
-     * <p>Preconditions:</p>
-     * <p>1. Create two customers</p>
-     * <p>2. Add some values to Reward Points and Store Credit for both customers</p>
-     * <p>3. CSV file prepared that contains:<br>
+     * Empty values for existing attributes in csv for Customer Finances
+     * Preconditions:
+     * 1. Create two customers
+     * 2. Add some values to Reward Points and Store Credit for both customers
+     * 3. CSV file prepared that contains:<br>
      * empty columns Reward Points and Store Credit for first customer<br>
-     * value "0" in columns Reward Points and Store Credit for second customer</p>
-     * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"</p>
-     * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
-     * <p>3. Choose file from precondition</p>
-     * <p>4. Press "Check Data"</p>
-     * <p>5. Press "Import" button</p>
-     * <p>6. Open Customers-> Manage Customers</p>
-     * <p>7. Open customers from precondition</p>
-     * <p>Expected: Customer1 has values as in precondition. Customer2 has "0" for Reward Points and Store Credit</p>
+     * value "0" in columns Reward Points and Store Credit for second customer
+     * Steps
+     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"
+     * 2. Select "Add/Update Complex Data" in selector "Import Behavior"
+     * 3. Choose file from precondition
+     * 4. Press "Check Data"
+     * 5. Press "Import" button
+     * 6. Open Customers-> Manage Customers
+     * 7. Open customers from precondition
+     * Expected: Customer1 has values as in precondition. Customer2 has "0" for Reward Points and Store Credit
      *
      * @test
      * @dataProvider importData
@@ -58,44 +58,44 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
     {
         //Create Customer1
         $this->navigate('manage_customers');
-        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData1);
+        $userDataOne = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userDataOne);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData2);
+        $userDataTwo = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userDataTwo);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 1
-        $this->addParameter('customer_first_last_name', $userData1['first_name'] . ' ' . $userData1['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
+        $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
-        $userData1['update_balance'] = '100';
+        $userDataOne['update_balance'] = '100';
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
+        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
         $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '150'));
-        $userData1['update_balance'] = '150';
+        $userDataOne['update_balance'] = '150';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 2
-        $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
+        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '200'));
-        $userData2['update_balance'] = '200';
+        $userDataTwo['update_balance'] = '200';
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
+        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
         $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '250'));
-        $userData2['update_balance'] = '250';
+        $userDataTwo['update_balance'] = '250';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['_email'] = $userData1['email'];
+        $data[0]['_email'] = $userDataOne['email'];
         $data[0]['store_credit'] = '';
         $data[0]['reward_points'] = '';
 
-        $data[1]['_email'] = $userData2['email'];
+        $data[1]['_email'] = $userDataTwo['email'];
         $data[1]['store_credit'] = '0';
         $data[1]['reward_points'] = '0';
 
@@ -113,8 +113,8 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         //Step 6
         $this->navigate('manage_customers');
         //Step 7. First Customer
-        $this->addParameter('customer_first_last_name', $userData1['first_name'] . ' ' . $userData1['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
+        $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
         //Verify customer account
         $this->assertEquals('$100.00', $this->customerHelper()->getStoreCreditBalance(),
             'Adding customer credit score balance is failed');
@@ -122,8 +122,8 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
             'Adding customer reward points balance is failed');
         //Step 7. Second Customer
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userData2['email']));
+        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
         //Verify customer account
         $this->openTab('store_credit');
         $this->assertEquals('$0.00', $this->customerHelper()->getStoreCreditBalance(),
