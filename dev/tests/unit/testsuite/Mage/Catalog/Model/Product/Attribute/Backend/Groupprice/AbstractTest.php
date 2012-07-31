@@ -46,7 +46,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Groupprice_AbstractTest exten
             ->will($this->returnValue($resource));
     }
 
-    public function testGetAffectedFields() {
+    public function testGetAffectedFields()
+    {
         $valueId = 10;
         $attributeId = 42;
 

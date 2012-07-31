@@ -26,7 +26,8 @@ class Mage_Eav_Model_Entity_Attribute_Backend_AbstractTest extends PHPUnit_Frame
         );
     }
 
-    public function testGetAffectedFields() {
+    public function testGetAffectedFields()
+    {
         $valueId = 10;
         $attributeId = 42;
 

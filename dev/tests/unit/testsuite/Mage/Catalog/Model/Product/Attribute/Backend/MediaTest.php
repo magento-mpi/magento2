@@ -28,7 +28,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
         ));
     }
 
-    public function testGetAffectedFields() {
+    public function testGetAffectedFields()
+    {
         $valueId = 10;
         $attributeId = 42;
 

@@ -23,7 +23,7 @@ class Mage_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_TestCas
     {
         $attributes = array();
         $codes = array('entity_type_id', 'attribute_set_id', 'created_at', 'updated_at', 'parent_id', 'increment_id');
-        foreach($codes as $code) {
+        foreach ($codes as $code) {
             $mock = $this->getMock(
                 'Mage_Eav_Model_Entity_Attribute_Abstract',
                 array('isInSet', 'getBackend'),
