@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -109,7 +107,7 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
      * 1. Admin is logged in at frontend
      * 2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes
      * 3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customer Address Attributes
-     * 
+     *
      *
      * Steps
      * 1. Go to System-> Import/Export-> Export

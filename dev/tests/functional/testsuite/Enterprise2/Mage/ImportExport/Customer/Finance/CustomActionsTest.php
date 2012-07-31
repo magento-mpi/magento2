@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -48,7 +46,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
     /**
      * Custom import: update finance information
      * Need to verify that the customer finances information is updated if the action is "Update" in the csv file
-     * After steps 
+     * After steps
      * Verify that all Customers finance information was imported
      *
      * @test
@@ -135,7 +133,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
     /**
      * Custom import: not recognized or empty action
      * Verify that the customer finances information is updated if the action is empty or not recognized in csv file
-     * After steps 
+     * After steps
      * Verify that all Customers finance information was imported
      *
      * @test
@@ -222,7 +220,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
     /**
      * Custom import: delete finance information
      * Need to verify that the customer finances information is cleared if the action is "Delete" in the csv file
-     * After steps 
+     * After steps
      * Verify that all Customers finance information was imported
      *
      * @test

@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -96,7 +94,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
             array(
                 'attribute_code'=>$attrData['properties']['attribute_code']));
         //Change label
-        $attrData['manage_labels_options']['admin_title'] = 
+        $attrData['manage_labels_options']['admin_title'] =
             'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillForm($attrData, 'manage_labels_options');
         $this->attributesHelper()->saveForm('save_attribute');
