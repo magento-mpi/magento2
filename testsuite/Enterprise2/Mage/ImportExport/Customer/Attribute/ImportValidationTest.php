@@ -22,9 +22,9 @@
 class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export
      */
     protected function assertPreConditions()
     {
@@ -34,17 +34,17 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
         $this->navigate('import');
     }
     /**
-     * <p>Customer Import, if file data is invalid</p>
-     * <p>Steps</p>
-     * <p>Verify that import will not be started, if file has all rows that are invalid</p>
-     * <p>Invalid row is:</p>
-     * <p>a row with empty value of required attribute</p>
-     * <p>a row with wrong value of some system attribute (non existing website_id or group_id)</p>
-     * <p>a row with invalid values for attributes that pass validation (wrong format of email)</p>
-     * <p>value format differs from attribute input type (some text value is present for attribute with type Yes/No)</p>
-     * <p>if the required column is absent in import file (email, website, firstname, group_id, lastname), file is invalid</p>
-     * <p>Press "Check Data" button</p>
-     * <p>Expected: Warning about incorrect file appears</p>
+     * Customer Import, if file data is invalid
+     * Steps
+     * Verify that import will not be started, if file has all rows that are invalid
+     * Invalid row is:
+     * a row with empty value of required attribute
+     * a row with wrong value of some system attribute (non existing website_id or group_id)
+     * a row with invalid values for attributes that pass validation (wrong format of email)
+     * value format differs from attribute input type (some text value is present for attribute with type Yes/No)
+     * if the required column is absent in import file (email, website, firstname, group_id, lastname), file is invalid
+     * Press "Check Data" button
+     * Expected: Warning about incorrect file appears
      *
      * @test
      * @dataProvider importDataInvalid
@@ -78,14 +78,14 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
 
     public function importDataInvalid()
     {
-        $customerDataRow5 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
+        $customerDataRow = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
-                'email' => 'test_admin_' . $this->generate('string',5) . '@unknown-domain.com',
-                'lastname' => 'last_' . $this->generate('string',10),
-                'firstname' => 'last_' . $this->generate('string',10),
+                'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
+                'lastname' => 'last_' . $this->generate('string', 10),
+                'firstname' => 'last_' . $this->generate('string', 10),
             ));
         return array(
-            array($customerDataRow5,
+            array($customerDataRow,
                 array(
                     'validation' => array(
                         'error' => array(
@@ -100,5 +100,4 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
             )
         );
     }
-
 }
