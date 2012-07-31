@@ -47,14 +47,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
+        /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector|bool */
+        $selectorBlock = $layout->getChildBlock($blockName, 'selector');
+
         if ($expected['selector']) {
-            /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector */
-            $selectorBlock = $layout->getChildBlock($blockName, 'selector');
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'selector'),
-                'Child block with entity selector should not present in block');
+            $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
         }
     }
 
@@ -69,9 +69,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
+        /** @var $cmsPageLinkBlock Mage_Adminhtml_Block_Urlrewrite_Link|bool */
+        $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
+
         if ($expected['cms_page_link']) {
-            /** @var $cmsPageLinkBlock Mage_Adminhtml_Block_Urlrewrite_Link */
-            $cmsPageLinkBlock = $layout->getChildBlock($blockName, 'cms_page_link');
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Link', $cmsPageLinkBlock,
                 'Child block with CMS page link is invalid');
 
@@ -84,8 +85,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
             $this->assertRegExp('/http:\/\/localhost\/index.php\/.*\/cms_page/', $cmsPageLinkBlock->getItemUrl(),
                 'Child block with CMS page contains invalid URL');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'cms_page_link'),
-                'Child block with CMS page link should not present in block');
+            $this->assertFalse($cmsPageLinkBlock, 'Child block with CMS page link should not present in block');
         }
     }
 
@@ -95,12 +95,12 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
      * @param Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit $block
      * @param array $expected
      */
-    private function _checkButtons($block, $expected, $blockAttributes)
+    private function _checkButtons($block, $expected)
     {
         $buttonsHtml = $block->getButtonsHtml();
 
         if ($expected['back_button']) {
-            if ($blockAttributes['cms_page']) {
+            if ($block->getCmsPage()->getId()) {
                 $this->assertSelectCount('button.back[onclick~="\/cms_page"]', 1, $buttonsHtml,
                     'Back button is not present in CMS page URL rewrite edit block');
             } else {
@@ -148,10 +148,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        if ($expected['form']) {
-            /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form */
-            $formBlock = $layout->getChildBlock($blockName, 'form');
+        /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form|bool */
+        $formBlock = $layout->getChildBlock($blockName, 'form');
 
+        if ($expected['form']) {
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit_Form', $formBlock,
                 'Child block with form is invalid');
 
@@ -161,8 +161,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
             $this->assertSame($expected['form']['url_rewrite'], $formBlock->getUrlRewrite(),
                 'Form block should have same URL rewrite attribute');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'form'),
-                'Child block with form should not present in block');
+            $this->assertFalse($formBlock, 'Child block with form should not present in block');
         }
     }
 
@@ -177,14 +176,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
+        /** @var $gridBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid|bool */
+        $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
+
         if ($expected['cms_pages_grid']) {
-            /** @var $gridBlock Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid */
-            $gridBlock = $layout->getChildBlock($blockName, 'cms_pages_grid');
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Grid', $gridBlock,
                 'Child block with CMS pages grid is invalid');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'cms_pages_grid'),
-                'Child block with CMS pages grid should not present in block');
+            $this->assertFalse($gridBlock, 'Child block with CMS pages grid should not present in block');
         }
     }
 

@@ -54,12 +54,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
      */
     protected function _prepareLayoutFeatures()
     {
+        /** @var $helper Mage_Adminhtml_Helper_Data */
+        $helper = Mage::helper('Mage_Adminhtml_Helper_Data');
+
         if ($this->_getUrlRewrite()->getId()) {
             $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Edit URL Rewrite');
         } else {
             $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New URL Rewrite');
         }
 
+        $this->_updateBackButtonLink($helper->getUrl('*/*/edit'));
         $this->_addUrlRewriteSelectorBlock();
         $this->_addEditFormBlock();
     }
@@ -129,7 +133,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
         $this->_addButton('delete', array(
             'label'   => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Delete'),
             'onclick' => 'deleteConfirm(\''
-                . Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?')
+                . addslashes(Mage::helper('Mage_Adminhtml_Helper_Data')->__('Are you sure you want to do this?'))
                 . '\', \'' . $helper->getUrl('*/*/delete', array('id' => $this->getUrlRewrite()->getId())) . '\')',
             'class'   => 'scalable delete',
             'level'   => -1

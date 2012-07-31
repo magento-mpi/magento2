@@ -47,14 +47,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
+        /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector|bool */
+        $selectorBlock = $layout->getChildBlock($blockName, 'selector');
+
         if ($expected['selector']) {
-            /** @var $selectorBlock Mage_Adminhtml_Block_Urlrewrite_Selector */
-            $selectorBlock = $layout->getChildBlock($blockName, 'selector');
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Selector', $selectorBlock,
                 'Child block with entity selector is invalid');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'selector'),
-                'Child block with entity selector should not present in block');
+            $this->assertFalse($selectorBlock, 'Child block with entity selector should not present in block');
         }
     }
 
@@ -69,9 +69,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
+        /** @var $categoryBlock Mage_Adminhtml_Block_Urlrewrite_Link|bool */
+        $categoryBlock = $layout->getChildBlock($blockName, 'category_link');
+
         if ($expected['category_link']) {
-            /** @var $categoryBlock Mage_Adminhtml_Block_Urlrewrite_Link */
-            $categoryBlock = $layout->getChildBlock($blockName, 'category_link');
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Link', $categoryBlock,
                 'Child block with category link is invalid');
 
@@ -84,8 +85,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
             $this->assertRegExp('/http:\/\/localhost\/index.php\/.*\/category/', $categoryBlock->getItemUrl(),
                 'Child block with category contains invalid URL');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'category_link'),
-                'Child block with category link should not present in block');
+            $this->assertFalse($categoryBlock, 'Child block with category link should not present in block');
         }
     }
 
@@ -148,10 +148,10 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
-        if ($expected['form']) {
-            /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form */
-            $formBlock = $layout->getChildBlock($blockName, 'form');
+        /** @var $formBlock Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form|bool */
+        $formBlock = $layout->getChildBlock($blockName, 'form');
 
+        if ($expected['form']) {
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Catalog_Edit_Form', $formBlock,
                 'Child block with form is invalid');
 
@@ -161,8 +161,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
             $this->assertSame($expected['form']['url_rewrite'], $formBlock->getUrlRewrite(),
                 'Form block should have same URL rewrite attribute');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'form'),
-                'Child block with form should not present in block');
+            $this->assertFalse($formBlock, 'Child block with form should not present in block');
         }
     }
 
@@ -177,13 +176,14 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
         $layout = $block->getLayout();
         $blockName = $block->getNameInLayout();
 
+        /** @var $categoriesTreeBlock Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree|bool  */
+        $categoriesTreeBlock = $layout->getChildBlock($blockName, 'categories_tree');
+
         if ($expected['categories_tree']) {
-            $categoriesTreeBlock = $layout->getChildBlock($blockName, 'categories_tree');
             $this->assertInstanceOf('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Tree', $categoriesTreeBlock,
                 'Child block with categories tree is invalid');
         } else {
-            $this->assertFalse($layout->getChildBlock($blockName, 'categories_tree'),
-                'Child block with category_tree should not present in block');
+            $this->assertFalse($categoriesTreeBlock, 'Child block with category_tree should not present in block');
         }
     }
 

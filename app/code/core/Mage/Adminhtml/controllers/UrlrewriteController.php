@@ -70,11 +70,6 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
         $mode = $this->_getMode();
 
         switch ($mode) {
-            case self::ID_MODE:
-                $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', array(
-                    'url_rewrite' => $this->_getUrlRewrite()
-                ));
-                break;
             case self::PRODUCT_MODE:
                 $editBlock = $this->getLayout()
                     ->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Product_Edit', '', array(
@@ -97,10 +92,18 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
                     'url_rewrite' => $this->_getUrlRewrite()
                 ));
                 break;
+            case self::ID_MODE:
+            default:
+                $editBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Edit', '', array(
+                    'url_rewrite' => $this->_getUrlRewrite()
+                ));
+                break;
         }
 
         $this->_addContent($editBlock);
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        if (in_array($mode, array(self::PRODUCT_MODE, self::CATEGORY_MODE))) {
+            $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        }
         $this->renderLayout();
     }
 
