@@ -60,7 +60,7 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest
      * <p>Expected result:</p>
      *  <p>1. Product page opens with saved changes. For system attribute default value is selected.</p>
      *
-     * @param string $attr
+     * @param string $attributeCode
      * @param string $productType
      * @param string $uimapName
      *
@@ -69,9 +69,9 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest
      * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836     *
      */
     // @codingStandardsIgnoreEnd
-    public function checkSystemAttributeDefaultValue($attr, $productType, $uimapName)
+    public function checkSystemAttributeDefaultValue($attributeCode, $productType, $uimapName)
     {
-        parent::checkSystemAttributeDefaultValue($attr, $productType, $uimapName);
+        parent::checkSystemAttributeDefaultValue($attributeCode, $productType, $uimapName);
     }
 
     /**

@@ -16,11 +16,12 @@
 class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute_Helper
 {
     /**
-     * Set default value for dropdown attribute
+     * Set default value for dropdown attribute and verify admin values if $isVerify = true
      *
      * @param array $attributeData
+     * @param bool $isVerify
      */
-    public function setDefaultAttributeValue(array $attributeData)
+    public function setDefaultAttributeValue(array $attributeData, $isVerify = false)
     {
         $num = 1;
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_options');
@@ -28,13 +29,20 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         foreach ($attributeData as $key => $value) {
             if (preg_match('/^option_/', $key) && is_array($value)
                 && $this->controlIsPresent('fieldset', 'manage_options')
-                && ($option > 0)
+                && $option > 0
             ) {
                 $fieldOptionNumber = $this->getAttribute($fieldsetXpath . "//tr[contains(@class,'option-row')][" . $num
                                                          . "]//input[@class='input-radio']/@value");
                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                if ($value['admin_option_name'] == $attributeData['default_value']) {
-                    $this->fillFieldset(array('is_default' => 'Yes'), 'manage_options');
+                if ($isVerify) {
+                    $optionXpath = "//tr[contains(@class,'option-row')][" . $num
+                                   . "]//input[@class='input-text required-option' and @disabled='disabled']";
+                    $this->assertTrue($this->isElementPresent($optionXpath), 'Admin value attribute is not disabled');
+                    $this->assertEquals($value['admin_option_name'], $this->getValue($optionXpath));
+                } else {
+                    if ($value['admin_option_name'] == $attributeData['default_value']) {
+                        $this->fillCheckbox('is_default', 'Yes');
+                    }
                 }
                 $num++;
                 $option--;
@@ -55,25 +63,6 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         $this->storeViewTitles($attributeData, 'manage_titles', 'verify');
         $this->assertFalse($this->buttonIsPresent('add_option'), 'It is possible to add new option');
         $this->assertFalse($this->buttonIsPresent('delete_option'), 'Delete button is present in Manage Options tab');
-        $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_options');
-        $option = $this->getXpathCount($fieldsetXpath . "//tr[contains(@class,'option-row')]");
-        $num = 1;
-        foreach ($attributeData as $key => $value) {
-            if (preg_match('/^option_/', $key) and is_array($value)) {
-                if ($this->controlIsPresent('fieldset', 'manage_options')) {
-                    if ($option > 0) {
-                        $fieldOptionNumber = $this->getAttribute(
-                            $fieldsetXpath . "//tr[contains(@class,'option-row')][" . $num
-                            . "]//input[@class='input-radio']/@value");
-                        $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                        $this->assertTrue($this->isElementPresent("//tr[contains(@class,'option-row')][" . $num
-                            . "]//input[@class='input-text required-option' and @disabled='disabled']"),
-                            'Admin value attribute is not disabled');
-                        $num++;
-                        $option--;
-                    }
-                }
-            }
-        }
+        $this->setDefaultAttributeValue($attributeData, true);
     }
 }

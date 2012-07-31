@@ -37,6 +37,7 @@ custom_design:
     option_12:
         admin_option_name: Professional / Professional / default (incompatible version)
     default_value: Default / Modern / blue
+    default_control_value: default/modern/blue
 
 enable_googlecheckout:
     attribute_code: enable_googlecheckout
