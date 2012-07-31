@@ -53,6 +53,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
         $controller = $this->_getActionControllerInstance($controllerClass);
         $action = $this->getResourceConfig()->getMethodNameByOperation($operation);
+        if (!$controller->hasAction($action)) {
+            $this->_soapFault();
+        }
         // TODO: ACL check is not implemented yet
         $this->_checkResourceAcl();
 
@@ -64,13 +67,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         $helper->wsiArrayUnpacker($arguments);
         $arguments = get_object_vars($arguments);
 
-        $methodParams = $this->getMethodParams($controllerClass, $action);
-
-        $arguments = $this->prepareArgs($methodParams, $arguments);
+        $actionParams = $this->_fetchMethodParams($controllerClass, $action);
+        $arguments = $this->_prepareMethodParams($actionParams, $arguments);
         try {
-            if (!$controller->hasAction($action)) {
-                $this->_soapFault();
-            }
             $result = $controller->$action($arguments);
             // TODO: Move wsiArrayPacker from helper to this class
             $obj = $helper->wsiArrayPacker($result);
@@ -162,44 +161,47 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     }
 
     /**
-     * Return an array of parameters for the callable method.
+     * Identify parameters for the specified method
      *
-     * @param String $modelName
-     * @param String $methodName
-     * @return Array of ReflectionParameter
+     * @param string $className
+     * @param string $methodName
+     * @return array
      */
-    public function getMethodParams($modelName, $methodName) {
+    protected function _fetchMethodParams($className, $methodName)
+    {
 
-        $method = new ReflectionMethod($modelName, $methodName);
+        $method = new ReflectionMethod($className, $methodName);
         return $method->getParameters();
     }
 
     /**
-     * Prepares arguments for the method calling. Sort in correct order, set default values for omitted parameters.
+     * Prepares SOAP operation arguments for passing to controller action method: <br/>
+     * - sort in correct order <br/>
+     * - set default values for omitted arguments
      *
-     * @param array $params Action parameters
+     * @param array $actionParams Action parameters
      * @param array $soapArguments SOAP operation arguments
      * @return array
      */
-    public function prepareArgs($params, $soapArguments)
+    public function _prepareMethodParams($actionParams, $soapArguments)
     {
-        $callArgs = array();
+        $preparedParams = array();
         /** @var $parameter ReflectionParameter */
-        foreach ($params as $parameter) {
-            $pName = $parameter->getName();
-            if (isset($soapArguments[$pName])) {
-                $callArgs[$pName] = $soapArguments[$pName];
+        foreach ($actionParams as $parameter) {
+            $parameterName = $parameter->getName();
+            if (isset($soapArguments[$parameterName])) {
+                $preparedParams[$parameterName] = $soapArguments[$parameterName];
             } else {
                 if ($parameter->isOptional()) {
-                    $callArgs[$pName] = $parameter->getDefaultValue();
+                    $preparedParams[$parameterName] = $parameter->getDefaultValue();
                 } else {
-                    $errorMessage = "Required parameter \"$pName\" is missing.";
+                    $errorMessage = "Required parameter \"$parameterName\" is missing.";
                     Mage::logException(new Exception($errorMessage, 0));
                     $this->_soapFault($errorMessage, self::FAULT_CODE_SENDER);
                 }
             }
         }
-        return $callArgs;
+        return $preparedParams;
     }
 
     /**
