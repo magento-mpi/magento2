@@ -45,13 +45,10 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
         unset($productData['custom_options_data']['custom_options_file']);
-        $productSearch =
-            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-
         return $productData;
     }
 
@@ -132,8 +129,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         //Need to update custom option, get optionId by Title
         $optionId = $this->productHelper()->getCustomOptionId('Custom Option Field');
         $this->addParameter('optionId', $optionId);
-        $this->fillCheckbox('custom_options_default_value','No');
-        $this->fillField('custom_options_general_title','Custom Option Field ' . $storeViewData['store_view_name']);
+        $this->fillCheckbox('custom_options_default_value', 'No');
+        $this->fillField('custom_options_general_title', 'Custom Option Field ' . $storeViewData['store_view_name']);
         $this->productHelper()->saveForm('save');
         //switch to all views
         $this->storeHelper()->defaultStoreView('choose_store_view');

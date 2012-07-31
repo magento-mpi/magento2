@@ -721,47 +721,48 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
             $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+                    'Product must be contains ' . $needCount .
+                    ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
-        $optionId = '';
-        $id = $this->getAttribute($fieldSetXpath . "[1]/@id");
-        $id = explode('_', $id);
-        foreach ($id as $value) {
-            if (is_numeric($value)) {
-                $optionId = $value;
-            }
-        }
-        // @TODO Need implement full verification for custom options with type = select (not tested rows)
-        foreach ($customOptionData as $value) {
+        for ($customOptionNumber = 1; $customOptionNumber <= $optionsQty; $customOptionNumber++) {
+            //Get custom option ID
+            $optionId = '';
+            $id = $this->getAttribute($fieldSetXpath . "[{$customOptionNumber}]/@id");
+            $id = explode('_', $id);
+            $optionId = end($id);
+            //Get custom option data
+            $value = $customOptionData[$customOptionNumber-1];
             if (is_array($value)) {
+                //Verify custom option
                 $this->addParameter('optionId', $optionId);
                 $this->verifyForm($value, 'custom_options');
-                //get count of rows
+                //Get count of rows
                 $rowsQty = 0;
                 $fieldRowsXpath = $this->_getControlXpath('field', 'custom_options_rows');
-                if ($this->isElementPresent($fieldRowsXpath)){
+                if ($this->isElementPresent($fieldRowsXpath)) {
                     $rowsQty = $this->getXpathCount($fieldRowsXpath);
                 }
-                $i = 1;
-                while (isset($value['custom_option_row_' . $i]) && $i <= $rowsQty)
-                {
-                    if ($i <= $rowsQty) {
-                        $id = $this->getAttribute($fieldRowsXpath . "[{$i}]/@id");
-                        $id = explode('_', $id);
-                        $rowId = end($id);
-                        $this->addParameter('rowId', $rowId);
-                        $this->verifyForm($value['custom_option_row_' . $i], 'custom_options');
-                        $i++;
-                    }
+                //Count rows in data
+                $needCountRow = 0;
+                while (isset($value['custom_option_row_' . ($needCountRow+1)])) {
+                    $needCountRow++;
                 }
-                $i--;
-                if ($i != $rowsQty) {
+                if ($needCountRow != $rowsQty) {
                     $this->addVerificationMessage(
-                        'Product custom option must be contains ' . $i . ' Custom Option(s), but contains ' . $rowsQty);
+                            'Product custom option must be contains ' . $needCountRow .
+                            ' Custom Option(s), but contains ' . $rowsQty);
                     return false;
                 }
-                $optionId--;
+                $i = 1;
+                while (isset($value['custom_option_row_' . $i]) && $i <= $needCountRow) {
+                     $id = $this->getAttribute($fieldRowsXpath . "[{$i}]/@id");
+                     $id = explode('_', $id);
+                     $rowId = end($id);
+                     $this->addParameter('rowId', $rowId);
+                     $this->verifyForm($value['custom_option_row_' . $i], 'custom_options');
+                     $i++;
+                }
             }
         }
         return true;
