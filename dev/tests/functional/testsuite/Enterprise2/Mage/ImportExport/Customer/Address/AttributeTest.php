@@ -21,9 +21,9 @@
 class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -32,11 +32,12 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
     }
 
     /**
-     * <p>Add customer address attribute</p>
-     * <p>Steps</p>
-     * <p>1. Admin is logged in at backend</p>
-     * <p>2. New Customers Address Attribute is created in Customers -> Attributes -> Manage Customers Address
-     *    Attributes</p>
+     * Add customer address attribute
+     * Steps
+     * 1. Admin is logged in at backend
+     * 2. New Customers Address Attribute is created in
+     * Customers -> Attributes -> Manage Customers Address
+     *    Attributes
      *
      * @test
      * @TestlinkId TL-MAGE-5611
@@ -56,19 +57,19 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
     }
 
     /**
-     * <p>Simple Export Address file with added address attribute (EE only)</p>
+     * Simple Export Address file with added address attribute (EE only)
      *
-     * <p>Preconditions:</p>
-     * <p>1. Admin is logged in at frontend</p>
-     * <p>2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes</p>
-     * <p>3. Create new customer</p>
+     * Preconditions:
+     * 1. Admin is logged in at frontend
+     * 2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes
+     * 3. Create new customer
      *
-     * <p>Steps</p>
-     * <p>1. Go to System-> Import/Export-> Export</p>
-     * <p>2. Select "Address Type" file</p>
-     * <p>3. Click on "Continue" button, save and open CSV file.</p>
-     * <p>Expected: All customer addresses attributes are presented in opening file with new attribute from
-     *    the precondition.</p>
+     * Steps
+     * 1. Go to System-> Import/Export-> Export
+     * 2. Select "Address Type" file
+     * 3. Click on "Continue" button, save and open CSV file.
+     * Expected: All customer addresses attributes are presented in opening file with new attribute from
+     *    the precondition.
      *
      * @test
      * @param array $attrData
@@ -102,20 +103,20 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
     }
 
     /**
-     * <p>Simple Export Address file with added address attribute (EE only)</p>
+     * Simple Export Address file with added address attribute (EE only)
      *
-     * <p>Preconditions:</p>
-     * <p>1. Admin is logged in at frontend</p>
-     * <p>2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes</p>
-     * <p>3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customer Address Attributes
-     * </p>
+     * Preconditions:
+     * 1. Admin is logged in at frontend
+     * 2. Create new customer address attribute in Customers -> Attributes -> Manage Customer Address Attributes
+     * 3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customer Address Attributes
+     * 
      *
-     * <p>Steps</p>
-     * <p>1. Go to System-> Import/Export-> Export</p>
-     * <p>2. Select "Address Type" file</p>
-     * <p>3. Click on "Continue" button, save and open CSV file.</p>
-     * <p>Expected: All customer addresses attributes are presented in opening file except new deleted attribute from
-     *    the precondition.</p>
+     * Steps
+     * 1. Go to System-> Import/Export-> Export
+     * 2. Select "Address Type" file
+     * 3. Click on "Continue" button, save and open CSV file.
+     * Expected: All customer addresses attributes are presented in opening file except new deleted attribute from
+     *    the precondition.
      *
      * @test
      * @param array $attrData
