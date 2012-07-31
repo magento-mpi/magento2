@@ -8,54 +8,46 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint eqnull:true */
 
 (function ($) {
     $(document).ready(function () {
 
-        var topCartInit = {};
+        var topCartInit = {
+            // Default values
+            intervalDuration:4000,
+            // Filled in initialization event
+            container:null,
+            closeButton:null
+        };
 
-        topCartInit.intervalDuration = 4000;
-        mage.event.trigger('mage.checkout.initialize', topCartInit);
+       mage.event.trigger('mage.checkout.initialize', topCartInit);
 
         topCartInit.container = $(topCartInit.container);
         topCartInit.closeButton = $(topCartInit.closeButton);
-        topCartInit.element = topCartInit.container.parent();
-        topCartInit.elementHeader = topCartInit.container.prev();
-        topCartInit.interval = null;
-        topCartInit.zIndex = null;
 
-        var setzIndex = function (zindex) {
-            if (typeof zindex !== 'undefined' && zindex !== null) {
-                $(topCartInit.container).css('z-index',zindex);
-            }
-        }
+        var topCartSettings={
+            element: topCartInit.container.parent(),
+            elementHeader:topCartInit.container.prev(),
+            interval:null
+           }
+
         topCartInit.closeButton.on('click', function () {
             topCartInit.container.slideUp('slow', function () {
-                setzIndex(topCartInit.zIndex);
-                clearTimeout(topCartInit.interval);
+              clearTimeout(topCartInit.interval);
             });
         });
 
-        topCartInit.element.on('mouseleave', function () {
+        topCartSettings.element.on('mouseleave', function () {
             topCartInit.interval = setTimeout(function () {
                 topCartInit.closeButton.trigger('click');
             }, topCartInit.intervalDuration);
+        }).on('mouseenter', function () {
+            clearTimeout(topCartSettings.interval);
         });
 
-        topCartInit.element.on('mouseenter', function () {
-            clearTimeout(topCartInit.interval);
-        });
-
-        topCartInit.elementHeader.on('click', function () {
-            $(topCartInit.container).slideToggle('slow', function () {
-                topCartInit.zIndex = $(this).css('z-index');
-                if ($(this).is(':visible')) {
-                    setzIndex(972);
-                } else {
-                    setzIndex(topCartInit.zIndex);
-                }
-            });
+        topCartSettings.elementHeader.on('click', function () {
+            $(topCartInit.container).slideToggle('slow');
         });
 
     });

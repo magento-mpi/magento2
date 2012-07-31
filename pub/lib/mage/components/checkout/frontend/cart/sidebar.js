@@ -8,14 +8,22 @@
  */
 (function ($) {
     $(document).ready(function () {
-        var checkout = {};
+        var checkout = {
+            //Filled in initialization event
+            cartId:null,
+            isRecursive:null  ,
+            checkOutUrl:null,
+            checkOutBtn:null,
+            confirmMessage:null,
+            checkOutListCloseBtn:null
+        };
         mage.event.trigger('mage.checkout.initialize', checkout);
-        mage.decorator.list(checkout.cartId, checkout.nonRecursive);
-        $(':button[title=' + checkout.title + ']').on('click', function () {
+        mage.decorator.list(checkout.cartId, checkout.isRecursive);
+        $(checkout.checkOutBtn).on('click', function () {
             $(location).attr('href', checkout.checkOutUrl);
         });
 
-        $('a[title=\'' + checkout.closeBtnTitle + '\']').on('click', function () {
+        $(checkout.checkOutListCloseBtn).on('click', function () {
             return confirm(checkout.confirmMessage);
         });
 

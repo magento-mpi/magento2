@@ -10,42 +10,48 @@
 /*jshint eqnull:true */
 (function ($) {
     $(document).ready(function () {
-        // Trigger initalize event
-        var searchInit = {};
-        //default values
-        searchInit.minSrchKeyLen = 2;
-        searchInit.responseFieldElements = 'ul li';
-        searchInit.selectClass = 'selected';
+
+        var searchInit = {
+            // Default values
+            minSearchLength: 2,
+            responseFieldElements: 'ul li',
+            selectClass: 'selected',
+            // Filled in initialization event
+            emptyText: null,
+            destinationId: null,
+            searchFieldId: null,
+            searchFormId: null
+        };
+        // Trigger initialize event
         mage.event.trigger('mage.catalogsearch.initialize', searchInit);
-        searchInit.indexList = null;
-        searchInit.selected = null;
 
-        var getFirstElement = function () {
-            if (indexListNotNull) {
-                return  searchInit.indexList.first().is(':visible') === false ? searchInit.indexList.first().next() : searchInit.indexList.first();
+        var responseList = {
+            indexList: null,
+            selected: null
+        };
+
+        function getFirstElement() {
+            if (responseList.indexList) {
+                return  responseList.indexList.first().is(':visible')  ? responseList.indexList.first() : responseList.indexList.first().next();
             }
             return false;
         };
 
-        var getLastElement = function () {
-            if (indexListNotNull) {
-                return searchInit.indexList.last();
+        function getLastElement() {
+            if (responseList.indexList) {
+                return responseList.indexList.last();
             }
             return false;
         };
 
-        var indexListNotNull = function () {
-            return  (searchInit.indexList == null) ? false : true;
-        };
-
-        var resetSearchInit = function (all) {
-            searchInit.selected = null;
+        function resetResponseList(all) {
+            responseList.selected = null;
             if (all === true) {
-                searchInit.indexList = null;
+                responseList.indexList = null;
             }
-        };
+        }
 
-        $(searchInit.searchFieldId).on('focusout', function () {
+        $(searchInit.searchFieldId).on('blur', function () {
             if ($(this).val() === '') {
                 $(this).val(searchInit.emptyText);
             }
@@ -54,7 +60,8 @@
                 $(searchInit.destinationId).hide();
             }, 250);
         });
-        $(searchInit.searchFieldId).trigger('focusout');
+
+        $(searchInit.searchFieldId).trigger('blur');
 
         $(searchInit.searchFieldId).on('focus', function () {
             if ($(this).val() == searchInit.emptyText) {
@@ -68,38 +75,38 @@
             switch (keyCode) {
 
                 case mage.constant.KEY_ESC:
-                    resetSearchInit(true);
+                    resetResponseList(true);
                     $(searchInit.destinationId).hide();
                     break;
                 case mage.constant.KEY_TAB:
                     $(searchInit.searchFormId).trigger('submit');
                     break;
                 case mage.constant.KEY_DOWN:
-                    if (indexListNotNull()) {
-                        if (searchInit.selected == null) {
+                    if (responseList.indexList) {
+                        if (!responseList.selected) {
                             getFirstElement().addClass(searchInit.selectClass);
-                            searchInit.selected = getFirstElement();
+                            responseList.selected = getFirstElement();
                         }
                         else if (!getLastElement().hasClass(searchInit.selectClass)) {
-                            searchInit.selected = searchInit.selected.removeClass(searchInit.selectClass).next();
-                            searchInit.selected.addClass(searchInit.selectClass);
+                            responseList.selected = responseList.selected.removeClass(searchInit.selectClass).next();
+                            responseList.selected.addClass(searchInit.selectClass);
                         } else {
-                            searchInit.selected.removeClass(searchInit.selectClass);
+                            responseList.selected.removeClass(searchInit.selectClass);
                             getFirstElement().addClass(searchInit.selectClass);
-                            searchInit.selected = getFirstElement();
+                            responseList.selected = getFirstElement();
                         }
 
                     }
                     break;
                 case mage.constant.KEY_UP:
-                    if (indexListNotNull()) {
+                    if (responseList.indexList !== null) {
                         if (!getFirstElement().hasClass(searchInit.selectClass)) {
-                            searchInit.selected = searchInit.selected.removeClass(searchInit.selectClass).prev();
-                            searchInit.selected.addClass(searchInit.selectClass);
+                            responseList.selected = responseList.selected.removeClass(searchInit.selectClass).prev();
+                            responseList.selected.addClass(searchInit.selectClass);
                         } else {
-                            searchInit.selected.removeClass(searchInit.selectClass);
+                            responseList.selected.removeClass(searchInit.selectClass);
                             getLastElement().addClass(searchInit.selectClass);
-                            searchInit.selected = getLastElement();
+                            responseList.selected = getLastElement();
                         }
 
                     }
@@ -111,10 +118,10 @@
         });
 
         $(searchInit.searchFormId).on('submit', function (e) {
-            if ($(searchInit.searchFieldId).val() === searchInit.emptyText || searchInit.searchFieldId === '') {
+            if ($(searchInit.searchFieldId).val() === searchInit.emptyText || $(searchInit.searchFieldId).val() === '') {
                 e.preventDefault();
             }
-            if (searchInit.selected != null) {
+            if (!responseList.selected) {
                 $(searchInit.searchFieldId).val(searchInit.selected.attr('title'));
             }
 
@@ -123,34 +130,35 @@
         $(searchInit.searchFieldId).on('input propertychange', function () {
 
             var searchField = $(this);
-            var clonePostion = {'position': 'absolute',
-                'left': searchField.offset().left,
-                'top': searchField.offset().top + searchField.outerHeight(),
-                'width': searchField.outerWidth()
+            var clonePostion = {
+                position: 'absolute',
+                left: searchField.offset().left,
+                top: searchField.offset().top + searchField.outerHeight(),
+                width: searchField.outerWidth()
             };
-            if ($(this).val().length >= parseInt(searchInit.minSrchKeyLen, 10)) {
+            if ($(this).val().length >= parseInt(searchInit.minSearchLength, 10)) {
                 $.get(searchInit.url, {q: $(this).val()}, function (data) {
-                    searchInit.indexList = $(searchInit.destinationId).html(data)
+                    responseList.indexList = $(searchInit.destinationId).html(data)
                         .css(clonePostion)
                         .show()
                         .find(searchInit.responseFieldElements);
-                    resetSearchInit();
-                    searchInit.indexList.on('click',function () {
+                    resetResponseList();
+                    responseList.indexList.on('click',function () {
                         $(searchInit.searchFormId).trigger('submit');
                     }).on('hover',function () {
-                            searchInit.indexList.removeClass(searchInit.selectClass);
+                            responseList.indexList.removeClass(searchInit.selectClass);
                             $(this).addClass(searchInit.selectClass);
-                            searchInit.selected = $(this);
+                            responseList.selected = $(this);
                         }).on('mouseout', function () {
-                            if (!getLastElement().hasClass(searchInit.selectClass)) {
+                            if (!getLastElement()&& getLastElement().hasClass(searchInit.selectClass)) {
                                 $(this).removeClass(searchInit.selectClass);
-                                resetSearchInit();
+                                resetResponseList();
                             }
 
                         });
                 });
             } else {
-                resetSearchInit(true);
+                resetResponseList(true);
                 $(searchInit.destinationId).hide();
             }
         });
