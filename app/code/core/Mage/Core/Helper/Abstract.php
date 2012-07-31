@@ -179,8 +179,6 @@ abstract class Mage_Core_Helper_Abstract
      */
     public function escapeHtml($data, $allowedTags = null)
     {
-        try {
-
         if (is_array($data)) {
             $result = array();
             foreach ($data as $item) {
@@ -195,14 +193,11 @@ abstract class Mage_Core_Helper_Abstract
                     $result = htmlspecialchars($result, ENT_COMPAT, 'UTF-8', false);
                     $result = preg_replace('/##([\/\s\r\n]*)(' . $allowed . ')([\/\s\r\n]*)##/si', '<$1$2$3>', $result);
                 } else {
-                    $result = $data;
                     $result = htmlspecialchars($data, ENT_COMPAT, 'UTF-8', false);
                 }
             } else {
                 $result = $data;
             }
-        }
-        } catch (Exception $e) {
         }
         return $result;
     }
