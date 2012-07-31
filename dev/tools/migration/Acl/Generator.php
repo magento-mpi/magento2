@@ -8,6 +8,7 @@
  * @license    {license_link}
  */
 require_once ( __DIR__ . '/Menu/Generator.php');
+require_once ( __DIR__ . '/FileWriter.php');
 
 class Tools_Migration_Acl_Generator
 {
@@ -112,10 +113,25 @@ class Tools_Migration_Acl_Generator
     protected $_uniqueName = array();
 
     /**
+     * @var Tools_Migration_Acl_Formatter
+     */
+    protected $_xmlFormatter;
+
+    /**
+     * @var Tools_Migration_Acl_FileWriter
+     */
+    protected $_fileWriter;
+
+    /**
      * @param array $options configuration options
      */
-    public function __construct($options = array())
-    {
+    public function __construct(
+        Tools_Migration_Acl_Formatter $xmlFormatter,
+        Tools_Migration_Acl_FileWriter $fileWriter,
+        $options = array()
+    ) {
+        $this->_xmlFormatter = $xmlFormatter;
+        $this->_fileWriter = $fileWriter;
         $this->_printHelp = array_key_exists('h', $options);
         $this->_isPreviewMode = array_key_exists('p', $options);
 
@@ -555,32 +571,29 @@ class Tools_Migration_Acl_Generator
      */
     public function saveAclFiles()
     {
-        /** @var $dom DOMDocument **/
+        if ($this->_isPreviewMode) {
+            return;
+        }
+
+            /** @var $dom DOMDocument **/
         foreach ($this->_parsedDomList as $originFile => $dom) {
             $file = str_replace('adminhtml.xml', 'adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml', $originFile);
             $directory = dirname($file);
             if (false == is_dir($directory)) {
-                if (false == $this->_isPreviewMode) {
-                    mkdir($directory, 0777, true);
-                }
+                mkdir($directory, 0777, true);
             }
-            if (false == $this->_isPreviewMode) {
-                $dom->preserveWhiteSpace = false;
-                $dom->formatOutput = true;
+            $dom->preserveWhiteSpace = false;
+            $dom->formatOutput = true;
 
-                if (false == function_exists('tidy_parse_string')) {
-                    throw new Exception('Error! php_tidy extension is required');
-                }
-                $tidy = tidy_parse_string($dom->saveXml(), array(
-                    'indent' => true,
-                    'input-xml' => true,
-                    'output-xml' => true,
-                    'add-xml-space' => false,
-                    'indent-spaces' => 4,
-                    'wrap' => 1000
-                ));
-                file_put_contents($file, $tidy->value);
-            }
+            $output = $this->_xmlFormatter->parseString($dom->saveXml(), array(
+                'indent' => true,
+                'input-xml' => true,
+                'output-xml' => true,
+                'add-xml-space' => false,
+                'indent-spaces' => 4,
+                'wrap' => 1000
+            ));
+            $this->_fileWriter->write($file, $output);
         }
     }
 

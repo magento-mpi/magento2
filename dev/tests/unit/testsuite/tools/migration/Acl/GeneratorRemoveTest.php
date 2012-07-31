@@ -9,6 +9,8 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Generator.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/FileWriter.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Formatter.php';
 
 /**
  * Tools_Migration_Acl_Generator remove test case
@@ -30,9 +32,22 @@ class Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Framework_TestCase
      */
     protected $_notEmptyFile;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_xmlFormatterMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_fileWriterMock;
+
     public function setUp()
     {
-        $this->_model = new Tools_Migration_Acl_Generator();
+        $this->_xmlFormatterMock = $this->getMock('Tools_Migration_Acl_Formatter');
+        $this->_fileWriterMock = $this->getMock('Tools_Migration_Acl_FileWriter');
+        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileWriterMock);
+
         $fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $fixturePath . DIRECTORY_SEPARATOR . 'remove' . DIRECTORY_SEPARATOR;
 

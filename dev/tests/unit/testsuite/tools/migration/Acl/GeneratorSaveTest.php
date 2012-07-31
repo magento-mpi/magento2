@@ -9,6 +9,8 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Generator.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/FileWriter.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Formatter.php';
 
 /**
  * Tools_Migration_Acl test case
@@ -35,13 +37,22 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
      */
     protected $_aclFile;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_xmlFormatterMock;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_fileWriterMock;
+
     public function setUp()
     {
-        if (false == function_exists('tidy_parse_string')) {
-            $this->markTestSkipped('Tidy extension is required');
-        }
+        $this->_xmlFormatterMock = $this->getMock('Tools_Migration_Acl_Formatter');
+        $this->_fileWriterMock = $this->getMock('Tools_Migration_Acl_FileWriter');
+        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileWriterMock);
 
-        $this->_model = new Tools_Migration_Acl_Generator();
         $this->_fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $this->_fixturePath . DIRECTORY_SEPARATOR . 'save' . DIRECTORY_SEPARATOR;
 
@@ -93,7 +104,6 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         unset($this->_model);
-        unlink($this->_aclFile);
         rmdir(dirname($this->_aclFile));
         if (file_exists($this->_originFile)) {
             unlink($this->_originFile);
@@ -102,16 +112,34 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
 
     public function testSaveAclFiles()
     {
+        $domList = $this->_model->getParsedDomList();
+        $dom = clone $domList[$this->_originFile];
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+
+        $this->_xmlFormatterMock->expects($this->once())
+            ->method('parseString')
+            ->with($dom->saveXml(), array(
+                'indent' => true,
+                'input-xml' => true,
+                'output-xml' => true,
+                'add-xml-space' => false,
+                'indent-spaces' => 4,
+                'wrap' => 1000
+            ))
+            ->will($this->returnCallback(
+                function($string) {
+                    return 'formatted' . $string;
+                }
+            ));
+
+        $this->_fileWriterMock->expects($this->once())
+            ->method('write')
+            ->with(
+                $this->stringEndsWith('adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml'),
+                $this->stringStartsWith('formatted')
+            );
+
         $this->_model->saveAclFiles();
-        $this->assertFileExists($this->_aclFile);
-
-        $expectedFilePath = $this->_fixturePath . '/save/save_result.xml';
-        $expectedDom = new DOMDocument();
-        $expectedDom->load($expectedFilePath);
-
-        $actualDom = new DOMDocument();
-        $actualDom->load($this->_aclFile);
-
-        $this->assertEquals($expectedDom->saveXML(), $actualDom->saveXML());
     }
 }
