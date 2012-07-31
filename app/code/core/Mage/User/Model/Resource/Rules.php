@@ -57,7 +57,7 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
                 );
 
                 // If all was selected save it only and nothing else.
-                if ($postedResources === array('all')) {
+                if ($postedResources === array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)) {
                     $insertData = $this->_prepareDataForTable(new Varien_Object($row), $this->getMainTable());
 
                     $adapter->insert($this->getMainTable(), $insertData);
