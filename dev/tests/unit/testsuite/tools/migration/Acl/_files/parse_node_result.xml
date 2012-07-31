@@ -1,4 +1,14 @@
 <?xml version="1.0"?>
+<!--
+/**
+* {license_notice}
+*
+* @category    Dummy
+* @package     Module_Dummy
+* @copyright   {copyright}
+* @license     {license_link}
+*/
+-->
 <root>
   <resource xpath="/admin" id="admin">
     <resource xpath="/admin/customer" id="customer" module="Mage_Customer" title="Customers" moduleOwner="Module_Name" sortOrder="40">
