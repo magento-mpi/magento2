@@ -13,7 +13,7 @@
 /**
  * Helper class
  */
-class Enterprise2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute_Helper
+class Enterprise2_Mage_ProductAttribute_Helper extends Community2_Mage_ProductAttribute_Helper
 {
     /**
      * Set default value for dropdown attribute and verify admin values if $isVerify = true
@@ -23,7 +23,7 @@ class Enterprise2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribut
      */
     public function processAttributeValue(array $attributeData, $isCheck = false)
     {
-        $this->helper('Community2/Mage/ProductAttribute')->processAttributeValue($attributeData, $isCheck);
+        parent::processAttributeValue($attributeData, $isCheck);
     }
 
     /**
@@ -35,6 +35,6 @@ class Enterprise2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribut
      */
     public function verifySystemAttribute($attributeData)
     {
-        $this->helper('Community2/Mage/ProductAttribute')->verifySystemAttribute($attributeData);
+        parent::verifySystemAttribute($attributeData);
     }
 }
