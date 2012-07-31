@@ -19,9 +19,9 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
      * Set default value for dropdown attribute and verify admin values if $isVerify = true
      *
      * @param array $attributeData
-     * @param bool $isVerify
+     * @param bool $isCheck
      */
-    public function setDefaultAttributeValue(array $attributeData, $isVerify = false)
+    public function processAttributeValue(array $attributeData, $isCheck = false)
     {
         $num = 1;
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_options');
@@ -34,7 +34,7 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
                 $fieldOptionNumber = $this->getAttribute($fieldsetXpath . "//tr[contains(@class,'option-row')][" . $num
                     . "]//input[@class='input-radio']/@value");
                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
-                if ($isVerify) {
+                if ($isCheck) {
                     $optionXpath = "//tr[contains(@class,'option-row')][" . $num
                         . "]//input[@class='input-text required-option' and @disabled='disabled']";
                     $this->assertTrue($this->isElementPresent($optionXpath), 'Admin value attribute is not disabled');
@@ -61,6 +61,6 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         $this->storeViewTitles($attributeData, 'manage_titles', 'verify');
         $this->assertFalse($this->buttonIsPresent('add_option'), 'It is possible to add new option');
         $this->assertFalse($this->buttonIsPresent('delete_option'), 'Delete button is present in Manage Options tab');
-        $this->setDefaultAttributeValue($attributeData, true);
+        $this->processAttributeValue($attributeData, true);
     }
 }
