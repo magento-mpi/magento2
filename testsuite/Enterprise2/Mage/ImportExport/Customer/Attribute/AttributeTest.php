@@ -21,9 +21,9 @@
 class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -34,11 +34,11 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
     }
 
     /**
-     * <p>Add customer attribute</p>
-     * <p>Steps</p>
-     * <p>1. Admin is logged in at backend</p>
-     * <p>2. New Customers Attribute is created in Customers -> Attributes -> Manage Customers Attributes</p>
-     * <p>3. In System-> Import/Export-> Export select "Master Type" file</p>
+     * Add customer attribute
+     * Steps
+     * 1. Admin is logged in at backend
+     * 2. New Customers Attribute is created in Customers -> Attributes -> Manage Customers Attributes
+     * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
      * @TestlinkId TL-MAGE-5484
@@ -48,7 +48,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
     {
         //Step 2
         $this->navigate('manage_customer_attributes');
-        $attrData = $this->loadDataSet('CustomerAttribute','customer_attribute_textfield',
+        $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_textfield',
             array('values_required' => 'No'));
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
@@ -77,11 +77,11 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
     }
 
     /**
-     * <p>Edit customer attribute</p>
-     * <p>Steps</p>
-     * <p>1. Admin is logged in at backend</p>
-     * <p>2. In Customers -> Attributes -> Manage Customers Attributes change a info in the field "Attribute Label" for existing Customer Attribute</p>
-     * <p>3. In System-> Import/Export-> Export select "Master Type" file</p>
+     * Edit customer attribute
+     * Steps
+     * 1. Admin is logged in at backend
+     * In Customers->Attributes->ManageCustomersAttributes change info in field "Attribute Label" for existing Attribute
+     * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
      * @param array $attrData
@@ -96,7 +96,8 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
             array(
                 'attribute_code'=>$attrData['properties']['attribute_code']));
         //Change label
-        $attrData['manage_labels_options']['admin_title'] = 'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
+        $attrData['manage_labels_options']['admin_title'] = 
+            'Text_Field_Admin_' . $this->generate('string', 5, ':lower:');
         $this->attributesHelper()->fillForm($attrData, 'manage_labels_options');
         $this->attributesHelper()->saveForm('save_attribute');
         //Verifying
@@ -123,12 +124,12 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
     }
 
     /**
-     * <p>Edit customer attribute</p>
-     * <p>Steps</p>
-     * <p>1. Admin is logged in at backend</p>
-     * <p>2. Create new customer attribute in Customers -> Attributes -> Manage Customers Attributes</p>
-     * <p>3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customers Attributes</p>
-     * <p>4. In System-> Import/Export-> Export select "Master Type" file</p>
+     * Edit customer attribute
+     * Steps
+     * 1. Admin is logged in at backend
+     * 2. Create new customer attribute in Customers -> Attributes -> Manage Customers Attributes
+     * 3. Delete the attribute from precondition 2 in Customers -> Attributes -> Manage Customers Attributes
+     * 4. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
      * @param array $attrData
@@ -143,7 +144,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
             array(
                 'attribute_code'=>$attrData['properties']['attribute_code']));
         //Delete attribute
-        $this->clickButtonAndConfirm('delete_attribute','delete_confirm_message');
+        $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         //Verifying
         $this->assertMessagePresent('success', 'success_deleted_attribute');
         //Steps 2-4
@@ -169,13 +170,13 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
     }
 
     /**
-     * <p>Customer Master file export with using some filters</p>
-     * <p>Steps</p>
-     * <p>1. On backend in System -> Import/ Export -> Export select "Master Type File"</p>
-     * <p>2. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
-     * <p>3. Press "Continue" button and save current file</p>
-     * <p>4. Open file</p>
-     * <p>Expected: In generated file just your customer with selected option of attribute is present</p>
+     * Customer Master file export with using some filters
+     * Steps
+     * 1. On backend in System -> Import/ Export -> Export select "Master Type File"
+     * 2. In the "Filter" column according to you attribute select option that was used in your customer creation
+     * 3. Press "Continue" button and save current file
+     * 4. Open file
+     * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5488
