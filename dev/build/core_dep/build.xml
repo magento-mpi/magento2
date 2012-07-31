@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * Apache Ant's build file for core deployment builds
+ *
+ * {license_notice}
+ *
+ * @category   dev
+ * @package    build
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<project name="Core Deployment Builds" basedir="../../../" default="publication_ce">
+    <property environment="env"/>
+
+    <target name="publication_ce" description="Community Edition source code population to the public repository">
+        <property name="publication_target_dir" location="${basedir}/dev/build/publication/_tmp_target"/>
+        <fail unless="env.bamboo_source_repository" message="Bamboo variable 'source_repository' must be defined."/>
+        <fail unless="env.bamboo_target_repository" message="Bamboo variable 'target_repository' must be defined."/>
+        <fail unless="env.bamboo_source_point" message="Bamboo variable 'source_point' must be defined."/>
+        <condition property="env.bamboo_target_branch" value="master">
+            <not><isset property="env.bamboo_target_branch"/></not>
+        </condition>
+        <delete dir="${publication_target_dir}" failonerror="true"/>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/publication/publish.php --
+                --source=${env.bamboo_source_repository} --source-point=${env.bamboo_source_point}
+                --target=${env.bamboo_target_repository} --target-branch=${env.bamboo_target_branch}
+                --target-dir=${publication_target_dir}
+                --changelog-file=CHANGELOG.markdown
+                --no-push
+                "/>
+        </exec>
+        <ant dir="${publication_target_dir}" antfile="../../../../dev/build/core_dev/unit/build.xml">
+            <target name="_unit_tests_all"/>
+        </ant>
+        <ant dir="${publication_target_dir}" antfile="../../../../dev/build/core_dev/static/build.xml">
+            <property name="product_edition_code" value="ce"/>
+            <target name="_static_tests_all"/>
+            <target name="_sanity_check"/>
+        </ant>
+        <ant dir="${publication_target_dir}" antfile="../../../../dev/build/core_dev/integration/build.xml">
+            <target name="_integration_tests_configuration"/>
+            <target name="_integration_tests_magento"/>
+            <target name="_integration_integrity_tests_magento"/>
+        </ant>
+        <exec dir="${publication_target_dir}" executable="git" failonerror="true">
+            <arg line="push origin ${env.bamboo_target_branch}"/>
+        </exec>
+    </target>
+
+</project>

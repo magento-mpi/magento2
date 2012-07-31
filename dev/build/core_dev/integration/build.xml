@@ -14,7 +14,7 @@
 <project name="Core Development Integration Tests" basedir="../../../../" default="integration_tests_ee_mysql">
 
     <target name="_community_edition" description="Shortcut for CE preparation routine">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="community_edition"/>
+        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_community_edition"/>
     </target>
 
     <target name="_integration_tests_configuration" description="Generation of configuration for integration tests">
@@ -28,7 +28,7 @@
             <not><isset property="developer_mode"/></not>
         </condition>
         <copy file="${basedir}/dev/build/core_dev/integration/local-${db_vendor_name}.xml" todir="${basedir}/dev/tests/integration/etc" overwrite="true"/>
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="database_credential_substitution">
+        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
             <property name="db_config_file" value="${basedir}/dev/tests/integration/etc/local-${db_vendor_name}.xml"/>
         </ant>
         <replace file="${basedir}/dev/tests/integration/etc/local-${db_vendor_name}.xml">

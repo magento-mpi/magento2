@@ -11,21 +11,43 @@
  * @license    {license_link}
  */
 -->
-<project name="Core Development General-Purpose Routines" basedir="../../../" default="community_edition">
+<project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
     <property environment="env"/>
 
-    <target name="community_edition" description="Removal of files, which do not belong to the Community Edition">
+    <target name="_product_edition_files" description="Removal of files, which do not belong to a product edition">
+        <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/extruder/extruder.php --
                 -w ${basedir}
                 -l ${basedir}/dev/build/publication/extruder/common.txt
-                -l ${basedir}/dev/build/publication/extruder/ce.txt
+                -l ${basedir}/dev/build/publication/extruder/${product_edition_code}.txt
                 -v
                 "/>
         </exec>
     </target>
+    <target name="_license_replacement" description="License notices replacement" if="license_replacement_enabled">
+        <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/publication/license/license-tool.php --
+                -w ${basedir}
+                -e ${product_edition_code}
+                -v
+                "/>
+        </exec>
+    </target>
+    <target name="_product_edition" description="Product edition source code preparation">
+        <antcall>
+            <target name="_product_edition_files"/>
+            <target name="_license_replacement"/>
+        </antcall>
+    </target>
+    <target name="_community_edition" description="Community Edition source code preparation">
+        <antcall target="_product_edition">
+            <param name="product_edition_code" value="ce"/>
+        </antcall>
+    </target>
 
-    <target name="database_credential_substitution" description="Database credentials substitution in configuration file from environment variables">
+    <target name="_database_credential_substitution" description="Database credentials substitution in configuration file from environment variables">
         <fail unless="db_config_file" message="Property 'db_config_file' must be defined"/>
         <fail unless="env.db_host" message="Environment variable 'db_host' must be defined"/>
         <fail unless="env.db_name" message="Environment variable 'db_name' must be defined"/>
@@ -39,7 +61,7 @@
         </replace>
     </target>
 
-    <target name="installation_requirements" description="Environment setup for product installation">
+    <target name="_installation_requirements" description="Environment setup for product installation">
         <chmod perm="a+w">
             <dirset dir="${basedir}/app/etc"/>
             <dirset dir="${basedir}/pub/media"/>

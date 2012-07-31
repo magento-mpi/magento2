@@ -52,7 +52,7 @@
         <antcall target="_unit_tests_all"/>
     </target>
     <target name="unit_tests_ce" description="Unit tests for CE">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="community_edition"/>
+        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_community_edition"/>
         <antcall target="_unit_tests_all"/>
     </target>
 
