@@ -16,9 +16,15 @@
 
     <target name="publication_ce" description="Community Edition source code population to the public repository">
         <property name="publication_target_dir" location="${basedir}/dev/build/publication/_tmp_target"/>
-        <fail unless="env.bamboo_source_repository" message="Bamboo variable 'source_repository' must be defined."/>
-        <fail unless="env.bamboo_target_repository" message="Bamboo variable 'target_repository' must be defined."/>
-        <fail unless="env.bamboo_source_point" message="Bamboo variable 'source_point' must be defined."/>
+        <fail message="Bamboo variable 'source_repository' must be defined.">
+            <condition><not><equals arg1="${env.bamboo_source_repository}" arg2="" trim="true"/></not></condition>
+        </fail>
+        <fail message="Bamboo variable 'target_repository' must be defined.">
+            <condition><not><equals arg1="${env.bamboo_target_repository}" arg2="" trim="true"/></not></condition>
+        </fail>
+        <fail message="Bamboo variable 'source_point' must be defined.">
+            <condition><not><equals arg1="${env.bamboo_source_point}" arg2="" trim="true"/></not></condition>
+        </fail>
         <condition property="env.bamboo_target_branch" value="master">
             <not><isset property="env.bamboo_target_branch"/></not>
         </condition>
