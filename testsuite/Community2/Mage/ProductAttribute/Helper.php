@@ -31,21 +31,25 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
                 && $this->controlIsPresent('fieldset', 'manage_options')
                 && $option > 0
             ) {
-                $fieldOptionNumber = $this->getAttribute($fieldsetXpath . "//tr[contains(@class,'option-row')][" . $num
-                    . "]//input[@class='input-radio']/@value");
-                $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
+                $this->addParameter('rowNumber', $num);
                 if ($isCheck) {
-                    $optionXpath = "//tr[contains(@class,'option-row')][" . $num
-                        . "]//input[@class='input-text required-option' and @disabled='disabled']";
-                    $this->assertTrue($this->isElementPresent($optionXpath), 'Admin value attribute is not disabled');
-                    $this->assertEquals($value['admin_option_name'], $this->getValue($optionXpath));
+                    if ($this->controlIsPresent('field', 'admin_option_name_disabled')) {
+                        $optionXpath = $this->_getControlXpath('field', 'admin_option_name_disabled');
+                        if ($value['admin_option_name'] != $this->getValue($optionXpath)) {
+                            $this->addVerificationMessage("Admin value attribute label is wrong.\nExpected: "
+                                . $value['admin_option_name'] . "\nActual: " . $this->getValue($optionXpath));
+                        }
+                    } else {
+                        $this->addVerificationMessage("Admin value attribute  in $num row is not disabled");
+                    }
                 } elseif ($value['admin_option_name'] == $attributeData['default_value']) {
-                    $this->fillCheckbox('is_default', 'Yes');
+                    $this->fillCheckbox('default_value', 'Yes');
                 }
                 $num++;
                 $option--;
             }
         }
+        $this->assertEmptyVerificationErrors();
     }
 
     /**
@@ -59,8 +63,12 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
     {
         $this->openTab('manage_labels_options');
         $this->storeViewTitles($attributeData, 'manage_titles', 'verify');
-        $this->assertFalse($this->buttonIsPresent('add_option'), 'It is possible to add new option');
-        $this->assertFalse($this->buttonIsPresent('delete_option'), 'Delete button is present in Manage Options tab');
+        if ($this->buttonIsPresent('add_option')) {
+            $this->addVerificationMessage('It is possible to add new option');
+        }
+        if ($this->buttonIsPresent('delete_option')) {
+            $this->addVerificationMessage('Delete button is present in Manage Options tab');
+        }
         $this->processAttributeValue($attributeData, true);
     }
 }

@@ -13,7 +13,7 @@
 /**
  * Helper class
  */
-class Enterprise2_Mage_Product_Helper extends Core_Mage_Product_Helper
+class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
 {
     /**
      * Import custom options from existent product
@@ -22,7 +22,7 @@ class Enterprise2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function importCustomOptions($productSku)
     {
-        $this->helper('Community2/Mage/Product')->importCustomOptions($productSku);
+        parent::importCustomOptions($productSku);
     }
 
     /**
@@ -32,7 +32,7 @@ class Enterprise2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function deleteAllCustomOptions()
     {
-        $this->helper('Community2/Mage/Product')->deleteAllCustomOptions();
+        parent::deleteAllCustomOptions();
     }
 
     /**
@@ -44,6 +44,6 @@ class Enterprise2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function verifyCustomOption(array $customOptionData)
     {
-        $this->helper('Community2/Mage/Product')->verifyCustomOption($customOptionData);
+        parent::verifyCustomOption($customOptionData);
     }
 }
