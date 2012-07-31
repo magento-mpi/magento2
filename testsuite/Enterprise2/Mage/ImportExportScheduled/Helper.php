@@ -25,13 +25,13 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      *
      * @var null
      */
-    protected static $connId = NULL;
+    protected static $_connId = NULL;
     /**
      * FTP Login result status
      *
      * @var null
      */
-    protected static $loginResult = NULL;
+    protected static $_loginResult = NULL;
 
     /**
      * Establish connection to FTP server
@@ -51,13 +51,13 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         } else {
             $port = null;
         }
-        if (is_null(self::$connId)) {
-            self::$connId = ftp_connect($host, $port) or die('could not connect to ftp');
+        if (is_null(self::$_connId)) {
+            self::$_connId = ftp_connect($host, $port) or die('could not connect to ftp');
         }
-        if (is_null(self::$loginResult)) {
-            self::$loginResult = ftp_login(self::$connId, $userName, $userPassword);
+        if (is_null(self::$_loginResult)) {
+            self::$_loginResult = ftp_login(self::$_connId, $userName, $userPassword);
         }
-        if ((!self::$connId) || (!self::$loginResult)) {
+        if ((!self::$_connId) || (!self::$_loginResult)) {
             return false;
         } else {
             return true;
@@ -104,7 +104,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     public function getFileFromFtp($fileMode, $passive, $filePath, $fileName)
     {
         $temp = tmpfile();
-        $result = ftp_fget(self::$connId, $temp, $filePath . '/' . $fileName, $fileMode);
+        $result = ftp_fget(self::$_connId, $temp, $filePath . '/' . $fileName, $fileMode);
         if (!$result) {
             return false;
         }
@@ -155,7 +155,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $temp = tmpfile();
         fwrite($temp, $fileContent);
         fseek($temp, 0);
-        $result = ftp_fput(self::$connId, $filePath . '/' . $fileName, $temp, $fileMode);
+        $result = ftp_fput(self::$_connId, $filePath . '/' . $fileName, $temp, $fileMode);
         if (!$result) {
             return false;
         } else {
@@ -167,7 +167,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      * Put Csv file content to FTP server
      *
      * @param array $importData
-     * @param string $fileContent
+     * @param array $fileContent
      *
      * @return bool
      */
@@ -202,19 +202,19 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $filters = array();
         $this->addParameter('type', 'Export');
         $this->clickButton('add_scheduled_export');
-        if (isset($exportData['skipped'])){
+        if (isset($exportData['skipped'])) {
             $skipped = $exportData['skipped'];
             unset($exportData['skipped']);
         }
-        if (isset($exportData['filters'])){
+        if (isset($exportData['filters'])) {
             $filters = $exportData['filters'];
             unset($exportData['filters']);
         }
         $this->fillForm($exportData);
-        foreach ($skipped as $attributeToSkip){
+        foreach ($skipped as $attributeToSkip) {
             $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
         }
-        if (count($filters)>0){
+        if (count($filters)>0) {
             $this->importExportHelper()->setFilter($filters);
         }
         $this->saveForm('save');
@@ -259,7 +259,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Outcome',
             $this->_getControlXpath('field', 'grid'));
-        if ($xpath){
+        if ($xpath) {
             return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
@@ -294,7 +294,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Run Date',
             $this->_getControlXpath('field', 'grid'));
-        if ($xpath){
+        if ($xpath) {
             return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
         } else {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
@@ -329,10 +329,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Action',
             $this->_getControlXpath('field', 'grid'));
-        if ($xpath){
+        if ($xpath) {
             $this->fillDropdown('action', $action, $xpath . "/td[{$columnNumber}]/select");
             $this->waitForPageToLoad();
-            if (strtolower($action) == 'edit'){
+            if (strtolower($action) == 'edit') {
                 $this->addParameter('type', $searchData['operation']);
                 $this->addParameter('id', $this->defineIdFromUrl());
                 $this->checkCurrentPage('scheduled_importexport_edit');

@@ -28,18 +28,13 @@ class Enterprise2_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
         $this->openTab('custom_options');
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
         $optionsQty = $this->getXpathCount($fieldSetXpath);
-        for ($optionsQty; $optionsQty > 0; $optionsQty--)
-        {
-            $optionId = '';
+        While ($optionsQty > 0) {
             $id = $this->getAttribute($fieldSetXpath . "[{$optionsQty}]/@id");
             $id = explode('_', $id);
-            foreach ($id as $value) {
-                if (is_numeric($value)) {
-                    $optionId = $value;
-                }
-            }
+            $optionId = end($id);
             $this->addParameter('optionId', $optionId);
             $this->clickButton('delete_option', false);
+            $optionsQty--;
         }
     }
     /**
@@ -51,18 +46,20 @@ class Enterprise2_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
     public function getCustomOptionId($optionTitle)
     {
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
-        if ($this->isElementPresent($fieldSetXpath . "//input[@value='{$optionTitle}']")){
-            $id = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
-        }
         $optionId = '';
-        $id = explode('_', $id);
-        foreach ($id as $value) {
-            if (is_numeric($value)) {
-                $optionId = $value;
-            }
+        if ($this->isElementPresent($fieldSetXpath . "//input[@value='{$optionTitle}']")) {
+            $id = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
+            $id = explode('_', $id);
+            $optionId = end($id);
         }
         return $optionId;
     }
+    /**
+     * Check if product is present in products grid
+     *
+     * @param array $productData
+     * @return bool
+     */
     public function isProductPresentInGrid($productData)
     {
         $data = array('product_sku' => $productData['product_sku']);
