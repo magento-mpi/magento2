@@ -17,7 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends Mage_Selenium_TestCase
 {
@@ -81,8 +80,7 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
             $customerData['first_name'] . ' ' . $customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $customerData['email']));
         if ((isset($financesCsv['_action']) && strtolower($financesCsv['_action']) == 'delete')
-            || $behavior == 'Delete Entities')
-        {
+            || $behavior == 'Delete Entities') {
             $financesCsv['store_credit'] = '0.00';
             $financesCsv['reward_points'] = '0';
         }
@@ -126,80 +124,82 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
 
     public function financeInvalidImportData()
     {
-        $csvRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData = array();
+        $returnData[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => 'test',
                 'reward_points' => 'test',
             )
         );
-        $csvRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[2] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '1',
                 'reward_points' => '1',
             )
         );
         return array(
-            array(array($csvRow1, $csvRow2), 'Add/Update Complex Data')
+            array(array($returnData[1], $returnData[2]), 'Add/Update Complex Data')
         );
     }
 
     public function financeImportData()
     {
-        $csvRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData = array();
+        $returnData[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '500',
                 'reward_points' => '200',
             )
         );
-        $csvRow2 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[2] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '100',
                 'reward_points' => '500',
             )
         );
-        $csvRow3 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[3] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '80',
                 'reward_points' => '100',
                 '_action' => 'update'
             )
         );
-        $csvRow4 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[4] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '60',
                 'reward_points' => '40',
                 '_action' => ''
             )
         );
-        $csvRow5 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[5] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '1000',
                 'reward_points' => '1000',
                 '_action' => 'delete'
             )
         );
-        $csvRow6 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[6] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '500',
                 'reward_points' => '200'
             )
         );
-        $csvRow7 = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $returnData[7] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '1500',
                 'reward_points' => '1200'
             )
         );
         return array(
-            array($csvRow1, 'Add/Update Complex Data'),
-            array($csvRow2, 'Add/Update Complex Data'),
-            array($csvRow3, 'Custom Action'),
-            array($csvRow4, 'Custom Action'),
-            array($csvRow5, 'Custom Action'),
-            array($csvRow1, 'Add/Update Complex Data'),
-            array($csvRow6, 'Delete Entities'),
-            array($csvRow1, 'Add/Update Complex Data'),
-            array($csvRow7, 'Delete Entities')
+            array($returnData[1], 'Add/Update Complex Data'),
+            array($returnData[2], 'Add/Update Complex Data'),
+            array($returnData[3], 'Custom Action'),
+            array($returnData[4], 'Custom Action'),
+            array($returnData[5], 'Custom Action'),
+            array($returnData[6], 'Add/Update Complex Data'),
+            array($returnData[6], 'Delete Entities'),
+            array($returnData[1], 'Add/Update Complex Data'),
+            array($returnData[7], 'Delete Entities')
         );
     }
 }

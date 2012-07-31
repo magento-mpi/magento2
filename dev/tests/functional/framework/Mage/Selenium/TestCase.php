@@ -60,6 +60,7 @@
  * @method Enterprise2_Mage_customerAddressAttribute_Helper attributesHelper()
  * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+ * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

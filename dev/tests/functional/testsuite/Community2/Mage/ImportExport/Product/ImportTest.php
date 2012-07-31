@@ -352,16 +352,18 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
 
     public function ambiguousData()
     {
-        $productData1 = $this->loadDataSet('Product', 'simple_product_required');
-        $productData1['custom_options_data'] = array(
+        $returnData = array();
+        //Create first product
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['custom_options_data'] = array(
             'custom_options_field' => $this->loadDataSet('Product', 'custom_options_field', array(
                 'custom_options_general_title' => 'brand')),
         );
-        $customOptionCsv1 = array(
+        $customOptionCsv = array(
             '_custom_option_type' => 'area',
             '_custom_option_price' => '18.0000',
         );
-        $validation1 = array('validation' => array(
+        $validation = array('validation' => array(
             'error' => array(
                 "Custom options have different types. in rows: 1"
             ),
@@ -369,17 +371,19 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
                 "File is totally invalid. Please fix errors and re-upload file",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")),
         );
-        $productData2 = $this->loadDataSet('Product', 'simple_product_required');
-        $productData2['custom_options_data'] = array(
+        $returnData[] = array($productData, array($customOptionCsv), $validation);
+        //Create second product
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData['custom_options_data'] = array(
             'custom_options_area1' => $this->loadDataSet('Product', 'custom_options_area', array(
                 'custom_options_general_title' => 'brand')),
             'custom_options_area2' => $this->loadDataSet('Product', 'custom_options_area', array(
                 'custom_options_general_title' => 'brand')),
         );
-        $customOptionCsv2 = array(
+        $customOptionCsv = array(
             '_custom_option_price' => '20.0000',
         );
-        $validation2 = array('validation' => array(
+        $validation = array('validation' => array(
             'error' => array(
                 "There are several existing custom options with such name. in rows: 1"
             ),
@@ -387,10 +391,8 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
                 "File is totally invalid. Please fix errors and re-upload file",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")),
         );
-        return array(
-            array($productData1, array($customOptionCsv1), $validation1),
-            array($productData2, array($customOptionCsv2), $validation2),
-        );
+        $returnData[] = array($productData, array($customOptionCsv), $validation);
+        return $returnData;
     }
 
     /**

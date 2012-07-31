@@ -17,7 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Enterprise2_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_Selenium_TestCase
 {
