@@ -12,13 +12,12 @@
  */
 
 /**
-* Customer Backward Compatibility Tests
-*
-* @package     selenium
-* @subpackage  tests
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-* @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
-*/
+ * Customer Backward Compatibility Tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extends Mage_Selenium_TestCase
 {
 
@@ -31,8 +30,8 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
         return $customerData;
     }
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -54,13 +53,14 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
         $this->navigate('scheduled_import_export');
     }
     /**
-     * <p> Running Scheduled Export </p>
-     * <p> Precondition: </p>
-     * <p> Scheduled Export for products is created </p>
-     * <p> Steps: </p>
-     * <p> 1. In System->Import/Export->Scheduled Import Export select export for products </p>
-     * <p> 2. Select "Run" in "Action" column </p>
-     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
+     * Running Scheduled Export
+     * Precondition:
+     * Scheduled Export for products is created
+     * Steps:
+     * 1. In System->Import/Export->Scheduled Import Export select export for products
+     * 2. Select "Run" in "Action" column
+     * Expected Result:
+     * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
      *
      * @test
      * TL-MAGE-1499
@@ -68,7 +68,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
     public function simpleScheduledExport()
     {
         // Precondition
-        $exportDataProducts = $this->loadDataSet('ImportExportScheduled','scheduled_export',
+        $exportDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
                 'entity_type' => 'Products'
             ));
@@ -89,7 +89,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                     'name' => $exportDataProducts['name'],
                     'operation' => 'Export'
                 )
-            ),'Error is occurred');
+            ), 'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
         //get file
         $exportDataProducts['file_name'] = $this->importExportScheduledHelper()->
@@ -106,15 +106,17 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
     }
     /**
      * Running Scheduled Import
-     * <p> Precondition: </p>
-     * <p> 1. Two old Scheduled Imports are created for customers and products </p>
-     * <p> "Steps:" </p>
-     * <p> 1. In System > Import/Export > Scheduled Import/Export select import for customers </p>
-     * <p> 2. in "Action" column select "Run" </p>
-     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
-     * <p> 3. In System > Import/Export > Scheduled Import/Export select import for products </p>
-     * <p> in "Action" column select "Run" </p>
-     * <p> Expected Result: "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared </p>
+     * Precondition:
+     * 1. Two old Scheduled Imports are created for customers and products
+     * "Steps:"
+     * 1. In System > Import/Export > Scheduled Import/Export select import for customers
+     * 2. in "Action" column select "Run"
+     * Expected Result:
+     * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
+     * 3. In System > Import/Export > Scheduled Import/Export select import for products
+     * in "Action" column select "Run"
+     * Expected Result:
+     * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
      *
      * @dataProvider simpleScheduledImportData
      * @depends simpleScheduledExport
@@ -124,19 +126,19 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
     public function simpleScheduledImport($customersCsv, $productsCsv)
     {
         // Import Customer
-        $importDataCustomers = $this->loadDataSet('ImportExportScheduled','scheduled_import',
+        $importDataCustomers = $this->loadDataSet('ImportExportScheduled', 'scheduled_import',
             array('entity_type' => 'Customers',
-                'behavior'  => 'Append Complex Data'));
+                'behavior' => 'Append Complex Data'));
         $importDataCustomers['file_name'] = date('Y-m-d_H-i-s_') . 'export_customer.csv';
         $this->importExportScheduledHelper()->createImport($importDataCustomers);
         $this->assertMessagePresent('success', 'success_saved_import');
         $this->assertEquals('Pending',
-        $this->importExportScheduledHelper()->getLastOutcome(
-            array(
-                'name' => $importDataCustomers['name'],
-                'operation' => 'Import'
-            )
-        ),'Error is occurred');
+            $this->importExportScheduledHelper()->getLastOutcome(
+                array(
+                    'name' => $importDataCustomers['name'],
+                    'operation' => 'Import'
+                )
+            ), 'Error is occurred');
         //upload file to ftp
         $this->importExportScheduledHelper()->putCsvToFtp($importDataCustomers, $customersCsv);
         $this->importExportScheduledHelper()->applyAction(
@@ -152,14 +154,14 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                     'name' => $importDataCustomers['name'],
                     'operation' => 'Import'
                 )
-            ),'Error is occurred');
+            ), 'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
         //Import Product
-        $importDataProducts = $this->loadDataSet('ImportExportScheduled','scheduled_import',
+        $importDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_import',
             array(
                 'entity_type' => 'Products',
                 'behavior' => 'Append Complex Data'
-            ));
+        ));
         $importDataProducts['file_name'] = date('Y-m-d_H-i-s_') . 'export_catalog_product.csv';
         $this->importExportScheduledHelper()->createImport($importDataProducts);
         $this->assertMessagePresent('success', 'success_saved_import');
@@ -169,7 +171,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                     'name' => $importDataProducts['name'],
                     'operation' => 'Import'
                 )
-            ),'Error is occurred');
+            ), 'Error is occurred');
         //upload file to ftp
         $this->importExportScheduledHelper()->putCsvToFtp($importDataProducts, $productsCsv);
         $this->importExportScheduledHelper()->applyAction(
@@ -185,7 +187,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
                     'name' => $importDataProducts['name'],
                     'operation' => 'Import'
                 )
-            ),'Error is occurred');
+            ), 'Error is occurred');
         $this->assertMessagePresent('success', 'success_run');
     }
 

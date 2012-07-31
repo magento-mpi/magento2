@@ -259,11 +259,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Outcome',
             $this->_getControlXpath('field', 'grid'));
-        if ($xpath) {
-            return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
-        } else {
+        if (!$xpath) {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
+        return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
     }
     /**
      * Check if scheduled import/export is present in grid
@@ -275,11 +274,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_prepareDataForSearch($searchData);
         $xpath = $this->search($searchData, 'grid_and_filter');
-        if (!is_null($xpath)) {
-            return true;
-        } else {
+        if (!$xpath) {
             return false;
         }
+        return true;
     }
     /**
      * Get last run date
@@ -294,11 +292,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         $xpath = $this->search($searchData, 'grid_and_filter');
         $columnNumber =  $this->getColumnIdByName('Last Run Date',
             $this->_getControlXpath('field', 'grid'));
-        if ($xpath) {
-            return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
-        } else {
+        if (!$xpath) {
             $this->fail('Can\'t find item in grid for data: ' . print_r($searchData, true));
         }
+        return $this->getElementByXpath($xpath . "/td[{$columnNumber}]");
     }
     /**
      * Get last file prefix date

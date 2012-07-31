@@ -17,7 +17,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mage_Selenium_TestCase
 {
@@ -29,26 +28,27 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
     }
 
     /**
-     * <p>Adding new Scheduled Export</p>
-     * <p>Steps:</p>
-     * <p>1. Press "Add Scheduled Export" button in System > Import/Export > Scheduled Import/Export.</p>
-     * <p>2. Select entity type "Customers Main File"</p>
-     * <p>3. Fill all other fields</p>
-     * <p>4. Click "Reset" button</p>
-     * <p>5. Repeat steps 2-5</p>
-     * <p>6. Click "Back" button</p>
-     * <p>7. Repeat steps 1-5</p>
-     * <p>8. Press "Save" button</p>
-     * <p>Result1: After step 6 the creation form should be cleared</p>
-     * <p>Result2: After step 8 the grid "Scheduled Import/Export" is opened, new export isn't created</p>
-     * <p>Result3: After step 10 the grid "Scheduled Import/Export" is opened, new export is created</p>
+     * Adding new Scheduled Export
+     * Steps:
+     * 1. Press "Add Scheduled Export" button in System > Import/Export > Scheduled Import/Export.
+     * 2. Select entity type "Customers Main File"
+     * 3. Fill all other fields
+     * 4. Click "Reset" button
+     * 5. Repeat steps 2-5
+     * 6. Click "Back" button
+     * 7. Repeat steps 1-5
+     * 8. Press "Save" button
+     * Result1: After step 6 the creation form should be cleared
+     * Result2: After step 8 the grid "Scheduled Import/Export" is opened, new export isn't created
+     * Result3: After step 10 the grid "Scheduled Import/Export" is opened, new export is created
      * @test
      * @TestlinkId TL-MAGE-5769
      */
     public function addingNewScheduledExport()
     {
         // Step 1
-        $this->assertTrue($this->buttonIsPresent('add_scheduled_export'), 'Button "Add Scheduled Export" is absent in current page');
+        $this->assertTrue($this->buttonIsPresent('add_scheduled_export'),
+                          'Button "Add Scheduled Export" is absent in current page');
         $this->addParameter('type', 'Export');
         $this->clickButton('add_scheduled_export');
         // Verify
@@ -98,18 +98,18 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
     }
 
     /**
-     * <p>Editing new Scheduled Export</p>
-     * <p>Preconditions:</p>
-     * <p>The Scheduled export for new export format with entity subtype "Customers Main File" exists</p>
-     * <p>Steps: </p>
-     * <p>1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.</p>
-     * <p>2. Select "Customer Addresses" type, edit info in all others fields all other fields</p>
-     * <p>3. Click "Save" button</p>
-     * <p>4. Open this export</p>
-     * <p> Result: The  changed info is saved
-     * <p>5.Select "Customer Finances" entity subtype, edit info in all others fields again</p>
-     * <p>6. Press "Save" button</p>
-     * <p>Result: The changes should be applied</p>
+     * Editing new Scheduled Export
+     * Preconditions:
+     * The Scheduled export for new export format with entity subtype "Customers Main File" exists
+     * Steps:
+     * 1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.
+     * 2. Select "Customer Addresses" type, edit info in all others fields all other fields
+     * 3. Click "Save" button
+     * 4. Open this export
+     *  Result: The  changed info is saved
+     * 5.Select "Customer Finances" entity subtype, edit info in all others fields again
+     * 6. Press "Save" button
+     * Result: The changes should be applied
      * @test
      * @TestlinkId TL-MAGE-5770
      */
@@ -180,13 +180,13 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
     }
 
     /**
-     * <p>Editing new Scheduled Export</p>
-     * <p>Preconditions:</p>
-     * <p>The Scheduled export for new export format with entity subtype "Customers Main File" exists</p>
-     * <p>Steps:</p>
-     * <p>1. Search export from precondition in System > Import/Export > Scheduled Import/Export.</p>
-     * <p>2. In column "Action"  select "Edit"</p>
-     * <p> Result: The  edit page of export from precondition is opened</p>
+     * Editing new Scheduled Export
+     * Preconditions:
+     * The Scheduled export for new export format with entity subtype "Customers Main File" exists
+     * Steps:
+     * 1. Search export from precondition in System > Import/Export > Scheduled Import/Export.
+     * 2. In column "Action"  select "Edit"
+     *  Result: The  edit page of export from precondition is opened
      * @test
      * @TestlinkId TL-MAGE-5771
      */
@@ -212,14 +212,14 @@ class Enterprise2_Mage_ImportExportScheduled_ExportForm_CustomerTest extends Mag
     }
 
     /**
-     * <p>Deleting new Scheduled Export</p>
-     * <p>Preconditions:</p>
-     * <p>The Scheduled export for new export format with entity subtype "Customers Main File" exists</p>
-     * <p>Steps: </p>
-     * <p>1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.</p>
-     * <p>2. Press "Delete" button</p>
-     * <p>3. Press "OK" in appearing dialog box</p>
-     * <p> Result: The grid Scheduled Import/Export is appeared with message about deleting.</p>
+     * Deleting new Scheduled Export
+     * Preconditions:
+     * The Scheduled export for new export format with entity subtype "Customers Main File" exists
+     * Steps:
+     * 1. Search and open export from precondition in System > Import/Export > Scheduled Import/Export.
+     * 2. Press "Delete" button
+     * 3. Press "OK" in appearing dialog box
+     *  Result: The grid Scheduled Import/Export is appeared with message about deleting.
      * @test
      * @TestlinkId TL-MAGE-5773
      */
