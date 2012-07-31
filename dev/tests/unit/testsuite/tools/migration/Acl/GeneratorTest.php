@@ -296,7 +296,7 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_model->parseNode($nodeList->item(0), $dom, $parentNode, $moduleName);
         $expectedDom = new DOMDocument();
         $expectedDom->load($this->_fixturePath . DIRECTORY_SEPARATOR . 'parse_node_result.xml');
-        $this->assertEquals($expectedDom->saveXML(), $dom->saveXML());
+        $this->assertEquals($expectedDom->saveXML($expectedDom->documentElement), $dom->saveXML($dom->documentElement));
     }
 
     public function testGetResultDomDocument()
