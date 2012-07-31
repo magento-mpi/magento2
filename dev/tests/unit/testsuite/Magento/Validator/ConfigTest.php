@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
+ * @package     Magento_Validator
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -100,7 +100,7 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
     public function testGetValidationRules($entityName, $groupName, $expectedRules)
     {
         $actualRules = self::$_model->getValidationRules($entityName, $groupName);
-        $this->_assertRulesEqual($expectedRules, $actualRules);
+        $this->assertRulesEqual($expectedRules, $actualRules);
     }
 
     /**
@@ -109,10 +109,10 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
      * @param array $expectedRules
      * @param array $actualRules
      */
-    protected function _assertRulesEqual(array $expectedRules, array $actualRules)
+    public static function assertRulesEqual(array $expectedRules, array $actualRules)
     {
         foreach ($expectedRules as $expectedRule => $expectedConstraints) {
-            $this->assertArrayHasKey($expectedRule, $actualRules);
+            self::assertArrayHasKey($expectedRule, $actualRules);
 
             foreach ($expectedConstraints as $expectedConstraint) {
                 $constraintFound = false;
@@ -120,14 +120,14 @@ class Magento_Validator_ConfigTest extends PHPUnit_Framework_TestCase
                     if ($expectedConstraint['constraint'] instanceof $actualConstraint['constraint']) {
                         $constraintFound = true;
                         if (isset($expectedConstraint['field'])) {
-                            $this->assertArrayHasKey('field', $actualConstraint);
-                            $this->assertEquals($expectedConstraint['field'], $actualConstraint['field']);
+                            self::assertArrayHasKey('field', $actualConstraint);
+                            self::assertEquals($expectedConstraint['field'], $actualConstraint['field']);
                         }
                         break;
                     }
                 }
                 if (!$constraintFound) {
-                    $this->fail(sprintf('Expected constraint "%s" was not found in the rule "%"',
+                    self::fail(sprintf('Expected constraint "%s" was not found in the rule "%"',
                         get_class($expectedConstraint['constraint']), $expectedRule));
                 }
             }

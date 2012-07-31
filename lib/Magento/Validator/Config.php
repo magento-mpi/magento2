@@ -3,8 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
- * @subpackage  Config
+ * @package     Magento_Validator
  * @copyright   {copyright}
  * @license     {license_link}
  */
