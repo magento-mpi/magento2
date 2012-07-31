@@ -21,9 +21,9 @@
 class Enterprise2_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export
      */
     protected function assertPreConditions()
     {
@@ -33,14 +33,14 @@ class Enterprise2_Mage_ImportExport_Export_FinanceTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Simple Export Finance file</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. Choose Customer Finance file to export</p>
-     * <p>3. Click on the Continue button</p>
-     * <p>4. Save file to your computer</p>
-     * <p>5. Open it.</p>
-     * <p>Expected: Check that among all customers your customer with attribute is present</p>
+     * Simple Export Finance file
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. Choose Customer Finance file to export
+     * 3. Click on the Continue button
+     * 4. Save file to your computer
+     * 5. Open it.
+     * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5491
