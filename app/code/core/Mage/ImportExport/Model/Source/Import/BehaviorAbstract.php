@@ -56,7 +56,7 @@ abstract class Mage_ImportExport_Model_Source_Import_BehaviorAbstract
     abstract public function toArray();
 
     /**
-     * Prepare and return array of available version file formats
+     * Prepare and return array of option values
      *
      * @return array
      */
