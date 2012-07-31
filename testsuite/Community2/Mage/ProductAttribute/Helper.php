@@ -32,17 +32,15 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
                 && $option > 0
             ) {
                 $fieldOptionNumber = $this->getAttribute($fieldsetXpath . "//tr[contains(@class,'option-row')][" . $num
-                                                         . "]//input[@class='input-radio']/@value");
+                    . "]//input[@class='input-radio']/@value");
                 $this->addParameter('fieldOptionNumber', $fieldOptionNumber);
                 if ($isVerify) {
                     $optionXpath = "//tr[contains(@class,'option-row')][" . $num
-                                   . "]//input[@class='input-text required-option' and @disabled='disabled']";
+                        . "]//input[@class='input-text required-option' and @disabled='disabled']";
                     $this->assertTrue($this->isElementPresent($optionXpath), 'Admin value attribute is not disabled');
                     $this->assertEquals($value['admin_option_name'], $this->getValue($optionXpath));
-                } else {
-                    if ($value['admin_option_name'] == $attributeData['default_value']) {
-                        $this->fillCheckbox('is_default', 'Yes');
-                    }
+                } elseif ($value['admin_option_name'] == $attributeData['default_value']) {
+                    $this->fillCheckbox('is_default', 'Yes');
                 }
                 $num++;
                 $option--;
