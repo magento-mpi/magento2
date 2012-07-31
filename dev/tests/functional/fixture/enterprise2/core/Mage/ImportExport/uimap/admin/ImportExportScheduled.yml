@@ -35,7 +35,6 @@ scheduled_import_export:
                         dropdowns:
                             operation: //select[@id='operationGrid_filter_operation_type']
                             entity_type: //select[@id='operationGrid_filter_entity_type']
-                            entity_subtype: //select[@id='operationGrid_filter_entity_subtype']
                             frequency: //select[@id='operationGrid_filter_freq']
                             status: //select[@id='operationGrid_filter_status']
                             last_outcome: //select[@id='operationGrid_filter_is_success']
@@ -81,8 +80,6 @@ scheduled_importexport_add:
                             description: //textarea[@id='details']
                         dropdowns:
                             entity_type: //select[@id='entity']
-                            entity_subtype: //select[@id='entity_subtype']
-                            file_format_version: //select[@id='file_format_version']
                             behavior: //select[@name='behavior' and not(ancestor::tr[contains(@style,'display: none')])]
                             file_format: //select[@id='file_format']
                             start_time_hours: //input[@id='start_time']/following-sibling::select[1]
