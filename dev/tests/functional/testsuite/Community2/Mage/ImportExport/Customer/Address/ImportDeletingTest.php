@@ -51,18 +51,16 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
      * <p>4 - different website (negative); 5 - different address id (negative)</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/Export -> Import</p>
-     * <p>2. Select Entity Type: Customers</p>
+     * <p>2. Select Entity Type: Customer Addresses</p>
      * <p>3. Select Import Behavior: Delete Entities</p>
-     * <p>4. Select Import Format Version: Magento 2.0 format</p>
-     * <p>5. Select Customer Entity Type: Customer Addresses</p>
-     * <p>6. Select file from precondition</p>
-     * <p>7. Click Check Data button</p>
-     * <p>8. Click Import button</p>
-     * <p>9. Go to Customers -> Manage Customers</p>
-     * <p>10. Open customer, check addresses</p>
+     * <p>5. Select file from precondition</p>
+     * <p>6. Click Check Data button</p>
+     * <p>7. Click Import button</p>
+     * <p>8. Go to Customers -> Manage Customers</p>
+     * <p>9. Open customer, check addresses</p>
      * <p>Expected:</p>
-     * <p>After step 7: corresponding validation messages are shown</p>
-     * <p>After step 10: no address in positive cases; address present in negative cases</p>
+     * <p>After step 6: corresponding validation messages are shown</p>
+     * <p>After step 9: no address in positive cases; address present in negative cases</p>
      *
      * @test
      * @dataProvider importDeleteAddress
@@ -86,9 +84,9 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
 
         //Step 1
         $this->navigate('import');
-        //Steps 2-5
+        //Steps 2-3
         $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Delete Entities');
-        //Steps 6-8
+        //Steps 4-7
         if($addressRow[0]['_email'] == '<realEmail>') {
             $addressRow[0]['_email'] = self::$customerData['email'];
         }
@@ -98,7 +96,7 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
         $report = $this->importExportHelper()->import($addressRow);
         //Verify import
         $this->assertEquals($validation, $report, 'Import has been finished with issues');
-        //Steps 9-10
+        //Steps 8-9
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
         $this->openTab('addresses');

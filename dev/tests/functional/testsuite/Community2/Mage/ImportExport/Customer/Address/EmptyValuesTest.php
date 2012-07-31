@@ -38,15 +38,13 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
      * <p>1. Customer is created. Address is added. Company address attribute has some value</p>
      * <p>2. CSV file prepared that contains existing customer address info where Company value is empty</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Addresses"</p>
      * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customer Addresses"</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Press "Check Data"</p>
-     * <p>7. Press "Import" button</p>
-     * <p>8. Open Customers-> Manage Customers</p>
-     * <p>9. Open customer from precondition</p>
+     * <p>3. Choose file from precondition</p>
+     * <p>4. Press "Check Data"</p>
+     * <p>5. Press "Import" button</p>
+     * <p>6. Open Customers-> Manage Customers</p>
+     * <p>7. Open customer from precondition</p>
      * <p>Expected: Verify that Company hasn't been changed or removed in "Addresses" tab</p>
      *
      * @test
@@ -80,17 +78,17 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
         $data[0]['firstname'] = $addressData['first_name'];
         $data[0]['lastname'] = $addressData['last_name'];
 
-        //Step 1
+        //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
-        //Step 5, 6, 7
+        //Steps 3-5
         $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:');
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:');
-        //Step 8
+        //Step 6
         $this->navigate('manage_customers');
-        //Step 9
+        //Step 7
         $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         //Verify Customer Address
