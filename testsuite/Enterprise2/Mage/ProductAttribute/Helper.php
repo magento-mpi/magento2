@@ -23,7 +23,7 @@ class Enterprise2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribut
      */
     public function setDefaultAttributeValue(array $attributeData, $isVerify = false)
     {
-        $this->helper('Community2/Mage/ProductAttribute')->setDefaultAttributeValue($attributeData);
+        $this->helper('Community2/Mage/ProductAttribute')->setDefaultAttributeValue($attributeData, $isVerify);
     }
 
     /**
