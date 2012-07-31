@@ -14,22 +14,28 @@
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
     <property environment="env"/>
 
-    <target name="_product_edition_files" description="Removal of files, which do not belong to a product edition">
+    <target name="_product_location" description="Detection of a product source code root directory">
+        <condition property="product_root_dir" value="${basedir}">
+            <not><isset property="product_root_dir"/></not>
+        </condition>
+    </target>
+
+    <target name="_product_edition_files" depends="_product_location" description="Removal of files, which do not belong to a product edition">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/extruder/extruder.php --
-                -w ${basedir}
+                -w ${product_root_dir}
                 -l ${basedir}/dev/build/publication/extruder/common.txt
                 -l ${basedir}/dev/build/publication/extruder/${product_edition_code}.txt
                 -v
                 "/>
         </exec>
     </target>
-    <target name="_license_replacement" description="License notices replacement" if="license_replacement_enabled">
+    <target name="_license_replacement" depends="_product_location" description="License notices replacement" if="license_replacement_enabled">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/license/license-tool.php --
-                -w ${basedir}
+                -w ${product_root_dir}
                 -e ${product_edition_code}
                 -v
                 "/>
@@ -61,12 +67,12 @@
         </replace>
     </target>
 
-    <target name="_installation_requirements" description="Environment setup for product installation">
+    <target name="_installation_requirements" depends="_product_location" description="Environment setup for product installation">
         <chmod perm="a+w">
-            <dirset dir="${basedir}/app/etc"/>
-            <dirset dir="${basedir}/pub/media"/>
-            <fileset dir="${basedir}/pub/media"/>
-            <dirset dir="${basedir}/var"/>
+            <dirset dir="${product_root_dir}/app/etc"/>
+            <dirset dir="${product_root_dir}/pub/media"/>
+            <fileset dir="${product_root_dir}/pub/media"/>
+            <dirset dir="${product_root_dir}/var"/>
         </chmod>
     </target>
 

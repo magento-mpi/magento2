@@ -32,15 +32,18 @@
                 --no-push
                 "/>
         </exec>
-        <ant dir="${publication_target_dir}" antfile="../../../../dev/build/core_dev/unit/build.xml">
+        <ant antfile="${basedir}/dev/build/core_dev/unit/build.xml">
+            <property name="product_root_dir" value="${publication_target_dir}"/>
             <target name="_unit_tests_all"/>
         </ant>
-        <ant dir="${publication_target_dir}" antfile="../../../../dev/build/core_dev/static/build.xml">
+        <ant antfile="${basedir}/dev/build/core_dev/static/build.xml">
+            <property name="product_root_dir" value="${publication_target_dir}"/>
             <property name="product_edition_code" value="ce"/>
             <target name="_static_tests_all"/>
             <target name="_sanity_check"/>
         </ant>
-        <ant dir="${publication_target_dir}" antfile="../../../../dev/build/core_dev/integration/build.xml">
+        <ant antfile="${basedir}/dev/build/core_dev/integration/build.xml">
+            <property name="product_root_dir" value="${publication_target_dir}"/>
             <target name="_integration_tests_configuration"/>
             <target name="_integration_tests_magento"/>
             <target name="_integration_integrity_tests_magento"/>

@@ -13,16 +13,20 @@
 -->
 <project name="Core Development Static Tests" basedir="../../../../" default="_static_tests_all">
 
-    <target name="_static_tests_all" description="All static tests">
-        <exec dir="dev/tests/static" executable="phpunit" failonerror="true">
+    <target name="_product_location" description="Shortcut for the product location detection routine">
+        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_product_location"/>
+    </target>
+
+    <target name="_static_tests_all" depends="_product_location" description="All static tests">
+        <exec dir="${product_root_dir}/dev/tests/static" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/static_tests_all.xml"/>
         </exec>
     </target>
-    <target name="_sanity_check" description="Static sanity check">
+    <target name="_sanity_check" depends="_product_location" description="Static sanity check">
         <fail unless="product_edition_code" message="Property 'product_edition_code' must be defined"/>
         <exec executable="php" failonerror="true">
             <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
-                -w ${basedir}
+                -w ${product_root_dir}
                 -c ${basedir}/dev/build/publication/sanity/${product_edition_code}.xml
                 -v
                 "/>
