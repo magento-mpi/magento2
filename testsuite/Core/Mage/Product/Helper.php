@@ -728,9 +728,13 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         for ($customOptionNumber = 1; $customOptionNumber <= $optionsQty; $customOptionNumber++) {
             //Get custom option ID
             $optionId = '';
-            $id = $this->getAttribute($fieldSetXpath . "[{$customOptionNumber}]/@id");
-            $id = explode('_', $id);
-            $optionId = end($id);
+            $elementId = $this->getAttribute($fieldSetXpath . "[{$customOptionNumber}]/@id");
+            $elementId = explode('_', $elementId);
+            foreach ($elementId as $id) {
+                if (is_numeric($id)) {
+                    $optionId = $id;
+                }
+            }
             //Get custom option data
             $value = $customOptionData[$customOptionNumber-1];
             if (is_array($value)) {
@@ -756,12 +760,17 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                 }
                 $i = 1;
                 while (isset($value['custom_option_row_' . $i]) && $i <= $needCountRow) {
-                     $id = $this->getAttribute($fieldRowsXpath . "[{$i}]/@id");
-                     $id = explode('_', $id);
-                     $rowId = end($id);
-                     $this->addParameter('rowId', $rowId);
-                     $this->verifyForm($value['custom_option_row_' . $i], 'custom_options');
-                     $i++;
+                    $elementId = $this->getAttribute($fieldRowsXpath . "[{$i}]/@id");
+                    $elementId = explode('_', $elementId);
+                    $rowId = '';
+                    foreach ($elementId as $id) {
+                        if (is_numeric($id)) {
+                            $rowId = $id;
+                        }
+                    }
+                    $this->addParameter('rowId', $rowId);
+                    $this->verifyForm($value['custom_option_row_' . $i], 'custom_options');
+                    $i++;
                 }
             }
         }

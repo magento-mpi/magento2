@@ -28,11 +28,15 @@ class Enterprise2_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
         $this->openTab('custom_options');
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
         $optionsQty = $this->getXpathCount($fieldSetXpath);
+        $optionId = '';
         While ($optionsQty > 0) {
-            $id = $this->getAttribute($fieldSetXpath . "[{$optionsQty}]/@id");
-            $id = explode('_', $id);
-            $optionId = end($id);
-            $this->addParameter('optionId', $optionId);
+            $elementId = $this->getAttribute($fieldSetXpath . "[{$optionsQty}]/@id");
+            $elementId = explode('_', $elementId);
+            foreach ($elementId as $id) {
+                if (is_numeric($id)) {
+                    $optionId = $id;
+                }
+            }            $this->addParameter('optionId', $optionId);
             $this->clickButton('delete_option', false);
             $optionsQty--;
         }
@@ -48,9 +52,13 @@ class Enterprise2_Mage_Product_Helper extends Enterprise_Mage_Product_Helper
         $fieldSetXpath = $this->_getControlXpath('fieldset', 'custom_option_set');
         $optionId = '';
         if ($this->isElementPresent($fieldSetXpath . "//input[@value='{$optionTitle}']")) {
-            $id = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
-            $id = explode('_', $id);
-            $optionId = end($id);
+            $elementId = $this->getAttribute($fieldSetXpath . "//input[@value='{$optionTitle}'][1]@id");
+            $elementId = explode('_', $elementId);
+            foreach ($elementId as $id) {
+                if (is_numeric($id)) {
+                    $optionId = $id;
+                }
+            }
         }
         return $optionId;
     }
