@@ -174,11 +174,11 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
         //Step 3
         $this->fillDropdown('behavior', 'Delete Entities');
         //Step 4
-        $this->fillDropdown('entity_subtype', 'Customer Addresses');
+        $this->fillDropdown('entity_type', 'Customer Addresses');
         //Step 5
         $this->clickButton('save');
         $importData['behavior'] = 'Delete Entities';
-        $importData['entity_subtype'] = 'Customer Addresses';
+        $importData['entity_type'] = 'Customer Addresses';
         //Verifying
         $this->checkCurrentPage('scheduled_import_export');
         $this->assertMessagePresent('success', 'success_saved_import');
@@ -195,7 +195,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
         //Step 7
         $this->fillDropdown('behavior', 'Custom Action');
         //Step 8
-        $this->fillDropdown('entity_subtype', 'Customer Finances');
+        $this->fillDropdown('entity_type', 'Customer Finances');
         //Step 9
         $this->clickButton('reset');
         //Verifying
@@ -203,7 +203,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
         $this->verifyForm($importData);
         //Step 10
         $this->fillDropdown('behavior', 'Custom Action');
-        $this->fillDropdown('entity_subtype', 'Customer Finances');
+        $this->fillDropdown('entity_type', 'Customer Finances');
         //Step 11
         $this->clickButton('back');
         //Verifying
@@ -332,9 +332,15 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
                 'behavior' => 'Custom Action',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
             )))),
-            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export'))),
-            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export'),
-                $this->loadDataSet('ImportExportScheduled', 'scheduled_export')),
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+                'entity_type' => 'Customers Main File',
+            )))),
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+                'entity_type' => 'Customers Main File',
+            )),
+                $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
+                    'entity_type' => 'Customers Main File',
+                ))),
             ));
     }
 }

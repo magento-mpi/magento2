@@ -39,9 +39,11 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Export</p>
      * <p>Expected: dropdown contain correct values</p>
+     * <p>Select Entity Type</p>
+     * <p>Expected: Entity Attributes grid is visible, buttons Reset Filter, Search and Continue appeared</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5479
+     * @TestlinkId TL-MAGE-5479, 1181
      */
     public function exportSettingsGeneralView()
     {
@@ -52,6 +54,26 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products'),
             $this->importExportHelper()->getCustomerEntityType());
         $this->assertEquals($expectedEntityTypeValues, $entityTypes, 'Entity Type dropdown contains incorrect values');
+        $fileFormat = $this->getElementsByXpath(
+            $this->_getControlXpath('dropdown', 'file_format') . '/option',
+            'text');
+        $this->assertEquals(array('CSV'), $fileFormat,
+            'Export File Format dropdown contains incorrect values');
+        //Step 2
+        $allEntityTypes = $expectedEntityTypeValues;
+        unset($allEntityTypes[0]);
+        foreach ($allEntityTypes as $value) {
+            $this->fillDropdown('entity_type', $value);
+            //Verifying
+            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('fieldset', 'grid_and_filter')),
+                'Grid and filter are not displayed');
+            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'reset_filter')),
+                'Reset button is not displayed');
+            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'search')),
+                'Search button is not displayed');
+            $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'continue')),
+                'Continue button is not displayed');
+        }
     }
 
     /**
