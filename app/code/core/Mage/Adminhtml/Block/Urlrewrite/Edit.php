@@ -21,6 +21,11 @@
 class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
+     * @var Mage_Adminhtml_Block_Urlrewrite_Selector
+     */
+    private $_selectorBlock;
+
+    /**
      * Part for building some blocks names
      *
      * @var string
@@ -63,7 +68,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
             $this->_headerText = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add New URL Rewrite');
         }
 
-        $this->_updateBackButtonLink($helper->getUrl('*/*/edit'));
+        $this->_updateBackButtonLink($helper->getUrl('*/*/edit') . $this->_getSelectorBlock()->getDefaultMode());
         $this->_addUrlRewriteSelectorBlock();
         $this->_addEditFormBlock();
     }
@@ -170,7 +175,20 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit extends Mage_Adminhtml_Block_Widget_C
      */
     protected function _addUrlRewriteSelectorBlock()
     {
-        $this->setChild('selector', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Selector'));
+        $this->setChild('selector', $this->_getSelectorBlock());
+    }
+
+    /**
+     * Get selector block
+     *
+     * @return Mage_Adminhtml_Block_Urlrewrite_Selector
+     */
+    private function _getSelectorBlock()
+    {
+        if (!$this->_selectorBlock) {
+            $this->_selectorBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Urlrewrite_Selector');
+        }
+        return $this->_selectorBlock;
     }
 
     /**
