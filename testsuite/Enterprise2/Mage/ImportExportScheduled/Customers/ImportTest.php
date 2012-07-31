@@ -53,8 +53,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_S
     {
         $customersCsv = str_replace('<realEmail>', $customerData['email'], $customersCsv);
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customers Main File',
+            'entity_type' => 'Customers Main File',
             'behavior' => $behavior,
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
         ));
@@ -112,8 +111,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_S
     {
         $customersCsv = str_replace('<realEmail>', $customerData['email'], $customersCsv);
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customers',
+            'entity_type' => 'Customers Main File',
             'behavior' => $behavior,
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
         ));

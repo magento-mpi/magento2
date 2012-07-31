@@ -59,8 +59,7 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
         $customerData[$attrData['properties']['attribute_code']] = 'gf13gh';
         $this->navigate('import');
         //Step 1
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
         //Build CSV array
         $data = array(
             $customerData

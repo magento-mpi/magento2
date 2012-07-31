@@ -82,8 +82,7 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
 
         //Step 1
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
         //Step 5, 6, 7
         $report = $this->importExportHelper()->import($data);
         //Check import

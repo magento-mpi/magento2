@@ -202,14 +202,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $entityBehavior = $this->getSelectedValue(
             $this->_getControlXpath('dropdown', 'import_behavior'));
         $parameters['behavior'] = $entityBehavior;
-        $fileFormat = $this->getSelectedValue(
-            $this->_getControlXpath('dropdown', 'import_file_version'));
-        $parameters['file_format_version'] = $fileFormat;
-        if ($this->controlIsVisible('dropdown','import_customer_entity')){
-            $customerEntity = $this->getSelectedValue(
-                 $this->_getControlXpath('dropdown', 'import_customer_entity'));
-            $parameters['customer_entity'] = $customerEntity;
-        }
         return $parameters;
     }
 
@@ -468,46 +460,23 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     /**
      * Choose Import dialog options
      *
-     * @param string $entityType Entity type to Import (Products/Customers)
+     * @param string $entityType Entity type to Import (Products/Customers/Customers Main File/
+     * Customer Addresses/Customer Finances)
      * @param string $importBehavior Import behavior
-     * @param string $importVersion Import version (Magento 2.0 format or Magento 1.7 format)
-     * @param string $importEntity Import entity for Magento 2.0 format
      * @param string $fileName Import file name
      *
      * @return $this
      */
-    public function chooseImportOptions($entityType, $importBehavior = Null, $importVersion = Null, $importEntity = Null,
-                                        $fileName = Null){
+    public function chooseImportOptions($entityType, $importBehavior = Null, $fileName = Null){
 
         $this->fillDropdown('entity_type', $entityType);
-        if (!is_null($importVersion)){
+        if (!is_null($importBehavior)){
             if (!$this->waitForElementVisible(
-                $this->_getControlXpath('dropdown','import_file_version')))
+                $this->_getControlXpath('dropdown','import_behavior')))
             {
-                $this->fail('Can\'t find element: dropdown - import_file_version');
+                $this->fail('Can\'t find element: dropdown - import_behavior');
             };
-            $this->fillDropdown('import_file_version', $importVersion);
-            if (!is_null($importBehavior)){
-                if (!$this->waitForElementVisible(
-                    $this->_getControlXpath('dropdown', 'import_behavior')))
-                {
-                    $this->fail('Can\'t find element: dropdown - import_behavior');
-                };
-                $this->fillDropdown('import_behavior', $importBehavior);
-                if (!is_null($importEntity)){
-                    if (!$this->waitForElementVisible(
-                        $this->_getControlXpath('dropdown', 'import_customer_entity')))
-                    {
-                        $this->fail('Can\'t find element: dropdown - import_customer_entity');
-                    }
-                    $this->fillDropdown('import_customer_entity', $importEntity);
-                }
-            }
-        } else {
-            if (!is_null($importBehavior) && $this->waitForElementVisible(
-                $this->_getControlXpath('dropdown','import_behavior'))) {
-                $this->fillDropdown('import_behavior', $importBehavior);
-            }
+            $this->fillDropdown('import_behavior', $importBehavior);
         }
         if (!is_null($fileName) && $this->controlIsVisible('field', 'file_to_import'))
             $this->fillField('file_to_import', $fileName);

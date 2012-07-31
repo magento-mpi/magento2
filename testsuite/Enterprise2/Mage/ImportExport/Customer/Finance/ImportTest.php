@@ -49,19 +49,18 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
      * <p>Required columns</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import / Export -> Import</p>
-     * <p>2. Select Entity Type: Customers</p>
-     * <p>3. Select Export Format Version: Magento 2.0 format</p>
-     * <p>4. Select Customers Entity Type: Customer Finances File</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Click on Check Data</p>
-     * <p>7. Click on Import button</p>
-     * <p>8. Open Customers -> Manage Customers</p>
-     * <p>9. Open each of imported customers</p>
-     * <p>After step 6</p>
+     * <p>2. Select Entity Type: Customer Finances</p>
+     * <p>3. Select Import Behavior: Add/Update Complex Data</p>
+     * <p>4. Choose file from precondition</p>
+     * <p>5. Click on Check Data</p>
+     * <p>6. Click on Import button</p>
+     * <p>7. Open Customers -> Manage Customers</p>
+     * <p>8. Open each of imported customers</p>
+     * <p>After step 5</p>
      * <p>Verify that file is valid, the message 'File is valid!' is displayed</p>
-     * <p>After step 7</p>
+     * <p>After step 6</p>
      * <p>Verify that import starting. The message 'Import successfully done.' is displayed</p>
-     * <p>After step 9</p>
+     * <p>After step 7</p>
      * <p>Verify that all Customers finance information was imported</p>
      *
      * @test
@@ -87,8 +86,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
         $this->navigate('import');
         //Step 1
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Finances');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Add/Update Complex Data');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
@@ -148,14 +146,13 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
      * invalid customer finances data (store credit in text format)</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Customers Entity Type: Customer Finances File </p>
-     * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>2. Select Entity Type: Customer Finances</p>
+     * <p>3. Select Import Behavior: Add/Update Complex Data</p>
+     * <p>4. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
      * <p>Expected: messages "Invalid value for 'store_credit' in rows: 2", "Invalid value for 'reward_points' in
      * rows: 2", "Please fix errors and re-upload file or simply press "Import" button to skip rows with
      * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 2" are displayed</p>
-     * <p>6. Open customers</p>
+     * <p>5. Open customers</p>
      * <p>Expected: valid finance data information was imported correctly</p>
      *
      * @test
@@ -170,15 +167,15 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
                 $csvData[$key]['_email'] = self::$customerData['email'];
             }
         }
-        //Steps 1-4
+        //Step 1
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Finances');
-        //Step 5
+        //Steps 2-3
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Add/Update Complex Data');
+        //Step 4
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
         $this->assertEquals($validationMessage, $importData, 'Import has been finished with issues');
-        //Step 6
+        //Step 5
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', self::$customerData['first_name'] . ' '
             . self::$customerData['last_name']);

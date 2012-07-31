@@ -64,44 +64,4 @@ class Community2_Mage_ImportExport_Backward_ExportSettings_CustomerTest extends 
         $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'continue')),
             'Continue button is not displayed');
     }
-    /**
-     * <p>Old Import Settings General View</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Products"</p>
-     * <p>Expected: Verify that the Import Behavior drop-down is present with proper elements</p>
-     * <p>The button "Check Data" is present in the top area</p>
-     * <p>The possibility to upload the csv file is present</p>
-     * @test
-     * @TestlinkId TL-MAGE-5712
-     */
-      public function importSettingsGeneralView()
-      {
-          $this->navigate('import');
-          //Verifying
-          $entityTypes = $this->getElementsByXpath(
-              $this->_getControlXpath('dropdown', 'entity_type') . '/option',
-              'text');
-          $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products'),
-              $this->importExportHelper()->getCustomerEntityType());
-          $this->assertEquals($expectedEntityTypeValues, $entityTypes,
-              'Entity Type dropdown contains incorrect values');
-          //Step 2
-          $this->importExportHelper()->chooseImportOptions('Products');
-          //Verifying
-          $entityBehavior = $this->getElementsByXpath(
-              $this->_getControlXpath('dropdown', 'import_behavior') . '/option',
-              'text');
-          $this->assertEquals(array(
-                  '-- Please Select --',
-                  'Append Complex Data',
-                  'Replace Existing Complex Data',
-                  'Delete Entities'
-              ), $entityBehavior,
-              'Import Behavior dropdown contains incorrect values');
-          $this->assertTrue($this->controlIsVisible('field','file_to_import'),
-              'File to Import field is missing');
-          $this->assertTrue($this->waitForElementVisible($this->_getControlXpath('button', 'check_data')),
-              'Check Data button is not displayed');
-      }
 }

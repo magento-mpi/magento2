@@ -125,8 +125,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
     {
         // Import Customer
         $importDataCustomers = $this->loadDataSet('ImportExportScheduled','scheduled_import',
-            array('file_format_version' => 'Magento 1.7 format',
-                'entity_type' => 'Customers Main File',
+            array('entity_type' => 'Customers',
                 'behavior'  => 'Append Complex Data'));
         $importDataCustomers['file_name'] = date('Y-m-d_H-i-s_') . 'export_customer.csv';
         $this->importExportScheduledHelper()->createImport($importDataCustomers);

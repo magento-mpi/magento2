@@ -39,17 +39,15 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
      * <p>Customers exist in the system</p>
      * <p>Steps:</p>
      * <p>1. Go to System -> Import/Export -> Import</p>
-     * <p>2. Select Entity Type: Customers</p>
-     * <p>3. Select Import Format Version: Magento 2.0 format</p>
-     * <p>4. Select Import Behavior: Custom Action</p>
-     * <p>5. Select Customer Entity Type: Customers Main File</p>
-     * <p>6. Select file from precondition</p>
-     * <p>7. Click Check Data button</p>
-     * <p>8. Click Import button</p>
-     * <p>9. Go to Customers -> Manage Customers</p>
-     * <p>10. Open customer (if not deleted after import)</p>
-     * <p>After step 7: corresponding validation messages are shown</p>
-     * <p>After step 10: required action applied to customer data</p>
+     * <p>2. Select Entity Type: Customers Main File</p>
+     * <p>3. Select Import Behavior: Custom Action</p>
+     * <p>4. Select file from precondition</p>
+     * <p>5. Click Check Data button</p>
+     * <p>6. Click Import button</p>
+     * <p>7. Go to Customers -> Manage Customers</p>
+     * <p>8. Open customer (if not deleted after import)</p>
+     * <p>After step 5: corresponding validation messages are shown</p>
+     * <p>After step 8: required action applied to customer data</p>
      *
      * @test
      * @dataProvider importCustomAction
@@ -67,14 +65,13 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
         }
         //Step 1
         $this->navigate('import');
-        //Steps 2-5
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
-            'Magento 2.0 format', 'Customers Main File');
-        //Steps 6-8
+        //Steps 2-3
+        $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Custom Action');
+        //Steps 4-6
         $report = $this->importExportHelper()->import($customerRow);
         //Verify import
         $this->assertEquals($validation, $report, 'Import has been finished with issues');
-        //Steps 9-10: verifying customer data after import
+        //Steps 7-8: verifying customer data after import
         foreach ($updatedCustomerData as $key => $value) {
             $this->navigate('manage_customers');
             if (!is_null($updatedCustomerData[$key])) {
@@ -124,8 +121,8 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
                 $mainCsvRows[$key][$key1]['group_id'] = '1';
                 $mainCsvRows[$key][$key1]['firstname'] = $originalCustomerData[$key][$key1]['first_name'];
                 $mainCsvRows[$key][$key1]['lastname'] = $originalCustomerData[$key][$key1]['last_name'];
-				$mainCsvRows[$key][$key1]['reward_update_notification'] = 1;
-				$mainCsvRows[$key][$key1]['reward_warning_notification'] = 1;
+                $mainCsvRows[$key][$key1]['reward_update_notification'] = 1;
+                $mainCsvRows[$key][$key1]['reward_warning_notification'] = 1;
             }
         }
 

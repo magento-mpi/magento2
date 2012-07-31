@@ -97,7 +97,6 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
 
     /**
      * <p>Required columns</p>
-     * <p>Precond
      * <p>Steps</p>
      * <p>1. Go to System -> Import / Export -> Import</p>
      * <p>2. Select Entity Type: Customers</p>
@@ -127,7 +126,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         //Set email for existing customer
         $data[0]['email'] = self::$customerData['email'];
         //Steps 2-4
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data');
         //Steps 5-7
         $report = $this->importExportHelper()->import($data);
         //Verify import
@@ -153,6 +152,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
             'Customer has not been created');
         $this->addParameter('customer_first_last_name', $customerData['first_name'] . ' ' . $customerData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => strtolower($customerData['email'])));
+        $this->verifyForm($customerData, 'account_information');
     }
 
     public function importWithRequiredColumnsData()

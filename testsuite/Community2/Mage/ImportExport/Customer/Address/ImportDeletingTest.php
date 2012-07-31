@@ -87,8 +87,7 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
         //Step 1
         $this->navigate('import');
         //Steps 2-5
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
-            'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Delete Entities');
         //Steps 6-8
         if($addressRow[0]['_email'] == '<realEmail>') {
             $addressRow[0]['_email'] = self::$customerData['email'];
