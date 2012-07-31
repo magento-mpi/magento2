@@ -20,9 +20,6 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
      *
      * @param array $attributeData
      * @param bool $isVerify
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * ($isVerify variable is actually used but PHPMD produces false alarm)
      */
     public function setDefaultAttributeValue(array $attributeData, $isVerify = false)
     {
