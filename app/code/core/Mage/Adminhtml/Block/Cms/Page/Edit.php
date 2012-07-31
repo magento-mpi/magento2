@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        if ($this->_isAllowedAction('save')) {
+        if ($this->_isAllowedAction('Mage_Cms::save')) {
             $this->_updateButton('save', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Save Page'));
             $this->_addButton('saveandcontinue', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
