@@ -20,6 +20,25 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     protected $_renamedImages = array();
 
     /**
+     * Resource model
+     *
+     * @var Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media
+     */
+    protected $_resourceModel;
+
+    /**
+     * Constructor to inject dependencies
+     *
+     * @var array $data
+     */
+    public function __construct($data = array())
+    {
+        if (isset($data['resourceModel'])) {
+            $this->_resourceModel = $data['resourceModel'];
+        }
+    }
+
+    /**
      * Load attribute data after product loaded
      *
      * @param Mage_Catalog_Model_Product $object
@@ -513,7 +532,12 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      */
     protected function _getResource()
     {
-        return Mage::getResourceSingleton('Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media');
+        if (empty($this->_resourceModel)) {
+            $this->_resourceModel = Mage::getResourceSingleton(
+                'Mage_Catalog_Model_Resource_Product_Attribute_Backend_Media'
+            );
+        }
+        return $this->_resourceModel;
     }
 
     /**
@@ -677,12 +701,12 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     }
 
     /**
-     * Retrieve Data For Update Attribute
+     * Retrieve data for update attribute
      *
      * @param  Mage_Catalog_Model_Product $object
      * @return array
      */
-    public function getValueUpdateInfo($object)
+    public function getAffectedFields($object)
     {
         $data = array();
         $images = (array)$object->getData($this->getAttribute()->getName());
@@ -696,4 +720,4 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         }
         return $data;
     }
-} // Class Mage_Catalog_Model_Product_Attribute_Backend_Media End
+}

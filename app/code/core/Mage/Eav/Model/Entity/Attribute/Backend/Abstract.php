@@ -297,6 +297,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     {
         return $this;
     }
+
     /**
      * After delete method
      *
@@ -309,12 +310,12 @@ abstract class Mage_Eav_Model_Entity_Attribute_Backend_Abstract
     }
 
     /**
-     * Retrieve Data For Update Attribute
+     * Retrieve data for update attribute
      *
      * @param Varien_Object $object
      * @return array
      */
-    public function getValueUpdateInfo($object)
+    public function getAffectedFields($object)
     {
         $data = array();
         $data[$this->getTable()][] = array(

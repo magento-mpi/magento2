@@ -175,6 +175,20 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     }
 
     /**
+     * Main constructor
+     */
+    public function __construct($data = array())
+    {
+        parent::__construct();
+        $properties = get_object_vars($this);
+        foreach($data as $key => $value) {
+            if (array_key_exists('_' . $key, $properties)) {
+                $this->{'_' . $key} = $value;
+            }
+        }
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -1115,7 +1129,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     private function _aggregateDeleteData(&$delete, $attribute, $object)
     {
-        foreach ($attribute->getBackend()->getValueUpdateInfo($object) as $tableName => $valuesData) {
+        foreach ($attribute->getBackend()->getAffectedFields($object) as $tableName => $valuesData) {
             if (!isset($delete[$tableName])) {
                 $delete[$tableName] = array();
             }
