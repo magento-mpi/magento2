@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -12,12 +10,12 @@
  */
 
 /**
-* Customer Export
-*
-* @package     selenium
-* @subpackage  tests
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Customer Export
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Community2_Mage_ImportExport_preconditionTest extends Mage_Selenium_TestCase
 {
     /**
