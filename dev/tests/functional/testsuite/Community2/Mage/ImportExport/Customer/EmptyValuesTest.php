@@ -38,15 +38,13 @@ class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Seleniu
      * <p>1. Customer is created. Middle name attribute has some value</p>
      * <p>2. CSV file prepared that contains existing customer info where middle name attribute value is empty</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"</p>
      * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customers Main File"</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Press "Check Data"</p>
-     * <p>7. Press "Import" button</p>
-     * <p>8. Open Customers-> Manage Customers</p>
-     * <p>9. Open customer from precondition</p>
+     * <p>3. Choose file from precondition</p>
+     * <p>4. Press "Check Data"</p>
+     * <p>5. Press "Import" button</p>
+     * <p>6. Open Customers-> Manage Customers</p>
+     * <p>7. Open customer from precondition</p>
      * <p>Expected: Verify that customer middle name hasn't been changed or removed</p>
      *
      * @test
@@ -70,19 +68,18 @@ class Community2_Mage_ImportExport_EmptyValues_CustomerTest extends Mage_Seleniu
         $data[0]['firstname'] = $userData['first_name'];
         $data[0]['lastname'] = $userData['last_name'];
         $data[0]['password'] = $userData['password'];
-        //Step 1
+        //Steps 1-2
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
         $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
-        //Step 5, 6, 7
+        //Steps 3-5
         $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues:');
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues:');
-        //Step 8
+        //Step 6
         $this->navigate('manage_customers');
-        //Step 9
+        //Step 7
         $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
         //Verify customer account

@@ -32,16 +32,6 @@ import:
                         xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Behavior')]]
                         dropdowns:
                             import_behavior: //select[@name='behavior' and not(@disabled)]
-                -
-                    import_format:
-                        xpath: //div[@id="import_format_version_fieldset"]
-                        dropdowns:
-                            import_file_version: //select[@id='file_format_version']
-                -
-                    customer_entity_type:
-                        xpath: //div[@id="customer_entity_fieldset"]
-                        dropdowns:
-                            import_customer_entity: //select[@id='customer_entity']
         messages:
             extension_not_supported: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'%extension% file extension is not supported')]
             no_extension: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'Uploaded file has no extension')]

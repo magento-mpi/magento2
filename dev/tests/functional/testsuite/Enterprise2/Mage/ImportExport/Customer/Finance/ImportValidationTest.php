@@ -66,8 +66,7 @@ class Community2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
         }
         $this->navigate('import');
         //Step 1
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Finances');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Add/Update Complex Data');
         //Build CSV array
         $data = array(
             $financeData
@@ -186,15 +185,13 @@ class Community2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
      * <p>Precondition: csv files (main file, address file) prepared that contains two identical rows</p>
      * <p>Steps</p>
      * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
-     * <p>2. Select Customers entity type</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Add/Update Complex Data import behavior</p>
-     * <p>5. Select Customers Finance customer entity type</p>
-     * <p>6. Select customer main file from precondition</p>
-     * <p>7. Press "Check Data" button</p>
+     * <p>2. Select Entity Type: "Customers Finance"</p>
+     * <p>3. Select Import Behavior: "Add/Update Complex Data"</p>
+     * <p>4. Select customer main file from precondition</p>
+     * <p>5. Press "Check Data" button</p>
      * <p>Expected: validation error 'E-mail is duplicated in import file in rows: X''</p>
-     * <p>8. Add column '_action' with 'update' value to csv file</p>
-     * <p>9. Repeat steps 6-7</p>
+     * <p>6. Add column '_action' with 'update' value to csv file</p>
+     * <p>7. Repeat steps 4-5</p>
      *
      * @test
      * @dataProvider fileDuplicatedRows
@@ -208,12 +205,11 @@ class Community2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Sel
             $csv[$key]['_email'] = self::$customerEmail;
         }
 
-        //Steps 1-5
+        //Step 1
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Finances');
-
-        //Steps 6-8
+        //Steps 2-3
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Add/Update Complex Data');
+        //Steps 4-7
         $csvCustomAction = $csv;
         foreach ($csvCustomAction as $key => $value) {
             $csvCustomAction[$key]['_action'] = 'update';

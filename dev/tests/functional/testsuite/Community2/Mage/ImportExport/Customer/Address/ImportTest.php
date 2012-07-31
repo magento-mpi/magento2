@@ -52,19 +52,18 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
      * <p>Required columns</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import / Export -> Import</p>
-     * <p>2. Select Entity Type: Customers</p>
-     * <p>3. Select Export Format Version: Magento 2.0 format</p>
-     * <p>4. Select Customers Entity Type: Customer Addresses File</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Click on Check Data</p>
-     * <p>7. Click on Import button</p>
-     * <p>8. Open Customers -> Manage Customers</p>
-     * <p>9. Open each of imported customers</p>
-     * <p>After step 6</p>
+     * <p>2. Select Entity Type: Customer Addresses</p>
+     * <p>3. Select Import Behavior: Add/Update Complex Data</p>
+     * <p>4. Choose file from precondition</p>
+     * <p>5. Click on Check Data</p>
+     * <p>6. Click on Import button</p>
+     * <p>7. Open Customers -> Manage Customers</p>
+     * <p>8. Open each of imported customers</p>
+     * <p>After step 5</p>
      * <p>Verify that file is valid, the message 'File is valid!' is displayed</p>
-     * <p>After step 7</p>
+     * <p>After step 6</p>
      * <p>Verify that import starting. The message 'Import successfully done.' is displayed</p>
-     * <p>After step 9</p>
+     * <p>After step 7</p>
      * <p>Verify that all Customers address information was imported</p>
      *
      * @test
@@ -89,10 +88,10 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($userData1);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->navigate('import');
         //Step 1
-        $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Add/Update Complex Data', 'Magento 2.0 format', 'Customer Addresses');
+        $this->navigate('import');
+        //Steps 2-3
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array('_entity_id' => '', '_email' => $userData1['email'], 'city' => 'Lincoln', 'country_id' => 'US',
@@ -155,9 +154,8 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
      * rows: valid customer address data, valid customer address data (email is empty)</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Customers Entity Type: Customer Addresses File </p>
+     * <p>2. In the drop-down "Entity Type" select "Customer Addresses File"</p>
+     * <p>3. Select "Add/Update Complex Data" import behavior</p>
      * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
      * <p>Expected: messages "Please fix errors and re-upload file or simply press "Import" button to skip rows with
      * errors" and "Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1" are displayed</p>
@@ -183,8 +181,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         //Step 1
         $this->navigate('import');
         //Steps 2-4
-        $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Add/Update Complex Data', 'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
         //Steps 5-6
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying import

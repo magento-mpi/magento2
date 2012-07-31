@@ -49,7 +49,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
      * <p>Steps:</p>
      * <p>1. Go to System > Import/Export > Scheduled Import/Export</p>
      * <p>2. Click “Add Scheduled Import” button</p>
-     * <p>3. Fill all values (Entity Type: Customers, Import Format Version: Magento 2.0 format, Import Behavior: Add/Update Complex Data)</p>
+     * <p>3. Fill all values (Entity Type: Customers Main File, Import Behavior: Add/Update Complex Data)</p>
      * <p>4. Click 'Save' button</p>
      * <p>Expected: scheduled Import/Export page is opened. Message “The scheduled import has been saved”</p>
      * <p>in green frame has appeared. Created Scheduled Import is available in grid.</p>
@@ -69,7 +69,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
     {
         //Steps 2-4
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
+            'entity_type' => 'Customers Main File',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
         ));
@@ -94,7 +94,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
         $this->verifyForm($importData);
         //Step 6
         $tempImportData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
+            'entity_type' => 'Customers Main File',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
         ));
@@ -319,27 +319,22 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
     {
         return array(
             array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-                'file_format_version' => 'Magento 2.0 format',
+                'entity_type' => 'Customers Main File',
                 'behavior' => 'Add/Update Complex Data',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
             )))),
             array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-                'file_format_version' => 'Magento 2.0 format',
+                'entity_type' => 'Customers Main File',
                 'behavior' => 'Delete Entities',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
             )), $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-                'file_format_version' => 'Magento 2.0 format',
+                'entity_type' => 'Customers Main File',
                 'behavior' => 'Custom Action',
                 'file_name' => date('Y-m-d_H-i-s_') . 'export_customer.csv',
             )))),
-            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'file_format_version' => 'Magento 2.0 format',
-            )))),
-            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'file_format_version' => 'Magento 2.0 format',
-            )), $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'file_format_version' => 'Magento 2.0 format',
-            ))),
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export'))),
+            array(array($this->loadDataSet('ImportExportScheduled', 'scheduled_export'),
+                $this->loadDataSet('ImportExportScheduled', 'scheduled_export')),
             ));
     }
 }

@@ -85,8 +85,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
         }
         //Precondition: create scheduled import
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customer Addresses',
+            'entity_type' => 'Customer Addresses',
             'behavior' => $behavior,
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer_address.csv',
         ));
@@ -432,8 +431,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
         }
         //Precondition: create scheduled import
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customer Addresses',
+            'entity_type' => 'Customer Addresses',
             'behavior' => 'Add/Update Complex Data',
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer_address.csv',
         ));

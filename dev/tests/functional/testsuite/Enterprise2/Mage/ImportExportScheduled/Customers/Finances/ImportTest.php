@@ -53,8 +53,7 @@ class Enterprise2_Mage_ImportExportScheduled_CustomActions_FinancesTest extends 
     {
         $financesCsv = str_replace('<realEmail>', $customerData['email'], $financesCsv);
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
-            'file_format_version' => 'Magento 2.0 format',
-            'entity_subtype' => 'Customer Finances',
+            'entity_type' => 'Customer Finances',
             'behavior' => $behavior,
             'file_name' => date('Y-m-d_H-i-s_') . 'export_customer_finances.csv',
         ));

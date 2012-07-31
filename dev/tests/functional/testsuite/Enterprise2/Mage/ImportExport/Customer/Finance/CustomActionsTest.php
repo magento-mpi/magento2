@@ -86,8 +86,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             $i++;
         }
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
-            'Magento 2.0 format', 'Customer Finances');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($dataCsv);
         //Check import
@@ -174,8 +173,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             $i++;
         }
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
-            'Magento 2.0 format', 'Customer Finances');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($dataCsv);
         //Check import
@@ -266,8 +264,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             $i++;
         }
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Custom Action',
-            'Magento 2.0 format', 'Customer Finances');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($dataCsv);
         //Check import
@@ -385,8 +382,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $data[1]['_email'] = $userData2['email'];
 
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Delete Entities',
-            'Magento 2.0 format', 'Customer Finances');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Delete Entities');
         //Step 5, 6, 7
         $report = $this->importExportHelper()->import($data);
         //Check import

@@ -35,11 +35,9 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
     /**
      * <p>Import File with not supported extensions</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"</p>
      * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior" </p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customers Main File"</p>
-     * <p>5. Select .txt file in the are "File to Import"</p>
+     * <p>3. Select .txt file in the are "File to Import"</p>
      * <p>Press "Check Data" button</p>
      * <p>Expected: Warning about incorrect file appears</p>
      *
@@ -62,9 +60,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
         $entityTypes = $this->importExportHelper()->getCustomerEntityType();
         foreach ($entityTypes as $entityType) {
             $this->navigate('import');
-            $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-                'Magento 2.0 format', $entityType);
-            //Step 5
+            $this->importExportHelper()->chooseImportOptions($entityType, 'Add/Update Complex Data');
             $report = $this->importExportHelper()->import($data, $dataFileName);
             $this->assertArrayNotHasKey('import', $report,
                 'Incorrect file has been imported');
@@ -99,8 +95,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
     {
         $this->navigate('import');
         //Step 1
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customers Main File');
+        $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
         //Build CSV array
         $data = array(
             $customerData
@@ -275,8 +270,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
         }
 
         //Steps 1-5
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', $customerEntity);
+        $this->importExportHelper()->chooseImportOptions($customerEntity, 'Add/Update Complex Data');
 
         //Steps 6-8
         $csvCustomAction = $csv;

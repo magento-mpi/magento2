@@ -39,14 +39,12 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
      * <p>1. Create two customers in Customers-> Manage Customers</p>
      * <p>2. Create .csv file with both customers: first with all attributes, second only with values of unique key</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"</p>
      * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customers Main File"</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Press "Check Data"</p>
-     * <p>7. Press "Import" button</p>
-     * <p>8. Open Customers-> Manage Customers</p>
+     * <p>3. Choose file from precondition</p>
+     * <p>4. Press "Check Data"</p>
+     * <p>5. Press "Import" button</p>
+     * <p>6. Open Customers-> Manage Customers</p>
      * <p>Expected: Verify that both customers are absent in the system</p>
      *
      * @test
@@ -76,22 +74,21 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         $data[1]['lastname'] = 'lastname_new';
         $data[1]['password'] = 'qqqqqqq';
 
-        //Step 1
+        //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Delete Entities', 'Magento 2.0 format', 'Customers Main File');
-        //Step 5, 6, 7
+            ->chooseImportOptions('Customers Main File', 'Delete Entities');
+        //Steps 3-5
         $importReport = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $importReport,
             'Import has been finished with issues: ' . print_r($importReport, true));
         $this->assertArrayHasKey('success', $importReport['import'],
             'Import has been finished with issues: ' . print_r($importReport, true));
-        //Step 8
+        //Step 6
         $this->navigate('manage_customers');
         //Verify that the first customer is absent after import 'Delete Entities'
         $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData1), 'Customer is found');
-
         //Verify that the second customer is absent after import 'Delete Entities'
         $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer is found');
     }
@@ -110,13 +107,11 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
      * <p>1. Create two customers in Customers-> Manage Customers</p>
      * <p>2. Create .csv file with incorrect email for first customer, with incorrect website for second customer</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"</p>
      * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customers Main File"</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Press "Check Data"</p>
-     * <p>8. Open Customers-> Manage Customers</p>
+     * <p>3. Choose file from precondition</p>
+     * <p>4. Press "Check Data"</p>
+     * <p>5. Open Customers-> Manage Customers</p>
      * <p>Expected: Verify that both customers are present in the system</p>
      *
      * @test
@@ -146,17 +141,17 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         $data[1]['lastname'] = $userData2['last_name'];
         $data[1]['password'] = $userData2['password'];
 
-        //Step 1, 2, 3, 4
+        //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Delete Entities', 'Magento 2.0 format', 'Customers Main File');
-        //Step 5, 6, 7
+            ->chooseImportOptions('Customers Main File', 'Delete Entities');
+        //Steps 3-5
         $importReport = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayNotHasKey('import', $importReport,
             'Import has been finished with issues: ' . print_r($importReport, true));
         $this->assertArrayHasKey('error', $importReport['validation'], 'Import has been finished with issues:');
-        //Step 8
+        //Step 5
         $this->navigate('manage_customers');
         //Verify that the first customer is present after import 'Delete Entities'
         $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData1), 'Customer not found');

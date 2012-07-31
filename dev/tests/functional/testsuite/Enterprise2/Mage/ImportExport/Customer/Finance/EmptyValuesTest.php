@@ -41,15 +41,13 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
      * empty columns Reward Points and Store Credit for first customer<br>
      * value "0" in columns Reward Points and Store Credit for second customer</p>
      * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers"</p>
+     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Finances"</p>
      * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select "Customer Finances"</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Press "Check Data"</p>
-     * <p>7. Press "Import" button</p>
-     * <p>8. Open Customers-> Manage Customers</p>
-     * <p>9. Open customers from precondition</p>
+     * <p>3. Choose file from precondition</p>
+     * <p>4. Press "Check Data"</p>
+     * <p>5. Press "Import" button</p>
+     * <p>6. Open Customers-> Manage Customers</p>
+     * <p>7. Open customers from precondition</p>
      * <p>Expected: Customer1 has values as in precondition. Customer2 has "0" for Reward Points and Store Credit</p>
      *
      * @test
@@ -101,20 +99,20 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
         $data[1]['store_credit'] = '0';
         $data[1]['reward_points'] = '0';
 
-        //Step1
+        //Step 1
         $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Finances');
-        //Step 5, 6, 7
+        //Step 2
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Add/Update Complex Data');
+        //Step 3-5
         $report = $this->importExportHelper()->import($data);
         //Check import
         $this->assertArrayHasKey('import', $report, 'Import has been finished with issues: '
             . print_r($report, true));
         $this->assertArrayHasKey('success', $report['import'], 'Import has been finished with issues: '
             . print_r($report, true));
-        //Step 8
+        //Step 6
         $this->navigate('manage_customers');
-        //Step 9. First Customer
+        //Step 7. First Customer
         $this->addParameter('customer_first_last_name', $userData1['first_name'] . ' ' . $userData1['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData1['email']));
         //Verify customer account
@@ -122,7 +120,7 @@ class Enterprise2_Mage_ImportExport_EmptyValues_FinanceTest extends Mage_Seleniu
             'Adding customer credit score balance is failed');
         $this->assertEquals('150', $this->customerHelper()->getRewardPointsBalance(),
             'Adding customer reward points balance is failed');
-        //Step 9. Second Customer
+        //Step 7. Second Customer
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name', $userData2['first_name'] . ' ' . $userData2['last_name']);
         $this->customerHelper()->openCustomer(array('email' => $userData2['email']));

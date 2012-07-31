@@ -44,9 +44,7 @@ scheduled_export:
 scheduled_import:
    name: test_import_%randomize%
    description: test_import_description_%randomize%
-   entity_type: Customers
-   file_format_version: %noValue%
-   entity_subtype: %noValue%
+   entity_type: %noValue%
    behavior: %noValue%
    start_time_hours: %noValue%
    start_time_minutes: %noValue%

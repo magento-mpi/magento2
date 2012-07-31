@@ -67,8 +67,7 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
         }
         $this->navigate('import');
         //Step 1
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data',
-            'Magento 2.0 format', 'Customer Addresses');
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
         //Build CSV array
         $data = array(
             $addressData

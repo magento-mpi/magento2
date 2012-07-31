@@ -60,42 +60,47 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * <p>Export Settings General View</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "New Import" fromat</p>
+     * <p>2. Verify that Entity Type dropdown contains correct values</p>
+     * <p>3. Verify that Import Behavior dropdown contains correct values according to selected entity type</p>
      * <p>Expected: dropdowns contain correct values</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5615
+     * @TestlinkId TL-MAGE-5615, TL-MAGE-5712
      */
     public function importSettingsGeneralView()
     {
-        //Verifying
+        //Verifying Entity Type dropdown
         $entityTypes =
             $this->getElementsByXpath($this->_getControlXpath('dropdown', 'entity_type') . '/option', 'text');
-        $this->assertEquals(array('-- Please Select --', 'Products', 'Customers'), $entityTypes,
-            'Entity Type dropdown contains incorrect values');
-        $this->importExportHelper()->chooseImportOptions('Customers');
-        //Step 2
-        $this->fillDropdown('entity_type', 'Customers');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_file_version'));
-        //Verifying
-        $exportFileVersion =
-            $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_file_version') . '/option', 'text');
-        $this->assertEquals(array('-- Please Select --', 'Magento 1.7 format', 'Magento 2.0 format'),
-            $exportFileVersion, 'Import File Version dropdown contains incorrect values');
-        //Step 3
-        $this->fillDropdown('import_file_version', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
-        //Verifying
-        $exportFileVersion = $this->getElementsByXpath(
-            $this->_getControlXpath('dropdown', 'import_customer_entity') . '/option', 'text');
-        $this->assertEquals($this->importExportHelper()->getCustomerEntityType(), $exportFileVersion,
-            'Customer Entity Type dropdown contains incorrect values');
-        $entityBehavior =
-            $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
-        $this->assertEquals(array('-- Please Select --', 'Add/Update Complex Data', 'Delete Entities', 'Custom Action'),
-            $entityBehavior, 'Import Behavior dropdown contains incorrect values');
-        $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
+        $oldEntityTypeValues = array('Products', 'Customers');
+        $newEntityTypeValues = $this->importExportHelper()->getCustomerEntityType();
+        $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products', 'Customers'),
+            $newEntityTypeValues);
+        $this->assertEquals($expectedEntityTypeValues, $entityTypes, 'Entity Type dropdown contains incorrect values');
+
+        //Verifying Import Behavior dropdown
+        $oldImportBehavior = array('Append Complex Data', 'Replace Existing Complex Data', 'Delete Entities');
+        $newImportBehavior = array('Add/Update Complex Data', 'Delete Entities', 'Custom Action');
+
+        foreach ($oldEntityTypeValues as $value) {
+            $this->importExportHelper()->chooseImportOptions($value);
+            $expectedImportBehavior = array_merge(array('-- Please Select --'), $oldImportBehavior);
+            $actualImportBehavior =
+                $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
+            $this->assertEquals($expectedImportBehavior, $actualImportBehavior,
+                'Import Behavior dropdown contains incorrect values');
+            $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
+        }
+
+        foreach ($newEntityTypeValues as $value) {
+            $this->importExportHelper()->chooseImportOptions($value);
+            $expectedImportBehavior = array_merge(array('-- Please Select --'), $newImportBehavior);
+            $actualImportBehavior =
+                $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
+            $this->assertEquals($expectedImportBehavior, $actualImportBehavior,
+                'Import Behavior dropdown contains incorrect values');
+            $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
+        }
     }
 
     /**
@@ -139,13 +144,10 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         }
         //Step 1
         $this->navigate('import');
-        //Step 2
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Add/Update Complex Data', 'Magento 2.0 format');
-        $this->waitForElementVisible($this->_getControlXpath('dropdown', 'import_customer_entity'));
         foreach ($customerTypes as $customerType) {
-            //Step 4
-            $this->fillDropdown('import_customer_entity', $customerType);
-            //Step 5-6
+            //Step 2
+            $this->importExportHelper()->chooseImportOptions($customerType, 'Add/Update Complex Data');
+            //Steps 3-4
             $importData = $this->importExportHelper()->import($report[$customerType]);
             //Verifying
             $this->assertEquals('Checked rows: ' . count($report[$customerType]) . ', checked entities: '
@@ -160,22 +162,21 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * <p>Required columns</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import / Export -> Import</p>
-     * <p>2. Select Entity Type: Customers</p>
-     * <p>3. Select Export Format Version: Magento 2.0 format</p>
-     * <p>4. Select Customers Entity Type: Customers Main File</p>
-     * <p>5. Choose file from precondition</p>
-     * <p>6. Click on Check Data</p>
-     * <p>7. Click on Import button</p>
-     * <p>8. Open Customers -> Manage Customers</p>
-     * <p>9. Open each of imported customers</p>
+     * <p>2. Select Entity Type: Customers Main File</p>
+     * <p>3. Select Import Behavior: Add/Update Complex Data</p>
+     * <p>4. Choose file from precondition</p>
+     * <p>5. Click on Check Data</p>
+     * <p>6. Click on Import button</p>
+     * <p>7. Open Customers -> Manage Customers</p>
+     * <p>8. Open each of imported customers</p>
      * <p>Expected: </p>
-     * <p>After step 6</p>
+     * <p>After step 5</p>
      * <p>Verify that file is valid, the message 'File is valid!' is displayed</p>
-     * <p>After step 7</p>
+     * <p>After step 6</p>
      * <p>Verify that import starting. The message 'Import successfully done.' is displayed</p>
-     * <p>After step 8</p>
+     * <p>After step 7</p>
      * <p>Verify that imported customers display on customers grid</p>
-     * <p>After step 9</p>
+     * <p>After step 8</p>
      * <p>Verify that all Customer information was imported</p>
      *
      * @test
@@ -192,7 +193,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $this->navigate('import');
         //Step 1
         $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Add/Update Complex Data', 'Magento 2.0 format', 'Customers Main File');
+            ->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
         //Generated CSV data
         $customerDataRow1 = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array('email' => $customerData['email'], 'group_id' => '3'));
@@ -238,12 +239,11 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * csv file contains two customers: existing (with new attribute values) and new one</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Customers Entity Type: Customers Main File/Customer Addresses</p>
-     * <p>5. Choose file from precondition and click "Check Data" button</p>
-     * <p>6. Press "Import" button</p>
-     * <p>7. Goto Customer-> Manage Customers and open each of imported customers</p>
+     * <p>2. In the drop-down "Entity Type" select Customers Main File/Customer Addresses</p>
+     * <p>3. In the drop-down "Import Behavior" select "Add/Update Complex Data"</p>
+     * <p>4. Choose file from precondition and click "Check Data" button</p>
+     * <p>5. Press "Import" button</p>
+     * <p>6. Go to Customer-> Manage Customers and open each of imported customers</p>
      * <p>Expected: values of not required attributes is updated for existing customer,
      * new customer is added with proper values of not required attributes</p>
      *
@@ -272,17 +272,16 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         }
         //Step 1
         $this->navigate('import');
-        //Steps 2-4
-        $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Add/Update Complex Data', 'Magento 2.0 format', $customerType);
-        //Step 5-6
+        //Steps 2-3
+        $this->importExportHelper()->chooseImportOptions($customerType, 'Add/Update Complex Data');
+        //Steps 4-5
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
         $this->assertArrayHasKey('import', $importData,
             "$customerType file import has not been finished successfully: " . print_r($importData, true));
         $this->assertArrayHasKey('success', $importData['import'],
             "$customerType file import has not been finished successfully" . print_r($importData, true));
-        //Step7
+        //Step 6
         if ($customerType == 'Customers Main File') {
             foreach ($updatedData as $key => $value) {
                 $this->navigate('manage_customers');
@@ -368,19 +367,18 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * customer), valid customer data (email and website id is the same as in first row)</p>
      * <p>Steps</p>
      * <p>1. Go to System -> Import/ Export -> Import</p>
-     * <p>2. In the drop-down "Entity Type" select "Customers"</p>
-     * <p>3. Select "Magento 2.0 format"</p>
-     * <p>4. Select Customers Entity Type: Customers Main File</p>
-     * <p>5. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>2. In the drop-down "Entity Type" select "Customers Main File"</p>
+     * <p>3. Select "Add/Update Complex Data" Import Behavior</p>
+     * <p>4. Choose first file from precondition, click "Check Data" button, Press "Import" button</p>
      * <p>Expected: messages "Invalid value in Website column (website does not exists?) in rows: 2", "Please fix
      * errors and re-upload file or simply press "Import" button to skip rows with errors" and "Checked rows: 2,
      * checked entities: 2, invalid rows: 1, total errors: 1"
      * are displayed</p>
-     * <p>6. Choose second file from precondition, click "Check Data" button, Press "Import" button</p>
+     * <p>5. Choose second file from precondition, click "Check Data" button, Press "Import" button</p>
      * <p>Expected: messages "E-mail is duplicated in import file in rows: 2" and "Please fix errors and re-upload
      * file or simply press "Import" button to skip rows with errors", "Checked rows: 2, checked entities: 2, invalid
      * rows: 1, total errors: 1" are displayed</p>
-     * <p>7. Open imported customers</p>
+     * <p>6. Open imported customers</p>
      * <p>Expected: valid data information was imported correctly</p>
      *
      * @test
@@ -395,14 +393,14 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
                 $csvData[$key]['email'] = self::$customerData['email'];
             }
         }
-        //Steps 2-4
+        //Steps 2-3
         $this->importExportHelper()
-            ->chooseImportOptions('Customers', 'Add/Update Complex Data', 'Magento 2.0 format', 'Customers Main File');
-        //Steps 5-6
+            ->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
+        //Steps 4-5
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
         $this->assertEquals($validation, $importData, 'Import has been finished with issues');
-        //Step 7
+        //Step 6
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
             $newCustomerData['first_name'] . ' ' . $newCustomerData['last_name']);
@@ -471,7 +469,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     public function simpleImport($data)
     {
         //Step 1
-        $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data');
         $report = $this->importExportHelper()->import($data);
     }
 
