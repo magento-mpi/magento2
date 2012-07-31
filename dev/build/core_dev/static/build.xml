@@ -13,8 +13,10 @@
 -->
 <project name="Core Development Static Tests" basedir="../../../../" default="_static_tests_all">
 
-    <target name="_product_location" description="Shortcut for the product location detection routine">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_product_location"/>
+    <target name="_product_location" description="Detection of a product source code root directory">
+        <condition property="product_root_dir" value="${basedir}">
+            <not><isset property="product_root_dir"/></not>
+        </condition>
     </target>
 
     <target name="_static_tests_all" depends="_product_location" description="All static tests">

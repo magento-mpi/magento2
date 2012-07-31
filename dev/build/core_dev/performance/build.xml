@@ -14,8 +14,10 @@
 <project name="Core Development Performance Tests" basedir="../../../../" default="performance_tests_ce_mysql">
     <property environment="env"/>
 
-    <target name="_product_location" description="Shortcut for the product location detection routine">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_product_location"/>
+    <target name="_product_location" description="Detection of a product source code root directory">
+        <condition property="product_root_dir" value="${basedir}">
+            <not><isset property="product_root_dir"/></not>
+        </condition>
     </target>
 
     <target name="_performance_tests_configuration" depends="_product_location" description="Generation of configuration for product performance tests">

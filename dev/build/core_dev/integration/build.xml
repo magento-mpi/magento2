@@ -13,11 +13,13 @@
 -->
 <project name="Core Development Integration Tests" basedir="../../../../" default="integration_tests_ee_mysql">
 
-    <target name="_product_location" description="Shortcut for the product location detection routine">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_product_location"/>
-    </target>
     <target name="_community_edition" description="Shortcut for CE preparation routine">
         <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_community_edition"/>
+    </target>
+    <target name="_product_location" description="Detection of a product source code root directory">
+        <condition property="product_root_dir" value="${basedir}">
+            <not><isset property="product_root_dir"/></not>
+        </condition>
     </target>
 
     <target name="_integration_tests_configuration" depends="_product_location" description="Generation of configuration for integration tests">
