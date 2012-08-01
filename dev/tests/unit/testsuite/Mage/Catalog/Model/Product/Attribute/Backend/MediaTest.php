@@ -30,8 +30,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
 
     public function testGetAffectedFields()
     {
-        $valueId = 10;
-        $attributeId = 42;
+        $valueId = 2345;
+        $attributeId = 345345;
 
         $attribute = $this->getMock(
             'Mage_Eav_Model_Entity_Attribute_Abstract',
@@ -40,6 +40,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
             '',
             false
         );
+        $attribute->expects($this->any())
+            ->method('getName')
+            ->will($this->returnValue('image'));
+
         $attribute->expects($this->any())
             ->method('getAttributeId')
             ->will($this->returnValue($attributeId));
@@ -52,9 +56,6 @@ class Mage_Catalog_Model_Product_Attribute_Backend_MediaTest extends PHPUnit_Fra
             ->method('getBackendTable')
             ->will($this->returnValue('table'));
 
-        $attribute->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue('image'));
 
         $this->_model->setAttribute($attribute);
 
