@@ -144,7 +144,7 @@ class Magento_Config
         }
 
         // Validate admin options data
-        $requiredAdminKeys = array('frontname', 'username', 'password');
+        $requiredAdminKeys = array('backend_frontname', 'admin_username', 'admin_password');
         foreach ($requiredAdminKeys as $requiredKeyName) {
             if (empty($configData['application']['admin'][$requiredKeyName])) {
                 throw new Magento_Exception("Admin options array must define '$requiredKeyName' key.");

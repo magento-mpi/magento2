@@ -28,7 +28,7 @@ if ($installOptions) {
     $installOptions = array_merge($installOptions, array('url' => $baseUrl, 'secure_base_url' => $baseUrl));
     $adminOptions = $config->getAdminOptions();
     foreach ($adminOptions as $key => $val) {
-        $installOptions['admin_' . $key] = $val;
+        $installOptions[$key] = $val;
     }
 
     // Install application

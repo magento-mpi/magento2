@@ -13,9 +13,9 @@ return array(
         'url_host' => '{{web_access_host}}',
         'url_path' => '{{web_access_path}}',
         'admin' => array(
-            'frontname' => 'backend',
-            'username'  => 'admin',
-            'password'  => '123123q',
+            'backend_frontname' => 'backend',
+            'admin_username'  => 'admin',
+            'admin_password'  => '123123q',
         ),
         'installation' => array(
             'options' => array(
