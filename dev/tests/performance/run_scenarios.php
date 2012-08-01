@@ -19,9 +19,9 @@ try {
     $scenarioParamsGlobal = array(
         Magento_Scenario::PARAM_HOST => $config->getApplicationUrlHost(),
         Magento_Scenario::PARAM_PATH => $config->getApplicationUrlPath(),
-        Magento_Scenario::PARAM_ADMIN_FRONTNAME => $adminOptions[Magento_Scenario::PARAM_ADMIN_FRONTNAME],
-        Magento_Scenario::PARAM_ADMIN_USERNAME => $adminOptions[Magento_Scenario::PARAM_ADMIN_USERNAME],
-        Magento_Scenario::PARAM_ADMIN_PASSWORD => $adminOptions[Magento_Scenario::PARAM_ADMIN_PASSWORD],
+        Magento_Scenario::PARAM_ADMIN_FRONTNAME => $adminOptions['frontname'],
+        Magento_Scenario::PARAM_ADMIN_USERNAME => $adminOptions['username'],
+        Magento_Scenario::PARAM_ADMIN_PASSWORD => $adminOptions['password'],
     );
     $scenarioTotalCount = count($config->getScenarios());
     $scenarioFailCount = 0;
