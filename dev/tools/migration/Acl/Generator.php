@@ -130,13 +130,13 @@ class Tools_Migration_Acl_Generator
     {
         $comment = PHP_EOL;
         $comment .= '/**' . PHP_EOL;
-        $comment .= '* {license_notice}' . PHP_EOL;
-        $comment .= '*' . PHP_EOL;
-        $comment .= '* @category    ' . $category . PHP_EOL;
-        $comment .= '* @package     ' . $package . PHP_EOL;
-        $comment .= '* @copyright   {copyright}' . PHP_EOL;
-        $comment .= '* @license     {license_link}' . PHP_EOL;
-        $comment .= '*/' . PHP_EOL;
+        $comment .= ' * {license_notice}' . PHP_EOL;
+        $comment .= ' *' . PHP_EOL;
+        $comment .= ' * @category    ' . $category . PHP_EOL;
+        $comment .= ' * @package     ' . $package . PHP_EOL;
+        $comment .= ' * @copyright   {copyright}' . PHP_EOL;
+        $comment .= ' * @license     {license_link}' . PHP_EOL;
+        $comment .= ' */' . PHP_EOL;
 
         return $comment;
     }

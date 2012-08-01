@@ -73,13 +73,13 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
     {
         $expected = PHP_EOL;
         $expected .= '/**' . PHP_EOL;
-        $expected .= '* {license_notice}' . PHP_EOL;
-        $expected .= '*' . PHP_EOL;
-        $expected .= '* @category    Category' . PHP_EOL;
-        $expected .= '* @package     Module_Name' . PHP_EOL;
-        $expected .= '* @copyright   {copyright}' . PHP_EOL;
-        $expected .= '* @license     {license_link}' . PHP_EOL;
-        $expected .= '*/' . PHP_EOL;
+        $expected .= ' * {license_notice}' . PHP_EOL;
+        $expected .= ' *' . PHP_EOL;
+        $expected .= ' * @category    Category' . PHP_EOL;
+        $expected .= ' * @package     Module_Name' . PHP_EOL;
+        $expected .= ' * @copyright   {copyright}' . PHP_EOL;
+        $expected .= ' * @license     {license_link}' . PHP_EOL;
+        $expected .= ' */' . PHP_EOL;
 
         $this->assertEquals($expected, $this->_model->getCommentText('Category', 'Module_Name'));
     }

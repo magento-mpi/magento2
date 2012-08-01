@@ -61,20 +61,7 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
 
         copy($this->_originFile . '.dist', $this->_originFile);
 
-        $comment = PHP_EOL;
-        $comment .= '/**' . PHP_EOL;
-        $comment .= '* {license_notice}' . PHP_EOL;
-        $comment .= '*' . PHP_EOL;
-        $comment .= '* @category    Category' . PHP_EOL;
-        $comment .= '* @package     Module_Name' . PHP_EOL;
-        $comment .= '* @copyright   {copyright}' . PHP_EOL;
-        $comment .= '* @license     {license_link}' . PHP_EOL;
-        $comment .= '*/' . PHP_EOL;
-
         $dom = new DOMDocument();
-        $comment = $dom->createComment($comment);
-        $dom->appendChild($comment);
-
         $config = $dom->createElement('config');
         $dom->appendChild($config);
         $acl = $dom->createElement('acl');
