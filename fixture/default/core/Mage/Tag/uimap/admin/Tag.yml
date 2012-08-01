@@ -60,7 +60,7 @@ all_tags_index:
 
 # Edit Tag Page
 edit_tag:
-    mca: tag/edit/store/%storeId%/tag_id/%id%
+    mca: tag/edit/tag_id/%id%
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: &editTagUimap
         form:
@@ -135,13 +135,13 @@ edit_tag:
 
 # Edit tag '%tagName%' page
 edit_tag_more_options:
-    mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
+    mca: tag/edit/tag_id/%id%/ret/
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 
 # New Tag page
 new_tag:
-    mca: tag/edit/store/%storeId%
+    mca: tag/edit
     click_xpath: //div[@class='nav-bar']//a[span='All Tags']
     title: New Tag / Tags / Catalog / Magento Admin
     uimap:
