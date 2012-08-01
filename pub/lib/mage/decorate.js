@@ -35,7 +35,11 @@
         var decoratorParams = decoratorParams || allSupportedParams;
         if (elements) {
             $.each(decoratorParams, function (index, param) {
-                elements.filter(':' + param).removeClass('odd even').addClass(allSupportedParams[param]);
+                if (param === 'even' || param === 'odd') {
+                    elements.filter(':' + param).removeClass('odd even').addClass(allSupportedParams[param]);
+                } else {
+                    elements.filter(':' + param).addClass(allSupportedParams[param]);
+                }
             });
         }
     }
