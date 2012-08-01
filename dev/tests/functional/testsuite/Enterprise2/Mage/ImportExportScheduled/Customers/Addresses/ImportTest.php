@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -17,7 +15,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_Selenium_TestCase
 {
@@ -29,7 +26,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
     }
 
     /**
-     * <p>Simple Scheduled Export Precondition</p>
+     * Simple Scheduled Export Precondition
      *
      * @test
      */
@@ -42,16 +39,16 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
     }
 
     /**
-     * <p>Running Scheduled Import of Customer Addresses File (Add/Update, Delete Entities, Custom Action)</p>
-     * <p>Precondition: one customer with address is created.</p>
-     * <p>Steps:</p>
-     * <p>1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import</p>
-     * <p>2. In "Actions" drop-down select "Run"</p>
-     * <p>Expected: last Outcome of run Scheduled Import changes from Pending to Successful. </p>
-     * <p>Message “Operation has been successfully run.” in green frame should appeared.</p>
-     * <p>3. Open Customers -> Manage Customers</p>
-     * <p>4. Open customer from precondition</p>
-     * <p>Expected: customers address information was imported</p>
+     * Running Scheduled Import of Customer Addresses File (Add/Update, Delete Entities, Custom Action)
+     * Precondition: one customer with address is created.
+     * Steps:
+     * 1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import
+     * 2. In "Actions" drop-down select "Run"
+     * Expected: last Outcome of run Scheduled Import changes from Pending to Successful.
+     * Message “Operation has been successfully run.” in green frame should appeared.
+     * 3. Open Customers -> Manage Customers
+     * 4. Open customer from precondition
+     * Expected: customers address information was imported
      *
      * @dataProvider addressImportData
      * @depends preconditionImport
@@ -134,7 +131,10 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
 
     public function addressImportData()
     {
-        $originalAddressData1 = array(
+        $originalAddressData = array();
+        $newAddressData = array();
+        $csvFile = array();
+        $originalAddressData[1] = array(
             $this->loadDataSet('Customers', 'generic_address', array(
                     'city' => 'Washington',
                     'company' => 'Sound Warehouse',
@@ -150,7 +150,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ), null
         );
-        $csvFile1 = array(
+        $csvFile[1] = array(
             $this->loadDataSet('ImportExport', 'generic_address_csv', array(
                     '_entity_id' => '',
                     '_email' => '<realEmail>',
@@ -182,7 +182,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ),
         );
-        $newAddressData1 = array(
+        $newAddressData[1] = array(
             $this->loadDataSet('Customers', 'generic_address', array(
                     'city' => 'Harrisburg',
                     'company' => 'The Flying Bear',
@@ -212,7 +212,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ),
         );
-        $originalAddressData2 = array(
+        $originalAddressData[2] = array(
             $this->loadDataSet('Customers', 'generic_address', array(
                     'city' => 'Harrisburg',
                     'company' => 'The Flying Bear',
@@ -242,7 +242,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ),
         );
-        $csvFile2 = array(
+        $csvFile[2] = array(
             $this->loadDataSet('ImportExport', 'generic_address_csv', array(
                     '_entity_id' => '',
                     '_email' => '<realEmail>',
@@ -274,8 +274,8 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ),
         );
-        $newAddressData2 = $originalAddressData2;
-        $originalAddressData3 = array(
+        $newAddressData[2] = $originalAddressData[2];
+        $originalAddressData[3] = array(
             $this->loadDataSet('Customers', 'generic_address', array(
                     'city' => 'Chattanooga',
                     'company' => 'Hit or Miss',
@@ -305,7 +305,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ), null
         );
-        $csvFile3 = array(
+        $csvFile[3] = array(
             $this->loadDataSet('ImportExport', 'generic_address_csv', array(
                     '_entity_id' => '',
                     '_email' => '<realEmail>',
@@ -355,7 +355,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
                 )
             ),
         );
-        $newAddressData3 = array(
+        $newAddressData[3] = array(
             $this->loadDataSet('Customers', 'generic_address', array(
                     'city' => 'Chattanooga',
                     'company' => 'Hit or Miss',
@@ -400,23 +400,23 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
             ),
         );
         return array(
-            array($originalAddressData1, $csvFile1, 'Add/Update Complex Data', $newAddressData1),
-            array($originalAddressData2, $csvFile2, 'Delete Entities', $newAddressData2),
-            array($originalAddressData3, $csvFile3, 'Custom Action', $newAddressData3),
+            array($originalAddressData[1], $csvFile[1], 'Add/Update Complex Data', $newAddressData[1]),
+            array($originalAddressData[2], $csvFile[2], 'Delete Entities', $newAddressData[2]),
+            array($originalAddressData[3], $csvFile[3], 'Custom Action', $newAddressData[3]),
         );
     }
 
     /**
-     * <p>Invalid data in Customer Addresses File</p>
-     * <p>Precondition: one customer with address is created.</p>
-     * <p>Steps:</p>
-     * <p>1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import</p>
-     * <p>2. In "Actions" drop-down select "Run"</p>
-     * <p>Expected: last Outcome of run Scheduled Import changes from Pending to Failed. </p>
-     * <p>Error message “Unable to run operation” in red frame should appear.</p>
-     * <p>3. Open Customers -> Manage Customers</p>
-     * <p>4. Open customer from precondition</p>
-     * <p>Expected: customers address information was not imported</p>
+     * Invalid data in Customer Addresses File
+     * Precondition: one customer with address is created.
+     * Steps:
+     * 1. In System > Import/Export > Scheduled Import/Export select check box for Scheduled Import
+     * 2. In "Actions" drop-down select "Run"
+     * Expected: last Outcome of run Scheduled Import changes from Pending to Failed.
+     * Error message “Unable to run operation” in red frame should appear.
+     * 3. Open Customers -> Manage Customers
+     * 4. Open customer from precondition
+     * Expected: customers address information was not imported
      *
      * @dataProvider addressInvalidImportData
      * @depends preconditionImport

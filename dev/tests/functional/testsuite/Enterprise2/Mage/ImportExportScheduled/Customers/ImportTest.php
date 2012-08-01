@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -17,7 +15,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_Selenium_TestCase
 {
@@ -129,60 +126,62 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_S
 
     public function customerInvalidImportData()
     {
-        $csvRow1 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                'email' => '<realEmail>'
-            )
-        );
-        $csvRow2 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                'email' => 'invalidEmail@@mail.com'
-            )
-        );
-        return array(
-            array(array($csvRow1, $csvRow2), 'Add/Update Complex Data')
-        );
+        $returnData = array();
+        $returnData[] = array(
+            array(
+                $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                        'email' => '<realEmail>'
+                    )
+                ),
+                $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+                        'email' => 'invalidEmail@@mail.com'
+                    )
+                ))
+        , 'Add/Update Complex Data');
+        return $returnData;
     }
 
     public function customerImportData()
     {
-        $csvRow1 = $this->loadDataSet('ImportExport', 'generic_customer_csv');
-        $csvRow2 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                'email' => '<realEmail>',
-                'group_id' => '2'
-            )
-        );
-        $csvRow3 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+        $returnData = array();
+        $returnData[1] = $this->loadDataSet('ImportExport', 'generic_customer_csv');
+        $returnData[2] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => '<realEmail>',
+            'group_id' => '2'
+        ));
+        $returnData[3] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
             '_action' => 'Update'
         ));
-        $csvRow4 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-            'email' => $csvRow3['email'],
+        $returnData[4] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => $returnData[3]['email'],
             '_action' => 'Delete'
         ));
-        $csvRow5 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+        $returnData[5] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
             'firstname' => $this->generate('string', 5),
             'lastname' => $this->generate('string', 5),
             'email' => '<realEmail>',
             '_action' => ''
         ));
-        $csvRow6 = $this->loadDataSet('ImportExport', 'generic_customer_csv');
-        $csvRow7 = $this->loadDataSet('ImportExport', 'generic_customer_csv');
-        $csvRow8 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-            'email' => $csvRow6['email']
+        $returnData[6] = $this->loadDataSet('ImportExport', 'generic_customer_csv');
+        $returnData[7] = $this->loadDataSet('ImportExport', 'generic_customer_csv');
+        $returnData[8] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => $returnData[6]['email']
         ));
-        $csvRow9 = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-            'email' => $csvRow7['email'],
+        $returnData[9] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
+            'email' => $returnData[7]['email'],
             'firstname' => $this->generate('string', 5),
             'lastname' => $this->generate('string', 5),
         ));
         return array(
-            array($csvRow1, 'Add/Update Complex Data'),
-            array($csvRow2, 'Add/Update Complex Data'),
-            array($csvRow3, 'Custom Action'),
-            array($csvRow4, 'Custom Action'),
-            array($csvRow5, 'Custom Action'),
-            array($csvRow6, 'Add/Update Complex Data'),
-            array($csvRow7, 'Add/Update Complex Data'),
-            array($csvRow8, 'Delete Entities'),
-            array($csvRow9, 'Delete Entities')
+            array($returnData[1], 'Add/Update Complex Data'),
+            array($returnData[2], 'Add/Update Complex Data'),
+            array($returnData[3], 'Custom Action'),
+            array($returnData[4], 'Custom Action'),
+            array($returnData[5], 'Custom Action'),
+            array($returnData[6], 'Add/Update Complex Data'),
+            array($returnData[7], 'Add/Update Complex Data'),
+            array($returnData[8], 'Delete Entities'),
+            array($returnData[9], 'Delete Entities')
         );
     }
 }

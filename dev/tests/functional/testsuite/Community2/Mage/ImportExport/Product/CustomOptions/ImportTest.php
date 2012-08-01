@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento
- *
  * {license_notice}
  *
  * @category    Magento
@@ -21,9 +19,9 @@
 class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Import/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Import/p>
      */
     protected function assertPreConditions()
     {
@@ -33,8 +31,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -53,7 +51,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Import existing custom option</p>
+     * Import existing custom option
      *
      * @depends preconditionExistingOptions
      * @test
@@ -89,8 +87,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -138,7 +136,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Import custom option if its name matches to existing default name</p>
+     * Import custom option if its name matches to existing default name
      *
      * @depends preconditionWithDifferentStoreViews
      * @test
@@ -179,8 +177,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -203,7 +201,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         return $productData;
     }
     /**
-     * <p>Import custom option with different dropdown options</p>
+     * Import custom option with different dropdown options
      *
      * @depends preconditionDifferentDropdownOptions
      * @test
@@ -245,8 +243,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -266,7 +264,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Import custom option with part of dropdown options</p>
+     * Import custom option with part of dropdown options
      *
      * @depends preconditionWithPartOptions
      * @test
@@ -307,8 +305,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -328,7 +326,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Empty custom option price field in csv file</p>
+     * Empty custom option price field in csv file
      *
      * @depends preconditionWithEmptyPrice
      * @test
@@ -367,8 +365,8 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new product</p>
+     * Precondition:
+     * Create new product
      *
      * @test
      * @return array
@@ -388,7 +386,7 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
     }
 
     /**
-     * <p>Adding new custom option via import</p>
+     * Adding new custom option via import
      *
      * @depends preconditionAddOptions
      * @test
