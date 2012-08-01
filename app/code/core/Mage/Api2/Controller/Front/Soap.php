@@ -140,9 +140,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             $bindingName = ucfirst($resourceName);
             $binding = $wsdl->addBinding($bindingName, $resourceName);
             $wsdl->addSoapBinding($binding);
-            // @TODO: URL should be generated
-//            $portUrl = 'http://mage2.magento/api/soap/' . $resourceName;
-            $portUrl = 'http://dd.varien.com/dev/alex.paliarush/api2/api/soap/';
+            $portUrl = $this->_getEndpointUrl();
             $wsdl->addServicePort($service, $bindingName . '_Soap12', $bindingName, $portUrl);
 
             foreach ($methods as $methodName => $methodData) {
@@ -273,17 +271,24 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     }
 
     /**
+     * Get WSDL file URL
+     *
      * @return string
      */
     protected function _getWsdlUrl()
     {
-        $wsdlUrl = 'http://dd.varien.com/dev/alex.paliarush/api2/api/soap/?wsdl';
-         /** TODO: Implement. Code below does not work as Mage_Core_Model_Url requires every front controller to have router */
-        /** @var Mage_Core_Model_Url $urlModel */
-//        $urlModel = Mage::getModel('Mage_Core_Model_Url')->setUseSession(false);
-//        $params = array('wsdl' => 1);
-//        $wsdlUrl = $urlModel->getUrl('*/*/*', array('_query' => $params));
-        return $wsdlUrl;
+        return $this->_getEndpointUrl() . '?wsdl';
+    }
+
+    /**
+     * Get SOAP endpoint URL
+     *
+     * @return string
+     */
+    protected function _getEndpointUrl()
+    {
+        // @TODO: Implement proper endpoint URL retrieval mechanism in APIA-718 story
+        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . 'api/soap';
     }
 
     /**
