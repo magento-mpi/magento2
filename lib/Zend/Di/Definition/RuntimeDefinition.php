@@ -351,6 +351,9 @@ class RuntimeDefinition implements DefinitionInterface
             $def['parameters'][$methodName][$fqName][] = $actualParamName;
             $def['parameters'][$methodName][$fqName][] = ($p->getClass() !== null) ? $p->getClass()->getName() : null;
             $def['parameters'][$methodName][$fqName][] = !$p->isOptional();
+            $def['parameters'][$methodName][$fqName][] = ($p->isOptional() && $p->isDefaultValueAvailable())
+                ? $p->getDefaultValue()
+                : null;
         }
 
     }

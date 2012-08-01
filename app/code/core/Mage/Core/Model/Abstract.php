@@ -203,7 +203,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         }
         return $this->_resourceCollection ?
             $this->_resourceCollection :
-            Mage::getResourceModel($this->_resourceCollectionName, $this->_getResource());
+            Mage::getResourceModel($this->_resourceCollectionName, array('resource' => $this->_getResource()));
     }
 
     /**
@@ -433,7 +433,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         $tags = $this->getCacheTags();
         if ($tags !== false) {
-            $this->_cacheManager->cleanCache($tags);
+            $this->_cacheManager->clean($tags);
         }
         return $this;
     }

@@ -128,20 +128,20 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * Class constructor
      *
-     * @param array $arguments
+     * @param array $data
      * @throws InvalidArgumentException
      */
     public function __construct(array $data = array())
     {
-        $this->_area = isset($arguments['area']) ? $arguments['area'] : Mage_Core_Model_Design_Package::DEFAULT_AREA;
-        if (isset($arguments['structure'])) {
-            if ($arguments['structure'] instanceof Magento_Data_Structure) {
-                $this->_structure = $arguments['structure'];
+        $this->_area = isset($data['area']) ? $data['area'] : Mage_Core_Model_Design_Package::DEFAULT_AREA;
+        if (isset($data['structure'])) {
+            if ($data['structure'] instanceof Magento_Data_Structure) {
+                $this->_structure = $data['structure'];
             } else {
                 throw new InvalidArgumentException('Expected instance of Magento_Data_Structure.');
             }
         } else {
-            $this->_structure = Mage::getModel('Magento_Data_Structure');
+            $this->_structure = new Magento_Data_Structure;
         }
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));

@@ -329,7 +329,7 @@ class Mage_Core_Model_App implements Magento_RequestProcessor
      * @param array $options configuration options
      * @return Mage_Core_Model_App
      */
-    public function process(Zend_Controller_Request_Abstract $request)
+    public function process(Mage_Core_Controller_Request_Http $request, $mageRunCode, $mageRunType)
     {
         Magento_Profiler::start('init');
 
@@ -338,8 +338,9 @@ class Mage_Core_Model_App implements Magento_RequestProcessor
 
         if ($this->_config->isLocalConfigLoaded()) {
             Mage_Core_Model_Resource_Setup::applyAllDataUpdates();
+            $this->initCurrentStore($mageRunCode, $mageRunType);
+            $request->setPathInfo();
         }
-
         $controllerFront = $this->getFrontController();
         Magento_Profiler::stop('init');
         $controllerFront->dispatch();

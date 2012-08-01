@@ -28,7 +28,21 @@ if (!empty($_SERVER['MAGE_LOCAL_CONFIG'])) {
 Magento_Profiler::start('mage');
 
 Mage::setRoot();
-$factory = new Magento_ObjectManager_Zend(new Di());
+$definitions = null;
+if (!file_exists(__DIR__ . '/var/di/di-serialized.php')) {
+    $definitions = new \Zend\Di\DefinitionList(array());
+} else {
+    $definitions = unserialize(file_get_contents(__DIR__ . '/var/di/di-serialized.php'));
+}
+
+$di = new Di($definitions);
+$factory = new Magento_ObjectManager_Zend(
+    $di,
+    realpath(__DIR__ . '/app/code/core'),
+    __DIR__ . '/var/di/'
+);
+
+
 $config = $factory->get('Mage_Core_Model_Config');
 $config->loadBase();
 $factory->setParameters(
@@ -46,12 +60,15 @@ Magento_Profiler::start('init');
 $app = $factory->create('Mage_Core_Model_App', array(
     'applicationConfig' => $config, 'applicationOptions' => array(), 'data' => array()));
 Mage::setApp($app);
-$app->initCurrentStore($mageRunCode, $mageRunType);
 Magento_Profiler::stop('init');
 
 Mage::setApp($app);
 $request = new Mage_Core_Controller_Request_Http();
-$request->setPathInfo();
-$app->process($request);
+$app->process($request, $mageRunCode, $mageRunType);
 
 Magento_Profiler::stop('mage');
+
+if (!file_exists(__DIR__ . '/var/di/di-serialized.php')) {
+    $result = $di->definitions()->serialize();
+    file_put_contents(__DIR__ . '/var/di/di-serialized.php', $result);
+}

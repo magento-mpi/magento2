@@ -28,20 +28,13 @@ class Mage_Backend_Model_Menu extends ArrayObject
     /**
      * @param array $array
      */
-    public function __construct($array = array())
+    public function __construct(Mage_Core_Model_Logger $logger, $path = '')
     {
-        if (isset($array['path'])) {
-            $this->_path = $array['path'] . '/';
-            unset($array['path']);
+        if ($path) {
+            $this->_path = $path . '/';
         }
-        if (isset($array['logger'])) {
-            $this->_logger = $array['logger'];
-            unset($array['logger']);
-        } else {
-            throw new InvalidArgumentException('Logger object is a required parameter');
-        }
+        $this->_logger = $logger;
         $this->setIteratorClass('Mage_Backend_Model_Menu_Iterator');
-        parent::__construct($array);
     }
 
     /**

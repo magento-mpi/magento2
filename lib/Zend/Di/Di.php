@@ -434,6 +434,35 @@ class Di implements DependencyInjectionInterface
         // parameter requirements from the definition
         $injectionMethodParameters = $this->definitions->getMethodParameters($class, $method);
 
+        /** Magento  */
+        $callTimeParamNames = array_keys($callTimeUserParams);
+        $isPositional = false;
+        $injectionMethodParameterNames = array();
+
+        foreach($injectionMethodParameters as $param) {
+            $injectionMethodParameterNames[] = $param[0];
+        }
+
+        foreach($callTimeParamNames as $name) {
+            if (is_numeric($name)) {
+                $isPositional = true;
+                $callTimeUserParams[$injectionMethodParameterNames[$name]] = $callTimeUserParams[$name];
+            }
+        }
+        if (!$isPositional) {
+
+            if (count($callTimeUserParams)
+                && !isset($callTimeUserParams['data'])
+            ) {
+                if (in_array('data', $injectionMethodParameterNames)) {
+                    $intersection = array_intersect($callTimeParamNames, $injectionMethodParameterNames);
+                    if (!$intersection) {
+                        $callTimeUserParams = array('data' => $callTimeUserParams);
+                    }
+                }
+            }
+        }
+
         // computed parameters array
         $computedParams = array(
             'value'    => array(),
@@ -491,7 +520,7 @@ class Di implements DependencyInjectionInterface
                     $callTimeCurValue =& $callTimeUserParams[$name];
                 }
 
-                if ($type !== false && is_string($callTimeCurValue)) {
+                if ($type && is_string($callTimeCurValue)) {
                     if ($this->instanceManager->hasAlias($callTimeCurValue)) {
                         // was an alias provided?
                         $computedParams['required'][$fqParamPos] = array(
@@ -611,6 +640,7 @@ class Di implements DependencyInjectionInterface
         $index = 0;
         foreach ($injectionMethodParameters as $fqParamPos => $value) {
             $name = $value[0];
+            $defaultValue = $value[3];
 
             if (isset($computedParams['value'][$fqParamPos])) {
 
@@ -649,7 +679,7 @@ class Di implements DependencyInjectionInterface
                 }
 
             } else {
-                $resolvedParams[$index] = null;
+                $resolvedParams[$index] = $defaultValue;
             }
 
             $index++;

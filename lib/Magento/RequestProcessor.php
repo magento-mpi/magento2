@@ -15,5 +15,5 @@ interface Magento_RequestProcessor
      * @param Zend_Controller_Request_Abstract $request
      * @return mixed
      */
-    public function process(Zend_Controller_Request_Abstract $request);
+    public function process(Mage_Core_Controller_Request_Http $request, $mageRunCode, $mageRunType);
 }

@@ -1,4 +1,47 @@
 <?php
+
+class Mage_New{
+
+    /** Mage_Core_Model_Abstract::__construct($eventManager, $cacheManager, $data, $resourceModel, $collection) */
+    public static function getModel($modelClass = '', $arguments = array())
+    {
+        return self::getConfig()->getModelInstance($modelClass, $arguments);
+    }
+
+    /** Mage_Core_Model_Abstract::__construct($eventManager, $cacheManager, $data, $resourceModel, $collection) */
+    public static function getSingleton($modelClass='', array $arguments=array())
+    {
+        $registryKey = '_singleton/'.$modelClass;
+        if (!self::registry($registryKey)) {
+            self::register($registryKey, self::getModel($modelClass, $arguments));
+        }
+        return self::registry($registryKey);
+    }
+
+    /** Mage_Core_Model_Resource_Abstract::__construct($writeAdapter) */
+    /** Mage_Core_Model_Resource_Db_Abstract::__construct(Mage_Core_Model_Resource $resource) */
+    /** Mage_Core_Model_Resource_Setup::__construct($resourceName) */
+    /** Mage_Core_Model_Resource_Session::__construct() */
+    public static function getResourceModel($modelClass, $arguments = array())
+    {
+        return self::getConfig()->getResourceModelInstance($modelClass, $arguments);
+    }
+
+    /** Mage_Core_Model_Resource_Abstract::__construct($writeAdapter) */
+    /** Mage_Core_Model_Resource_Setup::__construct($resourceName) */
+    /** Mage_Core_Model_Resource_Session::__construct() */
+    public static function getResourceSingleton($modelClass = '', array $arguments = array())
+    {
+        $registryKey = '_resource_singleton/'.$modelClass;
+        if (!self::registry($registryKey)) {
+            self::register($registryKey, self::getResourceModel($modelClass, $arguments));
+        }
+        return self::registry($registryKey);
+    }
+}
+
+
+
 /**
  * {license_notice}
  *
@@ -430,7 +473,10 @@ final class Mage
      */
     public static function getModel($modelClass = '', $arguments = array())
     {
-        return self::getObjectManager()->create($modelClass, array('data' => $arguments));
+        if (!is_array($arguments)) {
+            $arguments = array($arguments);
+        }
+        return self::getObjectManager()->create($modelClass, $arguments);
     }
 
     /**
@@ -442,7 +488,7 @@ final class Mage
      */
     public static function getSingleton($modelClass = '', array $arguments=array())
     {
-        return self::getObjectManager()->get($modelClass, array('data' => $arguments));
+        return self::getObjectManager()->get($modelClass, $arguments);
     }
 
     /**
@@ -472,7 +518,22 @@ final class Mage
      */
     public static function getResourceModel($modelClass, $arguments = array())
     {
-        return self::getObjectManager()->create($modelClass, array('data' => $arguments));
+        if (!is_array($arguments)) {
+            $arguments = array($arguments);
+        }
+        return self::getObjectManager()->create($modelClass, $arguments);
+    }
+
+    /**
+     * Retrieve resource vodel object singleton
+     *
+     * @param   string $modelClass
+     * @param   array $arguments
+     * @return  object
+     */
+    public static function getResourceSingleton($modelClass = '', array $arguments = array())
+    {
+        return self::getObjectManager()->get($modelClass, $arguments);
     }
 
     /**
@@ -491,18 +552,6 @@ final class Mage
             'response' => $response,
             'invokeArgs' => $invokeArgs
         ));
-    }
-
-    /**
-     * Retrieve resource vodel object singleton
-     *
-     * @param   string $modelClass
-     * @param   array $arguments
-     * @return  object
-     */
-    public static function getResourceSingleton($modelClass = '', array $arguments = array())
-    {
-        return self::getObjectManager()->get($modelClass, array('data' => $arguments));
     }
 
     /**
@@ -549,7 +598,7 @@ final class Mage
         if (substr($moduleName, 0, 5) == 'Mage_') {
             $connection = substr($connection, 5);
         }
-        return self::getObjectManager()->get($helperClassName);
+        return self::getObjectManager()->get($helperClassName, array('modulePrefix' => $connection));
     }
 
     /**

@@ -43,7 +43,7 @@ abstract class Mage_Core_Model_Resource_Helper_Abstract
      *
      * @param string $module
      */
-    public function __construct($modulePrefix = 'core')
+    public function __construct($modulePrefix)
     {
         $this->_modulePrefix = (string)$modulePrefix;
     }
