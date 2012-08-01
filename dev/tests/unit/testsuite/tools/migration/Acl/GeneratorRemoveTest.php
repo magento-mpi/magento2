@@ -44,24 +44,21 @@ class Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_xmlFormatterMock = $this->getMock('Tools_Migration_Acl_Formatter');
-        $this->_fileWriterMock = $this->getMock('Tools_Migration_Acl_FileWriter');
-        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileWriterMock);
-
         $fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
         $path = $fixturePath . DIRECTORY_SEPARATOR . 'remove' . DIRECTORY_SEPARATOR;
 
         $this->_emptyFile = $path . 'empty.xml';
         $this->_notEmptyFile = $path . 'not_empty.xml';
 
-        copy($this->_emptyFile . '.dist', $this->_emptyFile);
-        copy($this->_notEmptyFile . '.dist', $this->_notEmptyFile);
+        $this->_xmlFormatterMock = $this->getMock('Tools_Migration_Acl_Formatter');
+        $this->_fileWriterMock = $this->getMock('Tools_Migration_Acl_FileWriter');
+        $this->_fileWriterMock->expects($this->once())->method('remove')->with($this->equalTo($this->_emptyFile));
+        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileWriterMock);
     }
 
     public function tearDown()
     {
         unset($this->_model);
-        unlink($this->_notEmptyFile);
     }
 
     public function testRemoveAdminhtmlFiles()
@@ -85,8 +82,6 @@ class Tools_Migration_Acl_GeneratorRemoveTest extends PHPUnit_Framework_TestCase
         );
 
         $result = $this->_model->removeAdminhtmlFiles();
-        $this->assertFileExists($this->_notEmptyFile, 'Not empty file was removed');
-        $this->assertFileNotExists($this->_emptyFile, 'Empty file was not removed');
         $this->assertEquals($expected, $result);
     }
 }

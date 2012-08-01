@@ -104,10 +104,8 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
     public function tearDown()
     {
         unset($this->_model);
-        rmdir(dirname($this->_aclFile));
-        if (file_exists($this->_originFile)) {
-            unlink($this->_originFile);
-        }
+        unset($this->_xmlFormatterMock);
+        unset($this->_fileWriterMock);
     }
 
     public function testSaveAclFiles()
@@ -136,7 +134,7 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
         $this->_fileWriterMock->expects($this->once())
             ->method('write')
             ->with(
-                $this->stringEndsWith('adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml'),
+                $this->equalTo($this->_aclFile),
                 $this->stringStartsWith('formatted')
             );
 

@@ -35,6 +35,11 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
      */
     protected $_menuIdToXPath = array();
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_fileWriterMock;
+
 
     public function setUp()
     {
@@ -46,12 +51,14 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
             'config/acl/resources/admin/area_config' => 'Module_Name::acl_resource_area',
             'config/acl/resources/admin/some_other_resource' => 'Module_Name::some_other_resource',
         );
+        $this->_fileWriterMock = $this->getMock('Tools_Migration_Acl_FileWriter');
 
         $this->_model = new Tools_Migration_Acl_Menu_Generator(
             $this->_fixturePath,
             array(1),
             $aclXPathToId,
-            true
+            $this->_fileWriterMock,
+            false
         );
 
         $prefix = $this->_fixturePath . DIRECTORY_SEPARATOR
@@ -224,5 +231,30 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains('no ACL resource with XPath', $errors[1]);
         $this->assertContains($menuFileSource, $errors[1]);
+    }
+
+    public function testSaveMenuFiles()
+    {
+        $dom = new DOMDocument();
+        $menuDomList = array(
+            'file1' => $dom,
+            'file2' => $dom,
+            'file3' => $dom,
+        );
+        $this->_model->setMenuDomList($menuDomList);
+
+        $this->_fileWriterMock->expects($this->at(0))
+            ->method('write')
+            ->with($this->equalTo('file1'), $this->equalTo($dom->saveXML()));
+
+        $this->_fileWriterMock->expects($this->at(1))
+            ->method('write')
+            ->with($this->equalTo('file2'), $this->equalTo($dom->saveXML()));
+
+        $this->_fileWriterMock->expects($this->at(2))
+            ->method('write')
+            ->with($this->equalTo('file3'), $this->equalTo($dom->saveXML()));
+
+        $this->_model->saveMenuFiles();
     }
 }

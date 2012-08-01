@@ -63,13 +63,26 @@ class Tools_Migration_Acl_Menu_Generator
     protected $_isPreviewMode;
 
     /**
-     * @param $basePath string
-     * @param $validNodeTypes array
-     * @param $aclXPathToId array
+     * @var Tools_Migration_Acl_FileWriter
+     */
+    protected $_fileWriter;
+
+
+    /**
+     * @param $basePath
+     * @param $validNodeTypes
+     * @param $aclXPathToId
+     * @param Tools_Migration_Acl_FileWriter $fileWriter
      * @param bool $preview
      */
-    public function __construct($basePath, $validNodeTypes, $aclXPathToId, $preview = true)
-    {
+    public function __construct(
+        $basePath,
+        $validNodeTypes,
+        $aclXPathToId,
+        Tools_Migration_Acl_FileWriter $fileWriter,
+        $preview = true
+    ) {
+        $this->_fileWriter = $fileWriter;
         $this->_basePath = $basePath;
         $this->_validNodeTypes = $validNodeTypes;
         $this->_aclXPathToId = $aclXPathToId;
@@ -367,12 +380,13 @@ class Tools_Migration_Acl_Menu_Generator
      */
     public function saveMenuFiles()
     {
+        if (true == $this->_isPreviewMode) {
+            return;
+        }
         /** @var $dom DOMDocument **/
         foreach ($this->_menuDomList as $file => $dom) {
             $dom->formatOutput = true;
-            if (false == $this->_isPreviewMode) {
-                file_put_contents($file, $dom->saveXML());
-            }
+            $this->_fileWriter->write($file, $dom->saveXML());
         }
     }
 

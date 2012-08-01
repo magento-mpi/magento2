@@ -166,17 +166,8 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testIsForwardedNode()
     {
-        $forwarded = array(
-            'restricted_one',
-            'restricted_two',
-        );
-        $this->_model->setForwardNodeNames($forwarded);
-        $this->assertEquals($forwarded, $this->_model->getForwardNodeNames());
-
-        $this->assertTrue($this->_model->isForwardNode('restricted_one'));
-        $this->assertTrue($this->_model->isForwardNode('restricted_two'));
-        $this->assertFalse($this->_model->isForwardNode('restricted_three'));
-
+        $this->assertTrue($this->_model->isForwardNode('children'));
+        $this->assertFalse($this->_model->isForwardNode('admin'));
     }
 
     public function testIsMetaNode()

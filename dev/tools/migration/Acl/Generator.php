@@ -25,32 +25,11 @@ class Tools_Migration_Acl_Generator
     protected $_metaNodeNames = array();
 
     /**
-     * Forward node names
-     *
-     * @var array
-     */
-    protected $_forwardNodeNames = array();
-
-    /**
-     * Restricted node names
-     *
-     * @var array
-     */
-    protected $_restrictedNodeNames = array();
-
-    /**
      * Adminhtml files
      *
      * @var array|null
      */
     protected $_adminhtmlFiles = null;
-
-    /**
-     * Valid node types
-     *
-     * @var array
-     */
-    protected $_validNodeTypes = array();
 
     /**
      * Parsed dom list
@@ -78,13 +57,6 @@ class Tools_Migration_Acl_Generator
      * @var string|null
      */
     protected $_basePath = null;
-
-    /**
-     * Nodes that needed to be removed
-     *
-     * @var array
-     */
-    protected $_nodeToRemove = array();
 
     /**
      * Adminhtml DOMDocument list
@@ -123,6 +95,8 @@ class Tools_Migration_Acl_Generator
     protected $_fileWriter;
 
     /**
+     * @param Tools_Migration_Acl_Formatter $xmlFormatter
+     * @param Tools_Migration_Acl_FileWriter $fileWriter
      * @param array $options configuration options
      */
     public function __construct(
@@ -140,26 +114,9 @@ class Tools_Migration_Acl_Generator
             'title' => 'title'
         );
 
-        $this->_forwardNodeNames = array(
-            'children',
-        );
-
-        $this->_restrictedNodeNames = array(
-            'privilegeSets',
-        );
-
-        $this->_validNodeTypes = array(
-            1,  //DOMElement
-        );
-
         $this->_basePath = realpath(dirname(__FILE__) . '/../../../..');
 
         $this->_artifactsPath = realpath(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR;
-
-        $this->_nodeToRemove = array(
-            'resources',
-            'privilegeSets',
-        );
     }
 
     /**
@@ -232,19 +189,13 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * @param array $forwardNodeNames
-     */
-    public function setForwardNodeNames($forwardNodeNames)
-    {
-        $this->_forwardNodeNames = $forwardNodeNames;
-    }
-
-    /**
      * @return array
      */
     public function getForwardNodeNames()
     {
-        return $this->_forwardNodeNames;
+        return array(
+            'children',
+        );
     }
 
     /**
@@ -271,7 +222,19 @@ class Tools_Migration_Acl_Generator
      */
     public function isValidNodeType($nodeType)
     {
-        return in_array($nodeType, $this->_validNodeTypes);
+        return in_array($nodeType, $this->getValidNodeTypes());
+    }
+
+    /**
+     * Get valid node types
+     *
+     * @return array
+     */
+    public function getValidNodeTypes()
+    {
+        return array(
+            1, //DOMElement
+        );
     }
 
     /**
@@ -447,7 +410,7 @@ class Tools_Migration_Acl_Generator
      */
     public function isRestrictedNode($nodeName)
     {
-        return in_array($nodeName, $this->_restrictedNodeNames);
+        return in_array($nodeName, $this->getRestrictedNodeNames());
     }
 
     /**
@@ -578,10 +541,6 @@ class Tools_Migration_Acl_Generator
             /** @var $dom DOMDocument **/
         foreach ($this->_parsedDomList as $originFile => $dom) {
             $file = str_replace('adminhtml.xml', 'adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml', $originFile);
-            $directory = dirname($file);
-            if (false == is_dir($directory)) {
-                mkdir($directory, 0777, true);
-            }
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
 
@@ -642,13 +601,13 @@ class Tools_Migration_Acl_Generator
             $countNodes = $acl->childNodes->length - 1;
             for ($i = $countNodes; $i >= 0 ; $i--) {
                 $node = $acl->childNodes->item($i);
-                if (in_array($node->nodeName, $this->_nodeToRemove)) {
+                if (in_array($node->nodeName, $this->getNodeToRemove())) {
                     $acl->removeChild($node);
                 }
             }
             if ($this->isNodeEmpty($acl)) {
                 if (false == $this->_isPreviewMode) {
-                    unlink($file);
+                    $this->_fileWriter->remove($file);
                 }
                 $output['removed'][] = $file;
             } else {
@@ -679,11 +638,11 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * @param string $xpathToIdFile
+     * @param string $artifactsPath
      */
-    public function setArtifactsPath($xpathToIdFile)
+    public function setArtifactsPath($artifactsPath)
     {
-        $this->_artifactsPath = $xpathToIdFile;
+        $this->_artifactsPath = $artifactsPath;
     }
 
     /**
@@ -769,11 +728,8 @@ class Tools_Migration_Acl_Generator
      */
     public function saveArtifacts($artifacts)
     {
-        if (false == is_dir($this->_artifactsPath)) {
-            mkdir($this->_artifactsPath, 0777, true);
-        }
         foreach ($artifacts as $file => $data) {
-            file_put_contents($this->_artifactsPath . $file, $data);
+            $this->_fileWriter->write($this->_artifactsPath . $file, $data);
         }
     }
 
@@ -786,10 +742,31 @@ class Tools_Migration_Acl_Generator
     {
         $menu = new Tools_Migration_Acl_Menu_Generator(
             $this->getBasePath(),
-            $this->_validNodeTypes,
+            $this->getValidNodeTypes(),
             $this->_aclResourceMaps,
             $this->_isPreviewMode
         );
         return $menu->run();
+    }
+
+    /**
+     * @return array
+     */
+    public function getRestrictedNodeNames()
+    {
+        return array(
+            'privilegeSets',
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getNodeToRemove()
+    {
+        return array(
+            'resources',
+            'privilegeSets',
+        );
     }
 }
