@@ -1,31 +1,13 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    tests
- * @package     selenium
- * @subpackage  tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Magento
+ * @package     Mage_Category
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 /**
  * Helper class
  *
@@ -42,53 +24,62 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
      */
     public function fillCategoryInfo(array $categoryData)
     {
-        $page = $this->getCurrentUimapPage();
-        $tabs = $page->getAllTabs();
-        foreach ($tabs as $tab => $values)
-        {
-            if ($tab != 'category_products')
-            {
-                if ($tab == 'category_pemissions')
-                {
-                    if (($this->controlIsPresent('tab', 'category_pemissions')) && (isset($categoryData['customer_group'])))
-                    {
+        $tabs = $this->getCurrentUimapPage()->getAllTabs();
+        foreach ($tabs as $tab => $values) {
+            switch ($tab) {
+                case 'category_permissions_tab':
+                    if (!isset($categoryData['category_permissions'])) {
+                        break;
+                    }
+                    $this->openTab('category_permissions_tab');
+                    $this->addNewCategoryPermissions($categoryData['category_permissions']);
+                    break;
+                case 'category_products':
+                    $arrayKey = $tab . '_data';
+                    if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
                         $this->openTab($tab);
-                        $this->clickButton('new_permission', false);
-                        $this->addParameter('row','1');
-                        if (($this->controlIsPresent('dropdown', 'website'))&& (isset($categoryData['website'])))
-                        {
-                            $this->fillFieldset(array('website' => $categoryData['website']),'category_permissions');
-                        }
-                        $this->fillFieldset(array('customer_group' => $categoryData['customer_group']),'category_permissions');
-                        if (isset($categoryData['browsing_category']))
-                        {
-                            $this->addParameter('permissionCategory',$categoryData['browsing_category']);
-                            $this->clickControl('field','browsing_category',false);
-                        }
-                        if (isset($categoryData['displaying_price']))
-                        {
-                            $this->addParameter('permissionPrice',$categoryData['displaying_price']);
-                            $this->clickControl('field','displaying_price',false);
-                        }
-                        if (isset($categoryData['add_to_cart']))
-                        {
-                            $this->addParameter('permissionCart',$categoryData['add_to_cart']);
-                            $this->clickControl('field','add_to_cart',false);
+                        foreach ($categoryData[$arrayKey] as $value) {
+                            $this->productHelper()->assignProduct($value, $tab);
                         }
                     }
-                }
-                else
+                    break;
+                default:
                     $this->fillForm($categoryData, $tab);
+                    break;
             }
-            else
-            {
-                $arrayKey = $tab . '_data';
-                $this->openTab($tab);
-                if (array_key_exists($arrayKey, $categoryData) && is_array($categoryData[$arrayKey])) {
-                    foreach ($categoryData[$arrayKey] as $value) {
-                        $this->productHelper()->assignProduct($value, $tab);
-                    }
+        }
+    }
+
+    /**
+     * Delete Category Permissions
+     *
+     * @param string $categoryPath
+     */
+    public function deleteAllPermissions($categoryPath)
+    {
+        $this->selectCategory($categoryPath);
+        $this->openTab('category_permissions_tab');
+        while ($this->buttonIsPresent('delete_all_permissions_visible')) {
+            $this->clickButton('delete_all_permissions_visible', false);
+        }
+    }
+
+    /**
+     * @param array $permissions
+     */
+    public function addNewCategoryPermissions($permissions = array())
+    {
+        $xpath = $this->_getControlXpath('fieldset', 'new_category_permission');
+        foreach ($permissions as $permission) {
+            $count = $this->getXpathCount($xpath);
+            $this->addParameter('row', $count + 1);
+            $this->clickButton('new_permission', false);
+            $this->waitForElement($this->_getControlXpath('button', 'delete_permissions'));
+            if (!empty($permission)) {
+                if (isset($permission['website']) && !$this->controlIsPresent('dropdown', 'website')) {
+                    unset ($permission['website']);
                 }
+                $this->fillFieldset($permission, 'new_category_permission');
             }
         }
     }

@@ -1,29 +1,12 @@
 <?php
 /**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
+ * {license_notice}
  *
  * @category    Magento
  * @package     Mage_Category
  * @subpackage  functional_tests
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 /**
  * Category Permissions tests
@@ -36,17 +19,20 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
 {
     protected function assertPreConditions()
     {
-        $this->logoutCustomer();
         $this->loginAdminUser();
         $this->navigate('system_configuration');
     }
 
+    protected function tearDownAfterTest()
+    {
+        $this->logoutCustomer();
+    }
+
     protected function tearDownAfterTestClass()
     {
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_disable');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($config);
+        $this->systemConfigurationHelper()->configure('CategoryPermissions/category_permissions_disable');
     }
 
     /**
@@ -60,26 +46,27 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      */
     public function navigationTest()
     {
+        $this->navigate('system_configuration');
         $this->clickControl('tab', 'catalog_catalog', false);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->assertTrue($this->controlIsPresent('dropdown', 'permission_enable'),
-                          'There is no "permission_enable" dropdown on the page');
+            'There is no "permission_enable" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'allow_browsing'),
-                          'There is no "allow_browsing" dropdown on the page');
+            'There is no "allow_browsing" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'landing_page'),
-                          'There is no "landing_page" dropdown on the page');
+            'There is no "landing_page" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'display_prices'),
-                          'There is no "display_prices" dropdown on the page');
+            'There is no "display_prices" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('dropdown', 'allow_adding_to_cart'),
-                          'There is no "allow_adding_to_cart" dropdown on the page');
+            'There is no "allow_adding_to_cart" dropdown on the page');
         $this->assertTrue($this->controlIsPresent('multiselect', 'disallow_catalog_search'),
-                          'There is no "disallow_catalog_search" multiselect on the page');
+            'There is no "disallow_catalog_search" multiselect on the page');
         $this->assertTrue($this->controlIsPresent('multiselect', 'allow_browsing_customer_groups'),
-                          'There is no "allow_browsing_customer_groups" multiselect on the page');
+            'There is no "allow_browsing_customer_groups" multiselect on the page');
         $this->assertTrue($this->controlIsPresent('multiselect', 'display_prices_customer_groups'),
-                          'There is no "display_prices_customer_groups" multiselect on the page');
+            'There is no "display_prices_customer_groups" multiselect on the page');
         $this->assertTrue($this->controlIsPresent('multiselect', 'allow_adding_to_cart_customer_groups'),
-                          'There is no "allow_adding_to_cart_customer_groups" multiselect on the page');
+            'There is no "allow_adding_to_cart_customer_groups" multiselect on the page');
     }
 
     /**
@@ -96,7 +83,6 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
         $simple = $this->loadDataSet('Product', 'simple_product_visible', $productCat);
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps
-        $this->loginAdminUser();
         $this->navigate('manage_categories');
         $this->categoryHelper()->checkCategoriesPage();
         $this->categoryHelper()->createCategory($category);
@@ -109,7 +95,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         return array('user'   => array('email' => $userData['email'], 'password' => $userData['password']),
-                     'product'=> array('name' => $simple['general_name'], 'price' =>$simple['prices_price']),
+                     'product'=> array('name' => $simple['general_name'], 'price' => $simple['prices_price']),
                      'catName'=> $category['name']);
     }
 
@@ -123,7 +109,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>5.Select "No" in Allow Adding to Cart field</p>
      * <p>6.Click "Save Config" button</p>
      * <p>7.Clear Magento Cache </p>
-     * <p>8.Open Fronend</p>
+     * <p>8.Open Frontend</p>
      * <p>9.Open any category</p>
      * <p>10. Open product page</p>
      * <p>Expected result:</p>
@@ -131,6 +117,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>2. After 10 Product page is open. Product prices is visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5018
@@ -139,7 +126,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     {
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                      array ('allow_adding_to_cart' => 'No'));
+            array('allow_adding_to_cart' => 'No'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -178,6 +165,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>4. After 14 Product page is open. Product prices is visible. "Add to cart" button is available</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5016
@@ -186,8 +174,8 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     {
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                     array ('allow_adding_to_cart' => 'Yes, for Specified Customer Groups',
-                                            'allow_adding_to_cart_customer_groups' => 'General'));
+            array('allow_adding_to_cart'                 => 'Yes, for Specified Customer Groups',
+                  'allow_adding_to_cart_customer_groups' => 'General'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -226,6 +214,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>2. After 9 Product page is open. Product prices is not visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5170
@@ -233,8 +222,8 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     public function displayProductPricesIsNo($testData)
     {
         //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                     array ('display_prices' => 'No'));
+        $config =
+            $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array('display_prices' => 'No'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -272,6 +261,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>4. After 13 Product page is open. Product prices is visible. "Add to cart" button is available</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5010
@@ -281,8 +271,8 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
 
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                     array ('display_prices' => 'Yes, for Specified Customer Groups',
-                                            'display_prices_customer_groups' => 'General'));
+            array('display_prices'                 => 'Yes, for Specified Customer Groups',
+                  'display_prices_customer_groups' => 'General'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -327,13 +317,13 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     {
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                     array ('allow_browsing' => 'No, Redirect to Landing Page'));
+            array('allow_browsing' => 'No, Redirect to Landing Page'));
         //Steps
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
         $this->assertFalse($this->controlIsPresent('pageelement', 'front_navigation_menu'),
-                           'Navigation menu should be absent');
+            'Navigation menu should be absent');
     }
 
     /**
@@ -357,6 +347,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>4. After 11 Category page is open</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5003
@@ -365,22 +356,20 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     {
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                     array ('allow_browsing' => 'Yes, for Specified Customer Groups',
-                                            'landing_page' => 'About Us',
-                                            'allow_browsing_customer_groups' => 'General'));
+            array('allow_browsing' => 'Yes, for Specified Customer Groups',
+                  'landing_page'   => 'About Us', 'allow_browsing_customer_groups' => 'General'));
         //Steps
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->assertTrue($this->controlIsPresent('pageelement', 'front_navigation_menu'),
-                          'Navigation menu must be present');
+            'Navigation menu must be present');
         $this->categoryHelper()->frontOpenCategory($testData['catName']);
         $url = $this->getLocation();
         $this->customerHelper()->logoutCustomer();
         $this->open($url);
-        $pageTitle = $this->getTitle();
-        $this->assertTrue($pageTitle == 'About Us', 'Open wrong page');
+        $this->assertSame($this->getTitle(), 'About Us', 'Open wrong page');
     }
 
     /**
@@ -398,6 +387,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p>2. After 7 ﻿Quick search and Advanced search is available</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5019
@@ -406,24 +396,21 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     {
         //Data
         $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                     array ('disallow_catalog_search' => 'NOT LOGGED IN'));
+            array('disallow_catalog_search' => 'NOT LOGGED IN'));
         //Steps
         $this->systemConfigurationHelper()->configure($config);
         $this->clearInvalidedCache();
         $this->frontend();
         $this->assertFalse($this->controlIsPresent('button', 'go_search'),
-                           'Button "Add go_search cart" should be absent');
-        $this->assertFalse($this->controlIsPresent('field', 'search'),
-                           'Field "search" should be absent');
+            'Button "Add go_search cart" should be absent');
+        $this->assertFalse($this->controlIsPresent('field', 'search'), 'Field "search" should be absent');
         $this->assertFalse($this->controlIsPresent('link', 'advanced_search'),
-                           'Link "advanced_search" should be absent');
+            'Link "advanced_search" should be absent');
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->assertTrue($this->controlIsPresent('button', 'go_search'),
-                          'Button "Add go_search cart" must be present');
-        $this->assertTrue($this->controlIsPresent('field', 'search'),
-                          'Field "search" must be present');
-        $this->assertTrue($this->controlIsPresent('link', 'advanced_search'),
-                          'Link "advanced_search" must be present');
+            'Button "Add go_search cart" must be present');
+        $this->assertTrue($this->controlIsPresent('field', 'search'), 'Field "search" must be present');
+        $this->assertTrue($this->controlIsPresent('link', 'advanced_search'), 'Link "advanced_search" must be present');
     }
 
     /**
@@ -443,6 +430,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
      * <p> Product price is not visible. "Add to cart" button is missing</p>
      *
      * @param array $testData
+     *
      * @test
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5013
@@ -450,8 +438,8 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
     public function permissionsInWishlist($testData)
     {
         //Data
-        $config = $this->loadDataSet('CategoryPermissions', 'category_permissions_enable',
-                                      array ('display_prices' => 'No'));
+        $config =
+            $this->loadDataSet('CategoryPermissions', 'category_permissions_enable', array('display_prices' => 'No'));
         $this->addParameter('productName', $testData['product']['name']);
         $this->addParameter('price', '$' . $testData['product']['price']);
         //Steps
@@ -459,7 +447,7 @@ class Enterprise2_Mage_Category_CategoryPermissions_ConfigLevelTest extends Mage
         $this->clearInvalidedCache();
         $this->customerHelper()->frontLoginCustomer($testData['user']);
         $this->wishlistHelper()
-             ->frontAddProductToWishlistFromCatalogPage($testData['product']['name'], $testData['catName']);
+            ->frontAddProductToWishlistFromCatalogPage($testData['product']['name'], $testData['catName']);
         $this->navigate('my_wishlist');
         $this->assertFalse($this->controlIsPresent('pageelement', 'price_regular'), 'Product price should be absent');
         $this->assertFalse($this->controlIsPresent('button', 'add_to_cart'), 'Button "Add to cart" should be absent');
