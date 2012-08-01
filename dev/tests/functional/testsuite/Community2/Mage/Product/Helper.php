@@ -89,10 +89,10 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'custom_option_set') . "[$rowNum]";
         if ($this->isElementPresent($fieldsetXpath)) {
             $optionId = $this->getAttribute($fieldsetXpath . '@id');
-        }
-        foreach (explode('_', $optionId) as $value) {
-            if (is_numeric($value)) {
-                return $value;
+            foreach (explode('_', $optionId) as $value) {
+                if (is_numeric($value)) {
+                    return $value;
+                }
             }
         }
     }
