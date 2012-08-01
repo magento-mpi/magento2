@@ -127,6 +127,49 @@ class Community2_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Refreshing CAPTCHA image for Login Form</p>
+     * <p>Preconditions:</p>
+     * <p>1.Enable CAPTCHA on frontend option is set to Yes</p>
+     * <p>2.Display mode is set to Always</p>
+     * <p>3.Forms - Login User is selected</p>
+     * <p>Steps:</p>
+     * <p>1. Set "Merge JavaScript Files" in System->Configuration->Advanced->Developer->JavaScript Settings</p>
+     * <p>2.Clear Magento cache</p>
+     * <p>3.Open Login customer page</p>
+     * <p>4.Click "Refresh" icon on Captcha image </p>
+     * <p>Expected result</p>
+     * <p>CAPTCHA image should be refreshed</p>
+     *
+     * @test
+     * @depends enableCaptcha
+     * @TestlinkId TL-MAGE-5781
+     */
+    public function refreshCaptchaWithMergeJS()
+    {
+        //Data
+        $config1 = $this->loadDataSet('MergeJS', 'enable_merge_js');
+        $config2 = $this->loadDataSet('MergeJS', 'disable_merge_js');
+        //Steps
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config1);
+        $this->clearInvalidedCache();
+        $this->frontend('customer_login');
+        $xpath = $this->_getControlXpath('pageelement', 'captcha') . '@src';
+        $captchaUrl1 = $this->getAttribute($xpath);
+        $this->clickControl('button', 'captcha_reload', false);
+        $this->waitForAjax();
+        $captchaUrl2 = $this->getAttribute($xpath);
+        //Verification
+        $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
+        //Postconditions
+        $this->loginAdminUser();
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config2);
+        $this->clearInvalidedCache();
+    }
+
+    /**
      *
      * <p>Correct CAPTCHA in Register Customer page</p>
      * <p>Preconditions:</p>

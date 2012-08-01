@@ -1,14 +1,13 @@
 <?php
-# Magento
-#
-# {license_notice}
-#
-# @category    Magento
-# @package     Mage_AdminUser
-# @subpackage  functional_tests
-# @copyright   {copyright}
-# @license     {license_link}
-#
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     selenium
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 /**
  * Helper class
