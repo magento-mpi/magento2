@@ -19,8 +19,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
 
     const FAULT_REASON_INTERNAL = 'Internal Error.';
 
-    const SOAP_CACHE_ID = 'soap_wsdl';
-    const SOAP_CACHE_TAG = 'SOAP_WSDL';
+    const WEBSERVICE_CACHE_NAME = 'config_webservice';
+    const WEBSERVICE_CACHE_TAG = 'WEBSERVICE';
+    const WSDL_CACHE_ID = 'WSDL';
 
     /** @var Zend_Soap_Server */
     protected $_soapServer;
@@ -122,8 +123,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     protected function _getWsdlContent()
     {
-        if (Mage::app()->useCache(self::SOAP_CACHE_ID)) {
-            $cachedWsdlContent = Mage::app()->getCache()->load(self::SOAP_CACHE_TAG);
+        if (Mage::app()->useCache(self::WEBSERVICE_CACHE_NAME)) {
+            $cachedWsdlContent = Mage::app()->getCache()->load(self::WSDL_CACHE_ID);
             if ($cachedWsdlContent !== false) {
                 return $cachedWsdlContent;
             }
@@ -151,8 +152,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         }
 
         $wsdlContent = $wsdl->toXml();
-        if (Mage::app()->useCache(self::SOAP_CACHE_ID)) {
-            Mage::app()->getCache()->save($wsdlContent, self::SOAP_CACHE_TAG);
+        if (Mage::app()->useCache(self::WEBSERVICE_CACHE_NAME)) {
+            Mage::app()->getCache()->save($wsdlContent, self::WSDL_CACHE_ID, array(self::WEBSERVICE_CACHE_TAG));
         }
 
         return $wsdlContent;
