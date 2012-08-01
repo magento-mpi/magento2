@@ -36,11 +36,12 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
                     if ($this->controlIsPresent('field', 'admin_option_name_disabled')) {
                         $optionXpath = $this->_getControlXpath('field', 'admin_option_name_disabled');
                         if ($value['admin_option_name'] != $this->getValue($optionXpath)) {
-                            $this->addVerificationMessage("Admin value attribute label is wrong.\nExpected: "
-                                . $value['admin_option_name'] . "\nActual: " . $this->getValue($optionXpath));
+                            $this->addVerificationMessage("Admin value attribute label is wrong.\n"
+                                . 'Expected: ' . $value['admin_option_name'] . "\n"
+                                . 'Actual: ' . $this->getValue($optionXpath));
                         }
                     } else {
-                        $this->addVerificationMessage("Admin value attribute  in $num row is not disabled");
+                        $this->addVerificationMessage("Admin value attribute in $num row is not disabled");
                     }
                 } elseif ($value['admin_option_name'] == $attributeData['default_value']) {
                     $this->fillCheckbox('default_value', 'Yes');
@@ -64,10 +65,10 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         $this->openTab('manage_labels_options');
         $this->storeViewTitles($attributeData, 'manage_titles', 'verify');
         if ($this->buttonIsPresent('add_option')) {
-            $this->addVerificationMessage('It is possible to add new option');
+            $this->addVerificationMessage('"Add Option" button is present');
         }
         if ($this->buttonIsPresent('delete_option')) {
-            $this->addVerificationMessage('Delete button is present in Manage Options tab');
+            $this->addVerificationMessage('"Delete" button is present in Manage Options tab');
         }
         $this->processAttributeValue($attributeData, true);
     }
