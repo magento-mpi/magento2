@@ -77,7 +77,7 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
             'Module_Name::system' => '/some/resource',
             'Module_Name::system_config' => 'system/config',
             'Module_Name::area_config_design_node' => 'area_config/design/node',
-            'Enterprise_Module::area_config_design' => 'area_config/design',
+            'Some_Module::area_config_design' => 'area_config/design',
             'Mage_Module::area_config' => 'area_config',
             'Local_Module::area_config_design_node_email_template' => 'area_config/design/node/email_template',
         );
@@ -117,7 +117,7 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
               'resource' => '',
           ),
           'Module_Name::area_config_design_node' => array(
-              'parent' => 'Enterprise_Module::area_config_design',
+              'parent' => 'Some_Module::area_config_design',
               'resource' => '',
           ),
         );
@@ -156,7 +156,7 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $expected = array(
             'Module_Name::area_config_design_node',
-            'Enterprise_Module::area_config_design',
+            'Some_Module::area_config_design',
             'Mage_Module::area_config',
         );
         $maps = $this->_model->getMenuIdMaps();

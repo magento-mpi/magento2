@@ -59,8 +59,6 @@ class Tools_Migration_Acl_GeneratorSaveTest extends PHPUnit_Framework_TestCase
         $this->_originFile = $path . 'adminhtml.xml';
         $this->_aclFile = $path . 'adminhtml' . DIRECTORY_SEPARATOR . 'acl.xml';
 
-        copy($this->_originFile . '.dist', $this->_originFile);
-
         $dom = new DOMDocument();
         $config = $dom->createElement('config');
         $dom->appendChild($config);
