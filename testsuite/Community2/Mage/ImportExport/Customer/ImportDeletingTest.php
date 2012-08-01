@@ -21,9 +21,9 @@
 class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -34,18 +34,18 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
     }
 
     /**
-     * <p>Deleting Customer via Customers Main File</p>
-     * <p>Preconditions:</p>
-     * <p>1. Create two customers in Customers-> Manage Customers</p>
-     * <p>2. Create .csv file with both customers: first with all attributes, second only with values of unique key</p>
-     * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"</p>
-     * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
-     * <p>3. Choose file from precondition</p>
-     * <p>4. Press "Check Data"</p>
-     * <p>5. Press "Import" button</p>
-     * <p>6. Open Customers-> Manage Customers</p>
-     * <p>Expected: Verify that both customers are absent in the system</p>
+     * Deleting Customer via Customers Main File
+     * Preconditions:
+     * 1. Create two customers in Customers-> Manage Customers
+     * 2. Create .csv file with both customers: first with all attributes, second only with values of unique key
+     * Steps:
+     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"
+     * 2. Select "Delete Entities" in selector "Import Behavior"
+     * 3. Choose file from precondition
+     * 4. Press "Check Data"
+     * 5. Press "Import" button
+     * 6. Open Customers-> Manage Customers
+     * Expected: Verify that both customers are absent in the system
      *
      * @test
      * @dataProvider importData
@@ -55,21 +55,21 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
     {
         //Create Customer1
         $this->navigate('manage_customers');
-        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData1);
+        $userData[0] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData[0]);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData2);
+        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData[1]);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['email'] = $userData1['email'];
-        $data[0]['firstname'] = $userData1['first_name'];
-        $data[0]['lastname'] = $userData1['last_name'];
-        $data[0]['password'] = $userData1['password'];
+        $data[0]['email'] = $userData[0]['email'];
+        $data[0]['firstname'] = $userData[0]['first_name'];
+        $data[0]['lastname'] = $userData[0]['last_name'];
+        $data[0]['password'] = $userData[0]['password'];
 
-        $data[1]['email'] = $userData2['email'];
+        $data[1]['email'] = $userData[1]['email'];
         $data[1]['firstname'] = 'firstname_new';
         $data[1]['lastname'] = 'lastname_new';
         $data[1]['password'] = 'qqqqqqq';
@@ -88,31 +88,37 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         //Step 6
         $this->navigate('manage_customers');
         //Verify that the first customer is absent after import 'Delete Entities'
-        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData1), 'Customer is found');
+        $this->assertFalse(
+            $this->customerHelper()->isCustomerPresentInGrid($userData[0]),
+            'Customer is found'
+        );
         //Verify that the second customer is absent after import 'Delete Entities'
-        $this->assertFalse($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer is found');
+        $this->assertFalse(
+            $this->customerHelper()->isCustomerPresentInGrid($userData[1]),
+            'Customer is found'
+        );
     }
 
     public function importData()
     {
         return array(
             array(array($this->loadDataSet('ImportExport', 'generic_customer_csv'),
-                                 $this->loadDataSet('ImportExport', 'generic_customer_csv')))
+                $this->loadDataSet('ImportExport', 'generic_customer_csv')))
         );
     }
 
     /**
-     * <p>Deleting Customer via Customers Main File</p>
-     * <p>Preconditions:</p>
-     * <p>1. Create two customers in Customers-> Manage Customers</p>
-     * <p>2. Create .csv file with incorrect email for first customer, with incorrect website for second customer</p>
-     * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"</p>
-     * <p>2. Select "Delete Entities" in selector "Import Behavior"</p>
-     * <p>3. Choose file from precondition</p>
-     * <p>4. Press "Check Data"</p>
-     * <p>5. Open Customers-> Manage Customers</p>
-     * <p>Expected: Verify that both customers are present in the system</p>
+     * Deleting Customer via Customers Main File
+     * Preconditions:
+     * 1. Create two customers in Customers-> Manage Customers
+     * 2. Create .csv file with incorrect email for first customer, with incorrect website for second customer
+     * Steps
+     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"
+     * 2. Select "Delete Entities" in selector "Import Behavior"
+     * 3. Choose file from precondition
+     * 4. Press "Check Data"
+     * 5. Open Customers-> Manage Customers
+     * Expected: Verify that both customers are present in the system
      *
      * @test
      * @dataProvider importCustomerData
@@ -122,29 +128,28 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
     {
         //Create Customer1
         $this->navigate('manage_customers');
-        $userData1 = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData1);
+        $userData[0] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData[0]);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userData2 = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userData2);
+        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData[1]);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         $data[0]['email'] = 'not_existing_email@example.co';
-        $data[0]['firstname'] = $userData1['first_name'];
-        $data[0]['lastname'] = $userData1['last_name'];
-        $data[0]['password'] = $userData1['password'];
+        $data[0]['firstname'] = $userData[0]['first_name'];
+        $data[0]['lastname'] = $userData[0]['last_name'];
+        $data[0]['password'] = $userData[0]['password'];
 
-        $data[1]['email'] = $userData2['email'];
-        $data[1]['firstname'] = $userData2['first_name'];
-        $data[1]['lastname'] = $userData2['last_name'];
-        $data[1]['password'] = $userData2['password'];
+        $data[1]['email'] = $userData[1]['email'];
+        $data[1]['firstname'] = $userData[1]['first_name'];
+        $data[1]['lastname'] = $userData[1]['last_name'];
+        $data[1]['password'] = $userData[1]['password'];
 
         //Steps 1-2
         $this->navigate('import');
-        $this->importExportHelper()
-            ->chooseImportOptions('Customers Main File', 'Delete Entities');
+        $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Delete Entities');
         //Steps 3-5
         $importReport = $this->importExportHelper()->import($data);
         //Check import
@@ -154,16 +159,16 @@ class Community2_Mage_ImportExport_Deleting_CustomerTest extends Mage_Selenium_T
         //Step 5
         $this->navigate('manage_customers');
         //Verify that the first customer is present after import 'Delete Entities'
-        $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData1), 'Customer not found');
+        $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData[0]), 'Customer not found');
         //Verify that the second customer is present after import 'Delete Entities'
-        $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData2), 'Customer not found');
+        $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($userData[1]), 'Customer not found');
     }
 
     public function importCustomerData()
     {
         return array(
             array(array($this->loadDataSet('ImportExport', 'generic_customer_csv'),
-                                 $this->loadDataSet('ImportExport', 'generic_customer_csv',
-                                     array('_website' => $this->generate('string', 30, ':digit:'))))));
+                $this->loadDataSet('ImportExport', 'generic_customer_csv',
+                    array('_website' => $this->generate('string', 30, ':digit:'))))));
     }
 }

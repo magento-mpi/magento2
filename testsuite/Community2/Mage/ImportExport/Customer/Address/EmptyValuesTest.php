@@ -21,9 +21,9 @@
 class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -33,19 +33,19 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
         $this->navigate('import');
     }
     /**
-     * <p>Empty values for existing attributes in csv for Customer Addresses</p>
-     * <p>Preconditions:</p>
-     * <p>1. Customer is created. Address is added. Company address attribute has some value</p>
-     * <p>2. CSV file prepared that contains existing customer address info where Company value is empty</p>
-     * <p>Steps</p>
-     * <p>1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Addresses"</p>
-     * <p>2. Select "Add/Update Complex Data" in selector "Import Behavior"</p>
-     * <p>3. Choose file from precondition</p>
-     * <p>4. Press "Check Data"</p>
-     * <p>5. Press "Import" button</p>
-     * <p>6. Open Customers-> Manage Customers</p>
-     * <p>7. Open customer from precondition</p>
-     * <p>Expected: Verify that Company hasn't been changed or removed in "Addresses" tab</p>
+     * Empty values for existing attributes in csv for Customer Addresses
+     * Preconditions:
+     * 1. Customer is created. Address is added. Company address attribute has some value
+     * 2. CSV file prepared that contains existing customer address info where Company value is empty
+     * Steps
+     * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customer Addresses"
+     * 2. Select "Add/Update Complex Data" in selector "Import Behavior"
+     * 3. Choose file from precondition
+     * 4. Press "Check Data"
+     * 5. Press "Import" button
+     * 6. Open Customers-> Manage Customers
+     * 7. Open customer from precondition
+     * Expected: Verify that Company hasn't been changed or removed in "Addresses" tab
      *
      * @test
      * @dataProvider importData
@@ -103,22 +103,21 @@ class Community2_Mage_ImportExport_EmptyValues_AddressTest extends Mage_Selenium
     {
         return array(
             array(
-                array
-                        ($this->loadDataSet('ImportExport','generic_address_csv',
-                                array(
-                                        '_website' => 'base',
-                                        'region' => 'New York',
-                                        'company' => '',
-                                        'fax' => '',
-                                        'middlename' => '',
-                                        'prefix' =>'',
-                                        '_address_default_billing_' => '',
-                                        '_address_default_shipping_' => '',
-                                        '_entity_id' => $this->generate('string', 10, ':digit:')
-                                    )
-                                )
+                array($this->loadDataSet('ImportExport', 'generic_address_csv',
+                    array(
+                        '_website' => 'base',
+                        'region' => 'New York',
+                        'company' => '',
+                        'fax' => '',
+                        'middlename' => '',
+                        'prefix' =>'',
+                        '_address_default_billing_' => '',
+                        '_address_default_shipping_' => '',
+                        '_entity_id' => $this->generate('string', 10, ':digit:')
                         )
+                    )
                 )
+            )
         );
     }
 }
