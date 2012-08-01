@@ -130,28 +130,13 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             }
         }
 
-        $soapNamespace = 'soap12';
-        $wsdlNamespace = 'wsdl';
-        // we use resource config as base for WSDL file generation
-        $baseDomDocument = $this->getResourceConfig()->getDom();
-        $wsdl = new Magento_Soap_Wsdl($baseDomDocument, $wsdlNamespace, $soapNamespace);
-        $service = $wsdl->addService('MagentoAPI');
+        /** @var Mage_Api2_Model_Config_Wsdl $wsdlConfig */
+        $wsdlConfig = Mage::getModel('Mage_Api2_Model_Config_Wsdl', array(
+            'resource_config' => $this->getResourceConfig(),
+            'endpoint_url' => $this->_getEndpointUrl(),
+        ));
+        $wsdlContent = $wsdlConfig->generate();
 
-        foreach ($this->getResourceConfig()->getResources() as $resourceName => $methods) {
-            $bindingName = ucfirst($resourceName);
-            $binding = $wsdl->addBinding($bindingName, $resourceName);
-            $wsdl->addSoapBinding($binding);
-            $portUrl = $this->_getEndpointUrl();
-            $wsdl->addServicePort($service, $bindingName . '_Soap12', $bindingName, $portUrl);
-
-            foreach ($methods as $methodName => $methodData) {
-                $operation = $wsdl->addBindingOperation($binding, $resourceName . ucfirst($methodName),
-                    array('use' => 'literal'), array('use' => 'literal'));
-                $wsdl->addSoapOperation($operation, $resourceName . ucfirst($methodName));
-            }
-        }
-
-        $wsdlContent = $wsdl->toXml();
         if (Mage::app()->useCache(self::WEBSERVICE_CACHE_NAME)) {
             Mage::app()->getCache()->save($wsdlContent, self::WSDL_CACHE_ID, array(self::WEBSERVICE_CACHE_TAG));
         }

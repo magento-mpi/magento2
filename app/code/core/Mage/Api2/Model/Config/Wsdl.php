@@ -2,22 +2,30 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Soap
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /**
- * SOAP WSDL Generator class.
+ * SOAP WSDL Generator.
+ * It takes API resource config and creates complete WSDL 1.1 file based on it.
+ * API resource config describes abstract part of WSDL and this config is responsible for concrete part.
  */
-class Magento_Soap_Wsdl
+class Mage_Api2_Model_Config_Wsdl
 {
+    /** @var Mage_Api2_Model_Config_Resource */
+    protected $_resourceConfig;
+
     /** @var DOMDocument */
     protected $_dom;
 
     /** @var DOMElement */
     protected $_wsdl;
+
+    /** @var string */
+    protected $_endpointUrl;
 
     /** @var string WSDL namespace*/
     protected $_nsWsdl;
@@ -29,31 +37,66 @@ class Magento_Soap_Wsdl
     protected $_nsTypes;
 
     /**
-     * Construct WSDL based on existing DOM Document.
+     * Set resource config property and required namespaces.
      *
-     * @param DOMDocument $baseDomDocument
-     * @param string $namespaceWsdl
-     * @param string $namespaceSoap12
-     * @param string $namespaceTypes
+     * @param array $options
+     * @throws InvalidArgumentException
      */
-    public function __construct(DOMDocument $baseDomDocument, $namespaceWsdl = 'wsdl', $namespaceSoap12 = 'soap12',
-        $namespaceTypes = 'tns')
+    public function __construct($options)
     {
-        $this->_dom = $baseDomDocument;
+        if (!isset($options['resource_config'])) {
+            throw new InvalidArgumentException('"resource_config" option is required.');
+        }
+        if (!isset($options['endpoint_url'])) {
+            throw new InvalidArgumentException('"endpoint_url" option is require.');
+        }
+        if (!$options['resource_config'] instanceof Mage_Api2_Model_Config_Resource) {
+            throw new InvalidArgumentException('Invalid resource config.');
+        }
+        $this->_resourceConfig = $options['resource_config'];
+        $this->_dom = $this->_resourceConfig->getDom();
         $this->_wsdl = $this->_dom->documentElement;
-        $this->_nsWsdl = $namespaceWsdl;
-        $this->_nsSoap12 = $namespaceSoap12;
-        $this->_nsTypes = $namespaceTypes;
+        $this->_endpointUrl = $options['endpoint_url'];
+        $this->_nsWsdl = isset($options['namespace_wsdl']) ? $options['namespace_wsdl'] : 'wsdl';
+        $this->_nsSoap12 = isset($options['namespace_soap12']) ? $options['namespace_soap12'] : 'soap12';
+        $this->_nsTypes = isset($options['namespace_types']) ? $options['namespace_types'] : 'tns';
     }
 
     /**
-     * Add a {@link http://www.w3.org/TR/wsdl#_bindings binding} element to WSDL
+     * Generate WSDL file based on resource config.
+     * It creates WSDL with single service called "MagentoAPI" and separate port for each resource.
+     *
+     * @return string
+     */
+    public function generate()
+    {
+        $service = $this->_addService('MagentoAPI');
+
+        foreach ($this->_resourceConfig->getResources() as $resourceName => $methods) {
+            $bindingName = ucfirst($resourceName);
+            $binding = $this->_addBinding($bindingName, $resourceName);
+            $this->_addSoapBinding($binding);
+            $this->_addServicePort($service, $bindingName . '_Soap12', $bindingName, $this->_endpointUrl);
+
+            foreach ($methods as $methodName => $methodData) {
+                $operation = $this->_addBindingOperation($binding, $resourceName . ucfirst($methodName),
+                    array('use' => 'literal'), array('use' => 'literal'));
+                $this->_addSoapOperation($operation, $resourceName . ucfirst($methodName));
+                // @TODO: implement faults binding
+            }
+        }
+
+        return $this->_dom->saveXML();
+    }
+
+    /**
+     * Add a binding element to WSDL
      *
      * @param string $name Name of the Binding
      * @param string $portType name of the portType to bind
-     * @return DOMElement The new binding's XML_Tree_Node for use with {@link function addBindingOperation}
+     * @return DOMElement
      */
-    public function addBinding($name, $portType)
+    protected function _addBinding($name, $portType)
     {
         $binding = $this->_dom->createElement($this->_nsWsdl . ':binding');
         $binding->setAttribute('name', $name);
@@ -67,14 +110,14 @@ class Magento_Soap_Wsdl
     /**
      * Add an operation to a binding element
      *
-     * @param DOMElement $binding A binding XML_Tree_Node returned by {@link function addBinding}
+     * @param DOMElement $binding A binding XML_Tree_Node returned by {@link function _addBinding}
      * @param string $name
      * @param array|bool $input An array of attributes for the input element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @param array|bool $output An array of attributes for the output element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @param array|bool $fault An array of attributes for the fault element, allowed keys are: 'name', 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
-     * @return DOMElement The new Operation's XML_Tree_Node for use with {@link function addSoapOperation}
+     * @return DOMElement The new Operation's DOMElement for use with {@link function _addSoapOperation}
      */
-    public function addBindingOperation(DOMElement $binding, $name, $input = false, $output = false, $fault = false)
+    protected function _addBindingOperation(DOMElement $binding, $name, $input = false, $output = false, $fault = false)
     {
         $operation = $this->_dom->createElement($this->_nsWsdl . ':operation');
         $operation->setAttribute('name', $name);
@@ -101,11 +144,6 @@ class Magento_Soap_Wsdl
 
         if (is_array($fault)) {
             $node = $this->_dom->createElement($this->_nsWsdl . ':fault');
-            /**
-             * Note. Do we really need name attribute to be also set at wsdl:fault node???
-             * W3C standard doesn't mention it (http://www.w3.org/TR/wsdl#_soap:fault)
-             * But some real world WSDLs use it, so it may be required for compatibility reasons.
-             */
             if (isset($fault['name'])) {
                 $node->setAttribute('name', $fault['name']);
             }
@@ -126,13 +164,13 @@ class Magento_Soap_Wsdl
     /**
      * Add a {@link http://www.w3.org/TR/wsdl#_soap:binding SOAP binding} element to a Binding element
      *
-     * @param DOMElement $binding A binding XML_Tree_Node returned by {@link function addBinding}
+     * @param DOMElement $binding A binding XML_Tree_Node returned by {@link function _addBinding}
      * @param string $style binding style, possible values are "rpc" (the default) and "document"
      * @param string $transport Transport method (defaults to HTTP)
      * @return DOMElement
      */
-    public function addSoapBinding(DOMElement $binding, $style = 'document',
-        $transport = 'http://schemas.xmlsoap.org/soap/http')
+    protected function _addSoapBinding(DOMElement $binding, $style = 'document',
+                                   $transport = 'http://schemas.xmlsoap.org/soap/http')
     {
         $soapBinding = $this->_dom->createElement($this->_nsSoap12 . ':binding');
         $soapBinding->setAttribute('style', $style);
@@ -146,11 +184,11 @@ class Magento_Soap_Wsdl
     /**
      * Add a {@link http://www.w3.org/TR/wsdl#_soap:operation SOAP operation} to an operation element
      *
-     * @param DOMElement $operation An operation XML_Tree_Node returned by {@link function addBindingOperation}
+     * @param DOMElement $operation An operation XML_Tree_Node returned by {@link function _addBindingOperation}
      * @param string $soapAction SOAP Action
      * @return DOMElement
      */
-    public function addSoapOperation($operation, $soapAction)
+    protected function _addSoapOperation($operation, $soapAction)
     {
         $soapOperation = $this->_dom->createElement($this->_nsSoap12 . ':operation');
         $soapOperation->setAttribute('soapAction', $soapAction);
@@ -166,7 +204,7 @@ class Magento_Soap_Wsdl
      * @param string $name Service Name
      * @return DOMElement
      */
-    public function addService($name)
+    protected function _addService($name)
     {
         $service = $this->_dom->createElement($this->_nsWsdl . ':service');
         $service->setAttribute('name', $name);
@@ -184,7 +222,7 @@ class Magento_Soap_Wsdl
      * @param string $location SOAP Address for the service
      * @return DOMElement The new port's XML_Tree_Node
      */
-    public function addServicePort(DOMElement $service, $portName, $binding, $location)
+    protected function _addServicePort(DOMElement $service, $portName, $binding, $location)
     {
         $port = $this->_dom->createElement($this->_nsWsdl . ':port');
         $port->setAttribute('name', $portName);
@@ -197,15 +235,5 @@ class Magento_Soap_Wsdl
         $service->appendChild($port);
 
         return $port;
-    }
-
-    /**
-     * Convert DOMDocument to xml.
-     *
-     * @return string
-     */
-    public function toXml()
-    {
-        return $this->_dom->saveXML();
     }
 }
