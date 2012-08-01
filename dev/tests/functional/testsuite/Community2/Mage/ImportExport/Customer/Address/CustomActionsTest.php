@@ -20,10 +20,14 @@
  */
 class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Selenium_TestCase
 {
-    static protected $customersUpdateData = array();
-    static protected $customersEmptyData = array();
-    static protected $customersDeleteData = array();
+    static protected $_customersUpdateData = array();
+    static protected $_customersEmptyData = array();
+    static protected $_customersDeleteData = array();
 
+    /**
+     * Set preconditions to run tests
+     * Create test customers
+     */
     public function setUpBeforeTests()
     {
         //logged in once for all tests
@@ -31,118 +35,120 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         for ($i = 0; $i < 2; $i++) {
             $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userAddressData);
+            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$customersUpdateData[] =
+            self::$_customersUpdateData[] =
                 array('email'      => $userData['email'],
                       'first_name' => $userData['first_name'],
                       'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userAddressData),
-                      'address'    => $userAddressData);
+                      'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
+                      'address'    => $userFirstAddressData);
         }
         for ($i = 0; $i < 1; $i++) {
             $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userAddressData);
+            $userSecondAddressData = $this->loadDataSet(
+                'Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:'))
+            );
+            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userAddressData1);
+            $this->customerHelper()->addAddress($userSecondAddressData);
             $this->customerHelper()->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$customersUpdateData[] =
+            self::$_customersUpdateData[] =
                 array('email'      => $userData['email'],
                       'first_name' => $userData['first_name'],
                       'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userAddressData),
-                      'address'    => $userAddressData);
-            self::$customersUpdateData[] =
+                      'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
+                      'address'    => $userFirstAddressData);
+            self::$_customersUpdateData[] =
                 array('email'      => $userData['email'],
                       'first_name' => $userData['first_name'],
                       'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userAddressData1),
-                      'address' => $userAddressData1);
+                      'address_id' => $this->customerHelper()->isAddressPresent($userSecondAddressData),
+                      'address' => $userSecondAddressData);
         }
 
         for ($i = 0; $i < 1; $i++) {
             $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+            $userSecondAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userAddressData);
+            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userAddressData1);
+            $this->customerHelper()->addAddress($userSecondAddressData);
             $this->customerHelper()->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$customersEmptyData[] =
+            self::$_customersEmptyData[] =
                 array('email'      => $userData['email'],
                       'first_name' => $userData['first_name'],
                       'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userAddressData),
-                      'address'    => $userAddressData);
-            self::$customersEmptyData[] =
+                      'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
+                      'address'    => $userFirstAddressData);
+            self::$_customersEmptyData[] =
                 array('email'      => $userData['email'],
                       'first_name' => $userData['first_name'],
                       'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userAddressData1),
-                      'address'    => $userAddressData1);
+                      'address_id' => $this->customerHelper()->isAddressPresent($userSecondAddressData),
+                      'address'    => $userSecondAddressData);
         }
         for ($i = 0; $i < 1; $i++) {
             $this->navigate('manage_customers');
             $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userAddressData = $this->loadDataSet('Customers', 'generic_address',
+            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userAddressData1 = $this->loadDataSet('Customers', 'generic_address',
+            $userSecondAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userAddressData2 = $this->loadDataSet('Customers', 'generic_address',
+            $userThirdAddressData = $this->loadDataSet('Customers', 'generic_address',
                 array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userAddressData);
+            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
             $this->assertMessagePresent('success', 'success_saved_customer');
             $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userAddressData1);
+            $this->customerHelper()->addAddress($userSecondAddressData);
             $this->customerHelper()->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userAddressData2);
+            $this->customerHelper()->addAddress($userThirdAddressData);
             $this->customerHelper()->saveForm('save_customer');
             $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$customersDeleteData[] = array('email'      => $userData['email'],
+            self::$_customersDeleteData[] = array('email'      => $userData['email'],
                                                  'first_name' => $userData['first_name'],
                                                  'last_name'  => $userData['last_name'],
                                                  'address_id' => $this->customerHelper()
-                                                     ->isAddressPresent($userAddressData),
-                                                 'address'    => $userAddressData);
-            self::$customersDeleteData[] = array('email'      => $userData['email'],
+                                                     ->isAddressPresent($userFirstAddressData),
+                                                 'address'    => $userFirstAddressData);
+            self::$_customersDeleteData[] = array('email'      => $userData['email'],
                                                  'first_name' => $userData['first_name'],
                                                  'last_name'  => $userData['last_name'],
                                                  'address_id' => $this->customerHelper()
-                                                     ->isAddressPresent($userAddressData1),
-                                                 'address'    => $userAddressData1);
-            self::$customersDeleteData[] = array('email'      => $userData['email'],
+                                                     ->isAddressPresent($userSecondAddressData),
+                                                 'address'    => $userSecondAddressData);
+            self::$_customersDeleteData[] = array('email'      => $userData['email'],
                                                  'first_name' => $userData['first_name'],
                                                  'last_name'  => $userData['last_name'],
                                                  'address_id' => $this->customerHelper()
-                                                     ->isAddressPresent($userAddressData2),
-                                                 'address'    => $userAddressData2);
+                                                     ->isAddressPresent($userThirdAddressData),
+                                                 'address'    => $userThirdAddressData);
         }
     }
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export
      */
     protected function assertPreConditions()
     {
@@ -153,10 +159,10 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     }
 
     /**
-     * <p>Custom import: update addresses</p>
-     * <p>Need to verify that the customer addresses are updated if the action is "Update"</p>
-     * <p>After steps </p>
-     * <p>Verify that all Customers Addresses information was imported</p>
+     * Custom import: update addresses
+     * Need to verify that the customer addresses are updated if the action is "Update"
+     * After steps 
+     * Verify that all Customers Addresses information was imported
      *
      * @test
      * @dataProvider importUpdateData
@@ -167,15 +173,14 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //Precondition: set data for CSV
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['_email'] == '<realEmail>') {
-                $data[$i]['_email'] = self::$customersUpdateData[$i]['email'];
+                $data[$i]['_email'] = self::$_customersUpdateData[$i]['email'];
             }
             if ($data[$i]['_entity_id'] == '<realEntityID>') {
-                $data[$i]['_entity_id'] = self::$customersUpdateData[$i]['address_id'];
+                $data[$i]['_entity_id'] = self::$_customersUpdateData[$i]['address_id'];
             }
         }
         $this->navigate('import');
-        $this->importExportHelper()
-            ->chooseImportOptions('Customer Addresses', 'Custom Action');
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Custom Action');
         //Step 5, 6, 7
         $importResult = $this->importExportHelper()->import($data);
         //Check import
@@ -194,8 +199,9 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         for ($i = 0; $i < 4; $i++) {
             $this->navigate('manage_customers');
             $this->addParameter('customer_first_last_name',
-                self::$customersUpdateData[$i]['first_name'] . ' ' . self::$customersUpdateData[$i]['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => self::$customersUpdateData[$i]['email']));
+                self::$_customersUpdateData[$i]['first_name'] . ' ' . self::$_customersUpdateData[$i]['last_name']
+            );
+            $this->customerHelper()->openCustomer(array('email' => self::$_customersUpdateData[$i]['email']));
             $userAddressData['first_name'] = $data[$i]['firstname'];
             $userAddressData['last_name'] = $data[$i]['lastname'];
             $userAddressData['city'] = $data[$i]['city'];
@@ -213,10 +219,11 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     }
 
     /**
-     * <p>Custom import: not recognized or empty action</p>
-     * <p> If action in csv file is empty or not recognized by the system, 'update' action should be used to corresponding csv row</p>
-     * <p>After steps </p>
-     * <p>Verify that all Customers Addresses information was imported</p>
+     * Custom import: not recognized or empty action
+     * If action in csv file is empty or not recognized by the system, 'update' action should be used to corresponding
+     * csv row
+     * After steps:
+     * Verify that all Customers Addresses information was imported
      *
      * @test
      * @dataProvider importEmptyData
@@ -227,10 +234,10 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //Precondition: set data for CSV
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['_email'] == '<realEmail>') {
-                $data[$i]['_email'] = self::$customersEmptyData[0]['email'];
+                $data[$i]['_email'] = self::$_customersEmptyData[0]['email'];
             }
             if ($data[$i]['_entity_id'] == '<realEntityID>') {
-                $data[$i]['_entity_id'] = self::$customersEmptyData[$i]['address_id'];
+                $data[$i]['_entity_id'] = self::$_customersEmptyData[$i]['address_id'];
             }
         }
         $this->navigate('import');
@@ -253,27 +260,27 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         $userAddressData = $this->loadDataSet('ImportExport', 'generic_address');
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
-            self::$customersEmptyData[0]['first_name'] . ' ' . self::$customersEmptyData[0]['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => self::$customersEmptyData[0]['email']));
+            self::$_customersEmptyData[0]['first_name'] . ' ' . self::$_customersEmptyData[0]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => self::$_customersEmptyData[0]['email']));
         for ($i = 0; $i < count($data); $i++) {
             $userAddressData['first_name'] = ($data[$i]['firstname'] != '') ? $data[$i]['firstname']
-                : self::$customersEmptyData[$i]['address']['first_name'];
+                : self::$_customersEmptyData[$i]['address']['first_name'];
             $userAddressData['last_name'] = ($data[$i]['lastname'] != '') ? $data[$i]['lastname']
-                : self::$customersEmptyData[$i]['address']['last_name'];
+                : self::$_customersEmptyData[$i]['address']['last_name'];
             $userAddressData['middle_name'] = ($data[$i]['middlename'] != '') ? $data[$i]['middlename']
-                : self::$customersEmptyData[$i]['address']['middle_name'];
+                : self::$_customersEmptyData[$i]['address']['middle_name'];
             $userAddressData['city'] =
-                ($data[$i]['city'] != '') ? $data[$i]['city'] : self::$customersEmptyData[$i]['address']['city'];
+                ($data[$i]['city'] != '') ? $data[$i]['city'] : self::$_customersEmptyData[$i]['address']['city'];
             $userAddressData['zip_code'] = ($data[$i]['postcode'] != '') ? $data[$i]['postcode']
-                : self::$customersEmptyData[$i]['address']['zip_code'];
+                : self::$_customersEmptyData[$i]['address']['zip_code'];
             $userAddressData['telephone'] = ($data[$i]['telephone'] != '') ? $data[$i]['telephone']
-                : self::$customersEmptyData[$i]['address']['telephone'];
+                : self::$_customersEmptyData[$i]['address']['telephone'];
             $userAddressData['street_address_line_1'] = ($data[$i]['street'] != '') ? $data[$i]['street']
-                : self::$customersEmptyData[$i]['address']['street_address_line_1'];
+                : self::$_customersEmptyData[$i]['address']['street_address_line_1'];
             $userAddressData['street_address_line_2'] =
-                ($data[$i]['street'] != '') ? '' : self::$customersEmptyData[$i]['address']['street_address_line_2'];
+                ($data[$i]['street'] != '') ? '' : self::$_customersEmptyData[$i]['address']['street_address_line_2'];
             $userAddressData['state'] =
-                ($data[$i]['region'] != '') ? $data[$i]['region'] : self::$customersEmptyData[$i]['address']['state'];
+                ($data[$i]['region'] != '') ? $data[$i]['region'] : self::$_customersEmptyData[$i]['address']['state'];
             if ($data[$i]['_website'] == 'invalid') {
                 $this->assertFalse((bool)$this->customerHelper()->isAddressPresent($userAddressData),
                     "Address found for address data =\n" . print_r($userAddressData, true) . "csv data =\n"
@@ -287,10 +294,10 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     }
 
     /**
-     * <p>Custom import: delete addresses</p>
-     * <p>Verify that deleting customer address via import (custom behavior) works correctly</p>
-     * <p>After steps </p>
-     * <p>Verify that all Customers addresses information was deleted</p>
+     * Custom import: delete addresses
+     * Verify that deleting customer address via import (custom behavior) works correctly
+     * After steps 
+     * Verify that all Customers addresses information was deleted
      *
      * @test
      * @dataProvider importDeleteData
@@ -301,10 +308,10 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //Precondition: set data for CSV
         for ($i = 0; $i < count($data); $i++) {
             if ($data[$i]['_email'] == '<realEmail>') {
-                $data[$i]['_email'] = self::$customersDeleteData[0]['email'];
+                $data[$i]['_email'] = self::$_customersDeleteData[0]['email'];
             }
             if ($data[$i]['_entity_id'] == '<realEntityID>') {
-                $data[$i]['_entity_id'] = self::$customersDeleteData[$i]['address_id'];
+                $data[$i]['_entity_id'] = self::$_customersDeleteData[$i]['address_id'];
             }
         }
         $this->navigate('import');
@@ -329,14 +336,14 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         //Verifying
         $this->navigate('manage_customers');
         $this->addParameter('customer_first_last_name',
-            self::$customersDeleteData[0]['first_name'] . ' ' . self::$customersDeleteData[0]['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => self::$customersDeleteData[0]['email']));
-        $this->assertFalse((bool)$this->customerHelper()->isAddressPresent(self::$customersDeleteData[0]['address']),
-            'Address found for: ' . print_r(self::$customersDeleteData[0]['address'], true));
-        $this->assertFalse((bool)$this->customerHelper()->isAddressPresent(self::$customersDeleteData[1]['address']),
-            'Address found for: ' . print_r(self::$customersDeleteData[1]['address'], true));
-        $this->assertTrue((bool)$this->customerHelper()->isAddressPresent(self::$customersDeleteData[2]['address']),
-            'Address not found for: ' . print_r(self::$customersDeleteData[2]['address'], true));
+            self::$_customersDeleteData[0]['first_name'] . ' ' . self::$_customersDeleteData[0]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => self::$_customersDeleteData[0]['email']));
+        $this->assertFalse((bool)$this->customerHelper()->isAddressPresent(self::$_customersDeleteData[0]['address']),
+            'Address found for: ' . print_r(self::$_customersDeleteData[0]['address'], true));
+        $this->assertFalse((bool)$this->customerHelper()->isAddressPresent(self::$_customersDeleteData[1]['address']),
+            'Address found for: ' . print_r(self::$_customersDeleteData[1]['address'], true));
+        $this->assertTrue((bool)$this->customerHelper()->isAddressPresent(self::$_customersDeleteData[2]['address']),
+            'Address not found for: ' . print_r(self::$_customersDeleteData[2]['address'], true));
         $this->clearMessages();
     }
 
@@ -380,19 +387,19 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
         return array(
             array(
                 array(
-                    $this->loadDataSet('ImportExport','generic_address_csv',
+                    $this->loadDataSet('ImportExport', 'generic_address_csv',
                         array('_email'  => '<realEmail>', 'postcode' => '10005', '_entity_id' => '<realEntityID>',
                               '_action' => '')),
-                    $this->loadDataSet('ImportExport','generic_address_csv',
+                    $this->loadDataSet('ImportExport', 'generic_address_csv',
                         array('_email'                     => '<realEmail>', 'region' => '', 'city' => '',
                               'country_id'                 => '', 'firstname' => '', 'lastname' => '', 'postcode' => '',
                               'street'                     => '', 'telephone' => '', 'company'   => '', 'fax' => '',
                               'middlename'                 => '', 'prefix' => '', '_address_default_billing_' => '',
                               '_address_default_shipping_' => '', '_entity_id' => '<realEntityID>',
                               '_action'                    => 'Please, delete')),
-                    $this->loadDataSet('ImportExport','generic_address_csv',
+                    $this->loadDataSet('ImportExport', 'generic_address_csv',
                         array('_email' => '<realEmail>', 'postcode' => '10007', '_entity_id' => '', '_action' => '')),
-                    $this->loadDataSet('ImportExport','generic_address_csv',
+                    $this->loadDataSet('ImportExport', 'generic_address_csv',
                         array('_website'   => 'invalid', '_email' => '<realEmail>', 'postcode' => '10008',
                               '_entity_id' => '', '_action' => 'Please, delete')))));
     }

@@ -12,19 +12,19 @@
  */
 
 /**
-* Customer Backward Compatibility Tests
-*
-* @package     selenium
-* @subpackage  tests
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Customer Backward Compatibility Tests
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>set preconditions to run tests </p>
-     * <p>System settings:</p>
-     * <p>Secure Key is disabled</p>
-     * <p>HttpOnly cookies is disabled</p>
+     * Set preconditions to run tests
+     * System settings:
+     * Secure Key is disabled
+     * HttpOnly cookies is disabled
      */
     public function setUpBeforeTests()
     {
@@ -34,9 +34,9 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
         $this->systemConfigurationHelper()->configure('Advanced/disable_secret_key');
     }
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -47,21 +47,21 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
-     * <p>Has been excluded from functionality scope</p>
-     * <p>Need to verify that it is possible search by "Attribute Label" and after pressing "Reset Filter"</p>
-     * <p>button result will be reset(list of all attributes will be displayed)</p>
-     * <p>Steps:</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In "Entity Type" dropdown field choose "Customers" parameter</p>
-     * <p>3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter</p>
-     * <p>4. Type in "Attribute Label" field any name that is present in the list</p>
-     * <p>5. Press "Search" button</p>
-     * <p>6. Press "Reset Filter" button</p>
-     * <p>7. Type in "Attribute Code" field any code that is present in the list</p>
-     * <p>8. Press "Search" button</p>
-     * <p>9. Press "Reset Filter" button</p>
-     * <p>Expected after steps 5,8: Just corresponding attribute will be displayed</p>
-     * <p>Expected after step 9: Result will be reset and the whole list of attributes will be displayed</p>
+     * Has been excluded from functionality scope
+     * Need to verify that it is possible search by "Attribute Label" and after pressing "Reset Filter" button
+     * result will be reset (list of all attributes will be displayed)
+     * Steps:
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. In "Entity Type" dropdown field choose "Customers" parameter
+     * 3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter
+     * 4. Type in "Attribute Label" field any name that is present in the list
+     * 5. Press "Search" button
+     * 6. Press "Reset Filter" button
+     * 7. Type in "Attribute Code" field any code that is present in the list
+     * 8. Press "Search" button
+     * 9. Press "Reset Filter" button
+     * Expected after steps 5,8: Just corresponding attribute will be displayed
+     * Expected after step 9: Result will be reset and the whole list of attributes will be displayed
      *
      * @test
      * @TestlinkId TL-MAGE-1308, 1309
@@ -128,7 +128,9 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
             ),
             'grid_and_filter'
         );
-        $this->assertNotNull($isFound, 'Attribute was not found after resetting filter');
+        $this->assertNotNull(
+            $isFound, 'Attribute was not found after resetting filter'
+        );
         $isFound = $this->importExportHelper()->customerSearchAttributes(
             array(
                 'attribute_label' => 'Is Confirmed',
@@ -140,19 +142,20 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
-     * <p>Has been excluded from functionality scope</p>
-     * <p>Simple Export</p>
-     * <p>Precondition: At least one attribute for your customer must be created</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>3. In "Export Format Version" drop-down choose "Magento 1.7" parameter</p>
-     * <p>4. Click on the Continue button</p>
-     * <p>5. Save file to your computer</p>
-     * <p>6. Open it.</p>
-     * <p>Expected: Check that among all customers your customer with attribute is present</p>
+     * Has been excluded from functionality scope
+     * Simple Export
+     * Precondition: At least one attribute for your customer must be created
+     * Steps:
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. In "Entity Type" drop-down field choose "Customers" parameter
+     * 3. In "Export Format Version" drop-down choose "Magento 1.7" parameter
+     * 4. Click on the Continue button
+     * 5. Save file to your computer
+     * 6. Open it.
+     * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
+     * @return array
      * @TestlinkId TL-MAGE-1192
      * @group skip_due_to_bug
      */
@@ -160,8 +163,11 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     {
         //Precondition: create customer
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
-            array('first_name' => $this->generate('string', 5)));
+        $userData = $this->loadDataSet(
+            'Customers', 'generic_customer_account', array(
+                'first_name' => $this->generate('string', 5)
+            )
+        );
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Step 1
@@ -172,7 +178,8 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
         //Steps 4-6
         $report = $this->importExportHelper()->export();
         //Verifying
-        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
+        $this->assertNotNull(
+            $this->importExportHelper()->lookForEntity('master', $userData, $report),
             "Customer not found in csv file"
         );
 
@@ -180,16 +187,19 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
     }
 
     /**
-     * <p>Has been excluded from functionality scope</p>
-     * <p>Customer export using some filters</p>
-     * <p>Steps</p>
-     * <p>1. On backend in System -> Import/ Export -> Export select "Customers" entity type</p>
-     * <p>2. In "Entity Type" dropdown field choose "Customers" parameter</p>
-     * <p>3. In "Export Format Version" dropdown field choose "Magento 1.7" parameter</p>
-     * <p>4. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
-     * <p>5. Press "Continue" button and save current file</p>
-     * <p>6. Open file</p>
-     * <p>Expected: In generated file just your customer with selected option of attribute is present</p>
+     * Has been excluded from functionality scope
+     * Customer export using some filters
+     * Steps
+     * 1. On backend in System -> Import/ Export -> Export select "Customers" entity
+     * type
+     * 2. In "Entity Type" dropdown field choose "Customers" parameter
+     * 3. In "Export Format Version" dropdown field choose "Magento 1.7" parameter
+     * 4. In the "Filter" column according to you attribute select option that was
+     * used in your customer creation
+     * 5. Press "Continue" button and save current file
+     * 6. Open file
+     * Expected: In generated file just your customer with selected option of
+     * attribute is present
      *
      * @test
      * @depends simpleExportMasterFile
@@ -203,28 +213,29 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
         //Steps 2-3
         $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
         //Step 4
-        $this->importExportHelper()
-            ->setFilter(array('firstname' => $userData['first_name']));
+        $this->importExportHelper()->setFilter(array('firstname' => $userData['first_name']));
         //Steps 5-6
         $report = $this->importExportHelper()->export();
         //Verifying
-        $this->assertNotNull($this->importExportHelper()->lookForEntity('master', $userData, $report),
-            "Customer not found in csv file");
+        $this->assertNotNull(
+            $this->importExportHelper()->lookForEntity('master', $userData, $report),
+            "Customer not found in csv file"
+        );
         $this->assertEquals(1, count($report), "Other customers are present in csv file");
     }
 
     /**
-     * <p>Has been excluded from functionality scope</p>
-     * <p>Export with skipped some attributes</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. In "Entity Type" drop-down field choose "Customers" parameter</p>
-     * <p>3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter</p>
-     * <p>4. Select  "SKIP" checkbox for the row with the attribute First Name</p>
-     * <p>5. In the "Filter" column for the attribute enter customer first name</p>
-     * <p>6. Press "Continue" button and save file to your computer</p>
-     * <p>7. Open exported file</p>
-     * <p>Expected: file doesn't contain first name attribute</p>
+     * Has been excluded from functionality scope
+     * Export with skipped some attributes
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. In "Entity Type" drop-down field choose "Customers" parameter
+     * 3. In "Export Format Version" dropdown field choose "Magento 1.7 format" parameter
+     * 4. Select  "SKIP" checkbox for the row with the attribute First Name
+     * 5. In the "Filter" column for the attribute enter customer first name
+     * 6. Press "Continue" button and save file to your computer
+     * 7. Open exported file
+     * Expected: file doesn't contain first name attribute
      *
      * @test
      * @depends simpleExportMasterFile
@@ -245,12 +256,12 @@ class Community2_Mage_ImportExport_Backward_Export_CustomerTest extends Mage_Sel
         );
         $this->assertTrue($isFound, 'First Name attribute was not found');
         //Step 5
-        $this->importExportHelper()
-            ->setFilter(array('firstname' => $userData['first_name']));
+        $this->importExportHelper()->setFilter(array('firstname' => $userData['first_name']));
         //Step 6
         $report = $this->importExportHelper()->export();
         //Verifying
-        $this->assertFalse(array_key_exists('firstname', $report[0]),
+        $this->assertFalse(
+            array_key_exists('firstname', $report[0]),
             'Skipped attribute was found in export file. Attribute Code: firstname'
         );
     }

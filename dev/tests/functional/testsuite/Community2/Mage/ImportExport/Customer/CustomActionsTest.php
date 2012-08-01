@@ -22,9 +22,9 @@
 class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selenium_TestCase
 {
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -34,20 +34,20 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
         $this->navigate('import');
     }
     /**
-     * <p>Verify that import customers main file with specified action works correctly</p>
-     * <p>Precondition: 3 csv files, several rows each (update, delete, empty or not recognized actions)</p>
-     * <p>Customers exist in the system</p>
-     * <p>Steps:</p>
-     * <p>1. Go to System -> Import/Export -> Import</p>
-     * <p>2. Select Entity Type: Customers Main File</p>
-     * <p>3. Select Import Behavior: Custom Action</p>
-     * <p>4. Select file from precondition</p>
-     * <p>5. Click Check Data button</p>
-     * <p>6. Click Import button</p>
-     * <p>7. Go to Customers -> Manage Customers</p>
-     * <p>8. Open customer (if not deleted after import)</p>
-     * <p>After step 5: corresponding validation messages are shown</p>
-     * <p>After step 8: required action applied to customer data</p>
+     * Verify that import customers main file with specified action works correctly
+     * Precondition: 3 csv files, several rows each (update, delete, empty or not recognized actions)
+     * Customers exist in the system
+     * Steps:
+     * 1. Go to System -> Import/Export -> Import
+     * 2. Select Entity Type: Customers Main File
+     * 3. Select Import Behavior: Custom Action
+     * 4. Select file from precondition
+     * 5. Click Check Data button
+     * 6. Click Import button
+     * 7. Go to Customers -> Manage Customers
+     * 8. Open customer (if not deleted after import)
+     * After step 5: corresponding validation messages are shown
+     * After step 8: required action applied to customer data
      *
      * @test
      * @dataProvider importCustomAction
@@ -105,24 +105,24 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
         $updatedCustomerData[2] = array(array(), array(), array(), array());
 
         foreach ($originalCustomerData as $key => $value) {
-            foreach ($originalCustomerData[$key] as $key1 => $value1) {
-                $originalCustomerData[$key][$key1]['associate_to_website'] = 'Main Website';
-                $originalCustomerData[$key][$key1]['group'] = 'General';
-                $originalCustomerData[$key][$key1]['email'] =
+            foreach ($originalCustomerData[$key] as $innerKey => $innerValue) {
+                $originalCustomerData[$key][$innerKey]['associate_to_website'] = 'Main Website';
+                $originalCustomerData[$key][$innerKey]['group'] = 'General';
+                $originalCustomerData[$key][$innerKey]['email'] =
                     'test_admin_' . $this->generate('string', 5, ':digit:') . '@unknown-domain.com';
-                $originalCustomerData[$key][$key1]['first_name'] =
+                $originalCustomerData[$key][$innerKey]['first_name'] =
                     'First_' . $this->generate('string', 5, ':digit:');
-                $originalCustomerData[$key][$key1]['last_name'] =
+                $originalCustomerData[$key][$innerKey]['last_name'] =
                     'Last_' . $this->generate('string', 5, ':digit:');
-                $updatedCustomerData[$key][$key1] = $originalCustomerData[$key][$key1];
-                $originalCustomerData[$key][$key1]['password'] = '123123q';
-                $mainCsvRows[$key][$key1]['email'] = $originalCustomerData[$key][$key1]['email'];
-                $mainCsvRows[$key][$key1]['_website'] = 'base';
-                $mainCsvRows[$key][$key1]['group_id'] = '1';
-                $mainCsvRows[$key][$key1]['firstname'] = $originalCustomerData[$key][$key1]['first_name'];
-                $mainCsvRows[$key][$key1]['lastname'] = $originalCustomerData[$key][$key1]['last_name'];
-                $mainCsvRows[$key][$key1]['reward_update_notification'] = 1;
-                $mainCsvRows[$key][$key1]['reward_warning_notification'] = 1;
+                $updatedCustomerData[$key][$innerKey] = $originalCustomerData[$key][$innerKey];
+                $originalCustomerData[$key][$innerKey]['password'] = '123123q';
+                $mainCsvRows[$key][$innerKey]['email'] = $originalCustomerData[$key][$innerKey]['email'];
+                $mainCsvRows[$key][$innerKey]['_website'] = 'base';
+                $mainCsvRows[$key][$innerKey]['group_id'] = '1';
+                $mainCsvRows[$key][$innerKey]['firstname'] = $originalCustomerData[$key][$innerKey]['first_name'];
+                $mainCsvRows[$key][$innerKey]['lastname'] = $originalCustomerData[$key][$innerKey]['last_name'];
+                $mainCsvRows[$key][$innerKey]['reward_update_notification'] = 1;
+                $mainCsvRows[$key][$innerKey]['reward_warning_notification'] = 1;
             }
         }
 
@@ -174,22 +174,32 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
         $mainCsvRows[2][3]['_action'] = 'Please, delete';
 
         //validation messages
-        $t = "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import";
+        $fixErrorsMessage =
+            "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import";
         $updateActionMessage = array('validation' => array(
             'error' => array("E-mail is invalid in rows: 2"),
-            'validation' => array($t, "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")
+            'validation' => array(
+                $fixErrorsMessage,
+                "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1"
+            )
         ),
             'import' => array('success' => array('Import successfully done.'))
         );
         $deleteActionMessage = array('validation' => array(
             'error' => array("Customer with such email and website code doesn't exist in rows: 3"),
-            'validation' => array($t, "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")
+            'validation' => array(
+                $fixErrorsMessage,
+                "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1"
+            )
         ),
             'import' => array('success' => array('Import successfully done.'))
         );
         $notRecognizedActionMessage = array('validation' => array(
             'error' => array("Invalid value for 'group_id' in rows: 4"),
-            'validation' => array($t, "Checked rows: 4, checked entities: 4, invalid rows: 1, total errors: 1")
+            'validation' => array(
+                $fixErrorsMessage,
+                "Checked rows: 4, checked entities: 4, invalid rows: 1, total errors: 1"
+            )
         ),
             'import' => array('success' => array('Import successfully done.'))
         );

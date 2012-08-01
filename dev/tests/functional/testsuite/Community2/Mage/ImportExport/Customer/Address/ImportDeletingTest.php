@@ -20,23 +20,23 @@
  */
 class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_TestCase
 {
-    static protected $customerData = array();
+    static protected $_customerData = array();
 
     /**
-     * <p>Precondition:</p>
-     * <p>Create new customer</p>
+     * Precondition:
+     * Create new customer
      */
     public function setUpBeforeTests()
     {
-       $this->loginAdminUser();
-       $this->navigate('manage_customers');
-       self::$customerData = $this->loadDataSet('Customers', 'generic_customer_account');
-       $this->customerHelper()->createCustomer(self::$customerData);
-       $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer(self::$_customerData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
     }
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
+     * Preconditions:
+     * Log in to Backend.
      */
     protected function assertPreConditions()
     {
@@ -44,23 +44,23 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
         $this->loginAdminUser();
     }
     /**
-     * <p>Verify that deleting customer address via import works correctly</p>
-     * <p>Preconditions: One customer with three addresses created in the system</p>
-     * <p>5 csv files: 1 - full match to customer address data (positive);</p>
-     * <p>2 - only unique key match (positive); 3 - different email (negative);</p>
-     * <p>4 - different website (negative); 5 - different address id (negative)</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/Export -> Import</p>
-     * <p>2. Select Entity Type: Customer Addresses</p>
-     * <p>3. Select Import Behavior: Delete Entities</p>
-     * <p>5. Select file from precondition</p>
-     * <p>6. Click Check Data button</p>
-     * <p>7. Click Import button</p>
-     * <p>8. Go to Customers -> Manage Customers</p>
-     * <p>9. Open customer, check addresses</p>
-     * <p>Expected:</p>
-     * <p>After step 6: corresponding validation messages are shown</p>
-     * <p>After step 9: no address in positive cases; address present in negative cases</p>
+     * Verify that deleting customer address via import works correctly
+     * Preconditions: One customer with three addresses created in the system
+     * 5 csv files: 1 - full match to customer address data (positive);
+     * 2 - only unique key match (positive); 3 - different email (negative);
+     * 4 - different website (negative); 5 - different address id (negative)
+     * Steps
+     * 1. Go to System -> Import/Export -> Import
+     * 2. Select Entity Type: Customer Addresses
+     * 3. Select Import Behavior: Delete Entities
+     * 5. Select file from precondition
+     * 6. Click Check Data button
+     * 7. Click Import button
+     * 8. Go to Customers -> Manage Customers
+     * 9. Open customer, check addresses
+     * Expected:
+     * After step 6: corresponding validation messages are shown
+     * After step 9: no address in positive cases; address present in negative cases
      *
      * @test
      * @dataProvider importDeleteAddress
@@ -70,14 +70,16 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
     {
         //Add address for customer if not present
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', self::$customerData['first_name']
-            . ' ' . self::$customerData['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
+        $this->addParameter(
+            'customer_first_last_name',
+            self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']
+        );
+        $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         $this->openTab('addresses');
         if ($this->customerHelper()->isAddressPresent($addressData) == 0) {
             $this->customerHelper()->addAddress($addressData);
             $this->customerHelper()->saveForm('save_customer');
-            $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
+            $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
             $this->openTab('addresses');
         };
         $addressId = $this->customerHelper()->isAddressPresent($addressData);
@@ -87,10 +89,10 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
         //Steps 2-3
         $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Delete Entities');
         //Steps 4-7
-        if($addressRow[0]['_email'] == '<realEmail>') {
-            $addressRow[0]['_email'] = self::$customerData['email'];
+        if ($addressRow[0]['_email'] == '<realEmail>') {
+            $addressRow[0]['_email'] = self::$_customerData['email'];
         }
-        if($addressRow[0]['_entity_id'] == '<realAddressId>') {
+        if ($addressRow[0]['_entity_id'] == '<realAddressId>') {
             $addressRow[0]['_entity_id'] = $addressId;
         }
         $report = $this->importExportHelper()->import($addressRow);
@@ -98,7 +100,7 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
         $this->assertEquals($validation, $report, 'Import has been finished with issues');
         //Steps 8-9
         $this->navigate('manage_customers');
-        $this->customerHelper()->openCustomer(array('email' => self::$customerData['email']));
+        $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
         $this->openTab('addresses');
         //Verifying that address was deleted/not deleted by import
         if ($shouldBeDeleted) {

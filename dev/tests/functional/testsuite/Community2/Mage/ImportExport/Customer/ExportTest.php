@@ -12,19 +12,19 @@
  */
 
 /**
-* Customer Export
-*
-* @package     selenium
-* @subpackage  tests
-* @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ * Customer Export
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_TestCase
 {
 
     /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     * <p>Navigate to System -> Export/p>
+     * Preconditions:
+     * Log in to Backend.
+     * Navigate to System -> Export/p>
      */
     protected function assertPreConditions()
     {
@@ -35,12 +35,12 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Export Settings General View</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>Expected: dropdown contain correct values</p>
-     * <p>Select Entity Type</p>
-     * <p>Expected: Entity Attributes grid is visible, buttons Reset Filter, Search and Continue appeared</p>
+     * Export Settings General View
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * Expected: dropdown contain correct values
+     * Select Entity Type
+     * Expected: Entity Attributes grid is visible, buttons Reset Filter, Search and Continue appeared
      *
      * @test
      * @TestlinkId TL-MAGE-5479, 1181
@@ -82,9 +82,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     public function simpleExport()
     {
         $this->navigate('manage_customers');
-        $userData = $this->loadDataSet('Customers','generic_customer_account');
-        $userDataAddress = $this->loadDataSet('Customers','generic_address');
-        $this->customerHelper()->createCustomer($userData,$userDataAddress);
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userDataAddress = $this->loadDataSet('Customers', 'generic_address');
+        $this->customerHelper()->createCustomer($userData, $userDataAddress);
         //Step 1
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
@@ -103,14 +103,14 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Simple Export Master file</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. Choose Customer (Master) file to export</p>
-     * <p>3. Click on the Continue button</p>
-     * <p>4. Save file to your computer</p>
-     * <p>5. Open it.</p>
-     * <p>Expected: Check that among all customers your customer with attribute is present</p>
+     * Simple Export Master file
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. Choose Customer (Master) file to export
+     * 3. Click on the Continue button
+     * 4. Save file to your computer
+     * 5. Open it.
+     * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5487
@@ -137,14 +137,14 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Customer Master file export with using some filters</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. Select "Master Type File"</p>
-     * <p>3. In the "Filter" column according to you attribute select option that was used in your customer creation</p>
-     * <p>4. Press "Continue" button and save current file</p>
-     * <p>5. Open file</p>
-     * <p>Expected: In generated file just your customer with selected option of attribute is present</p>
+     * Customer Master file export with using some filters
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. Select "Master Type File"
+     * 3. In the "Filter" column according to you attribute select option that was used in your customer creation
+     * 4. Press "Continue" button and save current file
+     * 5. Open file
+     * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5488
@@ -217,17 +217,17 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Verify the search by fields "Attribute Label" and "Attribute Code"</p>
-     * <p>This search should work with each file type</p>
-     * <p>Steps:</p>
-     * <p>1. Go to System-> Import/Export-> Export</p>
-     * <p>2. Select file type (Customers Main File/Customer Addresses)</p>
-     * <p>3. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button</p>
-     * <p>4. Verify that attribute is found</p>
-     * <p>5. Click 'Reset filter' button</p>
-     * <p>6. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button</p>
-     * <p>7. Verify that attribute is found</p>
-     * <p>8. Click 'Reset filter' button</p>
+     * Verify the search by fields "Attribute Label" and "Attribute Code"
+     * This search should work with each file type
+     * Steps:
+     * 1. Go to System-> Import/Export-> Export
+     * 2. Select file type (Customers Main File/Customer Addresses)
+     * 3. Type in "Attribute Code" field any name that is present in the list ('email'), click 'Search' button
+     * 4. Verify that attribute is found
+     * 5. Click 'Reset filter' button
+     * 6. Type in "Attribute Label" field any name that is present in the list ('Email'), click 'Search' button
+     * 7. Verify that attribute is found
+     * 8. Click 'Reset filter' button
      * @test
      * @TestlinkId TL-MAGE-5482, TL-MAGE-5483, TL-MAGE-5495, TL-MAGE-5497, TL-MAGE-5496, TL-MAGE-5498
      */
@@ -272,9 +272,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         }
     }
     /**
-     * <p>Preconditions:</p>
-     * <p>1. The grid with attributes should be presented for each file type</p>
-     * <p>2. The column "Skip" is available only for "Customer Main File"</p>
+     * Preconditions:
+     * 1. The grid with attributes should be presented for each file type
+     * 2. The column "Skip" is available only for "Customer Main File"
      *
      * @test
      * @TestlinkId TL-MAGE-5492, TL-MAGE-5493, TL-MAGE-5494
@@ -306,13 +306,13 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         }
     }
     /**
-     * <p>Export with skipped some attributes</p>
-     * <p>Steps</p>
-     * <p>1. Admin is logged in at backend</p>
-     * <p>2. Select "Master Type File"</p>
-     * <p>3. Select  "SKIP" checkbox for the row with the attribute Date of Birth (for example)</p>
-     * <p>4. Press "Continue" button and save file to your computer</p>
-     * <p>5. Verify exported file</p>
+     * Export with skipped some attributes
+     * Steps
+     * 1. Admin is logged in at backend
+     * 2. Select "Master Type File"
+     * 3. Select  "SKIP" checkbox for the row with the attribute Date of Birth (for example)
+     * 4. Press "Continue" button and save file to your computer
+     * 5. Verify exported file
      *
      * @test
      * @TestlinkId TL-MAGE-5489
@@ -337,14 +337,14 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         );
     }
     /**
-     * <p>Simple Export Address file</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. Choose Customer Address file to export</p>
-     * <p>3. Click on the Continue button</p>
-     * <p>4. Save file to your computer</p>
-     * <p>5. Open it.</p>
-     * <p>Expected: Check that among all customers addresses your customer address with attribute is present</p>
+     * Simple Export Address file
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. Choose Customer Address file to export
+     * 3. Click on the Continue button
+     * 4. Save file to your computer
+     * 5. Open it.
+     * Expected: Check that among all customers addresses your customer address with attribute is present
      *
      * @test
      * @TestlinkId TL-MAGE-5490
@@ -371,14 +371,14 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     }
 
     /**
-     * <p>Customer Address file export with some filters</p>
-     * <p>Steps</p>
-     * <p>1. Go to System -> Import/ Export -> Export</p>
-     * <p>2. Select "Address Type File"</p>
-     * <p>3. In the "Filter" column select "Male" for the attribute "Gender"</p>
-     * <p>4. Press "Continue" button and save current file</p>
-     * <p>5. Open file</p>
-     * <p>Expected: In generated file only "Male" customer presents. The addresses attributes are presented also.</p>
+     * Customer Address file export with some filters
+     * Steps
+     * 1. Go to System -> Import/ Export -> Export
+     * 2. Select "Address Type File"
+     * 3. In the "Filter" column select "Male" for the attribute "Gender"
+     * 4. Press "Continue" button and save current file
+     * 5. Open file
+     * Expected: In generated file only "Male" customer presents. The addresses attributes are presented also.
      *
      * @test
      * @TestlinkId TL-MAGE-5504
