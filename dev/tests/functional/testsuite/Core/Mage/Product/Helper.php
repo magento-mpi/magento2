@@ -424,8 +424,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @param array $productData
      * @param string $productType
+     * @param bool $isSave
      */
-    public function createProduct(array $productData, $productType = 'simple')
+    public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
         $this->clickButton('add_new_product');
         $this->fillProductSettings($productData, $productType);
@@ -433,7 +434,9 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->fillConfigurableSettings($productData);
         }
         $this->fillProductInfo($productData, $productType);
-        $this->saveForm('save');
+        if ($isSave){
+            $this->saveForm('save');
+        }
     }
 
     /**

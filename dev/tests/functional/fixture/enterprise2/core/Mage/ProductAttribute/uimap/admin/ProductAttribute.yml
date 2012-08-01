@@ -1,0 +1,24 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ProductAttribute
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Manage Product Attributes page
+edit_product_attribute:
+    uimap:
+        form:
+            tabs:
+                -
+                    manage_labels_options:
+                        fieldsets:
+                            -
+                                manage_options:
+                                    checkboxes:
+                                        default_value: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-radio']
+                                    fields:
+                                        admin_option_name_disabled: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-text required-option' and @disabled='disabled']
