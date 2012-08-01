@@ -33,7 +33,7 @@ enable_merge_js:
         tab_name: advanced_developer
         configuration:
             merge_javascript_files: Yes
-			
+
 disable_merge_js:
     configuration_scope: Default Config
     tab_1:
