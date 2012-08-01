@@ -51,3 +51,5 @@ enterprice_frontend_header:
                     general_elements:
                         pageelements:
                             front_navigation_menu: //*[@id='nav']
+                        buttons:
+                            category_button: //ul[@id="nav"]//li[contains(a/span,"%catName%")]
