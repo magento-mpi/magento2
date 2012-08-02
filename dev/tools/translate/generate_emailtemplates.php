@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category   Mage
- * @package    tools
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Tools
+ * @package    translate
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 define('USAGE', <<<USAGE
@@ -42,7 +26,7 @@ USAGE
 
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BP', dirname(dirname(dirname(__FILE__))));
+define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
@@ -52,9 +36,9 @@ define('ACTION_PROCESS_TEMPLATE', 1);
 define('ACTION_MERGE_LOCALES', 2);
 define('ACTION_SPLIT', 3);
 
-define('LOCALE_PATH', BP . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
+define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
 
-include(BP . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
 
 class Generate
 {

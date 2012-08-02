@@ -1,35 +1,52 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category   Mage
- * @package    tools
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Tools
+ * @package    translate
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
+include('ModuleTranslations.php');
+
 class Translate {
-    static private $opts; # object of MultyGetopt
-    static private $csv; # object of Varien_File_Csv_multy
-    static private $parseData; # parsering data file "__()";
-    static private $CONFIG; # data from config.inc.php
+    /**
+     * Object of MultyGetopt
+     *
+     * @var MultyGetopt
+     */
+    static private $opts;
+
+    /**
+     * Object of Varien_File_Csv_multy
+     *
+     * @var Varien_File_Csv_Multy
+     */
+    static private $csv;
+
+    /**
+     * Parsing data, "__()" strings;
+     *
+     * @var array
+     */
+    static private $parseData;
+
+    /**
+     * Data from config.inc.php
+     *
+     * @var array
+     */
+    static private $CONFIG;
+
     static private $allParseData=array();
+
+    /**
+     * Cleanup locale files
+     *
+     * @var string
+     */
+    static private $_clean='';
     /**
      *Starting checking process
      *
@@ -39,6 +56,7 @@ class Translate {
     static public function run($config)
     {
         self::$CONFIG = $config;
+        Tools_Translate_ModuleTranslations::setConfig($config);
         self::$csv = new Varien_File_Csv_multy();
         try {
             self::$opts = new MultyGetopt(array(
@@ -73,7 +91,11 @@ class Translate {
         }
 
         if(!is_dir($dir_en)){
-            self::_error('Locale dir '.$dir_en.' is not found');
+            Tools_Translate_ModuleTranslations::collectTranslations('en_US');
+            self::$_clean = 'en_US';
+            if(!is_dir($dir_en)){
+                self::_error('Locale dir '.$dir_en.' is not found');
+            }
         }
         if($validate===true){
             self::_error("Please specify language of validation");
@@ -86,6 +108,8 @@ class Translate {
         }
 
         if($validate!==null && $validate!==false){
+            self::$_clean = $validate;
+            Tools_Translate_ModuleTranslations::collectTranslations($validate);
             $dir = $path.self::$CONFIG['paths']['locale'].$validate.'/';
             self::_callValidate($file, $dir, $dir_en);
             return;
@@ -95,6 +119,8 @@ class Translate {
             return;
         }
         if($update!==null && $update!==false){
+            self::$_clean = $update;
+            Tools_Translate_ModuleTranslations::collectTranslations($update);
             $dir = $path.self::$CONFIG['paths']['locale'].$update.'/';
             self::_callUpdate($file, $dir, $dir_en);
             return;
@@ -110,7 +136,9 @@ class Translate {
             return;
         }
 
-
+        if (self::$_clean) {
+            Tools_Translate_ModuleTranslations::cleanTranslations(self::$_clean);
+        }
     }
     /**
      *Call validation process
@@ -118,7 +146,7 @@ class Translate {
      * @param   string $file - files array
      * @param   string $dir - dir to comparing files
      * @param   string $dir_en - dir to default english files
-     * @return  none
+     * @return  void
      */
     static protected function _callValidate($file, $dir, $dir_en)
     {
@@ -147,11 +175,12 @@ class Translate {
     /**
      *Call generation process
      *
-     * @param   string $file - files array
-     * @param   string $path - root path
-     * @param   string $dir_en - dir to default english files
-     * @param   int $level - level of recursion
-     * @return  none
+     * @param string $file files array
+     * @param string $path root path
+     * @param string $dir_en dir to default english files
+     * @param int $level level of recursion
+     * @return  void
+     * @param bool $doSave
      */
     static protected function _callGenerate($file,  $path, $dir_en, $level=0, $doSave=true)
     {

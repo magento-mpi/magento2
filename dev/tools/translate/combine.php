@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category   Mage
- * @package    tools
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Tools
+ * @package    translate
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 /*
@@ -32,15 +16,16 @@ Usage:
 */
 
 define('DS', DIRECTORY_SEPARATOR);
-define('BP', dirname(dirname(dirname(__FILE__))));
+define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
 define('MESSAGE_TYPE_ERROR', '2');
 
-define('LOCALE_PATH', BP . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
+define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
 
-include(BP . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+include(__DIR__ . DS . 'ModuleTranslations.php');
 
 class Combine
 {
@@ -95,6 +80,7 @@ class Combine
     {
         $outputFileName = null;
         $localeName = null;
+        $collectModules = false;
 
         foreach ($argv as $k=>$arg) {
             switch($arg) {
@@ -105,28 +91,37 @@ class Combine
                 case '--locale':
                     $localeName = @$argv[$k+1];
                     break;
+
+                case '--collectmodules':
+                    $collectModules = true;
+                    break;
             }
         }
 
         if (!$outputFileName || !$localeName) {
-            $this->_addMessage(MESSAGE_TYPE_ERROR, "Use this script as follows:\n\tcombine.php --output <file> --locale <locale_NAME>");
+            $this->_addMessage(MESSAGE_TYPE_ERROR,
+                "Use this script as follows:\n\tcombine.php --output <file> --locale <locale_NAME> [--collectmodules]");
             $this->_error = true;
             return;
         }
 
-        if (file_exists($outputFileName) && !is_writable($outputFileName)){
+        if ($collectModules) {
+            Tools_Translate_ModuleTranslations::collectTranslations($localeName);
+        }
+
+        if (file_exists($outputFileName) && !is_writable($outputFileName)) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("File '%s' exists and isn't writeable", $outputFileName));
             $this->_error = true;
             return;
         }
 
-        if (!is_dir(sprintf($this->_localePath, $localeName))){
+        if (!is_dir(sprintf($this->_localePath, $localeName)) && mkdir(sprintf($this->_localePath, $localeName))) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Locale '%s' was not found", $localeName));
             $this->_error = true;
             return;
         }
 
-        if (!is_readable(sprintf($this->_localePath, $localeName))){
+        if (!is_readable(sprintf($this->_localePath, $localeName))) {
             $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Locale '%s' is not readable", $localeName));
             $this->_error = true;
             return;

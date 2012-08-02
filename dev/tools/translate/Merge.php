@@ -1,27 +1,11 @@
 <?php
 /**
- * Magento
+ * {license_notice}
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category   Mage
- * @package    tools
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Tools
+ * @package    translate
+ * @copyright  {copyright}
+ * @license    {license_link}
  */
 
 //merge
@@ -30,7 +14,7 @@
 //- translate file
 //- write to file non translate
 
-define('BP', dirname(dirname(dirname(__FILE__))));
+define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 define('DS', DIRECTORY_SEPARATOR);
 
 class tools_translate_Merge
@@ -62,7 +46,7 @@ OPTIONAL PARAMETRS:
 ';
 
         $this->_checkArgs();
-        require_once(BP . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
+        require_once(BASE_PATH . DS . 'lib' . DS . 'Varien' . DS . 'File' . DS . 'Csv.php');
         $this->_csv = new Varien_File_Csv();
     }
 
@@ -112,9 +96,10 @@ OPTIONAL PARAMETRS:
 
     protected function _exception($message)
     {
-        $args = array_shift(func_get_args());
-        if ($args) {
-            $message = vsprintf($message, $args);
+        $inputArgs = func_get_args();
+        array_shift($inputArgs);
+        if ($inputArgs) {
+            $message = vsprintf($message, $inputArgs);
         }
 
         throw new Exception($this->_usage . $message . "\n\n");
