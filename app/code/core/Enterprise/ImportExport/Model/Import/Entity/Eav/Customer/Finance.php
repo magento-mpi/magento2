@@ -131,7 +131,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                 ->__('Invalid value in Finance information website column')
         );
         $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
-            $this->_translator->__('Row with such email, website, finance website combination was already found.')
+            $this->_helper('Enterprise_ImportExport_Helper_Data')
+                ->__('Row with such email, website, finance website combination was already found.')
         );
 
         $this->_initAttributes();
