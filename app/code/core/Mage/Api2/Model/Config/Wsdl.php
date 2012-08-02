@@ -48,7 +48,7 @@ class Mage_Api2_Model_Config_Wsdl
             throw new InvalidArgumentException('"resource_config" option is required.');
         }
         if (!isset($options['endpoint_url'])) {
-            throw new InvalidArgumentException('"endpoint_url" option is require.');
+            throw new InvalidArgumentException('"endpoint_url" option is required.');
         }
         if (!$options['resource_config'] instanceof Mage_Api2_Model_Config_Resource) {
             throw new InvalidArgumentException('Invalid resource config.');
