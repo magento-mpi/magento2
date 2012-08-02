@@ -100,7 +100,6 @@ class Core_Mage_Tax_TaxAndPricesValidationFrontendTest extends Mage_Selenium_Tes
      */
     public function validateTaxFrontend($configName, $testData)
     {
-        $this->markTestIncomplete('MAGETWO: 1 cent issue in unit_cat_ex_ship_in');
         //Data
         list($customer, $products, $category) = $testData;
         $cartProductsData = $this->loadDataSet('PriceReview', $configName . '_front_prices_in_cart_simple');
