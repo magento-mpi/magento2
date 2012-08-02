@@ -71,7 +71,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     {
         $user = new Mage_User_Model_User;
         $user->setId(1)->setRole(true);
-        $acl = $this->getMock('Mage_Admin_Model_Resource_Acl', array('isAllowed'));
+        $acl = $this->getMock('Magento_Acl', array('isAllowed'));
         $acl->expects(self::any())
             ->method('isAllowed')
             ->will($this->returnValue(true));

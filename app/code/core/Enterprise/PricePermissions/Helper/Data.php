@@ -22,21 +22,21 @@ class Enterprise_PricePermissions_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * Used to check if admin has permission to edit product price
      */
-    const EDIT_PRODUCT_PRICE_ACL_PATH = 'catalog/products/read_product_price/edit_product_price';
+    const EDIT_PRODUCT_PRICE_ACL_PATH = 'Enterprise_PricePermissions::edit_product_price';
 
     /**
      * Path to read_product_price node in ACL
      *
      * Used to check if admin has permission to read product price
      */
-    const READ_PRODUCT_PRICE_ACL_PATH = 'catalog/products/read_product_price';
+    const READ_PRODUCT_PRICE_ACL_PATH = 'Enterprise_PricePermissions::read_product_price';
 
     /**
      * Path to edit_product_status node in ACL
      *
      * Used to check if admin has permission to edit product status
      */
-    const EDIT_PRODUCT_STATUS_ACL_PATH = 'catalog/products/edit_product_status';
+    const EDIT_PRODUCT_STATUS_ACL_PATH = 'Enterprise_PricePermissions::edit_product_status';
 
     /**
      * Path to default_product_price node in config

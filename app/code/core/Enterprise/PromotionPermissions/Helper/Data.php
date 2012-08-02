@@ -22,21 +22,21 @@ class Enterprise_PromotionPermissions_Helper_Data extends Mage_Core_Helper_Abstr
      *
      * Used to check if admin has permission to edit catalog rules
      */
-    const EDIT_PROMO_CATALOGRULE_ACL_PATH = 'promo/catalog/edit';
+    const EDIT_PROMO_CATALOGRULE_ACL_PATH = 'Enterprise_PromotionPermissions::edit';
 
     /**
      * Path to node in ACL that specifies edit permissions for sales rules
      *
      * Used to check if admin has permission to edit sales rules
      */
-    const EDIT_PROMO_SALESRULE_ACL_PATH = 'promo/quote/edit';
+    const EDIT_PROMO_SALESRULE_ACL_PATH = 'Enterprise_PromotionPermissions::quote_edit';
 
     /**
      * Path to node in ACL that specifies edit permissions for reminder rules
      *
      * Used to check if admin has permission to edit reminder rules
      */
-    const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'promo/enterprise_reminder/edit';
+    const EDIT_PROMO_REMINDERRULE_ACL_PATH = 'Enterprise_PromotionPermissions::enterprise_reminder_edit';
 
     /**
      * Check if admin has permissions to edit catalog rules

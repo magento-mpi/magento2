@@ -11,9 +11,9 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Staging::system_enterprise_staging" title="Content Staging" module="Enterprise_Staging" sortOrder="21" parent="Mage_Adminhtml::system" />
-        <add id="Enterprise_Staging::system_enterprise_staging_staging_grid" title="Staging Websites" module="Enterprise_Staging" sortOrder="10" parent="Enterprise_Staging::system_enterprise_staging" action="adminhtml/staging_manage/index" />
-        <add id="Enterprise_Staging::system_enterprise_staging_staging_backup" title="Backups" module="Enterprise_Staging" sortOrder="20" parent="Enterprise_Staging::system_enterprise_staging" action="adminhtml/staging_backup/index" />
-        <add id="Enterprise_Staging::system_enterprise_staging_staging_log" title="Log" module="Enterprise_Staging" sortOrder="30" parent="Enterprise_Staging::system_enterprise_staging" action="adminhtml/staging_log/index" />
+        <add id="Enterprise_Staging::system_enterprise_staging" title="Content Staging" module="Enterprise_Staging" sortOrder="21" parent="Mage_Adminhtml::system" resource="Enterprise_Staging::enterprise_staging"/>
+        <add id="Enterprise_Staging::system_enterprise_staging_staging_grid" title="Staging Websites" module="Enterprise_Staging" sortOrder="10" parent="Enterprise_Staging::system_enterprise_staging" action="adminhtml/staging_manage/index" resource="Enterprise_Staging::staging_grid"/>
+        <add id="Enterprise_Staging::system_enterprise_staging_staging_backup" title="Backups" module="Enterprise_Staging" sortOrder="20" parent="Enterprise_Staging::system_enterprise_staging" action="adminhtml/staging_backup/index" resource="Enterprise_Staging::staging_backup"/>
+        <add id="Enterprise_Staging::system_enterprise_staging_staging_log" title="Log" module="Enterprise_Staging" sortOrder="30" parent="Enterprise_Staging::system_enterprise_staging" action="adminhtml/staging_log/index" resource="Enterprise_Staging::staging_log"/>
     </menu>
 </config>

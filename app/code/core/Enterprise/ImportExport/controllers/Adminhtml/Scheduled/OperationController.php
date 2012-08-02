@@ -54,7 +54,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationController extends Ma
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/convert/enterprise_scheduled_operation');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_ImportExport::enterprise_scheduled_operation');
     }
 
     /**
