@@ -2,3 +2,4 @@
 // ---------------------------------------------------
 LICENSE_PRO.html
 LICENSE_PRO.txt
+pub/errors/pro
