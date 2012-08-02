@@ -162,26 +162,28 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
 
         $connection = $this->getMock('stdClass');
 
-        $byPagesIterator = $this->getMock('stdClass', array('iterate'));
-        $byPagesIterator->expects($this->once())
-            ->method('iterate')
-            ->will($this->returnCallback(array($this, 'iterate')));
-
         $websiteManager = $this->getMock('stdClass', array('getWebsites'));
         $websiteManager->expects($this->once())
             ->method('getWebsites')
             ->will($this->returnCallback(array($this, 'getWebsites')));
 
-        $translator = $this->getMock('stdClass', array('__'));
-        $translator->expects($this->any())
+        $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'));
+        $mageHelper->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
 
-        $customerCollection = new Varien_Data_Collection();
+        $enterpriseHelper = $this->getMock('Enterprise_ImportExport_Helper_Data', array('__'));
+        $enterpriseHelper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+
+        /** @var $customerStorage Mage_ImportExport_Model_Resource_Customer_Storage */
+        $customerStorage = $this->getMock('Mage_ImportExport_Model_Resource_Customer_Storage', array('load'),
+            array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer Mage_Customer_Model_Customer */
             $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
-            $customerCollection->addItem($customer);
+            $customerStorage->addCustomer($customer);
         }
 
         $moduleHelper = $this->getMock('stdClass', array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'));
@@ -220,12 +222,14 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
             'page_size'                    => 1,
             'max_data_size'                => 1,
             'bunch_size'                   => 1,
-            'collection_by_pages_iterator' => $byPagesIterator,
             'website_manager'              => $websiteManager,
             'store_manager'                => 'not_used',
-            'translator'                   => $translator,
+            'helpers'                      => array(
+                'Mage_ImportExport_Helper_Data'       => $mageHelper,
+                'Enterprise_ImportExport_Helper_Data' => $enterpriseHelper,
+            ),
             'entity_type_id'               => 1,
-            'customer_collection'          => $customerCollection,
+            'customer_storage'             => $customerStorage,
             'module_helper'                => $moduleHelper,
             'object_factory'               => $objectFactory,
             'attribute_collection'         => $attributeCollection,

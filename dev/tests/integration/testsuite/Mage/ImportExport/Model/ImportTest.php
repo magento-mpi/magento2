@@ -31,7 +31,7 @@ class Mage_ImportExport_Model_ImportTest extends PHPUnit_Framework_TestCase
             'token' => 'Mage_ImportExport_Model_Source_Import_Behavior_Basic',
             'code'  => 'basic_behavior',
         ),
-        'customer_aggregate' => array(
+        'customer_composite' => array(
             'token' => 'Mage_ImportExport_Model_Source_Import_Behavior_Basic',
             'code'  => 'basic_behavior',
         ),

@@ -110,6 +110,21 @@ abstract class Mage_ImportExport_Model_Import_Entity_EavAbstract
     }
 
     /**
+     * Retrieve website id by code or false when website code not exists
+     *
+     * @param $websiteCode
+     * @return bool|int
+     */
+    public function getWebsiteId($websiteCode)
+    {
+        if (isset($this->_websiteCodeToId[$websiteCode])) {
+            return $this->_websiteCodeToId[$websiteCode];
+        }
+
+        return false;
+    }
+
+    /**
      * Initialize website values
      *
      * @param bool $withDefault
@@ -208,5 +223,15 @@ abstract class Mage_ImportExport_Model_Import_Entity_EavAbstract
             }
         }
         return $options;
+    }
+
+    /**
+     * Get attribute collection
+     *
+     * @return Varien_Data_Collection
+     */
+    public function getAttributeCollection()
+    {
+        return $this->_attributeCollection;
     }
 }

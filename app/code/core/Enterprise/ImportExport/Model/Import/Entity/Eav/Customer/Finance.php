@@ -77,13 +77,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_attributeCollection;
 
     /**
-     * Helper to translate error messages
-     *
-     * @var Enterprise_ImportExport_Helper_Data
-     */
-    protected $_translator;
-
-    /**
      * Helper to check whether modules are enabled/disabled
      *
      * @var Enterprise_ImportExport_Helper_Data
@@ -118,9 +111,6 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     public function __construct(array $data = array())
     {
-        if (!isset($data['translator'])) {
-            $data['translator'] = Mage::helper('Enterprise_ImportExport_Helper_Data');
-        }
         // entity type id has no meaning for finance import
         $data['entity_type_id'] = -1;
 
@@ -134,10 +124,11 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
             : Mage::getSingleton('Mage_Backend_Model_Auth_Session')->getUser();
 
         $this->addMessageTemplate(self::ERROR_FINANCE_WEBSITE_IS_EMPTY,
-            $this->_translator->__('Finance information website is not specified')
+            $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Finance information website is not specified')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
-            $this->_translator->__('Invalid value in Finance information website column')
+            $this->_helper('Enterprise_ImportExport_Helper_Data')
+                ->__('Invalid value in Finance information website column')
         );
         $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
             $this->_translator->__('Row with such email, website, finance website combination was already found.')
@@ -335,7 +326,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected function _getComment()
     {
         if (!$this->_comment) {
-            $this->_comment = $this->_translator->__('Data was imported by %s', $this->_adminUser->getUsername());
+            $this->_comment = $this->_helper('Enterprise_ImportExport_Helper_Data')->__('Data was imported by %s',
+                $this->_adminUser->getUsername()
+            );
         }
 
         return $this->_comment;

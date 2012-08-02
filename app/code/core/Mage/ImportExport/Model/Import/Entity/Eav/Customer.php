@@ -133,18 +133,22 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
         $this->_indexValueAttributes[] = 'group_id';
 
         $this->addMessageTemplate(self::ERROR_DUPLICATE_EMAIL_SITE,
-            $this->_translator->__('E-mail is duplicated in import file')
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('E-mail is duplicated in import file')
         );
         $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
-            $this->_translator->__('Orphan rows that will be skipped due default row errors')
+            $this->_helper('Mage_ImportExport_Helper_Data')
+                ->__('Orphan rows that will be skipped due default row errors')
         );
         $this->addMessageTemplate(self::ERROR_INVALID_STORE,
-            $this->_translator->__('Invalid value in Store column (store does not exists?)')
+            $this->_helper('Mage_ImportExport_Helper_Data')
+                ->__('Invalid value in Store column (store does not exists?)')
         );
         $this->addMessageTemplate(self::ERROR_EMAIL_SITE_NOT_FOUND,
-            $this->_translator->__('E-mail and website combination is not found')
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('E-mail and website combination is not found')
         );
-        $this->addMessageTemplate(self::ERROR_PASSWORD_LENGTH, $this->_translator->__('Invalid password length'));
+        $this->addMessageTemplate(self::ERROR_PASSWORD_LENGTH,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Invalid password length')
+        );
 
         $this->_initStores(true)
             ->_initAttributes();
@@ -224,7 +228,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
      *
      * @return int
      */
-    protected function getNextEntityId()
+    protected function _getNextEntityId()
     {
         if (!$this->_nextEntityId) {
             /** @var $resourceHelper Mage_ImportExport_Model_Resource_Helper_Mysql4 */
@@ -272,7 +276,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
             $entityRow['entity_id'] = $entityId;
             $entitiesToUpdate[] = $entityRow;
         } else { // create
-            $entityId = $this->getNextEntityId();
+            $entityId = $this->_getNextEntityId();
             $entityRow['entity_id'] = $entityId;
             $entityRow['entity_type_id'] = $this->getEntityTypeId();
             $entityRow['attribute_set_id'] = 0;
@@ -406,10 +410,8 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
                 $this->addRowError(self::ERROR_INVALID_STORE, $rowNumber);
             }
             // check password
-            /** @var $stringHelper Mage_Core_Helper_String */
-            $stringHelper = Mage::helper('Mage_Core_Helper_String');
             if (isset($rowData['password']) && strlen($rowData['password'])
-                && $stringHelper->strlen($rowData['password']) < self::MIN_PASSWORD_LENGTH
+                && $this->_stringHelper->strlen($rowData['password']) < self::MIN_PASSWORD_LENGTH
             ) {
                 $this->addRowError(self::ERROR_PASSWORD_LENGTH, $rowNumber);
             }
@@ -441,5 +443,15 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             }
         }
+    }
+
+    /**
+     * Entity table name getter
+     *
+     * @return string
+     */
+    public function getEntityTable()
+    {
+        return $this->_entityTable;
     }
 }

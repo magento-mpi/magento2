@@ -36,11 +36,11 @@
                     <label>Products</label>
                     <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Basic</behavior_token>
                 </catalog_product>
-                <customer_aggregate translate="label">
-                    <model_token>Mage_ImportExport_Model_Import_Entity_Customer</model_token>
+                <customer_composite translate="label">
+                    <model_token>Mage_ImportExport_Model_Import_Entity_CustomerComposite</model_token>
                     <label>Customers</label>
                     <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Basic</behavior_token>
-                </customer_aggregate>
+                </customer_composite>
                 <customer translate="label">
                     <model_token>Mage_ImportExport_Model_Import_Entity_Eav_Customer</model_token>
                     <label>Customers Main File</label>

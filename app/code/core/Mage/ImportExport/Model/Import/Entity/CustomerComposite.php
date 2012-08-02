@@ -1,0 +1,435 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_ImportExport
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Import entity customer combined model
+ *
+ * @category    Mage
+ * @package     Mage_ImportExport
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_ImportExport_Model_Import_Entity_CustomerComposite
+    extends Mage_ImportExport_Model_Import_EntityAbstract
+{
+    /**#@+
+     * Particular column names
+     *
+     * Names that begins with underscore is not an attribute. This name convention is for
+     * to avoid interference with same attribute name.
+     */
+    const COLUMN_ADDRESS_PREFIX   = '_address_';
+    const COLUMN_DEFAULT_BILLING  = '_address_default_billing_';
+    const COLUMN_DEFAULT_SHIPPING = '_address_default_shipping_';
+    /**#@-*/
+
+    /**#@+
+     * Data row scopes
+     */
+    const SCOPE_DEFAULT = 1;
+    const SCOPE_ADDRESS = -1;
+    /**#@-*/
+
+    /**
+     * Error code for orphan rows
+     */
+    const ERROR_ROW_IS_ORPHAN = 'rowIsOrphan';
+
+    /**
+     * @var Mage_ImportExport_Model_Import_Entity_Eav_Customer
+     */
+    protected $_customerEntity;
+
+    /**
+     * @var Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
+     */
+    protected $_addressEntity;
+
+    /**
+     * Column names that holds values with particular meaning
+     *
+     * @var array
+     */
+    protected $_particularAttributes = array(
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE,
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE,
+        self::COLUMN_DEFAULT_BILLING,
+        self::COLUMN_DEFAULT_SHIPPING,
+    );
+
+    /**
+     * Permanent entity columns
+     *
+     * @var array
+     */
+    protected $_permanentAttributes = array(
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL,
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE,
+    );
+
+    /**
+     * Customer attributes
+     *
+     * @var array
+     */
+    protected $_customerAttributes = array();
+
+    /**
+     * Address attributes
+     *
+     * @var array
+     */
+    protected $_addressAttributes = array();
+
+    /**
+     * Website code of current customer row
+     *
+     * @var string
+     */
+    protected $_currentWebsiteCode;
+
+    /**
+     * Email of current customer
+     *
+     * @var string
+     */
+    protected $_currentEmail;
+
+    /**
+     * Next customer entity ID
+     *
+     * @var int
+     */
+    protected $_nextCustomerId;
+
+    /**
+     * Class constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+
+        $this->_messageTemplates[self::ERROR_ROW_IS_ORPHAN] = 'Orphan rows that will be skipped due default row errors';
+
+        $this->_availableBehaviors = array(
+            Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
+            Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
+        );
+
+        if (isset($data['customer_entity'])) {
+            $this->_customerEntity = $data['customer_entity'];
+        } else {
+            $this->_customerEntity = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer', $data);
+        }
+        if (isset($data['address_entity'])) {
+            $this->_addressEntity = $data['address_entity'];
+        } else {
+            $this->_addressEntity
+                = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address', $data);
+        }
+        if (isset($data['next_customer_id'])) {
+            $this->_nextCustomerId = $data['next_customer_id'];
+        } else {
+            /** @var $resourceHelper Mage_ImportExport_Model_Resource_Helper_Mysql4 */
+            $resourceHelper = Mage::getResourceHelper('Mage_ImportExport');
+            $this->_nextCustomerId = $resourceHelper->getNextAutoincrement($this->_customerEntity->getEntityTable());
+        }
+
+        $this->_initCustomerAttributes()
+            ->_initAddressAttributes();
+    }
+
+    /**
+     * Collect customer attributes
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
+     */
+    protected function _initCustomerAttributes()
+    {
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+        foreach ($this->_customerEntity->getAttributeCollection() as $attribute) {
+            $this->_customerAttributes[] = $attribute->getAttributeCode();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Collect address attributes
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
+     */
+    protected function _initAddressAttributes()
+    {
+        /** @var $attribute Mage_Eav_Model_Entity_Attribute */
+        foreach ($this->_addressEntity->getAttributeCollection() as $attribute) {
+            $this->_addressAttributes[] = $attribute->getAttributeCode();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve true in case when attribute code in customer attributes list
+     *
+     * @param $attributeCode
+     * @return bool
+     */
+    public function isCustomerAttribute($attributeCode)
+    {
+        return in_array($attributeCode, $this->_customerAttributes);
+    }
+
+    /**
+     * Import data rows
+     *
+     * @return boolean
+     */
+    protected function _importData()
+    {
+        // TODO: Implement _importData() method.
+    }
+
+    /**
+     * Imported entity type code getter
+     *
+     * @return string
+     */
+    public function getEntityTypeCode()
+    {
+        return 'customer_composite';
+    }
+
+    /**
+     * Validate data row
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @return boolean
+     */
+    public function validateRow(array $rowData, $rowNumber)
+    {
+        $rowScope = $this->getRowScope($rowData);
+        if ($rowScope == self::SCOPE_DEFAULT) {
+            if ($this->_customerEntity->validateRow($rowData, $rowNumber)) {
+                $this->_currentWebsiteCode
+                    = $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE];
+                $this->_currentEmail = $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL];
+
+                // Add new customer data into customer storage for address entity instance
+                $websiteId = $this->_customerEntity->getWebsiteId($this->_currentWebsiteCode);
+                if (!$this->_addressEntity->getCustomerStorage()->getCustomerId($this->_currentEmail, $websiteId)) {
+                    $customerData = new Varien_Object(array(
+                        'id'         => $this->_nextCustomerId,
+                        'email'      => $this->_currentEmail,
+                        'website_id' => $websiteId
+                    ));
+                    $this->_addressEntity->getCustomerStorage()->addCustomer($customerData);
+                    $this->_nextCustomerId++;
+                }
+
+                return $this->_validateAddressRow($rowData, $rowNumber, $this->_currentWebsiteCode,
+                    $this->_currentEmail);
+            } else {
+                $this->_currentWebsiteCode = null;
+                $this->_currentEmail = null;
+
+                return false;
+            }
+        } else {
+            if (!empty($this->_currentWebsiteCode) && !empty($this->_currentEmail)) {
+                return $this->_validateAddressRow($rowData, $rowNumber, $this->_currentWebsiteCode,
+                    $this->_currentEmail);
+            } else {
+                $this->addRowError(self::ERROR_ROW_IS_ORPHAN, $rowNumber);
+            }
+        }
+    }
+
+    /**
+     * Validate address row
+     *
+     * @param array $rowData
+     * @param int $rowNumber
+     * @param string $websiteCode
+     * @param string $email
+     * @return bool
+     */
+    protected function _validateAddressRow(array $rowData, $rowNumber, $websiteCode, $email)
+    {
+        $rowData = $this->_prepareAddressRowData($rowData);
+        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
+            = $this->_currentWebsiteCode;
+        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
+        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
+
+        return $this->_addressEntity->validateRow($rowData, $rowNumber);
+    }
+
+    /**
+     * Prepare data row for address entity validation or import
+     *
+     * @param array $rowData
+     * @return array
+     */
+    protected function _prepareAddressRowData(array $rowData)
+    {
+        $excludedAttributes = array(
+            self::COLUMN_DEFAULT_BILLING,
+            self::COLUMN_DEFAULT_SHIPPING
+        );
+
+        $result = array();
+        foreach ($rowData as $key => $value) {
+            if (!$this->isCustomerAttribute($key)) {
+                if (!in_array($key, $excludedAttributes)) {
+                    $key = str_replace(self::COLUMN_ADDRESS_PREFIX, '', $key);
+                }
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Obtain scope of the row from row data.
+     *
+     * @param array $rowData
+     * @return int
+     */
+    public function getRowScope(array $rowData)
+    {
+        if (!isset($rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL])) {
+            return self::SCOPE_ADDRESS;
+        }
+        return strlen(trim($rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]))
+            ? self::SCOPE_DEFAULT : self::SCOPE_ADDRESS;
+    }
+
+    /**
+     * Set data from outside to change behavior
+     *
+     * @param array $parameters
+     * @return Mage_ImportExport_Model_Import_EntityAbstract
+     */
+    public function setParameters(array $parameters)
+    {
+        if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
+            $parameters['behavior'] = Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
+        }
+
+        $this->_customerEntity->setParameters($parameters);
+        $this->_addressEntity->setParameters($parameters);
+
+        return parent::setParameters($parameters);
+    }
+
+    /**
+     * Source model setter
+     *
+     * @param Mage_ImportExport_Model_Import_Adapter_Abstract $source
+     * @return Mage_ImportExport_Model_Import_EntityAbstract
+     */
+    public function setSource(Mage_ImportExport_Model_Import_Adapter_Abstract $source)
+    {
+        $this->_customerEntity->setSource($source);
+        $this->_addressEntity->setSource($source);
+
+        return parent::setSource($source);
+    }
+
+    /**
+     * Returns error information grouped by error types and translated (if possible)
+     *
+     * @return array
+     */
+    public function getErrorMessages()
+    {
+        $errors = $this->_customerEntity->getErrorMessages();
+        $addressErrors = $this->_addressEntity->getErrorMessages();
+        foreach ($addressErrors as $message => $rowNumbers) {
+            if (isset($errors[$message])) {
+                foreach ($rowNumbers as $rowNumber) {
+                    $errors[$message][] = $rowNumber;
+                }
+                $errors[$message] = array_unique($errors[$message]);
+            }
+        }
+
+        return array_merge($errors, parent::getErrorMessages());
+    }
+
+    /**
+     * Returns error counter value
+     *
+     * @return int
+     */
+    public function getErrorsCount()
+    {
+        return $this->_customerEntity->getErrorsCount() + $this->_addressEntity->getErrorsCount();
+    }
+
+    /**
+     * Returns error limit value
+     *
+     * @return int
+     */
+    public function getErrorsLimit()
+    {
+        return $this->_customerEntity->getErrorsLimit() + $this->_addressEntity->getErrorsLimit();
+    }
+
+    /**
+     * Returns invalid rows count
+     *
+     * @return int
+     */
+    public function getInvalidRowsCount()
+    {
+        return $this->_customerEntity->getInvalidRowsCount() + $this->_addressEntity->getInvalidRowsCount();
+    }
+
+    /**
+     * Returns model notices
+     *
+     * @return array
+     */
+    public function getNotices()
+    {
+        return array_merge($this->_customerEntity->getNotices(), $this->_addressEntity->getNotices());
+    }
+
+    /**
+     * Returns number of checked entities
+     *
+     * @return int
+     */
+    public function getProcessedEntitiesCount()
+    {
+        return $this->_customerEntity->getProcessedEntitiesCount() + $this->_addressEntity->getProcessedEntitiesCount();
+    }
+
+    /**
+     * Is attribute contains particular data (not plain customer attribute)
+     *
+     * @param string $attributeCode
+     * @return bool
+     */
+    public function isAttributeParticular($attributeCode)
+    {
+        if (in_array(str_replace(self::COLUMN_ADDRESS_PREFIX, '', $attributeCode), $this->_addressAttributes)) {
+            return true;
+        } else {
+            return parent::isAttributeParticular($attributeCode);
+        }
+    }
+}

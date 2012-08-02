@@ -40,20 +40,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     /**#@-*/
 
     /**
-     * Existing customers information. In form of:
-     *
-     * [customer e-mail] => array(
-     *    [website id 1] => customer_id 1,
-     *    [website id 2] => customer_id 2,
-     *           ...       =>     ...      ,
-     *    [website id n] => customer_id n,
-     * )
-     *
-     * @var array
-     */
-    protected $_customers = array();
-
-    /**
      * Array of attribute codes which will be ignored in validation and import procedures.
      * For example, when entity attribute has own validation and import procedures
      * or just to deny this attribute processing.
@@ -63,11 +49,11 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
 
     /**
-     * Customers whose addresses are exported
+     * Customer collection wrapper
      *
-     * @var Mage_Customer_Model_Resource_Customer_Collection
+     * @var Mage_ImportExport_Model_Resource_Customer_Storage
      */
-    protected $_customerCollection;
+    protected $_customerStorage;
 
     /**
      * Constructor
@@ -78,46 +64,44 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
     {
         parent::__construct($data);
 
-        $this->_customerCollection = isset($data['customer_collection']) ? $data['customer_collection']
-            : Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-
-        $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY, $this->_translator->__('Website is not specified'));
-        $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY, $this->_translator->__('E-mail is not specified'));
-        $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
-            $this->_translator->__("Invalid value in website column")
+        $this->addMessageTemplate(self::ERROR_WEBSITE_IS_EMPTY,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('Website is not specified')
         );
-        $this->addMessageTemplate(self::ERROR_INVALID_EMAIL, $this->_translator->__('E-mail is invalid'));
+        $this->addMessageTemplate(self::ERROR_EMAIL_IS_EMPTY,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('E-mail is not specified')
+        );
+        $this->addMessageTemplate(self::ERROR_INVALID_WEBSITE,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__("Invalid value in website column")
+        );
+        $this->addMessageTemplate(self::ERROR_INVALID_EMAIL,
+            $this->_helper('Mage_ImportExport_Helper_Data')->__('E-mail is invalid')
+        );
         $this->addMessageTemplate(self::ERROR_VALUE_IS_REQUIRED,
-            $this->_translator->__("Required attribute '%s' has an empty value")
+            $this->_helper('Mage_ImportExport_Helper_Data')->__("Required attribute '%s' has an empty value")
         );
         $this->addMessageTemplate(self::ERROR_CUSTOMER_NOT_FOUND,
-            $this->_translator->__("Customer with such email and website code doesn't exist")
+            $this->_helper('Mage_ImportExport_Helper_Data')
+                ->__("Customer with such email and website code doesn't exist")
         );
 
-        $this->_initCustomers()
+        $this->_initCustomers($data)
             ->_initWebsites(true);
     }
 
     /**
      * Initialize existent customers data
      *
+     * @param array $data
      * @return Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
      */
-    protected function _initCustomers()
+    protected function _initCustomers(array $data)
     {
-        if (empty($this->_customers)) {
-            $customers = array();
-            $addCustomer = function (Mage_Customer_Model_Customer $customer) use (&$customers) {
-                $email = strtolower($customer->getEmail());
-                if (!isset($customers[$email])) {
-                    $customers[$email] = array();
-                }
-                $customers[$email][$customer->getWebsiteId()] = $customer->getId();
-            };
-
-            $this->_byPagesIterator->iterate($this->_customerCollection, $this->_pageSize, array($addCustomer));
-            $this->_customers = $customers;
+        if (!isset($data['page_size'])) {
+            $data['page_size'] = $this->_pageSize;
         }
+        $this->_customerStorage = isset($data['customer_storage']) ? $data['customer_storage']
+                : Mage::getResourceModel('Mage_ImportExport_Model_Resource_Customer_Storage', $data);
+        $this->_customerStorage->load();
 
         return $this;
     }
@@ -134,9 +118,7 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
         $email = strtolower(trim($email));
         if (isset($this->_websiteCodeToId[$websiteCode])) {
             $websiteId = $this->_websiteCodeToId[$websiteCode];
-            if (isset($this->_customers[$email][$websiteId])) {
-                return $this->_customers[$email][$websiteId];
-            }
+            return $this->_customerStorage->getCustomerId($email, $websiteId);
         }
 
         return false;
@@ -208,5 +190,15 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
             }
         }
         return !isset($this->_invalidRows[$rowNumber]);
+    }
+
+    /**
+     * Get customer storage
+     *
+     * @return Mage_ImportExport_Model_Resource_Customer_Storage
+     */
+    public function getCustomerStorage()
+    {
+        return $this->_customerStorage;
     }
 }

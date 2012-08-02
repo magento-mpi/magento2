@@ -47,9 +47,7 @@ class Mage_ImportExport_Model_Resource_CollectionByPagesIterator
             $pageNumber++;
         } while ($pageNumber <= $paginatedCollection->getLastPageNumber());
 
-        if ($paginatedCollection instanceof Varien_Data_Collection_Db) {
-            $paginatedCollection->clear();
-            unset($paginatedCollection);
-        }
+        $paginatedCollection->clear();
+        unset($paginatedCollection);
     }
 }

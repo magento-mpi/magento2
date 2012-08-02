@@ -505,7 +505,7 @@ class Mage_ImportExport_Model_Import extends Mage_ImportExport_Model_Abstract
     }
 
     /**
-     * Get array of customer entities and appropriate behaviours
+     * Gets array of customer entities and appropriate behaviours
      * array(
      *     <entity_code> => array(
      *         'token' => <behavior_class_name>,

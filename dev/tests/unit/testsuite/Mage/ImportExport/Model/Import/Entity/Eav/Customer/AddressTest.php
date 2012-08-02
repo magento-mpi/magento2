@@ -174,16 +174,13 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             $attributeCollection->addItem($attribute);
         }
 
-        $byPagesIterator = $this->getMock('stdClass', array('iterate'));
-        $byPagesIterator->expects($this->once())
-            ->method('iterate')
-            ->will($this->returnCallback(array($this, 'iterate')));
-
-        $customerCollection = new Varien_Data_Collection();
+        /** @var $customerStorage Mage_ImportExport_Model_Resource_Customer_Storage */
+        $customerStorage = $this->getMock('Mage_ImportExport_Model_Resource_Customer_Storage', array('load'),
+            array(), '', false);
         foreach ($this->_customers as $customerData) {
             /** @var $customer Mage_Customer_Model_Customer */
             $customer = $this->getMock('Mage_Customer_Model_Customer', array('_construct'), array($customerData));
-            $customerCollection->addItem($customer);
+            $customerStorage->addCustomer($customer);
         }
 
         $customerEntity = $this->getMock('stdClass', array('filterEntityCollection', 'setParameters'));
@@ -204,6 +201,11 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             $regionCollection->addItem(new Varien_Object($region));
         }
 
+        $mageHelper = $this->getMock('Mage_ImportExport_Helper_Data', array('__'));
+        $mageHelper->expects($this->any())
+            ->method('__')
+            ->will($this->returnArgument(0));
+
         $data = array(
             'data_source_model'            => $dataSourceModel,
             'connection'                   => $connection,
@@ -216,13 +218,15 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             'store_manager'                => 'not_used',
             'translator'                   => $translator,
             'attribute_collection'         => $attributeCollection,
-            'collection_by_pages_iterator' => $byPagesIterator,
             'entity_type_id'               => 1,
-            'customer_collection'          => $customerCollection,
+            'customer_storage'             => $customerStorage,
             'customer_entity'              => $customerEntity,
             'address_collection'           => $addressCollection,
             'entity_table'                 => 'not_used',
             'region_collection'            => $regionCollection,
+            'helpers'                      => array(
+                'Mage_ImportExport_Helper_Data' => $mageHelper
+            )
         );
 
         return $data;

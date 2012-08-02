@@ -112,13 +112,6 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     protected $_notices = array();
 
     /**
-     * Helper to translate error messages
-     *
-     * @var Mage_ImportExport_Helper_Data
-     */
-    protected $_translator;
-
-    /**
      * Helper to encode/decode json
      *
      * @var Mage_Core_Helper_Data
@@ -232,11 +225,11 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     protected $_bunchSize;
 
     /**
-     * Collection by pages iterator
+     * Array of data helpers
      *
-     * @var Mage_ImportExport_Model_Resource_CollectionByPagesIterator
+     * @var array
      */
-    protected $_byPagesIterator;
+    protected $_helpers;
 
     /**
      * Constructor
@@ -245,12 +238,14 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
      */
     public function __construct(array $data = array())
     {
+        if (isset($data['helpers'])) {
+            $this->_helpers = $data['helpers'];
+        }
+
         $this->_dataSourceModel     = isset($data['data_source_model']) ? $data['data_source_model']
             : Mage_ImportExport_Model_Import::getDataSourceModel();
         $this->_connection          = isset($data['connection']) ? $data['connection']
             : Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
-        $this->_translator          = isset($data['translator']) ? $data['translator']
-            : Mage::helper('Mage_ImportExport_Helper_Data');
         $this->_jsonHelper          = isset($data['json_helper']) ? $data['json_helper']
             : Mage::helper('Mage_Core_Helper_Data');
         $this->_stringHelper        = isset($data['string_helper']) ? $data['string_helper']
@@ -261,8 +256,17 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
             : Mage::getResourceHelper('Mage_ImportExport')->getMaxDataSize();
         $this->_bunchSize           = isset($data['bunch_size']) ? $data['bunch_size']
             : (static::XML_PATH_BUNCH_SIZE ? (int) Mage::getStoreConfig(static::XML_PATH_BUNCH_SIZE) : 0);
-        $this->_byPagesIterator = isset($data['collection_by_pages_iterator']) ? $data['collection_by_pages_iterator']
-            : Mage::getResourceModel('Mage_ImportExport_Model_Resource_CollectionByPagesIterator');
+    }
+
+    /**
+     * Helper getter
+     *
+     * @param string $helperName
+     * @return Mage_Core_Helper_Abstract
+     */
+    protected function _helper($helperName)
+    {
+        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
     }
 
     /**
@@ -442,11 +446,11 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
      */
     public function getErrorMessages()
     {
-        $messages   = array();
+        $messages = array();
 
         foreach ($this->_errors as $errorCode => $errorRows) {
             if (isset($this->_messageTemplates[$errorCode])) {
-                $errorCode = $this->_translator->__($this->_messageTemplates[$errorCode]);
+                $errorCode = $this->_helper('Mage_ImportExport_Helper_Data')->__($this->_messageTemplates[$errorCode]);
             }
             foreach ($errorRows as $errorRowData) {
                 $key = $errorRowData[1] ? sprintf($errorCode, $errorRowData[1]) : $errorCode;
@@ -525,7 +529,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     public function getSource()
     {
         if (!$this->_source) {
-            Mage::throwException($this->_translator->__('Source is not set'));
+            Mage::throwException($this->_helper('Mage_ImportExport_Helper_Data')->__('Source is not set'));
         }
         return $this->_source;
     }
@@ -543,12 +547,12 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     /**
      * Is attribute contains particular data (not plain entity attribute)
      *
-     * @param string $attrCode
+     * @param string $attributeCode
      * @return bool
      */
-    public function isAttributeParticular($attrCode)
+    public function isAttributeParticular($attributeCode)
     {
-        return in_array($attrCode, $this->_particularAttributes);
+        return in_array($attributeCode, $this->_particularAttributes);
     }
 
     /**
@@ -594,11 +598,14 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
         }
 
         if (!$valid) {
-            $this->addRowError($this->_translator->__("Invalid value for '%s'"), $rowNumber, $attributeCode);
+            $this->addRowError($this->_helper('Mage_ImportExport_Helper_Data')->__("Invalid value for '%s'"),
+                $rowNumber, $attributeCode
+            );
         } elseif (!empty($attributeParams['is_unique'])) {
             if (isset($this->_uniqueAttributes[$attributeCode][$rowData[$attributeCode]])) {
-                $this->addRowError($this->_translator->__("Duplicate Unique Attribute for '%s'"), $rowNumber,
-                    $attributeCode
+                $this->addRowError(
+                    $this->_helper('Mage_ImportExport_Helper_Data')->__("Duplicate Unique Attribute for '%s'"),
+                    $rowNumber, $attributeCode
                 );
                 return false;
             }
@@ -615,7 +622,7 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
     public function isDataValid()
     {
         $this->validateData();
-        return 0 == $this->_errorsCount;
+        return 0 == $this->getErrorsCount();
     }
 
     /**
@@ -687,7 +694,9 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
             // do all permanent columns exist?
             if ($absentColumns = array_diff($this->_permanentAttributes, $this->getSource()->getColNames())) {
                 Mage::throwException(
-                    $this->_translator->__('Can not find required columns: %s', implode(', ', $absentColumns))
+                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Can not find required columns: %s',
+                        implode(', ', $absentColumns)
+                    )
                 );
             }
 
@@ -708,14 +717,16 @@ abstract class Mage_ImportExport_Model_Import_EntityAbstract
 
             if ($emptyHeaderColumns) {
                 Mage::throwException(
-                    $this->_translator->__('Columns number: "%s" have empty headers',
+                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Columns number: "%s" have empty headers',
                         implode('", "', $emptyHeaderColumns)
                     )
                 );
             }
             if ($invalidColumns) {
                 Mage::throwException(
-                    $this->_translator->__('Column names: "%s" are invalid', implode('", "', $invalidColumns))
+                    $this->_helper('Mage_ImportExport_Helper_Data')->__('Column names: "%s" are invalid',
+                        implode('", "', $invalidColumns)
+                    )
                 );
             }
 
