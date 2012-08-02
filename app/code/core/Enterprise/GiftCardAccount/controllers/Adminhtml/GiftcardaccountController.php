@@ -237,7 +237,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('customer/giftcardaccount');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_GiftCardAccount::customer_giftcardaccount');
     }
 
     /**

@@ -86,10 +86,8 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
             Mage::dispatchEvent('adminhtml_block_system_config_init_tab_sections_before', array('section' => $section));
             $hasChildren = $configFields->hasChildren($section, $websiteCode, $storeCode);
 
-            //$code = $section->getPath();
             $code = $section->getName();
-
-            $sectionAllowed = $this->checkSectionPermissions($code);
+            $sectionAllowed = $this->checkSectionPermissions($section->resource);
             if ((empty($current) && $sectionAllowed)) {
 
                 $current = $code;
@@ -301,14 +299,14 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
     /**
      * Enter description here...
      *
-     * @param string $code
+     * @param string $aclResourceId
      * @return boolean
      */
-    public function checkSectionPermissions($code=null)
+    public function checkSectionPermissions($aclResourceId=null)
     {
         static $permissions;
 
-        if (!$code or trim($code) == "") {
+        if (!$aclResourceId or trim($aclResourceId) == "") {
             return false;
         }
 
@@ -317,7 +315,7 @@ class Mage_Adminhtml_Block_System_Config_Tabs extends Mage_Adminhtml_Block_Widge
         }
 
         $showTab = false;
-        if ( $permissions->isAllowed('system/config/'.$code) ) {
+        if ( $permissions->isAllowed($aclResourceId) ) {
             $showTab = true;
         }
         return $showTab;

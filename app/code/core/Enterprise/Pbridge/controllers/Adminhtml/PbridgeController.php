@@ -57,6 +57,9 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
             if ($methodInstance) {
                 $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
+                if($this->getRequest()->getParam('data')) {
+                    $block->setFormParams($this->getRequest()->getParam('data', null));
+                }
                 if ($block) {
                     $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
                 }
@@ -87,6 +90,6 @@ class Enterprise_Pbridge_Adminhtml_PbridgeController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Sales::sales_order');
     }
 }

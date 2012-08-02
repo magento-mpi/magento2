@@ -288,8 +288,8 @@
                     <website_level>
                     </website_level>
                     <store_level>
-                        <sales_order_create>admin/sales/order/actions/create</sales_order_create>
-                        <customer_attributes>admin/customer/attributes</customer_attributes>
+                        <sales_order_create>Mage_Sales::create</sales_order_create>
+                        <customer_attributes>Enterprise_Customer::attributes</customer_attributes>
                     </store_level>
                 </acl_deny>
                 <collection_load_before>
