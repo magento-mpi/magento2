@@ -364,17 +364,18 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
             if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
                 $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } else {
-                $email   = strtolower($rowData[self::COLUMN_EMAIL]);
-                $website = $rowData[self::COLUMN_WEBSITE];
+                $email          = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website        = $rowData[self::COLUMN_WEBSITE];
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
+                $customerId     = $this->_getCustomerId($email, $website);
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
                     || $this->_websiteCodeToId[$financeWebsite] == Mage_Core_Model_App::ADMIN_STORE_ID
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
-                } elseif (!$this->_getCustomerId($email, $website)) {
+                } elseif ($customerId === false) {
                     $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
-                } elseif ($this->_checkRowDuplicate($email, $website, $financeWebsite)) {
+                } elseif ($this->_checkRowDuplicate($customerId, $financeWebsite)) {
                     $this->addRowError(self::ERROR_DUPLICATE_PK, $rowNumber);
                 } else {
                     // check simple attributes
@@ -406,8 +407,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
             if (empty($rowData[self::COLUMN_FINANCE_WEBSITE])) {
                 $this->addRowError(self::ERROR_FINANCE_WEBSITE_IS_EMPTY, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
             } else {
-                $email   = strtolower($rowData[self::COLUMN_EMAIL]);
-                $website = $rowData[self::COLUMN_WEBSITE];
+                $email          = strtolower($rowData[self::COLUMN_EMAIL]);
+                $website        = $rowData[self::COLUMN_WEBSITE];
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
@@ -424,17 +425,15 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     /**
      * Check whether row with such email, website, finance website combination was already found in import file
      *
-     * @param string $email
-     * @param string $website
+     * @param int $customerId
      * @param string $financeWebsite
      * @return bool
      */
-    protected function _checkRowDuplicate($email, $website, $financeWebsite)
+    protected function _checkRowDuplicate($customerId, $financeWebsite)
     {
-        $websiteId = $this->_websiteCodeToId[$website];
         $financeWebsiteId = $this->_websiteCodeToId[$financeWebsite];
-        if (!isset($this->_importedRowPks[$email][$websiteId][$financeWebsiteId])) {
-            $this->_importedRowPks[$email][$websiteId][$financeWebsiteId] = true;
+        if (!isset($this->_importedRowPks[$customerId][$financeWebsiteId])) {
+            $this->_importedRowPks[$customerId][$financeWebsiteId] = true;
             return false;
         } else {
             return true;
