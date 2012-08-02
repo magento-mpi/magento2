@@ -43,13 +43,12 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      * @param array $arguments
      * @return stdClass
      */
-    // TODO: Rename $functions to $method
     // TODO: Think about situations when custom error handler is required for this method (that can throw soap faults)
     public function __call($operation, $arguments)
     {
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
-            $this->_soapFault(sprintf('Method "%s" not found.', $operation), self::FAULT_CODE_SENDER);
+            $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
         }
         $controllerClass = $this->getSoapConfig()->getControllerClassByResourceName($resourceName);
         $controller = $this->_getActionControllerInstance($controllerClass);
@@ -100,6 +99,11 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
         return $this;
     }
 
+    /**
+     * Dispatch request to SOAP endpoint.
+     *
+     * @return Mage_Api2_Controller_Front_Soap
+     */
     public function dispatch()
     {
         try {
@@ -206,7 +210,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
                     $this->_soapServer = new Zend_Soap_Server($this->_getWsdlUrl(), array('encoding' => $apiConfigCharset));
                 } catch (SoapFault $e) {
                     if (false !== strpos($e->getMessage(),
-                        "can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
+                        "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
                     ) {
                         $soapSchemaImportFailed = true;
                         $soapSchemaImportTriesCount++;
@@ -232,7 +236,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     protected function _setResponseBody($responseBody)
     {
         // TODO: What do we need this charset for?
-        $apiConfigCharset = Mage::getStoreConfig("api/config/charset");
+        $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
         $this->getResponse()->clearHeaders()->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
             ->setBody(preg_replace(
                 '/<\?xml version="([^\"]+)"([^\>]+)>/i',

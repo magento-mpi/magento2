@@ -100,7 +100,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
     /**
      * Set all routes of the given api type to Route object
-     * Find route that match current URL, set parameters of the route to Request object
+     * Find route that matches current URL, set parameters of the route to Request object
      *
      * @param Mage_Api2_Model_Request $request
      * @return Mage_Api2_Controller_Router_Route_Rest
@@ -108,8 +108,8 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     protected function _matchRoute(Mage_Api2_Model_Request $request)
     {
         $router = new Mage_Api2_Controller_Router_Rest();
-        $route = $router->setRoutes($this->getRestConfig()->getRoutes())->match($request);
-        return $route;
+        $router->setRoutes($this->getRestConfig()->getRoutes());
+        return $router->match($request);
     }
 
     /**
@@ -159,7 +159,6 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
         }
         // TODO: Implement versioning
         return '';
-//        return $this->_getConfig()->getResourceLastVersion($this->getRequest()->getResourceType(), $requestedVersion);
     }
 
     /**
@@ -228,7 +227,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     }
 
     /**
-     * Re-declare custom shutdown function
+     * Redeclare custom shutdown function
      *
      * @param   string $handler
      * @return  Mage_Api2_Controller_Front_Rest
@@ -307,7 +306,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
             // keep HTTP code for response
             $lastExceptionHttpCode = $code;
         }
-        // set HTTP Code of last error, Content-Type and all rendered error messages to body
+        // set HTTP code of the last error, Content-Type, and all rendered error messages to body
         $response->setHttpResponseCode($lastExceptionHttpCode);
         $response->setMimeType($this->_getRenderer()->getMimeType());
         $response->setBody($this->_getRenderer()->render($formattedMessages));
@@ -343,7 +342,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     }
 
     /**
-     * Function to catch no user error handler function errors
+     * Function to catch errors, not catched by the user error handler function
      */
     public function mageApiShutdownFunction()
     {

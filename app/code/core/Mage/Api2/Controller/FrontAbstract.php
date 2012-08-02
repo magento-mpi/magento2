@@ -15,8 +15,10 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
 {
     /** @var Mage_Api2_Model_Request */
     protected $_request;
+
     /** @var Mage_Api2_Model_Response */
     protected $_response;
+
     /** @var Mage_Api2_Model_Config_Resource */
     protected $_resourceConfig;
 
@@ -132,7 +134,7 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
     {
         if (!$this->_validateControllerClassName($className)) {
             throw Mage::exception('Mage_Core',
-                Mage::helper('Mage_Core_Helper_Data')->__('Specified action controller not found.'));
+                Mage::helper('Mage_Core_Helper_Data')->__('Specified action controller is not found.'));
         }
 
         $controllerInstance = new $className($this->getRequest(), $this->getResponse());
@@ -145,10 +147,9 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
     }
 
     /**
-     * Generating and validating class file name,
-     * class and if everything ok do include if needed and return of class name
+     * Generating and validating class file name and include it if everything is OK.
      *
-     * @param $controllerClassName
+     * @param string $controllerClassName
      * @return bool
      */
     protected function _validateControllerClassName($controllerClassName)
@@ -197,7 +198,7 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
      */
     protected function _validateControllerFileName($fileName)
     {
-        if ($fileName && is_readable($fileName) && false===strpos($fileName, '//')) {
+        if ($fileName && is_readable($fileName) && false === strpos($fileName, '//')) {
             return true;
         }
         return false;

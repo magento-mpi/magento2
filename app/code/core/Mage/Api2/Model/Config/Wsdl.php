@@ -220,7 +220,7 @@ class Mage_Api2_Model_Config_Wsdl
      * @param string $portName Name of the port for the service
      * @param string $binding Binding for the port
      * @param string $location SOAP Address for the service
-     * @return DOMElement The new port's XML_Tree_Node
+     * @return DOMElement The new port XML_Tree_Node
      */
     protected function _addServicePort(DOMElement $service, $portName, $binding, $location)
     {

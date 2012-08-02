@@ -52,7 +52,7 @@ class Mage_Api2_Controller_Front_Base implements Mage_Core_Controller_FrontInter
 
         // TODO: Make sure that non-admin users cannot access this area
         Mage::register('isSecureArea', true, true);
-        // make sure all errors will not be displayed
+        // make sure that all errors will not be displayed
         ini_set('display_startup_errors', 0);
         ini_set('display_errors', 0);
 
