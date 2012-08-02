@@ -180,16 +180,13 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                     'customer_id'           => $order->getCustomerId(),
                     'order_date'            => $order->getCreatedAt(),
                     'customer_name'         => $order->getCustomerName(),
-                    'customer_custom_email' => $data['contact_email']
+                    'customer_custom_email' => !empty($data['contact_email']) ? $data['contact_email'] : ''
                 );
                 $model->setData($rmaData);
-                $result = $model->saveRma();
+                $result = $model->saveRma($data);
 
                 if ($result && $result->getId()) {
-                    if (isset($data['comment'])
-                        && isset($data['comment']['comment'])
-                        && !empty($data['comment']['comment'])
-                    ) {
+                    if (!empty($data['comment']['comment'])) {
                         $visible = isset($data['comment']['is_visible_on_front']) ? true : false;
 
                         Mage::getModel('Enterprise_Rma_Model_Rma_Status_History')
@@ -201,7 +198,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                             ->setIsAdmin(1)
                             ->save();
                     }
-                    if (isset($data['rma_confirmation']) && !empty($data['rma_confirmation'])) {
+                    if (!empty($data['rma_confirmation'])) {
                         $model->sendNewRmaEmail();
                     }
                     Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been submitted.'));
@@ -233,7 +230,8 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
      */
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if ($data && isset($data['items'])) {
             $rmaId = $this->getRequest()->getParam('rma_id');
             if (!$rmaId) {
                 $this->saveNewAction();
@@ -273,7 +271,7 @@ class Enterprise_Rma_Adminhtml_RmaController extends Mage_Adminhtml_Controller_A
                         ->getStatusByItems($statuses)
                 );
                 $model->setIsUpdate(1);
-                $result = $model->saveRma();
+                $result = $model->saveRma($data);
                 if ($result && $result->getId()) {
                     $model->sendAuthorizeEmail();
                     Mage::getSingleton('Mage_Adminhtml_Model_Session')->addSuccess($this->__('The RMA request has been saved.'));
