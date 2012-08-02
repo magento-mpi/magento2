@@ -1,0 +1,163 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Manage Encryption Key page
+manage_encryption_key:
+    mca: crypt_key/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'crypt_key/')]
+    title: Manage Encription Key / System / Magento Admin
+
+# Admin Actions Log Report page
+admin_action_log_report:
+    mca: logging/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/')]/span[contains(., 'Report')]
+    title: Report / Admin Actions Logs / System / Magento Admin
+
+# Admin Actions Log Report page
+admin_action_log_archive:
+    mca: logging/archive/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/archive/')]
+    title: Archive / Admin Actions Logs / System / Magento Admin
+
+# Permissions Locked administrators page
+permissions_locked_users:
+    mca: locks/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'locks/')]
+    title: Locked Users / Permissions / System / Magento Admin
+
+# Import/Export Scheduled Import/Export page
+import_export_scheduled:
+    mca: scheduled_operation/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'scheduled_operation/')]
+    title: Scheduled Imports/Exports / Magento Admin
+
+# Notification (Messages Inbox) page
+notification:
+    mca: notification/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'notification/')]
+    title: Notifications / System / Magento Admin
+
+# Tools: Backups page
+system_backup:
+    mca: system_backup/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_backup/')]
+    title: Backups / Tools / System / Magento Admin
+
+# Web Services: Users page
+api_user:
+    mca: api_user/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_user/')]
+    title: Users / Web Services / System / Magento Admin
+
+# Web Services: Roles page
+api_role:
+    mca: api_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api_role/')]
+    title: Roles / Web Services / System / Magento Admin
+
+# Web Services: REST Roles page
+api2_role:
+    mca: api2_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_role/')]
+    title: REST Roles / Web Services / System / Magento Admin
+
+# Web Services: REST Attributes page
+api2_attribute:
+    mca: api2_attribute/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_attribute/')]
+    title: REST Attributes / Web Services / System / Magento Admin
+
+# Web Services: OAuth Consumers page
+oauth_consumer:
+    mca: oauth_consumer/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_consumer/')]
+    title: Consumers / OAuth / System / Magento Admin
+
+# Web Services: Authorized OAuth Tokens page
+oauth_authorizedTokens:
+    mca: oauth_authorizedTokens/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_authorizedTokens/')]
+    title: Authorized Tokens / OAuth / System / Magento Admin
+
+#Web Services: My Applications page
+oauth_admin_token:
+    mca: oauth_admin_token/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'oauth_admin_token/')]
+    title: My Applications / Permissions / System / Magento Admin
+
+# Design: Design page
+system_design:
+    mca: system_design/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design/')]
+    title: Design / System / Magento Admin
+
+# Design: Visual Design Editor page
+system_design_editor:
+    mca: system_design_editor/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_design_editor/')]
+    title: Editor / Design / System / Magento Admin
+
+# Import/Export: Profiles page
+system_convert_gui:
+    mca: system_convert_gui/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_gui/')]
+    title: Profiles / Import and Export / System / Magento Admin
+
+# Import/Export: Advanced Profiles page
+system_convert_profile:
+    mca: system_convert_profile/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_convert_profile/')]
+    title: Advanced Profiles / Import and Export / System / Magento Admin
+
+# Manage Currency:
+system_currency:
+    mca: system_currency/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currency/')]
+    title: Manage Currency Rates / System / Magento Admin
+
+# Manage Currency symbols:
+system_currencysymbol:
+    mca: system_currencysymbol/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_currencysymbol/')]
+    title: Manage Currency Symbols / System / Magento Admin
+
+# Transactional email
+system_email_template:
+    mca: system_email_template/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'system_email_template')]
+    title: Transactional Emails / System / Magento Admin
+
+# Custom Variables:
+system_custom_variables:
+    mca: system_variable/
+    click_xpath: //ul[@id='nav']//a[span='Custom Variables']
+    title: Custom Variables / System / Magento Admin
+
+ # 'Package Extensions' page
+system_package_extentions:
+     mca: extension_custom/
+     click_xpath: //ul[@id='nav']//a[contains(@href, 'extension_custom/')]
+     title: Edit Extension / Package Extensions / Magento Connect / System / Magento Admin

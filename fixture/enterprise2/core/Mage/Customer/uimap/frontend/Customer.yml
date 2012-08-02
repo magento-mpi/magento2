@@ -1,0 +1,95 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#It was created for version CE 1.5.0.0. Observability fot other versions is not guaranteed.
+#Theme change can also influence accuracy of UIMap forms
+
+# 'Forgot Your Password' page
+forgot_customer_password:
+    mca: customer/account/forgotpassword/
+    title: Forgot Your Password
+    uimap:
+        form:
+            fieldsets:
+                -
+                    forgot_password:
+                        xpath: //form[@id='form-validate']
+                        buttons:
+                            submit: //button[span='Submit']
+                            captcha_reload: //*[@id='captcha-reload']
+                        fields:
+                            email: //*[@id='email_address']
+                            captcha: //*[@id='captcha_user_forgotpassword']
+                        pageelements:
+                            captcha: //*[@id='user_forgotpassword']
+        messages:
+            empty_captcha: //*[@id='advice-required-entry-captcha_user_forgotpassword']
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+
+
+
+# 'Create an Account' page
+register_account:
+    uimap:
+        form:
+            fieldsets:
+                -
+                    account_info:
+                        fields:
+                            captcha: //*[@id='captcha_user_create']
+                        buttons:
+                            captcha_reload: //*[@id='captcha-reload']
+                        pageelements:
+                            captcha: //*[@id='user_create']
+
+        messages:
+            empty_captcha: //input[@id='captcha_user_create']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]
+            incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+
+#'Login or Create an Account' page
+customer_login:
+    uimap:
+            form:
+                fieldsets:
+                    -
+                        log_in_customer:
+                            fields:
+                                captcha: //*[@id='captcha_user_login']
+                            buttons:
+                                captcha_reload: //*[@id='captcha-reload']
+                            links:
+                                what_is_this: //li[@id='remember-me-box']//a[contains(., concat("What", "'s this?"))]
+                            pageelements:
+                                captcha: //*[@id='user_login']
+            buttons:
+                close: //div[@class='popup-block block popup-remember-tip active']//button[span='Close']
+            pageelements:
+                checking: //div[@class='popup-block block popup-remember-tip active']
+            messages:
+                empty_captcha: //input[@id='captcha_user_login']/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]
+                incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+                success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %email% you will receive an email with a link to reset your password.')]

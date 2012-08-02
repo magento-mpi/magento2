@@ -43,3 +43,13 @@ enterprice_frontend_header:
                         pageelements:
                             change_store_view: //div[@id='languageSelect']//span[text()='Change']
                             selected_store_view: //div[@id='languageSelect']/strong[normalize-space(text())='%storeView%']
+                        buttons:
+                            go_search: //*[@id='search_mini_form']/div/button
+                        fields:
+                            search: //*[@id='search']
+                -
+                    general_elements:
+                        pageelements:
+                            front_navigation_menu: //*[@id='nav']
+                        buttons:
+                            category_button: //ul[@id="nav"]//li[contains(a/span,"%catName%")]

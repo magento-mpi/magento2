@@ -1,0 +1,271 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  test-data
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Test Datasets for Add New Customer Address Attribute for each types
+
+# Test Datasets  for searching Customer Address Attribute
+attribute_search_data:
+    attribute_code: %noValue%
+    attribute_label: %noValue%
+    required: %noValue%
+    system: %noValue%
+    visible: %noValue%
+    sort: %noValue%
+
+# Test Datasets for Add New TextField type Customer Address Attribute
+customer_address_attribute_textfield: &customerAddressAttributeTextfield
+    properties:
+        input_type: Text Field
+        default_value: %noValue%
+        attribute_code: textfield_%randomize%
+        input_validation: %noValue%
+        minimum_text_lenght: %noValue%
+        maximum_text_lenght: %noValue%
+        values_required: %noValue%
+        input_output_filter: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use:  %noValue%
+    manage_labels_options:
+        admin_title: Textfield_Admin_Title_%randomize%
+        store_view_titles:
+            Default Store View: Textfield_Title_%randomize%
+
+# Test Datasets for Add New TextArea type Customer Address Attribute
+customer_address_attribute_textarea: &customerAddressAttributeTextarea
+    properties:
+        input_type: Text Area
+        attribute_code: textarea_%randomize%
+        default_text_field_value: %noValue%
+        minimum_text_lenght: %noValue%
+        maximum_text_lenght: %noValue%
+        values_required: %noValue%
+        input_output_filter: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use:  %noValue%
+    manage_labels_options:
+        admin_title: Text_Area_Admin
+        store_view_titles:
+            Default Store View: Textarea_Title_%randomize%
+
+# Test Datasets for Add New Multiple Line type Customer Address Attribute
+customer_address_attribute_multipleline: &customerAddressAttributeMultipLine
+    properties:
+        input_type: Multiple Line
+        attribute_code: multiline_%randomize%
+        lines_count: 2
+        default_value: %noValue%
+        input_validation:  %noValue%
+        minimum_text_lenght: %noValue%
+        maximum_text_lenght: %noValue%
+        values_required: %noValue%
+        input_output_filter: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use:  %noValue%
+    manage_labels_options:
+        admin_title: MultipLine_Area_Admin
+        store_view_titles:
+            Default Store View: MultipLine_Title_%randomize%
+
+# Test Datasets for Add New Date type Customer Address Attribute
+customer_address_attribute_date: &customerAddressAttributeDate
+    properties:
+        input_type: Date
+        attribute_code: date_%randomize%
+        default_data_value: %noValue%
+        minimal_data_value: %noValue%
+        maximum_data_value: %noValue%
+        input_validation: %noValue%
+        values_required: %noValue%
+        input_output_filter: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use:  %noValue%
+    manage_labels_options:
+        admin_title: Date_Admina
+        store_view_titles:
+            Default Store View: Date_Title_%randomize%
+
+# Test Datasets for Add New Dropdown type  Customer Address Attribute
+customer_address_attribute_dropdown: &customerAddressAttributeDropdown
+    properties:
+        input_type: Dropdown
+        attribute_code: dropdown_%randomize%
+        values_required: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use:  %noValue%
+    manage_labels_options:
+        admin_title: Dropdown_Admin_%randomize%
+        store_view_titles:
+            Default Store View: Dropdown_StoreView
+        option_1:
+            is_default: No
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 1
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_2:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 2
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_3:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 3
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+
+# Test Datasets for Add New MultipleSelect type Customer Address Attribute
+customer_address_attribute_multiselect: &customerAddressAttributeMultiselect
+    properties:
+        input_type: Multiple Select
+        attribute_code: mselect_%randomize%
+        values_required: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use:  %noValue%
+    manage_labels_options:
+        admin_title: Multipleselect_Admin_%randomize%
+        store_view_titles:
+            Default Store View: Multipleselect_StoreView
+        option_1:
+            is_default: No
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 1
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_2:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 2
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+        option_3:
+            is_default: %noValue%
+            admin_option_name: Option_Admin_%randomize%
+            option_position: 3
+            store_view_titles:
+                Default Store View: Option_StoreView_%randomize%
+            delete_option: %noValue%
+
+# Test Datasets for Add New Yes/No type Customer Address Attribute
+customer_address_attribute_yesno: &customerAddressAttributeYesno
+    properties:
+        input_type: Yes/No
+        attribute_code: yesno_%randomize%
+        default_value: %noValue%
+        values_required: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use: %noValue%
+    manage_labels_options:
+        admin_title: Yes/No_Admin
+        store_view_titles:
+            Default Store View: Yesno_Title_%randomize%
+
+# Test Datasets for Attach File type Customer Address Attribute
+customer_address_attribute_attach_file: &customerAddressAttributeAttachFile
+    properties:
+        input_type: File (attachment)
+        attribute_code: file__%randomize%
+        maximum_file_size: %noValue%
+        file_extensions: %noValue%
+        values_required: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use: %noValue%
+    manage_labels_options:
+        admin_title: File Attachment_Admin
+        store_view_titles:
+            Default Store View: Price_StoreView
+
+# Test Datasets for Image File type Customer  Address Attribute
+customer_address_attribute_image_file: &customerAddressAttributeImageFile
+    properties:
+        input_type: Image File
+        attribute_code: image_file_%randomize%
+        maximum_image_file_size:
+        maximum_image_width:
+        maximum_image_height:
+        values_required: %noValue%
+        use_customer_segment: %noValue%
+        show_on_frontend: %noValue%
+        sort_order: 1
+        forms_to_use: %noValue%
+    manage_labels_options:
+        admin_title: Image file_Admin
+        store_view_titles:
+            Default Store View: ImageFile_Title_%randomize%
+
+# Test Dataset for Add New Customer Address Attribute for ALL types
+customer_address_attributes:
+    customer_address_attribute_textfield: *customerAddressAttributeTextfield
+    customer_address_attribute_textarea: *customerAddressAttributeTextarea
+    customer_address_attribute_multipleline: *customerAddressAttributeMultipLine
+    customer_address_attribute_date: *customerAddressAttributeDate
+    customer_address_attribute_dropdown: *customerAddressAttributeDropdown
+    customer_address_attribute_multiselect: *customerAddressAttributeMultiselect
+    customer_address_attribute_yesno: *customerAddressAttributeYesno
+    customer_address_attribute_attach_file: *customerAddressAttributeAttachFile
+    customer_address_attribute_image_file: *customerAddressAttributeImageFile
+
+generic_customer_address_attribute:
+    properties:
+        input_type: Text Field
+        attribute_code: 'attr_%randomize%'
+        default_text_field_value: 'attr_default_%randomize%'
+        values_required: No
+        input_validation: None
+        min_text_length: 1
+        max_text_length: 255
+        input_filter: None
+        used_for_customer_segment: No
+        visible_on_frontend: Yes
+        sort_order: 1
+        used_in_forms: Customer Account Address, Customer Address Registration
+    manage_labels_options:
+        admin_title: 'Text_Field_Admin_%randomize%'
+        store_view_titles:
+                    Default Store View: Textfield_Title_%randomize%

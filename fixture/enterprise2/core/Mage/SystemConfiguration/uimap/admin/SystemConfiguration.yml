@@ -41,7 +41,7 @@ system_configuration:
                                         access_restriction: //*[@id='general_restriction_is_active']
                                         restriction_mode: //*[@id='general_restriction_mode']
                                         startup_page: //*[@id='general_restriction_http_redirect']
-                                        landing_page: //*[@id='general_restriction_cms_page']
+                                        landing_page_restriction: //*[@id='general_restriction_cms_page']
                                         http_response: //*[@id='general_restriction_http_status']
                 -
                     catalog_catalog:
@@ -58,7 +58,11 @@ system_configuration:
                                         display_prices: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price']
                                         allow_adding_to_cart: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items']
                                     multiselects:
-                                        disallow_catalog: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
+                                        disallow_catalog_search: //select[@id='catalog_enterprise_catalogpermissions_deny_catalog_search']
+                                        allow_browsing_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_category_view_groups']
+                                        display_prices_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_catalog_product_price_groups']
+                                        allow_adding_to_cart_customer_groups: //select[@id='catalog_enterprise_catalogpermissions_grant_checkout_items_groups']
+
                 -
                     sales_sales:
                         fieldsets:
@@ -71,6 +75,13 @@ system_configuration:
                                         sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]'] 
                                     multiselects:
                                         sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
+                -
+                    customers_customer_configuration:
+                        fieldsets:
+                            -
+                                captcha:
+                                    fields:
+                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']
 
 system_configuration_tabs:
     uimap: *systemConfiguration

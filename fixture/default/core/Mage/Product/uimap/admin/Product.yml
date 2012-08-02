@@ -11,7 +11,7 @@
 # Manage Product page
 manage_products:
     mca: catalog_product/
-    click_xpath: //div[@class='nav-bar']//a[span='Manage Products']
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'catalog_product/')]
     title: Manage Products / Catalog / Magento Admin
     uimap: &manageProductsUimap
         form: &searchProductGrid
@@ -19,6 +19,8 @@ manage_products:
                 -
                     product_grid:
                         xpath: //div[@id='productGrid']
+                        links:
+                            selectall: //div[@id='productGrid_massaction']//a[contains(.,'Select All')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -134,7 +136,7 @@ new_product:
                                         general_url_key: //input[@id='url_key']
                                         general_user_attr_field: //input[@id='%attributeCodeField%']
                                     multiselects:
-                                        general_user_attr_multiselect: //input[@id='%attributeCodeMultiselect%']
+                                        general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                 -
                     prices: &pricesTab
                         xpath: //a[@title='Prices']/span
@@ -389,7 +391,7 @@ new_product:
                                 custom_option_set:
                                     xpath: //div[@class='option-box']
                                     buttons:
-                                        delete_option: //div[@id='option_%optionId%']//button[span='Delete Option']
+                                        delete_option: //button[span='Delete Option' and ancestor::div[@id ='option_%optionId%']]
                                         add_row: //button[span='Add New Row']
                                         delete_row: //tr[@id='product_option_%optionId%_select_%rowId%']//button[span='Delete Row']
                                     dropdowns:
@@ -407,6 +409,9 @@ new_product:
                                         custom_options_image_size_x: //input[@name='product[options][%optionId%][image_size_x]']
                                         custom_options_image_size_y: //input[@name='product[options][%optionId%][image_size_y]']
                                         custom_options_sort_order: //input[@name='product[options][%optionId%][values][%rowId%][sort_order]']
+                                        custom_options_rows: //tbody[@id='select_option_type_row_%optionId%']/tr
+                                    checkboxes:
+                                        custom_options_default_value: //input[@id='product_option_%optionId%_title_use_default']
                 -
                     bundle_items: &bundleItemsTab
                         xpath: //a[@title='Bundle Items']/span

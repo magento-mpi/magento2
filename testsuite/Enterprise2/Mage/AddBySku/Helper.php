@@ -163,19 +163,6 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
     }
 
     /**
-     * Clear Shopping Cart
-     */
-    public function frontDeleteItems($rows = array ('1'))
-    {
-        foreach ($rows as $row)
-        {
-            $this->addParameter('row_number', $row);
-            $this->clickControl('link','remove_item');
-            $this->assertMessagePresent('success', 'item_removed');   
-        }        
-    }
-
-    /**
      * Verify presence of products in grid
      */
     public function verifyProductPresentInGrid($sku, $table)
@@ -230,130 +217,6 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
         $this->addParameter($paramName, $rowCount);
     }
 
-    /**
-     * Verifying sku, price and qty fields for added product in Required attention grid
-     *
-     * @param array $product
-     * @param bool $priceIsVisible
-     * @param bool $qtyIsEnabled
-     */
-    public function frontCheckFields(array $product, $priceIsVisible, $qtyIsEnabled)
-    {
-        $this->addParameter('sku', $product['sku']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'sku'),
-            'Product is not added to required attention grid. ');
-        if ($priceIsVisible)
-        {
-            $this->assertTrue($this->controlIsPresent('pageelement', 'price'),
-                'Unit price is not available for added product. ');
-        } else {
-            $this->assertFalse($this->controlIsPresent('pageelement', 'price'),
-                'Unit price is available for added product. ');
-        }
-        $qtyXpath = $this->_getControlXpath('field', 'qty');
-        $this->assertEquals($this->getValue($qtyXpath), $product['qty'],
-            'Entered qty is not correspond to added qty');
-        if ($qtyIsEnabled)
-        {
-            $this->assertTrue($this->isElementPresent($qtyXpath . "[not(@disabled)]"),
-                'Qty field is disabled. ');
-        } else {
-            $this->assertTrue($this->isElementPresent($qtyXpath . "[(@disabled)]"),
-                'Qty field available for editing. ');
-        }
-    }
-
-    /**
-     * Click the "Specify the product's options" link
-     */
-    public function clickSpecifyLink()
-    {
-        $this->clickControl('link', 'specify_product', false);
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->addParameter('id', $this->defineParameterFromUrl('id'));
-        $this->addParameter('qty',$this->defineParameterFromUrl('qty'));
-        $this->addParameter('sku',$this->defineParameterFromUrl('sku'));
-        $this->validatePage();
-    }
-
-    /**
-     * Open Shopping Cart and clear all products in Required attention grid
-     */
-    public function frontClearRequiredAttentionGrid()
-    {
-        if ($this->getArea() == 'frontend')
-        {
-            $this->frontend('shopping_cart');
-            if ($this->controlIsPresent('fieldset', 'products_requiring_attention'))
-            {
-                $this->clickButton('remove_all');
-                $this->assertMessagePresent('success', 'items_removed');
-            }
-        }
-    }
-
-    /**
-     * Configure product in Required Attention grid and add it to Shopping cart if possible
-     *
-     * @param array $product
-     * @param string $productType
-     * @param array $msgShoppingCart
-     * @param array $msgAttentionGrid
-     */
-    public function frontConfigureProduct(array $product, $productType, array $msgShoppingCart, array $msgAttentionGrid)
-    {
-        if ($msgAttentionGrid['messageOne'] != 'null')
-        {
-            $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageOne']);
-            switch ($msgAttentionGrid['messageOne'])
-            {
-                case 'qty_not_available':
-                case 'requested_qty':
-                    $this->frontCheckFields($product, true, true);
-                    if ($productType == 'simpleMin')
-                        $qty = $product['qty'] + 1;
-                    else
-                        $qty = $product['qty'] - 1;
-                    $this->addParameter('qty', $qty);
-                    $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageTwo']);
-                    $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
-                    $this->clickButton('add_to_cart');
-                    break;
-                case 'specify_option':
-                    if (strlen(strstr($productType,'grouped')) > 0 )
-                        $this->frontCheckFields($product, false, false);
-                    else
-                        $this->frontCheckFields($product, true, true);
-                    $this->clickSpecifyLink();
-                    $this->productHelper()->frontFillBuyInfo($product['Options']);
-                    $this->clickButton('update_cart');
-                    //Verifying
-                    $this->addParameter('productName', $product['product_name']);
-                    if ($productType == 'groupedVisibleIndividual')
-                    {
-                        $this->addParameter('productName',
-                            $product['Options']['option_1']['parameters']['subproductName']);
-                        $this->assertFalse($this->controlIsPresent('link', 'edit'), 'Edit link is present. ');
-                    }
-                    break;
-                case 'out_of_stock':
-                    $this->frontCheckFields($product, true, false);
-                    break;
-                default:
-                    $this->frontCheckFields($product, false, false);
-                    break;
-            }
-        }
-        else
-        {
-            if ($productType == 'simpleNotVisible')
-            {
-                $this->addParameter('productName', $product['product_name']);
-                $this->assertFalse($this->controlIsPresent('link', 'edit'), 'Edit link is present. ');
-            }
-        }
-    }
-
     public function clearShoppingCartAndErrorTable() {
         $this->addBySkuHelper()->clearShoppingCart();
         $this->addBySkuHelper()->removeAllItemsFromErrorTable();
@@ -374,5 +237,148 @@ class Enterprise2_Mage_AddBySku_Helper extends Mage_Selenium_TestCase
         $this->assertFalse($this->controlIsVisible('fieldset', 'shopping_cart_error'), 'Products are not deleted from attention grid');
     }
 
-}
+    //---------------------------------------------------Frontend-------------------------------------------------------
+    /**
+     * Fulfill product SKU and qty fields to the according row
+     *
+     * @param array $data
+     * @param array $rows, default value = 1
+     */
+    public function frontFulfillSkuQtyRows(array $data, $rows = array('1'))
+    {
+        foreach ($rows as $row) {
+            $this->addParameter('number', $row);
+            $this->fillFieldset($data, 'add_by_sku');
+        }
+    }
 
+    /**
+     * Delete item  is specified row
+     *
+     * @param array $rows, default value = 1
+     */
+    public function frontDeleteItems($rows = array('1'))
+    {
+        foreach ($rows as $row) {
+            $this->addParameter('row_number', $row);
+            $this->clickControl('link', 'remove_item');
+            $this->assertMessagePresent('success', 'item_removed');
+        }
+    }
+
+    /**
+     * Verifying sku, price and qty fields for added product in Required attention grid
+     *
+     * @param array $product
+     * @param bool $priceIsVisible
+     * @param bool $qtyIsEnabled
+     */
+    public function frontCheckFields(array $product, $priceIsVisible, $qtyIsEnabled)
+    {
+        $this->addParameter('sku', $product['sku']);
+        $this->assertTrue($this->controlIsVisible('pageelement', 'sku'),
+            'Product is not added to required attention grid. ');
+        if ($priceIsVisible) {
+            $this->assertTrue($this->controlIsVisible('pageelement', 'price'),
+                'Unit price is not available for added product. ');
+        } else {
+            $this->assertFalse($this->controlIsVisible('pageelement', 'price'),
+                'Unit price is available for added product. ');
+        }
+        $qtyXpath = $this->_getControlXpath('field', 'qty');
+        $this->assertEquals($this->getValue($qtyXpath), $product['qty'], 'Entered qty is not correspond to added qty');
+        if ($qtyIsEnabled) {
+            $this->assertTrue($this->isElementPresent($qtyXpath . "[not(@disabled)]"), 'Qty field is disabled. ');
+        } else {
+            $this->assertTrue($this->isElementPresent($qtyXpath . "[(@disabled)]"),
+                'Qty field available for editing. ');
+        }
+    }
+
+    /**
+     * Click the "Specify the product's options" link
+     *
+     * @param string $productName
+     */
+    public function clickSpecifyLink($productName)
+    {
+        $this->clickControl('link', 'specify_product', false);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('id', $this->defineParameterFromUrl('id'));
+        $this->addParameter('qty', $this->defineParameterFromUrl('qty'));
+        $this->addParameter('sku', $this->defineParameterFromUrl('sku'));
+        if (is_string($productName)) {
+            $this->addParameter('productName', $productName);
+        }
+        $this->validatePage();
+    }
+
+    /**
+     * Open Shopping Cart and clear all products in Required attention grid
+     */
+    public function frontClearRequiredAttentionGrid()
+    {
+        if ($this->getArea() == 'frontend') {
+            $this->frontend('shopping_cart');
+            if ($this->controlIsPresent('fieldset', 'products_requiring_attention')) {
+                $this->clickButton('remove_all');
+                $this->assertMessagePresent('success', 'items_removed');
+            }
+        }
+    }
+
+    /**
+     * Configure product in Required Attention grid and add it to Shopping cart if possible
+     *
+     * @param array $product
+     * @param string $productType
+     * @param array $msgShoppingCart
+     * @param array $msgAttentionGrid
+     */
+    public function frontConfigureProduct(array $product, $productType, array $msgShoppingCart, array $msgAttentionGrid)
+    {
+        if ($msgAttentionGrid['messageOne'] != 'null') {
+            $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageOne']);
+            switch ($msgAttentionGrid['messageOne']) {
+                case 'qty_not_available':
+                case 'requested_qty':
+                    $this->frontCheckFields($product, true, true);
+                    if ($productType == 'simpleMin') {
+                        $qty = $product['qty'] + 1;
+                    } else {
+                        $qty = $product['qty'] - 1;
+                    }
+                    $this->addParameter('qty', $qty);
+                    $this->assertMessagePresent($msgShoppingCart['type'], $msgAttentionGrid['messageTwo']);
+                    $this->fillFieldset(array('qty' => $qty), 'products_requiring_attention');
+                    $this->clickButton('add_to_cart');
+                    break;
+                case 'specify_option':
+                    if (strlen(strstr($productType, 'grouped')) > 0) {
+                        $this->frontCheckFields($product, false, false);
+                    } else {
+                        $this->frontCheckFields($product, true, true);
+                    }
+                    $this->clickSpecifyLink($product['product_name']);
+                    $this->productHelper()->frontFillBuyInfo($product['Options']);
+                    $this->clickButton('update_cart');
+                    //Verifying
+                    if (strlen(strstr($productType, 'grouped')) > 0) {
+                        $this->addParameter('productName',
+                            $product['Options']['option_1']['parameters']['subproductName']);
+                    }
+                    break;
+                case 'out_of_stock':
+                    $this->frontCheckFields($product, true, false);
+                    break;
+                default:
+                    $this->frontCheckFields($product, false, false);
+                    break;
+            }
+        } else {
+            if ($productType == 'simpleNotVisible') {
+                $this->addParameter('productName', $product['product_name']);
+            }
+        }
+    }
+}

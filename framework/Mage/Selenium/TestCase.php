@@ -17,16 +17,16 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  * @method Core_Mage_AdminUser_Helper adminUserHelper()
  * @method Core_Mage_AttributeSet_Helper attributeSetHelper()
- * @method Core_Mage_Category_Helper categoryHelper()
+ * @method Core_Mage_Category_Helper|Enterprise2_Mage_Category_Helper categoryHelper()
  * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
  * @method Core_Mage_CheckoutOnePage_Helper|Enterprise_Mage_CheckoutOnePage_Helper checkoutOnePageHelper()
  * @method Core_Mage_CmsPages_Helper cmsPagesHelper()
  * @method Core_Mage_CmsPolls_Helper cmsPollsHelper()
  * @method Core_Mage_CmsStaticBlocks_Helper cmsStaticBlocksHelper()
- * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper cmsWidgetsHelper()
+ * @method Core_Mage_CmsWidgets_Helper|Enterprise_Mage_CmsWidgets_Helper|Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
  * @method Core_Mage_CompareProducts_Helper compareProductsHelper()
  * @method Core_Mage_CustomerGroups_Helper customerGroupsHelper()
- * @method Core_Mage_Customer_Helper customerHelper()
+ * @method Core_Mage_Customer_Helper|Community2_Mage_Customer_Helper|Enterprise2_Mage_Customer_Helper customerHelper()
  * @method Core_Mage_Installation_Helper installationHelper()
  * @method Core_Mage_Newsletter_Helper newsletterHelper()
  * @method Core_Mage_OrderCreditMemo_Helper orderCreditMemoHelper()
@@ -36,7 +36,7 @@
  * @method Core_Mage_Paypal_Helper paypalHelper()
  * @method Core_Mage_PriceRules_Helper priceRulesHelper()
  * @method Core_Mage_ProductAttribute_Helper productAttributeHelper()
- * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper productHelper()
+ * @method Core_Mage_Product_Helper|Enterprise_Mage_Product_Helper|Community2_Mage_Product_Helper|Enterprise2_Mage_Product_Helper productHelper()
  * @method Core_Mage_Rating_Helper ratingHelper()
  * @method Core_Mage_Review_Helper reviewHelper()
  * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper shoppingCartHelper()
@@ -54,8 +54,13 @@
  * @method Enterprise2_Mage_CmsWidgets_Helper cmsWidgetsHelper()
  * @method Enterprise2_Mage_WebsiteRestrictions websiteRestrictionsHelper()
  * @method Enterprise2_Mage_Status_Helper statusHelper()
- * @method Community2_Mage_AdminUser_Helper adminUserHelper()
- *
+ * @method Community2_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper adminUserHelper()
+ * @method Enterprise2_Mage_customerSegment_Helper CustomerSegmentHelper()
+ * @method Enterprise2_Mage_customerAttribute_Helper attributesHelper()
+ * @method Enterprise2_Mage_customerAddressAttribute_Helper attributesHelper()
+ * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
+ * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+ * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -1737,6 +1742,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete secret key from url
             $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
+            //Delete store view part of mca
+            $mca = preg_replace('|/store/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete action part of mca if it's index
             $mca = preg_replace('|/index/?$|', '/', $mca);
         } elseif ($currentArea == 'frontend') {
@@ -3373,7 +3380,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             . "Problem with dropdown field '$name' and xpath '$xpath':\n";
         if ($this->isElementPresent($xpath)) {
             if ($this->isEditable($xpath)) {
-                if ($this->getSelectedValue($xpath) != $value) {
+                if (trim($this->getSelectedValue($xpath), chr(0xC2) . chr(0xA0)) != trim($value, chr(0xC2) . chr(0xA0))) {
                     if ($this->isElementPresent($xpath . "//option[text()='" . $value . "']")) {
                         $this->select($xpath, 'label=' . $value);
                     } else {

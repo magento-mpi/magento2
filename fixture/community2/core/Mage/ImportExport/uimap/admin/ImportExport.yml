@@ -1,28 +1,12 @@
-#
 # Magento
 #
-# NOTICE OF LICENSE
+# {license_notice}
 #
-# This source file is subject to the Academic Free License (AFL 3.0)
-# that is bundled with this package in the file LICENSE_AFL.txt.
-# It is also available through the world-wide-web at this URL:
-# http://opensource.org/licenses/afl-3.0.php
-# If you did not receive a copy of the license and are unable to
-# obtain it through the world-wide-web, please send an email
-# to license@magentocommerce.com so we can send you a copy immediately.
-#
-# DISCLAIMER
-#
-# Do not edit or add to this file if you wish to upgrade Magento to newer
-# versions in the future. If you wish to customize Magento for your
-# needs please refer to http://www.magentocommerce.com for more information.
-#
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
-# @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
-# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+# @category    Magento
+# @package     Mage_ImportExport
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
 #
 ---
 # Manage Import/Export page
@@ -39,11 +23,15 @@ import:
                         xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Settings')]]
                         dropdowns:
                             entity_type: //select[@id='entity']
-                            import_behavior: //select[@id='behavior']
                         fields:
                             file_to_import: //input[@id='import_file']
                         pageelements:
                             import_file_note: //span[@id='importFileNote' and contains(., 'Import allows to change only status, _shipment_track_number, _shipment_comment_comment, _order_status_history_comment columns. Any changes in other columns will be ignored.')]
+                -
+                    import_behavior:
+                        xpath: //div[@class='entry-edit'][//h4[contains(., 'Import Behavior')]]
+                        dropdowns:
+                            import_behavior: //select[@name='behavior' and not(@disabled)]
         messages:
             extension_not_supported: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'%extension% file extension is not supported')]
             no_extension: //div[@id='import_validation_messages']//*[@class='error-msg']//span[contains(text(),'Uploaded file has no extension')]
@@ -59,7 +47,6 @@ import:
         buttons:
             check_data: //button[@id='upload_button' and span='Check Data']
             import: //button[span='Import']
-        links:
 
 export:
     mca: export
@@ -74,16 +61,6 @@ export:
                         dropdowns:
                             entity_type: //select[@id='entity']
                             file_format: //select[@id='file_format']
-                -
-                    export_format:
-                        xpath: //div[@id="export_format_version_fieldset"]
-                        dropdowns:
-                            export_file_version: //select[@id='file_format_version']
-                -
-                    customer_entity_type:
-                        xpath: //div[@id="customer_entity_fieldset"]
-                        dropdowns:
-                            export_file: //select[@id='customer_entity']
                 -
                     grid_and_filter:
                         xpath: //div[@id='export_filter_grid_container']

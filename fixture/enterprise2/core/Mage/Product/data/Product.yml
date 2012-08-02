@@ -1,0 +1,158 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Test Datasets for Add New Product for each types
+
+#*********************************************
+#*         Custom Options Data               *
+#*********************************************
+
+custom_options_field: &field
+    custom_options_general_title: Custom Option Field
+    custom_options_general_input_type: Field
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 1
+    custom_options_price: 15
+    custom_options_price_type: Fixed
+    custom_options_sku: sku_field
+    custom_options_max_characters: 25
+
+custom_options_area: &area
+    custom_options_general_title: Custom Option Area
+    custom_options_general_input_type: Area
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 2
+    custom_options_price: 18
+    custom_options_price_type: Percent
+    custom_options_sku: sku_area
+    custom_options_max_characters: 80
+
+custom_options_file: &file
+    custom_options_general_title: Custom Option File
+    custom_options_general_input_type: File
+    custom_options_general_is_required: No
+    custom_options_general_sort_order: 3
+    custom_options_price: 180
+    custom_options_price_type: Percent
+    custom_options_sku: sku_file
+    custom_options_allowed_file_extension: gif,bmp
+    custom_options_image_size_x: 320
+    custom_options_image_size_y: 240
+
+custom_options_date: &date
+    custom_options_general_title: Custom Option Date
+    custom_options_general_input_type: Date
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 4
+    custom_options_price: 5
+    custom_options_price_type: Percent
+    custom_options_sku: sku_date
+
+custom_options_date_time: &dateTime
+    custom_options_general_title: Custom Options Date & Time
+    custom_options_general_input_type: Date & Time
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 5
+    custom_options_price: 99.99
+    custom_options_price_type: Percent
+    custom_options_sku: sku_data_time
+
+custom_options_time: &time
+    custom_options_general_title: Custom Option Time
+    custom_options_general_input_type: Time
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 6
+    custom_options_price: 8.99
+    custom_options_price_type: Percent
+    custom_options_sku: sku_time
+
+custom_options_dropdown: &dropdown
+    custom_options_general_title: Custom Option Drop-down
+    custom_options_general_input_type: Drop-down
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 7
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_drop_down_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 1.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_drop_down_row_2
+        custom_options_sort_order: 2
+
+custom_options_radiobutton:  &radiobutton
+    custom_options_general_title: Custom Option Radio Buttons
+    custom_options_general_input_type: Radio Buttons
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 8
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_radio_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 1.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_radio_row_2
+        custom_options_sort_order: 2
+
+custom_options_checkbox: &checkbox
+    custom_options_general_title: Custom Option Checkbox
+    custom_options_general_input_type: Checkbox
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 9
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_checkbox_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 1.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_checkbox_row_2
+        custom_options_sort_order: 2
+
+custom_options_multipleselect: &multipleselect
+    custom_options_general_title: Custom Option Multiple Select
+    custom_options_general_input_type: Multiple Select
+    custom_options_general_is_required: Yes
+    custom_options_general_sort_order: 10
+    custom_option_row_1:
+        custom_options_title: Title 1
+        custom_options_price: 2.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_multipleselect_row_1
+        custom_options_sort_order: 1
+    custom_option_row_2:
+        custom_options_title: Title 2
+        custom_options_price: 1.56
+        custom_options_price_type: Percent
+        custom_options_sku: sku_multipleselect_row_2
+        custom_options_sort_order: 2
+
+custom_options_data: &customOptionsData
+    custom_options_field: *field
+    custom_options_area: *area
+    custom_options_file: *file
+    custom_options_date: *date
+    custom_options_date_time: *dateTime
+    custom_options_time: *time
+    custom_options_dropdown: *dropdown
+    custom_options_radiobutton:  *radiobutton
+    custom_options_checkbox: *checkbox
+    custom_options_multipleselect: *multipleselect

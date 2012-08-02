@@ -261,9 +261,9 @@ authorizenet_without_3Dsecure:
         configuration:
             an_enabled: Yes
             an_title: Credit Card (Authorize.net)
-            an_api_login_id: 36sCtGS8w
+            an_api_login_id: 38ZScg7M
             an_payment_action: Authorize Only
-            an_transaction_key: 3rWD5LvhB367rY7v
+            an_transaction_key: 7caqJBAQ887j925k
             an_new_order_status: %noValue%
             an_test_mode: No
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -289,9 +289,9 @@ authorizenet_with_3Dsecure:
         configuration:
             an_enabled: Yes
             an_title: Credit Card (Authorize.net)
-            an_api_login_id: 36sCtGS8w
+            an_api_login_id: 38ZScg7M
             an_payment_action: Authorize Only
-            an_transaction_key: 3rWD5LvhB367rY7v
+            an_transaction_key: 7caqJBAQ887j925k
             an_new_order_status: %noValue%
             an_test_mode: No
             an_gateway_url: https://test.authorize.net/gateway/transact.dll
