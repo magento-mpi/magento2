@@ -40,6 +40,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
      */
     const ERROR_FINANCE_WEBSITE_IS_EMPTY = 'financeWebsiteIsEmpty';
     const ERROR_INVALID_FINANCE_WEBSITE  = 'invalidFinanceWebsite';
+    const ERROR_DUPLICATE_PK             = 'duplicateEmailSiteFinanceSite';
     /**#@-*/
 
     /**
@@ -104,6 +105,13 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
     protected $_adminUser;
 
     /**
+     * Store imported row primary keys
+     *
+     * @var array
+     */
+    protected $_importedRowPks = array();
+
+    /**
      * Constructor
      *
      * @param array $data
@@ -130,6 +138,9 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
         );
         $this->addMessageTemplate(self::ERROR_INVALID_FINANCE_WEBSITE,
             $this->_translator->__('Invalid value in Finance information website column')
+        );
+        $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
+            $this->_translator->__('Row with such email, website, finance website combination was already found.')
         );
 
         $this->_initAttributes();
@@ -363,6 +374,8 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif (!$this->_getCustomerId($email, $website)) {
                     $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
+                } elseif ($this->_checkRowDuplicate($email, $website, $financeWebsite)) {
+                    $this->addRowError(self::ERROR_DUPLICATE_PK, $rowNumber);
                 } else {
                     // check simple attributes
                     foreach ($this->_attributes as $attributeCode => $attributeParams) {
@@ -405,6 +418,26 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance
                     $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
                 }
             }
+        }
+    }
+
+    /**
+     * Check whether row with such email, website, finance website combination was already found in import file
+     *
+     * @param string $email
+     * @param string $website
+     * @param string $financeWebsite
+     * @return bool
+     */
+    protected function _checkRowDuplicate($email, $website, $financeWebsite)
+    {
+        $websiteId = $this->_websiteCodeToId[$website];
+        $financeWebsiteId = $this->_websiteCodeToId[$financeWebsite];
+        if (!isset($this->_importedRowPks[$email][$websiteId][$financeWebsiteId])) {
+            $this->_importedRowPks[$email][$websiteId][$financeWebsiteId] = true;
+            return false;
+        } else {
+            return true;
         }
     }
 }

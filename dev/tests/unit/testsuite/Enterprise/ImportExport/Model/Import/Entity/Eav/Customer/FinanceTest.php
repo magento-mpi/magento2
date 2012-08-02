@@ -726,6 +726,41 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
     }
 
     /**
+     * Test Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::validateRow()
+     * with 2 rows with identical PKs in case when add/update behavior is performed
+     *
+     * @covers Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::_validateRowForUpdate
+     */
+    public function testValidateRowForUpdateDuplicateRows()
+    {
+        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
+
+        $this->_model->setParameters(
+            array('behavior' => $behavior)
+        );
+
+        $secondRow = $firstRow = array(
+            '_website'         => 'website1',
+            '_email'            => 'test1@email.com',
+            '_finance_website' => 'website2',
+            'store_credit'     => 10.5,
+            'reward_points'    => 5,
+        );
+        $secondRow['store_credit']  = 20;
+        $secondRow['reward_points'] = 30;
+
+        $errors = array(
+            Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::ERROR_DUPLICATE_PK
+                => array(array(2, null))
+        );
+
+        $this->assertTrue($this->_model->validateRow($firstRow, 0));
+        $this->assertFalse($this->_model->validateRow($secondRow, 1));
+
+        $this->assertAttributeEquals($errors, '_errors', $this->_model);
+    }
+
+    /**
      * Test Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance::validateRow() with different values
      * in case when delete behavior is performed
      *
