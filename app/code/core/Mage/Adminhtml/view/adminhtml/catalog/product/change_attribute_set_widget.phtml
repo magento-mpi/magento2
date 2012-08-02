@@ -14,6 +14,11 @@
     'use strict';
     $(function() {
         $('#product_edit_form').bind('product:changeAttributeSet', function(event, attributeSetId) {
+            if ($('.tab-item-link.ajax.changed').length > 0
+                && !confirm('Some data will be not saved. Perform attribute set change anyway?')
+            ) {
+                return false;
+            }
             var $form = $(this);
             var uri = document.location.href.replace(/(\/|&|\?)?\bset(\/|=)\d+/g, '').replace('#', '');
             uri += /\?/.test(uri) ? '&' : '?';
