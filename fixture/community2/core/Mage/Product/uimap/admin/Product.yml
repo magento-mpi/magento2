@@ -13,7 +13,20 @@
 new_product:
     uimap: &newProduct
         form:
+            fieldsets:
+                -
+                    product_information:
+                        pageelements:
+                            product_name: //*[@class='icon-head head-products' and contains(.,'%productName% (%attributSet%)')]
             tabs:
+                -
+                    meta_information:
+                        xpath: //a[@title='Meta Information']/span
+                        fieldsets:
+                            -
+                                product_meta_information:
+                                    fields:
+                                        meta_information_user_attr_field: //input[@id='%attributeCodeField%']
                 -
                     custom_options:
                         fieldsets:
@@ -50,8 +63,15 @@ new_product:
                                         product_price_to: //*[@id='productGrid_product_filter_price_to']
                                         product_qty_from: //*[@id='productGrid_product_filter_qty_from']
                                         product_qty_to: //*[@id='productGrid_product_filter_qty_to']
+        buttons:
+            save: //button[span='Save']
 
 new_configurable_product:
+    uimap: *newProduct
+
+new_product_after_changed_attribute_set:
+    mca: catalog_product/new/type/%productType%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
 duplicated_configurable_product:
@@ -61,6 +81,11 @@ edit_product:
     uimap: *newProduct
 
 edit_saved_product:
+    uimap: *newProduct
+
+edit_saved_product_after_changed_attribute_set:
+    mca: catalog_product/edit/id/%id%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
 edit_product_save_and_continue:

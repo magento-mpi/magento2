@@ -37,4 +37,15 @@ class Enterprise2_Mage_ProductAttribute_Helper extends Community2_Mage_ProductAt
     {
         parent::verifySystemAttribute($attributeData);
     }
+
+    /**
+     * @param array $attrData
+     * @param string $productTab
+     * @param string $attrSetName
+     * @param bool $isNewAttrSet
+     */
+    public function createAttributeOnProductPage(array $attrData, $productTab, $attrSetName = '', $isNewAttrSet = false)
+    {
+        parent::createAttributeOnProductPage($attrData, $productTab, $attrSetName, $isNewAttrSet);
+    }
 }
