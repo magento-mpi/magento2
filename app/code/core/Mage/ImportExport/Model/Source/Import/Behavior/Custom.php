@@ -9,7 +9,8 @@
  */
 
 /**
- * Source import behavior model
+ * Import behavior source model used for customers' components import entities.
+ * Source model used in new import entities in Magento 2.0.
  *
  * @category    Mage
  * @package     Mage_ImportExport
