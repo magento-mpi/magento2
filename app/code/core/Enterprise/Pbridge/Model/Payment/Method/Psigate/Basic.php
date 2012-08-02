@@ -109,15 +109,7 @@ class Enterprise_Pbridge_Model_Payment_Method_Psigate_Basic extends Mage_Payment
         }
         return $this->_pbridgeMethodInstance;
     }
-    /**
-     * Retrieve dummy payment method code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return 'pbridge_' . parent::getCode();
-    }
+
     /**
      * Retrieve original payment method code
      *

@@ -129,9 +129,13 @@
                 <using_pbridge>1</using_pbridge>
             </pbridge_authorizenet>
             <eway_direct>
-                <title>eWay</title>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
                 <active>1</active>
+                <title>eWAY Direct</title>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Eway_Direct</model>
+                <using_pbridge>1</using_pbridge>
+                <payment_action>authorize_capture</payment_action>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
             </eway_direct>
             <pbridge_verisign>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Payflow_Pro</model>
@@ -154,9 +158,13 @@
                 <active>1</active>
             </worldpay_direct>
             <cybersource_soap>
-                <payment_action>authorize</payment_action>
+                <active>1</active>
                 <title>Credit Card (Cybersource)</title>
                 <model>Enterprise_Pbridge_Model_Payment_Method_Cybersource_Soap</model>
+                <using_pbridge>1</using_pbridge>
+                <payment_action>authorize</payment_action>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
             </cybersource_soap>
             <dibs>
                 <title>Credit Card (DIBS)</title>
@@ -189,10 +197,13 @@
                 <using_pbridge>1</using_pbridge>
             </payone_gate>
             <paybox_direct>
-                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
-                <payment_action>authorize</payment_action>
+                <active>1</active>
                 <title>Paybox Direct</title>
+                <model>Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct</model>
                 <using_pbridge>1</using_pbridge>
+                <payment_action>authorize</payment_action>
+                <order_status>processing</order_status>
+                <allowspecific>0</allowspecific>
             </paybox_direct>
             <psigate_basic>
                 <title>Psigate</title>
