@@ -284,12 +284,12 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
             $this->assertArrayHasKey('import', $report, 'Import is not done');
             $this->assertArrayHasKey('error', $report['validation'],
                 'Error notification is missing on the Check Data');
-            $this->assertContains($errorMessage, $report['validation']['error'][0],
+            $this->assertEquals($errorMessage, $report['validation']['error'][0],
                 'Incorrect error message is displayed');
-            $this->assertContains(
+            $this->assertEquals(
             "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import",
             $report['validation']['validation'][0], 'Wrong validation message is shown');
-            $this->assertContains('Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
+            $this->assertEquals('Checked rows: 2, checked entities: 2, invalid rows: 1, total errors: 1',
                 $report['validation']['validation'][1], 'Wrong message about checked rows');
         }
     }
@@ -306,7 +306,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
             $this->loadDataSet('ImportExport', 'generic_address_csv'),
             $this->loadDataSet('ImportExport', 'generic_address_csv'),
         );
-        $errorMessageAddress = 'E-mail is duplicated in import file in rows: 2';
+        $errorMessageAddress = 'Row with such email, website and address id combination was already found. in rows: 2';
 
         return array(
             array('Customers Main File', $csvMain, $errorMessageMain),

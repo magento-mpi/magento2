@@ -221,7 +221,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         $existingCustomerData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->customerHelper()->createCustomer($existingCustomerData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-        //Set correct email and entity id for csv and updated customer/address data
+        //Set correct email for csv and updated customer data
         foreach ($csv as $key => $value) {
             if (array_key_exists('email', $csv[$key]) && $csv[$key]['email'] == '<realEmail>') {
                 $csv[$key]['email'] = $existingCustomerData['email'];
