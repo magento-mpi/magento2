@@ -741,7 +741,7 @@ class Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_FinanceTest exten
 
         $secondRow = $firstRow = array(
             '_website'         => 'website1',
-            '_email'            => 'test1@email.com',
+            '_email'           => 'test1@email.com',
             '_finance_website' => 'website2',
             'store_credit'     => 10.5,
             'reward_points'    => 5,

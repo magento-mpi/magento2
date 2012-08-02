@@ -57,6 +57,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
     const ERROR_ADDRESS_ID_IS_EMPTY = 'addressIdIsEmpty';
     const ERROR_ADDRESS_NOT_FOUND   = 'addressNotFound';
     const ERROR_INVALID_REGION      = 'invalidRegion';
+    const ERROR_DUPLICATE_PK        = 'duplicateAddressId';
     /**#@-*/
 
     /**
@@ -186,6 +187,13 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
     protected $_addressCollection;
 
     /**
+     * Store imported row primary keys
+     *
+     * @var array
+     */
+    protected $_importedRowPks = array();
+
+    /**
      * Constructor
      *
      * @param array $data
@@ -216,6 +224,9 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
             $this->_translator->__("Customer address for such customer doesn't exist")
         );
         $this->addMessageTemplate(self::ERROR_INVALID_REGION, $this->_translator->__('Region is invalid'));
+        $this->addMessageTemplate(self::ERROR_DUPLICATE_PK,
+            $this->_translator->__('Row with such email, website and address id combination was already found.')
+        );
 
         $this->_initAttributes();
         $this->_initAddresses()
@@ -588,36 +599,39 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
             $email      = strtolower($rowData[self::COLUMN_EMAIL]);
             $website    = $rowData[self::COLUMN_WEBSITE];
             $addressId  = $rowData[self::COLUMN_ADDRESS_ID];
+            $customerId = $this->_getCustomerId($email, $website);
 
-            if (!$this->_getCustomerId($email, $website)) {
+            if ($customerId === false) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {
-                $customerId = $this->_getCustomerId($email, $website);
-
-                // check simple attributes
-                foreach ($this->_attributes as $attributeCode => $attributeParams) {
-                    if (in_array($attributeCode, $this->_ignoredAttributes)) {
-                        continue;
+                if ($this->_checkRowDuplicate($customerId, $addressId)) {
+                    $this->addRowError(self::ERROR_DUPLICATE_PK, $rowNumber);
+                } else {
+                    // check simple attributes
+                    foreach ($this->_attributes as $attributeCode => $attributeParams) {
+                        if (in_array($attributeCode, $this->_ignoredAttributes)) {
+                            continue;
+                        }
+                        if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
+                            $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
+                        } elseif ($attributeParams['is_required'] && (!isset($this->_addresses[$customerId])
+                            || !in_array($addressId, $this->_addresses[$customerId]))
+                        ) {
+                            $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
+                        }
                     }
-                    if (isset($rowData[$attributeCode]) && strlen($rowData[$attributeCode])) {
-                        $this->isAttributeValid($attributeCode, $attributeParams, $rowData, $rowNumber);
-                    } elseif ($attributeParams['is_required'] && (!isset($this->_addresses[$customerId])
-                        || !in_array($addressId, $this->_addresses[$customerId]))
-                    ) {
-                        $this->addRowError(self::ERROR_VALUE_IS_REQUIRED, $rowNumber, $attributeCode);
-                    }
-                }
 
-                if (isset($rowData[self::COLUMN_COUNTRY_ID]) && isset($rowData[self::COLUMN_REGION])) {
-                    $countryRegions = isset($this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])])
-                        ? $this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])]
-                        : array();
+                    if (isset($rowData[self::COLUMN_COUNTRY_ID]) && isset($rowData[self::COLUMN_REGION])) {
+                        $countryRegions = isset($this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])])
+                            ? $this->_countryRegions[strtolower($rowData[self::COLUMN_COUNTRY_ID])]
+                            : array();
 
-                    if (!empty($rowData[self::COLUMN_REGION])
-                        && !empty($countryRegions)
-                        && !isset($countryRegions[strtolower($rowData[self::COLUMN_REGION])])
-                    ) {
-                        $this->addRowError(self::ERROR_INVALID_REGION, $rowNumber, self::COLUMN_REGION);
+                        if (!empty($rowData[self::COLUMN_REGION])
+                            && !empty($countryRegions)
+                            && !isset($countryRegions[strtolower($rowData[self::COLUMN_REGION])])
+                        ) {
+                            $this->addRowError(self::ERROR_INVALID_REGION, $rowNumber, self::COLUMN_REGION);
+                        }
                     }
                 }
             }
@@ -639,7 +653,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
             $addressId = $rowData[self::COLUMN_ADDRESS_ID];
 
             $customerId = $this->_getCustomerId($email, $website);
-            if (!$customerId) {
+            if ($customerId === false) {
                 $this->addRowError(self::ERROR_CUSTOMER_NOT_FOUND, $rowNumber);
             } else {
                 if (!strlen($addressId)) {
@@ -648,6 +662,27 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address
                     $this->addRowError(self::ERROR_ADDRESS_NOT_FOUND, $rowNumber);
                 }
             }
+        }
+    }
+
+    /**
+     * Check whether row with such address id was already found in import file
+     *
+     * @param int $customerId
+     * @param int $addressId
+     * @return bool
+     */
+    protected function _checkRowDuplicate($customerId, $addressId)
+    {
+        if (isset($this->_addresses[$customerId]) && in_array($addressId, $this->_addresses[$customerId])) {
+            if (!isset($this->_importedRowPks[$customerId][$addressId])) {
+                $this->_importedRowPks[$customerId][$addressId] = true;
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
         }
     }
 }

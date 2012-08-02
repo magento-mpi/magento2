@@ -490,6 +490,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
      * Test Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow() with add/update action
      *
      * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_validateRowForUpdate
      * @dataProvider validateRowForUpdateDataProvider
      *
      * @param array $rowData
@@ -505,6 +506,60 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
         } else {
             $this->assertFalse($this->_model->validateRow($rowData, 0));
         }
+        $this->assertAttributeEquals($errors, '_errors', $this->_model);
+    }
+
+    /**
+     * Test Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow()
+     * with 2 rows with identical PKs in case when add/update behavior is performed
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::validateRow
+     * @covers Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::_validateRowForUpdate
+     */
+    public function testValidateRowForUpdateDuplicateRows()
+    {
+        $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
+
+        $this->_model->setParameters(
+            array('behavior' => $behavior)
+        );
+
+        $secondRow = $firstRow = array(
+            '_website'                   => 'website1',
+            '_email'                     => 'test1@email.com',
+            '_entity_id'                 => '1',
+            'city'                       => 'Culver City',
+            'company'                    => '',
+            'country_id'                 => 'C1',
+            'fax'                        => '',
+            'firstname'                  => 'John',
+            'lastname'                   => 'Doe',
+            'middlename'                 => '',
+            'postcode'                   => '90232',
+            'prefix'                     => '',
+            'region'                     => 'region1',
+            'region_id'                  => '1',
+            'street'                     => '10441 Jefferson Blvd. Suite 200 Culver City',
+            'suffix'                     => '',
+            'telephone'                  => '12312313',
+            'vat_id'                     => '',
+            'vat_is_valid'               => '',
+            'vat_request_date'           => '',
+            'vat_request_id'             => '',
+            'vat_request_success'        => '',
+            '_address_default_billing_'  => '1',
+            '_address_default_shipping_' => '1',
+        );
+        $secondRow['postcode']  = '90210';
+
+        $errors = array(
+            Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::ERROR_DUPLICATE_PK
+                => array(array(2, null))
+        );
+
+        $this->assertTrue($this->_model->validateRow($firstRow, 0));
+        $this->assertFalse($this->_model->validateRow($secondRow, 1));
+
         $this->assertAttributeEquals($errors, '_errors', $this->_model);
     }
 
