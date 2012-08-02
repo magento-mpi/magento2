@@ -1,0 +1,4 @@
+// Files that are not published with Magento EE
+// ---------------------------------------------------
+LICENSE_PRO.html
+LICENSE_PRO.txt
