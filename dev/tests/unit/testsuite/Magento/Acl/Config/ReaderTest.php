@@ -19,8 +19,8 @@ class Magento_Acl_Config_ReaderTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $files = array(
-            realpath(__DIR__) . '/../../_files/acl_1.xml',
-            realpath(__DIR__) . '/../../_files/acl_2.xml'
+            realpath(__DIR__) . '/../_files/acl_1.xml',
+            realpath(__DIR__) . '/../_files/acl_2.xml'
         );
         $this->_model = new Magento_Acl_Config_Reader($files);
     }
@@ -40,7 +40,7 @@ class Magento_Acl_Config_ReaderTest extends PHPUnit_Framework_TestCase
 
     public function testGetAclResourcesMergedCorrectly()
     {
-        $expectedFile = realpath(__DIR__) . '/../../_files/acl_merged.xml';
+        $expectedFile = realpath(__DIR__) . '/../_files/acl_merged.xml';
         $expectedResources = new DOMDocument();
         $expectedResources->load($expectedFile);
 
