@@ -36,6 +36,46 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
     protected $_entityAdapter;
 
     /**
+     * Important data from address_import_update.csv (postcode is key)
+     *
+     * @var array
+     */
+    protected $_updateData = array(
+        'address' => array( // address records
+            'update'            => '19107',  // address with updates
+            'new'               => '85034',  // new address
+            'no_customer'       => '33602',  // there is no customer with this primary key (email+website)
+            'new_no_address_id' => '32301',  // new address without address id
+        ),
+        'update'  => array( // this data is changed in CSV file
+            '19107' => array(
+                'firstname'  => 'Katy',
+                'middlename' => 'T.',
+            ),
+        ),
+        'remove'  => array( // this data is not set in CSV file
+            '19107' => array(
+                'city'   => 'Philadelphia',
+                'region' => 'Pennsylvania',
+            ),
+        ),
+        'default' => array( // new default billing/shipping addresses
+            'billing'  => '85034',
+            'shipping' => '19107',
+        ),
+    );
+
+    /**
+     * Important data from address_import_delete.csv (postcode is key)
+     *
+     * @var array
+     */
+    protected $_deleteData = array(
+        'delete'     => '19107',  // deleted address
+        'not_delete' => '72701',  // not deleted address
+    );
+
+    /**
      * Init new instance of address entity adapter
      */
     public function setUp()
@@ -322,18 +362,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             ->isDataValid();
         $this->assertFalse($result, 'Validation result must be false.');
 
-        // fixture registry keys
-        $fixtureCustomer = '_fixture/Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest_Customer';
-        $fixtureCsv      = '_fixture/Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest_Csv_Update';
-
-        // get customer
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::registry($fixtureCustomer);
-        $customerId = $customer->getId();
-
-        // get csv fixture data
-        $csvData = Mage::registry($fixtureCsv);
-
         // import data
         $this->_entityAdapter->importData();
 
@@ -341,7 +369,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
         $keyAttribute = 'postcode';
         $requiredAttributes[] = array($keyAttribute);
         foreach (array('update', 'remove') as $action) {
-            foreach ($csvData[$action] as $attributes) {
+            foreach ($this->_updateData[$action] as $attributes) {
                 $requiredAttributes = array_merge($requiredAttributes, array_keys($attributes));
             }
         }
@@ -356,30 +384,34 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
         }
 
         // is addresses exists
-        $this->assertArrayHasKey($csvData['address']['update'], $addresses, 'Address must exist.');
-        $this->assertArrayHasKey($csvData['address']['new'], $addresses, 'Address must exist.');
-        $this->assertArrayNotHasKey($csvData['address']['no_customer'], $addresses, 'Address must not exist.');
-        $this->assertArrayHasKey($csvData['address']['new_no_address_id'], $addresses, 'Address must exist.');
+        $this->assertArrayHasKey($this->_updateData['address']['update'], $addresses, 'Address must exist.');
+        $this->assertArrayHasKey($this->_updateData['address']['new'], $addresses, 'Address must exist.');
+        $this->assertArrayNotHasKey($this->_updateData['address']['no_customer'], $addresses,
+            'Address must not exist.'
+        );
+        $this->assertArrayHasKey($this->_updateData['address']['new_no_address_id'], $addresses, 'Address must exist.');
 
         // are updated address fields have new values
-        $updatedAddressId = $csvData['address']['update'];
+        $updatedAddressId = $this->_updateData['address']['update'];
         /** @var $updatedAddress Mage_Customer_Model_Address */
         $updatedAddress = $addresses[$updatedAddressId];
-        $updatedData = $csvData['update'][$updatedAddressId];
+        $updatedData = $this->_updateData['update'][$updatedAddressId];
         foreach ($updatedData as $fieldName => $fieldValue) {
             $this->assertEquals($fieldValue, $updatedAddress->getData($fieldName));
         }
 
         // are removed data fields have old values
-        $removedData = $csvData['remove'][$updatedAddressId];
+        $removedData = $this->_updateData['remove'][$updatedAddressId];
         foreach ($removedData as $fieldName => $fieldValue) {
             $this->assertEquals($fieldValue, $updatedAddress->getData($fieldName));
         }
 
         // are default billing/shipping addresses have new value
+        /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $customer->load($customerId);
-        $defaultsData = $csvData['default'];
+        $customer->setWebsiteId(0);
+        $customer->loadByEmail('BetsyParker@example.com');
+        $defaultsData = $this->_updateData['default'];
         $this->assertEquals(
             $defaultsData['billing'],
             $customer->getDefaultBillingAddress()->getData($keyAttribute),
@@ -412,12 +444,6 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
             ->isDataValid();
         $this->assertTrue($result, 'Validation result must be true.');
 
-        // fixture data
-        $fixtureCsv = '_fixture/Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest_Csv_Delete';
-
-        // get csv fixture data
-        $csvData = Mage::registry($fixtureCsv);
-
         // import data
         $this->_entityAdapter->importData();
 
@@ -435,7 +461,7 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer_AddressTest extends PHP
         }
 
         // is addresses exists
-        $this->assertArrayNotHasKey($csvData['delete'], $addresses, 'Address must not exist.');
-        $this->assertArrayHasKey($csvData['not_delete'], $addresses, 'Address must exist.');
+        $this->assertArrayNotHasKey($this->_deleteData['delete'], $addresses, 'Address must not exist.');
+        $this->assertArrayHasKey($this->_deleteData['not_delete'], $addresses, 'Address must exist.');
     }
 }
