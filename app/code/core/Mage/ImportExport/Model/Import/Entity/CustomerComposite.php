@@ -353,10 +353,12 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return Mage_ImportExport_Model_Import_EntityAbstract
+     * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     public function setParameters(array $parameters)
     {
+        parent::setParameters($parameters);
+
         if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_APPEND) {
             $parameters['behavior'] = Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE;
         }
@@ -364,7 +366,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
         $this->_customerEntity->setParameters($parameters);
         $this->_addressEntity->setParameters($parameters);
 
-        return parent::setParameters($parameters);
+        return $this;
     }
 
     /**
@@ -396,6 +398,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
                     $errors[$message][] = $rowNumber;
                 }
                 $errors[$message] = array_unique($errors[$message]);
+            } else {
+                $errors[$message] = $rowNumbers;
             }
         }
 
