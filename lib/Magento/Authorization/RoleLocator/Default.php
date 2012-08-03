@@ -2,13 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Core
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  Authorization
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Backend_Model_Authorization_RoleLocator implements Magento_Authorization_RoleLocator
+class Magento_Authorization_RoleLocator_Default implements Magento_Authorization_RoleLocator
 {
     /**
      * Retrieve current role
@@ -17,6 +18,6 @@ class Mage_Backend_Model_Authorization_RoleLocator implements Magento_Authorizat
      */
     public function getAclRoleId()
     {
-        return 'U1';
+        return '';
     }
 }
