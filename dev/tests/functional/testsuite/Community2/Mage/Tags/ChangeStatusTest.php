@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ImportExport
+ * @package     Mage_Tags
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -29,7 +29,7 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
     /**
      * Changing the status of tags to Disabled using mass action
      * Preconditions:
-     * Three tags are created with the status "Pendidng"
+     * Three tags are created with the status "Pending"
      * Steps:
      * 1. Go to the Catalog -> Tags -> Pending Tags
      * 2. Select checkbox near first tag name
