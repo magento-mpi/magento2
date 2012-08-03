@@ -106,16 +106,18 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     public function dispatch()
     {
+        $contentType = 'application/soap+xml';
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 $responseBody = $this->_getWsdlContent();
+                $contentType = 'text/xml';
             } else {
                 $responseBody = $this->_getSoapServer()->handle();
             }
         } catch (Exception $e) {
             $responseBody = $this->_getSoapFaultMessage();
         }
-        $this->_setResponseBody($responseBody);
+        $this->_setResponseBody($responseBody, $contentType);
         $this->getResponse()->sendResponse();
         return $this;
     }
@@ -231,13 +233,14 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      * Prepare response object and set body to it
      *
      * @param string $responseBody
+     * @param string $contentType
      * @return Mage_Api2_Controller_Front_Soap
      */
-    protected function _setResponseBody($responseBody)
+    protected function _setResponseBody($responseBody, $contentType = 'text/xml')
     {
         // TODO: What do we need this charset for?
         $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
-        $this->getResponse()->clearHeaders()->setHeader('Content-Type', 'text/xml; charset=' . $apiConfigCharset)
+        $this->getResponse()->clearHeaders()->setHeader('Content-Type', "$contentType; charset=$apiConfigCharset")
             ->setBody(preg_replace(
                 '/<\?xml version="([^\"]+)"([^\>]+)>/i',
                 '<?xml version="$1" encoding="' . $apiConfigCharset . '"?>',
