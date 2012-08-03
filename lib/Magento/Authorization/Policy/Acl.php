@@ -2,17 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Backend
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  Authorization
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Default authorisation policy. Uses ACL to control access. If ACL doesn't contain provided resource,
+ * Uses ACL to control access. If ACL doesn't contain provided resource,
  * permission for all resources is checked
  */
-class Mage_Core_Model_Authorization_Policy implements Magento_Authorization_Policy
+class Magento_Authorization_Policy_Acl implements Magento_Authorization_Policy
 {
     /**
      * @var Magento_Acl
