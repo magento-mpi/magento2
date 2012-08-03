@@ -48,7 +48,7 @@ class Mage_Core_Model_Authorization
         $areaConfig = Mage::getConfig()->getAreaConfig();
         $policyClassName = isset($areaConfig['acl']['policy']) ?
             $areaConfig['acl']['policy'] :
-            'Mage_Core_Model_Authorization_Policy_Default';
+            'Magento_Authorization_Policy_Default';
 
         /** @var $aclBuilder Mage_Core_Model_Acl_Builder */
         $aclBuilder = Mage::getModel('Mage_Core_Model_Acl_Builder', array(
@@ -76,7 +76,7 @@ class Mage_Core_Model_Authorization
         $areaConfig = Mage::getConfig()->getAreaConfig();
         $roleLocatorClassName = isset($areaConfig['acl']['roleLocator']) ?
             $areaConfig['acl']['roleLocator'] :
-            'Mage_Core_Model_Authorization_Role_Locator_Default';
+            'Magento_Authorization_RoleLocator_Default';
 
         /** @var $roleLocatorObject Magento_Authorization_RoleLocator **/
         $roleLocatorObject = Mage::getSingleton($roleLocatorClassName);
@@ -90,9 +90,6 @@ class Mage_Core_Model_Authorization
 
     /**
      * Check current user permission on resource and privilege
-     *
-     * Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::catalog')
-     * Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::catalog')
      *
      * @param   string $resource
      * @param   string $privilege
