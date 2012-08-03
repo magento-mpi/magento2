@@ -1218,7 +1218,7 @@ total_cat_ex_ship_ex_backend_total_after_order:
     total_refunded: $0.00
     total_due: $660.08
 
-#<---------------Test Data for Price review during invoice creation------------>
+#<--------------Test Data for Price review during invoice creation------------->
 total_cat_ex_ship_ex_backend_product_prices_before_invoice:
     product_1:
         product: %noValue%
