@@ -106,11 +106,11 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      */
     public function dispatch()
     {
-        $this->_setContentType('application/soap+xml');
+        $this->_setResponseContentType('application/soap+xml');
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
                 $responseBody = $this->_getWsdlContent();
-                $this->_setContentType('text/xml');
+                $this->_setResponseContentType('text/xml');
             } else {
                 $responseBody = $this->_getSoapServer()->handle();
             }
@@ -208,8 +208,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             do {
                 $soapSchemaImportFailed = false;
                 try {
-                    $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
-                    $this->_soapServer = new Zend_Soap_Server($this->_getWsdlUrl(), array('encoding' => $apiConfigCharset));
+                    $this->_soapServer = new Zend_Soap_Server($this->_getWsdlUrl(),
+                        array('encoding' => $this->_getApiCharset()));
                 } catch (SoapFault $e) {
                     if (false !== strpos($e->getMessage(),
                         "Can't import schema from 'http://schemas.xmlsoap.org/soap/encoding/'")
@@ -235,7 +235,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      * @param string $contentType
      * @return Mage_Api2_Controller_Front_Soap
      */
-    protected function _setContentType($contentType = 'text/xml')
+    protected function _setResponseContentType($contentType = 'text/xml')
     {
         $this->getResponse()->clearHeaders()
             ->setHeader('Content-Type', "$contentType; charset={$this->_getApiCharset()}");
@@ -267,7 +267,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     protected function _getApiCharset()
     {
         // TODO: What do we need this charset for?
-        return $apiConfigCharset = Mage::getStoreConfig('api/config/charset');
+        return Mage::getStoreConfig('api/config/charset');
     }
 
     /**
