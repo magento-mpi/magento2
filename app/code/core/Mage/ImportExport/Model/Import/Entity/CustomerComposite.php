@@ -36,6 +36,13 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     const SCOPE_ADDRESS = -1;
     /**#@-*/
 
+    /**#@+
+     * Component entity names
+     */
+    const COMPONENT_ENTITY_CUSTOMER = 'customer';
+    const COMPONENT_ENTITY_ADDRESS  = 'address';
+    /**#@-*/
+
     /**
      * Error code for orphan rows
      */
@@ -56,7 +63,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      *
      * @var array
      */
-    protected $_particularAttributes = array(
+    protected $_specialAttributes = array(
         Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE,
         Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE,
         self::COLUMN_DEFAULT_BILLING,
@@ -109,6 +116,13 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     protected $_nextCustomerId;
 
     /**
+     * DB data source models
+     *
+     * @var Mage_ImportExport_Model_Resource_Import_Data[]
+     */
+    protected $_dataSourceModels;
+
+    /**
      * Class constructor
      *
      * @param array $data
@@ -117,24 +131,61 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     {
         parent::__construct($data);
 
-        $this->_messageTemplates[self::ERROR_ROW_IS_ORPHAN] = 'Orphan rows that will be skipped due default row errors';
+        $this->addMessageTemplate(self::ERROR_ROW_IS_ORPHAN,
+            $this->_helper('Mage_ImportExport_Helper_Data')
+                ->__('Orphan rows that will be skipped due default row errors')
+        );
 
         $this->_availableBehaviors = array(
             Mage_ImportExport_Model_Import::BEHAVIOR_APPEND,
             Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
         );
 
+        // customer entity stuff
+        if (isset($data['customer_data_source_model'])) {
+            $this->_dataSourceModels['customer'] = $data['customer_data_source_model'];
+        } else {
+            $arguments = array(
+                'entity_type' => Mage_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_CUSTOMER,
+            );
+            $this->_dataSourceModels['customer']
+                = Mage::getResourceModel('Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data',
+                $arguments
+            );
+        }
         if (isset($data['customer_entity'])) {
             $this->_customerEntity = $data['customer_entity'];
         } else {
+            $data['data_source_model'] = $this->_dataSourceModels['customer'];
             $this->_customerEntity = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer', $data);
+            unset($data['data_source_model']);
+        }
+        $this->_initCustomerAttributes();
+
+        // address entity stuff
+        if (isset($data['address_data_source_model'])) {
+            $this->_dataSourceModels['address'] = $data['address_data_source_model'];
+        } else {
+            $arguments = array(
+                'entity_type' => Mage_ImportExport_Model_Import_Entity_CustomerComposite::COMPONENT_ENTITY_ADDRESS,
+                'customer_attributes' => $this->_customerAttributes
+            );
+            $this->_dataSourceModels['address']
+                = Mage::getResourceModel('Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data',
+                    $arguments
+                );
         }
         if (isset($data['address_entity'])) {
             $this->_addressEntity = $data['address_entity'];
         } else {
+            $data['data_source_model'] = $this->_dataSourceModels['address'];
             $this->_addressEntity
                 = Mage::getModel('Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address', $data);
+            unset($data['data_source_model']);
         }
+        $this->_initAddressAttributes();
+
+        // next customer id
         if (isset($data['next_customer_id'])) {
             $this->_nextCustomerId = $data['next_customer_id'];
         } else {
@@ -142,9 +193,6 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
             $resourceHelper = Mage::getResourceHelper('Mage_ImportExport');
             $this->_nextCustomerId = $resourceHelper->getNextAutoincrement($this->_customerEntity->getEntityTable());
         }
-
-        $this->_initCustomerAttributes()
-            ->_initAddressAttributes();
     }
 
     /**
@@ -178,24 +226,14 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     }
 
     /**
-     * Retrieve true in case when attribute code in customer attributes list
-     *
-     * @param $attributeCode
-     * @return bool
-     */
-    public function isCustomerAttribute($attributeCode)
-    {
-        return in_array($attributeCode, $this->_customerAttributes);
-    }
-
-    /**
      * Import data rows
      *
      * @return boolean
      */
     protected function _importData()
     {
-        // TODO: Implement _importData() method.
+        $this->_customerEntity->importData();
+        $this->_addressEntity->importData();
     }
 
     /**
@@ -217,7 +255,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     public function validateRow(array $rowData, $rowNumber)
     {
-        $rowScope = $this->getRowScope($rowData);
+        $rowScope = $this->_getRowScope($rowData);
         if ($rowScope == self::SCOPE_DEFAULT) {
             if ($this->_customerEntity->validateRow($rowData, $rowNumber)) {
                 $this->_currentWebsiteCode
@@ -236,22 +274,20 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
                     $this->_nextCustomerId++;
                 }
 
-                return $this->_validateAddressRow($rowData, $rowNumber, $this->_currentWebsiteCode,
-                    $this->_currentEmail);
+                return $this->_validateAddressRow($rowData, $rowNumber);
             } else {
                 $this->_currentWebsiteCode = null;
                 $this->_currentEmail = null;
-
-                return false;
             }
         } else {
             if (!empty($this->_currentWebsiteCode) && !empty($this->_currentEmail)) {
-                return $this->_validateAddressRow($rowData, $rowNumber, $this->_currentWebsiteCode,
-                    $this->_currentEmail);
+                return $this->_validateAddressRow($rowData, $rowNumber);
             } else {
                 $this->addRowError(self::ERROR_ROW_IS_ORPHAN, $rowNumber);
             }
         }
+
+        return false;
     }
 
     /**
@@ -259,11 +295,9 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @param string $websiteCode
-     * @param string $email
      * @return bool
      */
-    protected function _validateAddressRow(array $rowData, $rowNumber, $websiteCode, $email)
+    protected function _validateAddressRow(array $rowData, $rowNumber)
     {
         $rowData = $this->_prepareAddressRowData($rowData);
         $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
@@ -289,7 +323,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
 
         $result = array();
         foreach ($rowData as $key => $value) {
-            if (!$this->isCustomerAttribute($key)) {
+            if (!in_array($key, $this->_customerAttributes)) {
                 if (!in_array($key, $excludedAttributes)) {
                     $key = str_replace(self::COLUMN_ADDRESS_PREFIX, '', $key);
                 }
@@ -301,12 +335,12 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     }
 
     /**
-     * Obtain scope of the row from row data.
+     * Obtain scope of the row from row data
      *
      * @param array $rowData
      * @return int
      */
-    public function getRowScope(array $rowData)
+    protected function _getRowScope(array $rowData)
     {
         if (!isset($rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL])) {
             return self::SCOPE_ADDRESS;
@@ -431,5 +465,22 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
         } else {
             return parent::isAttributeParticular($attributeCode);
         }
+    }
+
+    /**
+     * Prepare validated row data for saving to db
+     *
+     * @param array $rowData
+     * @return array
+     */
+    protected function _prepareRowForDb(array $rowData)
+    {
+        $rowData['_scope'] = $this->_getRowScope($rowData);
+        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
+            = $this->_currentWebsiteCode;
+        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
+        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
+
+        return parent::_prepareRowForDb($rowData);
     }
 }

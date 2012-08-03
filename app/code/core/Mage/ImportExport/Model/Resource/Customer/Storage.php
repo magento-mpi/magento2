@@ -96,7 +96,7 @@ class Mage_ImportExport_Model_Resource_Customer_Storage
     /**
      * Add customer to array
      *
-     * @param Varien_Object $customer
+     * @param Varien_Object|Mage_Customer_Model_Customer $customer
      * @return Mage_ImportExport_Model_Resource_Customer_Storage
      */
     public function addCustomer(Varien_Object $customer)
@@ -119,6 +119,9 @@ class Mage_ImportExport_Model_Resource_Customer_Storage
      */
     public function getCustomerId($email, $websiteId)
     {
+        // lazy loading
+        $this->load();
+
         if (isset($this->_customerIds[$email][$websiteId])) {
             return $this->_customerIds[$email][$websiteId];
         }

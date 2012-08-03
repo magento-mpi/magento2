@@ -101,7 +101,6 @@ abstract class Mage_ImportExport_Model_Import_Entity_Eav_CustomerAbstract
         }
         $this->_customerStorage = isset($data['customer_storage']) ? $data['customer_storage']
                 : Mage::getResourceModel('Mage_ImportExport_Model_Resource_Customer_Storage', $data);
-        $this->_customerStorage->load();
 
         return $this;
     }

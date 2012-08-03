@@ -159,7 +159,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
      *
      * @var array
      */
-    protected $_particularAttributes = array(self::COL_WEBSITE, self::COL_STORE);
+    protected $_specialAttributes = array(self::COL_WEBSITE, self::COL_STORE);
 
     /**
      * Permanent entity columns.

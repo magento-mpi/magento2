@@ -126,8 +126,8 @@ class Mage_ImportExport_Model_Import_Entity_Eav_Customer
 
         parent::__construct($data);
 
-        $this->_particularAttributes[] = self::COLUMN_WEBSITE;
-        $this->_particularAttributes[] = self::COLUMN_STORE;
+        $this->_specialAttributes[] = self::COLUMN_WEBSITE;
+        $this->_specialAttributes[] = self::COLUMN_STORE;
         $this->_permanentAttributes[]  = self::COLUMN_EMAIL;
         $this->_permanentAttributes[]  = self::COLUMN_WEBSITE;
         $this->_indexValueAttributes[] = 'group_id';

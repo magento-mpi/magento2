@@ -202,7 +202,7 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
      *
      * @var array
      */
-    protected $_particularAttributes = array(
+    protected $_specialAttributes = array(
         '_store', '_attribute_set', '_type', self::COL_CATEGORY, self::COL_ROOT_CATEGORY, '_product_websites',
         '_tier_price_website', '_tier_price_customer_group', '_tier_price_qty', '_tier_price_price',
         '_links_related_sku', '_group_price_website', '_group_price_customer_group', '_group_price_price',
@@ -493,13 +493,13 @@ class Mage_ImportExport_Model_Import_Entity_Product extends Mage_ImportExport_Mo
             if ($model->isSuitable()) {
                 $this->_productTypeModels[$type] = $model;
             }
-            $this->_particularAttributes = array_merge(
-                $this->_particularAttributes,
+            $this->_specialAttributes = array_merge(
+                $this->_specialAttributes,
                 $model->getParticularAttributes()
             );
         }
         // remove doubles
-        $this->_particularAttributes = array_unique($this->_particularAttributes);
+        $this->_specialAttributes = array_unique($this->_specialAttributes);
 
         return $this;
     }

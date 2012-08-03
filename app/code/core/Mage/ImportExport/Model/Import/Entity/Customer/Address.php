@@ -108,7 +108,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
      *
      * @var array
      */
-    protected $_particularAttributes = array(self::COL_NAME_DEFAULT_BILLING, self::COL_NAME_DEFAULT_SHIPPING);
+    protected $_specialAttributes = array(self::COL_NAME_DEFAULT_BILLING, self::COL_NAME_DEFAULT_SHIPPING);
 
     /**
      * Region ID to region default name pairs.
@@ -425,7 +425,7 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
      */
     public function isAttributeParticular($attrCode)
     {
-        return isset($this->_attributes[$attrCode]) || in_array($attrCode, $this->_particularAttributes);
+        return isset($this->_attributes[$attrCode]) || in_array($attrCode, $this->_specialAttributes);
     }
 
     /**

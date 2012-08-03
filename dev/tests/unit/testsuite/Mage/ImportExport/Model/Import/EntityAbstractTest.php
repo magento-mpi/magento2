@@ -130,7 +130,7 @@ class Mage_ImportExport_Model_Import_EntityAbstractTest extends PHPUnit_Framewor
     {
         $attributeCode = 'test';
 
-        $property = new ReflectionProperty($this->_model, '_particularAttributes');
+        $property = new ReflectionProperty($this->_model, '_specialAttributes');
         $property->setAccessible(true);
         $property->setValue($this->_model, array($attributeCode));
 
