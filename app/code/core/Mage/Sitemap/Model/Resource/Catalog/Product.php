@@ -191,18 +191,18 @@ class Mage_Sitemap_Model_Resource_Catalog_Product extends Mage_Core_Model_Resour
         if (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_NONE != $imageIncludePolicy) {
             $this->_joinAttribute($store->getId(), 'name');
             $this->_select->columns(array(
-                'name' => new Zend_Db_Expr('IFNULL(t2_name.value, t1_name.value)')
+                'name' => $this->getReadConnection()->getIfNullSql('t2_name.value', 't1_name.value')
             ));
 
             if (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_ALL == $imageIncludePolicy) {
                 $this->_joinAttribute($store->getId(), 'thumbnail');
                 $this->_select->columns(array(
-                    'thumbnail' => new Zend_Db_Expr('IFNULL(t2_thumbnail.value, t1_thumbnail.value)')
+                    'thumbnail' => $this->getReadConnection()->getIfNullSql('t2_thumbnail.value', 't1_thumbnail.value')
                 ));
             } elseif (Mage_Sitemap_Model_Source_Product_Image_Include::INCLUDE_BASE == $imageIncludePolicy) {
                 $this->_joinAttribute($store->getId(), 'image');
                 $this->_select->columns(array(
-                    'image' => new Zend_Db_Expr('IFNULL(t2_image.value, t1_image.value)')
+                    'image' => $this->getReadConnection()->getIfNullSql('t2_image.value', 't1_image.value')
                 ));
             }
         }
