@@ -240,7 +240,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             $installer->installConfig($this->_getDataModel()->getConfigData());
 
             if (!empty($options['clean_up_database'])) {
-                $this->_cleanDb();
+                $this->_cleanUpDatabase();
             }
 
             if ($this->hasErrors()) {
@@ -339,7 +339,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     /**
      * Clean db
      */
-    protected function _cleanDb()
+    protected function _cleanUpDatabase()
     {
         $dbConfig = Mage::getConfig()->getResourceConnectionConfig(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $modelName = 'Mage_Install_Model_Installer_Db_' . ucfirst($dbConfig->model);
@@ -365,7 +365,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             return false;
         }
 
-        $this->_cleanDb();
+        $this->_cleanUpDatabase();
 
         /* Remove temporary directories */
         $configOptions = Mage::app()->getConfig()->getOptions();
