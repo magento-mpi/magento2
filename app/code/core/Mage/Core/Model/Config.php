@@ -180,6 +180,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_moduleDirs = array();
 
     /**
+     * Current area code
+     *
+     * @var string
+     */
+    protected $_currentAreaCode = null;
+
+    /**
      * Class construct
      *
      * @param mixed $sourceData
@@ -1516,11 +1523,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Retrieve area config by area code
      *
-     * @param string $areaCode
+     * @param string|null $areaCode
      * @return array
      */
-    public function getAreaConfig($areaCode)
+    public function getAreaConfig($areaCode = null)
     {
+        $areaCode = empty($areaCode) ? $this->getCurrentAreaCode() : $areaCode;
         $areas = $this->getAreas();
         if (!isset($areas[$areaCode])) {
             throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
@@ -1579,5 +1587,27 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             }
         }
         return $routers;
+    }
+
+
+    /**
+     * Get currently used area code
+     * @return string|null
+     */
+    public function getCurrentAreaCode()
+    {
+        return $this->_currentAreaCode;
+    }
+
+    /**
+     * Set currently used area code
+     *
+     * @param $areaCode
+     * @return Mage_Core_Model_Config
+     */
+    public function setCurrentAreaCode($areaCode)
+    {
+        $this->_currentAreaCode = $areaCode;
+        return $this;
     }
 }
