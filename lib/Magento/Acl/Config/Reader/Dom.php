@@ -2,18 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Backend
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  ACL
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * @category    Mage
- * @package     Mage_Backend
+ * @category    Magento
+ * @package     Framework
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Backend_Model_Acl_Config_Reader_Dom extends Magento_Config_Dom
+class Magento_Acl_Config_Reader_Dom extends Magento_Config_Dom
 {
     /**
      * Return attribute for resource node that identify it as unique
