@@ -10,7 +10,7 @@
  */
 
 /**
- * Backend Acl Resources reader
+ * Magento Acl Resources reader
  *
  * @category    Magento
  * @package     Framework
