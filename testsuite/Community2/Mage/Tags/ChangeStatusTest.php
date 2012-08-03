@@ -1,6 +1,15 @@
 <?php
 /**
- * Customer Backward Compatibility Tests
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_ImportExport
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
+ * Tags Change Statuses Test
  *
  * @package     selenium
  * @subpackage  tests
@@ -47,19 +56,18 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagFirstData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagSecondData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagThirdData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagFirstData, $tagSecondData, $tagThirdData);
+        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $arr = array($tagData[0], $tagData[1], $tagData[2]);
         foreach ($arr as $value) {
             $this->tagsHelper()->addTag($value);
-            $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
         $this->navigate('pending_tags');
         // Step 2
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagFirstData['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
         $tagsUpdatedCount = 1;
         // Step 3
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -75,14 +83,14 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
         //Verify
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagFirstData['tag_name'],
+            'tag_name' => $tagData[0]['tag_name'],
             'tags_status' => 'Disabled')));
         //Step 7
         $this->navigate('pending_tags');
         //Step 8
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagSecondData['tag_name']));
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagThirdData['tag_name']));
-        $tagsUpdatedCountTwo = 2;
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
+        $tagsCount = 2;
         //Step 9
         $this->fillDropdown('tags_massaction', 'Change status');
         //Step 10
@@ -91,18 +99,18 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->clickButton('submit');
         // Verifying
         $this->checkCurrentPage('pending_tags');
-        $this->addParameter('qtyDeletedTags', $tagsUpdatedCountTwo);
+        $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Step 12
         $this->navigate('all_tags');
         // Verifying second tag
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagSecondData['tag_name'],
+            'tag_name' => $tagData[1]['tag_name'],
             'tags_status' => 'Disabled')));
         // Verifying third tag
         $this->navigate('all_tags');
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagThirdData['tag_name'],
+            'tag_name' => $tagData[2]['tag_name'],
             'tags_status' => 'Disabled')));
     }
     /**
@@ -129,20 +137,19 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagFirstData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagSecondData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagThirdData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagFirstData, $tagSecondData, $tagThirdData);
+        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $arr = array($tagData[0], $tagData[1], $tagData[2]);
         foreach ($arr as $value) {
             $this->tagsHelper()->addTag($value);
-            $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
         $this->navigate('pending_tags');
         // Step 2
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagFirstData['tag_name']));
-        $updatedCount = 1;
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
+        $tagsCount = 1;
         // Step 3
         $this->fillDropdown('tags_massaction', 'Change status');
         //Step 4
@@ -151,15 +158,15 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->clickButton('submit');
         // Verifying
         $this->checkCurrentPage('pending_tags');
-        $this->addParameter('qtyDeletedTags', $updatedCount);
+        $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagFirstData['tag_name'])));
+            'tag_name' => $tagData[0]['tag_name'])));
         //Step 6
         $this->navigate('pending_tags');
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagSecondData['tag_name']));
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagThirdData['tag_name']));
-        $updatedCountTwo = 2;
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
+        $tagsCount = 2;
         //Step 7
         $this->fillDropdown('tags_massaction', 'Change status');
         //Step 8
@@ -168,17 +175,17 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->clickButton('submit');
         // Verify message
         $this->checkCurrentPage('pending_tags');
-        $this->addParameter('qtyDeletedTags', $updatedCountTwo);
+        $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Verify status of second tag
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagSecondData['tag_name']
+            'tag_name' => $tagData[1]['tag_name']
             )
         ));
         //Verify status of third tag
         $this->navigate('pending_tags');
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagThirdData['tag_name']
+            'tag_name' => $tagData[2]['tag_name']
             )
         ));
     }
@@ -212,19 +219,18 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagFirstData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagSecondData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagThirdData = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagFirstData, $tagSecondData, $tagThirdData);
+        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+        $arr = array($tagData[0], $tagData[1], $tagData[2]);
         foreach ($arr as $value) {
             $this->tagsHelper()->addTag($value);
-            $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
         $this->navigate('pending_tags');
         // Step 2
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagFirstData['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
         $tagsCount = 1;
         // Step 3
         $this->fillDropdown('tags_massaction', 'Change status');
@@ -240,15 +246,15 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->navigate('all_tags');
         //Verify
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagFirstData['tag_name'],
-            'tags_status' => 'Approved')
+            'tag_name' => $tagData[0]['tag_name'],
+            'tags_status' => 'Appoved')
         ));
         //Step 7
         $this->navigate('pending_tags');
         //Step 8
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagSecondData['tag_name']));
-        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagThirdData['tag_name']));
-        $tagsCountTwo = 2;
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
+        $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
+        $tagsCount = 2;
         //Step 9
         $this->fillDropdown('tags_massaction', 'Change status');
         //Step 10
@@ -257,19 +263,19 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->clickButton('submit');
         // Verifying
         $this->checkCurrentPage('pending_tags');
-        $this->addParameter('qtyDeletedTags', $tagsCountTwo);
+        $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Step 12
         $this->navigate('all_tags');
         // Verifying second tag
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagSecondData['tag_name'],
+            'tag_name' => $tagData[1]['tag_name'],
             'tags_status' => 'Approved')
         ));
         // Verifying third tag
         $this->navigate('all_tags');
         $this->assertNotNull($this->tagsHelper()->search(array(
-            'tag_name' => $tagThirdData['tag_name'],
+            'tag_name' => $tagData[2]['tag_name'],
             'tags_status' => 'Approved')
         ));
     }
