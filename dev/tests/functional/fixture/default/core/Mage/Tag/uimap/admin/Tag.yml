@@ -191,3 +191,4 @@ pending_tags:
                             products_to: //input[@id='pending_grid_filter_products_to']
                             customers_from: //input[@id='pending_grid_filter_customers_from']
                             customers_to: //input[@id='pending_grid_filter_customers_to']
+            messages: *tagsMesssages
