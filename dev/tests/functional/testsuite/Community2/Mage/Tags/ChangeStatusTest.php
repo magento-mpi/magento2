@@ -205,7 +205,7 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
      * Expected Result: Tags should have "Approved" status
      *
      * @test
-     * @TestlinkId TL-MAGE-2331
+     * @TestlinkId TL-MAGE-2338
      */
 
     public function changingStatusToApprovedUsingMassAction()
