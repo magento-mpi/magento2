@@ -74,8 +74,10 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     public function dispatch()
     {
         try {
+            $role = $this->_authenticate($this->getRequest());
+
             $route = $this->_matchRoute($this->getRequest());
-            $this->_checkResourceAcl();
+            $this->_checkResourceAcl($role, $route->getResourceName());
 
             $controllerClassName = $this->getRestConfig()->getControllerClassByResourceName($route->getResourceName());
             $controllerInstance = $this->_getActionControllerInstance($controllerClassName);
@@ -186,17 +188,21 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
     /**
      * Authenticate user
      *
-     * @throws Exception
+     * @throws Mage_Api2_Exception
      * @param Mage_Api2_Model_Request $request
      * @return Mage_Api2_Model_Auth_User_Abstract
      */
     protected function _authenticate(Mage_Api2_Model_Request $request)
     {
-        /** @var $authManager Mage_Api2_Model_Auth */
-        $authManager = Mage::getModel('Mage_Api2_Model_Auth');
-
-        $this->_setAuthUser($authManager->authenticate($request));
-        return $this->_getAuthUser();
+        try {
+            /** @var $oauthServer Mage_Oauth_Model_Server */
+            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
+            $consumerKey = $oauthServer->authenticateTwoLegged($request);
+        } catch (Exception $e) {
+            throw new Mage_Api2_Exception($oauthServer->reportProblem($e), Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
+        }
+        // TODO: implement consumer role loading
+        return $consumerKey;
     }
 
     /**

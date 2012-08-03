@@ -520,7 +520,7 @@ class Mage_Oauth_Model_Server
             array_merge($this->_params, $this->_protocolParams),
             $this->_protocolParams['oauth_signature_method'],
             $this->_consumer->getSecret(),
-            $this->_token->getSecret(),
+            !is_null($this->_token) ? $this->_token->getSecret() : null,
             $this->_request->getMethod(),
             $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri()
         );
@@ -603,6 +603,28 @@ class Mage_Oauth_Model_Server
         $this->_processRequest(self::REQUEST_RESOURCE);
 
         return $this->_token;
+    }
+
+    /**
+     * Authenticate two-legged request.
+     *
+     * @return string
+     */
+    public function authenticateTwoLegged()
+    {
+        // get parameters from request
+        $this->_fetchParams();
+
+        // make generic validation of request parameters
+        $this->_validateProtocolParams();
+
+        // initialize consumer
+        $this->_initConsumer();
+
+        // validate signature
+        $this->_validateSignature();
+
+        return $this->_consumer->getKey();
     }
 
     /**
