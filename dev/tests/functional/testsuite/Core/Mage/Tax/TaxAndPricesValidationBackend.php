@@ -182,9 +182,9 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
     public function createOrderBackendDataProvider()
     {
         return array(
-            //array('unit_cat_ex_ship_ex'),
-            array('row_cat_ex_ship_ex')
-/*            array('total_cat_ex_ship_ex'),
+            array('unit_cat_ex_ship_ex'),
+            array('row_cat_ex_ship_ex'),
+            array('total_cat_ex_ship_ex'),
             array('unit_cat_ex_ship_in'),
             array('row_cat_ex_ship_in'),
             array('total_cat_ex_ship_in'),
@@ -193,7 +193,7 @@ class Core_Mage_Tax_TaxAndPricesValidationBackendTest extends Mage_Selenium_Test
             array('total_cat_in_ship_ex'),
             array('unit_cat_in_ship_in'),
             array('row_cat_in_ship_in'),
-            array('total_cat_in_ship_in')*/
+            array('total_cat_in_ship_in')
         );
     }
 }
