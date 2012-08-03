@@ -233,7 +233,9 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     protected function _importData()
     {
         $this->_customerEntity->importData();
-        $this->_addressEntity->importData();
+        if ($this->getBehavior() != Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
+            $this->_addressEntity->importData();
+        }
     }
 
     /**

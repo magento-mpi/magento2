@@ -27,6 +27,36 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     protected $_addressAttributes = array('city', 'country', 'street');
 
     /**
+     * List of mocked methods for customer and address entity adapters
+     *
+     * @var array
+     */
+    protected $_entityMockedMethods = array(
+        'validateRow',
+        'getErrorMessages',
+        'getErrorsCount',
+        'getErrorsLimit',
+        'getInvalidRowsCount',
+        'getNotices',
+        'getProcessedEntitiesCount',
+        'setParameters',
+        'setSource',
+        'importData',
+    );
+
+    /**
+     * Expected prepared data after method Mage_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     *
+     * @var array
+     */
+    protected $_preparedData = array(
+        '_scope' => Mage_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT,
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE    => 'admin',
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL      => 'test@qwewqeq.com',
+        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null,
+    );
+
+    /**
      * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     protected function _getModelMock()
@@ -39,29 +69,94 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
         return $this->_model;
     }
 
+    /**
+     * Returns entity mock for method testPrepareRowForDb
+     *
+     * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
+     */
+    protected function _getModelMockForPrepareRowForDb()
+    {
+        $customerEntity = $this->_getCustomerEntityMock(array('validateRow'));
+        $customerEntity->expects($this->any())
+            ->method('validateRow')
+            ->will($this->returnValue(true));
+
+        $customerStorage = $this->getMock('stdClass', array('getCustomerId'));
+        $customerStorage->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(1));
+
+        $addressEntity = $this->_getAddressEntityMock(array('validateRow', 'getCustomerStorage'));
+        $addressEntity->expects($this->any())
+            ->method('validateRow')
+            ->will($this->returnValue(true));
+        $addressEntity->expects($this->any())
+            ->method('getCustomerStorage')
+            ->will($this->returnValue($customerStorage));
+
+        $dataSourceMock = $this->getMock('stdClass', array('cleanBunches', 'saveBunch'));
+        $dataSourceMock->expects($this->once())
+            ->method('saveBunch')
+            ->will($this->returnCallback(array($this, 'verifyPrepareRowForDbData')));
+
+        $jsonHelper = $this->getMock('stdClass', array('jsonEncode'));
+
+        $data = $this->_getModelDependencies();
+        $data['customer_entity']   = $customerEntity;
+        $data['address_entity']    = $addressEntity;
+        $data['data_source_model'] = $dataSourceMock;
+        $data['json_helper']       = $jsonHelper;
+        $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
+
+        return $this->_model;
+    }
+
+    /**
+     * Returns entity mock for method testImportData
+     *
+     * @param bool $isDeleteBehavior
+     * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
+     */
+    protected function _getModelMockForImportData($isDeleteBehavior = false)
+    {
+        $customerEntity = $this->_getCustomerEntityMock();
+        $customerEntity->expects($this->once())
+            ->method('importData');
+
+        $addressEntity = $this->_getAddressEntityMock();
+        if ($isDeleteBehavior) {
+            $addressEntity->expects($this->never())
+                ->method('importData');
+        } else {
+            $addressEntity->expects($this->once())
+                ->method('importData');
+        }
+
+        $data = $this->_getModelDependencies();
+        $data['customer_entity'] = $customerEntity;
+        $data['address_entity']  = $addressEntity;
+        $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
+
+        return $this->_model;
+    }
+
     protected function tearDown()
     {
         unset($this->_model);
     }
 
     /**
+     * @param array $mockedMethods
      * @return Mage_ImportExport_Model_Import_Entity_Eav_Customer|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getCustomerEntityMock()
+    protected function _getCustomerEntityMock(array $mockedMethods = null)
     {
-        $mockedMethods = array(
-            'getAttributeCollection',
-            'validateRow',
-            'getWebsiteId',
-            'getErrorMessages',
-            'getErrorsCount',
-            'getErrorsLimit',
-            'getInvalidRowsCount',
-            'getNotices',
-            'getProcessedEntitiesCount',
-            'setParameters',
-            'setSource'
-        );
+        if (is_null($mockedMethods)) {
+            $mockedMethods = $this->_entityMockedMethods;
+        }
+        $mockedMethods[] = 'getAttributeCollection';
+        $mockedMethods[] = 'getWebsiteId';
+
         /** @var $customerEntity Mage_ImportExport_Model_Import_Entity_Eav_Customer */
         $customerEntity = $this->getMock('Mage_ImportExport_Model_Import_Entity_Eav_Customer', $mockedMethods, array(),
             '', false
@@ -82,22 +177,16 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     }
 
     /**
+     * @param array $mockedMethods
      * @return Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address|PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getAddressEntityMock()
+    protected function _getAddressEntityMock(array $mockedMethods = null)
     {
-        $mockedMethods = array(
-            'getAttributeCollection',
-            'validateRow',
-            'getErrorMessages',
-            'getErrorsCount',
-            'getErrorsLimit',
-            'getInvalidRowsCount',
-            'getNotices',
-            'getProcessedEntitiesCount',
-            'setParameters',
-            'setSource'
-        );
+        if (is_null($mockedMethods)) {
+            $mockedMethods = $this->_entityMockedMethods;
+        }
+        $mockedMethods[] = 'getAttributeCollection';
+
         /** @var $addressEntity Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address */
         $addressEntity = $this->getMock('Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address', $mockedMethods,
             array(), '', false
@@ -288,5 +377,69 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
             $this->assertArrayHasKey($error, $actualErrors);
             $this->assertSame($rows, array_values($actualErrors[$error]));
         }
+    }
+
+    /**
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     */
+    public function testPrepareRowForDb()
+    {
+        $this->_getModelMockForPrepareRowForDb();
+        $pathToCsvFile = __DIR__ . '/_files/customer_composite_prepare_row_for_db.csv';
+        $source = new Mage_ImportExport_Model_Import_Adapter_Csv($pathToCsvFile);
+        $this->_model->setSource($source);
+        $this->_model->validateData();  // assertions processed in self::verifyPrepareRowForDbData
+    }
+
+    /**
+     * Callback for Mage_ImportExport_Model_Resource_Import_Data::saveBunch to verify correctness of data
+     * for method Mage_ImportExport_Model_Import_Entity_CustomerComposite::_prepareRowForDb
+     *
+     * @param string $entityType
+     * @param string $behavior
+     * @param array $bunchRows
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
+    public function verifyPrepareRowForDbData($entityType, $behavior, $bunchRows)
+    {
+        // source data contains only one record
+        $this->assertCount(1, $bunchRows);
+
+        // array must has all expected data
+        $customerData = $bunchRows[0];
+        foreach ($this->_preparedData as $expectedKey => $expectedValue) {
+            $this->assertArrayHasKey($expectedKey, $customerData);
+            $this->assertEquals($expectedValue, $customerData[$expectedKey]);
+        }
+    }
+
+    /**
+     * Data provider for method testImportData
+     *
+     * @return array
+     */
+    public function dataProviderTestImportData()
+    {
+        return array(
+            'not_delete_behavior' => array(
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
+            ),
+            'delete_behavior' => array(
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider dataProviderTestImportData
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_importData
+     */
+    public function testImportData($behavior)
+    {
+        $isDeleteBehavior = $behavior == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE;
+        $entityMock = $this->_getModelMockForImportData($isDeleteBehavior);
+        $entityMock->setParameters(array('behavior' => $behavior));
+        $entityMock->importData();
     }
 }
