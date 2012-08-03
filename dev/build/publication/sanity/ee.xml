@@ -16,7 +16,6 @@
         <word>{license_notice}</word>
         <word>biz@magento.com</word>
         <word>petervarien</word>
-        <word>sqlsrv</word>
         <word>ukpromerchant</word>
     </words>
     <whitelist>
