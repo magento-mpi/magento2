@@ -4,7 +4,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_AdminUser
+# @package     Mage_ACL
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -171,7 +171,7 @@ class Community2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
 
     /**
      * <p>Preconditions</p>
-     * <p>1. Login to backend as admin</p>
+     * <p>1. Log in to backend as admin</p>
      * <p>2. Go to System>Permissions>Role and click "Add New Role" button</p>
      * <p>3. Fill "Role Name" field</p>
      * <p>4. Click Role Resource Tab</p>
@@ -228,7 +228,7 @@ class Community2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      * <p>Create customer group</p>
      * <p>Steps:</p>
      * <p>1. Click 'Add New Customer' button.</p>
-     * <p>2.Fill all required field with correct data.</p>
+     * <p>2. Fill all required field with correct data.</p>
      * <p>3. Click 'Save Customer Group' button.</p>
      * <p>Expected result:</p>
      * <p>Customer group is  created.</p>

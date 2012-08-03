@@ -36,5 +36,6 @@ admin_header:
                     general_elements:
                         pageelements:
                             navigation_menu_items: //ul[@id='nav']/li
+                            navigation_children_menu_items: //*[@id='nav']/li/ul/li
                             general_menu_xpath: //*[@id='nav']/li[contains(@class, 'active')]//a[contains(@href, '%mcaXpath%')]
                             active_menu_element: //*[@id='nav']/li[contains(@class, 'active')]

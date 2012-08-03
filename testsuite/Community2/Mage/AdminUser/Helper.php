@@ -39,8 +39,9 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
      * Create New Role.
      *
      * @param array $roleData
+     * @param string $separator
      */
-    public function createRole(array $roleData)
+    public function createRole(array $roleData, $separator = '/')
     {
         if (empty($roleData)) {
             $this->fail('$roleData parameter is empty');
@@ -50,7 +51,7 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         $this->clickButton('add_new_role');
         $this->fillTab($roleInfo, 'role_info');
         if ($roleResources) {
-            $this->fillRolesResources($roleResources);
+            $this->fillRolesResources($roleResources, $separator);
         }
         $this->saveForm('save_role');
     }
@@ -59,14 +60,15 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
      * Fill Roles Resources Tab
      *
      * @param array $roleResources
+     * @param string $separator
      */
-    public function fillRolesResources(array $roleResources)
+    public function fillRolesResources(array $roleResources, $separator = '/')
     {
         $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
         $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
 
         $this->fillRoleScopes($roleWebsites);
-        $this->fillRoleAccess($roleAccess);
+        $this->fillRoleAccess($roleAccess, $separator);
     }
 
     /**
@@ -93,8 +95,9 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
      * Fill Roles Access on Roles Resources Tab
      *
      * @param array $roleAccess
+     * @param string $separator
      */
-    public function fillRoleAccess(array $roleAccess)
+    public function fillRoleAccess(array $roleAccess, $separator = '/')
     {
         if (!empty($roleAccess)) {
             if (isset($roleAccess['resource_access'])) {
@@ -103,7 +106,7 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
             }
             if (!empty($roleAccess)) {
                 foreach ($roleAccess as $category) {
-                    $this->categoryHelper()->selectCategory($category, 'role_resources');
+                    $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
                 }
             }
         }
@@ -113,8 +116,9 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
      * Edit Role
      *
      * @param array $roleData
+     * @param string $separator
      */
-    public function editRole(array $roleData)
+    public function editRole(array $roleData, $separator = '/')
     {
         if (empty($roleData)) {
             $this->fail('$roleData parameter is empty');
@@ -131,7 +135,7 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         }
         $this->fillTab($roleInfo, 'role_info');
         if (!empty($roleResources)) {
-            $this->fillRolesResources($roleResources);
+            $this->fillRolesResources($roleResources, $separator);
         }
         if (!empty($roleUsers)) {
             $this->openTab('role_users');

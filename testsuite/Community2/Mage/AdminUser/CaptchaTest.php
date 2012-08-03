@@ -53,7 +53,7 @@ class Community2_Mage_AdminUser_CaptchaTest extends Mage_Selenium_TestCase {
 
     protected function tearDownAfterTestClass()
     {
-        $this->admin('log_in_to_admin', false);
+        $this->admin('log_in_to_admin');
         if ($this->controlIsPresent('field', 'captcha')) {
             $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
                                'password'  => $this->_configHelper->getDefaultPassword(), 'captcha' => '1111');
