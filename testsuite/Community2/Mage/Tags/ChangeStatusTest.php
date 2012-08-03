@@ -82,7 +82,7 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         //Step 6
         $this->navigate('all_tags');
         //Verify
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[0]['tag_name'],
             'tags_status' => 'Disabled')));
         //Step 7
@@ -104,12 +104,12 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         //Step 12
         $this->navigate('all_tags');
         // Verifying second tag
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[1]['tag_name'],
             'tags_status' => 'Disabled')));
         // Verifying third tag
         $this->navigate('all_tags');
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[2]['tag_name'],
             'tags_status' => 'Disabled')));
     }
@@ -160,7 +160,7 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->checkCurrentPage('pending_tags');
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[0]['tag_name'])));
         //Step 6
         $this->navigate('pending_tags');
@@ -178,13 +178,13 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Verify status of second tag
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[1]['tag_name']
             )
         ));
         //Verify status of third tag
         $this->navigate('pending_tags');
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[2]['tag_name']
             )
         ));
@@ -245,9 +245,9 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         //Step 6
         $this->navigate('all_tags');
         //Verify
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[0]['tag_name'],
-            'tags_status' => 'Appoved')
+            'tags_status' => 'Approved')
         ));
         //Step 7
         $this->navigate('pending_tags');
@@ -268,13 +268,13 @@ class Community2_Mage_Tags_ChangeStatusesTest extends Mage_Selenium_TestCase
         //Step 12
         $this->navigate('all_tags');
         // Verifying second tag
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[1]['tag_name'],
             'tags_status' => 'Approved')
         ));
         // Verifying third tag
         $this->navigate('all_tags');
-        $this->assertNotNull($this->tagsHelper()->search(array(
+        $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[2]['tag_name'],
             'tags_status' => 'Approved')
         ));
