@@ -481,6 +481,24 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         return $this;
     }
 
+    /**
+     * Unset self from the XML-node tree
+     *
+     * Note: trying to refer this object as a variable after "unsetting" like this will result in E_WARNING
+     */
+    public function unsetSelf()
+    {
+        $uniqId = uniqid();
+        $this['_uniqid'] = $uniqId;
+        $children = $this->getParent()->xpath('*');
+        for ($i = count($children); $i > 0; $i--) {
+            if ($children[$i - 1][0]['_uniqid'] == $uniqId) {
+                unset($children[$i - 1][0]);
+                return;
+            }
+        }
+    }
+
 /*
     public function extendChildByNode($source, $overwrite=false, $mergeBy='name')
     {

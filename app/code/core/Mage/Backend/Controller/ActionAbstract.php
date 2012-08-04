@@ -316,9 +316,14 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $this->renderLayout();
     }
 
-    public function loadLayout($ids=null, $generateBlocks=true, $generateXml=true)
+    public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
-        parent::loadLayout($ids, $generateBlocks, $generateXml);
+        parent::loadLayout($ids, false, $generateXml);
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->filterAclNodes($this->getLayout()->getNode());
+        if ($generateBlocks) {
+            $this->generateLayoutBlocks();
+            $this->_isLayoutLoaded = true;
+        }
         $this->_initLayoutMessages('Mage_Backend_Model_Session');
         return $this;
     }

@@ -212,29 +212,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     public function generateXml()
     {
         $xml = $this->getUpdate()->asSimplexml();
-        $removeInstructions = (array)$xml->xpath("//remove[@name]");
-        foreach ($removeInstructions as $infoNode) {
-            $attributes = $infoNode->attributes();
-            $blockName = (string)$attributes->name;
-            $xpath = "//block[@name='" . $blockName . "']"
-                . " | //reference[@name='" . $blockName . "']"
-                . " | //action[(@method='insert' or @method='append') and *[position()=1 and text()='$blockName']]";
-            $ignoreNodes = $xml->xpath($xpath);
-            if (!$ignoreNodes) {
-                continue;
-            }
-
-            foreach ($ignoreNodes as $block) {
-                $acl = (string)$attributes->acl;
-                if ($block->getAttribute('ignore') !== null || ($acl
-                    && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($acl))) {
-                    continue;
-                }
-                if (!isset($block->attributes()->ignore)) {
-                    $block->addAttribute('ignore', true);
-                }
-            }
-        }
         $this->setXml($xml);
         $this->_structure->importElements(array());
         return $this;
@@ -290,10 +267,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         /** @var Mage_Core_Model_Layout_Element $node  */
         foreach ($parent as $node) {
-            $attributes = $node->attributes();
-            if ((bool)$attributes->ignore) {
-                continue;
-            }
             switch ($node->getName()) {
                 case 'container':
                 case 'block':
@@ -308,6 +281,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 case 'action':
                     $referenceName = $parent->getAttribute('name');
                     $this->_scheduledStructure[$referenceName]['actions'][] = array($node, $parent);
+                    break;
+
+                case 'remove':
+                    $name = $node->getAttribute('name');
+                    unset($this->_scheduledStructure[$name]);
+                    unset($this->_scheduledPaths[$name]);
                     break;
             }
         }

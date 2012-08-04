@@ -33,8 +33,6 @@
 
             <block type="Mage_Core_Block_Messages" name="messages" as="messages"/>
             <block type="Mage_Core_Block_Text" as="no_name"/>
-            <action method="insert"><element>some_element_1</element></action>
-            <action method="append"><element>some_element_2</element></action>
         </block>
     </layout_test_handle_sample>
 
@@ -48,6 +46,18 @@
             <action method="setTemplate"><template>popup.phtml</template></action>
         </reference>
         <reference name="some_element_1"/>
+        <block name="test.nonexisting.block" type="Mage_Core_Block_Text_List"/>
+        <remove name="test.nonexisting.block"/>
+        <reference name="test.nonexisting.block">
+            <action method="getSomething"/>
+        </reference>
     </layout_test_handle_main>
 
+    <nonexisting_broken>
+        <block name="test.broken.block" type="Mage_Core_Block_Text_List"/>
+        <remove name="test.broken.block"/>
+        <block type="Mage_Core_Block_Template" name="bug.without.name.action.is.ignored">
+            <action method="insert"><element>test.broken.block</element></action>
+        </block>
+    </nonexisting_broken>
 </layout>

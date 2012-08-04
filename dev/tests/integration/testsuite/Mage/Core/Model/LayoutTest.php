@@ -101,7 +101,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
      * @covers Mage_Core_Model_Layout::generateBlocks
      * @covers Mage_Core_Model_Layout::getBlock
      */
-    public function testGenerateXmlAndBlocks()
+    public function testGenerateXmlAndElements()
     {
         $this->_layout->generateXml();
         /* Generate fixture
@@ -140,6 +140,18 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         /** @var $block Mage_Core_Block_Template */
         $block = $this->_layout->getBlock('root');
         $this->assertEquals('popup.phtml', $block->getTemplate());
+
+        $this->assertFalse($this->_layout->getBlock('test.nonexisting.block'));
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testGenerateElementsBroken()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load('nonexisting_broken');
+        $layout->generateXml()->generateElements();
     }
 
     public function testRenderElement()
