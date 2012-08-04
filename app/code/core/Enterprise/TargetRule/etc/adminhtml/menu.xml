@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_TargetRule::catalog_targetrule" title="Rule-Based Product Relations" module="Enterprise_TargetRule" sortOrder="35" parent="Mage_Catalog::catalog" action="adminhtml/targetrule/" />
+        <add id="Enterprise_TargetRule::catalog_targetrule" title="Rule-Based Product Relations" module="Enterprise_TargetRule" sortOrder="35" parent="Mage_Catalog::catalog" action="adminhtml/targetrule/" resource="Enterprise_TargetRule::targetrule"/>
     </menu>
 </config>

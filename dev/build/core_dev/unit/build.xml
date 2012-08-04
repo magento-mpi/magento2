@@ -13,28 +13,34 @@
 -->
 <project name="Core Development Unit Tests" basedir="../../../../" default="_unit_tests_all">
 
-    <target name="_unit_tests_magento" description="Product unit tests">
-        <exec dir="dev/tests/unit" executable="phpunit" failonerror="true">
+    <target name="_product_location" description="Detection of a product source code root directory">
+        <condition property="product_root_dir" value="${basedir}">
+            <not><isset property="product_root_dir"/></not>
+        </condition>
+    </target>
+
+    <target name="_unit_tests_magento" depends="_product_location" description="Product unit tests">
+        <exec dir="${product_root_dir}/dev/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_magento.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_integration_framework" description="Unit tests for integration testing framework">
-        <exec dir="dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
+    <target name="_unit_tests_integration_framework" depends="_product_location" description="Unit tests for integration testing framework">
+        <exec dir="${product_root_dir}/dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_integration_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_performance_framework" description="Unit tests for performance testing framework">
-        <exec dir="dev/tests/performance/framework/tests/unit" executable="phpunit" failonerror="true">
+    <target name="_unit_tests_performance_framework" depends="_product_location" description="Unit tests for performance testing framework">
+        <exec dir="${product_root_dir}/dev/tests/performance/framework/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_performance_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_static_framework" description="Unit tests for static code analysis framework">
-        <exec dir="dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
+    <target name="_unit_tests_static_framework" depends="_product_location" description="Unit tests for static code analysis framework">
+        <exec dir="${product_root_dir}/dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_static_framework.xml"/>
         </exec>
     </target>
-    <target name="_unit_tests_unit_framework" description="Unit tests for unit testing framework">
-        <exec dir="dev/tests/unit/framework/tests/unit" executable="phpunit" failonerror="true">
+    <target name="_unit_tests_unit_framework" depends="_product_location" description="Unit tests for unit testing framework">
+        <exec dir="${product_root_dir}/dev/tests/unit/framework/tests/unit" executable="phpunit" failonerror="true">
             <arg line="--log-junit ${basedir}/unit_tests_unit_framework.xml"/>
         </exec>
     </target>
@@ -52,7 +58,7 @@
         <antcall target="_unit_tests_all"/>
     </target>
     <target name="unit_tests_ce" description="Unit tests for CE">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="community_edition"/>
+        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_community_edition"/>
         <antcall target="_unit_tests_all"/>
     </target>
 

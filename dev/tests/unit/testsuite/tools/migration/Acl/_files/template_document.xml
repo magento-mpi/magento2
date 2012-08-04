@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Category
+ * @package     Module_Name
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+  <acl>
+    <resources xpath="config/acl/resources"/>
+  </acl>
+</config>

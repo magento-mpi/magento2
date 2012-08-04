@@ -1493,6 +1493,21 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Retrieve area config by area code
+     *
+     * @param string $areaCode
+     * @return array
+     */
+    public function getAreaConfig($areaCode)
+    {
+        $areas = $this->getAreas();
+        if (!isset($areas[$areaCode])) {
+            throw new InvalidArgumentException('Requested area (' . $areaCode . ') doesn\'t exist');
+        }
+        return $areas[$areaCode];
+    }
+
+    /**
      * Load allowed areas from config
      *
      * @return Mage_Core_Model_Config

@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_GiftWrapping::sales_enterprise_giftwrapping" title="Gift Wrapping" module="Enterprise_GiftWrapping" sortOrder="130" parent="Mage_Sales::sales" action="adminhtml/giftwrapping" dependsOnModule="Enterprise_GiftWrapping" />
+        <add id="Enterprise_GiftWrapping::sales_enterprise_giftwrapping" title="Gift Wrapping" module="Enterprise_GiftWrapping" sortOrder="130" parent="Mage_Sales::sales" action="adminhtml/giftwrapping" dependsOnModule="Enterprise_GiftWrapping" resource="Enterprise_GiftWrapping::enterprise_giftwrapping"/>
     </menu>
 </config>
