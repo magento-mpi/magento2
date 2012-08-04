@@ -12,9 +12,6 @@ use Zend\Di\Di,
 
 require_once 'app/bootstrap.php';
 
-Magento_Profiler::enable();
-Magento_Profiler::registerOutput(new Magento_Profiler_Output_Html());
-
 /* Store or website code */
 $mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';
 /* Run store or run website */
@@ -28,20 +25,13 @@ if (!empty($_SERVER['MAGE_LOCAL_CONFIG'])) {
 Magento_Profiler::start('mage');
 
 Mage::setRoot();
-$definitions = null;
-if (!file_exists(__DIR__ . '/var/di/di-serialized.php')) {
-    $definitions = new \Zend\Di\DefinitionList(array());
-} else {
-    $definitions = unserialize(file_get_contents(__DIR__ . '/var/di/di-serialized.php'));
-}
+Magento_Profiler::start('di_outer');
+Magento_Profiler::start('di');
+$ar = unserialize(file_get_contents('var/di/definition.php'));
+Magento_Profiler::stop('di');
 
-$di = new Di($definitions);
-$factory = new Magento_ObjectManager_Zend(
-    $di,
-    realpath(__DIR__ . '/app/code/core'),
-    __DIR__ . '/var/di/'
-);
-
+$factory = new Magento_ObjectManager_Zend(new Di(new DefinitionList(new Zend\Di\Definition\ArrayDefinition($ar))));
+Magento_Profiler::stop('di_outer');
 
 $config = $factory->get('Mage_Core_Model_Config');
 $config->loadBase();
@@ -67,8 +57,3 @@ $request = new Mage_Core_Controller_Request_Http();
 $app->process($request, $mageRunCode, $mageRunType);
 
 Magento_Profiler::stop('mage');
-
-if (!file_exists(__DIR__ . '/var/di/di-serialized.php')) {
-    $result = $di->definitions()->serialize();
-    file_put_contents(__DIR__ . '/var/di/di-serialized.php', $result);
-}

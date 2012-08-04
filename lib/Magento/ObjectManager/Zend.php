@@ -10,27 +10,11 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
     protected $_di;
 
     /**
-     * @var string
-     */
-    protected $_compileDir;
-
-    /**
-     * @var string
-     */
-    protected $_moduleDir;
-
-    /**
      * @param Zend\Di\Di $di
-     * @param string $compileDir
      */
-    public function __construct(\Zend\Di\Di $di, $moduleDir, $compileDir)
+    public function __construct(\Zend\Di\Di $di)
     {
         $this->_di = $di;
-        $this->_compileDir = $compileDir;
-        if (!file_exists($this->_compileDir)) {
-            mkdir($this->_compileDir);
-        }
-        $this->_moduleDir = $moduleDir;
     }
 
     public function loadDefinitionsForClass($className)
@@ -77,10 +61,9 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function create($className, array $arguments = array())
     {
-        if (!$this->_di->definitions()->hasClass($className)) {
-            $this->loadDefinitionsForClass($className);
-        }
+        Magento_Profiler::start('di_create');
         $ni =  $this->_di->newInstance($className, $arguments);
+        Magento_Profiler::stop('di_create');
         return $ni;
     }
 
@@ -93,12 +76,8 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function get($className, array $arguments = array())
     {
-        if (!$this->_di->definitions()->hasClass($className)) {
-            $this->loadDefinitionsForClass($className);
-        }
         $ni = $this->_di->get($className, $arguments);
         return $ni;
-
     }
 
     /**

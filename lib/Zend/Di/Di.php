@@ -174,18 +174,18 @@ class Di implements DependencyInjectionInterface
         }
 
         $instantiator     = $definitions->getInstantiator($class);
-        $injectionMethods = array();
+        /*$injectionMethods = array();
         $injectionMethods[$class] = $definitions->getMethods($class);
 
         foreach ($definitions->getClassSupertypes($class) as $supertype) {
             $injectionMethods[$supertype] = $definitions->getMethods($supertype);
-        }
+        }*/
 
         if ($instantiator === '__construct') {
             $instance = $this->createInstanceViaConstructor($class, $params, $alias);
-            if (array_key_exists('__construct', $injectionMethods)) {
+          /*  if (array_key_exists('__construct', $injectionMethods)) {
                 unset($injectionMethods['__construct']);
-            }
+            }*/
         } elseif (is_callable($instantiator, false)) {
             $instance = $this->createInstanceViaCallback($instantiator, $params, $alias);
         } else {
@@ -213,7 +213,7 @@ class Di implements DependencyInjectionInterface
             }
         }
 
-        $this->handleInjectDependencies($instance, $injectionMethods, $params, $class, $alias, $name);
+        /*$this->handleInjectDependencies($instance, $injectionMethods, $params, $class, $alias, $name);*/
 
         array_pop($this->instanceContext);
         return $instance;
