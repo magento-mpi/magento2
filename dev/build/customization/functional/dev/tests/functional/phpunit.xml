@@ -63,6 +63,8 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Tax/ProductTaxClass</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRate</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRule</directory>
+            <file>testsuite/Core/Mage/Tax/TaxAndPricesValidationBackend.php</file>
+            <file>testsuite/Core/Mage/Tax/TaxAndPricesValidationFrontend.php</file>
 
             <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
 
