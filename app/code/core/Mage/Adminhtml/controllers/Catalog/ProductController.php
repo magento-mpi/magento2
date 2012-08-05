@@ -118,7 +118,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
         if ($product->dataHasChangedFor('attribute_set_id')) {
-           $this->_initProductSave($product);
+            $this->_initProductSave($product);
         }
 
         Mage::register('product', $product);

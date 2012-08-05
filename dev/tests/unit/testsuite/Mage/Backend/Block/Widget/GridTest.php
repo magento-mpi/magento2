@@ -34,7 +34,8 @@ class Mage_Backend_Block_Widget_GridTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($block->getRssLists());
 
         $block->addRssList('some_url', 'some_label');
-        $element = reset($block->getRssLists());
+        $elements = $block->getRssLists();
+        $element = reset($elements);
         $this->assertEquals('some_url', $element->getUrl());
         $this->assertEquals('some_label', $element->getLabel());
 

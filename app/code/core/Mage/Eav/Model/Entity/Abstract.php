@@ -175,6 +175,20 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     }
 
     /**
+     * Main constructor
+     */
+    public function __construct($data = array())
+    {
+        parent::__construct();
+        $properties = get_object_vars($this);
+        foreach($data as $key => $value) {
+            if (array_key_exists('_' . $key, $properties)) {
+                $this->{'_' . $key} = $value;
+            }
+        }
+    }
+
+    /**
      * Resource initialization
      */
     protected function _construct()
@@ -553,11 +567,8 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     public function attributesCompare($attribute1, $attribute2)
     {
-        $sortPath      = sprintf('attribute_set_info/%s/sort', $this->_sortingSetId);
-        $groupSortPath = sprintf('attribute_set_info/%s/group_sort', $this->_sortingSetId);
-
-        $sort1 =  ($attribute1->getData($groupSortPath) * 1000) + ($attribute1->getData($sortPath) * 0.0001);
-        $sort2 =  ($attribute2->getData($groupSortPath) * 1000) + ($attribute2->getData($sortPath) * 0.0001);
+        $sort1 = $attribute1->getSortWeight((int)$this->_sortingSetId);
+        $sort2 = $attribute2->getSortWeight((int)$this->_sortingSetId);
 
         if ($sort1 > $sort2) {
             return 1;
@@ -1118,7 +1129,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
      */
     private function _aggregateDeleteData(&$delete, $attribute, $object)
     {
-        foreach ($attribute->getBackend()->getValueUpdateInfo($object) as $tableName => $valuesData) {
+        foreach ($attribute->getBackend()->getAffectedFields($object) as $tableName => $valuesData) {
             if (!isset($delete[$tableName])) {
                 $delete[$tableName] = array();
             }
