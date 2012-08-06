@@ -160,14 +160,17 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
      */
     protected function _getOptionValuesCollection(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        return !$attribute->getIsUserDefined() && $attribute->usesSource()
-            ? array_reverse(
-                Mage::getModel($attribute->getSourceModel())->setAttribute($attribute)->getAllOptions()
-            )
-            : Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+        if  (!$attribute->getIsUserDefined() && $attribute->usesSource()) {
+            $options = Mage::getModel($attribute->getSourceModel())
+                ->setAttribute($attribute)
+                ->getAllOptions();
+            return array_reverse($options);
+        } else {
+            return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getId())
                 ->setPositionOrder('desc', true)
                 ->load();
+        }
     }
 
     /**
