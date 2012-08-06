@@ -17,6 +17,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     protected function setUp()
     {
         parent::setUp();
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
         $this->_layout = new Mage_Core_Model_Layout;
     }
 

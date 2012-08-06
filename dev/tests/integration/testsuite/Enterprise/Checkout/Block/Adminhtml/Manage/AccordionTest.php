@@ -20,6 +20,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     protected function setUp()
     {
         parent::setUp();
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
         $this->_layout = new Mage_Core_Model_Layout;
         $this->_block = $this->_layout->createBlock('Enterprise_Checkout_Block_Adminhtml_Manage_Accordion');
     }
@@ -71,10 +72,7 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_AccordionTest extends PHPUnit_F
     {
         $user = new Mage_User_Model_User;
         $user->setId(1)->setRole(true);
-        $acl = $this->getMock('Magento_Acl', array('isAllowed'));
-        $acl->expects(self::any())
-            ->method('isAllowed')
-            ->will($this->returnValue(true));
-        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setUpdatedAt(time())->setAcl($acl)->setUser($user);
+        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->setUpdatedAt(time())->setUser($user);
+        Mage::getSingleton('Mage_Core_Model_Authorization', array('policy' => new Magento_Authorization_Policy_Default()));
     }
 }

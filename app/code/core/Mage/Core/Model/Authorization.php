@@ -27,7 +27,6 @@ class Mage_Core_Model_Authorization
      */
     protected $_aclRoleLocator;
 
-
     /**
      * @param array $data
      */
@@ -51,13 +50,13 @@ class Mage_Core_Model_Authorization
             'Magento_Authorization_Policy_Default';
 
         /** @var $aclBuilder Mage_Core_Model_Acl_Builder */
-        $aclBuilder = Mage::getModel('Mage_Core_Model_Acl_Builder', array(
+        $aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array(
             'areaConfig' => Mage::getConfig()->getAreaConfig(),
             'objectFactory' => Mage::getConfig(),
         ));
 
         /** @var $policyObject Magento_Authorization_Policy **/
-        $policyObject = Mage::getSingleton($policyClassName, array('acl' => $aclBuilder->getAcl()));
+        $policyObject = new $policyClassName($aclBuilder->getAcl());
         if (false == ($policyObject instanceof Magento_Authorization_Policy)) {
             throw new InvalidArgumentException($policyClassName . ' is not instance of Magento_Authorization_Policy');
         }

@@ -333,6 +333,6 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Rma::enterprise_rma');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Rma::enterprise_rma');
     }
 }
