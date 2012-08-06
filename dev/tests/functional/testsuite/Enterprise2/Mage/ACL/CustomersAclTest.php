@@ -4,7 +4,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_AdminUser
+# @package     Mage_ACL
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -109,13 +109,13 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_address_attributes');
         //Steps
-        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'generic_customer_address_attribute');
+        $attrData = $this->loadDataSet('CustomerAddressAttribute', 'customer_address_attribute_attach_file');
+        //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->attributesHelper()
-            ->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
+        $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
@@ -142,13 +142,13 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_attributes');
         //Steps
-        $attrData = $this->loadDataSet('CustomerAttribute', 'generic_customer_attribute');
+        $attrData = $this->loadDataSet('CustomerAttribute', 'customer_attribute_attach_file');
+        //Steps
         $this->attributesHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Opening
-        $this->attributesHelper()
-            ->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
+        $this->attributesHelper()->openAttribute(array('attribute_code' => $attrData['properties']['attribute_code']));
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($attrData);
     }
@@ -220,10 +220,9 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      * <p>2. New row is presented in Customer Segment grid. <p>
      *
      * @test
-     *
+     * @depends roleResourceAccessCustomerSegment
      * @TestlinkId TL-MAGE-1827
      *
-     * @depends roleResourceAccessCustomerSegment
      */
     public function withAllFieldsSegment($loginData)
     {
@@ -231,12 +230,21 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $this->logoutAdminUser();
         $this->adminUserHelper()->loginAdmin($loginData);
         $this->navigate('manage_customer_segments');
-        $segmData = 'name_' . $this->generate('string', 16, ':lower:');
+        $this->clickButton('add_new_segment');
+        $xpath = $this->_getControlXpath('multiselect', 'assigned_to_website');
+        //verify that assigned to website multiselect is present
+        if ($this->isElementPresent($xpath)) {
+            $segmData = $this->loadDataSet('CustomerSegment', 'segm_with_website');
+        } else {
+            $segmData = $this->loadDataSet('CustomerSegment', 'segm_without_website');
+        }
+        $this->clickButton('back');
         $this->customerSegmentHelper()->createSegment($segmData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_segment');
         //Opening and verifying
-        $this->customerSegmentHelper()->openSegment(array('segment_name' => $segmData['segment_name']));
+        $this->customerSegmentHelper()->openSegment(array('segment_name' => $segmData['general_properties']['segment_name']));
+        $this->assertTrue($this->verifyForm($segmData, 'general_properties'), $this->getParsedMessages());
     }
 
     /**
@@ -442,8 +450,12 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
      * <p>12. Log out </p>
      * <p>Steps:</p>
      * <p>1. Log in as testAdminUser</p>
+     * <p>2. Navigate to Manage Reward point page.</p>
+     * <p>3. Create new reward rate.</p>
+     * <p>4. Delete created rate.</p>
      * <p>Expected results:</p>
      * <p>1. Manage reward point exchange rates page is available </p>
+     * <p>2. It is possible create and delete reward rate.
      *
      * @test
      *
@@ -476,6 +488,23 @@ class Enterprise2_Mage_ACL_CustomersAclTest extends Mage_Selenium_TestCase
         $globSearchXpath = $this->_getControlXpath('field', 'global_record_search');
         $globSearchCount = $this->getElementsByXpath($globSearchXpath, 'value');
         $this->assertEquals('0', count($globSearchCount));
+        $this->navigate('manage_reward_rates');
+        $this->clickButton('add_new_rate');
+        $this->validatePage('new_reward_rate');
+        $rewardData = $this->loadDataSet('RewardPoint','reward_point_rate');
+        $this->fillField('rate_value', $rewardData['reward_rate_properties']['rate_value']);
+        $this->fillField('rate_equal_value', $rewardData['reward_rate_properties']['rate_equal_value']);
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_rate');
+        $this->_prepareDataForSearch($rewardData);
+        $xpathTR = $this->search($rewardData, 'reward_point_grid');
+        $this->assertNotNull($xpathTR, 'Reward rate is not found');
+        $cellId = $this->getColumnIdByName('ID');
+        $this->addParameter('id', $this->getText($xpathTR . '//td[' . $cellId . ']'));
+        $this->click($xpathTR . '//td[' . $cellId . ']');
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage();
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+        $this->assertMessagePresent('success', 'success_delete_rate');
     }
-}
-
+ }

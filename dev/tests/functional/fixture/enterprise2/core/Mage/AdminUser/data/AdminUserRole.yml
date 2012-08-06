@@ -20,7 +20,7 @@ generic_admin_user_role:
         role_resources:
             resource_access : All
 
-generic_admin_user_role_custom:
+generic_admin_user_role_custom_website:
     role_info_tab:
         role_name: 'My Test Role %randomize%'
     role_resources_tab:
@@ -30,6 +30,15 @@ generic_admin_user_role_custom:
         role_resources:
             resource_access : Custom
             resource_1: Sales/Transactions/Fetch
+
+generic_admin_user_role_custom:
+    role_info_tab:
+        role_name: 'My Test Role %randomize%'
+    role_resources_tab:
+        role_scopes: %noValue%
+        role_resources:
+            resource_access : Custom
+            resource_1: Sales/Archive/Orders/Move to Archive
 
 role_users_template: &roleUsersTemplate
     user_id: %noValue%
