@@ -45,10 +45,25 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
     public function createSegment($segmData)
     {
         $this->clickButton('add_new_segment');
-       // $this->fillForm($segmData, 'properties');
-        $this->fillField('segment_name', $segmData);
+        $this->fillTabs($segmData,'general_properties');
         $this->saveForm('save_segment');
     }
+
+    /**
+     * Filling tabs
+     *
+     * @param string|array $segmData
+     */
+    public function fillTabs($segmData)
+    {
+        if (is_string($segmData)) {
+            $elements = explode('/', $segmData);
+            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
+            $segmData = $this->loadDataSet($fileName, implode('/', $elements));
+        }
+        $generalPropertiesTab = (isset($segmData['general_properties']))? $segmData['general_properties']: array();
+        $this->fillTab($generalPropertiesTab , 'general_properties');
+        }
 
     /**
      * Open Customer Segment.
@@ -69,5 +84,4 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage();
     }
-
  }

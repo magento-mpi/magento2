@@ -1,0 +1,20 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Manage Product page
+manage_products:
+    mca: catalog_product/
+    uimap:
+        form:
+            fieldsets:
+                -
+                      product_grid:
+                          pageelements:
+                              product_grid_columns_price: //div[@id='productGrid']//span[@class='sort-title' and text()='Price']
