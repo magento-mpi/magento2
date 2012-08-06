@@ -427,6 +427,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
 
     public function selectingTagsOptions()
     {
+        $tagData = array();
         //Precondition
         for ($i=0; $i<21; $i++) {
             $tagData[$i] = array(
