@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('BugsCoverage'),
+            'label' => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Status'),
             'name' => 'is_active',
             'required' => true,
             'options' => array(
