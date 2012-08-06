@@ -34,13 +34,13 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
     public function testPhpFile($file)
     {
         $content = file_get_contents($file);
-//        $this->_testObsoleteClasses($content, $file);
-//        $this->_testObsoleteMethods($content, $file);
+        $this->_testObsoleteClasses($content, $file);
+        $this->_testObsoleteMethods($content, $file);
         $this->_testObsoleteMethodArguments($content);
-//        $this->_testObsoleteProperties($content, $file);
-//        $this->_testObsoleteActions($content, $file);
-//        $this->_testObsoleteConstants($content, $file);
-//        $this->_testObsoletePropertySkipCalculate($content);
+        $this->_testObsoleteProperties($content, $file);
+        $this->_testObsoleteActions($content, $file);
+        $this->_testObsoleteConstants($content, $file);
+        $this->_testObsoletePropertySkipCalculate($content);
     }
 
     /**
@@ -139,6 +139,13 @@ class Legacy_ObsoleteCodeTest extends PHPUnit_Framework_TestCase
             'Backwards-incompatible change: method isAllowed()'
                 . ' must be invoked from Mage::getSingleton(\'Mage_Code_Model_Authorization\')->isAllowed($resource)'
         );
+
+        $this->_assertNotRegExp(
+            '#Mage::getSingleton\([\'"]Mage_Core_Model_Authorization[\'"]\)'
+                . '([\s]+)?->isAllowed\([\'"]([\w\d/_]+)[\'"]\)#Ui',
+            $content,
+            'Backwards-incompatible change: method isAllowed()'
+                . ' must be invoked with acl item identifier than xpath for acl item');
     }
 
     /**
