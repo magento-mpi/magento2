@@ -364,11 +364,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($tagSearchData);
         if ($xpathTR) {
             $xpathTR .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
-            if ($this->getValue($xpathTR) == 'off') {
-                return false;
-            } else {
+            if ($this->getValue($xpathTR) != 'off') {
                 return true;
             }
         }
+        return false;
     }
 }
