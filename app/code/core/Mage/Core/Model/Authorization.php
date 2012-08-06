@@ -82,8 +82,9 @@ class Mage_Core_Model_Authorization
         $roleLocatorObject = Mage::getSingleton($roleLocatorClassName);
 
         if (false == ($roleLocatorObject instanceof Magento_Authorization_RoleLocator)) {
-            $message = $roleLocatorClassName . ' is not instance of Magento_Authorization_RoleLocator';
-            throw new InvalidArgumentException($message);
+            throw new InvalidArgumentException(
+                $roleLocatorClassName . ' is not instance of Magento_Authorization_RoleLocator'
+            );
         }
         return $roleLocatorObject;
     }
