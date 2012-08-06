@@ -86,7 +86,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('BugsCoverage'),
+            'label'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Status'),
             'name'     => 'is_active',
             'required' => true,
             'options'  => array(

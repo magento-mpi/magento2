@@ -96,8 +96,8 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         }
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('BugsCoverage'),
-            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('BugsCoverage'),
+            'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(

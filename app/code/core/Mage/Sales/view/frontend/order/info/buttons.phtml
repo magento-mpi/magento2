@@ -11,7 +11,7 @@
 
 <?php  $_order = $this->getOrder() ?>
 <?php if($this->helper('Mage_Rss_Helper_Order')->isStatusNotificationAllow()): ?>
-    <a href="<?php echo $this->helper('Mage_Rss_Helper_Order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo $this->__('Subscribe to Order BugsCoverage') ?></a>
+    <a href="<?php echo $this->helper('Mage_Rss_Helper_Order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo $this->__('Subscribe to Order Status') ?></a>
     <span class="separator">|</span>
 <?php endif; ?>
 <?php if ($this->helper('Mage_Sales_Helper_Reorder')->canReorder($_order)) : ?>

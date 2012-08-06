@@ -45,7 +45,7 @@ class Mage_Sales_Block_Adminhtml_Report_Filter_Form extends Mage_Adminhtml_Block
 
             $fieldset->addField('show_order_statuses', 'select', array(
                 'name'      => 'show_order_statuses',
-                'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Order BugsCoverage'),
+                'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Order Status'),
                 'options'   => array(
                         '0' => Mage::helper('Mage_Reports_Helper_Data')->__('Any'),
                         '1' => Mage::helper('Mage_Reports_Helper_Data')->__('Specified'),

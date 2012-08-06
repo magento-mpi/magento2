@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Sales_Creditmemo_Grid extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Sales_Model_Order_Creditmemo')->getStates(),

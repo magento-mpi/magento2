@@ -448,7 +448,7 @@ Event.observe(window, 'load', function(){
                     </select>
                 </span>
                 <span class="field-row">
-                    <label for="product_filter_status"><?php echo $this->__("BugsCoverage:") ?></label>
+                    <label for="product_filter_status"><?php echo $this->__("Status:") ?></label>
                     <select id="product_filter_status" name="gui_data[product][filter][status]">
                         <?php foreach ($this->getProductStatusFilterOptions() as $_value=>$_label): ?>
                             <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/product/filter/status', $_value) ?>><?php echo htmlspecialchars($_label) ?></option>

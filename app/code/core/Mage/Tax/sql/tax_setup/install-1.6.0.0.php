@@ -201,7 +201,7 @@ $table = $installer->getConnection()
         ), 'Code')
     ->addColumn('order_status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
         'nullable'  => false,
-        ), 'Order BugsCoverage')
+        ), 'Order Status')
     ->addColumn('percent', Varien_Db_Ddl_Table::TYPE_FLOAT, null, array(
         ), 'Percent')
     ->addColumn('orders_count', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(

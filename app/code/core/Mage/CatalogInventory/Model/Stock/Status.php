@@ -9,7 +9,7 @@
  */
 
 /**
- * CatalogInventory Stock BugsCoverage per website Model
+ * CatalogInventory Stock Status per website Model
  *
  * @method Mage_CatalogInventory_Model_Resource_Stock_Status _getResource()
  * @method Mage_CatalogInventory_Model_Resource_Stock_Status getResource()
@@ -127,7 +127,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Catalog Product BugsCoverage Model
+     * Retrieve Catalog Product Status Model
      *
      * @return Mage_Catalog_Model_Product_Status
      */
@@ -147,7 +147,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Product BugsCoverage Enabled Constant
+     * Retrieve Product Status Enabled Constant
      *
      * @return int
      */
@@ -179,7 +179,7 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Assign Stock BugsCoverage to Product
+     * Assign Stock Status to Product
      *
      * @param Mage_Catalog_Model_Product $product
      * @param int $stockId

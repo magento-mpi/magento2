@@ -68,7 +68,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Visible BugsCoverage Ids
+     * Retrieve Visible Status Ids
      *
      * @return array
      */
@@ -78,7 +78,7 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Saleable BugsCoverage Ids
+     * Retrieve Saleable Status Ids
      * Default Product Enable status
      *
      * @return array

@@ -31,7 +31,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->setComment('Google Checkout Notification Table');
 $installer->getConnection()->createTable($table);
 

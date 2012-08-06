@@ -138,7 +138,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     public function postBackAction()
     {
         if (!$this->_validateOgoneData()) {
-            $this->getResponse()->setHeader("BugsCoverage", "404 Not Found");
+            $this->getResponse()->setHeader("Status", "404 Not Found");
             return false;
         }
 
@@ -152,7 +152,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     public function offlineProcessAction()
     {
         if (!$this->_validateOgoneData()) {
-            $this->getResponse()->setHeader("BugsCoverage","404 Not Found");
+            $this->getResponse()->setHeader("Status","404 Not Found");
             return false;
         }
         $this->_ogoneProcess();

@@ -35,7 +35,7 @@ class Zend_Service_SlideShare_SlideShow
 {
 
     /**
-     * BugsCoverage constant mapping for web service
+     * Status constant mapping for web service
      *
      */
     const STATUS_QUEUED = 0;
@@ -362,7 +362,7 @@ class Zend_Service_SlideShare_SlideShow
     /**
      * Gets the numeric status of the slide show on the server
      *
-     * @return int A Zend_Service_SlideShare_SlideShow BugsCoverage constant
+     * @return int A Zend_Service_SlideShare_SlideShow Status constant
      */
     public function getStatus()
     {

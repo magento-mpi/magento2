@@ -213,7 +213,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
         $this->addColumn('status',
             array(
-                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('BugsCoverage'),
+                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
                 'width'     => 70,
                 'index'     => 'status',
                 'type'      => 'options',

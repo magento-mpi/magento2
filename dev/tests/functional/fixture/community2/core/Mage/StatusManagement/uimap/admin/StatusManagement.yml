@@ -2,7 +2,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_StatusManagement
+# @package     Mage_ShoppingCart
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -31,8 +31,8 @@ order_statuses:
                             status: //input[@id='sales_order_status_grid_filter_label']
                             
         buttons:
-            create_new_status: //button[span='Create New BugsCoverage']
-            assign_status_to_state: //button[span='Assign BugsCoverage to State']
+            create_new_status: //button[span='Create New Status']
+            assign_status_to_state: //button[span='Assign Status to State']
             
             
         messages:
@@ -41,10 +41,10 @@ order_statuses:
             search_no_result: //td[@class='empty-text a-center' and contains(., 'No records found')]
             success_search: //table[@id='sales_order_status_grid_table']//td[contains(., 'Generic Label')]
 
-# 'New Order BugsCoverage' Page
+# 'New Order Status' Page
 new_order_status:
     mca: sales_order_status/new/
-    title: Create New Order BugsCoverage / Sales / Magento Admin
+    title: Create New Order Status / Sales / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -59,17 +59,17 @@ new_order_status:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_status: //button[span='Save BugsCoverage']
+            save_status: //button[span='Save Status']
         messages:
             success_saved_status:  //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been saved')]
             order_status_exist: //li[normalize-space(@class)='error-msg' and contains(., 'Order status with the same status code already exist')]
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
             wrong_status_view_code: //div[@id='advice-validate-code-status']
             
-# 'Assign Order BugsCoverage to State' Page
+# 'Assign Order Status to State' Page
 assign_order_status:
     mca: sales_order_status/assign/
-    title: Assign Order BugsCoverage to State / Sales / Magento Admin
+    title: Assign Order Status to State / Sales / Magento Admin
     uimap:
         form:
             fieldsets:
@@ -86,7 +86,7 @@ assign_order_status:
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
-            save_status_assignment: //button[span='Save BugsCoverage Assignment']
+            save_status_assignment: //button[span='Save Status Assignment']
         messages:
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
             succes_assigned_status: //li[normalize-space(@class)='success-msg' and contains(., 'The order status has been assigned')]

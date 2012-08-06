@@ -16,7 +16,7 @@
      * @subpackage  functional_tests
      * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
      */
-class Community2_Mage_Newsletter_Helper extends Mage_Selenium_TestCase
+class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
 {
     /**
      * Create Newsletter Templates

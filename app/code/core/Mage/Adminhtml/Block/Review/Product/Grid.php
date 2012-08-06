@@ -65,7 +65,7 @@ class Mage_Adminhtml_Block_Review_Product_Grid extends Mage_Adminhtml_Block_Cata
         ));
 
         $this->addColumn('status', array(
-                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('BugsCoverage'),
+                'header'    => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                 'width'     => '90px',
                 'index'     => 'status',
                 'type'      => 'options',

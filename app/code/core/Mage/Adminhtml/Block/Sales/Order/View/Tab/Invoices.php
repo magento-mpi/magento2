@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Invoices
         ));
 
         $this->addColumn('state', array(
-            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index'     => 'state',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Sales_Model_Order_Invoice')->getStates(),

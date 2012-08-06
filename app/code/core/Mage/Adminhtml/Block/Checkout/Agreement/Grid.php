@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_Checkout_Agreement_Grid extends Mage_Adminhtml_Block_
         }
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(

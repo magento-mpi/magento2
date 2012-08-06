@@ -85,7 +85,7 @@ class Community17_Mage_TermsAndConditions_CreateTest extends Mage_Selenium_TestC
 
     /**
      * <p>Creating Terms and Conditions with required fields only</p>
-     * <p>BugsCoverage = ENABLED</p>
+     * <p>Status = ENABLED</p>
      * <p>Steps:</p>
      * <p>1. Click "Add New Condition" button;</p>
      * <p>2. Fill in required fields by regular data;</p>

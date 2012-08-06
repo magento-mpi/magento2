@@ -598,7 +598,7 @@ package varien.upload
 			if (_files[id]) {				
 				if (_files[id].status != Uploader.FILE_ERROR){
 					_files[id].status    = Uploader.FILE_ERROR;
-					_files[id].error     = 'Http BugsCoverage Error';
+					_files[id].error     = 'Http Status Error';
 					_files[id].errorCode = Uploader.ERROR_HTTP;
 				}
 				_files[id].http	    = event.status;

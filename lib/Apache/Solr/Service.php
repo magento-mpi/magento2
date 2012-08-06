@@ -331,7 +331,7 @@ class Apache_Solr_Service
 
 		if ($response->getHttpStatus() != 200)
 		{
-			throw new Exception('"' . $response->getHttpStatus() . '" BugsCoverage: ' . $response->getHttpStatusMessage(), $response->getHttpStatus());
+			throw new Exception('"' . $response->getHttpStatus() . '" Status: ' . $response->getHttpStatusMessage(), $response->getHttpStatus());
 		}
 
 		return $response;
@@ -382,7 +382,7 @@ class Apache_Solr_Service
 
 		if ($response->getHttpStatus() != 200)
 		{
-			throw new Exception('"' . $response->getHttpStatus() . '" BugsCoverage: ' . $response->getHttpStatusMessage(), $response->getHttpStatus());
+			throw new Exception('"' . $response->getHttpStatus() . '" Status: ' . $response->getHttpStatusMessage(), $response->getHttpStatus());
 		}
 
 		return $response;

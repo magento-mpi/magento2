@@ -28,7 +28,7 @@ class Mage_XmlConnect_Model_Resource_Application extends Mage_Core_Model_Resourc
     }
 
     /**
-     * Update Application BugsCoverage field, insert data to history table
+     * Update Application Status field, insert data to history table
      *
      * @param int $applicationId
      * @param string $status

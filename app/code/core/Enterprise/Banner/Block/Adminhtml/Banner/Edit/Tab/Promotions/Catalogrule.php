@@ -113,7 +113,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         ));
 
         $this->addColumn('catalogrule_is_active', array(
-            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

@@ -102,7 +102,7 @@ class Enterprise_Rma_Model_Resource_Setup extends Mage_Sales_Model_Resource_Setu
                     ),
                     'status'                 => array(
                         'type'               => 'static',
-                        'label'              => 'BugsCoverage',
+                        'label'              => 'Status',
                         'input'              => 'select',
                         'source'             => 'Enterprise_Rma_Model_Item_Attribute_Source_Status',
                         'visible'            => false,

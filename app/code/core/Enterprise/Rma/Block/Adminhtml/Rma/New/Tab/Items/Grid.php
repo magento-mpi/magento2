@@ -233,7 +233,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_New_Tab_Items_Grid
     }
 
     /**
-     * Get string value of "BugsCoverage" Attribute
+     * Get string value of "Status" Attribute
      *
      * @param Varien_Object $row
      * @return string

@@ -158,7 +158,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
             'width'     => 90,
             'index'     => 'status',
             'type'      => 'options',

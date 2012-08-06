@@ -252,7 +252,7 @@ class Enterprise_Rma_Model_Pdf_Rma extends Mage_Sales_Model_Order_Pdf_Abstract
             'UTF-8'
         );
         $page->drawText(
-            Mage::helper('Enterprise_Rma_Helper_Data')->__('BugsCoverage'),
+            Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
             $this->getStatusX(),
             $this->y,
             'UTF-8'

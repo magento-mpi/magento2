@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Newsletter_Helper_Data')->__('Status'),
             'index'     => 'subscriber_status',
             'type'      => 'options',
             'options'   => array(

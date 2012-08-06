@@ -40,7 +40,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         ), 'Updated At')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 10, array(
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('sort_order', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'unsigned'  => true,
         'nullable'  => false,
@@ -140,7 +140,7 @@ $table = $installer->getConnection()
     ->addColumn('name', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Name')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Created At')
@@ -216,7 +216,7 @@ $table = $installer->getConnection()
     ->addColumn('action', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
         ), 'Action')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 20, array(
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('is_backuped', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => '0',

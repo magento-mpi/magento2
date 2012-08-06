@@ -10,7 +10,7 @@
 
 
 /**
- * Bundle Stock BugsCoverage Indexer Resource Model
+ * Bundle Stock Status Indexer Resource Model
  *
  * @category    Mage
  * @package     Mage_Bundle

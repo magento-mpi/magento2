@@ -61,7 +61,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 15, array(
         'nullable'  => false,
         'default'   => 'pending',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('started_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         ), 'Started At')
     ->addColumn('ended_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
@@ -93,7 +93,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 7, array(
         'nullable'  => false,
         'default'   => 'new',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addIndex($installer->getIdxName('index_process_event', array('event_id')),
         array('event_id'))
     ->addForeignKey($installer->getFkName('index_process_event', 'event_id', 'index_event', 'event_id'),

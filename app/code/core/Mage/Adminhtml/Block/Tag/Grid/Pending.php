@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('Mage_Tag_Helper_Data')->__('BugsCoverage'),
+                         'label' => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
                          'values' => $statuses
                      )
              )

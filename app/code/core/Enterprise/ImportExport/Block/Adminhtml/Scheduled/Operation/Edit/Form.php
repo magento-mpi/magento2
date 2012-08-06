@@ -119,8 +119,8 @@ abstract class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_
 
         $fieldset->addField('status', 'select', array(
             'name'      => 'status',
-            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('BugsCoverage'),
-            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('BugsCoverage'),
+            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
+            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'required'  => true,
             'values'    => Mage::getSingleton('Enterprise_ImportExport_Model_Scheduled_Operation_Data')
                 ->getStatusesOptionArray()

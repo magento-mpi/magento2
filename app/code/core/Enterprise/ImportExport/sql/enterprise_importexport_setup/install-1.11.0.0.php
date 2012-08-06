@@ -53,7 +53,7 @@ $table = $installer->getConnection()
         ), 'Entity Attributes')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_SMALLINT, 1, array(
         'nullable'  => false,
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('is_success', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
         'nullable'  => false,
         'default'   => Enterprise_ImportExport_Model_Scheduled_Operation_Data::STATUS_PENDING

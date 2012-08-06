@@ -9,7 +9,7 @@
  */
 
 /**
- * Downloadable Order Item BugsCoverage Source
+ * Downloadable Order Item Status Source
  *
  * @category    Mage
  * @package     Mage_Downloadable

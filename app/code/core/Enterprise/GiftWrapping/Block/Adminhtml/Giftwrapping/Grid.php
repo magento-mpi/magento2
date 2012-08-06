@@ -78,7 +78,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
             Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Enabled')
         );
         $this->addColumn('status', array(
-            'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('BugsCoverage'),
+            'header'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Status'),
             'index'   => 'status',
             'type'    => 'options',
             'width'   => '100px',
@@ -145,7 +145,7 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Grid extends Mage_Adm
                     'name'   => 'status',
                     'type'   => 'select',
                     'class'  => 'required-entry',
-                    'label'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('BugsCoverage'),
+                    'label'  => Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Status'),
                     'values' => $statusList
                 )
             )

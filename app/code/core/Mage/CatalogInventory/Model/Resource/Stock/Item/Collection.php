@@ -68,7 +68,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Item_Collection extends Mage_Co
     }
 
     /**
-     * Join Stock BugsCoverage to collection
+     * Join Stock Status to collection
      *
      * @param int $storeId
      * @return Mage_CatalogInventory_Model_Resource_Stock_Item_Collection

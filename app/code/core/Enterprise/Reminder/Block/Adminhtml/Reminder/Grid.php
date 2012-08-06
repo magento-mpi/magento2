@@ -85,7 +85,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Enterprise_Reminder_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

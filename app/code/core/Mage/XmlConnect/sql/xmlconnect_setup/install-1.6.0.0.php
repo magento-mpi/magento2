@@ -46,7 +46,7 @@ $table = $installer->getConnection()
             'unsigned'  => true,
             'nullable'  => false,
             'default'   => '0',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('browsing_mode', Varien_Db_Ddl_Table::TYPE_SMALLINT, null, array(
             'unsigned'  => true,
             'default'   => '0',
@@ -245,7 +245,7 @@ $queueTable = $installer->getConnection()
             'unsigned'  => true,
             'nullable'  => false,
             'default'   => 0
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('type', Varien_Db_Ddl_Table::TYPE_TEXT, 12, array(
             'nullable'  => false,
         ), 'Type of Notification')

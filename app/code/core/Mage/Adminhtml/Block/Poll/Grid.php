@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         /*
         $this->addColumn('active', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'active',
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Poll_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
         */
         $this->addColumn('closed', array(
-            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Poll_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'closed',

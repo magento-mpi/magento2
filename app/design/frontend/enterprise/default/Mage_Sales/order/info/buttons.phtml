@@ -16,6 +16,6 @@
 <a href="<?php echo $this->getPrintUrl($_order) ?>" onclick="this.target='_blank';"><?php echo $this->__('Print Order') ?></a>
 <?php if($this->helper('Mage_Rss_Helper_Order')->isStatusNotificationAllow()): ?>
     <span class="separator">|</span>
-    <a href="<?php echo $this->helper('Mage_Rss_Helper_Order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo $this->__('Subscribe to Order BugsCoverage') ?></a>
+    <a href="<?php echo $this->helper('Mage_Rss_Helper_Order')->getStatusHistoryRssUrl($_order) ?>" class="link-rss f-none"><?php echo $this->__('Subscribe to Order Status') ?></a>
 <?php endif; ?>
 <?php echo $this->getChildHtml(); ?>

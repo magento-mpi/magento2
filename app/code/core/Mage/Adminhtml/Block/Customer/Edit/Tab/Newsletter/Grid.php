@@ -90,7 +90,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid extends Mage_Adminh
         ));
 
          $this->addColumn('status', array(
-            'header'    =>  Mage::helper('Mage_Customer_Helper_Data')->__('BugsCoverage'),
+            'header'    =>  Mage::helper('Mage_Customer_Helper_Data')->__('Status'),
             'align'     =>  'center',
             'filter'    =>  'Mage_Adminhtml_Block_Customer_Edit_Tab_Newsletter_Grid_Filter_Status',
             'index'     => 'queue_status',

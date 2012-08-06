@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
 
         if( !Mage::registry('usePendingFilter') ) {
             $this->addColumn('status', array(
-                'header'        => Mage::helper('Mage_Review_Helper_Data')->__('BugsCoverage'),
+                'header'        => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                 'align'         => 'left',
                 'type'          => 'options',
                 'options'       => Mage::helper('Mage_Review_Helper_Data')->getReviewStatuses(),
@@ -207,7 +207,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
         $statuses = Mage::helper('Mage_Review_Helper_Data')->getReviewStatusesOptionArray();
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('update_status', array(
-            'label'         => Mage::helper('Mage_Review_Helper_Data')->__('Update BugsCoverage'),
+            'label'         => Mage::helper('Mage_Review_Helper_Data')->__('Update Status'),
             'url'           => $this->getUrl(
                 '*/*/massUpdateStatus',
                 array('ret' => Mage::registry('usePendingFilter') ? 'pending' : 'index')
@@ -217,7 +217,7 @@ class Mage_Adminhtml_Block_Review_Grid extends Mage_Adminhtml_Block_Widget_Grid
                     'name'      => 'status',
                     'type'      => 'select',
                     'class'     => 'required-entry',
-                    'label'     => Mage::helper('Mage_Review_Helper_Data')->__('BugsCoverage'),
+                    'label'     => Mage::helper('Mage_Review_Helper_Data')->__('Status'),
                     'values'    => $statuses
                 )
             )

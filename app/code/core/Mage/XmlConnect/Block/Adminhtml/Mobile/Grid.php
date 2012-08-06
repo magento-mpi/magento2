@@ -82,7 +82,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Grid extends Mage_Adminhtml_Block_W
         ));
 
         $this->addColumn('status', array(
-            'header'    => $this->__('BugsCoverage'),
+            'header'    => $this->__('Status'),
             'index'     => 'status',
             'renderer'  => 'Mage_XmlConnect_Block_Adminhtml_Mobile_Grid_Renderer_Bool',
             'align'     => 'center',

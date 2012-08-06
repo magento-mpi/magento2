@@ -90,7 +90,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('BugsCoverage'),
+            'header' => Mage::helper('Enterprise_Invitation_Helper_Data')->__('Status'),
             'index' => 'status',
             'type' => 'options',
             'options' => Mage::getSingleton('Enterprise_Invitation_Model_Source_Invitation_Status')->getOptions(),

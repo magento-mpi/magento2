@@ -1574,7 +1574,7 @@ var firebug = {
           el.left.xhr.nameTitle = new lib.element("STRONG").update("Object Name:").insert(el.left.xhr.name);
           el.left.xhr.nameContent = new lib.element("DIV").insert(el.left.xhr.name);
           el.left.xhr.status = new lib.element("DIV").attribute.addClass("BlockContent").insert(new lib.element("DIV").attribute.addClass("Block").environment.addStyle({ "width":"10%" }).insert(el.left.xhr.container));
-          el.left.xhr.statusTitle = new lib.element("STRONG").update("BugsCoverage:").insert(el.left.xhr.status);
+          el.left.xhr.statusTitle = new lib.element("STRONG").update("Status:").insert(el.left.xhr.status);
           el.left.xhr.statusContent = new lib.element("DIV").insert(el.left.xhr.status);
           el.left.xhr.readystate = new lib.element("DIV").attribute.addClass("BlockContent").insert(new lib.element("DIV").environment.addStyle({ "width":"15%" }).attribute.addClass("Block").insert(el.left.xhr.container));
           el.left.xhr.readystateTitle =el.left.xhr.nameTitle = new lib.element("STRONG").update("Ready State:").insert(el.left.xhr.readystate);

@@ -71,13 +71,13 @@ applications:
         fallbackOrderHelper: 'Core'
         areas:
             admin:
-                url: 'http://127.0.0.1/EE2/index.php/admin'
+                url: 'http://www.localhost.com/magento/admin/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://127.0.0.1/EE2/'
+                url: 'http://www.localhost.com/magento/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: &paypalSandbox
@@ -161,31 +161,31 @@ applications:
         fallbackOrderHelper: 'Community2, Community17, Core'
         areas:
             admin:
-                url: 'http://127.0.0.1/EE2/index.php/admin'
+                url: 'http://www.localhost.com/magento2_community/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://127.0.0.1/EE2/'
+                url: 'http://www.localhost.com/magento2_community/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     magento2enterprise: &m2ee
-        fallbackOrderFixture: 'enterprise2, enterprise, default, community2'
-        fallbackOrderHelper: 'Enterprise2, Enterprise, Core, Community2'
+        fallbackOrderFixture: 'enterprise2, enterprise, default'
+        fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
         areas:
             admin:
-                url: 'http://127.0.0.1/EE2/index.php/admin/'
+                url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://127.0.0.1/EE2/'
+                url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *m2ce
+    default: *m2ee

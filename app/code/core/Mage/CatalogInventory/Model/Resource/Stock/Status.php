@@ -10,7 +10,7 @@
 
 
 /**
- * CatalogInventory Stock BugsCoverage per website Resource Model
+ * CatalogInventory Stock Status per website Resource Model
  *
  * @category    Mage
  * @package     Mage_CatalogInventory
@@ -28,7 +28,7 @@ class Mage_CatalogInventory_Model_Resource_Stock_Status extends Mage_Core_Model_
     }
 
     /**
-     * Save Product BugsCoverage per website
+     * Save Product Status per website
      *
      * @param Mage_CatalogInventory_Model_Stock_Status $object
      * @param int $productId

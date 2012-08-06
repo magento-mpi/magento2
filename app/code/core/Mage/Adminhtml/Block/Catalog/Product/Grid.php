@@ -210,7 +210,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
 
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('BugsCoverage'),
+                'header'=> Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
                 'width' => '70px',
                 'index' => 'status',
                 'type'  => 'options',
@@ -279,7 +279,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Grid extends Mage_Adminhtml_Block_Wid
                          'name' => 'status',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('BugsCoverage'),
+                         'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Status'),
                          'values' => $statuses
                      )
              )

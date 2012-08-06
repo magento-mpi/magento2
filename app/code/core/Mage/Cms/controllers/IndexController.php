@@ -39,7 +39,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     public function defaultIndexAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('BugsCoverage','404 File not found');
+        $this->getResponse()->setHeader('Status','404 File not found');
 
         $this->loadLayout();
         $this->renderLayout();
@@ -53,7 +53,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     public function noRouteAction($coreRoute = null)
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('BugsCoverage','404 File not found');
+        $this->getResponse()->setHeader('Status','404 File not found');
 
         $pageId = Mage::getStoreConfig(Mage_Cms_Helper_Page::XML_PATH_NO_ROUTE_PAGE);
         if (!Mage::helper('Mage_Cms_Helper_Page')->renderPage($this, $pageId)) {
@@ -69,7 +69,7 @@ class Mage_Cms_IndexController extends Mage_Core_Controller_Front_Action
     public function defaultNoRouteAction()
     {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('BugsCoverage','404 File not found');
+        $this->getResponse()->setHeader('Status','404 File not found');
 
         $this->loadLayout();
         $this->renderLayout();

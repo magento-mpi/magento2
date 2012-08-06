@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Tag extends Mage_Adminhtml_Block_Wi
         ));
 
         $this->addColumn('status', array(
-            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Customer_Helper_Data')->__('Status'),
             'width'     => '90px',
             'index'     => 'status',
             'type'      => 'options',

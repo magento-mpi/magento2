@@ -115,7 +115,7 @@ class Net_SFTP extends Net_SSH2 {
     var $packet_types = array();
 
     /**
-     * BugsCoverage Codes
+     * Status Codes
      *
      * @see Net_SFTP::Net_SFTP()
      * @var Array

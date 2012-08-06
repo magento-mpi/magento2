@@ -86,7 +86,7 @@ class Mage_User_Block_User_Edit_Tab_Main extends Mage_Backend_Block_Widget_Form
                 'name'  	=> 'is_active',
                 'label' 	=> Mage::helper('Mage_User_Helper_Data')->__('This account is'),
                 'id'    	=> 'is_active',
-                'title' 	=> Mage::helper('Mage_User_Helper_Data')->__('Account BugsCoverage'),
+                'title' 	=> Mage::helper('Mage_User_Helper_Data')->__('Account Status'),
                 'class' 	=> 'input-select',
                 'style'		=> 'width: 80px',
                 'options'	=> array(

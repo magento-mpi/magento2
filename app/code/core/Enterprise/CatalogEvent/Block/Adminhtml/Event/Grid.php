@@ -86,7 +86,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('BugsCoverage'),
+            'header' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Status'),
             'index' => 'status',
             'type' => 'options',
             'options' => array(

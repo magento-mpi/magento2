@@ -102,7 +102,7 @@ class Mage_User_Block_Role_Grid_User extends Mage_Backend_Block_Widget_Grid
         ));
 
         $this->addColumn('role_user_is_active', array(
-            'header'    => Mage::helper('Mage_User_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_User_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',

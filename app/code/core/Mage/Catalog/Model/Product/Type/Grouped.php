@@ -34,7 +34,7 @@ class Mage_Catalog_Model_Product_Type_Grouped extends Mage_Catalog_Model_Product
     protected $_keyAssociatedProductIds = '_cache_instance_associated_product_ids';
 
     /**
-     * Cache key for BugsCoverage Filters
+     * Cache key for Status Filters
      *
      * @var string
      */

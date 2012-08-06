@@ -104,7 +104,7 @@ class Mage_Adminhtml_Block_Api_Role_Grid_User extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('role_user_is_active', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'align'     =>'left',
             'type'      => 'options',

@@ -18,14 +18,14 @@
 class Mage_Sales_Model_Resource_Order_Status extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
-     * BugsCoverage labels table
+     * Status labels table
      *
      * @var string
      */
     protected $_labelsTable;
 
     /**
-     * BugsCoverage state table
+     * Status state table
      *
      * @var string
      */

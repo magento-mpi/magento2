@@ -130,7 +130,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         if ($this->getEvent()->getId()) {
             $fieldset->addField('status', 'note', array(
-                    'label' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('BugsCoverage'),
+                    'label' => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Status'),
                     'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
             ));
         }

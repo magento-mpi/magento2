@@ -67,7 +67,7 @@ class Mage_Rss_Block_Order_Status extends Mage_Core_Block_Template
         $title = Mage::helper('Mage_Rss_Helper_Data')->__('Order #%s created at %s', $order->getIncrementId(), $this->formatDate($order->getCreatedAt()));
         $url = Mage::getUrl('sales/order/view',array('order_id' => $order->getId()));
         $description = '<p>'.
-            Mage::helper('Mage_Rss_Helper_Data')->__('Current BugsCoverage: %s<br/>',$order->getStatusLabel()).
+            Mage::helper('Mage_Rss_Helper_Data')->__('Current Status: %s<br/>',$order->getStatusLabel()).
             Mage::helper('Mage_Rss_Helper_Data')->__('Total: %s<br/>',$order->formatPrice($order->getGrandTotal())).
             '</p>'
         ;

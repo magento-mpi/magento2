@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_BugsCoverage_BugsTest extends Mage_Selenium_TestCase
+class Enterprise2_Mage_Status_SuperTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>After clicking the "What's this?" link information text appears at the bottom of the page</p>

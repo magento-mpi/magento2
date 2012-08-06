@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Product_Grid extends Mage_Adminhtml_Block_
         ));
         $this->addColumn('status',
             array(
-                'header'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('BugsCoverage'),
+                'header'=> Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
                 'width' => 50,
                 'index' => 'status',
                 'type'  => 'options',

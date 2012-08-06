@@ -90,7 +90,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
         ));
 
         $this->addColumn('status', array(
-            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('BugsCoverage'),
+            'header'        => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
             'index'         => 'status',
             'type'          => 'options',
             'options'       => $dataModel->getStatusesOptionArray()
@@ -182,7 +182,7 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Grid extends M
                     'name' => 'status',
                     'type' => 'select',
                     'class' => 'required-entry',
-                    'label' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('BugsCoverage'),
+                    'label' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Status'),
                     'values' => $statuses
                 )
              )

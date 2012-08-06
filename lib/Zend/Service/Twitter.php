@@ -324,7 +324,7 @@ class Zend_Service_Twitter extends Zend_Rest_Client
     }
 
     /**
-     * Friend Timeline BugsCoverage
+     * Friend Timeline Status
      *
      * $params may include one or more of the following keys
      * - id: ID of a friend whose timeline you wish to receive
@@ -465,14 +465,14 @@ class Zend_Service_Twitter extends Zend_Rest_Client
         if ($len > self::STATUS_MAX_CHARACTERS) {
             include_once 'Zend/Service/Twitter/Exception.php';
             throw new Zend_Service_Twitter_Exception(
-                'BugsCoverage must be no more than '
+                'Status must be no more than '
                 . self::STATUS_MAX_CHARACTERS
                 . ' characters in length'
             );
         } elseif (0 == $len) {
             include_once 'Zend/Service/Twitter/Exception.php';
             throw new Zend_Service_Twitter_Exception(
-                'BugsCoverage must contain at least one character'
+                'Status must contain at least one character'
             );
         }
         $data = array('status' => $status);
@@ -821,7 +821,7 @@ class Zend_Service_Twitter extends Zend_Rest_Client
     /**
      * Mark a status as a favorite
      *
-     * @param  int $id BugsCoverage ID you want to mark as a favorite
+     * @param  int $id Status ID you want to mark as a favorite
      * @throws Zend_Http_Client_Exception if HTTP request fails or times out
      * @return Zend_Rest_Client_Result
      */
@@ -836,7 +836,7 @@ class Zend_Service_Twitter extends Zend_Rest_Client
     /**
      * Remove a favorite
      *
-     * @param  int $id BugsCoverage ID you want to de-list as a favorite
+     * @param  int $id Status ID you want to de-list as a favorite
      * @throws Zend_Http_Client_Exception if HTTP request fails or times out
      * @return Zend_Rest_Client_Result
      */

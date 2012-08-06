@@ -97,7 +97,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('status', array(
-            'header'  => Mage::helper('Enterprise_Rma_Helper_Data')->__('BugsCoverage'),
+            'header'  => Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
             'index'   => 'status',
             'type'    => 'options',
             'width'   => '100px',

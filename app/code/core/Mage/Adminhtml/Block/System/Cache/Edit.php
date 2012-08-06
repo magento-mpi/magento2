@@ -92,7 +92,7 @@ class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
                 ),
             ),
             'rebuild_inventory_stock_status' => array(
-                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inventory Stock BugsCoverage'),
+                'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inventory Stock Status'),
                 'buttons'   => array(
                     array(
                         'name'      => 'rebuild_inventory_stock_status',

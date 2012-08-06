@@ -139,7 +139,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_SalesRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
             'index'     => 'is_active',

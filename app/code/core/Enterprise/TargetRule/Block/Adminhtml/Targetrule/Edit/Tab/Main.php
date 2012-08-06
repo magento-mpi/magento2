@@ -55,7 +55,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('BugsCoverage'),
+            'label'     => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required'  => true,
             'options'   => array(

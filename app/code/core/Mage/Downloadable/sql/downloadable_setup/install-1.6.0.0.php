@@ -206,7 +206,7 @@ $table = $installer->getConnection()
     ->addColumn('link_type', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Link Type')
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_TEXT, 50, array(
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addColumn('created_at', Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
         'nullable'  => false,
         ), 'Creation Time')

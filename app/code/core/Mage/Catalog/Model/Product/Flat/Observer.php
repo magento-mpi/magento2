@@ -77,7 +77,7 @@ class Mage_Catalog_Model_Product_Flat_Observer
     }
 
     /**
-     * Catalog Product BugsCoverage Update
+     * Catalog Product Status Update
      *
      * @param Varien_Event_Observer $observer
      * @return Mage_Catalog_Model_Product_Flat_Observer

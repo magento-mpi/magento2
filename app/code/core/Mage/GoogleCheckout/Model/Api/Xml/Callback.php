@@ -743,8 +743,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $msg = $this->__('Google Risk Information:');
         $msg .= '<br />' . $this->__('IP Address: %s', '<strong>' . $order->getRemoteIp() . '</strong>');
         $msg .= '<br />' . $this->__('CC Partial: xxxx-%s', '<strong>' . $payment->getCcLast4() . '</strong>');
-        $msg .= '<br />' . $this->__('AVS BugsCoverage: %s', '<strong>' . $payment->getCcAvsStatus() . '</strong>');
-        $msg .= '<br />' . $this->__('CID BugsCoverage: %s', '<strong>' . $payment->getCcCidStatus() . '</strong>');
+        $msg .= '<br />' . $this->__('AVS Status: %s', '<strong>' . $payment->getCcAvsStatus() . '</strong>');
+        $msg .= '<br />' . $this->__('CID Status: %s', '<strong>' . $payment->getCcCidStatus() . '</strong>');
         $msg .= '<br />' . $this->__('Eligible for Protection: %s', '<strong>' . ($this->getData('root/risk-information/eligible-for-protection/VALUE')=='true' ? 'Yes' : 'No') . '</strong>');
         $msg .= '<br />' . $this->__('Buyer Account Age: %s days', '<strong>' . $this->getData('root/risk-information/buyer-account-age/VALUE') . '</strong>');
 
@@ -948,7 +948,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         $prevFulfillment = $this->getData('root/previous-fulfillment-order-state/VALUE');
         $newFulfillment = $this->getData('root/new-fulfillment-order-state/VALUE');
 
-        $msg = $this->__('Google Order BugsCoverage Change:');
+        $msg = $this->__('Google Order Status Change:');
         if ($prevFinancial!=$newFinancial) {
             $msg .= "<br />" . $this->__('Financial: %s -> %s', '<strong>' . $prevFinancial . '</strong>', '<strong>' . $newFinancial . '</strong>');
         }

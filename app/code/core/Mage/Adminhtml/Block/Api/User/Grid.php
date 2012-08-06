@@ -67,7 +67,7 @@ class Mage_Adminhtml_Block_Api_User_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array('1' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Active'), '0' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Inactive')),

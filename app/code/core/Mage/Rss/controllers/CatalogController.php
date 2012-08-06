@@ -43,7 +43,7 @@ class Mage_Rss_CatalogController extends Mage_Rss_Controller_AdminhtmlAbstract
             return true;
         } else {
             $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-            $this->getResponse()->setHeader('BugsCoverage','404 File not found');
+            $this->getResponse()->setHeader('Status','404 File not found');
             $this->_forward('nofeed','index','rss');
             return false;
         }

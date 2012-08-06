@@ -470,7 +470,7 @@ class Mage_Sales_Model_Order_Item extends Mage_Core_Model_Abstract
         if (isset(self::$_statuses[$statusId])) {
             return self::$_statuses[$statusId];
         }
-        return Mage::helper('Mage_Sales_Helper_Data')->__('Unknown BugsCoverage');
+        return Mage::helper('Mage_Sales_Helper_Data')->__('Unknown Status');
     }
 
     /**

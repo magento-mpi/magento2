@@ -10,7 +10,7 @@
 
 
 /**
- * CatalogInventory Grouped Products Stock BugsCoverage Indexer Resource Model
+ * CatalogInventory Grouped Products Stock Status Indexer Resource Model
  *
  * @category    Mage
  * @package     Mage_CatalogInventory

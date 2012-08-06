@@ -96,8 +96,8 @@ class Mage_Adminhtml_Block_Promo_Catalog_Edit_Tab_Main
         ));
 
         $fieldset->addField('is_active', 'select', array(
-            'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('BugsCoverage'),
-            'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('BugsCoverage'),
+            'label'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Status'),
+            'title'     => Mage::helper('Mage_CatalogRule_Helper_Data')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(

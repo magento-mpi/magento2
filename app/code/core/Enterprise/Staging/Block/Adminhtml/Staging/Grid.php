@@ -92,7 +92,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
 
         $this->addColumn('status', array(
             'width'     => 100,
-            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Enterprise_Staging_Helper_Data')->__('Status'),
             'index'     => 'status',
             'type'      => 'options',
             'options'   => array('started' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Processing'), 'completed' => Mage::helper('Enterprise_Staging_Helper_Data')->__('Ready'))
@@ -154,7 +154,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
                 ),
                 array(
                     'url'       => $this->getUrl('*/*/resetStatus', array('id' => '$staging_id')),
-                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset BugsCoverage'),
+                    'caption'   => Mage::helper('Enterprise_Staging_Helper_Data')->__('Reset Status'),
                     'validate'  => array(
                         '__method_callback' => array(
                             'method' => 'canResetStatus'

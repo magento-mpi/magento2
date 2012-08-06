@@ -24,7 +24,7 @@ class Mage_Core_Controller_Response_Http extends Zend_Controller_Response_Http
     protected static $_transportObject = null;
 
     /**
-     * Fixes CGI only one BugsCoverage header allowed bug
+     * Fixes CGI only one Status header allowed bug
      *
      * @link  http://bugs.php.net/bug.php?id=36705
      *

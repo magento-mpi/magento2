@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('chooser_is_active', array(
-            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Mage_Cms_Helper_Data')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => Mage::getModel('Mage_Cms_Model_Page')->getAvailableStatuses(),

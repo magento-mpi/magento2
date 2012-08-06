@@ -60,7 +60,7 @@ $table = $installer->getConnection()
     ->addColumn('status', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         'default'   => '0',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addIndex($installer->getIdxName('dataflow_import_data', array('session_id')),
         array('session_id'))
     ->addForeignKey($installer->getFkName('dataflow_import_data', 'session_id', 'dataflow_session', 'session_id'),
@@ -201,7 +201,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addIndex($installer->getIdxName('dataflow_batch_export', array('batch_id')),
         array('batch_id'))
     ->addForeignKey($installer->getFkName('dataflow_batch_export', 'batch_id', 'dataflow_batch', 'batch_id'),
@@ -232,7 +232,7 @@ $table = $installer->getConnection()
         'unsigned'  => true,
         'nullable'  => false,
         'default'   => '0',
-        ), 'BugsCoverage')
+        ), 'Status')
     ->addIndex($installer->getIdxName('dataflow_batch_import', array('batch_id')),
         array('batch_id'))
     ->addForeignKey($installer->getFkName('dataflow_batch_import', 'batch_id', 'dataflow_batch', 'batch_id'),

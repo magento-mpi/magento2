@@ -119,7 +119,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('BugsCoverage'),
+            'header'    => Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Status'),
             'align'     => 'left',
             'index'     => 'is_active',
             'type'      => 'options',

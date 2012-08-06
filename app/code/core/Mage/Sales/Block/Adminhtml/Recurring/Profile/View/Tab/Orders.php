@@ -99,7 +99,7 @@ class Mage_Sales_Block_Adminhtml_Recurring_Profile_View_Tab_Orders
         ));
 
         $this->addColumn('status', array(
-            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('BugsCoverage'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
             'index' => 'status',
             'type'  => 'options',
             'width' => '70px',

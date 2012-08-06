@@ -94,7 +94,7 @@ class Enterprise_Wishlist_Block_Adminhtml_Report_Customer_Wishlist_Grid
         ));
 
         $this->addColumn('visibility', array(
-            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist BugsCoverage'),
+            'header'    => Mage::helper('Enterprise_Wishlist_Helper_Data')->__('Wishlist Status'),
             'align'     => 'left',
             'index'     => 'visibility',
             'type'      => 'options',

@@ -75,7 +75,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         ));
 
         $this->addColumn('status', array(
-            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('BugsCoverage'),
+            'header'        => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
             'width'         => 90,
             'index'         => 'status',
             'type'          => 'options',
@@ -119,7 +119,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
                     'name'     => 'status',
                     'type'     => 'select',
                     'class'    => 'required-entry',
-                    'label'    => Mage::helper('Mage_Tag_Helper_Data')->__('BugsCoverage'),
+                    'label'    => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
                     'values'   => $statuses
                 )
              )

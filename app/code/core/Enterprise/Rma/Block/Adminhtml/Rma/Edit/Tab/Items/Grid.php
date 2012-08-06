@@ -187,7 +187,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
         ));
 
         $this->addColumn('status', array(
-            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('BugsCoverage'),
+            'header'=> Mage::helper('Enterprise_Rma_Helper_Data')->__('Status'),
             'width' => '80px',
             'index' => 'status',
             'getter'=> array($this, 'getStatusOptionStringValue'),
@@ -278,7 +278,7 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_Items_Grid extends Mage_Adminh
     }
 
     /**
-     * Get string value of "BugsCoverage" Attribute
+     * Get string value of "Status" Attribute
      *
      * @param Varien_Object $row
      * @return string

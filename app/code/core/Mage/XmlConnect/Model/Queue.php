@@ -18,22 +18,22 @@
 class Mage_XmlConnect_Model_Queue extends Mage_Core_Model_Template
 {
     /**
-     * BugsCoverage in queue identifier
+     * Status in queue identifier
      */
     const STATUS_IN_QUEUE   = 0;
 
     /**
-     * BugsCoverage cenceled identifier
+     * Status cenceled identifier
      */
     const STATUS_CANCELED   = 1;
 
     /**
-     * BugsCoverage completed identifier
+     * Status completed identifier
      */
     const STATUS_COMPLETED  = 2;
 
     /**
-     * BugsCoverage deleted identifier
+     * Status deleted identifier
      */
     const STATUS_DELETED    = 3;
 
