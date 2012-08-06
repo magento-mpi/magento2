@@ -143,6 +143,7 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
      */
     public function setCurrentArea($areaCode)
     {
+        Mage::getConfig()->setCurrentAreaCode($areaCode);
         $this->_currentArea = $areaCode;
         return $this;
     }

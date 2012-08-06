@@ -28,10 +28,13 @@ class Mage_Backend_Model_Authorization_RoleLocator implements Magento_Authorizat
     /**
      * Retrieve current role
      *
-     * @return string
+     * @return string|null
      */
     public function getAclRoleId()
     {
-        return $this->_session->getUser()->getAclRole();
+        if ($this->_session->hasUser()) {
+            return $this->_session->getUser()->getAclRole();
+        }
+        return null;
     }
 }
