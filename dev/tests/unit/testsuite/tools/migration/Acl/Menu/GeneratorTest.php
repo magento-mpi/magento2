@@ -68,8 +68,8 @@ class Tools_Migration_Acl_Menu_GeneratorTest extends PHPUnit_Framework_TestCase
 
         $this->_menuFiles = array(
             $prefix . 'community' . DIRECTORY_SEPARATOR . 'Namespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
-            $prefix . 'core' . DIRECTORY_SEPARATOR . 'Enterprise' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
-            $prefix . 'core' . DIRECTORY_SEPARATOR . 'Mage' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
+            $prefix . 'core' . DIRECTORY_SEPARATOR . 'ANamespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
+            $prefix . 'core' . DIRECTORY_SEPARATOR . 'BNamespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
             $prefix . 'local' . DIRECTORY_SEPARATOR . 'Namespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
         );
 

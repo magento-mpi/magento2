@@ -60,8 +60,8 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_adminhtmlFiles = array(
             $prefix . 'local' . DIRECTORY_SEPARATOR . 'Namespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
             $prefix . 'community' . DIRECTORY_SEPARATOR . 'Namespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
-            $prefix . 'core' . DIRECTORY_SEPARATOR . 'Enterprise' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
-            $prefix . 'core' . DIRECTORY_SEPARATOR . 'Mage' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
+            $prefix . 'core' . DIRECTORY_SEPARATOR . 'ANamespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
+            $prefix . 'core' . DIRECTORY_SEPARATOR . 'BNamespace' . DIRECTORY_SEPARATOR . 'Module' . $suffix,
         );
 
         $this->_model->setAdminhtmlFiles($this->_adminhtmlFiles);
@@ -114,23 +114,25 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 'filePath' => DIRECTORY_SEPARATOR
-                    . 'app ' . DIRECTORY_SEPARATOR
-                    . 'core ' . DIRECTORY_SEPARATOR
-                    . 'Enterprise' . DIRECTORY_SEPARATOR
+                    . 'app' . DIRECTORY_SEPARATOR
+                    . 'code' . DIRECTORY_SEPARATOR
+                    . 'core' . DIRECTORY_SEPARATOR
+                    . 'ANamespace' . DIRECTORY_SEPARATOR
                     . 'ModuleOne' . DIRECTORY_SEPARATOR
                     . 'etc' . DIRECTORY_SEPARATOR
                     . 'adminhtml.xml',
-                'moduleName' => 'Enterprise_ModuleOne',
+                'moduleName' => 'ANamespace_ModuleOne',
             ),
             array(
                 'filePath' => DIRECTORY_SEPARATOR
-                    . 'app ' . DIRECTORY_SEPARATOR
-                    . 'core ' . DIRECTORY_SEPARATOR
-                    . 'Mage' . DIRECTORY_SEPARATOR
+                    . 'app' . DIRECTORY_SEPARATOR
+                    . 'code' . DIRECTORY_SEPARATOR
+                    . 'core' . DIRECTORY_SEPARATOR
+                    . 'BNamespace' . DIRECTORY_SEPARATOR
                     . 'ModuleOne' . DIRECTORY_SEPARATOR
                     . 'etc' . DIRECTORY_SEPARATOR
                     . 'adminhtml.xml',
-                'moduleName' => 'Mage_ModuleOne',
+                'moduleName' => 'BNamespace_ModuleOne',
             ),
         );
     }
@@ -143,23 +145,25 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         return array(
             array(
                 'filePath' => DIRECTORY_SEPARATOR
-                    . 'app ' . DIRECTORY_SEPARATOR
-                    . 'core ' . DIRECTORY_SEPARATOR
-                    . 'Enterprise' . DIRECTORY_SEPARATOR
+                    . 'app' . DIRECTORY_SEPARATOR
+                    . 'code' . DIRECTORY_SEPARATOR
+                    . 'core' . DIRECTORY_SEPARATOR
+                    . 'ANamespace' . DIRECTORY_SEPARATOR
                     . 'ModuleOne' . DIRECTORY_SEPARATOR
                     . 'etc' . DIRECTORY_SEPARATOR
                     . 'adminhtml.xml',
-                'category' => 'Enterprise',
+                'category' => 'ANamespace',
             ),
             array(
                 'filePath' => DIRECTORY_SEPARATOR
-                    . 'app ' . DIRECTORY_SEPARATOR
-                    . 'core ' . DIRECTORY_SEPARATOR
-                    . 'Mage' . DIRECTORY_SEPARATOR
+                    . 'app' . DIRECTORY_SEPARATOR
+                    . 'code' . DIRECTORY_SEPARATOR
+                    . 'core' . DIRECTORY_SEPARATOR
+                    . 'BNamespace' . DIRECTORY_SEPARATOR
                     . 'ModuleOne' . DIRECTORY_SEPARATOR
                     . 'etc' . DIRECTORY_SEPARATOR
                     . 'adminhtml.xml',
-                'category' => 'Mage',
+                'category' => 'BNamespace',
             ),
         );
     }

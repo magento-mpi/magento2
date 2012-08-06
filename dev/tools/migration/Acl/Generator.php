@@ -347,9 +347,8 @@ class Tools_Migration_Acl_Generator
         if (null === $this->_adminhtmlFiles) {
             $localFiles = glob($this->getEtcDirPattern('local') . 'adminhtml.xml');
             $communityFiles = glob($this->getEtcDirPattern('community') . 'adminhtml.xml');
-            $coreEnterpriseFiles = glob($this->getEtcDirPattern('core', 'Enterprise') . 'adminhtml.xml');
-            $coreMageFiles = glob($this->getEtcDirPattern('core', 'Mage') . 'adminhtml.xml');
-            $this->_adminhtmlFiles = array_merge($localFiles, $communityFiles, $coreEnterpriseFiles, $coreMageFiles);
+            $coreFiles = glob($this->getEtcDirPattern('core') . 'adminhtml.xml');
+            $this->_adminhtmlFiles = array_merge($localFiles, $communityFiles, $coreFiles);
         }
         return $this->_adminhtmlFiles;
     }
