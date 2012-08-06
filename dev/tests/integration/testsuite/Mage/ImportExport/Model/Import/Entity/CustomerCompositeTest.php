@@ -22,33 +22,43 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     protected $_entityAdapter;
 
     /**
-     * Important data from address_import_update.csv (postcode is key)
+     * Additional customer attributes for assertion
      *
      * @var array
      */
-    protected $_updateData = array(
-        'address' => array( // address records
-            'update'            => '19107',  // address with updates
-            'new'               => '85034',  // new address
-            'no_customer'       => '33602',  // there is no customer with this primary key (email+website)
-            'new_no_address_id' => '32301',  // new address without address id
-        ),
-        'update'  => array( // this data is changed in CSV file
-            '19107' => array(
-                'firstname'  => 'Katy',
-                'middlename' => 'T.',
+    protected $_customerAttributes = array('firstname', 'lastname');
+
+    /**
+     * Customers and addresses before import, address ID is postcode
+     *
+     * @var array
+     */
+    protected $_beforeImport = array(
+        'betsyparker@example.com' => array(
+            'addresses' => array('19107', '72701'),
+            'data' => array(
+                'firstname' => 'Betsy',
+                'lastname'  => 'Parker',
             ),
         ),
-        'remove'  => array( // this data is not set in CSV file
-            '19107' => array(
-                'city'   => 'Philadelphia',
-                'region' => 'Pennsylvania',
+    );
+
+    /**
+     * Customers and addresses after import, address ID is postcode
+     *
+     * @var array
+     */
+    protected $_afterImport = array(
+        'betsyparker@example.com'   => array(
+            'addresses' => array('19107', '72701', '19108'),
+            'data' => array(
+                'firstname' => 'NotBetsy',
+                'lastname'  => 'NotParker',
             ),
         ),
-        'default' => array( // new default billing/shipping addresses
-            'billing'  => '19108',
-            'shipping' => '19108',
-        ),
+        'anthonyanealy@magento.com' => array('addresses' => array('72701', '92664')),
+        'loribbanks@magento.com'    => array('addresses' => array('98801')),
+        'kellynilson@magento.com'   => array('addresses' => array()),
     );
 
     public function setUp()
@@ -64,56 +74,109 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     /**
      * Test import data method with add/update behaviour
      *
+     * @param string $behavior
+     * @param string $sourceFile
+     * @param array $dataBefore
+     * @param array $dataAfter
+     * @param array $errors
+     *
+     * @dataProvider importDataDataProvider
      * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
      * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_importData
-     * @todo finish implementation
      */
-    public function testImportDataAddUpdate()
+    public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        $this->markTestIncomplete('Not implemented yet');
-        // set behaviour
-        $this->_entityAdapter->setParameters(
-            array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE)
-        );
+        // set entity adapter parameters
+        $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 
         // set fixture CSV file
-        $sourceFile = __DIR__ . '/_files/customer_composite.csv';
         $result = $this->_entityAdapter
             ->setSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile))
             ->isDataValid();
-        $this->assertFalse($result, 'Validation result must be false.');
+        if ($errors) {
+            $this->assertFalse($result);
+        } else {
+            $this->assertTrue($result);
+        }
 
-        // are default billing/shipping addresses have new value
-        /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $customer->setWebsiteId(0);
-        $customer->loadByEmail('BetsyParker@example.com');
+        // assert validation errors
+        // can't use error codes because entity adapter gathers only error messages from aggregated adapters
+        $actualErrors = array_values($this->_entityAdapter->getErrorMessages());
+        $this->assertEquals($errors, $actualErrors);
 
-        $this->assertCount(2, $customer->getAddresses());
+        // assert data before import
+        $this->_assertCustomerData($dataBefore);
+
+        // reset entity adapter to clear all cached data
+        unset($this->_entityAdapter);
+        $this->_entityAdapter = new Mage_ImportExport_Model_Import_Entity_CustomerComposite();
+        $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 
         // import data
         $this->_entityAdapter->importData();
 
-        $keyAttribute = 'postcode';
+        // assert data after import
+        $this->_assertCustomerData($dataAfter);
+    }
 
-        // are default billing/shipping addresses have new value
+    /**
+     * Assertion of current customer and address data
+     *
+     * @param array $expectedData
+     */
+    protected function _assertCustomerData(array $expectedData)
+    {
+        /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
+        $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
+        $collection->addAttributeToSelect($this->_customerAttributes);
+        $customers = $collection->getItems();
+
+        $this->assertSameSize($expectedData, $customers);
+
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = Mage::getModel('Mage_Customer_Model_Customer');
-        $customer->setWebsiteId(0);
-        $customer->loadByEmail('BetsyParker@example.com');
+        foreach ($customers as $customer) {
+            // assert customer existence
+            $email = strtolower($customer->getEmail());
+            $this->assertArrayHasKey($email, $expectedData);
 
-        $this->assertCount(3, $customer->getAddresses());
+            // assert customer data (only for required customers)
+            if (isset($expectedData[$email]['data'])) {
+                foreach ($expectedData[$email]['data'] as $attribute => $expectedValue) {
+                    $this->assertEquals($expectedValue, $customer->getData($attribute));
+                }
+            }
 
-        $defaultsData = $this->_updateData['default'];
-        $this->assertEquals(
-            $defaultsData['billing'],
-            $customer->getDefaultBillingAddress()->getData($keyAttribute),
-            'Incorrect default billing address'
-        );
-        $this->assertEquals(
-            $defaultsData['shipping'],
-            $customer->getAddresses()->getData($keyAttribute),
-            'Incorrect default shipping address'
+            // assert address data
+            $addresses = $customer->getAddresses();
+            $this->assertSameSize($expectedData[$email]['addresses'], $addresses);
+            /** @var $address Mage_Customer_Model_Address */
+            foreach ($addresses as $address) {
+                $this->assertContains($address->getData('postcode'), $expectedData[$email]['addresses']);
+            }
+        }
+    }
+
+    /**
+     * Data provider for testImportData
+     *
+     * @return array
+     */
+    public function importDataDataProvider()
+    {
+        return array(
+            'add_update_behavior' => array(
+                '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$sourceFile' => __DIR__ . '/_files/customer_composite_update.csv',
+                '$dataBefore' => $this->_beforeImport,
+                '$dataAfter'  => $this->_afterImport,
+                '$errors'     => array(array(6)),     // row #6 has no website
+            ),
+            'delete_behavior' => array(
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$sourceFile' => __DIR__ . '/_files/customer_composite_delete.csv',
+                '$dataBefore' => $this->_beforeImport,
+                '$dataAfter' => array(),
+            ),
         );
     }
 }
