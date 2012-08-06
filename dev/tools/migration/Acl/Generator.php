@@ -120,25 +120,21 @@ class Tools_Migration_Acl_Generator
     }
 
     /**
-     * Get Comment text
+     * Get License Template for a file
      *
-     * @param $category string
-     * @param $package string
+     * @param $file string File path
      * @return string
      */
-    public function getCommentText($category, $package)
+    public function getLicenseTemplate($file)
     {
-        $comment = PHP_EOL;
-        $comment .= '/**' . PHP_EOL;
-        $comment .= ' * {license_notice}' . PHP_EOL;
-        $comment .= ' *' . PHP_EOL;
-        $comment .= ' * @category    ' . $category . PHP_EOL;
-        $comment .= ' * @package     ' . $package . PHP_EOL;
-        $comment .= ' * @copyright   {copyright}' . PHP_EOL;
-        $comment .= ' * @license     {license_link}' . PHP_EOL;
-        $comment .= ' */' . PHP_EOL;
+        $content = file_get_contents($file);
 
-        return $comment;
+        $licenseTemplate = '';
+        if (preg_match('#<\?xml[^>]+>\s+<\!--(\s+/\*\*[\w\W\d\s]+\*/\s+)-->#', $content, $matches)) {
+            $licenseTemplate = $matches[1];
+        }
+
+        return $licenseTemplate;
     }
 
     /**
@@ -152,18 +148,6 @@ class Tools_Migration_Acl_Generator
         $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $fileName));
         $module = $parts[3] . '_' . $parts[2];
         return $module;
-    }
-
-    /**
-     * Get category name from file name
-     *
-     * @param $fileName string
-     * @return string
-     */
-    public function getCategory($fileName)
-    {
-        $parts = array_reverse(explode(DIRECTORY_SEPARATOR, $fileName));
-        return $parts[3];
     }
 
     /**
@@ -426,16 +410,16 @@ class Tools_Migration_Acl_Generator
 
     /**
      * Get template for result DOMDocument
-     * @param $module
-     * @param $category
+     *
+     * @param $licenseTemplate
      * @return DOMDocument
      */
-    public function getResultDomDocument($module, $category)
+    public function getResultDomDocument($licenseTemplate)
     {
         $resultDom = new DOMDocument();
         $resultDom->formatOutput = true;
 
-        $comment = $resultDom->createComment($this->getCommentText($category, $module));
+        $comment = $resultDom->createComment($licenseTemplate);
         $resultDom->appendChild($comment);
 
         $config = $resultDom->createElement('config');
@@ -457,8 +441,8 @@ class Tools_Migration_Acl_Generator
     {
         foreach ($this->getAdminhtmlFiles() as $file) {
             $module = $this->getModuleName($file);
-            $category = $this->getCategory($file);
-            $resultDom = $this->getResultDomDocument($module, $category);
+            $licenseTemplate = $this->getLicenseTemplate($file);
+            $resultDom = $this->getResultDomDocument($licenseTemplate);
 
             $adminhtmlDom = new DOMDocument();
             $adminhtmlDom->load($file);
@@ -743,6 +727,7 @@ class Tools_Migration_Acl_Generator
             $this->getBasePath(),
             $this->getValidNodeTypes(),
             $this->_aclResourceMaps,
+            $this->_fileWriter,
             $this->_isPreviewMode
         );
         return $menu->run();

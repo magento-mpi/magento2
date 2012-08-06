@@ -69,19 +69,48 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
         $this->_model->setBasePath($this->_fixturePath);
     }
 
-    public function testGetCommentText()
+    /**
+     * @param $file
+     * @param $expected
+     *
+     * @dataProvider getLicenseTemplateDataProvider
+     */
+    public function testGetLicenseTemplate($file, $expected)
     {
-        $expected = PHP_EOL;
-        $expected .= '/**' . PHP_EOL;
-        $expected .= ' * {license_notice}' . PHP_EOL;
-        $expected .= ' *' . PHP_EOL;
-        $expected .= ' * @category    Category' . PHP_EOL;
-        $expected .= ' * @package     Module_Name' . PHP_EOL;
-        $expected .= ' * @copyright   {copyright}' . PHP_EOL;
-        $expected .= ' * @license     {license_link}' . PHP_EOL;
-        $expected .= ' */' . PHP_EOL;
+        $actual = $this->_model->getLicenseTemplate($this->_fixturePath . $file);
+        $this->assertEquals($expected, $actual);
+    }
 
-        $this->assertEquals($expected, $this->_model->getCommentText('Category', 'Module_Name'));
+    /**
+     * @return array
+     */
+    public function getLicenseTemplateDataProvider()
+    {
+        $ceLicenseTemplate = <<<B_LICENSE
+
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Customer
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+B_LICENSE;
+        return array(
+            array(
+                'filePath' => DIRECTORY_SEPARATOR
+                    . 'app' . DIRECTORY_SEPARATOR
+                    . 'code' . DIRECTORY_SEPARATOR
+                    . 'core' . DIRECTORY_SEPARATOR
+                    . 'BNamespace' . DIRECTORY_SEPARATOR
+                    . 'Module' . DIRECTORY_SEPARATOR
+                    . 'etc' . DIRECTORY_SEPARATOR
+                    . 'adminhtml.xml',
+                'template' => $ceLicenseTemplate,
+            ),
+        );
     }
 
     /**
@@ -93,17 +122,6 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
     public function testGetModuleName($filePath, $expectedModuleName)
     {
         $this->assertEquals($expectedModuleName, $this->_model->getModuleName($filePath), 'Incorrect Module Name');
-    }
-
-    /**
-     * @param $filePath
-     * @param $expectedCategory
-     *
-     * @dataProvider getCategoryDataProvider
-     */
-    public function testGetCategory($filePath, $expectedCategory)
-    {
-        $this->assertEquals($expectedCategory, $this->_model->getCategory($filePath), 'Incorrect Category Name');
     }
 
     /**
@@ -133,37 +151,6 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
                     . 'etc' . DIRECTORY_SEPARATOR
                     . 'adminhtml.xml',
                 'moduleName' => 'BNamespace_ModuleOne',
-            ),
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getCategoryDataProvider()
-    {
-        return array(
-            array(
-                'filePath' => DIRECTORY_SEPARATOR
-                    . 'app' . DIRECTORY_SEPARATOR
-                    . 'code' . DIRECTORY_SEPARATOR
-                    . 'core' . DIRECTORY_SEPARATOR
-                    . 'ANamespace' . DIRECTORY_SEPARATOR
-                    . 'ModuleOne' . DIRECTORY_SEPARATOR
-                    . 'etc' . DIRECTORY_SEPARATOR
-                    . 'adminhtml.xml',
-                'category' => 'ANamespace',
-            ),
-            array(
-                'filePath' => DIRECTORY_SEPARATOR
-                    . 'app' . DIRECTORY_SEPARATOR
-                    . 'code' . DIRECTORY_SEPARATOR
-                    . 'core' . DIRECTORY_SEPARATOR
-                    . 'BNamespace' . DIRECTORY_SEPARATOR
-                    . 'ModuleOne' . DIRECTORY_SEPARATOR
-                    . 'etc' . DIRECTORY_SEPARATOR
-                    . 'adminhtml.xml',
-                'category' => 'BNamespace',
             ),
         );
     }
@@ -311,7 +298,19 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
 
     public function testGetResultDomDocument()
     {
-        $dom = $this->_model->getResultDomDocument('Module_Name', 'Category');
+        $licenseTemplate = <<<LICENSE
+
+/**
+ * {license_notice}
+ *
+ * @category    Category
+ * @package     Module_Name
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+LICENSE;
+        $dom = $this->_model->getResultDomDocument($licenseTemplate);
         $expectedDom = new DOMDocument();
         $expectedDom->formatOutput = true;
 
