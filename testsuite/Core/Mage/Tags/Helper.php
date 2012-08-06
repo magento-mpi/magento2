@@ -25,7 +25,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    protected function _convertTagsStringToArray($tagName)
+    public function convertTagsStringToArray($tagName)
     {
         $tags = array();
         $tagNameArray = array_filter(explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName)), 'strlen');
@@ -43,9 +43,10 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function frontendAddTag($tagsString)
     {
-        $tagNameArray = $this->_convertTagsStringToArray($tagsString);
+        $tagNameArray = $this->convertTagsStringToArray($tagsString);
         $tagQty = count($tagNameArray);
         $this->addParameter('tagQty', $tagQty);
+        $this->addParameter('tagName', $tagsString);
         $this->fillField('input_new_tags', $tagsString);
         $this->clickButton('add_tags');
     }
@@ -58,7 +59,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function frontendDeleteTags($tags)
     {
         if (is_string($tags)) {
-            $tags = $this->_convertTagsStringToArray($tags);
+            $tags = $this->convertTagsStringToArray($tags);
         }
         foreach ($tags as $tag) {
             $this->addParameter('tagName', $tag);
@@ -79,7 +80,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function frontendTagVerification($tags, $product)
     {
         if (is_string($tags)) {
-            $tags = $this->_convertTagsStringToArray($tags);
+            $tags = $this->convertTagsStringToArray($tags);
         }
         //Verification in "My Recent tags" area
         $this->addParameter('productName', $product);
@@ -116,7 +117,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     public function frontendTagVerificationInCategory($tags, $product, $category)
     {
         if (is_string($tags)) {
-            $tags = $this->_convertTagsStringToArray($tags);
+            $tags = $this->convertTagsStringToArray($tags);
         }
         $category = substr($category, strpos($category, '/') + 1);
         $url = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '-', $category)), '-');
@@ -161,11 +162,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function fillTagSettings($tagData)
     {
-        if (is_string($tagData)) {
-            $elements = explode('/', $tagData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $tagData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
         // Select store view if available
         if (array_key_exists('switch_store', $tagData)) {
             if ($this->controlIsPresent('dropdown', 'switch_store')) {
@@ -212,11 +208,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function openTag($searchData)
     {
-        if (is_string($searchData)) {
-            $elements = explode('/', $searchData);
-            $fileName = (count($elements) > 1) ? array_shift($elements) : '';
-            $searchData = $this->loadDataSet($fileName, implode('/', $elements));
-        }
         // Check if store views are available
         $key = 'filter_store_view';
         if (array_key_exists($key, $searchData) && !$this->controlIsPresent('dropdown', 'store_view')) {
@@ -295,6 +286,21 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->validatePage();
         $this->assertMessagePresent('success');
+        return true;
+    }
+
+    /**
+     * Checks tag.
+     *
+     * @param array $tagData Data used in Search Grid for tags. Same as used for openTag
+     *
+     * @return bool
+     */
+    public function verifyTag(array $tagData)
+    {
+        $this->openTag($tagData);
+        $this->assertTrue($this->verifyForm($tagData),
+        'Tag verification is failure ' . print_r($tagData, true));
         return true;
     }
 
