@@ -197,7 +197,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
         try {
             /** @var $oauthServer Mage_Oauth_Model_Server */
             $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $request);
-            $consumerKey = $oauthServer->authenticateTwoLegged($request);
+            $consumerKey = $oauthServer->authenticateTwoLeggedRest();
         } catch (Exception $e) {
             throw new Mage_Api2_Exception($oauthServer->reportProblem($e), Mage_Api2_Model_Server::HTTP_UNAUTHORIZED);
         }

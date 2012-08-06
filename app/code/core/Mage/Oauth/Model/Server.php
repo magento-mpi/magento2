@@ -192,12 +192,15 @@ class Mage_Oauth_Model_Server
     /**
      * Retrieve protocol and request parameters from request object
      *
+     * @param string $authHeaderValue
      * @link http://tools.ietf.org/html/rfc5849#section-3.5
      * @return Mage_Oauth_Model_Server
      */
-    protected function _fetchParams()
+    protected function _fetchParams($authHeaderValue = null)
     {
-        $authHeaderValue = $this->_request->getHeader('Authorization');
+        if (is_null($authHeaderValue)) {
+            $authHeaderValue = $this->_request->getHeader('Authorization');
+        }
 
         if ($authHeaderValue && 'oauth' === strtolower(substr($authHeaderValue, 0, 5))) {
             $authHeaderValue = substr($authHeaderValue, 6); // ignore 'OAuth ' at the beginning
@@ -531,6 +534,27 @@ class Mage_Oauth_Model_Server
     }
 
     /**
+     * Validate SOAP signature
+     *
+     * @throws Mage_Oauth_Exception
+     */
+    protected function _validateSoapSignature($operation)
+    {
+        $util = new Zend_Oauth_Http_Utility();
+        // TODO: investigate base for signature, currently only SOAP operation is used
+        $calculatedSign = $util->sign($this->_protocolParams,
+            $this->_protocolParams['oauth_signature_method'],
+            $this->_consumer->getSecret(),
+            null,
+            $operation
+        );
+
+        if ($calculatedSign != $this->_protocolParams['oauth_signature']) {
+            $this->_throwException($calculatedSign, self::ERR_SIGNATURE_INVALID);
+        }
+    }
+
+    /**
      * Check for 'oauth_token' parameter
      */
     protected function _validateTokenParam()
@@ -606,11 +630,11 @@ class Mage_Oauth_Model_Server
     }
 
     /**
-     * Authenticate two-legged request.
+     * Authenticate two-legged REST request.
      *
      * @return string
      */
-    public function authenticateTwoLegged()
+    public function authenticateTwoLeggedRest()
     {
         // get parameters from request
         $this->_fetchParams();
@@ -623,6 +647,30 @@ class Mage_Oauth_Model_Server
 
         // validate signature
         $this->_validateSignature();
+
+        return $this->_consumer->getKey();
+    }
+
+    /**
+     * Authenticate two-legged SOAP request.
+     *
+     * @param string $header
+     * @param string $operation
+     * @return string
+     */
+    public function authenticateTwoLeggedSoap($header, $operation)
+    {
+        // get parameters from request
+        $this->_fetchParams($header);
+
+        // make generic validation of request parameters
+        $this->_validateProtocolParams();
+
+        // initialize consumer
+        $this->_initConsumer();
+
+        // validate signature for SOAP
+        $this->_validateSoapSignature($operation);
 
         return $this->_consumer->getKey();
     }

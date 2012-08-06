@@ -26,6 +26,9 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     /** @var Zend_Soap_Server */
     protected $_soapServer;
 
+    /** @var string */
+    protected $_oauthHeader;
+
     /**
      * TODO: Change base controller to Generic controller for SOAP API
      *
@@ -46,6 +49,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     // TODO: Think about situations when custom error handler is required for this method (that can throw soap faults)
     public function __call($operation, $arguments)
     {
+        $this->_authenticate($operation);
+
         $resourceName = $this->getResourceConfig()->getResourceNameByOperation($operation);
         if (!$resourceName) {
             $this->_soapFault(sprintf('Method "%s" is not found.', $operation), self::FAULT_CODE_SENDER);
@@ -78,11 +83,45 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
             return $stdObj;
             // TODO: Implement proper exception handling
         } catch (Mage_Api_Exception $e) {
-            $this->_soapFault($e->getCustomMessage(), 'Receiver', $e);
+            $this->_soapFault($e->getCustomMessage(), self::FAULT_CODE_RECEIVER, $e);
         } catch (Exception $e) {
             Mage::logException($e);
             $this->_soapFault();
         }
+    }
+
+    /**
+     * Handler method for SOAP header "Authorization".
+     * It is invoked before action method call if such header present in the request.
+     *
+     * @param string $header
+     */
+    public function Authorization($header)
+    {
+        $this->_oauthHeader = $header;
+    }
+
+    /**
+     * Authenticate SOAP operation call.
+     *
+     * @param $operation
+     * @return string
+     */
+    protected function _authenticate($operation)
+    {
+        if (!$this->_oauthHeader) {
+            $this->_soapFault('Authentication required.', self::FAULT_CODE_SENDER);
+        }
+
+        try {
+            /** @var $oauthServer Mage_Oauth_Model_Server */
+            $oauthServer = Mage::getModel('Mage_Oauth_Model_Server', $this->getRequest());
+            $consumerKey = $oauthServer->authenticateTwoLeggedSoap($this->_oauthHeader, $operation);
+        } catch (Exception $e) {
+            $this->_soapFault($oauthServer->reportProblem($e), self::FAULT_CODE_RECEIVER, $e);
+        }
+        // TODO: implement consumer role loading
+        return $consumerKey;
     }
 
     /**
