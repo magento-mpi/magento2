@@ -1,0 +1,95 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# 'Edit Customer' Page
+edit_customer:
+    uimap:
+        form:
+            tabs:
+                -
+                    store_credit:
+                        xpath: //a[@id='customer_info_tabs_customerbalance']/span
+                        fieldsets:
+                            -
+                                update_store_balance:
+                                    xpath: //div[@id='_customerbalancestorecreidt_fieldset']
+                                    dropdowns:
+                                        website: //select[@id='_customerbalancewebsite_id']
+                                        store: //select[@id='_customerbalancestore_id']
+                                    fields:
+                                        update_balance: //input[@id='_customerbalanceamount_delta']
+                                        comment: //input[@id='_customerbalancecomment']
+                                    checkboxes:
+                                        notify_by_email: //input[@id='_customerbalancenotify_by_email']
+                -
+                    reward_points:
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
+                        fieldsets:
+                            -
+                                update_reward_balance:
+                                    xpath: //div[@id='reward_update_fieldset']
+                                    fields:
+                                        update_balance: //input[@id='reward_points_delta']
+                                        comment: //input[@id='reward_comment']
+        buttons:
+            manage_shopping_cart: //button[span='Manage Shopping Cart']
+
+#Customer Segments page
+manage_customer_segments:
+    mca: customersegment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
+    title: Customer Segments / Customers / Magento Admin
+
+#Manage Invitations page
+manage_invitations:
+    mca: invitation/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'invitation/')]
+    title: Invitations / Customers / Magento Admin
+
+#Manage Gift Registry Types page
+manage_gift_registry:
+    mca: giftregistry/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry/')]
+    title: Manage Gift Registry Types / Customers / Magento Admin
+
+#Manage Gift Card Accounts page
+manage_gift_card_account:
+    mca: giftcardaccount/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'giftcardaccount/')]
+    title: Gift Card Accounts / Customers / Magento Admin
+
+#Manage Reward Exchange Rates page
+manage_reward_rates:
+    mca: reward_rate/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'reward_rate/')]
+    title: Reward Exchange Rates / Customers / Magento Admin
+
+# 'Online Customers' Page
+online_customers:
+    mca: customer_online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    title: Online Customers / Customers / Magento Admin
