@@ -178,6 +178,11 @@ pending_tags:
                 -
                     pending_tags_grid:
                         xpath: //div[@id='pending_grid']
+                        links:
+                            select_all: //div[@id='pending_grid_massaction']//a[contains(.,'Select All')]
+                            unselect_all: //div[@id='pending_grid_massaction']//a[contains(.,'Unselect All')]
+                            select_visible: //div[@id='pending_grid_massaction']//a[contains(.,'Select Visible')]
+                            unselect_visible: //div[@id='pending_grid_massaction']//a[contains(.,'Unselect Visible')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
