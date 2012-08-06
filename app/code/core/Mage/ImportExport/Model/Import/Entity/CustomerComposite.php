@@ -428,17 +428,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     public function getErrorsCount()
     {
-        return $this->_customerEntity->getErrorsCount() + $this->_addressEntity->getErrorsCount();
-    }
-
-    /**
-     * Returns error limit value
-     *
-     * @return int
-     */
-    public function getErrorsLimit()
-    {
-        return $this->_customerEntity->getErrorsLimit() + $this->_addressEntity->getErrorsLimit();
+        return $this->_customerEntity->getErrorsCount() + $this->_addressEntity->getErrorsCount()
+            + parent::getErrorsCount();
     }
 
     /**
@@ -448,7 +439,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     public function getInvalidRowsCount()
     {
-        return $this->_customerEntity->getInvalidRowsCount() + $this->_addressEntity->getInvalidRowsCount();
+        return $this->_customerEntity->getInvalidRowsCount() + $this->_addressEntity->getInvalidRowsCount()
+            + parent::getInvalidRowsCount();
     }
 
     /**

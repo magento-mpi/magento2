@@ -52,11 +52,11 @@ class Mage_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_Fram
             array('load', 'removeAttributeToSelect', 'getResource', 'getSelect'), array(), '', false
         );
 
-        $data = new Varien_Object();
-        $data->setEntityTable($this->_entityTable);
+        $resourceStub = new Varien_Object();
+        $resourceStub->setEntityTable($this->_entityTable);
         $customerCollection->expects($this->once())
             ->method('getResource')
-            ->will($this->returnValue($data));
+            ->will($this->returnValue($resourceStub));
 
         $customerCollection->expects($this->once())
             ->method('getSelect')
@@ -72,21 +72,6 @@ class Mage_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_Fram
             'collection_by_pages_iterator' => $byPagesIterator,
             'page_size'                    => 10
         );
-    }
-
-    /**
-     * @return Varien_Object
-     */
-    protected function _addCustomerToStorage()
-    {
-        $customer = new Varien_Object(array(
-            'id'         => 1,
-            'website_id' => 1,
-            'email'      => 'test@test.com'
-        ));
-        $this->_model->addCustomer($customer);
-
-        return $customer;
     }
 
     /**
@@ -153,5 +138,20 @@ class Mage_ImportExport_Model_Resource_Customer_StorageTest extends PHPUnit_Fram
             $this->_model->getCustomerId($customer->getEmail(), $customer->getWebsiteId())
         );
         $this->assertFalse($this->_model->getCustomerId('new@test.com', $customer->getWebsiteId()));
+    }
+
+    /**
+     * @return Varien_Object
+     */
+    protected function _addCustomerToStorage()
+    {
+        $customer = new Varien_Object(array(
+            'id'         => 1,
+            'website_id' => 1,
+            'email'      => 'test@test.com'
+        ));
+        $this->_model->addCustomer($customer);
+
+        return $customer;
     }
 }

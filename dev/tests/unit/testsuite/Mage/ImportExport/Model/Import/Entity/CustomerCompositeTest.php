@@ -663,8 +663,12 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
-
-        $this->assertEquals($customerData + $addressData, $this->_model->$method());
+        if ($method == 'getProcessedEntitiesCount') {
+            $this->assertEquals($customerData + $addressData, $this->_model->$method());
+        } else {
+            $this->_model->addRowError(Mage_ImportExport_Model_Import_Entity_CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
+            $this->assertEquals($customerData + $addressData + 1, $this->_model->$method());
+        }
     }
 
     /**
@@ -676,11 +680,6 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
             'test for getErrorsCount' => array(
                 '$method' => 'getErrorsCount',
                 '$customerData' => 2,
-                '$addressData'  => 3,
-            ),
-            'test for getErrorsLimit' => array(
-                '$method' => 'getErrorsLimit',
-                '$customerData' => 5,
                 '$addressData'  => 3,
             ),
             'test for getInvalidRowsCount' => array(
