@@ -40,8 +40,3 @@ google_content_manage_items:
     mca: googleshopping_items/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_items/')]
     title: Manage Items / Google Content / Catalog / Magento Admin
-
-google_sitemap:
-    mca: sitemap/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sitemap/')]
-    title: Google Sitemaps / Catalog / Magento Admin

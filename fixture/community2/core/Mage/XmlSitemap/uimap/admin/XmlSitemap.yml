@@ -1,0 +1,84 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#XML Sitemap pages
+
+google_sitemap:
+    mca: sitemap/
+    click_xpath: //div[@class='nav-bar']//a[span='XML Sitemap']
+    title: XML Sitemaps / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    xml_sitemap_grid:
+                        xpath: //div[@id='sitemapGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_store_view: //select[@name='store_id']
+                        fields:
+                            page: //input[@name='page']
+                            filter_xml_sitemap_id: //input[@id='sitemapGrid_filter_sitemap_id']
+                            filter_xml_sitemap_filename: //input[@id='sitemapGrid_filter_sitemap_filename']
+                            filter_xml_sitemap_path: //input[@id='sitemapGrid_filter_sitemap_path']
+                            filter_xml_sitemap_google_link: //input[@id='sitemapGrid_filter_link']
+                            filter_xml_sitemap_create_date_from: //input[@name='sitemap_time[from]']
+                            filter_xml_sitemap_create_date_to: //input[@name='sitemap_time[to]']
+                        pageelements:
+                            page_grid_head: //div/table[@id='sitemapGrid_table']//thead//tr[@class='headings']
+        buttons:
+            add_sitemap: //button[@title='Add Sitemap']
+        messages: &pageMessages
+            success_saved_xml_sitemap: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap has been saved.')]
+            success_deleted_xml_sitemap: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap has been deleted.')]
+            success_sitemap_generate: //li[normalize-space(@class)='success-msg' and contains(.,'The sitemap "%fileName%" has been generated.')]
+            success_sitemap_save_and_generate: //li[normalize-space(@class)='success-msg']/ul/li[contains(.,'The sitemap "%fileName%" has been generated.')]
+            xml_sitemap_empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
+            filename_exist_: //li[normalize-space(@class)='error-msg' and contains(.,'Path "%fileName%" is not available and cannot be used.')]
+
+add_new_xml_sitemap:
+    mca: sitemap/new/
+    title: New Sitemap / XML Sitemaps / Catalog / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    xml_sitemap_create:
+                        xpath: //div[@id='add_sitemap_form']
+                        dropdowns:
+                            xml_sitemap_create_store_view: //select[@name='store_id']
+                        fields:
+                            xml_sitemap_create_filename: //input[@id='sitemap_filename']
+                            xml_sitemap_create_path: //input[@id='sitemap_path']
+            buttons:
+                back: //button[@title='Back']
+                reset: //button[@title='Reset']
+                save_and_generate: //button[@title='Save & Generate']
+                save: //button[@title='Save']
+            messages: *pageMessages

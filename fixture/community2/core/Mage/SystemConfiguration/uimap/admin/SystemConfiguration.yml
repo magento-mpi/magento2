@@ -23,6 +23,30 @@ system_configuration:
                                     fields:
                                         captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']            
                 -
+                    general_design:
+                        fieldsets:
+                            -
+                                search_engine_robots:
+                                    xpath: //fieldset[@id='design_search_engine_robots']
+                                    fields:
+                                        edit_custom_instruction: //textarea[@name='groups[search_engine_robots][fields][custom_instructions][value]']
+                                    dropdowns:
+                                        default_robots: //select[@name='groups[search_engine_robots][fields][default_robots][value]']
+                                    checkboxes:
+                                        display_demo_store_notice_use_default: //input[@name='groups[head][fields][demonotice][inherit]']
+                                    buttons:
+                                        reset_to_default_robots: //button[span='Reset to Default']
+                -
+                    catalog_google_sitemap:
+                        fieldsets:
+                            -
+                                search_engine_submission_settings:
+                                    xpath: //fieldset[@id='sitemap_search_engines']
+                                    links:
+                                        search_engine_submission_settings_link: //parent::div//a[@id='sitemap_search_engines-head']
+                                    dropdowns:
+                                        enable_submission_to_robots: //select[@name='groups[search_engines][fields][submission_robots][value]']
+                -
                     sales_payment_methods:
                         fieldsets:
                             -
