@@ -28,10 +28,12 @@ class Mage_Paypal_Block_Adminhtml_Settlement_Report extends Mage_Adminhtml_Block
         parent::__construct();
         $this->_removeButton('add');
         $message = Mage::helper('Mage_Paypal_Helper_Data')->__('Connecting to PayPal SFTP server to fetch new reports. Are you sure you want to proceed?');
-        $this->_addButton('fetch', array(
-            'label'   => Mage::helper('Mage_Paypal_Helper_Data')->__('Fetch Updates'),
-            'onclick' => "confirmSetLocation('{$message}', '{$this->getUrl('*/*/fetch')}')",
-            'class'   => 'task'
-        ));
+        if (true == Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Paypal::fetch')) {
+            $this->_addButton('fetch', array(
+                'label'   => Mage::helper('Mage_Paypal_Helper_Data')->__('Fetch Updates'),
+                'onclick' => "confirmSetLocation('{$message}', '{$this->getUrl('*/*/fetch')}')",
+                'class'   => 'task'
+            ));
+        }
     }
 }
