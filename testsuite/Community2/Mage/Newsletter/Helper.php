@@ -37,5 +37,5 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
         $this->clickButton('add_new_template');
         $this->fillFieldSet($data, 'newsletter_add_template');
         $this->saveForm('save_template');
-    }    
+    }
 }
