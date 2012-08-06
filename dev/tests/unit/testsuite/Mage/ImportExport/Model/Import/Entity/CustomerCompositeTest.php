@@ -636,62 +636,65 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     }
 
     /**
-     * @dataProvider getterTestDataProvider
-     *
      * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getErrorsCount
-     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getErrorsLimit
-     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getInvalidRowsCount
-     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getProcessedEntitiesCount
-     *
-     * @param string $method
-     * @param int $customerData
-     * @param int $addressData
      */
-    public function testGetters($method, $customerData, $addressData)
+    public function testGetErrorsCount()
+    {
+        $customerReturnData = 1;
+        $addressReturnData = 2;
+        $model = $this->_getModelForGetterTest('getErrorsCount', $customerReturnData, $addressReturnData);
+        $model->addRowError(Mage_ImportExport_Model_Import_Entity_CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
+
+        $this->assertEquals($customerReturnData + $addressReturnData + 1, $model->getErrorsCount());
+    }
+
+    /**
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getInvalidRowsCount
+     */
+    public function testGetInvalidRowsCount()
+    {
+        $customerReturnData = 3;
+        $addressReturnData = 2;
+        $model = $this->_getModelForGetterTest('getInvalidRowsCount', $customerReturnData, $addressReturnData);
+        $model->addRowError(Mage_ImportExport_Model_Import_Entity_CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
+
+        $this->assertEquals($customerReturnData + $addressReturnData + 1, $model->getInvalidRowsCount());
+    }
+
+    /**
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getProcessedEntitiesCount
+     */
+    public function testGetProcessedEntitiesCount()
+    {
+        $customerReturnData = 3;
+        $addressReturnData = 4;
+        $model = $this->_getModelForGetterTest('getProcessedEntitiesCount', $customerReturnData, $addressReturnData);
+
+        $this->assertEquals($customerReturnData + $addressReturnData, $model->getProcessedEntitiesCount());
+    }
+
+    /**
+     * @param string $method
+     * @param int $customerReturnData
+     * @param int $addressReturnData
+     * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
+     */
+    protected function _getModelForGetterTest($method, $customerReturnData, $addressReturnData)
     {
         $customerEntity = $this->_getCustomerEntityMock();
         $addressEntity = $this->_getAddressEntityMock();
 
         $customerEntity->expects($this->once())
             ->method($method)
-            ->will($this->returnValue($customerData));
+            ->will($this->returnValue($customerReturnData));
         $addressEntity->expects($this->once())
             ->method($method)
-            ->will($this->returnValue($addressData));
+            ->will($this->returnValue($addressReturnData));
 
         $data = $this->_getModelDependencies();
         $data['customer_entity'] = $customerEntity;
         $data['address_entity']  = $addressEntity;
         $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
-        if ($method == 'getProcessedEntitiesCount') {
-            $this->assertEquals($customerData + $addressData, $this->_model->$method());
-        } else {
-            $this->_model->addRowError(Mage_ImportExport_Model_Import_Entity_CustomerComposite::ERROR_ROW_IS_ORPHAN, 1);
-            $this->assertEquals($customerData + $addressData + 1, $this->_model->$method());
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function getterTestDataProvider()
-    {
-        return array(
-            'test for getErrorsCount' => array(
-                '$method' => 'getErrorsCount',
-                '$customerData' => 2,
-                '$addressData'  => 3,
-            ),
-            'test for getInvalidRowsCount' => array(
-                '$method' => 'getInvalidRowsCount',
-                '$customerData' => 2,
-                '$addressData'  => 8,
-            ),
-            'test for getProcessedEntitiesCount' => array(
-                '$method' => 'getProcessedEntitiesCount',
-                '$customerData' => 12,
-                '$addressData'  => 8,
-            )
-        );
+        return $this->_model;
     }
 }
