@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Store_Helper extends Core_Mage_Store_Helper
+class Enterprise2_Mage_Store_Helper extends Core_Mage_Store_Helper
 {
     /**
      * Create Status Order

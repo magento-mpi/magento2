@@ -45,7 +45,7 @@ class Community2_Mage_BatchUpdates_Tags_MassActionTest extends Mage_Selenium_Tes
      * <p>5. Fill in the fields in General Information</p>
      * <p>6. Click button "Save Tag"</p>
      * <p>7. Select created tags by checkboxes"</p>
-     * <p>8. Select value "Change BugsCoverage in "Action dropdown"</p>
+     * <p>8. Select value "Change Status in "Action dropdown"</p>
      * <p>9. Click button "Submit"</p>
      * <p>Expected result:</p>
      * <p>Received the message that the tags has been updated.</p>
