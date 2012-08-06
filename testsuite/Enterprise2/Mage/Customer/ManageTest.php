@@ -61,7 +61,7 @@ class Enterprise2_Mage_Customer_ManageShoppingCartButtonTest extends Mage_Seleni
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-5964
      */
-    public function buttonVerification(array $searchData)
+    public function isManageShoppingCartButtonPresent(array $searchData)
     {
         //Steps
         $this->customerHelper()->openCustomer($searchData);
