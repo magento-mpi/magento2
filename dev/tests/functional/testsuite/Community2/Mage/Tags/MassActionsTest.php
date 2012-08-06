@@ -72,6 +72,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      */
     public function deletingTagsUsingMassAction()
     {
+        $tagData = array();
         //Precondition
         for ($i=0; $i<4; $i++) {
             $tagData[$i] = array(
