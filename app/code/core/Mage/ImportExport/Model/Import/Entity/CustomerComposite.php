@@ -301,13 +301,21 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     protected function _validateAddressRow(array $rowData, $rowNumber)
     {
-        $rowData = $this->_prepareAddressRowData($rowData);
-        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
-            = $this->_currentWebsiteCode;
-        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
-        $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
+        if ($this->getBehavior() == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
+            return true;
+        }
 
-        return $this->_addressEntity->validateRow($rowData, $rowNumber);
+        $rowData = $this->_prepareAddressRowData($rowData);
+        if (empty($rowData)) {
+            return true;
+        } else {
+            $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_WEBSITE]
+                = $this->_currentWebsiteCode;
+            $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_EMAIL] = $this->_currentEmail;
+            $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID] = null;
+
+            return $this->_addressEntity->validateRow($rowData, $rowNumber);
+        }
     }
 
     /**
@@ -323,9 +331,14 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
             self::COLUMN_DEFAULT_SHIPPING
         );
 
+        unset(
+            $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE],
+            $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_STORE]
+        );
+
         $result = array();
         foreach ($rowData as $key => $value) {
-            if (!in_array($key, $this->_customerAttributes)) {
+            if (!in_array($key, $this->_customerAttributes) && !empty($value)) {
                 if (!in_array($key, $excludedAttributes)) {
                     $key = str_replace(self::COLUMN_ADDRESS_PREFIX, '', $key);
                 }
@@ -436,16 +449,6 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
     public function getInvalidRowsCount()
     {
         return $this->_customerEntity->getInvalidRowsCount() + $this->_addressEntity->getInvalidRowsCount();
-    }
-
-    /**
-     * Returns model notices
-     *
-     * @return array
-     */
-    public function getNotices()
-    {
-        return array_merge($this->_customerEntity->getNotices(), $this->_addressEntity->getNotices());
     }
 
     /**

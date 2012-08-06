@@ -255,26 +255,217 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     }
 
     /**
+     * @dataProvider getRowDataProvider
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::validateRow
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_getRowScope
+     *
+     * @param array $rows
+     * @param array $calls
+     * @param bool $validationReturn
+     * @param array $expectedErrors
+     * @param int $behavior
+     */
+    public function testValidateRow(array $rows, array $calls, $validationReturn, array $expectedErrors, $behavior)
+    {
+        $customerEntity = $this->_getCustomerEntityMock();
+        $this->_entityMockedMethods[] = 'getCustomerStorage';
+        $addressEntity  = $this->_getAddressEntityMock();
+
+        $customerEntity->expects($this->exactly($calls['customerValidationCalls']))
+            ->method('validateRow')
+            ->will($this->returnValue($validationReturn));
+
+        $customerEntity->expects($this->any())
+            ->method('getErrorMessages')
+            ->will($this->returnValue(array()));
+
+        $addressEntity->expects($this->exactly($calls['addressValidationCalls']))
+            ->method('validateRow')
+            ->will($this->returnValue($validationReturn));
+
+        $customerStorage = $this->getMock('stdClass', array('getCustomerId'));
+        $customerStorage->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(true));
+        $addressEntity->expects($this->any())
+            ->method('getCustomerStorage')
+            ->will($this->returnValue($customerStorage));
+
+        $addressEntity->expects($this->any())
+            ->method('getErrorMessages')
+            ->will($this->returnValue(array()));
+
+
+        $data = $this->_getModelDependencies();
+        $data['customer_entity'] = $customerEntity;
+        $data['address_entity']  = $addressEntity;
+        $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
+        $this->_model->setParameters(array('behavior' => $behavior));
+
+        foreach ($rows as $index => $data) {
+            $this->_model->validateRow($data, $index);
+        }
+        foreach ($expectedErrors as $error) {
+            $this->assertArrayHasKey($error, $this->_model->getErrorMessages());
+        }
+    }
+
+    /**
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_prepareAddressRowData
+     */
+    public function testPrepareAddressRowData()
+    {
+        $customerEntity = $this->_getCustomerEntityMock();
+        $this->_entityMockedMethods[] = 'getCustomerStorage';
+        $addressEntity  = $this->_getAddressEntityMock();
+
+        $customerEntity->expects($this->once())
+            ->method('validateRow')
+            ->will($this->returnValue(true));
+
+        $addressEntity->expects($this->once())
+            ->method('validateRow')
+            ->will($this->returnCallback(array($this, 'validateAddressRowParams')));
+
+        $customerStorage = $this->getMock('stdClass', array('getCustomerId'));
+        $customerStorage->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(true));
+        $addressEntity->expects($this->any())
+            ->method('getCustomerStorage')
+            ->will($this->returnValue($customerStorage));
+
+        $data = $this->_getModelDependencies();
+        $data['customer_entity'] = $customerEntity;
+        $data['address_entity']  = $addressEntity;
+        $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
+
+        $rowData = array(
+            Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL                 => 'test@test.com',
+            Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE               => 'admin',
+            Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID    => null,
+            Mage_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_BILLING  => true,
+            Mage_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_SHIPPING => true,
+            'firstname' => 'John',
+            'lastname'  => 'Doe',
+            'dob'       => '1984-11-11',
+        );
+
+        $this->_model->validateRow($rowData, 1);
+    }
+
+    /**
+     * @param array $rowData
+     * @param int $rowNumber
+     */
+    public function validateAddressRowParams(array $rowData, $rowNumber)
+    {
+        foreach ($this->_customerAttributes as $attributeCode) {
+            $this->assertArrayNotHasKey($attributeCode, $rowData);
+        }
+        $this->assertArrayHasKey(Mage_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_BILLING,
+            $rowData
+        );
+        $this->assertArrayHasKey(Mage_ImportExport_Model_Import_Entity_CustomerComposite::COLUMN_DEFAULT_SHIPPING,
+            $rowData
+        );
+        $this->assertEquals(1, $rowNumber);
+    }
+
+    /**
      * @return array
      */
     public function getRowDataProvider()
     {
         return array(
-            'customer row' => array(
-                '$rowData' => array(
-                    Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'test@test.com',
-                    Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
-                    Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+            'customer and address rows, append behavior' => array(
+                '$rows' => array(
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'test@test.com',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                    ),
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                    )
                 ),
-                '$scope'   => Mage_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_DEFAULT
+                '$calls'            => array(
+                    'customerValidationCalls' => 1,
+                    'addressValidationCalls'  => 2
+                ),
+                '$validationReturn' => true,
+                '$expectedErrors'   => array(),
+                '$behavior'         => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND
             ),
-            'address row'  => array(
-                '$rowData' => array(
-                    Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => '',
-                    Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
-                    Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+            'customer and address rows, delete behavior' => array(
+                '$rows' => array(
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => 'test@test.com',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                    ),
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL   => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                    )
                 ),
-                '$scope'   => Mage_ImportExport_Model_Import_Entity_CustomerComposite::SCOPE_ADDRESS
+                '$calls'            => array(
+                    'customerValidationCalls' => 1,
+                    'addressValidationCalls'  => 0
+                ),
+                '$validationReturn' => true,
+                '$expectedErrors'   => array(),
+                '$behavior'         => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
+            ),
+            'customer and two addresses row, append behavior' => array(
+                '$rows' => array(
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => 'test@test.com',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                    ),
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                    ),
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 2
+                    )
+                ),
+                '$calls'            => array(
+                    'customerValidationCalls' => 1,
+                    'addressValidationCalls'  => 3
+                ),
+                '$validationReturn' => true,
+                '$expectedErrors'   => array(),
+                '$behavior'         => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND
+            ),
+            'customer and addresses row with filed validation, append behavior' => array(
+                '$rows' => array(
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => 'test@test.com',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => 'admin',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => null
+                    ),
+                    array(
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE => '',
+                        Mage_ImportExport_Model_Import_Entity_Eav_Customer_Address::COLUMN_ADDRESS_ID => 1
+                    )
+                ),
+                '$calls'            => array(
+                    'customerValidationCalls' => 1,
+                    'addressValidationCalls'  => 0
+                ),
+                '$validationReturn' => false,
+                '$expectedErrors'   => array('Orphan rows that will be skipped due default row errors'),
+                '$behavior'         => Mage_ImportExport_Model_Import::BEHAVIOR_APPEND
             )
         );
     }
@@ -434,6 +625,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     /**
      * @dataProvider dataProviderTestImportData
      * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_importData
+     * @param string $behavior
      */
     public function testImportData($behavior)
     {
@@ -441,5 +633,66 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
         $entityMock = $this->_getModelMockForImportData($isDeleteBehavior);
         $entityMock->setParameters(array('behavior' => $behavior));
         $entityMock->importData();
+    }
+
+    /**
+     * @dataProvider getterTestDataProvider
+     *
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getErrorsCount
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getErrorsLimit
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getInvalidRowsCount
+     * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::getProcessedEntitiesCount
+     *
+     * @param string $method
+     * @param int $customerData
+     * @param int $addressData
+     */
+    public function testGetters($method, $customerData, $addressData)
+    {
+        $customerEntity = $this->_getCustomerEntityMock();
+        $addressEntity = $this->_getAddressEntityMock();
+
+        $customerEntity->expects($this->once())
+            ->method($method)
+            ->will($this->returnValue($customerData));
+        $addressEntity->expects($this->once())
+            ->method($method)
+            ->will($this->returnValue($addressData));
+
+        $data = $this->_getModelDependencies();
+        $data['customer_entity'] = $customerEntity;
+        $data['address_entity']  = $addressEntity;
+        $this->_model = new Mage_ImportExport_Model_Import_Entity_CustomerComposite($data);
+
+        $this->assertEquals($customerData + $addressData, $this->_model->$method());
+    }
+
+    /**
+     * @return array
+     */
+    public function getterTestDataProvider()
+    {
+        return array(
+            'test for getErrorsCount' => array(
+                '$method' => 'getErrorsCount',
+                '$customerData' => 2,
+                '$addressData'  => 3,
+            ),
+            'test for getErrorsLimit' => array(
+                '$method' => 'getErrorsLimit',
+                '$customerData' => 5,
+                '$addressData'  => 3,
+            ),
+            'test for getInvalidRowsCount' => array(
+                '$method' => 'getInvalidRowsCount',
+                '$customerData' => 2,
+                '$addressData'  => 8,
+            ),
+            'test for getProcessedEntitiesCount' => array(
+                '$method' => 'getProcessedEntitiesCount',
+                '$customerData' => 12,
+                '$addressData'  => 8,
+            )
+        );
     }
 }
