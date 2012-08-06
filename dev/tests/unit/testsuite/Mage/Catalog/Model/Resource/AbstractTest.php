@@ -45,7 +45,7 @@ class Mage_Catalog_Model_Resource_AbstractTest extends PHPUnit_Framework_TestCas
     }
 
 
-    public function testWolkAttributes()
+    public function testWalkAttributes()
     {
         $code = 'test_attr';
         $set = 10;
