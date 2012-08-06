@@ -172,10 +172,10 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
                 '$errors'     => array(array(6)),     // row #6 has no website
             ),
             'delete_behavior' => array(
-                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
                 '$sourceFile' => __DIR__ . '/_files/customer_composite_delete.csv',
                 '$dataBefore' => $this->_beforeImport,
-                '$dataAfter' => array(),
+                '$dataAfter'  => array(),
             ),
         );
     }
