@@ -74,9 +74,9 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     {
         $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_custom', array($emptyField => '%noValue%'));
         //Steps
-        $this->navigate('manage_urlrewrites');
-        $this->clickButton('add_new_rewrite','true');
-        $this->fillDropdown('create_url_rewrite_dropdown','Custom');
+        $this->navigate('url_rewrite_management');
+        $this->clickButton('add_new_rewrite', 'true');
+        $this->fillDropdown('create_url_rewrite_dropdown', 'Custom');
         $this->waitForPageToLoad();
         $this->validatePage();
         $this->fillForm($fieldData);
@@ -124,10 +124,10 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
 
         //Open Manage URL rewrite page
-        $this->admin('manage_urlrewrites');
+        $this->admin('url_rewrite_management');
 
         //Click 'Add new rewrite' button
-        $this->clickButton('add_new_rewrite',true);
+        $this->clickButton('add_new_rewrite', true);
         $this->waitForAjax();
 
         //Select "For Product"
@@ -136,7 +136,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Find product in the Grid and open it
         $this->validatePage('add_new_urlrewrite_product');
-        $this->searchAndOpen($productSearch,false,'product_rewrite');
+        $this->searchAndOpen($productSearch, false, 'product_rewrite');
         $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('product'));
         $this->validatePage();
@@ -150,12 +150,10 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check fields id_path & target path isn't editable
-        if ($this->isEditable('id_path'))
-        {
+        if ($this->isEditable('id_path')) {
             throw new PHPUnit_Framework_Exception('ID Path field is editable!');
         }
-        if ($this->isEditable('target_path'))
-        {
+        if ($this->isEditable('target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is editable!');
         }
     }
@@ -180,10 +178,10 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required');
 
         //Open Manage URL rewrite page
-        $this->admin('manage_urlrewrites');
+        $this->admin('url_rewrite_management');
 
         //Click 'Add new rewrite' button
-        $this->clickButton('add_new_rewrite',true);
+        $this->clickButton('add_new_rewrite', true);
         $this->waitForAjax();
 
         //Select "For category"
@@ -198,12 +196,10 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->validatePage();
 
         //Check fields id_path & target path isn't editable
-        if ($this->isEditable('id_path'))
-        {
+        if ($this->isEditable('id_path')) {
             throw new PHPUnit_Framework_Exception('ID Path field is editable!');
         }
-        if ($this->isEditable('target_path'))
-        {
+        if ($this->isEditable('target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is editable!');
         }
     }
@@ -223,19 +219,17 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsNotEditableForCustom()
     {
         //Open Custom page
-        $this->admin('manage_urlrewrites');
-        $this->clickButton('add_new_rewrite','true');
-        $this->fillDropdown('create_url_rewrite_dropdown','Custom');
+        $this->admin('url_rewrite_management');
+        $this->clickButton('add_new_rewrite', 'true');
+        $this->fillDropdown('create_url_rewrite_dropdown', 'Custom');
         $this->waitForPageToLoad();
         $this->validatePage();
 
         // Check fields "id_path" & "target path" is editable
-        if (!$this->isEditable('id_path'))
-        {
+        if (!$this->isEditable('id_path')) {
             throw new PHPUnit_Framework_Exception('ID Path field is not editable!');
         }
-        if (!$this->isEditable('target_path'))
-        {
+        if (!$this->isEditable('target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is not editable!');
         }
     }
