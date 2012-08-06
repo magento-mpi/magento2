@@ -159,10 +159,16 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
      */
     public function partialImport($csvData, $validationMessage)
     {
+        //Precondition
+        $this->navigate('manage_customers');
+        $newCustomerData = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($newCustomerData);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $customerData = array(self::$_customerData, $newCustomerData);
         //Set correct email for csv data
         foreach ($csvData as $key => $value) {
             if (array_key_exists('_email', $csvData[$key]) && $csvData[$key]['_email'] == '<realEmail>') {
-                $csvData[$key]['_email'] = self::$_customerData['email'];
+                $csvData[$key]['_email'] = $customerData[$key]['email'];
             }
         }
         //Step 1
@@ -187,20 +193,18 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
 
     public function partialImportData()
     {
-        $csvRowOne = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $csvRows[0] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => '100',
                 'reward_points' => '200',
             )
         );
-        $csvRowTwo = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
+        $csvRows[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv', array(
                 '_email' => '<realEmail>',
                 'store_credit' => 'store_credit',
                 'reward_points' => 'reward_points',
             )
         );
-
-        $csvRows = array($csvRowOne, $csvRowTwo);
 
         $validationMessage = array('validation' => array(
             'error' => array(
