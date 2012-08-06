@@ -405,4 +405,75 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
                 "Message 'Please select items.' is not present");
         }
     }
+
+    /**
+     * Selecting tags options
+     * Precondition: two pages of tags with "Pending" status.
+     * Steps:
+     * 1. Go to the Catalog -> Tags -> Pending Tags.
+     * 2. Click on "Select all" link.
+     * Expected: all tags on all pages should be selected.
+     * 3. Click on "Unselect All" link.
+     * Expected: all tags on all pages should be unselected.
+     * 4. Click on "Select Visible" link.
+     * Expected: all tags on the current page should be selected.
+     * 5. Click on "Unselect Visible" link.
+     * Expected: all tags on the current page should be unselected.
+     *
+     * @test
+     * @TestlinkId TL-MAGE-2340
+     */
+
+    public function selectingTagsOptions()
+    {
+        //Precondition
+        for ($i=0; $i<21; $i++) {
+            $tagData[$i] = array(
+                'tag_name' => 'tag_' . str_pad($i, 2, 0, STR_PAD_LEFT),
+                'tag_status' => 'Pending',
+            );
+            $this->tagsHelper()->addTag($tagData[$i]);
+            $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
+            $this->assertMessagePresent('success', 'success_saved_tag');
+        }
+        //Step 1
+        $this->navigate('pending_tags');
+        //Step 2
+        $this->clickControl('link', 'select_all', false);
+        //Verifying
+        foreach ($tagData as $value) {
+            $this->assertTrue($this->tagsHelper()->isTagSelected(array('tag_name' => $value['tag_name'])),
+                'Tag ' . $value['tag_name'] . ' is not selected');
+        }
+        //Step 3
+        $this->clickControl('link', 'unselect_all', false);
+        //Verifying
+        foreach ($tagData as $value) {
+            $this->assertFalse($this->tagsHelper()->isTagSelected(array('tag_name' => $value['tag_name'])),
+                'Tag ' . $value['tag_name'] . ' is not selected');
+        }
+        //Step 4
+        $this->clickButton('reset_filter', false);
+        $this->navigate('pending_tags');
+        $this->clickControl('link', 'select_visible', false);
+        //Verifying
+        foreach ($tagData as $key => $value) {
+            if ($key != '20') {
+                $this->assertTrue($this->tagsHelper()->isTagSelected(array('tag_name' => $value['tag_name'])),
+                    'Tag ' . $value['tag_name'] . ' is not selected');
+            } else {
+                $this->assertFalse($this->tagsHelper()->isTagSelected(array('tag_name' => $value['tag_name'])),
+                    'Tag ' . $value['tag_name'] . ' is selected');
+            }
+        }
+        //Step 5
+        $this->clickButton('reset_filter', false);
+        $this->navigate('pending_tags');
+        $this->clickControl('link', 'unselect_visible', false);
+        //Verifying
+        foreach ($tagData as $value) {
+            $this->assertFalse($this->tagsHelper()->isTagSelected(array('tag_name' => $value['tag_name'])),
+                'Tag ' . $value['tag_name'] . ' is selected');
+        }
+    }
 }

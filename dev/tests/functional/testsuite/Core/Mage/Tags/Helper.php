@@ -343,4 +343,26 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
 
         return false;
     }
+
+    /**
+     * Checks if tag is selected in grid.
+     * Returns true if selected, or false otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as data used for openTag
+     *
+     * @return bool
+     */
+    public function isTagSelected(array $tagSearchData)
+    {
+        $this->_prepareDataForSearch($tagSearchData);
+        $xpathTR = $this->search($tagSearchData);
+        if ($xpathTR) {
+            $xpathTR .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
+            if ($this->getValue($xpathTR) == 'off') {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 }
