@@ -20,8 +20,35 @@
 
 <script type="text/javascript">
 //<![CDATA[
+(function( $ ) {
+    $.extend(true, $, {
+        calendarConfig: {
+            dayNames: <?php echo $days['wide']?>,
+            dayNamesMin: <?php echo $days['abbreviated']?>,
+            monthNames: <?php echo $months['wide']?>,
+            monthNamesShort: <?php echo $months['abbreviated']?>,
+            infoTitle: "<?php echo $this->__('About the calendar');?>",
+            firstDay: <?php echo $firstDay?>,
+            closeText: "<?php echo $this->__('Close');?>",
+            currentText: "<?php echo $this->__('Go Today'); ?>",
+            prevText: "<?php echo $this->__('Previous');?>",
+            nextText: "<?php echo $this->__('Next');?>",
+            weekHeader: "<?php echo $this->__('WK'); ?>",
+            timeText: "<?php echo $this->__('Time');?>",
+            hourText: "<?php echo $this->__('Hour');?>",
+            minuteText: "<?php echo $this->__('Minute');?>",
+            dateFormat: "dd-M-yy",
+            showOn: "button",
+            showAnim: "",
+            buttonImageOnly: true,
+            showButtonPanel: true,
+            showWeek: true
+        }
+    });
+})( jQuery );
+
 enUS = <?php echo $enUS?>; // en_US locale reference
-Calendar._DN = <?php echo $days['wide']?>; // full day names
+/*Calendar._DN = <?php echo $days['wide']?>; // full day names
 Calendar._SDN = <?php echo $days['abbreviated']?>; // short day names
 Calendar._FD = <?php echo $firstDay?>; // First day of the week. "0" means display Sunday first, "1" means display Monday first, etc.
 Calendar._MN = <?php echo $months['wide']?>; // full month names
@@ -78,7 +105,7 @@ Calendar._TT["WK"] = <?php echo $week ?>;
 Calendar._TT["TIME"] = "<?php echo $this->__('Time:');?>";
 
 CalendarDateObject._LOCAL_TIMZEONE_OFFSET_SECONDS = <?php echo $this->getTimezoneOffsetSeconds() ?>;
-CalendarDateObject._SERVER_TIMZEONE_SECONDS = <?php echo $this->getStoreTimestamp() ?>;
+CalendarDateObject._SERVER_TIMZEONE_SECONDS = <?php echo $this->getStoreTimestamp() ?>;*/
 
 //]]>
 </script>
