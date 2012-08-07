@@ -37,12 +37,18 @@
             timeText: "<?php echo $this->__('Time');?>",
             hourText: "<?php echo $this->__('Hour');?>",
             minuteText: "<?php echo $this->__('Minute');?>",
-            dateFormat: "dd-M-yy",
+            dateFormat: $.datepicker.RFC_2822,
             showOn: "button",
             showAnim: "",
             buttonImageOnly: true,
             showButtonPanel: true,
-            showWeek: true
+            showWeek: true,
+            timeFormat: 'hh:mm z',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            localTimezone: <?php echo $this->getTimezoneOffsetSeconds() ?>,
+            serverTimezoneSeconds:<?php echo $this->getStoreTimestamp() ?>
         }
     });
 })( jQuery );

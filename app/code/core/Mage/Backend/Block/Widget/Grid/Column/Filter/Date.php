@@ -30,28 +30,42 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Date extends Mage_Backend_Blo
 
     public function getHtml()
     {
-        $htmlId = $this->_getHtmlId() . microtime(true);
+        $htmlId = str_replace(".", "", $this->_getHtmlId() . microtime(true));
         $format = $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-        $html = '<div class="range"><div class="range-line date">'
+        $html = '<div class="range" id="'.$htmlId.'_range"><div class="range-line date">'
             . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('From').':</span>'
             . '<input type="text" name="'.$this->_getHtmlName().'[from]" id="'.$htmlId.'_from"'
                 . ' value="'.$this->getEscapedValue('from').'" class="input-text no-changes"/>'
-            . '<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
+            . '<!--<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
                 . ' id="'.$htmlId.'_from_trig"'
-                . ' title="' . $this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')) . '"/>'
+                . ' title="' . $this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')) . '"/>-->'
             . '</div>';
         $html.= '<div class="range-line date">'
             . '<span class="label">' . Mage::helper('Mage_Backend_Helper_Data')->__('To').' :</span>'
             . '<input type="text" name="'.$this->_getHtmlName().'[to]" id="'.$htmlId.'_to"'
                 . ' value="'.$this->getEscapedValue('to').'" class="input-text no-changes"/>'
-            . '<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
+            . '<!--<img src="' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '" alt="" class="v-middle"'
                 . ' id="'.$htmlId.'_to_trig"'
-                . ' title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>'
+                . ' title="'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'"/>-->'
             . '</div></div>';
         $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]"'
             . ' value="'.$this->getLocale()->getLocaleCode().'"/>';
         $html.= '<script type="text/javascript">
-            Calendar.setup({
+            (function( $ ) {
+                $("#'.$htmlId.'_range").date_range({
+                    //dateFormat: "'.$format.'",
+                    buttonImage: "' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '",
+                    buttonText: "'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'",
+                    from: {
+                        id: "'.$htmlId.'_from"
+                    },
+                    to: {
+                        id: "'.$htmlId.'_to"
+                    }
+                })
+            })(jQuery)
+
+            /*Calendar.setup({
                 inputField : "'.$htmlId.'_from",
                 ifFormat : "'.$format.'",
                 button : "'.$htmlId.'_from_trig",
@@ -88,7 +102,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Date extends Mage_Backend_Blo
                         });
                     };
                 });
-            };
+            };*/
         </script>';
         return $html;
     }

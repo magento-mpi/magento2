@@ -162,7 +162,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
         $displayFormat = Varien_Date::convertZendToStrFtime($outputFormat, true, false);
         $displayTimeFormat = Varien_Date::convertZendToStrFtime($outputTimeFormat, false, true);
 
-        $html .= sprintf('
+        /*$html .= sprintf('
             <script type="text/javascript">
             //<![CDATA[
                 Calendar.setup({
@@ -180,6 +180,22 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
             $displayFormat . " " . $displayTimeFormat,
             $this->getTime() ? 'true' : 'false',
             $this->getHtmlId()
+        );*/
+
+        $html .= sprintf('
+            <script type="text/javascript">
+            //<![CDATA[
+                (function( $ ) {
+                    $("#%s").calendar({
+                        buttonImage: "%s",
+                        buttonText: "%s"
+                    })
+                })(jQuery)
+            //]]>
+            </script>',
+            $this->getHtmlId(),
+            $this->getImage(),
+            $this->__('Select Date')
         );
 
         $html .= $this->getAfterElementHtml();

@@ -140,7 +140,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
 
         $html = sprintf(
             '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" />'
-            .' <img src="%s" alt="" class="v-middle" id="%s_trig" title="%s" style="%s" />',
+            .' <!--<img src="%s" alt="" class="v-middle" id="%s_trig" title="%s" style="%s" />-->',
             $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue()), $this->serialize($this->getHtmlAttributes()),
             $this->getImage(), $this->getHtmlId(), 'Select Date', ($this->getDisabled() ? 'display:none;' : '')
         );
@@ -150,7 +150,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         }
         $displayFormat = Varien_Date::convertZendToStrFtime($outputFormat, true, (bool)$this->getTime());
 
-        $html .= sprintf('
+        /*$html .= sprintf('
             <script type="text/javascript">
             //<![CDATA[
                 Calendar.setup({
@@ -165,6 +165,30 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             </script>',
             $this->getHtmlId(), $displayFormat,
             $this->getTime() ? 'true' : 'false', $this->getHtmlId()
+        );*/
+
+        $html .= sprintf('
+            <script type="text/javascript">
+            //<![CDATA[
+                (function( $ ) {
+                    $("#%s").calendar({
+                        showTime: %s,
+                        showHour: %s,
+                        showMinute: %s,
+                        buttonImage: "%s",
+                        buttonText: "%s",
+                        disabled: %s
+                    })
+                })(jQuery)
+            //]]>
+            </script>',
+            $this->getHtmlId(),
+            $this->getTime() ? 'true' : 'false',
+            $this->getTime() ? 'true' : 'false',
+            $this->getTime() ? 'true' : 'false',
+            $this->getImage(),
+            'Select Date',
+            ($this->getDisabled() ? 'true' : 'false')
         );
 
         $html .= $this->getAfterElementHtml();
