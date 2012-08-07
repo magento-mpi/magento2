@@ -536,17 +536,19 @@ class Mage_Oauth_Model_Server
     /**
      * Validate SOAP signature
      *
+     * @param string $operation
      * @throws Mage_Oauth_Exception
      */
     protected function _validateSoapSignature($operation)
     {
         $util = new Zend_Oauth_Http_Utility();
         // TODO: investigate base for signature, currently only SOAP operation is used
-        $calculatedSign = $util->sign($this->_protocolParams,
+        $params = array(
+            'soap_operation' => $operation
+        );
+        $calculatedSign = $util->sign(array_merge($params, $this->_protocolParams),
             $this->_protocolParams['oauth_signature_method'],
-            $this->_consumer->getSecret(),
-            null,
-            $operation
+            $this->_consumer->getSecret()
         );
 
         if ($calculatedSign != $this->_protocolParams['oauth_signature']) {
