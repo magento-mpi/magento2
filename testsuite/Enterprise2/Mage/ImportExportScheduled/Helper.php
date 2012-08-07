@@ -51,7 +51,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         }
         if (is_null(self::$_connId)) {
             self::$_connId = ftp_connect($host, $port);
-            if (self::$_connId) {
+            if (!self::$_connId) {
                 $this->fail('Can not connect to ftp: ' . $host);
             }
         }
@@ -346,26 +346,16 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function searchImportExport(array $data, $fieldSetName = null)
     {
-        $waitAjax = true;
         $xpath = '';
         $xpathContainer = null;
         if ($fieldSetName) {
             $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
             $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
-        $jsName = $this->getAttribute($resetXpath . '@onclick');
-        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
-        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        if ($this->isElementPresent($scriptXpath)) {
-            $waitAjax = false;
-        }
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
-
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
         $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
-
         $xpathTR = $this->formSearchXpath($data);
         //fill filter
         $this->fillForm($data);
