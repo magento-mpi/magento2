@@ -40,7 +40,7 @@ new_newsletter_template:
     mca: newsletter_template/new
     title: New Template / Newsletter Templates / Newsletter / Magento Admin
     uimap:
-        form: createNewNewsletterTemplate
+        form: &createNewNewsletterTemplate
             fieldsets:
                 -
                     newsletter_add_template:
