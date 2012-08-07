@@ -115,23 +115,26 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
      * Returns entity mock for method testImportData
      *
      * @param bool $isDeleteBehavior
+     * @param boolean $customerImport
+     * @param boolean $addressImport
      * @return Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
-    protected function _getModelMockForImportData($isDeleteBehavior = false)
+    protected function _getModelMockForImportData($isDeleteBehavior, $customerImport, $addressImport)
     {
         $customerEntity = $this->_getCustomerEntityMock();
         $customerEntity->expects($this->once())
             ->method('importData')
-            ->will($this->returnValue(true));
+            ->will($this->returnValue($customerImport));
 
         $addressEntity = $this->_getAddressEntityMock();
-        if ($isDeleteBehavior) {
+        // address import starts only if customer import finished successfully
+        if ($isDeleteBehavior || !$customerImport) {
             $addressEntity->expects($this->never())
                 ->method('importData');
         } else {
             $addressEntity->expects($this->once())
                 ->method('importData')
-                ->will($this->returnValue(true));
+                ->will($this->returnValue($addressImport));
         }
 
         $data = $this->_getModelDependencies();
@@ -615,11 +618,41 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     public function dataProviderTestImportData()
     {
         return array(
-            'not_delete_behavior' => array(
-                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE
+            'add_update_behavior_customer_true_address_true' => array(
+                '$behavior'       => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$customerImport' => true,
+                '$addressImport'  => true,
+                '$result'         => true,
             ),
-            'delete_behavior' => array(
-                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE
+            'add_update_behavior_customer_true_address_false' => array(
+                '$behavior'       => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$customerImport' => true,
+                '$addressImport'  => false,
+                '$result'         => false,
+            ),
+            'add_update_behavior_customer_false_address_true' => array(
+                '$behavior'       => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$customerImport' => false,
+                '$addressImport'  => true,
+                '$result'         => false,
+            ),
+            'add_update_behavior_customer_false_address_false' => array(
+                '$behavior'       => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$customerImport' => false,
+                '$addressImport'  => true,
+                '$result'         => false,
+            ),
+            'delete_behavior_customer_true' => array(
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$customerImport' => true,
+                '$addressImport'  => false,
+                '$result'         => true,
+            ),
+            'delete_behavior_customer_false' => array(
+                '$behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$customerImport' => false,
+                '$addressImport'  => false,
+                '$result'         => false,
             ),
         );
     }
@@ -627,14 +660,23 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     /**
      * @dataProvider dataProviderTestImportData
      * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_importData
+     *
      * @param string $behavior
+     * @param boolean $customerImport
+     * @param boolean $addressImport
+     * @param boolean $result
      */
-    public function testImportData($behavior)
+    public function testImportData($behavior, $customerImport, $addressImport, $result)
     {
         $isDeleteBehavior = $behavior == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE;
-        $entityMock = $this->_getModelMockForImportData($isDeleteBehavior);
+        $entityMock = $this->_getModelMockForImportData($isDeleteBehavior, $customerImport, $addressImport);
         $entityMock->setParameters(array('behavior' => $behavior));
-        $this->assertTrue($entityMock->importData());
+        $importResult = $entityMock->importData();
+        if ($result) {
+            $this->assertTrue($importResult);
+        } else {
+            $this->assertFalse($importResult);
+        }
     }
 
     /**
