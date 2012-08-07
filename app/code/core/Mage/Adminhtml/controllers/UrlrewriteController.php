@@ -62,7 +62,8 @@ class Mage_Adminhtml_UrlrewriteController extends Mage_Adminhtml_Controller_Acti
      */
     public function editAction()
     {
-        $this->_title($this->__('URL Rewrite'));
+        $this->_title($this->__('Rewrite Rules'))
+            ->_title($this->__('URL Rewrite'));
 
         $this->loadLayout();
         $this->_setActiveMenu('Mage_Catalog::catalog_urlrewrite');
