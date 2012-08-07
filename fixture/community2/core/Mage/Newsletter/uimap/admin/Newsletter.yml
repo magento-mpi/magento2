@@ -50,17 +50,12 @@ new_newsletter_template:
                             template_subject: //input[@id='subject']
                             sender_name: //input[@id='sender_name']
                             sender_email: //input[@id='sender_email']
-                            required: [template_name, template_subject, sender_name, sender_email]
-
-            buttons:
-                back: //button[span='Back']
-                reset: //button[span='Reset']
-                convert_to_plain_text: //button[span='Convert to Plain Text']
-                preview_template: //button[span='Preview Template']
-                save_template: //button[span='Save Template']
-
-            messages:
-                empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
-
-
-
+                        required: [template_name, template_subject, sender_name, sender_email]
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            convert_to_plain_text: //button[span='Convert to Plain Text']
+            preview_template: //button[span='Preview Template']
+            save_template: //button[span='Save Template']
+        messages:
+            empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
