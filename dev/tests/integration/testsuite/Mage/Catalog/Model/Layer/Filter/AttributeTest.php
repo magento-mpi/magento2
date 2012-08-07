@@ -28,7 +28,6 @@ class Mage_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_Te
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-1931');
         $attribute = new Mage_Catalog_Model_Entity_Attribute();
         $attribute->loadByCode('catalog_product', 'attribute_with_option');
         foreach ($attribute->getSource()->getAllOptions() as $optionInfo) {
@@ -37,7 +36,6 @@ class Mage_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_Te
                 break;
             }
         }
-        $this->assertNotEmpty($this->_attributeOptionId, 'Fixture attribute option id.'); // just in case
 
         $this->_model = new Mage_Catalog_Model_Layer_Filter_Attribute;
         $this->_model->setData(array(
@@ -49,6 +47,11 @@ class Mage_Catalog_Model_Layer_Filter_AttributeTest extends PHPUnit_Framework_Te
     protected function tearDown()
     {
         $this->_model = null;
+    }
+
+    public function testOptionIdNotEmpty()
+    {
+        $this->assertNotEmpty($this->_attributeOptionId, 'Fixture attribute option id.'); // just in case
     }
 
     public function testApplyInvalid()

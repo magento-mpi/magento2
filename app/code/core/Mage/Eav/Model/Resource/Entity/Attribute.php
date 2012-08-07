@@ -346,7 +346,7 @@ class Mage_Eav_Model_Resource_Entity_Attribute extends Mage_Core_Model_Resource_
         }
 
         /* System attribute options are permanent, which of them is default can be changed only */
-        if (!$object->getIsUserDefined() && !$object->getCanManageOptionLabels()) {
+        if (!$object->getIsUserDefined() && !$object->getCanManageOptionLabels() && !$object->isObjectNew()) {
             $defaultValue = $object->getDefault() ?: array();
         } elseif (isset($option['value'])) {
             if (!is_array($object->getDefault())) {
