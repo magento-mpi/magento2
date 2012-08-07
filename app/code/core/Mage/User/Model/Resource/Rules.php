@@ -61,7 +61,7 @@ class Mage_User_Model_Resource_Rules extends Mage_Core_Model_Resource_Db_Abstrac
 
                     $adapter->insert($this->getMainTable(), $insertData);
                 } else {
-                    $acl = Mage::getSingleton('Mage_Core_Model_Model_Acl_Builder')->getAcl();
+                    $acl = Mage::getSingleton('Mage_Core_Model_Acl_Builder')->getAcl();
                     /** @var $resource Magento_Acl_Resource */
                     foreach ($acl->getResources() as $resourceId) {
                         $row['permission'] = in_array($resourceId, $postedResources) ? 'allow' : 'deny';

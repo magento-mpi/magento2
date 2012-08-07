@@ -25,7 +25,7 @@ class Mage_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framework
     {
         $this->_sessionMock = $this->getMock(
             'Mage_Backend_Model_Auth_Session',
-            array('getUser', 'getAclRole'),
+            array('getUser', 'getAclRole', 'hasUser'),
             array(),
             '',
             false
@@ -35,6 +35,7 @@ class Mage_Backend_Model_Authorization_RoleLocatorTest extends PHPUnit_Framework
 
     public function testGetAclRoleIdReturnsCurrentUserAclRoleId()
     {
+        $this->_sessionMock->expects($this->once())->method('hasUser')->will($this->returnValue(true));
         $this->_sessionMock->expects($this->once())->method('getUser')->will($this->returnSelf());
         $this->_sessionMock->expects($this->once())->method('getAclRole')->will($this->returnValue('some_role'));
         $this->assertEquals('some_role', $this->_model->getAclRoleId());
