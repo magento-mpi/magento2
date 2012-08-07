@@ -18,13 +18,10 @@
  */
 class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
 {
-
     /**
-     * Test creation newsletter template
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+     * <p>Preconditions:</p>
+     * <p>Log in to Backend.</p>
+     * <p>Navigate to Newsletter -> Newsletter Templates</p>
      */
     protected function assertPreConditions()
     {
@@ -71,6 +68,7 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed</p>
      *
      * @test
+     *
      */
     public function withRequiredFields()
     {
@@ -79,7 +77,7 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
         //Steps
         $this->newsletterHelper()->createNewsletterTemplate($templateData);
         //Verifying
-        $this->validatePage('newsletter_templates');
+        $this->assertMessagePresent('success', 'success_saved_template');
     }
 
     /**
