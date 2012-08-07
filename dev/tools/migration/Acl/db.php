@@ -10,9 +10,10 @@ $defaultReportFile = 'report.log';
 try {
     $options = new Zend_Console_Getopt(array(
         'file=s' => "File containing json encoded acl identifier map (old => new)",
-        'mode|m=s' => "Application mode. If set to 'preview' - no database update happens, only report is generated",
-        'output|f-s' => "Report output type. Defaults to console. If filename is specified - report is written to file",
-        'dbtype=s' => "Database server vendor",
+        'mode|w' => "Application mode.  Preview mode is default. If set to 'write' - database is updated.",
+        'output|f-w' => "Report output type. Report is flushed to console by default."
+            . "If set to 'file', report is written to file /log/report.log",
+        'dbtype=w' => "Database server vendor",
         'dbhost=s' => "Database server host",
         'dbuser=s' => "Database server user",
         'dbpassword=s' => "Database server password",

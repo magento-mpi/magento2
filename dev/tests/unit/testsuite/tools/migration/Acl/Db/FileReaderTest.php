@@ -27,11 +27,11 @@ class Tools_Migration_Acl_Db_FileReaderTest extends PHPUnit_Framework_TestCase
         $filePath = __DIR__ . DIRECTORY_SEPARATOR . '../_files' . DIRECTORY_SEPARATOR . 'log'
             . DIRECTORY_SEPARATOR . 'AclXPathToAclId.log';
         $expectedMap = array(
-            "config/acl/resources/admin/test1/test2"        => "Test1_Test2::all",
-            "config/acl/resources/admin/test1/test2/test3"  => "Test1_Test2::test3",
-            "config/acl/resources/admin/test1/test2/test4"  => "Test1_Test2::test4",
-            "config/acl/resources/admin/test1/test2/test5"  => "Test1_Test2::test5",
-            "config/acl/resources/admin/test6"              => "Test6_Test6::all"
+            "admin/test1/test2"        => "Test1_Test2::all",
+            "admin/test1/test2/test3"  => "Test1_Test2::test3",
+            "admin/test1/test2/test4"  => "Test1_Test2::test4",
+            "admin/test1/test2/test5"  => "Test1_Test2::test5",
+            "admin/test6"              => "Test6_Test6::all"
         );
         $this->assertEquals($expectedMap, $this->_model->extractData($filePath));
     }

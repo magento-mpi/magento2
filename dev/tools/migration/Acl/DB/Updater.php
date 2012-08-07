@@ -8,11 +8,6 @@
  * @license    {license_link}
  */
 
-require_once 'Writer.php';
-require_once 'Reader.php';
-require_once 'LoggerAbstract.php';
-
-
 class Tools_Migration_Acl_Db_Updater
 {
     const WRITE_MODE = 'write';
