@@ -6,12 +6,12 @@
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
     <wsdl:types>
         <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
-            <xs:element name="authorizationHeader" type="xs:string"/>
+            <xs:element name="Authorization" type="xs:string"/>
         </xs:schema>
     </wsdl:types>
 
     <wsdl:message name="AuthorizationHeader">
-        <wsdl:part name="Authorization" element="tns:authorizationHeader" />
+        <wsdl:part name="Authorization" element="tns:Authorization" />
     </wsdl:message>
 
 </wsdl:definitions>
