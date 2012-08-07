@@ -14,4 +14,3 @@ generic_template:
     template_subject: %randomize%_template_subject
     sender_name: CustomerSupport
     sender_email: support@example.com
-

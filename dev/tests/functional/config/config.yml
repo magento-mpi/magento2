@@ -161,13 +161,13 @@ applications:
         fallbackOrderHelper: 'Community2, Community17, Core'
         areas:
             admin:
-                url: 'http://www.localhost.com/magento2_community/control/'
+                url: 'http://127.0.0.1/EE2/index.php/admin'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento2_community/'
+                url: 'http://127.0.0.1/EE2/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
@@ -188,4 +188,4 @@ applications:
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
-    default: *m2ee
+    default: *m2ce
