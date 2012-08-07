@@ -70,7 +70,7 @@ class Mage_Oauth_Model_Server
     const TIME_DEVIATION = 600;
 
     /**
-     * Value of callback URL when it is established or if cliaent is unable to receive callbacks
+     * Value of callback URL when it is established or if the client is unable to receive callbacks
      *
      * @link http://tools.ietf.org/html/rfc5849#section-2.1     Requirement in RFC-5849
      */

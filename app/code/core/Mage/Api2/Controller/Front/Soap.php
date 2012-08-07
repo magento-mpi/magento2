@@ -46,7 +46,7 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
      * @param array $arguments
      * @return stdClass
      */
-    // TODO: Think about situations when custom error handler is required for this method (that can throw soap faults)
+    // TODO: Think about situations when custom error handler is required for this method (that can throw SOAP faults)
     public function __call($operation, $arguments)
     {
         $this->_authenticate($operation);
@@ -91,8 +91,8 @@ class Mage_Api2_Controller_Front_Soap extends Mage_Api2_Controller_FrontAbstract
     }
 
     /**
-     * Handler method for SOAP header "Authorization".
-     * It is invoked before action method call if such header present in the request.
+     * Handler method for "Authorization" SOAP header.
+     * It is invoked before the action method call if such header is present in the request.
      *
      * @param string $header
      */
