@@ -28,12 +28,12 @@ newsletter_templates:
                             date_updated_to: //input[@name='modified_at[to]']
                             template_subject: //input[@name='subject']
                             sender_name: //input[@name='sender']
+                        dropdowns:
+                            template_type: //select[@name='type']
         buttons:
             add_new_template: //button[span='Add New Template']
             reset_filter: //button[span='Reset Filter']
             search: //button[span='Search']
-        dropdowns:
-            template_type: //select[@name='type']
         messages:
             success_saved_template: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter template has been saved.')]
 
