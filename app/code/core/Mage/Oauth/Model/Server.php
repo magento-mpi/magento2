@@ -548,7 +548,10 @@ class Mage_Oauth_Model_Server
         );
         $calculatedSign = $util->sign(array_merge($params, $this->_protocolParams),
             $this->_protocolParams['oauth_signature_method'],
-            $this->_consumer->getSecret()
+            $this->_consumer->getSecret(),
+            null,
+            $this->_request->getMethod(),
+            $this->_request->getScheme() . '://' . $this->_request->getHttpHost() . $this->_request->getRequestUri()
         );
 
         if ($calculatedSign != $this->_protocolParams['oauth_signature']) {
