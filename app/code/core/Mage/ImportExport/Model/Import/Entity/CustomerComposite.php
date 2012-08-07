@@ -232,10 +232,12 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
      */
     protected function _importData()
     {
-        $this->_customerEntity->importData();
+        $result = $this->_customerEntity->importData();
         if ($this->getBehavior() != Mage_ImportExport_Model_Import::BEHAVIOR_DELETE) {
-            $this->_addressEntity->importData();
+            return $result && $this->_addressEntity->importData();
         }
+
+        return $result;
     }
 
     /**
@@ -262,7 +264,9 @@ class Mage_ImportExport_Model_Import_Entity_CustomerComposite
             if ($this->_customerEntity->validateRow($rowData, $rowNumber)) {
                 $this->_currentWebsiteCode
                     = $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_WEBSITE];
-                $this->_currentEmail = $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL];
+                $this->_currentEmail = strtolower(
+                    $rowData[Mage_ImportExport_Model_Import_Entity_Eav_Customer::COLUMN_EMAIL]
+                );
 
                 // Add new customer data into customer storage for address entity instance
                 $websiteId = $this->_customerEntity->getWebsiteId($this->_currentWebsiteCode);

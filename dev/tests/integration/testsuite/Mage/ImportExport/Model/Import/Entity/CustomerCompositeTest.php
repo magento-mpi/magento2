@@ -107,11 +107,6 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
         // assert data before import
         $this->_assertCustomerData($dataBefore);
 
-        // reset entity adapter to clear all cached data
-        unset($this->_entityAdapter);
-        $this->_entityAdapter = new Mage_ImportExport_Model_Import_Entity_CustomerComposite();
-        $this->_entityAdapter->setParameters(array('behavior' => $behavior));
-
         // import data
         $this->_entityAdapter->importData();
 

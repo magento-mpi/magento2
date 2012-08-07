@@ -59,11 +59,11 @@ class Mage_ImportExport_Model_Resource_Import_CustomerComposite_Data
         $bunchRows = parent::getNextBunch();
         if ($bunchRows != null) {
             $rows = array();
-            foreach ($bunchRows as $row) {
-                $row = $this->_prepareRow($row);
-                if ($row !== null) {
-                    unset($row['_scope']);
-                    $rows[] = $row;
+            foreach ($bunchRows as $rowNumber => $rowData) {
+                $rowData = $this->_prepareRow($rowData);
+                if ($rowData !== null) {
+                    unset($rowData['_scope']);
+                    $rows[$rowNumber] = $rowData;
                 }
             }
             return $rows;

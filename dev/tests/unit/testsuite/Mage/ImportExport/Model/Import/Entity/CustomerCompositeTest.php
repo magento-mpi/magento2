@@ -121,7 +121,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     {
         $customerEntity = $this->_getCustomerEntityMock();
         $customerEntity->expects($this->once())
-            ->method('importData');
+            ->method('importData')
+            ->will($this->returnValue(true));
 
         $addressEntity = $this->_getAddressEntityMock();
         if ($isDeleteBehavior) {
@@ -129,7 +130,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
                 ->method('importData');
         } else {
             $addressEntity->expects($this->once())
-                ->method('importData');
+                ->method('importData')
+                ->will($this->returnValue(true));
         }
 
         $data = $this->_getModelDependencies();
@@ -632,7 +634,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
         $isDeleteBehavior = $behavior == Mage_ImportExport_Model_Import::BEHAVIOR_DELETE;
         $entityMock = $this->_getModelMockForImportData($isDeleteBehavior);
         $entityMock->setParameters(array('behavior' => $behavior));
-        $entityMock->importData();
+        $this->assertTrue($entityMock->importData());
     }
 
     /**
