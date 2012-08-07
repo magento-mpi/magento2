@@ -58,5 +58,5 @@ new_newsletter_template:
             preview_template: //button[span='Preview Template']
             save_template: //button[span='Save Template']
         messages:
-            success_saved_template: //li[normalize-space(@class)='success-msg']
+            success_saved_template: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter template has been saved.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
