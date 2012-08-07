@@ -337,7 +337,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
     }
 
     /**
-     * Clean db
+     * Cleanup database use system configuration
      */
     protected function _cleanUpDatabase()
     {
