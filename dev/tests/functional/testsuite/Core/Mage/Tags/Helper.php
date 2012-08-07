@@ -76,9 +76,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      *
      * @param string|array $tags
      * @param string $product
-     * @param array $customer
      */
-    public function frontendTagVerification($tags, $product, $customer = null)
+    public function frontendTagVerification($tags, $product )
     {
         if (is_string($tags)) {
             $tags = $this->convertTagsStringToArray($tags);
@@ -105,26 +104,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
                 "Cannot find tag $tag in My Tags");
             $this->assertTrue($this->controlIsPresent('link', 'product_name'),
                 "Cannot find product $product tagged with $tag");
-        }
-        //Verification in "Edit Tag" -> "Customers Submitted this Tag", "Products Tagged by Customers"
-        $this->loginAdminUser();
-        foreach ($tags as $tag) {
-            $this->navigate('all_tags');
-            $this->openTag($this->loadDataSet('Tag', 'backend_search_tag', array('tag_name' => $tag)));
-            $this->clickControl('link', 'prod_tag_customer_expand', false);
-            $this->waitForAjax();
-            //$this->waitForElement('products_tagged_by_customers');
-            $this->assertNotNull($this->search(array('prod_tag_customer_product_name' => $product),
-                    'products_tagged_by_customers'),
-                "Cannot find product $product in Products Tagged by Customers");
-            if ($customer) {
-                $this->clickControl('link', 'customers_submit_tag_expand', false);
-                $this->waitForAjax();
-                //$this->waitForElement('customers_submitted_tags');
-                $this->assertNotNull($this->search(array('first_name' => $customer['first_name'],
-                        'last_name' => $customer['last_name']), 'customers_submitted_tags'),
-                    "Cannot find customer in Customers Submitted this Tag");
-            }
         }
     }
 
@@ -314,14 +293,34 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      * Checks tag.
      *
      * @param array $tagData Data used in Search Grid for tags. Same as used for openTag
-     *
+     * @param array|null $products
+     * @param array|null $customers
      * @return bool
      */
-    public function verifyTag(array $tagData)
+    public function verifyTag(array $tagData, array $products = null, array $customers = null)
     {
         $this->openTag($tagData);
         $this->assertTrue($this->verifyForm($tagData),
         'Tag verification is failure ' . print_r($tagData, true));
+        //Verification in "Edit Tag" -> "Customers Submitted this Tag", "Products Tagged by Customers"
+        $this->clickControl('link', 'prod_tag_customer_expand', false);
+        $this->waitForAjax();
+        if ($products) {
+            foreach ($products as $product) {
+                $this->assertNotNull($this->search(array('prod_tag_customer_product_name' => $product['name']),
+                        'products_tagged_by_customers'),
+                    "Cannot find product $product in Products Tagged by Customers");
+            }
+        }
+        $this->clickControl('link', 'customers_submit_tag_expand', false);
+        $this->waitForAjax();
+        if ($customers) {
+            foreach ($customers as $customer) {
+                $this->assertNotNull($this->search(array('first_name' => $customer['first_name'],
+                        'last_name' => $customer['last_name']), 'customers_submitted_tags'),
+                     "Cannot find customer in Customers Submitted this Tag");
+            }
+        }
         return true;
     }
 

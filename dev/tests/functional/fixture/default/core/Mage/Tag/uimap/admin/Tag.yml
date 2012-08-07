@@ -129,7 +129,7 @@ edit_tag:
         links:
             prod_tag_customer_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
             customers_submit_tag_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
-            prod_tag_admin_expand:  //dl[@id='tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
+            prod_tag_admin_expand:  //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
         messages: *tagsMesssages
 
 # Edit tag '%tagName%' page
