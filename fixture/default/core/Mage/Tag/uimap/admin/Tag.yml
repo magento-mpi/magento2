@@ -81,8 +81,6 @@ edit_tag:
                 -
                     products_tagged_by_admins:
                         xpath: //dl[@id='tag_assigned_grid']
-                        links:
-                            prod_tag_admin_expand:  //dl[@id='tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -104,8 +102,6 @@ edit_tag:
                 -
                     customers_submitted_tags:
                         xpath: //dd[@id='dd-tag_customer']
-                        links:
-                            customers_submit_tag_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -116,8 +112,6 @@ edit_tag:
                 -
                     products_tagged_by_customers:
                         xpath: //dd[@id='dd-tag_product']
-                        links:
-                            prod_tag_customer_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -132,6 +126,10 @@ edit_tag:
             delete_tag: //button[span='Delete Tag']
             save_tag: //button[span='Save Tag']
             save_and_continue_edit: //button[span='Save and Continue Edit']
+        links:
+            prod_tag_customer_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
+            customers_submit_tag_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
+            prod_tag_admin_expand:  //dl[@id='tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
         messages: *tagsMesssages
 
 # Edit tag '%tagName%' page
