@@ -35,7 +35,7 @@ newsletter_templates:
         dropdowns:
             template_type: //select[@name='type']
 
-# 'New Newsletter Template' Page
+# 'New Newsletter Template' page
 new_newsletter_template:
     mca: newsletter_template/new
     title: New Template / Newsletter Templates / Newsletter / Magento Admin

@@ -88,7 +88,7 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
      * <p>3. Click 'Save Template' button.</p>
      * <p>Expected result:</p>
      * <p>Newsletter Template is not created.</p>
-     * <p>Error Message is displayed.</p>
+     * <p>Error message is displayed.</p>
      *
      * @param $emptyField
      *
