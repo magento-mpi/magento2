@@ -23,7 +23,7 @@ class Tools_Migration_Acl_Db_Adapter_Factory
     {
         $this->_allowedAdapterTypes = array(
             'mssql',
-            'mssqli',
+            'mysqli',
             'mysql',
             'oracle',
         );

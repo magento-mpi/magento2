@@ -5,19 +5,19 @@ require_once $rootDir . '/lib/Magento/Autoload.php';
 $paths[] = $rootDir . '/lib';
 $paths[] = $rootDir . '/dev';
 Magento_Autoload::getInstance()->addIncludePath($paths);
-$defaultReportFile = __DIR__ . '/report.log';
+$defaultReportFile = 'report.log';
 
 try {
     $options = new Zend_Console_Getopt(array(
         'file=s' => "File containing json encoded acl identifier map (old => new)",
-        'mode|m' => "Application mode. If set to 'preview' - no database update happens, only report is generated",
-        'format|f-w' => "Report output type. Defaults to console. If filename is specified - report is written to file",
-        'dbtype=w' => "Database server vendor",
-        'dbhost=w' => "Database server host",
-        'dbuser=w' => "Database server user",
-        'dbpassword=w' => "Database server password",
-        'dbname=w' => "Database name",
-        'dbtable=w' => "Table containing resource ids",
+        'mode|m=s' => "Application mode. If set to 'preview' - no database update happens, only report is generated",
+        'output|f-s' => "Report output type. Defaults to console. If filename is specified - report is written to file",
+        'dbtype=s' => "Database server vendor",
+        'dbhost=s' => "Database server host",
+        'dbuser=s' => "Database server user",
+        'dbpassword=s' => "Database server password",
+        'dbname=s' => "Database name",
+        'dbtable=s' => "Table containing resource ids",
     ));
 
     $fileReader = new Tools_Migration_Acl_Db_FileReader();
@@ -37,9 +37,7 @@ try {
     );
 
     $loggerFactory = new Tools_Migration_Acl_Db_Logger_Factory();
-    $logger = $loggerFactory->getLogger(
-        $options->getOption('format'), $options->getOption('dbtable', $defaultReportFile)
-    );
+    $logger = $loggerFactory->getLogger($options->getOption('output'), $defaultReportFile);
 
     $writer = new Tools_Migration_Acl_Db_Writer($dbAdapter, $options->getOption('dbtable'));
     $reader = new Tools_Migration_Acl_Db_Reader($dbAdapter, $options->getOption('dbtable'));
