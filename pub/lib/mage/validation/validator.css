@@ -1,0 +1,72 @@
+/**
+ * {license_notice}
+ *
+ * @category    validator style
+ * @package     mage
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+
+input.mage-error {
+    background: none repeat scroll 0 0 #FAEBE7 !important;
+    border: 1px dashed #EB340A !important;
+
+}
+
+div.mage-error {
+    background: url("/pub/media/skin/install/default/default/default/en_US/images/validation_advice_bg.gif") no-repeat scroll 2px 1px transparent;
+    clear: both;
+    font-size: 0.95em;
+    font-weight: bold;
+    line-height: 1.25em;
+    margin-top: 3px;
+    min-height: 15px;
+    padding-left: 17px;
+    color: #DF280A;
+}
+
+input.mage-ee-error {
+    background: none repeat scroll 0 0 #FFF7F5 !important;
+    border: 1px solid #F47D4E !important;
+}
+
+div.mage-ee-error {
+    clear: both;
+    color: #D91A00 !important;
+    font-size: 11px !important;
+    padding: 3px 0 0 !important;
+}
+
+input.mage-ee-pro-error {
+    background: none repeat scroll 0 0 #FFF7F5 !important;
+    border: 1px solid #F15C22 !important;
+}
+
+div.mage-ee-pro-error {
+    background: url("/pub/media/skin/frontend/pro/default/default/en_US/images/validation_advice_bg.gif") no-repeat scroll 2px 0 transparent;
+    clear: both;
+    color: #F15C22;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 13px;
+    margin: 3px 0 0;
+    min-height: 13px;
+    padding-left: 17px;
+}
+
+input.mage-ce-modern-error {
+    background: none repeat scroll 0 0 #FAEBE7 !important;
+    border: 1px solid #EB340A !important;
+}
+
+div.mage-ce-modern-error {
+    background: url("/pub/media/skin/frontend/default/modern/default/en_US/images/validation_advice_bg.gif") no-repeat scroll 2px 3px transparent;
+    clear: both;
+    color: #EB340A;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 3px 0 0;
+    min-height: 13px;
+    padding-left: 13px;
+}
