@@ -15,7 +15,7 @@ require_once 'LoggerAbstract.php';
 
 class Tools_Migration_Acl_Db_Updater
 {
-    const PREVIEW_MODE = 'preview';
+    const WRITE_MODE = 'write';
 
     /**
      * Resource id reader
@@ -76,7 +76,7 @@ class Tools_Migration_Acl_Db_Updater
                 $newKey = $oldKey;
                 $oldKey = null;
             }
-            if ($newKey && $oldKey && $this->_mode != self::PREVIEW_MODE) {
+            if ($newKey && $oldKey && $this->_mode == self::WRITE_MODE) {
                 $this->_writer->update($oldKey, $newKey);
             }
             $this->_logger->add($oldKey, $newKey, $count);

@@ -25,6 +25,13 @@ class Tools_Migration_Acl_Db_FileReader
         if (false == file_exists($fileName)) {
             throw new InvalidArgumentException('Provided identifier map file (' . $fileName . ') doesn\'t exist');
         }
-        return json_decode(file_get_contents($fileName), true);
+        $data = json_decode(file_get_contents($fileName), true);
+
+        $output = array();
+        foreach ($data as $key => $value) {
+            $newKey = str_replace('config/acl/resources/', '', $key);
+            $output[$newKey] = $value;
+        }
+        return $output;
     }
 }
