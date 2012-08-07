@@ -57,7 +57,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     public function canManageOptionDefaultOnly()
     {
         $attribute = $this->getAttributeObject();
-        return !$attribute->getIsUserDefined() && $attribute->usesSource();
+        return !$attribute->getCanManageOptionLabels() && !$attribute->getIsUserDefined() && $attribute->usesSource();
     }
 
     /**
@@ -160,7 +160,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
      */
     protected function _getOptionValuesCollection(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        if  (!$attribute->getIsUserDefined() && $attribute->usesSource()) {
+        if ($this->canManageOptionDefaultOnly()) {
             $options = Mage::getModel($attribute->getSourceModel())
                 ->setAttribute($attribute)
                 ->getAllOptions();
@@ -293,5 +293,4 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     {
         return Mage::registry('entity_attribute');
     }
-
 }
