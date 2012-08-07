@@ -8,7 +8,7 @@
 # @license     {license_link}
 #
 ---
-search_newsletter_subscribers:
+search_newsletter_template:
     filter_id: %noValue%
     filter_email: %noValue%
     filter_type: %noValue%
@@ -18,3 +18,5 @@ search_newsletter_subscribers:
     filter_website: %noValue%
     filter_store: %noValue%
     filter_store_view: %noValue%
+
+
