@@ -70,12 +70,11 @@ class Mage_Install_Model_Installer_Db_Mssql extends Mage_Install_Model_Installer
         $connection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $dbName = $config->dbname;
 
-        $connection->query(
-            "IF EXISTS (SELECT name FROM sys.databases WHERE name = N'$dbName')\nDROP DATABASE [$dbName]\n"
-                . "CREATE DATABASE $dbName\n"
-        );
-
-        return $this;
+        $connection->query('USE [master]');
+        $connection->query("ALTER DATABASE [$dbName] SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+        $connection->query("DROP DATABASE [$dbName]");
+        $connection->query("CREATE DATABASE [$dbName]");
+        $connection->query("USE [$dbName]");
     }
 }
 
