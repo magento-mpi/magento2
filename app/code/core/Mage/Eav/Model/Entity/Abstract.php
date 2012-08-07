@@ -181,7 +181,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     {
         parent::__construct();
         $properties = get_object_vars($this);
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             if (array_key_exists('_' . $key, $properties)) {
                 $this->{'_' . $key} = $value;
             }

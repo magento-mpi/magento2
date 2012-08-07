@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Eav
+ * @package     Mage_Catalog
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
