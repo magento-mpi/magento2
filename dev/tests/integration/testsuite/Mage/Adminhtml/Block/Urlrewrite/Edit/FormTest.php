@@ -122,4 +122,47 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_FormTest extends PHPUnit_Framework_Te
         $this->assertNotEmpty($storeElement->getValues());
         $this->assertEquals($storesList, $storeElement->getValues());
     }
+
+    /**
+     * Test fields disabled status
+     * @dataProvider fieldsStateDataProvider
+     */
+    public function testDisabledFields($urlRewrite, $fields)
+    {
+        $form = $this->_getFormInstance(array('url_rewrite' => $urlRewrite));
+        foreach ($fields as $fieldKey => $expected) {
+            $this->assertEquals($expected, $form->getElement($fieldKey)->getDisabled());
+        }
+    }
+
+    /**
+     * Data provider for checking fields state
+     */
+    public function fieldsStateDataProvider()
+    {
+        return array(
+            array(
+                new Varien_Object(),
+                array(
+                    'is_system'    => true,
+                    'id_path'      => false,
+                    'request_path' => false,
+                    'target_path'  => false,
+                    'options'      => false,
+                    'description'  => false
+                )
+            ),
+            array(
+                new Varien_Object(array('id' => 3)),
+                array(
+                    'is_system'    => true,
+                    'id_path'      => false,
+                    'request_path' => false,
+                    'target_path'  => false,
+                    'options'      => false,
+                    'description'  => false
+                )
+            )
+        );
+    }
 }
