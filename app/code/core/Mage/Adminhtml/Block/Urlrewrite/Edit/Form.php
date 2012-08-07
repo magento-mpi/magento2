@@ -135,7 +135,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Edit_Form extends Mage_Adminhtml_Block_Wid
             'title'    => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Target Path'),
             'name'     => 'target_path',
             'required' => true,
-            'disabled' => true,
+            'disabled' => false,
             'value'    => $this->_formValues['target_path'],
         ));
 
