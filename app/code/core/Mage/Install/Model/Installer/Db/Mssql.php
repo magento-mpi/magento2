@@ -69,13 +69,11 @@ class Mage_Install_Model_Installer_Db_Mssql extends Mage_Install_Model_Installer
         $resourceModel = new Mage_Core_Model_Resource();
         $connection = $resourceModel->getConnection(Mage_Core_Model_Resource::DEFAULT_SETUP_RESOURCE);
         $dbName = $config->dbname;
-        $query = str_replace(
-            '%s',
-            $dbName,
-            "IF EXISTS (SELECT name FROM sys.databases WHERE name = N'%s')\nDROP DATABASE [%s]\n" .
-                "CREATE DATABASE %s\n"
+
+        $connection->query(
+            "IF EXISTS (SELECT name FROM sys.databases WHERE name = N'$dbName')\nDROP DATABASE [$dbName]\n"
+                . "CREATE DATABASE $dbName\n"
         );
-        $connection->query($query);
 
         return $this;
     }

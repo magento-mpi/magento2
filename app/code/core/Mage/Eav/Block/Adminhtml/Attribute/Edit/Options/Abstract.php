@@ -49,6 +49,18 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     }
 
     /**
+     * Is true only for system attributes which use source model
+     * Option labels and position for such attributes are kept in source model and thus cannot be overridden
+     *
+     * @return bool
+     */
+    public function canManageOptionDefaultOnly()
+    {
+        $attribute = $this->getAttributeObject();
+        return !$attribute->getCanManageOptionLabels() && !$attribute->getIsUserDefined() && $attribute->usesSource();
+    }
+
+    /**
      * Retrieve HTML of delete button
      *
      * @return string
@@ -148,17 +160,17 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
      */
     protected function _getOptionValuesCollection(Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
-        return !$attribute->getIsUserDefined() && $attribute->usesSource()
-            ? array_reverse(array_filter(
-                Mage::getSingleton($attribute->getSourceModel())->getAllOptions(),
-                function ($option) {
-                    return $option['value'] !== '';
-                }
-            ))
-            : Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
+        if ($this->canManageOptionDefaultOnly()) {
+            $options = Mage::getModel($attribute->getSourceModel())
+                ->setAttribute($attribute)
+                ->getAllOptions();
+            return array_reverse($options);
+        } else {
+            return Mage::getResourceModel('Mage_Eav_Model_Resource_Entity_Attribute_Option_Collection')
                 ->setAttributeFilter($attribute->getId())
                 ->setPositionOrder('desc', true)
                 ->load();
+        }
     }
 
     /**
@@ -281,5 +293,4 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract extends 
     {
         return Mage::registry('entity_attribute');
     }
-
 }
