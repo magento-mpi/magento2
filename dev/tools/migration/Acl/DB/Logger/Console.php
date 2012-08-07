@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-class Tools_Migration_Acl_Db_Logger_File extends Tools_Migration_Acl_Db_Logger_Abstract
+class Tools_Migration_Acl_Db_Logger_File extends Tools_Migration_Acl_Db_LoggerAbstract
 {
     public function report()
     {

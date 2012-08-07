@@ -14,4 +14,9 @@ class Tools_Migration_Acl_Db_Reader
     {
 
     }
+
+    public function fetchAll()
+    {
+
+    }
 }
