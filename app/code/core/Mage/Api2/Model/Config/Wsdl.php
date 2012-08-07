@@ -79,8 +79,10 @@ class Mage_Api2_Model_Config_Wsdl
             $this->_addServicePort($service, $bindingName . '_Soap12', $bindingName, $this->_endpointUrl);
 
             foreach ($methods as $methodName => $methodData) {
-                $operation = $this->_addBindingOperation($binding, $resourceName . ucfirst($methodName),
-                    array('use' => 'literal'), array('use' => 'literal'));
+                $input = $output = array('use' => 'literal');
+                $inputHeader = array('message' => 'AuthorizationHeader', 'part' => 'Authorization', 'use' => 'literal');
+                $operation = $this->_addBindingOperation($binding, $resourceName . ucfirst($methodName), $input,
+                    $inputHeader, $output);
                 $this->_addSoapOperation($operation, $resourceName . ucfirst($methodName));
                 // @TODO: implement faults binding
             }
@@ -113,11 +115,12 @@ class Mage_Api2_Model_Config_Wsdl
      * @param DOMElement $binding A binding XML_Tree_Node returned by {@link function _addBinding}
      * @param string $name
      * @param array|bool $input An array of attributes for the input element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
+     * @param array|bool $inputHeader
      * @param array|bool $output An array of attributes for the output element, allowed keys are: 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @param array|bool $fault An array of attributes for the fault element, allowed keys are: 'name', 'use', 'namespace', 'encodingStyle'. {@link http://www.w3.org/TR/wsdl#_soap:body More Information}
      * @return DOMElement The new Operation's DOMElement for use with {@link function _addSoapOperation}
      */
-    protected function _addBindingOperation(DOMElement $binding, $name, $input = false, $output = false, $fault = false)
+    protected function _addBindingOperation(DOMElement $binding, $name, $input = false, $inputHeader = false, $output = false, $fault = false)
     {
         $operation = $this->_dom->createElement($this->_nsWsdl . ':operation');
         $operation->setAttribute('name', $name);
@@ -129,6 +132,17 @@ class Mage_Api2_Model_Config_Wsdl
                 $soapNode->setAttribute($name, $value);
             }
             $node->appendChild($soapNode);
+
+            if (is_array($inputHeader)) {
+                $headerNode = $this->_dom->createElement($this->_nsSoap12 . ':header');
+                foreach ($inputHeader as $name => $value) {
+                    if ($name == 'message') {
+                        $value = $this->_nsTypes . ':' . $value;
+                    }
+                    $headerNode->setAttribute($name, $value);
+                }
+                $node->appendChild($headerNode);
+            }
             $operation->appendChild($node);
         }
 
