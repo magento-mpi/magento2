@@ -75,7 +75,7 @@ class Tools_Migration_Acl_Db_UpdaterTest extends PHPUnit_Framework_TestCase
     public function testMigrateInRealModeWritesToDb()
     {
         $model = new Tools_Migration_Acl_Db_Updater(
-            $this->_readerMock, $this->_writerMock, $this->_loggerMock, 'real'
+            $this->_readerMock, $this->_writerMock, $this->_loggerMock, Tools_Migration_Acl_Db_Updater::WRITE_MODE
         );
 
         $this->_writerMock->expects($this->at(0))->method('update')->with('oldResource1', 'Test::newResource1');

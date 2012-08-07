@@ -44,11 +44,7 @@ class Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_TestCase
             'catalog' => 100,
         );
         $selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);
-        //$statementMock = $this->getMock('Zend_Db_Statement', array(), array(), '', false);
-        //$statementMock->expects($this->once())->method('fetchAll')->will($this->returnValue($expected));
-
         $this->_adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
-        //$selectMock->expects($this->once())->method('query')->will($this->returnValue($statementMock));
         $selectMock->expects($this->once())->method('from')->will($this->returnSelf());
         $selectMock->expects($this->once())->method('columns')->will($this->returnSelf());
         $selectMock->expects($this->once())->method('group')->will($this->returnSelf());
