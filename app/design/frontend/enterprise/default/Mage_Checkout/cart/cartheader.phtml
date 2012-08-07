@@ -88,11 +88,11 @@
     <script type="text/javascript">
 
         mage.event.observe('mage.checkout.initialize', function (e, o) {
-                o.cartId = '#mini-cart',
+                o.cartSelector = '#mini-cart',
                 o.isRecursive = true,
-                o.checkOutUrl = '<?php echo $this->getCheckoutUrl();?>',
-                o.checkOutBtn = ':button[title=' + '<?php echo $this->__('Checkout') ?>' + ']',
-                o.checkOutListCloseBtn = 'a[title=\'' + '<?php echo $this->__('Remove This Item')?>' + '\']';
+                o.url = '<?php echo $this->getCheckoutUrl();?>',
+                o.button = ':button[title=' + '<?php echo $this->__('Checkout') ?>' + ']',
+                o.closeList = 'a[title=\'' + '<?php echo $this->__('Remove This Item')?>' + '\']',
                 o.container = '#topCartContent',
                 o.closeButton = '.close-btn',
                 o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'

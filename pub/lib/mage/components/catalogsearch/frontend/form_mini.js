@@ -17,10 +17,10 @@
             responseFieldElements: 'ul li',
             selectClass: 'selected',
             // Filled in initialization event
-            emptyText: null,
-            destinationId: null,
-            searchFieldId: null,
-            searchFormId: null
+            placeholder: null,
+            destinationSelector: null,
+            fieldSelector: null,
+            formSelector: null
         };
         // Trigger initialize event
         mage.event.trigger('mage.catalogsearch.initialize', searchInit);
@@ -30,9 +30,10 @@
             selected: null
         };
 
-        function getFirstElement() {
+        function getFirstVisibleElement() {
             if (responseList.indexList) {
-                return  responseList.indexList.first().is(':visible')  ? responseList.indexList.first() : responseList.indexList.first().next();
+                var firstElement = responseList.indexList.first();
+                return  firstElement.is(':visible') ? firstElement : firstElement.next();
             }
             return false;
         };
@@ -45,89 +46,87 @@
         };
 
         function resetResponseList(all) {
+            // To reset the selected attribute on every ajax response,result hide and mouse out from list
             responseList.selected = null;
             if (all === true) {
+            // To reset the list on search result hide
                 responseList.indexList = null;
             }
         }
 
-        $(searchInit.searchFieldId).on('blur', function () {
+        $(searchInit.fieldSelector).on('blur', function () {
             if ($(this).val() === '') {
-                $(this).val(searchInit.emptyText);
+                $(this).val(searchInit.placeholder);
             }
-            // needed to make click events working
+            // use setTimeout to make sure submit event happens before blur event
             setTimeout(function () {
-                $(searchInit.destinationId).hide();
+                $(searchInit.destinationSelector).hide();
             }, 250);
         });
 
-        $(searchInit.searchFieldId).trigger('blur');
+        $(searchInit.fieldSelector).trigger('blur');
 
-        $(searchInit.searchFieldId).on('focus', function () {
-            if ($(this).val() == searchInit.emptyText) {
+        $(searchInit.fieldSelector).on('focus', function () {
+            if ($(this).val() == searchInit.placeholder) {
                 $(this).val('');
             }
         });
 
-        $(searchInit.searchFieldId).on('keydown', function (e) {
+        $(searchInit.fieldSelector).on('keydown', function (e) {
+
             var keyCode = e.keyCode || e.which;
 
             switch (keyCode) {
 
                 case mage.constant.KEY_ESC:
                     resetResponseList(true);
-                    $(searchInit.destinationId).hide();
+                    $(searchInit.destinationSelector).hide();
                     break;
                 case mage.constant.KEY_TAB:
-                    $(searchInit.searchFormId).trigger('submit');
+                    $(searchInit.formSelector).trigger('submit');
                     break;
                 case mage.constant.KEY_DOWN:
                     if (responseList.indexList) {
                         if (!responseList.selected) {
-                            getFirstElement().addClass(searchInit.selectClass);
-                            responseList.selected = getFirstElement();
+                            getFirstVisibleElement().addClass(searchInit.selectClass);
+                            responseList.selected = getFirstVisibleElement();
                         }
                         else if (!getLastElement().hasClass(searchInit.selectClass)) {
-                            responseList.selected = responseList.selected.removeClass(searchInit.selectClass).next();
-                            responseList.selected.addClass(searchInit.selectClass);
+                            responseList.selected = responseList.selected.removeClass(searchInit.selectClass).next().addClass(searchInit.selectClass);
                         } else {
                             responseList.selected.removeClass(searchInit.selectClass);
-                            getFirstElement().addClass(searchInit.selectClass);
-                            responseList.selected = getFirstElement();
+                            getFirstVisibleElement().addClass(searchInit.selectClass);
+                            responseList.selected = getFirstVisibleElement();
                         }
-
                     }
                     break;
                 case mage.constant.KEY_UP:
                     if (responseList.indexList !== null) {
-                        if (!getFirstElement().hasClass(searchInit.selectClass)) {
-                            responseList.selected = responseList.selected.removeClass(searchInit.selectClass).prev();
-                            responseList.selected.addClass(searchInit.selectClass);
+                        if (!getFirstVisibleElement().hasClass(searchInit.selectClass)) {
+                            responseList.selected = responseList.selected.removeClass(searchInit.selectClass).prev().addClass(searchInit.selectClass);
+
                         } else {
                             responseList.selected.removeClass(searchInit.selectClass);
                             getLastElement().addClass(searchInit.selectClass);
                             responseList.selected = getLastElement();
                         }
-
                     }
                     break;
                 default:
                     return true;
             }
-
         });
 
-        $(searchInit.searchFormId).on('submit', function (e) {
-            if ($(searchInit.searchFieldId).val() === searchInit.emptyText || $(searchInit.searchFieldId).val() === '') {
+        $(searchInit.formSelector).on('submit', function (e) {
+            if ($(searchInit.fieldSelector).val() === searchInit.placeholder || $(searchInit.fieldSelector).val() === '') {
                 e.preventDefault();
             }
             if (!responseList.selected) {
-                $(searchInit.searchFieldId).val(searchInit.selected.attr('title'));
+                $(searchInit.fieldSelector).val(searchInit.selected.attr('title'));
             }
-
         });
 
-        $(searchInit.searchFieldId).on('input propertychange', function () {
+        $(searchInit.fieldSelector).on('input propertychange', function () {
 
             var searchField = $(this);
             var clonePostion = {
@@ -136,33 +135,32 @@
                 top: searchField.offset().top + searchField.outerHeight(),
                 width: searchField.outerWidth()
             };
+
             if ($(this).val().length >= parseInt(searchInit.minSearchLength, 10)) {
                 $.get(searchInit.url, {q: $(this).val()}, function (data) {
-                    responseList.indexList = $(searchInit.destinationId).html(data)
+                    responseList.indexList = $(searchInit.destinationSelector).html(data)
                         .css(clonePostion)
                         .show()
                         .find(searchInit.responseFieldElements);
                     resetResponseList();
                     responseList.indexList.on('click',function () {
-                        $(searchInit.searchFormId).trigger('submit');
+                        $(searchInit.formSelector).trigger('submit');
                     }).on('hover',function () {
                             responseList.indexList.removeClass(searchInit.selectClass);
                             $(this).addClass(searchInit.selectClass);
                             responseList.selected = $(this);
                         }).on('mouseout', function () {
-                            if (!getLastElement()&& getLastElement().hasClass(searchInit.selectClass)) {
+                            if (!getLastElement() && getLastElement().hasClass(searchInit.selectClass)) {
                                 $(this).removeClass(searchInit.selectClass);
                                 resetResponseList();
                             }
-
                         });
                 });
             } else {
                 resetResponseList(true);
-                $(searchInit.destinationId).hide();
+                $(searchInit.destinationSelector).hide();
             }
         });
-
     });
 }(jQuery));
 

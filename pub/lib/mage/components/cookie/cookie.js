@@ -8,16 +8,17 @@
  */
 (function ($) {
     $(document).ready(function () {
-        var cookieInit = {};
-        //default values
-        cookieInit.path='/';
-        cookieInit.domain=document.domain;
-
+        var cookieInit = {
+        // Default values
+            path: '/',
+            domain: document.domain
+        };
+        // Trigger initialize event
         mage.event.trigger('mage.cookie.init', cookieInit);
+
         $.cookie.defaults = {
             path: cookieInit.path,
             domain: cookieInit.domain
         };
-
     });
 }(jQuery));

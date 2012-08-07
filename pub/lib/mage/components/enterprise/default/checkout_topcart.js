@@ -15,36 +15,36 @@
 
         var topCartInit = {
             // Default values
-            intervalDuration:4000,
+            intervalDuration: 4000,
             // Filled in initialization event
-            container:null,
-            closeButton:null
+            container: null,
+            closeButton: null
         };
 
-       mage.event.trigger('mage.checkout.initialize', topCartInit);
+        mage.event.trigger('mage.checkout.initialize', topCartInit);
 
         topCartInit.container = $(topCartInit.container);
         topCartInit.closeButton = $(topCartInit.closeButton);
 
-        var topCartSettings={
+        var topCartSettings = {
             element: topCartInit.container.parent(),
-            elementHeader:topCartInit.container.prev(),
-            interval:null
-           }
+            elementHeader: topCartInit.container.prev(),
+            interval: null
+        };
 
         topCartInit.closeButton.on('click', function () {
             topCartInit.container.slideUp('slow', function () {
-              clearTimeout(topCartInit.interval);
+                clearTimeout(topCartInit.interval);
             });
         });
 
-        topCartSettings.element.on('mouseleave', function () {
+        topCartSettings.element.on('mouseleave',function () {
             topCartInit.interval = setTimeout(function () {
                 topCartInit.closeButton.trigger('click');
             }, topCartInit.intervalDuration);
         }).on('mouseenter', function () {
-            clearTimeout(topCartSettings.interval);
-        });
+                clearTimeout(topCartSettings.interval);
+            });
 
         topCartSettings.elementHeader.on('click', function () {
             $(topCartInit.container).slideToggle('slow');

@@ -11,13 +11,14 @@
 
 (function ($) {
     mage.decorator = {};
+
     mage.decorator.list = function (list, isRecursive) {
         var items;
         if ($(list).length > 0) {
-            if (!isRecursive) {
-                items = $(list).find('li');
-            } else {
+            if (isRecursive) {
                 items = $(list).children();
+            } else {
+                items = $(list).find('li');
             }
             this.general(items, ['odd', 'even', 'last']);
         }
@@ -25,14 +26,16 @@
     };
 
     mage.decorator.general = function (elements, decoratorParams) {
-        // Flip  default jQuery odd even selection
+        // Flip default jQuery odd even selection to work it intuitively, assuming index 0 to be the 1st element (odd)
         var allSupportedParams = {
             even: 'odd',
             odd: 'even',
             last: 'last',
             first: 'first'
         };
-        var decoratorParams = decoratorParams || allSupportedParams;
+
+        decoratorParams = decoratorParams || allSupportedParams;
+
         if (elements) {
             $.each(decoratorParams, function (index, param) {
                 if (param === 'even' || param === 'odd') {
@@ -42,6 +45,5 @@
                 }
             });
         }
-    }
-
+    };
 }(jQuery));

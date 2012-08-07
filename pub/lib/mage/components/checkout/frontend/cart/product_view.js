@@ -10,10 +10,10 @@
     $(document).ready(function () {
         var productView = {
             // Filled in initialization event
-            recentlyViewedItemsId:null
+            recentlyViewedItemSelector: null
         };
         // Trigger initialize event
         mage.event.trigger('mage.productView.initialize', productView);
-        mage.decorator.list(productView.recentlyViewedItemsId);
-        });
+        mage.decorator.list(productView.recentlyViewedItemSelector);
+    });
 }(jQuery));

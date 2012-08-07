@@ -10,8 +10,9 @@
 (function ($) {
     // Default fields to initialize for grid
     var gridInit = {
-        listId: nulll,
-        decoratorParams: null
+        listId: null,
+        decoratorParams: null,
+        genericSelector: null
     };
 
     $(document).ready(function () {
