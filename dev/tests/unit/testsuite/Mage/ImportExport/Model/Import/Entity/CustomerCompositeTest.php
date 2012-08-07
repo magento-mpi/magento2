@@ -639,7 +639,7 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
             'add_update_behavior_customer_false_address_false' => array(
                 '$behavior'       => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
                 '$customerImport' => false,
-                '$addressImport'  => true,
+                '$addressImport'  => false,
                 '$result'         => false,
             ),
             'delete_behavior_customer_true' => array(
