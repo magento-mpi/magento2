@@ -1,0 +1,17 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ShoppingCartPriceRule
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Promotions and related pages
+# ' Catalog Price Rules' page
+manage_catalog_price_rules:
+    uimap:
+        pageelements:
+
+           access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
