@@ -1662,7 +1662,7 @@
     </tax_rates>
 
     <google_sitemap translate="label">
-        <label>Google Sitemap</label>
+        <label>XML Sitemap</label>
         <expected_models>
             <Mage_Sitemap_Model_Sitemap/>
         </expected_models>
