@@ -172,9 +172,8 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             //<![CDATA[
                 (function( $ ) {
                     $("#%s").calendar({
-                        showTime: %s,
-                        showHour: %s,
-                        showMinute: %s,
+                        dateFormat: "%s",
+                        showsTime: %s,
                         buttonImage: "%s",
                         buttonText: "%s",
                         disabled: %s
@@ -183,8 +182,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             //]]>
             </script>',
             $this->getHtmlId(),
-            $this->getTime() ? 'true' : 'false',
-            $this->getTime() ? 'true' : 'false',
+            $outputFormat,
             $this->getTime() ? 'true' : 'false',
             $this->getImage(),
             'Select Date',

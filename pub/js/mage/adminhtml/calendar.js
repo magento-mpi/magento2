@@ -13,18 +13,34 @@
      */
     $.widget('mage.calendar', {
         _create: function () {
-            this.options = $.extend({}, $.calendarConfig ? $.calendarConfig : {}, this.options);
+            this._convertTimeFormat();
+            this.options = $.extend(
+                {},
+                $.calendarConfig ? $.calendarConfig : {},
+                this.options.showsTime ? {showTime: true, showHour: true, showMinute: true} : {},
+                this.options
+            );
             this._initPicker(this.element);
         },
-        getTimezoneDate: function(date){
+        //Fix for iso am pm
+        _convertTimeFormat: function(){
+            if(this.options.timeFormat && $.type(this.options.timeFormat) === 'string') {
+                var ampm = this.options.timeFormat.indexOf('a');
+                if(ampm >= 0) {
+                    this.options.timeFormat = this.options.timeFormat.replace('a', 'TT');
+                    this.options.ampm = true;
+                }
+            }
+        },
+        /*getTimezoneDate: function(date){
             date = date || new Date();
             if(typeof(this.options.serverTimezoneSeconds) != "undefined"){
                 date.setTime((this.options.serverTimezoneSeconds + date.getTimezoneOffset()*60)*1000);
             }
             return date;
-        },
+        },*/
         _initPicker: function(element) {
-            element.datetimepicker(this.options);
+            element.datetimepicker(this.options).next(".ui-datepicker-trigger").addClass("v-middle");
         }
     });
 
@@ -38,17 +54,17 @@
                     to = this.element.find('#' + this.options.to.id ),
                     self = this;
                 this.options.onSelect = function( selectedDate ) {
-                    self._onSelect(to, selectedDate);
+                    self._onSelect(to, selectedDate, "minDate");
                 }
                 $.mage.calendar.prototype._initPicker.apply(this, [from]);
                 this.options.onSelect = function( selectedDate ) {
-                    self._onSelect(from, selectedDate);
+                    self._onSelect(from, selectedDate, "maxDate");
                 }
                 $.mage.calendar.prototype._initPicker.apply(this, [to]);
             }
         },
-        _onSelect: function(element, selectedDate){
-            element.datepicker( "option", "maxDate", selectedDate );
+        _onSelect: function(element, selectedDate, option){
+            element.datepicker( "option", option, selectedDate );
         }
     })
 

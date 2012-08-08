@@ -92,10 +92,11 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
     public function getHtml()
     {
         $htmlId = str_replace(".", "", $this->_getHtmlId() . microtime(true));
-        $format = $this->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $format = $this->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $timeFormat = '';
 
         if ($this->getColumn()->getFilterTime()) {
-            $format .= ' ' . $this->getLocale()->getTimeStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+            $timeFormat = $this->getLocale()->getTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         }
 
         $html = '<div class="range" id="'.$htmlId.'_range"><div class="range-line date">'
@@ -110,14 +111,12 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
             . '</div></div>';
         $html.= '<input type="hidden" name="'.$this->_getHtmlName().'[locale]"'
             . ' value="'.$this->getLocale()->getLocaleCode().'"/>';
-        $showTime = ( $this->getColumn()->getFilterTime() ? 'true' : 'false');
         $html.= '<script type="text/javascript">
             (function( $ ) {
                     $("#'.$htmlId.'_range").date_range({
-                        //dateFormat: "'.$format.'",
-                        showTime: '. $showTime .',
-                        showHour: '. $showTime .',
-                        showMinute: '. $showTime .',
+                        dateFormat: "' . $format . '",
+                        timeFormat: "' . $timeFormat . '",
+                        showsTime: '. ( $this->getColumn()->getFilterTime() ? 'true' : 'false') .',
                         buttonImage: "'. Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '",
                         buttonText: "'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'",
                         from: {
@@ -128,24 +127,6 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
                         }
                     })
             })(jQuery)
-
-
-            /*Calendar.setup({
-                inputField : "'.$htmlId.'_from",
-                ifFormat : "'.$format.'",
-                button : "'.$htmlId.'_from_trig",
-                showsTime: '. ( $this->getColumn()->getFilterTime() ? 'true' : 'false') .',
-                align : "Bl",
-                singleClick : true
-            });
-            Calendar.setup({
-                inputField : "'.$htmlId.'_to",
-                ifFormat : "'.$format.'",
-                button : "'.$htmlId.'_to_trig",
-                showsTime: '. ( $this->getColumn()->getFilterTime() ? 'true' : 'false') .',
-                align : "Bl",
-                singleClick : true
-            });*/
         </script>';
         return $html;
     }

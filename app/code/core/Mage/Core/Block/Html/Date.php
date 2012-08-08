@@ -58,11 +58,16 @@ class Mage_Core_Block_Html_Date extends Mage_Core_Block_Template
             //<![CDATA[
                 (function( $ ) {
                     $("#' . $this->getId() . '").calendar({
+                        showsTime: '. ((bool)$this->getTime() ? 'true' : 'false') .',
+                        //'. ((bool)$this->getTime() ? 'timeFormat: ' . $this->getTime() . ',' : '') . '
+                        //dateFormat: "' . $this->getFormat() . '",
                         buttonImage: "' . $this->getImage() . '",
-                        buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '",
-                        '. ($calendarYearsRange ? 'yearRange: ' . $calendarYearsRange . '' : '') . '
+                        '. ($calendarYearsRange ? 'yearRange: ' . $calendarYearsRange . ',' : '') . '
+                        buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '"
                     })
-                })(jQuery)';
+                })(jQuery)
+                //]]>
+            </script>';
 
         return $html;
     }
