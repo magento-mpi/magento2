@@ -144,9 +144,40 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_layout->getBlock('test.nonexisting.block'));
     }
 
-    /**
-     * @expectedException Magento_Exception
-     */
+    public function testLayoutMoveDirective()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('container2', $layout->getParentName('container1'));
+        $this->assertEquals('container1', $layout->getParentName('no.name2'));
+        $this->assertEquals('block_container', $layout->getParentName('no_name3'));
+
+        // verify `after` attribute
+        $this->assertEquals('block_container', $layout->getParentName('no_name'));
+        $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name')));
+        $positionElementAfter = array_search('child_block1', $childrenOrderArray);
+        $positionToVerify = array_search('no_name', $childrenOrderArray);
+        $this->assertEquals($positionElementAfter, --$positionToVerify);
+
+        // verify `before` attribute
+        $this->assertEquals('block_container', $layout->getParentName('no_name4'));
+        $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name4')));
+        $positionElementBefore = array_search('child_block2', $childrenOrderArray);
+        $positionToVerify = array_search('no_name4', $childrenOrderArray);
+        $this->assertEquals($positionElementBefore, ++$positionToVerify);
+    }
+
+    public function testLayoutRemoveDirective()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_remove'));
+        $layout->generateXml()->generateElements();
+        $this->assertFalse($layout->getBlock('no_name2'));
+        $this->assertFalse($layout->getBlock('child_block1'));
+        $this->assertTrue($layout->isBlock('child_block2'));
+    }
+
     public function testGenerateElementsBroken()
     {
         $layout = new Mage_Core_Model_Layout();

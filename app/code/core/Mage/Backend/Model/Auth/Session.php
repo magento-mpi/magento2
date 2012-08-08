@@ -137,12 +137,10 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
     {
         $limitations = $xml->xpath('//*[@acl]') ?: array();
         foreach ($limitations as $node) {
-            if (isset($node['acl'])) {
-                if (!$this->isAllowed($node['acl'])) {
-                    $node->unsetSelf();
-                } else {
-                    unset($node['acl']);
-                }
+            if (!$this->isAllowed($node['acl'])) {
+                $node->unsetSelf();
+            } else {
+                unset($node['acl']);
             }
         }
     }

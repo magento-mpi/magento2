@@ -316,6 +316,14 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $this->renderLayout();
     }
 
+    /**
+     * Load layout by handles and verify user ACL
+     *
+     * @param string|null|bool|array $ids
+     * @param bool $generateBlocks
+     * @param bool $generateXml
+     * @return Mage_Backend_Controller_ActionAbstract|Mage_Core_Controller_Varien_Action
+     */
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
