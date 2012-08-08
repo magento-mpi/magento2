@@ -102,7 +102,16 @@ For /F "usebackq delims=.=:=: tokens=2,3,4,5,6" %%a IN (`set strConfName`) DO (
 GOTO :EOF
 
 :functionRepAnExec
-for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\config.yml) do (
+REM get config file name
+set defaultconfigfile=config.yml
+if EXIST %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\local.yml (
+   set defaultconfigfile=local.yml     
+)
+REM get default app - last line from config
+for /f "tokens=* delims= " %%a in (%workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\%defaultconfigfile%) do (
+   set defaultapp=    %%a
+)
+for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\%defaultconfigfile%) do (
 	if "%%i"=="%defaultbrowser%" (
 		(echo %newdefaultbrowser%)>> %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\confignew.yml
 	) else (
@@ -113,7 +122,7 @@ for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%%phpunit%_%c
 		)
 	)
 )
-move %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\confignew.yml %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\config.yml
+move %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\confignew.yml %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\%defaultconfigfile%
 start cmd /X/V:ON/K "cd /d %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration %phpunit%.xml >var\logs\PHPUnitReport.txt"
 GOTO :EOF
 
