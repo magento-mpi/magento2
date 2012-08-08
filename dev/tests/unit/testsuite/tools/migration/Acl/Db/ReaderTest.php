@@ -26,8 +26,15 @@ class Tools_Migration_Acl_Db_ReaderTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_adapterMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array()
-            , '', false, false, false, array('select', 'fetchPairs'));
+        $this->_adapterMock = $this->getMockForAbstractClass(
+            'Zend_Db_Adapter_Abstract',
+            array(),
+            '',
+            false,
+            false,
+            false,
+            array('select', 'fetchPairs')
+        );
         $this->_model = new Tools_Migration_Acl_Db_Reader($this->_adapterMock, 'dummy');
     }
 

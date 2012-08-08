@@ -14,49 +14,30 @@
 class Tools_Migration_Acl_Db_Adapter_Factory
 {
     /**
-     * List of allowed adapter types
-     * @var array
-     */
-    protected $_allowedAdapterTypes = array();
-
-    public function __construct()
-    {
-        $this->_allowedAdapterTypes = array(
-            'mssql',
-            'mysqli',
-            'mysql',
-            'oracle',
-        );
-    }
-
-    /**
-     * @param string $type
+     * Get db adapter
+     *
      * @param array $config
+     * @param string $type
      * @throws InvalidArgumentException
      * @return Zend_Db_Adapter_Abstract
      */
-    public function getAdapter($type, array $config)
+    public function getAdapter(array $config, $type = null)
     {
-        if (false == in_array($type, $this->_allowedAdapterTypes)) {
-            throw new InvalidArgumentException('Invalid adapter type: ' . $type);
+        $dbAdapterClassName = 'Varien_Db_Adapter_Pdo_Mysql';
+
+        if (false == empty($type)) {
+            $dbAdapterClassName = $type;
         }
 
-        $dbAdapterClassName = null;
-        switch ($type) {
-            case 'mssql':
-                $dbAdapterClassName = 'Varien_Db_Adapter_Pdo_Mssql';
-                break;
-            case 'oracle':
-                $dbAdapterClassName = 'Varien_Db_Adapter_Oracle';
-                break;
-            case 'mysqli':
-                $dbAdapterClassName = 'Varien_Db_Adapter_Mysqli';
-                break;
-            default:
-                $dbAdapterClassName = 'Varien_Db_Adapter_Pdo_Mysql';
-                break;
+        if (false == class_exists($dbAdapterClassName, true)) {
+            throw new InvalidArgumentException('Specified adapter not exists: ' . $dbAdapterClassName);
         }
+        $adapter = new $dbAdapterClassName($config);
 
-        return new $dbAdapterClassName($config);
+        if (false == ($adapter instanceof Zend_Db_Adapter_Abstract)) {
+            unset($adapter);
+            throw new InvalidArgumentException('Specified adapter is not instance of Zend_Db_Adapter_Abstract');
+        }
+        return $adapter;
     }
 }

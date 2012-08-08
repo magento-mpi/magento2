@@ -42,6 +42,9 @@ class Tools_Migration_Acl_Db_Writer
      */
     public function update($oldKey, $newKey)
     {
-        $this->_adapter->update($this->_tableName, array('resource_id' => $newKey), array('resource_id = ?' => $oldKey));
+        $this->_adapter->update($this->_tableName,
+            array('resource_id' => $newKey),
+            array('resource_id = ?' => $oldKey)
+        );
     }
 }

@@ -44,10 +44,9 @@ class Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestC
     public function getAdapterDataProvider()
     {
         return array(
-            array('mysql'),
-            array('mssql'),
-            array('mysqli'),
-            array('oracle'),
+            array('Varien_Db_Adapter_Pdo_Mysql'),
+            array(''),
+            array(null),
         );
     }
 
@@ -58,7 +57,7 @@ class Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestC
     public function testGetAdapter($adapterType)
     {
         $this->assertInstanceOf('Zend_Db_Adapter_Abstract',
-            $this->_model->getAdapter($adapterType, $this->_config, 'dummy')
+            $this->_model->getAdapter($this->_config, $adapterType)
         );
     }
 
@@ -67,7 +66,6 @@ class Tools_Migration_Acl_Db_Adapter_FactoryTest extends PHPUnit_Framework_TestC
      */
     public function testGetAdapterWithInvalidType()
     {
-        $this->_model->getAdapter('invalid type', $this->_config, 'dummy');
+        $this->_model->getAdapter($this->_config, 'Mage_Core_Helper_Data');
     }
 }
-

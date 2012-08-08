@@ -37,7 +37,7 @@ abstract class Tools_Migration_Acl_Db_LoggerAbstract
     }
 
     /**
-     * Get log data
+     * Add log data
      *
      * @param string $oldKey
      * @param string $newKey
@@ -90,7 +90,11 @@ abstract class Tools_Migration_Acl_Db_LoggerAbstract
         return $generalBlock . str_repeat('-', 30) . PHP_EOL . $detailsBlock;
     }
 
-
-
+    /**
+     * Generate report
+     *
+     * @abstract
+     * @return mixed
+     */
     public abstract function report();
 }

@@ -1,6 +1,14 @@
 <?php
-$rootDir = realpath(__DIR__ . '/../../../..');
+/**
+ * {license_notice}
+ *
+ * @category   Tools
+ * @package    acl_db
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
+$rootDir = realpath(__DIR__ . '/../../../..');
 require_once $rootDir . '/lib/Magento/Autoload.php';
 $paths[] = $rootDir . '/lib';
 $paths[] = $rootDir . '/dev';
@@ -13,7 +21,7 @@ try {
         'mode|w' => "Application mode.  Preview mode is default. If set to 'write' - database is updated.",
         'output|f-w' => "Report output type. Report is flushed to console by default."
             . "If set to 'file', report is written to file /log/report.log",
-        'dbtype=w' => "Database server vendor",
+        'dbprovider=w' => "Database adapter class name. Default: Varien_Db_Adapter_Pdo_Mysql",
         'dbhost=s' => "Database server host",
         'dbuser=s' => "Database server user",
         'dbpassword=s' => "Database server password",
@@ -28,13 +36,13 @@ try {
     $dbAdapterFactory = new Tools_Migration_Acl_Db_Adapter_Factory();
 
     $dbAdapter = $dbAdapterFactory->getAdapter(
-        $options->getOption('dbtype'),
         $dbConfig = array(
             'host' => $options->getOption('dbhost'),
             'username' => $options->getOption('dbuser'),
             'password' => $options->getOption('dbpassword'),
             'dbname' => $options->getOption('dbname'),
-        )
+        ),
+        $options->getOption('dbprovider')
     );
 
     $loggerFactory = new Tools_Migration_Acl_Db_Logger_Factory();

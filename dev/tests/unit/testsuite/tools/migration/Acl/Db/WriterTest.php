@@ -26,8 +26,14 @@ class Tools_Migration_Acl_Db_WriterTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_adapterMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array()
-            , '', false, false, false, array('update'));
+        $this->_adapterMock = $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract',
+            array(),
+            '',
+            false,
+            false,
+            false,
+            array('update')
+        );
         $this->_model = new Tools_Migration_Acl_Db_Writer($this->_adapterMock, 'dummy');
     }
 
