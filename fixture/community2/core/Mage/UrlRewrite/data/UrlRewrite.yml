@@ -47,3 +47,6 @@ simple_product_required:
     inventory_qty: %noValue%
     websites: Main Website
     categories: Default Category
+
+url_rewrite_product:
+    request_path: %randomize%.html

@@ -61,6 +61,7 @@
  * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
  * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ * @method Community2_Mage_XmlSitemap_Helper|Enterprise2_Mage_XmlSitemap_Helper xmlSitemapHelper()
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {

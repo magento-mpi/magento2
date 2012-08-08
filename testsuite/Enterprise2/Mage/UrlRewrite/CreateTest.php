@@ -72,14 +72,19 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFieldsEmpty($emptyField, $messageCount)
     {
+        //Loading data from data file
         $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_custom', array($emptyField => '%noValue%'));
-        //Steps
+        //Open URL rewrite managment page
         $this->navigate('url_rewrite_management');
+        //Click 'Add new rewrite' button
         $this->clickButton('add_new_rewrite', 'true');
+        //At Create URL rewrite dropdown select Custom
         $this->fillDropdown('create_url_rewrite_dropdown', 'Custom');
         $this->waitForPageToLoad();
         $this->validatePage();
+        //Fill required fields except one
         $this->fillForm($fieldData);
+        //Click Save button
         $this->clickButton('save', false);
         //Verifying
         $xpath = $this->_getControlXpath('field', $emptyField);
@@ -232,5 +237,73 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         if (!$this->isEditable('target_path')) {
             throw new PHPUnit_Framework_Exception('Target Path field is not editable!');
         }
+    }
+
+    /**
+     * <p>Create URL rewrite for product</p>
+     * <p>Steps</p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "For product"</p>
+     * <p>4. Select Product in Grid</p>
+     * <p>5. Select Category (this step can be skipped)</p>
+     * <p>6. Input needed Request path</p>
+     * <p>7. Save</p>
+     * <p>8. Open store on front with new request path</p>
+     * <p>Expected result:</p>
+     * <p>URL rewrite created and works</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5503
+     */
+    public function urlRewriteForProduct()
+    {
+        //Loading data from data file
+        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_product');
+        //Create Simple Product
+        $this->navigate('manage_products');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Open Manage URL rewrite page
+        $this->admin('url_rewrite_management');
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite', true);
+        $this->waitForAjax();
+        //Select "For Product"
+        $this->fillDropdown('create_url_rewrite_dropdown', 'For product');
+        $this->waitForPageToLoad();
+        //Find product in the Grid and open it
+        $this->validatePage('add_new_urlrewrite_product');
+        $this->searchAndOpen($productSearch, false, 'product_rewrite');
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('product'));
+        $this->validatePage();
+        //Select Category
+        $categorySearch = $productData['categories'];
+        $this->addParameter('rootName', $categorySearch);
+        $this->clickControl('link', 'root_category', false);
+        $this->waitForPageToLoad();
+        $this->addParameter('categoryId', $this->defineParameterFromUrl('category'));
+        $this->validatePage();
+        //Fill request path input field
+        $this->fillField('request_path', $fieldData['request_path']);
+        //Click Save button
+        $this->clickButton('save', false);
+        //Generating URL rewrite link
+        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
+        //Open page on frontend
+        $this->frontend();
+        $this->open($rewriteUrl);
+        //Verifying page of URL rewrite for product
+        $this->setCurrentPage('product_page');
+        $this->addParameter('productName', $productData['general_name']);
+        $this->assertTrue($this->controlIsPresent('pageelement', 'product_name'), 'Product not opened');
+        $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
+        $this->assertEquals($productData['general_name'], $openedProductName,
+            "Product with name '$openedProductName' is opened, but should be '{$productData['general_name']}'");
     }
 }
