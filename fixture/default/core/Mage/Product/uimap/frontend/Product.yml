@@ -214,6 +214,7 @@ product_page:
         messages: &productMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
+            tag_already_success: //li[normalize-space(@class)='notice-msg' and contains(.,'Tag "%tagName%" has already been added to the product.')]
             product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.,'The product %productName% has been added to comparison list.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
