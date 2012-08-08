@@ -1,36 +1,66 @@
 #
-# Magento
+# {license_notice}
 #
-# NOTICE OF LICENSE
-#
-# This source file is subject to the Academic Free License (AFL 3.0)
-# that is bundled with this package in the file LICENSE_AFL.txt.
-# It is also available through the world-wide-web at this URL:
-# http://opensource.org/licenses/afl-3.0.php
-# If you did not receive a copy of the license and are unable to
-# obtain it through the world-wide-web, please send an email
-# to license@magentocommerce.com so we can send you a copy immediately.
-#
-# DISCLAIMER
-#
-# Do not edit or add to this file if you wish to upgrade Magento to newer
-# versions in the future. If you wish to customize Magensystem_accountto for your
-# needs please refer to http://www.magentocommerce.com for more information.
-#
-# @category    tests
-# @package     selenium
-# @subpackage  uimaps
-# @author      Magento Core Team <core@magentocommerce.com>
-# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
-# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+# @category    Magento
+# @package     Mage_Newsletter
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
 #
 ---
-# Newsletter Templetes Manager page
+# Newsletter Templates Manager page
 newsletter_templates:
     mca: newsletter_template/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'newsletter_template/')]
     title: Newsletter Templates / Newsletter / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    newsletter_templates:
+                        xpath: //div[@id='page:main-container']
+                        fields:
+                            id: //input[@name='template_code']
+                            template_name: //input[@name='code']
+                            date_added_from: //input[@name='added_at[from]']
+                            date_added_to: //input[@name='added_at[to]']
+                            date_updated_from: //input[@name='modified_at[from]']
+                            date_updated_to: //input[@name='modified_at[to]']
+                            template_subject: //input[@name='subject']
+                            sender_name: //input[@name='sender']
+                        dropdowns:
+                            template_type: //select[@name='type']
+        buttons:
+            add_new_template: //button[span='Add New Template']
+            reset_filter: //button[span='Reset Filter']
+            search: //button[span='Search']
+        messages:
+            success_saved_template: //li[normalize-space(@class)='success-msg' and contains(.,'The newsletter template has been saved.')]
 
+# 'New Newsletter Template' page
+new_newsletter_template:
+    mca: newsletter_template/new/
+    title: New Template / Newsletter Templates / Newsletter / Magento Admin
+    uimap:
+        form: &createNewNewsletterTemplate
+            fieldsets:
+                -
+                    newsletter_add_template:
+                        xpath: //form[@id='newsletter_template_edit_form']
+                        fields:
+                            template_name: //input[@id='code']
+                            template_subject: //input[@id='subject']
+                            sender_name: //input[@id='sender_name']
+                            sender_email: //input[@id='sender_email']
+                        required: [template_name, template_subject, sender_name, sender_email]
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            convert_to_plain_text: //button[span='Convert to Plain Text']
+            preview_template: //button[span='Preview Template']
+            save_template: //button[span='Save Template']
+        messages:
+            empty_required_field: "%fieldXpath%/following-sibling::*[contains(., 'This is a required field.') and not(contains(@style,'display: none;'))]"
 
 # Newsletter Newsletter Queue page
 newsletter_queue:
