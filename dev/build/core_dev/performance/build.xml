@@ -12,35 +12,27 @@
  */
 -->
 <project name="Core Development Performance Tests" basedir="../../../../" default="performance_tests_ce_mysql">
-    <property environment="env"/>
-
-    <target name="_product_location" description="Detection of a product source code root directory">
-        <condition property="product_root_dir" value="${basedir}">
-            <not><isset property="product_root_dir"/></not>
-        </condition>
-    </target>
+    <import file="../util.xml"/>
 
     <target name="_performance_tests_configuration" depends="_product_location" description="Generation of configuration for product performance tests">
         <fail unless="env.web_access_host" message="Environment variable 'web_access_host' must be defined"/>
         <fail unless="env.web_access_path" message="Environment variable 'web_access_path' must be defined"/>
         <copy file="${basedir}/dev/build/core_dev/performance/config.php" todir="${product_root_dir}/dev/tests/performance" overwrite="true"/>
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_database_credential_substitution">
-            <property name="db_config_file" value="${product_root_dir}/dev/tests/performance/config.php"/>
-        </ant>
+        <antcall target="_database_credential_substitution">
+            <param name="db_config_file" value="${product_root_dir}/dev/tests/performance/config.php"/>
+        </antcall>
         <replace file="${product_root_dir}/dev/tests/performance/config.php">
             <replacefilter token="{{web_access_host}}" value="${env.web_access_host}"/>
             <replacefilter token="{{web_access_path}}" value="${env.web_access_path}"/>
         </replace>
     </target>
-    <target name="_performance_tests_magento" depends="_product_location" description="Product performance tests">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_installation_requirements"/>
+    <target name="_performance_tests_magento" depends="_installation_requirements" description="Product performance tests">
         <exec executable="php" failonerror="true">
             <arg value="${product_root_dir}/dev/tests/performance/run_scenarios.php"/>
         </exec>
     </target>
 
-    <target name="performance_tests_ce_mysql" description="Performance tests on MySQL for CE">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_community_edition"/>
+    <target name="performance_tests_ce_mysql" depends="_community_edition" description="Performance tests on MySQL for CE">
         <antcall target="_performance_tests_configuration"/>
         <antcall target="_performance_tests_magento"/>
     </target>
