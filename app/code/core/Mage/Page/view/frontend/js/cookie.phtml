@@ -22,6 +22,6 @@ mage.event.observe('mage.cookie.initialize', function (e, o) {
     o.path = '<?php echo $this->getPath()?>',
     o.domain = '<?php echo $this->getDomain()?>'
 });
-mage.load.jsSync('/pub/lib/mage/components/cookie/cookie.js');
+mage.load.jsSync('/pub/lib/jquery/jquery.cookie.js', '/pub/lib/mage/components/cookie/cookie.js');
 //]]>
 </script>
