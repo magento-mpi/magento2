@@ -55,6 +55,26 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         }
         $this->saveForm('save_role');
     }
+    /**
+     * Create New Restricted Role.
+     *
+     * @param array $roleData
+     * @param string $separator
+     */
+    public function createRestrictedRole(array $roleData, $separator = '/')
+    {
+        if (empty($roleData)) {
+            $this->fail('$roleData parameter is empty');
+        }
+        $roleInfo = (isset($roleData['role_info_tab'])) ? $roleData['role_info_tab'] : array();
+        $roleResources = (isset($roleData['role_resources_tab'])) ? $roleData['role_resources_tab'] : array();
+        $this->clickButton('add_new_role');
+        $this->fillTab($roleInfo, 'role_info');
+        if ($roleResources) {
+            $this->fillRestrictedRolesResources($roleResources, $separator);
+        }
+        $this->saveForm('save_role');
+    }
 
     /**
      * Fill Roles Resources Tab
@@ -112,6 +132,29 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         }
     }
 
+    /**
+     * Fill Limited Access on Roles Resources Tab
+     *
+     * @param array $roleAccess
+     * @param string $separator
+     */
+    public function fillAndClearRoleAccess(array $roleAccess, $separator = '/')
+    {
+        if (!empty($roleAccess)) {
+            if (isset($roleAccess['resource_access'])) {
+                $this->fillTab(array('resource_access' => $roleAccess['resource_access']), 'role_resources');
+                unset($roleAccess['resource_access']);
+            }
+            if (!empty($roleAccess)) {
+                foreach ($roleAccess as $category) {
+                 /* Fill Checkbox*/
+                 $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                 /*Clear checkbox that restrict Role Scope*/
+                 $this->categoryHelper()->selectCategory($category, 'role_resources', $separator);
+                }
+            }
+        }
+    }
     /**
      * Edit Role
      *
