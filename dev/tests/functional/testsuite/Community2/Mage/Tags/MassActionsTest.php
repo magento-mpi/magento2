@@ -22,7 +22,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Precondition:
      * Delete all existing tags
      */
-    public function setUpBeforeTests()
+    public function setUpBeforeTestsClass()
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
