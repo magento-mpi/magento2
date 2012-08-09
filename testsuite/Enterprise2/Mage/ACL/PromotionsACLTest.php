@@ -39,7 +39,6 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Promotions Full Rights - Catalog Price Rules, Shopping Cart Price Rules and Automated Email Reminder Rules</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
@@ -100,10 +99,10 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //verify rights to create Automated Email Reminder Rules
         $this->navigate('manage_automated_email_reminder_rules');
         $this->priceRulesHelper()->createEmailReminderRule();
+        $this->assertMessagePresent('success', 'success_saved_rule');
     }
 
     /**
-     *
      * <p>Check Promotions only Catalog Price Rules Read Rights</p>
      * <p>Preconditions</p>
      * <p> Login to backend as admin</p>
@@ -168,7 +167,6 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Promotions Shopping Cart price Rules Create Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
@@ -234,7 +232,6 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Promotions Shopping Cart price Rules Read Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
@@ -298,7 +295,6 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Automated Email Reminder Rules Create Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
@@ -349,6 +345,7 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //verify Create rights to Automated Email Reminder Rules
         $this->navigate('manage_automated_email_reminder_rules');
         $this->priceRulesHelper()->createEmailReminderRule();
+        $this->assertMessagePresent('success', 'success_saved_rule');
         //verify NO rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
@@ -362,7 +359,6 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Automated Email Reminder Rules  Read Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
