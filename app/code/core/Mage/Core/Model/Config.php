@@ -815,12 +815,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         foreach ($moduleFiles as $oneConfigFile) {
             $path = explode(DIRECTORY_SEPARATOR, $oneConfigFile);
             $moduleConfig = new Mage_Core_Model_Config_Base($oneConfigFile);
+            $modules = $moduleConfig->getXpath('modules/*');
+            if (!$modules) {
+                continue;
+            }
             $cPath = count($path);
             if ($cPath > 4) {
                 $moduleName = $path[$cPath - 4] . '_' . $path[$cPath - 3];
                 $this->_modulesCache[$moduleName] = $moduleConfig;
             }
-            foreach ($moduleConfig->_xml->xpath('modules/*') as $module) {
+            foreach ($modules as $module) {
                 $moduleName = strtolower($module->getName());
                 $isActive = (string)$module->active;
                 if (!isset($declaredModules[$moduleName]) && $isActive == 'false') {
