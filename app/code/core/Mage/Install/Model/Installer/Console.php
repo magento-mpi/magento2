@@ -46,7 +46,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         'backend_frontname'          => array('required' => 0),
         'enable_charts'              => array('required' => 0),
         'order_increment_prefix'     => array('required' => 0),
-        'clean_up_database'          => array('required' => 0),
+        'cleanup_database'          => array('required' => 0),
     );
 
     /**
@@ -239,7 +239,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
              */
             $installer->installConfig($this->_getDataModel()->getConfigData());
 
-            if (!empty($options['clean_up_database'])) {
+            if (!empty($options['cleanup_database'])) {
                 $this->_cleanUpDatabase();
             }
 
