@@ -28,6 +28,7 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
     }
+
     /**
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
@@ -36,12 +37,13 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
     {
         $this->logoutAdminUser();
     }
+
     /**
      *
-     * Check Promotions Full Rights - Catalog Price Rules, Shopping Cart Price Rules and Automated Email Reminder Rules</p>
+     * <p>Check Promotions Full Rights - Catalog Price Rules, Shopping Cart Price Rules and Automated Email Reminder Rules</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select all Permissions checkboxes</p>
@@ -68,8 +70,8 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with full rights to Promotions Menu
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
-            array('resource_1' => 'Promotions'));
+        $roleSource =
+            $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom', array('resource_1' => 'Promotions'));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
         //create admin user with full rights to Promotions Menu
@@ -99,12 +101,13 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->navigate('manage_automated_email_reminder_rules');
         $this->priceRulesHelper()->createEmailReminderRule();
     }
+
     /**
      *
-     * <p>check Promotions only Catalog Price Rules Read Rights</p>
+     * <p>Check Promotions only Catalog Price Rules Read Rights</p>
      * <p>Preconditions</p>
      * <p> Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only Catalog Price Rules Checkbox</p>
@@ -131,7 +134,7 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //Preconditions
         //create specific role with only to Catalog Read Promotions  rights
         $this->navigate('manage_roles');
-        $roleSource = $this->loadDataSet('AdminUserRole',  'generic_admin_user_role_custom',
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom',
             array('resource_1' => 'Promotions/Catalog Price Rules/Edit Catalog Price Rules'));
         $this->adminUserHelper()->createRestrictedRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
@@ -151,24 +154,25 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //verify Read access rights to  Catalog Price Rule
         $this->navigate('manage_catalog_price_rules');
         // verify No rights to create Catalog Price Rule
-        $this->assertFalse($this->buttonIsPresent('add_new_rule'),"Button Add New Rule is available,but shouldn't");
+        $this->assertFalse($this->buttonIsPresent('add_new_rule'), "Button Add New Rule is available,but shouldn't");
         //verify NO rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
-        $xpath = $this->_getControlXpath('pageelement', 'access_denied', $uimap);
-        $this->assertTrue($this->isElementPresent($xpath));
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
         //verify NO rights to create Automated Reminder Rule
         $this->navigate('manage_automated_email_reminder_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_automated_email_reminder_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
+
     /**
      *
      * <p>Check Promotions Shopping Cart price Rules Create Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
@@ -207,7 +211,7 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //login as admin user with  Create rights to Shopping Cart Price Rule
-        $loginData = array('user_name' =>$testAdminUser['user_name'], 'password'  =>$testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
@@ -220,20 +224,21 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //verify NO rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
         //verify NO rights to create Automated Reminder Rule
         $this->navigate('manage_automated_email_reminder_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_automated_email_reminder_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
+
     /**
      *
      * <p>Check Promotions Shopping Cart price Rules Read Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
@@ -283,20 +288,21 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //verify NO rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
         //verify NO rights to create Automated Reminder Rule
         $this->navigate('manage_automated_email_reminder_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_automated_email_reminder_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
+
     /**
      *
      * <p>Check Automated Email Reminder Rules Create Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
@@ -339,28 +345,28 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
-        $navigationElements = $this->getElementsByXpath($xpath);
-        $this->assertEquals(1, count($navigationElements));
+        $this->assertEquals(1, count($this->getElementsByXpath($xpath)), "You have some extra menu items");
         //verify Create rights to Automated Email Reminder Rules
         $this->navigate('manage_automated_email_reminder_rules');
         $this->priceRulesHelper()->createEmailReminderRule();
         //verify NO rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
         //verify NO rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
+
     /**
      *
      * <p>Check Automated Email Reminder Rules  Read Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
@@ -372,12 +378,12 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
      * <p>Click "Save User" button for save testAdminUser</p>
      * <p>Log out </p>
      * <p>Steps:</p>
-     * <p>1.Log In as admin user with  Read rights to Automated Email Reminder Rules
+     * <p>1.Log In as admin user with  Read rights to Automated Email Reminder Rules</p>
      * <p>Expected Results</p>
-     * <p>Only Promotions menu is available
-     * <p>Admin User has Read  rights to Automated Email Reminder Rules
-     * <p>Admin User has NO rights to create Catalog Price Rule
-     * <p>Admin User has NO rights to create Shopping Cart Price Rule
+     * <p>Only Promotions menu is available</p>
+     * <p>Admin User has Read  rights to Automated Email Reminder Rules</p>
+     * <p>Admin User has NO rights to create Catalog Price Rule</p>
+     * <p>Admin User has NO rights to create Shopping Cart Price Rule</p>
      *
      * @TestlinkId TL-MAGE-1465
      * @test
@@ -399,7 +405,7 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //login as admin user with Read rights to Automated Email Reminder Rules
-        $loginData = array('user_name' =>$testAdminUser['user_name'], 'password'  =>$testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
@@ -407,17 +413,17 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         //verify Read Rights to Automated Email Reminder Rules
         $this->navigate('manage_automated_email_reminder_rules');
         // verify No rights to create Automated Email Reminder Rules
-        $this->assertFalse($this->buttonIsPresent('add_new_rule'),"Button Add new Rule is available, but shouldn't");
+        $this->assertFalse($this->buttonIsPresent('add_new_rule'), "Button Add new Rule is available, but shouldn't");
         //verify NO rights to Create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
         //verify NO rights to Create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
 }
 
