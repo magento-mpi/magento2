@@ -140,9 +140,13 @@
 
     <calendar>
         <reference name="head">
-            <action method="addCss"><file>calendar/calendar-win2k-1.css</file><params/></action>
-            <action method="addJs"><file>calendar/calendar.js</file></action>
-            <action method="addJs"><file>calendar/calendar-setup.js</file></action>
+            <action method="addCss"><file>jquery/jquery-ui-1.8.22.custom.css</file><params/></action>
+            <action method="addCss"><file>jquery/jquery-ui-timepicker-addon.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-timepicker-addon.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>mage/adminhtml/calendar.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
             <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>

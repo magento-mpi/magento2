@@ -139,33 +139,13 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         $this->addClass('input-text');
 
         $html = sprintf(
-            '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" />'
-            .' <!--<img src="%s" alt="" class="v-middle" id="%s_trig" title="%s" style="%s" />-->',
-            $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue()), $this->serialize($this->getHtmlAttributes()),
-            $this->getImage(), $this->getHtmlId(), 'Select Date', ($this->getDisabled() ? 'display:none;' : '')
+            '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" />',
+            $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue()), $this->serialize($this->getHtmlAttributes())
         );
         $outputFormat = $this->getFormat();
         if (empty($outputFormat)) {
             throw new Exception('Output format is not specified. Please, specify "format" key in constructor, or set it using setFormat().');
         }
-        $displayFormat = Varien_Date::convertZendToStrFtime($outputFormat, true, (bool)$this->getTime());
-
-        /*$html .= sprintf('
-            <script type="text/javascript">
-            //<![CDATA[
-                Calendar.setup({
-                    inputField: "%s",
-                    ifFormat: "%s",
-                    showsTime: %s,
-                    button: "%s_trig",
-                    align: "Bl",
-                    singleClick : true
-                });
-            //]]>
-            </script>',
-            $this->getHtmlId(), $displayFormat,
-            $this->getTime() ? 'true' : 'false', $this->getHtmlId()
-        );*/
 
         $html .= sprintf('
             <script type="text/javascript">
@@ -174,6 +154,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
                     $("#%s").calendar({
                         dateFormat: "%s",
                         showsTime: %s,
+                        timeFormat: "%s"
                         buttonImage: "%s",
                         buttonText: "%s",
                         disabled: %s
@@ -184,6 +165,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             $this->getHtmlId(),
             $outputFormat,
             $this->getTime() ? 'true' : 'false',
+            $this->getTime() || "",
             $this->getImage(),
             'Select Date',
             ($this->getDisabled() ? 'true' : 'false')

@@ -84,13 +84,18 @@
             <action method="removeItem"><type>js</type><name>varien/iehover-fix.js</name></action>
 
             <action method="removeItem"><type>css</type><name>print.css</name></action>
-            <action method="removeItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name></action>
             <action method="removeItem"><type>js_css</type><name>extjs/resources/css/ext-all.css</name></action>
             <action method="removeItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
             <action method="removeItem"><type>skin_css</type><name>menu.css</name></action>
 
-            <action method="removeItem"><type>js</type><name>calendar/calendar.js</name></action>
-            <action method="removeItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <action method="addCss"><file>jquery/jquery-ui-1.8.22.custom.css</file><params/></action>
+            <action method="addCss"><file>jquery/jquery-ui-timepicker-addon.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
+            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
+            <action method="addJs"><file>jquery/jquery-ui-timepicker-addon.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
+            <action method="addJs"><file>mage/adminhtml/calendar.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
+
             <action method="removeItem"><type>js</type><name>extjs/fix-defer-before.js</name></action>
             <action method="removeItem"><type>js</type><name>extjs/ext-tree.js</name></action>
             <action method="removeItem"><type>js</type><name>extjs/fix-defer.js</name></action>
