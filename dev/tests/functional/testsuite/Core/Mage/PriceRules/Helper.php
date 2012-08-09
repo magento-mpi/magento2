@@ -33,22 +33,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         $this->fillTabs($createRuleData);
         $this->saveForm('save_rule');
     }
-    /**
-     * Create and apply new Rule
-     *
-     * @param array $createRuleData
-     */
-    public function createAndApplyRule($createRuleData)
-    {
-        if (empty($createRuleData)) {
-            $this->fail('$roleData parameter is empty');
-        }
-        if (is_array($createRuleData)){
-            $this->clickButton('add_new_rule');
-            $this->fillTabs($createRuleData);
-            $this->saveForm('save_and_apply');
-        }
-    }
+
     /**
      * Filling tabs
      *

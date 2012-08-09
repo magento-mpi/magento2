@@ -40,7 +40,7 @@ manage_automated_email_reminder_rules:
         messages:
             success_saved_rule: //li[normalize-space(@class)='success-msg' and contains(.,'The reminder rule has been saved.')]
         pageelements:
-                    access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
+            access_denied: //*[@id='page:main-container']/h1[text()='Access denied']
 
 create_automated_email_reminder_rule:
     mca: reminder/new/

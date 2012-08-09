@@ -175,7 +175,6 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
     }
 
     /**
-     *
      * Edit Role
      *
      * @param array $roleData

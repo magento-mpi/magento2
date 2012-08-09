@@ -18,10 +18,9 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
+class Community2_Mage_ACL_PromotionsACLTest extends Mage_Selenium_TestCase
 {
     /**
-     *
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
      */
@@ -31,7 +30,6 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
      */
@@ -41,7 +39,6 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Promotions Full rights</p>
      * <p>Preconditions:</p>
      * <p>Login to backend as admin</p>
@@ -101,7 +98,6 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Promotions Catalog Only Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
@@ -161,7 +157,6 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * <p>Check Promotions Shopping Cart Only Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
