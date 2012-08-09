@@ -188,13 +188,13 @@ applications:
         ftp: *ftp
         areas:
             admin:
-                url: 'http://www.localhost.com/magento2_enterprise/control/'
+                url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://www.localhost.com/magento2_enterprise/'
+                url: 'http://www.localhost.com/magento_2enterprise/control/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: *paypalSandbox
