@@ -11,16 +11,17 @@
  * @license     {license_link}
  */
 
- /**
-  * Check Promotion Rights
-  *
-  * @package     selenium
-  * @subpackage  tests
-  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-  */
+/**
+ * Check Promotion Rights
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
 {
     /**
+     *
      * <p>Preconditions:</p>
      * <p>Log in to Backend.</p>
      */
@@ -30,6 +31,7 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
     }
 
     /**
+     *
      * <p>Post conditions:</p>
      * <p>Log out from Backend.</p>
      */
@@ -48,7 +50,7 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select all Permissions checkboxes</p>
      * <p>Click "Save Role" button for save roleSource</p>
-     * <p>Go to System>Permissions>Users and click "Add New User" button</p>
+     * <p>Go to System-Permissions-Users and click "Add New User" button</p>
      * <p>Fill all required fields (User Info Tab)</p>
      * <p>Click User Role Tab</p>
      * <p>Select testRole</p>
@@ -80,7 +82,7 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //login as admin user with full rights to Promotions Menu
-        $loginData = array('user_name' =>$testAdminUser['user_name'], 'password'  =>$testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotions menu is available
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
@@ -97,12 +99,13 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->createRule($ruleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
     }
+
     /**
      *
-     * check Promotions Catalog Only Rights
+     * <p>Check Promotions Catalog Only Rights</p>
      * <p>Preconditions</p>
      * <p>Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only Catalog Price Rules Checkbox</p>
@@ -139,9 +142,9 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //login as admin user with full rights to Promotion Menu
-        $loginData = array('user_name' =>$testAdminUser['user_name'], 'password'  =>$testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
-        //Verify that only Promotion menu is available
+        //verify that only Promotion menu is available
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
         $this->assertEquals(1, count($this->getElementsByXpath($xpath)), "You have some extra menu items");
         //verify rights to create Catalog Price Rule
@@ -150,19 +153,19 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
         $this->priceRulesHelper()->createRule($priceRuleData);
         $this->assertMessagePresent('success', 'success_saved_rule');
         $this->assertMessagePresent('success', 'notification_message');
-
         //verify NO rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
+
     /**
      *
      * <p>Check Promotions Shopping Cart Only Rights</p>
      * <p>Preconditions</p>
-     * <p> Login to backend as admin</p>
-     * <p>Go to System>Permissions>Role and click "Add New Role" button</p>
+     * <p>Login to backend as admin</p>
+     * <p>Go to System>Permissions-Role and click "Add New Role" button</p>
      * <p>Fill "Role Name" field</p>
      * <p>Click Role Resource Tab</p>
      * <p>In Role Resources fieldset  select only one test scope checkbox[Sales,Customers,Dashboard,Catalog,Mobile,Newsletter,CMS,Reports,System,External Page Cache,Global Search]</p>
@@ -199,7 +202,7 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_user');
         $this->logoutAdminUser();
         //login as admin user with  rights to Shopping Cart Price Rule
-        $loginData = array('user_name' =>$testAdminUser['user_name'], 'password'  =>$testAdminUser['password']);
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verify that only Promotion menu is available
         $xpath = $this->_getControlXpath('pageelement', 'navigation_menu_items');
@@ -212,7 +215,8 @@ class Community2_Mage_ACL_PromotionsACL extends Mage_Selenium_TestCase
         //verify NO rights to create Catalog Price Rule
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
-        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement',
-            'access_denied', $uimap)),"Element isn't present on the page");
+        $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
+            "Element isn't present on the page");
     }
 }
+

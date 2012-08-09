@@ -55,6 +55,7 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         }
         $this->saveForm('save_role');
     }
+
     /**
      *
      * Create New Restricted Role.
@@ -172,6 +173,7 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
             }
         }
     }
+
     /**
      *
      * Edit Role
