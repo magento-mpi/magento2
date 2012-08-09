@@ -227,7 +227,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/enterprise_banner');
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Banner::enterprise_banner');
     }
 
     /**

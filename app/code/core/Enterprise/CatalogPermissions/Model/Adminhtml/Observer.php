@@ -54,7 +54,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $category = $observer->getEvent()->getCategory();
         /* @var $category Mage_Catalog_Model_Category */
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
-            && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/enterprise_catalogpermissions')) {
+            && Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
             foreach ($category->getData('permissions') as $data) {
                 $permission = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission');
                 if (!empty($data['id'])) {
@@ -233,7 +233,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         if (!Mage::helper('Enterprise_CatalogPermissions_Helper_Data')->isEnabled()) {
             return $this;
         }
-        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/enterprise_catalogpermissions')) {
+        if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_CatalogPermissions::catalog_enterprise_catalogpermissions')) {
             return $this;
         }
 

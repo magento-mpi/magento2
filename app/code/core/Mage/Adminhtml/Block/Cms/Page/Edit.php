@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
 
         parent::__construct();
 
-        if ($this->_isAllowedAction('save')) {
+        if ($this->_isAllowedAction('Mage_Cms::save')) {
             $this->_updateButton('save', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Save Page'));
             $this->_addButton('saveandcontinue', array(
                 'label'     => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Save and Continue Edit'),
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
             $this->_removeButton('save');
         }
 
-        if ($this->_isAllowedAction('delete')) {
+        if ($this->_isAllowedAction('Mage_Cms::page_delete')) {
             $this->_updateButton('delete', 'label', Mage::helper('Mage_Cms_Helper_Data')->__('Delete Page'));
         } else {
             $this->_removeButton('delete');
@@ -65,12 +65,12 @@ class Mage_Adminhtml_Block_Cms_Page_Edit extends Mage_Adminhtml_Block_Widget_For
     /**
      * Check permission for passed action
      *
-     * @param string $action
+     * @param string $resourceId
      * @return bool
      */
-    protected function _isAllowedAction($action)
+    protected function _isAllowedAction($resourceId)
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('cms/page/' . $action);
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed($resourceId);
     }
 
     /**

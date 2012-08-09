@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_History extends Mage_Adminhtml_Block
 
     public function canAddComment()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/order/actions/comment') &&
+        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Sales::comment') &&
                $this->getOrder()->canComment();
     }
 

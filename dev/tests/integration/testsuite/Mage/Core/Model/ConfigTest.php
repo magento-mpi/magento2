@@ -207,13 +207,6 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('', $model->determineOmittedNamespace('nonexistent', true));
     }
 
-    public function testLoadModulesConfiguration()
-    {
-        $config = $this->_createModel(true)->loadModulesConfiguration('adminhtml.xml');
-        $this->assertInstanceOf('Mage_Core_Model_Config_Base', $config);
-        $this->assertInstanceOf('Mage_Core_Model_Config_Element', $config->getNode('acl'));
-    }
-
     public function testGetModuleConfigurationFiles()
     {
         $files = $this->_createModel(true)->getModuleConfigurationFiles('config.xml');
@@ -425,6 +418,15 @@ class Mage_Core_Model_ConfigTest extends PHPUnit_Framework_TestCase
             $model->init(self::$_options);
         }
         return $model;
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @expectedException InvalidArgumentException
+     */
+    public function testGetAreaConfigThrowsExceptionIfNonexistentAreaIsRequested()
+    {
+        Mage::app()->getConfig()->getAreaConfig('non_existent_area_code');
     }
 
     /**

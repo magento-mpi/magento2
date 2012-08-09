@@ -11,8 +11,8 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Rma::sales_enterprise_rma" title="RMA" module="Enterprise_Rma" sortOrder="35" parent="Mage_Sales::sales" dependsOnModule="Enterprise_Rma" />
-        <add id="Enterprise_Rma::sales_enterprise_rma_rma" title="Manage RMA" module="Enterprise_Rma" sortOrder="10" parent="Enterprise_Rma::sales_enterprise_rma" action="adminhtml/rma" resource="sales/enterprise_rma" />
-        <add id="Enterprise_Rma::sales_enterprise_rma_rma_item_attribute" title="Manage RMA Items Attributes" module="Enterprise_Rma" sortOrder="20" parent="Enterprise_Rma::sales_enterprise_rma" action="adminhtml/rma_item_attribute" resource="sales/enterprise_rma" />
+        <add id="Enterprise_Rma::sales_enterprise_rma" title="RMA" module="Enterprise_Rma" sortOrder="35" parent="Mage_Sales::sales" dependsOnModule="Enterprise_Rma" resource="Enterprise_Rma::enterprise_rma"/>
+        <add id="Enterprise_Rma::sales_enterprise_rma_rma" title="Manage RMA" module="Enterprise_Rma" sortOrder="10" parent="Enterprise_Rma::sales_enterprise_rma" action="adminhtml/rma" resource="Enterprise_Rma::enterprise_rma"/>
+        <add id="Enterprise_Rma::sales_enterprise_rma_rma_item_attribute" title="Manage RMA Items Attributes" module="Enterprise_Rma" sortOrder="20" parent="Enterprise_Rma::sales_enterprise_rma" action="adminhtml/rma_item_attribute" resource="Enterprise_Rma::enterprise_rma"/>
     </menu>
 </config>
