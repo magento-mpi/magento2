@@ -50,7 +50,10 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $port = null;
         }
         if (is_null(self::$_connId)) {
-            self::$_connId = ftp_connect($host, $port) or die('could not connect to ftp');
+            self::$_connId = ftp_connect($host, $port);
+            if (!self::$_connId) {
+                $this->fail('Can not connect to ftp: ' . $host);
+            }
         }
         if (is_null(self::$_loginResult)) {
             self::$_loginResult = ftp_login(self::$_connId, $userName, $userPassword);
@@ -93,13 +96,12 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      * Get file from FTP server and return file content as string
      *
      * @param string $fileMode
-     * @param string $passive
      * @param string $filePath
      * @param string $fileName
      *
      * @return bool|string
      */
-    public function getFileFromFtp($fileMode, $passive, $filePath, $fileName)
+    public function getFileFromFtp($fileMode, $filePath, $fileName)
     {
         $temp = tmpfile();
         $result = ftp_fget(self::$_connId, $temp, $filePath . '/' . $fileName, $fileMode);
@@ -128,7 +130,6 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $exportData['file_mode'] = (strtolower($exportData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             $fileContent = $this->getFileFromFtp(
                 $exportData['file_mode'],
-                $exportData['passive_mode'],
                 $exportData['file_path'],
                 $exportData['file_name']);
             return $this->importExportHelper()->csvToArray($fileContent);
@@ -141,14 +142,13 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      * Put file content to FTP server
      *
      * @param string $fileMode
-     * @param string $passive
      * @param string $filePath
      * @param string $fileName
      * @param string $fileContent
      *
      * @return bool
      */
-    public function putFileToFtp($fileMode, $passive, $filePath, $fileName, $fileContent)
+    public function putFileToFtp($fileMode, $filePath, $fileName, $fileContent)
     {
         $temp = tmpfile();
         fwrite($temp, $fileContent);
@@ -177,7 +177,6 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
             $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             return $this->putFileToFtp(
                 $importData['file_mode'],
-                $importData['passive_mode'],
                 $importData['file_path'],
                 $importData['file_name'],
                 $fileContent);
@@ -347,26 +346,16 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
      */
     public function searchImportExport(array $data, $fieldSetName = null)
     {
-        $waitAjax = true;
         $xpath = '';
         $xpathContainer = null;
         if ($fieldSetName) {
             $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
             $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
-        $jsName = $this->getAttribute($resetXpath . '@onclick');
-        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
-        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        if ($this->isElementPresent($scriptXpath)) {
-            $waitAjax = false;
-        }
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
-
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
         $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
         $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
-
         $xpathTR = $this->formSearchXpath($data);
         //fill filter
         $this->fillForm($data);

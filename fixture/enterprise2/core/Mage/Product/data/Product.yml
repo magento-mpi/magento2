@@ -156,3 +156,206 @@ custom_options_data: &customOptionsData
     custom_options_radiobutton:  *radiobutton
     custom_options_checkbox: *checkbox
     custom_options_multipleselect: *multipleselect
+
+
+# Product that has all needed fields and website.
+simple_product_website:
+    product_attribute_set: Default
+    general_name: Simple Product Visible(%randomize%)
+    general_description: Description for Simple Product Visible
+    general_short_description: Short Description for Simple Product Visible
+    general_sku: simple_visible_sku_%randomize%
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 12.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+
+#*********************************************
+#*         Virtual Product Data              *
+#*********************************************
+
+# Product that has all needed fields and website.
+virtual_product_website:
+    product_attribute_set: Default
+    general_name: Virtual Product Visible(%randomize%)
+    general_description: Description for Virtual Product Visible
+    general_short_description: Short Description for Virtual Product Visible
+    general_sku: virtual_visible_sku_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 18.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+
+#*********************************************
+#*         Bundle Product Data               *
+#*********************************************
+
+# Product that has all needed fields and website.
+bundle_product_website:
+    product_attribute_set: Default
+    general_name: Bundle(Dynamic) Product Visible(%randomize%)
+    general_description: Description for Bundle(Dynamic) Product Visible
+    general_short_description: Short Description for Bundle(Dynamic) Product Visible
+    general_sku_type: Dynamic
+    general_sku: bundle_dynamic_visible_sku.req_%randomize%
+    general_weight_type: Dynamic
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    bundle_items_data:
+        item_1: %noValue%
+
+#************************************************
+#* Associated Products Data for Grouped Product *
+#************************************************
+
+associated_grouped: &groupedAssociatedProduct1
+    # Data to search
+    associated_search_id: %noValue%
+    associated_search_name: %noValue%
+    associated_search_sku: %noValue%
+    associated_search_price_from: %noValue%
+    associated_search_price_to: %noValue%
+    associated_search_default_qty_from: %noValue%
+    associated_search_default_qty_to: %noValue%
+    associated_search_position_from: %noValue%
+    associated_search_position_to: %noValue%
+    # Data to fill in
+    associated_product_position: %noValue%
+    associated_product_default_qty: %noValue%
+
+associated_grouped_data: &associatedProductsGroupedData
+    associated_grouped_1: *groupedAssociatedProduct1
+    associated_grouped_2: %noValue%
+
+#*********************************************
+#*         Grouped Product Data              *
+#*********************************************
+
+# Product that has all needed fields set and website.
+grouped_product_website:
+    product_attribute_set: Default
+    general_name: Grouped Product Visible(%randomize%)
+    general_description: Description for Grouped Product Visible
+    general_short_description: Short Description for Grouped Product Visible
+    general_sku: grouped_visible_sku.req_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    associated_grouped_data: *associatedProductsGroupedData
+
+#*********************************************
+#*         Downloadable Information Data      *
+#*********************************************
+
+downloadable_samples: &samplesDownloadable
+    downloadable_sample_row_title: Sample Row Title
+    downloadable_sample_row_url_radiobutton: Yes
+    downloadable_sample_row_url: www.localhost.com
+    downloadable_sample_row_sort_order: 1
+
+downloadable_links: &linksDownloadable
+    downloadable_link_row_title: Link Row Title
+    downloadable_link_row_price: 12
+    downloadable_link_row_unlimited_downloads: No
+    downloadable_link_max_downloads: 100
+    downloadable_link_shareable: No
+    downloadable_link_row_sample_url_radiobutton: Yes
+    downloadable_link_row_sample_url: www.sample.com
+    downloadable_link_row_url_radiobutton: Yes
+    downloadable_link_row_file_url: www.file.com
+    downloadable_link_row_sort_order: 1
+
+downloadable_information_data: &downloadableData
+    downloadable_samples_title: Samples Title
+    downloadable_links_title: Links Title
+    downloadable_links_purchased_separately: Yes
+    downloadable_sample_1: *samplesDownloadable
+    downloadable_sample_2: %noValue%
+    downloadable_link_1: *linksDownloadable
+    downloadable_link_2: %noValue%
+#*********************************************
+#*         Downloadable Product Data         *
+#*********************************************
+
+# Product that has all needed fields set and website.
+downloadable_product_website:
+    product_attribute_set: Default
+    general_name: Downloadable Product Visible(%randomize%)
+    general_description: Description for Downloadable Product Visible
+    general_short_description: Short Description for Downloadable Product Visible
+    general_sku: downloadable_visible_sku_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: 98.99
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    downloadable_information_data: *downloadableData
+
+ # Product that has all needed fields without price.
+simple_product_price:
+    product_attribute_set: Default
+    general_name: Simple Product Visible(%randomize%)
+    general_description: Description for Simple Product Visible
+    general_short_description: Short Description for Simple Product Visible
+    general_sku: simple_visible_sku_%randomize%
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+
+ #*********************************************
+ #*         Virtual Product Data              *
+ #*********************************************
+
+ # Product that has all needed fields without price.
+virtual_product_price:
+    product_attribute_set: Default
+    general_name: Virtual Product Visible(%randomize%)
+    general_description: Description for Virtual Product Visible
+    general_short_description: Short Description for Virtual Product Visible
+    general_sku: virtual_visible_sku_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    custom_options_data: %noValue%
+
+  #*********************************************
+ #*         Downloadable Product Data         *
+ #*********************************************
+
+ # Product that has all needed fields set without price.
+downloadable_product_price:
+    product_attribute_set: Default
+    general_name: Downloadable Product Visible(%randomize%)
+    general_description: Description for Downloadable Product Visible
+    general_short_description: Short Description for Downloadable Product Visible
+    general_sku: downloadable_visible_sku_%randomize%
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    downloadable_information_data: *downloadableData
+

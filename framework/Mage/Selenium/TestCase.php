@@ -1352,6 +1352,53 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->fail($error);
         }
     }
+    /**
+     * Verify that the specified message of the specified type is present on the current page
+     *
+     * @param string $type success|validation|error
+     * @param null|string $message Message ID from UIMap
+     */
+    public function verifyMessagePresent($type, $message = null)
+    {
+        $method = strtolower($type) . 'Message';
+        $result = $this->$method($message);
+        if (!$result['success']) {
+            $location =
+                'Current url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
+            if (is_null($message)) {
+                $error = "Failed looking for '" . $type . "' message.\n";
+            } else {
+                $error = "Failed looking for '" . $message . "' message.\n[xpath: " . $result['xpath'] . "]\n";
+            }
+            if ($result['found']) {
+                $error .= "Found  messages instead:\n" . $result['found'];
+            }
+            $this->addVerificationMessage($location . $error);
+        }
+    }
+    /**
+     * Asserts that the specified message of the specified type is not present on the current page
+     *
+     * @param string $type success|validation|error
+     * @param null|string $message Message ID from UIMap
+     */
+    public function verifyMessageNotPresent($type, $message = null)
+    {
+        $method = strtolower($type) . 'Message';
+        $result = $this->$method($message);
+        if ($result['success']) {
+            if (is_null($message)) {
+                $error = "'" . $type . "' message is on the page.";
+            } else {
+                $error = "'" . $message . "' message is on the page.";
+            }
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if ($messagesOnPage) {
+                $error .= "\n" . $messagesOnPage;
+            }
+            $this->addVerificationMessage($error);
+        }
+    }
 
     /**
      * Assert there are no verification errors

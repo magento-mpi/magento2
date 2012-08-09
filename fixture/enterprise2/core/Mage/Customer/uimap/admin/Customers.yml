@@ -3,7 +3,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_AdminUser
+# @package     Mage_Customer
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
@@ -94,7 +94,7 @@ new_customer_segment:
         form: &newCustomerSegmentForm
             tabs:
                 -
-                    general properties: &customerSegmentProperties
+                    general_properties: &customerSegmentProperties
                         xpath: //a[@id='enterprise_customersegment_segment_tabs_general_section']/span
                         fieldsets:
                             -
@@ -105,8 +105,10 @@ new_customer_segment:
                                         apply_to: //select[@id='segment_apply_to']
                                     fields:
                                         segment_name: //input[@id='segment_name']
-                                        description: //input[@id='segment_description']
-                                    required: [segment_name]
+                                        description: //textarea[@id='segment_description']
+                                    multiselects:
+                                        assigned_to_website: //select[@id='segment_website_ids']
+                                    required: [segment_name, assigned_to_website]
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -122,7 +124,7 @@ edit_customer_segment:
         form: &editCustomerSegmentForm
             tabs:
                 -
-                    general properties: *customerSegmentProperties
+                    general_properties: *customerSegmentProperties
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -186,10 +188,10 @@ new_invitations:
                             fields:
                                 email_on_new_line: //textarea[@id='email']
                                 message: //textarea[@id='message']
-            buttons:
-                back: //button[span='Back']
-                reset: //button[span='Reset']
-                save: //button[span='Save']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[span='Save']
 
 #Edit Customer Invitations page
 
@@ -209,11 +211,11 @@ edit_invitations:
                             fields:
                                 email: //input[@name='email']
                                 message: //textarea[@name='message']
-            buttons:
-                back: //button[span='Back']
-                discard_invitation: //button[span='Discard Invitation']
-                save_invitation: //button[span='Save Invitation']
-                send_invitation: //button[span='Send Invitation']
+        buttons:
+            back: //button[span='Back']
+            discard_invitation: //button[span='Discard Invitation']
+            save_invitation: //button[span='Save Invitation']
+            send_invitation: //button[span='Send Invitation']
 
 #Manage Gift Registry Types page
 manage_gift_registry:
@@ -232,6 +234,61 @@ manage_reward_rates:
     mca: reward_rate/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'reward_rate/')]
     title: Reward Exchange Rates / Customers / Magento Admin
+    uimap:
+        form: &searchRewardPointGrid
+            fieldsets:
+                -
+                      reward_point_grid:
+                          xpath: //div[@id='rewardRatesGrid']
+                          buttons:
+                              reset_filter: //button[span='Reset Filter']
+                              search: //button[span='Search']
+                          fields:
+                              reward_id: //input[@id='rewardRatesGrid_filter_rate_id']
+                          dropdowns:
+                              website: //select[@id='rewardRatesGrid_filter_website_id']
+                              customer_group: //select[@id='rewardRatesGrid_filter_customer_group_id']
+                          pageelements:
+                              reward_point_grid_head: //div[@id='rewardRatesGrid']//thead/tr[@class='headings']
+        buttons:
+            add_new_rate: //button[span='Add New Rate']
+        messages: &customerSegmentMessages
+            success_saved_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The rate has been saved.')]
+            success_delete_rate: //li[normalize-space(@class)='success-msg' and contains(.,'The rate has been deleted.')]
+#New Reward Exchange Rate page
+new_reward_rate:
+    mca: reward_rate/new/
+    title: New Rate / Reward Exchange Rates / Customers / Magento Admin
+    uimap: &newRateUimap
+        form:
+            tabs:
+                -
+                    fieldsets:
+                        -
+                            reward_rate_properties:
+                            xpath: //div[@id='base_fieldset']
+                            dropdowns:
+                                website: //select[@id='website_id']
+                                customer_groups: //select[@id='customer_group_id']
+                                direction: //select[@id='direction']
+                            fields:
+                                rate_value: //input[@name='rate[value]']
+                                rate_equal_value: //input[@name='rate[equal_value]']
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[span='Save']
+            delete: //button[span='Delete']
+        messages:
+            positive_rate: //li[normalize-space(@class)='error-msg' and contains(.,'Please enter a positive integer number in the left rate field.')]
+            confirmation_for_delete: Are you sure you want to do this?
+
+#Edit Customer Invitations page
+
+edit_reward_rate:
+    mca: reward_rate/edit/rate_id/%id%/
+    title: '#%id% / Reward Exchange Rates / Customers / Magento Admin'
+    uimap: *newRateUimap
 
 # 'Online Customers' Page
 online_customers:

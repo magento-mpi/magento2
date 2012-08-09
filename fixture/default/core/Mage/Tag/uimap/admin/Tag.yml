@@ -49,6 +49,7 @@ all_tags:
             success_changed_status: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyDeletedTags% record(s) have been updated.')]
             confirmation_for_delete: Are you sure you want to do this?
             confirmation_for_massaction_delete: Are you sure?
+            select_items_to_delete: Please select items.
             tag_already_exists: //li[@class='error-msg' and contains(.,'Tag already exists.')]
             required_name: //div[@id='advice-required-entry-name' and text()='This is a required field.']
 
@@ -60,7 +61,7 @@ all_tags_index:
 
 # Edit Tag Page
 edit_tag:
-    mca: tag/edit/store/%storeId%/tag_id/%id%
+    mca: tag/edit/tag_id/%id%
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: &editTagUimap
         form:
@@ -80,8 +81,6 @@ edit_tag:
                 -
                     products_tagged_by_admins:
                         xpath: //dl[@id='tag_assigned_grid']
-                        links:
-                            prod_tag_admin_expand:  //dl[@id='tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -103,8 +102,6 @@ edit_tag:
                 -
                     customers_submitted_tags:
                         xpath: //dd[@id='dd-tag_customer']
-                        links:
-                            customers_submit_tag_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -115,8 +112,6 @@ edit_tag:
                 -
                     products_tagged_by_customers:
                         xpath: //dd[@id='dd-tag_product']
-                        links:
-                            prod_tag_customer_expand:  //dl[@id='tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -131,17 +126,21 @@ edit_tag:
             delete_tag: //button[span='Delete Tag']
             save_tag: //button[span='Save Tag']
             save_and_continue_edit: //button[span='Save and Continue Edit']
+        links:
+            prod_tag_customer_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Products Tagged by Customers')]
+            customers_submit_tag_expand:  //dl[@id='tab_content_tag_customer_and_product_accordion']//a[contains(.,'Customers Submitted this Tag')]
+            prod_tag_admin_expand:  //dl[@id='tab_content_tag_assigned_grid']//a[contains(.,'Products Tagged by Administrators')]
         messages: *tagsMesssages
 
 # Edit tag '%tagName%' page
 edit_tag_more_options:
-    mca: tag/edit/tag_id/%id%/store/%storeId%/ret/
+    mca: tag/edit/tag_id/%id%/ret/
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
 
 # New Tag page
 new_tag:
-    mca: tag/edit/store/%storeId%
+    mca: tag/edit
     click_xpath: //div[@class='nav-bar']//a[span='All Tags']
     title: New Tag / Tags / Catalog / Magento Admin
     uimap:
@@ -177,6 +176,11 @@ pending_tags:
                 -
                     pending_tags_grid:
                         xpath: //div[@id='pending_grid']
+                        links:
+                            select_all: //div[@id='pending_grid_massaction']//a[contains(.,'Select All')]
+                            unselect_all: //div[@id='pending_grid_massaction']//a[contains(.,'Unselect All')]
+                            select_visible: //div[@id='pending_grid_massaction']//a[contains(.,'Select Visible')]
+                            unselect_visible: //div[@id='pending_grid_massaction']//a[contains(.,'Unselect Visible')]
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -191,3 +195,4 @@ pending_tags:
                             products_to: //input[@id='pending_grid_filter_products_to']
                             customers_from: //input[@id='pending_grid_filter_customers_from']
                             customers_to: //input[@id='pending_grid_filter_customers_to']
+            messages: *tagsMesssages

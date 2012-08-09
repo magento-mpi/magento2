@@ -29,6 +29,7 @@ home:
                           compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
         messages: &homeMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
+            tag_already_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagName% has already been added to the product.')]
             confirmation_for_removing_product_from_compare: Are you sure you would like to remove this item from the compare products?
             confirmation_clear_all_from_compare: Are you sure you would like to remove all products from your comparison?
             compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'The comparison list was cleared.')]
