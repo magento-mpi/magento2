@@ -1,0 +1,82 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Add New Product page
+new_product:
+    uimap: &newProduct
+        form:
+            tabs:
+                -
+                    general:
+                        fieldsets:
+                            -
+                                product_general:
+                                    dropdowns:
+                                        general_min_price_type: //select[@id='price_type']
+                                        general_min_tax_class: //select[@id='tax_class_id']
+                                        general_min_price_view_bundle: //select[@id='price_view']
+                                        general_user_attr_dropdown: //*[@id='%attributeCodeDropdown%']
+                                    fields:
+                                        general_min_price: //input[@id='price' and not(@disabled)]
+            fieldsets:
+                -
+                    product_information:
+                        xpath: //div[@class='content-header']
+                        pageelements:
+                            product_page_title: /*[@class='icon-head head-products']
+                -
+                    change_attribute_set:
+                        xpath: //div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable']
+                        dropdowns:
+                            choose_attribute_set: //*[@id='attribute_set_id']
+                        buttons:
+                            close: //*[@id='change-attribute-set-close-button']
+                            apply: //*[@id='change-attribute-set-apply-button']
+        buttons:
+            change_attribute_set: //button[span='Change Attribute Set']
+            save: //button[span='Save']
+
+edit_saved_product_after_changed_attribute_set:
+    mca: catalog_product/edit/id/%id%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+new_product_after_changed_attribute_set:
+    mca: catalog_product/new/type/%productType%/?set=%setId%
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+new_configurable_product:
+    uimap: *newProduct
+
+duplicated_configurable_product:
+    uimap: *newProduct
+
+edit_product:
+    uimap: *newProduct
+
+edit_saved_product:
+    uimap: *newProduct
+
+edit_product_save_and_continue:
+    uimap: *newProduct
+
+create_empty_simple_from_configurable:
+    uimap: *newProduct
+
+create_simple_from_configurable:
+    uimap: *newProduct
+
+created_simple_from_configurable:
+    uimap: *newProduct
+
+created_empty_simple_from_configurable:
+    uimap: *newProduct
