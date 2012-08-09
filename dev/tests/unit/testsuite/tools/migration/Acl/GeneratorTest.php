@@ -9,7 +9,7 @@
  */
 
 require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Generator.php';
-require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/FileWriter.php';
+require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/FileManager.php';
 require_once realpath(dirname(__FILE__) . '/../../../../../../') . '/tools/migration/Acl/Formatter.php';
 
 /**
@@ -42,13 +42,13 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_fileWriterMock;
+    protected $_fileManagerMock;
 
     public function setUp()
     {
         $this->_xmlFormatterMock = $this->getMock('Tools_Migration_Acl_Formatter');
-        $this->_fileWriterMock = $this->getMock('Tools_Migration_Acl_FileWriter');
-        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileWriterMock);
+        $this->_fileManagerMock = $this->getMock('Tools_Migration_Acl_FileManager');
+        $this->_model = new Tools_Migration_Acl_Generator($this->_xmlFormatterMock, $this->_fileManagerMock);
 
         $this->_fixturePath = realpath(__DIR__) . DIRECTORY_SEPARATOR . '_files';
 
@@ -73,44 +73,15 @@ class Tools_Migration_Acl_GeneratorTest extends PHPUnit_Framework_TestCase
      * @param $file
      * @param $expected
      *
-     * @dataProvider getLicenseTemplateDataProvider
      */
-    public function testGetLicenseTemplate($file, $expected)
+    public function testGetLicenseTemplate()
     {
-        $actual = $this->_model->getLicenseTemplate($this->_fixturePath . $file);
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return array
-     */
-    public function getLicenseTemplateDataProvider()
-    {
-        $ceLicenseTemplate = <<<B_LICENSE
-
-/**
- * {license_notice}
- *
- * @category    Mage
- * @package     Mage_Customer
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-B_LICENSE;
-        return array(
-            array(
-                'filePath' => DIRECTORY_SEPARATOR
-                    . 'app' . DIRECTORY_SEPARATOR
-                    . 'code' . DIRECTORY_SEPARATOR
-                    . 'core' . DIRECTORY_SEPARATOR
-                    . 'BNamespace' . DIRECTORY_SEPARATOR
-                    . 'Module' . DIRECTORY_SEPARATOR
-                    . 'etc' . DIRECTORY_SEPARATOR
-                    . 'adminhtml.xml',
-                'template' => $ceLicenseTemplate,
-            ),
-        );
+        $this->_fileManagerMock->expects($this->once())
+            ->method('getContents')
+            ->with('someFile')
+            ->will($this->returnValue('<?xml version="1.0"?> <!-- /** license_notice */ -->'));
+        $actual = $this->_model->getLicenseTemplate('someFile');
+        $this->assertEquals(' /** license_notice */ ', $actual);
     }
 
     /**
@@ -298,26 +269,19 @@ B_LICENSE;
 
     public function testGetResultDomDocument()
     {
-        $licenseTemplate = <<<LICENSE
-
-/**
- * {license_notice}
- *
- * @category    Category
- * @package     Module_Name
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-LICENSE;
-        $dom = $this->_model->getResultDomDocument($licenseTemplate);
+        $expectedDccument = <<<TEMPLATE
+<config>
+  <acl>
+    <resources xpath="config/acl/resources"/>
+  </acl>
+</config>
+TEMPLATE;
+        $dom = $this->_model->getResultDomDocument('license_placeholder');
         $expectedDom = new DOMDocument();
         $expectedDom->formatOutput = true;
 
-        $file = $this->_fixturePath . DIRECTORY_SEPARATOR . 'template_document.xml';
-        $expectedDom->load($file);
-        $this->assertContains('{license_notice}', $dom->saveXML());
-        $this->assertEquals($expectedDom->saveXML($expectedDom->documentElement), $dom->saveXML($dom->documentElement));
+        $this->assertContains('license_placeholder', $dom->saveXML());
+        $this->assertEquals($expectedDccument, $dom->saveXML($dom->documentElement));
     }
 
     public function testParseAdminhtmlFiles()

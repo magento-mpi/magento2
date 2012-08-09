@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 require_once ( __DIR__ . '/Menu/Generator.php');
-require_once ( __DIR__ . '/FileWriter.php');
+require_once ( __DIR__ . '/FileManager.php');
 
 class Tools_Migration_Acl_Generator
 {
@@ -90,22 +90,22 @@ class Tools_Migration_Acl_Generator
     protected $_xmlFormatter;
 
     /**
-     * @var Tools_Migration_Acl_FileWriter
+     * @var Tools_Migration_Acl_FileManager
      */
-    protected $_fileWriter;
+    protected $_fileManager;
 
     /**
      * @param Tools_Migration_Acl_Formatter $xmlFormatter
-     * @param Tools_Migration_Acl_FileWriter $fileWriter
+     * @param Tools_Migration_Acl_FileManager $fileManager
      * @param array $options configuration options
      */
     public function __construct(
         Tools_Migration_Acl_Formatter $xmlFormatter,
-        Tools_Migration_Acl_FileWriter $fileWriter,
+        Tools_Migration_Acl_FileManager $fileManager,
         $options = array()
     ) {
         $this->_xmlFormatter = $xmlFormatter;
-        $this->_fileWriter = $fileWriter;
+        $this->_fileManager = $fileManager;
         $this->_printHelp = array_key_exists('h', $options);
         $this->_isPreviewMode = array_key_exists('p', $options);
 
@@ -127,7 +127,7 @@ class Tools_Migration_Acl_Generator
      */
     public function getLicenseTemplate($file)
     {
-        $content = file_get_contents($file);
+        $content = $this->_fileManager->getContents($file);
 
         $licenseTemplate = '';
         if (preg_match('#<\?xml[^>]+>\s+<\!--(\s+/\*\*[\w\W\d\s]+\*/\s+)-->#', $content, $matches)) {
@@ -535,7 +535,7 @@ class Tools_Migration_Acl_Generator
                 'indent-spaces' => 4,
                 'wrap' => 1000
             ));
-            $this->_fileWriter->write($file, $output);
+            $this->_fileManager->write($file, $output);
         }
     }
 
@@ -590,7 +590,7 @@ class Tools_Migration_Acl_Generator
             }
             if ($this->isNodeEmpty($acl)) {
                 if (false == $this->_isPreviewMode) {
-                    $this->_fileWriter->remove($file);
+                    $this->_fileManager->remove($file);
                 }
                 $output['removed'][] = $file;
             } else {
@@ -712,7 +712,7 @@ class Tools_Migration_Acl_Generator
     public function saveArtifacts($artifacts)
     {
         foreach ($artifacts as $file => $data) {
-            $this->_fileWriter->write($this->_artifactsPath . $file, $data);
+            $this->_fileManager->write($this->_artifactsPath . $file, $data);
         }
     }
 
@@ -727,7 +727,7 @@ class Tools_Migration_Acl_Generator
             $this->getBasePath(),
             $this->getValidNodeTypes(),
             $this->_aclResourceMaps,
-            $this->_fileWriter,
+            $this->_fileManager,
             $this->_isPreviewMode
         );
         return $menu->run();
