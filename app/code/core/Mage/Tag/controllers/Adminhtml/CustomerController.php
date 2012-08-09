@@ -9,7 +9,7 @@
  */
 
 /**
- * Customer admin controller
+ * Controller to process customer tag actions
  *
  * @category    Mage
  * @package     Mage_Tag
