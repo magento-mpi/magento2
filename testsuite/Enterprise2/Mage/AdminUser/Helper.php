@@ -56,6 +56,7 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         $this->saveForm('save_role');
     }
     /**
+     *
      * Create New Restricted Role.
      *
      * @param array $roleData
@@ -75,8 +76,23 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         }
         $this->saveForm('save_role');
     }
-
     /**
+     *
+     * Fill Restricted Roles Resources Tab
+     *
+     * @param array $roleResources
+     * @param string $separator
+     */
+    public function fillRestrictedRolesResources(array $roleResources, $separator = '/')
+    {
+        $roleWebsites = (isset($roleResources['role_scopes'])) ? $roleResources['role_scopes'] : array();
+        $roleAccess = (isset($roleResources['role_resources'])) ? $roleResources['role_resources'] : array();
+
+        $this->fillRoleScopes($roleWebsites);
+        $this->fillAndClearRoleAccess($roleAccess, $separator);
+    }
+    /**
+     *
      * Fill Roles Resources Tab
      *
      * @param array $roleResources
@@ -133,10 +149,11 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
     }
 
     /**
-     * Fill Limited Access on Roles Resources Tab
+     * Check current Role Access checkbox on Roles Resources Tab and Clear it to provide restrictions
      *
      * @param array $roleAccess
      * @param string $separator
+     *
      */
     public function fillAndClearRoleAccess(array $roleAccess, $separator = '/')
     {
@@ -156,6 +173,7 @@ class Enterprise2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
         }
     }
     /**
+     *
      * Edit Role
      *
      * @param array $roleData

@@ -68,6 +68,7 @@ delete_admin_user_role:
                 role_resources:
                     resource_access : Custom
                     resource_1: Promotions/Catalog Price Rules
+
 role_promotions_full_rights:
     role_info_tab:
         role_name: 'My Test Role %randomize%'
@@ -76,6 +77,7 @@ role_promotions_full_rights:
         role_resources:
             resource_access : Custom
             resource_1: Promotions
+
 role_promotions_catalog_rights:
     role_info_tab:
         role_name: 'My Test Role %randomize%'
