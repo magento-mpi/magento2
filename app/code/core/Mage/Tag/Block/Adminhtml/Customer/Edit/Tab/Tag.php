@@ -2,8 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Enterprise
- * @package     Enterprise_GiftRegistry
+ * @category    Mage
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  *
