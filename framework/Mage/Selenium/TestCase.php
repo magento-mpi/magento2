@@ -2896,10 +2896,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param array $data Array of data to look up.
      * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     * @param bool $resetFilter Click reset filter before search
      *
      * @return string|null
      */
-    public function search(array $data, $fieldSetName = null)
+    public function search(array $data, $fieldSetName = null, $resetFilter = true)
     {
         $waitAjax = true;
         $xpath = '';
@@ -2915,12 +2916,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($this->isElementPresent($scriptXpath)) {
             $waitAjax = false;
         }
-        $this->click($resetXpath);
-        if ($waitAjax) {
-            $this->waitForAjax();
-        } else {
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
+        if ($resetFilter) {
+            $this->click($resetXpath);
+            if ($waitAjax) {
+                $this->waitForAjax();
+            } else {
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->validatePage();
+            }
         }
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
 
