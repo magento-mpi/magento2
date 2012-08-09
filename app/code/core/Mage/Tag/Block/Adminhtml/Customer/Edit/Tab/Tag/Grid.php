@@ -130,7 +130,7 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backend_B
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/tag_customer/tagGrid', array(
+        return $this->getUrl('*/customer/tagGrid', array(
             '_current' => true,
             'id'       => $this->getCustomerId()
         ));

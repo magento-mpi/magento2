@@ -15,13 +15,13 @@
  * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tag_Adminhtml_Tag_CustomerController extends Mage_Adminhtml_Controller_Action
+class Mage_Tag_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Adds to registry current customer instance
      *
      * @param string $idFieldName
-     * @return Mage_Tag_Adminhtml_Tag_CustomerController
+     * @return Mage_Tag_Adminhtml_CustomerController
      */
     protected function _initCustomer($idFieldName = 'id')
     {
@@ -44,11 +44,16 @@ class Mage_Tag_Adminhtml_Tag_CustomerController extends Mage_Adminhtml_Controlle
     public function productTagsAction()
     {
         $this->_initCustomer();
-        $this->loadLayout()
+
+        /** @var $customer Mage_Customer_Model_Customer */
+        $customer = Mage::registry('current_customer');
+        /** @var $block Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid */
+        $block = $this->loadLayout()
             ->getLayout()
-            ->getBlock('admin.customer.tags')
-            ->setCustomerId(Mage::registry('current_customer')->getId())
+            ->getBlock('admin.customer.tags');
+        $block->setCustomerId($customer->getId())
             ->setUseAjax(true);
+
         $this->renderLayout();
     }
 
@@ -58,10 +63,13 @@ class Mage_Tag_Adminhtml_Tag_CustomerController extends Mage_Adminhtml_Controlle
     public function tagGridAction()
     {
         $this->_initCustomer();
-        $this->loadLayout()
+
+        /** @var $block Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid */
+        $block = $this->loadLayout()
             ->getLayout()
-            ->getBlock('admin.customer.tags')
-            ->setCustomerId(Mage::registry('current_customer'));
+            ->getBlock('admin.customer.tags');
+        $block->setCustomerId(Mage::registry('current_customer'));
+
         $this->renderLayout();
     }
 }

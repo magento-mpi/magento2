@@ -41,12 +41,14 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
     {
         parent::__construct();
 
+        if (isset($data['helpers'])) {
+            $this->_helpers = $data['helpers'];
+        }
         if (isset($data['current_customer'])) {
             $this->_customer = $data['current_customer'];
         } else {
             $this->_customer = Mage::registry('current_customer');
         }
-
         if (isset($data['auth_session'])) {
             $this->_authSession = $data['auth_session'];
         } else {
@@ -95,7 +97,10 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
      */
     public function canShowTab()
     {
-        return $this->_customer && $this->_customer->getId() && $this->_authSession->isAllowed('Mage_Tag::tag');
+        if (!$this->_customer) {
+            return false;
+        }
+        return $this->_customer->getId() && $this->_authSession->isAllowed('Mage_Tag::tag');
     }
 
     /**
@@ -135,6 +140,6 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
      */
     public function getTabUrl()
     {
-        return $this->getUrl('*/tag_customer/productTags', array('_current' => true));
+        return $this->getUrl('*/customer/productTags', array('_current' => true));
     }
 }

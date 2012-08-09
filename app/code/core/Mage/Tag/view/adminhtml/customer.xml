@@ -19,15 +19,15 @@
         </reference>
     </adminhtml_customer_edit>
 
-    <adminhtml_tag_customer_producttags>
+    <adminhtml_customer_producttags>
         <container name="root" label="Root" output="1">
             <block type="Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid" name="admin.customer.tags"/>
         </container>
-    </adminhtml_tag_customer_producttags>
+    </adminhtml_customer_producttags>
 
-    <adminhtml_tag_customer_taggrid>
+    <adminhtml_customer_taggrid>
         <container name="root" label="Root" output="1">
             <block type="Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid" name="admin.customer.tags"/>
         </container>
-    </adminhtml_tag_customer_taggrid>
+    </adminhtml_customer_taggrid>
 </layout>
