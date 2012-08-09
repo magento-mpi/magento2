@@ -18,7 +18,4 @@
 class Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info_Content
     extends Enterprise_GiftWrapping_Block_Adminhtml_Order_Create_Info
 {
-    protected function _toHtml() {
-        return $this->canDisplayGiftWrappingForOrder() ? parent::_toHtml() : '';
-    }
 }
