@@ -26,12 +26,58 @@ new_product:
                                         general_user_attr_dropdown: //*[@id='%attributeCodeDropdown%']
                                     fields:
                                         general_min_price: //input[@id='price' and not(@disabled)]
+                -
+                    meta_information:
+                        xpath: //a[@title='Meta Information']/span
+                        fieldsets:
+                            -
+                                product_meta_information:
+                                    fields:
+                                        meta_information_user_attr_field: //input[@id='%attributeCodeField%']
+                -
+                    custom_options:
+                        xpath: //a[@title='Custom Options']/span
+                        fieldsets:
+                            -
+                                custom_options:
+                                    buttons:
+                                        import_options: //*[@id='import_new_defined_option']
+                            -
+                                select_product_custom_option:
+                                    xpath: //*[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable ui-resizable']
+                                    buttons:
+                                        close: //*[@id='import-custom-options-close-button']
+                                        import: //*[@id='import-custom-options-apply-button']
+                            -
+                                select_product_custom_option_grid:
+                                    xpath: //*[@id='import-container']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                        submit: //button[span='Submit']
+                                    dropdowns:
+                                        product_massaction: //*[@id='productGrid_massaction-select']
+                                        filter_massaction: //*[@id='productGrid_product_filter_massaction']
+                                        product_type: //*[@id='productGrid_product_filter_type']
+                                        product_attribute_set_name: //*[@id='productGrid_product_filter_set_name']
+                                        product_price_currency: //*[@id='productGrid_product_filter_price_currency']
+                                        website: //*[@id='productGrid_product_filter_websites']
+                                    fields:
+                                        product_id_from: //*[@id='productGrid_product_filter_entity_id_from']
+                                        product_id_to: //*[@id='productGrid_product_filter_entity_id_to']
+                                        product_name: //*[@id='productGrid_product_filter_name']
+                                        product_sku: //*[@id='productGrid_product_filter_sku']
+                                        product_price_from: //*[@id='productGrid_product_filter_price_from']
+                                        product_price_to: //*[@id='productGrid_product_filter_price_to']
+                                        product_qty_from: //*[@id='productGrid_product_filter_qty_from']
+                                        product_qty_to: //*[@id='productGrid_product_filter_qty_to']
             fieldsets:
                 -
                     product_information:
                         xpath: //div[@class='content-header']
                         pageelements:
                             product_page_title: /*[@class='icon-head head-products']
+                            product_name: //*[@class='icon-head head-products' and contains(.,'%productName% (%attributeSet%)')]
                 -
                     change_attribute_set:
                         xpath: //div[@class='ui-dialog ui-widget ui-widget-content ui-corner-all ui-draggable']
@@ -44,17 +90,12 @@ new_product:
             change_attribute_set: //button[span='Change Attribute Set']
             save: //button[span='Save']
 
-edit_saved_product_after_changed_attribute_set:
-    mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %productName% / Manage Products / Catalog / Magento Admin
+new_configurable_product:
     uimap: *newProduct
 
 new_product_after_changed_attribute_set:
     mca: catalog_product/new/type/%productType%/?set=%setId%
     title: New Product / Manage Products / Catalog / Magento Admin
-    uimap: *newProduct
-
-new_configurable_product:
     uimap: *newProduct
 
 duplicated_configurable_product:
@@ -64,6 +105,11 @@ edit_product:
     uimap: *newProduct
 
 edit_saved_product:
+    uimap: *newProduct
+
+edit_saved_product_after_changed_attribute_set:
+    mca: catalog_product/edit/id/%id%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
 edit_product_save_and_continue:
