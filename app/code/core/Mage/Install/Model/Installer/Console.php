@@ -46,7 +46,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
         'backend_frontname'          => array('required' => 0),
         'enable_charts'              => array('required' => 0),
         'order_increment_prefix'     => array('required' => 0),
-        'cleanup_database'          => array('required' => 0),
+        'cleanup_database'           => array('required' => 0),
     );
 
     /**
