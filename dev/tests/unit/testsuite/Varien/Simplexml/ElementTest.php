@@ -23,7 +23,7 @@ class Varien_Simplexml_ElementTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider xmlDataProvider
-     * @expectedException Varien_Exception
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Root node could not be unset.
      */
     public function testGetParent($xmlData)

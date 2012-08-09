@@ -282,17 +282,23 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             reset($this->_scheduledStructure);
             $this->_scheduleElement(key($this->_scheduledStructure));
         };
+        $this->_scheduledPaths = array();
+
+        $moveList = array_keys(array_intersect_key($this->_scheduledElements, $this->_scheduledMoves));
+        foreach ($moveList as $elementToMove) {
+            $this->_moveElementInStructure($elementToMove);
+        }
+
+        $removeList = array_keys(array_intersect_key($this->_scheduledElements, $this->_scheduledRemoves));
+        foreach ($removeList as $elementToRemove) {
+            $this->_removeElement($elementToRemove);
+        }
         Magento_Profiler::stop('build_structure');
 
         Magento_Profiler::start('generate_elements');
         while (!empty($this->_scheduledElements)) {
             list($type, $node) = reset($this->_scheduledElements);
             $elementName = key($this->_scheduledElements);
-
-            if (false !== in_array($elementName, $this->_scheduledRemoves, true)) {
-                $this->_removeElement($elementName);
-                continue;
-            }
 
             if (isset($node['output'])) {
                 $this->addOutputElement($elementName);
@@ -322,8 +328,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _removeElement($elementName, $isChild = false)
     {
         $elementsToRemove = $this->_structure->getChildren($elementName);
-        unset($this->_scheduledStructure[$elementName], $this->_scheduledPaths[$elementName],
-            $this->_scheduledElements[$elementName]);
+        unset($this->_scheduledElements[$elementName]);
 
         foreach ($elementsToRemove as $element) {
             $this->_removeElement($element, true);
@@ -331,107 +336,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         if (!$isChild) {
             $this->_structure->unsetElement($elementName);
-        }
-        return $this;
-    }
-
-    /**
-     * Traverse through all elements of specified XML-node and schedule structural elements of it
-     *
-     * @param Mage_Core_Model_Layout_Element $parent
-     */
-    protected function _readStructure($parent)
-    {
-        /** @var Mage_Core_Model_Layout_Element $node */
-        foreach ($parent as $node) {
-            $functionName = '_schedule' . uc_words($node->getName(), '');
-            if (is_callable(array($this, $functionName))) {
-                $this->{$functionName}($node, $parent);
-            }
-        }
-    }
-
-    /**
-     * Schedule structural element for block directive
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @param Mage_Core_Model_Layout_Element $parent
-     * @return Mage_Core_Model_Layout
-     */
-    protected function _scheduleBlock($node, $parent)
-    {
-        $this->_scheduleStructure($node, $parent);
-        $this->_readStructure($node);
-        return $this;
-    }
-
-    /**
-     * Schedule structural element for container directive
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @param Mage_Core_Model_Layout_Element $parent
-     * @return Mage_Core_Model_Layout
-     */
-    protected function _scheduleContainer($node, $parent)
-    {
-        return $this->_scheduleBlock($node, $parent);
-    }
-
-    /**
-     * Schedule structural element for reference directive
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @return Mage_Core_Model_Layout
-     */
-    protected function _scheduleReference($node)
-    {
-        $this->_readStructure($node);
-        return $this;
-    }
-
-    /**
-     * Schedule structural element or changes for action directive
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @param Mage_Core_Model_Layout_Element $parent
-     * @return Mage_Core_Model_Layout
-     */
-    protected function _scheduleAction($node, $parent)
-    {
-        $referenceName = $parent->getAttribute('name');
-        $this->_scheduledStructure[$referenceName]['actions'][] = array($node, $parent);
-        return $this;
-    }
-
-    /**
-     * Schedule structural changes for remove directive
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @return Mage_Core_Model_Layout
-     */
-    protected function _scheduleRemove($node)
-    {
-        $name = (string)$node->getAttribute('name');
-        if (false === in_array($name, $this->_scheduledRemoves, true)) {
-            $this->_scheduledRemoves[] = (string)$node->getAttribute('name');
-        }
-        return $this;
-    }
-
-    /**
-     * Schedule structural changes for move directive
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @return Mage_Core_Model_Layout
-     */
-    protected function _scheduleMove($node)
-    {
-        $elementName = (string)$node->getAttribute('element');
-        $destination = (string)$node->getAttribute('destination');
-
-        if ($elementName && $destination) {
-            list($siblingName, $isAfter) = $this->_beforeAfterToSibling($node);
-            $this->_scheduledMoves[$elementName] = array($destination, $siblingName, $isAfter);
         }
         return $this;
     }
@@ -445,14 +349,68 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _moveElementInStructure($element)
     {
         list ($destination, $siblingName, $isAfter) = $this->_scheduledMoves[$element];
+        $alias = $this->getElementAlias($element);
+        $this->_structure->unsetChild($element, $alias)->setAsChild($element, $destination, $alias);
+        $this->reorderChild($destination, $element, $siblingName, $isAfter);
+        return $this;
+    }
 
-        if (isset($this->_scheduledPaths[$destination])) {
-            // type, alias, parentName, siblingName, isAfter, node
-            $this->_scheduledStructure[$element][self::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME] = $destination;
-            $this->_scheduledStructure[$element][self::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME] = $siblingName;
-            $this->_scheduledStructure[$element][self::SCHEDULED_STRUCTURE_INDEX_IS_AFTER] = $isAfter;
+    /**
+     * Traverse through all elements of specified XML-node and schedule structural elements of it
+     *
+     * @param Mage_Core_Model_Layout_Element $parent
+     */
+    protected function _readStructure($parent)
+    {
+        /** @var Mage_Core_Model_Layout_Element $node */
+        foreach ($parent as $node) {
+            switch ($node->getName()) {
+                case self::TYPE_CONTAINER:
+                case self::TYPE_BLOCK:
+                    $this->_scheduleStructure($node, $parent);
+                    $this->_readStructure($node);
+                    break;
 
-            $this->_scheduledPaths[$element] = $this->_scheduledPaths[$destination] . '/' . $element;
+                case self::TYPE_REFERENCE:
+                    $this->_readStructure($node);
+                    break;
+
+                case self::TYPE_ACTION:
+                    $referenceName = $parent->getAttribute('name');
+                    $this->_scheduledStructure[$referenceName]['actions'][] = array($node, $parent);
+                    break;
+
+                case self::TYPE_MOVE:
+                    $this->_scheduleMove($node);
+                    break;
+
+                case self::TYPE_REMOVE:
+                    $this->_scheduledRemoves[(string)$node->getAttribute('name')] = 1;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Schedule structural changes for move directive
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @throws Mage_Core_Exception
+     * @return Mage_Core_Model_Layout
+     */
+    protected function _scheduleMove($node)
+    {
+        $elementName = (string)$node->getAttribute('element');
+        $destination = (string)$node->getAttribute('destination');
+
+        if ($elementName && $destination) {
+            list($siblingName, $isAfter) = $this->_beforeAfterToSibling($node);
+            $this->_scheduledMoves[$elementName] = array($destination, $siblingName, $isAfter);
+        } else {
+            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid move layout directive.'));
         }
         return $this;
     }
@@ -466,7 +424,13 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _scheduleStructure($node, $parent)
     {
-        $name = $path = (string)$node->getAttribute('name') ?: $this->_generateAnonymousName();
+        if ((string)$node->getAttribute('name')) {
+            $name = (string)$node->getAttribute('name');
+        } else {
+            $name = $this->_generateAnonymousName();
+            $node->addAttribute('name', $name);
+        }
+        $path = $name;
 
         // type, alias, parentName, siblingName, isAfter, node
         $row = array(
@@ -552,14 +516,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _scheduleElement($key)
     {
-        if (isset($this->_scheduledMoves[$key])) {
-            $this->_moveElementInStructure($key);
-        }
         $row = $this->_scheduledStructure[$key];
 
         if (!isset($row[self::SCHEDULED_STRUCTURE_INDEX_LAYOUT_ELEMENT])) {
             Mage::log("Broken reference: missing declaration of the element '{$key}'.", Zend_Log::CRIT);
-            unset($this->_scheduledStructure[$key]);
+            unset($this->_scheduledStructure[$key], $this->_scheduledPaths[$key]);
             return;
         }
         list($type, $alias, $parentName, $siblingName, $isAfter, $node) = $row;
@@ -742,21 +703,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function setChild($parentName, $elementName, $alias)
     {
-        if ($this->_isStructureElementExists($elementName)) {
-            $this->_structure->setAsChild($elementName, $parentName, $alias);
-        }
+        $this->_structure->setAsChild($elementName, $parentName, $alias);
         return $this;
-    }
-
-    /**
-     * Verify is element exists in a structure
-     *
-     * @param string $element
-     * @return bool
-     */
-    protected function _isStructureElementExists($element)
-    {
-        return false !== $this->_structure->getElement($element);
     }
 
     /**
@@ -773,10 +721,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function reorderChild($parentName, $childName, $offsetOrSibling, $after = true)
     {
-        if (!$this->_isStructureElementExists($childName)) {
-            return;
-        }
-
         if (is_numeric($offsetOrSibling)) {
             $offset = (int)abs($offsetOrSibling) * ($after ? 1 : -1);
             $this->_structure->reorderChild($parentName, $childName, $offset);

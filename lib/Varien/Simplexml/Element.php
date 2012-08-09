@@ -45,7 +45,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
      *
      * Currently using xpath
      *
-     * @throws Varien_Exception
+     * @throws InvalidArgumentException
      * @return Varien_Simplexml_Element
      */
     public function getParent()
@@ -55,7 +55,7 @@ class Varien_Simplexml_Element extends SimpleXMLElement
         } else {
             $arr = $this->xpath('..');
             if (!isset($arr[0])) {
-                throw new Varien_Exception('Root node could not be unset.');
+                throw new InvalidArgumentException('Root node could not be unset.');
             }
             $parent = $arr[0];
         }

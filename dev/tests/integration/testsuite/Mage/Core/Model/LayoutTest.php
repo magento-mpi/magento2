@@ -168,6 +168,25 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($positionElementBefore, ++$positionToVerify);
     }
 
+    /**
+     * @expectedException Mage_Core_Exception
+     */
+    public function testLayoutMoveDirectiveBroken()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move_broken'));
+        $layout->generateXml()->generateElements();
+    }
+
+    public function testLayoutActionForAnonymousParent()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_action_for_anonymous_parent_block'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('ANONYMOUS_0', $layout->getParentName('test.block.insert'));
+        $this->assertEquals('ANONYMOUS_1', $layout->getParentName('test.block.append'));
+    }
+
     public function testLayoutRemoveDirective()
     {
         $layout = new Mage_Core_Model_Layout();
@@ -178,10 +197,13 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($layout->isBlock('child_block2'));
     }
 
+    /**
+     * @expectedException Magento_Exception
+     */
     public function testGenerateElementsBroken()
     {
         $layout = new Mage_Core_Model_Layout();
-        $layout->getUpdate()->load('nonexisting_broken');
+        $layout->getUpdate()->load('layout_test_handle_remove_broken');
         $layout->generateXml()->generateElements();
     }
 
