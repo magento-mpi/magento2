@@ -49,6 +49,82 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     protected $_assertOptionValues = array('title', 'price', 'sku');
 
     /**
+     * Test if visibility properly saved after import
+     *
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Mage/ImportExport/_files/products.php
+     */
+    public function testSaveProductsVisibility()
+    {
+        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $this->_model->setParameters(
+            array(
+                'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+                'entity' => 'catalog_product'
+            )
+        )
+            ->setSource($source)
+            ->isDataValid();
+
+        $this->_model->importData();
+
+        /** @var $products Mage_Catalog_Model_Product[] */
+        $products = Mage::registry('_fixture/Mage_ImportExport_Product_Collection');
+        foreach ($products as $productBeforeImport) {
+            /** @var $productAfterImport Mage_Catalog_Model_Product */
+            $productAfterImport = new Mage_Catalog_Model_Product();
+            $productAfterImport->load($productBeforeImport->getId());
+
+            $this->assertEquals(
+                $productBeforeImport->getVisibility(),
+                $productAfterImport->getVisibility()
+            );
+            unset($productAfterImport);
+        }
+    }
+
+    /**
+     * Test if stock item quantity properly saved after import
+     *
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Mage/ImportExport/_files/products.php
+     */
+    public function testSaveStockItemQty()
+    {
+        $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
+        $this->_model->setParameters(
+            array(
+                'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+                'entity' => 'catalog_product'
+            )
+        )
+            ->setSource($source)
+            ->isDataValid();
+
+        $this->_model->importData();
+
+        /** @var $products Mage_Catalog_Model_Product[] */
+        $products = Mage::registry('_fixture/Mage_ImportExport_Product_Collection');
+        foreach ($products as $productBeforeImport) {
+            $stockDataBeforeImport = $productBeforeImport->getStockData();
+
+            /** @var $productAfterImport Mage_Catalog_Model_Product */
+            $productAfterImport = new Mage_Catalog_Model_Product();
+            $productAfterImport->load($productBeforeImport->getId());
+            /** @var $stockItemAfterImport Mage_CatalogInventory_Model_Stock_Item */
+            $stockItemAfterImport = new Mage_CatalogInventory_Model_Stock_Item();
+            $stockItemAfterImport->loadByProduct($productAfterImport);
+
+            $this->assertEquals(
+                $stockDataBeforeImport['qty'],
+                $stockItemAfterImport->getQty()
+            );
+            unset($productAfterImport, $stockItemAfterImport);
+        }
+    }
+
+
+    /**
      * Tests adding of custom options with different behaviours
      *
      * @param $behavior
