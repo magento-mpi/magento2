@@ -214,13 +214,16 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             unset($searchData[$key]);
         }
         // Search and open
-        $xpathTR = $this->search($searchData, 'tags_grid');
+        $xpathTR = $this->search($searchData);
         $this->assertNotNull($xpathTR, 'Tag is not found');
-        $cellId = $this->getColumnIdByName('Tag');
+        //get Table xPath depends page content
+        $tableXpath = $this->_getControlXpath('pageelement', 'tags_grid');
+        $cellId = $this->getColumnIdByName('Tag', $tableXpath);
         $this->addParameter('tagName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('prodId', $this->defineParameterFromUrl('product_id'));
         $this->validatePage();
     }
 
