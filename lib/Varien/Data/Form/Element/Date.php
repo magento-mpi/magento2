@@ -154,7 +154,7 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
                     $("#%s").calendar({
                         dateFormat: "%s",
                         showsTime: %s,
-                        timeFormat: "%s"
+                        timeFormat: "%s",
                         buttonImage: "%s",
                         buttonText: "%s",
                         disabled: %s
