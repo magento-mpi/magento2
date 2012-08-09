@@ -1,0 +1,652 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_ProductAttributes
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# System attribute options
+custom_design:
+    attribute_code: custom_design
+    admin_title: Custom Design
+    option_1:
+        admin_option_name: Default / Default / default
+    option_2:
+        admin_option_name: Default / Default / blue
+    option_3:
+        admin_option_name: Default / Default / blank
+    option_4:
+        admin_option_name: Default / Iphone / default
+    option_5:
+        admin_option_name: Default / Iphone / blue
+    option_6:
+        admin_option_name: Default / Iphone / blank
+    option_7:
+        admin_option_name: Default / Modern / default
+    option_8:
+        admin_option_name: Default / Modern / blue
+    option_9:
+        admin_option_name: Default / Modern / blank
+    option_10:
+        admin_option_name: Enterprise / Enterprise / default
+    option_11:
+        admin_option_name: Enterprise / Iphone / default
+    option_12:
+        admin_option_name: Professional / Professional / default (incompatible version)
+    default_value: Default / Modern / blue
+    default_control_value: default/modern/blue
+
+enable_googlecheckout:
+    attribute_code: enable_googlecheckout
+    admin_title: Is Product Available for Purchase with Google Checkout
+    option_1:
+        admin_option_name: Yes
+    option_2:
+        admin_option_name: No
+    default_value: Yes
+
+gift_message_available:
+    attribute_code: gift_message_available
+    admin_title: Allow Gift Message
+    option_1:
+        admin_option_name: Yes
+    option_2:
+        admin_option_name: No
+    default_value: Yes
+
+is_recurring:
+    attribute_code: is_recurring
+    admin_title: Enable Recurring Profile
+    option_1:
+        admin_option_name: Yes
+    option_2:
+        admin_option_name: No
+    default_value: No
+
+msrp_enabled:
+    attribute_code: msrp_enabled
+    admin_title: Apply MAP
+    option_1:
+        admin_option_name: Yes
+    option_2:
+        admin_option_name: No
+    default_value: Yes
+
+msrp_display_actual_price_type:
+    attribute_code: msrp_display_actual_price_type
+    admin_title: Display Actual Price
+    option_1:
+        admin_option_name: In Cart
+    option_2:
+        admin_option_name: Before Order Confirmation
+    option_3:
+        admin_option_name: On Gesture
+    option_4:
+        admin_option_name: Use config
+    default_value: Before Order Confirmation
+
+options_container:
+    attribute_code: options_container
+    admin_title: Display Product Options In
+    option_1:
+        admin_option_name: Product Info Column
+    option_2:
+        admin_option_name: Block after Info Column
+    default_value: Block after Info Column
+
+page_layout:
+    attribute_code: page_layout
+    admin_title: Page Layout
+    option_1:
+        admin_option_name: Empty
+    option_2:
+        admin_option_name: 1 column
+    option_3:
+        admin_option_name: 2 columns with left bar
+    option_4:
+        admin_option_name: 2 columns with right bar
+    option_5:
+        admin_option_name: 3 columns
+    default_value: 2 columns with right bar
+
+price_view:
+    attribute_code: price_view
+    admin_title: Price View
+    option_1:
+        admin_option_name: As Low as
+    option_2:
+        admin_option_name: Price Range
+    default_value: As Low as
+
+status:
+    attribute_code: status
+    admin_title: Status
+    option_1:
+        admin_option_name: Enabled
+    option_2:
+        admin_option_name: Disabled
+    default_value: Disabled
+
+tax_class_id:
+    attribute_code: tax_class_id
+    admin_title: Tax Class
+    option_1:
+        admin_option_name: None
+    option_2:
+        admin_option_name: Taxable Goods
+    option_3:
+        admin_option_name: Shipping
+    default_value: Taxable Goods
+
+visibility:
+    attribute_code: visibility
+    admin_title: Visibility
+    option_1:
+        admin_option_name: Not Visible Individually
+    option_2:
+        admin_option_name: Catalog
+    option_3:
+        admin_option_name: Search
+    option_4:
+        admin_option_name: 'Catalog, Search'
+    default_value: Not Visible Individually
+
+country_of_manufacture:
+    attribute_code: country_of_manufacture
+    admin_title: Country of Manufacture
+    option_1:
+        admin_option_name: Afghanistan
+    option_2:
+        admin_option_name: Åland Islands
+    option_3:
+        admin_option_name: Albania
+    option_4:
+        admin_option_name: Algeria
+    option_5:
+        admin_option_name: American Samoa
+    option_6:
+        admin_option_name: Andorra
+    option_7:
+        admin_option_name: Angola
+    option_8:
+        admin_option_name: Anguilla
+    option_9:
+        admin_option_name: Antarctica
+    option_10:
+        admin_option_name: Antigua and Barbuda
+    option_11:
+        admin_option_name: Argentina
+    option_12:
+        admin_option_name: Armenia
+    option_13:
+        admin_option_name: Aruba
+    option_14:
+        admin_option_name: Australia
+    option_15:
+        admin_option_name: Austria
+    option_16:
+        admin_option_name: Azerbaijan
+    option_17:
+        admin_option_name: Bahamas
+    option_18:
+        admin_option_name: Bahrain
+    option_19:
+        admin_option_name: Bangladesh
+    option_20:
+        admin_option_name: Barbados
+    option_21:
+        admin_option_name: Belarus
+    option_22:
+        admin_option_name: Belgium
+    option_23:
+        admin_option_name: Belize
+    option_24:
+        admin_option_name: Benin
+    option_25:
+        admin_option_name: Bermuda
+    option_26:
+        admin_option_name: Bhutan
+    option_27:
+        admin_option_name: Bolivia
+    option_28:
+        admin_option_name: Bosnia and Herzegovina
+    option_29:
+        admin_option_name: Botswana
+    option_30:
+        admin_option_name: Bouvet Island
+    option_31:
+        admin_option_name: Brazil
+    option_32:
+        admin_option_name: British Indian Ocean Territory
+    option_33:
+        admin_option_name: British Virgin Islands
+    option_34:
+        admin_option_name: Brunei
+    option_35:
+        admin_option_name: Bulgaria
+    option_36:
+        admin_option_name: Burkina Faso
+    option_37:
+        admin_option_name: Burundi
+    option_38:
+        admin_option_name: Cambodia
+    option_39:
+        admin_option_name: Cameroon
+    option_40:
+        admin_option_name: Canada
+    option_41:
+        admin_option_name: Cape Verde
+    option_42:
+        admin_option_name: Cayman Islands
+    option_43:
+        admin_option_name: Central African Republic
+    option_44:
+        admin_option_name: Chad
+    option_45:
+        admin_option_name: Chile
+    option_46:
+        admin_option_name: China
+    option_47:
+        admin_option_name: Christmas Island
+    option_48:
+        admin_option_name: Cocos [Keeling] Islands
+    option_49:
+        admin_option_name: Colombia
+    option_50:
+        admin_option_name: Comoros
+    option_51:
+        admin_option_name: Congo - Brazzaville
+    option_52:
+        admin_option_name: Congo - Kinshasa
+    option_53:
+        admin_option_name: Cook Islands
+    option_54:
+        admin_option_name: Costa Rica
+    option_55:
+        admin_option_name: Côte d’Ivoire
+    option_56:
+        admin_option_name: Croatia
+    option_57:
+        admin_option_name: Cuba
+    option_58:
+        admin_option_name: Cyprus
+    option_59:
+        admin_option_name: Czech Republic
+    option_60:
+        admin_option_name: Denmark
+    option_61:
+        admin_option_name: Djibouti
+    option_62:
+        admin_option_name: Dominica
+    option_63:
+        admin_option_name: Dominican Republic
+    option_64:
+        admin_option_name: Ecuador
+    option_65:
+        admin_option_name: Egypt
+    option_66:
+        admin_option_name: El Salvador
+    option_67:
+        admin_option_name: Equatorial Guinea
+    option_68:
+        admin_option_name: Eritrea
+    option_69:
+        admin_option_name: Estonia
+    option_70:
+        admin_option_name: Ethiopia
+    option_71:
+        admin_option_name: Falkland Islands
+    option_72:
+        admin_option_name: Faroe Islands
+    option_73:
+        admin_option_name: Fiji
+    option_74:
+        admin_option_name: Finland
+    option_75:
+        admin_option_name: France
+    option_76:
+        admin_option_name: French Guiana
+    option_77:
+        admin_option_name: French Polynesia
+    option_78:
+        admin_option_name: French Southern Territories
+    option_79:
+        admin_option_name: Gabon
+    option_80:
+        admin_option_name: Gambia
+    option_81:
+        admin_option_name: Georgia
+    option_82:
+        admin_option_name: Germany
+    option_83:
+        admin_option_name: Ghana
+    option_84:
+        admin_option_name: Gibraltar
+    option_85:
+        admin_option_name: Greece
+    option_86:
+        admin_option_name: Greenland
+    option_87:
+        admin_option_name: Grenada
+    option_88:
+        admin_option_name: Guadeloupe
+    option_89:
+        admin_option_name: Guam
+    option_90:
+        admin_option_name: Guatemala
+    option_91:
+        admin_option_name: Guernsey
+    option_92:
+        admin_option_name: Guinea
+    option_93:
+        admin_option_name: Guinea-Bissau
+    option_94:
+        admin_option_name: Guyana
+    option_95:
+        admin_option_name: Haiti
+    option_96:
+        admin_option_name: Heard Island and McDonald Islands
+    option_97:
+        admin_option_name: Honduras
+    option_98:
+        admin_option_name: Hong Kong SAR China
+    option_99:
+        admin_option_name: Hungary
+    option_100:
+        admin_option_name: Iceland
+    option_101:
+        admin_option_name: India
+    option_102:
+        admin_option_name: Indonesia
+    option_103:
+        admin_option_name: Iran
+    option_104:
+        admin_option_name: Iraq
+    option_105:
+        admin_option_name: Ireland
+    option_106:
+        admin_option_name: Isle of Man
+    option_107:
+        admin_option_name: Israel
+    option_108:
+        admin_option_name: Italy
+    option_109:
+        admin_option_name: Jamaica
+    option_110:
+        admin_option_name: Japan
+    option_111:
+        admin_option_name: Jersey
+    option_112:
+        admin_option_name: Jordan
+    option_113:
+        admin_option_name: Kazakhstan
+    option_114:
+        admin_option_name: Kenya
+    option_115:
+        admin_option_name: Kiribati
+    option_116:
+        admin_option_name: Kuwait
+    option_117:
+        admin_option_name: Kyrgyzstan
+    option_118:
+        admin_option_name: Laos
+    option_119:
+        admin_option_name: Latvia
+    option_120:
+        admin_option_name: Lebanon
+    option_121:
+        admin_option_name: Lesotho
+    option_122:
+        admin_option_name: Liberia
+    option_123:
+        admin_option_name: Libya
+    option_124:
+        admin_option_name: Liechtenstein
+    option_125:
+        admin_option_name: Lithuania
+    option_126:
+        admin_option_name: Luxembourg
+    option_127:
+        admin_option_name: Macau SAR China
+    option_128:
+        admin_option_name: Macedonia
+    option_129:
+        admin_option_name: Madagascar
+    option_130:
+        admin_option_name: Malawi
+    option_131:
+        admin_option_name: Malaysia
+    option_132:
+        admin_option_name: Maldives
+    option_133:
+        admin_option_name: Mali
+    option_134:
+        admin_option_name: Malta
+    option_135:
+        admin_option_name: Marshall Islands
+    option_136:
+        admin_option_name: Martinique
+    option_137:
+        admin_option_name: Mauritania
+    option_138:
+        admin_option_name: Mauritius
+    option_139:
+        admin_option_name: Mayotte
+    option_140:
+        admin_option_name: Mexico
+    option_141:
+        admin_option_name: Micronesia
+    option_142:
+        admin_option_name: Moldova
+    option_143:
+        admin_option_name: Monaco
+    option_144:
+        admin_option_name: Mongolia
+    option_145:
+        admin_option_name: Montenegro
+    option_146:
+        admin_option_name: Montserrat
+    option_147:
+        admin_option_name: Morocco
+    option_148:
+        admin_option_name: Mozambique
+    option_149:
+        admin_option_name: Myanmar [Burma]
+    option_150:
+        admin_option_name: Namibia
+    option_151:
+        admin_option_name: Nauru
+    option_152:
+        admin_option_name: Nepal
+    option_153:
+        admin_option_name: Netherlands
+    option_154:
+        admin_option_name: Netherlands Antilles
+    option_155:
+        admin_option_name: New Caledonia
+    option_156:
+        admin_option_name: New Zealand
+    option_157:
+        admin_option_name: Nicaragua
+    option_158:
+        admin_option_name: Niger
+    option_159:
+        admin_option_name: Nigeria
+    option_160:
+        admin_option_name: Niue
+    option_161:
+        admin_option_name: Norfolk Island
+    option_162:
+        admin_option_name: Northern Mariana Islands
+    option_163:
+        admin_option_name: North Korea
+    option_164:
+        admin_option_name: Norway
+    option_165:
+        admin_option_name: Oman
+    option_166:
+        admin_option_name: Pakistan
+    option_167:
+        admin_option_name: Palau
+    option_168:
+        admin_option_name: Palestinian Territories
+    option_169:
+        admin_option_name: Panama
+    option_170:
+        admin_option_name: Papua New Guinea
+    option_171:
+        admin_option_name: Paraguay
+    option_172:
+        admin_option_name: Peru
+    option_173:
+        admin_option_name: Philippines
+    option_174:
+        admin_option_name: Pitcairn Islands
+    option_175:
+        admin_option_name: Poland
+    option_176:
+        admin_option_name: Portugal
+    option_177:
+        admin_option_name: Puerto Rico
+    option_178:
+        admin_option_name: Qatar
+    option_179:
+        admin_option_name: Réunion
+    option_180:
+        admin_option_name: Romania
+    option_181:
+        admin_option_name: Russia
+    option_182:
+        admin_option_name: Rwanda
+    option_183:
+        admin_option_name: Saint Barthélemy
+    option_184:
+        admin_option_name: Saint Helena
+    option_185:
+        admin_option_name: Saint Kitts and Nevis
+    option_186:
+        admin_option_name: Saint Lucia
+    option_187:
+        admin_option_name: Saint Martin
+    option_188:
+        admin_option_name: Saint Pierre and Miquelon
+    option_189:
+        admin_option_name: Saint Vincent and the Grenadines
+    option_190:
+        admin_option_name: Samoa
+    option_191:
+        admin_option_name: San Marino
+    option_192:
+        admin_option_name: São Tomé and Príncipe
+    option_193:
+        admin_option_name: Saudi Arabia
+    option_194:
+        admin_option_name: Senegal
+    option_195:
+        admin_option_name: Serbia
+    option_196:
+        admin_option_name: Seychelles
+    option_197:
+        admin_option_name: Sierra Leone
+    option_198:
+        admin_option_name: Singapore
+    option_199:
+        admin_option_name: Slovakia
+    option_200:
+        admin_option_name: Slovenia
+    option_201:
+        admin_option_name: Solomon Islands
+    option_202:
+        admin_option_name: Somalia
+    option_203:
+        admin_option_name: South Africa
+    option_204:
+        admin_option_name: South Georgia and the South Sandwich Islands
+    option_205:
+        admin_option_name: South Korea
+    option_206:
+        admin_option_name: Spain
+    option_207:
+        admin_option_name: Sri Lanka
+    option_208:
+        admin_option_name: Sudan
+    option_209:
+        admin_option_name: Suriname
+    option_210:
+        admin_option_name: Svalbard and Jan Mayen
+    option_211:
+        admin_option_name: Swaziland
+    option_212:
+        admin_option_name: Sweden
+    option_213:
+        admin_option_name: Switzerland
+    option_214:
+        admin_option_name: Syria
+    option_215:
+        admin_option_name: Taiwan
+    option_216:
+        admin_option_name: Tajikistan
+    option_217:
+        admin_option_name: Tanzania
+    option_218:
+        admin_option_name: Thailand
+    option_219:
+        admin_option_name: Timor-Leste
+    option_220:
+        admin_option_name: Togo
+    option_221:
+        admin_option_name: Tokelau
+    option_222:
+        admin_option_name: Tonga
+    option_223:
+        admin_option_name: Trinidad and Tobago
+    option_224:
+        admin_option_name: Tunisia
+    option_225:
+        admin_option_name: Turkey
+    option_226:
+        admin_option_name: Turkmenistan
+    option_227:
+        admin_option_name: Turks and Caicos Islands
+    option_228:
+        admin_option_name: Tuvalu
+    option_229:
+        admin_option_name: Uganda
+    option_230:
+        admin_option_name: Ukraine
+    option_231:
+        admin_option_name: United Arab Emirates
+    option_232:
+        admin_option_name: United Kingdom
+    option_233:
+        admin_option_name: United States
+    option_234:
+        admin_option_name: Uruguay
+    option_235:
+        admin_option_name: U.S. Minor Outlying Islands
+    option_236:
+        admin_option_name: U.S. Virgin Islands
+    option_237:
+        admin_option_name: Uzbekistan
+    option_238:
+        admin_option_name: Vanuatu
+    option_239:
+        admin_option_name: Vatican City
+    option_240:
+        admin_option_name: Venezuela
+    option_241:
+        admin_option_name: Vietnam
+    option_242:
+        admin_option_name: Wallis and Futuna
+    option_243:
+        admin_option_name: Western Sahara
+    option_244:
+        admin_option_name: Yemen
+    option_245:
+        admin_option_name: Zambia
+    option_246:
+        admin_option_name: Zimbabwe
+    default_value: Afghanistan

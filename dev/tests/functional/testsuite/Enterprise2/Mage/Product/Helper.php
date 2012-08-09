@@ -10,13 +10,9 @@
  */
 
 /**
- * Helper class
- *
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * Helper class 
  */
-class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
+class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
 {
     /**
      * Choose custom options and additional products
@@ -80,5 +76,36 @@ class Enterprise_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
 
     }
+    
+    /**
+     * Import custom options from existent product
+     *
+     * @param mixed $productSku String or Array of SKUs
+     */
+    public function importCustomOptions($productSku)
+    {
+        parent::importCustomOptions($productSku);
+    }
 
+    /**
+     * Delete all custom options
+     *
+     * @return bool
+     */
+    public function deleteAllCustomOptions()
+    {
+        parent::deleteAllCustomOptions();
+    }
+
+    /**
+     * Verify Custom Options
+     *
+     * @param array $customOptionData
+     *
+     * @return boolean
+     */
+    public function verifyCustomOption(array $customOptionData)
+    {
+        parent::verifyCustomOption($customOptionData);
+    }
 }
