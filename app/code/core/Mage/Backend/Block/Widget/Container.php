@@ -188,7 +188,7 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      * @param string $childId
      * @return Mage_Backend_Block_Widget_Button
      */
-    protected function _addButtonChildBlock($childId, $type)
+    protected function _addButtonChildBlock($childId)
     {
         $block = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button');
         $this->setChild($childId, $block);
