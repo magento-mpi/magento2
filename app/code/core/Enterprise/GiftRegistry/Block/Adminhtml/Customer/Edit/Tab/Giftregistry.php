@@ -72,7 +72,7 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit_Tab_Giftregistry
      */
     public function getAfter()
     {
-        return 'tags';
+        return 'reviews';
     }
 
     /**

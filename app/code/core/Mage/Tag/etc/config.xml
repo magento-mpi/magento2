@@ -66,6 +66,17 @@
             <tag_customer>/tag/customer/</tag_customer>
         </secure_url>
     </frontend>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Mage_Tag before="Mage_Adminhtml">Mage_Tag_Adminhtml</Mage_Tag>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
     <adminhtml>
         <events>
             <catalog_product_delete_before>
@@ -87,5 +98,12 @@
                 </Mage_Tag>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                 <tag_customer module="Mage_Tag">
+                    <file>customer.xml</file>
+                </tag_customer>
+            </updates>
+        </layout>
     </adminhtml>
 </config>

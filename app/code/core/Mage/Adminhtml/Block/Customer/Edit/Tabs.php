@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
         ));
 
 
-        // load: Orders, Shopping Cart, Wishlist, Product Reviews, Product Tags - with ajax
+        // load: Orders, Shopping Cart, Wishlist, Product Reviews - with ajax
 
         if (Mage::registry('current_customer')->getId()) {
 
@@ -88,14 +88,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tabs extends Mage_Adminhtml_Block_Widge
                     'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Product Reviews'),
                     'class'     => 'ajax',
                     'url'       => $this->getUrl('*/*/productReviews', array('_current' => true)),
-                ));
-            }
-
-            if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Tag::tag')) {
-                $this->addTab('tags', array(
-                    'label'     => Mage::helper('Mage_Customer_Helper_Data')->__('Product Tags'),
-                    'class'     => 'ajax',
-                    'url'       => $this->getUrl('*/*/productTags', array('_current' => true)),
                 ));
             }
         }
