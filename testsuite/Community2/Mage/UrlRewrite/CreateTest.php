@@ -306,4 +306,119 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->assertEquals($productData['general_name'], $openedProductName,
             "Product with name '$openedProductName' is opened, but should be '{$productData['general_name']}'");
     }
+
+    /**
+     * <p>CMS Pages custom URL Rewrites</p>
+     * <p>Steps</p>
+     * <p>1. Create CMS Page </p>
+     * <p>2. Push "Add URL Rewrite" Button</p>
+     * <p>3. Select Custom URL rewrite</p>
+     * <p>4. Request path = [url_key] ; ID_Path = [url_key]</p>
+     * <p>5. Target path = customer-service
+     * <p>Expected result:</p>
+     * <p>When I'll open page with [url-key] should open customer-service CMS page</p>
+     *
+     * @return array
+     * @test
+     * @TestlinkId TL-MAGE-6049
+     */
+    public function withRequiredFieldsCmsPageRewrite ()
+    {
+        //Create data
+        $this->navigate('manage_stores');
+        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        $productData = $this->loadDataSet('UrlRewrite', 'url_rewrite_custom_sample');
+        $pageData = $this->loadDataSet('CmsPage', 'url_cms_page_req');
+
+        //Create CMS Page
+        $this->navigate('manage_cms_pages');
+
+        $this->clickButton('add_new_page');
+        $this->fillFieldset ($pageData['page_information'], 'page_information_fieldset');
+
+        $this->openTab('content');
+        $this->fillField('content_heading', 'test');
+        $this->clickButton('show_hide_editor', false);
+        $this->waitForAjax();
+        $this->fillField('editor', 'test');
+        $this->validatePage();
+        $this->waitForAjax();
+        $this->clickButton('save_page');
+        $this->assertMessagePresent('success', 'success_saved_cms_page');
+
+        //Create Custom URL rewrite
+        $this->admin('url_rewrite_management');
+        $this->clickButton('add_new_rewrite', 'true');
+        $this->fillDropdown('create_url_rewrite_dropdown', 'Custom');
+        $this->waitForPageToLoad();
+        $this->validatePage();
+
+        //Fill form and save sitemap
+        $this->fillFieldset($productData, 'custom_rewrite');
+        $this->fillField('id_path', $pageData['page_information']['url_key']);
+        $this->fillField('request_path', $pageData['page_information']['url_key']);
+        $this->clickButton('save', true);
+
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_url_rewrite');
+
+        //Generate request path
+        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($pageData['page_information']['url_key']);
+
+        //Open page on frontend
+        $this->frontend();
+        $this->open($rewriteUrl);
+
+        //Verifying page of URL rewrite for product
+        $this->assertSame($this->getTitle(), 'Customer Service', 'Wrong page is opened');
+
+        return $pageData;
+    }
+
+    /**
+     * <p>URL Rewrites using an external link</p>
+     * <p>Steps</p>
+     * <p>1. Push "Add URL Rewrite" Button</p>
+     * <p>2. Select Custom URL rewrite</p>
+     * <p>3. Request path = [url_key] ; ID_Path = [url_key]</p>
+     * <p>4. Target path = http://google.com
+     * <p>Expected result:</p>
+     * <p>When I'll try to open request path should open Google page</p>
+     *
+     * @param array $data
+     *
+     * @test
+     * @depends withRequiredFieldsCmsPageRewrite
+     * @TestlinkId TL-MAGE-5507
+     */
+    public function withRequiredFieldsRewriteExtLink ($data)
+    {
+        //Create data
+        $productData = $this->loadDataSet('UrlRewrite', 'url_rewrite_custom_sample');
+        $pageData = $this->loadDataSet('UrlRewrite', 'url_search_url',
+            array('url_key' => $data['page_information']['url_key']));
+
+        $this->navigate('url_rewrite_management');
+        $this->validatePage();
+        $this->searchAndOpen($pageData, true, 'url_rewrite_grid');
+        $this->addParameter('id', $this->defineParameterFromUrl('customId'));
+
+        //Fill form and save sitemap
+        $this->fillField('target_path', 'http://google.com');
+        $this->clickButton('save', true);
+
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_url_rewrite');
+
+        //Generate request path
+        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($pageData['url_key']);
+
+        //Open page on frontend
+        $this->frontend();
+        $this->open($rewriteUrl);
+
+        //Verifying page of URL rewrite for product
+        $this->assertSame($this->getTitle(), 'Google', 'Wrong page is opened');
+    }
 }

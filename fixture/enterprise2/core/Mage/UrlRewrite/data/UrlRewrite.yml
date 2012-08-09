@@ -55,14 +55,14 @@ url_rewrite_custom_sample:
     target_path: customer-service
     description: Test description
 
-url_cms_page_req:
+new_cms_page_req_ee:
     page_information:
         page_title: new cms page(%randomize%)
         url_key: cms_page_url_%randomize%
+        status: Published
         store_view: Default Store View
-        status: Enabled
     content:
-        content_heading: test
+        content_heading: %noValue%
         editor: test
 
 url_search_url:

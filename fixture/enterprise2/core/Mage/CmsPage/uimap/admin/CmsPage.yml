@@ -20,3 +20,6 @@ manage_banners:
     mca: banner/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'banner/')]
     title: Banners / CMS / Magento Admin
+
+create_cms_page:
+    title: New Page / Pages / CMS / Magento Admin
