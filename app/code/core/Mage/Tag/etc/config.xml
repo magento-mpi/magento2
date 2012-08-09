@@ -100,7 +100,10 @@
         </translate>
         <layout>
             <updates>
-                 <tag_customer module="Mage_Tag">
+                <tag_product module="Mage_Tag">
+                    <file>product.xml</file>
+                </tag_product>
+                <tag_customer module="Mage_Tag">
                     <file>customer.xml</file>
                 </tag_customer>
             </updates>

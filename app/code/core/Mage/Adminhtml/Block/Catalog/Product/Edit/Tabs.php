@@ -138,22 +138,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                         ));
                     }
                 }
-                if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Tag')) {
-                    if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Tag::tag')){
-                        $this->addTab('tags', array(
-                         'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Tags'),
-                         'url'   => $this->getUrl('*/*/tagGrid', array('_current' => true)),
-                         'class' => 'ajax',
-                        ));
-
-                        $this->addTab('customers_tags', array(
-                            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Customers Tagged Product'),
-                            'url'   => $this->getUrl('*/*/tagCustomerGrid', array('_current' => true)),
-                            'class' => 'ajax',
-                        ));
-                    }
-                }
-
             }
 
             /**

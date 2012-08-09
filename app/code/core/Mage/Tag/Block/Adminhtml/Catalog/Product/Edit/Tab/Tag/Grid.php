@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Products' tags grid
+ * Products tags grid
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Grid extends Mage_Backend_Block_Widget_Grid
 {
     public function __construct()
     {
