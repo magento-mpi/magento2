@@ -434,7 +434,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
             $this->fillConfigurableSettings($productData);
         }
         $this->fillProductInfo($productData, $productType);
-        if ($isSave){
+        if ($isSave) {
             $this->saveForm('save');
         }
     }
