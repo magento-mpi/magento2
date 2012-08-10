@@ -102,7 +102,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         Mage_Core_Model_Resource_Abstract $resource = null,
         Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null
     ) {
-        parent::__construct($eventDispatcher, $cacheManager, array(), $resource, $resourceCollection);
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
 
         $scope = $scopeId = null;
         if (array_key_exists('scope', $data)) {
