@@ -79,6 +79,134 @@ system_configuration:
                                         cod_new_order_status_use_default: //input[@name='groups[cashondelivery][fields][order_status][inherit]']
                                         cod_payment_from_applicable_countries_use_default: //input[@name='groups[cashondelivery][fields][allowspecific][inherit]']
                                         cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
+                -
+                    general_general:
+                        fieldsets:
+                            -
+                                states_options:
+                                    xpath: //fieldset[@id='general_region']
+                -
+                    general_design:
+                        fieldsets:
+                            -
+                                transaction_emails:
+                                    xpath: //fieldset[@id='design_email']
+                -
+                    catalog_rss_feeds:
+                        fieldsets:
+                            -
+                                order_rss:
+                                    xpath: //fieldset[@id='rss_order']
+                -
+                    sales_google_api:
+                        fieldsets:
+                            -
+                                google_shopping:
+                                    xpath: //fieldset[@id='google_googleshopping']
+                -
+                    social_facebook:
+                        xpath: //a[contains(@href, 'edit/section/facebook/')]
+                        fieldsets:
+                            -
+                                facebook_config:
+                                    xpath: //fieldset[@id='facebook_config']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -
+                                general:
+                                    xpath: //fieldset[@id='sales_general']
+                            -
+                                dashboard_sales:
+                                    xpath: //fieldset[@id='sales_dashboard']
+                -
+                    sales_pdf_print_outs:
+                        fieldsets:
+                            -
+                                invoice_pdf:
+                                    xpath: //fieldset[@id='sales_pdf_invoice']
+                            -
+                                shipment_pdf:
+                                    xpath: //fieldset[@id='sales_pdf_shipment']
+                            -
+                                credit_memo_pdf:
+                                    xpath: //fieldset[@id='sales_pdf_creditmemo']
+                -
+                    sales_sales_emails:
+                        fieldsets:
+                            -
+                                order_sales:
+                                    xpath: //fieldset[@id='sales_email_order']
+                            -
+                                invoice_sales:
+                                    xpath: //fieldset[@id='sales_email_invoice']
+                            -
+                                shipment_sales:
+                                    xpath: //fieldset[@id='sales_email_shipment']
+                            -
+                                credit_memo_sales:
+                                    xpath: //fieldset[@id='sales_email_creditmemo']
+                -
+                    sales_shipping_methods:
+                        fieldsets:
+                            -
+                                dhl_new:
+                                    xpath: //fieldset[@id='carriers_dhlint']
+                -
+                    services_oauth:
+                        xpath: //a[contains(@href, 'edit/section/oauth/')]
+                        fieldsets:
+                            -
+                                email:
+                                    xpath: //fieldset[@id='oauth_email']
+                            -
+                                cleanup_settings:
+                                    xpath: //fieldset[@id='oauth_cleanup']
+                -
+                    customers_customer_configuration:
+                        fieldsets:
+                            -
+                                captcha_customer:
+                                    xpath: //fieldset[@id='customer_captcha']
+                -
+                    customers_wishlist:
+                        fieldsets:
+                            -
+                                general_options_wishlist:
+                                    xpath: //fieldset[@id='wishlist_general']
+                -
+                    customers_persistent_shopping_cart:
+                        fieldsets:
+                            -
+                                general_options_shopping_cart:
+                                    xpath: //fieldset[@id='persistent_options']
+                -
+                    advanced_developer:
+                        fieldsets:
+                            -
+                                image_processing_settings:
+                                    xpath: //fieldset[@id='dev_image']
+                            -
+                                static_files_settings:
+                                    xpath: //fieldset[@id='dev_static']
+                -
+                    advanced_admin:
+                        fieldsets:
+                            -
+                                dashboard_admin:
+                                    xpath: //fieldset[@id='admin_dashboard']
+                            -
+                                captcha_admin:
+                                    xpath: //fieldset[@id='admin_captcha']
+                -
+                    general_reports:
+                        fieldsets:
+                            -
+                                dashboard_report:
+                                    xpath: //fieldset[@id='reports_dashboard']
+                -
+                    all_tabs:
+                        xpath: //*[@id='system_config_tabs']/li/dl/dd
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap
