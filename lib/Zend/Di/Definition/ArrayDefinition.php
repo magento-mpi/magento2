@@ -23,7 +23,11 @@ class ArrayDefinition implements DefinitionInterface
     
     public function hasClass($class)
     {
-        return array_key_exists($class, $this->dataArray);
+        $result = array_key_exists($class, $this->dataArray);
+        if ($result && !is_array($this->dataArray[$class])) {
+            $this->dataArray[$class] = json_decode($this->dataArray[$class], true);
+        }
+        return $result;
     }
     
     public function getClassSupertypes($class)

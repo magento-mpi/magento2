@@ -1559,4 +1559,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         return $routers;
     }
+
+    public function isModuleEnabled($moduleName)
+    {
+        if (!$this->getNode('modules/' . $moduleName)) {
+            return false;
+        }
+
+        $isActive = $this->getNode('modules/' . $moduleName . '/active');
+        if (!$isActive || !in_array((string)$isActive, array('true', '1'))) {
+            return false;
+        }
+        return true;
+    }
 }

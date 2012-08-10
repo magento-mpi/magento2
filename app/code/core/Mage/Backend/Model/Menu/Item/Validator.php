@@ -15,21 +15,7 @@ class Mage_Backend_Model_Menu_Item_Validator
      * @var array
      */
     protected $_required = array(
-        'acl', 'appConfig', 'menuFactory', 'urlModel', 'storeConfig', 'id', 'title', 'module', 'resource'
-    );
-
-    /**
-     * The list of required param types
-     *
-     * @var array
-     */
-    protected $_requiredTypes = array(
-        'acl' => 'Mage_Backend_Model_Auth_Session',
-        'appConfig' => 'Mage_Core_Model_Config',
-        'menuFactory' => 'Mage_Backend_Model_Menu_Factory',
-        'urlModel' => 'Mage_Backend_Model_Url',
-        'storeConfig' => 'Mage_Core_Model_Store_Config',
-        'module' => 'Mage_Core_Helper_Abstract'
+        'id', 'title', 'module', 'resource'
     );
 
     /**
@@ -95,12 +81,7 @@ class Mage_Backend_Model_Menu_Item_Validator
         }
 
         foreach ($data as $param => $value) {
-            if (isset($this->_requiredTypes[$param]) && !($data[$param] instanceof $this->_requiredTypes[$param])) {
-                throw new InvalidArgumentException(
-                    'Wrong param ' . $param . ': Expected ' . $this->_requiredTypes[$param] . ', received '
-                        . get_class($data[$param])
-                );
-            } elseif (!is_null($data[$param])
+            if (!is_null($data[$param])
                 && isset($this->_validators[$param])
                 && !$this->_validators[$param]->isValid($value)
             ) {

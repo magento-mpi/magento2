@@ -95,17 +95,22 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      *
      * @param array $options
      */
-    public function __construct(array $options = array())
-    {
-        parent::__construct();
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        array $data = array(),
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, array(), $resource, $resourceCollection);
 
         $scope = $scopeId = null;
-        if (array_key_exists('scope', $options)) {
-            $scope = $options['scope'];
+        if (array_key_exists('scope', $data)) {
+            $scope = $data['scope'];
         }
 
-        if (array_key_exists('scope_id', $options)) {
-            $scopeId = $options['scope_id'];
+        if (array_key_exists('scope_id', $data)) {
+            $scopeId = $data['scope_id'];
         }
 
         $this->setScope($scope);

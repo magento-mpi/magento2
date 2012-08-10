@@ -32,25 +32,16 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
         $productCollection = $this->getLayer()->getProductCollection();
         $facets = $productCollection->getFacetedData('categories');
 
-            $productCollection = $this->getLayer()->getProductCollection();
-            $facets = $productCollection->getFacetedData('category_ids');
+        $productCollection = $this->getLayer()->getProductCollection();
+        $facets = $productCollection->getFacetedData('category_ids');
 
-            $data = array();
-            foreach ($categories as $category) {
-                $categoryId = $category->getId();
-                if (isset($facets[$categoryId])) {
-                    $category->setProductCount($facets[$categoryId]);
-                } else {
-                    $category->setProductCount(0);
-                }
-
-                if ($category->getIsActive() && $category->getProductCount()) {
-                    $data[] = array(
-                        'label' => Mage::helper('Mage_Core_Helper_Data')->escapeHtml($category->getName()),
-                        'value' => $categoryId,
-                        'count' => $category->getProductCount(),
-                    );
-                }
+        $data = array();
+        foreach ($categories as $category) {
+            $categoryId = $category->getId();
+            if (isset($facets[$categoryId])) {
+                $category->setProductCount($facets[$categoryId]);
+            } else {
+                $category->setProductCount(0);
             }
 
             if ($category->getIsActive() && $category->getProductCount()) {
@@ -60,6 +51,14 @@ class Enterprise_Search_Model_Catalog_Layer_Filter_Category extends Mage_Catalog
                     'count' => $category->getProductCount(),
                 );
             }
+        }
+
+        if ($category->getIsActive() && $category->getProductCount()) {
+            $data[] = array(
+                'label' => Mage::helper('Mage_Core_Helper_Data')->escapeHtml($category->getName()),
+                'value' => $categoryId,
+                'count' => $category->getProductCount(),
+            );
         }
 
         return $data;

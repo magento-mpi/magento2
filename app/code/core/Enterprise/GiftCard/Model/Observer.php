@@ -25,8 +25,13 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
      * @param array $data
      * @throws InvalidArgumentException
      */
-    public function __construct(array $data = array())
-    {
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null,
+        array $data = array()
+    ) {
         if (isset($data['email_template_model'])) {
             if (!$data['email_template_model'] instanceof Mage_Core_Model_Email_Template) {
                 throw new InvalidArgumentException(
@@ -36,7 +41,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
             $this->_emailTemplateModel = $data['email_template_model'];
             unset($data['email_template_model']);
         }
-        parent::__construct($data);
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
     /**

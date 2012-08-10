@@ -91,11 +91,20 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_calculatePrice = true;
 
     /**
-     * Initialize resources
+     * @param Mage_Core_Model_Event_Manager $eventDispatcher
+     * @param Mage_Core_Model_Cache $cacheManager
+     * @param array $data
+     * @param Mage_Catalog_Model_Resource_Product $resource
+     * @param Mage_Catalog_Model_Resource_Product_Collection $resourceCollection
      */
-    protected function _construct()
-    {
-        $this->_init('Mage_Catalog_Model_Resource_Product');
+    public function __construct(
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Catalog_Model_Resource_Product $resource,
+        Mage_Catalog_Model_Resource_Product_Collection $resourceCollection,
+        array $data = array()
+    ) {
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -109,21 +118,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             return $this->getData('store_id');
         }
         return Mage::app()->getStore()->getId();
-    }
-
-    /**
-     * Get collection instance
-     *
-     * @return object
-     */
-    public function getResourceCollection()
-    {
-        if (empty($this->_resourceCollectionName)) {
-            Mage::throwException(Mage::helper('Mage_Catalog_Helper_Data')->__('The model collection resource name is not defined.'));
-        }
-        $collection = Mage::getResourceModel($this->_resourceCollectionName);
-        $collection->setStoreId($this->getStoreId());
-        return $collection;
     }
 
     /**

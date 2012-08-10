@@ -101,23 +101,18 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_cacheManager;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object attributes
-     * This behavior may change in child classes
-     *
      * @param Mage_Core_Model_Event_Manager $eventDispatcher
      * @param Mage_Core_Model_Cache $cacheManager
      * @param array $data
      * @param Mage_Core_Model_Resource_Abstract $resource
-     * @param Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection
+     * @param Varien_Data_Collection_Db $resourceCollection
      */
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
-        array $data = array(),
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
     ) {
         $this->_eventDispatcher = $eventDispatcher;
         $this->_cacheManager = $cacheManager;

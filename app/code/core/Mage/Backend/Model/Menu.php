@@ -26,12 +26,13 @@ class Mage_Backend_Model_Menu extends ArrayObject
     protected $_logger;
 
     /**
-     * @param array $array
+     * @param Mage_Core_Model_Logger $logger
+     * @param string $pathInMenuStructure
      */
-    public function __construct(Mage_Core_Model_Logger $logger, $path = '')
+    public function __construct(Mage_Core_Model_Logger $logger, $pathInMenuStructure = '')
     {
-        if ($path) {
-            $this->_path = $path . '/';
+        if ($pathInMenuStructure) {
+            $this->_path = $pathInMenuStructure . '/';
         }
         $this->_logger = $logger;
         $this->setIteratorClass('Mage_Backend_Model_Menu_Iterator');

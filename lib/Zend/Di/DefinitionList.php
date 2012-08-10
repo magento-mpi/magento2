@@ -214,7 +214,7 @@ class DefinitionList extends SplDoublyLinkedList implements Definition\Definitio
     {
         /** @var $definition Definition\DefinitionInterface */
         foreach ($this as $definition) {
-            if ($definition->hasClass($class) && $definition->hasMethod($class, $method) && $definition->hasMethodParameters($class, $method)) {
+            if ($definition->hasClass($class) && $definition->hasMethodParameters($class, $method)) {
                 return $definition->getMethodParameters($class, $method);
             }
         }

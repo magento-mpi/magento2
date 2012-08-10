@@ -58,51 +58,32 @@ class Mage_Backend_Model_Menu_Item_Factory
     protected $_validator;
 
     /**
+     * @param Magento_ObjectManager $factory
+     * @param Mage_Backend_Model_Auth_Session $authorization
+     * @param Mage_Backend_Model_Menu_Factory $menuFactory
+     * @param Mage_Core_Model_Config $appliactionConfig
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Backend_Model_Url $urlModel
+     * @param Mage_Backend_Model_Menu_Item_Validator $menuItemValidator
      * @param array $data
-     * @throws InvalidArgumentException
      */
-    public function __construct(array $data = array())
+    public function __construct(
+        Magento_ObjectManager $factory,
+        Mage_Backend_Model_Auth_Session $authorization,
+        Mage_Backend_Model_Menu_Factory $menuFactory,
+        Mage_Core_Model_Config $appliactionConfig,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Backend_Model_Url $urlModel,
+        Mage_Backend_Model_Menu_Item_Validator $menuItemValidator,
+        array $data = array())
     {
-        $this->_acl = isset($data['acl']) ? $data['acl'] : Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-        if (!($this->_acl instanceof Mage_Backend_Model_Auth_Session)) {
-            throw new InvalidArgumentException('Wrong acl object provided');
-        }
-
-        $this->_objectFactory = isset($data['objectFactory']) ? $data['objectFactory'] : Mage::getConfig();
-        if (!($this->_objectFactory instanceof Mage_Core_Model_Config)) {
-            throw new InvalidArgumentException('Wrong object factory provided');
-        }
-
-        $this->_menuFactory = isset($data['menuFactory'])
-            ? $data['menuFactory']
-            : Mage::getModel('Mage_Backend_Model_Menu_Factory');
-        if (!($this->_menuFactory instanceof Mage_Backend_Model_Menu_Factory)) {
-            throw new InvalidArgumentException('Wrong menu factory provided');
-        }
-
-        $this->_appConfig = isset($data['appConfig']) ? $data['appConfig']: Mage::getConfig();
-        if (!($this->_appConfig instanceof Mage_Core_Model_Config)) {
-            throw new InvalidArgumentException('Wrong application config provided');
-        }
-
-        $this->_storeConfig = isset($data['storeConfig'])
-            ? $data['storeConfig']
-            : Mage::getSingleton('Mage_Core_Model_Store_Config');
-        if (!($this->_storeConfig instanceof Mage_Core_Model_Store_Config)) {
-            throw new InvalidArgumentException('Wrong store config provided');
-        }
-
-        $this->_urlModel = isset($data['urlModel']) ? $data['urlModel'] : Mage::getSingleton('Mage_Backend_Model_Url');
-        if (!($this->_urlModel instanceof Mage_Backend_Model_Url)) {
-            throw new InvalidArgumentException('Wrong url model provided');
-        }
-
-        $this->_validator = isset($data['validator'])
-            ? $data['validator']
-            : Mage::getSingleton('Mage_Backend_Model_Menu_Item_Validator');
-        if (!($this->_validator instanceof Mage_Backend_Model_Menu_Item_Validator)) {
-            throw new InvalidArgumentException('Wrong item validator model provided');
-        }
+        $this->_acl = $authorization;
+        $this->_objectFactory = $factory;
+        $this->_menuFactory = $menuFactory;
+        $this->_appConfig = $appliactionConfig;
+        $this->_storeConfig = $storeConfig;
+        $this->_urlModel = $urlModel;
+        $this->_validator = $menuItemValidator;
 
         if (isset($data['helpers'])) {
             $this->_helpers = $data['helpers'];
@@ -123,12 +104,14 @@ class Mage_Backend_Model_Menu_Item_Factory
         }
 
         $data['module'] = isset($this->_helpers[$module]) ? $this->_helpers[$module] : Mage::helper($module);
-        $data['acl'] = $this->_acl;
-        $data['appConfig'] = $this->_appConfig;
+
+        $data = array('data' => $data);
+        $data['authorization'] = $this->_acl;
+        $data['applicationConfig'] = $this->_appConfig;
         $data['storeConfig'] = $this->_storeConfig;
         $data['menuFactory'] = $this->_menuFactory;
         $data['urlModel'] = $this->_urlModel;
         $data['validator'] = $this->_validator;
-        return $this->_objectFactory->getModelInstance('Mage_Backend_Model_Menu_Item', $data);
+        return $this->_objectFactory->create('Mage_Backend_Model_Menu_Item', $data);
     }
 }

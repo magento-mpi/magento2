@@ -130,25 +130,31 @@ class Mage_Backend_Model_Menu_Item
     protected $_validator;
 
     /**
+     * @param Mage_Backend_Model_Menu_Item_Validator $validator
+     * @param Mage_Backend_Model_Auth_Session $authorization
+     * @param Mage_Core_Model_Config $applicationConfig
+     * @param Mage_Core_Model_Store_Config $storeConfig
+     * @param Mage_Backend_Model_Menu_Factory $menuFactory
+     * @param Mage_Backend_Model_Url $urlModel
      * @param array $data
-     * @throws InvalidArgumentException
-     * @throws BadMethodCallException
      */
-    public function __construct(array $data = array())
-    {
-        if (!isset($data['validator'])
-            || !$data['validator'] instanceof Mage_Backend_Model_Menu_Item_Validator) {
-            throw new InvalidArgumentException('Wrong validator object provided');
-        }
-
-        $this->_validator = $data['validator'];
+    public function __construct(
+        Mage_Backend_Model_Menu_Item_Validator $validator,
+        Mage_Backend_Model_Auth_Session $authorization,
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Model_Store_Config $storeConfig,
+        Mage_Backend_Model_Menu_Factory $menuFactory,
+        Mage_Backend_Model_Url $urlModel,
+        array $data = array()
+    ) {
+        $this->_validator = $validator;
         $this->_validator->validate($data);
 
-        $this->_acl = $data['acl'];
-        $this->_appConfig = $data['appConfig'];
-        $this->_storeConfig = $data['storeConfig'];
-        $this->_menuFactory = $data['menuFactory'];
-        $this->_urlModel = $data['urlModel'];
+        $this->_acl = $authorization;
+        $this->_appConfig = $applicationConfig;
+        $this->_storeConfig = $storeConfig;
+        $this->_menuFactory = $menuFactory;
+        $this->_urlModel = $urlModel;
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];

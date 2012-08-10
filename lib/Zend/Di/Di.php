@@ -339,7 +339,7 @@ class Di implements DependencyInjectionInterface
     protected function createInstanceViaConstructor($class, $params, $alias = null)
     {
         $callParameters = array();
-        if ($this->definitions->hasMethod($class, '__construct')) {
+        if ($this->definitions->hasMethodParameters($class, '__construct')) {
             $callParameters = $this->resolveMethodParameters($class, '__construct', $params, $alias, true, true);
         }
 

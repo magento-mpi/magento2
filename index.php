@@ -27,10 +27,15 @@ Magento_Profiler::start('mage');
 Mage::setRoot();
 Magento_Profiler::start('di_outer');
 Magento_Profiler::start('di');
-$ar = unserialize(file_get_contents('var/di/definition.php'));
+if (file_exists('var/di/definitions.php')) {
+    $definition = new Zend\Di\Definition\ArrayDefinition(unserialize(file_get_contents('var/di/definitions.php')));
+} else {
+    $definition = new Zend\Di\Definition\RuntimeDefinition();
+}
 Magento_Profiler::stop('di');
-
-$factory = new Magento_ObjectManager_Zend(new Di(new DefinitionList(new Zend\Di\Definition\ArrayDefinition($ar))));
+$di = new Di(new DefinitionList($definition));
+$factory = new Magento_ObjectManager_Zend($di);
+$di->instanceManager()->addSharedInstance($factory, "Magento_ObjectManager");
 Magento_Profiler::stop('di_outer');
 
 $config = $factory->get('Mage_Core_Model_Config');
@@ -47,8 +52,9 @@ Mage::setConfig($config);
 
 Magento_Profiler::start('init');
 /** @var $app Mage_Core_Model_App */
-$app = $factory->create('Mage_Core_Model_App', array(
-    'applicationConfig' => $config, 'applicationOptions' => array(), 'data' => array()));
+$app = $factory->create(
+    'Mage_Core_Model_App', array('applicationConfig' => $config, 'applicationOptions' => array(), 'data' => array())
+);
 Mage::setApp($app);
 Magento_Profiler::stop('init');
 

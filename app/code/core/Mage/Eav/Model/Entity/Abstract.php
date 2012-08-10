@@ -1099,7 +1099,7 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     protected function _getOrigObject($object)
     {
         $className  = get_class($object);
-        $origObject = new $className();
+        $origObject = Mage::getModel($className);
         $origObject->setData(array());
         $this->load($origObject, $object->getData($this->getEntityIdField()));
 

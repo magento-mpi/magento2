@@ -17,6 +17,11 @@ class Mage_Backend_Model_Menu_Config
     protected $_cache;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_factory;
+
+    /**
      * @var Mage_Core_Model_Config
      */
     protected $_appConfig;
@@ -42,24 +47,28 @@ class Mage_Backend_Model_Menu_Config
      */
     protected $_logger;
 
-    public function __construct(array $arguments = array())
-    {
-        $this->_cache = isset($arguments['cache']) ? $arguments['cache'] : Mage::app()->getCacheInstance();
-        $this->_appConfig = isset($arguments['appConfig']) ? $arguments['appConfig'] : Mage::getConfig();
-        $this->_eventManager = isset($arguments['eventManager'])
-            ? $arguments['eventManager']
-            : Mage::getSingleton('Mage_Core_Model_Event_Manager');
-
-        $this->_logger = isset($arguments['logger'])
-            ? $arguments['logger']
-            : Mage::getSingleton('Mage_Backend_Model_Menu_Logger');
-
-        $this->_menuBuilder = isset($arguments['menuBuilder'])
-            ? $arguments['menuBuilder']
-            : Mage::getSingleton('Mage_Backend_Model_Menu_Builder', array(
-                'menu' => Mage::getSingleton('Mage_Backend_Model_Menu_Factory')->getMenuInstance(),
-                'itemFactory' => Mage::getSingleton('Mage_Backend_Model_Menu_Item_Factory'),
-            ));
+    /**
+     * @param Mage_Core_Model_Cache $cache
+     * @param Magento_ObjectManager $factory
+     * @param Mage_Core_Model_Config $config
+     * @param Mage_Core_Model_Event_Manager $eventManager
+     * @param Mage_Backend_Model_Menu_Logger $menuLogger
+     * @param Mage_Backend_Model_Menu_Builder $menuBuilder
+     */
+    public function __construct(
+        Mage_Core_Model_Cache $cache,
+        Magento_ObjectManager $factory,
+        Mage_Core_Model_Config $config,
+        Mage_Core_Model_Event_Manager $eventManager,
+        Mage_Backend_Model_Menu_Logger $menuLogger,
+        Mage_Backend_Model_Menu_Builder $menuBuilder
+    ) {
+        $this->_cache = $cache;
+        $this->_factory = $factory;
+        $this->_appConfig = $config;
+        $this->_eventManager = $eventManager;
+        $this->_logger = $menuLogger;
+        $this->_menuBuilder = $menuBuilder;
     }
 
     /**
@@ -96,12 +105,12 @@ class Mage_Backend_Model_Menu_Config
     {
         if (!$this->_menu) {
             /* @var $director Mage_Backend_Model_Menu_Director_Dom */
-            $director = $this->_appConfig->getModelInstance(
+            $director = $this->_factory->create(
                 'Mage_Backend_Model_Menu_Director_Dom',
                 array(
-                    'config' => $this->_getDom(),
-                    'factory' => $this->_appConfig,
-                    'logger' => $this->_logger
+                    'menuConfig' => $this->_getDom(),
+                    'factory' => $this->_factory,
+                    'menuLogger' => $this->_logger
                 )
             );
             $director->buildMenu($this->_menuBuilder);
@@ -121,8 +130,9 @@ class Mage_Backend_Model_Menu_Config
             $mergedConfig->loadXML($mergedConfigXml);
         } else {
             $fileList = $this->getMenuConfigurationFiles();
-            $mergedConfig = $this->_appConfig
-                ->getModelInstance('Mage_Backend_Model_Menu_Config_Menu', $fileList)->getMergedConfig();
+            $mergedConfig = $this->_factory
+                ->create('Mage_Backend_Model_Menu_Config_Menu', array('configFiles' => $fileList))
+                ->getMergedConfig();
             $this->_saveCache($mergedConfig->saveXML());
         }
         return $mergedConfig;
