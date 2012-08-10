@@ -35,6 +35,15 @@
                 </tag_summary>
             </indexer>
         </index>
+        <session>
+            <catalog>
+                <product>
+                    <message_models>
+                        <tag>Mage_Tag_Model_Session</tag>
+                    </message_models>
+                </product>
+            </catalog>
+        </session>
     </global>
     <frontend>
         <routers>
