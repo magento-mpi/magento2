@@ -79,6 +79,8 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
      */
     public function testImportData()
     {
+        $this->markTestIncomplete('Need to be fixed in scope of MAGETWO-2772');
+
         // set add/update behavior
         $this->_entityAdapter->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE));
 
