@@ -10,9 +10,9 @@
  * @license     {license_link}
  */
 /**
- * Products creation tests based on Minimal Attribute Set
+ * Products creation tests based on different attribute set
  */
-class Community2_Mage_AttributeSet_CreateFromProductPageTest extends Mage_Selenium_TestCase
+class Community2_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
