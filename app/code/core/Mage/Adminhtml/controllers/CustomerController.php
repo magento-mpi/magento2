@@ -385,16 +385,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $modifiedAddresses = array();
         if (!empty($data['address'])) {
-            $addresses = $this->_procesAddresses($customer, $data);
-            if (!$addresses) {
+            $modifiedAddresses = $this->_procesAddresses($customer, $data);
+            if (!$modifiedAddresses) {
                 return false;
-            }
-            foreach ($addresses as $address) {
-                if ($address->getId()) {
-                    $modifiedAddresses[] = $address->getId();
-                } else {
-                    $customer->addAddress($address);
-                }
             }
         }
 
@@ -457,7 +450,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $addressForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
         $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
 
-        $addresses = array();
+        $modifiedAddresses = array();
         foreach (array_keys($data['address']) as $index) {
             $address = $customer->getAddressItemById($index);
             if (!$address) {
@@ -492,9 +485,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             // Set post_index for detect default billing and shipping addresses
             $address->setPostIndex($index);
-            $addresses[] = $address;
+            if ($address->getId()) {
+                $modifiedAddresses[] = $address->getId();
+            } else {
+                $customer->addAddress($address);
+            }
         }
-        return $addresses;
+        return $modifiedAddresses;
     }
 
     /**
