@@ -343,6 +343,22 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->search($tagSearchData, 'product_tags');
         return $xpathTR ? true : false;
     }
+    /**
+     * Checks if the customer tagged product is assigned to the product.
+     * Returns true if assigned, or False otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as used for openTag
+     * @param array $productSearchData Product to open. Same as used in productHelper()->openProduct
+     *
+     * @return bool
+     */
+    public function verifyCustomerTaggedProduct(array $tagSearchData, array $productSearchData)
+    {
+        $this->productHelper()->openProduct($productSearchData);
+        $this->openTab('customer_tags');
+        $xpathTR = $this->search($tagSearchData, 'customer_tags');
+        return $xpathTR ? true : false;
+    }
 
     /**
      * Checks if the customer submitted the tag.
