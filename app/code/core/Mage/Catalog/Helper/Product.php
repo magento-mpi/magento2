@@ -18,6 +18,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     const XML_PATH_PRODUCT_URL_SUFFIX           = 'catalog/seo/product_url_suffix';
     const XML_PATH_PRODUCT_URL_USE_CATEGORY     = 'catalog/seo/product_use_categories';
     const XML_PATH_USE_PRODUCT_CANONICAL_TAG    = 'catalog/seo/product_canonical_tag';
+    const XML_PATH_SKU_AUTOGENERATE_MASK        = 'catalog/product_creation/sku_mask';
 
     /**
      * Flag that shows if Magento has to check product to be saleable (enabled and/or inStock)
@@ -451,5 +452,15 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getSkipSaleableCheck()
     {
         return $this->_skipSaleableCheck;
+    }
+
+    /**
+     * Get mask for SKU autogeneration
+     *
+     * @return string|null
+     */
+    public function getSkuAutogenerationMask()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_SKU_AUTOGENERATE_MASK);
     }
 }
