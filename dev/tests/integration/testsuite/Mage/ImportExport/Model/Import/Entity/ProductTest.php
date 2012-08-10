@@ -51,18 +51,17 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     /**
      * Test if visibility properly saved after import
      *
-     * @magentoDbIsolation enabled
      * @magentoDataFixture Mage/ImportExport/_files/products.php
      */
     public function testSaveProductsVisibility()
     {
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(
-            array(
-                'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
-                'entity' => 'catalog_product'
+                array(
+                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+                    'entity' => 'catalog_product'
+                )
             )
-        )
             ->setSource($source)
             ->isDataValid();
 
@@ -86,18 +85,17 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     /**
      * Test if stock item quantity properly saved after import
      *
-     * @magentoDbIsolation enabled
      * @magentoDataFixture Mage/ImportExport/_files/products.php
      */
     public function testSaveStockItemQty()
     {
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
         $this->_model->setParameters(
-            array(
-                'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
-                'entity' => 'catalog_product'
+                array(
+                    'behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_REPLACE,
+                    'entity' => 'catalog_product'
+                )
             )
-        )
             ->setSource($source)
             ->isDataValid();
 
