@@ -14,7 +14,7 @@
 /**
  * Attribute Set creation tests
  */
-class Community2_Mage_AttributeSet_CreateBasedOnMinimalTest extends Mage_Selenium_TestCase
+class Community2_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>

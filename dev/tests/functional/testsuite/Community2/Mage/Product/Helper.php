@@ -29,11 +29,13 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $popupXpath = $this->_getControlXpath('fieldset', 'change_attribute_set');
         $actualTitle = $this->getText($fieldXpath);
         $newTitle = str_replace($newAttributeSet, $currentAttributeSet, $actualTitle);
-        $this->clickButton('change_attribute_set', false)->waitForElement($popupXpath);
-        $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $this->addParameter('setId', $dropdownXpath)->clickButton('apply')->validatePage();
-        $this->assertNotSame($this->getText($fieldXpath),
-            $newTitle, "Attribute set in title should be $newAttributeSet, but now it's $currentAttributeSet");
+        $this->clickButton('change_attribute_set', false)
+            ->waitForElement($popupXpath)
+            ->fillDropdown('choose_attribute_set', $newAttributeSet);
+        $this->addParameter('setId', $dropdownXpath)
+            ->clickButton('apply')->validatePage();
+        $this->assertNotSame($this->getText($fieldXpath), $newTitle,
+            "Attribute set in title should be $newAttributeSet, but now it's $currentAttributeSet");
     }
 
     /**
@@ -61,9 +63,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $this->openTab('custom_options');
         while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set'))) {
             if (!$this->controlIsPresent('button', 'delete_custom_option')) {
-                $this->fail(
-                    "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
-                    . "'\nProblem with 'Delete Option' button.\n" . 'Control is not present on the page');
+                $this->fail('Current location url: ' . $this->getLocation() . "\n" .
+                   'Current page: ' . $this->getCurrentPage() . "\nProblem with 'Delete Option' button.\n" .
+                   'Control is not present on the page');
             }
             $this->clickButton('delete_custom_option', false);
         }
@@ -82,8 +84,8 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $optionsQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'custom_option_set'));
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
-            $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+            $this->addVerificationMessage('Product must be contains ' . $needCount .
+                ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
         $numRow = 1;
@@ -101,9 +103,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     /**
      * Get option id for selected row
      *
-     * @param mixed $rowNum
+     * @param int $rowNum
      *
-     * @return mixed
+     * @return int
      */
     public function getOptionId($rowNum)
     {
