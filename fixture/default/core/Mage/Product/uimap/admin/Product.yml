@@ -628,6 +628,24 @@ edit_product:
                                         tags_grid_head: //table[@id='tag_grid_table']//thead/tr[@class='headings']
                                         tags_grid: //table[@id='tag_grid_table']
                 -
+                    customer_tags:
+                        xpath: //a[@title='Customers Tagged Product']/span
+                        fieldsets:
+                            -
+                                customer_tags:
+                                    xpath: //div[@id='tag_customers_grid']
+                                    buttons:
+                                        reset_filter: //button[span='Reset Filter']
+                                        search: //button[span='Search']
+                                    fields:
+                                        tag_customer_search_name: //input[@name='name']
+                                        tag_customer_search_first_name: //input[@name='firstname']
+                                        tag_customer_search_last_name: //input[@name='lastname']
+                                        tag_customer_search_email: //input[@name='email']
+                                    pageelements:
+                                        tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
+                                        tags_grid: //table[@id='tag_customers_grid_table']
+                -
                     custom_options: *customOptionsTab
                 -
                     bundle_items: *bundleItemsTab

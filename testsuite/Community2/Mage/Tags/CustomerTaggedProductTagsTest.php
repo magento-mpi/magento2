@@ -16,7 +16,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -32,7 +32,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
+        //$this->tagsHelper()->deleteAllTags();
     }
 
     /**
@@ -45,35 +45,40 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
         //Data
         $userData = array();
         $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $userData[2] = $this->loadDataSet('Customers', 'generic_customer_account');
         //Steps and Verification
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData[1]);
+        $this->assertMessagePresent('success', 'success_saved_customer');
+        $this->customerHelper()->createCustomer($userData[2]);
         $this->assertMessagePresent('success', 'success_saved_customer');
         $simple = $this->productHelper()->createSimpleProduct(true);
         $this->reindexInvalidedData();
         $this->flushCache();
         $userData[1] = array('email' => $userData[1]['email'], 'password' => $userData[1]['password']);
+        $userData[2] = array('email' => $userData[2]['email'], 'password' => $userData[2]['password']);
         return array('user'     => $userData,
             'simple'   => $simple['simple']['product_name'],
             'category' => $simple['category']['path']);
     }
 
     /**
-     * Backend verification added tag from frontend on the Product Page
+     * Backend verification customer tagged product from frontend on the Product Page
      *
      * @param string $tags
      * @param string $status
+     * @param integer $customer
      * @param array $testData
      *
      * @test
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2269
+     * @TestlinkId TL-MAGE-6040, TL-MAGE-6043
      */
-    public function backendVerificationFrontendTagOnProductTags($tags, $status, $testData)
+    public function backendVerificationFrontendTaggedCustomerOnProductTags($tags, $status, $customer, $testData)
     {
         //Setup
-        $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
+        $this->customerHelper()->frontLoginCustomer($testData['user'][$customer]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
         //Steps
         $this->tagsHelper()->frontendAddTag($tags);
@@ -91,18 +96,24 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
         //Open tagged product
         foreach ($tags as $tag) {
             $this->navigate('manage_products');
-            $this->assertTrue($this->tagsHelper()->verifyTagProduct(
+            $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct(
                 array(
-                    'tag_name' => $tag,
-                    'status' => $status,
-                    'tag_search_num_of_use_from' => '1',
-                    'tag_search_num_of_use_to' => '1'),
+                    'tag_search_name' => $tag,
+                    'tag_search_email' => $testData['user'][$customer]['email']),
                 array('product_name' => $testData['simple'])),
-            'Product tags verification is failure');
+            'Customer tagged product verification is failure');
+            $this->searchAndOpen(
+                array(
+                    'tag_search_email' => $testData['user'][$customer]['email'],
+                    'tag_search_name' => $tag), true, 'customer_tags'
+            );
+            $this->validatePage('edit_customer');
+            $this->customerHelper()->saveForm('save');
+            $this->assertMessagePresent('success', 'success_saved_customer');
         }
     }
     /**
-     * Backend verification added tag from backend on the Product Page
+     * Backend verification customer tagged product from backend on the Product Page
      * Start editing tag from Product Tags
      *
      * @param string $tags
@@ -110,11 +121,11 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @test
-     * @dataProvider tagNameDataProvider
+     * @dataProvider tagAdminNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2269, TL-MAGE-2374
+     * TestlinkId TL-MAGE-2269, TL-MAGE-2374
      */
-    public function backendVerificationBackendTagOnProductTags($tags, $status, $testData)
+    public function backendVerificationBackendCustomerTaggedOnProductTags($tags, $status, $testData)
     {
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array(
@@ -133,36 +144,26 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
         //Open tagged product
         foreach ($tags as $tag) {
             $this->navigate('manage_products');
-            $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-                array(
-                    'tag_name' => $tag,
-                    'status' => 'Disabled',
-                    'tag_search_num_of_use_from' => '0',
-                    'tag_search_num_of_use_to' => '0'),
-                array('product_name' => $testData['simple'])),
-            'Product tags verification is failure');
-            //Open tag
-            $this->tagsHelper()->openTag(
-                array(
-                    'tag_name' => $tag,
-                    'status' => 'Disabled')
-                );
-            //Verify tag
-            $this->assertTrue($this->verifyForm(
-                array(
-                    'tag_name' => $tags,
-                    'tag_status' => 'Disabled',
-                    'base_popularity' => '0')),
-                'Tag verification is failure ' . print_r($tags, true));
-            $this->saveForm('save_tag');
-            $this->assertMessagePresent('success', 'success_saved_tag');
+            $this->assertFalse($this->tagsHelper()->verifyCustomerTaggedProduct(
+                    array('tag_search_name' => $tag),
+                    array('product_name' => $testData['simple'])),
+                'Administrator tagged product verification is failure');
         }
     }
     public function tagNameDataProvider()
     {
         return array(
             //TL-MAGE-2269, TL-MAGE-2374 simple tag
-            array($this->generate('string', 4, ':alpha:'), 'Disabled'),
+            array($this->generate('string', 4, ':alpha:'), 'Approved', 1),
+            array($this->generate('string', 4, ':alpha:'), 'Disabled', 2)
+        );
+    }
+    public function tagAdminNameDataProvider()
+    {
+        return array(
+            //TL-MAGE-2269, TL-MAGE-2374 simple tag
+            array($this->generate('string', 4, ':alpha:'), 'Approved'),
+            array($this->generate('string', 4, ':alpha:'), 'Disabled')
         );
     }
     /**
@@ -175,9 +176,9 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2373
+     * @TestlinkId TL-MAGE-6042
      */
-    public function backendVerificationBackendSearchTagOnProductTags($tags, $testData)
+    public function backendVerificationBackendSearchCustomerTaggedOnProductTags($tags, $testData)
     {
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -190,21 +191,18 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
         //Change statuses product tags
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tags['tag_name'])), $tags['tag_status']);
         $this->navigate('manage_products');
-        $this->assertTrue($this->tagsHelper()->verifyTagProduct(
-            array(
-                'tag_name' => $tags['tag_name'],
-                'status' => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to' => $tags['base_popularity']),
-            array('product_name' => $testData['simple'])),
-        'Product verification is failure');
+        $this->assertTrue($this->tagsHelper()->verifyCustomerTaggedProduct(
+                array(
+                    'tag_search_name' => $tags,
+                    'tag_search_email' => $testData['user'][1]['email']),
+                array('product_name' => $testData['simple'])),
+            'Product verification is failure');
         //Fill filter
         $this->tagsHelper()->fillForm(
             array(
-                'tag_search_name' => $tags['tag_name'],
-                'tag_search_status' => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to' => $tags['base_popularity']));
+                'tag_customer_search_name' => $tags['tag_name'],
+                'tag_customer_search_email' => $testData['user'][1]['email']
+            ));
         $this->clickButton('search', false);
         $this->waitForAjax();
         //Check records count
@@ -212,11 +210,10 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
         $this->assertEquals(1, $totalCount,
             'Total records found is incorrect');
         $this->assertTrue((bool) $this->tagsHelper()->search(
-            array(
-                'tag_name' => $tags['tag_name'],
-                'status' => $tags['tag_status'],
-                'tag_search_num_of_use_from' => $tags['base_popularity'],
-                'tag_search_num_of_use_to' => $tags['base_popularity']), null, false),
+                array(
+                    'tag_search_name' => $tags['tag_name'],
+                    'tag_search_email' => $testData['user'][1]['email']
+                ), null, false),
             'Tags search is failed: ' . print_r($tags['tag_name'], true));
     }
     public function tagSearchNameDataProvider()
