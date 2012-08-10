@@ -169,13 +169,39 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Mage_Core_Exception
+     * @expectedException Magento_Exception
      */
     public function testLayoutMoveDirectiveBroken()
     {
         $layout = new Mage_Core_Model_Layout();
         $layout->getUpdate()->load(array('layout_test_handle_move_broken'));
         $layout->generateXml()->generateElements();
+    }
+
+    /**
+     * @expectedException Magento_Exception
+     */
+    public function testLayoutMoveAliasBroken()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move_alias_broken'));
+        $layout->generateXml()->generateElements();
+    }
+
+    public function testLayoutMoveSameAlias()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move_the_same_alias'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('container1', $layout->getParentName('no_name3'));
+    }
+
+    public function testLayoutMoveNewAlias()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_move_new_alias'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('new_alias', $layout->getElementAlias('no_name3'));
     }
 
     public function testLayoutActionForAnonymousParent()

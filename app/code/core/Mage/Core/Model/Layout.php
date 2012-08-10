@@ -336,6 +336,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
         if (!$isChild) {
             $this->_structure->unsetElement($elementName);
+            unset($this->_scheduledRemoves[$elementName]);
         }
         return $this;
     }
@@ -348,8 +349,10 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _moveElementInStructure($element)
     {
-        list ($destination, $siblingName, $isAfter) = $this->_scheduledMoves[$element];
-        $alias = $this->getElementAlias($element);
+        list ($destination, $siblingName, $isAfter, $alias) = $this->_scheduledMoves[$element];
+        if (!$alias && false === $this->_structure->getChildId($destination, $this->getElementAlias($element))) {
+            $alias = $this->getElementAlias($element);
+        }
         $this->_structure->unsetChild($element, $alias)->setAsChild($element, $destination, $alias);
         $this->reorderChild($destination, $element, $siblingName, $isAfter);
         return $this;
@@ -398,19 +401,20 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      * Schedule structural changes for move directive
      *
      * @param Mage_Core_Model_Layout_Element $node
-     * @throws Mage_Core_Exception
+     * @throws Magento_Exception
      * @return Mage_Core_Model_Layout
      */
     protected function _scheduleMove($node)
     {
         $elementName = (string)$node->getAttribute('element');
         $destination = (string)$node->getAttribute('destination');
+        $alias = (string)$node->getAttribute('as') ?: '';
 
         if ($elementName && $destination) {
             list($siblingName, $isAfter) = $this->_beforeAfterToSibling($node);
-            $this->_scheduledMoves[$elementName] = array($destination, $siblingName, $isAfter);
+            $this->_scheduledMoves[$elementName] = array($destination, $siblingName, $isAfter, $alias);
         } else {
-            Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid move layout directive.'));
+            throw new Magento_Exception('Invalid move layout directive.');
         }
         return $this;
     }
