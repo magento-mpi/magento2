@@ -58,6 +58,7 @@ url_rewrite_management:
             success_saved_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been saved.')]
             success_deleted_url_rewrite: //li[normalize-space(@class)='success-msg' and contains(.,'The URL Rewrite has been deleted.')]
             id_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'ID Path for Specified Store already exists.')]
+            req_path_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Request Path for Specified Store already exists.')]
             empty_required_field: "%fieldXpath%/following-sibling::*[text()='This is a required field.' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: Are you sure you want to do this?
 
