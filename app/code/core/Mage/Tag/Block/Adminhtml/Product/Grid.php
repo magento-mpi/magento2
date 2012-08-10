@@ -9,7 +9,7 @@
  */
 
 /**
- * Child Of Mage_Adminhtml_Block_Tag_Product
+ * Child Of Mage_Tag_Block_Adminhtml_Product
  *
  * @category   Mage
  * @package    Mage_Tag
@@ -95,7 +95,7 @@ class Mage_Tag_Block_Adminhtml_Product_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function _addColumnFilterToCollection($column)
     {
-        if($column->getIndex() == 'popularity') {
+        if ($column->getIndex() == 'popularity') {
             $this->getCollection()->addPopularityFilter($column->getFilter()->getCondition());
             return $this;
         } else {

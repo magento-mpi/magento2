@@ -9,7 +9,7 @@
  */
 
 /**
- * Child Of Mage_Adminhtml_Block_Tag_Customer
+ * Child Of Mage_Tag_Block_Adminhtml_Customer
  *
  * @category   Mage
  * @package    Mage_Tag
