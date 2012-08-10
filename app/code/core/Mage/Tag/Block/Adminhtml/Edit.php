@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Admin tag edit block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Tag_Block_Adminhtml_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Add and update buttons
@@ -26,7 +26,8 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     public function __construct()
     {
         $this->_objectId   = 'tag_id';
-        $this->_controller = 'tag';
+        $this->_controller = 'adminhtml';
+        $this->_blockGroup = 'Mage_Tag';
 
         parent::__construct();
 
@@ -47,7 +48,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     /**
      * Add child HTML to layout
      *
-     * @return Mage_Adminhtml_Block_Tag_Edit
+     * @return Mage_Tag_Block_Adminhtml_Edit
      */
     protected function _prepareLayout()
     {
@@ -55,13 +56,13 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
 
         $this->setChild(
                 'store_switcher',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Store_Switcher'))
+                $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Store_Switcher'))
              ->setChild(
                 'tag_assign_accordion',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Assigned'))
+                $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Edit_Assigned'))
              ->setChild(
                 'accordion',
-                $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Edit_Accordion'));
+                $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Edit_Accordion'));
 
         return $this;
     }

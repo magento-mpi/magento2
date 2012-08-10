@@ -554,9 +554,9 @@
                     <mage_adminhtml_block_cms_block_edit>removeCmsBlockButtons</mage_adminhtml_block_cms_block_edit>
                     <mage_adminhtml_block_poll_edit>removePollButtons</mage_adminhtml_block_poll_edit>
                     <enterprise_reward_block_adminhtml_reward_rate_edit>removeRewardRateButtons</enterprise_reward_block_adminhtml_reward_rate_edit>
-                    <mage_adminhtml_block_tag_tag_grid>removeTagGridActions</mage_adminhtml_block_tag_tag_grid>
-                    <mage_adminhtml_block_tag_edit>removeTagButtons</mage_adminhtml_block_tag_edit>
-                    <mage_adminhtml_block_tag_edit_form>disableTagEditFormFields</mage_adminhtml_block_tag_edit_form>
+                    <mage_tag_block_adminhtml_tag_grid>removeTagGridActions</mage_tag_block_adminhtml_tag_grid>
+                    <mage_tag_block_adminhtml_edit>removeTagButtons</mage_tag_block_adminhtml_edit>
+                    <mage_tag_block_adminhtml_edit_form>disableTagEditFormFields</mage_tag_block_adminhtml_edit_form>
                     <mage_adminhtml_block_sales_order_grid>removeNotAllowedMassactionsForOrders</mage_adminhtml_block_sales_order_grid>
                     <mage_index_block_adminhtml_process_grid>removeProcessListButtons</mage_index_block_adminhtml_process_grid>
                     <mage_index_block_adminhtml_process_edit>removeProcessEditButtons</mage_index_block_adminhtml_process_edit>

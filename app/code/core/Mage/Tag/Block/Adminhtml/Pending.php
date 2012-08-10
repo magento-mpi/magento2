@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Adminhtml pending tags grid block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Tag_Pending extends Mage_Adminhtml_Block_Template
+class Mage_Tag_Block_Adminhtml_Pending extends Mage_Adminhtml_Block_Template
 {
     /**
      * Constructor
@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Tag_Pending extends Mage_Adminhtml_Block_Template
 
     protected function _prepareLayout()
     {
-        $this->setChild('tagsGrid', $this->getLayout()->createBlock('Mage_Adminhtml_Block_Tag_Grid_Pending'));
+        $this->setChild('tagsGrid', $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Grid_Pending'));
         return parent::_prepareLayout();
     }
 

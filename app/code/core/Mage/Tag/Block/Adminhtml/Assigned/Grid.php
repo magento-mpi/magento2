@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Adminhtml assigned products grid block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Tag_Block_Adminhtml_Assigned_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     protected $_currentTagModel;
 
@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
      * Add filter to grid columns
      *
      * @param mixed $column
-     * @return Mage_Adminhtml_Block_Tag_Assigned_Grid
+     * @return Mage_Tag_Block_Adminhtml_Assigned_Grid
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
     /**
      * Retrieve Products Collection
      *
-     * @return Mage_Adminhtml_Block_Tag_Assigned_Grid
+     * @return Mage_Tag_Block_Adminhtml_Assigned_Grid
      */
     protected function _prepareCollection()
     {

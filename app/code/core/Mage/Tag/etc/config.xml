@@ -106,6 +106,9 @@
                 <tag_customer module="Mage_Tag">
                     <file>customer.xml</file>
                 </tag_customer>
+                <tag module="Mage_Tag">
+                    <file>tag.xml</file>
+                </tag>
             </updates>
         </layout>
     </adminhtml>

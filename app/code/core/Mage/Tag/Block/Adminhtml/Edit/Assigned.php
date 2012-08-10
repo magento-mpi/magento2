@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +12,11 @@
  * Adminhtml tag accordion
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_Tag
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Tag_Edit_Assigned extends Mage_Adminhtml_Block_Widget_Accordion
+class Mage_Tag_Block_Adminhtml_Edit_Assigned extends Mage_Adminhtml_Block_Widget_Accordion
 {
     /**
      * Add Assigned products accordion to layout
