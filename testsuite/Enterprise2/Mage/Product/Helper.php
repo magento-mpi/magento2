@@ -22,8 +22,8 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
     public function frontAddProductToCart($dataForBuy = null)
     {
         $customize = $this->controlIsPresent('button', 'customize_and_add_to_cart');
-        $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
         if ($customize) {
+            $customizeFieldset = $this->_getControlXpath('fieldset', 'customize_product_info');
             $productInfoFieldset = $this->_getControlXpath('fieldset', 'product_info');
             $this->clickButton('customize_and_add_to_cart', false);
             $this->waitForElementVisible($customizeFieldset);
@@ -40,7 +40,6 @@ class Enterprise2_Mage_Product_Helper extends Community2_Mage_Product_Helper
      */
     public function chooseStoreView($storeViewName)
     {
-
         $fieldXpath = $this->_getControlXpath('dropdown', 'choose_store_view');
         if (!$this->isElementPresent($fieldXpath) || !$this->isEditable($fieldXpath)) {
             throw new PHPUnit_Framework_Exception($fieldXpath . ' dropdown is either not present or disabled.');

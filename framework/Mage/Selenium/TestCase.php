@@ -618,7 +618,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $name
      * @param string $value
      *
-     * @return Mage_Selenium_Helper_Params
+     * @return Mage_Selenium_TestCase
      */
     public function addParameter($name, $value)
     {
