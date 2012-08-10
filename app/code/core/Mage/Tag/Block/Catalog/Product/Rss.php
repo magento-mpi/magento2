@@ -3,19 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Rss
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Review form block
+ * Catalog product rss feed builder
  *
  * @category   Mage
- * @package    Mage_Rss
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
+class Mage_Tag_Block_Catalog_Product_Rss extends Mage_Rss_Block_Catalog_Abstract
 {
     protected function _construct()
     {
@@ -51,7 +51,8 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
             ->addTagFilter($tagModel->getId())
             ->addStoreFilter($storeId);
 
-        $_collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')->getVisibleInCatalogIds());
+        $_collection->setVisibility(Mage::getSingleton('Mage_Catalog_Model_Product_Visibility')
+            ->getVisibleInCatalogIds());
 
         $product = Mage::getModel('Mage_Catalog_Model_Product');
 
@@ -92,7 +93,7 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Catalog_Abstract
             . '<td  style="text-decoration:none;">'.$product->getDescription();
 
         if ($allowedPriceInRss) {
-            $description .= $this->getPriceHtml($product,true);
+            $description .= $this->getPriceHtml($product, true);
         }
 
         $description .='</td></tr></table>';
