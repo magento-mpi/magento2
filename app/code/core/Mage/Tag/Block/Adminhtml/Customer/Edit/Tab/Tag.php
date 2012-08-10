@@ -36,6 +36,8 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag extends Mage_Backend_Block_
 
     /**
      * Dependency injections, set identifier and title
+     *
+     * @param array $data
      */
     public function __construct(array $data = array())
     {
