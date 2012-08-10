@@ -8,12 +8,13 @@
  */
 
 (function($) {
+
     /**
      * Widget calendar
      */
     $.widget('mage.calendar', {
         _create: function () {
-            this._convertTimeFormat();
+            this._enableAMPM();
             this.options = $.extend(
                 {},
                 $.calendarConfig ? $.calendarConfig : {},
@@ -24,13 +25,9 @@
         },
 
         //Fix for iso am pm
-        _convertTimeFormat: function(){
-            if(this.options.timeFormat && $.type(this.options.timeFormat) === 'string') {
-                var ampm = this.options.timeFormat.indexOf('a');
-                if(ampm >= 0) {
-                    this.options.timeFormat = this.options.timeFormat.replace('a', 'TT');
-                    this.options.ampm = true;
-                }
+        _enableAMPM: function(){
+            if(this.options.timeFormat && this.options.timeFormat.indexOf('tt')) {
+                this.options.ampm = true;
             }
         },
 
@@ -60,6 +57,51 @@
             this._setCurrentDate(element);
         }
     });
+
+    /**
+     * Extention for Calendar - date and time format convert functionality
+     */
+    var calendarBasePrototype = $.mage.calendar.prototype;
+    $.widget('mage.calendar', $.extend({}, calendarBasePrototype, {
+        dateTimeFormat : {
+            date: {
+                "EEEE": "DD",
+                "EEE": "D",
+                "D": "o",
+                "MMMM" : "MM",
+                "MMM" : "M",
+                "MM": "mm",
+                "M": "mm",
+                "yyyy": "yy"
+            },
+            time: {
+                "a": "tt",
+                "HH": "hh",
+                "H": "h"
+            }
+        },
+        _create: function(){
+            if(this.options.dateFormat) {
+                this.options.dateFormat = this._convertFormat(this.options.dateFormat, 'date');
+            }
+            if(this.options.timeFormat) {
+                this.options.timeFormat = this._convertFormat(this.options.timeFormat, 'time');
+            }
+            calendarBasePrototype._create.apply(this, arguments);
+        },
+        _convertFormat: function(format, type){
+            var symbols = format.match(/([A-Za-z]+)/ig),
+                separators = format.match(/(\W)/ig),
+                self = this;
+            convertedFormat = "";
+            $.each(symbols, function(key, val){
+                convertedFormat +=
+                    (self.dateTimeFormat[type][val] || val) +
+                        (separators[key] || '');
+            })
+            return convertedFormat;
+        }
+    }));
 
     /**
      * Widget date_range

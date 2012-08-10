@@ -154,8 +154,6 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
                 $this->__('Output format is not specified. Please, specify "format" key in constructor, or set it using setFormat().')
             );
         }
-        $displayFormat = Varien_Date::convertZendToStrFtime($outputFormat, true, false);
-        $displayTimeFormat = Varien_Date::convertZendToStrFtime($outputTimeFormat, false, true);
 
         $html .= sprintf('
             <script type="text/javascript">
@@ -174,8 +172,8 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
             $this->getHtmlId(),
             $this->getImage(),
             $this->__('Select Date'),
-            $displayFormat,
-            $displayTimeFormat || "",
+            $outputFormat,
+            $outputTimeFormat || "",
             $this->getTime() ? 'true' : 'false'
         );
 
