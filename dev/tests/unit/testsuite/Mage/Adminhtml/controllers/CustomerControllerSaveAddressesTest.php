@@ -4,7 +4,7 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @subpackage  integration_tests
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,12 +16,12 @@ class Mage_Adminhtml_CustomerControllerSaveAddressesTest extends Mage_Adminhtml_
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_customerAddressNewMock;
+    protected $_addressNewMock;
 
     /**
      * @var PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_customerAddressOldMock;
+    protected $_addressOldMock;
 
     public function setUp()
     {
@@ -67,7 +67,7 @@ class Mage_Adminhtml_CustomerControllerSaveAddressesTest extends Mage_Adminhtml_
         $objectFactoryMap = array(
             array('Mage_Customer_Model_Customer', array(), $this->_customerMock),
             array('Mage_Customer_Model_Form', array(), $this->_customerFromMock),
-            array('Mage_Customer_Model_Address' , array(), $this->_customerAddressOldMock),
+            array('Mage_Customer_Model_Address' , array(), $this->_addressOldMock),
         );
 
         return $objectFactoryMap;
@@ -80,7 +80,7 @@ class Mage_Adminhtml_CustomerControllerSaveAddressesTest extends Mage_Adminhtml_
         $this->_customerMock->expects($this->any())->method('compactData');
         $addressIdMap = array(
             array(0, null),
-            array(1, $this->_customerAddressNewMock),
+            array(1, $this->_addressNewMock),
         );
         $this->_customerMock->expects($this->any())
             ->method('getAddressItemById')->will($this->returnValueMap($addressIdMap));
@@ -117,20 +117,20 @@ class Mage_Adminhtml_CustomerControllerSaveAddressesTest extends Mage_Adminhtml_
 
     protected function _initializeCustomerAddressMock()
     {
-        $this->_customerAddressNewMock = $this->getMock('Mage_Customer_Model_Address', array(), array(), '', false);
-        $this->_customerAddressNewMock->expects($this->any())->method('getId')->will($this->returnValue(1));
-        $this->_customerAddressNewMock->expects($this->any())->method('setData')->with('_deleted', true);
+        $this->_addressNewMock = $this->getMock('Mage_Customer_Model_Address', array(), array(), '', false);
+        $this->_addressNewMock->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_addressNewMock->expects($this->any())->method('setData')->with('_deleted', true);
 
-        $this->_customerAddressOldMock = $this->getMock('Mage_Customer_Model_Address', array(), array(), '', false);
-        $this->_customerAddressOldMock->expects($this->any())->method('getId')->will($this->returnValue(2));
-        $this->_customerAddressOldMock->expects($this->any())->method('setData')->with('_deleted', true);
+        $this->_addressOldMock = $this->getMock('Mage_Customer_Model_Address', array(), array(), '', false);
+        $this->_addressOldMock->expects($this->any())->method('getId')->will($this->returnValue(2));
+        $this->_addressOldMock->expects($this->any())->method('setData')->with('_deleted', true);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        unset($this->_customerAddressOldMock);
-        unset($this->_customerAddressNewMock);
+        unset($this->_addressOldMock);
+        unset($this->_addressNewMock);
     }
 
     public function testSaveActionCustomerAddresses()
@@ -139,7 +139,7 @@ class Mage_Adminhtml_CustomerControllerSaveAddressesTest extends Mage_Adminhtml_
 
         $this->_customerMock->expects($this->once())
             ->method('getAddressesCollection')
-            ->will($this->returnValue(array($this->_customerAddressNewMock, $this->_customerAddressOldMock)));
+            ->will($this->returnValue(array($this->_addressNewMock, $this->_addressOldMock)));
         /* Call action */
         $this->_model->saveAction();
     }

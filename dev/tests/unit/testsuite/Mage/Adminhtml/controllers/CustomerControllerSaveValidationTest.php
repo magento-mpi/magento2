@@ -4,7 +4,7 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @subpackage  integration_tests
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -43,7 +43,7 @@ class Mage_Adminhtml_CustomerControllerSaveValidationTest extends Mage_Adminhtml
     }
 
     protected function _initializeCustomerMock()
-   {
+    {
         parent::_initializeCustomerMock();
         $this->_customerMock->expects($this->any())->method('compactData');
     }

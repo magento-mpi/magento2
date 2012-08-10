@@ -67,6 +67,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $invokeArgs['acl'] :
             Mage::getSingleton('Mage_Backend_Model_Auth_Session');
 
+        $this->_translator = isset($invokeArgs['translator']) ? $invokeArgs['translator'] : $this->_getTranslator();
+
         $this->_eventManager = isset($invokeArgs['eventManager']) ?
             $invokeArgs['eventManager'] :
             Mage::getSingleton('Mage_Core_Model_Event_Manager');
@@ -385,7 +387,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $modifiedAddresses = array();
         if (!empty($data['address'])) {
-            $modifiedAddresses = $this->_procesAddresses($customer, $data);
+            $modifiedAddresses = $this->_processAddresses($customer, $data);
             if (!$modifiedAddresses) {
                 return false;
             }
@@ -398,7 +400,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if (isset($data['account']['default_shipping'])) {
             $customer->setData('default_shipping', $data['account']['default_shipping']);
         }
-
 
         // Mark not modified customer addresses for delete
         /** @var $customerAddress Mage_Customer_Model_Address */
@@ -444,7 +445,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      * @param Mage_Customer_Model_Customer $customer
      * @return array
      */
-    protected function _procesAddresses($customer, $data)
+    protected function _processAddresses($customer, $data)
     {
         /** @var $addressForm Mage_Customer_Model_Form */
         $addressForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
@@ -522,7 +523,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      * Customer orders grid
      *
      */
-    public function ordersAction() {
+    public function ordersAction()
+    {
         $this->_initCustomer();
         $this->loadLayout();
         $this->renderLayout();
@@ -532,7 +534,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
      * Customer last orders grid for ajax
      *
      */
-    public function lastOrdersAction() {
+    public function lastOrdersAction()
+    {
         $this->_initCustomer();
         $this->loadLayout();
         $this->renderLayout();
@@ -558,7 +561,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->_initCustomer();
         $customer = $this->_registry->registry('current_customer');
         if ($customer->getId()) {
-            if($itemId = (int) $this->getRequest()->getParam('delete')) {
+            if ($itemId = (int) $this->getRequest()->getParam('delete')) {
                 try {
                     $this->_objectFactory->getModelInstance('Mage_Wishlist_Model_Item')->load($itemId)
                         ->delete();
@@ -622,7 +625,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function viewCartAction()
     {
         $this->_initCustomer();
-        $layout = $this->loadLayout()
+        $this->loadLayout()
             ->getLayout()
             ->getBlock('admin.customer.view.cart')
             ->setWebsiteId();
@@ -767,13 +770,14 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function massSubscribeAction()
     {
         $customersIds = $this->getRequest()->getParam('customer');
-        if(!is_array($customersIds)) {
+        if (!is_array($customersIds)) {
              $this->_getSession()->addError($this->_getHelper()->__('Please select customer(s).'));
 
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer')->load($customerId);
+                    $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer')
+                        ->load($customerId);
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
@@ -790,12 +794,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function massUnsubscribeAction()
     {
         $customersIds = $this->getRequest()->getParam('customer');
-        if(!is_array($customersIds)) {
+        if (!is_array($customersIds)) {
              $this->_getSession()->addError($this->_getHelper()->__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer')->load($customerId);
+                    $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer')
+                        ->load($customerId);
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
@@ -813,7 +818,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function massDeleteAction()
     {
         $customersIds = $this->getRequest()->getParam('customer');
-        if(!is_array($customersIds)) {
+        if (!is_array($customersIds)) {
              $this->_getSession()->addError($this->_getHelper()->__('Please select customer(s).'));
         } else {
             try {
@@ -837,12 +842,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function massAssignGroupAction()
     {
         $customersIds = $this->getRequest()->getParam('customer');
-        if(!is_array($customersIds)) {
+        if (!is_array($customersIds)) {
              $this->_getSession()->addError($this->_getHelper()->__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
-                    $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer')->load($customerId);
+                    $customer = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Customer')
+                        ->load($customerId);
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }

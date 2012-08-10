@@ -4,7 +4,7 @@
  *
  * @category    Mage
  * @package     Mage_Adminhtml
- * @subpackage  integration_tests
+ * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

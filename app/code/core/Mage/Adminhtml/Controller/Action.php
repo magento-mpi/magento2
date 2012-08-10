@@ -27,6 +27,11 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
     protected $_currentArea = 'adminhtml';
 
     /**
+     * @var Mage_Core_Model_Translate
+     */
+    protected $_translator;
+
+    /**
      * Translate a phrase
      *
      * @return string
@@ -36,7 +41,20 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
         $args = func_get_args();
         $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), $this->getUsedModuleName());
         array_unshift($args, $expr);
-        return Mage::app()->getTranslator()->translate($args);
+        return $this->_getTranslator()->translate($args);
+    }
+
+    /**
+     * Get translator model
+     *
+     * @return Mage_Core_Model_Translate
+     */
+    protected function _getTranslator()
+    {
+        if (null === $this->_translator) {
+            $this->_translator = Mage::app()->getTranslator();
+        }
+        return $this->_translator;
     }
 
     /**
