@@ -40,13 +40,14 @@ class Mage_Eav_Model_Resource_Entity_AttributeTest extends Magento_Test_TestCase
         $model->setDefault(array('2'));
         $model->setOption(array('delete' => array(1 => '', 2 => '')));
 
+        $adapter->expects($this->never())->method('update');
+
         $adapter->expects($this->once())
             ->method('insert')
             ->will($this->returnValueMap(array(
             array('eav_attribute', $attributeData, 1),
         )));
 
-        $adapter->expects($this->never())->method('update');
         $adapter->expects($this->never())->method('delete');
 
         $adapter->expects($this->once())

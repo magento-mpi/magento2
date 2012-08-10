@@ -84,7 +84,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         }
 
         $this->_registry->register('current_customer', $customer);
-        return $this;
+        return $customer;
     }
 
     /**
@@ -224,178 +224,52 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $redirectBack = $this->getRequest()->getParam('back', false);
-            $this->_initCustomer('customer_id');
-
             /** @var $customer Mage_Customer_Model_Customer */
+            $this->_initCustomer('customer_id');
             $customer = $this->_registry->registry('current_customer');
-
-            /** @var $customerForm Mage_Customer_Model_Form */
-            $customerForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
-            $customerForm->setEntity($customer)
-                ->setFormCode('adminhtml_customer')
-                ->ignoreInvisible(false);
-
-            $formData = $customerForm->extractData($this->getRequest(), 'account');
-
-            // Handle 'disable auto_group_change' attribute
-            if (isset($formData['disable_auto_group_change'])) {
-                $formData['disable_auto_group_change'] = empty($formData['disable_auto_group_change']) ? '0' : '1';
-            }
-
-            $errors = $customerForm->validateData($formData);
-            if ($errors !== true) {
-                foreach ($errors as $error) {
-                    $this->_session->addError($error);
-                }
-                $this->_session->setCustomerData($data);
-                $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id' => $customer->getId())));
+            if (!$this->_processData($customer, $data)) {
                 return;
             }
-
-            $customerForm->compactData($formData);
 
             // Unset template data
             if (isset($data['address']['_template_'])) {
                 unset($data['address']['_template_']);
             }
 
-            $modifiedAddresses = array();
-            if (!empty($data['address'])) {
-                /** @var $addressForm Mage_Customer_Model_Form */
-                $addressForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
-                $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
-
-                foreach (array_keys($data['address']) as $index) {
-                    $address = $customer->getAddressItemById($index);
-                    if (!$address) {
-                        $address = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Address');
-                    }
-
-                    $requestScope = sprintf('address/%s', $index);
-                    $formData = $addressForm->setEntity($address)
-                        ->extractData($this->getRequest(), $requestScope);
-
-                    // Set default billing and shipping flags to address
-                    $isDefaultBilling = isset($data['account']['default_billing'])
-                        && $data['account']['default_billing'] == $index;
-                    $address->setIsDefaultBilling($isDefaultBilling);
-                    $isDefaultShipping = isset($data['account']['default_shipping'])
-                        && $data['account']['default_shipping'] == $index;
-                    $address->setIsDefaultShipping($isDefaultShipping);
-
-                    $errors = $addressForm->validateData($formData);
-                    if ($errors !== true) {
-                        foreach ($errors as $error) {
-                            $this->_session->addError($error);
-                        }
-                        $this->_session->setCustomerData($data);
-                        $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array(
-                            'id' => $customer->getId())
-                        ));
-                        return;
-                    }
-
-                    $addressForm->compactData($formData);
-
-                    // Set post_index for detect default billing and shipping addresses
-                    $address->setPostIndex($index);
-
-                    if ($address->getId()) {
-                        $modifiedAddresses[] = $address->getId();
-                    } else {
-                        $customer->addAddress($address);
-                    }
-                }
+            if (!$this->_processAddress($customer, $data)) {
+                return;
             }
 
-            // Default billing and shipping
-            if (isset($data['account']['default_billing'])) {
-                $customer->setData('default_billing', $data['account']['default_billing']);
-            }
-            if (isset($data['account']['default_shipping'])) {
-                $customer->setData('default_shipping', $data['account']['default_shipping']);
-            }
-            if (isset($data['account']['confirmation'])) {
-                $customer->setData('confirmation', $data['account']['confirmation']);
-            }
-
-            // Mark not modified customer addresses for delete
-            foreach ($customer->getAddressesCollection() as $customerAddress) {
-                if ($customerAddress->getId() && !in_array($customerAddress->getId(), $modifiedAddresses)) {
-                    $customerAddress->setData('_deleted', true);
-                }
-            }
-
-            if ($this->_acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)
-                && !$customer->getConfirmation()
-            ) {
-                $customer->setIsSubscribed(isset($data['subscription']));
-            }
-
-            if (isset($data['account']['sendemail_store_id'])) {
-                $customer->setSendemailStoreId($data['account']['sendemail_store_id']);
-            }
+            $this->_processSubscriptionOptions($customer, $data);
 
             $isNewCustomer = $customer->isObjectNew();
             try {
                 $sendPassToEmail = false;
                 // Force new customer confirmation
                 if ($isNewCustomer) {
-                    $customer->setPassword($data['account']['password']);
-                    $customer->setForceConfirmed(true);
-                    if ($customer->getPassword() == 'auto') {
-                        $sendPassToEmail = true;
-                        $customer->setPassword($customer->generatePassword());
-                    }
+                    $sendPassToEmail = $this->_processPassword($customer, $data);
                 }
 
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_prepare_save',
-                    array(
-                        'customer'  => $customer,
-                        'request'   => $this->getRequest()
-                    )
+                    array('customer' => $customer, 'request' => $this->getRequest())
                 );
 
                 $customer->save();
 
                 // Send welcome email
-                if ($customer->getWebsiteId() && (isset($data['account']['sendemail']) || $sendPassToEmail)) {
-                    $storeId = $customer->getSendemailStoreId();
-                    if ($isNewCustomer) {
-                        $customer->sendNewAccountEmail('registered', '', $storeId);
-                    } elseif ((!$customer->getConfirmation())) {
-                        // Confirm not confirmed customer
-                        $customer->sendNewAccountEmail('confirmed', '', $storeId);
-                    }
-                }
+                $data = $this->_sendWelcomeEmail($customer, $data, $sendPassToEmail, $isNewCustomer);
 
-                if (!empty($data['account']['new_password'])) {
-                    $newPassword = $data['account']['new_password'];
-                    if ($newPassword == 'auto') {
-                        $newPassword = $customer->generatePassword();
-                    }
-                    $customer->changePassword($newPassword);
-                    $customer->sendPasswordReminderEmail();
-                }
+                $data = $this->_changePassword($customer, $data);
 
                 $this->_session->addSuccess($this->_getHelper()->__('The customer has been saved.'));
                 $this->_eventManager->dispatch(
                     'adminhtml_customer_save_after',
-                    array(
-                    'customer'  => $customer,
-                    'request'   => $this->getRequest()
-                    )
+                    array('customer'  => $customer, 'request'   => $this->getRequest())
                 );
 
-                if ($redirectBack) {
-                    $this->_redirect('*/*/edit',
-                        array(
-                            'id' => $customer->getId(),
-                            '_current' => true
-                        )
-                    );
+                if ($this->getRequest()->getParam('back', false)) {
+                    $this->_redirect('*/*/edit', array( 'id' => $customer->getId(), '_current' => true));
                     return;
                 }
             } catch (Mage_Core_Exception $e) {
@@ -412,6 +286,215 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('*/customer'));
+    }
+
+    /**
+     * Set customer password
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $data
+     * @return bool
+     */
+    protected function _processPassword($customer, $data)
+    {
+        $customer->setPassword($data['account']['password']);
+        $customer->setForceConfirmed(true);
+        if ($customer->getPassword() == 'auto') {
+            $customer->setPassword($customer->generatePassword());
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Process subscription options
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $data
+     */
+    protected function _processSubscriptionOptions($customer, $data)
+    {
+        if (isset($data['account']['confirmation'])) {
+            $customer->setData('confirmation', $data['account']['confirmation']);
+        }
+
+        if ($this->_acl->isAllowed(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)
+            && !$customer->getConfirmation()
+        ) {
+            $customer->setIsSubscribed(isset($data['subscription']));
+        }
+
+        if (isset($data['account']['sendemail_store_id'])) {
+            $customer->setSendemailStoreId($data['account']['sendemail_store_id']);
+        }
+    }
+
+    /**
+     * Change Password
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $data
+     * @return mixed
+     */
+    protected function _changePassword($customer, $data)
+    {
+        if (!empty($data['account']['new_password'])) {
+            $newPassword = $data['account']['new_password'];
+            if ($newPassword == 'auto') {
+                $newPassword = $customer->generatePassword();
+            }
+            $customer->changePassword($newPassword);
+            $customer->sendPasswordReminderEmail();
+            return $data;
+        }
+        return $data;
+    }
+
+    /**
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $data
+     * @param bool $sendPassToEmail
+     * @param bool $isNewCustomer
+     * @return mixed
+     */
+    protected function _sendWelcomeEmail($customer, $data, $sendPassToEmail, $isNewCustomer)
+    {
+        if ($customer->getWebsiteId() && (isset($data['account']['sendemail']) || $sendPassToEmail)) {
+            $storeId = $customer->getSendemailStoreId();
+            if ($isNewCustomer) {
+                $customer->sendNewAccountEmail('registered', '', $storeId);
+                return $data;
+            } elseif ((!$customer->getConfirmation())) {
+                // Confirm not confirmed customer
+                $customer->sendNewAccountEmail('confirmed', '', $storeId);
+                return $data;
+            }
+            return $data;
+        }
+        return $data;
+    }
+
+    /**
+     * Process customer address
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param array $data
+     * @return bool
+     */
+    protected function _processAddress($customer, $data)
+    {
+        $modifiedAddresses = array();
+        if (!empty($data['address'])) {
+            $addresses = $this->_procesAddresses($customer, $data);
+            if (!$addresses) {
+                return false;
+            }
+            foreach ($addresses as $address) {
+                if ($address->getId()) {
+                    $modifiedAddresses[] = $address->getId();
+                } else {
+                    $customer->addAddress($address);
+                }
+            }
+        }
+
+        // Default billing and shipping
+        if (isset($data['account']['default_billing'])) {
+            $customer->setData('default_billing', $data['account']['default_billing']);
+        }
+        if (isset($data['account']['default_shipping'])) {
+            $customer->setData('default_shipping', $data['account']['default_shipping']);
+        }
+
+
+        // Mark not modified customer addresses for delete
+        /** @var $customerAddress Mage_Customer_Model_Address */
+        foreach ($customer->getAddressesCollection() as $customerAddress) {
+            if ($customerAddress->getId() && !in_array($customerAddress->getId(), $modifiedAddresses)) {
+                $customerAddress->setData('_deleted', true);
+            }
+        }
+        return true;
+    }
+
+    protected function _processData($customer, $data)
+    {
+        /** @var $customerForm Mage_Customer_Model_Form */
+        $customerForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
+        $customerForm->setEntity($customer)
+            ->setFormCode('adminhtml_customer')
+            ->ignoreInvisible(false);
+
+        $formData = $customerForm->extractData($this->getRequest(), 'account');
+
+        // Handle 'disable auto_group_change' attribute
+        if (isset($formData['disable_auto_group_change'])) {
+            $formData['disable_auto_group_change'] = empty($formData['disable_auto_group_change']) ? '0' : '1';
+        }
+
+        $errors = $customerForm->validateData($formData);
+        if ($errors !== true) {
+            foreach ($errors as $error) {
+                $this->_session->addError($error);
+            }
+            $this->_session->setCustomerData($data);
+            $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array('id' => $customer->getId())));
+            return false;
+        }
+
+        $customerForm->compactData($formData);
+        return true;
+    }
+
+    /**
+     * @param array $data
+     * @param Mage_Customer_Model_Customer $customer
+     * @return array
+     */
+    protected function _procesAddresses($customer, $data)
+    {
+        /** @var $addressForm Mage_Customer_Model_Form */
+        $addressForm = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Form');
+        $addressForm->setFormCode('adminhtml_customer_address')->ignoreInvisible(false);
+
+        $addresses = array();
+        foreach (array_keys($data['address']) as $index) {
+            $address = $customer->getAddressItemById($index);
+            if (!$address) {
+                $address = $this->_objectFactory->getModelInstance('Mage_Customer_Model_Address');
+            }
+
+            $requestScope = sprintf('address/%s', $index);
+            $formData = $addressForm->setEntity($address)
+                ->extractData($this->getRequest(), $requestScope);
+
+            // Set default billing and shipping flags to address
+            $isDefaultBilling = isset($data['account']['default_billing'])
+                && $data['account']['default_billing'] == $index;
+            $address->setIsDefaultBilling($isDefaultBilling);
+            $isDefaultShipping = isset($data['account']['default_shipping'])
+                && $data['account']['default_shipping'] == $index;
+            $address->setIsDefaultShipping($isDefaultShipping);
+
+            $errors = $addressForm->validateData($formData);
+            if ($errors !== true) {
+                foreach ($errors as $error) {
+                    $this->_session->addError($error);
+                }
+                $this->_session->setCustomerData($data);
+                $this->getResponse()->setRedirect($this->getUrl('*/customer/edit', array(
+                        'id' => $customer->getId())
+                ));
+                return false;
+            }
+
+            $addressForm->compactData($formData);
+
+            // Set post_index for detect default billing and shipping addresses
+            $address->setPostIndex($index);
+            $addresses[] = $address;
+        }
+        return $addresses;
     }
 
     /**
