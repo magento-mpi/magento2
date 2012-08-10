@@ -52,8 +52,8 @@ class Community2_Mage_ACL_SalesOrderActionsOneRoleTest extends Mage_Selenium_Tes
      * <p>Precondition Method</p>
      * <p>Create test Role with full permissions for Sales Order Actions</p>
      *
-     * @depends
-     * @test preconditionsForTestsCreateProduct
+     * @depends preconditionsForTestsCreateProduct
+     * @test
      * @return array
      */
     public function createRole()
