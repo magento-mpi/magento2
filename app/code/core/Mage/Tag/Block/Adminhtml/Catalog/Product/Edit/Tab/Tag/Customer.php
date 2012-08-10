@@ -24,6 +24,11 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Customer
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
     /**
+     * Id of current tab
+     */
+    const TAB_ID = 'customers_tags';
+
+    /**
      * Array of data helpers
      *
      * @var array
@@ -56,7 +61,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Customer
             $this->_authSession = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
         }
 
-        $this->setId('customers_tags');
+        $this->setId(self::TAB_ID);
         $this->setTitle($this->_helper('Mage_Tag_Helper_Data')->__('Customers Tagged Product'));
     }
 
