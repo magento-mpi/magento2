@@ -64,6 +64,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
 
     /**
      * Backend verification customer tagged product from frontend on the Product Page
+     * Verify starting to edit customer
      *
      * @param string $tags
      * @param string $status
@@ -114,7 +115,6 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
     }
     /**
      * Backend verification customer tagged product from backend on the Product Page
-     * Start editing tag from Product Tags
      *
      * @param string $tags
      * @param string $status
@@ -123,7 +123,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
      * @test
      * @dataProvider tagAdminNameDataProvider
      * @depends preconditionsForTests
-     * TestlinkId TL-MAGE-2269, TL-MAGE-2374
+     * TestlinkId TL-MAGE-6041
      */
     public function backendVerificationBackendCustomerTaggedOnProductTags($tags, $status, $testData)
     {
@@ -153,7 +153,6 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
     public function tagNameDataProvider()
     {
         return array(
-            //TL-MAGE-2269, TL-MAGE-2374 simple tag
             array($this->generate('string', 4, ':alpha:'), 'Approved', 1),
             array($this->generate('string', 4, ':alpha:'), 'Disabled', 2)
         );
@@ -161,14 +160,12 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
     public function tagAdminNameDataProvider()
     {
         return array(
-            //TL-MAGE-2269, TL-MAGE-2374 simple tag
             array($this->generate('string', 4, ':alpha:'), 'Approved'),
             array($this->generate('string', 4, ':alpha:'), 'Disabled')
         );
     }
     /**
-     * Backend verification added tag from backend on the Product Page
-     * Start editing tag from Product Tags
+     * Backend verification customer tagged product searching
      *
      * @param string $tags
      * @param array $testData
@@ -219,7 +216,6 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
     public function tagSearchNameDataProvider()
     {
         return array(
-            //TL-MAGE-2269, TL-MAGE-2374 simple tag
             array(
                 array('tag_name' => $this->generate('string', 4, ':alpha:'),
                     'tag_status' => 'Approved', 'base_popularity' => '1')),
