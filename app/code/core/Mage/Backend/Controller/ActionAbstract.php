@@ -37,6 +37,42 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     protected $_sessionNamespace = self::SESSION_NAMESPACE;
 
+    /**
+     * Helper
+     *
+     * @var Mage_Backend_Helper_Data
+     */
+    protected $_helper;
+
+    /**
+     * Session model
+     *
+     * @var Mage_Backend_Model_Session
+     */
+    protected $_session;
+
+    /**
+     * Constructor
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param Zend_Controller_Response_Abstract $response
+     * @param array $invokeArgs
+     */
+    public function __construct(Zend_Controller_Request_Abstract $request,
+                                Zend_Controller_Response_Abstract $response,
+                                array $invokeArgs = array()
+    ) {
+        parent::__construct($request, $response, $invokeArgs);
+
+        $this->_helper = isset($invokeArgs['helper']) ?
+            $invokeArgs['helper'] :
+            Mage::helper('Mage_Backend_Helper_Data');
+
+        $this->_session = isset($invokeArgs['session']) ?
+            $invokeArgs['session'] :
+            Mage::getSingleton('Mage_Backend_Model_Session');
+    }
+
     protected function _isAllowed()
     {
         return true;
@@ -49,17 +85,17 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     protected function _getSession()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Session');
+        return $this->_session;
     }
 
     /**
-     * Retrieve base admihtml helper
+     * Retrieve base adminhtml helper
      *
      * @return Mage_Backend_Helper_Data
      */
     protected function _getHelper()
     {
-        return Mage::helper('Mage_Backend_Helper_Data');
+        return $this->_helper;
     }
 
     /**
@@ -375,7 +411,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     public function getUrl($route='', $params=array())
     {
-        return Mage_Backend_Helper_Data::getUrl($route, $params);
+        return $this->_getHelper()->getUrl($route, $params);
     }
 
     /**
