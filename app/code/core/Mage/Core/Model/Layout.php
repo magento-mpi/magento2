@@ -12,11 +12,10 @@
 /**
  * Layout model
  *
- * @category   Mage
- * @package    Mage_Core
+ * @category    Mage
+ * @package     Mage_Core
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.NPathComplexity)
  */
 class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 {

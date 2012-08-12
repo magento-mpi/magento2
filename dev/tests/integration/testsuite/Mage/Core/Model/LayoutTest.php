@@ -9,6 +9,11 @@
  * @license     {license_link}
  */
 
+/**
+ * Layout integration tests
+ *
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ */
 class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -156,16 +161,16 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         // verify `after` attribute
         $this->assertEquals('block_container', $layout->getParentName('no_name'));
         $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name')));
-        $positionElementAfter = array_search('child_block1', $childrenOrderArray);
+        $positionAfter = array_search('child_block1', $childrenOrderArray);
         $positionToVerify = array_search('no_name', $childrenOrderArray);
-        $this->assertEquals($positionElementAfter, --$positionToVerify);
+        $this->assertEquals($positionAfter, --$positionToVerify);
 
         // verify `before` attribute
         $this->assertEquals('block_container', $layout->getParentName('no_name4'));
         $childrenOrderArray = array_keys($layout->getChildBlocks($layout->getParentName('no_name4')));
-        $positionElementBefore = array_search('child_block2', $childrenOrderArray);
+        $positionBefore = array_search('child_block2', $childrenOrderArray);
         $positionToVerify = array_search('no_name4', $childrenOrderArray);
-        $this->assertEquals($positionElementBefore, ++$positionToVerify);
+        $this->assertEquals($positionBefore, ++$positionToVerify);
     }
 
     /**
