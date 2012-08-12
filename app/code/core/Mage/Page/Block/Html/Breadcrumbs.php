@@ -34,9 +34,8 @@ class Mage_Page_Block_Html_Breadcrumbs extends Mage_Core_Block_Template
      */
     protected $_crumbs = null;
 
-    function __construct()
+    protected function _construct()
     {
-        parent::__construct();
         $this->setTemplate('html/breadcrumbs.phtml');
     }
 
