@@ -18,7 +18,7 @@
 
 class Mage_Adminhtml_Block_Review_Rating_Summary extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('rating/stars/summary.phtml');
         if (Mage::registry('review_data')) {

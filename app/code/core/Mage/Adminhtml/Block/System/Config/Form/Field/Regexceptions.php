@@ -17,7 +17,7 @@
  */
 class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_Adminhtml_Block_System_Config_Form_Field_Array_Abstract
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->addColumn('search', array(
             'label' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Search String'),
@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field_Regexceptions extends Mage_A
         ));
         $this->_addAfter = false;
         $this->_addButtonLabel = Mage::helper('Mage_Adminhtml_Helper_Data')->__('Add Exception');
-        parent::__construct();
+        parent::_construct();
     }
 
     /**

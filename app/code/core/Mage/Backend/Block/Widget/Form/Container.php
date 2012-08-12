@@ -24,9 +24,9 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
     protected $_mode = 'edit';
     protected $_blockGroup = 'Mage_Backend';
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         if (!$this->hasData('template')) {
             $this->setTemplate('Mage_Backend::widget/form/container.phtml');

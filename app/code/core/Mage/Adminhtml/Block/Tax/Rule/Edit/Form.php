@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Tax_Rule_Edit_Form extends Mage_Adminhtml_Block_Widge
      * Init class
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('taxRuleForm');
         $this->setTitle(Mage::helper('Mage_Tax_Helper_Data')->__('Tax Rule Information'));

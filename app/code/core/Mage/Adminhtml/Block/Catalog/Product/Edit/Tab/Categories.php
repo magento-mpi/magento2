@@ -21,13 +21,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
     protected $_selectedNodes = null;
 
     /**
-     * Specify template to use
+     * @var string
      */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('catalog/product/edit/categories.phtml');
-    }
+    protected $_template = 'catalog/product/edit/categories.phtml';
 
     /**
      * Retrieve currently edited product

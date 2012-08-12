@@ -21,9 +21,9 @@ class Mage_Adminhtml_Block_Media_Editor extends Mage_Adminhtml_Block_Widget
 
     protected $_config;
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('media/editor.phtml');
         $this->getConfig()->setParams();
     }

@@ -24,9 +24,9 @@ class Mage_Adminhtml_Block_System_Convert_Gui_Edit_Tab_Wizard extends Mage_Admin
     protected $_removeMapButtonHtml;
     protected $_shortDateFormat;
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('system/convert/profile/wizard.phtml');
     }
 

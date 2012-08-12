@@ -18,9 +18,9 @@
 
 class Mage_Adminhtml_Block_Newsletter_Template extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('newsletter/template/list.phtml');
     }
 

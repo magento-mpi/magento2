@@ -125,6 +125,14 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
+     * @return Mage_Core_Controller_Request_Http
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    /**
      * Internal constructor, that is called from real constructor
      *
      * Please override this one instead of overriding real __construct constructor
@@ -423,7 +431,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getBlockHtml($name)
     {
-        $block = $layout->getBlock($name);
+        $block = $this->_layout->getBlock($name);
         if ($block) {
             return $block->toHtml();
         }

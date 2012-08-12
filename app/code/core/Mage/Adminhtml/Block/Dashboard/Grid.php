@@ -24,9 +24,9 @@
      *
      */
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('dashboard/grid.phtml');
         $this->setDefaultLimit(5);
     }

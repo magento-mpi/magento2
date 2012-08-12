@@ -18,9 +18,9 @@
 class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Template
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('newsletter/problem/list.phtml');
         $collection = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Problem_Collection')
             ->addSubscriberInfo()

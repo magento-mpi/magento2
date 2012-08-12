@@ -18,9 +18,9 @@
 class Mage_Adminhtml_Block_Tax_Class_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('taxClassGrid');
         $this->setDefaultSort('class_name');
         $this->setDefaultDir('ASC');

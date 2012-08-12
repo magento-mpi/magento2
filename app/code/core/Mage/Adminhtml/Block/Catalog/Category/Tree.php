@@ -21,9 +21,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
 
     protected $_withProductCount;
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('catalog/category/tree.phtml');
         $this->setUseAjax(true);
         $this->_withProductCount = true;

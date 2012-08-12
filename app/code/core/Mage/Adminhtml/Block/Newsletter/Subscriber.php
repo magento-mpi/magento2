@@ -30,7 +30,7 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber extends Mage_Adminhtml_Block_Te
      *
      * Initializes block
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('newsletter/subscriber/list.phtml');
     }

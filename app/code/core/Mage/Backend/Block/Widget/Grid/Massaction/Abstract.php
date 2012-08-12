@@ -29,9 +29,9 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     /**
      * Sets Massaction template
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('Mage_Backend::widget/grid/massaction.phtml');
         $this->setErrorText(Mage::helper('Mage_Backend_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Backend_Helper_Data')->__('Please select items.')));
     }

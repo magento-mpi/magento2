@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Newsletter_Subscriber_Grid extends Mage_Adminhtml_Blo
      *
      * Set main configuration of grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('subscriberGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('subscriber_id', 'desc');

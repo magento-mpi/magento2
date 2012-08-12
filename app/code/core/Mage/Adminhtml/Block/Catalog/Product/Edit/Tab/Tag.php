@@ -18,9 +18,9 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('tag_grid');
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');

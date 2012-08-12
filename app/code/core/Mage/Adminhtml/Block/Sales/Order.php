@@ -18,12 +18,12 @@
 class Mage_Adminhtml_Block_Sales_Order extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
-    public function __construct()
+    protected function _construct()
     {
         $this->_controller = 'sales_order';
         $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Orders');
         $this->_addButtonLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Create New Order');
-        parent::__construct();
+        parent::_construct();
         if (!Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Sales::create')) {
             $this->_removeButton('add');
         }

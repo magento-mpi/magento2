@@ -18,11 +18,11 @@
 class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
-    public function __construct()
+    protected function _construct()
     {
         $this->_controller = 'report_tag_popular';
         $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags');
-        parent::__construct();
+        parent::_construct();
         $this->_removeButton('add');
     }
 

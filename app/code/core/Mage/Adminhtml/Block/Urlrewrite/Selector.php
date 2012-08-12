@@ -29,7 +29,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
      * Set block template and get available modes
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('urlrewrite/selector.phtml');
         $this->_modes = array(

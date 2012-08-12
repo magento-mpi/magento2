@@ -23,9 +23,9 @@ class Mage_Backend_Block_Widget_View_Container extends Mage_Backend_Block_Widget
 
     protected $_blockGroup = 'Mage_Backend';
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setTemplate('Mage_Backend::widget/view/container.phtml');
 

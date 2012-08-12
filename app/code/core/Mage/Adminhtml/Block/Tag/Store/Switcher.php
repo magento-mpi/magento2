@@ -25,9 +25,9 @@ class Mage_Adminhtml_Block_Tag_Store_Switcher extends Mage_Adminhtml_Block_Store
     /**
      * Set overriden params
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setUseConfirm(false)->setSwitchUrl(
             $this->getUrl('*/*/*/', array('store' => null, '_current' => true))
         );

@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
      * Init class
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         switch (Mage::registry('store_type')) {
             case 'website':
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_System_Store_Edit extends Mage_Adminhtml_Block_Widget
         }
         $this->_controller = 'system_store';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_updateButton('save', 'label', $saveLabel);
         $this->_updateButton('delete', 'label', $deleteLabel);

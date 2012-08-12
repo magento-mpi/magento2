@@ -22,7 +22,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier
     /**
      * Initialize block
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('catalog/product/edit/price/tier.phtml');
     }

@@ -16,7 +16,7 @@
 
 class Mage_Adminhtml_Block_Poll_Edit_Tab_Answers_List extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('poll/answers/list.phtml');
     }

@@ -10,8 +10,8 @@
 
 class Mage_Adminhtml_Block_Api_Tab_Rolesedit extends Mage_Adminhtml_Block_Widget_Form {
 
-    public function __construct() {
-        parent::__construct();
+    protected function _construct() {
+        parent::_construct();
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 

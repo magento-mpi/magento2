@@ -18,9 +18,9 @@
 
 class Mage_Adminhtml_Block_Tax_Rate_Toolbar_Save extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->assign('createUrl', $this->getUrl('*/tax_rate/save'));
         $this->setTemplate('tax/toolbar/rate/save.phtml');
     }

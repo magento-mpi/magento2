@@ -24,7 +24,7 @@ class Mage_Backend_Block_Widget_Breadcrumbs extends Mage_Backend_Block_Template
      */
     protected $_links = array();
 
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('Mage_Backend::widget/breadcrumbs.phtml');
         $this->addLink(Mage::helper('Mage_Backend_Helper_Data')->__('Home'), Mage::helper('Mage_Backend_Helper_Data')->__('Home'), $this->getUrl('*'));

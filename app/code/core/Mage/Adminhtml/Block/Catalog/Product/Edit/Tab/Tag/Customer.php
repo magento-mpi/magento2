@@ -18,9 +18,9 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('tag_customers_grid');
         $this->setDefaultSort('firstname');
         $this->setDefaultDir('ASC');

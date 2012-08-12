@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Type_Select extends
     /**
      * Class constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('catalog/product/edit/options/type/select.phtml');
         $this->setCanEditPrice(true);
         $this->setCanReadPrice(true);

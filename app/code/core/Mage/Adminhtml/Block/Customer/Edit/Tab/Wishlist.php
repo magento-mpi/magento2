@@ -42,9 +42,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
      * Initialize Grid
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('wishlistGrid');
         $this->setUseAjax(true);
         $this->_parentTemplate = $this->getTemplate();

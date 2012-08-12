@@ -18,9 +18,9 @@
 
 class Mage_Adminhtml_Block_Dashboard_Diagrams extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('diagram_tab');
         $this->setDestElementId('diagram_tab_content');
         $this->setTemplate('widget/tabshoriz.phtml');

@@ -17,9 +17,9 @@
  */
 class Mage_Adminhtml_Block_Report_Refresh_Statistics_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
         $this->setUseAjax(false);

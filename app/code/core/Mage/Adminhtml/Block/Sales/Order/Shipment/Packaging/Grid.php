@@ -20,9 +20,9 @@ class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Mage_Admi
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('sales/order/shipment/packaging/grid.phtml');
     }
 

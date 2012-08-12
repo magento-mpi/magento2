@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('tag_tag_grid')
              ->setDefaultSort('name')
              ->setDefaultDir('ASC')

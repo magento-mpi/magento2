@@ -23,11 +23,6 @@ class Mage_Backend_Block_Widget_Grid_Column extends Mage_Backend_Block_Widget
     protected $_type;
     protected $_cssClass=null;
 
-    public function __construct($data=array())
-    {
-        parent::__construct($data);
-    }
-
     public function setGrid($grid)
     {
         $this->_grid = $grid;

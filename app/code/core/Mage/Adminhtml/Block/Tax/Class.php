@@ -18,10 +18,10 @@
 
 class Mage_Adminhtml_Block_Tax_Class extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->_controller      = 'tax_class';
-        parent::__construct();
+        parent::_construct();
     }
 
     public function setClassType($classType)

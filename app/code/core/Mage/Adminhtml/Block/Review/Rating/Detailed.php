@@ -19,9 +19,9 @@
 class Mage_Adminhtml_Block_Review_Rating_Detailed extends Mage_Adminhtml_Block_Template
 {
     protected $_voteCollection = false;
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('rating/detailed.phtml');
         if( Mage::registry('review_data') ) {
             $this->setReviewId(Mage::registry('review_data')->getReviewId());

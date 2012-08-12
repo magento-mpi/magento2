@@ -21,7 +21,7 @@ class Mage_Backend_Block_Widget_Form_Element_Gallery extends Mage_Backend_Block_
 
     protected $_element = null;
 
-    public function __construct()
+    protected function _construct()
     {
         $this->setTemplate('Mage_Backend::widget/form/element/gallery.phtml');
     }

@@ -22,9 +22,9 @@ class Mage_Adminhtml_Block_Page extends Mage_Adminhtml_Block_Template
      * Class constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('admin/page.phtml');
         $action = Mage::app()->getFrontController()->getAction();
         if ($action) {
