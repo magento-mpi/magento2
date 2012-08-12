@@ -414,9 +414,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             list($siblingName, $isAfter) = $this->_beforeAfterToSibling($node);
             $this->_scheduledMoves[$elementName] = array($destination, $siblingName, $isAfter, $alias);
         } else {
-            throw new Magento_Exception(
-                'Invalid move layout directive. Element name and destination must be specified.'
-            );
+            throw new Magento_Exception('Element name and destination must be specified.');
         }
         return $this;
     }
