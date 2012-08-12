@@ -21,7 +21,8 @@
         <block type="Enterprise_Wishlist_Block_Customer_Sidebar" name="wishlist_sidebar" template="Mage_Wishlist::sidebar.phtml"/>
 
         <reference name="head">
-           <action method="addJs"><file>Enterprise_Wishlist::wishlist.js</file></action>
+            <action method="addJs"><file>Enterprise_Persistent::widget.js</file></action>
+            <action method="addJs"><file>Enterprise_Wishlist::wishlist.js</file></action>
         </reference>
 
         <reference name="before_body_end">

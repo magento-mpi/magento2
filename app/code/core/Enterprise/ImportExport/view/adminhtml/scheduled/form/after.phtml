@@ -8,10 +8,18 @@
  * @license     {license_link}
  */
 ?>
+
+<?php
+/** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
+$operation = Mage::registry('current_operation');
+$operationType = $operation->getOperationType();
+$entityBehavior = $operation->getBehavior();
+?>
 <script type="text/javascript">
     if (!$('export_filter_grid') && $('export_filter_container')) {
         $('export_filter_container').hide();
     }
+
     var serverType = $('server_type'),
         onChangeCallback = function(e) {
             var serverTypeValue = $(this).value;
@@ -29,4 +37,18 @@
         };
     serverType.observe('change', onChangeCallback);
     onChangeCallback.call(serverType, {type: 'change'});
+
+    if ('<?php echo $operationType ?>' == 'import') {
+        // hide all behavior fields
+        editForm.handleEntityTypeSelector();
+        // set current behavior
+        if ($('entity') && $F('entity')) {
+            var requiredBehavior = editForm.entityBehaviors[$F('entity')];
+            $(requiredBehavior).value = '<?php echo $entityBehavior ?>';
+        }
+    }
+    if ('<?php echo $operationType ?>' == 'export') {
+        // show/hide checkboxes depending on current export entity (edit scheduled export page)
+        editForm.modifyFilterGrid();
+    }
 </script>

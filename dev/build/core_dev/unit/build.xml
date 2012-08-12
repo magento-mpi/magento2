@@ -12,12 +12,7 @@
  */
 -->
 <project name="Core Development Unit Tests" basedir="../../../../" default="_unit_tests_all">
-
-    <target name="_product_location" description="Detection of a product source code root directory">
-        <condition property="product_root_dir" value="${basedir}">
-            <not><isset property="product_root_dir"/></not>
-        </condition>
-    </target>
+    <import file="../util.xml"/>
 
     <target name="_unit_tests_magento" depends="_product_location" description="Product unit tests">
         <exec dir="${product_root_dir}/dev/tests/unit" executable="phpunit" failonerror="true">
@@ -57,8 +52,7 @@
     <target name="unit_tests_ee" description="Unit tests for EE">
         <antcall target="_unit_tests_all"/>
     </target>
-    <target name="unit_tests_ce" description="Unit tests for CE">
-        <ant antfile="${basedir}/dev/build/core_dev/util.xml" target="_community_edition"/>
+    <target name="unit_tests_ce" depends="_community_edition" description="Unit tests for CE">
         <antcall target="_unit_tests_all"/>
     </target>
 
