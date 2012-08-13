@@ -100,6 +100,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
                     'product_name' => $testData['simple']),
                 array('customer_email' => $testData['user'][1]['email'])),
             'Product tags verification is failure');
+            $this->tagsHelper()->getInfoInTable(array('Tag Name'), $this->_getControlXpath('pageelement', 'tags_grid'));
             $this->tagsHelper()->openTag(
                 array(
                     'product_name' => $testData['simple'],
@@ -115,8 +116,8 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array($this->generate('string', 4, ':alpha:'), 'Disabled'),
-            array($this->generate('string', 4, ':alpha:'), 'Approved'),
-            array($this->generate('string', 4, ':alpha:'), 'Pending')
+           // array($this->generate('string', 4, ':alpha:'), 'Approved'),
+           // array($this->generate('string', 4, ':alpha:'), 'Pending')
         );
     }
 
