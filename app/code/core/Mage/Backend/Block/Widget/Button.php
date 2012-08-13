@@ -17,39 +17,67 @@
  */
 class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
 {
-    public function __construct()
+    /**
+     * List of button's html attributes
+     *
+     * @var array
+     */
+    protected $_attributes = array();
+
+    /**
+     * Define block template
+     */
+    protected function _construct()
     {
-        parent::__construct();
+        $this->setTemplate('Mage_Backend::widget/button.phtml');
+        parent::_construct();
     }
 
+    /**
+     * Retrieve type
+     *
+     * @return string
+     */
     public function getType()
     {
-        return ($type=$this->getData('type')) ? $type : 'button';
+        return $this->getData('type') ?: 'button';
     }
 
+    /**
+     * Retrieve onclick handler
+     *
+     * @return null|string
+     */
     public function getOnClick()
     {
-        if (!$this->getData('on_click')) {
-            return $this->getData('onclick');
-        }
-        return $this->getData('on_click');
+        return $this->getData('on_click') ?: $this->getData('onclick');
     }
 
-    protected function _toHtml()
+    /**
+     * Add html attribute
+     *
+     * @param string $attributeName
+     * @param string $attributeValue
+     * @return Mage_Backend_Block_Widget_Button
+     */
+    public function addAttribute($attributeName, $attributeValue)
     {
-        $html = $this->getBeforeHtml().'<button '
-            . ($this->getId()?' id="'.$this->getId() . '"':'')
-            . ($this->getElementName()?' name="'.$this->getElementName() . '"':'')
-            . ' title="'
-            . Mage::helper('Mage_Core_Helper_Data')->quoteEscape($this->getTitle() ? $this->getTitle() : $this->getLabel())
-            . '"'
-            . ' type="'.$this->getType() . '"'
-            . ' class="scalable ' . $this->getClass() . ($this->getDisabled() ? ' disabled' : '') . '"'
-            . ' onclick="'.$this->getOnClick().'"'
-            . ' style="'.$this->getStyle() .'"'
-            . ($this->getValue()?' value="'.$this->getValue() . '"':'')
-            . ($this->getDisabled() ? ' disabled="disabled"' : '')
-            . '><span><span><span>' .$this->getLabel().'</span></span></span></button>'.$this->getAfterHtml();
+        $this->_attributes[$attributeName] = $attributeValue;
+        return $this;
+    }
+
+    /**
+     * Retrieve attributes html
+     *
+     * @return string
+     */
+    public function getAttributesHtml()
+    {
+        $html = '';
+        foreach ($this->_attributes as $attributeKey => $attributeValue) {
+            $html .= $attributeKey . '="'
+                . $this->helper('Mage_Backend_Helper_Data')->quoteEscape($attributeValue) . '"';
+        }
 
         return $html;
     }

@@ -1,0 +1,44 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Template for Mage_Backend_Block_Widget_Button_Split
+ */
+?>
+<div id="<?php echo $this->getId(); ?>" class="buttons-group">
+    <div id="<?php echo $this->getId(); ?>_main_control" class="button btn-add">
+        <span><?php echo $this->getLabel(); ?></span>
+    </div>
+    <div class="button btn-toggle" data-toggle="dropdown"><span>Select</span></span></div>
+    <ul class="dropdown-menu">
+        <?php foreach ($this->getOptions() as $option): ?>
+        <li onclick="<?php echo $option['onclick']?>" <?php if($option['default']):?>default="true"<?php endif; ?>>
+            <span><?php echo $option['label'] ?></span>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+<script type="text/javascript">//<[CDATA[
+    (function($) {
+        $('[data-toggle="dropdown"]').on('click.toggleDropdown', function() {
+            $(this).toggleClass('active')
+                .closest('.buttons-group')
+                .toggleClass('active');
+
+            return false;
+        });
+
+        $('#<?php echo $this->getId(); ?>_main_control').click(function() {
+            $('#<?php echo $this->getId(); ?> .dropdown-menu > li[default=true]').trigger('click');
+        });
+    })(jQuery);
+//]]>
+</script>

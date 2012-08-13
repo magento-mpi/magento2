@@ -138,6 +138,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Settings extends Mage_
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/new', array('set'=>null, 'type'=>null));
+        return $this->getUrl('*/*/', array('set' => null, 'type' => null));
     }
 }
