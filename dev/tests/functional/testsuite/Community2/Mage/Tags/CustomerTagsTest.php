@@ -32,7 +32,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
+       // $this->tagsHelper()->deleteAllTags();
     }
 
     /**
@@ -143,19 +143,32 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
             $tableValues,
             $this->_getControlXpath('pageelement', 'tags_grid')
         );
-        //Check sort order
-        foreach ($tableValues as $key => $row) {
-            $volume[$key] = strtolower($row[$columnName]);
+        //Build array with first order by columns
+        $newArray = array();
+        foreach ($tableValues as $tableValue) {
+            $tmpRow = array();
+            $tmpRow[$columnName] = $tableValue[$columnName];
+            foreach ($tableValue as $key => $value) {
+                if ($key != $columnName) {
+                    $tmpRow[$key] =  $value;
+                }
+            }
+            $newArray[] = $tmpRow;
+            unset($tmpRow);
         }
-        $tableValuesNew = $tableValues;
+        //Check sort order
+        foreach ($newArray as $key => $row) {
+            $volume[$key] = substr(strtolower($row[$columnName]), 0, 3);
+        }
+        $tableValuesNew = $newArray;
         array_multisort($volume, SORT_ASC, SORT_STRING, $tableValuesNew);
-        $this->assertEquals($tableValues, $tableValuesNew);
+        $this->assertEquals($newArray, $tableValuesNew);
     }
     public function tagSearchNameDataProvider()
     {
         return array(
-            array('Tag Name'),
-            array('Status')
+            array('Status'),
+            array('Tag Name')
         );
     }
 
