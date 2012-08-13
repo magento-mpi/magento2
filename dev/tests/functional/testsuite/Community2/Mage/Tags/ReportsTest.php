@@ -529,7 +529,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
         //Step 3
         $this->fillDropdown('export_to', 'Excel XML');
-        $exportedReportXml = $this->tagsHelper()->export();
+        $exportedReportXml = $this->reportsHelper()->export();
         //Verifying
         $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
         //Step 4
