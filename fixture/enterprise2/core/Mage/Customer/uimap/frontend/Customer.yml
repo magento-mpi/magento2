@@ -38,6 +38,8 @@ forgot_customer_password:
                 -
                     forgot_password:
                         xpath: //form[@id='form-validate']
+                        links:
+                            back_to_login: //a[text()='Back to Login']
                         buttons:
                             submit: //button[span='Submit']
                             captcha_reload: //*[@id='captcha-reload']

@@ -99,8 +99,8 @@ newsletter_queue:
                     newsletter_queue_grid:
                         xpath: //div[@id='queueGrid']
                         fields:
-                             filter_queue_id: //input[@id='queueGrid_filter_queue_id']
-                             filter_queue_subject: //input[@id='queueGrid_filter_newsletter_subject']
+                            filter_queue_id: //input[@id='queueGrid_filter_queue_id']
+                            filter_queue_subject: //input[@id='queueGrid_filter_newsletter_subject']
         buttons: *gridButtons
         messages: *newsTemplateMessages
 

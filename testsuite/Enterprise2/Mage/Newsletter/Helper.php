@@ -16,7 +16,7 @@
  * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
+class Enterprise2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
 {
     /**
      * Create Newsletter Templates
@@ -29,6 +29,7 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
         if (empty($newsletterData)) {
             $this->fail('$newsletterData parameter is empty');
         }
+
         if (is_string($newsletterData)) {
             $elements = explode('/', $newsletterData);
             $fileName = (count($elements) > 1)
@@ -77,7 +78,7 @@ class Community2_Mage_Newsletter_Helper extends Core_Mage_Newsletter_Helper
         $searchData = $this->convertToFilter($dataForSearch);
         $this->searchAndOpen($searchData);
         $this->fillNewsletterForm($newNewsData);
-        $this->clickButton('save_template');
+        $this->saveForm('save_template');
     }
 
     /**

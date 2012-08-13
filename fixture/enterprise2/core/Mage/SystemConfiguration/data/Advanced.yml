@@ -32,3 +32,22 @@ disable_secret_key:
         tab_name: advanced_admin
         configuration:
             add_secret_key_to_urls: No
+
+admin_user_emails_settings:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: advanced_admin
+        configuration:
+            forgot_password_email_template: Forgot Admin Password (Default)
+            forgot_password_email_sender: General Contact
+            recovery_link_exp_period: 1
+
+customer_configuration_password_options:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            forgot_email_template: Forgot Password (Default)
+            remind_email_template: Remind Password (Default)
+            forgot_email_sender: Customer Support
+            recovery_link_exp_period: 1

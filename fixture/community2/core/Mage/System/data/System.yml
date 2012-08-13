@@ -1,0 +1,26 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_System
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for System
+load_default_template:
+    template: Forgot Password
+
+load_default_admin_template:
+    template: Forgot Admin Password
+
+template_information:
+    template_name: New Forgot Password%randomize%
+    template_subject: New Forgot Subject%randomize%
+    template_content: New Forgot Content%randomize%
+
+admin_template_information:
+    template_name: New Admin Forgot Password%randomize%
+    template_subject: New Admin Forgot Subject%randomize%
+    template_content: New Admin Forgot Content%randomize%
