@@ -832,9 +832,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 $this->_modulesCache[$moduleName] = $moduleConfig;
             }
             foreach ($modules as $module) {
-                $moduleName = strtolower($module->getName());
+                $moduleName = $module->getName();
                 $isActive = (string)$module->active;
-                if (!isset($declaredModules[$moduleName]) && $isActive == 'false') {
+                if (isset($declaredModules[$moduleName])) {
+                    $declaredModules[$moduleName]['active'] = $isActive;
                     continue;
                 }
                 $newModule = clone $emptyConfig;
@@ -847,6 +848,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
         foreach ($declaredModules as $moduleName => $module) {
             if ($module['active'] == 'true') {
+                $module['module']->modules->{$moduleName}->active = 'true';
                 $unsortedConfig->extend(new Mage_Core_Model_Config_Base($module['module']));
             }
         }
