@@ -2909,14 +2909,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
             $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
-        $jsName = $this->getAttribute($resetXpath . '@onclick');
-        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
-        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        if ($this->isElementPresent($scriptXpath)) {
-            $waitAjax = false;
-        }
         if ($resetFilter) {
+            $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+            $jsName = $this->getAttribute($resetXpath . '@onclick');
+            $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
+            $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
+            if ($this->isElementPresent($scriptXpath)) {
+                $waitAjax = false;
+            }
             $this->click($resetXpath);
             if ($waitAjax) {
                 $this->waitForAjax();

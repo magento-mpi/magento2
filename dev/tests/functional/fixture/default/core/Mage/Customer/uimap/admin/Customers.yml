@@ -246,13 +246,16 @@ edit_customer:
                         # need to edit
                 -
                     product_tags:
-                        xpath: //a[@id='customer_info_tabs_tags']/span
+                        xpath: //a[@title='Product Tags']/span
                         fieldsets:
                             -
                                 product_tags:
                                     xpath: //div[@id='tag_grid']
                                     links:
                                       next_page: //a[@title="Next page"]
+                                    pageelements:
+                                      tags_grid_head: //table[@id='tag_grid_table']//thead/tr[@class='headings']
+                                      tags_grid: //table[@id='tag_grid_table']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
