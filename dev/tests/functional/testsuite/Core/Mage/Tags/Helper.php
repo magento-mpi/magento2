@@ -418,7 +418,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      *
      * @return string|array|null
      */
-    public function searchDataInReport(array $data, $fieldSetName = null)
+    public function searchDataInReport(array $data)
     {
         $rowNumbers = array();
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
@@ -501,15 +501,15 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
     protected function _getFile($url)
     {
         $cookie = $this->getCookie();
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
-        $data = curl_exec($ch);
-        curl_close($ch);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_COOKIE, $cookie);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 120);
+        $data = curl_exec($curl);
+        curl_close($curl);
         return $data;
     }
 
@@ -534,7 +534,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
                 try {
                     $data[] = array_combine($header, $line);
                 } catch (Exception $e) {
-                    //invalid format
+                    var_dump($e->getMessage());
                     return null;
                 }
             }
@@ -589,12 +589,11 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      */
     public function verifyExportedReport(array $expectedData, array $exportedData)
     {
-        $matchExpectedAndExportData = array();
+        $dataMatch = array();
         foreach ($expectedData as $key => $dataRow) {
-            $matchExpectedAndExportData[] = array_intersect_assoc($exportedData[$key],
-                $expectedData[$key]);
+            $dataMatch[] = array_intersect_assoc($exportedData[$key], $dataRow);
         }
-        $this->assertEquals($matchExpectedAndExportData, $expectedData,
+        $this->assertEquals($dataMatch, $expectedData,
             'Report was not exported correctly');
     }
 }

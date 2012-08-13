@@ -458,29 +458,29 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
         //Step 4
-        foreach ($gridReport as $key => $reportRow) {
-            $this->addParameter('firstName', $testData[$key]['customer']['first_name']);
-            $this->addParameter('lastName', $testData[$key]['customer']['last_name']);
-            $this->addParameter('customer_first_last_name', $testData[$key]['customer']['first_name']
-                . ' ' . $testData[$key]['customer']['last_name']);
+        foreach ($testData as $dataRow) {
+            $this->addParameter('firstName', $dataRow['customer']['first_name']);
+            $this->addParameter('lastName', $dataRow['customer']['last_name']);
+            $this->addParameter('customer_first_last_name', $dataRow['customer']['first_name']
+                . ' ' . $dataRow['customer']['last_name']);
             $this->clickControl('link', 'show_tags');
             //Step 5
             $this->fillDropdown('export_to', 'CSV');
             $showTagReportCsv = $this->tagsHelper()->export();
             //Verifying
-            $showTagReportExpected = array();
-            foreach ($testData[$key]['tags'] as $tag) {
-                $showTagReportExpected[$key][] = array(
-                    'Product Name' => $testData[$key]['product'],
+            $showTagReport = array();
+            foreach ($dataRow['tags'] as $tag) {
+                $showTagReport[] = array(
+                    'Product Name' => $dataRow['product'],
                     'Tag Name' => $tag,
                 );
             }
-            $this->tagsHelper()->verifyExportedReport($showTagReportExpected[$key], $showTagReportCsv);
+            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportCsv);
             //Step 6
             $this->fillDropdown('export_to', 'Excel XML');
             $showTagReportXML = $this->tagsHelper()->export();
             //Verifying
-            $this->tagsHelper()->verifyExportedReport($showTagReportExpected[$key], $showTagReportXML);
+            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportXML);
             $this->clickButton('back');
         }
     }
@@ -533,26 +533,26 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
         //Step 4
-        foreach ($gridReport as $key => $reportRow) {
-            $this->addParameter('productName', $testData[$key]['product']);
+        foreach ($testData as $dataRow) {
+            $this->addParameter('productName', $dataRow['product']);
             $this->clickControl('link', 'show_tags');
             //Step 5
             $this->fillDropdown('export_to', 'CSV');
             $showTagReportCsv = $this->tagsHelper()->export();
             //Verifying
-            $showTagReportExpected = array();
-            foreach ($testData[$key]['tags'] as $tag) {
-                $showTagReportExpected[$key][] = array(
+            $showTagReport = array();
+            foreach ($dataRow['tags'] as $tag) {
+                $showTagReport[] = array(
                     'Tag Name' => $tag,
                     'Tag Use' => '1',
                 );
             }
-            $this->tagsHelper()->verifyExportedReport($showTagReportExpected[$key], $showTagReportCsv);
+            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportCsv);
             //Step 6
             $this->fillDropdown('export_to', 'Excel XML');
             $showTagReportXML = $this->tagsHelper()->export();
             //Verifying
-            $this->tagsHelper()->verifyExportedReport($showTagReportExpected[$key], $showTagReportXML);
+            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportXML);
             $this->clickButton('back');
         }
     }
@@ -609,17 +609,17 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                 $this->fillDropdown('export_to', 'CSV');
                 $showDetailsReportCsv = $this->tagsHelper()->export();
                 //Verifying
-                $showDetailsReportExpected[0] = array(
+                $showDetailsReport[0] = array(
                     'First Name' => $testData[$key]['customer']['first_name'],
                     'Last Name' => $testData[$key]['customer']['last_name'],
                     'Product Name' => $testData[$key]['product'],
                 );
-                $this->tagsHelper()->verifyExportedReport($showDetailsReportExpected, $showDetailsReportCsv);
+                $this->tagsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportCsv);
                 //Step 6
                 $this->fillDropdown('export_to', 'Excel XML');
                 $showDetailsReportXML = $this->tagsHelper()->export();
                 //Verifying
-                $this->tagsHelper()->verifyExportedReport($showDetailsReportExpected, $showDetailsReportXML);
+                $this->tagsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportXML);
                 $this->clickButton('back');
             }
         }
