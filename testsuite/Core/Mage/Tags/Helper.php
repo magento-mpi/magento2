@@ -205,8 +205,9 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
      * Opens a tag in backend
      *
      * @param string|array $searchData Data used in Search Grid for tags
+     * @param bool $resetFilter Click reset filter before search
      */
-    public function openTag($searchData)
+    public function openTag($searchData, $resetFilter = true)
     {
         // Check if store views are available
         $key = 'filter_store_view';
@@ -214,7 +215,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             unset($searchData[$key]);
         }
         // Search and open
-        $xpathTR = $this->search($searchData);
+        $xpathTR = $this->search($searchData, null, $resetFilter);
         $this->assertNotNull($xpathTR, 'Tag is not found');
         //get Table xPath depends page content
         $tableXpath = $this->_getControlXpath('pageelement', 'tags_grid');
@@ -224,6 +225,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->addParameter('prodId', $this->defineParameterFromUrl('product_id'));
+        $this->addParameter('custId', $this->defineParameterFromUrl('customer_id'));
         $this->validatePage();
     }
 
@@ -408,5 +410,24 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             }
         }
         return false;
+    }
+
+    public function getInfoInTable(array $tableHeaderNames, string $tableXpath, $fetchAll = false) {
+        //Get columns' numbers
+        $columnsId = array();
+        foreach ($tableHeaderNames as $tableHeaderName) {
+            $columnsId[] = array( $tableHeaderName => $this->getColumnIdByName($tableHeaderName, $tableXpath));
+        }
+        //Get records count on the page
+        $cellNum = $this->getXpathCount($tableXpath . '/tr');
+        //Get columns value
+        $tableValues = array();
+        for ($row = 0; $row < $cellNum; $row++) {
+            $rowValues = array();
+            foreach ($columnsId as $columnName => $columnIndex) {
+                $rowValues[$columnName] = $this->getTable($tableXpath . $row . $columnIndex);
+            }
+            $tableValues[] = $rowValues;
+        }
     }
 }
