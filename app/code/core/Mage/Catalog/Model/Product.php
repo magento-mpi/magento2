@@ -1025,7 +1025,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $newProduct = Mage::getModel('Mage_Catalog_Model_Product')->setData($this->getData())
             ->setIsDuplicate(true)
             ->setOriginalId($this->getId())
-            ->setSku(null)
             ->setStatus(Mage_Catalog_Model_Product_Status::STATUS_DISABLED)
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
@@ -1092,6 +1091,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
         }
         $newProduct->setGroupedLinkData($data);
+
+        $newProduct->getResource()->getAttribute('sku')->getBackend()->generateUniqueSku($newProduct);
 
         $newProduct->save();
 

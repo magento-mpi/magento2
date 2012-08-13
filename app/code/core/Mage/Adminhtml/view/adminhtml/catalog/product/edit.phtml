@@ -110,32 +110,46 @@ Event.observe(window, 'load', function() {
     Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
     //SKU auto-population
     (function ($) {
-        var _populateSkuField = function (e) {
+        function _populateSkuField(e) {
             var matches = e.data.matches, skuMask = e.data.skuMask, matchesCount = e.data.matchesCount;
             for (var i = 0; i < matchesCount; i++) {
                 skuMask = skuMask.replace(matches[i], $('#' + matches[i].slice(2, -2)).val());
             }
             skuField.val(skuMask);
-        };
+        }
 
-        var skuMask = <?php echo json_encode(Mage::helper('Mage_Catalog_Helper_Product')->getSkuAutogenerationMask())?>,
-            matches = skuMask.match(/{{(\w+?)}}/g),
-            skuField = $('#sku');
-        if (null !== matches && '' === skuField.val()) {
-            var matchesCount = matches.length;
-            //Initial sku population
-            _populateSkuField({data:{'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount}});
+        function _bindKeyupToInputs() {
             //Event binding for each needed field
             for (var i = 0; i < matchesCount; i++) {
                 var inputId = matches[i].slice(2, -2);
                 $('#' + inputId).bind('keyup', {'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount},
                     _populateSkuField);
             }
+        }
+
+        var skuMask = <?php echo json_encode(Mage::helper('Mage_Catalog_Helper_Product')->getSkuAutogenerationMask())?>,
+            matches = skuMask.match(/{{(\w+?)}}/g),
+            skuField = $('#sku');
+        if (null === matches) {
+            matches = [];
+        }
+
+        if ('' === skuField.val()) {
+            var matchesCount = matches.length,
+                populateData = {data:{'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount}};
+            //Initial sku population
+            _populateSkuField(populateData);
+            _bindKeyupToInputs();
             //Unbind events in case of sku field manual change
             skuField.bind('change', function () {
-                for (i = 0; i < matchesCount; i++) {
-                    var inputId = matches[i].slice(2, -2);
-                    $('#' + inputId).unbind('keyup', _populateSkuField);
+                if ('' === this.value) {
+                    _populateSkuField(populateData);
+                    _bindKeyupToInputs();
+                } else {
+                    for (i = 0; i < matchesCount; i++) {
+                        var inputId = matches[i].slice(2, -2);
+                        $('#' + inputId).unbind('keyup', _populateSkuField);
+                    }
                 }
             });
         }

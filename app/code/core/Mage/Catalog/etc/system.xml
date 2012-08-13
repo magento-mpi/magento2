@@ -38,7 +38,9 @@
                     <fields>
                         <sku_mask translate="label">
                             <label>Mask for SKU Auto-Generation</label>
+                            <comment>Maximum length: 60</comment>
                             <frontend_type>text</frontend_type>
+                            <validate>validate-length maximum-length-60</validate>
                             <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
