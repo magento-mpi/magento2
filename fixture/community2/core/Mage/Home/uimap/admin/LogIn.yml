@@ -42,6 +42,8 @@ log_in_to_admin:
             access_denied: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
             inactive_account: //li[normalize-space(@class)='error-msg' and contains(.,'Invalid User Name or Password.')]
             incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
+            forgot_password_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
+            success_forgot_password: //li[normalize-space(@class)='success-msg' and contains(.,'If there is an account associated with %adminEmail% you will receive an email with a link to reset your password.')]
 
 log_in_admin_page:
     mca: auth/login/
@@ -52,14 +54,14 @@ forgot_password:
     uimap:
         form:
             fieldsets:
-               -
-                   forgot_password:
-                       fields:
-                           captcha_field: //input[@id='captcha']
-                       buttons:
-                           captcha_reload: //*[@id='captcha-reload']
-                       pageelements:
-                           captcha: //*[@id='backend_forgotpassword']
+                -
+                    forgot_password:
+                        fields:
+                            captcha_field: //input[@id='captcha']
+                        buttons:
+                            captcha_reload: //*[@id='captcha-reload']
+                        pageelements:
+                            captcha: //*[@id='backend_forgotpassword']
         messages: *loginMessages
           
         

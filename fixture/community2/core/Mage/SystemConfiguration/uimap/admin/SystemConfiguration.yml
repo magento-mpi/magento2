@@ -19,6 +19,12 @@ system_configuration:
                     customers_customer_configuration:
                         fieldsets:
                             -
+                                password_options:
+                                    dropdowns:
+                                        remind_email_template: //select[@name='groups[password][fields][remind_email_template][value]']
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[password][fields][reset_link_expiration_period][value]']
+                            -
                                 captcha:
                                     fields:
                                         captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']            
@@ -192,6 +198,10 @@ system_configuration:
                 -
                     advanced_admin:
                         fieldsets:
+                            -
+                                admin_user_emails:
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[emails][fields][password_reset_link_expiration_period][value]']
                             -
                                 dashboard_admin:
                                     xpath: //fieldset[@id='admin_dashboard']

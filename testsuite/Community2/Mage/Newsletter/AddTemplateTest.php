@@ -41,6 +41,7 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
      * <p>3. Verify that 'Save Template' button is present.</p>
      *
      * @test
+     * @TestlinkId TL-MAGE-6055
      */
     public function navigation()
     {
@@ -68,12 +69,12 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
      * <p>Success Message is displayed</p>
      *
      * @test
-     *
+     * @TestlinkId TL-MAGE-6056
      */
     public function withRequiredFields()
     {
         //Data
-        $templateData = $this->loadDataSet('Newsletter', 'generic_template');
+        $templateData = 'Newsletter/generic_newsletter_data';
         //Steps
         $this->newsletterHelper()->createNewsletterTemplate($templateData);
         //Verifying
@@ -94,11 +95,12 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
+     * @TestlinkId TL-MAGE-6058
      */
     public function withRequiredFieldsEmpty($emptyField)
     {
         //Data
-        $templateData = $this->loadDataSet('Newsletter', 'generic_template', array($emptyField => ''));
+        $templateData = $this->loadDataSet('Newsletter', 'generic_newsletter_data', array($emptyField => ''));
         //Steps
         $this->newsletterHelper()->createNewsletterTemplate($templateData);
 
@@ -117,5 +119,69 @@ class Community2_Mage_Newsletter_AddTemplateTest extends Mage_Selenium_TestCase
             array('sender_name'),
             array('sender_email')
             );
+    }
+
+    /**
+     * <p>Create New Newsletter Template. Fill in fields except 'Sender Email' by using special characters.</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Template' button.</p>
+     * <p>2. Fill in 'Template Name' field by special characters.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Template' button.</p>
+     * <p>Expected result:</p>
+     * <p>New Newsletter Template is created.</p>
+     * <p>Success Message is displayed</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6059
+     */
+    public function withSpecialCharactersExceptSenderEmail()
+    {
+        //Data
+        $templateData = $this->loadDataSet('Newsletter', 'generic_newsletter_data',
+            array('newsletter_template_name'        => $this->generate('string', 32, ':punct:'),
+                  'newsletter_template_subject'     => $this->generate('string', 32, ':punct:'),
+                  'newsletter_template_sender_name' => $this->generate('string', 32, ':punct:')));
+        //Steps
+        $this->newsletterHelper()->createNewsletterTemplate($templateData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_newsletter');
+    }
+
+    /**
+     * <p>Create Newsletter with invalid value for 'Sender Email' field</p>
+     * <p>Steps:</p>
+     * <p>1. Click 'Add New Template' button.</p>
+     * <p>2. Fill in 'Sender Email' field by wrong value.</p>
+     * <p>3. Fill other required fields by regular data.</p>
+     * <p>4. Click 'Save Template' button.</p>
+     * <p>Expected result:</p>
+     * <p>Newsletter Template is not created.</p>
+     * <p>Error Message is displayed.</p>
+     *
+     * @param string $wrongEmail
+     *
+     * @test
+     * @dataProvider withInvalidEmailDataProvider
+     * @TestlinkId TL-MAGE-6060
+     */
+    public function withInvalidEmail($wrongEmail)
+    {
+        //Data
+        $templateData = $this->loadDataSet('Newsletter', 'generic_newsletter_data',
+            array('newsletter_template_sender_email' => $wrongEmail));
+        //Steps
+        $this->newsletterHelper()->createNewsletterTemplate($templateData);
+        //Verifying
+        $this->assertMessagePresent('error', 'invalid_email');
+    }
+
+    public function withInvalidEmailDataProvider()
+    {
+        return array(
+            array('invalid'),
+            array('test@invalidDomain'),
+            array('te@st@unknown-domain.com')
+        );
     }
 }

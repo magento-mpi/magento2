@@ -38,6 +38,8 @@ forgot_customer_password:
                 -
                     forgot_password:
                         xpath: //form[@id='form-validate']
+                        links:
+                            back_to_login: //a[text()='Back to Login']
                         buttons:
                             submit: //button[span='Submit']
                             captcha_reload: //*[@id='captcha-reload']
@@ -49,8 +51,7 @@ forgot_customer_password:
             messages:
                 empty_captcha: //*[@id='advice-required-entry-captcha_user_forgotpassword']
                 incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
-
-
+                forgot_password_invalid_email: //div[@class='validation-advice' and text()='Please enter a valid email address. For example johndoe@domain.com.']
 
 # 'Create an Account' page
 register_account:
