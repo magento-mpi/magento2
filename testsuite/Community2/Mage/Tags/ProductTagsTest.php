@@ -70,7 +70,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2269
      */
-    public function backendVerificationFrontendTagOnProductTags($tags, $status, $testData)
+    public function addFromFrontendTags($tags, $status, $testData)
     {
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
@@ -114,7 +114,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2269, TL-MAGE-2374
      */
-    public function backendVerificationBackendTagOnProductTags($tags, $status, $testData)
+    public function addFromBackendTags($tags, $status, $testData)
     {
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array(
@@ -177,7 +177,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2373
      */
-    public function backendVerificationBackendSearchTagOnProductTags($tags, $testData)
+    public function searchTags($tags, $testData)
     {
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);

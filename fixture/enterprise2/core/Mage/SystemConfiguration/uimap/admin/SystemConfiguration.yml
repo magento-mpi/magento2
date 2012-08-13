@@ -91,7 +91,7 @@ system_configuration:
                                     dropdowns:
                                         sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]'] 
                                     multiselects:
-                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
+                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']       
                             -
                                 general:
                                     xpath: //fieldset[@id='sales_general']
@@ -104,9 +104,19 @@ system_configuration:
                             -
                                 rma_settings:
                                     xpath: //fieldset[@id='sales_enterprise_rma']
+                                    dropdowns:
+                                        enable_rma_on_frontend: //*[@id='sales_enterprise_rma_enabled']
+                                        enable_rma_on_product_level: //*[@id='sales_enterprise_rma_enabled_on_product']
+                                        use_store_address: //*[@id='sales_enterprise_rma_use_store_address']
                 -
                     customers_customer_configuration:
                         fieldsets:
+                            -
+                                password_options:
+                                    dropdowns:
+                                        remind_email_template: //select[@name='groups[password][fields][remind_email_template][value]']
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[password][fields][reset_link_expiration_period][value]']
                             -
                                 captcha:
                                     fields:
