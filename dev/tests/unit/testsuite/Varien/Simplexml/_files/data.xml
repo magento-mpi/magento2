@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<root>
+    <node1>
+        <node2/>
+    </node1>
+    <node3>
+        <node4/>
+    </node3>
+</root>
