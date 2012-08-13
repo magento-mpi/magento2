@@ -143,26 +143,13 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
             $tableValues,
             $this->_getControlXpath('pageelement', 'tags_grid')
         );
-        //Build array with first order by columns
-        $newArray = array();
-        foreach ($tableValues as $tableValue) {
-            $tmpRow = array();
-            $tmpRow[$columnName] = $tableValue[$columnName];
-            foreach ($tableValue as $key => $value) {
-                if ($key != $columnName) {
-                    $tmpRow[$key] =  $value;
-                }
-            }
-            $newArray[] = $tmpRow;
-            unset($tmpRow);
-        }
         //Check sort order
-        foreach ($newArray as $key => $row) {
-            $volume[$key] = substr(strtolower($row[$columnName]), 0, 3);
+        foreach ($tableValues as $key => $row) {
+            $volume[$key] = strtolower($row[$columnName]);
         }
-        $tableValuesNew = $newArray;
+        $tableValuesNew = $tableValues;
         array_multisort($volume, SORT_ASC, SORT_STRING, $tableValuesNew);
-        $this->assertEquals($newArray, $tableValuesNew);
+        $this->assertEquals($tableValues, $tableValuesNew);
     }
     public function tagSearchNameDataProvider()
     {
