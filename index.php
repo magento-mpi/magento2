@@ -34,8 +34,9 @@ if (file_exists('var/di/definitions.php')) {
 }
 Magento_Profiler::stop('di');
 $di = new Di(new DefinitionList($definition));
+$di->instanceManager()->setShared('Magento_Data_Structure', false);
+$di->instanceManager()->setShared('Mage_Customer_Model_Customer', false);
 $factory = new Magento_ObjectManager_Zend($di);
-$di->instanceManager()->addSharedInstance($factory, "Magento_ObjectManager");
 Magento_Profiler::stop('di_outer');
 
 $config = $factory->get('Mage_Core_Model_Config');

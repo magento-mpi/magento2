@@ -51,6 +51,11 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
     protected $_response;
 
     /**
+     * @var Magento_ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * Real module name (like 'Mage_Module')
      *
      * @var string
@@ -113,17 +118,20 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
     protected $_removeDefaultTitle = false;
 
     /**
-     * Constructor
-     *
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
+     * @param Magento_ObjectManager $objectManager
      * @param array $invokeArgs
      */
-    public function __construct(Zend_Controller_Request_Abstract $request,
-        Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
+    public function __construct(
+        Zend_Controller_Request_Abstract $request,
+        Zend_Controller_Response_Abstract $response,
+        Magento_ObjectManager $objectManager,
+        array $invokeArgs = array()
     ) {
         $this->_request = $request;
         $this->_response= $response;
+        $this->_objectManager = $objectManager;
 
         Mage::app()->getFrontController()->setAction($this);
         if (!$this->_currentArea) {

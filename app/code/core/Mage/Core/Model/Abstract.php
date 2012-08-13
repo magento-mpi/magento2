@@ -119,6 +119,10 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
 
+        if ($this->_resource) {
+            $this->_idFieldName = $this->_getResource()->getIdFieldName();
+        }
+
         parent::__construct($data);
         $this->_construct();
     }

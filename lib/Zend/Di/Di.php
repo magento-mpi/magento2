@@ -660,7 +660,7 @@ class Di implements DependencyInjectionInterface
                 if ($dConfig['shared'] === false) {
                     $resolvedParams[$index] = $this->newInstance($computedParams['required'][$fqParamPos][0], $callTimeUserParams, false);
                 } else {
-                    $resolvedParams[$index] = $this->get($computedParams['required'][$fqParamPos][0], $callTimeUserParams);
+                    $resolvedParams[$index] = $this->get($computedParams['required'][$fqParamPos][0]);
                 }
 
                 array_pop($this->currentDependencies);

@@ -42,6 +42,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_update;
 
     /**
+     * @var Mage_Core_Model_BlockFactory
+     */
+    protected $_blockFactory;
+
+    /**
      * Blocks registry
      *
      * @var array
@@ -126,23 +131,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_scheduledElements = array();
 
     /**
-     * Class constructor
-     *
-     * @param array $data
-     * @throws InvalidArgumentException
+     * @param Mage_Core_Model_BlockFactory $blockFactory
+     * @param Magento_Data_Structure $structure
+     * @param string $area
      */
-    public function __construct(array $data = array())
-    {
-        $this->_area = isset($data['area']) ? $data['area'] : Mage_Core_Model_Design_Package::DEFAULT_AREA;
-        if (isset($data['structure'])) {
-            if ($data['structure'] instanceof Magento_Data_Structure) {
-                $this->_structure = $data['structure'];
-            } else {
-                throw new InvalidArgumentException('Expected instance of Magento_Data_Structure.');
-            }
-        } else {
-            $this->_structure = new Magento_Data_Structure;
-        }
+    public function __construct(
+        Mage_Core_Model_BlockFactory $blockFactory,
+        Magento_Data_Structure $structure,
+        $area = Mage_Core_Model_Design_Package::DEFAULT_AREA
+    ) {
+        $this->_blockFactory = $blockFactory;
+        $this->_area = $area;
+        $this->_structure = $structure;
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
@@ -1104,7 +1104,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         if ($block && is_string($block)) {
             $block = Mage::getConfig()->getBlockClassName($block);
             if (Magento_Autoload::getInstance()->classExists($block)) {
-                $block = Mage::getModel($block, $attributes);
+                $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }
         if (!$block instanceof Mage_Core_Block_Abstract) {

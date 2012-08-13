@@ -25,6 +25,7 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
     public function __construct(\Zend\Di\Di $di)
     {
         $this->_di = $di;
+        $di->instanceManager()->addSharedInstance($this, "Magento_ObjectManager");
     }
 
     /**
