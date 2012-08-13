@@ -226,7 +226,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->addParameter('prodId', $this->defineParameterFromUrl('product_id'));
         $this->addParameter('custId', $this->defineParameterFromUrl('customer_id'));
-        $this->validatePage('edit_tag');
+        $this->validatePage();
     }
 
     /**
@@ -412,11 +412,20 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         return false;
     }
 
-    public function getInfoInTable(array $tableHeaderNames, $tableXpath, $fetchAll = false) {
+    /*
+     * Get grid as array
+     *
+     * @param array $tableHeaderNames Columns headers
+     * @param string $tableXpath Table xPath
+     *
+     * @return array Associative array  Column Header => Value
+     */
+    public function getInfoInTable(array $tableHeaderNames, $tableXpath = '//table[@id]')
+    {
         //Get columns' numbers
         if (count($tableHeaderNames) < 1) {
-           //Get all available columns
-
+            //Get all available columns
+            $tableHeaderNames = $this->getTableHeadRowNames($tableXpath);
         }
         $columnsId = array();
         foreach ($tableHeaderNames as $tableHeaderName) {
@@ -426,12 +435,36 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $cellNum = $this->getXpathCount($tableXpath . '/tbody/tr');
         //Get columns value
         $tableValues = array();
-        for ($row = 0; $row < $cellNum; $row++) {
+        for ($row = 1; $row <= $cellNum; $row++) {
             $rowValues = array();
             foreach ($columnsId as $columnName => $columnIndex) {
                 $rowValues[$columnName] = $this->getTable($tableXpath . '.' . $row . '.' . $columnIndex);
             }
             $tableValues[] = $rowValues;
+        }
+        return $tableValues;
+    }
+    /*
+     * Set sort order in grid
+     *
+     * @param string
+     */
+    public function sortOrderInTable($tableColumnName, $tableOrder, $tableXpath = '//table[@id]')
+    {
+        //Get records count on the page
+        $tableXpath .=  "/thead//th//a[contains(., '$tableColumnName')]";
+        if ($this->isElementPresent($tableXpath)) {
+            $currentState = $this->getAttribute($tableXpath . "@class");
+            if ($currentState == 'not-sort') {
+                $this->click($tableXpath) ;
+                $this->waitForAjax();
+            }
+            //get current state
+            $currentOrder = $this->getAttribute($tableXpath . "@title");
+            if ($currentOrder == $tableOrder) {
+                $this->click($tableXpath);
+                $this->waitForAjax();
+            }
         }
     }
 }

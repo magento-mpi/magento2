@@ -100,7 +100,6 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
                     'product_name' => $testData['simple']),
                 array('customer_email' => $testData['user'][1]['email'])),
             'Product tags verification is failure');
-            $this->tagsHelper()->getInfoInTable(array('Tag Name'), $this->_getControlXpath('pageelement', 'tags_grid'));
             $this->tagsHelper()->openTag(
                 array(
                     'product_name' => $testData['simple'],
@@ -116,8 +115,47 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array($this->generate('string', 4, ':alpha:'), 'Disabled'),
-           // array($this->generate('string', 4, ':alpha:'), 'Approved'),
-           // array($this->generate('string', 4, ':alpha:'), 'Pending')
+            array($this->generate('string', 4, ':alpha:'), 'Approved'),
+            array($this->generate('string', 4, ':alpha:'), 'Pending')
+        );
+    }
+    /**
+     * Backend verification search and order tag from frontend on the Customer Page
+     *
+     * @param string $columnName
+     * @param array $testData
+     *
+     * @test
+     * @dataProvider tagSearchNameDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-2378, TL-MAGE-2379
+     */
+    public function searchTags($columnName, $testData)
+    {
+        //Setup
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $this->customerHelper()->openCustomer(array('customer_email' => $testData['user'][1]['email']));
+        $this->openTab('product_tags');
+        $this->tagsHelper()->sortOrderInTable($columnName, 'asc', $this->_getControlXpath('pageelement', 'tags_grid'));
+        $tableValues = array();
+        $tableValues = $this->tagsHelper()->getInfoInTable(
+            $tableValues,
+            $this->_getControlXpath('pageelement', 'tags_grid')
+        );
+        //Check sort order
+        foreach ($tableValues as $key => $row) {
+            $volume[$key] = strtolower($row[$columnName]);
+        }
+        $tableValuesNew = $tableValues;
+        array_multisort($volume, SORT_ASC, SORT_STRING, $tableValuesNew);
+        $this->assertEquals($tableValues, $tableValuesNew);
+    }
+    public function tagSearchNameDataProvider()
+    {
+        return array(
+            array('Tag Name'),
+            array('Status')
         );
     }
 
