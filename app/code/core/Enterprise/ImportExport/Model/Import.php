@@ -70,10 +70,10 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
     public function initialize(Enterprise_ImportExport_Model_Scheduled_Operation $operation)
     {
         $this->setData(array(
-            'entity'         => $operation->getEntityType(),
-            'behavior'       => $operation->getBehavior(),
-            'operation_type' => $operation->getOperationType(),
-            'run_at'         => $operation->getStartTime(),
+            'entity'                 => $operation->getEntityType(),
+            'behavior'               => $operation->getBehavior(),
+            'operation_type'         => $operation->getOperationType(),
+            'run_at'                 => $operation->getStartTime(),
             'scheduled_operation_id' => $operation->getId()
         ));
         return $this;

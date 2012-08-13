@@ -73,7 +73,6 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-3309
-     * @group skip_due_to_bug
      */
     public function withRequiredFieldsEmpty($emptyField, $fieldType)
     {
@@ -147,10 +146,10 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3312
-     * @group skip_due_to_bug1.12
      */
     public function longValues()
     {
+        $this->markTestIncomplete('MAGETWO-1682');
         $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
                                             array('rule_name'          => $this->generate('string', 255, ':alnum:'),
                                                  'description'         => $this->generate('string', 255, ':alnum:'),
@@ -176,10 +175,10 @@ class Core_Mage_PriceRules_Catalog_CreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-3310
-     * @group skip_due_to_bug1.12
      */
     public function incorrectLengthInDiscountAmount()
     {
+        $this->markTestIncomplete('MAGETWO-1682');
         $priceRuleData = $this->loadDataSet('CatalogPriceRule', 'test_catalog_rule',
                                             array('discount_amount'    => '999999999',
                                                  'sub_discount_amount' => '999999999'));

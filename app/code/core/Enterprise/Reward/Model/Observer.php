@@ -31,9 +31,11 @@ class Enterprise_Reward_Model_Observer
         }
 
         $request = $observer->getEvent()->getRequest();
-        $customer = $observer->getEvent()->getCustomer();
         $data = $request->getPost('reward');
-        if ($data) {
+        if ($data && !empty($data['points_delta'])) {
+            /** @var $customer Mage_Customer_Model_Customer */
+            $customer = $observer->getEvent()->getCustomer();
+
             if (!isset($data['store_id'])) {
                 if ($customer->getStoreId() == 0) {
                     $data['store_id'] = Mage::app()->getDefaultStoreView()->getStoreId();
@@ -41,18 +43,16 @@ class Enterprise_Reward_Model_Observer
                     $data['store_id'] = $customer->getStoreId();
                 }
             }
-            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
-                ->setCustomer($customer)
+            /** @var $reward Enterprise_Reward_Model_Reward */
+            $reward = Mage::getModel('Enterprise_Reward_Model_Reward');
+            $reward->setCustomer($customer)
                 ->setWebsiteId(Mage::app()->getStore($data['store_id'])->getWebsiteId())
                 ->loadByCustomer();
-            if (!empty($data['points_delta'])) {
-                $reward->addData($data)
-                    ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
-                    ->setActionEntity($customer)
-                    ->updateRewardPoints();
-            } else {
-                $reward->save();
-            }
+
+            $reward->addData($data);
+            $reward->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_ADMIN)
+                ->setActionEntity($customer)
+                ->updateRewardPoints();
         }
         return $this;
     }

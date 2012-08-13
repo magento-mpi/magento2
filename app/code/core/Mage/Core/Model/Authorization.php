@@ -99,4 +99,23 @@ class Mage_Core_Model_Authorization
     {
         return $this->_aclPolicy->isAllowed($this->_aclRoleLocator->getAclRoleId(), $resource, $privilege);
     }
+
+    /**
+     * Delete nodes that have "acl" attribute but value is "not allowed"
+     *
+     * In any case, the "acl" attribute will be unset
+     *
+     * @param Varien_Simplexml_Element $xml
+     */
+    public function filterAclNodes(Varien_Simplexml_Element $xml)
+    {
+        $limitations = $xml->xpath('//*[@acl]') ?: array();
+        foreach ($limitations as $node) {
+            if (!$this->isAllowed($node['acl'])) {
+                $node->unsetSelf();
+            } else {
+                unset($node['acl']);
+            }
+        }
+    }
 }
