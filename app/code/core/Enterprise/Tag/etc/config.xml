@@ -21,4 +21,16 @@
             </depends>
         </Enterprise_Tag>
     </modules>
+    <adminhtml>
+        <cache>
+            <dependency>
+                <change>
+                    <tag>Mage_Tag_Model_Tag</tag>
+                </change>
+                <delete>
+                    <tag>Mage_Tag_Model_Tag</tag>
+                </delete>
+            </dependency>
+        </cache>
+    </adminhtml>
 </config>

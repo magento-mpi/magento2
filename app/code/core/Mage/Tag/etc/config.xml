@@ -131,15 +131,5 @@
                 </tag>
             </updates>
         </layout>
-        <cache>
-            <dependency>
-                <change>
-                    <tag>Mage_Tag_Model_Tag</tag>
-                </change>
-                <delete>
-                    <tag>Mage_Tag_Model_Tag</tag>
-                </delete>
-            </dependency>
-        </cache>
     </adminhtml>
 </config>
