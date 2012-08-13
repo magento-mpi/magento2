@@ -103,13 +103,14 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
                     'tag_search_email' => $testData['user'][$customer]['email']),
                 array('product_name' => $testData['simple'])),
             'Customer tagged product verification is failure');
+            $this->addParameter('customer_first_last_name',
+                'First Name Last Name');
             $this->searchAndOpen(
                 array(
                     'tag_search_email' => $testData['user'][$customer]['email'],
                     'tag_search_name' => $tag), true, 'customer_tags'
             );
-            $this->validatePage('edit_customer');
-            $this->customerHelper()->saveForm('save');
+            $this->customerHelper()->saveForm('save_customer');
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
     }
