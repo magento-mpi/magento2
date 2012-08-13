@@ -292,6 +292,10 @@ system_configuration:
                             -
                                 captcha_admin:
                                     xpath: //fieldset[@id='admin_captcha']
+                            -
+                                security:
+                                    fields:
+                                        maximum_login_failures: //input[@name="groups[security][fields][lockout_failures][value]"]
                 -
                     general_reports:
                         fieldsets:

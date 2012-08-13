@@ -76,3 +76,7 @@ delete_admin_user_role:
     search_role:
         id: %noValue%
         role_name: %roleName%
+
+search__locked_user:
+    search_user:
+        username: %userName%
