@@ -68,7 +68,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2269
+     * @TestlinkId TL-MAGE-2369
      */
     public function addFromFrontendTags($tags, $status, $testData)
     {
@@ -112,7 +112,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2269, TL-MAGE-2374
+     * @TestlinkId TL-MAGE-2371, TL-MAGE-2374
      */
     public function addFromBackendTags($tags, $status, $testData)
     {
@@ -161,7 +161,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
     public function tagNameDataProvider()
     {
         return array(
-            //TL-MAGE-2269, TL-MAGE-2374 simple tag
+            //TL-MAGE-2371, TL-MAGE-2374 simple tag
             array($this->generate('string', 4, ':alpha:'), 'Disabled'),
         );
     }
@@ -222,7 +222,7 @@ class Community2_Mage_Tags_ProductCreateTest extends Mage_Selenium_TestCase
     public function tagSearchNameDataProvider()
     {
         return array(
-            //TL-MAGE-2269, TL-MAGE-2374 simple tag
+            //TL-MAGE-2373 simple tag
             array(
                 array('tag_name' => $this->generate('string', 4, ':alpha:'),
                     'tag_status' => 'Approved', 'base_popularity' => '1')),
