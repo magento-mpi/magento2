@@ -202,4 +202,27 @@ class Mage_Adminhtml_CustomerControllerSaveSetup extends Mage_Adminhtml_Customer
         unset($this->_registryMock);
         unset($this->_aclMock);
     }
+
+    protected function _prepareMocksForSuccessCustomerSave()
+    {
+        $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The customer has been saved.');
+
+        $this->_helperMock->expects($this->once())
+            ->method('__')->with('The customer has been saved.')->will($this->returnArgument(0));
+
+        $eventParams = array(
+            'customer' => $this->_customerMock,
+            'request' => $this->_requestMock
+        );
+        $this->_eventManagerMock->expects($this->at(0))
+            ->method('dispatch')->with('adminhtml_customer_prepare_save', $eventParams);
+        $this->_eventManagerMock->expects($this->at(1))
+            ->method('dispatch')->with('adminhtml_customer_save_after', $eventParams);
+
+        $this->_aclMock->expects($this->once())
+            ->method('isAllowed')
+            ->with(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)->will($this->returnValue(true));
+
+        $this->_customerMock->expects($this->once())->method('save');
+    }
 }
