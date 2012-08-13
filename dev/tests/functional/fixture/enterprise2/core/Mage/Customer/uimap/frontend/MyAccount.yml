@@ -35,6 +35,7 @@ customer_account:
                         xpath: //div[@class="block-content"]
                         links:
                             sku_tab: //a[text()='Order by SKU']
+                            my_returns_tab: //a[text()='My Returns']
 order_by_sku:
     mca: customer_order/sku/
     title: Order by SKU
@@ -54,4 +55,48 @@ order_by_sku:
             sku_invalid_number: //div[@class='validation-advice' and contains(.,'Please enter a valid number in this field.')]
             sku_negative_number: //div[@class='validation-advice' and contains(.,'Please enter a number greater than 0 in this field.')]
             sku_outofrange_number: //div[@class='validation-advice' and contains(.,'The value is not within the specified range.')]
-            sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]  
+            sku_required_field: //div[@class='validation-advice' and contains(.,'This is a required field.')]
+
+view_order:
+    title: 'Order # %orderId%'
+    uimap:
+        form:
+            fieldsets:
+                -
+                    order:
+                        links:
+                            return: //a[text()='Return']
+
+create_new_return:
+   mca: rma/return/create/order_id/%id%/
+   title: Create New Return
+   uimap:
+       form:
+           fieldsets:
+               -
+                   create_rma:
+                       xpath: //*[@id='rma_create_form']
+                       links:
+                           back: //p[@class='back-link a-left']/a
+                           add_item_to_return: //a[text()='Add Item To Return']
+                       fields:
+                           email: //*[@id='email']
+                           quantity: //*[@id='items:qty_requested%param%']
+                           comment: //*[@id='rma_comment']
+                       dropdowns:
+                           item: //*[@id='items:item%param%']
+                           resolution: //*[@id='items:resolution%param%']
+                           condition: //*[@id='items:condition%param%']
+                           reason: //*[@id='items:reason%param%']
+                       buttons:
+                           submit: //*[@id='submit.save']
+       messages:
+           specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
+
+my_returns:
+   mca: rma/return/history/
+   title: My Returns
+   uimap:
+       form:
+       messages:
+           successfully_submitted_return: //li[normalize-space(@class)='success-msg' and contains(.,' has been submitted successfully')]

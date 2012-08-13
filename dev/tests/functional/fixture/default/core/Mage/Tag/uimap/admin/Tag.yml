@@ -204,4 +204,8 @@ product_tags:
     mca: tag/edit/tag_id/%id%/product_id/%prodId%
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
+customer_tags:
+    mca: tag/edit/tag_id/%id%/customer_id/%custId%
+    title: %tagName% / Tags / Catalog / Magento Admin
+    uimap: *editTagUimap
 

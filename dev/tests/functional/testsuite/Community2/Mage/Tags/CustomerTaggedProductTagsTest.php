@@ -32,7 +32,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
-        //$this->tagsHelper()->deleteAllTags();
+        $this->tagsHelper()->deleteAllTags();
     }
 
     /**
@@ -76,7 +76,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6040, TL-MAGE-6043
      */
-    public function backendVerificationFrontendTaggedCustomerOnProductTags($tags, $status, $customer, $testData)
+    public function addFromFrontendTags($tags, $status, $customer, $testData)
     {
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][$customer]);
@@ -103,16 +103,25 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
                     'tag_search_email' => $testData['user'][$customer]['email']),
                 array('product_name' => $testData['simple'])),
             'Customer tagged product verification is failure');
+            $this->addParameter('customer_first_last_name',
+                'First Name Last Name');
             $this->searchAndOpen(
                 array(
                     'tag_search_email' => $testData['user'][$customer]['email'],
                     'tag_search_name' => $tag), true, 'customer_tags'
             );
-            $this->validatePage('edit_customer');
-            $this->customerHelper()->saveForm('save');
+            $this->customerHelper()->saveForm('save_customer');
             $this->assertMessagePresent('success', 'success_saved_customer');
         }
     }
+    public function tagNameDataProvider()
+    {
+        return array(
+            array($this->generate('string', 4, ':alpha:'), 'Approved', 1),
+            array($this->generate('string', 4, ':alpha:'), 'Disabled', 2)
+        );
+    }
+
     /**
      * Backend verification customer tagged product from backend on the Product Page
      *
@@ -125,7 +134,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
      * @depends preconditionsForTests
      * TestlinkId TL-MAGE-6041
      */
-    public function backendVerificationBackendCustomerTaggedOnProductTags($tags, $status, $testData)
+    public function addFromBackendTags($tags, $status, $testData)
     {
         $setData = $this->loadDataSet('Tag', 'backend_new_tag_with_product',
             array(
@@ -150,13 +159,6 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
                 'Administrator tagged product verification is failure');
         }
     }
-    public function tagNameDataProvider()
-    {
-        return array(
-            array($this->generate('string', 4, ':alpha:'), 'Approved', 1),
-            array($this->generate('string', 4, ':alpha:'), 'Disabled', 2)
-        );
-    }
     public function tagAdminNameDataProvider()
     {
         return array(
@@ -175,7 +177,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-6042
      */
-    public function backendVerificationBackendSearchCustomerTaggedOnProductTags($tags, $testData)
+    public function searchTags($tags, $testData)
     {
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
