@@ -75,8 +75,6 @@ class Mage_Adminhtml_CustomerControllerSaveValidationTest extends Mage_Adminhtml
         $this->_customerMock->expects($this->once())
             ->method('isObjectNew')->will($this->returnValue(true));
 
-        $this->_customerMock->expects($this->once())->method('save');
-
         $this->_customerMock->expects($this->once())
             ->method('getWebsiteId')->will($this->returnValue(1));
 
@@ -96,23 +94,7 @@ class Mage_Adminhtml_CustomerControllerSaveValidationTest extends Mage_Adminhtml
         $this->_customerMock->expects($this->once())->method('changePassword')->with('auto generated');
         $this->_customerMock->expects($this->once())->method('sendPasswordReminderEmail');
 
-        $this->_sessionMock->expects($this->once())->method('addSuccess')->with('The customer has been saved.');
-
-        $this->_helperMock->expects($this->once())
-            ->method('__')->with('The customer has been saved.')->will($this->returnArgument(0));
-
-        $eventParams = array(
-            'customer' => $this->_customerMock,
-            'request' => $this->_requestMock
-        );
-        $this->_eventManagerMock->expects($this->at(0))
-            ->method('dispatch')->with('adminhtml_customer_prepare_save', $eventParams);
-        $this->_eventManagerMock->expects($this->at(1))
-            ->method('dispatch')->with('adminhtml_customer_save_after', $eventParams);
-
-        $this->_aclMock->expects($this->once())
-            ->method('isAllowed')
-            ->with(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL)->will($this->returnValue(true));
+        $this->_prepareMocksForSuccessCustomerSave();
 
         /* Call action */
         $this->_model->saveAction();
