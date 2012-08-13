@@ -4366,3 +4366,8 @@ system_configuration_country:
     mca: system_config/edit/section/payment/country/%country%
     title: Configuration / System / Magento Admin
     uimap: *system_configuration_uimap
+
+system_configuration_website_base:
+    mca: system_config/edit/website/base/
+    title: Configuration / System / Magento Admin
+    uimap: *system_configuration_uimap
