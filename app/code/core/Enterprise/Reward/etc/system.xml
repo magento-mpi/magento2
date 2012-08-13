@@ -215,23 +215,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </review_limit>
-                        <tag translate="label comment">
-                            <label>New Tag Submission</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <comment>After approval by administrator.</comment>
-                        </tag>
-                        <tag_limit translate="label comment">
-                            <label>Rewarded Tag Submission Quantity Limit</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>75</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </tag_limit>
                     </fields>
                 </points>
                 <notification translate="label" module="Enterprise_Reward">
