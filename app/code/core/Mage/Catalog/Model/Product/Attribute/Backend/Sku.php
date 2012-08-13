@@ -43,4 +43,15 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model_En
         }
         return parent::validate($object);
     }
+
+    public function generateUniqueSku($object)
+    {
+        $attribute = $this->getAttribute();
+        $entity = $attribute->getEntity();
+        $increment = $entity->getLastSimilarAttributeValueIncrement($attribute, $object);
+        $attributeValue = $object->getData($attribute->getAttributeCode());
+        while (!$entity->checkAttributeUniqueValue($attribute, $object)) {
+            $object->setSku($attributeValue . '-' . ++$increment);
+        }
+    }
 }

@@ -709,6 +709,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
             $product = $this->_initProductSave($this->_initProduct());
 
+            $product->getResource()->getAttribute('sku')->getBackend()->generateUniqueSku($product);
             try {
                 $product->save();
                 $productId = $product->getId();
