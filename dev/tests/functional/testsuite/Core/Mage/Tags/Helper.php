@@ -226,7 +226,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->addParameter('prodId', $this->defineParameterFromUrl('product_id'));
         $this->addParameter('custId', $this->defineParameterFromUrl('customer_id'));
-        $this->validatePage();
+        $this->validatePage('edit_tag');
     }
 
     /**
@@ -412,20 +412,24 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         return false;
     }
 
-    public function getInfoInTable(array $tableHeaderNames, string $tableXpath, $fetchAll = false) {
+    public function getInfoInTable(array $tableHeaderNames, $tableXpath, $fetchAll = false) {
         //Get columns' numbers
+        if (count($tableHeaderNames) < 1) {
+           //Get all available columns
+
+        }
         $columnsId = array();
         foreach ($tableHeaderNames as $tableHeaderName) {
-            $columnsId[] = array( $tableHeaderName => $this->getColumnIdByName($tableHeaderName, $tableXpath));
+            $columnsId[$tableHeaderName] = $this->getColumnIdByName($tableHeaderName, $tableXpath) - 1;
         }
         //Get records count on the page
-        $cellNum = $this->getXpathCount($tableXpath . '/tr');
+        $cellNum = $this->getXpathCount($tableXpath . '/tbody/tr');
         //Get columns value
         $tableValues = array();
         for ($row = 0; $row < $cellNum; $row++) {
             $rowValues = array();
             foreach ($columnsId as $columnName => $columnIndex) {
-                $rowValues[$columnName] = $this->getTable($tableXpath . $row . $columnIndex);
+                $rowValues[$columnName] = $this->getTable($tableXpath . '.' . $row . '.' . $columnIndex);
             }
             $tableValues[] = $rowValues;
         }
