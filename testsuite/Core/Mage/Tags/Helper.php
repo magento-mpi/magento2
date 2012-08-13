@@ -214,13 +214,16 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             unset($searchData[$key]);
         }
         // Search and open
-        $xpathTR = $this->search($searchData, 'tags_grid');
+        $xpathTR = $this->search($searchData);
         $this->assertNotNull($xpathTR, 'Tag is not found');
-        $cellId = $this->getColumnIdByName('Tag');
+        //get Table xPath depends page content
+        $tableXpath = $this->_getControlXpath('pageelement', 'tags_grid');
+        $cellId = $this->getColumnIdByName('Tag', $tableXpath);
         $this->addParameter('tagName', $this->getText($xpathTR . '//td[' . $cellId . ']'));
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->click($xpathTR . '//td[' . $cellId . ']');
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('prodId', $this->defineParameterFromUrl('product_id'));
         $this->validatePage();
     }
 
@@ -338,6 +341,22 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $this->productHelper()->openProduct($productSearchData);
         $this->openTab('product_tags');
         $xpathTR = $this->search($tagSearchData, 'product_tags');
+        return $xpathTR ? true : false;
+    }
+    /**
+     * Checks if the customer tagged product is assigned to the product.
+     * Returns true if assigned, or False otherwise.
+     *
+     * @param array $tagSearchData Data used in Search Grid for tags. Same as used for openTag
+     * @param array $productSearchData Product to open. Same as used in productHelper()->openProduct
+     *
+     * @return bool
+     */
+    public function verifyCustomerTaggedProduct(array $tagSearchData, array $productSearchData)
+    {
+        $this->productHelper()->openProduct($productSearchData);
+        $this->openTab('customer_tags');
+        $xpathTR = $this->search($tagSearchData, 'customer_tags');
         return $xpathTR ? true : false;
     }
 
