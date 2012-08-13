@@ -62,7 +62,7 @@ edit_role:
     mca: user_role/editrole/rid/%id%/
     uimap:
         form:
-             tabs:
+            tabs:
                 -
                     role_resources:
                         fieldsets:
@@ -72,4 +72,5 @@ edit_role:
                                         root_category: //ul/div/li[contains(div/a/span,'%rootName%')]
                                         sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
-
+        messages:
+            delete_self_assigned_role: //li[normalize-space(@class)='error-msg' and contains(.,'Self-assigned roles cannot be deleted.')]

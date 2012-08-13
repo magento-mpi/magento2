@@ -160,6 +160,6 @@ class Community2_Mage_AdminUser_Helper extends Core_Mage_AdminUser_Helper
             $this->searchAndOpen($searchUserRole);
             $this->addParameter('id', $this->defineIdFromUrl());
         }
-        $this->saveForm('delete_role');
+        $this->clickButtonAndConfirm('delete_role', 'confirmation_for_delete');
     }
 }
