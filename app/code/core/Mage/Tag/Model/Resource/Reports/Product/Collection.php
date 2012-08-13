@@ -3,20 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 
 /**
  * Report Products Tags collection
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_Resource_Product_Collection
+class Mage_Tag_Model_Resource_Reports_Product_Collection extends Mage_Tag_Model_Resource_Product_Collection
 {
     protected function _construct()
     {
@@ -29,12 +28,12 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     /**
      * Add unique target count to result
      *
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function addUniqueTagedCount()
     {
         $select = clone $this->getSelect();
-        
+
         $select->reset()
             ->from(array('rel' => $this->getTable('tag_relation')), 'COUNT(DISTINCT rel.tag_id)')
             ->where('rel.product_id = e.entity_id');
@@ -47,7 +46,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     /**
      * Add all target count to result
      *
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function addAllTagedCount()
     {
@@ -59,7 +58,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     /**
      * Add target count to result
      *
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function addTagedCount()
     {
@@ -72,7 +71,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     /**
      * Add group by product to result
      *
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function addGroupByProduct()
     {
@@ -84,7 +83,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     /**
      * Add group by tag to result
      *
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function addGroupByTag()
     {
@@ -97,7 +96,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
      * Add product filter
      *
      * @param int $customerId
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function addProductFilter($customerId)
     {
@@ -112,7 +111,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
      *
      * @param string $attribute
      * @param string $dir
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
@@ -128,7 +127,7 @@ class Mage_Reports_Model_Resource_Tag_Product_Collection extends Mage_Tag_Model_
     /**
      * Join fields
      *
-     * @return Mage_Reports_Model_Resource_Tag_Product_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Product_Collection
      */
     protected function _joinFields()
     {

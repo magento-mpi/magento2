@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +12,11 @@
  * Adminhtml tags by customers report grid block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Tag_Block_Adminhtml_Report_Customer_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -27,7 +26,7 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     protected function _prepareCollection()
     {
 
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Customer_Collection');
+        $collection = Mage::getResourceModel('Mage_Tag_Model_Resource_Reports_Customer_Collection');
 
         $collection->addStatusFilter(Mage_Tag_Model_Tag::STATUS_APPROVED)
             ->addGroupByCustomer()
@@ -41,24 +40,24 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
     {
 
         $this->addColumn('entity_id', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('ID'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('ID'),
             'width'     => '50px',
             'align'     =>'right',
             'index'     =>'entity_id'
         ));
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('taged', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Total Tags'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Total Tags'),
             'width'     =>'50px',
             'align'     =>'right',
             'index'     =>'taged'
@@ -66,13 +65,13 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->addColumn('action',
             array(
-                'header'    => Mage::helper('Mage_Catalog_Helper_Data')->__('Action'),
+                'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Action'),
                 'width'     => '100%',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption' => Mage::helper('Mage_Catalog_Helper_Data')->__('Show Tags'),
+                        'caption' => Mage::helper('Mage_Tag_Helper_Data')->__('Show Tags'),
                         'url'     => array(
                             'base'=>'*/*/customerDetail'
                         ),
@@ -87,8 +86,8 @@ class Mage_Adminhtml_Block_Report_Tag_Customer_Grid extends Mage_Adminhtml_Block
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportCustomerCsv', Mage::helper('Mage_Tag_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportCustomerExcel', Mage::helper('Mage_Tag_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }

@@ -3,26 +3,25 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 
 /**
  * Report Products Tags collection
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Tag_Collection extends Mage_Tag_Model_Resource_Popular_Collection
+class Mage_Tag_Model_Resource_Reports_Collection extends Mage_Tag_Model_Resource_Popular_Collection
 {
     /**
      * Add tag popularity to select by specified store ids
      *
      * @param int|array $storeIds
-     * @return Mage_Reports_Model_Resource_Tag_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Collection
      */
     public function addPopularity($storeIds)
     {

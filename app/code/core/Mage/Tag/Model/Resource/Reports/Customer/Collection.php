@@ -3,20 +3,19 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 
 /**
  * Report Customers Tags collection
  *
  * @category    Mage
- * @package     Mage_Reports
+ * @package     Mage_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Reports_Model_Resource_Tag_Customer_Collection extends Mage_Tag_Model_Resource_Customer_Collection
+class Mage_Tag_Model_Resource_Reports_Customer_Collection extends Mage_Tag_Model_Resource_Customer_Collection
 {
     protected function _construct()
     {
@@ -26,7 +25,7 @@ class Mage_Reports_Model_Resource_Tag_Customer_Collection extends Mage_Tag_Model
     /**
      * Add target count
      *
-     * @return Mage_Reports_Model_Resource_Tag_Customer_Collection
+     * @return Mage_Tag_Model_Resource_Reports_Customer_Collection
      */
     public function addTagedCount()
     {

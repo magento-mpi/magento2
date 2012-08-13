@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,16 +12,16 @@
  * Adminhtml popular tags report blocks content block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Report_Tag_Popular extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Tag_Block_Adminhtml_Report_Popular extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-
     public function __construct()
     {
-        $this->_controller = 'report_tag_popular';
-        $this->_headerText = Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags');
+        $this->_blockGroup = 'Mage_Tag';
+        $this->_controller = 'adminhtml_report_popular';
+        $this->_headerText = Mage::helper('Mage_Tag_Helper_Data')->__('Popular Tags');
         parent::__construct();
         $this->_removeButton('add');
     }

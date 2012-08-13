@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,20 +12,23 @@
  * Tag report admin controller
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Action
+class Mage_Tag_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Action
 {
     public function _initAction()
     {
-        $act = $this->getRequest()->getActionName();
-        if(!$act)
-            $act = 'default';
-
         $this->loadLayout()
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Reports'), Mage::helper('Mage_Reports_Helper_Data')->__('Reports'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Tag'), Mage::helper('Mage_Reports_Helper_Data')->__('Tag'));
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Reports'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Reports')
+            )
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Tag'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Tag')
+            );
+
         return $this;
     }
 
@@ -37,8 +40,11 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Tag::report_tags_customer')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Customers Report'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Customers Report')
+            )
+            ->_addContent($this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Customer'))
             ->renderLayout();
     }
 
@@ -48,7 +54,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportCustomerCsvAction()
     {
         $fileName   = 'tag_customer.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Customer_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -60,7 +66,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportCustomerExcelAction()
     {
         $fileName   = 'tag_customer.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Customer_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -74,8 +80,11 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Tag::report_tags_product')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Poducts Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Poducts Report'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Products Report')
+            )
+            ->_addContent($this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Product'))
             ->renderLayout();
     }
 
@@ -85,7 +94,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportProductCsvAction()
     {
         $fileName   = 'tag_product.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Product_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -97,12 +106,11 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportProductExcelAction()
     {
         $fileName   = 'tag_product.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Product_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
-
 
     public function popularAction()
     {
@@ -112,8 +120,11 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
         $this->_initAction()
             ->_setActiveMenu('Mage_Tag::report_tags_popular')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'))
-            ->_addContent($this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular'))
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Popular Tags'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Popular Tags')
+            )
+            ->_addContent($this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular'))
             ->renderLayout();
     }
 
@@ -123,7 +134,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportPopularCsvAction()
     {
         $fileName   = 'tag_popular.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -135,7 +146,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportPopularExcelAction()
     {
         $fileName   = 'tag_popular.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -143,17 +154,25 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     public function customerDetailAction()
     {
-        $detailBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer_Detail');
+        $this->_initAction();
+
+        /** @var $detailBlock Mage_Tag_Block_Adminhtml_Report_Customer_Detail */
+        $detailBlock = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Customer_Detail');
 
         $this->_title($this->__('Reports'))
              ->_title($this->__('Tags'))
              ->_title($this->__('Customers'))
              ->_title($detailBlock->getHeaderText());
 
-        $this->_initAction()
-            ->_setActiveMenu('Mage_Tag::report_tags')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Customers Report'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Customer Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Customer Tags'))
+        $this->_setActiveMenu('Mage_Tag::report_tags')
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Customers Report'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Customers Report')
+            )
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Customer Tags'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Customer Tags')
+            )
             ->_addContent($detailBlock)
             ->renderLayout();
     }
@@ -164,7 +183,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportCustomerDetailCsvAction()
     {
         $fileName   = 'tag_customer_detail.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Customer_Detail_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -176,7 +195,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportCustomerDetailExcelAction()
     {
         $fileName   = 'tag_customer_detail.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Customer_Detail_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Customer_Detail_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -184,17 +203,25 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     public function productDetailAction()
     {
-        $detailBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product_Detail');
+        $this->_initAction();
+
+        /** @var $detailBlock Mage_Tag_Block_Adminhtml_Report_Product_Detail */
+        $detailBlock = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Product_Detail');
 
         $this->_title($this->__('Reports'))
              ->_title($this->__('Tags'))
              ->_title($this->__('Products'))
              ->_title($detailBlock->getHeaderText());
 
-        $this->_initAction()
-            ->_setActiveMenu('Mage_Tag::report_tags')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'), Mage::helper('Mage_Reports_Helper_Data')->__('Products Report'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Product Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Product Tags'))
+        $this->_setActiveMenu('Mage_Tag::report_tags')
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Products Report'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Products Report')
+            )
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Product Tags'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Product Tags')
+            )
             ->_addContent($detailBlock)
             ->renderLayout();
     }
@@ -205,7 +232,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportProductDetailCsvAction()
     {
         $fileName   = 'tag_product_detail.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Product_Detail_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -217,7 +244,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportProductDetailExcelAction()
     {
         $fileName   = 'tag_product_detail.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Product_Detail_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Product_Detail_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -225,17 +252,25 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
 
     public function tagDetailAction()
     {
-        $detailBlock = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular_Detail');
+        $this->_initAction();
+
+        /** @var $detailBlock Mage_Tag_Block_Adminhtml_Report_Popular_Detail */
+        $detailBlock = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Detail');
 
         $this->_title($this->__('Reports'))
              ->_title($this->__('Tags'))
              ->_title($this->__('Popular'))
              ->_title($detailBlock->getHeaderText());
 
-        $this->_initAction()
-            ->_setActiveMenu('Mage_Tag::report_tags')
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'), Mage::helper('Mage_Reports_Helper_Data')->__('Popular Tags'))
-            ->_addBreadcrumb(Mage::helper('Mage_Reports_Helper_Data')->__('Tag Detail'), Mage::helper('Mage_Reports_Helper_Data')->__('Tag Detail'))
+        $this->_setActiveMenu('Mage_Tag::report_tags')
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Popular Tags'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Popular Tags')
+            )
+            ->_addBreadcrumb(
+                Mage::helper('Mage_Tag_Helper_Data')->__('Tag Detail'),
+                Mage::helper('Mage_Tag_Helper_Data')->__('Tag Detail')
+            )
             ->_addContent($detailBlock)
             ->renderLayout();
     }
@@ -246,7 +281,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportTagDetailCsvAction()
     {
         $fileName   = 'tag_detail.csv';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid')
             ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
@@ -258,7 +293,7 @@ class Mage_Adminhtml_Report_TagController extends Mage_Adminhtml_Controller_Acti
     public function exportTagDetailExcelAction()
     {
         $fileName   = 'tag_detail.xml';
-        $content    = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid')
+        $content    = $this->getLayout()->createBlock('Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid')
             ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);

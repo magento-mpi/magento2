@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Adminhtml
+ * @package     Mage_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,12 +12,11 @@
  * Adminhtml tags detail for product report grid block
  *
  * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @package    Mage_Tag
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -27,12 +26,12 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     /**
      * Prepare collection for grid
      *
-     * @return Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid
+     * @return Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Mage_Reports_Model_Resource_Tag_Customer_Collection */
-        $collection = Mage::getResourceModel('Mage_Reports_Model_Resource_Tag_Customer_Collection');
+        /* @var $collection Mage_Tag_Model_Resource_Reports_Customer_Collection */
+        $collection = Mage::getResourceModel('Mage_Tag_Model_Resource_Reports_Customer_Collection');
         $collection->addStatusFilter(Mage::getModel('Mage_Tag_Model_Tag')->getApprovedStatus())
             ->addTagFilter($this->getRequest()->getParam('id'))
             ->addProductToSelect();
@@ -45,29 +44,29 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
     /**
      * Form columns for the grid
      *
-     * @return Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid
+     * @return Mage_Tag_Block_Adminhtml_Report_Popular_Detail_Grid
      */
     protected function _prepareColumns()
     {
 
         $this->addColumn('firstname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('First Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
             'index'     =>'firstname'
         ));
 
         $this->addColumn('lastname', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Last Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
             'index'     =>'lastname'
         ));
 
         $this->addColumn('product', array(
-            'header'    =>Mage::helper('Mage_Reports_Helper_Data')->__('Product Name'),
+            'header'    =>Mage::helper('Mage_Tag_Helper_Data')->__('Product Name'),
             'index'     =>'product_name'
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('added_in', array(
-                'header'    => Mage::helper('Mage_Reports_Helper_Data')->__('Submitted In'),
+                'header'    => Mage::helper('Mage_Tag_Helper_Data')->__('Submitted In'),
                 'index'     => 'added_in',
                 'type'      => 'store',
                 'store_view'=> true
@@ -76,8 +75,8 @@ class Mage_Adminhtml_Block_Report_Tag_Popular_Detail_Grid extends Mage_Adminhtml
 
         $this->setFilterVisibility(false);
 
-        $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('Mage_Reports_Helper_Data')->__('CSV'));
-        $this->addExportType('*/*/exportTagDetailExcel', Mage::helper('Mage_Reports_Helper_Data')->__('Excel XML'));
+        $this->addExportType('*/*/exportTagDetailCsv', Mage::helper('Mage_Tag_Helper_Data')->__('CSV'));
+        $this->addExportType('*/*/exportTagDetailExcel', Mage::helper('Mage_Tag_Helper_Data')->__('Excel XML'));
 
         return parent::_prepareColumns();
     }
