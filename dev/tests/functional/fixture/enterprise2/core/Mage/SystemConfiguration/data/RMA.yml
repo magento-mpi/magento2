@@ -25,29 +25,20 @@
 # @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 #
 ---
+#Test data for Admin User and Admin Role
 
-disable_secret_key:
+enable_rma_on_frontend:
     configuration_scope: Default Config
     tab_1:
-        tab_name: advanced_admin
+        tab_name: sales_sales
         configuration:
-            add_secret_key_to_urls: No
+            enable_rma_on_frontend: Yes
+            enable_rma_on_product_level: Yes
+            use_store_address: Yes
 
-admin_user_emails_settings:
+disable_rma_on_frontend:
     configuration_scope: Default Config
     tab_1:
-        tab_name: advanced_admin
+        tab_name: sales_sales
         configuration:
-            forgot_password_email_template: Forgot Admin Password (Default)
-            forgot_password_email_sender: General Contact
-            recovery_link_exp_period: 1
-
-customer_configuration_password_options:
-    configuration_scope: Default Config
-    tab_1:
-        tab_name: customers_customer_configuration
-        configuration:
-            forgot_email_template: Forgot Password (Default)
-            remind_email_template: Remind Password (Default)
-            forgot_email_sender: Customer Support
-            recovery_link_exp_period: 1
+            enable_rma_on_frontend: No
