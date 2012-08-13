@@ -12,21 +12,9 @@
 /**
  * Template for Mage_Backend_Block_Widget_Button
  */
-
-$attributes['id'] = $this->getId() ? 'id="' . $this->getId() . '"' : '';
-$attributes['name'] = $this->getElementName() ? 'name="' . $this->getElementName() . '"' : '';
-$attributes['title'] = 'title="' . Mage::helper('Mage_Core_Helper_Data')->quoteEscape($this->getTitle() ? $this->getTitle() : $this->getLabel()) . '"';
-$attributes['type'] = 'type="' . $this->getType() . '"';
-$attributes['class'] = 'class="scalable ' . $this->getClass() . ($this->getDisabled() ? 'disabled' : '') . '"';
-$attributes['onclick'] = 'onclick="'.$this->getOnClick().'"';
-$attributes['style'] = 'style="'.$this->getStyle() .'"';
-$attributes['value'] = $this->getValue() ? 'value="' . $this->getValue() . '"' : '';
-$attributes['disabled'] = $this->getDisabled() ? 'disabled="disabled"' : '';
-
 ?>
-
 <?php echo $this->getBeforeHtml(); ?>
-<button <?php echo implode(' ', $attributes); ?>>
+<button <?php echo $this->getAttributesHtml(); ?>>
     <span><span><span><?php echo $this->getLabel(); ?></span></span></span>
 </button>
 <?php echo $this->getAfterHtml(); ?>
