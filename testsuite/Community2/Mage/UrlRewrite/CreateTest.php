@@ -481,4 +481,42 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Verifying page of URL rewrite for product
         $this->assertSame($this->getTitle(), 'Google', 'Wrong page is opened');
     }
+
+//  @TestlinkId TL-MAGE-5515
+//
+//    public function urlRewriteCategory ()
+//    {
+//        $this->navigate('manage_categories', false);
+//        $this->categoryHelper()->checkCategoriesPage();
+//        //Data
+//        $categoryData = $this->loadDataSet('Category', 'sub_category_required');
+//        //Steps
+//        $this->categoryHelper()->createCategory($categoryData);
+//        //Verifying
+//        $this->assertMessagePresent('success', 'success_saved_category');
+//        $this->categoryHelper()->checkCategoriesPage();
+//        $this->navigate('url_rewrite_management');
+//            //Click 'Add new rewrite' button
+//        $this->clickButton('add_new_rewrite', 'true');
+//            //At Create URL rewrite dropdown select Custom
+//        $this->fillDropdown('create_url_rewrite_dropdown', 'For category');
+//        //Select Subcategory
+//        $this->categoryHelper()->
+//            selectCategory($categoryData['parent_category'] . '/' . $categoryData['name'], 'category_rewrite');
+//        $this->waitForPageToLoad();
+//        //Loading data from data file
+//        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category');
+//        $this->validatePage();
+//        //Fill request path input field
+//        $this->fillField('request_path', $fieldData['request_path']);
+//        //Click Save button
+//        $this->clickButton('save', false);
+//        //Generating URL rewrite link
+//        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
+//        //Open page on frontend
+//        $this->frontend();
+//        $this->open($rewriteUrl);
+//        //Verifying page of URL rewrite for product
+//        $this->assertSame($this->getTitle(), $categoryData['name'], 'Wrong page is opened');
+//    }
 }
