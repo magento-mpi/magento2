@@ -113,9 +113,9 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $tags = array($this->generate('string', 4, ':lower:'), $this->generate('string', 4, ':lower:'));
         foreach ($tags as $tag) {
             $this->tagsHelper()->frontendAddTag($tag);
+            //Verifying
+            $this->assertMessagePresent('success', 'tag_accepted_success');
         }
-        //Verifying
-        $this->assertMessagePresent('success', 'tag_accepted_success');
         $this->tagsHelper()->frontendTagVerification($tags, $testData['product']);
         $this->loginAdminUser();
         foreach ($tags as $tag) {
@@ -133,7 +133,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         //Step 9
         $this->navigate('report_tag_customer');
         //Verifying
-        $this->assertNotNull($this->tagsHelper()->searchDataInReport(array(
+        $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
             'first_name' => $testData['customer']['first_name'],
             'last_name' => $testData['customer']['last_name'],
             'total_tags' => count($tags),
@@ -146,7 +146,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'show_tags');
         //Verifying
         foreach ($tags as $tag) {
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport(array(
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
                 'product_name' => $testData['product'],
                 'tag_name' => $tag,
             )), 'Tag is not shown in Tags Submitted by Customer');
@@ -154,7 +154,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         //Step 11
         $this->navigate('report_tag_product');
         //Verifying
-        $this->assertNotNull($this->tagsHelper()->searchDataInReport(array(
+        $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
             'product_name' => $testData['product'],
             'unique_tags_number' => count($tags),
             'total_tags_number' => count($tags),
@@ -164,7 +164,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'show_tags');
         //Verifying
         foreach ($tags as $tag) {
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport(array(
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
                 'tag_name' => $tag,
                 'tag_use' => '1',
             )), 'Tag is not shown in Tags Submitted to Product');
@@ -173,7 +173,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->navigate('report_tag_popular');
         //Verifying
         foreach ($tags as $tag) {
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport(array(
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
                 'tag_name' => $tag,
                 'popularity' => '1',
             )), 'Tag is not shown in report');
@@ -184,7 +184,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tag);
             $this->clickControl('link', 'show_details');
             //Verifying
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport(array(
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
                 'first_name' => $testData['customer']['first_name'],
                 'last_name' => $testData['customer']['last_name'],
                 'product_name' => $testData['product'],
@@ -304,7 +304,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         );
 
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport($reportRow),
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow),
                 'Customer who submitted tag is not shown in report');
         }
         //Verifying columns sorting
@@ -312,7 +312,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         foreach ($sortedColumns as $column) {
             $this->clickControl('link', $column, false);
             sleep(3);
-            $this->tagsHelper()->verifyReportSortingByColumn($reportContent, $column);
+            $this->reportsHelper()->verifyReportSortingByColumn($reportContent, $column);
         }
     }
 
@@ -350,7 +350,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         );
 
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport($reportRow),
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow),
                 'Product with submitted tag is not shown in report');
         }
         //Verifying columns sorting
@@ -358,7 +358,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         foreach ($sortedColumns as $column) {
             $this->clickControl('link', $column, false);
             sleep(3);
-            $this->tagsHelper()->verifyReportSortingByColumn($reportContent, $column);
+            $this->reportsHelper()->verifyReportSortingByColumn($reportContent, $column);
         }
     }
 
@@ -398,7 +398,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         );
 
         foreach ($reportContent as $reportRow) {
-            $this->assertNotNull($this->tagsHelper()->searchDataInReport($reportRow),
+            $this->assertNotNull($this->reportsHelper()->searchDataInReport($reportRow),
                 'Tag is not shown in report');
         }
         //Verifying columns sorting
@@ -406,7 +406,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         foreach ($sortedColumns as $column) {
             $this->clickControl('link', $column, false);
             sleep(3);
-            $this->tagsHelper()->verifyReportSortingByColumn($reportContent, $column);
+            $this->reportsHelper()->verifyReportSortingByColumn($reportContent, $column);
         }
     }
 
@@ -437,7 +437,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->navigate('report_tag_customer');
         //Step 2
         $this->fillDropdown('export_to', 'CSV');
-        $exportedReportCsv = $this->tagsHelper()->export();
+        $exportedReportCsv = $this->reportsHelper()->export();
         //Verifying
         $gridReport = array(
             array(
@@ -451,12 +451,12 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                 'Total Tags' => count($testData[1]['tags']),
             ),
         );
-        $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
+        $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
         //Step 3
         $this->fillDropdown('export_to', 'Excel XML');
-        $exportedReportXml = $this->tagsHelper()->export();
+        $exportedReportXml = $this->reportsHelper()->export();
         //Verifying
-        $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
+        $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
         //Step 4
         foreach ($testData as $dataRow) {
             $this->addParameter('firstName', $dataRow['customer']['first_name']);
@@ -466,7 +466,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->clickControl('link', 'show_tags');
             //Step 5
             $this->fillDropdown('export_to', 'CSV');
-            $showTagReportCsv = $this->tagsHelper()->export();
+            $showTagReportCsv = $this->reportsHelper()->export();
             //Verifying
             $showTagReport = array();
             foreach ($dataRow['tags'] as $tag) {
@@ -475,12 +475,12 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                     'Tag Name' => $tag,
                 );
             }
-            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportCsv);
+            $this->reportsHelper()->verifyExportedReport($showTagReport, $showTagReportCsv);
             //Step 6
             $this->fillDropdown('export_to', 'Excel XML');
-            $showTagReportXML = $this->tagsHelper()->export();
+            $showTagReportXML = $this->reportsHelper()->export();
             //Verifying
-            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportXML);
+            $this->reportsHelper()->verifyExportedReport($showTagReport, $showTagReportXML);
             $this->clickButton('back');
         }
     }
@@ -512,7 +512,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->navigate('report_tag_product');
         //Step 2
         $this->fillDropdown('export_to', 'CSV');
-        $exportedReportCsv = $this->tagsHelper()->export();
+        $exportedReportCsv = $this->reportsHelper()->export();
         //Verifying
         $gridReport = array(
             array(
@@ -526,19 +526,19 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                 'Number of Total Tags' => count($testData[1]['tags']),
             ),
         );
-        $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
+        $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
         //Step 3
         $this->fillDropdown('export_to', 'Excel XML');
         $exportedReportXml = $this->tagsHelper()->export();
         //Verifying
-        $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
+        $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
         //Step 4
         foreach ($testData as $dataRow) {
             $this->addParameter('productName', $dataRow['product']);
             $this->clickControl('link', 'show_tags');
             //Step 5
             $this->fillDropdown('export_to', 'CSV');
-            $showTagReportCsv = $this->tagsHelper()->export();
+            $showTagReportCsv = $this->reportsHelper()->export();
             //Verifying
             $showTagReport = array();
             foreach ($dataRow['tags'] as $tag) {
@@ -547,12 +547,12 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                     'Tag Use' => '1',
                 );
             }
-            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportCsv);
+            $this->reportsHelper()->verifyExportedReport($showTagReport, $showTagReportCsv);
             //Step 6
             $this->fillDropdown('export_to', 'Excel XML');
-            $showTagReportXML = $this->tagsHelper()->export();
+            $showTagReportXML = $this->reportsHelper()->export();
             //Verifying
-            $this->tagsHelper()->verifyExportedReport($showTagReport, $showTagReportXML);
+            $this->reportsHelper()->verifyExportedReport($showTagReport, $showTagReportXML);
             $this->clickButton('back');
         }
     }
@@ -583,7 +583,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
         $this->navigate('report_tag_popular');
         //Step 2
         $this->fillDropdown('export_to', 'CSV');
-        $exportedReportCsv = $this->tagsHelper()->export();
+        $exportedReportCsv = $this->reportsHelper()->export();
         //Verifying
         $gridReport = array();
         foreach ($testData as $key => $testDataValue) {
@@ -594,12 +594,12 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                 );
             }
         }
-        $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
+        $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportCsv);
         //Step 3
         $this->fillDropdown('export_to', 'Excel XML');
-        $exportedReportXml = $this->tagsHelper()->export();
+        $exportedReportXml = $this->reportsHelper()->export();
         //Verifying
-        $this->tagsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
+        $this->reportsHelper()->verifyExportedReport($gridReport, $exportedReportXml);
         //Step 4
         foreach ($testData as $key => $testDataValue) {
             foreach ($testData[$key]['tags'] as $tag) {
@@ -607,19 +607,19 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
                 $this->clickControl('link', 'show_details');
                 //Step 5
                 $this->fillDropdown('export_to', 'CSV');
-                $showDetailsReportCsv = $this->tagsHelper()->export();
+                $showDetailsReportCsv = $this->reportsHelper()->export();
                 //Verifying
                 $showDetailsReport[0] = array(
                     'First Name' => $testData[$key]['customer']['first_name'],
                     'Last Name' => $testData[$key]['customer']['last_name'],
                     'Product Name' => $testData[$key]['product'],
                 );
-                $this->tagsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportCsv);
+                $this->reportsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportCsv);
                 //Step 6
                 $this->fillDropdown('export_to', 'Excel XML');
-                $showDetailsReportXML = $this->tagsHelper()->export();
+                $showDetailsReportXML = $this->reportsHelper()->export();
                 //Verifying
-                $this->tagsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportXML);
+                $this->reportsHelper()->verifyExportedReport($showDetailsReport, $showDetailsReportXML);
                 $this->clickButton('back');
             }
         }
