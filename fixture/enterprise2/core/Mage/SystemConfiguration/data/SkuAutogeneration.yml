@@ -1,0 +1,18 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Mask for SKU Auto-Generation
+sku_autogeneration_mask:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: catalog_catalog
+        configuration:
+            sku_mask: %noValue%
