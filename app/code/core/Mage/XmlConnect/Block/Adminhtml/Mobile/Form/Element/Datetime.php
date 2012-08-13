@@ -166,7 +166,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
                         timeFormat: "%s",
                         showsTime: %s
                     })
-                })(jQuery)
+                })(jQuery);
             //]]>
             </script>',
             $this->getHtmlId(),

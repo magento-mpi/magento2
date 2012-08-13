@@ -514,22 +514,22 @@ Event.observe(window, 'load', function(){
                     <input class="input-text" style="width:5em" id="customer_filter_created_at_from" name="gui_data[customer][filter][created_at][from]" value="<?php echo $this->getValue('gui_data/customer/filter/created_at/from') ?>"/>
                      <?php echo $this->__('to') ?>
                     <input class="input-text" style="width:5em" id="customer_filter_created_at_to" name="gui_data[customer][filter][created_at][to]" value="<?php echo $this->getValue('gui_data/customer/filter/created_at/to') ?>"/>
-<script type="text/javascript">
-    (function( $ ) {
-        $("#customer_filter_created_at_range").date_range({
-            dateFormat: "<?php echo $this->getShortDateFormat() ?>",
-            buttonImage: "<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>",
-            buttonText: "<?php echo $this->__('Date selector') ?>",
-            from: {
-                id: "customer_filter_created_at_from"
-            },
-            to: {
-                id: "customer_filter_created_at_to"
-            }
-        })
-    })(jQuery)
-</script>
                 </span>
+                <script type="text/javascript">
+                    (function( $ ) {
+                        $("#customer_filter_created_at_range").date_range({
+                            dateFormat: "<?php echo $this->getShortDateFormat() ?>",
+                            buttonImage: "<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>",
+                            buttonText: "<?php echo $this->__('Date selector') ?>",
+                            from: {
+                                id: "customer_filter_created_at_from"
+                            },
+                            to: {
+                                id: "customer_filter_created_at_to"
+                            }
+                        })
+                    })(jQuery)
+                </script>
             </div>
         </fieldset>
     </div>

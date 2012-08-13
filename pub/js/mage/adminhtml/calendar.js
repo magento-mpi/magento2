@@ -98,11 +98,13 @@
                 separators = format.match( /(\W)/ig ),
                 self = this;
             convertedFormat = "";
-            $.each( symbols, function(key, val) {
-                convertedFormat +=
-                    ( self.dateTimeFormat[type][val] || val ) +
-                        ( separators[key] || '' );
-            })
+            if ( symbols ) {
+                $.each( symbols, function(key, val) {
+                    convertedFormat +=
+                        ( self.dateTimeFormat[type][val] || val ) +
+                            ( separators[key] || '' );
+                });
+            }
             return convertedFormat;
         }
     }));
