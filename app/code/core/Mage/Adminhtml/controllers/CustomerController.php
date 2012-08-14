@@ -31,11 +31,11 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     protected $_eventManager;
 
     /**
-     * Session model
+     * Registry model
      *
      * @var Mage_Core_Model_Registry
      */
-    protected $_registry;
+    protected $_registryManager;
 
     /**
      * ACL
@@ -59,15 +59,13 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         $this->_objectFactory = isset($invokeArgs['objectFactory']) ? $invokeArgs['objectFactory'] : Mage::getConfig();
 
-        $this->_registry = isset($invokeArgs['registry']) ?
+        $this->_registryManager = isset($invokeArgs['registry']) ?
             $invokeArgs['registry'] :
             Mage::getSingleton('Mage_Core_Model_Registry');
 
         $this->_acl = isset($invokeArgs['acl']) ?
             $invokeArgs['acl'] :
             Mage::getSingleton('Mage_Backend_Model_Auth_Session');
-
-        $this->_translator = isset($invokeArgs['translator']) ? $invokeArgs['translator'] : $this->_getTranslator();
 
         $this->_eventManager = isset($invokeArgs['eventManager']) ?
             $invokeArgs['eventManager'] :
@@ -85,8 +83,8 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $customer->load($customerId);
         }
 
-        $this->_registry->register('current_customer', $customer);
-        return $customer;
+        $this->_registryManager->register('current_customer', $customer);
+        return $this;
     }
 
     /**
@@ -138,7 +136,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout();
 
         /* @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_registry->registry('current_customer');
+        $customer = $this->_registryManager->registry('current_customer');
 
         // set entered data if was error when we do save
         $data = $this->_getSession()->getCustomerData(true);
@@ -205,7 +203,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customer = $this->_registry->registry('current_customer');
+        $customer = $this->_registryManager->registry('current_customer');
         if ($customer->getId()) {
             try {
                 $customer->load($customer->getId());
@@ -228,7 +226,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($data) {
             /** @var $customer Mage_Customer_Model_Customer */
             $this->_initCustomer('customer_id');
-            $customer = $this->_registry->registry('current_customer');
+            $customer = $this->_registryManager->registry('current_customer');
             if (!$this->_processData($customer, $data)) {
                 return;
             }
@@ -549,9 +547,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $this->_initCustomer();
         $subscriber = $this->_objectFactory->getModelInstance('Mage_Newsletter_Model_Subscriber')
-            ->loadByCustomer($this->_registry->registry('current_customer'));
+            ->loadByCustomer($this->_registryManager->registry('current_customer'));
 
-        $this->_registry->register('subscriber', $subscriber);
+        $this->_registryManager->register('subscriber', $subscriber);
         $this->loadLayout()
             ->renderLayout();
     }
@@ -559,7 +557,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customer = $this->_registry->registry('current_customer');
+        $customer = $this->_registryManager->registry('current_customer');
         if ($customer->getId()) {
             if ($itemId = (int) $this->getRequest()->getParam('delete')) {
                 try {
@@ -605,7 +603,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         if ($deleteItemId) {
             $quote = $this->_objectFactory->getModelInstance('Mage_Sales_Model_Quote')
                 ->setWebsite(Mage::app()->getWebsite($websiteId))
-                ->loadByCustomer($this->_registry->registry('current_customer'));
+                ->loadByCustomer($this->_registryManager->registry('current_customer'));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -653,7 +651,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout()
             ->getLayout()
             ->getBlock('admin.customer.reviews')
-            ->setCustomerId($this->_registry->registry('current_customer')->getId())
+            ->setCustomerId($this->_registryManager->registry('current_customer')->getId())
             ->setUseAjax(true);
         $this->renderLayout();
     }
@@ -668,7 +666,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->loadLayout()
             ->getLayout()
             ->getBlock('admin.customer.tags')
-            ->setCustomerId($this->_registry->registry('current_customer')->getId())
+            ->setCustomerId($this->_registryManager->registry('current_customer')->getId())
             ->setUseAjax(true);
         $this->renderLayout();
     }
@@ -678,7 +676,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $this->_initCustomer();
         $this->loadLayout();
         $this->getLayout()->getBlock('admin.customer.tags')->setCustomerId(
-            $this->_registry->registry('current_customer')
+            $this->_registryManager->registry('current_customer')
         );
         $this->renderLayout();
     }

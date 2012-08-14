@@ -32,6 +32,22 @@ class Mage_Adminhtml_Controller_Action extends Mage_Backend_Controller_ActionAbs
     protected $_translator;
 
     /**
+     * Constructor
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     * @param Zend_Controller_Response_Abstract $response
+     * @param array $invokeArgs
+     */
+    public function __construct(Zend_Controller_Request_Abstract $request,
+                                Zend_Controller_Response_Abstract $response,
+                                array $invokeArgs = array()
+    ) {
+        parent::__construct($request, $response, $invokeArgs);
+
+        $this->_translator = isset($invokeArgs['translator']) ? $invokeArgs['translator'] : $this->_getTranslator();
+    }
+
+    /**
      * Translate a phrase
      *
      * @return string
