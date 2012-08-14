@@ -39,6 +39,7 @@ simple_product_required:
     general_short_description: Short Description for Simple Product Required
     general_sku: simple_sku_req_%randomize%
     general_weight: 1.13
+    general_url_key: simple-product-url-key(%randomize%)
     general_status: Enabled
     general_visibility: Catalog, Search
     prices_price: 9.99

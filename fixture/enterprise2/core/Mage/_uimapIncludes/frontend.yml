@@ -48,6 +48,10 @@ enterprice_frontend_header:
                         fields:
                             search: //*[@id='search']
                 -
+                    global_footer:
+                        links:
+                            select_store_link: //ul[@id='select-store']//a[normalize-space(text())='%store%']
+                -
                     general_elements:
                         pageelements:
                             front_navigation_menu: //*[@id='nav']
