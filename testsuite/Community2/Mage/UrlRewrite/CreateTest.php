@@ -197,10 +197,8 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $categorySearch = $productData['categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
-        $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('category'));
         $this->validatePage();
-
 
         //Check fields id_path & target path isn't editable
         if ($this->isEditable('id_path')) {
