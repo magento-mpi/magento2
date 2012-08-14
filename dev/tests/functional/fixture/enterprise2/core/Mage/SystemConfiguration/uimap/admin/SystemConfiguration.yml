@@ -91,7 +91,7 @@ system_configuration:
                                     dropdowns:
                                         sku_my_account_enable: //select[@name='groups[product_sku][fields][my_account_enable][value]'] 
                                     multiselects:
-                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']       
+                                        sku_allowed_groups: //select[@name='groups[product_sku][fields][allowed_groups][value][]']
                             -
                                 general:
                                     xpath: //fieldset[@id='sales_general']
@@ -103,7 +103,7 @@ system_configuration:
                                     xpath: //fieldset[@id='sales_enterprise_salesarchive']
                             -
                                 rma_settings:
-                                    xpath: //fieldset[@id='sales_enterprise_rma']
+                                    xpath: //*[@id='sales_enterprise_rma']
                                     dropdowns:
                                         enable_rma_on_frontend: //*[@id='sales_enterprise_rma_enabled']
                                         enable_rma_on_product_level: //*[@id='sales_enterprise_rma_enabled_on_product']
@@ -296,6 +296,10 @@ system_configuration:
                                 security:
                                     fields:
                                         maximum_login_failures: //input[@name="groups[security][fields][lockout_failures][value]"]
+                            -
+                                admin_user_emails:
+                                    fields:
+                                        recovery_link_exp_period: //input[@name='groups[emails][fields][password_reset_link_expiration_period][value]']
                 -
                     general_reports:
                         fieldsets:
