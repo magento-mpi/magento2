@@ -20,7 +20,7 @@
     <div class="button btn-toggle" data-toggle="dropdown"><span>Select</span></span></div>
     <ul class="dropdown-menu">
         <?php foreach ($this->getOptions() as $option): ?>
-        <li onclick="<?php echo $option['onclick']?>" <?php if($option['default']):?>default="true"<?php endif; ?>>
+        <li onclick="<?php echo $option['onclick']?>" <?php if($option['default']):?>class="item-default"<?php endif; ?>>
             <span><?php echo $option['label'] ?></span>
         </li>
         <?php endforeach; ?>
@@ -37,7 +37,7 @@
         });
 
         $('#<?php echo $this->getId(); ?>_main_control').click(function() {
-            $('#<?php echo $this->getId(); ?> .dropdown-menu > li[default=true]').trigger('click');
+            $('#<?php echo $this->getId(); ?> .dropdown-menu > li.item-default').trigger('click');
         });
     })(jQuery);
 //]]>

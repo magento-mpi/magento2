@@ -403,7 +403,7 @@ span.delete-file                { padding:0; }
 .content-header .form-buttons button { margin-bottom:3px; }
 .sub-btn-set { border:1px solid #ddd; border-width:0 1px; background:url(images/sub_button_bg.gif) repeat; padding:3px 10px; text-align:right; }
 button,
-.form-button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
+.form-button { vertical-align:middle; border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:0 7px 1px 7px; background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap; }
 button:hover                    { background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0; }
 button:active                   { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
 button span                     { line-height:1.35em; background-repeat:no-repeat; background-position:0 50%; }
@@ -458,6 +458,115 @@ button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0;
 
 .buttons-set { margin:0 0 10px; }
 .buttons-set button { margin-right:5px; }
+
+
+/* Buttons group */
+
+.btn-add { padding-left:6px; }
+.btn-add span  { background-image:url(images/add_btn_icon.gif); padding-left:20px; }
+
+div.button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:1px 7px 3px 7px; background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap;}
+div.button:hover                    { background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0; }
+div.button:active                   { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
+div.button span                     { line-height:1.25em; background-repeat:no-repeat; background-position:0 50%; }
+div.button {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.buttons-group {
+    position: relative;
+    display:inline-block;
+    vertical-align:middle;
+}
+.buttons-group:before,
+.buttons-group:after {
+    display: table;
+    content: "";
+}
+.buttons-group:after {
+    clear: both;
+}
+.buttons-group > .button {
+    position:relative;
+    float:left;
+    margin-left:-1px;
+    border-radius:0;
+}
+.buttons-group > .button:first-child {
+    margin-left:0;
+}
+.buttons-group > .button:last-child,
+.buttons-group > [data-toggle="dropdown"] {
+}
+
+/* Button toggle (with dropdown menu) */
+.dropdown-menu {
+    position:absolute;
+    display:none;
+    list-style:none;
+    margin:1px 0 0 0;
+    padding:0;
+    right:0;
+    top:100%;
+    min-width: 100%;
+    border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+.dropdown-menu li {
+    background:#ffac47;
+    background:rgba(255, 172, 71, .95);
+    text-align: left;color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer;
+    padding:4px 8px;
+}
+.dropdown-menu li.selected {
+}
+.dropdown-menu li:hover {
+    background:#f77c16;
+}
+.dropdown-menu li:active {
+    background:#f77c16;
+}
+.dropdown-menu li:last-child {
+
+}
+.dropdown-menu-top {
+    margin:0 0 3px 0;
+    top:auto;
+    bottom:100%;
+}
+.buttons-group.active {
+    z-index:20;
+}
+.buttons-group.active .dropdown-menu {
+    display:block;
+}
+.btn-toggle span {
+    width:6px; overflow: hidden; display: block;
+}
+.active .btn-toggle { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
+.btn-toggle span:before {
+    display: inline-block;
+    content:'';
+    margin-left:100px;
+    /*position: absolute;*/
+    text-indent: 0;
+    margin-left:0;
+    width: 0;
+    height: 0;
+    border-right:3px solid transparent;
+    border-left:3px solid transparent;
+    border-top: 6px solid #fff;
+}
 
 
 /* SWITCHER

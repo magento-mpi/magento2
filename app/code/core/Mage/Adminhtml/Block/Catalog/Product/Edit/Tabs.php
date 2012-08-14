@@ -170,14 +170,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             }
 
         }
-        else {
-            $this->addTab('set', array(
-                'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Settings'),
-                'content'   => $this->_translateHtml($this->getLayout()
-                    ->createBlock('Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Settings')->toHtml()),
-                'active'    => true
-            ));
-        }
         return parent::_prepareLayout();
     }
 
