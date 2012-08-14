@@ -45,7 +45,7 @@ class Enterprise2_Mage_CustomerSegment_Helper extends Mage_Selenium_TestCase
     public function createSegment($segmData)
     {
         $this->clickButton('add_new_segment');
-        $this->fillTabs($segmData,'general_properties');
+        $this->fillTabs($segmData,'general properties');
         $this->saveForm('save_segment');
     }
 

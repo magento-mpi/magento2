@@ -3,8 +3,7 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_Newsletter
-# @subpackage  functional_tests
+# @package     Mage_ACL_Newsletter_Resources
 # @subpackage  test-data
 # @copyright   {copyright}
 # @license     {license_link}

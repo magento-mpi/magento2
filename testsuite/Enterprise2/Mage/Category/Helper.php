@@ -124,4 +124,4 @@ class Enterprise2_Mage_Category_Helper extends Core_Mage_Category_Helper
 
         return $isCorrectName;
     }
-} 
+}
