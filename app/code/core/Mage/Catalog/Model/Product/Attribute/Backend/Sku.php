@@ -50,10 +50,8 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model_En
         $entity = $attribute->getEntity();
         $increment = $entity->getLastSimilarAttributeValueIncrement($attribute, $object);
         $attributeValue = $object->getData($attribute->getAttributeCode());
-        $sku = $object->getSku();
         while (!$entity->checkAttributeUniqueValue($attribute, $object)) {
-            $sku = $attributeValue . '-' . ++$increment;
+            $object->setSku(trim($attributeValue . '-' . ++$increment));
         }
-        $object->setSku(trim($sku));
     }
 }
