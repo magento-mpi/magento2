@@ -326,7 +326,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _removeElement($elementName, $isChild = false)
     {
-        $elementsToRemove = $this->_structure->getChildren($elementName);
+        $elementsToRemove = array_keys($this->_structure->getChildren($elementName));
         unset($this->_scheduledElements[$elementName]);
 
         foreach ($elementsToRemove as $element) {
