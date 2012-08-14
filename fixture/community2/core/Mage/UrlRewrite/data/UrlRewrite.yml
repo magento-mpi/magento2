@@ -52,6 +52,9 @@ simple_product_required:
 url_rewrite_product:
     request_path: %randomize%.html
 
+url_rewrite_category:
+    request_path: %randomize%.html
+
 url_rewrite_custom_sample:
     target_path: customer-service
     description: Test description
