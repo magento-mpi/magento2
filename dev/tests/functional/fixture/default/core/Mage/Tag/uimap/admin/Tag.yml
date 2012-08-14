@@ -21,6 +21,9 @@ all_tags:
                         xpath: //div[@id='tag_tag_grid']
                         links:
                             select_all: //a[text()='Select All']
+                            unselect_all: //a[text()='Unselect All']
+                            select_visible: //a[text()='Select Visible']
+                            unselect_visible: //a[text()='Unselect Visible']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
@@ -138,6 +141,11 @@ edit_tag_more_options:
     mca: tag/edit/tag_id/%id%/ret/
     title: %tagName% / Tags / Catalog / Magento Admin
     uimap: *editTagUimap
+# Edit tag '%tagName%' page
+edit_pnding_tag_more_options:
+    mca: tag/edit/tag_id/%id%/ret/pending
+    title: %tagName% / Tags / Catalog / Magento Admin
+    uimap: *editTagUimap
 
 # New Tag page
 new_tag:
@@ -178,10 +186,10 @@ pending_tags:
                     pending_tags_grid:
                         xpath: //div[@id='pending_grid']
                         links:
-                            select_all: //div[@id='pending_grid_massaction']//a[contains(.,'Select All')]
-                            unselect_all: //div[@id='pending_grid_massaction']//a[contains(.,'Unselect All')]
-                            select_visible: //div[@id='pending_grid_massaction']//a[contains(.,'Select Visible')]
-                            unselect_visible: //div[@id='pending_grid_massaction']//a[contains(.,'Unselect Visible')]
+                            select_all: //a[text()='Select All']
+                            unselect_all: //a[text()='Unselect All']
+                            select_visible: //a[text()='Select Visible']
+                            unselect_visible: //a[text()='Unselect Visible']
                         buttons:
                             reset_filter: //button[span='Reset Filter']
                             search: //button[span='Search']
