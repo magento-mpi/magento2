@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Enterprise
- * @package     Enterprise_Reward
+ * @package     Enterprise_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Reward action for tag submission
  *
  * @category    Enterprise
- * @package     Enterprise_Reward
+ * @package     Enterprise_Tag
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_Abstract
+class Enterprise_Tag_Model_Reward_Action_Tag extends Enterprise_Reward_Model_Action_Abstract
 {
     /**
      * Retrieve points delta for action
@@ -25,7 +25,9 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
      */
     public function getPoints($websiteId)
     {
-        return (int)Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig('tag', $websiteId);
+        /** @var $helper Enterprise_Reward_Helper_Data */
+        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        return (int) $helper->getPointsConfig('tag', $websiteId);
     }
 
     /**
@@ -35,10 +37,9 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
      */
     public function getRewardLimit()
     {
-        return Mage::helper('Enterprise_Reward_Helper_Data')->getPointsConfig(
-            'tag_limit',
-            $this->getReward()->getWebsiteId()
-        );
+        /** @var $helper Enterprise_Reward_Helper_Data */
+        $helper = Mage::helper('Enterprise_Reward_Helper_Data');
+        return $helper->getPointsConfig('tag_limit', $this->getReward()->getWebsiteId());
     }
 
     /**
@@ -50,7 +51,7 @@ class Enterprise_Reward_Model_Action_Tag extends Enterprise_Reward_Model_Action_
     public function getHistoryMessage($args = array())
     {
         $tag = isset($args['tag']) ? $args['tag'] : '';
-        return Mage::helper('Enterprise_Reward_Helper_Data')->__('For submitting tag (%s).', $tag);
+        return Mage::helper('Enterprise_Tag_Helper_Data')->__('For submitting tag (%s).', $tag);
     }
 
     /**

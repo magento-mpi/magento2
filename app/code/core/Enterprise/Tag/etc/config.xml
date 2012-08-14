@@ -13,7 +13,7 @@
     <modules>
         <Enterprise_Tag>
             <version>1.0.0.0</version>
-            <active>true</active>
+            <active>false</active>
             <codePool>core</codePool>
             <depends>
                 <Mage_Tag/>
@@ -21,6 +21,15 @@
             </depends>
         </Enterprise_Tag>
     </modules>
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_tag module="Enterprise_Tag">
+                    <file>layout.xml</file>
+                </enterprise_tag>
+            </updates>
+        </layout>
+    </frontend>
     <adminhtml>
         <cache>
             <dependency>
@@ -32,5 +41,15 @@
                 </delete>
             </dependency>
         </cache>
+        <events>
+            <tag_save_commit_after>
+                <observers>
+                    <update_reward_points>
+                        <class>Enterprise_Tag_Model_Observer</class>
+                        <method>updateRewardPointsWhenTagSubmit</method>
+                    </update_reward_points>
+                </observers>
+            </tag_save_commit_after>
+        </events>
     </adminhtml>
 </config>
