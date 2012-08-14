@@ -18,8 +18,13 @@ $cssClass = 'vde_element_wrapper'
     . ($this->getIsContainer() ? ' vde_container' : '')
     . ($hideWrapping ? ' vde_wrapper_hidden' : '');
 ?>
-<div id="<?php echo $elementId; ?>" class="<?php echo $cssClass; ?>">
-    <div class="vde_element_title"><?php echo $this->getElementTitle() ?></div>
+<div id="<?php echo $elementId; ?>" class="<?php echo $cssClass; ?>" data-name="<?php echo $this->getElementName() ?>">
+    <div class="vde_element_title">
+        <?php echo $this->getElementTitle() ?>
+    </div>
+    <?php if (!$this->getIsContainer()): ?>
+        <?php echo $this->getRemoveButton($elementId) ?>
+    <?php endif; ?>
     <?php if (!$hideWrapping) : ?>
         <?php echo $elementHtml; ?>
     <?php endif; ?>
