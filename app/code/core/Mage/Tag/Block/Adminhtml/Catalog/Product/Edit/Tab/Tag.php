@@ -38,7 +38,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
     /**
      * Authentication session
      *
-     * @var Mage_Backend_Model_Auth_Session
+     * @var Mage_Core_Model_Authorization
      */
     protected $_authSession;
 
@@ -58,7 +58,7 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag
         if (isset($data['auth_session'])) {
             $this->_authSession = $data['auth_session'];
         } else {
-            $this->_authSession = Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            $this->_authSession = Mage::getSingleton('Mage_Core_Model_Authorization');
         }
 
         $this->setId(self::TAB_ID);
