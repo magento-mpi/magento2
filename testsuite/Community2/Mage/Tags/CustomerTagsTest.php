@@ -32,7 +32,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
-       // $this->tagsHelper()->deleteAllTags();
+        $this->tagsHelper()->deleteAllTags();
     }
 
     /**
@@ -137,7 +137,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('customer_email' => $testData['user'][1]['email']));
         $this->openTab('product_tags');
-        $this->tagsHelper()->sortOrderInTable($columnName, 'asc', $this->_getControlXpath('pageelement', 'tags_grid'));
+        $this->tagsHelper()->orderByInTable($columnName, 'asc', $this->_getControlXpath('pageelement', 'tags_grid'));
         $tableValues = array();
         $tableValues = $this->tagsHelper()->getInfoInTable(
             $tableValues,
