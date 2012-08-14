@@ -60,3 +60,39 @@ delete_admin_user_role:
     search_role:
         id: %noValue%
         role_name: %roleName%
+        role_promotions_catalog_rights:
+            role_info_tab:
+                role_name: 'My Test Role %randomize%'
+            role_resources_tab:
+                role_scopes: %noValue%
+                role_resources:
+                    resource_access : Custom
+                    resource_1: Promotions/Catalog Price Rules
+
+role_promotions_full_rights:
+    role_info_tab:
+        role_name: 'My Test Role %randomize%'
+    role_resources_tab:
+        role_scopes: %noValue%
+        role_resources:
+            resource_access : Custom
+            resource_1: Promotions
+
+role_promotions_catalog_rights:
+    role_info_tab:
+        role_name: 'My Test Role %randomize%'
+    role_resources_tab:
+        role_scopes: %noValue%
+        role_resources:
+            resource_access : Custom
+            resource_1: Promotions/Catalog Price Rules
+
+role_promotions_shopping_cart_rights:
+    role_info_tab:
+        role_name: 'My Test Role %randomize%'
+    role_resources_tab:
+        role_scopes: %noValue%
+        role_resources:
+            resource_access : Custom
+            resource_1: Promotions/Shopping Cart Price Rules
+
