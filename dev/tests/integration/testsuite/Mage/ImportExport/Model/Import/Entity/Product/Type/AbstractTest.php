@@ -39,15 +39,11 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PH
      */
     public function testPrepareAttributesWithDefaultValueForSave($rowData, $withDefaultValue, $expectedAttributes)
     {
-        if (!$this->_model->isSuitable()) {
-            $this->markTestSkipped('Model is not suitable for data processing.');
-        }
         $actualAttributes = $this->_model->prepareAttributesWithDefaultValueForSave($rowData, $withDefaultValue);
-        // This attribute is applicable only in EE mode
-        if (isset($actualAttributes['is_returnable'])) {
-            unset($actualAttributes['is_returnable']);
+        foreach ($expectedAttributes as $key => $value) {
+            $this->assertArrayHasKey($key, $actualAttributes);
+            $this->assertEquals($value, $actualAttributes[$key]);
         }
-        $this->assertEquals($expectedAttributes, $actualAttributes);
     }
 
     public function prepareAttributesWithDefaultValueForSaveDataProvider()
@@ -66,7 +62,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PH
                 false,
                 array('price' => 65, 'visibility' => 1, 'msrp_enabled' => 1, 'tax_class_id' => ''),
             ),
-            'Adding new product with attributes that do have and don\'t have default values' => array(
+            'Adding new product with attributes that don\'t have default values' => array(
                 array(
                     'sku' => 'simple_product_3', '_store' => '', '_attribute_set' => 'Default', '_type' => 'simple',
                     '_category' => '_root_category', '_product_websites' => 'base', 'name' => 'Simple Product 3',
@@ -78,7 +74,7 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PH
                     'name' => 'Simple Product 3',
                     'price' => 150, 'status' => 1, 'tax_class_id' => '0', 'weight' => 1, 'description' => 'a',
                     'short_description' => 'a', 'visibility' => 1, 'options_container' => 'container2',
-                    'msrp_enabled' => 2, 'msrp_display_actual_price_type' => 4, 'enable_googlecheckout' => 1
+                    'msrp_enabled' => 2, 'msrp_display_actual_price_type' => 4
                 )
             ),
             'Adding new product with attributes that do have default values' => array(
@@ -87,14 +83,14 @@ class Mage_ImportExport_Model_Import_Entity_Product_Type_AbstractTest extends PH
                     '_category' => '_root_category', '_product_websites' => 'base', 'name' => 'Simple Product 4',
                     'price' => 100, 'status' => 1, 'tax_class_id' => '0', 'weight' => 1, 'description' => 'a',
                     'short_description' => 'a', 'visibility' => 2, 'msrp_enabled' => 'Yes',
-                    'msrp_display_actual_price_type' => 'In Cart', 'enable_googlecheckout' => 0,
+                    'msrp_display_actual_price_type' => 'In Cart'
                 ),
                 true,
                 array(
                     'name' => 'Simple Product 4',
                     'price' => 100, 'status' => 1, 'tax_class_id' => '0', 'weight' => 1, 'description' => 'a',
                     'short_description' => 'a', 'visibility' => 2, 'options_container' => 'container2',
-                    'msrp_enabled' => 1, 'msrp_display_actual_price_type' => 2, 'enable_googlecheckout' => 0
+                    'msrp_enabled' => 1, 'msrp_display_actual_price_type' => 2
                 )
             ),
         );

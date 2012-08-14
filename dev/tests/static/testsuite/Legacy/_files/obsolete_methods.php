@@ -360,11 +360,5 @@ return array(
     'validateDataArray' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
     'validateFile' => array('class_scope' => 'Mage_Core_Model_Design_Package'),
     'validateOrder' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
-    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product_Type_Abstract'),
-    'prepareAttributesForSave' => array(
-        'class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product_Type_Configurable'
-    ),
-    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product_Type_Grouped'),
-    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product_Type_Simple'),
-    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product'),
+    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product')
 );
