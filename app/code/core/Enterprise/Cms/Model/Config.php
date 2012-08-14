@@ -82,7 +82,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserPublishRevision()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Cms::publish_revision');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::publish_revision');
     }
 
     /**
@@ -92,7 +92,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserDeletePage()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Cms::page_delete');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::page_delete');
     }
 
     /**
@@ -102,7 +102,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserSavePage()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Cms::save');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Cms::save');
     }
 
     /**
@@ -112,7 +112,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserSaveRevision()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Cms::save_revision');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::save_revision');
     }
 
     /**
@@ -122,7 +122,7 @@ class Enterprise_Cms_Model_Config
      */
     public function canCurrentUserDeleteRevision()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Cms::delete_revision');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Cms::delete_revision');
     }
 
     /**

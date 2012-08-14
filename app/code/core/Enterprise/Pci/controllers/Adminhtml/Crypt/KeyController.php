@@ -99,6 +99,6 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Enterprise_Pci::crypt_key');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Pci::crypt_key');
     }
 }

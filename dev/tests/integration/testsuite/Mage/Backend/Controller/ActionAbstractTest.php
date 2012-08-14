@@ -71,7 +71,7 @@ class Mage_Backend_Controller_ActionAbstractTest extends Mage_Adminhtml_Utility_
         $this->_auth->login(Magento_Test_Bootstrap::ADMIN_NAME, Magento_Test_Bootstrap::ADMIN_PASSWORD);
 
         /** @var $acl Magento_Acl */
-        $acl = $this->_session->getAcl();
+        $acl = Mage::getSingleton('Mage_Core_Model_Acl_Builder')->getAcl();
         if ($isLimitedAccess) {
             $acl->deny(null, $resource);
         }

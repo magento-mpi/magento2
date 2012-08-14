@@ -130,7 +130,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
 
             if( $this->getRequest()->getParam('id', false) ) {
                 if (Mage::helper('Mage_Catalog_Helper_Data')->isModuleEnabled('Mage_Review')) {
-                    if (Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Review::reviews_ratings')){
+                    if (Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::reviews_ratings')){
                         $this->addTab('reviews', array(
                             'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Product Reviews'),
                             'url'   => $this->getUrl('*/*/reviews', array('_current' => true)),

@@ -12,7 +12,10 @@
 /**
  * Layout integration tests
  *
+ * 'ExcessivePublicCount' rule intersects with the 'TooManyFields' and 'TooManyMethods', so check only the needed one.
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 {
