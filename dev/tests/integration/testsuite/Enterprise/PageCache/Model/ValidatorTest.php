@@ -38,25 +38,29 @@ class Enterprise_PageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCas
      */
     public function getDataDependenciesDataProvider()
     {
+        // test dependency classes are added to config in testGetDataDependencies
+        $changeDependency = $this->getMock('stdClass', array(), array(), 'Test_Change_Dependency');
+        $deleteDependency = $this->getMock('stdClass', array(), array(), 'Test_Delete_Dependency');
+
         return array(
             'change_class_for_caching' => array(
                 '$type'          => 'change',
-                '$object'        => new Mage_Review_Model_Review(),
+                '$object'        => $changeDependency,
                 '$isInvalidated' => true,
             ),
             'change_class_not_for_caching' => array(
                 '$type'          => 'change',
-                '$object'        => new Varien_Object(),
+                '$object'        => new stdClass(),
                 '$isInvalidated' => false,
             ),
             'delete_class_for_caching' => array(
                 '$type'          => 'delete',
-                '$object'        => new Mage_Poll_Model_Poll(),
+                '$object'        => $deleteDependency,
                 '$isInvalidated' => true,
             ),
             'delete_class_not_for_caching' => array(
                 '$type'          => 'delete',
-                '$object'        => new Varien_Object(),
+                '$object'        => new stdClass(),
                 '$isInvalidated' => false,
             ),
         );
@@ -72,6 +76,9 @@ class Enterprise_PageCache_Model_ValidatorTest extends PHPUnit_Framework_TestCas
      * @dataProvider getDataDependenciesDataProvider
      * @covers Enterprise_PageCache_Model_Validator::_getDataChangeDependencies
      * @covers Enterprise_PageCache_Model_Validator::_getDataDeleteDependencies
+     *
+     * @magentoConfigFixture adminhtml/cache/dependency/change/test Test_Change_Dependency
+     * @magentoConfigFixture adminhtml/cache/dependency/delete/test Test_Delete_Dependency
      */
     public function testGetDataDependencies($type, $object, $isInvalidated)
     {
