@@ -69,13 +69,15 @@
     </target>
 
     <target name="js-test-sh">
+        <fail unless="JsTestDriver" message="Bamboo variable 'JsTestDriver' must be defined on your agent"/>
         <property name="js-test.conf" location="${basedir}/dev/tests/js/jsTestDriver.conf"/>
         <property name="js-test.output" location="${basedir}"/>
         <exec executable="/bin/bash" dir="dev/build/bin" failonerror="true">
             <arg value="js-test.sh"/>
+            <arg value="${JsTestDriver}"/>
             <arg value="${js-test.conf}"/>
             <arg value="${js-test.output}"/>
-        </exec>
+            </exec>
      </target>
 
     <target name="prepare-ee" depends="prepare-build-properties">
