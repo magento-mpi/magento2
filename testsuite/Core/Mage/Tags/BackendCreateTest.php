@@ -45,7 +45,7 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
      * <p>Received the message that the tag has been saved.</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-3494
+     * @TestlinkId TL-MAGE-3494, TL-MAGE-2348
      */
     public function createNew()
     {
@@ -56,6 +56,9 @@ class Core_Mage_Tags_BackendCreateTest extends Mage_Selenium_TestCase
         //Verify
         $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
         $this->assertMessagePresent('success', 'success_saved_tag');
+        $this->assertTrue((bool) $this->search(array(
+            'tag_name' => $setData['tag_name'],
+            'tag_status' => $setData['tag_status'])));
     }
 
     /**
