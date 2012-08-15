@@ -26,6 +26,11 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
     {
         $this->_di = $di;
         $di->instanceManager()->addSharedInstance($this, "Magento_ObjectManager");
+        $config = $this->get('Mage_Core_Model_Config');
+        $config->loadBase();
+        $config = new Zend\Di\Configuration(array('instance' => $config->getNode('global/di')->asArray()));
+        $config->configure($this->_di);
+
     }
 
     /**

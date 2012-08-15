@@ -20,9 +20,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
     protected $_categoryIds;
     protected $_selectedNodes = null;
 
-    /**
-     * @var string
-     */
     protected $_template = 'catalog/product/edit/categories.phtml';
 
     /**

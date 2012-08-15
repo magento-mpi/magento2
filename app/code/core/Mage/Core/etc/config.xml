@@ -79,6 +79,11 @@
                 <allow_map_update>1</allow_map_update>
             </design_fallback>
         </dev>
+        <di>
+            <nonShared>
+                <Magento_Data_Structure/>
+            </nonShared>
+        </di>
     </global>
     <frontend>
         <routers>

@@ -33,34 +33,18 @@ if (file_exists('var/di/definitions.php')) {
     $definition = new Zend\Di\Definition\RuntimeDefinition();
 }
 Magento_Profiler::stop('di');
-$di = new Di(new DefinitionList($definition));
-$di->instanceManager()->setShared('Magento_Data_Structure', false);
-$di->instanceManager()->setShared('Mage_Customer_Model_Customer', false);
-$factory = new Magento_ObjectManager_Zend($di);
-Magento_Profiler::stop('di_outer');
-
-$config = $factory->get('Mage_Core_Model_Config');
-$config->loadBase();
-$factory->setParameters(
-    'Mage_Core_Model_Cache',
-    array(
-        'cacheOptions' => $config->getNode('global/cache')->asArray(),
-    )
-);
+$factory = new Magento_ObjectManager_Zend(new Di(new DefinitionList($definition)));
 Mage::setObjectManager($factory);
-
-Mage::setConfig($config);
+Magento_Profiler::stop('di_outer');
 
 Magento_Profiler::start('init');
 /** @var $app Mage_Core_Model_App */
-$app = $factory->create(
-    'Mage_Core_Model_App', array('applicationConfig' => $config, 'applicationOptions' => array(), 'data' => array())
-);
+$app = $factory->create('Mage_Core_Model_App');
 Mage::setApp($app);
 Magento_Profiler::stop('init');
 
 Mage::setApp($app);
-$request = new Mage_Core_Controller_Request_Http();
+$request = $factory->get('Mage_Core_Controller_Request_Http');
 $app->process($request, $mageRunCode, $mageRunType);
 
 Magento_Profiler::stop('mage');

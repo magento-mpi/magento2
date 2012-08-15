@@ -415,16 +415,7 @@ final class Mage
      */
     public static function getConfig()
     {
-        return self::$_config;
-    }
-
-    /**
-     * @static
-     * @param Mage_Core_Model_Config $config
-     */
-    public static function setConfig(Mage_Core_Model_Config $config)
-    {
-        self::$_config = $config;
+        return self::$_objectManager->get('Mage_Core_Model_Config');
     }
 
     /**
