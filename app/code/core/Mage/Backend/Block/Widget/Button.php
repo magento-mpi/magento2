@@ -79,4 +79,15 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
 
         return $html;
     }
+
+    /**
+     * Remove all line breaks
+     *
+     * @param string $html
+     * @return string
+     */
+    protected function _afterToHtml($html)
+    {
+        return str_replace("\n", '', parent::_afterToHtml($html));
+    }
 }
