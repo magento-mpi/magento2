@@ -529,16 +529,12 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Generate request path and open it
         $urlKeyReplace = str_replace(array('(',')'), array('-',''), $productData['general_url_key']);
         $uri = $urlKeyReplace . '.html';
-//        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
 
         $this->addParameter('url_key', $uri);
         $this->addParameter('page_title', $productData['general_name']);
         $this->frontend('test_page');
 
         //Verifying page of URL rewrite for product
-//        $this->assertSame($this->getTitle(), $productData['general_name'], 'Wrong page is opened');
-
-        //Select other store
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);

@@ -197,6 +197,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $categorySearch = $productData['categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
+        $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('category'));
         $this->validatePage();
 
@@ -253,6 +254,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>URL rewrite created and works</p>
      *
+     * @return array
      * @test
      * @TestlinkId TL-MAGE-5503
      */
@@ -305,6 +307,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $openedProductName = $this->getText($this->_getControlXpath('pageelement', 'product_name'));
         $this->assertEquals($productData['general_name'], $openedProductName,
             "Product with name '$openedProductName' is opened, but should be '{$productData['general_name']}'");
+        return $fieldData;
     }
 
     /**
