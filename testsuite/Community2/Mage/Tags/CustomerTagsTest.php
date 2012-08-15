@@ -68,7 +68,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2378, TL-MAGE-2379
+     * @TestlinkId TL-MAGE-2377, TL-MAGE-2379
      */
     public function addNewTags($tags, $status, $testData)
     {
@@ -128,7 +128,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2378, TL-MAGE-2379
+     * @TestlinkId TL-MAGE-2378
      */
     public function searchTags($columnName, $testData)
     {
