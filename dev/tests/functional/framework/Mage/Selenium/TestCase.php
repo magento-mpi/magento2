@@ -60,8 +60,10 @@
  * @method Enterprise2_Mage_customerAttribute_Helper attributesHelper()
  * @method Enterprise2_Mage_customerAddressAttribute_Helper attributesHelper()
  * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+ * @method Community2_Mage_ImportExport_Helper|Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+ * @method Community2_Mage_RssFeeds_Helper|Enterprise2_Mage_RssFeeds_Helper rssFeedsHelper() rssFeedsHelper()
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ *
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
