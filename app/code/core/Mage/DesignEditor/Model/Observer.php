@@ -136,6 +136,7 @@ class Mage_DesignEditor_Model_Observer
                 'element_html'  => $transport->getData('output'),
                 'is_draggable'  => $isDraggable,
                 'is_container'  => $isContainer,
+                'element_name'  => $elementName,
             ));
             $transport->setData('output', $this->_wrappingRenderer->toHtml());
         }
