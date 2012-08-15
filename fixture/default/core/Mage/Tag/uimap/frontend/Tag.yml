@@ -38,3 +38,9 @@ tags_products:
                         xpath: //div[@class='category-products']
                         links:
                             product_name: //a[@title='%productName%']
+                -
+                    category_title:
+                        xpath: //div[@class='page-title']
+                        pageelements:
+                            product_tagged: //div[@class='page-title']/h1[contains(.,'%tagName%')]
+                            tag_rss_feeds: //a[@class= 'nobr link-rss' and ./following-sibling::h1[contains(., 'Products tagged with')]]
