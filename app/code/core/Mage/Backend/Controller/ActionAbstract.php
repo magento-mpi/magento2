@@ -363,7 +363,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
     public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
         parent::loadLayout($ids, false, $generateXml);
-        Mage::getSingleton('Mage_Backend_Model_Auth_Session')->filterAclNodes($this->getLayout()->getNode());
+        Mage::getSingleton('Mage_Core_Model_Authorization')->filterAclNodes($this->getLayout()->getNode());
         if ($generateBlocks) {
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;

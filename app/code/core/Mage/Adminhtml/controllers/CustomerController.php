@@ -65,7 +65,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         $this->_acl = isset($invokeArgs['acl']) ?
             $invokeArgs['acl'] :
-            Mage::getSingleton('Mage_Backend_Model_Auth_Session');
+            Mage::getSingleton('Mage_Core_Model_Authorization');
 
         $this->_eventManager = isset($invokeArgs['eventManager']) ?
             $invokeArgs['eventManager'] :
@@ -224,6 +224,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
+
             /** @var $customer Mage_Customer_Model_Customer */
             $this->_initCustomer('customer_id');
             $customer = $this->_registryManager->registry('current_customer');

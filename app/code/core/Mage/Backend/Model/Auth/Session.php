@@ -45,7 +45,7 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
             $this->_aclBuilder = $data['aclBuilder'];
         } else {
             $areaConfig = Mage::getConfig()->getAreaConfig(Mage::helper('Mage_Backend_Helper_Data')->getAreaCode());
-            $this->_aclBuilder = Mage::getModel('Mage_Core_Model_Acl_Builder', array(
+            $this->_aclBuilder = Mage::getSingleton('Mage_Core_Model_Acl_Builder', array(
                 'areaConfig' => $areaConfig,
                 'objectFactory' => Mage::getConfig()
             ));
@@ -100,8 +100,8 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
     /**
      * Check current user permission on resource and privilege
      *
-     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Catalog::catalog')
-     * Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('Mage_Catalog::catalog')
+     * Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::catalog')
+     * Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Catalog::catalog')
      *
      * @param   string $resource
      * @param   string $privilege
@@ -124,25 +124,6 @@ class Mage_Backend_Model_Auth_Session extends Mage_Core_Model_Session_Abstract i
             }
         }
         return false;
-    }
-
-    /**
-     * Delete nodes that have "acl" attribute but value is "not allowed"
-     *
-     * In any case, the "acl" attribute will be unset
-     *
-     * @param Varien_Simplexml_Element $xml
-     */
-    public function filterAclNodes(Varien_Simplexml_Element $xml)
-    {
-        $limitations = $xml->xpath('//*[@acl]') ?: array();
-        foreach ($limitations as $node) {
-            if (!$this->isAllowed($node['acl'])) {
-                $node->unsetSelf();
-            } else {
-                unset($node['acl']);
-            }
-        }
     }
 
     /**

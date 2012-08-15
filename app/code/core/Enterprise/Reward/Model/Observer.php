@@ -512,7 +512,7 @@ class Enterprise_Reward_Model_Observer
     {
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
             || (Mage::app()->getStore()->isAdmin()
-                && !Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+                && !Mage::getSingleton('Mage_Core_Model_Authorization')
                     ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT))
         ) {
             return $this;

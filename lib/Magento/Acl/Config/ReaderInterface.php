@@ -2,8 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Backend
+ * @category    Magento
+ * @package     Framework
+ * @subpackage  ACL
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,11 +13,11 @@
 /**
  * Acl resources reader interface
  *
- * @category    Mage
- * @package     Mage_Backend
+ * @category    Magento
+ * @package     Framework
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Backend_Model_Acl_Config_ReaderInterface
+interface Magento_Acl_Config_ReaderInterface
 {
     /**
      * Retrieve ACL resources

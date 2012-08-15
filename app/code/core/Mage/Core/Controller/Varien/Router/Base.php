@@ -354,12 +354,14 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
                 continue;
             }
 
+            if (!method_exists($controllerClassName, $action . 'Action')) {
+                continue;
+            }
+
+            Mage::getConfig()->setCurrentAreaCode($this->_area);
             // instantiate controller class
             $controllerInstance = $this->_getControllerInstance($controllerClassName, $request);
 
-            if (false == $this->_validateControllerInstance($controllerInstance, $action)) {
-                continue;
-            }
             $found = true;
             break;
         }
@@ -383,19 +385,6 @@ class Mage_Core_Controller_Varien_Router_Base extends Mage_Core_Controller_Varie
             $request->setParams($params['variables']);
         }
         return $controllerInstance;
-    }
-
-    /**
-     * Validate accessibility of controller action
-     *
-     * @param Mage_Core_Controller_Varien_Action $controllerInstance
-     * @param string $action
-     *
-     * @return bool
-     */
-    protected function _validateControllerInstance($controllerInstance, $action)
-    {
-        return (bool) $controllerInstance->hasAction($action);
     }
 
     /**

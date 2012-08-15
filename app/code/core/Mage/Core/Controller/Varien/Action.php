@@ -152,6 +152,7 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
      */
     public function setCurrentArea($areaCode)
     {
+        Mage::getConfig()->setCurrentAreaCode($areaCode);
         $this->_currentArea = $areaCode;
         return $this;
     }
@@ -439,6 +440,8 @@ abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controlle
 
             $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
             Magento_Profiler::start($profilerKey);
+
+            Mage::getConfig()->setCurrentAreaCode($this->_currentArea);
 
             Magento_Profiler::start('predispatch');
             $this->preDispatch();

@@ -203,10 +203,12 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     /**
      * Save Rma
      *
+     * @param array $data
      * @return bool|Enterprise_Rma_Model_Rma
      */
-    public function saveRma()
+    public function saveRma($data)
     {
+        // TODO: move errors adding to controller
         $errors = 0;
 
         if ($this->getCustomerCustomEmail()) {
@@ -216,12 +218,12 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
                 foreach($validateEmail as $error) {
                     $session->addError($error);
                 }
-                $session->setRmaFormData($_POST);
+                $session->setRmaFormData($data);
                 $errors = 1;
             }
         }
 
-        $itemModels = $this->_createItemsCollection();
+        $itemModels = $this->_createItemsCollection($data);
         if (!$itemModels || $errors) {
             return false;
         }
@@ -347,20 +349,13 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Prepares $_POST data by Item
+     * Prepares Item's data
      *
      * @param  $item
      * @return array
      */
     protected function _preparePost($item)
     {
-        /*
-         * Due to specific save process of EAV entities, it takes data directly from POST
-         * If we save more than one entity at once it's possible that some entity's attributes take
-         * it's value from previous saved entity
-         * To avoid this we cleaning POST
-         */
-        $_POST          = array();
         $errors         = false;
         $preparePost    = array();
         $qtyKeys        = array('qty_authorized', 'qty_returned', 'qty_approved');
@@ -556,18 +551,21 @@ class Enterprise_Rma_Model_Rma extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Creates rma items collection by $_POST
+     * Creates rma items collection by passed data
      *
+     * @param array $data
      * @return array
      */
-    protected function _createItemsCollection()
+    protected function _createItemsCollection($data)
     {
+        if (!is_array($data)) {
+            $data = (array) $data;
+        }
         $order      = $this->getOrder();
         $itemModels = array();
         $errors     = array();
         $errorKeys  = array();
 
-        $data       = $_POST;
         foreach ($data['items'] as $key=>$item) {
             if (isset($item['items'])) {
                 $itemModel  = $firstModel   = false;
