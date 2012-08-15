@@ -45,6 +45,8 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCompactLogWithInvalidData()
     {
+        $this->_mockTranslationHelper();
+
         $methods = array('_getManagerModel');
         /** @var $historyMock Mage_DesignEditor_Model_History */
         $historyMock = $this->getMock('Mage_DesignEditor_Model_History', $methods, array(), '', false);
@@ -98,6 +100,8 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
      */
     public function testGetCompactXmlWithInvalidData()
     {
+        $this->_mockTranslationHelper();
+
         $methods = array('_getManagerModel');
         /** @var $historyMock Mage_DesignEditor_Model_History */
         $historyMock = $this->getMock('Mage_DesignEditor_Model_History', $methods, array(), '', false);
@@ -183,4 +187,24 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * Add/remove mock for translation helper
+     *
+     * @param bool $add
+     * @return void
+     */
+    protected function _mockTranslationHelper($add = true)
+    {
+        Mage::unregister('_helper/Mage_DesignEditor_Helper_Data');
+        if ($add) {
+            $helper = $this->getMock('stdClass', array('__'));
+            $helper->expects($this->any())->method('__')->will($this->returnArgument(0));
+            Mage::register('_helper/Mage_DesignEditor_Helper_Data', $helper);
+        }
+    }
+}
+
+class Mage_DesignEditor_Model_HistoryTest_Exception extends Exception
+{
 }
