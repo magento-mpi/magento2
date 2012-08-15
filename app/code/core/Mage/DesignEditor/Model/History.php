@@ -100,7 +100,7 @@ class Mage_DesignEditor_Model_History extends Mage_Backend_Model_Auth_Session
      */
     protected function _getManagerModel()
     {
-        if  ($this->_managerModel == null) {
+        if ($this->_managerModel == null) {
             $this->_managerModel = Mage::getModel('Mage_DesignEditor_Model_History_Manager');
         }
         return $this->_managerModel;

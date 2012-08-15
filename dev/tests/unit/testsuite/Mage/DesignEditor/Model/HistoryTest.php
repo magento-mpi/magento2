@@ -125,9 +125,9 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'handle'       => 'catalog_category_view',
+                'handle'       => 'checkout_cart_index',
                 'change_type'  => 'layout',
-                'element_name' => 'category.products',
+                'element_name' => 'checkout.cart',
                 'action_name'  => 'move',
                 'action_data'  => array(
                     'destination_container' => 'content',
@@ -135,9 +135,9 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
                 ),
             ),
             array(
-                'handle'       => 'catalog_category_view',
+                'handle'       => 'checkout_cart_index',
                 'change_type'  => 'layout',
-                'element_name' => 'category.products',
+                'element_name' => 'checkout.cart',
                 'action_name'  => 'remove',
                 'action_data'  => array(),
             ),
@@ -170,9 +170,9 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'handle'       => 'catalog_category_view',
+                'handle'       => 'checkout_cart_index',
                 'change_type'  => 'layout',
-                'element_name' => 'category.products',
+                'element_name' => 'checkout.cart',
                 'action_name'  => 'move',
                 'action_data'  => array(
                     'destination_container' => 'content',
