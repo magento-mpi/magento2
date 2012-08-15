@@ -37,6 +37,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
             'id'        => 'add_new_product',
             'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
             'type'      => 'split_button',
+            'class'     => 'btn-add',
             'options'   => $this->_getAddProductButtonOptions()
         ));
 
