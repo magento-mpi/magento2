@@ -13,15 +13,19 @@
  * Template for Mage_Backend_Block_Widget_Button_Split
  */
 ?>
+<?php $_buttonCssClass ='btn-add'; ?>
 <div id="<?php echo $this->getId(); ?>" class="buttons-group">
-    <div id="<?php echo $this->getId(); ?>_main_control" class="button btn-add">
+    <div id="<?php echo $this->getId(); ?>_main_control" class="button<?php echo $_buttonCssClass ? ' '.$_buttonCssClass : '' ?>">
         <span><?php echo $this->getLabel(); ?></span>
     </div>
     <div class="button btn-toggle" data-toggle="dropdown"><span>Select</span></div>
     <ul class="dropdown-menu">
         <?php foreach ($this->getOptions() as $option): ?>
-        <li onclick="<?php echo $option['onclick']?>" <?php if($option['default']):?>class="item-default"<?php endif; ?>>
-            <span><?php echo $option['label'] ?></span>
+        <li>
+            <span class="item<?php if($option['default']):?> item-default<?php endif; ?>" onclick="<?php echo $option['onclick']?>"><?php echo $option['label'] ?></span>
+            <div class="tooltip">
+                <a href="#helpme" class="help"><?php echo $this->__('What is this?');?></a>
+            </div>
         </li>
         <?php endforeach; ?>
     </ul>
@@ -37,7 +41,7 @@
         });
 
         $('#<?php echo $this->getId(); ?>_main_control').click(function() {
-            $('#<?php echo $this->getId(); ?> .dropdown-menu > li.item-default').trigger('click');
+            $('#<?php echo $this->getId(); ?> .dropdown-menu > li > span.item-default').trigger('click');
         });
     })(jQuery);
 //]]>

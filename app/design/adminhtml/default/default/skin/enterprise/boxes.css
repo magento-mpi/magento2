@@ -544,12 +544,20 @@ div.button {
     background:#ffac47;
     background:rgba(255, 172, 71, .95);
     text-align: left;color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer;
-    padding:4px 8px;
+    padding:0;
+    position: relative;
+    z-index: 1;
 }
+.dropdown-menu li .item {
+    display: block;
+    padding:4px 25px 4px 8px;
+}
+.dropdown-menu li > .tooltip { position: absolute; top:5px; right:3px; }
 .dropdown-menu li.selected {
 }
 .dropdown-menu li:hover {
     background:#f77c16;
+    z-index: 2;
 }
 .dropdown-menu li:active {
     background:#f77c16;
@@ -585,6 +593,66 @@ div.button {
     border-left:3px solid transparent;
     border-top: 6px solid #fff;
 }
+
+/* =============================================================================
+   Tooltip
+   ========================================================================== */
+
+/* Styles for simple "css" tooltip */
+.tooltip {
+    display:inline-block;
+    vertical-align:middle;
+    line-height:1.1;
+}
+.tooltip > .help {
+    width:15px;
+    height: 15px;
+    line-height: 15px;
+    text-indent: -999em;
+    overflow: hidden;
+    display: block;
+    background: url(images/icon-tooltip.png) no-repeat 0 0;
+    position: relative; z-index: 111;
+    cursor:help;
+}
+.tooltip-content {
+    display:none;
+    position:absolute;
+    max-width:200px;
+    margin-top:5px;
+    margin-left:-18px;
+    padding:8px;
+    border-radius:3px;
+    background:#000;
+    background:rgba(0,0,0,.8);
+    color:#fff;
+    text-shadow:none;
+    z-index:20;
+    font-weight: normal;
+    font-size: 11px;
+}
+.tooltip-content:before {
+    content:'';
+    position:absolute;
+    width:0;
+    height:0;
+    top:-5px;
+    left:20px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #000;
+    opacity:.8;
+}
+.tooltip:hover {
+    z-index:20;
+}
+.tooltip:hover > .help {
+    background-position: 0 -15px;
+}
+.tooltip > .help:hover + .tooltip-content {
+    display:block;
+}
+
 
 /* SWITCHER
 *******************************************************************************/
