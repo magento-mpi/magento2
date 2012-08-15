@@ -1,0 +1,159 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+    /**
+     * Previous selected entity for grid
+     *
+     * @var string
+     */
+    varienForm.prototype.previousGridEntity = '';
+
+    /**
+     * List of existing behavior sets
+     *
+     * @var array
+     */
+    varienForm.prototype.uniqueBehaviors = <?php echo $this->getUniqueBehaviors() ?>;
+
+    /**
+     * Behaviour codes for import entities
+     *
+     * @var array
+     */
+    varienForm.prototype.entityBehaviors = <?php echo $this->getEntityBehaviors() ?>;
+
+    /**
+     * Show and activate row
+     *
+     * @param string elementId
+     */
+    varienForm.prototype.activateRow = function(elementId)
+    {
+        $(elementId).up('tr').show();
+        $(elementId).enable();
+        $(elementId).addClassName('required-entry');
+    };
+
+    /**
+     * Hide and deactivate row
+     *
+     * @param string elementId
+     */
+    varienForm.prototype.deactivateRow = function(elementId)
+    {
+        $(elementId).up('tr').hide();
+        $(elementId).selectedIndex = 0;
+        $(elementId).disable();
+        $(elementId).removeClassName('required-entry');
+    };
+
+    /**
+     * Show behavior selector
+     *
+     * @param string|boolean entity If false, then hide all behavior selectors
+     * @return void
+     */
+    varienForm.prototype.showBehavior = function(entity)
+    {
+        var requiredBehavior = this.entityBehaviors[entity];
+        for (i = 0; i < this.uniqueBehaviors.length; i++) {
+            var currentBehavior = this.uniqueBehaviors[i];
+            if (requiredBehavior == currentBehavior) {
+                this.activateRow(currentBehavior);
+            } else {
+                this.deactivateRow(currentBehavior);
+            }
+        }
+    };
+
+    /**
+     * Handle value change in entity type selector (only for import)
+     *
+     * @return void
+     */
+    varienForm.prototype.handleEntityTypeSelector = function()
+    {
+        if ($('entity') && $F('entity')) {
+            this.showBehavior($F('entity'));
+        } else {
+            this.showBehavior(false);
+        }
+    };
+
+    /**
+     *  Handle value change in entity type selector
+     *
+     * @return void
+     */
+    varienForm.prototype.modifyFilterGrid = function()
+    {
+        if ($('entity') && $F('entity') && $F('entity') != 'catalog_product') {
+            if ($F('entity') == 'customer') {
+                $$('col:first-child').each(function(el) {
+                    el.show();
+                });
+                $$('th.no-link:first-child').each(function(el) {
+                    el.show();
+                });
+                $$('td.a-center').each(function(el) {
+                    el.show();
+                });
+            } else {
+                $$('col:first-child').each(function(el) {
+                    el.hide();
+                });
+                $$('th.no-link:first-child').each(function(el) {
+                    el.hide();
+                });
+                $$('td.a-center').each(function(el) {
+                    el.hide();
+                });
+            }
+        }
+    };
+
+    /**
+     * Post form data and process response via AJAX
+     *
+     * @return void
+     */
+    varienForm.prototype.getFilter = function()
+    {
+        if ($('entity') && $F('entity')) {
+            var entity = $F('entity');
+            if (entity != 'catalog_product') {
+                entity = 'customer';
+            }
+            if (entity != this.previousGridEntity) {
+                this.previousGridEntity = entity;
+                var url = "<?php echo $this->getUrl('*/*/getFilter') ?>";
+                url += ((url.slice(-1) != '/') ? '/' : '') + 'entity/' + entity;
+
+                new Ajax.Request(url, {
+                    method:      'post',
+                    evalScripts: true,
+                    onComplete:  function(transport) {
+                        var responseText = transport.responseText.replace(/>\s+</g, '><');
+                        $('export_filter_grid_container').update(responseText);
+                        this.modifyFilterGrid();
+                        $('export_filter_container').show();
+                    }.bind(this)
+                });
+            } else {
+                this.modifyFilterGrid();
+            }
+        } else {
+            $('export_filter_container').hide();
+        }
+    };
+//]]>
+</script>
