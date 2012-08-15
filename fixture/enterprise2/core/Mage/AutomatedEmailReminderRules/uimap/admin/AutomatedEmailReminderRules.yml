@@ -57,6 +57,8 @@ create_automated_email_reminder_rule:
                                     xpath: //*[@id='base_fieldset']
                                     fields:
                                         rule_name: //*[@id='name']
+                                    multiselects:
+                                        assigned_to_website: //select[@id='website_ids']
                 -
                     rule_conditions:
                         xpath: //*[@id='enterprise_reminder_rule_tabs_conditions_section']
@@ -83,3 +85,10 @@ create_automated_email_reminder_rule:
             reset: //button[span='Reset']
             save_rule: //button[span='Save Rule' or span='Save']
             save_and_continue_edit: //button[span='Save and Continue Edit']
+
+edit_automated_email_reminder_rules:
+    mca: reminder/edit/id/%id%/back/edit
+    title: %elementTitle% / Reminder Rules / Promotions / Magento Admin
+    uimap:
+        buttons:
+            save_rule: //button[span='Save Rule' or span='Save']
