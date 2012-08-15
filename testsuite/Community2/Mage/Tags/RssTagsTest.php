@@ -44,7 +44,7 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
     {
         //Enable Rss Feeds System Configuration - Enable RSS and Tags Products
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Catalog/enable_rss');
+        $this->systemConfigurationHelper()->configure('Catalog/enable_tag_rss');
         //Data
         $userData = array();
         $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
@@ -73,12 +73,12 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
      * @param integer $product
      * @param array $testData
      *
-     * @test
-     * @dataProvider tagNameDataProvider
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-23
+     * test
+     * dataProvider tagNameDataProvider
+     * depends preconditionsForTests
+     * @TestlinkId TL-MAGE-2388
      */
-    public function editTags($tag, $product, $testData)
+    public function enabledRssTags($tag, $product, $testData)
     {
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
@@ -111,4 +111,33 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
             array($tagName, 'product#' => 2)
         );
     }
+    /**
+     * Tags Rss Feed
+     *
+     * @param array $testData
+     *
+     * @test
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-2388
+     */
+    public function disabledRssTags($testData)
+    {
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('Catalog/disabled_tag_rss');
+        $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
+        $this->productHelper()->frontOpenProduct($testData['simple'][0]);
+        $tag = $this->generate('string', 4, ':alpha:');
+        $this->tagsHelper()->frontendAddTag($tag);
+        $this->loginAdminUser();
+        $this->navigate('all_tags');
+        $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), 'Approved');
+
+        $this->tagsHelper()->frontendTagVerificationInCategory($tag,
+            $testData['simple'][0],
+            $testData['category'][0]);
+        //Check Rss link
+        $this->assertFalse($this->controlIsPresent('pageelement', 'tag_rss_feeds'),
+            'Product Tags Rss Feed is present.');
+    }
+
 }
