@@ -12,7 +12,8 @@
 /**
  * Layout integration tests
  *
- * 'ExcessivePublicCount' rule intersects with the 'TooManyFields' and 'TooManyMethods', so check only the needed one.
+ * 'ExcessivePublicCount' rule intersects with the 'TooManyFields' and 'TooManyMethods'.
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.TooManyMethods)
