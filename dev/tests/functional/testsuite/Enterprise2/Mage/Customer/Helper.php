@@ -82,6 +82,39 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
         return trim($this->getText($this->_getControlXpath('field', 'current_balance')));
     }
     /**
+     * Searches the specified row in Reward Points History.
+     * Returns row number(s) if found, or null otherwise.
+     *
+     * @param array $data Data to look for
+     *
+     * @return string|array|null
+     */
+    public function searchRewardPointsHistoryRecord(array $data)
+    {
+        $rowNumbers = array();
+
+        if (!$this->isElementPresent($this->_getControlXpath('fieldset', 'reward_points_history'))) {
+            $this->clickControl('link', 'reward_points_history_link', false);
+            $this->waitForAjax();
+        }
+        $qtyElementsInTable = $this->_getControlXpath('pageelement', 'reward_points_history_rows_number');
+        $totalCount = intval($this->getText($qtyElementsInTable));
+        $xpathTR = $this->formSearchXpath($data);
+        if ($this->isElementPresent($xpathTR)) {
+            for ($i = 1; $i <= $totalCount; $i++) {
+                if ($this->isElementPresent(str_replace('tr', 'tr[' . $i .']', $xpathTR))) {
+                    $rowNumbers[] = $i;
+                }
+            }
+            if (count($rowNumbers) == 1) {
+                return $rowNumbers[0];
+            } else {
+                return $rowNumbers;
+            }
+        }
+        return null;
+    }
+    /**
      * Check if customer is present in customers grid
      *
      * @param array $userData
