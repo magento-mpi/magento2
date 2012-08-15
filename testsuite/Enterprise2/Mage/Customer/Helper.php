@@ -157,4 +157,20 @@ class Enterprise2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
         }
         return 0;
     }
+
+    /**
+     * Two Step Password Reset
+     *
+     * @param array $emailData
+     */
+    public function frontForgotPassword($emailData)
+    {
+        $waitCondition = array($this->_getMessageXpath('general_success'), $this->_getMessageXpath('general_error'),
+            $this->_getMessageXpath('general_validation'));
+        $this->assertTrue($this->checkCurrentPage('forgot_customer_password'), $this->getParsedMessages());
+        $this->fillFieldset($emailData, 'forgot_password');
+        $this->clickButton('submit', false);
+        $this->waitForElement($waitCondition);
+        $this->validatePage();
+    }
 }
