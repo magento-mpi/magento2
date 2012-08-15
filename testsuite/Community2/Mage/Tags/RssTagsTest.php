@@ -123,7 +123,7 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
     public function disabledRssTags($testData)
     {
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('Catalog/disabled_tag_rss');
+        $this->systemConfigurationHelper()->configure('Catalog/disable_tag_rss');
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple'][0]);
         $tag = $this->generate('string', 4, ':alpha:');
