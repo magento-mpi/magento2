@@ -1,0 +1,8 @@
+<layout>
+    <catalog_category_view>
+        <remove name="category.products"/>
+    </catalog_category_view>
+    <customer_account>
+        <move element="customer_account_navigation" as="customer_account_navigation_alias" destination="top.menu" after="-"/>
+    </customer_account>
+</layout>

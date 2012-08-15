@@ -110,7 +110,7 @@
                         return this[ '_' + type + this._stringToTitleCase(action) ](data);
                         break;
                     default:
-                        throw Translator.translate('Invalid action "#action#"').replace('#action#', action);
+                        throw Error(Translator.translate('Invalid action "#action#"').replace('#action#', action));
                 }
             },
             /** @todo maybe we need to create global object for strings? */
@@ -130,7 +130,7 @@
                     },
                     destination: {
                         container: data.action_data.destination_container,
-                        order: data.action_data.sibling_name
+                        order: data.action_data.after
                     }
                 });
             },
@@ -160,7 +160,7 @@
                     action_name: ACTION_MOVE,
                     action_data: {
                         destination_container: data.destination.container,
-                        sibling_name: data.destination.order
+                        after: data.destination.order
                     }
                 }
             },
