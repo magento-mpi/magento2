@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_GoogleShopping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Catalog::catalog">
+                    <resource id="Mage_GoogleShopping::googleshopping" module="Mage_GoogleShopping" title="Google Content" sortOrder="500">
+                        <resource id="Mage_GoogleShopping::types" title="Manage Attributes" sortOrder="0" />
+                        <resource id="Mage_GoogleShopping::items" title="Manage Items" sortOrder="5" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

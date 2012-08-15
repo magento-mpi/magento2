@@ -316,9 +316,22 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
         $this->renderLayout();
     }
 
-    public function loadLayout($ids=null, $generateBlocks=true, $generateXml=true)
+    /**
+     * Load layout by handles and verify user ACL
+     *
+     * @param string|null|bool|array $ids
+     * @param bool $generateBlocks
+     * @param bool $generateXml
+     * @return Mage_Backend_Controller_ActionAbstract|Mage_Core_Controller_Varien_Action
+     */
+    public function loadLayout($ids = null, $generateBlocks = true, $generateXml = true)
     {
-        parent::loadLayout($ids, $generateBlocks, $generateXml);
+        parent::loadLayout($ids, false, $generateXml);
+        Mage::getSingleton('Mage_Core_Model_Authorization')->filterAclNodes($this->getLayout()->getNode());
+        if ($generateBlocks) {
+            $this->generateLayoutBlocks();
+            $this->_isLayoutLoaded = true;
+        }
         $this->_initLayoutMessages('Mage_Backend_Model_Session');
         return $this;
     }
@@ -375,7 +388,7 @@ abstract class Mage_Backend_Controller_ActionAbstract extends Mage_Core_Controll
      */
     public function getUrl($route='', $params=array())
     {
-        return Mage::helper('Mage_Backend_Helper_Data')->getUrl($route, $params);
+        return Mage_Backend_Helper_Data::getUrl($route, $params);
     }
 
     /**

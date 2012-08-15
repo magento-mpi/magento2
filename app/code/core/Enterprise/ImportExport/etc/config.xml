@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Enterprise_ImportExport>
-            <version>1.11.0.1</version>
+            <version>1.11.0.3</version>
             <active>false</active>
             <codePool>core</codePool>
             <depends>
@@ -48,18 +48,19 @@
             </email>
         </template>
         <importexport>
-            <import_customer_entities>
+            <export_entities>
                 <customer_finance translate="label" module="Enterprise_ImportExport">
-                    <model_token>Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_Finance</model_token>
+                    <model_token>Enterprise_ImportExport_Model_Export_Entity_Customer_Finance</model_token>
                     <label>Customer Finances</label>
                 </customer_finance>
-            </import_customer_entities>
-            <export_customer_entities>
+            </export_entities>
+            <import_entities>
                 <customer_finance translate="label" module="Enterprise_ImportExport">
-                    <model_token>Enterprise_ImportExport_Model_Export_Entity_V2_Customer_Finance</model_token>
+                    <model_token>Enterprise_ImportExport_Model_Import_Entity_Eav_Customer_Finance</model_token>
                     <label>Customer Finances</label>
+                    <behavior_token>Mage_ImportExport_Model_Source_Import_Behavior_Custom</behavior_token>
                 </customer_finance>
-            </export_customer_entities>
+            </import_entities>
         </importexport>
     </global>
     <admin>
@@ -81,6 +82,15 @@
                 </enterprise_importexport>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Enterprise_ImportExport>
+                    <files>
+                        <default>Enterprise_ImportExport.csv</default>
+                    </files>
+                </Enterprise_ImportExport>
+            </modules>
+        </translate>
     </adminhtml>
     <default>
         <system>
@@ -98,5 +108,10 @@
                 </enterprise_import_export_log_clean>
             </jobs>
         </crontab>
+        <export>
+            <customer_page_size>
+                <finance>10000</finance>
+            </customer_page_size>
+        </export>
     </default>
 </config>

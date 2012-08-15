@@ -85,16 +85,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Paybox_Direct extends Mage_Payment
     }
 
     /**
-     * Retrieve dummy payment method code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return 'pbridge_' . parent::getCode();
-    }
-
-    /**
      * Retrieve original payment method code
      *
      * @return string

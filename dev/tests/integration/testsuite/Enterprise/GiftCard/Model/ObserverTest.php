@@ -24,15 +24,24 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
         $event = new Varien_Event(array('order' => $order));
         $observer = new Varien_Event_Observer(array('event' => $event));
 
-        $emailTemplateModel = new Mage_Core_Model_Email_Template();
+        $zendMailMock = $this->getMock('Zend_Mail', array('send'));
+        $zendMailMock->expects($this->once())
+            ->method('send')
+            ->will($this->returnValue(true));
+
+        $emailTemplateMock = $this->getMock('Mage_Core_Model_Email_Template', array('_getMail'));
+        $emailTemplateMock->expects($this->once())
+            ->method('_getMail')
+            ->will($this->returnValue($zendMailMock));
+
         $model = new Enterprise_GiftCard_Model_Observer(array(
-            'email_template_model' => $emailTemplateModel,
+            'email_template_model' => $emailTemplateMock,
         ));
         $model->generateGiftCardAccounts($observer);
 
         $this->assertEquals(
             array('area' => Mage_Core_Model_App_Area::AREA_FRONTEND, 'store' => 1),
-            $emailTemplateModel->getDesignConfig()->getData()
+            $emailTemplateMock->getDesignConfig()->getData()
         );
 
         $this->_checkOrderItemProductOptions($order, false);

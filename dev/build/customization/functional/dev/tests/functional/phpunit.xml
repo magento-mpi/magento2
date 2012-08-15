@@ -63,6 +63,8 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Tax/ProductTaxClass</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRate</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRule</directory>
+            <file>testsuite/Core/Mage/Tax/TaxAndPricesValidationBackend.php</file>
+            <file>testsuite/Core/Mage/Tax/TaxAndPricesValidationFrontend.php</file>
 
             <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
 
@@ -81,13 +83,6 @@
         <!-- Whether to perform a cleanup to guarantee the "clean" installation before the next tests execution. -->
         <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
     </php>
-    <groups>
-        <exclude>
-            <group>skip_due_to_bug</group>
-            <group>skip_due_to_bug1.12</group>
-            <group>skip_due_to_bug2.0</group>
-        </exclude>
-    </groups>
     <logging>
         <log type="json" target="./var/logs/logfile.json"/>
         <log type="tap" target="./var/logs/logfile.tap"/>

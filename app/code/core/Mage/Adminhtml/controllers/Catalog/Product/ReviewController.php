@@ -144,7 +144,12 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
                 }
             }
 
-            return $this->getResponse()->setRedirect($this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/'));
+            $nextId = (int) $this->getRequest()->getParam('next_item');
+            $url = $this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/');
+            if ($nextId) {
+                $url = $this->getUrl('*/*/edit', array('id' => $nextId));
+            }
+            return $this->getResponse()->setRedirect($url);
         }
         $this->_redirect('*/*/');
     }
@@ -360,10 +365,10 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
     {
         switch ($this->getRequest()->getActionName()) {
             case 'pending':
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/reviews_ratings/reviews/pending');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::pending');
                 break;
             default:
-                return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/reviews_ratings/reviews/all');
+                return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Review::reviews_all');
                 break;
         }
     }

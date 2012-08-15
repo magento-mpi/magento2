@@ -91,16 +91,6 @@ class Enterprise_Pbridge_Model_Payment_Method_Eway_Direct extends Mage_Payment_M
     }
 
     /**
-     * Retrieve dummy payment method code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return 'pbridge_' . parent::getCode();
-    }
-
-    /**
      * Retrieve original payment method code
      *
      * @return string

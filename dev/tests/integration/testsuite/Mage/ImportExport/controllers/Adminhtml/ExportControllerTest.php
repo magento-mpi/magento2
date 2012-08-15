@@ -66,7 +66,7 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $url = 'admin/export/getFilter/entity/' . $entityType;
+        $url = 'backend/admin/export/getFilter/entity/' . $entityType;
         if ($customerEntityType) {
             $url .= '/customer_entity/' . $customerEntityType;
         }
@@ -80,12 +80,10 @@ class Mage_ImportExport_Adminhtml_ExportControllerTest extends Mage_Adminhtml_Ut
      */
     public function testIndexAction()
     {
-        $this->dispatch('admin/export/index');
+        $this->dispatch('backend/admin/export/index');
 
         $body = $this->getResponse()->getBody();
-        $this->assertSelectCount('div#head-export_format_version_fieldset', 1, $body);
-        $this->assertSelectCount('div#export_format_version_fieldset', 1, $body);
-        $this->assertSelectCount('div#head-customer_entity_fieldset', 1, $body);
-        $this->assertSelectCount('div#customer_entity_fieldset', 1, $body);
+        $this->assertSelectCount('div#head-base_fieldset', 1, $body);
+        $this->assertSelectCount('div#base_fieldset', 1, $body);
     }
 }

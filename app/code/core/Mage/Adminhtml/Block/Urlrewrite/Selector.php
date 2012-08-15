@@ -9,11 +9,11 @@
  */
 
 /**
- * Modes selector for Urlrewrites modes
+ * Modes selector for URL rewrites modes
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
 {
@@ -34,8 +34,9 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
         $this->setTemplate('urlrewrite/selector.phtml');
         $this->_modes = array(
             'category' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For category'),
-            'product'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For product'),
-            'id'       => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom'),
+            'product' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For product'),
+            'cms_page' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For CMS page'),
+            'id' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('Custom'),
         );
     }
 
@@ -52,7 +53,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
     /**
      * Label getter
      *
-     * @return array
+     * @return string
      */
     public function getSelectorLabel()
     {
@@ -68,5 +69,16 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
     public function isMode($mode)
     {
         return $this->getRequest()->has($mode);
+    }
+
+    /**
+     * Get default mode
+     *
+     * @return string
+     */
+    public function getDefaultMode()
+    {
+        $keys = array_keys($this->_modes);
+        return array_shift($keys);
     }
 }

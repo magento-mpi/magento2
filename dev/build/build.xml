@@ -23,11 +23,6 @@
         </copy>
     </target>
 
-    <!-- make script, that runs phpunit with xdebug enabled, executable -->
-    <target name="prepare-xdebug">
-        <chmod perm="u+x" file="${basedir}/${file.phpunit_xdebug}"/>
-    </target>
-
     <target name="prepare-build-properties">
         <condition property="dir.build_directory" value="${basedir}">
             <not>
@@ -59,12 +54,7 @@
         </exec>
     </target>
 
-    <taskdef name="jshint" classname="com.philmander.ant.JsHintAntTask"
-             classpath="${basedir}/dev/build/bin/ant-jshint.jar"/>
-    <target name="runJsHint">
-        <jshint dir="${basedir}/dev/tests/js" includes="**/*.js" />
-        <jshint dir="${basedir}/pub/lib/mage" includes="**/*.js" />
-    </target>
+
     <target name="js-test">
         <exec executable="cmd" dir="dev\build\bin">
             <arg value="/c"/>
@@ -88,131 +78,6 @@
 
         <replace file="${dir.build_directory}/downloader/config.ini" token="community" value="enterprise"/>
         <replace file="${dir.build_directory}/app/Mage.php" token="self::EDITION_COMMUNITY" value="self::EDITION_ENTERPRISE"/>
-    </target>
-
-    <!-- execute extruder, perform license notices replacement and sanity check -->
-    <target name="sanity-ce" depends="prepare-ce">
-        <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/publication/license/license-tool.php --
-                -w ${basedir} -e ce -v"/>
-        </exec>
-        <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
-                -w ${basedir} -c ${basedir}/dev/build/publication/sanity/ce.xml -v"/>
-        </exec>
-    </target>
-
-    <!-- product unit tests -->
-    <target name="unit-tests-magento">
-        <exec dir="dev/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit-tests-magento.xml"/>
-        </exec>
-    </target>
-
-    <!-- product unit tests with code coverage -->
-    <target name="unit-tests-magento-coverage" depends="prepare-xdebug">
-        <exec dir="dev/tests/unit" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit-tests-magento-xdebug.xml
-                --coverage-clover ${basedir}/unit-tests-magento-coverage.xml
-                "/>
-        </exec>
-    </target>
-
-    <!-- integration testing framework unit tests -->
-    <target name="unit-tests-integration-framework">
-        <exec dir="dev/tests/integration/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit-tests-integration-framework.xml"/>
-        </exec>
-    </target>
-
-    <!-- static code analysis framework unit tests -->
-    <target name="unit-tests-static-framework">
-        <exec dir="dev/tests/static/framework/tests/unit" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/unit-tests-static-framework.xml"/>
-        </exec>
-    </target>
-
-    <!-- database credentials from agent substitution -->
-    <target name="integration-tests-database-credential-substitution" depends="init">
-        <fail unless="env.db_host" message="Bamboo variable 'db_host' must be defined on your agent"/>
-        <fail unless="env.db_name" message="Bamboo variable 'db_name' must be defined on your agent"/>
-        <fail unless="env.db_user" message="Bamboo variable 'db_user' must be defined on your agent"/>
-        <fail unless="env.db_password" message="Bamboo variable 'db_password' must be defined on your agent"/>
-
-        <replace file="${basedir}/dev/tests/integration/etc/local-mysql.xml">
-            <replacefilter token="{{db_host}}" value="${env.db_host}"/>
-            <replacefilter token="{{db_name}}" value="${env.db_name}"/>
-            <replacefilter token="{{db_user}}" value="${env.db_user}"/>
-            <replacefilter token="{{db_password}}" value="${env.db_password}"/>
-        </replace>
-    </target>
-
-    <!-- product integration integrity tests -->
-    <target name="integration-integrity-tests-magento" depends="integration-tests-database-credential-substitution">
-        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration-integrity-tests-magento.xml testsuite/integrity"/>
-        </exec>
-    </target>
-
-    <!-- product integration tests -->
-    <target name="integration-tests-magento" depends="init">
-        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration-tests-magento.xml"/>
-        </exec>
-    </target>
-
-    <!-- product integration tests -->
-    <target name="integration-tests-magento-concurent" depends="integration-tests-database-credential-substitution">
-        <exec dir="dev/tests/integration" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/integration-tests-magento.xml"/>
-        </exec>
-    </target>
-
-    <!-- product integration tests with xdebug -->
-    <target name="integration-tests-magento-xdebug" depends="init,prepare-xdebug">
-        <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
-        </exec>
-    </target>
-
-    <!-- product integration tests with xdebug -->
-    <target name="integration-tests-magento-xdebug-concurent" depends="integration-tests-database-credential-substitution,prepare-xdebug">
-        <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml"/>
-        </exec>
-    </target>
-
-    <!-- product integration tests with code coverage report -->
-    <target name="integration-tests-magento-coverage" depends="init,prepare-xdebug">
-        <delete dir="${basedir}/coverage-html"/>
-        <mkdir dir="${basedir}/coverage-html"/>
-        <exec dir="dev/tests/integration" executable="${basedir}/${file.phpunit_xdebug}" failonerror="true">
-            <arg line="--stderr --log-junit ${basedir}/integration-tests-magento-xdebug.xml
-                --coverage-clover ${basedir}/integration-tests-magento-coverage.xml
-                --coverage-html ${basedir}/integration-tests-magento-coverage
-                "/>
-        </exec>
-    </target>
-
-    <!-- all static tests -->
-    <target name="static-tests-all">
-        <exec dir="dev/tests/static" executable="phpunit" failonerror="true">
-            <arg line="--log-junit ${basedir}/static-tests-all.xml"/>
-        </exec>
-    </target>
-
-    <target name="functional-tests" description="Functional Tests" depends="init,prepare-installation">
-        <condition property="useVmLauncher" value="false" else="true">
-            <os family="windows"/>
-        </condition>
-        <exec dir="${env.build_customization_dir}" executable="phpunit" vmlauncher="${useVmLauncher}" failonerror="true"/>
-    </target>
-
-    <!-- benchmark tests -->
-    <target name="performance_tests" description="Performance Tests" depends="init,prepare-ce,prepare-installation">
-        <exec executable="php" failonerror="true">
-            <arg value="${basedir}/dev/tests/performance/run_scenarios.php"/>
-        </exec>
     </target>
 
     <!-- deploy and run functional tests -->
@@ -257,7 +122,7 @@
 
 
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
-            <replacefilter token="{{admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
+            <replacefilter token="{{admin_url}}" value="${env.https_host}${env.build.key}/backend/admin"/>
             <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}"/>
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
             <replacefilter token="{{selenium_port}}" value="${env.selenium_port}"/>
@@ -267,49 +132,9 @@
 
     <target name="functional-tests-with-deploy-ee" depends="functional-tests-with-deploy,prepare-ee">
         <replace file="${dir.build_directory}/dev/tests/functional/config/config.yml">
-            <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/admin"/>
+            <replacefilter token="{{enterprise_admin_url}}" value="${env.https_host}${env.build.key}/backend/admin"/>
             <replacefilter token="{{enterprise_url}}" value="${env.http_host}${env.build.key}/"/>
         </replace>
-    </target>
-
-    <!-- Community Edition source code population to the public repository -->
-    <target name="publish_ce">
-        <property name="dir.publication_target" location="${basedir}/dev/build/publication/_tmp_target"/>
-        <fail unless="env.bamboo_source_repository" message="Bamboo variable 'source_repository' must be defined."/>
-        <fail unless="env.bamboo_target_repository" message="Bamboo variable 'target_repository' must be defined."/>
-        <fail unless="env.bamboo_source_point" message="Bamboo variable 'source_point' must be defined."/>
-        <condition property="env.bamboo_target_branch" value="master">
-            <not><isset property="env.bamboo_target_branch"/></not>
-        </condition>
-        <delete dir="${dir.publication_target}" failonerror="true"/>
-        <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/publication/publish.php --
-                --source=${env.bamboo_source_repository} --source-point=${env.bamboo_source_point}
-                --target=${env.bamboo_target_repository} --target-branch=${env.bamboo_target_branch}
-                --target-dir=${dir.publication_target}
-                --changelog-file=CHANGELOG.markdown
-                --no-push
-                "/>
-        </exec>
-        <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/publication/sanity/sanity.php --
-                -w ${dir.publication_target}
-                -c ${basedir}/dev/build/publication/sanity/ce.xml
-                -v
-                "/>
-        </exec>
-        <ant dir="${dir.publication_target}" antfile="../../build.xml" inheritAll="false">
-            <property name="env.build_customization_dir" value="../../customization/publicce"/>
-            <target name="unit-tests-magento"/>
-            <target name="unit-tests-static-framework"/>
-            <target name="unit-tests-integration-framework"/>
-            <target name="static-tests-all"/>
-            <target name="integration-tests-magento"/>
-            <target name="integration-integrity-tests-magento"/>
-        </ant>
-        <exec dir="${dir.publication_target}" executable="git" failonerror="true">
-            <arg line="push origin ${env.bamboo_target_branch}"/>
-        </exec>
     </target>
 
     <target name="init-build-directory" unless="build.directory.initialized">

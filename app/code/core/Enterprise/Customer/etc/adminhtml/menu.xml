@@ -11,8 +11,8 @@
 -->
 <config>
     <menu>
-        <add id="Enterprise_Customer::customer_attributes" title="Attributes" module="Enterprise_Customer" parent="Mage_Customer::customer" />
-        <add id="Enterprise_Customer::customer_attributes_customer_attributes" title="Manage Customer Attributes" module="Enterprise_Customer" parent="Enterprise_Customer::customer_attributes" action="adminhtml/customer_attribute" />
-        <add id="Enterprise_Customer::customer_attributes_customer_address_attributes" title="Manage Customer Address Attributes" module="Enterprise_Customer" parent="Enterprise_Customer::customer_attributes" action="adminhtml/customer_address_attribute" />
+        <add id="Enterprise_Customer::customer_attributes" title="Attributes" module="Enterprise_Customer" parent="Mage_Customer::customer" resource="Enterprise_Customer::attributes"/>
+        <add id="Enterprise_Customer::customer_attributes_customer_attributes" title="Manage Customer Attributes" module="Enterprise_Customer" parent="Enterprise_Customer::customer_attributes" action="adminhtml/customer_attribute" resource="Enterprise_Customer::customer_attributes"/>
+        <add id="Enterprise_Customer::customer_attributes_customer_address_attributes" title="Manage Customer Address Attributes" module="Enterprise_Customer" parent="Enterprise_Customer::customer_attributes" action="adminhtml/customer_address_attribute" resource="Enterprise_Customer::customer_address_attributes"/>
     </menu>
 </config>

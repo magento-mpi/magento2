@@ -8,13 +8,19 @@
  * @license     {license_link}
  */
 
+// @codingStandardsIgnoreStart
 /**
  * Scheduled export create/edit form
  *
  * @category    Enterprise
  * @package     Enterprise_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
+ *
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setGeneralSettingsLabel() setGeneralSettingsLabel(string $value)
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setFileSettingsLabel() setFileSettingsLabel(string $value)
+ * @method Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
+// @codingStandardsIgnoreEnd
 class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Export
     extends Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form
 {
@@ -25,22 +31,29 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
      */
     protected function _prepareForm()
     {
-        $this->setGeneralSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export Settings'));
-        $this->setFileSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export File Information'));
-        $this->setEmailSettingsLabel(Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Export Failed Emails'));
+        /** @var $helper Enterprise_ImportExport_Helper_Data */
+        $helper = Mage::helper('Enterprise_ImportExport_Helper_Data');
+
+        $this->setGeneralSettingsLabel($helper->__('Export Settings'));
+        $this->setFileSettingsLabel($helper->__('Export File Information'));
+        $this->setEmailSettingsLabel($helper->__('Export Failed Emails'));
 
         parent::_prepareForm();
         $form = $this->getForm();
+        /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('current_operation');
+
+        /** @var $fileFormatModel Mage_ImportExport_Model_Source_Export_Format */
+        $fileFormatModel = Mage::getModel('Mage_ImportExport_Model_Source_Export_Format');
 
         $fieldset = $form->getElement('operation_settings');
         $fieldset->addField('file_format', 'select', array(
             'name'      => 'file_info[file_format]',
-            'title'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
-            'label'     => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('File Format'),
+            'title'     => $helper->__('File Format'),
+            'label'     => $helper->__('File Format'),
             'required'  => true,
-            'values'    => Mage::getModel('Mage_ImportExport_Model_Source_Export_Format_File')->toOptionArray()
-        ), 'entity');
+            'values'    => $fileFormatModel->toOptionArray()
+        ));
 
         $form->getElement('email_template')
             ->setValues(Mage::getModel('Mage_Adminhtml_Model_System_Config_Source_Email_Template')
@@ -48,16 +61,27 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
                 ->toOptionArray()
             );
 
-        $form->getElement('entity')
-            ->setData('onchange', 'editForm.getFilter();');
+        /** @var $element Varien_Data_Form_Element_Abstract */
+        $element = $form->getElement('entity');
+        $element->setData('onchange', 'editForm.getFilter();');
 
         $fieldset = $form->addFieldset('export_filter_grid_container', array(
-            'legend' => Mage::helper('Enterprise_ImportExport_Helper_Data')->__('Entity Attributes'),
+            'legend' => $helper->__('Entity Attributes'),
             'fieldset_container_id' => 'export_filter_container'
         ));
 
+        // prepare filter grid data
         if ($operation->getId()) {
-            $fieldset->setData('html_content', $this->_getFilterBlock($operation)->toHtml());
+            // $operation object is stored in registry and used in other places.
+            // that's why we will not change its data to ensure that existing logic will not be affected.
+            // instead we will clone existing operation object.
+            $filterOperation = clone $operation;
+            if ($filterOperation->getEntityType() == 'customer_address'
+                || $filterOperation->getEntityType() == 'customer_finance'
+            ) {
+                $filterOperation->setEntityType('customer');
+            }
+            $fieldset->setData('html_content', $this->_getFilterBlock($filterOperation)->toHtml());
         }
 
         $this->_setFormValues($operation->getData());
@@ -73,12 +97,15 @@ class Enterprise_ImportExport_Block_Adminhtml_Scheduled_Operation_Edit_Form_Expo
      */
     protected function _getFilterBlock($operation)
     {
-        $export = $operation->getInstance();
+        $exportOperation = $operation->getInstance();
+        /** @var $block Enterprise_ImportExport_Block_Adminhtml_Export_Filter */
         $block = $this->getLayout()
             ->createBlock('Enterprise_ImportExport_Block_Adminhtml_Export_Filter')
-            ->setOperation($export);
+            ->setOperation($exportOperation);
 
-        $export->filterAttributeCollection($block->prepareCollection($export->getEntityAttributeCollection()));
+        $exportOperation->filterAttributeCollection(
+            $block->prepareCollection($exportOperation->getEntityAttributeCollection())
+        );
         return $block;
     }
 }

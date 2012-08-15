@@ -88,7 +88,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
         /** @var $operation Enterprise_ImportExport_Model_Scheduled_Operation */
         $operation = Mage::registry('_fixture/Enterprise_ImportExport_Model_Scheduled_Operation');
 
-        $this->dispatch('admin/scheduled_operation/edit/id/' . $operation->getId());
+        $this->dispatch('backend/admin/scheduled_operation/edit/id/' . $operation->getId());
 
         foreach ($expectedContains as $expectedFieldName) {
             $this->assertContains($expectedFieldName, $this->getResponse()->getBody());
@@ -117,7 +117,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
         $cwd = getcwd();
         chdir($varDir);
 
-        $this->dispatch('admin/scheduled_operation/cron/operation/' . $operation->getId());
+        $this->dispatch('backend/admin/scheduled_operation/cron/operation/' . $operation->getId());
 
         // Restore current working directory
         chdir($cwd);
@@ -139,7 +139,7 @@ class Enterprise_ImportExport_Adminhtml_Scheduled_OperationControllerTest extend
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax
         $_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 
-        $this->dispatch('admin/scheduled_operation/getFilter/entity/' . $entityType);
+        $this->dispatch('backend/admin/scheduled_operation/getFilter/entity/' . $entityType);
 
         $this->assertContains('<div id="export_filter_grid"', $this->getResponse()->getBody());
     }

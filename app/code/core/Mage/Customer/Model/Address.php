@@ -14,6 +14,9 @@
  * @category   Mage
  * @package    Mage_Customer
  * @author     Magento Core Team <core@magentocommerce.com>
+ *
+ * @method int getParentId() getParentId()
+ * @method Mage_Customer_Model_Address setParentId() setParentId(int $parentId)
  */
 class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
 {
@@ -50,7 +53,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
     /**
      * Retrieve address customer
      *
-     * @return Mage_Customer_Model_Customer | false
+     * @return Mage_Customer_Model_Customer|bool
      */
     public function getCustomer()
     {
@@ -68,6 +71,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
      * Specify address customer
      *
      * @param Mage_Customer_Model_Customer $customer
+     * @return Mage_Customer_Model_Address
      */
     public function setCustomer(Mage_Customer_Model_Customer $customer)
     {
@@ -142,7 +146,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
      */
     public function getRegionId()
     {
-        return (int)$this->getData('region_id');
+        return (int) $this->getData('region_id');
     }
 
     /**
@@ -153,7 +157,7 @@ class Mage_Customer_Model_Address extends Mage_Customer_Model_Address_Abstract
      */
     public function setRegionId($regionId)
     {
-        $this->setData('region_id', (int)$regionId);
+        $this->setData('region_id', (int) $regionId);
         return $this;
     }
 }

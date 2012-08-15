@@ -41,26 +41,23 @@ class Enterprise_GiftCardAccount_Model_Api extends Mage_Api_Model_Resource_Abstr
     /**
      * Retrieve gift card accounts list
      *
-     * @param  array $filters
+     * @param object|array $filters
      * @return array
      */
     public function items($filters)
     {
         /** @var $collection Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection */
         $collection = Mage::getResourceModel('Enterprise_GiftCardAccount_Model_Resource_Giftcardaccount_Collection');
-        if (is_array($filters)) {
-            try {
-                foreach ($filters as $field => $value) {
-                    if (isset($this->_mapAttributes[$field])) {
-                        $field = $this->_mapAttributes[$field];
-                    }
-                    $collection->addFieldToFilter($field, $value);
-                }
-            } catch (Mage_Core_Exception $e) {
-                $this->_fault('filters_invalid', $e->getMessage());
+        /** @var $apiHelper Mage_Api_Helper_Data */
+        $apiHelper = Mage::helper('Mage_Api_Helper_Data');
+        $filters = $apiHelper->parseFilters($filters, $this->_mapAttributes);
+        try {
+            foreach ($filters as $field => $value) {
+                $collection->addFieldToFilter($field, $value);
             }
+        } catch (Mage_Core_Exception $e) {
+            $this->_fault('filters_invalid', $e->getMessage());
         }
-
         $result = array();
         foreach($collection->getItems() as $card){
             $result[] = $this->_getEntityInfo($card);

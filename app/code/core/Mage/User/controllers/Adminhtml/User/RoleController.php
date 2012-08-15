@@ -161,7 +161,7 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array("all");
+            $resource = array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL);
         }
 
         $role = $this->_initRole('role_id');
@@ -270,6 +270,6 @@ class Mage_User_Adminhtml_User_RoleController extends Mage_Backend_Controller_Ac
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/acl/roles');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_User::acl_roles');
     }
 }

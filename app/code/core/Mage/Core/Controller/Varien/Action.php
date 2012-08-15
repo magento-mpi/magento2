@@ -18,7 +18,7 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Core_Controller_Varien_Action
+abstract class Mage_Core_Controller_Varien_Action implements Mage_Core_Controller_Varien_DispatchableInterface
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -119,13 +119,16 @@ abstract class Mage_Core_Controller_Varien_Action
      * @param Zend_Controller_Response_Abstract $response
      * @param array $invokeArgs
      */
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array())
-    {
+    public function __construct(Zend_Controller_Request_Abstract $request,
+        Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
+    ) {
         $this->_request = $request;
         $this->_response= $response;
 
         Mage::app()->getFrontController()->setAction($this);
-
+        if (!$this->_currentArea) {
+            $this->_currentArea = isset($invokeArgs['areaCode']) ? $invokeArgs['areaCode'] : null;
+        }
         $this->_construct();
     }
 
@@ -140,6 +143,7 @@ abstract class Mage_Core_Controller_Varien_Action
      */
     public function setCurrentArea($areaCode)
     {
+        Mage::getConfig()->setCurrentAreaCode($areaCode);
         $this->_currentArea = $areaCode;
         return $this;
     }
@@ -418,6 +422,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function dispatch($action)
     {
+        $this->getRequest()->setDispatched(true);
         try {
             $actionMethodName = $this->getActionMethodName($action);
             if (!method_exists($this, $actionMethodName)) {
@@ -426,6 +431,8 @@ abstract class Mage_Core_Controller_Varien_Action
 
             $profilerKey = 'CONTROLLER_ACTION:' . $this->getFullActionName();
             Magento_Profiler::start($profilerKey);
+
+            Mage::getConfig()->setCurrentAreaCode($this->_currentArea);
 
             Magento_Profiler::start('predispatch');
             $this->preDispatch();

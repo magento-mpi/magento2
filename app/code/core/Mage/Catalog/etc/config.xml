@@ -12,7 +12,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.6.0.0.15</version>
+            <version>1.6.0.0.16</version>
             <active>true</active>
             <codePool>core</codePool>
             <depends>
@@ -369,10 +369,6 @@
                 <default_sort_by>position</default_sort_by>
                 <parse_url_directives>1</parse_url_directives>
             </frontend>
-            <sitemap>
-                <tree_mode>0</tree_mode>
-                <lines_perpage>30</lines_perpage>
-            </sitemap>
             <product>
                 <default_tax_group>2</default_tax_group>
             </product>

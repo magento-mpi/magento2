@@ -15,9 +15,14 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Store_Edit_Form_Group extends Mage_Adminhtml_Block_System_Store_Edit_Form
+class Mage_Adminhtml_Block_System_Store_Edit_Form_Group extends Mage_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
-    protected function _prepareStoreTypeFieldset(Varien_Data_Form $form)
+    /**
+     * Prepare group specific fieldset
+     *
+     * @param Varien_Data_Form $form
+     */
+    protected function _prepareStoreFieldset(Varien_Data_Form $form)
     {
         $groupModel = Mage::registry('store_data');
         if ($postData = Mage::registry('store_post_data')) {
@@ -95,7 +100,5 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Group extends Mage_Adminhtml_B
             'no_span'   => true,
             'value'     => $groupModel->getId()
         ));
-
-        return $this;
     }
 }

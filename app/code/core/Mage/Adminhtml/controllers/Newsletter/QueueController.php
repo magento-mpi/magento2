@@ -260,6 +260,6 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('newsletter/queue');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Mage_Newsletter::queue');
     }
 }

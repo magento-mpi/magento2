@@ -28,8 +28,8 @@ class Enterprise_Reward_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_LANDING_PAGE = 'enterprise_reward/general/landing_page';
     const XML_PATH_AUTO_REFUND = 'enterprise_reward/general/refund_automatically';
 
-    const XML_PATH_PERMISSION_BALANCE = 'customer/manage/reward_balance';
-    const XML_PATH_PERMISSION_AFFECT = 'sales/order/actions/create/reward_spend';
+    const XML_PATH_PERMISSION_BALANCE = 'Enterprise_Reward::reward_balance';
+    const XML_PATH_PERMISSION_AFFECT = 'Enterprise_Reward::reward_spend';
 
     protected $_expiryConfig;
     protected $_hasRates = true;

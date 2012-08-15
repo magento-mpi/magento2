@@ -15,9 +15,14 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml_Block_System_Store_Edit_Form
+class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml_Block_System_Store_Edit_FormAbstract
 {
-    protected function _prepareStoreTypeFieldset(Varien_Data_Form $form)
+    /**
+     * Prepare website specific fieldset
+     *
+     * @param Varien_Data_Form $form
+     */
+    protected function _prepareStoreFieldset(Varien_Data_Form $form)
     {
         $websiteModel = Mage::registry('store_data');
         if ($postData = Mage::registry('store_post_data')) {
@@ -86,7 +91,5 @@ class Mage_Adminhtml_Block_System_Store_Edit_Form_Website extends Mage_Adminhtml
             'name'  => 'website[website_id]',
             'value' => $websiteModel->getId()
         ));
-
-        return $this;
     }
 }
