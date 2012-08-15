@@ -174,6 +174,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
      */
     public function newAction()
     {
+        if (!$this->getRequest()->getParam('set') || !$this->getRequest()->getParam('type')) {
+            $this->_forward('noroute');
+            return;
+        }
         $product = $this->_initProduct();
 
         $productData = $this->getRequest()->getPost('product');

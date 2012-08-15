@@ -17,7 +17,7 @@
     <div id="<?php echo $this->getId(); ?>_main_control" class="button btn-add">
         <span><?php echo $this->getLabel(); ?></span>
     </div>
-    <div class="button btn-toggle" data-toggle="dropdown"><span>Select</span></span></div>
+    <div class="button btn-toggle" data-toggle="dropdown"><span>Select</span></div>
     <ul class="dropdown-menu">
         <?php foreach ($this->getOptions() as $option): ?>
         <li onclick="<?php echo $option['onclick']?>" <?php if($option['default']):?>class="item-default"<?php endif; ?>>

@@ -33,6 +33,27 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
      */
     protected function _prepareLayout()
     {
+        $this->_addButton('add_new', array(
+            'id'        => 'add_new_product',
+            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
+            'type'      => 'split_button',
+            'options'   => $this->_getAddProductButtonOptions()
+        ));
+
+        $this->setChild(
+            'grid',
+            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Grid', 'product.grid')
+        );
+        return parent::_prepareLayout();
+    }
+
+    /**
+     * Retrieve options for 'Add Product' split button
+     *
+     * @return array
+     */
+    protected function _getAddProductButtonOptions()
+    {
         $splitButtonOptions = array();
 
         foreach (Mage::getModel('Mage_Catalog_Model_Product_Type')->getOptionArray() as $key => $label) {
@@ -43,18 +64,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
             );
         }
 
-        $this->_addButton('add_new', array(
-            'id'        => 'add_new_product',
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
-            'type'      => 'split_button',
-            'options'   => $splitButtonOptions
-        ));
-
-        $this->setChild(
-            'grid',
-            $this->getLayout()->createBlock('Mage_Adminhtml_Block_Catalog_Product_Grid', 'product.grid')
-        );
-        return parent::_prepareLayout();
+        return $splitButtonOptions;
     }
 
     /**
@@ -66,8 +76,8 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
     protected function _getProductCreateUrl($type)
     {
         return $this->getUrl('*/*/new', array(
-            'type'  => $type,
-            'set'   => Mage::getModel('Mage_Catalog_Model_Product')->getDefaultAttributeSetId()
+            'set'   => Mage::getModel('Mage_Catalog_Model_Product')->getDefaultAttributeSetId(),
+            'type'  => $type
         ));
     }
 
