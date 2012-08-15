@@ -67,14 +67,11 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
 
         $html = '';
         foreach ($attributes as $attributeKey => $attributeValue) {
-            if ($attributeValue == null) {
+            if ($attributeValue === null || $attributeValue == '') {
                 continue;
             }
-            if (in_array($attributeKey, array('name', 'title'))) {
-                $attributeValue = $this->helper('Mage_Backend_Helper_Data')->quoteEscape($attributeValue);
-            }
-
-            $html .= $attributeKey . '="' . $attributeValue . '" ';
+            $html .= $attributeKey . '="'
+                . $this->helper('Mage_Backend_Helper_Data')->quoteEscape($attributeValue) . '" ';
         }
 
         return $html;

@@ -463,12 +463,33 @@ button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0;
 /* Buttons group */
 
 .btn-add { padding-left:6px; }
-.btn-add span  { background-image:url(images/add_btn_icon.gif); padding-left:20px; }
-
-div.button { border-width:1px; border-style:solid; border-color:#ed6502 #a04300 #a04300 #ed6502; padding:1px 7px 3px 7px; background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%; color:#fff; font:bold 12px arial, helvetica, sans-serif; cursor:pointer; text-align:center !important; white-space:nowrap;}
-div.button:hover                    { background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0; }
-div.button:active                   { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
-div.button span                     { line-height:1.25em; background-repeat:no-repeat; background-position:0 50%; }
+.btn-add span {
+    background-image:url(images/add_btn_icon.gif);
+    padding-left:20px;
+}
+div.button {
+    border-width:1px;
+    border-style:solid;
+    order-color:#ed6502 #a04300 #a04300 #ed6502;
+    padding:1px 7px 3px 7px;
+    background:#ffac47 url(Mage_Adminhtml::images/btn_bg.gif) repeat-x 0 100%;
+    color:#fff;
+    font:bold 12px arial, helvetica, sans-serif;
+    cursor:pointer;
+    text-align:center !important;
+    white-space:nowrap;
+}
+div.button:hover {
+    background:#f77c16 url(Mage_Adminhtml::images/btn_over_bg.gif) repeat-x 0 0;
+}
+div.button:active {
+    background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0;
+}
+div.button span {
+    line-height:1.25em;
+    background-repeat:no-repeat;
+    background-position:0 50%;
+}
 div.button {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -477,7 +498,6 @@ div.button {
     -ms-user-select: none;
     user-select: none;
 }
-
 .buttons-group {
     position: relative;
     display:inline-block;
@@ -534,7 +554,9 @@ div.button {
     display: block;
     padding:4px 25px 4px 8px;
 }
-.dropdown-menu li > .tooltip { position: absolute; top:5px; right:3px; }
+.dropdown-menu li > .tooltip {
+    position: absolute; top:5px; right:3px;
+}
 .dropdown-menu li.selected {
 }
 .dropdown-menu li:hover {
@@ -561,7 +583,9 @@ div.button {
 .btn-toggle span {
     width:6px; overflow: hidden; display: block;
 }
-.active .btn-toggle { background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0; }
+.active .btn-toggle {
+    background:#f77c16 url(Mage_Adminhtml::images/btn_on_bg.gif) repeat-x 0 0;
+}
 .btn-toggle span:before {
     display: inline-block;
     content:'';
