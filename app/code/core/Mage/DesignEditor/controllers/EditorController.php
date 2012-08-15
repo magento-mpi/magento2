@@ -14,13 +14,6 @@
 class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Pattern for valid page format
-     */
-    const PAGE_TYPE_PATTERN = '/^[a-z][a-z\d]*(_[a-z][a-z\d]*)*$/i';
-
-    /**
-     * Session model instance
-     *
      * @var Mage_DesignEditor_Model_Session
      */
     protected $_session;

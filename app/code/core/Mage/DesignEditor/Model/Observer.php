@@ -13,8 +13,12 @@
  */
 class Mage_DesignEditor_Model_Observer
 {
-    const PAGE_HANDLE =             'design_editor_page';
-    const TOOLBAR_HANDLE =          'design_editor_toolbar';
+    /**#@+
+     * VDE specific layout update handles
+     */
+    const HANDLE_PAGE    = 'design_editor_page';
+    const HANDLE_TOOLBAR = 'design_editor_toolbar';
+    /**#@-*/
 
     /**
      * Renderer for wrapping html to be shown at frontend
@@ -54,9 +58,9 @@ class Mage_DesignEditor_Model_Observer
         $handles = $update->getHandles();
         $handle = reset($handles);
         if ($handle && $update->getPageHandleType($handle) == Mage_Core_Model_Layout_Update::TYPE_FRAGMENT) {
-            $update->addHandle(self::PAGE_HANDLE);
+            $update->addHandle(self::HANDLE_PAGE);
         }
-        $update->addHandle(self::TOOLBAR_HANDLE);
+        $update->addHandle(self::HANDLE_TOOLBAR);
     }
 
     /**
@@ -136,6 +140,7 @@ class Mage_DesignEditor_Model_Observer
                 'element_html'  => $transport->getData('output'),
                 'is_draggable'  => $isDraggable,
                 'is_container'  => $isContainer,
+                'element_name'  => $elementName,
             ));
             $transport->setData('output', $this->_wrappingRenderer->toHtml());
         }

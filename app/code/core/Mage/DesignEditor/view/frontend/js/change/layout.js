@@ -129,7 +129,7 @@
                         order: null
                     },
                     destination: {
-                        container: data.action_data.destination_container,
+                        container: data.action_data.container,
                         order: data.action_data.after
                     }
                 });
@@ -159,7 +159,7 @@
                     element_name: data.block,
                     action_name: ACTION_MOVE,
                     action_data: {
-                        destination_container: data.destination.container,
+                        container: data.destination.container,
                         after: data.destination.order
                     }
                 }
