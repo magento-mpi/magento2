@@ -18,34 +18,25 @@
  */
 class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Date
 {
-
     /**
-     * File path and filename prefix for the regional localized Javascript file.
+     * File path for the regional localized Javascript file.
      */
-    const LOCALIZED_FILE_PREFIX = '/pub/lib/jquery/ui/i18n/jquery.ui.datepicker-';
+    const LOCALIZED_FILE_PATH = '/pub/lib/jquery/ui/i18n/jquery.ui.datepicker-%s.js';
 
     /**
-     * Return the locale code based on the existence of a localized Javascript file. Can be
-     * either a five character code (e.g. en-US) or a two character code (e.g. en).
+     * Return the path to the localized Javascript file given the locale or null if it doesn't exist.
      *
-     * @return string
+     * @param $locale - The locale (e.g. en-US or just en)
+     *
+     * @return string - File path to the localized Javascript file
      */
-    private function _getLocaleForRegionalJsFile()
+    private function _getFilePathByLocale($locale)
     {
-        $locale = str_replace('_', '-', Mage::app()->getLocale()->getLocaleCode());
-
-        /* First check for the 5 character localized file. There are a small handful. */
-        if (file_exists(BP . self::LOCALIZED_FILE_PREFIX . $locale . '.js')) {
-            return $locale;
-        } else {
-            /* Most of the localized files use a two character locale code. */
-            $locale = substr($locale, 0, 2);
-            if (file_exists(BP . self::LOCALIZED_FILE_PREFIX . $locale . '.js')) {
-                return $locale;
-            }
+        $filePath = sprintf(self::LOCALIZED_FILE_PATH, $locale);
+        if (file_exists(BP . $filePath)) {
+            return $filePath;
         }
-
-        return ''; /* Default to an empty string. This will default the jQuery datepicker to English. */
+        return null;
     }
 
     /**
@@ -74,10 +65,24 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
 
         $jsFiles = '"/pub/lib/jquery/ui/jquery-ui.js", '; /* First include jquery-ui. */
 
-        $locale = $this->_getLocaleForRegionalJsFile();
-        if (strlen($locale) > 0) {
-            /* Followed by the regional localized file, if it exists. */
-            $jsFiles .= '"' . self::LOCALIZED_FILE_PREFIX . $locale . '.js", ';
+        /* There are a small handful of localized files that use the 5 character locale. */
+        $locale = str_replace('_', '-', Mage::app()->getLocale()->getLocaleCode());
+        $localizedJsFilePath = $this->_getFilePathByLocale($locale);
+
+        if ($localizedJsFilePath == null) {
+            /* Most localized files use the 2 character locale. */
+            $locale = substr($locale, 0, 2);
+            $localizedJsFilePath = $this->_getFilePathByLocale($locale);
+            if ($localizedJsFilePath == null) {
+                /* Localized Javascript file doesn't exist. Default locale to empty string (English). */
+                $locale = '';
+            } else {
+                /* Include the regional localized Javascript file. */
+                $jsFiles .= '"' . $localizedJsFilePath . '", ';
+            }
+        } else {
+            /* Include the regional localized Javascript file. */
+            $jsFiles .= '"' . $localizedJsFilePath . '", ';
         }
 
         $jsFiles .= '"/pub/lib/mage/calendar/calendar.js"'; /* Lastly, the datepicker. */

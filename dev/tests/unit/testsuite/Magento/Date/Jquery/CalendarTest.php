@@ -12,22 +12,30 @@
 class Magento_Date_Jquery_CalendarTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test conversions from old calendar date formats to jQuery datepicker compatible formats.
-     * Test Zend time formats to internal time formats.
+     * Test conversions from old calendar date/time formats to jQuery datepicker compatible formats.
+     *
+     * @param string $expected
+     * @param string $actual
+     *
+     * @dataProvider convertToDateTimeFormatDataProvider
      */
-    public function testConvert()
+    public function testConvertToDateTimeFormat($expected, $actual)
     {
-        $this->assertEquals("mm/dd/yy", Magento_Date_Jquery_Calendar::convertZendToStrftime("%m/%d/%Y", true, false));
-        $this->assertEquals("%H:%M:%S", Magento_Date_Jquery_Calendar::convertZendToStrftime("HH:mm:ss", false, true));
-        $this->assertEquals(
-            "mm/dd/yy %H:%M:%S", Magento_Date_Jquery_Calendar::convertZendToStrftime("%m/%d/%Y HH:mm:ss", true, true)
-        );
-        $this->assertEquals(
-            "%m/%d/%Y HH:mm:ss", Magento_Date_Jquery_Calendar::convertZendToStrftime("%m/%d/%Y HH:mm:ss", false, false)
-        );
-        $this->assertEquals(
-            Magento_Date_Jquery_Calendar::convertZendToStrftime("%m/%d/%Y HH:mm:ss"),
-            Magento_Date_Jquery_Calendar::convertToDateTimeFormat("%m/%d/%Y HH:mm:ss")
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    public function convertToDateTimeFormatDataProvider()
+    {
+        return array(
+            array("mm/dd/yy", Magento_Date_Jquery_Calendar::convertToDateTimeFormat("%m/%d/%Y", true, false)),
+            array("%H:%M:%S", Magento_Date_Jquery_Calendar::convertToDateTimeFormat("HH:mm:ss", false, true)),
+            array("mm/dd/yy %H:%M:%S",
+                  Magento_Date_Jquery_Calendar::convertToDateTimeFormat("%m/%d/%Y HH:mm:ss", true, true)),
+            array("%m/%d/%Y HH:mm:ss",
+                  Magento_Date_Jquery_Calendar::convertToDateTimeFormat("%m/%d/%Y HH:mm:ss", false, false))
         );
     }
 }

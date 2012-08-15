@@ -15,7 +15,7 @@
  * @package  Magento_Date_Jquery
  * @author   Magento Core Team <core@magentocommerce.com>
  */
-class Magento_Date_Jquery_Calendar extends Varien_Date
+class Magento_Date_Jquery_Calendar
 {
     /**
      * Mapping that converts Zend and old calendar formats to jQuery datepicker compatible formats.
@@ -96,20 +96,6 @@ class Magento_Date_Jquery_Calendar extends Varien_Date
     }
 
     /**
-     * Override the parent (super) class method to call the new date and time converter method.
-     *
-     * @param string  $value
-     * @param boolean $convertDate
-     * @param boolean $convertTime
-     *
-     * @return string
-     */
-    public static function convertZendToStrftime($value, $convertDate = true, $convertTime = true)
-    {
-        return self::convertToDateTimeFormat($value, $convertDate, $convertTime);
-    }
-
-    /**
      * Convert value by dictionary.
      *
      * @param string $value
@@ -117,7 +103,7 @@ class Magento_Date_Jquery_Calendar extends Varien_Date
      *
      * @return string
      */
-    protected static function _convert($value, $dictionary)
+    private static function _convert($value, $dictionary)
     {
         foreach ($dictionary as $search => $replace) {
             $value = preg_replace('/(^|[^%])' . $search . '/', '$1' . $replace, $value);
