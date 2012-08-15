@@ -126,3 +126,14 @@ created_simple_from_configurable:
 
 created_empty_simple_from_configurable:
     uimap: *newProduct
+
+# Manage Product page
+manage_products:
+    uimap:
+        form:
+            buttons:
+                add_new_product_split: //*[@id='add_new_product_main_control']
+                add_new_product_split_select: //*[@class='button btn-toggle']
+            dropdowns:
+                add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
+
