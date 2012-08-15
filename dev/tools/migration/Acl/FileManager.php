@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-class Tools_Migration_Acl_FileWriter
+class Tools_Migration_Acl_FileManager
 {
     /**
      * @param string $fileName
@@ -30,5 +30,16 @@ class Tools_Migration_Acl_FileWriter
     public function remove($fileName)
     {
         unlink($fileName);
+    }
+
+    /**
+     * Retrieve contents of a file
+     *
+     * @param string $fileName
+     * @return string
+     */
+    public function getContents($fileName)
+    {
+        return file_get_contents($fileName);
     }
 }
