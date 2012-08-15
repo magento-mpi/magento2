@@ -353,6 +353,6 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/customer/attributes/customer_address_attributes');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Customer::customer_address_attributes');
     }
 }

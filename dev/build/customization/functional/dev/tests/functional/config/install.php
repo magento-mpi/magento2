@@ -36,5 +36,6 @@ return array(
         'url'                        => '{{url}}',
         'secure_base_url'            => '{{secure_url}}',
         'session_save'               => 'db',
+        'cleanup_database'           => true,
     )
 );

@@ -84,8 +84,8 @@ applications:
                 login: 'ssergunin@ebay.com'
                 password: 'magentoTAF1'
     enterprise: &enterprise
-        fallbackOrderFixture: 'enterprise2, community2, default'
-        fallbackOrderHelper: 'Enterprise2, Community2, Core'
+        fallbackOrderFixture: 'enterprise2, enterprise, default'
+        fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
         areas:
             admin:
                 url: '{{enterprise_admin_url}}'

@@ -94,5 +94,21 @@
         <item>
             <path>dev/tools/license_placeholder</path>
         </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/migration/Acl/log</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/translate/config.inc.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/translate/ModuleTranslations.php</path>
+        </item>
+        <item>
+            <word>enterprise</word>
+            <path>dev/tools/translate/generate_emailtemplates.php</path>
+        </item>
     </whitelist>
 </config>

@@ -1,3 +1,62 @@
+Update as of 8/9/2012
+=====================
+* Improvements:
+  * Implemented "multi-file" scheduled import/export of customers, deleted legacy implementation
+  * Ability to import amendments to complex product data, such as custom options
+  * Ability to cleanup database before installation using CLI script (`dev/shell/install.php`)
+  * Customer export feature performance optimizations
+  * Ability to control `robots.txt` via backend (System -> Config -> Design -> Search Engine Robots)
+  * Ability to create custom URL rewrites for CMS-pages
+* Product editing and attribute set changes:
+  * Ability to copy custom options from one product to another
+  * Ability to create/change attribute set during product creation/editing
+  * Ability to define default values for all system attributes
+  * New "Minimal" attribute set which has only required system attributes
+* "Google Sitemap" feature changes:
+  * The feature is renamed to "XML Sitemap"
+  * Reference to a XML sitemap file will be automatically added to `robots.txt` upon update. Controlled by "System -> Config -> Design -> Search Engine Robots", enabled by default
+  * Automatic switch to multiple "sitemaps" when size exceeds Google limits
+  * Support of images in sitemap
+* Removed "HTML Sitemap" feature as such (not the one known as "Google Sitemap")
+* Fixes:
+  * Map of listed products in XML sitemap will list product last modification date, rather than current date
+  * Incorrect timestamp of export file
+  * Addressed WSI-compliance issues in SOAP API (V2)
+  * Fixed incompatibility of Downloader tool with PHP 5.3
+  * Fixed inconsistent behavior of importing duplicated rows in CSV files
+  * Fixed message about successful registration not appearing if customer has previously logged out on the shopping cart page
+  * Fixed minor configuration issues for "Cache on Delivery Payment" method
+  * Fixed wrong order status in some cases when it is placed using PayPal with "Authorization" action
+  * Applied Zend framework security hotfix against XML external entity injection via XMLRPC API
+  * Fixed inappropriate displaying of credit card credentials to admin user after "reorder" action with Authorize.net and PayPal payment methods involved
+
+Update as of 8/2/2012
+=====================
+* Refactored ACL for the backend
+  * ACL resources
+    * Strict configuration format, validated by XSD schema
+    * ACL configuration relocation from `app/code/<pool>/<namespace>/<module>/etc/adminhtml.xml` to `app/code/<pool>/<namespace>/<module>/etc/adminhtml/acl.xml`
+    * Renamed ACL resource identifiers according to the format `<namespace>_<module>::<resource>` throughout the system
+      * Backend menu configuration requires to specify ACL resource identifier in the new format
+      * Explicit declaration of ACL resources in `app/code/<pool>/<namespace>/<module>/etc/system.xml` instead of implicit relation by XPath
+    * Migration tool `dev/tools/migration/acl.php` to convert ACL configuration from 1.x to 2.x
+  * Declaration of ACL resource/role/rule loaders through the area configuration
+    * Module `Mage_Backend` declares loader for ACL resources in backend area
+    * Module `Mage_User` declares loaders for ACL roles and rules (relations between roles and resources) in backend area
+  * Implemented integrity and legacy tests for ACL
+* Fixed issues:
+  * Losing qty and visibility information when importing products
+  * Impossibility to reload captcha on backend
+  * Temporary excluded from execution integration test `Mage_Review_Model_Resource_Review_Product_CollectionTest::testGetResultingIds()` and corresponding fixture script, which cause occasional `segmentation fault` (exit code 139)
+* Refactored methods with high cyclomatic complexity:
+  * `Mage_Adminhtml_Block_System_Store_Edit_Form::_prepareForm()`
+  * `Mage_Adminhtml_Block_System_Config_Form::initForm()`
+  * `Mage_Adminhtml_Block_System_Config_Form::initFields()`
+* GitHub requests:
+  * [#32](https://github.com/magento/magento2/pull/32) -- fixed declaration of localization CSV files
+  * [#35](https://github.com/magento/magento2/issues/35) -- removed non-used `Mage_Core_Block_Flush` block
+  * [#41](https://github.com/magento/magento2/pull/41) -- implemented ability to extends `app/etc/local.xml` by specifying additional config file via `MAGE_LOCAL_CONFIG` environment variable
+
 Update as of 7/26/2012
 =====================
 * Implemented Magento Validator library in order to have clear solid mechanism and formal rules of input data validation

@@ -120,6 +120,7 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
         if (!empty($attributeData)) {
             $attributeObject->setData($attributeData);
         }
+        $attributeObject->setCanManageOptionLabels(true);
         Mage::register('entity_attribute', $attributeObject);
 
         $label = $attributeObject->getId()
@@ -141,9 +142,10 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
         $response->setError(false);
         $attributeId        = $this->getRequest()->getParam('attribute_id');
         if (!$attributeId) {
-            $attributeCode      = $this->getRequest()->getParam('attribute_code');
-            $attributeObject    = $this->_initAttribute()
-                ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
+            $attributeCode = $this->getRequest()->getParam('attribute_code');
+            $attributeObject = $this->_initAttribute()
+                ->loadByCode($this->_getEntityType()->getId(), $attributeCode)
+                ->setCanManageOptionLabels(true);
             if ($attributeObject->getId()) {
                 $this->_getSession()->addError(
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('Attribute with the same code already exists')
@@ -237,17 +239,14 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
                 }
             }
 
-            try {
+            $attributeObject->setCanManageOptionLabels(true);
 
+            try {
                 Mage::dispatchEvent('enterprise_rma_item_attribute_before_save', array(
                     'attribute' => $attributeObject
                 ));
 
                 $attributeObject->save();
-
-//                Mage::dispatchEvent('enterprise_customer_attribute_save', array(
-//                    'attribute' => $attributeObject
-//                ));
 
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('The RMA item attribute has been saved.')
@@ -288,10 +287,11 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
     {
         $attributeId = $this->getRequest()->getParam('attribute_id');
         if ($attributeId) {
-            $attributeObject = $this->_initAttribute()->load($attributeId);
+            $attributeObject = $this->_initAttribute()->load($attributeId)
+                ->setCanManageOptionLabels(true);
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()
-                || !$attributeObject->getIsUserDefined())
-            {
+                || !$attributeObject->getIsUserDefined()
+            ) {
                 $this->_getSession()->addError(
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('You cannot delete this attribute.')
                 );
@@ -300,9 +300,6 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
             }
             try {
                 $attributeObject->delete();
-//                Mage::dispatchEvent('enterprise_customer_attribute_delete', array(
-//                    'attribute' => $attributeObject
-//                ));
 
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_Rma_Helper_Data')->__('The RMA item attribute has been deleted.')
@@ -333,6 +330,6 @@ class Enterprise_Rma_Adminhtml_Rma_Item_AttributeController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('sales/enterprise_rma');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Rma::enterprise_rma');
     }
 }

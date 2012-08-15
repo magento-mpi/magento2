@@ -31,6 +31,7 @@ app/design/install/default/enterprise/
 app/design/install/default/pro/
 app/etc/enterprise.xml
 app/etc/modules/Enterprise_*.xml
+app/etc/modules/XEnterprise_Enabler.xml.dist
 app/locale/*/Enterprise_*.csv
 dev/tests/integration/etc/modules/XEnterprise_Enabler.xml
 dev/tests/integration/testsuite/Enterprise

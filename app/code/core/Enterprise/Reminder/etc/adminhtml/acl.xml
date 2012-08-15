@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Reminder
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_CatalogRule::promo">
+                    <resource id="Enterprise_Reminder::enterprise_reminder" module="Enterprise_Reminder" title="Automated Email Reminder Rules" sortOrder="20" />
+                </resource>
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Adminhtml::config">
+                        <resource id="Mage_SalesRule::config_promo" module="Enterprise_Reminder" title="Promo Section" sortOrder="10" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

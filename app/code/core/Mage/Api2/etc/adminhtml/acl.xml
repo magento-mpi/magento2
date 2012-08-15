@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Api2
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Adminhtml::system">
+                    <resource id="Mage_Api::api">
+                        <resource id="Mage_Api2::rest_roles" module="Mage_Api2" title="REST - Roles" sortOrder="30">
+                            <resource id="Mage_Api2::rest_roles_add" title="Add" sortOrder="10" />
+                            <resource id="Mage_Api2::rest_roles_edit" title="Edit" sortOrder="20" />
+                            <resource id="Mage_Api2::delete" title="Delete" sortOrder="30" />
+                        </resource>
+                        <resource id="Mage_Api2::rest_attributes" module="Mage_Api2" title="REST - Attributes" sortOrder="40">
+                            <resource id="Mage_Api2::rest_attributes_edit" title="Edit" sortOrder="10" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

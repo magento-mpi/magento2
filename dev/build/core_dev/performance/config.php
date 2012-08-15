@@ -34,6 +34,7 @@ return array(
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',
                 'admin_no_form_key'          => 'yes',
+                'cleanup_database'           => 'yes',
             ),
             'fixture_files' => 'testsuite/fixtures/*.php',
         ),

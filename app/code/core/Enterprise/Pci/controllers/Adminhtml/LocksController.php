@@ -68,6 +68,6 @@ class Enterprise_Pci_Adminhtml_LocksController extends Mage_Adminhtml_Controller
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('system/acl/locks');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Pci::locks');
     }
 }

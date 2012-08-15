@@ -1,0 +1,79 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Customer
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# 'Edit Customer' Page
+edit_customer:
+    uimap:
+        form:
+            tabs:
+                -
+                    store_credit:
+                        xpath: //a[@id='customer_info_tabs_customerbalance']/span
+                        fieldsets:
+                            -
+                                update_store_balance:
+                                    xpath: //div[@id='_customerbalancestorecreidt_fieldset']
+                                    dropdowns:
+                                        website: //select[@id='_customerbalancewebsite_id']
+                                        store: //select[@id='_customerbalancestore_id']
+                                    fields:
+                                        update_balance: //input[@id='_customerbalanceamount_delta']
+                                        comment: //input[@id='_customerbalancecomment']
+                                    checkboxes:
+                                        notify_by_email: //input[@id='_customerbalancenotify_by_email']
+                -
+                    reward_points:
+                        xpath: //a[@id='customer_info_tabs_customer_edit_tab_reward']/span
+                        fieldsets:
+                            -
+                                update_reward_balance:
+                                    xpath: //div[@id='reward_update_fieldset']
+                                    fields:
+                                        update_balance: //input[@id='reward_points_delta']
+                                        comment: //input[@id='reward_comment']
+        buttons:
+            manage_shopping_cart: //button[span='Manage Shopping Cart']
+
+#Customer Segments page
+manage_customer_segments:
+    mca: customersegment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customersegment/')]
+    title: Customer Segments / Customers / Magento Admin
+
+#Manage Invitations page
+manage_invitations:
+    mca: invitation/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'invitation/')]
+    title: Invitations / Customers / Magento Admin
+
+#Manage Gift Registry Types page
+manage_gift_registry:
+    mca: giftregistry/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'giftregistry/')]
+    title: Manage Gift Registry Types / Customers / Magento Admin
+
+#Manage Gift Card Accounts page
+manage_gift_card_account:
+    mca: giftcardaccount/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'giftcardaccount/')]
+    title: Gift Card Accounts / Customers / Magento Admin
+
+#Manage Reward Exchange Rates page
+manage_reward_rates:
+    mca: reward_rate/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'reward_rate/')]
+    title: Reward Exchange Rates / Customers / Magento Admin
+
+# 'Online Customers' Page
+online_customers:
+    mca: customer_online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    title: Online Customers / Customers / Magento Admin
