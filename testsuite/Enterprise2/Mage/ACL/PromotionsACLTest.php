@@ -158,12 +158,12 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
         //verify NO rights to create Automated Reminder Rule
         $this->navigate('manage_automated_email_reminder_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_automated_email_reminder_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
     }
 
     /**
@@ -223,12 +223,12 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
         //verify NO rights to create Automated Reminder Rule
         $this->navigate('manage_automated_email_reminder_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_automated_email_reminder_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
     }
 
     /**
@@ -286,12 +286,12 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
         //verify NO rights to create Automated Reminder Rule
         $this->navigate('manage_automated_email_reminder_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_automated_email_reminder_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
     }
 
     /**
@@ -350,12 +350,12 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
         //verify NO rights to create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
     }
 
     /**
@@ -414,12 +414,124 @@ class Enterprise2_Mage_ACL_PromotionsAClTest extends Mage_Selenium_TestCase
         $this->navigate('manage_catalog_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_catalog_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
         //verify NO rights to Create Shopping Cart Price Rule
         $this->navigate('manage_shopping_cart_price_rules', false);
         $uimap = $this->getUimapPage('admin', 'manage_shopping_cart_price_rules');
         $this->assertTrue($this->isElementPresent($this->_getControlXpath('pageelement', 'access_denied', $uimap)),
-            "Element isn't present on the page");
+            "Access denied page should opened, but didn't");
+    }
+    /**
+     * <p>Bug MAGETWO-2588</p>
+     * <p>Create Shopping cart price rule with custom Role Scopes Permissions using "Save and Continue Edit" button</p>
+     * <p>Preconditions</p>
+     * <p>Login to backend as admin</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
+     * <p>Fill "Role Name" field</p>
+     * <p>Click Role Resource Tab</p>
+     * <p>Select Custom Role Scopes for one website</p>
+     * <p>Fill Role Resources fieldset</p>
+     * <p>Click "Save " button for save roleSource</p>
+     * <p>Go to System-Permissions-Users and click "Add New User" button</p>
+     * <p>Fill all required fields (User Info Tab)</p>
+     * <p>Click User Role Tab</p>
+     * <p>Select testRole</p>
+     * <p>Click "Save User" button for save testAdminUser</p>
+     * <p>Log out </p>
+     * <p>Steps:</p>
+     * <p>1.Log In as admin user with rights to create Shopping Cart Price Rules</p>
+     * <p>2.Press "Add new Rule" button</p>
+     * <p>3.Fill all required fields</p>
+     * <p>4.Press "Save and Continue" button</p>
+     * <p>5.Press "Save" button</p>
+     * <p>Expected Results:</p>
+     * <p>Only Promotions menu is available</p>
+     * <p>Admin User has Create  rights to Shopping Cart Price Rule</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-2283
+     */
+    public function createShoppingCartPriceRulesWithCustomRoleScopes()
+    {
+        //Preconditions
+        //create specific role with create rights to Shopping Cart Price
+        $this->navigate('manage_roles');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_1' => 'Promotions/Shopping Cart Price Rules'));
+        $this->adminUserHelper()->createRole($roleSource);
+        $this->assertMessagePresent('success', 'success_saved_role');
+        //create admin user with Create rights to Shopping Cart Price Rule
+        $this->navigate('manage_admin_users');
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
+        $this->adminUserHelper()->createAdminUser($testAdminUser);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->logoutAdminUser();
+        //login as admin user with create rights to Shopping Cart Price Rule
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $this->adminUserHelper()->loginAdmin($loginData);
+        //verify Create rights to Shopping Cart Price Rule
+        $this->navigate('manage_shopping_cart_price_rules');
+        $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_required_fields');
+        $this->priceRulesHelper()->saveAndContinueEditRule($ruleData, 'edit_shopping_cart_price_rule');
+        $this->saveForm('save_rule');
+        $this->assertMessagePresent('success', 'success_saved_rule');
+    }
+    /**
+     * <p>Bug MAGETWO-2589</p>
+     * <p>Create Automated Reminder Rule with custom Role Scopes Permissions using "Save and Continue Edit" button</p>
+     * <p>Preconditions</p>
+     * <p>Login to backend as admin</p>
+     * <p>Go to System-Permissions-Role and click "Add New Role" button</p>
+     * <p>Fill "Role Name" field</p>
+     * <p>Click Role Resource Tab</p>
+     * <p>Select Custom Role Scopes for one website
+     * <p>Fill Role Resources fieldset</p>
+     * <p>Click "Save " button for save roleSource</p>
+     * <p>Go to System-Permissions-Users and click "Add New User" button</p>
+     * <p>Fill all required fields (User Info Tab)</p>
+     * <p>Click User Role Tab</p>
+     * <p>Select testRole</p>
+     * <p>Click "Save User" button for save testAdminUser</p>
+     * <p>Log out</p>
+     * <p>Steps:</p>
+     * <p>1.Log In as admin user with rights to create Create Automated Reminder Rule</p>
+     * <p>2.Press "Add new Rule" button</p>
+     * <p>3.Fill all required fields</p>
+     * <p>4.Press "Save and Continue" button</p>
+     * <p>5.Press "Save" button</p>
+     * <p>Expected Results:</p>
+     * <p>Only Promotions menu is available</p>
+     * <p>Admin User has Create  rights to Create Automated Reminder Rule</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6083
+     */
+    public function createAutomatedReminderRulesWithCustomRoleScopes()
+    {
+        //Preconditions
+        //create specific role with create rights to Create Automated Reminder Rule
+        $this->navigate('manage_roles');
+        $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website',
+            array('resource_1' => 'Promotions/Automated Email Reminder Rules'));
+        $this->adminUserHelper()->createRole($roleSource);
+        $this->assertMessagePresent('success', 'success_saved_role');
+        //create admin user with Create rights to Shopping Cart Price Rule
+        $this->navigate('manage_admin_users');
+        $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
+            array('role_name' => $roleSource['role_info_tab']['role_name']));
+        $this->adminUserHelper()->createAdminUser($testAdminUser);
+        $this->assertMessagePresent('success', 'success_saved_user');
+        $this->logoutAdminUser();
+        //login as admin user with create rights to Automated Reminder Rule
+        $loginData = array('user_name' => $testAdminUser['user_name'], 'password'  => $testAdminUser['password']);
+        $this->adminUserHelper()->loginAdmin($loginData);
+        //verify Create rights to Automated Reminder Rule
+        $this->navigate('manage_automated_email_reminder_rules');
+        $emailRule = $this->loadDataSet('AutomatedEmailRule', 'create_automated_email_rule');
+        $this->priceRulesHelper()->saveAndContinueEditRule($emailRule, 'edit_automated_email_reminder_rules');
+        $this->saveForm('save_rule');
+        $this->assertMessagePresent('success', 'success_saved_rule');
     }
 }
 
