@@ -120,38 +120,6 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
     }
 
     /**
-     * Save change
-     */
-    public function saveChangeAction()
-    {
-        $changes = Mage::app()->getRequest()->getPost();
-        if (!$changes) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
-            ));
-            return;
-        }
-
-        /** @var $themeModel Mage_DesignEditor_Model_Theme */
-        $themeModel = Mage::getModel('Mage_DesignEditor_Model_Theme');
-        try {
-            $themeModel->load($this->_session->getVdeThemeId());
-            if (!$themeModel->getId()) {
-                Mage::throwException($this->__('Theme not found'));
-            }
-            $themeModel->addChanges($changes);
-
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::SUCCESS => $themeModel->getMessages())
-            ));
-        } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
-            ));
-        }
-    }
-
-    /**
      * Compact history
      */
     public function compactHistoryAction()
