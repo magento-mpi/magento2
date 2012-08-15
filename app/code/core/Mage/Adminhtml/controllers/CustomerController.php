@@ -386,7 +386,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $modifiedAddresses = array();
         if (!empty($data['address'])) {
             $modifiedAddresses = $this->_processAddresses($customer, $data);
-            if (!$modifiedAddresses) {
+            if ($modifiedAddresses === false) {
                 return false;
             }
         }
