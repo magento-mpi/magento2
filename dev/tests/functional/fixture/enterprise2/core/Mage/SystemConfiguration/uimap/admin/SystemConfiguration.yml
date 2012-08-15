@@ -253,6 +253,25 @@ system_configuration:
                                 customer_auto_generated_codes:
                                     xpath: //fieldset[@id='promo_auto_generated_coupon_codes']
                 -
+                    customer_reward_points:
+                        xpath: //a[contains(@href, '/edit/section/enterprise_reward/')]
+                        fieldsets:
+                            -
+                                reward_points:
+                                    xpath: //fieldset[@id='enterprise_reward_general']
+                                    links:
+                                        reward_points_link: //parent::div//a[@id='enterprise_reward_general-head']
+                                    dropdowns:
+                                        enable_reward_points: //select[@name='groups[general][fields][is_enabled][value]']
+                            -
+                                actions_for_acquiring_reward_points:
+                                    xpath: //fieldset[@id='enterprise_reward_points']
+                                    links:
+                                        actions_for_acquiring_reward_points_link: //parent::div//a[@id='enterprise_reward_points-head']
+                                    fields:
+                                        new_tag_submission: //input[@id ='enterprise_reward_points_tag']
+                                        rewarded_tag_submission_limit: //input[@id ='enterprise_reward_points_tag_limit']
+                -
                     customer_gift_registry:
                         xpath: //a[contains(@href, 'edit/section/enterprise_giftregistry/')]
                         fieldsets:
