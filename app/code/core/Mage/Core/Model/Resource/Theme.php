@@ -10,8 +10,6 @@
 
 /**
  * Theme resource model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Core_Model_Resource_Theme extends Mage_Core_Model_Resource_Db_Abstract
 {
