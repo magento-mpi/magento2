@@ -288,13 +288,12 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
      * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6096
      */
-    public function emptySkuMask ()
+    public function emptySkuMask()
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Preconditions
-        $systemConfig = $this->loadDataSet('SkuAutogeneration', 'sku_autogeneration_mask',
-            array('sku_mask' => ''));
+        $systemConfig = $this->loadDataSet('SkuAutogeneration', 'sku_autogeneration_mask', array('sku_mask' => ''));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
