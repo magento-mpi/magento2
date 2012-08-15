@@ -85,6 +85,7 @@ class Community2_Mage_RssFeeds_Helper extends Mage_Selenium_TestCase
         //combine to array
         $data = array();
         foreach ($result as $item) {
+            $dataRow = array();
             foreach ($item->children() as $key => $value) {
                 $dataRow[$key] = (string) $value;
             }
