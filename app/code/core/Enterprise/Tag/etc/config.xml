@@ -50,6 +50,22 @@
                     </update_reward_points>
                 </observers>
             </tag_save_commit_after>
+            <controller_action_predispatch_adminhtml_customer_reward_history>
+                <observers>
+                    <add_reward_action>
+                        <class>Enterprise_Tag_Model_Observer</class>
+                        <method>addActionClassToRewardModel</method>
+                    </add_reward_action>
+                </observers>
+            </controller_action_predispatch_adminhtml_customer_reward_history>
+            <controller_action_predispatch_adminhtml_customer_reward_historyGrid>
+                <observers>
+                    <add_reward_action>
+                        <class>Enterprise_Tag_Model_Observer</class>
+                        <method>addActionClassToRewardModel</method>
+                    </add_reward_action>
+                </observers>
+            </controller_action_predispatch_adminhtml_customer_reward_historyGrid>
         </events>
         <enterprise>
             <admingws>
@@ -71,4 +87,16 @@
             </admingws>
         </enterprise>
     </adminhtml>
+    <crontab>
+        <jobs>
+            <enterprise_reward_balance_warning_notification>
+                <schedule>
+                    <cron_expr>1 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>Enterprise_Tag_Model_Reward_Observer::scheduledBalanceExpireNotification</model>
+                </run>
+            </enterprise_reward_balance_warning_notification>
+        </jobs>
+    </crontab>
 </config>

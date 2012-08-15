@@ -18,27 +18,38 @@
 class Enterprise_Tag_Block_Reward_Tooltip extends Enterprise_Reward_Block_Tooltip
 {
     /**
-     * Init reward action instance
+     * Array of data helpers
      *
-     * @param string $action
-     * @return Enterprise_Tag_Block_Reward_Tooltip
+     * @var array
      */
-    public function initRewardType($action)
-    {
-        /** @var $rewardHelper Enterprise_Reward_Helper_Data */
-        $rewardHelper = Mage::helper('Enterprise_Reward_Helper_Data');
-        if ($action && $rewardHelper->isEnabledOnFront()) {
-            /** @var $session Mage_Customer_Model_Session */
-            $session = Mage::getSingleton('Mage_Customer_Model_Session');
-            $customer = $session->getCustomer();
+    protected $_helpers;
 
-            $this->_rewardInstance = Mage::getSingleton('Enterprise_Tag_Model_Reward');
-            $this->_rewardInstance->setCustomer($customer)
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-                ->loadByCustomer();
-            $this->_actionInstance = $this->_rewardInstance->getActionInstance($action, true);
+    /**
+     * Constructor
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+
+        if (isset($data['helpers'])) {
+            $this->_helpers = $data['helpers'];
         }
 
-        return $this;
+        /** @var $helper Enterprise_Tag_Helper_Data */
+        $helper = $this->_helper('Enterprise_Tag_Helper_Data');
+        $helper->addActionClassToRewardModel();
+    }
+
+    /**
+     * Helper getter
+     *
+     * @param string $helperName
+     * @return Mage_Core_Helper_Abstract
+     */
+    protected function _helper($helperName)
+    {
+        return isset($this->_helpers[$helperName]) ? $this->_helpers[$helperName] : Mage::helper($helperName);
     }
 }

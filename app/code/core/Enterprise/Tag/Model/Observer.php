@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Enterprise
- * @package     Enterprise_Reward
+ * @package     Enterprise_Tag
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,6 +17,20 @@
  */
 class Enterprise_Tag_Model_Observer
 {
+    /**
+     * Add tag action class to reward model
+     *
+     * @return Enterprise_Tag_Model_Observer
+     */
+    public function addActionClassToRewardModel()
+    {
+        /** @var $helper Enterprise_Tag_Helper_Data */
+        $helper = Mage::helper('Enterprise_Tag_Helper_Data');
+        $helper->addActionClassToRewardModel();
+
+        return $this;
+    }
+
     /**
      * Update points balance after tag submit
      *
