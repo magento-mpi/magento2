@@ -171,6 +171,8 @@ class Community2_Mage_Tags_AllCreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_tag');
         $this->assertTrue((bool) $this->search(array('tag_name' => $tags, 'tag_status' => $status)),
             "Edit tags and change status {$tags} work incorrect");
+        $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
+        $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
     }
     public function tagEditDataProvider()
     {

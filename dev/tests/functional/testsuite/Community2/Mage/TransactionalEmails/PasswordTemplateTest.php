@@ -124,6 +124,7 @@ class Community2_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Sele
         $variable = 'reset_password_url_variable';
         //Verifying
         $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, $variable);
+        $this->assertMessagePresent('success', 'success_create_template');
     }
 
     /**
@@ -150,5 +151,6 @@ class Community2_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Sele
         $variable = 'reset_password_url_variable';
         //Verification
         $this->transactionalEmailsHelper()->createNewTemplate($templateData, $templateName, $variable);
+        $this->assertMessagePresent('success', 'success_create_template');
     }
 }
