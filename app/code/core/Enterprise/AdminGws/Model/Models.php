@@ -1114,17 +1114,21 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     /**
      * @throws Mage_Core_Exception
      */
-    private function _throwSave()
+    protected function _throwSave()
     {
-        Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to save this item.'));
+        Mage::throwException(
+            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to save this item.')
+        );
     }
 
     /**
      * @throws Mage_Core_Exception
      */
-    private function _throwDelete()
+    protected function _throwDelete()
     {
-        Mage::throwException(Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to delete this item.'));
+        Mage::throwException(
+            Mage::helper('Enterprise_AdminGws_Helper_Data')->__('Not enough permissions to delete this item.')
+        );
     }
 
     /**

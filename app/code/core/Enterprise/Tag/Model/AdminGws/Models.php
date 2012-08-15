@@ -13,7 +13,6 @@
  */
 class Enterprise_Tag_Model_AdminGws_Models extends Enterprise_AdminGws_Model_Models
 {
-
     /**
      * Validate if user has exclusive access to tag
      *
@@ -37,25 +36,5 @@ class Enterprise_Tag_Model_AdminGws_Models extends Enterprise_AdminGws_Model_Mod
     public function tagDeleteBefore($model)
     {
         $this->_throwDelete();
-    }
-
-    /**
-     * @throws Mage_Core_Exception
-     */
-    private function _throwSave()
-    {
-        Mage::throwException(
-            Mage::helper('Enterprise_Tag_Helper_Data')->__('Not enough permissions to save this item.')
-        );
-    }
-
-    /**
-     * @throws Mage_Core_Exception
-     */
-    private function _throwDelete()
-    {
-        Mage::throwException(
-            Mage::helper('Enterprise_Tag_Helper_Data')->__('Not enough permissions to delete this item.')
-        );
     }
 }
