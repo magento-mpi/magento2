@@ -1,0 +1,7 @@
+<?php
+
+return array(
+    'server' => 'http://localhost:9876',
+    'load' => array('/pub/lib/globalize', '/pub/lib/jquery','/pub/lib/mage'),
+    'test' => array('/dev/tests/js/testsuite')
+);

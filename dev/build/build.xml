@@ -57,8 +57,8 @@
     <taskdef name="jshint" classname="com.philmander.jshint.JsHintAntTask"
              classpath="${basedir}/dev/build/bin/ant-jshint.jar"/>
     <target name="runJsHint">
-        <jshint dir="${basedir}/dev/tests/js" includes="**/*.js" />
-        <jshint dir="${basedir}/pub/lib/mage" includes="**/*.js" />
+        <jshint dir="${basedir}/dev/tests/js" includes="**/*.js"/>
+        <jshint dir="${basedir}/pub/lib/mage" includes="**/*.js"/>
     </target>
     <target name="js-test">
         <exec executable="cmd" dir="dev\build\bin">
@@ -77,8 +77,16 @@
             <arg value="${env.JsTestDriver}"/>
             <arg value="${js-test.conf}"/>
             <arg value="${js-test.output}"/>
-            </exec>
-     </target>
+        </exec>
+    </target>
+
+    <target name="js-test-php">
+        <fail unless="env.JsTestDriver" message="Bamboo variable 'JsTestDriver' must be defined on your agent"/>
+
+        <exec executable="php" failonerror="true">
+            <arg line="-f ${basedir}/dev/build/bin/jstests.php -- --config_file ${basedir}/dev/tests/js/jsTestDriver.conf --JsTestDriver ${env.JsTestDriver}"/>
+        </exec>
+    </target>
 
     <target name="prepare-ee" depends="prepare-build-properties">
         <copy file="${dir.build_directory}/${enterprise-enabler.file}.dist" tofile="${dir.build_directory}/${enterprise-enabler.file}"/>
