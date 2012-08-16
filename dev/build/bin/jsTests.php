@@ -122,7 +122,10 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 
     system($command);
 } else {
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $tempFile . ' --port 9876 --browser "' . exec('which firefox') . '" --tests all --testOutput ' . $baseDir . '\dev\tests\js\test-output ';
+    system('rm -rf ' . $baseDir . '/dev/tests/js/test-output');
+    system('mkdir -p ' . $baseDir . '/dev/tests/js/test-output');
+
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $tempFile . ' --port 9876 --browser "' . exec('which firefox') . '" --tests all --testOutput ' . $baseDir . '/dev/tests/js/test-output ';
 
     $shellCommand='#!/bin/bash
         kill -9 $(/usr/sbin/lsof -i:9876 -t )
