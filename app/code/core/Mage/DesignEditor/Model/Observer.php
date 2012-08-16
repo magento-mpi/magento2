@@ -140,7 +140,6 @@ class Mage_DesignEditor_Model_Observer
                 'element_html'  => $transport->getData('output'),
                 'is_manipulation_allowed'  => $isManipulationAllowed,
                 'is_container'  => $isContainer,
-                'is_removable'  => $isRemovable,
                 'element_name'  => $elementName,
             ));
             $transport->setData('output', $this->_wrappingRenderer->toHtml());
