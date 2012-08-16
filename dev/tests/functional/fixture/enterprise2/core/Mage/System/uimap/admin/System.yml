@@ -35,6 +35,31 @@ admin_action_log_report:
     mca: logging/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'logging/')]/span[contains(., 'Report')]
     title: Report / Admin Actions Logs / System / Magento Admin
+    uimap:
+        form: &actionsLogGrid
+            fieldsets:
+                -
+                    all_tags_grid:
+                        xpath: //div[@id='loggingLogGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                            export: //button[span='Export']
+                        dropdowns:
+                            action_username: //select[@name='user']
+                            action_status: //select[@name='status']
+                            action_group: //select[@name='event']
+                            action: //select[@name='action']
+                            action_export: //select[@name='loggingLogGrid_export']
+                        fields:
+                            action_ip: //input[@name='ip']
+                            action_time_from: //input[@name='time[from]']
+                            action_time_to: //input[@name='time[to]']
+                            action_full_name: //input[@name='fullaction']
+                            action_short_details: //input[@name='info']
+                        pageelements:
+                            action_grid_head: //table[@id='loggingLogGrid_table']//thead/tr[@class='headings']
+                            action_grid: //table[@id='loggingLogGrid_table']
 
 # Admin Actions Log Report page
 admin_action_log_archive:
