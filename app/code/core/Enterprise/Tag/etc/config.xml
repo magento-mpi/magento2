@@ -18,6 +18,7 @@
             <depends>
                 <Mage_Tag/>
                 <Enterprise_Reward/>
+                <Enterprise_AdminGws/>
             </depends>
         </Enterprise_Tag>
     </modules>

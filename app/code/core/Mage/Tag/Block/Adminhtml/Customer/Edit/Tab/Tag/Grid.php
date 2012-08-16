@@ -75,32 +75,32 @@ class Mage_Tag_Block_Adminhtml_Customer_Edit_Tab_Tag_Grid extends Mage_Backend_B
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header' => Mage::helper('Mage_Customer_Helper_Data')->__('Tag Name'),
+            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag Name'),
             'index'  => 'name',
         ));
 
         $this->addColumn('status', array(
-            'header'  => Mage::helper('Mage_Customer_Helper_Data')->__('Status'),
+            'header'  => Mage::helper('Mage_Tag_Helper_Data')->__('Status'),
             'width'   => '90px',
             'index'   => 'status',
             'type'    => 'options',
             'options' => array(
-                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Mage_Customer_Helper_Data')->__('Disabled'),
-                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Mage_Customer_Helper_Data')->__('Pending'),
-                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Mage_Customer_Helper_Data')->__('Approved'),
+                Mage_Tag_Model_Tag::STATUS_DISABLED => Mage::helper('Mage_Tag_Helper_Data')->__('Disabled'),
+                Mage_Tag_Model_Tag::STATUS_PENDING  => Mage::helper('Mage_Tag_Helper_Data')->__('Pending'),
+                Mage_Tag_Model_Tag::STATUS_APPROVED => Mage::helper('Mage_Tag_Helper_Data')->__('Approved'),
             ),
             'filter'  => false,
         ));
 
         $this->addColumn('product', array(
-            'header'   => Mage::helper('Mage_Customer_Helper_Data')->__('Product Name'),
+            'header'   => Mage::helper('Mage_Tag_Helper_Data')->__('Product Name'),
             'index'    => 'product',
             'filter'   => false,
             'sortable' => false,
         ));
 
         $this->addColumn('product_sku', array(
-            'header'   => Mage::helper('Mage_Customer_Helper_Data')->__('SKU'),
+            'header'   => Mage::helper('Mage_Tag_Helper_Data')->__('SKU'),
             'index'    => 'product_sku',
             'filter'   => false,
             'sortable' => false,

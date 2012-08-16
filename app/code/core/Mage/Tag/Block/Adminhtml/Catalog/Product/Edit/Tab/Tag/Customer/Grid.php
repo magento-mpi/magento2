@@ -51,22 +51,22 @@ class Mage_Tag_Block_Adminhtml_Catalog_Product_Edit_Tab_Tag_Customer_Grid extend
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
-            'header' => Mage::helper('Mage_Catalog_Helper_Data')->__('First Name'),
+            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('First Name'),
             'index'  => 'firstname',
         ));
 
         $this->addColumn('lastname', array(
-            'header' => Mage::helper('Mage_Catalog_Helper_Data')->__('Last Name'),
+            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('Last Name'),
             'index'  => 'lastname',
         ));
 
         $this->addColumn('email', array(
-            'header' => Mage::helper('Mage_Catalog_Helper_Data')->__('Email'),
+            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('Email'),
             'index'  => 'email',
         ));
 
         $this->addColumn('name', array(
-            'header' => Mage::helper('Mage_Catalog_Helper_Data')->__('Tag Name'),
+            'header' => Mage::helper('Mage_Tag_Helper_Data')->__('Tag Name'),
             'index'  => 'name',
         ));
 

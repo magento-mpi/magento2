@@ -17,7 +17,9 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Catalog/>
+                <Mage_Customer/>
                 <Mage_Rss/>
+                <Mage_Reports/>
             </depends>
         </Mage_Tag>
     </modules>
