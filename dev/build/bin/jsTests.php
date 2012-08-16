@@ -127,7 +127,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system('$XVFB :99 -ac &'); # launch virtual framebuffer into the background
     system('export DISPLAY=:99'); # set display to use that of the xvfb
 
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . exec("which firefox") . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output --runnerMode DEBUG';
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . $FIREFOX . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
     echo $command;
 
     system($command);
