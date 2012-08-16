@@ -34,11 +34,12 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Widget_C
     protected function _prepareLayout()
     {
         $this->_addButton('add_new', array(
-            'id'        => 'add_new_product',
-            'label'     => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
-            'type'      => 'split_button',
-            'class'     => 'btn-add',
-            'options'   => $this->_getAddProductButtonOptions()
+            'id' => 'add_new_product',
+            'label' => Mage::helper('Mage_Catalog_Helper_Data')->__('Add Product'),
+            'type' => 'split_button',
+            'class' => 'btn-add',
+            'class_name' => 'Mage_Backend_Block_Widget_Button_Split',
+            'options' => $this->_getAddProductButtonOptions()
         ));
 
         $this->setChild(

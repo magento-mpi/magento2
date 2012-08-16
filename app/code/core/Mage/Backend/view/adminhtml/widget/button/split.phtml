@@ -33,7 +33,7 @@
 </div>
 <script type="text/javascript">//<[CDATA[
     (function($) {
-        $('[data-toggle="dropdown"]').on('click.toggleDropdown', function() {
+        $('#<?php echo $this->getId(); ?> [data-toggle="dropdown"]').on('click.toggleDropdown', function() {
             $(this).toggleClass('active')
                 .closest('.buttons-group')
                 .toggleClass('active');
