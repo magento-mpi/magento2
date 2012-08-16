@@ -155,7 +155,11 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
         // Trivial change of wrapper template requires modifications in data provider
 
         $actualOutput = $this->_wrapElement($elementName, $elementHtml);
-        $this->assertXmlStringEqualsXmlString("<root>$expectedOutput</root>", "<root>$actualOutput</root>", "\n" . $expectedOutput . "\ndiffers from\n" . $actualOutput);
+        $this->assertXmlStringEqualsXmlString(
+            "<root>$expectedOutput</root>",
+            "<root>$actualOutput</root>",
+            "\n" . $expectedOutput . "\ndiffers from\n" . $actualOutput
+        );
     }
 
     /**
