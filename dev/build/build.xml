@@ -84,7 +84,7 @@
         <fail unless="env.JsTestDriver" message="Bamboo variable 'JsTestDriver' must be defined on your agent"/>
 
         <exec executable="php" failonerror="true">
-            <arg line="-f ${basedir}/dev/build/bin/jstests.php -- --config_file ${basedir}/dev/tests/js/jsTestDriver.conf --JsTestDriver ${env.JsTestDriver}"/>
+            <arg line="-f ${basedir}/dev/build/bin/jsTests.php -- --config_file ${basedir}/dev/tests/js/jsTestDriver.conf --JsTestDriver ${env.JsTestDriver}"/>
         </exec>
     </target>
 
