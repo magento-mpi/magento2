@@ -150,12 +150,10 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagData[0], $tagData[1], $tagData[2]);
-        foreach ($arr as $value) {
-            $this->tagsHelper()->addTag($value);
+        $tagData = array();
+        for ($i=0; $i<3; $i++) {
+            $tagData[$i] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+            $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
@@ -232,12 +230,10 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagData[0], $tagData[1], $tagData[2]);
-        foreach ($arr as $value) {
-            $this->tagsHelper()->addTag($value);
+        $tagData = array();
+        for ($i=0; $i<3; $i++) {
+            $tagData[$i] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+            $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
@@ -315,12 +311,10 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagData[0], $tagData[1], $tagData[2]);
-        foreach ($arr as $value) {
-            $this->tagsHelper()->addTag($value);
+        $tagData = array();
+        for ($i=0; $i<3; $i++) {
+            $tagData[$i] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+            $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
