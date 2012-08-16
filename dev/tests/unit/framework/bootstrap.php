@@ -11,11 +11,11 @@
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 
 $includePaths = array(
+    "./framework",
+    './testsuite',
     '../../../app/',
     '../../../app/code/core',
     '../../../lib',
-    './testsuite',
-    "./framework",
     get_include_path(),
 );
 set_include_path(implode(PATH_SEPARATOR, $includePaths));
