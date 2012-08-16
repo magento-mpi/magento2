@@ -23,9 +23,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Mage_Admin
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->_addButton('preview', array(
                 'id' => 'preview-buttons-preview',

@@ -22,13 +22,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Edit extends Mage_Adminhtml_Block_Widge
      * Initialize RMA edit page. Set management buttons
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId    = 'entity_id';
         $this->_controller  = 'adminhtml_rma';
         $this->_blockGroup  = 'Enterprise_Rma';
 
-        parent::__construct();
+        parent::_construct();
 
         if (!$this->getRma()) {
             return;

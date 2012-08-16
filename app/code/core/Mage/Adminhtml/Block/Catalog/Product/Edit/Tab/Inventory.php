@@ -15,11 +15,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Inventory extends Mage_Adminhtml_Block_Widget
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('catalog/product/tab/inventory.phtml');
-    }
+    protected $_template = 'catalog/product/tab/inventory.phtml';
 
     public function getBackordersOption()
     {

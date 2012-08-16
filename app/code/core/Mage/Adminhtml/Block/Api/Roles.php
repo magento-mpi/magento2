@@ -17,11 +17,8 @@
  */
 class Mage_Adminhtml_Block_Api_Roles extends Mage_Adminhtml_Block_Template
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('api/roles.phtml');
-    }
+
+    protected $_template = 'api/roles.phtml';
 
     public function getAddNewUrl()
     {

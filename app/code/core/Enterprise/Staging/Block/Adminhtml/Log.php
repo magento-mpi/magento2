@@ -15,12 +15,12 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_Staging';
         $this->_controller = 'adminhtml_log';
         $this->_headerText = Mage::helper('Enterprise_Staging_Helper_Data')->__('Staging Operations Log');
-        parent::__construct();
+        parent::_construct();
 
         $this->_removeButton('add');
     }

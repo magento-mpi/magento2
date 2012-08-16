@@ -16,9 +16,9 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_Customers extends Ma
     /**
      * Intialize grid
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('customerGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('entity_id');

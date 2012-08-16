@@ -25,11 +25,7 @@ class Mage_Adminhtml_Block_Report_Wishlist extends Mage_Adminhtml_Block_Template
     public $conversions_count;
     public $customer_with_wishlist;
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('report/wishlist.phtml');
-    }
+    protected $_template = 'report/wishlist.phtml';
 
     public function _beforeToHtml()
     {

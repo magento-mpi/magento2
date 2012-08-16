@@ -25,9 +25,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Store_Switcher extends Mage_Adm
     /**
      * Add website filter
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setUseConfirm(false);
         if ($this->_getCustomer() && $this->_getCustomer()->getSharingConfig()->isWebsiteScope()) {
             $this->setWebsiteIds($this->_getCustomer()->getSharedWebsiteIds());

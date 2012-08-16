@@ -23,11 +23,12 @@ class Mage_Backend_Block_Widget_View_Container extends Mage_Backend_Block_Widget
 
     protected $_blockGroup = 'Mage_Backend';
 
+    protected $_template = 'Mage_Backend::widget/view/container.phtml';
+
+
     protected function _construct()
     {
         parent::_construct();
-
-        $this->setTemplate('Mage_Backend::widget/view/container.phtml');
 
         $this->_addButton('back', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),

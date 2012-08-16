@@ -17,10 +17,6 @@
  */
 class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
 {
-    protected function _construct()
-    {
-        parent::_construct();
-    }
 
     public function getType()
     {

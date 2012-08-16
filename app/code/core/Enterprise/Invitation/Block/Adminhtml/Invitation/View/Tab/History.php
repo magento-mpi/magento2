@@ -18,10 +18,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_History
     extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    protected function _construct()
-    {
-        $this->setTemplate('view/tab/history.phtml');
-    }
+    protected $_template = 'view/tab/history.phtml';
 
     public function getTabLabel()
     {

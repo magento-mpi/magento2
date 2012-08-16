@@ -24,12 +24,15 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
     protected $_mode = 'edit';
     protected $_blockGroup = 'Mage_Backend';
 
+    protected $_template = 'Mage_Backend::widget/form/container.phtml';
+
+
     protected function _construct()
     {
         parent::_construct();
 
         if (!$this->hasData('template')) {
-            $this->setTemplate('Mage_Backend::widget/form/container.phtml');
+
         }
 
         $this->_addButton('back', array(

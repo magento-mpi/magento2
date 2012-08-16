@@ -16,9 +16,9 @@ class Enterprise_GiftWrapping_Block_Adminhtml_Giftwrapping_Edit_Form extends Mag
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('enterprise_giftwrapping_form');
         $this->setTitle(Mage::helper('Enterprise_GiftWrapping_Helper_Data')->__('Gift Wrapping Information'));
     }

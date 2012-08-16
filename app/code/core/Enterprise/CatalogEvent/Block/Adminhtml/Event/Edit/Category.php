@@ -16,15 +16,7 @@
  */
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_Adminhtml_Block_Catalog_Category_Abstract
 {
-    /**
-     * Set custom template for the block
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('categories.phtml');
-    }
+    protected $_template = 'categories.phtml';
 
     /**
      * Get categories tree as recursive array

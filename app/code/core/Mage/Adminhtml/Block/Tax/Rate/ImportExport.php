@@ -11,10 +11,5 @@
 
 class Mage_Adminhtml_Block_Tax_Rate_ImportExport extends Mage_Adminhtml_Block_Widget
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('tax/importExport.phtml');
-    }
-
+    protected $_template = 'tax/importExport.phtml';
 }

@@ -19,9 +19,9 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('enterpriseStagingBackupGrid');
         $this->setDefaultSort('created_at');

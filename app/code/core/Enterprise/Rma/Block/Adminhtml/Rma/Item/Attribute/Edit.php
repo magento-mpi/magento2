@@ -33,13 +33,13 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Item_Attribute_Edit
      * Initialize Customer Address Attribute Edit Container
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId    = 'attribute_id';
         $this->_blockGroup  = 'Enterprise_Rma';
         $this->_controller  = 'adminhtml_rma_item_attribute';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_addButton(
             'save_and_edit_button',

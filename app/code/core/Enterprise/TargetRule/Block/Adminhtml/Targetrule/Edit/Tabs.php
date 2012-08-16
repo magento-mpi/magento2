@@ -15,9 +15,9 @@
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('targetrule_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('Enterprise_TargetRule_Helper_Data')->__('Product Rule Information'));

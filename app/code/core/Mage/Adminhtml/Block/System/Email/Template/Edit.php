@@ -19,12 +19,7 @@
 class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Block_Widget
 {
 
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('system/email/template/edit.phtml');
-    }
+    protected $_template = 'system/email/template/edit.phtml';
 
     protected function _prepareLayout()
     {

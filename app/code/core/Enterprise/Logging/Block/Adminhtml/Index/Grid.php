@@ -20,9 +20,9 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('loggingLogGrid');
         $this->setDefaultSort('time');

@@ -13,9 +13,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
 {
     protected $_collection;
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('historyGrid');
         $this->setUseAjax(true);
         $this->setDefaultSort('id');

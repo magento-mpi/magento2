@@ -22,13 +22,13 @@ class Find_Feed_Block_Adminhtml_List_Items extends Mage_Adminhtml_Block_Widget_G
      * Initialize grid container settings
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Find_Feed';
         $this->_controller = 'adminhtml_list_items';
         $this->_headerText = Mage::helper('Find_Feed_Helper_Data')->__('Product import');
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_removeButton('add');
     }

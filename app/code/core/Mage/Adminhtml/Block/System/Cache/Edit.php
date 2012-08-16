@@ -17,10 +17,13 @@
  */
 class Mage_Adminhtml_Block_System_Cache_Edit extends Mage_Adminhtml_Block_Widget
 {
+
+    protected $_template = 'system/cache/edit.phtml';
+
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('system/cache/edit.phtml');
+
         $this->setTitle('Cache Management');
     }
 

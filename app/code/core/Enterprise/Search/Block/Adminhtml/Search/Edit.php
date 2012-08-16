@@ -21,13 +21,13 @@ class Enterprise_Search_Block_Adminhtml_Search_Edit extends Mage_Adminhtml_Block
      * Enable grid container
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_Search';
         $this->_controller = 'adminhtml_search';
         $this->_headerText = Mage::helper('Enterprise_Search_Helper_Data')->__('Related Search Terms');
         $this->_addButtonLabel = Mage::helper('Enterprise_Search_Helper_Data')->__('Add New Search Term');
-        parent::__construct();
+        parent::_construct();
         $this->_removeButton('add');
     }
 

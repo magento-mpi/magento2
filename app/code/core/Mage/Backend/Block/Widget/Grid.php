@@ -201,10 +201,13 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     protected $_emptyCellLabel = '';
 
+    protected $_template = 'Mage_Backend::widget/grid.phtml';
+
+
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('Mage_Backend::widget/grid.phtml');
+
         $this->setRowClickCallback('openGridRow');
         $this->_emptyText = Mage::helper('Mage_Backend_Helper_Data')->__('No records found.');
     }

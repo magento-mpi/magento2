@@ -18,13 +18,7 @@
 class Enterprise_CatalogEvent_Block_Adminhtml_Form_Renderer_Fieldset_Element
     extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
-    /**
-     * Initialize block template
-     */
-    protected function _construct()
-    {
-        $this->setTemplate('form/renderer/fieldset/element.phtml');
-    }
+    protected $_template = 'form/renderer/fieldset/element.phtml';
 
     /**
      * Retrieve data object related with form

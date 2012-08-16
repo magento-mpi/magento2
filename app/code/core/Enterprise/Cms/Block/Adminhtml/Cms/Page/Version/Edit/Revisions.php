@@ -19,9 +19,9 @@
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('revisionsGrid');
         $this->setDefaultSort('revision_number');
         $this->setDefaultDir('DESC');

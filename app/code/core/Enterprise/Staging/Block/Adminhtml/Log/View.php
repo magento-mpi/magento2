@@ -18,9 +18,9 @@ class Enterprise_Staging_Block_Adminhtml_Log_View extends Mage_Adminhtml_Block_W
 {
     protected $_informationRenderers = array();
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->_blockGroup = 'Enterprise_Staging';
         $this->_controller = 'adminhtml_log';
         $this->_mode = 'view';

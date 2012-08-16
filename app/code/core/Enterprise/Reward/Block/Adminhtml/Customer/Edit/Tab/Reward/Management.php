@@ -19,14 +19,8 @@
 class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management
     extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Internal constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('customer/edit/management.phtml');
-    }
+
+    protected $_template = 'customer/edit/management.phtml';
 
     /**
      * Prepare layout

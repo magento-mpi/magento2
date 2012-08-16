@@ -27,9 +27,9 @@ class Mage_ImportExport_Block_Adminhtml_Export_Filter extends Mage_Adminhtml_Blo
     /**
      * Set grid parameters.
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->_helper = Mage::helper('Mage_ImportExport_Helper_Data');
 

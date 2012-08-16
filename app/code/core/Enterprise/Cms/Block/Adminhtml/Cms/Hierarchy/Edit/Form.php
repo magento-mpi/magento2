@@ -24,13 +24,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     protected $_currentStore = null;
 
-    /**
-     * Define custom form template for block
-     */
-    public function __construct()
+    protected $_template = 'hierarchy/edit.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('hierarchy/edit.phtml');
+        parent::_construct();
+
         $this->_currentStore = $this->getRequest()->getParam('store');
     }
 

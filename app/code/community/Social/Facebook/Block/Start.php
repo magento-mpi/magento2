@@ -14,6 +14,8 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
     const FACEBOOK_BLOCK_START_CONNECT  = 1;
     const FACEBOOK_BLOCK_START_FRIENDS  = 2;
 
+    protected $_template = 'empty.phtml';
+
     /**
      * Block Initialization
      *
@@ -26,7 +28,7 @@ class Social_Facebook_Block_Start extends Mage_Core_Block_Template
         }
         parent::_construct();
 
-        $this->setTemplate('empty.phtml');
+
 
         $this->setShowSumm(Social_Facebook_Block_Start::FACEBOOK_BLOCK_NO_TEXT);
 

@@ -13,11 +13,8 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
  implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
-    protected function _construct()
-    {
-        $this->setTemplate('catalog/product/edit/tab/giftcard.phtml');
-        parent::_construct();
-    }
+    protected $_template = 'catalog/product/edit/tab/giftcard.phtml';
+
     /**
      * Get tab label
      *

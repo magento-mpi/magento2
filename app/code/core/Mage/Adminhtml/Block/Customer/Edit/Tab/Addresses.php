@@ -17,11 +17,7 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Block_Widget_Form
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('customer/tab/addresses.phtml');
-    }
+    protected $_template = 'customer/tab/addresses.phtml';
 
     public function getRegionsUrl()
     {

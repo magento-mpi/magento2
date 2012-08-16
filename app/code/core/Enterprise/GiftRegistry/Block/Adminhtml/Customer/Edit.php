@@ -16,12 +16,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Customer_Edit
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_GiftRegistry';
         $this->_controller = 'adminhtml_customer';
 
-        parent::__construct();
+        parent::_construct();
 
         $this->_removeButton('reset');
         $this->_removeButton('save');

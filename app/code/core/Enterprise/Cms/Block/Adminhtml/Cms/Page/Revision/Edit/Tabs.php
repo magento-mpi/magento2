@@ -18,9 +18,9 @@
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('page_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('Enterprise_Cms_Helper_Data')->__('Revision Information'));

@@ -20,9 +20,9 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tabs
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('enterprise_reminder_rule_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(Mage::helper('Enterprise_Reminder_Helper_Data')->__('Email Reminder Rule'));

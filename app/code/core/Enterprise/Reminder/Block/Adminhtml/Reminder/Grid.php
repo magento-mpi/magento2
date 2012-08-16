@@ -21,9 +21,9 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Grid extends Mage_Adminhtml_B
      * Initialize grid
      * Set sort settings
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('reminderGrid');
         $this->setDefaultSort('rule_id');
         $this->setDefaultDir('ASC');

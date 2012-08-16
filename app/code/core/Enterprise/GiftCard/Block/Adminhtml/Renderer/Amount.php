@@ -15,10 +15,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
     protected $_element = null;
     protected $_websites = null;
 
-    public function __construct()
-    {
-        $this->setTemplate('renderer/amount.phtml');
-    }
+    protected $_template = 'renderer/amount.phtml';
 
     public function getProduct()
     {

@@ -16,10 +16,13 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends Mage_Adminhtml_Block_Widget_Grid
 {
-    public function __construct()
+
+    protected $_template = 'staging/merge/settings/website.phtml';
+
+    protected function _construct()
     {
-        parent::__construct();
-        $this->setTemplate('staging/merge/settings/website.phtml');
+        parent::_construct();
+
         $this->setId('staging_website_mapper');
         $this->setUseAjax(true);
         $this->setRowInitCallback($this->getJsObjectName().'.stagingWebsiteMapperRowInit');

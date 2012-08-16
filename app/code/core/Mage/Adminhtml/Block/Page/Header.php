@@ -17,11 +17,7 @@
  */
 class Mage_Adminhtml_Block_Page_Header extends Mage_Adminhtml_Block_Template
 {
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('page/header.phtml');
-    }
+    protected $_template = 'page/header.phtml';
 
     public function getHomeLink()
     {

@@ -17,14 +17,7 @@
 class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    /**
-     * Set template
-     *
-     */
-    protected function _construct()
-    {
-        $this->setTemplate('view/tab/general.phtml');
-    }
+    protected $_template = 'view/tab/general.phtml';
 
     /**
      * Tab label getter

@@ -18,14 +18,6 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Tab_General_Shipping_Grid extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Constructor
-     */
-    public function _construct()
-    {
-        parent::_construct();
-    }
-
-    /**
      * Return collection of shipment items
      *
      * @return array

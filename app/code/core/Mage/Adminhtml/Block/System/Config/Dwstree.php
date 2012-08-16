@@ -17,10 +17,13 @@
  */
 class Mage_Adminhtml_Block_System_Config_Dwstree extends Mage_Adminhtml_Block_Widget_Tabs
 {
+
+    protected $_template = 'widget/tabs.phtml';
+
     protected function _construct()
     {
         parent::_construct();
-        #$this->setTemplate('widget/tabs.phtml');
+        #
         $this->setId('system_config_dwstree');
         $this->setDestElementId('system_config_form');
     }

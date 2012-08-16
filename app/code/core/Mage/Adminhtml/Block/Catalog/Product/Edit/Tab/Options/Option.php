@@ -26,13 +26,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Options_Option extends Mage_
 
     protected $_itemCount = 1;
 
+    protected $_template = 'catalog/product/edit/options/option.phtml';
+
     /**
      * Class constructor
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('catalog/product/edit/options/option.phtml');
+
         $this->setCanReadPrice(true);
         $this->setCanEditPrice(true);
     }

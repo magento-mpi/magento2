@@ -38,9 +38,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Ordered
      * Initialize Grid
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('source_ordered');
         if ($this->_getStore()) {
             $this->setHeaderText(

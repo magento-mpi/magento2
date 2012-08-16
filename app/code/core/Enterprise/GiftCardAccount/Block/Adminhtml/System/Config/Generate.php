@@ -11,13 +11,8 @@
 
 class Enterprise_GiftCardAccount_Block_Adminhtml_System_Config_Generate extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    public function __construct()
-    {
-        parent::__construct();
-        if (!$this->getTemplate()) {
-            $this->setTemplate('config/generate.phtml');
-        }
-    }
+
+    protected $_template = 'config/generate.phtml';
 
     /**
      * Get the button and scripts contents

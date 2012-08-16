@@ -25,6 +25,8 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
      */
     protected $_form;
 
+    protected $_template = 'Mage_Backend::widget/form.phtml';
+
     /**
      * Class constructor
      *
@@ -32,7 +34,7 @@ class Mage_Backend_Block_Widget_Form extends Mage_Backend_Block_Widget
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('Mage_Backend::widget/form.phtml');
+
         $this->setDestElementId('edit_form');
         $this->setShowGlobalIcon(false);
     }

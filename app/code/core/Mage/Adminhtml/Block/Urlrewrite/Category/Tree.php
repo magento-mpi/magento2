@@ -24,14 +24,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Category_Tree extends Mage_Adminhtml_Block
      */
     protected $_allowedCategoryIds = null;
 
-    /**
-     * Set custom template for the block
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('urlrewrite/categories.phtml');
-    }
+    protected $_template = 'urlrewrite/categories.phtml';
 
     /**
      * Get categories tree as recursive array

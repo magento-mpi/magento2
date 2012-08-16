@@ -44,12 +44,14 @@ class Mage_Adminhtml_Block_Report_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     protected $_currentCurrencyCode = null;
 
+    protected $_template = 'Mage_Adminhtml::report/grid.phtml';
+
     protected function _construct()
     {
         parent::_construct();
         $this->setFilterVisibility(false);
         $this->setPagerVisibility(false);
-        $this->setTemplate('Mage_Adminhtml::report/grid.phtml');
+
         $this->setUseAjax(false);
         $this->setCountTotals(true);
     }

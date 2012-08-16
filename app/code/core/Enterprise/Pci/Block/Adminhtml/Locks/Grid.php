@@ -19,9 +19,9 @@ class Enterprise_Pci_Block_Adminhtml_Locks_Grid extends Mage_Adminhtml_Block_Wid
      *
      * @param array $attributes
      */
-    public function __construct($attributes = array())
+    protected function _construct($attributes = array())
     {
-        parent::__construct($attributes);
+        parent::_construct($attributes);
         $this->setId('lockedAdminsGrid')->setDefaultSort('user_id')->setUseAjax(true);
     }
 

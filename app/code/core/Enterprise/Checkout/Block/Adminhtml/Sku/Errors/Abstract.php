@@ -39,13 +39,15 @@ abstract class Enterprise_Checkout_Block_Adminhtml_Sku_Errors_Abstract extends M
      */
     protected $_cart;
 
+    protected $_template = 'sku/errors.phtml';
+
     /**
      * Define ID
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->setListType(self::LIST_TYPE);
-        $this->setTemplate('sku/errors.phtml');
+
     }
 
     /**

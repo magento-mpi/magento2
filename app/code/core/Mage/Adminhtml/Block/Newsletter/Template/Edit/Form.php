@@ -18,14 +18,6 @@
  */
 class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Define Form settings
-     *
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-    }
 
     /**
      * Retrieve template object

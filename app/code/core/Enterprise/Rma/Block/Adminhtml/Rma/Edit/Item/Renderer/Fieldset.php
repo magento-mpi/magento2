@@ -18,8 +18,5 @@
 class Enterprise_Rma_Block_Adminhtml_Rma_Edit_Item_Renderer_Fieldset
     extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset
 {
-    protected function _construct()
-    {
-        $this->setTemplate('edit/item/renderer/fieldset.phtml');
-    }
+    protected $_template = 'edit/item/renderer/fieldset.phtml';
 }

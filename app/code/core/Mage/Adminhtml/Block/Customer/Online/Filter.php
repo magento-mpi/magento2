@@ -18,10 +18,6 @@
 
 class Mage_Adminhtml_Block_Customer_Online_Filter extends Mage_Adminhtml_Block_Widget_Form
 {
-    protected function _construct()
-    {
-        parent::_construct();
-    }
 
     protected function _prepareForm()
     {

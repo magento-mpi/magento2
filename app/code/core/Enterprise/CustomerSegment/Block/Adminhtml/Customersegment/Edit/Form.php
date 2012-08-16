@@ -16,9 +16,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Form exten
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('enterprise_customersegment_segment_form');
         $this->setTitle(Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Segment Information'));
     }

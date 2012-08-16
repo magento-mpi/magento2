@@ -19,14 +19,7 @@
 
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Define customized form template
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('page/version/form.phtml');
-    }
+    protected $_template = 'page/version/form.phtml';
 
     /**
      * Preparing from for version page

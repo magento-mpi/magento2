@@ -15,10 +15,8 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Widget_Form_Renderer_Fieldset_Link extends Mage_Adminhtml_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
-    protected function _construct()
-    {
-        $this->setTemplate('Mage_Backend::widget/form/renderer/fieldset/element.phtml');
-    }
+
+    protected $_template = 'Mage_Backend::widget/form/renderer/fieldset/element.phtml';
 
     public function render(Varien_Data_Form_Element_Abstract $element)
     {

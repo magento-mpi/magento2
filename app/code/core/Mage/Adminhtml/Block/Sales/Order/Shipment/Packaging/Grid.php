@@ -17,14 +17,8 @@
  */
 class Mage_Adminhtml_Block_Sales_Order_Shipment_Packaging_Grid extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Constructor
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('sales/order/shipment/packaging/grid.phtml');
-    }
+
+    protected $_template = 'sales/order/shipment/packaging/grid.phtml';
 
     /**
      * Return collection of shipment items

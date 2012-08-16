@@ -22,9 +22,9 @@ class Enterprise_GiftRegistry_Block_Search_Advanced extends Enterprise_GiftRegis
     /**
      * Block constructor
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setFieldIdPrefix('params_');
         $this->setFieldNameContainer('params');
     }

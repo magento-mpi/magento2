@@ -25,13 +25,15 @@ class Mage_Adminhtml_Block_Urlrewrite_Selector extends Mage_Core_Block_Template
      */
     protected $_modes;
 
+    protected $_template = 'urlrewrite/selector.phtml';
+
     /**
      * Set block template and get available modes
      *
      */
     protected function _construct()
     {
-        $this->setTemplate('urlrewrite/selector.phtml');
+
         $this->_modes = array(
             'category' => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For category'),
             'product'  => Mage::helper('Mage_Adminhtml_Helper_Data')->__('For product'),

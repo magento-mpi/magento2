@@ -21,7 +21,7 @@ class Enterprise_Checkout_Block_Adminhtml_Sales_Order_Create_Sku
     /**
      * Define ID
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->setId('sales_order_create_sku');
     }

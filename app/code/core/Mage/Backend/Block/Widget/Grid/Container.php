@@ -23,6 +23,9 @@ class Mage_Backend_Block_Widget_Grid_Container extends Mage_Backend_Block_Widget
     protected $_backButtonLabel;
     protected $_blockGroup = 'Mage_Backend';
 
+    protected $_template = 'Mage_Backend::widget/grid/container.phtml';
+
+
     protected function _construct()
     {
         if (is_null($this->_addButtonLabel)) {
@@ -34,7 +37,7 @@ class Mage_Backend_Block_Widget_Grid_Container extends Mage_Backend_Block_Widget
 
         parent::_construct();
 
-        $this->setTemplate('Mage_Backend::widget/grid/container.phtml');
+
 
         $this->_addButton('add', array(
             'label'     => $this->getAddButtonLabel(),

@@ -10,9 +10,9 @@
 
 class Mage_User_Block_User_Edit_Tab_Roles extends Mage_Backend_Block_Widget_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('permissionsUserRolesGrid');
         $this->setDefaultSort('sort_order');
         $this->setDefaultDir('asc');

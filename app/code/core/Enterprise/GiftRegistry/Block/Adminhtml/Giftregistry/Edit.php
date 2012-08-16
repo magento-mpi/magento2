@@ -15,12 +15,12 @@ class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit extends Mage_Adm
      *
      * @return void
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_GiftRegistry';
         $this->_controller = 'adminhtml_giftregistry';
 
-        parent::__construct();
+        parent::_construct();
 
         if (Mage::registry('current_giftregistry_type')) {
             $this->_updateButton('save', 'label', Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Save'));

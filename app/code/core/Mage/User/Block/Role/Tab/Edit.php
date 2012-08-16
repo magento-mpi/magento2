@@ -18,6 +18,9 @@
 class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
     implements Mage_Backend_Block_Widget_Tab_Interface
 {
+
+    protected $_template = 'role/edit.phtml';
+
     /**
      * Get tab label
      *
@@ -58,13 +61,14 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
         return false;
     }
 
+
     /**
      * Class constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $rid = Mage::app()->getRequest()->getParam('rid', false);
 
@@ -83,7 +87,7 @@ class Mage_User_Block_Role_Tab_Edit extends Mage_Backend_Block_Widget_Form
 
         $this->setSelectedResources($selectedResourceIds);
 
-        $this->setTemplate('role/edit.phtml');
+
     }
 
     /**

@@ -17,13 +17,7 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Form_Renderer_Element
     extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
-    /**
-     * Initialize block template
-     */
-    protected function _construct()
-    {
-        $this->setTemplate('form/renderer/element.phtml');
-    }
+    protected $_template = 'form/renderer/element.phtml';
 
     /**
      * Retrieve data object related with form

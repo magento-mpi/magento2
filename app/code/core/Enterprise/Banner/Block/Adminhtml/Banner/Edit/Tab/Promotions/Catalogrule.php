@@ -14,9 +14,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
      * Initialize grid, set defaults
      *
      */
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('related_catalogrule_grid');
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');

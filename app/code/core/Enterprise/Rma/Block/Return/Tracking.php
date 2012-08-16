@@ -17,13 +17,15 @@ class Enterprise_Rma_Block_Return_Tracking extends Mage_Core_Block_Template
      */
     protected $_isRmaAvailableForPrintLabel;
 
+    protected $_template = 'return/tracking.phtml';
+
     /**
      * Class constructor
      */
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('return/tracking.phtml');
+
         $this->setRma(Mage::registry('current_rma'));
     }
 

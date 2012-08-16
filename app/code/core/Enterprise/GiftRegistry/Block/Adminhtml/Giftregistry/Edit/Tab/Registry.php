@@ -11,9 +11,9 @@
 class Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Tab_Registry
     extends Enterprise_GiftRegistry_Block_Adminhtml_Giftregistry_Edit_Attribute_Attribute
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setFormTitle(Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Attributes'));
     }
 

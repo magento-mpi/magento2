@@ -93,16 +93,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
      */
     protected $_htmlId = '';
 
-    /**
-     * Initialize object
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('dashboard/graph.phtml');
-    }
+    protected $_template = 'dashboard/graph.phtml';
 
     /**
      * Get tab template

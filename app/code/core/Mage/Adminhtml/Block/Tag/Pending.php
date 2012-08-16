@@ -17,16 +17,8 @@
  */
 class Mage_Adminhtml_Block_Tag_Pending extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Constructor
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('tag/index.phtml');
-    }
+
+    protected $_template = 'tag/index.phtml';
 
     protected function _prepareLayout()
     {

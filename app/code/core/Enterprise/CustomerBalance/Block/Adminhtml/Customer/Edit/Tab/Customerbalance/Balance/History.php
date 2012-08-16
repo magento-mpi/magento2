@@ -10,10 +10,8 @@
 
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
-    {
-        $this->setTemplate('balance/history.phtml');
-    }
+
+    protected $_template = 'balance/history.phtml';
 
     protected function _prepareLayout()
     {

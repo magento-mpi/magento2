@@ -18,11 +18,7 @@ class Enterprise_Rma_Block_Return_Info extends Mage_Core_Block_Template
 {
     protected $_links = array();
 
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('return/info.phtml');
-    }
+    protected $_template = 'return/info.phtml';
 
     protected function _prepareLayout()
     {

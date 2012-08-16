@@ -16,9 +16,9 @@
 class Enterprise_SalesArchive_Block_Adminhtml_Sales_Archive_Order_Shipment_Grid
     extends Mage_Adminhtml_Block_Sales_Shipment_Grid
 {
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setUseAjax(true);
         $this->setId('sales_shipment_grid_archive');
     }

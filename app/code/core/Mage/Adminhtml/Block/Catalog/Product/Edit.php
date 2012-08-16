@@ -17,10 +17,11 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Widget
 {
+    protected $_template = 'catalog/product/edit.phtml';
+
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('catalog/product/edit.phtml');
         $this->setId('product_edit');
     }
 

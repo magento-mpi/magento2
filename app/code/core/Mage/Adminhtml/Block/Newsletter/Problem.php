@@ -18,10 +18,13 @@
 class Mage_Adminhtml_Block_Newsletter_Problem extends Mage_Adminhtml_Block_Template
 {
 
+    protected $_template = 'newsletter/problem/list.phtml';
+
+
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('newsletter/problem/list.phtml');
+
         $collection = Mage::getResourceSingleton('Mage_Newsletter_Model_Resource_Problem_Collection')
             ->addSubscriberInfo()
             ->addQueueInfo();

@@ -22,7 +22,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
      * Constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_blockGroup = 'Enterprise_CustomerSegment';
         $this->_controller = 'adminhtml_report_customer_segment_detail';
@@ -32,7 +32,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail
             $this->_headerText = $this->__('Customer Segments Report');
         }
 
-        parent::__construct();
+        parent::_construct();
         $this->_removeButton('add');
         $this->addButton('back', array(
             'label'     => Mage::helper('Enterprise_CustomerSegment_Helper_Data')->__('Back'),

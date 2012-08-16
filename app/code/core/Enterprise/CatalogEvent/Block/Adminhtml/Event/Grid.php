@@ -18,7 +18,7 @@
 class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
-    public function __construct()
+    public function _construct()
     {
         parent::__construct();
         $this->setId('catalogEventGrid');

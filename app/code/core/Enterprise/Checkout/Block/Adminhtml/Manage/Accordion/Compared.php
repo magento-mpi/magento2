@@ -23,9 +23,9 @@ class Enterprise_Checkout_Block_Adminhtml_Manage_Accordion_Compared
      */
     protected $_listType = 'compared';
 
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('source_compared');
         if ($this->_getStore()) {
             $this->setHeaderText(

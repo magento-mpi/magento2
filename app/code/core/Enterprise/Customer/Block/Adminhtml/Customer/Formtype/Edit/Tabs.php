@@ -21,9 +21,9 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Edit_Tabs extends Ma
      * Initialize edit tabs
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->setId('enterprise_customer_formtype_edit_tabs');
         $this->setDestElementId('edit_form');

@@ -24,9 +24,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
 
         $this->removeButton('delete');
 

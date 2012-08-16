@@ -19,6 +19,9 @@
 class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Adminhtml_Block_Widget
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+
+    protected $_template = 'catalog/product/edit/super/config.phtml';
+
     /**
      * Initialize block
      *
@@ -27,7 +30,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Config extends Mage_Ad
     {
         parent::_construct();
         $this->setProductId($this->getRequest()->getParam('id'));
-        $this->setTemplate('catalog/product/edit/super/config.phtml');
+
         $this->setId('config_super_product');
         $this->setCanEditPrice(true);
         $this->setCanReadPrice(true);

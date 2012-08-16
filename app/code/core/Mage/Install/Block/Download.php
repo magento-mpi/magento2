@@ -15,11 +15,8 @@
  */
 class Mage_Install_Block_Download extends Mage_Install_Block_Abstract
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('download.phtml');
-    }
+
+    protected $_template = 'download.phtml';
 
     /**
      * Retrieve locale data post url

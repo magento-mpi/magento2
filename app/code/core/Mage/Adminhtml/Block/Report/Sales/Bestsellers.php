@@ -18,13 +18,14 @@
 
 class Mage_Adminhtml_Block_Report_Sales_Bestsellers extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
+    protected $_template = 'report/grid/container.phtml';
 
     protected function _construct()
     {
         $this->_controller = 'report_sales_bestsellers';
         $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Products Bestsellers Report');
         parent::_construct();
-        $this->setTemplate('report/grid/container.phtml');
+
         $this->_removeButton('add');
         $this->addButton('filter_form_submit', array(
             'label'     => Mage::helper('Mage_Reports_Helper_Data')->__('Show Report'),

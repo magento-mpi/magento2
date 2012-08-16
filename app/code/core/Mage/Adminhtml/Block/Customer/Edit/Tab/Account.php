@@ -17,13 +17,6 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Initialize block
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-    }
 
     /**
      * Initialize form

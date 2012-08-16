@@ -23,13 +23,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
      * Add "Refresh Segment Data" button
      * Add "Save and Continue" button
      */
-    public function __construct()
+    protected function _construct()
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_customersegment';
         $this->_blockGroup = 'Enterprise_CustomerSegment';
 
-        parent::__construct();
+        parent::_construct();
 
         /** @var $segment Enterprise_CustomerSegment_Model_Segment */
         $segment = Mage::registry('current_customer_segment');

@@ -16,10 +16,6 @@
 
 class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main_Formgroup extends Mage_Adminhtml_Block_Widget_Form
 {
-    protected function _construct()
-    {
-        parent::_construct();
-    }
 
     protected function _prepareForm()
     {

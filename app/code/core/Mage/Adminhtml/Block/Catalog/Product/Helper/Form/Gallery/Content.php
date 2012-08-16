@@ -18,12 +18,7 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Helper_Form_Gallery_Content extends Mage_Adminhtml_Block_Widget
 {
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('catalog/product/helper/gallery.phtml');
-    }
+    protected $_template = 'catalog/product/helper/gallery.phtml';
 
     protected function _prepareLayout()
     {

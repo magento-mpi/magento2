@@ -16,11 +16,8 @@
  */
 class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('log/view.phtml');
-    }
+
+    protected $_template = 'log/view.phtml';
 
     /**
      * Prepare form before rendering HTML
