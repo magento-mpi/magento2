@@ -107,7 +107,7 @@ class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagSearchSelectedDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2327
+     * @TestlinkId TL-MAGE-2343
      */
     public function searchSelectedTags($tags, $status, $testData)
     {
@@ -151,7 +151,7 @@ class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
      * @test
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2327
+     * @TestlinkId TL-MAGE-2343
      */
     public function searchNameTags($tags, $status, $testData)
     {
@@ -167,6 +167,8 @@ class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
         }
         $this->loginAdminUser();
         $this->navigate('pending_tags');
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
         $this->fillForm(array('tag_name' => $tags));
         $this->clickButton('search', false);
         $this->waitForAjax();

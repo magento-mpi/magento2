@@ -59,7 +59,7 @@ class Community2_Mage_Tags_AllCreateTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Search pending customer's tag
+     * Search customer's tag
      *
      * @param string $tags
      * @param string $status
@@ -103,7 +103,7 @@ class Community2_Mage_Tags_AllCreateTest extends Mage_Selenium_TestCase
         );
     }
     /**
-     * Search pending customer's tag
+     * Search customer's tag
      *
      * @param string $tags
      * @param string $status
@@ -128,6 +128,8 @@ class Community2_Mage_Tags_AllCreateTest extends Mage_Selenium_TestCase
         }
         $this->loginAdminUser();
         $this->navigate('all_tags');
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
         $this->fillForm(array('tag_name' => $tags));
         $this->clickButton('search', false);
         $this->waitForAjax();
