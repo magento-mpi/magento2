@@ -47,8 +47,13 @@ class Mage_DesignEditor_Block_Toolbar extends Mage_Core_Block_Template
      */
     public function getOptionsJson()
     {
+        /** @var $block Mage_DesignEditor_Block_Toolbar_Buttons */
+        $block = $this->getChildBlock('design_editor_toolbar_row')->getChildBlock('design_editor_toolbar_buttons');
         $options = array(
-            'cookie_highlighting_name' => Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING,
+            'cookieHighlightingName' => Mage_DesignEditor_Model_Session::COOKIE_HIGHLIGHTING,
+            'compactLogUrl'          => $block->getCompactLogUrl(),
+            'viewLayoutUrl'          => $block->getViewLayoutUrl(),
+            'baseUrl' => Mage::getBaseUrl(),
         );
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($options);
     }
