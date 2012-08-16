@@ -139,5 +139,4 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
         $this->assertFalse($this->controlIsPresent('pageelement', 'tag_rss_feeds'),
             'Product Tags Rss Feed is present.');
     }
-
 }
