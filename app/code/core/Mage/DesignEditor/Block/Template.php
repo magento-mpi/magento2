@@ -15,7 +15,7 @@
  * @method string getElementId()
  * @method string getElementHtml()
  * @method string getElementTitle()
- * @method bool getIsDraggable()
+ * @method bool getIsManipulationAllowed()
  * @method bool getIsContainer()
  */
 class Mage_DesignEditor_Block_Template extends Mage_Core_Block_Template
