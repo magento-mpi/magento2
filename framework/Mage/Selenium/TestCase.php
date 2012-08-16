@@ -62,6 +62,7 @@
  * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
  * @method Community2_Mage_ImportExport_Helper|Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  * @method Community2_Mage_RssFeeds_Helper|Enterprise2_Mage_RssFeeds_Helper rssFeedsHelper() rssFeedsHelper()
+ * @method Community2_Mage_Reports_Helper|Enterprise2_Mage_Reports_Helper reportsHelper() reportsHelper()
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
  *
  */
