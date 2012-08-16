@@ -45,8 +45,7 @@ abstract class Mage_DesignEditor_Model_History_Manager_Adapter_Abstract extends 
     {
         $resultData = array();
 
-        foreach ($this->getActions() as $action => $data)
-        {
+        foreach ($this->getActions() as $action => $data) {
             $resultData[] = array(
                 'handle'       => $this->getHandle(),
                 'change_type'  => $this->getType(),

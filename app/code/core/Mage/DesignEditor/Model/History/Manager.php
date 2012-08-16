@@ -59,7 +59,7 @@ class Mage_DesignEditor_Model_History_Manager extends Mage_Core_Model_Abstract
      */
     protected function _getChangeCollection()
     {
-        if($this->_changeCollection == null) {
+        if ($this->_changeCollection == null) {
             $this->_changeCollection = Mage::getModel('Mage_DesignEditor_Model_History_Manager_Collection');
         }
         return $this->_changeCollection;

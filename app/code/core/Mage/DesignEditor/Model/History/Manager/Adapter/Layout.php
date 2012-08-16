@@ -124,8 +124,7 @@ class Mage_DesignEditor_Model_History_Manager_Adapter_Layout
     {
         /** @var $handleObject Varien_Simplexml_Element */
         $handleObject = $this->getHandleObject();
-        foreach ($this->getActions() as $action => $data)
-        {
+        foreach ($this->getActions() as $action => $data) {
             $handleObject->appendChild($this->_executeActionByType($action, self::TYPE_RENDER, $data));
         }
         return $this;
