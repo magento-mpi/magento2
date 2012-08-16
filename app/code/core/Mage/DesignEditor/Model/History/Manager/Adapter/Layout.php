@@ -60,6 +60,7 @@ class Mage_DesignEditor_Model_History_Manager_Adapter_Layout
      * @param string $action
      * @param string $type
      * @param null|array $data
+     * @return mixed
      */
     protected function _executeActionByType($action, $type, $data = null)
     {
