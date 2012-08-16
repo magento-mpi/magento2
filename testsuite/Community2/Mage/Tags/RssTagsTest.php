@@ -73,10 +73,10 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
      * @param integer $product
      * @param array $testData
      *
-     * test
-     * dataProvider tagNameDataProvider
-     * depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2388
+     * @test
+     * @dataProvider tagNameDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-2288
      */
     public function enabledRssTags($tag, $product, $testData)
     {
@@ -88,6 +88,8 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), 'Approved');
+        $this->reindexAllData();
+        $this->flushCache();
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
         $this->productHelper()->frontOpenProduct($testData['simple'][$product]);
         $this->tagsHelper()->frontendTagVerificationInCategory($tag,
@@ -118,7 +120,7 @@ class Community2_Mage_Tags_RssCreateTest extends Mage_Selenium_TestCase
      *
      * @test
      * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2388
+     * @TestlinkId TL-MAGE-2290
      */
     public function disabledRssTags($testData)
     {

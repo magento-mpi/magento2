@@ -36,7 +36,7 @@ class Enterprise2_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_admin_users');
         //Data
         $userData = $this->loadDataSet('AdminUsers', 'generic_admin_user',
-                                        array('role_name' => 'Administrators'));
+            array('role_name' => 'Administrators'));
         //Steps
         $this->adminUserHelper()->createAdminUser($userData);
         //Verifying
@@ -85,15 +85,16 @@ class Enterprise2_Mage_Tags_ActionLogsTest extends Mage_Selenium_TestCase
     public function actionLogs($userData, $action, $actionFullName)
     {
         $this->navigate('admin_action_log_report');
-        $this->assertTrue((bool) $this->search(
-            array(
-                'action_group' => 'Catalog Tags',
-                'action_username' => $userData['user_name'],
-                'action' => $action,
-                'action_result' => 'Success',
-                'action_full_name' => $actionFullName)),
-        "Admin Action Logs does not contain {$action}");
+        $this->assertTrue((bool)$this->search(
+                array(
+                    'action_group' => 'Catalog Tags',
+                    'action_username' => $userData['user_name'],
+                    'action' => $action,
+                    'action_result' => 'Success',
+                    'action_full_name' => $actionFullName)),
+            "Admin Action Logs does not contain {$action}");
     }
+
     public function tagActionsDataProvider()
     {
         return array(
