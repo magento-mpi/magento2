@@ -622,15 +622,6 @@ final class Mage
     }
 
     /**
-     * @static
-     * @param Mage_Core_Model_App $app
-     */
-    public static function setApp(Mage_Core_Model_App $app)
-    {
-        self::$_app = $app;
-    }
-
-    /**
      * Get initialized application object.
      *
      * @param string $code
@@ -640,7 +631,7 @@ final class Mage
      */
     public static function app($code = '', $type = 'store', $options = array())
     {
-        if (null === self::$_app) {
+        /*if (null === self::$_app) {
             self::$_app = new Mage_Core_Model_App();
             self::setRoot();
             self::$_events = new Varien_Event_Collection();
@@ -652,7 +643,8 @@ final class Mage
             Magento_Profiler::stop('self::app::init');
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
-        return self::$_app;
+        */
+        return self::$_objectManager->get('Mage_Core_Model_App');
     }
 
     /**

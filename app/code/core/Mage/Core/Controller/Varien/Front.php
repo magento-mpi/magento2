@@ -24,9 +24,14 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
 
     const XML_STORE_ROUTERS_PATH = 'web/routers';
 
-    public function __construct()
-    {
+    protected $_objectManager;
 
+    /**
+     * @param Magento_ObjectManager $objectManager
+     */
+    public function __construct(Magento_ObjectManager $objectManager)
+    {
+        $this->_objectManager = $objectManager;
     }
 
     public function setDefault($key, $value=null)
@@ -179,6 +184,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
                 /** @var $controllerInstance Mage_Core_Controller_Varien_Action */
                 $controllerInstance = $router->match($this->getRequest());
                 if ($controllerInstance) {
+
                     $controllerInstance->dispatch($request->getActionName());
                     break;
                 }

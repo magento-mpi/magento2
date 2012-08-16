@@ -73,5 +73,10 @@
                 </backend>
             </updates>
         </layout>
+        <di>
+            <preferences>
+                <Mage_Backend_Model_Auth_StorageInterface>Mage_Bakcend_Model_Auth_Session</Mage_Backend_Model_Auth_StorageInterface>
+            </preferences>
+        </di>
     </adminhtml>
 </config>

@@ -80,9 +80,9 @@
             </design_fallback>
         </dev>
         <di>
-            <nonShared>
-                <Magento_Data_Structure/>
-            </nonShared>
+            <Magento_Data_Structure>
+                <shared>false</shared>
+            </Magento_Data_Structure>
         </di>
     </global>
     <frontend>
