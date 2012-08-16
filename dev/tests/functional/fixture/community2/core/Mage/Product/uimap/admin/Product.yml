@@ -136,3 +136,4 @@ manage_products:
                 add_new_product_split_select: //*[@class='button btn-toggle']
             dropdowns:
                 add_product_by_type: //*[@id='add_new_product']//*[contains(@onclick,'%productType%')]
+

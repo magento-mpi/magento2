@@ -90,7 +90,7 @@ new_product_settings:
 # Add New Product page
 new_product:
 #    mca: catalog_product/new/%productParameters%
-    mca: catalog_product/new/set/%setId%/type/%productType%/
+    mca: catalog_product/new/set/%setId%/type/%productType%
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
