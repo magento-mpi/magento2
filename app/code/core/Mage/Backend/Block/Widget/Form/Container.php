@@ -31,10 +31,6 @@ class Mage_Backend_Block_Widget_Form_Container extends Mage_Backend_Block_Widget
     {
         parent::_construct();
 
-        if (!$this->hasData('template')) {
-
-        }
-
         $this->_addButton('back', array(
             'label'     => Mage::helper('Mage_Backend_Helper_Data')->__('Back'),
             'onclick'   => 'setLocation(\'' . $this->getBackUrl() . '\')',

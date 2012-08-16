@@ -60,11 +60,16 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
     }
 
     /**
-     * @param string $class
-     * @param array $parameters
+     * @param string $areaCode
      */
-    public function setParameters($class, array $parameters)
+    public function loadAreaConfiguration($areaCode)
     {
-        $this->_di->instanceManager()->setParameters($class, $parameters);
+        $node = $this->_di->get('Mage_Core_Model_Config')->getNode($areaCode . '/di');
+        if ($node) {
+            $config = new Zend\Di\Configuration(
+                array('instance' => $node->asArray())
+            );
+            $config->configure($this->_di);
+        }
     }
 }
