@@ -108,8 +108,8 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
 
         //Step 1
         $this->customerHelper()->frontLoginCustomer(array(
-            'email' => $testData['customer']['email'],
-            'password' => $testData['customer']['password'])
+                'email' => $testData['customer']['email'],
+                'password' => $testData['customer']['password'])
         );
         //Step 2
         $this->productHelper()->frontOpenProduct($testData['product']);
@@ -243,20 +243,20 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         $rewardPointsForTag = $rewardTagConfig['tab_1']['configuration']['new_tag_submission'];
 
         $rewardTagLimitConfig = $this->loadDataSet('General', 'set_rewarded_tag_submission_quantity_limit');
-        $rewardPointsTagsLimit = $rewardTagLimitConfig['tab_1']['configuration']['rewarded_tag_submission_limit'];
+        $rewardPointsLimit = $rewardTagLimitConfig['tab_1']['configuration']['rewarded_tag_submission_limit'];
 
-        $rewardBalance = $rewardPointsForTag * $rewardPointsTagsLimit;
+        $rewardBalance = $rewardPointsForTag * $rewardPointsLimit;
 
         //Step 1
         $this->customerHelper()->frontLoginCustomer(array(
                 'email' => $testData['customer']['email'],
                 'password' => $testData['customer']['password'])
         );
-        for ($i=0; $i<2; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             //Steps 2, 5
             $this->productHelper()->frontOpenProduct($testData['product'][$i]);
             //Steps 3-4, 6-7
-            $addedTags[$i] = array($tags[2*$i], $tags[2*$i+1]);
+            $addedTags[$i] = array($tags[2 * $i], $tags[2 * $i + 1]);
             $this->tagsHelper()->frontendAddTag($addedTags[$i][0] . ' ' . $addedTags[$i][1]);
             //Verifying
             $this->assertMessagePresent('success', 'tag_accepted_success');
@@ -296,9 +296,9 @@ class Enterprise2_Mage_Tags_RewardPointsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertEquals($rewardBalance, $this->customerHelper()->getRewardPointsBalance(),
             'Customer reward points balance is wrong');
-        for ($i=0; $i<$rewardPointsTagsLimit; $i++) {
+        for ($i = 0; $i < $rewardPointsLimit; $i++) {
             $this->assertNotNull($this->customerHelper()->searchRewardPointsHistoryRecord(array(
-                'Balance' => ($i+1)*$rewardPointsForTag,
+                'Balance' => ($i + 1) * $rewardPointsForTag,
                 'Points' => '+' . $rewardPointsForTag,
                 'Reason' => 'For submitting tag (' . $tags[$i]['tag_name'] . ').',
             )), 'Reward points history record is absent');
