@@ -184,7 +184,13 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
             'draggable block' => array(
                 'draggable_block',
                 '<b>Draggable Block</b>',
-                '<div id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr" class="vde_element_wrapper vde_draggable vde_removable" data-name="draggable_block"><div class="vde_element_title">draggable_block</div><div class="vde_element_title vde_element_remove" id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr_remove">' . $removeLink . '</div><b>Draggable Block</b></div>',
+                '<div id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr" class="vde_element_wrapper vde_draggable vde_removable"
+                    data-name="draggable_block">
+                    <div class="vde_element_title">draggable_block</div>
+                    <div class="vde_element_title vde_element_remove"
+                        id="vde_element_ZHJhZ2dhYmxlX2Jsb2Nr_remove">' . $removeLink . '</div>
+                    <b>Draggable Block</b>
+                </div>',
             ),
             'non-draggable container' => array(
                 'non_draggable_container',
