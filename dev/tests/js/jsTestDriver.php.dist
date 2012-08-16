@@ -1,0 +1,9 @@
+<?php
+
+return array(
+    'server' => 'http://localhost:9876',
+    'proxy' => array(array('matcher' => '/pub/lib/*', 'server' => '%s/test/pub/lib/')),
+    'load' => array('/pub/lib/globalize', '/pub/lib/jquery', '/pub/lib/mage'),
+    'test' => array('/dev/tests/js/testsuite'),
+    'serve' => array('/pub/lib/mage/calendar')
+);

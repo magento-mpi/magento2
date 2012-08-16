@@ -10,7 +10,7 @@
  */
 
 define('SYNOPSIS', <<<SYNOPSIS
-php -f jstests.php -- --config_file "<path_to_file>"
+php -f jstests.php -- --config_file "<path to file>" --JsTestDriver "<path to jar file>"
 
 SYNOPSIS
 );
@@ -39,6 +39,7 @@ if (!isset($args['config_file'])) {
     echo SYNOPSIS;
     exit(1);
 }
+
 $JsTestDriver = $args['JsTestDriver'];
 
 $baseDir = getcwd();
@@ -56,11 +57,15 @@ if (empty($loadFiles)) {
     exit;
 }
 
+$serveFilesPath = isset($config['serve']) ? $config['serve'] : array();
+$serveFiles = listFiles($serveFilesPath);
+
+$proxies = isset($config['proxy']) ? $config['proxy'] : array();
+
 $server = isset($config['server']) ? $config['server'] : array();
 
-$fileOrder = $baseDir . "/dev/tests/js/jsTestDriverDependencyOrder.conf";
+$fileOrder = $baseDir . "/dev/tests/js/jsTestDriverDependencyOrder.php.dist";
 if (file_exists($fileOrder)) {
-
     $loadOrder = require($fileOrder);
     $order = isset($loadOrder['loadOrder']) ? $loadOrder['loadOrder'] : array();
 
@@ -81,40 +86,47 @@ if (file_exists($fileOrder)) {
             array_push($sortedFiles, $v);
         }
     }
-
 }
 
-$temp_file = "jsTestDriver.prop";
-$fh = fopen($temp_file, 'w');
+$tempFile = "jsTestDriver.prop";
+$fh = fopen($tempFile, 'w');
 fwrite($fh, "server: $server\r\n");
+fwrite($fh, "proxy:\r\n");
+foreach ($proxies as $proxy) {
+    $proxyServer = sprintf($proxy['server'], $server);
+    fwrite($fh, '  - {matcher: "' . $proxy['matcher'] . '", server: "' . $proxyServer . '"}' . "\r\n");
+}
 fwrite($fh, "load:\r\n");
 foreach ($sortedFiles as $file) {
-    fwrite($fh, "  -  " . str_replace($baseDir, '', $file) . "\r\n");
+    if (!in_array($file, $serveFiles)) {
+        fwrite($fh, "  - " . str_replace($baseDir, '', $file) . "\r\n");
+    }
 }
-fwrite($fh, "test:\n");
+fwrite($fh, "test:\r\n");
 foreach ($testFiles as $file) {
-    fwrite($fh, "  -  " . str_replace($baseDir, '', $file) . "\r\n");
+    fwrite($fh, "  - " . str_replace($baseDir, '', $file) . "\r\n");
+}
+fwrite($fh, "serve:\r\n");
+foreach ($serveFiles as $file) {
+    fwrite($fh, "  - " . str_replace($baseDir, '', $file) . "\r\n");
 }
 fclose($fh);
 
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-
     system('del ' . $baseDir . '\dev\tests\js\test-output\*.* /Q');
     system('rmdir ' . $baseDir . '\dev\tests\js\test-output');
     system('md ' . $baseDir . '\dev\tests\js\test-output');
 
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . getEnv("firefox") . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $tempFile . ' --port 9876 --browser "' . getEnv("firefox") . '" --tests all --testOutput ' . $baseDir . '\dev\tests\js\test-output ';
     echo $command;
-    echo '\n';
+
     system($command);
 } else {
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $tempFile . ' --port 9876 --browser "' . exec('which firefox') . '" --tests all --testOutput ' . $baseDir . '\dev\tests\js\test-output ';
 
-
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . exec('which firefox') . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
-
-
-    $shell_script='#!/bin/bash
+    $shellCommand='#!/bin/bash
         kill -9 $(/usr/sbin/lsof -i:9876 -t )
+        pkill Xvfb
         XVFB=`which Xvfb`
         if [ "$?" -eq 1 ];
         then
@@ -139,12 +151,8 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         kill $PID_XVFB     # shut down xvfb (firefox will shut down cleanly by JsTestDriver)
         echo "Done."';
 
-     system($shell_script);
-
-
-
+     system($shellCommand);
 }
-//@unlink($baseDir . '/' . $temp_file );
 
 function listFiles($dir)
 {
@@ -186,6 +194,3 @@ function recDir($dir)
         return $files;
     }
 }
-
-
-?>

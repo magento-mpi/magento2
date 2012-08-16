@@ -6,6 +6,7 @@
 /.settings
 atlassian*
 /index.php
+/jsTestDriver.prop
 /nbproject
 /sitemap
 /staging
