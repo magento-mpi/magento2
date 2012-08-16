@@ -101,9 +101,9 @@ class Mage_DesignEditor_Model_ObserverTest extends PHPUnit_Framework_TestCase
     public function testAddToolbar()
     {
         $layoutUpdate = Mage::app()->getLayout()->getUpdate();
-        $this->assertNotContains(Mage_DesignEditor_Model_Observer::TOOLBAR_HANDLE, $layoutUpdate->getHandles());
+        $this->assertNotContains(Mage_DesignEditor_Model_Observer::HANDLE_TOOLBAR, $layoutUpdate->getHandles());
         $this->_observer->addToolbar($this->_eventObserver);
-        $this->assertContains(Mage_DesignEditor_Model_Observer::TOOLBAR_HANDLE, $layoutUpdate->getHandles());
+        $this->assertContains(Mage_DesignEditor_Model_Observer::HANDLE_TOOLBAR, $layoutUpdate->getHandles());
     }
 
     /**
