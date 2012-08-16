@@ -109,7 +109,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system($command);
 } else {
 
-    system('kill -9 $( lsof -i:?9876 -t )') ;
+    system('kill -9 $( lsof -i:9876 -t )') ;
 
     $XVFB = system('which Xvfb');
     if (!$XVFB) {
