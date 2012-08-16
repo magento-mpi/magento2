@@ -32,6 +32,7 @@
     </ul>
 </div>
 <script type="text/javascript">//<[CDATA[
+document.observe("dom:loaded", function() {
     (function($) {
         $('#<?php echo $this->getId(); ?> [data-toggle="dropdown"]').on('click.toggleDropdown', function() {
             $(this).toggleClass('active')
@@ -45,5 +46,6 @@
             $('#<?php echo $this->getId(); ?> .dropdown-menu > li > span.item-default').trigger('click');
         });
     })(jQuery);
+});
 //]]>
 </script>
