@@ -256,6 +256,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return addslashes(htmlspecialchars($this->getRequest()->getParam('tab')));
     }
 
+    /**
+     * Get sku mask from config
+     *
+     * retun string
+     */
     public function getSkuAutogenerationMask()
     {
         return Mage::helper('Mage_Catalog_Helper_Product')->getSkuAutogenerationMask();

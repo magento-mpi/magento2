@@ -118,7 +118,7 @@ Event.observe(window, 'load', function() {
             skuField.val(skuMask);
         }
 
-        function _bindKeyupToInputs() {
+        function _bindKeyupToInputs(matches, matchesCount, skuMask) {
             //Event binding for each needed field
             for (var i = 0; i < matchesCount; i++) {
                 var inputId = matches[i].slice(2, -2);
@@ -139,12 +139,12 @@ Event.observe(window, 'load', function() {
                 populateData = {data:{'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount}};
             //Initial sku population
             _populateSkuField(populateData);
-            _bindKeyupToInputs();
+            _bindKeyupToInputs(matches, matchesCount, skuMask);
             //Unbind events in case of sku field manual change
             skuField.bind('change', function () {
                 if ('' === this.value) {
                     _populateSkuField(populateData);
-                    _bindKeyupToInputs();
+                    _bindKeyupToInputs(matches, matchesCount, skuMask);
                 } else {
                     for (i = 0; i < matchesCount; i++) {
                         var inputId = matches[i].slice(2, -2);

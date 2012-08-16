@@ -461,6 +461,6 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
      */
     public function getSkuAutogenerationMask()
     {
-        return Mage::getConfig()->getNode(self::XML_PATH_SKU_AUTOGENERATE_MASK, 'default');
+        return (string)Mage::getConfig()->getNode(self::XML_PATH_SKU_AUTOGENERATE_MASK, 'default');
     }
 }
