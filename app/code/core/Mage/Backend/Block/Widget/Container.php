@@ -168,11 +168,8 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
         foreach ($this->_buttons as $level => $buttons) {
             foreach ($buttons as $id => $data) {
                 $childId = $this->_prepareButtonBlockId($id);
-                if (isset($data['class_name'])) {
-                    $this->_addButtonChildBlock($childId, $data['class_name']);
-                } else {
-                    $this->_addButtonChildBlock($childId);
-                }
+                $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
+                $this->_addButtonChildBlock($childId, $blockClassName);
             }
         }
         return parent::_prepareLayout();
@@ -193,11 +190,14 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
      * Adding child block with specified child's id.
      *
      * @param string $childId
-     * @param string $blockClassName
+     * @param null|string $blockClassName
      * @return Mage_Backend_Block_Widget
      */
-    protected function _addButtonChildBlock($childId, $blockClassName = 'Mage_Backend_Block_Widget_Button')
+    protected function _addButtonChildBlock($childId, $blockClassName = null)
     {
+        if (null === $blockClassName) {
+            $blockClassName = 'Mage_Backend_Block_Widget_Button';
+        }
         $block = $this->getLayout()->createBlock($blockClassName);
         $this->setChild($childId, $block);
         return $block;
@@ -229,11 +229,8 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
                 $child = $this->getChildBlock($childId);
 
                 if (!$child) {
-                    if (isset($data['class_name'])) {
-                        $child = $this->_addButtonChildBlock($childId, $data['class_name']);
-                    } else {
-                        $child = $this->_addButtonChildBlock($childId);
-                    }
+                    $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
+                    $child = $this->_addButtonChildBlock($childId, $blockClassName);
                 }
                 if (isset($data['name'])) {
                     $data['element_name'] = $data['name'];
