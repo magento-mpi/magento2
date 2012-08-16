@@ -95,11 +95,11 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
     public function testSaveStockItemQty()
     {
         $existingProductIds = array(10, 11, 12);
-        $stockItemsBeforeImport = array();
+        $stockItems = array();
         foreach ($existingProductIds as $productId) {
             $stockItem = new Mage_CatalogInventory_Model_Stock_Item();
             $stockItem->loadByProduct($productId);
-            $stockItemsBeforeImport[$productId] = $stockItem;
+            $stockItems[$productId] = $stockItem;
         }
 
         $source = new Mage_ImportExport_Model_Import_Adapter_Csv(__DIR__ . '/_files/products_to_import.csv');
@@ -110,23 +110,22 @@ class Mage_ImportExport_Model_Import_Entity_ProductTest extends PHPUnit_Framewor
 
         $this->_model->importData();
 
-        /** @var $stockItemBeforeImport Mage_CatalogInventory_Model_Stock_Item */
-        foreach ($stockItemsBeforeImport as $productId => $stockItemBeforeImport) {
+        /** @var $stockItmBeforeImport Mage_CatalogInventory_Model_Stock_Item */
+        foreach ($stockItems as $productId => $stockItmBeforeImport) {
 
             /** @var $stockItemAfterImport Mage_CatalogInventory_Model_Stock_Item */
             $stockItemAfterImport = new Mage_CatalogInventory_Model_Stock_Item();
             $stockItemAfterImport->loadByProduct($productId);
 
             $this->assertEquals(
-                $stockItemBeforeImport->getQty(),
+                $stockItmBeforeImport->getQty(),
                 $stockItemAfterImport->getQty()
             );
-            unset($productAfterImport, $stockItemAfterImport);
+            unset($stockItemAfterImport);
         }
 
-        unset($stockItemsBeforeImport, $stockItem);
+        unset($stockItems, $stockItem);
     }
-
 
     /**
      * Tests adding of custom options with different behaviours
