@@ -109,7 +109,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system($command);
 } else {
 
-    system('kill -9 $( lsof -i:9876 -t )') ;
+    system('kill -9 $(lsof -i:9876 -t )') ;
 
     $XVFB = system('which Xvfb');
     if (!$XVFB) {
@@ -124,7 +124,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         exit;
     }
 
-    system('$XVFB :99 -ac &'); # launch virtual framebuffer into the background
+    system('Xvfb :99 -ac &'); # launch virtual framebuffer into the background
     system('export DISPLAY=:99'); # set display to use that of the xvfb
 
     $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . $FIREFOX . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
