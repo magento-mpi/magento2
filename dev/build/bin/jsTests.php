@@ -109,31 +109,39 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system($command);
 } else {
 
-    system('kill -9 $(lsof -i:9876 -t )') ;
 
-    $XVFB = system('which Xvfb');
-    if (!$XVFB) {
-        echo "Xvfb not found.";
-        exit;
-    }
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . exec('which firefox') . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
 
 
-    $FIREFOX = system('which firefox');
-    if (!$FIREFOX) {
-        echo "Firefox not found.";
-        exit;
-    }
+    $shell_script='#!/bin/bash
+        kill -9 $(/usr/sbin/lsof -i:9876 -t )
+        XVFB=`which Xvfb`
+        if [ "$?" -eq 1 ];
+        then
+            echo "Xvfb not found."
+            exit 1
+        fi
 
-    system('Xvfb :99 -ac &'); # launch virtual framebuffer into the background
-    system('export DISPLAY=:99'); # set display to use that of the xvfb
+        FIREFOX=`which firefox`
+        if [ "$?" -eq 1 ];
+        then
+            echo "Firefox not found."
+            exit 1
+        fi
 
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . $FIREFOX . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
-    echo $command;
+        $XVFB :99 -ac &    # launch virtual framebuffer into the background
+        PID_XVFB="$!"      # take the process ID
+        export DISPLAY=:99 # set display to use that of the xvfb
 
-    system($command);
+        # run the tests
+        '.$command.'
 
-    system("pkill Xvfb"); # shut down xvfb (firefox will shut down cleanly by JsTestDriver)
-    echo "Done.";
+        kill $PID_XVFB     # shut down xvfb (firefox will shut down cleanly by JsTestDriver)
+        echo "Done."';
+
+     system($shell_script);
+
+
 
 }
 //@unlink($baseDir . '/' . $temp_file );
