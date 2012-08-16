@@ -168,8 +168,11 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
         foreach ($this->_buttons as $level => $buttons) {
             foreach ($buttons as $id => $data) {
                 $childId = $this->_prepareButtonBlockId($id);
-                $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
-                $this->_addButtonChildBlock($childId, $blockClassName);
+                if (isset($data['class_name'])) {
+                    $this->_addButtonChildBlock($childId, $data['class_name']);
+                } else {
+                    $this->_addButtonChildBlock($childId);
+                }
             }
         }
         return parent::_prepareLayout();
@@ -226,8 +229,11 @@ class Mage_Backend_Block_Widget_Container extends Mage_Backend_Block_Template
                 $child = $this->getChildBlock($childId);
 
                 if (!$child) {
-                    $blockClassName = isset($data['class_name']) ? $data['class_name'] : null;
-                    $child = $this->_addButtonChildBlock($childId, $blockClassName);
+                    if (isset($data['class_name'])) {
+                        $child = $this->_addButtonChildBlock($childId, $data['class_name']);
+                    } else {
+                        $child = $this->_addButtonChildBlock($childId);
+                    }
                 }
                 if (isset($data['name'])) {
                     $data['element_name'] = $data['name'];
