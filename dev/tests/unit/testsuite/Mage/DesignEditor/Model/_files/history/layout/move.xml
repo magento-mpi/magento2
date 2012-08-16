@@ -1,0 +1,3 @@
+<layout>
+    <move element="customer_account_navigation" as="customer_account_navigation_alias" destination="top.menu" after="-"/>
+</layout>
