@@ -115,6 +115,12 @@ edit_saved_product_after_changed_attribute_set:
 edit_product_save_and_continue:
     uimap: *newProduct
 
+edit_new_product_save_and_continue:
+    uimap: *newProduct
+
+edit_new_configurable_save_and_continue:
+    uimap: *newProduct
+
 create_empty_simple_from_configurable:
     uimap: *newProduct
 
