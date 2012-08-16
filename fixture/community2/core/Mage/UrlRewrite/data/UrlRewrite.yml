@@ -50,10 +50,10 @@ simple_product_required:
     categories: Default Category
 
 url_rewrite_product:
-    request_path: %randomize%.html
+    request_path: Product(%randomize%).html
 
 url_rewrite_category:
-    request_path: %randomize%.html
+    request_path: Category(%randomize%).html
 
 url_rewrite_custom_sample:
     target_path: customer-service

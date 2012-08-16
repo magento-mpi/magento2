@@ -311,6 +311,64 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p>Create URL rewrite for product with existing Request path</p>
+     * <p>Steps</p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "For product"</p>
+     * <p>4. Select Product in Grid</p>
+     * <p>5. Select Category</p>
+     * <p>6. Input existing Request path</p>
+     * <p>7. Save</p>
+     * <p>8. Select</p>
+     * <p>Expected result: message that this Request path is already exist appear</p>
+     *
+     * @depends urlRewriteForProduct
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5514
+     */
+    public function urlRewriteForProductExistingReqPath($fieldData)
+    {
+        //Create Simple Product
+        $this->navigate('manage_products');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Open Manage URL rewrite page
+        $this->admin('url_rewrite_management');
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite', true);
+        $this->waitForAjax();
+        //Select "For Product"
+        $this->fillDropdown('create_url_rewrite_dropdown', 'For product');
+        $this->waitForPageToLoad();
+        //Find product in the Grid and open it
+        $this->validatePage('add_new_urlrewrite_product');
+        $this->searchAndOpen($productSearch, false, 'product_rewrite');
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('product'));
+        $this->validatePage();
+        //Select Category
+        $categorySearch = $productData['categories'];
+        $this->addParameter('rootName', $categorySearch);
+        $this->clickControl('link', 'root_category', false);
+        $this->waitForPageToLoad();
+        $this->addParameter('categoryId', $this->defineParameterFromUrl('category'));
+        $this->validatePage();
+        //Fill request path input field with existing data
+        $this->fillField('request_path', $fieldData['request_path']);
+        //Click Save button
+        $this->clickButton('save', false);
+        $this->waitForPageToLoad();
+        //Check that validation message appear
+        $this->assertMessagePresent('validation', 'req_path_exist');
+    }
+
+    /**
      * <p>CMS Pages custom URL Rewrites</p>
      * <p>Steps</p>
      * <p>1. Create CMS Page </p>
@@ -490,6 +548,115 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend('test_page', false);
 
         //Verifying page of URL rewrite for product
+        $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
+    }
+
+    /**
+     * <p>URL Rewrite for category in scope of the same one store</p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "For category"</p>
+     * <p>4. Select Category in tree</p>
+     * <p>5. Input needed Request path</p>
+     * <p>6. Save</p>
+     * <p>7. Open store on front with new request path</p>
+     * <p>Expected result:</p>
+     * <p>URL rewrite created and category page is opened</p>
+     *
+     * @return array
+     * @test
+     * @TestlinkId TL-MAGE-5515
+     */
+    public function urlRewriteCategory ()
+    {
+        //Created category
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        //Data
+        $categoryData = $this->loadDataSet('Category', 'sub_category_required');
+        //Steps
+        $this->categoryHelper()->createCategory($categoryData);
+        //Verifying
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->categoryHelper()->checkCategoriesPage();
+        //Open URL rewrite management
+        $this->navigate('url_rewrite_management');
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite', 'true');
+        //At Create URL rewrite dropdown select For category
+        $this->fillDropdown('create_url_rewrite_dropdown', 'For category');
+        //Select Subcategory by name and detect it's id from url
+        $this->addParameter('subName', $categoryData['name']);
+        $this->clickControl('link', 'sub_category', false);
+        $this->waitForPageToLoad();
+        $id = $this->defineParameterFromUrl('category', null);
+        $this->addParameter('id', $id);
+        $currentPage = $this->_findCurrentPageFromUrl();
+        $this->setCurrentPage($currentPage);
+        //Loading data from data file
+        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category');
+        //Fill request path input field
+        $this->fillField('request_path', $fieldData['request_path']);
+        //Click Save button
+        $this->clickButton('save', false);
+        $this->waitForPageToLoad();
+        //Generating URL rewrite link
+        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
+        //Open page on frontend
+        $this->frontend();
+        $this->open($rewriteUrl);
+        //Verifying page of URL rewrite for category
+        $this->assertSame($this->getTitle(), $categoryData['name'], 'Wrong page is opened');
+        return $fieldData;
+    }
+
+    /**
+     * <p>URL Rewrite for category in scope of the same one store (URL not available from other store)<p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "For category"</p>
+     * <p>4. Select Category in tree</p>
+     * <p>5. Input needed Request path</p>
+     * <p>6. Save</p>
+     * <p>7. Open other store on front with new request path</p>
+     * <p>Expected result:</p>
+     * <p>404 page is opened</p>
+     *
+     * @param array $data
+     * @test
+     * @depends urlRewriteCategory
+     * @TestlinkId TL-MAGE-5516
+     */
+
+    public function categoryUrlRewriteOtherStore ($fieldData)
+    {
+        //Create Category
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $category = $this->loadDataSet('Category', 'root_category_required');
+        $this->categoryHelper()->createCategory($category);
+        //Create Store and Store View
+        $storeData = $this->loadDataSet('Store', 'generic_store', array('root_category' => $category['name']));
+        $storeViewData =
+        $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
+        $this->navigate('manage_stores');
+        //Create Store
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertMessagePresent('success', 'success_saved_store');
+        //Create StoreView
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+        //Select other store
+        $this->frontend();
+        $this->addParameter('store', $storeData['store_name']);
+        $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
+        $this->fillDropdown('select_store', $storeData['store_name']);
+        $this->waitForPageToLoad();
+        //Generating URL rewrite link
+        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
+        //Opening URL rewrite on selected store
+        $this->open($rewriteUrl);
+        $this->waitForPageToLoad();
         $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
     }
 }

@@ -73,7 +73,8 @@ add_new_urlrewrite_category:
                         xpath: //*[@id='page:main-container']/div/fieldset
                         links:
                             root_category: //ul/div/li/div/a[contains(span,'%rootName%')]
-                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+#                            sub_category: //*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
+                            sub_category: //ul[@class='x-tree-node-ct']/li/div/a[contains(span,'%subName%')]
                             expand_category: //*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
             dropdowns:
                 create_url_rewrite_dropdown: //select[@class='select']
@@ -156,12 +157,6 @@ edit_urlrewrite_product:
 
 edit_urlrewrite_product_skip_category:
     mca: urlrewrite/edit/product/%id%/
-    title: URL Rewrite / Rewrite Rules / Magento Admin
-    uimap:
-        form: *new_url_rewrite
-
-edit_urlrewrite_category:
-    mca: urlrewrite/edit/category/%id%/
     title: URL Rewrite / Rewrite Rules / Magento Admin
     uimap:
         form: *new_url_rewrite
