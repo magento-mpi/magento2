@@ -103,7 +103,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system('rmdir ' . $baseDir . '\dev\tests\js\test-output');
     system('md ' . $baseDir . '\dev\tests\js\test-output');
 
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . getEnv("firefox") . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output';
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . getEnv("firefox") . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
     echo $command;
     echo '\n';
     system($command);
@@ -124,9 +124,9 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     system('$XVFB :99 -ac &'); # launch virtual framebuffer into the background
     system('export DISPLAY=:99'); # set display to use that of the xvfb
 
-    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . exec("which firefox") . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output';
+    $command = 'java -jar ' . $JsTestDriver . ' --config ' . $baseDir . '/' . $temp_file . ' --port 9876 --browser "' . exec("which firefox") . '" --tests all --testOutput ' . $baseDir . '\tests\js\test-output ';
     echo $command;
-    echo '\n';
+
     system($command);
 
     system("pkill Xvfb"); # shut down xvfb (firefox will shut down cleanly by JsTestDriver)
