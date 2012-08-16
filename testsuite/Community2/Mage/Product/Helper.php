@@ -29,9 +29,11 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $popupXpath = $this->_getControlXpath('fieldset', 'change_attribute_set');
         $actualTitle = $this->getText($fieldXpath);
         $newTitle = str_replace($newAttributeSet, $currentAttributeSet, $actualTitle);
-        $this->clickButton('change_attribute_set', false)->waitForElement($popupXpath);
+        $this->clickButton('change_attribute_set', false)
+            ->waitForElement($popupXpath);
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $this->addParameter('setId', $dropdownXpath)->clickButton('apply')->validatePage();
+        $this->addParameter('setId', $dropdownXpath)
+            ->clickButton('apply')->validatePage();
         $this->assertNotSame($this->getText($fieldXpath), $newTitle,
             "Attribute set in title should be $newAttributeSet, but now it's $currentAttributeSet");
     }
@@ -61,9 +63,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $this->openTab('custom_options');
         while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set'))) {
             if (!$this->controlIsPresent('button', 'delete_custom_option')) {
-                $this->fail(
-                    'Current location url: ' . $this->getLocation() . "\n" . 'Current page: ' . $this->getCurrentPage()
-                    . "\nProblem with 'Delete Option' button.\n" . 'Control is not present on the page');
+                $this->fail('Current location url: ' . $this->getLocation() . "\n"
+                    . 'Current page: ' . $this->getCurrentPage() . "\nProblem with 'Delete Option' button.\n"
+                    . 'Control is not present on the page');
             }
             $this->clickButton('delete_custom_option', false);
         }
@@ -82,8 +84,8 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $optionsQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'custom_option_set'));
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
-            $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+            $this->addVerificationMessage('Product must be contains ' . $needCount
+                . ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
         $numRow = 1;
@@ -119,7 +121,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
     }
 
     /**
-     * Create Product method was rewritten after adding "Add Product" splitbutton
+     * Create Product method using "Add Product" split button
      *
      * @param array $productData
      * @param string $productType
@@ -127,22 +129,32 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      */
     public function createProduct(array $productData, $productType = 'simple', $isSave = true)
     {
-        $this->addParameter('productType', $productType);
-        $this->clickButton('add_new_product_split_select', false);
-        $this->clickControl('dropdown', 'add_product_by_type', false);
-        if ($productType == 'configurable') {
-            $this->fillConfigurableSettings($productData);
-        }
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        $this->addParameter('productType', $this->defineParameterFromUrl('type'));
-        $this->addParameter('setId', $this->defineParameterFromUrl('set'));
-        $this->validatePage();
+        $this->selectTypeProduct($productData, $productType);
         if ($productData['product_attribute_set'] != 'Default') {
             $this->changeAttributeSet($productData['product_attribute_set']);
         }
         $this->productHelper()->fillProductInfo($productData, $productType);
         if ($isSave) {
             $this->saveForm('save');
+        }
+    }
+
+    /**
+     * Select product type
+     *
+     * @param array $productData
+     * @param string $productType
+     */
+    public function selectTypeProduct(array $productData, $productType)
+    {
+        $this->clickButton('add_new_product_split_select', false);
+        $this->addParameter('productType', $productType);
+        $this->clickControl('dropdown', 'add_product_by_type', false);
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->addParameter('setId', $this->defineParameterFromUrl('set'));
+        $this->validatePage();
+        if ($productType == 'configurable') {
+            $this->fillConfigurableSettings($productData);
         }
     }
 }
