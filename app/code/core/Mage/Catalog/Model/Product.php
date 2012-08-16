@@ -465,6 +465,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setHasOptions(false);
             $this->setRequiredOptions(false);
         }
+
+        $this->getResource()->getAttribute('sku')->getBackend()->generateUniqueSku($this);
         parent::_beforeSave();
     }
 
@@ -1091,8 +1093,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
         }
         $newProduct->setGroupedLinkData($data);
-
-        $newProduct->getResource()->getAttribute('sku')->getBackend()->generateUniqueSku($newProduct);
 
         $newProduct->save();
 

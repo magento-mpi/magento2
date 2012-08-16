@@ -56,6 +56,11 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
         $this->assertEquals('simple', $product->getSku());
     }
 
+    /**
+     * Returns simple product
+     *
+     * @return array
+     */
     public function uniqueSkuDataProvider()
     {
         $product = new Mage_Catalog_Model_Product();

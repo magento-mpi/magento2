@@ -127,14 +127,14 @@ Event.observe(window, 'load', function() {
             }
         }
 
-        var skuMask = <?php echo json_encode(Mage::helper('Mage_Catalog_Helper_Product')->getSkuAutogenerationMask())?>,
+        var skuMask = '<?php echo $this->getSkuAutogenerationMask()?>',
             matches = skuMask.match(/{{(\w+?)}}/g),
             skuField = $('#sku');
         if (null === matches) {
             matches = [];
         }
 
-        if ('' === skuField.val()) {
+        if ('' !== skuMask && '' === skuField.val()) {
             var matchesCount = matches.length,
                 populateData = {data:{'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount}};
             //Initial sku population

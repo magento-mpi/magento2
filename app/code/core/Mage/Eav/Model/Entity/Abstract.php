@@ -909,6 +909,13 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
         return !count($data);
     }
 
+    /**
+     * Return increment needed for SKU uniqueness
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param Mage_Catalog_Model_Product $object
+     * @return int
+     */
     public function getLastSimilarAttributeValueIncrement(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $object)
     {
         $adapter = $this->_getReadAdapter();

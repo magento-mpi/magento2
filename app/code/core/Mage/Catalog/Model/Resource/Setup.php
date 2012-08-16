@@ -390,6 +390,7 @@ class Mage_Catalog_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
                         'label'                      => 'SKU',
                         'input'                      => 'text',
                         'backend'                    => 'Mage_Catalog_Model_Product_Attribute_Backend_Sku',
+                        'unique'                     => true,
                         'sort_order'                 => 2,
                         'searchable'                 => true,
                         'comparable'                 => true,
