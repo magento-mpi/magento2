@@ -180,11 +180,17 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tagName);
             //Fill additional options
             $this->clickButton('save_and_continue_edit');
+            //Open area
             if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
                 $this->clickControl('link', 'prod_tag_admin_expand', false);
                 $this->waitForAjax();
             }
             $this->searchAndChoose($prodTagAdmin, 'products_tagged_by_admins');
+            //Close area
+            if ($this->controlIsPresent('field', 'prod_tag_admin_name')) {
+                $this->clickControl('link', 'prod_tag_admin_expand', false);
+                $this->waitForAjax();
+            }
         }
     }
 
