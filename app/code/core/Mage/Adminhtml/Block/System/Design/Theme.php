@@ -9,36 +9,28 @@
  */
 
 /**
- *  Page block
+ *  Container for theme grid
  */
-class Mage_Adminhtml_Block_System_Design_Theme extends Mage_Backend_Block_Template
+class Mage_Adminhtml_Block_System_Design_Theme extends Mage_Backend_Block_Widget_Grid_Container
 {
     /**
-     * Prepare controls on page
-     *
-     * @return Mage_Core_Block_Abstract
+     * Initialize grid container and prepare controls
      */
-    protected function _prepareLayout()
+    public function __construct()
     {
-        $this->setChild('add_new_button',
-            $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Button')
-                ->setData(array(
-                'label'   => Mage::helper('Mage_Core_Helper_Data')->__('Add Theme'),
-                'onclick' => "setLocation('".$this->getUrl('*/*/new')."')",
-                'class'   => 'add'
-            ))
-        );
-
-        return parent::_prepareLayout();
+        parent::__construct();
+        $this->_blockGroup = 'Mage_Adminhtml';
+        $this->_controller = 'System_Design_Theme';
+        $this->_updateButton('add', 'label', $this->__('Add New Theme'));
     }
 
     /**
-     * Prepare header for page
+     * Prepare header for container
      *
      * @return string
      */
-    public function getHeader()
+    public function getHeaderText()
     {
-        return Mage::helper('Mage_Core_Helper_Data')->__('Themes');
+        return $this->__('Themes');
     }
 }

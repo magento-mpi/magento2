@@ -12,7 +12,7 @@
 <layout>
     <adminhtml_system_design_theme_index>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_System_Design_Theme" name="design_theme" template="Mage_Adminhtml::system/design/theme/index.phtml">
+            <block type="Mage_Adminhtml_Block_System_Design_Theme" name="design_theme">
                 <block type="Mage_Adminhtml_Block_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
             </block>
         </reference>
@@ -26,7 +26,7 @@
 
     <adminhtml_system_design_theme_edit>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit" name="theme_edit" template="Mage_Adminhtml::system/design/theme/edit.phtml"/>
+            <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit" name="theme_edit"/>
         </reference>
         <reference name="left">
             <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">

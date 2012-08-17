@@ -14,13 +14,13 @@
 class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tabs extends Mage_Backend_Block_Widget_Tabs
 {
     /**
-     * Class constructor
+     * Initialize tabs and define tabs block settings
      */
     public function __construct()
     {
         parent::__construct();
         $this->setId('theme_tabs');
-        $this->setDestElementId('theme_edit_form');
-        $this->setTitle(Mage::helper('Mage_Core_Helper_Data')->__('Theme'));
+        $this->setDestElementId('edit_form');
+        $this->setTitle($this->__('Theme'));
     }
 }
