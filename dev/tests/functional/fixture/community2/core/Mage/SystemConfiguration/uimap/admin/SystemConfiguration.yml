@@ -24,7 +24,7 @@ system_configuration:
                                 product_creation:
                                     xpath: //fieldset[@id='catalog_product_creation']
                                     fields:
-                                       sku_mask: //*[@id='catalog_product_creation_sku_mask']
+                                        sku_mask: //*[@id='catalog_product_creation_sku_mask']
 
 system_configuration_tabs:
     uimap: *systemConfiguration
