@@ -1,0 +1,36 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage System Configuration
+
+# 'System Configuration' page
+system_configuration:
+    uimap:
+        form: &systemConfiguration
+            tabs:
+                -
+                    catalog_catalog:
+                        xpath: //a[contains(@href, 'edit/section/catalog/')]
+                        fieldsets:
+                            -
+                                product_creation:
+                                    xpath: //fieldset[@id='catalog_product_creation']
+                                    fields:
+                                        sku_mask: //*[@id='catalog_product_creation_sku_mask']
+
+system_configuration_tabs:
+    uimap: *systemConfiguration
+
+system_configuration_website:
+    uimap: *systemConfiguration
+
+system_configuration_store:
+    uimap: *systemConfiguration
