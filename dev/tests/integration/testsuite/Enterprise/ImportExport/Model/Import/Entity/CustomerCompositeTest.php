@@ -3,16 +3,19 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_ImportExport
+ * @package     Enterprise_ImportExport
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test class for Mage_ImportExport_Model_Import_Entity_CustomerComposite
+ * Test class for Mage_ImportExport_Model_Import_Entity_CustomerComposite.
+ *
+ * This test is placed in Enterprise scope because it use enterprise set of customer attributes,
+ * are there is no simple solution to run this test separately for EE and CE
  */
-class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
+class Enterprise_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Composite customer entity adapter instance
@@ -74,61 +77,46 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     /**
      * Test import data method
      *
+     * @param string $behavior
+     * @param string $sourceFile
+     * @param array $dataBefore
+     * @param array $dataAfter
+     * @param array $errors
+     *
      * @magentoDataFixture Mage/ImportExport/_files/customers_for_address_import.php
+     * @magentoAppIsolation enabled
+     *
+     * @dataProvider importDataDataProvider
      * @covers Mage_ImportExport_Model_Import_Entity_CustomerComposite::_importData
      */
-    public function testImportData()
+    public function testImportData($behavior, $sourceFile, array $dataBefore, array $dataAfter, array $errors = array())
     {
-        $this->markTestIncomplete('Need to be fixed in scope of MAGETWO-2772');
+        // set entity adapter parameters
+        $this->_entityAdapter->setParameters(array('behavior' => $behavior));
 
-        // set add/update behavior
-        $this->_entityAdapter->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE));
-
-        // set fixture CSV file and run validation for add/update behavior
+        // set fixture CSV file
         $result = $this->_entityAdapter
-            ->setSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor(
-                __DIR__ . '/_files/customer_composite_update.csv'
-            ))
+            ->setSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile))
             ->isDataValid();
-        $this->assertFalse($result);   // row #6 has no website
+        if ($errors) {
+            $this->assertFalse($result);
+        } else {
+            $this->assertTrue($result);
+        }
 
         // assert validation errors
         // can't use error codes because entity adapter gathers only error messages from aggregated adapters
         $actualErrors = array_values($this->_entityAdapter->getErrorMessages());
-        $this->assertEquals(array(array(6)), $actualErrors);
+        $this->assertEquals($errors, $actualErrors);
 
         // assert data before import
-        $this->_assertCustomerData($this->_beforeImport);
+        $this->_assertCustomerData($dataBefore);
 
-        // import data with add/update behavior
+        // import data
         $this->_entityAdapter->importData();
 
         // assert data after import
-        $this->_assertCustomerData($this->_afterImport);
-
-        // reset entity adapter
-        unset($this->_entityAdapter);
-        $this->_entityAdapter = new Mage_ImportExport_Model_Import_Entity_CustomerComposite();
-
-        // set delete behavior
-        $this->_entityAdapter->setParameters(array('behavior' => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE));
-
-        // set fixture CSV file and run validation for delete behavior
-        $result = $this->_entityAdapter
-            ->setSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor(
-                __DIR__ . '/_files/customer_composite_delete.csv'
-            ))
-            ->isDataValid();
-        $this->assertTrue($result);
-
-        // assert error messages
-        $this->assertEmpty($this->_entityAdapter->getErrorMessages());
-
-        // import data with delete behavior
-        $this->_entityAdapter->importData();
-
-        // assert data after import
-        $this->_assertCustomerData(array());
+        $this->_assertCustomerData($dataAfter);
     }
 
     /**
@@ -140,7 +128,6 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
     {
         /** @var $collection Mage_Customer_Model_Resource_Customer_Collection */
         $collection = Mage::getResourceModel('Mage_Customer_Model_Resource_Customer_Collection');
-
         $collection->addAttributeToSelect($this->_customerAttributes);
         $customers = $collection->getItems();
 
@@ -167,5 +154,29 @@ class Mage_ImportExport_Model_Import_Entity_CustomerCompositeTest extends PHPUni
                 $this->assertContains($address->getData('postcode'), $expectedData[$email]['addresses']);
             }
         }
+    }
+
+    /**
+     * Data provider for testImportData
+     *
+     * @return array
+     */
+    public function importDataDataProvider()
+    {
+        return array(
+            'add_update_behavior' => array(
+                '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_ADD_UPDATE,
+                '$sourceFile' => __DIR__ . '/_files/customer_composite_update.csv',
+                '$dataBefore' => $this->_beforeImport,
+                '$dataAfter'  => $this->_afterImport,
+                '$errors'     => array(array(6)),     // row #6 has no website
+            ),
+            'delete_behavior' => array(
+                '$behavior'   => Mage_ImportExport_Model_Import::BEHAVIOR_DELETE,
+                '$sourceFile' => __DIR__ . '/_files/customer_composite_delete.csv',
+                '$dataBefore' => $this->_beforeImport,
+                '$dataAfter'  => array(),
+            ),
+        );
     }
 }
