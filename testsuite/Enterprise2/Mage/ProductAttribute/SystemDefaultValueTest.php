@@ -69,9 +69,10 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest
      * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836     *
      */
     // @codingStandardsIgnoreEnd
-    public function checkSystemAttributeDefaultValue($attributeCode, $productType, $uimapName)
+    public function checkDefaultValue($attributeCode, $productType, $uimapName)
     {
-        parent::checkSystemAttributeDefaultValue($attributeCode, $productType, $uimapName);
+        $this->markTestIncomplete('MAGETWO-2816: data set 13');
+        parent::checkDefaultValue($attributeCode, $productType, $uimapName);
     }
 
     /**
@@ -98,5 +99,33 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest
             array('tax_class_id', 'simple', 'prices_tax_class'),
             array('visibility', 'simple', 'general_visibility')
         );
+    }
+
+    /**
+     * <p>Change selected default value for tax_class_id to '-- Please Select --'</p>
+     * <p>Preconditions:</p>
+     *  <p>1. Default value is specified for system attribute 'tax_class_id'.</p>
+     *
+     * <p>Steps:</p>
+     *  <p>1. Log in to backend.</p>
+     *  <p>2. Go to Catalog - Attributes - Manage Attributes</p>
+     *  <p>3. Open system attribute 'tax_class_id'.</p>
+     *  <p>4. Choose '-- Please Select --' option as default.</p>
+     *  <p>5. Save attribute.</p>
+     *  <p>6. Go to Catalog - Manage Products.</p>
+     *  <p>7. Start to create new product.</p>
+     *  <p>8. Fulfill all required fields except 'Tax Class'.</p>
+     *  <p>9. Save product.</p>
+     *
+     * <p>Expected results:</p>
+     *  <p>1. System displays message 'This is a required field.' under 'Tax Class' filed.</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6082
+     */
+    public function resetDefaultValue()
+    {
+        $this->markTestIncomplete('MAGETWO-2816');
+        parent::resetDefaultValue();
     }
 }

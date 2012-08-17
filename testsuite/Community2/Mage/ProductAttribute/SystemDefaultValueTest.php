@@ -68,8 +68,9 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
      * @TestlinkId TL-MAGE-5749, TL-MAGE-5750, TL-MAGE-5751, TL-MAGE-5752, TL-MAGE-5753, TL-MAGE-5754, TL-MAGE-5755, TL-MAGE-5756, TL-MAGE-5757, TL-MAGE-5758, TL-MAGE-5759, TL-MAGE-5760, TL-MAGE-5761, TL-MAGE-5762, TL-MAGE-5835, TL-MAGE-5836
      */
     // @codingStandardsIgnoreEnd
-    public function checkSystemAttributeDefaultValue($attributeCode, $productType, $uimapName)
+    public function checkDefaultValue($attributeCode, $productType, $uimapName)
     {
+        $this->markTestIncomplete('MAGETWO-2816: data set 11');
         //Data
         $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
@@ -121,5 +122,53 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
             array('status', 'simple', 'general_status'),
             array('tax_class_id', 'simple', 'prices_tax_class'),
             array('visibility', 'simple', 'general_visibility'));
+    }
+
+    /**
+     * <p>Change selected default value for tax_class_id to '-- Please Select --'</p>
+     * <p>Preconditions:</p>
+     *  <p>1. Default value is specified for system attribute 'tax_class_id'.</p>
+     *
+     * <p>Steps:</p>
+     *  <p>1. Log in to backend.</p>
+     *  <p>2. Go to Catalog - Attributes - Manage Attributes</p>
+     *  <p>3. Open system attribute 'tax_class_id'.</p>
+     *  <p>4. Choose '-- Please Select --' option as default.</p>
+     *  <p>5. Save attribute.</p>
+     *  <p>6. Go to Catalog - Manage Products.</p>
+     *  <p>7. Start to create new product.</p>
+     *  <p>8. Fulfill all required fields except 'Tax Class'.</p>
+     *  <p>9. Save product.</p>
+     *
+     * <p>Expected results:</p>
+     *  <p>1. System displays message 'This is a required field.' under 'Tax Class' filed.</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-6082
+     */
+    public function resetDefaultValue()
+    {
+        $this->markTestIncomplete('MAGETWO-2816');
+        //Data
+        $attributeData = $this->loadDataSet('SystemAttributes', 'tax_class_id');
+        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        unset($productData['prices_tax_class']);
+        //Preconditions
+        $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
+        $this->productAttributeHelper()->processAttributeValue($attributeData);
+        $this->saveForm('save_attribute');
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        //Steps
+        $this->searchAndOpen(array('attribute_code' => $attributeData['attribute_code']));
+        $attributeData['default_value'] = '-- Please Select --';
+        $this->productAttributeHelper()->processAttributeValue($attributeData);
+        $this->saveForm('save_attribute');
+        $this->assertMessagePresent('success', 'success_saved_attribute');
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData);
+        //Verifying
+        $this->addFieldIdToMessage('dropdown', 'prices_tax_class');
+        $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 }

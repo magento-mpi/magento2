@@ -23,18 +23,20 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
      */
     public function processAttributeValue(array $attributeData, $isCheck = false)
     {
+        $this->openTab('manage_labels_options');
         $num = 1;
         $fieldsetXpath = $this->_getControlXpath('fieldset', 'manage_options');
         $option = $this->getXpathCount($fieldsetXpath . "//tr[contains(@class,'option-row')]");
+        $isSetDefault = false;
         foreach ($attributeData as $key => $value) {
             if (preg_match('/^option_/', $key) && is_array($value)
                 && $this->controlIsPresent('fieldset', 'manage_options')
                 && $option > 0
             ) {
                 $this->addParameter('rowNumber', $num);
+                $optionXpath = $this->_getControlXpath('field', 'admin_option_name_disabled');
                 if ($isCheck) {
                     if ($this->controlIsPresent('field', 'admin_option_name_disabled')) {
-                        $optionXpath = $this->_getControlXpath('field', 'admin_option_name_disabled');
                         if ($value['admin_option_name'] != $this->getValue($optionXpath)) {
                             $this->addVerificationMessage("Admin value attribute label is wrong.\n"
                                 . 'Expected: ' . $value['admin_option_name'] . "\n"
@@ -43,12 +45,16 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
                     } else {
                         $this->addVerificationMessage("Admin value attribute in $num row is not disabled");
                     }
-                } elseif ($value['admin_option_name'] == $attributeData['default_value']) {
+                } elseif ($this->getValue($optionXpath) == $attributeData['default_value']) {
                     $this->fillCheckbox('default_value', 'Yes');
+                    $isSetDefault = true;
                 }
                 $num++;
                 $option--;
             }
+        }
+        if ($isSetDefault == false && $isCheck == false) {
+            $this->addVerificationMessage('Default option can not be set as it does not exist');
         }
         $this->assertEmptyVerificationErrors();
     }
