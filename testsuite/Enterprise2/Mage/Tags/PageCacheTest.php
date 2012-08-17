@@ -18,8 +18,8 @@
  */
 class Enterprise2_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
 {
-    static protected $_isFpcEnabledBeforeTests;
-    static protected $_isFpcEnabledCurrently;
+    static protected $_isFpcOnBeforeTests;
+    static protected $_isFpcOnCurrently;
     static protected $_customerData;
     static protected $_productData;
 
@@ -33,8 +33,8 @@ class Enterprise2_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('cache_storage_management');
-        self::$_isFpcEnabledBeforeTests = $this->cacheStorageManagementHelper()->isFullPageCacheEnabled();
-        self::$_isFpcEnabledCurrently = self::$_isFpcEnabledBeforeTests;
+        self::$_isFpcOnBeforeTests = $this->cacheStorageManagementHelper()->isFullPageCacheEnabled();
+        self::$_isFpcOnCurrently = self::$_isFpcOnBeforeTests;
 
 
         //Create customer
@@ -62,10 +62,10 @@ class Enterprise2_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
      */
     protected function tearDownAfterTestClass()
     {
-        if (self::$_isFpcEnabledBeforeTests != self::$_isFpcEnabledCurrently) {
+        if (self::$_isFpcOnBeforeTests != self::$_isFpcOnCurrently) {
             $this->loginAdminUser();
             $this->navigate('cache_storage_management');
-            if (self::$_isFpcEnabledBeforeTests) {
+            if (self::$_isFpcOnBeforeTests) {
                 $this->cacheStorageManagementHelper()->enableFullPageCache();
             } else {
                 $this->cacheStorageManagementHelper()->disableFullPageCache();
@@ -98,11 +98,11 @@ class Enterprise2_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
     public function cacheButtonsBehavior($buttonName)
     {
         //Precondition
-        if (!self::$_isFpcEnabledCurrently) {
+        if (!self::$_isFpcOnCurrently) {
             $this->navigate('cache_storage_management');
             $this->assertTrue($this->cacheStorageManagementHelper()->enableFullPageCache(),
                 'Unable to enable Full Page Cache');
-            self::$_isFpcEnabledCurrently = true;
+            self::$_isFpcOnCurrently = true;
         }
 
         //Step 1
