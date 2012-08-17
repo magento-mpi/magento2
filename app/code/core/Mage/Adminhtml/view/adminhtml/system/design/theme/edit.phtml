@@ -1,0 +1,30 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td><h3 class="icon-head head-products"><?php echo $this->getHeader() ?></h3></td>
+            <td class="form-buttons">
+                <?php echo $this->getChildHtml('back_button') ?>
+                <?php if($this->getThemeId()): ?>
+                <?php echo $this->getChildHtml('delete_button') ?>
+                <?php endif; ?>
+                <?php echo $this->getChildHtml('save_button') ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="theme_edit_form">
+    <?php echo $this->getBlockHtml('formkey')?>
+</form>
+<script type="text/javascript">
+    var themeForm = new varienForm('theme_edit_form');
+</script>

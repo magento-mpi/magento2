@@ -19,6 +19,7 @@
                     <resource id="Mage_Adminhtml::store" title="Manage Stores" />
                     <resource id="Mage_Adminhtml::design" title="Design" sortOrder="25">
                         <resource id="Mage_Adminhtml::schedule" title="Schedule" sortOrder="10" />
+                        <resource id="Mage_Adminhtml::theme" title="Themes" sortOrder="30" />
                     </resource>
                     <resource id="Mage_Adminhtml::config" title="Configuration" sortOrder="20">
                         <resource id="Mage_Adminhtml::config_general" title="General Section" sortOrder="20" />

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <adminhtml_system_design_theme_index>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_System_Design_Theme" name="design_theme" template="Mage_Adminhtml::system/design/theme/index.phtml">
+                <block type="Mage_Adminhtml_Block_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
+            </block>
+        </reference>
+    </adminhtml_system_design_theme_index>
+
+    <adminhtml_system_design_theme_grid>
+        <container name="root" label="Root" output="1">
+            <block type="Mage_Adminhtml_Block_System_Design_Theme_Grid" name="theme_grid" as="grid"/>
+        </container>
+    </adminhtml_system_design_theme_grid>
+
+    <adminhtml_system_design_theme_edit>
+        <reference name="content">
+            <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit" name="theme_edit" template="Mage_Adminhtml::system/design/theme/edit.phtml"/>
+        </reference>
+        <reference name="left">
+            <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
+                <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General" name="theme_edit_tab_general" />
+                <action method="addTab"><name>general_section</name><block>Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General</block></action>
+            </block>
+        </reference>
+    </adminhtml_system_design_theme_edit>
+</layout>
