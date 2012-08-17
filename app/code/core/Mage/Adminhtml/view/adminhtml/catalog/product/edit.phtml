@@ -110,24 +110,7 @@ Event.observe(window, 'load', function() {
     Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
     //SKU auto-population
     (function ($) {
-        function _populateSkuField(e) {
-            var matches = e.data.matches, skuMask = e.data.skuMask, matchesCount = e.data.matchesCount;
-            for (var i = 0; i < matchesCount; i++) {
-                skuMask = skuMask.replace(matches[i], $('#' + matches[i].slice(2, -2)).val());
-            }
-            skuField.val(skuMask);
-        }
-
-        function _bindKeyupToInputs(matches, matchesCount, skuMask) {
-            //Event binding for each needed field
-            for (var i = 0; i < matchesCount; i++) {
-                var inputId = matches[i].slice(2, -2);
-                $('#' + inputId).bind('keyup', {'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount},
-                    _populateSkuField);
-            }
-        }
-
-        var skuMask = '<?php echo $this->getSkuAutogenerationMask()?>',
+        var skuMask = '<?php echo $this->jsQuoteEscape($this->getSkuAutogenerationMask())?>',
             matches = skuMask.match(/{{(\w+?)}}/g),
             skuField = $('#sku');
         if (null === matches) {
@@ -152,6 +135,22 @@ Event.observe(window, 'load', function() {
                     }
                 }
             });
+        }
+        function _populateSkuField(e) {
+            var matches = e.data.matches, skuMask = e.data.skuMask, matchesCount = e.data.matchesCount;
+            for (var i = 0; i < matchesCount; i++) {
+                skuMask = skuMask.replace(matches[i], $('#' + matches[i].slice(2, -2)).val());
+            }
+            skuField.val(skuMask);
+        }
+
+        function _bindKeyupToInputs(matches, matchesCount, skuMask) {
+            //Event binding for each needed field
+            for (var i = 0; i < matchesCount; i++) {
+                var inputId = matches[i].slice(2, -2);
+                $('#' + inputId).bind('keyup', {'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount},
+                    _populateSkuField);
+            }
         }
     })(jQuery);
 });
