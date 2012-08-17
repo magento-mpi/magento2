@@ -63,6 +63,7 @@ class Enterprise2_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
     protected function tearDownAfterTestClass()
     {
         if (self::$_isFpcEnabledBeforeTests != self::$_isFpcEnabledCurrently) {
+            $this->loginAdminUser();
             $this->navigate('cache_storage_management');
             if (self::$_isFpcEnabledBeforeTests) {
                 $this->cacheStorageManagementHelper()->enableFullPageCache();
