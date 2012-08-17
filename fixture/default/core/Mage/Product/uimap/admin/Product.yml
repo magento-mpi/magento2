@@ -678,7 +678,7 @@ edit_product_save_and_continue:
     uimap: *editProduct
 
 edit_new_product_save_and_continue:
-    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%/
     title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
