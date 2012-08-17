@@ -211,6 +211,8 @@ product_page:
                           compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
         buttons:
             add_to_cart: //button[span='Add to Cart']
+        links:
+            tag_name: //ul[@class='tags-list']/li/a[text()='%tagName%']
         messages: &productMessages
             tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
             tag_added_to_product: //li[normalize-space(@class)='success-msg' and contains(.,'Tag "%tagName%" has been added to the product.')]
