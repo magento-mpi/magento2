@@ -159,14 +159,10 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 
 function listFiles($dir)
 {
-    echo getcwd();
-
     $baseDir = getcwd();
     $result = Array();
     foreach ($dir as $value) {
-
-        echo $path = $baseDir . $value;
-        echo "\n";
+        $path = $baseDir . $value;
         if (is_dir($path)) {
             $result = array_merge($result, recDir($path));
         } else if (is_file($path) && preg_match('/\.js$/i', $path)) {
