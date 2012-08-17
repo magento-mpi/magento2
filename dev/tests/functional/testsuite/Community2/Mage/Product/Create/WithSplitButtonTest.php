@@ -35,7 +35,7 @@ class Community2_Mage_Product_Create_WithSplitButtontTest extends Mage_Selenium_
      *
      * <p>Expected result:</p>
      *  <p>After Step 1. New simple product creation page is opened. Default attribute set is setted by default</p>
-     *  <p>After Step 3.The message: "The product has been saved" appears</p>
+     *  <p>After Step 3. The message: "The product has been saved" appears</p>
      *
      * @test
      * @TestlinkId TL-MAGE-6084
