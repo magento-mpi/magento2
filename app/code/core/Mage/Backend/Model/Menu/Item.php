@@ -136,6 +136,7 @@ class Mage_Backend_Model_Menu_Item
      * @param Mage_Core_Model_Store_Config $storeConfig
      * @param Mage_Backend_Model_Menu_Factory $menuFactory
      * @param Mage_Backend_Model_Url $urlModel
+     * @param Mage_Core_Helper_Abstract $helper
      * @param array $data
      */
     public function __construct(
@@ -145,6 +146,7 @@ class Mage_Backend_Model_Menu_Item
         Mage_Core_Model_Store_Config $storeConfig,
         Mage_Backend_Model_Menu_Factory $menuFactory,
         Mage_Backend_Model_Url $urlModel,
+        Mage_Core_Helper_Abstract $helper,
         array $data = array()
     ) {
         $this->_validator = $validator;
@@ -155,10 +157,10 @@ class Mage_Backend_Model_Menu_Item
         $this->_storeConfig = $storeConfig;
         $this->_menuFactory = $menuFactory;
         $this->_urlModel = $urlModel;
+        $this->_moduleHelper = $helper;
 
         $this->_id = $data['id'];
         $this->_title = $data['title'];
-        $this->_moduleHelper = $data['module'];
         $this->_action = isset($data['action']) ? $data['action'] : null;
         $this->_resource = isset($data['resource']) ? $data['resource'] : null;
         $this->_dependsOnModule = isset($data['dependsOnModule']) ? $data['dependsOnModule'] : null;

@@ -29,7 +29,10 @@ class Enterprise_ImportExport_Model_Scheduled_OperationTest extends PHPUnit_Fram
                 '_getCurrentTime',
                 '_getHistoryDirPath',
                 '_construct'
-            )
+            ),
+            array(),
+            '',
+            false
         );
         $this->_model->expects($this->once())
             ->method('getOperationType')

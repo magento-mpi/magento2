@@ -353,6 +353,29 @@ class Di implements DependencyInjectionInterface
                 return new $class($callParameters[0], $callParameters[1]);
             case 3:
                 return new $class($callParameters[0], $callParameters[1], $callParameters[2]);
+            case 4:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3]);
+            case 5:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
+                    $callParameters[4]
+                );
+            case 6:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
+                    $callParameters[4], $callParameters[5]
+                );
+            case 7:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
+                    $callParameters[4], $callParameters[5], $callParameters[6]
+                );
+            case 8:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
+                    $callParameters[4], $callParameters[5], $callParameters[6], $callParameters[7]
+                );
+            case 9:
+                return new $class($callParameters[0], $callParameters[1], $callParameters[2], $callParameters[3],
+                    $callParameters[4], $callParameters[5], $callParameters[6], $callParameters[7], $callParameters[8]
+                );
+
             default:
                 $r = new \ReflectionClass($class);
                 return $r->newInstanceArgs($callParameters);

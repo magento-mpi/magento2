@@ -101,17 +101,18 @@ class Mage_Backend_Model_Menu_Item_Factory
         $module = 'Mage_Backend_Helper_Data';
         if (isset($data['module'])) {
             $module = $data['module'];
+            unset($data['module']);
         }
 
-        $data['module'] = isset($this->_helpers[$module]) ? $this->_helpers[$module] : Mage::helper($module);
-
         $data = array('data' => $data);
+
         $data['authorization'] = $this->_acl;
         $data['applicationConfig'] = $this->_appConfig;
         $data['storeConfig'] = $this->_storeConfig;
         $data['menuFactory'] = $this->_menuFactory;
         $data['urlModel'] = $this->_urlModel;
         $data['validator'] = $this->_validator;
+        $data['helper'] = isset($this->_helpers[$module]) ? $this->_helpers[$module] : Mage::helper($module);
         return $this->_objectFactory->create('Mage_Backend_Model_Menu_Item', $data);
     }
 }

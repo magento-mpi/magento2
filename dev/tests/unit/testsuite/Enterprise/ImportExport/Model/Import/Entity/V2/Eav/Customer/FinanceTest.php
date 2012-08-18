@@ -598,6 +598,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function testValidateRowForUpdate(array $rowData, array $behaviors)
     {
+        $this->markTestIncomplete();
         $behavior = Mage_ImportExport_Model_Import::BEHAVIOR_V2_ADD_UPDATE;
 
         $this->_model->setParameters(
@@ -658,6 +659,7 @@ class Enterprise_ImportExport_Model_Import_Entity_V2_Eav_Customer_FinanceTest ex
      */
     public function testImportDataCustomBehavior()
     {
+        $this->markTestIncomplete();
         // Input data
         $customBehaviorRows = array(
             array(

@@ -123,17 +123,23 @@ class Enterprise_GiftRegistry_Model_Entity extends Mage_Core_Model_Abstract
      *
      * @param array $data
      */
-    public function __construct(array $data= array())
+    public function __construct(
+        Mage_Core_Model_App $application,
+        Mage_Core_Model_Store $store,
+        Mage_Core_Model_Config $applicationConfig,
+        Mage_Core_Model_Translate $translate,
+        Mage_Core_Model_Event_Manager $eventDispatcher,
+        Mage_Core_Model_Cache $cacheManager,
+        Mage_Core_Model_Resource_Abstract $resource = null,
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data= array())
     {
-        $this->_app = isset($data['app']) ? $data['app'] : Mage::app();
-        $this->_config = isset($data['config']) ? $data['config'] : Mage::getConfig();
-        $this->_resource = isset($data['resource']) ? $data['resource'] : null;
+        $this->_app = $application;
+        $this->_config = $applicationConfig;
         $this->_helpers = isset($data['helpers']) ? $data['helpers'] : array();
-        $this->_store = isset($data['store']) ? $data['store'] : Mage::app()->getStore();
-        $this->_translate = isset($data['translate'])
-            ? $data['translate']
-            : Mage::getSingleton('Mage_Core_Model_Translate');
-        parent::__construct($data);
+        $this->_store = $store;
+        $this->_translate = $translate;
+        parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
     }
 
     /**

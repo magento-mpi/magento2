@@ -73,14 +73,14 @@ class Enterprise_GiftRegistry_Model_EntityTest extends PHPUnit_Framework_TestCas
                 }
             ));
 
-        $this->_model = new Enterprise_GiftRegistry_Model_Entity(array(
-            'app' => $app,
-            'config' => $config,
-            'translate' => $translate,
-            'resource' => $resource,
-            'helpers' => array('Enterprise_GiftRegistry_Helper_Data' => $helper),
-            'store' => $this->_store
-        ));
+        $eventDispatcher = $this->getMock('Mage_Core_Model_Event_Manager');
+        $cacheManager = $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false);
+
+        $this->_model = new Enterprise_GiftRegistry_Model_Entity(
+            $app, $this->_store, $config, $translate, $eventDispatcher, $cacheManager, $resource, null, array(
+                'helpers' => array('Enterprise_GiftRegistry_Helper_Data' => $helper)
+            )
+        );
     }
 
     /**

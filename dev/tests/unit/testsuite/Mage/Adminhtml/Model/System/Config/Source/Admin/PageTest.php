@@ -38,8 +38,8 @@ class Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest extends PHPUnit_F
     public function setUp()
     {
         $logger = $this->getMock('Mage_Backend_Model_Menu_Logger');
-        $this->_menuModel = new Mage_Backend_Model_Menu(array('logger' => $logger));
-        $this->_menuSubModel = new Mage_Backend_Model_Menu(array('logger' => $logger));
+        $this->_menuModel = new Mage_Backend_Model_Menu($logger);
+        $this->_menuSubModel = new Mage_Backend_Model_Menu($logger);
 
         $this->_factoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
 

@@ -42,7 +42,16 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Li
     {
         parent::setUp();
 
-        $this->_block = new Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links();
+        $this->_block = new Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links(
+            $this->getMock('Mage_Core_Controller_Request_Http', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Translate', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Cache', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Design_Package', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Session', array(), array(), '', false),
+            $this->getMock('Mage_Core_Model_Store_Config', array(), array(), '', false)
+        );
 
         $this->_oldDisplayErrors  = ini_get('display_errors');
         $this->_oldErrorLevel = error_reporting();
