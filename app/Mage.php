@@ -1,47 +1,4 @@
 <?php
-
-class Mage_New{
-
-    /** Mage_Core_Model_Abstract::__construct($eventManager, $cacheManager, $data, $resourceModel, $collection) */
-    public static function getModel($modelClass = '', $arguments = array())
-    {
-        return self::getConfig()->getModelInstance($modelClass, $arguments);
-    }
-
-    /** Mage_Core_Model_Abstract::__construct($eventManager, $cacheManager, $data, $resourceModel, $collection) */
-    public static function getSingleton($modelClass='', array $arguments=array())
-    {
-        $registryKey = '_singleton/'.$modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getModel($modelClass, $arguments));
-        }
-        return self::registry($registryKey);
-    }
-
-    /** Mage_Core_Model_Resource_Abstract::__construct($writeAdapter) */
-    /** Mage_Core_Model_Resource_Db_Abstract::__construct(Mage_Core_Model_Resource $resource) */
-    /** Mage_Core_Model_Resource_Setup::__construct($resourceName) */
-    /** Mage_Core_Model_Resource_Session::__construct() */
-    public static function getResourceModel($modelClass, $arguments = array())
-    {
-        return self::getConfig()->getResourceModelInstance($modelClass, $arguments);
-    }
-
-    /** Mage_Core_Model_Resource_Abstract::__construct($writeAdapter) */
-    /** Mage_Core_Model_Resource_Setup::__construct($resourceName) */
-    /** Mage_Core_Model_Resource_Session::__construct() */
-    public static function getResourceSingleton($modelClass = '', array $arguments = array())
-    {
-        $registryKey = '_resource_singleton/'.$modelClass;
-        if (!self::registry($registryKey)) {
-            self::register($registryKey, self::getResourceModel($modelClass, $arguments));
-        }
-        return self::registry($registryKey);
-    }
-}
-
-
-
 /**
  * {license_notice}
  *
@@ -483,20 +440,16 @@ final class Mage
     }
 
     /**
-     * @param Magento_ObjectManager $objectManager
-     */
-    public static function setObjectManager(Magento_ObjectManager $objectManager)
-    {
-        self::$_objectManager = $objectManager;
-    }
-
-    /**
      * Retrieve object manager
      *
+     * @static
      * @return Magento_ObjectManager
      */
     public static function getObjectManager()
     {
+        if (!self::$_objectManager) {
+            self::$_objectManager = new Magento_ObjectManager_Zend(self::getRoot() . '/var');
+        }
         return self::$_objectManager;
     }
 
