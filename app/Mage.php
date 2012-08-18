@@ -372,7 +372,7 @@ final class Mage
      */
     public static function getConfig()
     {
-        return self::$_objectManager->get('Mage_Core_Model_Config');
+        return self::getObjectManager()->get('Mage_Core_Model_Config');
     }
 
     /**
@@ -442,7 +442,6 @@ final class Mage
     /**
      * Retrieve object manager
      *
-     * @static
      * @return Magento_ObjectManager
      */
     public static function getObjectManager()
@@ -584,9 +583,9 @@ final class Mage
      */
     public static function app($code = '', $type = 'store', $options = array())
     {
-        /*if (null === self::$_app) {
-            self::$_app = new Mage_Core_Model_App();
+        if (null === self::$_app) {
             self::setRoot();
+            self::$_app = self::getObjectManager()->get('Mage_Core_Model_App');
             self::$_events = new Varien_Event_Collection();
             self::_setIsInstalled($options);
             self::_setConfigModel($options);
@@ -596,8 +595,16 @@ final class Mage
             Magento_Profiler::stop('self::app::init');
             self::$_app->loadAreaPart(Mage_Core_Model_App_Area::AREA_GLOBAL, Mage_Core_Model_App_Area::PART_EVENTS);
         }
-        */
-        return self::$_objectManager->get('Mage_Core_Model_App');
+        return self::$_app;
+    }
+
+    /**
+     * @static
+     * @param string $areaCode
+     */
+    public static function setCurrentArea($areaCode)
+    {
+        self::getObjectManager()->loadAreaConfiguration($areaCode);
     }
 
     /**
@@ -639,7 +646,7 @@ final class Mage
      * @param string $type
      * @param string|array $options
      */
-/*    public static function run($code = '', $type = 'store', $options = array())
+    public static function run($code = '', $type = 'store', $options = array())
     {
         try {
             Magento_Profiler::start('mage');
@@ -670,7 +677,7 @@ final class Mage
         } catch (Exception $e) {
             self::printException($e);
         }
-    }*/
+    }
 
     /**
      * Set application isInstalled flag based on given options

@@ -14,6 +14,7 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     protected function setUp()
     {
         parent::setUp();
+        Mage::setCurrentArea('adminhtml');
         Mage::getSingleton('Mage_Backend_Model_Url')->turnOffSecretKey();
         $auth = Mage::getSingleton('Mage_Backend_Model_Auth');
         $auth->login('admingws_user', 'admingws_password');

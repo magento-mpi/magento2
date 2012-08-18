@@ -18,14 +18,14 @@ class Enterprise_GiftCard_Model_ObserverTest extends PHPUnit_Framework_TestCase
      */
     public function testGenerateGiftCardAccountsEmailSending()
     {
-        $order = new Mage_Sales_Model_Order();
+        $order = Mage::getModel('Mage_Sales_Model_Order');
         $this->_checkOrderItemProductOptions($order, true);
 
         $event = new Varien_Event(array('order' => $order));
         $observer = new Varien_Event_Observer(array('event' => $event));
 
-        $emailTemplateModel = new Mage_Core_Model_Email_Template();
-        $model = new Enterprise_GiftCard_Model_Observer(array(
+        $emailTemplateModel = Mage::getModel('Mage_Core_Model_Email_Template');
+        $model = Mage::getModel('Enterprise_GiftCard_Model_Observer', array(
             'email_template_model' => $emailTemplateModel,
         ));
         $model->generateGiftCardAccounts($observer);

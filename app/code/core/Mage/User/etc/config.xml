@@ -45,6 +45,10 @@
                 </admin_emails_forgot_email_template>
             </email>
         </template>
+        <di>
+            <Mage_User_Model_User><shared>0</shared></Mage_User_Model_User>
+            <Mage_User_Model_Role><shared>0</shared></Mage_User_Model_Role>
+        </di>
     </global>
     <default>
         <admin>

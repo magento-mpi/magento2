@@ -84,35 +84,35 @@ class Mage_Core_Model_Cache
     /**
      * Class constructor. Initialize cache instance based on options
      *
-     * @param array $cacheOptions
+     * @param array $options
      */
-    public function __construct(array $cacheOptions = array())
+    public function __construct(array $options = array())
     {
         $this->_defaultBackendOptions['cache_dir'] = Mage::getBaseDir('cache');
         /**
          * Initialize id prefix
          */
-        $this->_idPrefix = isset($cacheOptions['id_prefix']) ? $cacheOptions['id_prefix'] : '';
-        if (!$this->_idPrefix && isset($cacheOptions['prefix'])) {
-            $this->_idPrefix = $cacheOptions['prefix'];
+        $this->_idPrefix = isset($options['id_prefix']) ? $options['id_prefix'] : '';
+        if (!$this->_idPrefix && isset($options['prefix'])) {
+            $this->_idPrefix = $options['prefix'];
         }
         if (empty($this->_idPrefix)) {
             $this->_idPrefix = substr(md5(Mage::getConfig()->getOptions()->getEtcDir()), 0, 3).'_';
         }
 
-        $backend    = $this->_getBackendOptions($cacheOptions);
-        $frontend   = $this->_getFrontendOptions($cacheOptions);
+        $backend    = $this->_getBackendOptions($options);
+        $frontend   = $this->_getFrontendOptions($options);
 
         $this->_frontend = Zend_Cache::factory('Varien_Cache_Core', $backend['type'], $frontend, $backend['options'],
             true, true, true
         );
 
-        if (isset($cacheOptions['request_processors'])) {
-            $this->_requestProcessors = $cacheOptions['request_processors'];
+        if (isset($options['request_processors'])) {
+            $this->_requestProcessors = $options['request_processors'];
         }
 
-        if (isset($cacheOptions['disallow_save'])) {
-            $this->_disallowSave = $cacheOptions['disallow_save'];
+        if (isset($options['disallow_save'])) {
+            $this->_disallowSave = $options['disallow_save'];
         }
     }
 

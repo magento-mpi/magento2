@@ -147,7 +147,6 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
      */
     public function dispatch()
     {
-        $this->init();
         $request = $this->getRequest();
 
         // If pre-configured, check equality of base URL and requested URL

@@ -20,7 +20,7 @@ class Enterprise_CatalogPermissions_Model_Resource_Permission_IndexTest extends 
 
     protected function setUp()
     {
-        $this->_indexModel = new Enterprise_CatalogPermissions_Model_Permission_Index();
+        $this->_indexModel = Mage::getModel('Enterprise_CatalogPermissions_Model_Permission_Index');
     }
 
     protected function tearDown()

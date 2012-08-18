@@ -33,6 +33,11 @@
                 </setup>
             </enterprise_catalogevent_setup>
         </resources>
+        <di>
+            <Enterprise_CatalogEvent_Model_Event>
+                <shared>0</shared>
+            </Enterprise_CatalogEvent_Model_Event>
+        </di>
     </global>
     <default>
         <catalog>

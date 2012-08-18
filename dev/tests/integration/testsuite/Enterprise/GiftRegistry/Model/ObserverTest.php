@@ -29,11 +29,11 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
     {
         Mage::register('isSecureArea', true);
 
-        $customer = new Mage_Customer_Model_Customer();
+        $customer = Mage::getModel('Mage_Customer_Model_Customer');
         $customer->setWebsiteId(1);
         $customer->loadByEmail('customer@example.com');
 
-        $this->_giftRegistry = new Enterprise_GiftRegistry_Model_Entity();
+        $this->_giftRegistry = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
         $this->_giftRegistry->setCustomerId($customer->getId());
         $this->_giftRegistry->setTypeId(1);
         $this->_giftRegistry->setWebsiteId(1);
@@ -71,7 +71,7 @@ class Enterprise_GiftRegistry_Model_ObserverTest extends PHPUnit_Framework_TestC
         $this->assertInstanceOf('Mage_Catalog_Model_Product', $simple);
         $simple->delete();
 
-        $giftRegistry2 = new Enterprise_GiftRegistry_Model_Entity();
+        $giftRegistry2 = Mage::getModel('Enterprise_GiftRegistry_Model_Entity');
         $giftRegistry2->load($this->_giftRegistry->getId());
         $items2 = $giftRegistry2->getItemsCollection();
         $this->assertEmpty($items2->count());

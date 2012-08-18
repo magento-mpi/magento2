@@ -13,7 +13,7 @@ if (!isset($scope)) {
     $scope = 'websites';
 }
 
-$role = new Mage_User_Model_Role;
+$role = Mage::getModel('Mage_User_Model_Role');
 $role->setName('admingws_role')
     ->setGwsIsAll(0)
     ->setRoleType('G')
@@ -25,12 +25,12 @@ if ('websites' == $scope) {
 }
 $role->save();
 
-$rule = new Mage_User_Model_Rules;
+$rule = Mage::getModel('Mage_User_Model_Rules');
 $rule->setRoleId($role->getId())
     ->setResources(array(Mage_Backend_Model_Acl_Config::ACL_RESOURCE_ALL))
     ->saveRel();
 
-$user = new Mage_User_Model_User();
+$user = Mage::getModel('Mage_User_Model_User');
 $user->setData(array(
     'firstname' => 'firstname',
     'lastname'  => 'lastname',

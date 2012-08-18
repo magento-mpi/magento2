@@ -20,7 +20,7 @@ class Enterprise_Banner_Block_Adminhtml_Permission_MonitorTest extends PHPUnit_F
      */
     public function testPrepareLayout($blockType, $blockName, $tabsType, $tabsName)
     {
-        $layout = new Mage_Core_Model_Layout;
+        $layout = Mage::getModel('Mage_Core_Model_Layout');
         $layout->addBlock($blockType, $blockName);
         $tabs = $layout->addBlock($tabsType, $tabsName);
         $tab = $layout->addBlock(

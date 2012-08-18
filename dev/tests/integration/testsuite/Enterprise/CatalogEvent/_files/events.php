@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-$eventClosed = new Enterprise_CatalogEvent_Model_Event;
+$eventClosed = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
 $eventClosed
     ->setCategoryId(null)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('-1 year')))
@@ -19,7 +19,7 @@ $eventClosed
     ->save()
 ;
 
-$eventOpen = new Enterprise_CatalogEvent_Model_Event;
+$eventOpen = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
 $eventOpen
     ->setCategoryId(1)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('-1 month')))
@@ -29,7 +29,7 @@ $eventOpen
     ->save()
 ;
 
-$eventUpcoming = new Enterprise_CatalogEvent_Model_Event;
+$eventUpcoming = Mage::getModel('Enterprise_CatalogEvent_Model_Event');
 $eventUpcoming
     ->setCategoryId(2)
     ->setDateStart(date('Y-m-d H:i:s', strtotime('+1 month')))
