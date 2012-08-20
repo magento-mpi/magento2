@@ -47,7 +47,6 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createCategory($categoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
-
         /**
          * Create sub category
          */
@@ -56,7 +55,6 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createCategory($subCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
-
         /**
          * Create website, store, store view
          */
@@ -71,7 +69,6 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
             $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
-
         /**
          * Create new role
          */
@@ -81,40 +78,28 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
                 'role_resources_tab' => array(
                     'role_scopes' => array(
                         'scopes' => 'Custom',
-                        'website_1' => $websiteData['website_name']
-                    ),
-                    'role_resources' => array(
-                        'resource_access' => 'All'
-                    )
-                )
-            )
-        );
+                        'website_1' => $websiteData['website_name']),
+                    'role_resources' => array('resource_access' => 'All'))));
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
-
         /**
          * Create new backend user
          */
         $this->navigate('manage_admin_users');
         $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
             array(
-                'role_name' => $roleSource['role_info_tab']['role_name'],
-            )
-        );
+                'role_name' => $roleSource['role_info_tab']['role_name']));
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
-
         /**
          * Create new product
          */
         $simple = $this->loadDataSet('Product', 'simple_product_visible', array(
             'websites'   => 'Main Website,' . $websiteData['website_name'],
-            'categories' => 'Default Category,' . $categoryData['name']
-        ));
+            'categories' => 'Default Category,' . $categoryData['name']));
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-
         /**
          * Create new customer
          */
@@ -122,17 +107,12 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-
         /**
          * Go to frontend and create new customer
          */
-        $data = array(
-            'email'    => $userData['email'],
-            'password' => $userData['password']
-        );
+        $data = array('email' => $userData['email'],'password' => $userData['password']);
         $this->frontend();
         $this->customerHelper()->frontLoginCustomer($data);
-
         /**
          * Post new tag for created product
          */
@@ -140,31 +120,21 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct($simple['general_name']);
         $this->tagsHelper()->frontendAddTag($testTag);
         $this->assertMessagePresent('success', 'tag_accepted_success');
-
         $this->logoutCustomer();
-
         /**
          * Go to backend and set status "Approved" for created tag
          */
         $this->loginAdminUser();
         $this->navigate('pending_tags');
-        $this->tagsHelper()->changeTagsStatus(
-            array(
-                array('tag_name' => $testTag)
-            ),
-            'Approved'
-        );
-
+        $this->tagsHelper()->changeTagsStatus(array(
+                array('tag_name' => $testTag)), 'Approved');
         return array(
             'customer'   => $userData,
             'product'    => $simple['general_name'],
             'admin_user' => array(
                 'user_name' => $testAdminUser['user_name'],
-                'password'  => $testAdminUser['password']
-            )
-        );
+                'password'  => $testAdminUser['password']));
     }
-
     /**
      * Check restrictions to Products Tag Report for admin with access to specific website.
      *
