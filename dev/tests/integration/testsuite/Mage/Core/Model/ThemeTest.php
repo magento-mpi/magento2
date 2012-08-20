@@ -19,7 +19,7 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Prepare theme model data
      */
-    protected function setUp()
+    public function setUp()
     {
         $data = array(
             'package_code'         => 'default',
