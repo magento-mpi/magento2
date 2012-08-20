@@ -18,6 +18,6 @@ class Mage_Core_Model_Resource_Theme extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _construct()
     {
-        $this->_init('core_themes', 'theme_id');
+        $this->_init('core_theme', 'theme_id');
     }
 }
