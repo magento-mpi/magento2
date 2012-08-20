@@ -64,14 +64,15 @@ class Mage_Selenium_Driver extends PHPUnit_Extensions_SeleniumTestCase_Driver
      *
      * @param string $command Command for send to Selenium RC server
      * @param array $arguments Array of arguments to command
+     * @param array $namedArguments
      *
-     * @return string
      * @throws Exception
+     * @return string
      */
-    protected function doCommand($command, array $arguments = array())
+    protected function doCommand($command, array $arguments = array(), array $namedArguments = array())
     {
         try {
-            $response = parent::doCommand($command, $arguments);
+            $response = parent::doCommand($command, $arguments, $namedArguments);
             // Add command logging
             if (!empty($this->_logHandle)) {
                 fputs($this->_logHandle, self::udate('H:i:s.u') . "\n");
