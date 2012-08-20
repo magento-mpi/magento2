@@ -889,12 +889,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if (preg_match('/%randomize%/', $value)) {
             $value = preg_replace('/%randomize%/', $this->generate('string', 5, ':lower:'), $value);
         }
-        if (preg_match('/^%longValue[0-9]+%$/', $value)) {
-            $length = preg_replace('/[^0-9]/', '', $value);
+        if (preg_match('/%longValue[0-9]+%/', $value)) {
+            $str = preg_replace('/(.)+(?=longValue[0-9]+%)/', '', $value);
+            list($dataParam) = explode('%', $str);
+            $length = preg_replace('/[^0-9]/', '', $dataParam);
             $value = preg_replace('/%longValue[0-9]+%/', $this->generate('string', $length, ':alpha:'), $value);
         }
-        if (preg_match('/^%specialValue[0-9]+%$/', $value)) {
-            $length = preg_replace('/[^0-9]/', '', $value);
+        if (preg_match('/%specialValue[0-9]+%/', $value)) {
+            $str = preg_replace('/(.)+(?=specialValue[0-9]+%)/', '', $value);
+            list($dataParam) = explode('%', $str);
+            $length = preg_replace('/[^0-9]/', '', $dataParam);
             $value = preg_replace('/%specialValue[0-9]+%/', $this->generate('string', $length, ':punct:'), $value);
         }
         if (preg_match('/%currentDate%/', $value)) {
