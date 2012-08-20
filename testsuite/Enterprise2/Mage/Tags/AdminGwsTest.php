@@ -18,11 +18,6 @@
  */
 class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 {
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-    }
-
     protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
@@ -36,11 +31,11 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
      * @test
      * @skipTearDown
      */
-    public function preconditionsForReportTest()
+    public function mainPreconditions()
     {
-        /**
-         * Create root category
-         */
+        $this->loginAdminUser();
+
+        // Create root category
         $categoryData = $this->loadDataSet('Category', 'root_category_required');
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
@@ -48,18 +43,14 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
-        /**
-         * Create sub category
-         */
+        // Create sub category
         $subCategoryData = $this->loadDataSet('Category', 'sub_category_required');
         $subCategoryData['parent_category'] = $categoryData['name'];
         $this->categoryHelper()->createCategory($subCategoryData);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
 
-        /**
-         * Create website, store, store view
-         */
+        // Create website, store, store view
         $this->navigate('manage_stores');
         $websiteData = $this->loadDataSet('Website', 'generic_website');
         $this->storeHelper()->createStore($websiteData, 'website');
@@ -72,9 +63,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
 
-        /**
-         * Create new role
-         */
+        // Create new role
         $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role',
             array(
@@ -92,9 +81,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createRole($roleSource);
         $this->assertMessagePresent('success', 'success_saved_role');
 
-        /**
-         * Create new backend user
-         */
+        // Create new backend user
         $this->navigate('manage_admin_users');
         $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
             array(
@@ -104,9 +91,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->adminUserHelper()->createAdminUser($testAdminUser);
         $this->assertMessagePresent('success', 'success_saved_user');
 
-        /**
-         * Create new product
-         */
+        // Create new product
         $simple = $this->loadDataSet('Product', 'simple_product_visible', array(
             'websites'   => 'Main Website,' . $websiteData['website_name'],
             'categories' => 'Default Category,' . $categoryData['name']
@@ -115,45 +100,11 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        /**
-         * Create new customer
-         */
+        // Create new customer
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $this->navigate('manage_customers');
         $this->customerHelper()->createCustomer($userData);
         $this->assertMessagePresent('success', 'success_saved_customer');
-
-        /**
-         * Go to frontend and create new customer
-         */
-        $data = array(
-            'email'    => $userData['email'],
-            'password' => $userData['password']
-        );
-        $this->frontend();
-        $this->customerHelper()->frontLoginCustomer($data);
-
-        /**
-         * Post new tag for created product
-         */
-        $testTag = $this->generate('string', 7, ':alpha:');
-        $this->productHelper()->frontOpenProduct($simple['general_name']);
-        $this->tagsHelper()->frontendAddTag($testTag);
-        $this->assertMessagePresent('success', 'tag_accepted_success');
-
-        $this->logoutCustomer();
-
-        /**
-         * Go to backend and set status "Approved" for created tag
-         */
-        $this->loginAdminUser();
-        $this->navigate('pending_tags');
-        $this->tagsHelper()->changeTagsStatus(
-            array(
-                array('tag_name' => $testTag)
-            ),
-            'Approved'
-        );
 
         return array(
             'customer'   => $userData,
@@ -163,6 +114,50 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
                 'password'  => $testAdminUser['password']
             )
         );
+    }
+
+    /**
+     * @test
+     * @depends mainPreconditions
+     *
+     * @param array $testData
+     * @return array
+     */
+    public function preconditionCreateTags(array $testData)
+    {
+        // Go to frontend and post new tag
+        $data = array(
+            'email'    => $testData['customer']['email'],
+            'password' => $testData['customer']['password']
+        );
+        $this->frontend();
+        $this->customerHelper()->frontLoginCustomer($data);
+
+        // Post new tag for created product
+        $tags = array();
+        $testTag = '';
+        for ($i = 0; $i < 2; $i++) {
+            $testTag = $this->generate('string', 7, ':alpha:');
+            $this->productHelper()->frontOpenProduct($testData['product']);
+            $this->tagsHelper()->frontendAddTag($testTag);
+            $this->assertMessagePresent('success', 'tag_accepted_success');
+            $tags[$testTag] = 'Pending';
+        }
+        $this->logoutCustomer();
+
+        // Go to backend and set status "Approved" for created tag
+        $this->loginAdminUser();
+        $this->navigate('pending_tags');
+        $this->tagsHelper()->changeTagsStatus(
+            array(
+                array('tag_name' => $testTag)
+            ),
+            'Approved'
+        );
+        $tags[$testTag] = 'Approved';
+        $testData['tags'] = $tags;
+
+        return $testData;
     }
 
     /**
@@ -180,15 +175,14 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
      * 9. Login into backend as user created on step 4 and repeat step 8.
      *    Expected:   Tagged products not existed in report grid.
      *
+     * @test
      * @param array $testData
-     * @depends preconditionsForReportTest
+     * @depends preconditionCreateTags
      * @TestlinkId TL-MAGE-6107, TL-MAGE-6114
      */
-    public function testProductsTagReportAccess(array $testData)
+    public function productsTagReportAccess(array $testData)
     {
-        /**
-         * Check that product existed in products tag report
-         */
+        // Check that product existed in products tag report
         $this->navigate('report_tag_product');
         $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
             'product_name' => $testData['product'],
@@ -198,9 +192,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 
         $this->logoutAdminUser();
 
-        /**
-         * Login into backend as user which created before and check that product not existed in product tag report
-         */
+        // Login into backend as user which created before and check that product not existed in product tag report
         $loginData = array(
             'user_name' => $testData['admin_user']['user_name'],
             'password'  => $testData['admin_user']['password']
@@ -232,15 +224,16 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
      * 9. Login into backend as user created on step 4 and repeat step 8.
      *    Expected:   Customer who tagged product must not existed in report grid.
      *
+     * @test
      * @param array $testData
-     * @depends preconditionsForReportTest
+     * @depends preconditionCreateTags
      * @TestlinkId TL-MAGE-6114
      */
-    public function testCustomersTagReportAccess(array $testData)
+    public function customersTagReportAccess(array $testData)
     {
-        /**
-         * Check that customer existed in customers tag report
-         */
+        $this->loginAdminUser();
+
+        // Check that customer existed in customers tag report
         $this->navigate('report_tag_customer');
         $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
             'first_name' => $testData['customer']['first_name'],
@@ -250,9 +243,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 
         $this->logoutAdminUser();
 
-        /**
-         * Login into backend as user which created before and check that product not existed in product tag report
-         */
+        // Login into backend as user which created before and check that product not existed in product tag report
         $loginData = array(
             'user_name' => $testData['admin_user']['user_name'],
             'password'  => $testData['admin_user']['password']
@@ -265,6 +256,89 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
             'last_name' => $testData['customer']['last_name'],
             'total_tags' => 1,
         )), 'Customer who submitted tag must not shown in report');
+
+        $this->logoutAdminUser();
+    }
+
+    /**
+     * Check restrictions to Customers Tag Report for admin with access to specific website.
+     *
+     * 1. Login to backendCreate new root category and test sub category.
+     * 2. Create new website, store and store view: System -> Manage Stores
+     * 3. Create new role with scope access to website which created on step 1 and resource access "All"
+     * 4. Create new backend user with role which created on step 3.
+     * 5. Create new product available for both websites.
+     * 6. Go to frontend open default website and find product which created on step 5.
+     *    Post at least two new tags for this product.
+     * 7. Go to backend, open one of created tag and set them status "Approved" for one of created tag.
+     * 8. Login into backend as user created on step 4 and go to Catalog -> Tags -> All Tags.
+     *    Check mass actions list.
+     *    Expected: Action "Delete" is absent.
+     * 9. Go to Catalog -> Tags -> Pending Tags, find one of tag which added on step 6 and try to delete this tag
+     *    via mass action.
+     *    Expected: Check that error message "Not enough permissions to delete this item." appeared on top of page.
+     * 10. Try to edit one of created tags on step 6.
+     *    Expected: Check that all test boxed are disabled in "General Information" tab.
+     *    Expected: Check that action buttons Delete Tag, Save Tag, Save and continue edit are absent on edit page.
+     *
+     * @test
+     * @param array $testData
+     * @depends preconditionCreateTags
+     * @TestlinkId TL-MAGE-6118
+     */
+    public function editTagAccess(array $testData)
+    {
+        // Login as user with access only to specific website
+        $loginData = array(
+            'user_name' => $testData['admin_user']['user_name'],
+            'password'  => $testData['admin_user']['password']
+        );
+        $this->adminUserHelper()->loginAdmin($loginData);
+
+        // Checking created tags and statuses of this tags
+        foreach ($testData['tags'] as $tag => $tagStatus) {
+            $this->navigate('all_tags');
+            $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => $tagStatus));
+        }
+
+        // Checking that user has no possibility to delete tags via mass action
+        $this->navigate('all_tags');
+        $xpath = $this->_getControlXpath('dropdown', 'tags_massaction');
+        $this->assertFalse($this->isElementPresent($xpath . "//option[text()='Delete']"),
+            'Action "Delete" must be absent'
+        );
+
+        // Trying to delete pending tag and verify error message appearing
+        $pendingTag = '';
+        foreach ($testData['tags'] as $tag => $status) {
+            if ($status == 'Pending') {
+                $pendingTag = $tag;
+            }
+        }
+        $this->navigate('pending_tags');
+        $this->searchAndChoose(array('tag_name' => $pendingTag));
+        $this->fillDropdown('tags_massaction', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete');
+        $this->assertMessagePresent('error', 'error_deleted_tag_has_no_permissions');
+
+        // Checking that action buttons "Delete Tag", "Save Tag", "Save and continue edit" are absent on tag edit page.
+        $this->tagsHelper()->openTag(array('tag_name' => $pendingTag));
+        $buttonListForCheck = array('delete_tag', 'save_tag', 'save_and_continue_edit');
+        foreach ($buttonListForCheck as $buttonName) {
+            $xpath = $this->_getControlXpath('button', $buttonName);
+            $this->assertFalse($this->isElementPresent($xpath));
+        }
+
+        // Checking that edit tag fields are disabled
+        $fieldListForCheck = array(
+            'tag_name'        => 'field',
+            'tag_status'      => 'dropdown',
+            'base_popularity' => 'field'
+        );
+        foreach ($fieldListForCheck as $fieldName => $fieldType) {
+            $xpath = $this->_getControlXpath($fieldType, $fieldName);
+            $this->assertFalse($this->isEditable($xpath));
+        }
 
         $this->logoutAdminUser();
     }
