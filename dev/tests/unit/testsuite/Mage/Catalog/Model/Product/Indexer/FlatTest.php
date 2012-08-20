@@ -27,7 +27,9 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
     public function setUp()
     {
         $this->_model = new Mage_Catalog_Model_Product_Indexer_Flat;
-        $this->_event = $this->getMock('Mage_Index_Model_Event', array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false);
+        $this->_event = $this->getMock('Mage_Index_Model_Event',
+            array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false
+        );
     }
 
     public function testMatchEventAvailability()
@@ -325,6 +327,8 @@ class Mage_Catalog_Model_Product_Indexer_FlatTest extends PHPUnit_Framework_Test
 
     /**
      * Provider for testMatchEventForEavAttribute
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public static function getEavAttributeProvider()
     {
