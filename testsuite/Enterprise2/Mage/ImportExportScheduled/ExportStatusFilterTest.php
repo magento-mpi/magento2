@@ -42,6 +42,24 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     }
 
     /**
+     * Open and verify scheduled import export status
+     *
+     * @param array $scheduledData
+     * @param string $status
+     */
+    protected function _openAndVerifyScheduledImportExport(array $scheduledData, $status)
+    {
+        // Verifying
+        $this->importExportScheduledHelper()->openImportExport(
+            array(
+                'name' => $scheduledData['name'],
+                'operation' => 'Export',
+            )
+        );
+        //verify form
+        $this->verifyForm(array('status' => $status));
+    }
+    /**
      * Scheduled Export statuses
      * Steps:
      * 1. Create new export with status "Disable"
@@ -55,12 +73,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
      * 6. Create new import with status disabled
      * 7. Change status to "Enabled" with a help "Actions for both exports"
      *  Result: Status is changed to "Enabled" for both exports
+     *
      * @test
      * @TestlinkId TL-MAGE-5816
      */
     public function scheduledExportStatuses()
     {
-        $exportData = array();
         // Step 1
         $exportData[] = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
             array(
@@ -69,33 +87,22 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
         $this->importExportScheduledHelper()->createExport($exportData[0]);
         // Verify
-        $this->checkCurrentPage('scheduled_import_export');
         $this->assertMessagePresent('success', 'success_saved_export');
-        $this->importExportScheduledHelper()->openImportExport(
+        $this->_openAndVerifyScheduledImportExport(
             array(
                 'name' => $exportData[0]['name'],
-                'operation' => 'Export',
-            )
+                'operation' => 'Export'), 'Disabled'
         );
-        $updateExportData = array(
-            'status' => 'Disabled',
-        );
-        $this->verifyForm($updateExportData);
         // Step 2
         $this->fillDropdown('status', 'Enabled');
         $this->clickButton('save');
         $this->assertMessagePresent('success', 'success_saved_export');
         // Verifying
-        $this->importExportScheduledHelper()->openImportExport(
+        $this->_openAndVerifyScheduledImportExport(
             array(
                 'name' => $exportData[0]['name'],
-                'operation' => 'Export',
-            )
+                'operation' => 'Export'), 'Enabled'
         );
-        $updateData = array(
-            'status' => 'Enabled',
-        );
-        $this->verifyForm($updateData);
         // Step 3
         $this->admin('scheduled_import_export');
         $this->importExportScheduledHelper()->searchAndChoose(array(
@@ -104,23 +111,19 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         ));
         $exportRecordsCount = 1;
         // Step 4
-        $this->fillDropdown('grid_massaction_select', 'Change status');
-        $this->fillDropdown('status_visibility', 'Disabled');
+        $this->fillForm(
+            array(
+                'grid_massaction_select' => 'Change status',
+                'status_visibility' => 'Disabled'));
         $this->clickButton('submit');
         // Verifying
-        $this->checkCurrentPage('scheduled_import_export');
         $this->addParameter('qtyUpdatedRecords', $exportRecordsCount);
         $this->assertMessagePresent('success', 'success_update_status');
-        $this->importExportScheduledHelper()->openImportExport(
+        $this->_openAndVerifyScheduledImportExport(
             array(
                 'name' => $exportData[0]['name'],
-                'operation' => 'Export',
-            )
+                'operation' => 'Export'), 'Disabled'
         );
-        $actionExportData = array(
-            'status' => 'Disabled',
-        );
-        $this->verifyForm($actionExportData);
         // Step 5
         $this->admin('scheduled_import_export');
         $exportData[] = $this->loadDataSet('ImportExportScheduled', 'scheduled_export',
@@ -130,19 +133,13 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             ));
         $this->importExportScheduledHelper()->createExport($exportData[1]);
         // Verify
-        $this->checkCurrentPage('scheduled_import_export');
         $this->assertMessagePresent('success', 'success_saved_export');
-        $this->importExportScheduledHelper()->openImportExport(
+        $this->_openAndVerifyScheduledImportExport(
             array(
                 'name' => $exportData[1]['name'],
-                'operation' => 'Export',
-            )
+                'operation' => 'Export'), 'Disabled'
         );
         $exportRecordsCount = 2;
-        $updateExportData = array(
-            'status' => 'Disabled',
-        );
-        $this->verifyForm($updateExportData);
         // Step 6
         $this->admin('scheduled_import_export');
         $this->importExportScheduledHelper()->searchAndChoose(array(
@@ -156,35 +153,26 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             'operation' => 'Export',
         ));
         // Step7
-        $this->fillDropdown('grid_massaction_select', 'Change status');
-        $this->fillDropdown('status_visibility', 'Enabled');
+        $this->fillForm(
+            array(
+                'grid_massaction_select' => 'Change status',
+                'status_visibility' => 'Enabled'));
         $this->clickButton('submit');
         //Verifying first import
-        $this->checkCurrentPage('scheduled_import_export');
         $this->addParameter('qtyUpdatedRecords', $exportRecordsCount);
         $this->assertMessagePresent('success', 'success_update_status');
-        $this->importExportScheduledHelper()->openImportExport(
+        $this->_openAndVerifyScheduledImportExport(
             array(
                 'name' => $exportData[0]['name'],
-                'operation' => 'Export',
-            )
+                'operation' => 'Export'), 'Enabled'
         );
-        $exportData[0] = array(
-            'status' => 'Enabled',
-        );
-        $this->verifyForm($exportData[0]);
         // Verifying second import
         $this->admin('scheduled_import_export');
-        $this->importExportScheduledHelper()->openImportExport(
+        $this->_openAndVerifyScheduledImportExport(
             array(
                 'name' => $exportData[1]['name'],
-                'operation' => 'Export',
-            )
+                'operation' => 'Export'), 'Enabled'
         );
-        $exportData[1] = array(
-            'status' => 'Enabled',
-        );
-        $this->verifyForm($exportData[1]);
     }
     /**
      * Scheduled Export statuses

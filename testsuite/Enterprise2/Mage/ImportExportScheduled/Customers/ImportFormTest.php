@@ -150,8 +150,8 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
      * 12. Open Scheduled Import from precondition.
      * Expected: 'Import Behavior' field value is 'Delete Entities'.
      * 'Customer Entity Type' field value is 'Customer Addresses'.
-     * 13. Go back to Scheduled Import/Export page. Choose “Edit” in column “Action” for import from precondition.
      * Expected: The page "Edit Scheduled Import" is opened.
+     * 13. Go back to Scheduled Import/Export page. Choose 'Edit' in column 'Action' for import from precondition.
      *
      * @test
      * @depends addingNewScheduledImport
