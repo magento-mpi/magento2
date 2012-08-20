@@ -24,14 +24,19 @@ $table = $installer->getConnection()
         'nullable' => false,
         'primary'  => true,
     ), 'Theme identifier')
-    ->addColumn('package_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Package Code')
-    ->addColumn('package_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Package Title')
-    ->addColumn('parent_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Parent Theme')
-    ->addColumn('theme_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Theme Code')
-    ->addColumn('theme_version', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Theme Version')
-    ->addColumn('theme_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Theme Title')
-    ->addColumn('magento_version_from', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Magento Version From')
-    ->addColumn('magento_version_to', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(), 'Magento Version To');
+    ->addColumn('package_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Package Code')
+    ->addColumn('package_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Package Title')
+    ->addColumn('parent_theme', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => true), 'Parent Theme')
+    ->addColumn('theme_code', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Code')
+    ->addColumn('theme_version', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Version')
+    ->addColumn('theme_title', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array('nullable' => false), 'Theme Title')
+    ->addColumn('magento_version_from', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable' => false
+    ), 'Magento Version From')
+    ->addColumn('magento_version_to', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
+        'nullable' => false
+    ), 'Magento Version To');
+
 $installer->getConnection()->createTable($table);
 
 $installer->endSetup();
