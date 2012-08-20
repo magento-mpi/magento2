@@ -120,7 +120,7 @@ class Enterprise_Rma_GuestController extends Mage_Core_Controller_Front_Action
                     'customer_name'         => $order->getCustomerName(),
                     'customer_custom_email' => $post['customer_custom_email']
                 );
-                $result = $rmaModel->setData($rmaData)->saveRma();
+                $result = $rmaModel->setData($rmaData)->saveRma($post);
                 if (!$result) {
                     $this->_redirectError(Mage::getUrl('*/*/create', array('order_id'  => $orderId)));
                     return;

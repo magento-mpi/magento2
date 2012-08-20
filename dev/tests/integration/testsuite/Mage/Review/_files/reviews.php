@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../Catalog/_files/two_products.php';
+require __DIR__ . '/../../Catalog/_files/multiple_products.php';
 
 $review = new Mage_Review_Model_Review(array(
     'nickname' => 'Nickname', 'title' => 'Review Summary', 'detail' => 'Review text'

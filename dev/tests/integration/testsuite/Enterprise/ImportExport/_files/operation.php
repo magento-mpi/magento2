@@ -34,7 +34,8 @@ $data = array(
     ),
 
 );
-
+$operation->setId(1);
+$operation->isObjectNew(true);
 $operation->setData($data);
 $operation->save();
 

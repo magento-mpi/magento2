@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Mage_DesignEditor
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout>
+    <move element="customer_account_navigation" as="customer_account_navigation_alias" destination="top.menu" after="-"/>
+</layout>
