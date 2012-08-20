@@ -14,12 +14,12 @@ class Mage_Core_Model_ThemeTest extends PHPUnit_Framework_TestCase
     /**
      * Theme model
      */
-    public $_themeModel;
+    protected $_themeModel;
 
     /**
      * Prepare theme model data
      */
-    public function setUp()
+    protected function setUp()
     {
         $data = array(
             'package_code'         => 'default',
