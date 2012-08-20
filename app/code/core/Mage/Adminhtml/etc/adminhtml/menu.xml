@@ -17,6 +17,7 @@
         <add id="Mage_Adminhtml::system_tools" title="Tools" module="Mage_Adminhtml" sortOrder="20" parent="Mage_Adminhtml::system" resource="Mage_Adminhtml::tools"/>
         <add id="Mage_Adminhtml::system_design" title="Design" module="Mage_Adminhtml" sortOrder="30" parent="Mage_Adminhtml::system" resource="Mage_Adminhtml::design"/>
         <add id="Mage_Adminhtml::system_design_schedule" title="Schedule" module="Mage_Adminhtml" sortOrder="10" parent="Mage_Adminhtml::system_design" action="adminhtml/system_design" resource="Mage_Adminhtml::schedule"/>
+        <add id="Mage_Adminhtml::system_design_theme" title="Themes" module="Mage_Adminhtml" sortOrder="30" parent="Mage_Adminhtml::system_design" action="adminhtml/system_design_theme" resource="Mage_Adminhtml::theme"/>
         <add id="Mage_Adminhtml::system_convert" title="Import/Export" module="Mage_Adminhtml" sortOrder="40" parent="Mage_Adminhtml::system" resource="Mage_Adminhtml::convert"/>
         <add id="Mage_Adminhtml::system_convert_gui" title="Dataflow - Profiles" module="Mage_Adminhtml" sortOrder="30" parent="Mage_Adminhtml::system_convert" action="adminhtml/system_convert_gui" resource="Mage_Adminhtml::gui"/>
         <add id="Mage_Adminhtml::system_convert_profiles" title="Dataflow - Advanced Profiles" module="Mage_Adminhtml" sortOrder="40" parent="Mage_Adminhtml::system_convert" action="adminhtml/system_convert_profile" resource="Mage_Adminhtml::profiles"/>
