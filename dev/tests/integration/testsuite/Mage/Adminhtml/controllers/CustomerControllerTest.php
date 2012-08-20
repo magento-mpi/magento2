@@ -160,6 +160,7 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
      */
     public function testSaveActionExistingCustomerAndExistingAddressData()
     {
+        $this->markTestIncomplete('Bug MAGETWO-2986');
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
@@ -245,6 +246,7 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
      */
     public function testSaveActionCoreException()
     {
+        $this->markTestIncomplete('Bug MAGETWO-2986');
         $post = array(
             'account' => array(
                 'middlename' => 'test middlename',
