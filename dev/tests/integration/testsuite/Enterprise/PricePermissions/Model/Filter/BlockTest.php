@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
+class Enterprise_PricePermissions_Model_Filter_BlockTest extends PHPUnit_Framework_TestCase
 {
     /** @var Mage_Core_Model_Layout */
     protected $_layout = null;
@@ -71,7 +71,7 @@ class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_T
     {
         $event = new Varien_Event_Observer();
         $event->setBlock($block);
-        $observer = new Enterprise_PricePermissions_Model_Observer;
+        $observer = new Enterprise_PricePermissions_Model_Filter_Block();
         $observer->adminControllerPredispatch($event);
         $observer->adminhtmlBlockHtmlBefore($event);
     }

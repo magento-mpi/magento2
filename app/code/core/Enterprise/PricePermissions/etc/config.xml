@@ -36,7 +36,7 @@
             <adminhtml_block_html_before>
                 <observers>
                     <enterprise_pricepermissions>
-                        <class>Enterprise_PricePermissions_Model_Observer</class>
+                        <class>Enterprise_PricePermissions_Model_Filter_Block</class>
                         <method>adminhtmlBlockHtmlBefore</method>
                     </enterprise_pricepermissions>
                 </observers>
