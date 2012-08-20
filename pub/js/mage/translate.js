@@ -31,4 +31,25 @@ Translate.prototype = {
             }.bind(this));
         }
     }
-}
+};
+
+
+(function($) {
+    $.mage = $.mage || {};
+    $.extend($.mage, {
+        translate: new (function(){
+            var _data = {};
+            this.add = function() {
+                if (arguments.length > 1) {
+                    _data[arguments[0]] = arguments[1];
+                } else if (typeof arguments[0] =='object') {
+                    $.extend(_data, arguments[0]);
+                }
+            };
+            this.translate = function(text) {
+                return _data[text] ? _data[text] : text;
+            }
+        })
+    });
+    $.mage.__ = $.proxy($.mage.translate.translate, $.mage.translate);
+})(jQuery);
