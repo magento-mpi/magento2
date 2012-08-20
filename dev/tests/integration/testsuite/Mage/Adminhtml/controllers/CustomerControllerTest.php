@@ -154,10 +154,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
         );
     }
 
-    /**
-     *
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/customer_sample.php
-     */
     public function testSaveActionExistingCustomerAndExistingAddressData()
     {
         $this->markTestIncomplete('Bug MAGETWO-2986');
@@ -240,10 +236,6 @@ class Mage_Adminhtml_CustomerControllerTest extends Mage_Adminhtml_Utility_Contr
         $this->assertRedirect($this->stringStartsWith($this->_baseControllerUrl . 'index/key/'));
     }
 
-    /**
-     *
-     * @magentoDataFixture Mage/Adminhtml/controllers/_files/customer_sample.php
-     */
     public function testSaveActionCoreException()
     {
         $this->markTestIncomplete('Bug MAGETWO-2986');
