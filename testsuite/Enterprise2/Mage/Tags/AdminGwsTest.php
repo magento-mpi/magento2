@@ -20,6 +20,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
 {
     protected function tearDownAfterTestClass()
     {
+        $this->logoutAdminUser();
         $this->loginAdminUser();
         $this->navigate('all_tags');
         $this->tagsHelper()->deleteAllTags();
@@ -182,6 +183,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
      */
     public function productsTagReportAccess(array $testData)
     {
+        $this->loginAdminUser();
         // Check that product existed in products tag report
         $this->navigate('report_tag_product');
         $this->assertNotNull($this->reportsHelper()->searchDataInReport(array(
@@ -288,6 +290,7 @@ class Enterprise2_Mage_Tags_AdminGwsTest extends Mage_Selenium_TestCase
      */
     public function editTagAccess(array $testData)
     {
+        $this->logoutAdminUser();
         // Login as user with access only to specific website
         $loginData = array(
             'user_name' => $testData['admin_user']['user_name'],
