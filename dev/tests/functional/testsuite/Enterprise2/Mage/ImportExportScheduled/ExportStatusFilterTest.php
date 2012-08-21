@@ -358,7 +358,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         $this->_checkScheduledExportSearchFilter(
             array($exportDataFinances),
             array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
-            false
+            true
         );
     }
 
@@ -534,12 +534,16 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
      */
     public function scheduledExportSearchByFilter()
     {
+        $exportDataProducts  = array();
+        $exportDataAddresses = array();
+        $exportDataMain      = array();
+        $exportDataFinances  = array();
         //Step 1
         $this->_preconditionScheduledExportSearchByFilter(
-            $exportDataProducts = array(),
-            $exportDataAddresses = array(),
-            $exportDataMain = array(),
-            $exportDataFinances = array());
+            $exportDataProducts,
+            $exportDataAddresses,
+            $exportDataMain,
+            $exportDataFinances);
         //Step 2
         $this->_verifyScheduledExportSearchByFilter(
             $exportDataProducts,
@@ -548,20 +552,28 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             $exportDataFinances);
         //Steps 3, 4 , 5
         $this->_checkScheduledExportSearchFilterFrequency(
-            $exportDataProducts, $exportDataAddresses,
-            $exportDataMain, $exportDataFinances);
+            $exportDataProducts,
+            $exportDataAddresses,
+            $exportDataMain,
+            $exportDataFinances);
         // Step 6, 7
         $this->_checkScheduledExportSearchFilterStatus(
-            $exportDataProducts, $exportDataAddresses,
-            $exportDataMain, $exportDataFinances);
+            $exportDataProducts,
+            $exportDataAddresses,
+            $exportDataMain,
+            $exportDataFinances);
         // Step 8, 9, 10
         $this->_checkScheduledExportSearchFilterOutcome(
-            $exportDataProducts, $exportDataAddresses,
-            $exportDataMain, $exportDataFinances);
+            $exportDataProducts,
+            $exportDataAddresses,
+            $exportDataMain,
+            $exportDataFinances);
         // Step 11
         $this->_checkScheduledExportSearchFilterDates(
-            $exportDataProducts, $exportDataAddresses,
-            $exportDataMain, $exportDataFinances);
+            $exportDataProducts,
+            $exportDataAddresses,
+            $exportDataMain,
+            $exportDataFinances);
 
         $this->admin('scheduled_import_export');
         // Step 12
