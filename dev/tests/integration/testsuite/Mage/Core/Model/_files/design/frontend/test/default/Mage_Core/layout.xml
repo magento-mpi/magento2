@@ -77,6 +77,22 @@
         <block type="Mage_Core_Block_Text" name="no_name3"/>
     </layout_test_handle_move>
 
+    <layout_test_handle_arguments>
+        <block type="Mage_Core_Block_Text" name="block_with_args">
+            <arguments>
+                <one>1</one>
+                <two>2</two>
+            </arguments>
+        </block>
+        <reference name="block_with_args">
+            <arguments>
+                <two>two</two>
+                <three>3</three>
+            </arguments>
+        </reference>
+    </layout_test_handle_arguments>
+
+
     <layout_test_handle_move_broken>
         <container name="container1" label="Container 1"/>
         <move element="no_name3"/>

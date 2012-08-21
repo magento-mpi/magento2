@@ -153,6 +153,16 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->_layout->getBlock('test.nonexisting.block'));
     }
 
+    public function testLayoutArgumentsDirective()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_arguments'));
+        $layout->generateXml()->generateElements();
+        $this->assertEquals('1', $layout->getBlock('block_with_args')->getOne());
+        $this->assertEquals('two', $layout->getBlock('block_with_args')->getTwo());
+        $this->assertEquals('3', $layout->getBlock('block_with_args')->getThree());
+    }
+
     public function testLayoutMoveDirective()
     {
         $layout = new Mage_Core_Model_Layout();
