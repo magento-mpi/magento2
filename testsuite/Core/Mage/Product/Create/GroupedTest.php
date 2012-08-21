@@ -92,10 +92,10 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
      * <p>2. Fill in "Attribute Set" and "Product Type" fields;</p>
      * <p>3. Click "Continue" button;</p>
      * <p>4. Fill in required fields using exist SKU;</p>
-     * <p>5. Click "Save" button;</p>
-     * <p>6. Verify error message;</p>
+     * <p>5. Click 'Save and Continue Edit' button;</p>
      * <p>Expected result:</p>
-     * <p>Error message appears;</p>
+     * <p>1. Product is saved, confirmation message appears;</p>
+     * <p>2. Auto-increment is added to SKU;</p>
      *
      * @param array $productData
      *
@@ -106,10 +106,12 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
     public function existSkuInGrouped($productData)
     {
         //Steps
-        $this->productHelper()->createProduct($productData, 'grouped');
+        $this->productHelper()->createProduct($productData, 'grouped', false);
+        $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
-        $this->assertMessagePresent('validation', 'existing_sku');
-        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
+            $productData['general_sku'])));
     }
 
     /**

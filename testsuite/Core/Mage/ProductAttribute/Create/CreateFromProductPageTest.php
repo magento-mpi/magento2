@@ -67,8 +67,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $attrData = $this->loadDataSet('ProductAttribute', $attributeType, null);
         //Steps
-        $this->clickButton('add_new_product');
-        $this->productHelper()->fillProductSettings($productData);
+        $this->productHelper()->createProduct($productData, 'simple', false);
         $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
         //Verifying
         $this->selectWindow(null);
