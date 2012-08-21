@@ -167,7 +167,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
         $customerData = array(self::$_customerData, $newCustomerData);
         //Set correct email for csv data
         foreach ($csvData as $key => $value) {
-            if (array_key_exists('_email', $csvData[$key]) && $csvData[$key]['_email'] == '<realEmail>') {
+            if (array_key_exists('_email', $value) && $value['_email'] == '<realEmail>') {
                 $csvData[$key]['_email'] = $customerData[$key]['email'];
             }
         }

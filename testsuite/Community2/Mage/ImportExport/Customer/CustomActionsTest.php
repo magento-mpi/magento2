@@ -111,13 +111,13 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
                     'First_' . $this->generate('string', 5, ':digit:');
                 $originalCustomerData[$key][$innerKey]['last_name'] =
                     'Last_' . $this->generate('string', 5, ':digit:');
-                $updatedCustomerData[$key][$innerKey] = $originalCustomerData[$key][$innerKey];
+                $updatedCustomerData[$key][$innerKey] = $innerValue;
                 $originalCustomerData[$key][$innerKey]['password'] = '123123q';
-                $mainCsvRows[$key][$innerKey]['email'] = $originalCustomerData[$key][$innerKey]['email'];
+                $mainCsvRows[$key][$innerKey]['email'] = $innerValue['email'];
                 $mainCsvRows[$key][$innerKey]['_website'] = 'base';
                 $mainCsvRows[$key][$innerKey]['group_id'] = '1';
-                $mainCsvRows[$key][$innerKey]['firstname'] = $originalCustomerData[$key][$innerKey]['first_name'];
-                $mainCsvRows[$key][$innerKey]['lastname'] = $originalCustomerData[$key][$innerKey]['last_name'];
+                $mainCsvRows[$key][$innerKey]['firstname'] = $value[$innerKey]['first_name'];
+                $mainCsvRows[$key][$innerKey]['lastname'] = $value[$innerKey]['last_name'];
                 $mainCsvRows[$key][$innerKey]['reward_update_notification'] = 1;
                 $mainCsvRows[$key][$innerKey]['reward_warning_notification'] = 1;
             }

@@ -38,8 +38,6 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
     /**
      * Has been excluded from functionality scope
      * Need to verify that after customer attribute creation it's shown in "Entity Attributes" block
-     * Need to verify that after customer attribute updating it's updated in "Entity Attributes" block
-     * Need to verify that after customer attribute deletion it's not shown in "Entity Attributes" block
      * Steps:
      * 1. Go to Customers -> Attributes -> Manage Customers Attributes
      * 2. Click "Add New Attribute" button
@@ -48,30 +46,15 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * 5. Go to System -> Import/ Export -> Export
      * 6. In "Entity Type" drop-down field choose "Customers" parameter
      * 7. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
-     * 8. Go to Customers -> Attributes -> Manage Customer Attributes
-     * 9. Edit attribute from precondition
-     * 10. Change admin title
-     * 11. Click "Save Attribute" button
-     * 12. Go to System -> Import/ Export -> Export
-     * 13. In "Entity Type" drop-down field choose "Customers" parameter
-     * 14. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
-     * 15. Go to Customers -> Attributes -> Manage Customer Attributes
-     * 16. Edit attribute from precondition
-     * 17. Click "Delete Attribute" button, confirm
-     * 18. Go to System -> Import/ Export -> Export
-     * 19. In "Entity Type" drop-down field choose "Customers" parameter
-     * 20. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
-     * Expected after steps 7: Check that added to system attribute is displayed in "Entity Attributes" list
-     * Expected after step 14: Check that changes are applied for attribute in "Entity Attributes" block
-     * Expected after step 20: Check that "Entity Attributes" block doesn't contain the attribute any more
+     * Expected: Check that added to system attribute is displayed in "Entity Attributes" list
      *
      * @test
-     * @TestlinkId TL-MAGE-1310, TL-MAGE-1311, TL-MAGE-1312
+     * @TestlinkId TL-MAGE-1310
      * @group skip_due_to_bug
      *
-     * @return void
+     * @return array
      */
-    public function customerAttributeInFilterGrid()
+    public function customerAttributeCreate()
     {
         //Step 1
         $this->navigate('manage_customer_attributes');
@@ -103,15 +86,39 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
-        //Step 8
+
+        return $attrData;
+    }
+
+    /**
+     * Has been excluded from functionality scope
+     * Need to verify that after customer attribute updating it's updated in "Entity Attributes" block
+     * Steps:
+     * 1. Go to Customers -> Attributes -> Manage Customer Attributes
+     * 2. Edit attribute from precondition
+     * 3. Change admin title
+     * 4. Click "Save Attribute" button
+     * 5. Go to System -> Import/ Export -> Export
+     * 6. In "Entity Type" drop-down field choose "Customers" parameter
+     * 7. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
+     * Expected: Check that changes are applied for attribute in "Entity Attributes" block
+     *
+     * @test
+     * @depends customerAttributeCreate
+     * @TestlinkId TL-MAGE-1311
+     * @group skip_due_to_bug
+     */
+    public function customerAttributeUpdate($attrData)
+    {
+        //Step 1
         $this->navigate('manage_customer_attributes');
-        //Step 9
+        //Step 2
         $this->attributesHelper()->openAttribute(
             array(
                 'attribute_code'=>$attrData['properties']['attribute_code']
             )
         );
-        //Step 10
+        //Step 3
         $attrData['manage_labels_options']
         ['admin_title'] = 'Text_Field_Admin_' .
             $this->generate('string', 5, ':lower:');
@@ -120,12 +127,12 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
                 'manage_labels_options' => $attrData['manage_labels_options']
             )
         );
-        //Step 11
+        //Step 4
         $this->attributesHelper()->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        //Step 12
+        //Step 5
         $this->navigate('export');
-        //Steps 13-14
+        //Steps 6-7
         $this->importExportHelper()->chooseExportOptions(
             'Customers',
             'Magento 1.7 format'
@@ -144,20 +151,43 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
             'grid_and_filter'
         );
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
-        //Step 15
+    }
+
+    /**
+     * Has been excluded from functionality scope
+     * Need to verify that after customer attribute deletion it's not shown in "Entity Attributes" block
+     * Steps:
+     * 1. Go to Customers -> Attributes -> Manage Customer Attributes
+     * 2. Edit attribute from precondition
+     * 3. Click "Delete Attribute" button, confirm
+     * 4. Go to System -> Import/ Export -> Export
+     * 5. In "Entity Type" drop-down field choose "Customers" parameter
+     * 6. In "Export Format Version" drop-down field choose "Magento 1.7 format" parameter
+     * Expected: Check that "Entity Attributes" block doesn't contain the attribute any more
+     *
+     * @test
+     * @depends customerAttributeCreate
+     * @TestlinkId TL-MAGE-1312
+     * @group skip_due_to_bug
+     *
+     * @return void
+     */
+    public function customerAttributeDelete($attrData)
+    {
+        //Step 1
         $this->navigate('manage_customer_attributes');
-        //Step 16
+        //Step 2
         $this->attributesHelper()->openAttribute(
             array(
                 'attribute_code'=>$attrData['properties']['attribute_code']
             )
         );
-        //Step 17
+        //Step 3
         $this->clickButtonAndConfirm('delete_attribute', 'delete_confirm_message');
         $this->assertMessagePresent('success', 'success_deleted_attribute');
-        //Step 18
+        //Step 4
         $this->navigate('export');
-        //Steps 13-14
+        //Steps 5
         $this->importExportHelper()->chooseExportOptions(
             'Customers',
             'Magento 1.7 format'
