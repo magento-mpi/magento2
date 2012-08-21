@@ -92,8 +92,8 @@ class Enterprise2_Mage_ImportExportScheduled_Import_AddressesTest extends Mage_S
     {
         $addressCsv = $this->_createAddress($originalAddressData, $customerData, $addressCsv);
         //set correct email and address id to csv data
-        foreach ($addressCsv as $key => $value) {
-            $addressCsv[$key] = str_replace('<realEmail>', $customerData['email'], $addressCsv[$key]);
+        for ($i = 0; $i < count($addressCsv); $i++) {
+            $addressCsv[$i] = str_replace('<realEmail>', $customerData['email'], $addressCsv[$i]);
         }
         //Precondition: create scheduled import
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
