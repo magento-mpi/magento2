@@ -59,14 +59,16 @@ class Enterprise_PricePermissions_Model_Observer
      */
     public function __construct(array $data = array())
     {
-        $this->_request = (isset($data['request'])
-            && false === $data['request']) ? false : Mage::app()->getRequest();
-        $this->_canEditProductPrice = (isset($data['can_edit_product_price'])
-            && false === $data['can_edit_product_price']) ? false : true;
-        $this->_canReadProductPrice = (isset($data['can_read_product_price'])
-            && false === $data['can_read_product_price']) ? false : true;
-        $this->_canEditProductStatus = (isset($data['can_edit_product_status'])
-            && false === $data['can_edit_product_status']) ? false : true;
+        $this->_request = (isset($data['request']) && false === $data['request']) ? false : Mage::app()->getRequest();
+        if (isset($data['can_edit_product_price']) && false === $data['can_edit_product_price']) {
+            $this->_canEditProductPrice = false;
+        }
+        if (isset($data['can_read_product_price']) && false === $data['can_read_product_price']) {
+            $this->_canReadProductPrice = false;
+        }
+        if (isset($data['can_edit_product_status']) && false === $data['can_edit_product_status']) {
+            $this->_canEditProductStatus = false;
+        }
         if (isset($data['default_product_price_string'])) {
             $this->_defaultProductPriceString = $data['default_product_price_string'];
         }

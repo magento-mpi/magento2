@@ -57,4 +57,6 @@ return array(
     'searchSuggestions' => array('class_scope' => 'Enterprise_Search_Model_Client_Solr'),
     '_registerProductsView' => array('class_scope' => 'Enterprise_PageCache_Model_Container_Viewedproducts'),
     '_getForeignKeyName' => array('class_scope' => 'Varien_Db_Adapter_Oracle'),
+    'adminhtmlBlockHtmlBefore' => array('class_scope' => 'Enterprise_PricePermissions_Model_Observer'),
+    '_removeColumnFromGrid' => array('class_scope' => 'Enterprise_PricePermissions_Model_Observer'),
 );
