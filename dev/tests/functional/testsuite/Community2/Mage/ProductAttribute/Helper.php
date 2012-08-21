@@ -29,34 +29,48 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
         $option = $this->getXpathCount($fieldsetXpath . "//tr[contains(@class,'option-row')]");
         $isSetDefault = false;
         foreach ($attributeData as $key => $value) {
-            if (preg_match('/^option_/', $key) && is_array($value)
-                && $this->controlIsPresent('fieldset', 'manage_options')
-                && $option > 0
-            ) {
-                $this->addParameter('rowNumber', $num);
-                $optionXpath = $this->_getControlXpath('field', 'admin_option_name_disabled');
-                if ($isCheck) {
-                    if ($this->controlIsPresent('field', 'admin_option_name_disabled')) {
-                        if ($value['admin_option_name'] != $this->getValue($optionXpath)) {
-                            $this->addVerificationMessage("Admin value attribute label is wrong.\n"
-                                . 'Expected: ' . $value['admin_option_name'] . "\n"
-                                . 'Actual: ' . $this->getValue($optionXpath));
-                        }
-                    } else {
-                        $this->addVerificationMessage("Admin value attribute in $num row is not disabled");
-                    }
-                } elseif ($this->getValue($optionXpath) == $attributeData['default_value']) {
-                    $this->fillCheckbox('default_value', 'Yes');
-                    $isSetDefault = true;
-                }
-                $num++;
-                $option--;
+            if (!$this->_hasOptions($key, $value, $option)) {
+                continue;
             }
+            $this->addParameter('rowNumber', $num);
+            $optionXpath = $this->_getControlXpath('field', 'admin_option_name_disabled');
+            if ($isCheck) {
+                if ($this->controlIsPresent('field', 'admin_option_name_disabled')) {
+                    if ($value['admin_option_name'] != $this->getValue($optionXpath)) {
+                        $this->addVerificationMessage("Admin value attribute label is wrong.\n"
+                            . 'Expected: ' . $value['admin_option_name'] . "\n"
+                            . 'Actual: ' . $this->getValue($optionXpath));
+                    }
+                } else {
+                    $this->addVerificationMessage("Admin value attribute in $num row is not disabled");
+                }
+            } elseif ($this->getValue($optionXpath) == $attributeData['default_value']) {
+                $this->fillCheckbox('default_value', 'Yes');
+                $isSetDefault = true;
+            }
+            $num++;
+            $option--;
         }
         if ($isSetDefault == false && $isCheck == false) {
             $this->addVerificationMessage('Default option can not be set as it does not exist');
         }
         $this->assertEmptyVerificationErrors();
+    }
+
+    /**
+     * Verify whether product has custom option
+     *
+     * @param $key
+     * @param $value
+     * @param $option
+     *
+     * @return bool
+     */
+    protected function _hasOptions($key, $value, $option)
+    {
+        return preg_match('/^option_/', $key) && is_array($value)
+               && $this->controlIsPresent('fieldset', 'manage_options')
+               && $option > 0;
     }
 
     /**
