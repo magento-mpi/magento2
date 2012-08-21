@@ -90,7 +90,7 @@ new_product_settings:
 # Add New Product page
 new_product:
 #    mca: catalog_product/new/%productParameters%
-    mca: catalog_product/new/set/%setId%/type/%productType%
+    mca: catalog_product/new/set/%setId%/type/%productType%/
     title: New Product / Manage Products / Catalog / Magento Admin
     uimap: &newProduct
         form: &newProductCreationForm
@@ -679,6 +679,11 @@ edit_product_save_and_continue:
 
 edit_new_product_save_and_continue:
     mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/set/%setId%/type/%productType%/
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *editProduct
+
+edit_new_configurable_save_and_continue:
+    mca: catalog_product/edit/id/%id%/back/edit/tab/product_info_tabs_group_%tab%/attributes/%attributeTitle%/set/%setId%/type/%productType%/
     title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *editProduct
 
