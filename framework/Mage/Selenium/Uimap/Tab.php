@@ -97,4 +97,33 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
         }
         return $names;
     }
+
+    /**
+     * Get Tab Elements
+     * @return array
+     */
+    public function getTabElements()
+    {
+        if (!isset($this->_elements['fieldsets'])) {
+            return array();
+        }
+        $elements = array();
+        foreach ($this->_elements['fieldsets'] as $fieldset) {
+            foreach ($fieldset->_elements as $elementType => $elementsData) {
+                if (array_key_exists($elementType, $elements)) {
+                    foreach ($elementsData as $elementName => $elementLocator) {
+                        if (array_key_exists($elementName, $elements[$elementType])) {
+                            trigger_error(
+                                '"' . $this->getTabId() . '" tab contains several "' . $elementType . '" with name "'
+                                . $elementName . '"', E_USER_NOTICE);
+                        }
+                        $elements[$elementType][$elementName] = $elementLocator;
+                    }
+                } else {
+                    $elements[$elementType] = $elementsData;
+                }
+            }
+        }
+        return $elements;
+    }
 }

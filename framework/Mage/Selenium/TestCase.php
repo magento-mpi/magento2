@@ -2038,32 +2038,34 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Gets map data values to UIPage fieldset
+     * Gets map data values from Fieldset/Tab
      *
-     * @param array $data
-     * @param string $fieldsetId
+     * @param array $dataToFill
+     * @param string $containerType fieldset|tab
+     * @param string $containerName
      *
      * @return array
      */
-    protected function formFieldsetDataMap(array $data, $fieldsetId)
+    protected function getDataMapForFill(array $dataToFill, $containerType, $containerName)
     {
-        $fieldsetUimap = $this->_findUimapElement('fieldset', $fieldsetId);
-        $fieldsetElements = $fieldsetUimap->getFieldsetElements();
+        $containerUimap = $this->_findUimapElement($containerType, $containerName);
+        $getMethod = 'get' . ucfirst(strtolower($containerType)) . 'Elements';
+        $containerElements = $containerUimap->$getMethod();
         $fillData = array();
-        foreach ($data as $fieldName => $fieldValue) {
+        foreach ($dataToFill as $fieldName => $fieldValue) {
             if ($fieldValue == '%noValue%' || is_array($fieldValue)) {
                 $fillData['skipped'][$fieldName] = $fieldValue;
                 continue;
             }
-            foreach ($fieldsetElements as $elementType => $elementsData) {
-                if (isset($elementsData[$fieldName])) {
-                    $fillData['inFieldset'][] =
-                        array('type'  => $elementType, 'name' => $fieldName, 'value' => $fieldValue,
-                              'xpath' => $elementsData[$fieldName]);
+            foreach ($containerElements as $elementType => $elementsData) {
+                if (array_key_exists($fieldName, $elementsData)) {
+                    $fillData['isPresent'][] =
+                        array('type'    => $elementType, 'name' => $fieldName, 'value' => $fieldValue,
+                              'locator' => $elementsData[$fieldName]);
                     continue 2;
                 }
             }
-            $fillData['outFieldset'][$fieldName] = $fieldValue;
+            $fillData['isNotPresent'][$fieldName] = $fieldValue;
         }
 
         return $fillData;
@@ -3125,24 +3127,24 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param bool $failIfFieldsWithoutXpath
      *
      * @return bool
-     * @throws OutOfRangeException
      */
     public function fillFieldset(array $data, $fieldsetId, $failIfFieldsWithoutXpath = true)
     {
-        $fillData = $this->formFieldsetDataMap($data, $fieldsetId);
+        $this->assertNotEmpty($data);
+        $fillData = $this->getDataMapForFill($data, 'fieldset', $fieldsetId);
 
-        if (!isset($fillData['inFieldset']) && !$failIfFieldsWithoutXpath) {
+        if (!isset($fillData['isPresent']) && !$failIfFieldsWithoutXpath) {
             return false;
         }
 
-        if (isset($fillData['outFieldset']) && $failIfFieldsWithoutXpath) {
+        if (isset($fillData['isNotPresent']) && $failIfFieldsWithoutXpath) {
             $message =
                 "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "' . $fieldsetId
-                . '" fieldset:' . "\n" . implode("\n", array_keys($fillData['outFieldset']));
+                . '" fieldset:' . "\n" . implode("\n", array_keys($fillData['isNotPresent']));
             $this->fail($message);
         }
 
-        foreach ($fillData['inFieldset'] as $fieldData) {
+        foreach ($fillData['isPresent'] as $fieldData) {
             $this->_fill($fieldData);
         }
         return true;
@@ -3155,42 +3157,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param string $tabId
      * @param bool $failIfFieldsWithoutXpath
      *
-     * @throws RuntimeException
+     * @return bool
      */
     public function fillTab(array $data, $tabId, $failIfFieldsWithoutXpath = true)
     {
-        $tabUimap = $this->_findUimapElement('tab', $tabId);
-        $fieldsets = $tabUimap->getFieldsetNames();
-        if (empty($fieldsets)) {
-            throw new RuntimeException(
-                'There is no fieldsets in "' . $tabId . '" tab on "' . $this->getCurrentPage() . '" page');
-        }
-        $fillTabData = array();
-        $errorFields = array();
-        foreach ($fieldsets as $fieldsetName) {
-            $fillFieldsetData = $this->formFieldsetDataMap($data, $fieldsetName);
-            if (isset($fillFieldsetData['inFieldset'])) {
-                $fillTabData = array_merge($fillTabData, $fillFieldsetData['inFieldset']);
-            }
-            if (isset($fillFieldsetData['outFieldset'])) {
-                $errorFields = $fillFieldsetData['outFieldset'];
-                $data = $fillFieldsetData['outFieldset'];
-            } else {
-                $errorFields = array();
-                break;
-            }
+        $this->assertNotEmpty($data);
+        $fillData = $this->getDataMapForFill($data, 'tab', $tabId);
+
+        if (!isset($fillData['isPresent']) && !$failIfFieldsWithoutXpath) {
+            return false;
         }
 
-        if (!empty($errorFields) && $failIfFieldsWithoutXpath) {
+        if (isset($fillData['isNotPresent']) && $failIfFieldsWithoutXpath) {
             $message = "\n" . 'Current page "' . $this->getCurrentPage() . '": ' . 'There are no fields in "' . $tabId
-                       . '" fieldset:' . "\n" . implode("\n", array_keys($errorFields));
+                       . '" tab:' . "\n" . implode("\n", array_keys($fillData['isNotPresent']));
             $this->fail($message);
         }
 
         $this->openTab($tabId);
-        foreach ($fillTabData as $fieldData) {
+        foreach ($fillData['isPresent'] as $fieldData) {
             $this->_fill($fieldData);
         }
+        return true;
     }
 
     /**
@@ -3423,19 +3411,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         switch ($fieldData['type']) {
             case self::FIELD_TYPE_INPUT:
-                $this->fillField($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                $this->fillField($fieldData['name'], $fieldData['value'], $fieldData['locator']);
                 break;
             case self::FIELD_TYPE_CHECKBOX:
-                $this->fillCheckbox($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                $this->fillCheckbox($fieldData['name'], $fieldData['value'], $fieldData['locator']);
                 break;
             case self::FIELD_TYPE_RADIOBUTTON:
-                $this->fillRadiobutton($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                $this->fillRadiobutton($fieldData['name'], $fieldData['value'], $fieldData['locator']);
                 break;
             case self::FIELD_TYPE_MULTISELECT:
-                $this->fillMultiselect($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                $this->fillMultiselect($fieldData['name'], $fieldData['value'], $fieldData['locator']);
                 break;
             case self::FIELD_TYPE_DROPDOWN:
-                $this->fillDropdown($fieldData['name'], $fieldData['value'], $fieldData['xpath']);
+                $this->fillDropdown($fieldData['name'], $fieldData['value'], $fieldData['locator']);
                 break;
             default:
                 throw new OutOfRangeException(
