@@ -667,6 +667,10 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             return false;
         }
 
+        if (Mage::app()->isSingleStoreMode()) {
+            return true;
+        }
+
         switch ($this->getScope()) {
             case self::SCOPE_DEFAULT:
                 return (int)$field->show_in_default;

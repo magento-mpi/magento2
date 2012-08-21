@@ -60,7 +60,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             /**
              * Map field names if they were cloned
              */
-            $groupConfig = $sections->descend($section.'/groups/'.$group);
+            $groupConfig = $sections->descend($section . '/groups/' . $group);
 
             if ($clonedFields = !empty($groupConfig->clone_fields)) {
                 if ($groupConfig->clone_model) {
@@ -69,12 +69,12 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     Mage::throwException('Config form fieldset clone model required to be able to clone fields');
                 }
                 $mappedFields = array();
-                $fieldsConfig = $sections->descend($section.'/groups/'.$group.'/fields');
+                $fieldsConfig = $sections->descend($section . '/groups/' . $group . '/fields');
 
                 if ($fieldsConfig->hasChildren()) {
                     foreach ($fieldsConfig->children() as $field => $node) {
                         foreach ($cloneModel->getPrefixes() as $prefix) {
-                            $mappedFields[$prefix['field'].(string)$field] = (string)$field;
+                            $mappedFields[$prefix['field'] . (string)$field] = (string)$field;
                         }
                     }
                 }
@@ -88,27 +88,32 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             }
 
             foreach ($groupData['fields'] as $field => $fieldData) {
-
                 /**
                  * Get field backend model
                  */
-                $backendClass = (string)$sections->descend($section.'/groups/'.$group.'/fields/'.$field.'/backend_model');
+                $backendClass = (string)$sections->descend(
+                    $section . '/groups/' . $group . '/fields/' . $field . '/backend_model'
+                );
                 if (!$backendClass && $clonedFields && isset($mappedFields[$field])) {
-                    $backendClass = (string)$sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field].'/backend_model');
+                    $backendClass = (string)$sections->descend(
+                        $section . '/groups/' . $group . '/fields/' . $mappedFields[$field] . '/backend_model'
+                    );
                 }
                 if (!$backendClass) {
                     $backendClass = 'Mage_Core_Model_Config_Data';
                 }
 
+                /* @var $dataObject Mage_Core_Model_Config_Data */
                 $dataObject = Mage::getModel($backendClass);
                 if (!$dataObject instanceof Mage_Core_Model_Config_Data) {
-                    Mage::throwException('Invalid config field backend model: '.$backendClass);
+                    Mage::throwException('Invalid config field backend model: ' . $backendClass);
                 }
-                /* @var $dataObject Mage_Core_Model_Config_Data */
 
-                $fieldConfig = $sections->descend($section.'/groups/'.$group.'/fields/'.$field);
+                $fieldConfig = $sections->descend($section . '/groups/' . $group . '/fields/' . $field);
                 if (!$fieldConfig && $clonedFields && isset($mappedFields[$field])) {
-                    $fieldConfig = $sections->descend($section.'/groups/'.$group.'/fields/'.$mappedFields[$field]);
+                    $fieldConfig = $sections->descend(
+                        $section . '/groups/' . $group . '/fields/' . $mappedFields[$field]
+                    );
                 }
 
                 $dataObject
@@ -120,18 +125,15 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     ->setScope($scope)
                     ->setScopeId($scopeId)
                     ->setFieldConfig($fieldConfig)
-                    ->setFieldsetData($fieldsetData)
-                ;
+                    ->setFieldsetData($fieldsetData);
+
+                $this->_checkSingleStoreMode($website, $fieldConfig, $dataObject);
 
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = null;
                 }
 
-                /*if (is_array($fieldData['value'])) {
-                    $fieldData['value'] = join(',', $fieldData['value']);
-                }*/
-
-                $path = $section.'/'.$group.'/'.$field;
+                $path = $section . '/' . $group . '/' . $field;
 
                 /**
                  * Look for custom defined field path
@@ -162,12 +164,10 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                      */
                     if (!$inherit) {
                         $saveTransaction->addObject($dataObject);
-                    }
-                    else {
+                    } else {
                         $deleteTransaction->addObject($dataObject);
                     }
-                }
-                elseif (!$inherit) {
+                } elseif (!$inherit) {
                     $dataObject->unsConfigId();
                     $saveTransaction->addObject($dataObject);
                 }
@@ -286,5 +286,25 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             }
         }
         return $config;
+    }
+
+    /**
+     * Set correct scope if isSingleStoreMode = true
+     *
+     * @param string $website
+     * @param Varien_Simplexml_Element $fieldConfig
+     * @param Mage_Core_Model_Config_Data $dataObject
+     */
+    protected function _checkSingleStoreMode($website, $fieldConfig, $dataObject)
+    {
+        $isSingleStoreMode = Mage::app()->isSingleStoreMode();
+        if ($isSingleStoreMode && empty($website)) {
+            $singleStoreWebsite = array_shift(Mage::app()->getWebsites());
+        }
+        if ($isSingleStoreMode && !(int)$fieldConfig->show_in_default) {
+            $dataObject->setScope('websites');
+            $dataObject->setWebsiteCode($singleStoreWebsite->getCode());
+            $dataObject->setScopeId($singleStoreWebsite->getId());
+        }
     }
 }
