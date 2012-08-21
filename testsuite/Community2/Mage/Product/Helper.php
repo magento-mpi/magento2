@@ -120,7 +120,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
     }
 
-   /*
+   /**
     * Creating product using SKU auto-generation
     *
     * @param array $productData
@@ -133,7 +133,7 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $this->productHelper()->createProduct($productData, $productType, false);
         $this->openTab('general');
         $this->keyUp($this->_getControlXpath('field', 'general_name'), ' ');
-        if ($isSave){
+        if ($isSave) {
             $this->saveForm('save');
         }
     }
