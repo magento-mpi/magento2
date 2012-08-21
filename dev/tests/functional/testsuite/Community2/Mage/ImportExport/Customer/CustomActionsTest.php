@@ -101,25 +101,22 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
         $originalCustomerData[2] = array(array(), array(), array(), array());
         $mainCsvRows[2] = array(array(), array(), array(), array());
         $updatedCustomerData[2] = array(array(), array(), array(), array());
-        foreach ($originalCustomerData as $key => $value) {
-            foreach ($originalCustomerData[$key] as $innerKey => $innerValue) {
-                $originalCustomerData[$key][$innerKey]['associate_to_website'] = 'Main Website';
-                $originalCustomerData[$key][$innerKey]['group'] = 'General';
-                $originalCustomerData[$key][$innerKey]['email'] =
-                    'test_admin_' . $this->generate('string', 5, ':digit:') . '@unknown-domain.com';
-                $originalCustomerData[$key][$innerKey]['first_name'] =
-                    'First_' . $this->generate('string', 5, ':digit:');
-                $originalCustomerData[$key][$innerKey]['last_name'] =
-                    'Last_' . $this->generate('string', 5, ':digit:');
-                $updatedCustomerData[$key][$innerKey] = $innerValue;
-                $originalCustomerData[$key][$innerKey]['password'] = '123123q';
-                $mainCsvRows[$key][$innerKey]['email'] = $innerValue['email'];
-                $mainCsvRows[$key][$innerKey]['_website'] = 'base';
-                $mainCsvRows[$key][$innerKey]['group_id'] = '1';
-                $mainCsvRows[$key][$innerKey]['firstname'] = $value[$innerKey]['first_name'];
-                $mainCsvRows[$key][$innerKey]['lastname'] = $value[$innerKey]['last_name'];
-                $mainCsvRows[$key][$innerKey]['reward_update_notification'] = 1;
-                $mainCsvRows[$key][$innerKey]['reward_warning_notification'] = 1;
+        for ($i = 0; $i < 3; $i++) {
+            foreach ($originalCustomerData[$i] as $key => &$value) {
+                $value['associate_to_website'] = 'Main Website';
+                $value['group'] = 'General';
+                $value['email'] = 'test_admin_' . $this->generate('string', 5, ':digit:') . '@unknown-domain.com';
+                $value['first_name'] = 'First_' . $this->generate('string', 5, ':digit:');
+                $value['last_name'] = 'Last_' . $this->generate('string', 5, ':digit:');
+                $updatedCustomerData[$i][$key] = $originalCustomerData[$i][$key];
+                $value['password'] = '123123q';
+                $mainCsvRows[$i][$key]['email'] = $originalCustomerData[$i][$key]['email'];
+                $mainCsvRows[$i][$key]['_website'] = 'base';
+                $mainCsvRows[$i][$key]['group_id'] = '1';
+                $mainCsvRows[$i][$key]['firstname'] = $originalCustomerData[$i][$key]['first_name'];
+                $mainCsvRows[$i][$key]['lastname'] = $originalCustomerData[$i][$key]['last_name'];
+                $mainCsvRows[$i][$key]['reward_update_notification'] = 1;
+                $mainCsvRows[$i][$key]['reward_warning_notification'] = 1;
             }
         }
         //update action. customer 1: different first name
