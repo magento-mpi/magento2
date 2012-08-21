@@ -428,6 +428,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
     {
         $tagData = array();
         //Precondition
+        $this->navigate('all_tags');
         for ($i = 0; $i < 21; $i++) {
             $tagData[$i] = array(
                 'tag_name' => 'tag_' . str_pad($i, 2, 0, STR_PAD_LEFT),
