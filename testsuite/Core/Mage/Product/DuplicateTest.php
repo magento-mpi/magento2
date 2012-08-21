@@ -129,7 +129,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $simple['general_sku'] = $simple['general_sku'] . '-1';
+        $simple['general_sku'] = $this->productHelper()->getGeneratedSku($simple['general_sku']);
         $this->productHelper()->verifyProductInfo($simple, array('general_status'));
     }
 
@@ -166,7 +166,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $virtual['general_sku'] = $virtual['general_sku'] . '-1';
+        $virtual['general_sku'] = $this->productHelper()->getGeneratedSku($virtual['general_sku']);
         $this->productHelper()->verifyProductInfo($virtual, array('general_status'));
     }
 
@@ -205,7 +205,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $downloadable['general_sku'] = $downloadable['general_sku'] . '-1';
+        $downloadable['general_sku'] = $this->productHelper()->getGeneratedSku($downloadable['general_sku']);
         $this->productHelper()->verifyProductInfo($downloadable, array('general_status'));
     }
 
@@ -246,7 +246,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $grouped['general_sku'] = $grouped['general_sku'] . '-1';
+        $grouped['general_sku'] = $this->productHelper()->getGeneratedSku($grouped['general_sku']);
         $this->productHelper()->verifyProductInfo($grouped, array('general_status'));
     }
 
@@ -288,7 +288,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         $this->clickButton('duplicate');
         //Verifying
         $this->assertMessagePresent('success', 'success_duplicated_product');
-        $bundle['general_sku'] = $bundle['general_sku'] . '-1';
+        $bundle['general_sku'] = $this->productHelper()->getGeneratedSku($bundle['general_sku']);
         $this->productHelper()->verifyProductInfo($bundle, array('general_status'));
     }
 
@@ -345,7 +345,7 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
         //Steps
         $this->productHelper()->fillConfigurableSettings($configurable);
         //Verifying
-        $configurable['general_sku'] = $configurable['general_sku'] . '-1';
+        $configurable['general_sku'] = $this->productHelper()->getGeneratedSku($configurable['general_sku']);
         $this->productHelper()->verifyProductInfo($configurable,
             array('general_status', 'configurable_attribute_title'));
     }
