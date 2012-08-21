@@ -52,6 +52,13 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         }
     }
 
+    protected function tearDownAfterTestClass()
+    {
+        $this->frontend();
+        $this->fillDropdown('select_store', 'Main Website Store');
+        $this->waitForPageToLoad();
+    }
+
     /**
      * <p>Verifying Required field for Custom URL rewrite</p>
      * <p>Steps</p>
@@ -572,26 +579,19 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Created category
         $this->navigate('manage_categories', false);
         $this->categoryHelper()->checkCategoriesPage();
-
         //Data
         $categoryData = $this->loadDataSet('Category', 'sub_category_required');
-
         //Steps
         $this->categoryHelper()->createCategory($categoryData);
-
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->categoryHelper()->checkCategoriesPage();
-
         //Open URL rewrite management
         $this->navigate('url_rewrite_management');
-
         //Click 'Add new rewrite' button
         $this->clickButton('add_new_rewrite', 'true');
-
         //At Create URL rewrite dropdown select For category
         $this->fillDropdown('create_url_rewrite_dropdown', 'For category');
-
         //Select Subcategory by name and detect it's id from url
         $this->addParameter('subName', $categoryData['name']);
         $this->clickControl('link', 'sub_category', false);
@@ -600,24 +600,21 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('id', $id);
         $currentPage = $this->_findCurrentPageFromUrl();
         $this->setCurrentPage($currentPage);
-
         //Loading data from data file
         $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category');
-
         //Fill request path input field
         $this->fillField('request_path', $fieldData['request_path']);
-
         //Click Save button
         $this->clickButton('save', false);
         $this->waitForPageToLoad();
-
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
-
-        //Open page on frontend
+        //Open default store on frontend if opened other one
         $this->frontend();
+        $this->fillDropdown('select_store', 'Main Website Store');
+        $this->waitForPageToLoad();
+        //Open URL rewrite for category on frontend
         $this->open($rewriteUrl);
-
         //Verifying page of URL rewrite for category
         $this->assertSame($this->getTitle(), $categoryData['name'], 'Wrong page is opened');
         return $fieldData;
@@ -648,68 +645,28 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->checkCategoriesPage();
         $category = $this->loadDataSet('Category', 'root_category_required');
         $this->categoryHelper()->createCategory($category);
-
         //Create Store and Store View
         $storeData = $this->loadDataSet('Store', 'generic_store', array('root_category' => $category['name']));
         $storeViewData =
         $this->loadDataSet('StoreView', 'generic_store_view', array('store_name' => $storeData['store_name']));
         $this->navigate('manage_stores');
-
         //Create Store
         $this->storeHelper()->createStore($storeData, 'store');
         $this->assertMessagePresent('success', 'success_saved_store');
-
         //Create StoreView
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
-
         //Select other store
         $this->frontend();
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
         $this->fillDropdown('select_store', $storeData['store_name']);
         $this->waitForPageToLoad();
-
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
-
         //Opening URL rewrite on selected store
         $this->open($rewriteUrl);
         $this->waitForPageToLoad();
         $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
-    }
-
-    /**
-     * <p>Verifying Required field for Product URl rewrite</p>
-     * <p>Steps</p>
-     * <p>1. Go to URL rewrite managment</p>
-     * <p>2. Click Add URL rewrite button</p>
-     * <p>4. Select "Custom"</p>
-     * <p>Expected result:</p>
-     * <p>"ID Path" & "Target Path" won't editable</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-5694
-     */
-    public function forCustomFieldsEditable()
-    {
-        //Open Manage URL rewrite page
-        $this->admin('url_rewrite_management');
-
-        //Click 'Add new rewrite' button
-        $this->clickButton('add_new_rewrite', true);
-        $this->waitForAjax();
-
-        //Select "For Product"
-        $this->fillDropdown('create_url_rewrite_dropdown', 'Custom');
-        $this->waitForPageToLoad();
-
-        //Check fields id_path & target path is editable
-        if (!$this->isEditable('id_path')) {
-            throw new PHPUnit_Framework_Exception('ID Path field is not editable!');
-        }
-        if (!$this->isEditable('target_path')) {
-            throw new PHPUnit_Framework_Exception('Target Path field is not editable!');
-        }
     }
 }

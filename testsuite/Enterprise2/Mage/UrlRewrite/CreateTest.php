@@ -52,6 +52,16 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         }
     }
 
+    protected function tearDownAfterTestClass()
+    {
+        $this->frontend();
+        $this->addParameter('store', 'Main Website Store');
+        $this->addParameter('storeViewCode', 'default');
+        if ($this->controlIsPresent('link', 'select_store_link')) {
+            $this->clickControl('link', 'select_store_link');
+        }
+    }
+
     /**
      * <p>Verifying Required field for Custom URL rewrite</p>
      * <p>Steps</p>
@@ -597,8 +607,14 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
-        //Open page on frontend
+        //Open default store on frontend if opened other one
         $this->frontend();
+        $this->addParameter('store', 'Main Website Store');
+        $this->addParameter('storeViewCode', 'default');
+        if ($this->controlIsPresent('link', 'select_store_link')) {
+            $this->clickControl('link', 'select_store_link');
+        }
+        //Open URL rewrite for category on frontend
         $this->open($rewriteUrl);
         //Verifying page of URL rewrite for category
         $this->assertSame($this->getTitle(), $categoryData['name'], 'Wrong page is opened');
@@ -646,7 +662,6 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->addParameter('store', $storeData['store_name']);
         $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
         $this->clickControl('link', 'select_store_link');
-        $this->frontend('test_page', false);
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
         //Opening URL rewrite on selected store
