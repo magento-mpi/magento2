@@ -18,8 +18,9 @@
 class Mage_Adminhtml_Block_Sales_Order extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
-    public function __construct()
+    public function __construct(array $data = array())
     {
+
         $this->_controller = 'sales_order';
         $this->_headerText = Mage::helper('Mage_Sales_Helper_Data')->__('Orders');
         $this->_addButtonLabel = Mage::helper('Mage_Sales_Helper_Data')->__('Create New Order');

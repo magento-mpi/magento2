@@ -25,6 +25,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     const TYPE_BLOCK        = 'block';
     const TYPE_CONTAINER    = 'container';
     const TYPE_ACTION       = 'action';
+    const TYPE_ARGUMENTS    = 'arguments';
     const TYPE_REFERENCE    = 'reference';
     const TYPE_REMOVE       = 'remove';
     const TYPE_MOVE         = 'move';
@@ -382,6 +383,18 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     $this->_scheduledStructure[$referenceName]['actions'][] = array($node, $parent);
                     break;
 
+                case self::TYPE_ARGUMENTS:
+                    $referenceName = $parent->getAttribute('name');
+                    if (isset($this->_scheduledStructure[$referenceName]['arguments'])) {
+                        $this->_scheduledStructure[$referenceName]['arguments'] = array_merge(
+                            $this->_scheduledStructure[$referenceName]['arguments'],
+                            $node->asArray()
+                        );
+                    } else {
+                        $this->_scheduledStructure[$referenceName]['arguments'] = $node->asArray();
+                    }
+                    break;
+
                 case self::TYPE_MOVE:
                     $this->_scheduleMove($node);
                     break;
@@ -542,7 +555,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             }
         }
         unset($this->_scheduledStructure[$key]);
-        $this->_scheduledElements[$name] = array($type, $node, isset($row['actions']) ? $row['actions'] : array());
+        $this->_scheduledElements[$name] = array(
+            $type,
+            $node,
+            isset($row['actions']) ? $row['actions'] : array(),
+            isset($row['arguments']) ? $row['arguments'] : array()
+        );
 
         /**
          * Some elements provide info "after" or "before" which sibling they are supposed to go
@@ -593,7 +611,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _generateBlock($elementName)
     {
-        list($type, $node, $actions) = $this->_scheduledElements[$elementName];
+        list($type, $node, $actions, $arguments) = $this->_scheduledElements[$elementName];
         if ($type !== self::TYPE_BLOCK) {
             throw new Magento_Exception("Unexpected element type specified for generating block: {$type}.");
         }
@@ -604,7 +622,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         } else {
             $className = (string)$node['type'];
         }
-        $block = $this->_createBlock($className, $elementName);
+        $block = $this->_createBlock($className, $elementName, $arguments);
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);
         }
