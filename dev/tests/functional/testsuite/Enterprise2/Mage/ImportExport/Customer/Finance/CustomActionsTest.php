@@ -53,41 +53,39 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5689
      */
-    public function updateActionImport(array $data, array $dataCsv)
+    public function updateActionImport(array $updateData, array $dataUpdateCsv)
     {
         //Precondition: create 2 new customers
-        $i = 0;
-        foreach ($data as $customerData) {
-            if ($data[$i]['store_credit']!='' || $data[$i]['reward_points']!='' ) {
+        for ($i = 0; $i < count($updateData); $i++) {
+            if ($updateData[$i]['store_credit']!='' || $updateData[$i]['reward_points']!='' ) {
                 $this->navigate('manage_customers');
                 $this->addParameter(
                     'customer_first_last_name',
                     self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
-                if ($data[$i]['store_credit']!='') {
+                if ($updateData[$i]['store_credit']!='') {
                     $this->customerHelper()->updateStoreCreditBalance(
                         array(
-                            'update_balance' => $customerData['store_credit']),
+                            'update_balance' => $updateData[$i]['store_credit']),
                         true);
                 }
-                if ($data[$i]['reward_points']!='') {
+                if ($updateData[$i]['reward_points']!='') {
                     $this->customerHelper()->updateRewardPointsBalance(
                         array(
-                            'update_balance' => $customerData['reward_points']),
+                            'update_balance' => $updateData[$i]['reward_points']),
                         true);
                 }
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
             }
-            if ($dataCsv[$i]['_email'] == '<realEmail>') {
-                $dataCsv[$i]['_email'] = self::$_customersData[$i]['email'];
+            if ($dataUpdateCsv[$i]['_email'] == '<realEmail>') {
+                $dataUpdateCsv[$i]['_email'] = self::$_customersData[$i]['email'];
             }
-            $i++;
         }
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
         //Step 5, 6, 7
-        $importResult = $this->importExportHelper()->import($dataCsv);
+        $importResult = $this->importExportHelper()->import($dataUpdateCsv);
         //Check import
         $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
             . print_r($importResult, true));
@@ -102,14 +100,13 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
             . print_r($importResult, true));
         //Verifying
-        $i = 0;
-        foreach ($dataCsv as $customerData) {
+        for ($i = 0; $i < count($dataUpdateCsv); $i++) {
             $this->navigate('manage_customers');
-            if ($customerData['_email'] == 'wrongEmail@example.com') {
+            if ($dataUpdateCsv[$i]['_email'] == 'wrongEmail@example.com') {
                  $this->assertFalse(
                       $this->customerHelper()->isCustomerPresentInGrid(
                           array(
-                              'email' =>$dataCsv[$i]['_email'])
+                              'email' =>$dataUpdateCsv[$i]['_email'])
                       ),
                       'Customer was found!'
                  );
@@ -119,15 +116,14 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                      self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                  $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
                  $this->assertEquals(
-                     $dataCsv[$i]['store_credit'],
+                     $dataUpdateCsv[$i]['store_credit'],
                      str_replace('$', '', $this->customerHelper()->getStoreCreditBalance()),
                      'Store credit balance is wrong');
                  $this->assertEquals(
-                     $dataCsv[$i]['reward_points'],
+                     $dataUpdateCsv[$i]['reward_points'],
                      $this->customerHelper()->getRewardPointsBalance(),
                      'Reward points balance is wrong');
             }
-             $i++;
         }
     }
     /**
@@ -140,28 +136,185 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * @dataProvider importEmptyData
      * @TestlinkId TL-MAGE-5691
      */
-    public function emptyActionImport(array $data, array $dataCsv)
+    public function emptyActionImport(array $emptyData, array $dataEmptyCsv)
     {
         //Precondition: create 2 new customers
-        $i = 0;
-        foreach ($data as $customerData) {
-            if ($data[$i]['store_credit']!='' || $data[$i]['reward_points']!='' ) {
+        for ($i = 0; $i < count($emptyData); $i++) {
+            if ($emptyData[$i]['store_credit']!='' || $emptyData[$i]['reward_points']!='' ) {
                 $this->navigate('manage_customers');
                 $this->addParameter(
                     'customer_first_last_name',
                     self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
                 $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
-                if ($data[$i]['store_credit']!='') {
+                if ($emptyData[$i]['store_credit']!='') {
                     $this->customerHelper()->updateStoreCreditBalance(
                         array(
-                            'update_balance' => $customerData['store_credit']),
+                            'update_balance' => $emptyData[$i]['store_credit']),
                         true);
                 }
-                if ($data[$i]['reward_points']!='') {
+                if ($emptyData[$i]['reward_points']!='') {
                     $this->customerHelper()->updateRewardPointsBalance(
                         array(
-                            'update_balance' => $customerData['reward_points']),
+                            'update_balance' => $emptyData[$i]['reward_points']),
                         true);
+                }
+                $this->customerHelper()->saveForm('save_customer');
+                $this->assertMessagePresent('success', 'success_saved_customer');
+            }
+            if ($dataEmptyCsv[$i]['_email'] == '<realEmail>') {
+                $dataEmptyCsv[$i]['_email'] = self::$_customersData[$i]['email'];
+            }
+        }
+        $this->navigate('import');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
+        //Step 5, 6, 7
+        $importResult = $this->importExportHelper()->import($dataEmptyCsv);
+        //Check import
+        $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
+            . print_r($importResult, true));
+        $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: '
+            . print_r($importResult, true));
+        $this->assertEquals(
+            "Customer with such email and website code doesn't exist in rows: 2",
+            $importResult['validation']['error'][0],
+            'Import has been finished with issues: ' . print_r($importResult, true));
+        $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
+            . print_r($importResult, true));
+        $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
+            . print_r($importResult, true));
+        //Verifying
+        for ($i = 0; $i < count($dataEmptyCsv); $i++) {
+            $this->navigate('manage_customers');
+            if ($dataEmptyCsv[$i]['_email'] == 'wrongEmail@example.com') {
+                $this->assertFalse(
+                    $this->customerHelper()->isCustomerPresentInGrid(
+                        array(
+                            'email' =>$dataEmptyCsv[$i]['_email'])
+                    ),
+                    'Customer was found!'
+                );
+            } else {
+                $this->addParameter(
+                    'customer_first_last_name',
+                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
+                $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
+                $this->assertEquals(
+                    $dataEmptyCsv[$i]['store_credit'],
+                    str_replace('$', '', $this->customerHelper()->getStoreCreditBalance()),
+                    'Store credit balance is wrong');
+                $this->assertEquals(
+                    $dataEmptyCsv[$i]['reward_points'],
+                    $this->customerHelper()->getRewardPointsBalance(),
+                    'Reward points balance is wrong');
+            }
+        }
+    }
+    /**
+     * Custom import: delete finance information
+     * Need to verify that the customer finances information is cleared if the action is "Delete" in the csv file
+     * After steps
+     * Verify that all Customers finance information was imported
+     *
+     * @test
+     * @dataProvider importDeletePositiveData
+     * @TestlinkId TL-MAGE-5690
+     */
+    public function deleteActionImportPositive(array $deletePositiveData, array $dataCsv)
+    {
+        //Precondition: create 2 new customers
+        for ($i = 0; $i < count($deletePositiveData); $i++) {
+            $dataCsv[$i]['_email'] = self::$_customersData[$i]['email'];
+            if ($deletePositiveData[$i]['store_credit']!='' || $deletePositiveData[$i]['reward_points']!='' ) {
+                $this->navigate('manage_customers');
+                $this->addParameter(
+                    'customer_first_last_name',
+                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
+                $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
+                if ($deletePositiveData[$i]['store_credit']!='') {
+                    $this->customerHelper()->updateStoreCreditBalance(
+                        array(
+                            'update_balance' => $deletePositiveData[$i]['store_credit']),
+                        true);
+                } else {
+                    $deletePositiveData[$i]['store_credit'] =
+                        str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
+                }
+                if ($deletePositiveData[$i]['reward_points']!='') {
+                    $this->customerHelper()->updateRewardPointsBalance(
+                        array(
+                            'update_balance' => $deletePositiveData[$i]['reward_points']),
+                        true);
+                } else {
+                    $deletePositiveData[$i]['reward_points'] = $this->customerHelper()->getRewardPointsBalance();
+                }
+                $this->customerHelper()->saveForm('save_customer');
+                $this->assertMessagePresent('success', 'success_saved_customer');
+            }
+        }
+        $this->navigate('import');
+        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
+        //Step 5, 6, 7
+        $importResult = $this->importExportHelper()->import($dataCsv);
+        //Check import
+        $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
+            . print_r($importResult, true));
+        $this->assertArrayHasKey('success', $importResult['validation'], 'Import has been finished without issues: '
+            . print_r($importResult, true));
+        $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
+            . print_r($importResult, true));
+        $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
+            . print_r($importResult, true));
+        //Verifying
+        for ($i = 0; $i < count($dataCsv); $i++) {
+            $this->navigate('manage_customers');
+            $this->addParameter(
+                'customer_first_last_name',
+                self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
+            $currentBalance = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
+            $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
+                'Store credit balance is wrong ' . $i);
+            $currentBalance = $this->customerHelper()->getRewardPointsBalance();
+            $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
+                'Reward points balance is wrong ' . $i);
+        }
+    }
+    /**
+     * Custom import: delete finance information
+     * Need to verify that the customer finances information is cleared if the action is "Delete" in the csv file
+     * After steps
+     * Verify that all Customers finance information was imported
+     *
+     * @test
+     * @dataProvider importDeleteNegativeData
+     * @TestlinkId TL-MAGE-5690
+     */
+    public function deleteActionImportNegative(array $deleteNegativeData, array $dataCsv)
+    {
+        //Precondition: create 2 new customers
+        for ($i = 0; $i < count($deleteNegativeData); $i++) {
+            if ($deleteNegativeData[$i]['store_credit']!='' || $deleteNegativeData[$i]['reward_points']!='' ) {
+                $this->navigate('manage_customers');
+                $this->addParameter(
+                    'customer_first_last_name',
+                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
+                $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
+                if ($deleteNegativeData[$i]['store_credit']!='') {
+                    $this->customerHelper()->updateStoreCreditBalance(
+                        array(
+                            'update_balance' => $deleteNegativeData[$i]['store_credit']),
+                        true);
+                } else {
+                    $deleteNegativeData[$i]['store_credit'] =
+                        str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
+                }
+                if ($deleteNegativeData[$i]['reward_points']!='') {
+                    $this->customerHelper()->updateRewardPointsBalance(
+                        array(
+                            'update_balance' => $deleteNegativeData[$i]['reward_points']),
+                        true);
+                } else {
+                    $deleteNegativeData[$i]['reward_points'] = $this->customerHelper()->getRewardPointsBalance();
                 }
                 $this->customerHelper()->saveForm('save_customer');
                 $this->assertMessagePresent('success', 'success_saved_customer');
@@ -169,7 +322,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             if ($dataCsv[$i]['_email'] == '<realEmail>') {
                 $dataCsv[$i]['_email'] = self::$_customersData[$i]['email'];
             }
-            $i++;
         }
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
@@ -189,10 +341,9 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
             . print_r($importResult, true));
         //Verifying
-        $i = 0;
-        foreach ($dataCsv as $customerData) {
+        for ($i = 0; $i < count($dataCsv); $i++) {
             $this->navigate('manage_customers');
-            if ($customerData['_email'] == 'wrongEmail@example.com') {
+            if ($dataCsv[$i]['_email'] == 'wrongEmail@example.com') {
                 $this->assertFalse(
                     $this->customerHelper()->isCustomerPresentInGrid(
                         array(
@@ -208,117 +359,16 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 $this->assertEquals(
                     $dataCsv[$i]['store_credit'],
                     str_replace('$', '', $this->customerHelper()->getStoreCreditBalance()),
-                    'Store credit balance is wrong');
+                    'Store credit balance is wrong ' . $i);
                 $this->assertEquals(
                     $dataCsv[$i]['reward_points'],
                     $this->customerHelper()->getRewardPointsBalance(),
-                    'Reward points balance is wrong');
+                    'Reward points balance is wrong ' . $i);
             }
-            $i++;
         }
     }
     /**
-     * Custom import: delete finance information
-     * Need to verify that the customer finances information is cleared if the action is "Delete" in the csv file
-     * After steps
-     * Verify that all Customers finance information was imported
-     *
-     * @test
-     * @dataProvider importDeleteData
-     * @TestlinkId TL-MAGE-5690
-     */
-    public function deleteActionImport(array $data, array $dataCsv)
-    {
-        //Precondition: create 2 new customers
-        $i = 0;
-        foreach ($data as $customerData) {
-            if ($data[$i]['store_credit']!='' || $data[$i]['reward_points']!='' ) {
-                $this->navigate('manage_customers');
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
-                $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
-                if ($data[$i]['store_credit']!='') {
-                    $this->customerHelper()->updateStoreCreditBalance(
-                        array(
-                            'update_balance' => $customerData['store_credit']),
-                        true);
-                } else {
-                    $data[$i]['store_credit'] = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
-                }
-                if ($data[$i]['reward_points']!='') {
-                    $this->customerHelper()->updateRewardPointsBalance(
-                        array(
-                            'update_balance' => $customerData['reward_points']),
-                        true);
-                } else {
-                    $data[$i]['reward_points'] = $this->customerHelper()->getRewardPointsBalance();
-                }
-                $this->customerHelper()->saveForm('save_customer');
-                $this->assertMessagePresent('success', 'success_saved_customer');
-            }
-            if ($dataCsv[$i]['_email'] == '<realEmail>') {
-                $dataCsv[$i]['_email'] = self::$_customersData[$i]['email'];
-            }
-            $i++;
-        }
-        $this->navigate('import');
-        $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Custom Action');
-        //Step 5, 6, 7
-        $importResult = $this->importExportHelper()->import($dataCsv);
-        //Check import
-        $this->assertArrayHasKey('validation', $importResult, 'Import has been finished without issues: '
-            . print_r($importResult, true));
-        $this->assertArrayHasKey('error', $importResult['validation'], 'Import has been finished without issues: '
-            . print_r($importResult, true));
-        $this->assertEquals(
-            "Customer with such email and website code doesn't exist in rows: 6",
-            $importResult['validation']['error'][0],
-            'Import has been finished with issues: ' . print_r($importResult, true));
-        $this->assertArrayHasKey('import', $importResult, 'Import has been finished with issues: '
-            . print_r($importResult, true));
-        $this->assertArrayHasKey('success', $importResult['import'], 'Import has been finished with issues: '
-            . print_r($importResult, true));
-        //Verifying
-        $i = 0;
-        foreach ($dataCsv as $customerData) {
-            $this->navigate('manage_customers');
-            if ($customerData['_email'] == 'wrongEmail@example.com') {
-                $this->assertFalse(
-                    $this->customerHelper()->isCustomerPresentInGrid(
-                        array(
-                            'email' =>$dataCsv[$i]['_email'])
-                    ),
-                    'Customer was found!'
-                );
-            } else {
-                $this->addParameter(
-                    'customer_first_last_name',
-                    self::$_customersData[$i]['first_name'] . ' ' . self::$_customersData[$i]['last_name']);
-                $this->customerHelper()->openCustomer(array('email' => self::$_customersData[$i]['email']));
-                if (strtolower($dataCsv[$i]['_action']) == 'delete') {
-                    $currentBalance = str_replace('$', '', $this->customerHelper()->getStoreCreditBalance());
-                    $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
-                        'Store credit balance is wrong ' . $i);
-                    $currentBalance = $this->customerHelper()->getRewardPointsBalance();
-                    $this->assertTrue($currentBalance == '0' || $currentBalance == 'No records found.',
-                        'Reward points balance is wrong ' . $i);
-                } else {
-                    $this->assertEquals(
-                        $dataCsv[$i]['store_credit'],
-                        str_replace('$', '', $this->customerHelper()->getStoreCreditBalance()),
-                        'Store credit balance is wrong ' . $i);
-                    $this->assertEquals(
-                        $dataCsv[$i]['reward_points'],
-                        $this->customerHelper()->getRewardPointsBalance(),
-                        'Reward points balance is wrong ' . $i);
-                }
-            }
-            $i++;
-        }
-    }
-    /**
-     * Deleting customer finances with wrong or not cpecified _finance_website
+     * Deleting customer finances with wrong or not specified _finance_website
      * Preconditions:
      * 1. Create two customers in Customers-> Manage Customers
      * 2. Update for both customers "Store Credit" and "Reward Points"
@@ -341,42 +391,43 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
 
         //Create Customer1
         $this->navigate('manage_customers');
-        $userDataOne = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userDataOne);
+        $userData[0] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData[0]);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Create Customer2
         $this->navigate('manage_customers');
-        $userDataTwo = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userDataTwo);
+        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userData[1]);
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 1
-        $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
+        $this->addParameter('customer_first_last_name', $userData[0]['first_name'] . ' '
+            . $userData[0]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData[0]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '100'));
-        $userDataOne['update_balance'] = '100';
+        $userData[0]['update_balance'] = '100';
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
+        $this->customerHelper()->openCustomer(array('email' => $userData[0]['email']));
         $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '150'));
-        $userDataOne['update_balance'] = '150';
+        $userData[0]['update_balance'] = '150';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
         //Update Customer 2
-        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
+        $this->addParameter('customer_first_last_name', $userData[1]['first_name'] . ' ' . $userData[1]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData[1]['email']));
 
         $this->customerHelper()->updateStoreCreditBalance(array('update_balance' => '200'));
-        $userDataTwo['update_balance'] = '200';
+        $userData[1]['update_balance'] = '200';
         $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
+        $this->customerHelper()->openCustomer(array('email' => $userData[1]['email']));
         $this->customerHelper()->updateRewardPointsBalance(array('update_balance' => '250'));
-        $userDataTwo['update_balance'] = '250';
+        $userData[1]['update_balance'] = '250';
         $this->assertMessagePresent('success', 'success_saved_customer');
 
-        $data[0]['_email'] = $userDataOne['email'];;
+        $data[0]['_email'] = $userData[0]['email'];;
+        $data[1]['_email'] = $userData[1]['email'];
 
-        $data[1]['_email'] = $userDataTwo['email'];
         //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customer Finances', 'Delete Entities');
@@ -394,8 +445,8 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
         //Step 5
         $this->navigate('manage_customers');
         //Step 6. First Customer
-        $this->addParameter('customer_first_last_name', $userDataOne['first_name'] . ' ' . $userDataOne['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userDataOne['email']));
+        $this->addParameter('customer_first_last_name', $userData[0]['first_name'] . ' ' . $userData[0]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData[0]['email']));
         //Verify customer account
         $this->assertEquals('$100.00', $this->customerHelper()->getStoreCreditBalance(),
             'Store Credit balance is deleted');
@@ -403,8 +454,8 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             'Reward Points Balance is deleted');
         //Step 6. Second Customer
         $this->navigate('manage_customers');
-        $this->addParameter('customer_first_last_name', $userDataTwo['first_name'] . ' ' . $userDataTwo['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userDataTwo['email']));
+        $this->addParameter('customer_first_last_name', $userData[1]['first_name'] . ' ' . $userData[1]['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userData[1]['email']));
         //Verify customer account
         $this->assertEquals('$200.00', $this->customerHelper()->getStoreCreditBalance(),
             'Store Credit balance is deleted');
@@ -524,7 +575,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
             )
         );
     }
-    public function importDeleteData()
+    public function importDeletePositiveData()
     {
         return array(
             array(
@@ -538,10 +589,6 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                         'reward_points' => '250'
                     ),
                     array(
-                        'store_credit' => '300',
-                        'reward_points' => '350'
-                    ),
-                    array(
                         'store_credit' => '',
                         'reward_points' => '350'
                     ),
@@ -553,46 +600,58 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
                 array(
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        '_email' => '<realEmail>',
                         'store_credit' => '10',
                         'reward_points' => '20',
                         '_action' => 'delete'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        '_email' => '<realEmail>',
                         'store_credit' => '1',
                         'reward_points' => '1',
                         '_action' => 'DeLeTe'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        '_email' => '<realEmail>',
-                        'store_credit' => '101',
-                        'reward_points' => '201',
-                        '_action' => 'Del'
-                    )),
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
-                    array(
-                        '_email' => '<realEmail>',
                         'store_credit' => '',
                         'reward_points' => '1',
                         '_action' => 'Delete'
                     )),
                     $this->loadDataSet('ImportExport', 'generic_finance_csv',
                     array(
-                        '_email' => '<realEmail>',
                         'store_credit' => '1',
                         'reward_points' => '',
                         '_action' => 'DELETE'
                     )),
-                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                )
+            )
+        );
+    }
+    public function importDeleteNegativeData()
+    {
+        return array(
+            array(
+                array(
                     array(
-                        '_email' => 'wrongEmail@example.com',
-                        'store_credit' => '250',
-                        'reward_points' => '300',
-                        '_action' => 'Delete'
-                    ))
+                        'store_credit' => '300',
+                        'reward_points' => '350'
+                    ),
+                ),
+                array(
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                        array(
+                            '_email' => '<realEmail>',
+                            'store_credit' => '101',
+                            'reward_points' => '201',
+                            '_action' => 'Del'
+                        )),
+                    $this->loadDataSet('ImportExport', 'generic_finance_csv',
+                        array(
+                            '_email' => 'wrongEmail@example.com',
+                            'store_credit' => '250',
+                            'reward_points' => '300',
+                            '_action' => 'Delete'
+                        )
+                    )
                 )
             )
         );

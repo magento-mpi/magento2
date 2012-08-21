@@ -371,7 +371,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 try {
                     $data[] = array_combine($header, $line);
                 } catch (Exception $e) {
-                    //invalid format
+                    print_r($e);
                     return null;
                 }
             }
