@@ -112,7 +112,8 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->productHelper()->verifyProductInfo(array('general_sku' => $productData['general_sku'] . '-1'));
+        $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
+            $productData['general_sku'])));
     }
 
     /**
