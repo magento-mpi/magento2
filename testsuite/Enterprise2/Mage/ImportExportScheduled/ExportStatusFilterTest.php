@@ -27,7 +27,8 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         $this->loginAdminUser();
         $this->admin('scheduled_import_export');
         if ($this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Export')) ||
-            $this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Import'))) {
+            $this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Import'))
+        ) {
             $this->clickControl('link', 'selectall', false);
             $this->fillDropdown('grid_massaction_select', 'Delete');
             $this->clickButtonAndConfirm('submit', 'delete_confirmation');
@@ -59,6 +60,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         //verify form
         $this->verifyForm(array('status' => $status));
     }
+
     /**
      * Scheduled Export statuses
      * Steps:
@@ -328,6 +330,172 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     }
 
     /**
+     * @param $data
+     * @param $filterData
+     * @param $status
+     */
+    protected function _checkScheduledExportSearchFilter($data, $filterData, $status)
+    {
+        foreach ($data as $value) {
+            $this->admin('scheduled_import_export');
+            $this->assertEquals($status, (bool)$this->importExportScheduledHelper()->searchImportExport(
+                array_merge(array('name' => $value['name']), $filterData)
+            ));
+        }
+    }
+
+    protected function _checkScheduledExportSearchFilterDates(
+        $exportDataProducts, $exportDataAddresses,
+        $exportDataMain, $exportDataFinances
+    ) {
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataAddresses, $exportDataMain),
+            array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
+            false
+        );
+
+        // Step 11
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataFinances),
+            array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
+            false
+        );
+    }
+
+    /**
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
+     */
+    protected function _checkScheduledExportSearchFilterOutcome(
+        $exportDataProducts, $exportDataAddresses,
+        $exportDataMain, $exportDataFinances
+    ) {
+        // Step 8, 9, 10
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataAddresses, $exportDataMain),
+            array('last_outcome' => 'Pending'),
+            true
+        );
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataAddresses, $exportDataMain),
+            array('last_outcome' => 'Failed'),
+            false
+        );
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataAddresses, $exportDataMain),
+            array('last_outcome' => 'Successful'),
+            false
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataFinances),
+            array('last_outcome' => 'Pending'),
+            false
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataFinances),
+            array('last_outcome' => 'Successful'),
+            false
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataFinances),
+            array('last_outcome' => 'Failed'),
+            true
+        );
+    }
+
+    /**
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
+     */
+    protected function _checkScheduledExportSearchFilterStatus(
+        $exportDataProducts, $exportDataAddresses,
+        $exportDataMain, $exportDataFinances
+    ) {
+        // Step 6
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataMain),
+            array('status' => 'Disabled'),
+            true
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataAddresses, $exportDataFinances),
+            array('status' => 'Disabled'),
+            false
+        );
+
+        // Step 7
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataMain),
+            array('status' => 'Enabled'),
+            false
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataAddresses, $exportDataFinances),
+            array('status' => 'Enabled'),
+            true
+        );
+    }
+
+    /**
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
+     */
+    protected function _checkScheduledExportSearchFilterFrequency(
+        $exportDataProducts, $exportDataAddresses,
+        $exportDataMain, $exportDataFinances
+    ) {
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataAddresses, $exportDataFinances),
+            array('frequency' => 'Daily'),
+            false
+        );
+
+        // Step 3
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataMain),
+            array('frequency' => 'Daily'),
+            true
+        );
+
+        // Step 4
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts),
+            array('frequency' => 'Weekly'),
+            true
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataAddresses, $exportDataMain, $exportDataFinances),
+            array('frequency' => 'Weekly'),
+            false
+        );
+
+        // Step 5
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataAddresses, $exportDataFinances),
+            array('frequency' => 'Monthly'),
+            true
+        );
+
+        $this->_checkScheduledExportSearchFilter(
+            array($exportDataProducts, $exportDataMain),
+            array('frequency' => 'Monthly'),
+            false
+        );
+    }
+
+    /**
      * Scheduled Export statuses
      *  Create Product Export in System-> Import/Export-> Scheduled Import/Export
      *  Create Customer Export with keyword 'test' in the name
@@ -366,164 +534,35 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
      */
     public function scheduledExportSearchByFilter()
     {
+        //Step 1
         $this->_preconditionScheduledExportSearchByFilter(
-                                $exportDataProducts = array(),
-                                $exportDataAddresses = array(),
-                                $exportDataMain = array(),
-                                $exportDataFinances = array());
+            $exportDataProducts = array(),
+            $exportDataAddresses = array(),
+            $exportDataMain = array(),
+            $exportDataFinances = array());
+        //Step 2
         $this->_verifyScheduledExportSearchByFilter(
-                                $exportDataProducts,
-                                $exportDataAddresses,
-                                $exportDataMain,
-                                $exportDataFinances);
-        // Step 3
-        $arr = array($exportDataProducts, $exportDataAddresses, $exportDataFinances);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'frequency' => 'Daily'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportDataMain['name'],
-                'frequency' => 'Daily'
-            )
-        ));
-        $this->admin('scheduled_import_export');
-        // Step 4
-        $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportDataProducts['name'],
-                'frequency' => 'Weekly'
-            )
-        ));
-        $this->admin('scheduled_import_export');
-        $arr = array($exportDataAddresses, $exportDataMain, $exportDataFinances);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'frequency' => 'Weekly'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 5
-        $arr = array($exportDataAddresses, $exportDataFinances);
-        foreach ($arr as $value) {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'frequency' => 'Monthly'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        $this->admin('scheduled_import_export');
-        $arr = array($exportDataProducts, $exportDataMain);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'frequency' => 'Monthly'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 6
-        $arr = array($exportDataProducts, $exportDataMain);
-        foreach ($arr as $value) {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'status' => 'Disabled'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        $arr = array($exportDataAddresses, $exportDataFinances);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'status' => 'Disabled'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        // Step 7
-        $arr = array($exportDataProducts, $exportDataMain);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'status' => 'Enabled'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        $arr = array($exportDataAddresses, $exportDataFinances);
-        foreach ($arr as $value) {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'status' => 'Enabled'
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
+            $exportDataProducts,
+            $exportDataAddresses,
+            $exportDataMain,
+            $exportDataFinances);
+        //Steps 3, 4 , 5
+        $this->_checkScheduledExportSearchFilterFrequency(
+            $exportDataProducts, $exportDataAddresses,
+            $exportDataMain, $exportDataFinances);
+        // Step 6, 7
+        $this->_checkScheduledExportSearchFilterStatus(
+            $exportDataProducts, $exportDataAddresses,
+            $exportDataMain, $exportDataFinances);
         // Step 8, 9, 10
-        $arr = array($exportDataProducts, $exportDataAddresses, $exportDataMain);
-        foreach ($arr as $value) {
-            $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'last_outcome' => 'Pending',
-                )
-            ));
-            $this->admin('scheduled_import_export');
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'last_outcome' => 'Failed',
-                )
-            ));
-            $this->admin('scheduled_import_export');
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'last_outcome' => 'Successful',
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportDataFinances['name'],
-                'last_outcome' => 'Pending',
-            )
-        ));
-        $this->admin('scheduled_import_export');
-        $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportDataFinances['name'],
-                'last_outcome' => 'Successful',
-            )
-        ));
-        $this->admin('scheduled_import_export');
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportDataFinances['name'],
-                'last_outcome' => 'Failed',
-            )
-        ));
-        $this->admin('scheduled_import_export');
+        $this->_checkScheduledExportSearchFilterOutcome(
+            $exportDataProducts, $exportDataAddresses,
+            $exportDataMain, $exportDataFinances);
         // Step 11
-        $arr = array($exportDataProducts, $exportDataAddresses, $exportDataMain);
-        foreach ($arr as $value) {
-            $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
-                    'name' => $value['name'],
-                    'date_from' => date("m/d/Y"),
-                    'date_to' => date("m/d/Y")
-                )
-            ));
-            $this->admin('scheduled_import_export');
-        }
-        $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
-                'name' => $exportDataFinances['name'],
-                'date_from' => date("m/d/Y"),
-                'date_to' => date("m/d/Y")
-            )
-        ));
+        $this->_checkScheduledExportSearchFilterDates(
+            $exportDataProducts, $exportDataAddresses,
+            $exportDataMain, $exportDataFinances);
+
         $this->admin('scheduled_import_export');
         // Step 12
         $this->assertNotNull($this->importExportScheduledHelper()->searchImportExport(array(
