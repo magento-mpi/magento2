@@ -110,17 +110,17 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
         $elements = array();
         foreach ($this->_elements['fieldsets'] as $fieldset) {
             foreach ($fieldset->_elements as $elementType => $elementsData) {
-                if (array_key_exists($elementType, $elements)) {
+                $type = preg_replace('/(e)?s$/', '', $elementType);
+                if (array_key_exists($type, $elements)) {
                     foreach ($elementsData as $elementName => $elementLocator) {
-                        if (array_key_exists($elementName, $elements[$elementType])) {
-                            trigger_error(
-                                '"' . $this->getTabId() . '" tab contains several "' . $elementType . '" with name "'
-                                . $elementName . '"', E_USER_NOTICE);
+                        if (array_key_exists($elementName, $elements[$type])) {
+                            trigger_error('"' . $this->getTabId() . '" tab contains several "' . $type . '" with name "'
+                                          . $elementName . '"', E_USER_NOTICE);
                         }
-                        $elements[$elementType][$elementName] = $elementLocator;
+                        $elements[$type][$elementName] = $elementLocator;
                     }
                 } else {
-                    $elements[$elementType] = $elementsData;
+                    $elements[$type] = $elementsData;
                 }
             }
         }
