@@ -393,7 +393,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $updatedAddressData = array($addressUpdatedData[0], $addressUpdatedData[1]);
 
         return array(
-            array('Customer Addresses', $addressCsvRows, $updatedAddressData),
+            array($addressCsvRows, $updatedAddressData),
         );
     }
 
