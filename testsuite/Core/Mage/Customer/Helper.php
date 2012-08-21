@@ -198,7 +198,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
         $this->clickButton('login', false);
         $this->waitForElement($waitConditions);
         $this->addParameter('id', $this->defineIdFromUrl());
-        $this->validatePage();
         $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+        $this->setCurrentPage($this->_findCurrentPageFromUrl());
     }
 }
