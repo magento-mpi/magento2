@@ -186,17 +186,6 @@ class Enterprise_PricePermissions_Model_Filter_Block extends Enterprise_PricePer
     }
 
     /**
-     * Hide proce elements
-     *
-     * @param Mage_Core_Block_Abstract $block
-     */
-    protected function _hidePriceElements($block)
-    {
-        // Hide price elements if needed
-        $this->_hidePriceElements($block);
-    }
-
-    /**
      * Set form element value and readonly
      *
      * @param Mage_Adminhtml_Block_Template $block
