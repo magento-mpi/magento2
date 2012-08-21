@@ -114,32 +114,15 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
 
     public function importDeleteAddress()
     {
-        $basicAddressData = $this->loadDataSet('Customers', 'generic_address', array(
-            'first_name' => 'William',
-            'middle_name' => 'E.',
-            'last_name' => 'Holler',
-            'company' => 'Team Electronics',
-            'street_address_line_1' => '3186 Lincoln Street',
-            'street_address_line_2' => '',
-            'city' => 'Camden',
-            'state' => 'New Jersey',
-            'zip_code' => '08102',
-            'telephone' => '609-504-6350',
-            'fax' => '609-504-6350',
-        ));
+        $basicAddressData = $this->loadDataSet('Customers', 'generic_address', array('first_name' => 'William',
+            'middle_name' => 'E.', 'last_name' => 'Holler', 'company' => 'Team Electronics',
+            'street_address_line_1' => '3186 Lincoln Street', 'street_address_line_2' => '',
+            'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102', 'telephone' => '609-504-6350',
+            'fax' => '609-504-6350',));
         $basicAddressRow = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
-            'city' => 'Camden',
-            'company' => 'Team Electronics',
-            'fax' => '609-504-6350',
-            'firstname' => 'William',
-            'lastname' => 'Holler',
-            'middlename' => 'E.',
-            'postcode' => '08102',
-            'prefix' => '',
-            'region' => 'New Jersey',
-            'street' => '3186 Lincoln Street',
-            'telephone' => '609-504-6350',
-        ));
+            'city' => 'Camden', 'company' => 'Team Electronics', 'fax' => '609-504-6350', 'firstname' => 'William',
+            'lastname' => 'Holler', 'middlename' => 'E.', 'postcode' => '08102', 'prefix' => '',
+            'region' => 'New Jersey', 'street' => '3186 Lincoln Street', 'telephone' => '609-504-6350',));
         $addressData = array();
         $addressRows = array();
         $streets = array('4040 Hickory Ridge Drive', '3129 Parkway Street', '746 Goodwin Avenue');
@@ -178,36 +161,28 @@ class Community2_Mage_ImportExport_Deleting_AddressTest extends Mage_Selenium_Te
                 'validation' => array("Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
                 'success' => array(
                     "File is valid! To start import process press \"Import\" button  Import"
-                )
-            ),
+                )),
             'import' => array(
                 'success' => array('Import successfully done.')
-            )
-        );
+            ));
         $customerNotFound = array('validation' => array(
                 'error' => array("Customer with such email and website code doesn't exist in rows: 1"),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-                )
-            )
-        );
+                )));
         $addressNotFound = array('validation' => array(
                 'error' => array("Customer address for such customer doesn't exist in rows: 1"),
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-                )
-            )
-        );
+                )));
         $emptyEntityId = array('validation' => array(
             'error' => array("Customer address id column is not specified in rows: 1"),
             'validation' => array(
                 "File is totally invalid. Please fix errors and re-upload file",
                 "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1",
-            )
-        )
-        );
+            )));
 
         return array(
             array($addressData[0], array($addressRows[0]), true, $successfulImport),

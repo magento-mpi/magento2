@@ -78,104 +78,74 @@ class Enterprise2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Se
 
     public function importDataInvalid()
     {
-        $userDataRowOne = $this->loadDataSet('ImportExport', 'generic_finance_csv',
+        $userData[0] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 '_email' => ''
             ));
-        $userDataRowTwo = $this->loadDataSet('ImportExport', 'generic_finance_csv',
+        $errorMessage[0] = array("E-mail is not specified in rows: 1");
+
+        $userData[1] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 '_email' => '<realEmail>',
             ));
-        unset($userDataRowTwo['_website']);
-        $userDataRowThree = $this->loadDataSet('ImportExport', 'generic_finance_csv',
+        unset($userData[1]['_website']);
+        $errorMessage[1] = array("Can not find required columns: _website");
+
+        $userData[2] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 '_email' => '<realEmail>',
                 '_website' => 'notexist'
             ));
-        $userDataRowFour = $this->loadDataSet('ImportExport', 'generic_finance_csv',
+        $errorMessage[2] = array("Invalid value in website column in rows: 1");
+
+        $userData[3] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 '_email' => '<realEmail>',
                 'store_credit' => 'incorrect_value',
                 'reward_points' => 'incorrect_value'
             ));
-        $userDataRowFive = $this->loadDataSet('ImportExport', 'generic_finance_csv',
+        $errorMessage[3] = array(
+            "Invalid value for 'store_credit' in rows: 1",
+            "Invalid value for 'reward_points' in rows: 1"
+        );
+
+        $userData[4] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 '_email' => '<realEmail>',
             ));
-        unset($userDataRowFive['credit_score']);
-        unset($userDataRowFive['store_points']);
-        $userDataRowSix = $this->loadDataSet('ImportExport', 'generic_finance_csv',
+        unset($userData[4]['credit_score']);
+        unset($userData[4]['store_points']);
+
+        $userData[5] = $this->loadDataSet('ImportExport', 'generic_finance_csv',
             array(
                 '_email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com'
             ));
+        $errorMessage[5] = array("Customer with such email and website code doesn't exist in rows: 1");
+
+        $invalidValidation = array(
+            "File is totally invalid. Please fix errors and re-upload file",
+            "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+        );
+
+        $fixFileValidation = array(
+            "Please fix errors and re-upload file"
+        );
 
         return array(
-            array($userDataRowOne, array('validation' => array(
-                'error' => array(
-                    "E-mail is not specified in rows: 1"
-                    ),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
-                )
-            ),
-            array($userDataRowTwo, array('validation' => array(
-                'error' => array(
-                    "Can not find required columns: _website"
-                    ),
-                'validation' => array(
-                    "Please fix errors and re-upload file"
-                    )
-                    )
-                )
-            ),
-            array($userDataRowThree, array('validation' => array(
-                'error' => array(
-                    "Invalid value in website column in rows: 1"
-                    ),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
-                )
-            ),
-            array($userDataRowFour, array('validation' => array(
-                'error' => array(
-                    "Invalid value for 'store_credit' in rows: 1",
-                    "Invalid value for 'reward_points' in rows: 1"
-                    ),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 2")
-                    )
-                )
-            ),
-            array($userDataRowFive, array('validation' => array(
-                'validation' => array(
-                    "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"
-                 ),
-                'success' => array(
-                    "File is valid! To start import process press \"Import\" button  Import"
-                )
-                    )
-                ,
-                'import' => array(
-                    'success' => array(
-                        "Import successfully done."
-                    )
-                ))
-            ),
-            array($userDataRowSix, array('validation' => array(
-                'error' => array(
-                    "Customer with such email and website code doesn't exist in rows: 1"
-                ),
-                'validation' => array(
-                    "File is totally invalid. Please fix errors and re-upload file",
-                    "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-            )
-            )
-            )
+            array($userData[0], array('validation' => array('error' => $errorMessage[0],
+                'validation' => $invalidValidation))),
+            array($userData[1], array('validation' => array('error' => $errorMessage[1],
+                'validation' => $fixFileValidation))),
+            array($userData[2], array('validation' => array('error' => $errorMessage[2],
+                'validation' => $invalidValidation))),
+            array($userData[3], array('validation' => array('error' => $errorMessage[3],
+                'validation' => $invalidValidation))),
+            array($userData[4], array('validation' => array('validation' => array(
+                    "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
+                'success' => array("File is valid! To start import process press \"Import\" button  Import")),
+                'import' => array('success' => array("Import successfully done.")))),
+            array($userData[5], array('validation' => array('error' => array($errorMessage[5],
+                'validation' => $invalidValidation))))
         );
     }
 

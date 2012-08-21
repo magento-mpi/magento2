@@ -36,7 +36,6 @@ class Enterprise2_Mage_Tags_PageCacheTest extends Mage_Selenium_TestCase
         self::$_isFpcOnBeforeTests = $this->cacheStorageManagementHelper()->isFullPageCacheEnabled();
         self::$_isFpcOnCurrently = self::$_isFpcOnBeforeTests;
 
-
         //Create customer
         self::$_customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
             'first_name' => $this->generate('string', 5, ':lower:'),
