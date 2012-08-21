@@ -122,9 +122,14 @@ class Enterprise2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Se
             ));
         $errorMessage[5] = array("Customer with such email and website code doesn't exist in rows: 1");
 
-        $invalidValidation = array(
+        $invalidValidation[0] = array(
             "File is totally invalid. Please fix errors and re-upload file",
             "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1"
+        );
+
+        $invalidValidation[1] = array(
+            "File is totally invalid. Please fix errors and re-upload file",
+            "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 2"
         );
 
         $fixFileValidation = array(
@@ -133,19 +138,19 @@ class Enterprise2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Se
 
         return array(
             array($userData[0], array('validation' => array('error' => $errorMessage[0],
-                'validation' => $invalidValidation))),
+                'validation' => $invalidValidation[0]))),
             array($userData[1], array('validation' => array('error' => $errorMessage[1],
                 'validation' => $fixFileValidation))),
             array($userData[2], array('validation' => array('error' => $errorMessage[2],
-                'validation' => $invalidValidation))),
+                'validation' => $invalidValidation[0]))),
             array($userData[3], array('validation' => array('error' => $errorMessage[3],
-                'validation' => $invalidValidation))),
+                'validation' => $invalidValidation[1]))),
             array($userData[4], array('validation' => array('validation' => array(
                     "Checked rows: 1, checked entities: 1, invalid rows: 0, total errors: 0"),
                 'success' => array("File is valid! To start import process press \"Import\" button  Import")),
                 'import' => array('success' => array("Import successfully done.")))),
-            array($userData[5], array('validation' => array('error' => array($errorMessage[5],
-                'validation' => $invalidValidation))))
+            array($userData[5], array('validation' => array('error' => $errorMessage[5],
+                'validation' => $invalidValidation[0])))
         );
     }
 
