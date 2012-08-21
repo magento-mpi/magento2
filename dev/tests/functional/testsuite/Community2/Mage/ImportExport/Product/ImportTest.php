@@ -70,8 +70,8 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             'Export has not been finished successfully');
         //$csv = array_slice($csv, 0, 1);
         //Remove custom options columns from export csv
-        $optionsFieldsPosition = array_search("_custom_option_store", array_keys($csv[0]));
-        $csv[0] = array_slice($csv[0], 0, $optionsFieldsPosition);
+        $fieldsPosition = array_search("_custom_option_store", array_keys($csv[0]));
+        $csv[0] = array_slice($csv[0], 0, $fieldsPosition);
         //Import csv file without custom options
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Products', 'Append Complex Data');
@@ -189,7 +189,7 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
         $this->assertNotNull($csv,
             'Export has not been finished successfully');
         //Remove custom options columns from export csv
-        $csvWithoutCustomOptions = array($csv[0]);
+        $csvWithoutOptions = array($csv[0]);
         $customOptionsData = array(
             '_custom_option_store',
             '_custom_option_type',
@@ -205,11 +205,11 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
             '_custom_option_row_sort',
         );
         foreach ($customOptionsData as $value) {
-            $csvWithoutCustomOptions[0][$value] = '';
+            $csvWithoutOptions[0][$value] = '';
         }
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Products', 'Replace Existing Complex Data');
-        $importResult = $this->importExportHelper()->import($csvWithoutCustomOptions);
+        $importResult = $this->importExportHelper()->import($csvWithoutOptions);
         //Verify import result
         $this->assertArrayHasKey('import', $importResult,
             "Import has not been finished successfully: " . print_r($importResult, true));

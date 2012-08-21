@@ -47,7 +47,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $uri     = ltrim($uri, '/');
         return $baseUrl . '/' . $uri . (is_null($params) ? '' : '?' . http_build_query($params));
     }
-
     /**
      * Build full import URL
      *
@@ -72,20 +71,20 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     protected function _getFile($urlPage, $url, $parameters = array())
     {
         $cookie = $this->getCookie();
-        $ch     = curl_init();
+        $chr     = curl_init();
         //Open export page and get from key
-        curl_setopt($ch, CURLOPT_URL, $urlPage);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
-        $data = curl_exec($ch);
+        curl_setopt($chr, CURLOPT_URL, $urlPage);
+        curl_setopt($chr, CURLOPT_HEADER, false);
+        curl_setopt($chr, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chr, CURLOPT_COOKIE, $cookie);
+        curl_setopt($chr, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($chr, CURLOPT_TIMEOUT, 120);
+        $data = curl_exec($chr);
         //Get form_key
         $formKey = $this->_getFromKey($data);
         //Prepare export request
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 120);
+        curl_setopt($chr, CURLOPT_URL, $url);
+        curl_setopt($chr, CURLOPT_FOLLOWLOCATION, 120);
         //Convert parameters to string
         $fieldsString = '';
         foreach ($parameters as $key => $value) {
@@ -100,15 +99,14 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         rtrim($fieldsString, '&');
         $fieldsString = "form_key={$formKey}&frontend_label=&" . $fieldsString;
         //Put parameters
-        curl_setopt($ch, CURLOPT_POST, count($fieldsString));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fieldsString);
+        curl_setopt($chr, CURLOPT_POST, count($fieldsString));
+        curl_setopt($chr, CURLOPT_POSTFIELDS, $fieldsString);
         //Request export
-        $data = curl_exec($ch);
-        curl_close($ch);
+        $data = curl_exec($chr);
+        curl_close($chr);
         //Return response
         return $data;
     }
-
     /**
      * Return Form key
      *
@@ -185,7 +183,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
     }
-
     /**
      * Prepare import parameters array for uploadFile method and Export functionality
      *
@@ -202,7 +199,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $parameters['behavior'] = $entityBehavior;
         return $parameters;
     }
-
     /**
      * Prepare export parameters array for getFile method and Export functionality
      *
@@ -237,7 +233,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $parameters;
     }
-
     /**
      * Prepare skip attributes for getFile method and Export functionality
      *
@@ -263,8 +258,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $parameters;
     }
-
-
     /**
      * Upload file to import area
      *
@@ -281,15 +274,15 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $continueOnError = true
     ) {
         $cookie = $this->getCookie();
-        $ch     = curl_init();
+        $chr     = curl_init();
         //Open import page
-        curl_setopt($ch, CURLOPT_URL, $urlPage);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_COOKIE, $cookie);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 120);
-        $data = curl_exec($ch);
+        curl_setopt($chr, CURLOPT_URL, $urlPage);
+        curl_setopt($chr, CURLOPT_HEADER, false);
+        curl_setopt($chr, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chr, CURLOPT_COOKIE, $cookie);
+        curl_setopt($chr, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($chr, CURLOPT_TIMEOUT, 120);
+        $data = curl_exec($chr);
         //Get form key from the page
         $formKey = $this->_getFromKey($data);
         //Add request parameters
@@ -303,13 +296,13 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Add request parameters
         $parameters['import_file'] = "@" . $tempFile;
         //Prepare Check Data request
-        curl_setopt($ch, CURLOPT_URL, $importUrl . $formKey);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 120);
+        curl_setopt($chr, CURLOPT_URL, $importUrl . $formKey);
+        curl_setopt($chr, CURLOPT_FOLLOWLOCATION, 120);
         //Put parameters
-        curl_setopt($ch, CURLOPT_POST, count($parameters));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        curl_setopt($chr, CURLOPT_POST, count($parameters));
+        curl_setopt($chr, CURLOPT_POSTFIELDS, $parameters);
         //Request Check Data
-        $data = curl_exec($ch);
+        $data = curl_exec($chr);
         //Parse response messages
         $importMessages = array();
         $this->clearMessages();
@@ -337,10 +330,10 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
                 //Prepare request Import Data
                 $parameters['import_file'] = "type=application/octet-stream";
                 //Request Import data
-                curl_setopt($ch, CURLOPT_URL, $startUrl . $formKey);
-                curl_setopt($ch, CURLOPT_POST, count($parameters));
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
-                $data = curl_exec($ch);
+                curl_setopt($chr, CURLOPT_URL, $startUrl . $formKey);
+                curl_setopt($chr, CURLOPT_POST, count($parameters));
+                curl_setopt($chr, CURLOPT_POSTFIELDS, $parameters);
+                $data = curl_exec($chr);
                 //Parse response messages
                 $this->clearMessages();
                 $this->_parseResponseMessages($data);
@@ -349,7 +342,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             }
         }
         //Close curl connection
-        curl_close($ch);
+        curl_close($chr);
         //Clear page messages
         $this->clearMessages();
         //Delete temp file
@@ -357,7 +350,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Return messages
         return $importMessages;
     }
-
     /**
      * Convert CSV string to associative array
      *
@@ -411,7 +403,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $csv;
     }
-
     /**
      * Perform import with current selected options
      *
@@ -437,7 +428,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Return messages array
         return $report;
     }
-
     /**
      * Perform export with current selected options
      *
@@ -470,7 +460,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      */
     public function chooseImportOptions($entityType, $importBehavior = Null, $fileName = Null)
     {
-
         $this->fillDropdown('entity_type', $entityType);
         if (!is_null($importBehavior)) {
             if (!$this->waitForElementVisible(
@@ -542,7 +531,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return null;
     }
-
     /**
      * Converts customer data to format comparable with csv data
      *
@@ -551,7 +539,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
      */
     public function prepareMasterData($rawData)
     {
-        $excludeFromComparison = array(
+        $excludeComparison = array(
             'associate_to_website',
             'group',
             'send_welcome_email',
@@ -571,19 +559,17 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 
         $tastyData = array();
 
-        foreach ($excludeFromComparison as $excludeField) {
+        foreach ($excludeComparison as $excludeField) {
             if (array_key_exists($excludeField, $rawData)) {
                 unset($rawData[$excludeField]);
             }
         }
-
         // converting Yes/No/noValue to numeric 1 or 0
         foreach ($rawData as $key => $value) {
             if (isset($convertToNumeric[$value])) {
                 $rawData[$key] = $convertToNumeric[$value];
             }
         }
-
         // adjust attribute keys
         $customerToCsvKeys = $rawData;
         foreach ($customerToCsvKeys as $key => $value) {
@@ -601,7 +587,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $tastyData;
     }
-
     /**
      * * Converts address data to format comparable with csv data
      *
@@ -613,12 +598,11 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         // convert street
         $rawData['street'] = $rawData['street_address_line_1'] . "\n" . $rawData['street_address_line_2'];
 
-        $excludeFromComparison = array(
+        $excludeComparison = array(
             'country',
             'street_address_line_1',
             'street_address_line_2'
         );
-
         $convertToNumeric = array(
             'Yes'       => 1,
             'Enabled'   => 1,
@@ -626,21 +610,17 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
             'No'        => 0,
             '%noValue%' => 0
         );
-
-
-        foreach ($excludeFromComparison as $excludeField) {
+        foreach ($excludeComparison as $excludeField) {
             if (array_key_exists($excludeField, $rawData)) {
                 unset($rawData[$excludeField]);
             }
         }
-
         // converting Yes/No/noValue to numeric 1 or 0
         foreach ($rawData as $key => $value) {
             if (isset($convertToNumeric[$value])) {
                 $rawData[$key] = $convertToNumeric[$value];
             }
         }
-
         $tastyData = array();
 
         // adjust attribute keys
@@ -662,7 +642,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $tastyData;
     }
-
     /**
      * Converts finance data to format comparable with csv data
      *
@@ -678,7 +657,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return $rawData;
     }
-
     /**
      * Apply customer attributes filter
      * @param array $fieldParams
@@ -694,7 +672,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $this->clickButton('search', false);
         $this->waitForAjax();
     }
-
     /**
      * Search attribute in grid and return attribute xPath
      *
@@ -718,7 +695,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $rowXPath = $gridXpath . '//tr[' . implode(' and ', $conditions) . ']';
         return $this->getElementByXpath($rowXPath);
     }
-
     /**
      * Mark attribute as skipped
      *
@@ -750,7 +726,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         }
         return true;
     }
-
     /**
      * Get list of Customer Entity Types specific for Magento versions
      *
@@ -760,7 +735,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
     {
         return array('Customers Main File', 'Customer Addresses');
     }
-
     /**
      * Fill filter form
      *
