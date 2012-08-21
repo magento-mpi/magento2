@@ -249,7 +249,7 @@ class Enterprise_PricePermissions_Model_Filter_Block extends Enterprise_PricePer
      * Remove column from grid
      *
      * @param Mage_Adminhtml_Block_Widget_Grid $block
-     * @param string $columnId
+     * @param string $column
      * @return Mage_Adminhtml_Block_Widget_Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
