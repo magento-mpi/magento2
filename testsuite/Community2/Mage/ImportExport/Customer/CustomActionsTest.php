@@ -101,7 +101,6 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
         $originalCustomerData[2] = array(array(), array(), array(), array());
         $mainCsvRows[2] = array(array(), array(), array(), array());
         $updatedCustomerData[2] = array(array(), array(), array(), array());
-
         foreach ($originalCustomerData as $key => $value) {
             foreach ($originalCustomerData[$key] as $innerKey => $innerValue) {
                 $originalCustomerData[$key][$innerKey]['associate_to_website'] = 'Main Website';
@@ -123,89 +122,68 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
                 $mainCsvRows[$key][$innerKey]['reward_warning_notification'] = 1;
             }
         }
-
-        //update action
-        //customer 1: different first name
+        //update action. customer 1: different first name
         $mainCsvRows[0][0]['firstname'] = 'Update_' . $originalCustomerData[0][0]['first_name'];
         $updatedCustomerData[0][0]['first_name'] = $mainCsvRows[0][0]['firstname'];
         $mainCsvRows[0][0]['_action'] = 'update';
-        //customer 2: invalid email, different first name
+        //update action. customer 2: invalid email, different first name
         $mainCsvRows[0][1]['email'] = str_replace('@', '', $originalCustomerData[0][1]['email']);
         $mainCsvRows[0][1]['firstname'] = 'Update_' . $originalCustomerData[0][1]['first_name'];
         $mainCsvRows[0][1]['_action'] = 'Update';
-        //customer 3: new data
+        //update action. customer 3: new data
         unset($originalCustomerData[0][2]);
         $mainCsvRows[0][2]['_action'] = 'UPDATE';
-
-        //delete action
-        //customer 1: all attributes match
+        //delete action. customer 1: all attributes match
         unset($updatedCustomerData[1][0]);
         $mainCsvRows[1][0]['_action'] = 'delete';
-        //customer 2: different first name, last name
+        //delete action. customer 2: different first name, last name
         unset($updatedCustomerData[1][1]);
         $mainCsvRows[1][1]['firstname'] = 'Update_' . $originalCustomerData[1][1]['first_name'];
         $mainCsvRows[1][1]['lastname'] = 'Update_' . $originalCustomerData[1][1]['last_name'];
         $mainCsvRows[1][1]['_action'] = 'Delete';
-        //customer 3: different website
+        //delete action. customer 3: different website
         $mainCsvRows[1][2]['_website'] = 'admin';
         $mainCsvRows[1][2]['_action'] = 'DELETE';
-
-        //empty or not recognized action
-        //customer 1: different first name, last name
+        //empty or not recognized action. customer 1: different first name, last name
         $mainCsvRows[2][0]['firstname'] = 'Update_' . $originalCustomerData[2][0]['first_name'];
         $updatedCustomerData[2][0]['first_name'] = $mainCsvRows[2][0]['firstname'];
         $mainCsvRows[2][0]['lastname'] = 'Update_' . $originalCustomerData[2][0]['last_name'];
         $updatedCustomerData[2][0]['last_name'] = $mainCsvRows[2][0]['lastname'];
         $mainCsvRows[2][0]['_action'] = '';
-        //customer 2: empty first name, last name, group id
+        //empty or not recognized action. customer 2: empty first name, last name, group id
         $mainCsvRows[2][1]['firstname'] = '';
         $mainCsvRows[2][1]['lastname'] = '';
         $mainCsvRows[2][1]['group_id'] = '';
         $mainCsvRows[2][1]['_action'] = 'Please, delete';
-        //customer 3: new data
+        //empty or not recognized action. customer 3: new data
         unset($originalCustomerData[2][2]);
         $mainCsvRows[2][2]['_action'] = '';
-        //customer 4: new data
+        //empty or not recognized action. customer 4: new data
         unset($originalCustomerData[2][3]);
         unset($updatedCustomerData[2][3]);
         $mainCsvRows[2][3]['group_id'] = '1000';
         $mainCsvRows[2][3]['_action'] = 'Please, delete';
-
         //validation messages
         $fixErrorsMessage =
             "Please fix errors and re-upload file or simply press \"Import\" button to skip rows with errors  Import";
         $updateActionMessage = array('validation' => array(
             'error' => array("E-mail is invalid in rows: 2"),
-            'validation' => array(
-                $fixErrorsMessage,
-                "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1"
-            )
-        ),
-            'import' => array('success' => array('Import successfully done.'))
-        );
+            'validation' => array($fixErrorsMessage,
+                "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")),
+            'import' => array('success' => array('Import successfully done.')));
         $deleteActionMessage = array('validation' => array(
             'error' => array("Customer with such email and website code doesn't exist in rows: 3"),
-            'validation' => array(
-                $fixErrorsMessage,
-                "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1"
-            )
-        ),
-            'import' => array('success' => array('Import successfully done.'))
-        );
-        $notRecognizedActionMessage = array('validation' => array(
+            'validation' => array($fixErrorsMessage,
+                "Checked rows: 3, checked entities: 3, invalid rows: 1, total errors: 1")),
+            'import' => array('success' => array('Import successfully done.')));
+        $notRecognizedMessage = array('validation' => array(
             'error' => array("Invalid value for 'group_id' in rows: 4"),
-            'validation' => array(
-                $fixErrorsMessage,
-                "Checked rows: 4, checked entities: 4, invalid rows: 1, total errors: 1"
-            )
-        ),
-            'import' => array('success' => array('Import successfully done.'))
-        );
-
+            'validation' => array($fixErrorsMessage,
+                "Checked rows: 4, checked entities: 4, invalid rows: 1, total errors: 1")),
+            'import' => array('success' => array('Import successfully done.')));
         return array(
             array($originalCustomerData[0], $mainCsvRows[0], $updatedCustomerData[0], $updateActionMessage),
             array($originalCustomerData[1], $mainCsvRows[1], $updatedCustomerData[1], $deleteActionMessage),
-            array($originalCustomerData[2], $mainCsvRows[2], $updatedCustomerData[2], $notRecognizedActionMessage),
-        );
+            array($originalCustomerData[2], $mainCsvRows[2], $updatedCustomerData[2], $notRecognizedMessage));
     }
 }

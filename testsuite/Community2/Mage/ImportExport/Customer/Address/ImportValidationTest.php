@@ -92,45 +92,39 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
             'firstname' => '',
             'lastname' => '',
             '_entity_id' => 'home'
-            )
-        );
+            ));
         $addressCsv[1] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => '<realEmail>',
                 'firstname' => '%noValue%',
                 'lastname' => 'last_' . $this->generate('string', 10),
-                '_entity_id' => 'home'
-            ));
+                '_entity_id' => 'home'));
         $addressCsv[2] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_website' => 'notexist',
                 '_email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string', 10),
                 'firstname' => 'last_' . $this->generate('string', 10),
-                '_entity_id' => 'home'
-            ));
+                '_entity_id' => 'home'));
         $addressCsv[3] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => 'test_admin_' . $this->generate('string', 5) . '@@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string', 10),
                 'firstname' => 'last_' . $this->generate('string', 10),
-                '_entity_id' => 'home'
-            ));
+                '_entity_id' => 'home'));
         $addressCsv[4] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => '<realEmail>',
                 'lastname' => 'last_' . $this->generate('string', 10),
                 'firstname' => 'last_' . $this->generate('string', 10),
                 '_entity_id' => 'home',
-                'region' => 'California1'
-            ));
+                'region' => 'California1'));
         $addressCsv[5] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array(
                 '_email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
                 'lastname' => 'last_' . $this->generate('string', 10),
                 'firstname' => 'last_' . $this->generate('string', 10),
-                '_entity_id' => 'home'
-            ));
+                '_entity_id' => 'home'));
         return array(
             array($addressCsv[0], array('validation' => array(
                 'error' => array(
@@ -139,9 +133,7 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
-                )
-            ),
+                    ))),
             array($addressCsv[1], array('validation' => array(
                 'error' => array(
                     "Required attribute 'firstname' has an empty value in rows: 1"
@@ -149,9 +141,7 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
-                )
-            ),
+                    ))),
             array($addressCsv[2], array('validation' => array(
                 'error' => array(
                     "Invalid value in website column in rows: 1"
@@ -159,9 +149,7 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
-                )
-            ),
+                    ))),
             array($addressCsv[3], array('validation' => array(
                 'error' => array(
                     "E-mail is invalid in rows: 1"
@@ -169,9 +157,7 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-            )
-            )
-            ),
+            ))),
             array($addressCsv[4], array('validation' => array(
                 'error' => array(
                     "Region is invalid in rows: 1"
@@ -179,9 +165,7 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
                 'validation' => array(
                     "File is totally invalid. Please fix errors and re-upload file",
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
-                    )
-                )
-            ),
+                    ))),
             array($addressCsv[5], array('validation' => array(
                 'error' => array(
                     "Customer with such email and website code doesn't exist in rows: 1"
@@ -191,7 +175,6 @@ class Community2_Mage_ImportExport_ImportValidation_AddressTest extends Mage_Sel
                     "Checked rows: 1, checked entities: 1, invalid rows: 1, total errors: 1")
             )
             )
-            )
-        );
+            ));
     }
 }
