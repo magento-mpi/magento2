@@ -101,7 +101,7 @@ CREATE TABLE `admin_rule` (
 
 LOCK TABLES `admin_rule` WRITE;
 /*!40000 ALTER TABLE `admin_rule` DISABLE KEYS */;
-INSERT INTO `admin_rule` VALUES (1,1,'all',NULL,0,'G','allow');
+INSERT INTO `admin_rule` VALUES (1,1,'Mage_Adminhtml::all',NULL,0,'G','allow');
 /*!40000 ALTER TABLE `admin_rule` ENABLE KEYS */;
 UNLOCK TABLES;
 
