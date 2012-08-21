@@ -140,4 +140,16 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
             $this->saveForm('save');
         }
     }
+
+    /**
+     * Get auto-incremented SKU
+     *
+     * @param string $productSku
+     *
+     * @return string
+     */
+    public function getGeneratedSku($productSku)
+    {
+        return $productSku . '-1';
+    }
 }
