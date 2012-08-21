@@ -174,85 +174,56 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
                 'operation' => 'Export'), 'Enabled'
         );
     }
+
     /**
-     * Scheduled Export statuses
-     *  Create Product Export in System-> Import/Export-> Scheduled Import/Export
-     *  Create Customer Export with keyword 'test' in the name
-     *  Create another New Customer Export with keyword 'test' in the name
-     *  Create another New Customer Export with another name
-     *  All Exports have different 'entity subtype', 'status', 'frequency','last run date'
-     *  Steps:
-     * 1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'
-     *  Result: Only 'product Exports' should be displayed in the grid
-     * 2. in filter 'Entity Type' select Customers Main File entity type and press 'Search'
-     * Result: Only 'customer Exports' should be displayed in the grid
-     * Repeat step 2 for Customer Addresses and Customer Finances entity types
-     * 3. Select 'Daily' frequency and press 'Search'
-     *  Result: Only the Exports with frequency 'Daily' are displayed in the grid
-     * 4. Select 'Weekly' frequency and press 'Search'
-     *  Result: Only the Exports with frequency 'Weekly' are displayed in the grid
-     * 5. Select 'Monthly' frequency and press 'Search'
-     *  Result: Only the Exports with frequency 'Monthly' are displayed in the grid
-     * 6. In the filter select 'Disabled' status and press 'Search'
-     * Result: Only the Exports with status 'Disabled' are displayed in the grid
-     * 7. In the filter select 'Enabled' status and press 'Search'
-     * Result: Only the Exports with status 'Enabled' are displayed in the grid
-     * 8. In the filter 'Last Outcome' select 'Pending' and press 'Search'
-     * Result: Only Pending Exports  are displayed in the grid
-     * 9. In the filter 'Last Outcome' select 'Successful' and press 'Search'
-     * Result: Only Successful Exports  are displayed in the grid
-     * 10. In the filter 'Last Outcome' select 'Failed' and press 'Search'
-     * Result: Only Failed Exports  are displayed in the grid
-     * 11. Enter in the grid proper date to the fields 'From' and 'To'
-     * Result: Only Exports with this last run date  are displayed in the grid
-     * 12. In grid in the field 'Name' enter 'test' and press 'Search' button
-     * Result: Only Exports which have the key 'test' in the name are displayed in the grid
-     * @test
-     *
-     * @TestlinkId TL-MAGE-5817
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
      */
-    public function scheduledExportSearchByFilter()
-    {
+    protected function _preconditionScheduledExportSearchByFilter(&$exportDataProducts, &$exportDataAddresses,
+        &$exportDataMain, &$exportDataFinances
+    ) {
         //Preconditions:
         // Create product export
         $exportDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'entity_type' => 'Products',
-                'status' => 'Disabled',
-                'frequency' => 'Weekly',
-            ));
+            'entity_type' => 'Products',
+            'status' => 'Disabled',
+            'frequency' => 'Weekly',
+        ));
         $this->importExportScheduledHelper()->createExport($exportDataProducts);
         $this->assertMessagePresent('success', 'success_saved_export');
 
         // Create New Customer Export
         $this->checkCurrentPage('scheduled_import_export');
         $exportDataAddresses = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'name' => 'Team_B_Export_2',
-                'entity_type' => 'Customer Addresses',
-                'status' => 'Enabled',
-                'frequency' => 'Monthly',
-            ));
+            'name' => 'Team_B_Export_2',
+            'entity_type' => 'Customer Addresses',
+            'status' => 'Enabled',
+            'frequency' => 'Monthly',
+        ));
         $this->importExportScheduledHelper()->createExport($exportDataAddresses);
         $this->assertMessagePresent('success', 'success_saved_export');
 
         // Create New  Customer Export
         $this->checkCurrentPage('scheduled_import_export');
         $exportDataMain = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'name' => 'Team_B_Export_3',
-                'entity_type' => 'Customers Main File',
-                'status' => 'Disabled',
-                'frequency' => 'Daily',
-            ));
+            'name' => 'Team_B_Export_3',
+            'entity_type' => 'Customers Main File',
+            'status' => 'Disabled',
+            'frequency' => 'Daily',
+        ));
         $this->importExportScheduledHelper()->createExport($exportDataMain);
         $this->assertMessagePresent('success', 'success_saved_export');
 
         // Create New Customer Export
         $this->checkCurrentPage('scheduled_import_export');
         $exportDataFinances = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
-                'entity_type' => 'Customer Finances',
-                'status' => 'Enabled',
-                'frequency' => 'Monthly',
-                'user_name' => 'not_exist'
-            ));
+            'entity_type' => 'Customer Finances',
+            'status' => 'Enabled',
+            'frequency' => 'Monthly',
+            'user_name' => 'not_exist'
+        ));
         $this->importExportScheduledHelper()->createExport($exportDataFinances);
         $this->assertMessagePresent('success', 'success_saved_export');
         // Run operation
@@ -262,7 +233,17 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             )
         );
         $this->assertMessagePresent('error', 'error_run');
+    }
 
+    /**
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
+     */
+    protected function _verifyScheduledExportSearchByFilter(&$exportDataProducts, &$exportDataAddresses,
+        &$exportDataMain, &$exportDataFinances
+    ) {
         // Step 1, 2
         // Verifying filter by Products entity type
         $this->admin('scheduled_import_export');
@@ -344,7 +325,57 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
                 'entity_type' => 'Customer Finances'
             )
         ));
+    }
 
+    /**
+     * Scheduled Export statuses
+     *  Create Product Export in System-> Import/Export-> Scheduled Import/Export
+     *  Create Customer Export with keyword 'test' in the name
+     *  Create another New Customer Export with keyword 'test' in the name
+     *  Create another New Customer Export with another name
+     *  All Exports have different 'entity subtype', 'status', 'frequency','last run date'
+     *  Steps:
+     * 1. On 'Scheduled Import/Export' page in filter 'Entity Type' select 'Products' and press 'Search'
+     *  Result: Only 'product Exports' should be displayed in the grid
+     * 2. in filter 'Entity Type' select Customers Main File entity type and press 'Search'
+     * Result: Only 'customer Exports' should be displayed in the grid
+     * Repeat step 2 for Customer Addresses and Customer Finances entity types
+     * 3. Select 'Daily' frequency and press 'Search'
+     *  Result: Only the Exports with frequency 'Daily' are displayed in the grid
+     * 4. Select 'Weekly' frequency and press 'Search'
+     *  Result: Only the Exports with frequency 'Weekly' are displayed in the grid
+     * 5. Select 'Monthly' frequency and press 'Search'
+     *  Result: Only the Exports with frequency 'Monthly' are displayed in the grid
+     * 6. In the filter select 'Disabled' status and press 'Search'
+     * Result: Only the Exports with status 'Disabled' are displayed in the grid
+     * 7. In the filter select 'Enabled' status and press 'Search'
+     * Result: Only the Exports with status 'Enabled' are displayed in the grid
+     * 8. In the filter 'Last Outcome' select 'Pending' and press 'Search'
+     * Result: Only Pending Exports  are displayed in the grid
+     * 9. In the filter 'Last Outcome' select 'Successful' and press 'Search'
+     * Result: Only Successful Exports  are displayed in the grid
+     * 10. In the filter 'Last Outcome' select 'Failed' and press 'Search'
+     * Result: Only Failed Exports  are displayed in the grid
+     * 11. Enter in the grid proper date to the fields 'From' and 'To'
+     * Result: Only Exports with this last run date  are displayed in the grid
+     * 12. In grid in the field 'Name' enter 'test' and press 'Search' button
+     * Result: Only Exports which have the key 'test' in the name are displayed in the grid
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5817
+     */
+    public function scheduledExportSearchByFilter()
+    {
+        $this->_preconditionScheduledExportSearchByFilter(
+                                $exportDataProducts = array(),
+                                $exportDataAddresses = array(),
+                                $exportDataMain = array(),
+                                $exportDataFinances = array());
+        $this->_verifyScheduledExportSearchByFilter(
+                                $exportDataProducts,
+                                $exportDataAddresses,
+                                $exportDataMain,
+                                $exportDataFinances);
         // Step 3
         $arr = array($exportDataProducts, $exportDataAddresses, $exportDataFinances);
         foreach ($arr as $value) {
@@ -369,10 +400,8 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
             )
         ));
         $this->admin('scheduled_import_export');
-        $data[0]['name'] = $exportDataAddresses['name'];
-        $data[1]['name'] = $exportDataMain['name'];
-        $data[2]['name'] = $exportDataFinances['name'];
-        foreach ($data as $value) {
+        $arr = array($exportDataAddresses, $exportDataMain, $exportDataFinances);
+        foreach ($arr as $value) {
             $this->assertNull($this->importExportScheduledHelper()->searchImportExport(array(
                     'name' => $value['name'],
                     'frequency' => 'Weekly'
