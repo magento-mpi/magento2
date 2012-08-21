@@ -109,7 +109,7 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
      */
     public function deleteAction()
     {
-        $themeId = $this->getRequest()->getParam('id');
+        $themeId = $this->getRequest()->getParam('theme_id');
         if (!$themeId) {
             $this->_redirect('*/*/');
             return;

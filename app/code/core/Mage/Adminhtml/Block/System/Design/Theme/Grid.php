@@ -45,25 +45,49 @@ class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_W
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('area', array(
-            'header'   => $this->__('Area'),
-            'index'    => 'theme_area',
+        $this->addColumn('theme_id', array(
+            'header'   => $this->__('Theme id'),
+            'index'    => 'theme_id',
         ));
 
-        $this->addColumn('package', array(
-            'header'   => $this->__('Package'),
-            'index'    => 'theme_package',
+        $this->addColumn('package_code', array(
+            'header'   => $this->__('Package Code'),
+            'index'    => 'package_code',
         ));
 
-        $this->addColumn('code', array(
-            'header'   => $this->__('Code'),
+        $this->addColumn('package_title', array(
+            'header'   => $this->__('Package Title'),
+            'index'    => 'package_title',
+        ));
+
+        $this->addColumn('parent_theme', array(
+            'header'   => $this->__('Parent theme'),
+            'index'    => 'parent_theme',
+        ));
+
+        $this->addColumn('theme_code', array(
+            'header'   => $this->__('Theme Code'),
             'index'    => 'theme_code',
         ));
 
+        $this->addColumn('theme_version', array(
+            'header'   => $this->__('Theme Version'),
+            'index'    => 'theme_version',
+        ));
 
-        $this->addColumn('skin', array(
-            'header'   => $this->__('Skin'),
-            'index'    => 'theme_skin',
+        $this->addColumn('theme_title', array(
+            'header'   => $this->__('Theme Title'),
+            'index'    => 'theme_title',
+        ));
+
+        $this->addColumn('magento_version_from', array(
+            'header'   => $this->__('Magento Version From'),
+            'index'    => 'magento_version_from',
+        ));
+
+        $this->addColumn('magento_version_to', array(
+            'header'   => $this->__('Magento Version To'),
+            'index'    => 'magento_version_to',
         ));
 
         $this->addColumn('action', array(
@@ -75,12 +99,12 @@ class Mage_Adminhtml_Block_System_Design_Theme_Grid extends Mage_Backend_Block_W
                 array(
                     'caption' => $this->__('Edit'),
                     'url'     => array('base' => '*/*/edit'),
-                    'field'   => 'id',
+                    'field'   => 'theme_id',
                 ),
                 array(
                     'caption' => $this->__('Delete'),
                     'url'     => array('base' => '*/*/delete'),
-                    'field'   => 'id',
+                    'field'   => 'theme_id',
             )),
             'filter'   => false,
             'sortable' => false,

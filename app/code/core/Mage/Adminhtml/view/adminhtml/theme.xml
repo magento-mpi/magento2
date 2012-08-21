@@ -31,7 +31,10 @@
         <reference name="left">
             <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit_Tabs" name="theme_edit_tabs">
                 <block type="Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General" name="theme_edit_tab_general" />
-                <action method="addTab"><name>general_section</name><block>Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General</block></action>
+                <action method="addTab">
+                    <name>general_section</name>
+                    <block>Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General</block>
+                </action>
             </block>
         </reference>
     </adminhtml_system_design_theme_edit>
