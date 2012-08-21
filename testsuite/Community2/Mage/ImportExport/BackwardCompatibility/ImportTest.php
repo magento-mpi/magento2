@@ -211,10 +211,10 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Expected: customer information is updated for existing customer, new customer with address is added
      *
      * @test
-     * @dataProvider columnsForAddressData
+     * @dataProvider addressData
      * @TestlinkId TL-MAGE-1168
      */
-    public function columnsForAddress($csv, $customerDataAfterImport, $addressDataAfterImport)
+    public function columnsForAddress($csv, $customerAfterImport, $addressAfterImport)
     {
         //Precondition: create new customer
         $this->navigate('manage_customers');
@@ -226,9 +226,9 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
             if (array_key_exists('email', $csv[$key]) && $csv[$key]['email'] == '<realEmail>') {
                 $csv[$key]['email'] = $existingCustomerData['email'];
             }
-            if (array_key_exists('email', $customerDataAfterImport[$key])
-                && $customerDataAfterImport[$key]['email'] == '<realEmail>') {
-                $customerDataAfterImport[$key]['email'] = $existingCustomerData['email'];
+            if (array_key_exists('email', $customerAfterImport[$key])
+                && $customerAfterImport[$key]['email'] == '<realEmail>') {
+                $customerAfterImport[$key]['email'] = $existingCustomerData['email'];
             }
         }
         //Step 1
@@ -245,131 +245,76 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
         $this->assertArrayHasKey('success', $importData['import'],
             "File import has not been finished successfully" . print_r($importData, true));
         //Step 6
-        foreach ($customerDataAfterImport as $key => $value) {
+        foreach ($customerAfterImport as $key => $value) {
             $this->navigate('manage_customers');
-            $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($customerDataAfterImport[$key]),
+            $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($customerAfterImport[$key]),
                 'New customer has not been created');
             $this->addParameter('customer_first_last_name',
-                $customerDataAfterImport[$key]['first_name'] . ' ' . $customerDataAfterImport[$key]['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => $customerDataAfterImport[$key]['email']));
+                $customerAfterImport[$key]['first_name'] . ' ' . $customerAfterImport[$key]['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $customerAfterImport[$key]['email']));
             //Verifying customer data
-            $this->assertTrue($this->verifyForm($customerDataAfterImport[$key], 'account_information'),
+            $this->assertTrue($this->verifyForm($customerAfterImport[$key], 'account_information'),
                 'Customer information has not been updated');
             //Verifying address data
             $this->openTab('addresses');
-            $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressDataAfterImport[$key]),
+            $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($addressAfterImport[$key]),
                 'Customer address has not been added');
         }
     }
 
-    public function columnsForAddressData()
+    public function addressData()
     {
         //First csv row to update existing customer
         $csvCustomer[0] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                'email' => '<realEmail>',
-                'firstname' => 'Robert',
-                'lastname' => 'Barron',
-                'middlename' => 'O.',
-                'dob' => '14.01.1929 0:00',
-                'gender' => 'Male',
-                'taxvat' => '538-92-5393',
-            )
+                'email' => '<realEmail>', 'firstname' => 'Robert', 'lastname' => 'Barron',
+                'middlename' => 'O.', 'dob' => '14.01.1929 0:00', 'gender' => 'Male', 'taxvat' => '538-92-5393',)
         );
-        $csvAddress[0] = array(
-            '_address_city' => 'Kingsport',
-            '_address_company' => 'Weingarten\'s',
-            '_address_country_id' => 'US',
-            '_address_fax' => '423-389-1069',
-            '_address_firstname' => 'Linda',
-            '_address_lastname' => 'Gilbert',
-            '_address_middlename' => 'S.',
-            '_address_postcode' => '37663',
-            '_address_region' => 'Tennessee',
-            '_address_street' => '1596 Public Works Drive',
+        $csvAddress[0] = array('_address_city' => 'Kingsport', '_address_company' => 'Weingarten\'s',
+            '_address_country_id' => 'US', '_address_fax' => '423-389-1069', '_address_firstname' => 'Linda',
+            '_address_lastname' => 'Gilbert', '_address_middlename' => 'S.', '_address_postcode' => '37663',
+            '_address_region' => 'Tennessee', '_address_street' => '1596 Public Works Drive',
             '_address_telephone' => '423-389-1069',
         );
         $csv[0] = array_merge($csvCustomer[0], $csvAddress[0]);
-        $customerDataAfterImport[0] = $this->loadDataSet('Customers', 'generic_customer_account', array(
-                'email' => '<realEmail>',
-                'first_name' => 'Robert',
-                'last_name' => 'Barron',
-                'middle_name' => 'O.',
-                'date_of_birth' => '1/14/1929',
-                'gender' => 'Male',
-                'tax_vat_number' => '538-92-5393',
-                'password' => '',
+        $customerAfterImport[0] = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => '<realEmail>', 'first_name' => 'Robert', 'last_name' => 'Barron',
+                'middle_name' => 'O.', 'date_of_birth' => '1/14/1929', 'gender' => 'Male',
+                'tax_vat_number' => '538-92-5393', 'password' => '',
             )
         );
-        $addressDataAfterImport[0] = $this->loadDataSet('Customers', 'generic_address', array(
-                'city' => 'Kingsport',
-                'company' => 'Weingarten\'s',
-                'country' => 'United States',
-                'fax' => '423-389-1069',
-                'first_name' => 'Linda',
-                'last_name' => 'Gilbert',
-                'middle_name' => 'S.',
-                'zip_code' => '37663',
-                'state' => 'Tennessee',
-                'street_address_line_1' => '1596 Public Works Drive',
-                'street_address_line_2' => '',
-                'telephone' => '423-389-1069',
-            )
-        );
+        $addressAfterImport[0] = $this->loadDataSet('Customers', 'generic_address', array('city' => 'Kingsport',
+                'company' => 'Weingarten\'s', 'country' => 'United States', 'fax' => '423-389-1069',
+                'first_name' => 'Linda', 'last_name' => 'Gilbert', 'middle_name' => 'S.', 'zip_code' => '37663',
+                'state' => 'Tennessee', 'street_address_line_1' => '1596 Public Works Drive',
+                'street_address_line_2' => '', 'telephone' => '423-389-1069',));
 
         //Second csv row to create new customer
         $csvCustomer[1] = $this->loadDataSet('ImportExport', 'generic_customer_csv', array(
-                'email' => 'kennethmbolden@teleworm.us',
-                'firstname' => 'Kenneth',
-                'lastname' => 'Bolden',
-                'middlename' => 'M.',
-                'dob' => '28.02.1986 0:00',
-                'gender' => 'Male',
-                'taxvat' => '150-84-1427',
-            )
+                'email' => 'kennethmbolden@teleworm.us', 'firstname' => 'Kenneth', 'lastname' => 'Bolden',
+                'middlename' => 'M.', 'dob' => '28.02.1986 0:00', 'gender' => 'Male', 'taxvat' => '150-84-1427',)
         );
         $csvAddress[1] = array(
-            '_address_city' => 'Dallas',
-            '_address_company' => 'Flexus',
-            '_address_country_id' => 'US',
-            '_address_fax' => '972-677-4503',
-            '_address_firstname' => 'Janice',
-            '_address_lastname' => 'Padilla',
-            '_address_middlename' => 'A.',
-            '_address_postcode' => '75244',
-            '_address_region' => 'Texas',
-            '_address_street' => '628 Charla Lane',
-            '_address_telephone' => '972-677-4503',
+            '_address_city' => 'Dallas', '_address_company' => 'Flexus', '_address_country_id' => 'US',
+            '_address_fax' => '972-677-4503', '_address_firstname' => 'Janice', '_address_lastname' => 'Padilla',
+            '_address_middlename' => 'A.', '_address_postcode' => '75244', '_address_region' => 'Texas',
+            '_address_street' => '628 Charla Lane', '_address_telephone' => '972-677-4503',
         );
         $csv[1] = array_merge($csvCustomer[1], $csvAddress[1]);
-        $customerDataAfterImport[1] = $this->loadDataSet('Customers', 'generic_customer_account', array(
-                'email' => 'kennethmbolden@teleworm.us',
-                'first_name' => 'Kenneth',
-                'last_name' => 'Bolden',
-                'middle_name' => 'M.',
-                'date_of_birth' => '2/28/1986',
-                'gender' => 'Male',
-                'tax_vat_number' => '150-84-1427',
-                'password' => '',
+        $customerAfterImport[1] = $this->loadDataSet('Customers', 'generic_customer_account', array(
+                'email' => 'kennethmbolden@teleworm.us', 'first_name' => 'Kenneth',
+                'last_name' => 'Bolden', 'middle_name' => 'M.', 'date_of_birth' => '2/28/1986',
+                'gender' => 'Male', 'tax_vat_number' => '150-84-1427', 'password' => '',
             )
         );
-        $addressDataAfterImport[1] = $this->loadDataSet('Customers', 'generic_address', array(
-                'city' => 'Dallas',
-                'company' => 'Flexus',
-                'country' => 'United States',
-                'fax' => '972-677-4503',
-                'first_name' => 'Janice',
-                'last_name' => 'Padilla',
-                'middle_name' => 'A.',
-                'zip_code' => '75244',
-                'state' => 'Texas',
-                'street_address_line_1' => '628 Charla Lane',
-                'street_address_line_2' => '',
-                'telephone' => '972-677-4503',
-            )
+        $addressAfterImport[1] = $this->loadDataSet('Customers', 'generic_address', array(
+                'city' => 'Dallas', 'company' => 'Flexus', 'country' => 'United States', 'fax' => '972-677-4503',
+                'first_name' => 'Janice', 'last_name' => 'Padilla', 'middle_name' => 'A.', 'zip_code' => '75244',
+                'state' => 'Texas', 'street_address_line_1' => '628 Charla Lane', 'street_address_line_2' => '',
+                'telephone' => '972-677-4503',)
         );
 
         return array(
-            array($csv, $customerDataAfterImport, $addressDataAfterImport),
+            array($csv, $customerAfterImport, $addressAfterImport),
         );
     }
 }

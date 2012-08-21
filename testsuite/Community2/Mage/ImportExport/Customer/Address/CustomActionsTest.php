@@ -25,127 +25,6 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     static protected $_customersDeleteData = array();
 
     /**
-     * Set preconditions to run tests
-     * Create test customers
-     */
-    public function setUpBeforeTests()
-    {
-        //logged in once for all tests
-        $this->loginAdminUser();
-        for ($i = 0; $i < 2; $i++) {
-            $this->navigate('manage_customers');
-            $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
-            $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$_customersUpdateData[] =
-                array('email'      => $userData['email'],
-                      'first_name' => $userData['first_name'],
-                      'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
-                      'address'    => $userFirstAddressData);
-        }
-        for ($i = 0; $i < 1; $i++) {
-            $this->navigate('manage_customers');
-            $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userSecondAddressData = $this->loadDataSet(
-                'Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:'))
-            );
-            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
-            $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userSecondAddressData);
-            $this->customerHelper()->saveForm('save_customer');
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$_customersUpdateData[] =
-                array('email'      => $userData['email'],
-                      'first_name' => $userData['first_name'],
-                      'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
-                      'address'    => $userFirstAddressData);
-            self::$_customersUpdateData[] =
-                array('email'      => $userData['email'],
-                      'first_name' => $userData['first_name'],
-                      'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userSecondAddressData),
-                      'address' => $userSecondAddressData);
-        }
-
-        for ($i = 0; $i < 1; $i++) {
-            $this->navigate('manage_customers');
-            $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userSecondAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
-            $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userSecondAddressData);
-            $this->customerHelper()->saveForm('save_customer');
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$_customersEmptyData[] =
-                array('email'      => $userData['email'],
-                      'first_name' => $userData['first_name'],
-                      'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
-                      'address'    => $userFirstAddressData);
-            self::$_customersEmptyData[] =
-                array('email'      => $userData['email'],
-                      'first_name' => $userData['first_name'],
-                      'last_name'  => $userData['last_name'],
-                      'address_id' => $this->customerHelper()->isAddressPresent($userSecondAddressData),
-                      'address'    => $userSecondAddressData);
-        }
-        for ($i = 0; $i < 1; $i++) {
-            $this->navigate('manage_customers');
-            $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userSecondAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $userThirdAddressData = $this->loadDataSet('Customers', 'generic_address',
-                array('zip_code' => $this->generate('string', 6, ':digit:')));
-            $this->customerHelper()->createCustomer($userData, $userFirstAddressData);
-            $this->assertMessagePresent('success', 'success_saved_customer');
-            $this->addParameter('customer_first_last_name', $userData['first_name'] . ' ' . $userData['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userSecondAddressData);
-            $this->customerHelper()->saveForm('save_customer');
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            $this->customerHelper()->addAddress($userThirdAddressData);
-            $this->customerHelper()->saveForm('save_customer');
-            $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-            self::$_customersDeleteData[] = array('email'      => $userData['email'],
-                                                 'first_name' => $userData['first_name'],
-                                                 'last_name'  => $userData['last_name'],
-                                                 'address_id' => $this->customerHelper()
-                                                     ->isAddressPresent($userFirstAddressData),
-                                                 'address'    => $userFirstAddressData);
-            self::$_customersDeleteData[] = array('email'      => $userData['email'],
-                                                 'first_name' => $userData['first_name'],
-                                                 'last_name'  => $userData['last_name'],
-                                                 'address_id' => $this->customerHelper()
-                                                     ->isAddressPresent($userSecondAddressData),
-                                                 'address'    => $userSecondAddressData);
-            self::$_customersDeleteData[] = array('email'      => $userData['email'],
-                                                 'first_name' => $userData['first_name'],
-                                                 'last_name'  => $userData['last_name'],
-                                                 'address_id' => $this->customerHelper()
-                                                     ->isAddressPresent($userThirdAddressData),
-                                                 'address'    => $userThirdAddressData);
-        }
-    }
-
-    /**
      * Preconditions:
      * Log in to Backend.
      * Navigate to System -> Export
@@ -159,12 +38,71 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     }
 
     /**
+     * Precondition for updateActionImport test
+     *
+     * @test
+     */
+    public function preconditionUpdate()
+    {
+        //logged in once for all tests
+        $this->loginAdminUser();
+        for ($i = 0; $i < 2; $i++) {
+            $this->navigate('manage_customers');
+            $userUpdateData = $this->loadDataSet('Customers', 'generic_customer_account');
+            $userFirstAddressData = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $this->customerHelper()->createCustomer($userUpdateData, $userFirstAddressData);
+            $this->assertMessagePresent('success', 'success_saved_customer');
+            $this->addParameter('customer_first_last_name', $userUpdateData['first_name'] . ' '
+                . $userUpdateData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
+            self::$_customersUpdateData[] =
+                array('email'      => $userUpdateData['email'],
+                    'first_name' => $userUpdateData['first_name'],
+                    'last_name'  => $userUpdateData['last_name'],
+                    'address_id' => $this->customerHelper()->isAddressPresent($userFirstAddressData),
+                    'address'    => $userFirstAddressData);
+        }
+        for ($i = 0; $i < 1; $i++) {
+            $this->navigate('manage_customers');
+            $userUpdateData = $this->loadDataSet('Customers', 'generic_customer_account');
+            $userAddressData[0] = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData[1] = $this->loadDataSet(
+                'Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:'))
+            );
+            $this->customerHelper()->createCustomer($userUpdateData, $userAddressData[0]);
+            $this->assertMessagePresent('success', 'success_saved_customer');
+            $this->addParameter('customer_first_last_name', $userUpdateData['first_name'] . ' '
+                . $userUpdateData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
+            $this->customerHelper()->addAddress($userAddressData[1]);
+            $this->customerHelper()->saveForm('save_customer');
+            $this->customerHelper()->openCustomer(array('email' => $userUpdateData['email']));
+            self::$_customersUpdateData[] =
+                array('email'      => $userUpdateData['email'],
+                    'first_name' => $userUpdateData['first_name'],
+                    'last_name'  => $userUpdateData['last_name'],
+                    'address_id' => $this->customerHelper()->isAddressPresent($userAddressData[0]),
+                    'address'    => $userAddressData[0]);
+            self::$_customersUpdateData[] =
+                array('email'      => $userUpdateData['email'],
+                    'first_name' => $userUpdateData['first_name'],
+                    'last_name'  => $userUpdateData['last_name'],
+                    'address_id' => $this->customerHelper()->isAddressPresent($userAddressData[1]),
+                    'address' => $userAddressData[1]);
+        }
+    }
+
+    /**
      * Custom import: update addresses
      * Need to verify that the customer addresses are updated if the action is "Update"
      * After steps 
      * Verify that all Customers Addresses information was imported
      *
      * @test
+     * @depends preconditionUpdate
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5686
      */
@@ -219,6 +157,43 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     }
 
     /**
+     * Precondition for emptyActionImport test
+     *
+     * @test
+     */
+    public function preconditionEmpty()
+    {
+        for ($i = 0; $i < 1; $i++) {
+            $this->navigate('manage_customers');
+            $userEmptyData = $this->loadDataSet('Customers', 'generic_customer_account');
+            $userAddressData[0] = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData[1] = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $this->customerHelper()->createCustomer($userEmptyData, $userAddressData[0]);
+            $this->assertMessagePresent('success', 'success_saved_customer');
+            $this->addParameter('customer_first_last_name', $userEmptyData['first_name'] . ' '
+                . $userEmptyData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $userEmptyData['email']));
+            $this->customerHelper()->addAddress($userAddressData[1]);
+            $this->customerHelper()->saveForm('save_customer');
+            $this->customerHelper()->openCustomer(array('email' => $userEmptyData['email']));
+            self::$_customersEmptyData[] =
+                array('email'      => $userEmptyData['email'],
+                    'first_name' => $userEmptyData['first_name'],
+                    'last_name'  => $userEmptyData['last_name'],
+                    'address_id' => $this->customerHelper()->isAddressPresent($userAddressData[0]),
+                    'address'    => $userAddressData[0]);
+            self::$_customersEmptyData[] =
+                array('email'      => $userEmptyData['email'],
+                    'first_name' => $userEmptyData['first_name'],
+                    'last_name'  => $userEmptyData['last_name'],
+                    'address_id' => $this->customerHelper()->isAddressPresent($userAddressData[1]),
+                    'address'    => $userAddressData[1]);
+        }
+    }
+
+    /**
      * Custom import: not recognized or empty action
      * If action in csv file is empty or not recognized by the system, 'update' action should be used to corresponding
      * csv row
@@ -226,6 +201,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
      * Verify that all Customers Addresses information was imported
      *
      * @test
+     * @depends preconditionEmpty
      * @dataProvider importEmptyData
      * @TestlinkId TL-MAGE-5688
      */
@@ -263,24 +239,39 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
             self::$_customersEmptyData[0]['first_name'] . ' ' . self::$_customersEmptyData[0]['last_name']);
         $this->customerHelper()->openCustomer(array('email' => self::$_customersEmptyData[0]['email']));
         for ($i = 0; $i < count($data); $i++) {
-            $userAddressData['first_name'] = ($data[$i]['firstname'] != '') ? $data[$i]['firstname']
-                : self::$_customersEmptyData[$i]['address']['first_name'];
-            $userAddressData['last_name'] = ($data[$i]['lastname'] != '') ? $data[$i]['lastname']
-                : self::$_customersEmptyData[$i]['address']['last_name'];
-            $userAddressData['middle_name'] = ($data[$i]['middlename'] != '') ? $data[$i]['middlename']
-                : self::$_customersEmptyData[$i]['address']['middle_name'];
-            $userAddressData['city'] =
-                ($data[$i]['city'] != '') ? $data[$i]['city'] : self::$_customersEmptyData[$i]['address']['city'];
-            $userAddressData['zip_code'] = ($data[$i]['postcode'] != '') ? $data[$i]['postcode']
-                : self::$_customersEmptyData[$i]['address']['zip_code'];
-            $userAddressData['telephone'] = ($data[$i]['telephone'] != '') ? $data[$i]['telephone']
-                : self::$_customersEmptyData[$i]['address']['telephone'];
-            $userAddressData['street_address_line_1'] = ($data[$i]['street'] != '') ? $data[$i]['street']
-                : self::$_customersEmptyData[$i]['address']['street_address_line_1'];
-            $userAddressData['street_address_line_2'] =
-                ($data[$i]['street'] != '') ? '' : self::$_customersEmptyData[$i]['address']['street_address_line_2'];
-            $userAddressData['state'] =
-                ($data[$i]['region'] != '') ? $data[$i]['region'] : self::$_customersEmptyData[$i]['address']['state'];
+            $addressAttributes = array(
+                'first_name',
+                'last_name',
+                'middle_name',
+                'city',
+                'zip_code',
+                'telephone',
+                'street_address_line_1',
+                'street_address_line_2',
+                'state',
+            );
+            $addressCsvAttributes = array(
+                'firstname',
+                'lastname',
+                'middlename',
+                'city',
+                'postcode',
+                'telephone',
+                'street',
+                'street',
+                'region',
+            );
+            foreach ($addressCsvAttributes as $key => $attribute) {
+                if ($data[$i][$attribute] != '') {
+                    $userAddressData[$addressAttributes[$key]] = $data[$i][$attribute];
+                    if ($addressAttributes[$key] == 'street_address_line_2') {
+                        $userAddressData[$addressAttributes[$key]] = '';
+                    }
+                } else {
+                    $userAddressData[$addressAttributes[$key]] =
+                        self::$_customersEmptyData[$i]['address'][$addressAttributes[$key]];
+                }
+            }
             if ($data[$i]['_website'] == 'invalid') {
                 $this->assertFalse((bool)$this->customerHelper()->isAddressPresent($userAddressData),
                     "Address found for address data =\n" . print_r($userAddressData, true) . "csv data =\n"
@@ -294,12 +285,61 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     }
 
     /**
+     * Precondition for deleteActionImport test
+     *
+     * @test
+     */
+    public function preconditionDelete()
+    {
+        for ($i = 0; $i < 1; $i++) {
+            $this->navigate('manage_customers');
+            $userDeleteData = $this->loadDataSet('Customers', 'generic_customer_account');
+            $userAddressData[0] = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData[1] = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $userAddressData[2] = $this->loadDataSet('Customers', 'generic_address',
+                array('zip_code' => $this->generate('string', 6, ':digit:')));
+            $this->customerHelper()->createCustomer($userDeleteData, $userAddressData[0]);
+            $this->assertMessagePresent('success', 'success_saved_customer');
+            $this->addParameter('customer_first_last_name', $userDeleteData['first_name'] . ' '
+                . $userDeleteData['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
+            $this->customerHelper()->addAddress($userAddressData[1]);
+            $this->customerHelper()->saveForm('save_customer');
+            $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
+            $this->customerHelper()->addAddress($userAddressData[2]);
+            $this->customerHelper()->saveForm('save_customer');
+            $this->customerHelper()->openCustomer(array('email' => $userDeleteData['email']));
+            self::$_customersDeleteData[] = array('email'      => $userDeleteData['email'],
+                'first_name' => $userDeleteData['first_name'],
+                'last_name'  => $userDeleteData['last_name'],
+                'address_id' => $this->customerHelper()
+                    ->isAddressPresent($userAddressData[0]),
+                'address'    => $userAddressData[0]);
+            self::$_customersDeleteData[] = array('email'      => $userDeleteData['email'],
+                'first_name' => $userDeleteData['first_name'],
+                'last_name'  => $userDeleteData['last_name'],
+                'address_id' => $this->customerHelper()
+                    ->isAddressPresent($userAddressData[1]),
+                'address'    => $userAddressData[1]);
+            self::$_customersDeleteData[] = array('email'      => $userDeleteData['email'],
+                'first_name' => $userDeleteData['first_name'],
+                'last_name'  => $userDeleteData['last_name'],
+                'address_id' => $this->customerHelper()
+                    ->isAddressPresent($userAddressData[2]),
+                'address'    => $userAddressData[2]);
+        }
+    }
+
+    /**
      * Custom import: delete addresses
      * Verify that deleting customer address via import (custom behavior) works correctly
      * After steps 
      * Verify that all Customers addresses information was deleted
      *
      * @test
+     * @depends preconditionDelete
      * @dataProvider importDeleteData
      * @TestlinkId TL-MAGE-5687
      */
