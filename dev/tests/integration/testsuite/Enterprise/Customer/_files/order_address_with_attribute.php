@@ -9,6 +9,15 @@
  * @license     {license_link}
  */
 
+/**
+ * This fixture is run outside of the transaction because it performs DDL operations during creating custom attribute.
+ * All the changes are reverted in the appropriate "rollback" fixture.
+ */
+
+/** @var $connection Magento_Test_Db_Adapter_TransactionInterface */
+$connection = Mage::getSingleton('Mage_Core_Model_Resource')->getConnection('write');
+$connection->commitTransparentTransaction();
+
 $entityType = Mage::getModel('Mage_Eav_Model_Config')->getEntityType('customer_address');
 /** @var $entityType Mage_Eav_Model_Entity_Type */
 
@@ -37,3 +46,5 @@ $billingAddress = new Mage_Sales_Model_Order_Address($addressData);
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');
 $billingAddress->save();
+
+$connection->beginTransparentTransaction();
