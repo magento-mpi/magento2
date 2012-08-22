@@ -11,16 +11,12 @@
 /**
  * Layout change model
  */
-class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_ChangeAbstract
+abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_ChangeAbstract
 {
-    /**
-     * Layout directives
-     */
-    const LAYOUT_DIRECTIVE_MOVE   = 'move';
-    const LAYOUT_DIRECTIVE_REMOVE = 'remove';
+    const CHANGE_TYPE = 'layout';
 
     /**
-     * Validate change data passed to constructor
+     * Validate layout move change data passed to constructor
      *
      * @throws Mage_Core_Exception
      * @return Mage_DesignEditor_Model_ChangeAbstract|Mage_DesignEditor_Model_Change_Layout
@@ -28,23 +24,7 @@ class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_Chan
     protected function _validate()
     {
         $errors = array();
-        $required = array('type', 'handle', 'change_type', 'element_name', 'action_name');
-
-        $type = $this->getData('action_name');
-        switch ($type) {
-            case self::LAYOUT_DIRECTIVE_MOVE:
-                $required[] = 'container';
-                $required[] = 'after';
-                break;
-
-            case self::LAYOUT_DIRECTIVE_REMOVE:
-                break;
-
-            default:
-                $errors[] = Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid action name "%s"', $type);
-        }
-
-        foreach ($required as $field) {
+        foreach ($this->_getRequiredFields() as $field) {
             if (!$this->getData($field)) {
                 $errors[] = Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid "%s" data', $field);
             }
@@ -56,5 +36,27 @@ class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_Chan
             );
         }
         return $this;
+    }
+
+    abstract public function getLayoutUpdateData();
+    
+    /**
+     * Get required data fields for layout change
+     *
+     * @return array
+     */
+    protected function _getRequiredFields()
+    {
+        return array('type', 'handle', 'change_type', 'element_name', 'action_name');
+    }
+
+    /**
+     * Get layout update directive for given layout change
+     *
+     * @return string
+     */
+    public function getLayoutDirective()
+    {
+        return self::LAYOUT_DIRECTIVE;
     }
 }
