@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Package Code'),
             'title'    => $this->__('Package Code'),
             'name'     => 'package_code',
-            'class'     => 'validate-code',
+            'class'    => 'validate-code',
             'required' => true
         ));
 
@@ -59,7 +59,7 @@ class Mage_Adminhtml_Block_System_Design_Theme_Edit_Tab_General
             'label'    => $this->__('Package Title'),
             'title'    => $this->__('Package Title'),
             'name'     => 'package_title',
-            'class'     => 'validate-alphanum-with-spaces',
+            'class'    => 'validate-alphanum-with-spaces',
             'required' => true
         ));
 

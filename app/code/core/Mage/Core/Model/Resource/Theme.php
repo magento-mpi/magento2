@@ -11,7 +11,7 @@
 /**
  * Theme resource model
  *
- * @todo temporary solution.
+ * @TODO Will changed(package load and save) after package model refactoring.
  */
 class Mage_Core_Model_Resource_Theme extends Mage_Core_Model_Resource_Db_Abstract
 {
