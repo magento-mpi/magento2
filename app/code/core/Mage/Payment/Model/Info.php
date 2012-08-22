@@ -13,10 +13,32 @@
  *
  * @category   Mage
  * @package    Mage_Payment
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
 {
+    /**
+     * List of fields that has to be encrypted
+     * Format: method_name => array(field1, field2, ... )
+     *
+     * @var array
+     */
+    protected $_encryptFields;
+
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+         $this->_encryptFields = array(
+             'ccsave' => array(
+                 'cc_owner',
+                 'cc_exp_year',
+                 'cc_exp_month',
+             ),
+        );
+        parent::__construct($data);
+    }
     /**
      * Additional information container
      *
@@ -29,7 +51,7 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
      *
      * @param   string $key
      * @param   mixed $index
-     * @return unknown
+     * @return  mixed
      */
     public function getData($key='', $index=null)
     {
@@ -44,6 +66,109 @@ class Mage_Payment_Model_Info extends Mage_Core_Model_Abstract
             }
         }
         return parent::getData($key, $index);
+    }
+
+    /**
+     * Get CC Name
+     * @return string
+     */
+    public function getCcOwner()
+    {
+        return $this->_getDecryptedData('cc_owner');
+    }
+
+    /**
+     * Set CC Name
+     * @param $value
+     * @return Mage_Payment_Model_Info
+     */
+    public function setCcOwner($value)
+    {
+       $this->_setEncryptedData('cc_owner', $value);
+        return $this;
+    }
+
+    /**
+     * Get CC Expire Month
+     * @return mixed
+     */
+    public function getCcExpMonth()
+    {
+        return $this->_getDecryptedData('cc_exp_month');
+    }
+
+    /**
+     * Set CC Expire Month
+     * @param $value
+     * @return Mage_Payment_Model_Info
+     */
+    public function setCcExpMonth($value)
+    {
+       $this->_setEncryptedData('cc_exp_month', $value);
+        return $this;
+    }
+
+    /**
+     * Get CC Expire Year
+     * @return mixed
+     */
+    public function getCcExpYear()
+    {
+        return $this->_getDecryptedData('cc_exp_year');
+    }
+
+    /**
+     * Set CC Expire Year
+     * @param $value
+     * @return Mage_Payment_Model_Info
+     */
+    public function setCcExpYear($value)
+    {
+       $this->_setEncryptedData('cc_exp_year', $value);
+        return $this;
+    }
+
+    /**
+     * Get decrypted filed data
+     * @param string $key field name
+     * @return mixed
+     */
+    protected function _getDecryptedData($key)
+    {
+        $data = $this->getData($key);
+        if (true == $this->_isEncryptedField($key)) {
+            $data = $this->decrypt($data);
+        }
+        return $data;
+    }
+
+    /**
+     * Set encrypted value
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    protected function _setEncryptedData($key, $value)
+    {
+        if (false == $this->_isEncryptedField($key)) {
+            $this->setData($key, $value);
+        } else {
+            $this->setData($key, $this->encrypt($value));
+        }
+    }
+
+    /**
+     * Check if specified field is encrypted
+     *
+     * @param string $key field name
+     * @return bool
+     */
+    protected function _isEncryptedField($key)
+    {
+        if (false == isset($this->_encryptFields[$this->getData('method')])) {
+            return false;
+        }
+        return in_array($key, $this->_encryptFields[$this->getData('method')]);
     }
 
     /**
