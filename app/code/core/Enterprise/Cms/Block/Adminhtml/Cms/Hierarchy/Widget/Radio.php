@@ -168,4 +168,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Radio extends Mage_Adm
         }
         return '';
     }
+
+    /**
+     * Retrieve block HTML markup
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+    }
 }
