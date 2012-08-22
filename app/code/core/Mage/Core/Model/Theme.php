@@ -21,7 +21,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     /**
      * Parent theme validator
      */
-    const PARENT_THEME_VALIDATOR = '(^$|([^\/]+\/)?[^\/]+|^$)';
+    const PARENT_THEME_VALIDATOR = '(^$|([^\/]+\/)?[^\/]+)';
 
     /**
      * Code validator
@@ -34,12 +34,9 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      * @var array
      */
     protected $_regExpValidators = array(
-        'package_code'         => self::CODE_VALIDATOR,
-        'theme_code'           => self::CODE_VALIDATOR,
-        'parent_theme'         => self::PARENT_THEME_VALIDATOR,
-        'theme_version'        => self::VERSION_VALIDATOR,
-        'magento_version_from' => self::VERSION_VALIDATOR,
-        'magento_version_to'   => self::VERSION_VALIDATOR,
+        self::CODE_VALIDATOR => array('package_code', 'theme_code'),
+        self::PARENT_THEME_VALIDATOR => array('parent_theme'),
+        self::VERSION_VALIDATOR => array('theme_version', 'magento_version_from', 'magento_version_to'),
     );
 
     /**
@@ -57,8 +54,7 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     public function validateData()
     {
-        $this->_regExpValidator();
-        return $this;
+        return $this->_regExpValidator();
     }
 
     /**
@@ -68,12 +64,13 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
      */
     protected function _regExpValidator()
     {
-        foreach ($this->_regExpValidators as $field => $validator) {
-            if (!preg_match($validator, $this->getData($field))) {
-                Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__(
-                    'Invalid field data: %s.', $field
-                ));
-            }
+        $themeData = $this->getData();
+        foreach ($this->_regExpValidators as $validator => $fields) {
+            array_walk($fields, function ($field) use ($validator, $themeData) {
+                if (!preg_match($validator, $themeData[$field])) {
+                    Mage::throwException(Mage::helper('Mage_Core_Helper_Data')->__('Invalid field data: %s.', $field));
+                }
+            });
         }
         return $this;
     }
@@ -86,7 +83,6 @@ class Mage_Core_Model_Theme extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         $this->validateData();
-        parent::_beforeSave();
-        return $this;
+        return parent::_beforeSave();
     }
 }
