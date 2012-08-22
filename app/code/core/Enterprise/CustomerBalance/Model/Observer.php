@@ -53,8 +53,13 @@ class Enterprise_CustomerBalance_Model_Observer
                     ->setAmountDelta($data['amount_delta'])
                     ->setComment($data['comment'])
                 ;
-                if (isset($data['notify_by_email']) && isset($data['store_id'])) {
-                    $balance->setNotifyByEmail(true, $data['store_id']);
+                if (isset($data['notify_by_email'])) {
+                    if (isset($data['store_id'])) {
+                        $balance->setNotifyByEmail(true, $data['store_id']);
+                    } elseif (Mage::app()->isSingleStoreMode()) {
+                        $store = array_shift(Mage::app()->getStores());
+                        $balance->setNotifyByEmail(true, $store->getId());
+                    }
                 }
                 $balance->save();
             }
