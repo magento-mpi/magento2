@@ -34,14 +34,14 @@ class Mage_DesignEditor_Model_History_Compact
      * Compact collection of changes
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
-     * @throws Exception
+     * @throws Mage_Core_Exception
      * @return Mage_DesignEditor_Model_History_Compact
      */
     public function compact(Mage_DesignEditor_Model_Change_Collection $collection)
     {
         $itemType = $collection->getItemClass();
         if (!$itemType == 'Mage_DesignEditor_Model_ChangeAbstract') {
-            throw new Exception(
+            Mage::throwException(
                 Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid collection items\' type "%s"', $itemType)
             );
         }

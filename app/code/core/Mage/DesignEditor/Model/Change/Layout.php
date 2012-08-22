@@ -22,7 +22,7 @@ class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_Chan
     /**
      * Validate change data passed to constructor
      *
-     * @throws Exception
+     * @throws Mage_Core_Exception
      * @return Mage_DesignEditor_Model_ChangeAbstract|Mage_DesignEditor_Model_Change_Layout
      */
     protected function _validate()
@@ -51,7 +51,7 @@ class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_Chan
         }
 
         if (count($errors)) {
-            throw new Exception(
+            Mage::throwException(
                 Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid change data: %s', join(' ', $errors))
             );
         }
