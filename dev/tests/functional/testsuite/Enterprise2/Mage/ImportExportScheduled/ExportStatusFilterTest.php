@@ -25,14 +25,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->admin('scheduled_import_export');
-        if ($this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Export')) ||
-            $this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Import'))
-        ) {
-            $this->clickControl('link', 'selectall', false);
-            $this->fillDropdown('grid_massaction_select', 'Delete');
-            $this->clickButtonAndConfirm('submit', 'delete_confirmation');
-        }
+        $this->importExportScheduledHelper()->deleteAllJobs();
     }
 
     protected function assertPreConditions()
@@ -344,6 +337,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         }
     }
 
+    /**
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
+     */
     protected function _checkScheduledExportSearchFilterDates(
         $exportDataProducts, $exportDataAddresses,
         $exportDataMain, $exportDataFinances
@@ -538,13 +537,13 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         $exportDataAddresses = array();
         $exportDataMain      = array();
         $exportDataFinances  = array();
-        //Step 1
+        //Precondition
         $this->_preconditionScheduledExportSearchByFilter(
             $exportDataProducts,
             $exportDataAddresses,
             $exportDataMain,
             $exportDataFinances);
-        //Step 2
+        //Step 1, 2
         $this->_verifyScheduledExportSearchByFilter(
             $exportDataProducts,
             $exportDataAddresses,
