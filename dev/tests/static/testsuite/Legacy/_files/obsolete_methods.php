@@ -100,7 +100,7 @@ return array(
     'addConstraint' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
     'addCustomersToAlertQueueAction',
     'addCustomerToSegments',
-    'addGroupByTag' => array('class_scope' => 'Mage_Reports_Model_Resource_Tag_Collection'),
+    'addGroupByTag' => array('class_scope' => 'Mage_Tag_Model_Resource_Reports_Collection'),
     'addKey' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
     'addSaleableFilterToCollection',
     'addSearchQfFilter',

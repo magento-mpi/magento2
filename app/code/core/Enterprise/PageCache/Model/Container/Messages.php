@@ -14,19 +14,6 @@
 class Enterprise_PageCache_Model_Container_Messages extends Enterprise_PageCache_Model_Container_Abstract
 {
     /**
-     * Message store factory names
-     *
-     * @var array
-     */
-    protected $_messageStoreTypes = array(
-        'Mage_Core_Model_Session',
-        'Mage_Customer_Model_Session',
-        'Mage_Catalog_Model_Session',
-        'Mage_Checkout_Model_Session',
-        'Mage_Tag_Model_Session'
-    );
-
-    /**
      * Check for new messages. New message flag will be reseted if needed.
      *
      * @return bool
