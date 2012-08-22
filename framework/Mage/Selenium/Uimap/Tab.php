@@ -100,9 +100,12 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
 
     /**
      * Get Tab Elements
+     *
+     * @param null|Mage_Selenium_Helper_Params $paramsDecorator
+     *
      * @return array
      */
-    public function getTabElements()
+    public function getTabElements($paramsDecorator = null)
     {
         if (!isset($this->_elements['fieldsets'])) {
             return array();
@@ -111,16 +114,12 @@ class Mage_Selenium_Uimap_Tab extends Mage_Selenium_Uimap_Abstract
         foreach ($this->_elements['fieldsets'] as $fieldset) {
             foreach ($fieldset->_elements as $elementType => $elementsData) {
                 $type = preg_replace('/(e)?s$/', '', $elementType);
-                if (array_key_exists($type, $elements)) {
-                    foreach ($elementsData as $elementName => $elementLocator) {
-                        if (array_key_exists($elementName, $elements[$type])) {
-                            trigger_error('"' . $this->getTabId() . '" tab contains several "' . $type . '" with name "'
-                                          . $elementName . '"', E_USER_NOTICE);
-                        }
-                        $elements[$type][$elementName] = $elementLocator;
+                foreach ($elementsData as $elementName => $elementLocator) {
+                    if (array_key_exists($type, $elements) && array_key_exists($elementName, $elements[$type])) {
+                        trigger_error('"' . $this->getTabId() . '" tab contains several "' . $type . '" with name "'
+                                      . $elementName . '"', E_USER_NOTICE);
                     }
-                } else {
-                    $elements[$type] = $elementsData;
+                    $elements[$type][$elementName] = $this->_applyParamsToString($elementLocator, $paramsDecorator);
                 }
             }
         }

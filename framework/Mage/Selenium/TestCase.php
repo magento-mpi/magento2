@@ -2050,7 +2050,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     {
         $containerUimap = $this->_findUimapElement($containerType, $containerName);
         $getMethod = 'get' . ucfirst(strtolower($containerType)) . 'Elements';
-        $containerElements = $containerUimap->$getMethod();
+        $containerElements = $containerUimap->$getMethod($this->_paramsHelper);
         $fillData = array();
         foreach ($dataToFill as $fieldName => $fieldValue) {
             if ($fieldValue == '%noValue%' || is_array($fieldValue)) {
