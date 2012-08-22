@@ -201,12 +201,12 @@ class Magento_Scenario
 
         // Run script
         $cmd = 'php %s';
+        $execParams = array($scriptFile);
         foreach ($params as $key => $value) {
             $cmd .= " --{$key}=%s";
+            $execParams[] = $value;
         }
-        $params = array_values($params);
-        array_unshift($params, $scriptFile);
-        $output = $this->_shell->execute($cmd, $params);
+        $output = $this->_shell->execute($cmd, $execParams);
 
         return $output;
     }

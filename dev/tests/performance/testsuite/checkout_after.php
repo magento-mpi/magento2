@@ -25,7 +25,7 @@ $numOrdersNow = $collection->getSize();
 $actualOrdersCreated = $numOrdersNow - $numOrdersBefore;
 
 // Compare number of new orders to the expected value
-if ($expectedOrdersCreated != 1 + $actualOrdersCreated) {
+if ($expectedOrdersCreated != $actualOrdersCreated) {
     echo "Failure: expected {$expectedOrdersCreated} new orders, while actually created {$actualOrdersCreated}";
     exit(1);
 }
