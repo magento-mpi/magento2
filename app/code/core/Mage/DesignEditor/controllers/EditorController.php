@@ -149,7 +149,7 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
     /**
      * Get layout xml
      */
-    public function compactXmlAction()
+    public function getLayoutUpdateAction()
     {
         $historyData = Mage::app()->getRequest()->getPost();
 
