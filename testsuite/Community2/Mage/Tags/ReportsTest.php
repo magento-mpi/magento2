@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tag Reports
  *
@@ -16,13 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_ReportsTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-    }
-
     protected function tearDownAfterTest()
     {
         $this->loginAdminUser();
@@ -38,27 +33,8 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForReportEntriesTest()
     {
-        //Create a customer
-        $customerData = $this->loadDataSet('Customers', 'generic_customer_account', array(
-            'first_name' => $this->generate('string', 5, ':lower:'),
-            'last_name' => $this->generate('string', 5, ':lower:'),
-        ));
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($customerData);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-
-        //Create a product
-        $simple = $this->loadDataSet('Product', 'simple_product_visible', array(
-            'general_name' => $this->generate('string', 8, ':lower:'),
-        ));
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($simple);
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        return array('customer' => $customerData,
-            'product' => $simple['general_name']);
+        return parent::_preconditionsForReportEntriesTest();
     }
-
     /**
      * Checking entries in the tags reports
      * Preconditions:
@@ -191,7 +167,6 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             )), 'Tag is not shown in Tag Details');
         }
     }
-
     /**
      * @return array
      * @test
@@ -199,75 +174,7 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForReportsTests()
     {
-        //Create two customers
-        $customerData = array(
-            $this->loadDataSet('Customers', 'generic_customer_account', array(
-                'first_name' => $this->generate('string', 5, ':lower:'),
-                'last_name' => $this->generate('string', 5, ':lower:'),
-            )),
-            $this->loadDataSet('Customers', 'generic_customer_account', array(
-                'first_name' => $this->generate('string', 5, ':lower:'),
-                'last_name' => $this->generate('string', 5, ':lower:'),
-            )),
-        );
-        foreach ($customerData as $customer) {
-            $this->navigate('manage_customers');
-            $this->customerHelper()->createCustomer($customer);
-            $this->assertMessagePresent('success', 'success_saved_customer');
-        }
-
-        //Create two products
-        $productData[0] = $this->loadDataSet('Product', 'simple_product_visible', array(
-            'general_name' => $this->generate('string', 8, ':lower:'),
-        ));
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData[0]);
-        $this->assertMessagePresent('success', 'success_saved_product');
-        $productData[1] = $this->loadDataSet('Product', 'simple_product_visible', array(
-            'general_name' => $this->generate('string', 8, ':lower:'),
-        ));
-        $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData[1]);
-        $this->assertMessagePresent('success', 'success_saved_product');
-
-        //Submit one tag (first customer, first product)
-        $this->customerHelper()->frontLoginCustomer(array(
-                'email' => $customerData[0]['email'],
-                'password' => $customerData[0]['password'])
-        );
-        $this->productHelper()->frontOpenProduct($productData[0]['general_name']);
-        $tags[0] = $this->generate('string', 4, ':lower:');
-        $this->tagsHelper()->frontendAddTag($tags[0]);
-
-        //Submit two tags (second customer, second product)
-        $this->customerHelper()->frontLoginCustomer(array(
-                'email' => $customerData[1]['email'],
-                'password' => $customerData[1]['password'])
-        );
-        $this->productHelper()->frontOpenProduct($productData[1]['general_name']);
-        $tags[1] = $this->generate('string', 4, ':lower:');
-        $this->tagsHelper()->frontendAddTag($tags[1]);
-        $tags[2] = $this->generate('string', 4, ':lower:');
-        $this->tagsHelper()->frontendAddTag($tags[2]);
-
-        //Change tags status to approved
-        $this->loginAdminUser();
-        foreach ($tags as $tag) {
-            $this->navigate('all_tags');
-            $this->tagsHelper()->changeTagsStatus(array(array('tag_name' => $tag)), 'Approved');
-        }
-        return array(
-            array(
-                'customer' => $customerData[0],
-                'product' => $productData[0]['general_name'],
-                'tags' => array($tags[0]),
-            ),
-            array(
-                'customer' => $customerData[1],
-                'product' => $productData[1]['general_name'],
-                'tags' => array($tags[1], $tags[2]),
-            ),
-        );
+        return parent::_preconditionsForReportsTests();
     }
 
     /**
@@ -315,7 +222,6 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->reportsHelper()->verifyReportSortingByColumn($reportContent, $column);
         }
     }
-
     /**
      * Verifying columns and sorting in Products Tags report
      *
@@ -361,7 +267,6 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->reportsHelper()->verifyReportSortingByColumn($reportContent, $column);
         }
     }
-
     /**
      * Verifying columns and sorting in Popular Tags report
      *
@@ -409,7 +314,6 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->reportsHelper()->verifyReportSortingByColumn($reportContent, $column);
         }
     }
-
     /**
      * Verifying that Customers Tags report can be exported to a CSV or an Excel file.
      * Steps:
@@ -484,7 +388,6 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->clickButton('back');
         }
     }
-
     /**
      * Verifying that Products Tags report can be exported to a CSV or an Excel file.
      * Steps:
@@ -556,7 +459,6 @@ class Community2_Mage_Tags_ReportsTest extends Mage_Selenium_TestCase
             $this->clickButton('back');
         }
     }
-
     /**
      * Verifying that Popular Tags report can be exported to a CSV or an Excel file.
      * Steps:

@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tag creation tests for Backend
  *
@@ -16,35 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    /**
-     * Precondition:
-     * Delete all existing tags
-     */
-    public function setUpBeforeTestsClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-    }
-    /**
-     * Preconditions:
-     * Navigate to Catalog -> Tags -> All tags
-     */
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-    }
-
-    protected function tearDownAfterTest()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-    }
-
     /**
      * Deleting tags using mass action
      * Precondition: Several tags have "Pending" status.
@@ -118,7 +91,6 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertEquals('Please select items.', $this->getAlert(), "Message 'Please select items.' is not present");
     }
-
     /**
      * Changing the status of tags to Disabled using mass action
      * Preconditions:
@@ -145,7 +117,6 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2331, TL-MAGE-2354
      */
-
     public function changingStatusToDisabledUsingMassAction($tagArea)
     {
         //Preconditions
@@ -306,7 +277,6 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2338, TL-MAGE-2362
      */
-
     public function changingStatusToApprovedUsingMassAction($tagArea)
     {
         //Preconditions
@@ -369,7 +339,6 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
                 'tags_status' => 'Approved')
         ));
     }
-
     /**
      * Changing the status of tags to Disabled/Pending/Approved using mass action
      * Steps:
@@ -383,7 +352,6 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2334, TL-MAGE-2337, TL-MAGE-2339, TL-MAGE-2358, TL-MAGE-2361, TL-MAGE-2363
      */
-
     public function changingStatusUsingMassActionNegative($tagArea)
     {
         //Step 1
@@ -405,7 +373,6 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
                 "Message 'Please select items.' is not present");
         }
     }
-
     /**
      * Selecting tags options
      * Precondition: two pages of tags with "Pending" status.

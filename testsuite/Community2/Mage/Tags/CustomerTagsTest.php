@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tag creation tests for Backend
  *
@@ -16,25 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Tags -> All tags</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-    }
-
     /**
      * @return array
      * @test
@@ -42,20 +25,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        //Data
-        $userData = array();
-        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData[1]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $simple = $this->productHelper()->createSimpleProduct(true);
-        $this->reindexInvalidedData();
-        $this->flushCache();
-        $userData[1] = array('email' => $userData[1]['email'], 'password' => $userData[1]['password']);
-        return array('user'     => $userData,
-            'simple'   => $simple['simple']['product_name'],
-            'category' => $simple['category']['path']);
+        return parent::_preconditionsForAllTagsTests();
     }
 
     /**
@@ -110,7 +80,6 @@ class Community2_Mage_Tags_CustomerCreateTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
     }
-
     public function tagNameDataProvider()
     {
         return array(

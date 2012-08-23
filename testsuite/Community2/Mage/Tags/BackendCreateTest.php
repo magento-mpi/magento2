@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tag creation tests for Backend
  *
@@ -16,25 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Tags -> All tags</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-    }
-
     /**
      * @return array
      * @test
@@ -42,22 +25,8 @@ class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        //Data
-        $userData = array();
-        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData[1]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $simple = $this->productHelper()->createSimpleProduct(true);
-        $this->reindexInvalidedData();
-        $this->flushCache();
-        $userData[1] = array('email' => $userData[1]['email'], 'password' => $userData[1]['password']);
-        return array('user'     => $userData,
-            'simple'   => $simple['simple']['product_name'],
-            'category' => $simple['category']['path']);
+        return parent::_preconditionsForAllTagsTests();
     }
-
     /**
      * Pending status for new customer's tag
      *
@@ -98,91 +67,6 @@ class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
         );
     }
     /**
-     * Search pending customer's tag
-     *
-     * @param string $tags
-     * @param string $status
-     * @param array $testData
-     *
-     * @test
-     * @dataProvider tagSearchSelectedDataProvider
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2343
-     */
-    public function searchSelectedTags($tags, $status, $testData)
-    {
-        //Setup
-        $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
-        $this->productHelper()->frontOpenProduct($testData['simple']);
-        //Steps
-        $this->tagsHelper()->frontendAddTag($tags);
-        //Verification
-        $this->assertMessagePresent('success', 'tag_accepted_success');
-        $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        $this->loginAdminUser();
-        $this->navigate('pending_tags');
-        $this->searchAndChoose(array('tag_name' => $tags));
-        $this->fillForm(array('filter_massaction' => $status));
-        $this->clickButton('search', false);
-        $this->waitForAjax();
-        if ($status == 'No') {
-            $this->assertFalse((bool) $this->search(array('tag_name' => $tags), null, false),
-                "Filter {$status} works incorrect");
-        } else {
-            $this->assertTrue((bool) $this->search(array('tag_name' => $tags), null, false),
-                "Filter {$status} works incorrect");
-        }
-    }
-    public function tagSearchSelectedDataProvider()
-    {
-        return array(
-            array($this->generate('string', 4, ':alpha:'), 'Any'),
-            array($this->generate('string', 4, ':alpha:'), 'No'),
-            array($this->generate('string', 4, ':alpha:'), 'Yes')
-        );
-    }
-    /**
-     * Search pending customer's tag
-     *
-     * @param string $tags
-     * @param string $status
-     * @param array $testData
-     *
-     * @test
-     * @dataProvider tagSearchNameDataProvider
-     * @depends preconditionsForTests
-     * @TestlinkId TL-MAGE-2343
-     */
-    public function searchNameTags($tags, $status, $testData)
-    {
-        if ($status) {
-            //Setup
-            $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
-            $this->productHelper()->frontOpenProduct($testData['simple']);
-            //Steps
-            $this->tagsHelper()->frontendAddTag($tags);
-            //Verification
-            $this->assertMessagePresent('success', 'tag_accepted_success');
-            $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
-        }
-        $this->loginAdminUser();
-        $this->navigate('pending_tags');
-        $this->clickButton('reset_filter', false);
-        $this->waitForAjax();
-        $this->fillForm(array('tag_name' => $tags));
-        $this->clickButton('search', false);
-        $this->waitForAjax();
-        $this->assertTrue($status == (bool) $this->search(array('tag_name' => $tags), null, false),
-                "Filter by Name {$tags} works incorrect");
-    }
-    public function tagSearchNameDataProvider()
-    {
-        return array(
-            array($this->generate('string', 4, ':alpha:'), true),
-            array($this->generate('string', 4, ':alpha:'), false)
-        );
-    }
-    /**
      * Edit pending customer's tag
      *
      * @param string $tags
@@ -219,6 +103,103 @@ class Community2_Mage_Tags_PendingCreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array($this->generate('string', 4, ':alpha:'), 'Approved')
+        );
+    }
+    /**
+     * Search customers tags in All Tags and Pending Tags grid
+     *
+     * @param string $tags
+     * @param string $status
+     * @param array $testData
+     *
+     * @test
+     * @dataProvider tagSearchSelectedDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-2365
+     */
+    public function searchSelectedTags($tags, $status, $testData)
+    {
+        //Setup
+        $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
+        $this->productHelper()->frontOpenProduct($testData['simple']);
+        //Steps
+        $this->tagsHelper()->frontendAddTag($tags);
+        //Verification
+        $this->assertMessagePresent('success', 'tag_accepted_success');
+        $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
+        $this->loginAdminUser();
+        $areas = array(
+            'pending_tags',
+            'all_tags'
+        );
+        foreach ($areas as $area) {
+            $this->navigate($area);
+            $this->searchAndChoose(array('tag_name' => $tags));
+            $this->fillForm(array('filter_massaction' => $status));
+            $this->clickButton('search', false);
+            $this->waitForAjax();
+            if ($status == 'No') {
+                $this->assertFalse((bool) $this->search(array('tag_name' => $tags), null, false),
+                    "Filter {$status} works incorrect");
+            } else {
+                $this->assertTrue((bool) $this->search(array('tag_name' => $tags), null, false),
+                    "Filter {$status} works incorrect");
+            }
+        }
+    }
+    public function tagSearchSelectedDataProvider()
+    {
+        return array(
+            array($this->generate('string', 4, ':alpha:'), 'Any'),
+            array($this->generate('string', 4, ':alpha:'), 'No'),
+            array($this->generate('string', 4, ':alpha:'), 'Yes')
+        );
+    }
+    /**
+     * Search customers tags in All Tags and Pending Tags grid
+     *
+     * @param string $tags
+     * @param string $status
+     * @param array $testData
+     *
+     * @test
+     * @dataProvider tagSearchNameDataProvider
+     * @depends preconditionsForTests
+     * @TestlinkId TL-MAGE-2365
+     */
+    public function searchNameTags($tags, $status, $testData)
+    {
+        if ($status) {
+            //Setup
+            $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
+            $this->productHelper()->frontOpenProduct($testData['simple']);
+            //Steps
+            $this->tagsHelper()->frontendAddTag($tags);
+            //Verification
+            $this->assertMessagePresent('success', 'tag_accepted_success');
+            $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
+        }
+        $this->loginAdminUser();
+        $areas = array(
+            'pending_tags',
+            'all_tags'
+        );
+        foreach ($areas as $area) {
+            $this->navigate($area);
+            $this->clickButton('reset_filter', false);
+            $this->waitForAjax();
+            $this->fillForm(array('tag_name' => $tags));
+            $this->clickButton('search', false);
+            $this->waitForAjax();
+            $this->assertTrue($status == (bool) $this->search(array('tag_name' => $tags), null, false),
+                "Filter by Name {$tags} works incorrect");
+        }
+    }
+    public function tagSearchNameDataProvider()
+    {
+        return array(
+            array($this->generate('string', 4, ':alpha:'), true),
+            array($this->generate('string', 4, ':alpha:'), false)
         );
     }
 }
