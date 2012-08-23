@@ -41,3 +41,6 @@ customer_account_no_cache:
     mca: customer/account/index/?no_cache=
     title: My Account
     uimap: *customerAccount
+
+product_review_details:
+    title: Magento Enterprise Edition

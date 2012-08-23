@@ -70,7 +70,3 @@ product_review:
                             review_post_date: //dt[contains(.,'%reviewerName%')]/following-sibling::dd[1]/p[2]
                         links:
                             review_summary: //dt[contains(.,'%reviewerName%')]/a
-
-product_review_details:
-    mca: review/product/view/id/%id%/
-    title: Magento Enterprise Edition
