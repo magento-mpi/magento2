@@ -97,7 +97,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 1
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         $report = $this->importExportHelper()->export();
-        $this->importExportHelper()->arrayToCsv($report);
+        $this->csvHelper()->arrayToCsv($report);
     }
 
     /**
