@@ -367,4 +367,18 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         return null;
     }
 
+    /**
+     * Delete all scheduled import/export jobs
+     */
+    public function deleteAllJobs()
+    {
+        $this->admin('scheduled_import_export');
+        if ($this->isImportExportPresentInGrid(array('operation' => 'Export')) ||
+            $this->isImportExportPresentInGrid(array('operation' => 'Import'))
+        ) {
+            $this->clickControl('link', 'selectall', false);
+            $this->fillDropdown('grid_massaction_select', 'Delete');
+            $this->clickButtonAndConfirm('submit', 'delete_confirmation');
+        }
+    }
 }
