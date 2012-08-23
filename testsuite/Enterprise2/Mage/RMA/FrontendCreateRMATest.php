@@ -17,7 +17,6 @@
  */
 class Enterprise2_Mage_RMA_FrontendCreateRMATest extends Mage_Selenium_TestCase
 {
-
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
