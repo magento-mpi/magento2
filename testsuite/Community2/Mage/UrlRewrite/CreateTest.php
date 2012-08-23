@@ -56,7 +56,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     {
         $this->frontend();
         $this->fillDropdown('select_store', 'Main Website Store');
-        $this->waitForPageToLoad();
+        $this->validatePage();
     }
 
     /**
@@ -734,5 +734,63 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->open($rewriteUrl);
         $this->waitForPageToLoad();
         $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
+    }
+
+    /**
+     * <p>Custom URL Rewrite for product in scope of the same one store<p>
+     * <p>1. Go to URL rewrite managment</p>
+     * <p>2. Click Add URL rewrite button</p>
+     * <p>3. Create URL Rewrite = "Custom"</p>
+     * <p>4. Input needed fields</p>
+     * <p>5. Set the same Request store and Target store</p>
+     * <p>6. Save</p>
+     * <p>7. Open front with new request path</p>
+     * <p>Expected result:</p>
+     * <p>Product page is opened</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5565
+     */
+
+    public function customProductUrlRewriteSameStore ()
+    {
+        //Create Simple Product
+        $this->navigate('manage_products');
+        $productData =
+            $this->loadDataSet('UrlRewrite', 'simple_product_required');
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent('success', 'success_saved_product');
+        //Open URL rewrite management
+        $this->navigate('url_rewrite_management');
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite', 'true');
+        //At Create URL rewrite dropdown select For category
+        $this->fillDropdown('create_url_rewrite_dropdown', 'Custom');
+        $this->waitForPageToLoad();
+        $this->validatePage();
+        //Loading data from data file
+        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_product_custom');
+        //Generate request path and open it
+        $urlKeyReplace = str_replace(array('(',')'), array('-',''), $productData['general_url_key']);
+        $uri = $urlKeyReplace . '.html';
+        //Fill fields
+        $this->fillField('id_path', $fieldData['id_path']);
+        $this->fillField('request_path', $fieldData['request_path']);
+        $this->fillField('target_path', $uri);
+//        Need to be uncommented when target store functionality will be merged
+//        $this->fillDropdown('target_store', 'Default Store View');
+        $this->fillDropdown('request_store', 'Default Store View');
+        //Click Save button
+        $this->clickButton('save', false);
+        $this->waitForPageToLoad();
+        //Generating URL rewrite link
+        $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($uri);
+        //Open URL rewrite for category on frontend
+        $this->frontend();
+        $this->open($rewriteUrl);
+        //Verifying page of URL rewrite for category
+        $this->assertSame($this->getTitle(), $productData['general_name'], 'Wrong page is opened');
     }
 }
