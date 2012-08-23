@@ -28,7 +28,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Text_List
      */
     public function setSortable($value)
     {
-        if (!$value) {
+        if ($value === false) {
             foreach ($this->getColumns() as $column) {
                 $column->setSortable(false);
             }

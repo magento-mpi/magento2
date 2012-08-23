@@ -205,7 +205,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumn($columnId)
     {
-        return $this->getChildBlock('columnSet')->getChildBlock($columnId);
+        return $this->getChildBlock('grid.columnSet')->getChildBlock($columnId);
     }
 
     /**
@@ -337,6 +337,13 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected function _prepareGrid()
     {
         $this->_prepareCollection();
+        foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {
+            $this->getChildBlock('grid.columnSet')->setRendererType($renderer, $rendererClass);
+        }
+        foreach ($this->getColumnFilters() as $filter => $filterClass) {
+            $this->getChildBlock('grid.columnSet')->setFilterType($filter, $filterClass);
+        }
+        $this->getChildBlock('grid.columnSet')->setSortable($this->getSortable());
     }
 
     /**
