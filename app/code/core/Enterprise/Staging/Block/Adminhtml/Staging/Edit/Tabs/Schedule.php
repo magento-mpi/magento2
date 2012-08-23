@@ -32,7 +32,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Schedule extends Mage
      */
     protected function _toHtml()
     {
-        $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
         $form = new Varien_Data_Form();
 
@@ -43,8 +44,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Schedule extends Mage
             'label'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Set Staging Merge Date'),
             'title'     => Mage::helper('Enterprise_Staging_Helper_Data')->__('Set Staging Merge Date'),
             'name'      => 'schedule_merge_later',
-            'format'    => $outputFormat,
-            'time'      => true,
+            'date_format' => $dateFormat,
+            'time_format' => $timeFormat,
             'image'     => $this->getSkinUrl('images/grid-cal.gif')
         ));
 

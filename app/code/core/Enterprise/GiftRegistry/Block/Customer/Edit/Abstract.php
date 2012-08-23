@@ -141,25 +141,25 @@ abstract class Enterprise_GiftRegistry_Block_Customer_Edit_Abstract extends Mage
      * @param string $name   - DOM name
      * @param string $id     - DOM id
      * @param string $value
-     * @param string $format  - full|long|medium|short
+     * @param string $formatType  - full|long|medium|short
      * @param string $class
      *
      * @return string
      */
-    public function getCalendarDateHtml($name, $id, $value, $format = false, $class = '')
+    public function getCalendarDateHtml($name, $id, $value, $formatType = false, $class = '')
     {
-        if ($format === false) {
-            $format = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
+        if ($formatType === false) {
+            $formatType = Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM;
         }
 
         $calendar = $this->getLayout()
             ->createBlock('Enterprise_GiftRegistry_Block_Customer_Date')
             ->setId($id)
             ->setName($name)
-            ->setValue($this->formatDate($value, $format))
+            ->setValue($this->formatDate($value, $formatType))
             ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
             ->setImage($this->getSkinUrl('Mage_Core::calendar.gif'))
-            ->setFormat(Mage::app()->getLocale()->getDateStrFormat($format));
+            ->setDateFormat(Mage::app()->getLocale()->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

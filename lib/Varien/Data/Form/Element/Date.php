@@ -142,8 +142,9 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             '<input name="%s" id="%s" value="%s" %s style="width:110px !important;" />',
             $this->getName(), $this->getHtmlId(), $this->_escape($this->getValue()), $this->serialize($this->getHtmlAttributes())
         );
-        $outputFormat = $this->getFormat();
-        if (empty($outputFormat)) {
+        $dateFormat = $this->getDateFormat();
+        $timeFormat = $this->getTimeFormat();
+        if (empty($dateFormat)) {
             throw new Exception('Output format is not specified. Please, specify "format" key in constructor, or set it using setFormat().');
         }
 
@@ -163,9 +164,9 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
             //]]>
             </script>',
             $this->getHtmlId(),
-            $outputFormat,
-            $this->getTime() ? 'true' : 'false',
-            $this->getTime() || "",
+            $dateFormat,
+            $timeFormat ? 'true' : 'false',
+            $timeFormat ?: '',
             $this->getImage(),
             'Select Date',
             ($this->getDisabled() ? 'true' : 'false')

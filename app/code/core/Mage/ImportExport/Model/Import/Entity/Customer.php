@@ -352,7 +352,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
     {
         /** @var $resource Mage_Customer_Model_Customer */
         $resource       = Mage::getModel('Mage_Customer_Model_Customer');
-        $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
+        $updatedAt = new DateTime('@' . time());
+        $updatedAt = $updatedAt->format(Varien_Date::DATETIME_PHP_FORMAT);
         $table = $resource->getResource()->getEntityTable();
         $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
         $passId         = $resource->getAttribute('password_hash')->getId();
@@ -369,13 +370,15 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
                 }
                 if (self::SCOPE_DEFAULT == $this->getRowScope($rowData)) {
                     // entity table data
+                    $createdAt = empty($rowData['created_at']) ? time() : strtotime($rowData['created_at']);
+                    $createdAt = new DateTime("@{$createdAt}");
+                    $createdAt = $createdAt->format(Varien_Date::DATETIME_PHP_FORMAT);
                     $entityRow = array(
                         'group_id'   => empty($rowData['group_id']) ? self::DEFAULT_GROUP_ID : $rowData['group_id'],
                         'store_id'   => empty($rowData[self::COL_STORE])
                                         ? 0 : $this->_storeCodeToId[$rowData[self::COL_STORE]],
-                        'created_at' => empty($rowData['created_at'])
-                                        ? now() : gmstrftime($strftimeFormat, strtotime($rowData['created_at'])),
-                        'updated_at' => now()
+                        'created_at' => $createdAt,
+                        'updated_at' => $updatedAt
                     );
                     $emailToLower = strtolower($rowData[self::COL_EMAIL]);
                     if (isset($this->_oldCustomers[$emailToLower][$rowData[self::COL_WEBSITE]])) { // edit
@@ -405,7 +408,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer extends Mage_ImportExport_M
                             if ('select' == $attrParams['type']) {
                                 $value = $attrParams['options'][strtolower($value)];
                             } elseif ('datetime' == $attrParams['type']) {
-                                $value = gmstrftime($strftimeFormat, strtotime($value));
+                                $value = new DateTime('@' . strtotime($value));
+                                $value = $value->format(Varien_Date::DATETIME_PHP_FORMAT);
                             } elseif ($backModel) {
                                 $attribute->getBackend()->beforeSave($resource->setData($attrCode, $value));
                                 $value = $resource->getData($attrCode);

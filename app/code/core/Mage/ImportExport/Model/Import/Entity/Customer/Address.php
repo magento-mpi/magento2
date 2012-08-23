@@ -148,7 +148,6 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
         $customer       = Mage::getModel('Mage_Customer_Model_Customer');
         /** @var $resource Mage_Customer_Model_Address */
         $resource       = Mage::getModel('Mage_Customer_Model_Address');
-        $strftimeFormat = Varien_Date::convertZendToStrftime(Varien_Date::DATETIME_INTERNAL_FORMAT, true, true);
         $table          = $resource->getResource()->getEntityTable();
         $nextEntityId   = Mage::getResourceHelper('Mage_ImportExport')->getNextAutoincrement($table);
         $customerId     = null;
@@ -188,7 +187,8 @@ class Mage_ImportExport_Model_Import_Entity_Customer_Address extends Mage_Import
                         if ('select' == $attrParams['type']) {
                             $value = $attrParams['options'][strtolower($rowData[$attrAlias])];
                         } elseif ('datetime' == $attrParams['type']) {
-                            $value = gmstrftime($strftimeFormat, strtotime($rowData[$attrAlias]));
+                            $value = new DateTime('@' . strtotime($rowData[$attrAlias]));
+                            $value = $value->format(Varien_Date::DATETIME_PHP_FORMAT);
                         } else {
                             $value = $rowData[$attrAlias];
                         }

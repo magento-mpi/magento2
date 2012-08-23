@@ -94,7 +94,7 @@
             <action method="removeItem"><type>js</type><name>mage/jquery-no-conflict.js</name></action>
             <action method="removeItem"><type>js</type><name>jquery/jquery-ui-1.8.18.custom.min.js</name></action>
             <action method="removeItem"><type>js</type><name>jquery/jquery-ui-timepicker-addon.js</name></action>
-            <action method="removeItem"><type>js</type><name>mage/adminhtml/calendar.js</name></action>
+            <action method="removeItem"><type>js</type><name>mage/calendar.js</name></action>
 
             <action method="removeItem"><type>js</type><name>extjs/fix-defer-before.js</name></action>
             <action method="removeItem"><type>js</type><name>extjs/ext-tree.js</name></action>

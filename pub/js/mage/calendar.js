@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     Mage_Calendar
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -63,11 +61,12 @@
     });
 
     /**
-     * Extention for Calendar - date and time format convert functionality
+     * Extension for Calendar - date and time format convert functionality
      */
     var calendarBasePrototype = $.mage.calendar.prototype;
     $.widget('mage.calendar', $.extend({}, calendarBasePrototype, {
         dateTimeFormat: {
+            // key - backend format, value - jquery format
             date: {
                 "EEEE": "DD",
                 "EEE": "D",
@@ -76,7 +75,9 @@
                 "MMM": "M",
                 "MM": "mm",
                 "M": "mm",
-                "yyyy": "yy"
+                "yyyy": "yy",
+                "y": "yy",
+                "yy": "y"
             },
             time: {
                 "a": "tt",
@@ -94,8 +95,8 @@
             calendarBasePrototype._create.apply( this, arguments );
         },
         _convertFormat: function( format, type ) {
-            var symbols = format.match( /([A-Za-z]+)/ig ),
-                separators = format.match( /(\W)/ig ),
+            var symbols = format.match( /([a-z]+)/ig ),
+                separators = format.match( /([^a-z]+)/ig ),
                 self = this;
             convertedFormat = "";
             if ( symbols ) {

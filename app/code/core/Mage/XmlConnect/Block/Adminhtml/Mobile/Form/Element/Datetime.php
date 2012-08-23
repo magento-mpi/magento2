@@ -173,7 +173,7 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
             $this->getImage(),
             $this->__('Select Date'),
             $outputFormat,
-            $outputTimeFormat || "",
+            $outputTimeFormat ?: '',
             $this->getTime() ? 'true' : 'false'
         );
 

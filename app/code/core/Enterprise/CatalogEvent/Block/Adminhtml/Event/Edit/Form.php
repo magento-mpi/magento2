@@ -79,24 +79,24 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             )
         );
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateTimeFormat(
-            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
-        );
+        $dateFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        $timeFormat = Mage::app()->getLocale()->getTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('Start Date'),
                 'name'         => 'date_start',
-                'required'     => true, 'time' => true,
+                'required'     => true,
                 'image'        => $this->getSkinUrl('images/grid-cal.gif'),
-                'format'       => $dateFormatIso
+                'date_format'  => $dateFormat,
+                'time_format'  => $timeFormat
             ));
 
         $fieldset->addField('date_end', 'date', array(
                 'label'        => Mage::helper('Enterprise_CatalogEvent_Helper_Data')->__('End Date'),
                 'name'         => 'date_end', 'required' => true,
-                'time'         => true,
                 'image'        => $this->getSkinUrl('images/grid-cal.gif'),
-                'format'       => $dateFormatIso
+                'date_format'  => $dateFormat,
+                'time_format'  => $timeFormat
             ));
 
         $fieldset->addField('image', 'image', array(

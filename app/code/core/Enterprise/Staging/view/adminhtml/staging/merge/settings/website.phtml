@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 ?>
-<?php /* @var $this Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website */?>
+<?php /* @var $this Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website */?>
 <?php $staging          = $this->getStaging(); ?>
 <?php $items            = $staging->getItemsCollection(); ?>
 <?php $masterWebsites   = $this->getWebsiteCollection(); ?>
@@ -71,8 +71,8 @@
                                     $('#schedule_merge_later').calendar({
                                         buttonImage: "<?php echo $this->getSkinUrl("images/grid-cal.gif");?>",
                                         buttonText: "<?php echo $this->__('Select Date') ?>",
-                                        dateFormat: "M/d/yyyy",
-                                        timeFormat: "hh:mm:ss",
+                                        dateFormat: "<?php echo $this->getDateFormat() ?>",
+                                        timeFormat: "<?php echo $this->getTimeFormat() ?>",
                                         showsTime: true
                                     })
                                 })(jQuery)

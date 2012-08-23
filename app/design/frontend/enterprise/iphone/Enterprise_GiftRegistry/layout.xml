@@ -74,7 +74,7 @@
 
     <enterprise_giftregistry_search_index translate="label" type="page" parent="enterprise_giftregistry_index_index">
         <label>Customer GiftRegistry Search Form</label>
-        <update handle="calendar"/>
+        <update handle="page_calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
         </reference>
@@ -85,7 +85,7 @@
 
     <enterprise_giftregistry_search_results translate="label" type="page" parent="enterprise_giftregistry_search_index">
         <label>Customer GiftRegistry Search Results List</label>
-        <update handle="calendar"/>
+        <update handle="page_calendar"/>
         <reference name="left">
             <remove name="giftregistry.quick.search" />
         </reference>
@@ -143,21 +143,6 @@
         </reference>
     </catalog_product_view_type_bundle>
 
-    <calendar>
-        <reference name="head">
-            <action method="addCss"><file>jquery/jquery-ui-1.8.22.custom.css</file><params/></action>
-            <action method="addCss"><file>jquery/jquery-ui-timepicker-addon.css</file><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addJs"><file>jquery/jquery-1.7.1.min.js</file></action>
-            <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
-            <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
-            <action method="addJs"><file>jquery/jquery-ui-timepicker-addon.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
-            <action method="addJs"><file>mage/adminhtml/calendar.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
-        </reference>
-        <reference name="content">
-            <block type="Mage_Core_Block_Html_Calendar" name="html_calendar" as="html_calendar" template="Mage_Page::js/calendar.phtml"/>
-        </reference>
-    </calendar>
-
     <checkout_onepage_index>
         <reference name="content">
             <block type="Enterprise_GiftRegistry_Block_Customer_Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml"/>
@@ -198,7 +183,7 @@
     <enterprise_giftregistry_index_edit translate="label" module="Enterprise_GiftRegistry" type="page" parent="enterprise_giftregistry_view_index">
         <label>Customer My Account GiftRegistry Edit</label>
         <update handle="customer_account"/>
-        <update handle="calendar"/>
+        <update handle="page_calendar"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_giftregistry/index/index</path></action>
         </reference>

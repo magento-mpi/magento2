@@ -100,7 +100,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'label'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expiration Date'),
             'title'  => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Expiration Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
-            'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());

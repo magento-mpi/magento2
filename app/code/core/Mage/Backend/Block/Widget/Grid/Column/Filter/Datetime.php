@@ -91,7 +91,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
      */
     public function getHtml()
     {
-        $htmlId = str_replace(".", "", $this->_getHtmlId() . microtime(true));
+        $htmlId = Mage::helper('Mage_Core_Helper_Data')->uniqHash($this->_getHtmlId());
         $format = $this->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $timeFormat = '';
 

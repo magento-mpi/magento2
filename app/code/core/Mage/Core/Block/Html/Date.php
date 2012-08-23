@@ -30,9 +30,9 @@ class Mage_Core_Block_Html_Date extends Mage_Core_Block_Template
                 (function( $ ) {
                     $(document).ready(function(){
                         $("#' . $this->getId() . '").calendar({
-                            showsTime: '. ((bool)$this->getTime() ? 'true' : 'false') .',
-                            //'. ((bool)$this->getTime() ? 'timeFormat: ' . $this->getTime() . ',' : '') . '
-                            //dateFormat: "' . $this->getFormat() . '",
+                            showsTime: '. ($this->getTimeFormat() ? 'true' : 'false') .',
+                            '. ($this->getTimeFormat() ? "timeFormat: '{$this->getTimeFormat()}'," : '') . '
+                            dateFormat: "' . $this->getDateFormat() . '",
                             buttonImage: "' . $this->getImage() . '",
                             '. ($calendarYearsRange ? 'yearRange: ' . $calendarYearsRange . ',' : '') . '
                             buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '"

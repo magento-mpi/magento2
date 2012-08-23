@@ -72,7 +72,7 @@ Supported layout update handles (special):
                 <action method="addJs"><file>mage/jquery-no-conflict.js</file></action>
                 <action method="addJs"><file>jquery/jquery-ui-1.8.18.custom.min.js</file></action>
                 <action method="addJs"><file>jquery/jquery-ui-timepicker-addon.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
-                <action method="addJs"><file>mage/adminhtml/calendar.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
+                <action method="addJs"><file>mage/calendar.js</file><!--<if/><condition>can_load_calendar_js</condition>--></action>
 
                 <action method="addJs"><file>extjs/ext-tree.js</file><params/><if/><condition>can_load_ext_js</condition></action>
                 <action method="addJs"><file>mage/adminhtml/fix-extjs-defer.js</file><params/><if/><condition>can_load_ext_js</condition></action>
