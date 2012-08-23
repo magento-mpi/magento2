@@ -1,0 +1,39 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_MAP
+# @subpackage  functional_tests
+# @subpackage  test-data
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+enable_map_gesture:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            enable_map: Yes
+            apply_map: Yes
+            display_actual_prise: On Gesture
+
+enable_map_in_cart:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            enable_map: Yes
+            apply_map: Yes
+            display_actual_prise: In Cart
+
+enable_map_before_confirmation:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_sales
+        configuration:
+            enable_map: Yes
+            apply_map: Yes
+            display_actual_prise: Before Order Confirmation
