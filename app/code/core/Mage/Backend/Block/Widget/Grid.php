@@ -184,7 +184,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumns()
     {
-        return $this->getChildBlock('columnSet')->getChildBlocks();
+        return $this->getLayout()->getChildBlocks($this->getChildBlock('columnSet')->getNameInLayout());
     }
 
     /**

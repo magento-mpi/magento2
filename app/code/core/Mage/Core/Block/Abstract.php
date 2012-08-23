@@ -82,6 +82,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function __construct(array $data = array())
     {
         parent::__construct($data);
+        if (isset($data['layout'])) {
+            $this->_layout = $data['layout'];
+        }
         $this->_construct();
 
     }
