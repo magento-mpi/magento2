@@ -129,7 +129,7 @@ new_customer_attribute:
 # Manage customer Attributes page
 edit_customer_attribute:
     mca: customer_attribute/edit/attribute_id/%id%/
-    title: %admin_title% / Manage Customer Attributes / Magento Admin
+    title: %attribute_code% / Manage Customer Attributes / Magento Admin
     uimap:
         form: &editCustomerAttributeForm
             tabs:
