@@ -82,7 +82,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
-     * @param array $attrData
+     * @param $attrData
      * @depends addCustomerAttribute
      * @TestlinkId TL-MAGE-5485
      */
