@@ -131,7 +131,7 @@ new_customer_address_attribute:
 # Manage Customer Address  Attributes page
 edit_customer_address_attribute:
     mca: customer_address_attribute/edit/attribute_id/%id%/
-    title: %admin_title% / Manage Customer Address Attributes / Magento Admin
+    title: %attribute_code% / Manage Customer Address Attributes / Magento Admin
     uimap:
         form: &editAddressAttributeForm
             tabs:

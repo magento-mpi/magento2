@@ -18,6 +18,7 @@
  */
 class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest extends Mage_Selenium_TestCase
 {
+    protected static $_currentDate;
     /**
      * Precondition:
      * Delete all existing imports/exports
@@ -180,6 +181,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         &$exportDataMain, &$exportDataFinances
     ) {
         //Preconditions:
+        self::$_currentDate = date("m/d/Y");
         // Create product export
         $exportDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
             'entity_type' => 'Products',
@@ -349,14 +351,14 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     ) {
         $this->_checkScheduledExportSearchFilter(
             array($exportDataProducts, $exportDataAddresses, $exportDataMain),
-            array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
+            array('date_from' => self::$_currentDate, 'date_to' => self::$_currentDate),
             false
         );
 
         // Step 11
         $this->_checkScheduledExportSearchFilter(
             array($exportDataFinances),
-            array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
+            array('date_from' => self::$_currentDate, 'date_to' => self::$_currentDate),
             true
         );
     }

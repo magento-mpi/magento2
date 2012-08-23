@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<phpunit backupGlobals="true"
+         backupStaticAttributes="false"
+         bootstrap="./framework/bootstrap.php"
+         cacheTokens="true"
+         colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         forceCoversAnnotation="false"
+         mapTestClassNameToCoveredClassName="false"
+         processIsolation="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
+         strict="false"
+         verbose="true">
+    <testsuites>
+        <testsuite name="All Tests">
+            <directory suffix="Test.php">testsuite/Community2/Mage/ImportExport</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
+            <directory suffix="Test.php">testsuite/Community2/Mage/Tags</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <exclude>
+            <group>skip_due_to_bug</group>
+        </exclude>
+    </groups>
+    <logging>
+        <log type="json" target="./var/logs/logfile.json"/>
+        <log type="tap" target="./var/logs/logfile.tap"/>
+        <log type="junit" target="./var/logs/logfile.xml" logIncompleteSkipped="false"/>
+        <log type="testdox-html" target="./var/logs/testdox.html"/>
+        <log type="testdox-text" target="./var/logs/testdox.txt"/>
+    </logging>
+</phpunit>
