@@ -19,6 +19,9 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     const XML_PATH_PRODUCT_URL_USE_CATEGORY     = 'catalog/seo/product_use_categories';
     const XML_PATH_USE_PRODUCT_CANONICAL_TAG    = 'catalog/seo/product_canonical_tag';
     const XML_PATH_SKU_AUTOGENERATE_MASK        = 'catalog/product_creation/sku_mask';
+    const XML_PATH_META_TITLE_AUTOGENERATE_MASK       = 'catalog/product_creation/meta_title_mask';
+    const XML_PATH_META_KEYWORDS_AUTOGENERATE_MASK    = 'catalog/product_creation/meta_keywords_mask';
+    const XML_PATH_META_DESCRIPTION_AUTOGENERATE_MASK = 'catalog/product_creation/meta_description_mask';
 
     /**
      * Flag that shows if Magento has to check product to be saleable (enabled and/or inStock)
@@ -462,5 +465,35 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     public function getSkuAutogenerationMask()
     {
         return (string)Mage::getConfig()->getNode(self::XML_PATH_SKU_AUTOGENERATE_MASK, 'default');
+    }
+
+    /**
+     * Get mask for Meta Title autogeneration
+     *
+     * @return string|null
+     */
+    public function getMetaTitleAutogenerationMask()
+    {
+        return (string)Mage::getConfig()->getNode(self::XML_PATH_META_TITLE_AUTOGENERATE_MASK, 'default');
+    }
+
+    /**
+     * Get mask for Meta Keywords autogeneration
+     *
+     * @return string|null
+     */
+    public function getMetaKeywordsAutogenerationMask()
+    {
+        return (string)Mage::getConfig()->getNode(self::XML_PATH_META_KEYWORDS_AUTOGENERATE_MASK, 'default');
+    }
+
+    /**
+     * Get mask for Meta Description autogeneration
+     *
+     * @return string|null
+     */
+    public function getMetaDescriptionAutogenerationMask()
+    {
+        return (string)Mage::getConfig()->getNode(self::XML_PATH_META_DESCRIPTION_AUTOGENERATE_MASK, 'default');
     }
 }

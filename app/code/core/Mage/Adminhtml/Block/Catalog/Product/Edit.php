@@ -257,12 +257,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     }
 
     /**
-     * Get sku mask from config
+     * Get fields masks from config
      *
-     * retun string
+     * retun array
      */
-    public function getSkuAutogenerationMask()
+    public function getFieldsAutogenerationMasks()
     {
-        return Mage::helper('Mage_Catalog_Helper_Product')->getSkuAutogenerationMask();
+        /** @var $helper Mage_Catalog_Helper_Product */
+        $helper = Mage::helper('Mage_Catalog_Helper_Product');
+        return array(
+            'sku' => $helper->getSkuAutogenerationMask(),
+            'meta_title' => $helper->getMetaTitleAutogenerationMask(),
+            'meta_keyword' => $helper->getMetaKeywordsAutogenerationMask(),
+            'meta_description' => $helper->getMetaDescriptionAutogenerationMask(),
+        );
     }
 }

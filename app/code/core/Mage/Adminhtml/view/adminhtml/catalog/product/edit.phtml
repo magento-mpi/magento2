@@ -108,48 +108,96 @@ Event.observe(window, 'load', function() {
         product_info_tabsJsTabs.showTabContent(obj);
     }
     Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
-    //SKU auto-population
-    (function ($) {
-        var skuMask = '<?php echo $this->jsQuoteEscape($this->getSkuAutogenerationMask())?>',
-            matches = skuMask.match(/{{(\w+?)}}/g),
-            skuField = $('#sku');
-        if (null === matches) {
-            matches = [];
-        }
+    //Fields auto-population
 
-        if ('' !== skuMask && '' === skuField.val()) {
-            var matchesCount = matches.length,
-                populateData = {data:{'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount}};
-            //Initial sku population
-            _populateSkuField(populateData);
-            _bindKeyupToInputs(matches, matchesCount, skuMask);
-            //Unbind events in case of sku field manual change
-            skuField.bind('change', function () {
-                if ('' === this.value) {
-                    _populateSkuField(populateData);
-                    _bindKeyupToInputs(matches, matchesCount, skuMask);
-                } else {
-                    for (i = 0; i < matchesCount; i++) {
-                        var inputId = matches[i].slice(2, -2);
-                        $('#' + inputId).unbind('keyup', _populateSkuField);
+    //todo: get list of allowed placeholders for each field. Current implementation allows us to use
+    //      any field, existing on product creation page
+    (function ($) {
+        var fieldsObject = {};
+        fieldsObject._boundFields = {};
+        //save relationship between fields
+        fieldsObject._addBoundField = function (name, fieldToPopulateName, mask) {
+            if ('undefined' === typeof this._boundFields[name]) {
+                this._boundFields[name] = {};
+                this._boundFields[name][fieldToPopulateName] = {};
+            }
+            this._boundFields[name][fieldToPopulateName] = {
+                mask:mask,
+                matches:mask.match(/{{([\w_]+?)}}/g)
+            };
+        };
+
+        fieldsObject._getBoundFields = function () {
+            return this._boundFields;
+        };
+
+        fieldsObject._getBoundField = function (name) {
+            return this._boundFields[name];
+        }
+        var masks = <?php echo json_encode($this->getFieldsAutogenerationMasks())?>;
+
+        for (var fieldToPopulateName in masks) {
+            if (masks.hasOwnProperty(fieldToPopulateName)) {
+                var mask = masks[fieldToPopulateName],
+                    matches = mask.match(/{{([\w_]+?)}}/g),
+                    fieldToPopulate = $('#' + fieldToPopulateName);
+                if (null === matches) {
+                    matches = [];
+                }
+                //fill in bound fields object
+                if ('' !== mask && '' === fieldToPopulate.val()) {
+                    var matchesCount = matches.length;
+                    for (var i = 0; i < matchesCount; i++) {
+                        var name = matches[i].slice(2, -2);
+                        fieldsObject._addBoundField(name, fieldToPopulateName, mask);
                     }
                 }
-            });
-        }
-        function _populateSkuField(e) {
-            var matches = e.data.matches, skuMask = e.data.skuMask, matchesCount = e.data.matchesCount;
-            for (var i = 0; i < matchesCount; i++) {
-                skuMask = skuMask.replace(matches[i], $('#' + matches[i].slice(2, -2)).val());
             }
-            skuField.val(skuMask);
+        }
+        //binding events
+        var fields = fieldsObject._getBoundFields();
+        for (var field in fields) {
+            //bind updating fields on keyup
+            if (fields.hasOwnProperty(field)) {
+                $('#' + field).on('keyup', {'fieldName':field}, _populateField);
+            }
+
+            //observe binded fields
+            for (var fieldToObserve in fields[field]) {
+                if (fields[field].hasOwnProperty(fieldToObserve)) {
+                    $('#' + fieldToObserve).bind('change', function () {
+                        if ('' === this.value) {
+                            //todo: bind event if value was cleared
+                        } else {
+                            //todo: unbind event if value was changed
+                        }
+                    });
+                }
+            }
         }
 
-        function _bindKeyupToInputs(matches, matchesCount, skuMask) {
-            //Event binding for each needed field
-            for (var i = 0; i < matchesCount; i++) {
-                var inputId = matches[i].slice(2, -2);
-                $('#' + inputId).bind('keyup', {'skuMask':skuMask, 'matches':matches, 'matchesCount':matchesCount},
-                    _populateSkuField);
+        /**
+         * Fields population by name of observed field
+         *
+         * @param e
+         * @private
+         */
+        function _populateField(e) {
+            var fieldName = e.data.fieldName,
+                fieldsToPopulate = fieldsObject._getBoundField(fieldName),
+                value = $('#' + fieldName).val();
+            for (var field in fieldsToPopulate) {
+                if (fieldsToPopulate.hasOwnProperty(field)) {
+                    var mask = fieldsToPopulate[field]['mask'],
+                        matches = fieldsToPopulate[field]['matches'],
+                        matchesCount = matches.length;
+
+                    // Replace all placeholders in mask before updating field's value
+                    for (var i = 0; i < matchesCount; i++) {
+                        mask = mask.replace(matches[i], $('#' + matches[i].slice(2, -2)).val());
+                    }
+                    $('#' + field).val(mask);
+                }
             }
         }
     })(jQuery);

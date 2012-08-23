@@ -361,6 +361,9 @@
             </navigation>
             <product_creation>
                 <sku_mask>{{name}}</sku_mask>
+                <meta_title_mask>{{name}}</meta_title_mask>
+                <meta_keywords_mask>{{name}},{{sku}}</meta_keywords_mask>
+                <meta_description_mask>{{name}} {{description}}</meta_description_mask>
             </product_creation>
             <frontend>
                 <list_mode>grid-list</list_mode>
