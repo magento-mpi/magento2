@@ -135,12 +135,12 @@
           </collectionProp>
         </ModuleController>
         <hashTree/>
-        <BSFPostProcessor guiclass="TestBeanGUI" testclass="BSFPostProcessor" testname="Remember number of orders before" enabled="true">
-          <stringProp name="scriptLanguage">javascript</stringProp>
-          <stringProp name="parameters"></stringProp>
+        <BSFListener guiclass="TestBeanGUI" testclass="BSFListener" testname="Remember number of orders before" enabled="true">
           <stringProp name="filename"></stringProp>
+          <stringProp name="parameters"></stringProp>
           <stringProp name="script">props.put(&quot;numOrdersBefore&quot;, vars.get(&apos;numOrders&apos;));</stringProp>
-        </BSFPostProcessor>
+          <stringProp name="scriptLanguage">javascript</stringProp>
+        </BSFListener>
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Checkout" enabled="true">
