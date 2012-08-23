@@ -30,17 +30,16 @@
          verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
-
             <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
-
+            <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
+
             <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/CustomerGroups</directory>
 
             <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/CmsPolls</directory>
@@ -52,14 +51,30 @@
             <directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
+
             <directory suffix="Test.php">testsuite/Core/Mage/Tags</directory>
 
-            <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderCreditMemo</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderInvoice</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/OrderShipment</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax/CustomerTaxClass</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax/ProductTaxClass</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRate</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Tax/TaxRule</directory>
+            <file>testsuite/Core/Mage/Tax/TaxAndPricesValidationBackend.php</file>
+            <file>testsuite/Core/Mage/Tax/TaxAndPricesValidationFrontend.php</file>
+
             <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
 
             <directory suffix="Test.php">testsuite/Core/Mage/Various</directory>
             <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
-            <directory suffix="Test.php">testsuite</directory>
+
+            <directory suffix="Test.php">testsuite/Core/Mage/Installation</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/Paypal</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/ShoppingCart</directory>
+            <directory suffix="Test.php">testsuite/Core/Mage/SystemConfiguration</directory>
         </testsuite>
     </testsuites>
     <php>
@@ -68,11 +83,6 @@
         <!-- Whether to perform a cleanup to guarantee the "clean" installation before the next tests execution. -->
         <const name="SELENIUM_TESTS_INSTALLATION_CLEANUP" value="enabled"/>
     </php>
-    <groups>
-        <exclude>
-            <group>skip_due_to_bug</group>
-        </exclude>
-    </groups>
     <logging>
         <log type="json" target="./var/logs/logfile.json"/>
         <log type="tap" target="./var/logs/logfile.tap"/>
