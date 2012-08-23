@@ -752,18 +752,7 @@ final class Mage
 
         try {
             if (!isset($loggers[$file])) {
-                $logDir  = self::getBaseDir('var') . DS . 'log';
-                $logFile = $logDir . DS . $file;
-
-                if (!is_dir($logDir)) {
-                    mkdir($logDir);
-                    chmod($logDir, 0777);
-                }
-
-                if (!file_exists($logFile)) {
-                    file_put_contents($logFile, '');
-                    chmod($logFile, 0777);
-                }
+                $logFile = self::_expandLogFileName($file);
 
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
                 $formatter = new Zend_Log_Formatter_Simple($format);
@@ -787,6 +776,35 @@ final class Mage
         catch (Exception $e) {
         }
     }
+
+    /**
+     * Expand log file name to absolute path, if necessary
+     *
+     * @param string $file
+     * @return string
+     */
+    protected static function _expandLogFileName($file)
+    {
+        /*
+         * Check whether a file is a wrapper
+         * @link http://www.php.net/manual/en/wrappers.php
+         */
+        if (preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
+            return $file;
+        }
+        $dir  = self::getBaseDir('var') . DIRECTORY_SEPARATOR . 'log';
+        $file = $dir . DIRECTORY_SEPARATOR . $file;
+        if (!is_dir($dir)) {
+            mkdir($dir);
+            chmod($dir, 0777);
+        }
+        if (!file_exists($file)) {
+            file_put_contents($file, '');
+            chmod($file, 0777);
+        }
+        return $file;
+    }
+
 
     /**
      * Write exception to log

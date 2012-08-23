@@ -17,6 +17,16 @@ class MageTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoConfigFixture current_store dev/log/active 1
+     * @link http://us3.php.net/manual/en/wrappers.php
+     */
+    public function testLogIntoWrapper()
+    {
+        $this->expectOutputRegex('/test/');
+        Mage::log('test', null, 'php://output');
+    }
+
+    /**
      * @magentoAppIsolation enabled
      */
     public function testReset()
