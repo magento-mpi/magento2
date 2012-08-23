@@ -20,7 +20,7 @@ abstract class Mage_DesignEditor_Model_ChangeAbstract extends Varien_Object
      */
     public function __construct(array $data = array())
     {
-        parent::__construct();
+        parent::__construct($data);
         $this->_validate();
     }
 

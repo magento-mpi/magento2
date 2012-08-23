@@ -44,7 +44,7 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="UTF-8"?><design></design>';
+        return '<?xml version="1.0" encoding="UTF-8"?><layout></layout>';
     }
 
     /**

@@ -26,8 +26,10 @@ class Mage_DesignEditor_Model_Change_Layout_Move extends Mage_DesignEditor_Model
     protected function _getRequiredFields()
     {
         $requiredFields = parent::_getRequiredFields();
-        $requiredFields[] = 'container';
-        $requiredFields[] = 'after';
+        $requiredFields[] = 'destination_container';
+        $requiredFields[] = 'destination_order';
+        $requiredFields[] = 'origin_container';
+        $requiredFields[] = 'origin_order';
 
         return $requiredFields;
     }
@@ -40,9 +42,9 @@ class Mage_DesignEditor_Model_Change_Layout_Move extends Mage_DesignEditor_Model
     public function getLayoutUpdateData()
     {
         return array(
-            'name'         => $this->getData('element_name'),
-            'element_name' => $this->getData('element_name'),
-            'destination'  => $this->getData('destination')
+            'element'     => $this->getData('element_name'),
+            'after'       => $this->getData('destination_order'),
+            'destination' => $this->getData('destination_container')
         );
     }
 }

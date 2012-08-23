@@ -78,7 +78,6 @@ class Mage_DesignEditor_Model_History
      */
     public function addChange($item)
     {
-
         $baseChangeClass = self::BASE_CHANGE_CLASS;
         if (!$item instanceof $baseChangeClass) {
             $item = $this->_getChangeItem($item);
