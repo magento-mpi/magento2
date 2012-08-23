@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tags Validation on the frontend
  *
@@ -16,21 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_FrontendManagementTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_FrontendManagementTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-        $this->logoutCustomer();
-    }
-
     /**
      * @return array
      * @test
@@ -38,29 +25,8 @@ class Community2_Mage_Tags_FrontendManagementTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        //Data
-        $userData = array();
-        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
-        $userData[2] = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData[1]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->createCustomer($userData[2]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $simple = array();
-        $simple[1] = $this->productHelper()->createSimpleProduct(true);
-        $simple[2] = $this->productHelper()->createSimpleProduct(true);
-        $this->reindexInvalidedData();
-        $this->flushCache();
-        $userData[1] = array('email' => $userData[1]['email'], 'password' => $userData[1]['password']);
-        $userData[2] = array('email' => $userData[2]['email'], 'password' => $userData[2]['password']);
-        $simple[1] = $simple[1]['simple']['product_name'];
-        $simple[2] = $simple[2]['simple']['product_name'];
-        return array('user'     => $userData,
-                     'simple'   => $simple);
+        return parent::_preconditionsForAllTagsTests();
     }
-
     /**
      * Tag creating with Logged Customer:
      *  Adding single new tag
@@ -83,7 +49,7 @@ class Community2_Mage_Tags_FrontendManagementTest extends Mage_Selenium_TestCase
     {
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][1]);
-        $this->productHelper()->frontOpenProduct($testData['simple'][1]);
+        $this->productHelper()->frontOpenProduct($testData['simple']);
         //Steps
         $this->tagsHelper()->frontendAddTag($tags);
         //Verification
@@ -101,9 +67,8 @@ class Community2_Mage_Tags_FrontendManagementTest extends Mage_Selenium_TestCase
             $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => $status));
         }
         $this->frontend();
-        $this->tagsHelper()->frontendTagVerification($tags, $testData['simple'][1]);
+        $this->tagsHelper()->frontendTagVerification($tags, $testData['simple']);
     }
-
     public function tagNameDataProvider()
     {
         $tagsData = array();
