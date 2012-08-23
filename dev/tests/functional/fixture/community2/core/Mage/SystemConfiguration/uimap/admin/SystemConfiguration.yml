@@ -117,15 +117,6 @@ system_configuration:
                                 facebook_config:
                                     xpath: //fieldset[@id='facebook_config']
                 -
-                    sales_sales:
-                        fieldsets:
-                            -
-                                general:
-                                    xpath: //fieldset[@id='sales_general']
-                            -
-                                dashboard_sales:
-                                    xpath: //fieldset[@id='sales_dashboard']
-                -
                     sales_pdf_print_outs:
                         fieldsets:
                             -
@@ -137,6 +128,12 @@ system_configuration:
                             -
                                 credit_memo_pdf:
                                     xpath: //fieldset[@id='sales_pdf_creditmemo']
+                -
+                    sales_sales:
+                        fieldsets:
+                            -
+                                minimum_advertised_price:
+                                    xpath: //fieldset[@id='sales_msrp']
                 -
                     sales_sales_emails:
                         fieldsets:
