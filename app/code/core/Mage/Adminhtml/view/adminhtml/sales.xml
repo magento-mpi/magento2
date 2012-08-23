@@ -18,18 +18,7 @@
 
     <adminhtml_sales_order_index>
         <reference name="content">
-            <block type="Mage_Adminhtml_Block_Sales_Order" name="sales_order.grid.container">
-                <arguments>
-                    <one>1</one>
-                    <two>2</two>
-                </arguments>
-            </block>
-        </reference>
-        <reference name="sales_order.grid.container">
-            <arguments>
-                <two>3</two>
-                <three>3</three>
-            </arguments>
+            <block type="Mage_Adminhtml_Block_Sales_Order" name="sales_order.grid.container"></block>
         </reference>
     </adminhtml_sales_order_index>
 
