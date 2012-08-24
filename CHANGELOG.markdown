@@ -5,7 +5,7 @@ Update as of 8/24/2012
   * Implemented tracking of user changes history and rendering the actions at VDE toolbar
   * Implemented compacting of user changes history. Compacting is done in order to save all the changes as a minimal layout update.
 * Improvements:
-  * Added IDE Plugin configuration files to `.gitignore`
+  * Added Atlassian IDE Plugin configuration files to `.gitignore`
   * Relocated `add_to_cart`, `checkout` and `product_edit` performance scenarios from `samples` to the normal `testsuite` directory. These scenarios can be used for Magento performance testing.
   * Implemented verification of number of orders that were created during execution of `checkout` performance scenario
   * Removed usage of deprecated `PHPUnit_Extensions_OutputTestCase` class from unit tests
@@ -13,7 +13,7 @@ Update as of 8/24/2012
   * Fixed MySQL DB adapter to always throw exception, if it was not able to connect to DB because of wrong configuration. So now the adapter's behavior is not dependent on `error_reporting` settings.
   * Added the missing closing tag to New Order email template
   * Fixed `Mage_ImportExport_Model_Import_Entity_CustomerComposite` integration test issues
-  * Marked `Mage_Adminhtml_CustomerControllerTest` integration test as incomplete, as the tested functionality was not MMDB-compliant
+  * Marked several integration tests in `Mage_Adminhtml_CustomerControllerTest` as incomplete, as the tested functionality was not MMDB-compliant
   * Fixed issue with unit tests failure, when there was a Zend Framework installed as PEAR package
   * Fixed `advanced_search` performance scenario to fail, if the searched product doesn't exist
 * GitHub requests:
