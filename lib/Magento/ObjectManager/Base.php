@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-class Magento_ObjectManager_Base extends Magento_ObjectManager_ObjectManagerAbstract
+class Magento_ObjectManager_Base implements Magento_ObjectManager
 {
     /**
      * Created instances

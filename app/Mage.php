@@ -355,6 +355,7 @@ final class Mage
             ->getUrl($route, $params);
     }
 
+    protected static $_design;
     /**
      * Get design package singleton
      *
@@ -362,7 +363,10 @@ final class Mage
      */
     public static function getDesign()
     {
-        return self::getObjectManager()->get('Mage_Core_Model_Design_Package');
+        if (!self::$_design) {
+            self::$_design = self::getObjectManager()->get('Mage_Core_Model_Design_Package');
+        }
+        return self::$_design;
     }
 
     /**
@@ -372,7 +376,10 @@ final class Mage
      */
     public static function getConfig()
     {
-        return self::getObjectManager()->get('Mage_Core_Model_Config');
+        if (!self::$_config) {
+            self::$_config = self::getObjectManager()->get('Mage_Core_Model_Config');
+        }
+        return self::$_config;
     }
 
     /**
@@ -436,7 +443,11 @@ final class Mage
      */
     public static function getSingleton($modelClass = '', array $arguments=array())
     {
-        return self::getObjectManager()->get($modelClass, $arguments);
+        $registryKey = '_singleton/'.$modelClass;
+        if (!self::registry($registryKey)) {
+            self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
+        }
+        return self::registry($registryKey);
     }
 
     /**
@@ -447,7 +458,7 @@ final class Mage
     public static function getObjectManager()
     {
         if (!self::$_objectManager) {
-            self::$_objectManager = new Magento_ObjectManager_Zend(self::getRoot() . '/var');
+            self::$_objectManager = new Magento_ObjectManager_Zend(self::getRoot() . '/../var');
         }
         return self::$_objectManager;
     }
@@ -476,7 +487,13 @@ final class Mage
      */
     public static function getResourceSingleton($modelClass = '', array $arguments = array())
     {
-        return self::getObjectManager()->get($modelClass, $arguments);
+        $registryKey = '_resource_singleton/'.$modelClass;
+        if (!self::registry($registryKey)) {
+            self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
+        }
+        return self::registry($registryKey);
+
+        ;
     }
 
     /**
@@ -522,8 +539,12 @@ final class Mage
             $name .= '_Helper_Data';
         }
 
-        $helperClass = self::getConfig()->getHelperClassName($name);
-        return self::getObjectManager()->get($helperClass);
+        $registryKey = '_helper/' . $name;
+        if (!self::registry($registryKey)) {
+            $helperClass = self::getConfig()->getHelperClassName($name);
+            self::register($registryKey, self::getObjectManager()->get($helperClass));
+        }
+        return self::registry($registryKey);
     }
 
     /**
@@ -618,7 +639,7 @@ final class Mage
     {
         try {
             self::setRoot();
-            self::$_app     = new Mage_Core_Model_App();
+            self::$_app     = self::getObjectManager()->create('Mage_Core_Model_App');
             self::_setIsInstalled($options);
             self::_setConfigModel($options);
 
@@ -654,7 +675,7 @@ final class Mage
             if (isset($options['edition'])) {
                 self::$_currentEdition = $options['edition'];
             }
-            self::$_app    = new Mage_Core_Model_App();
+            self::$_app    = self::getObjectManager()->get('Mage_Core_Model_App');
             if (isset($options['request'])) {
                 self::$_app->setRequest($options['request']);
             }

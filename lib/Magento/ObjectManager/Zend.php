@@ -5,7 +5,7 @@ use Zend\Di\Di,
     Zend\Di\Configuration,
     Zend\Di\Definition;
 
-class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbstract
+class Magento_ObjectManager_Zend implements Magento_ObjectManager
 {
     /**
      * @var \Zend\Di\Di
@@ -17,7 +17,9 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
      */
     public function __construct($varDir)
     {
+        Magento_Profiler::start('di');
         $definition = null;
+
         if (file_exists($varDir . '/di/definitions.php')) {
             $definition = new Definition\ArrayDefinition(
                 unserialize(file_get_contents($varDir . '/di/definitions.php'))
@@ -32,6 +34,7 @@ class Magento_ObjectManager_Zend extends Magento_ObjectManager_ObjectManagerAbst
         $config->loadBase();
         $config = new  Configuration(array('instance' => $config->getNode('global/di')->asArray()));
         $config->configure($this->_di);
+        Magento_Profiler::stop('di');
     }
 
     /**

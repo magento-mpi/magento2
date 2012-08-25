@@ -51,6 +51,15 @@ function compileModule($moduleDir)
     {
         unset($item['supertypes']);
     });
+    foreach ($moduleDefinitions as $name => $definition) {
+        $constructorParams = isset($definition['parameters']['__construct']) ? array_values($definition['parameters']['__construct']) : array();
+        if (!count($constructorParams)
+            || (count($constructorParams) == 5 && !$constructorParams[3][2] && preg_match('/\w*_\w*\_Model/', $name))
+            || (count($constructorParams) == 9 && $constructorParams[3][2] && preg_match('/\w*_\w*\_Block/', $name))) {
+            unset($moduleDefinitions[$name]);
+        }
+
+    }
     return $moduleDefinitions;
 }
 

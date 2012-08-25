@@ -137,6 +137,8 @@ class Di implements DependencyInjectionInterface
         return $instance;
     }
 
+    protected $_instances;
+
     /**
      * Retrieve a new instance of a class
      *
