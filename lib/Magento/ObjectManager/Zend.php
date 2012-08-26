@@ -28,7 +28,7 @@ class Magento_ObjectManager_Zend implements Magento_ObjectManager
             $definition = new Definition\RuntimeDefinition();
         }
 
-        $this->_di = new Di(new DefinitionList($definition));
+        $this->_di = new Magento_Di(new DefinitionList($definition));
         $this->_di->instanceManager()->addSharedInstance($this, "Magento_ObjectManager");
         $config = $this->get('Mage_Core_Model_Config');
         $config->loadBase();

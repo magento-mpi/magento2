@@ -98,9 +98,9 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function __construct(
         Mage_Core_Model_Event_Manager $eventDispatcher,
         Mage_Core_Model_Cache $cacheManager,
-        array $data = array(),
         Mage_Core_Model_Resource_Abstract $resource = null,
-        Mage_Core_Model_Resource_Db_Collection_Abstract $resourceCollection = null
+        Varien_Data_Collection_Db $resourceCollection = null,
+        array $data = array()
     ) {
         parent::__construct($eventDispatcher, $cacheManager, $resource, $resourceCollection, $data);
 

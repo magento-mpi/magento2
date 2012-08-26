@@ -492,8 +492,6 @@ final class Mage
             self::register($registryKey, self::getObjectManager()->get($modelClass, $arguments));
         }
         return self::registry($registryKey);
-
-        ;
     }
 
     /**
@@ -684,7 +682,6 @@ final class Mage
             }
             self::$_events = new Varien_Event_Collection();
             self::_setIsInstalled($options);
-            self::_setConfigModel($options);
             self::$_app->run(array(
                 'scope_code' => $code,
                 'scope_type' => $type,

@@ -1,11 +1,12 @@
 <?php
-
 /**
  * Require necessary files
  */
 /**
  * Constants definition
  */
+use \Zend\Di\Di;
+
 define('DS', DIRECTORY_SEPARATOR);
 define('BP', realpath(__DIR__ . '/../../..'));
 
@@ -19,8 +20,6 @@ $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
 $paths[] = BP . DS . 'lib';
 Magento_Autoload::getInstance()->addIncludePath($paths);
 
-use \Zend\Di\Di,
-\Zend\Di\Definition\CompilerDefinition;
 Mage::setRoot();
 $config = new Mage_Core_Model_Config();
 $config->loadBase();
@@ -33,7 +32,7 @@ function compileModule($moduleDir)
     $strategy->setMethodNameInclusionPatterns(array());
     $strategy->setInterfaceInjectionInclusionPatterns(array());
 
-    $compiler = new CompilerDefinition($strategy);
+    $compiler = new Magento_Di_Definition_CompilerDefinition($strategy);
     $compiler->addDirectory($moduleDir);
 
     $controllerPath = $moduleDir . '/controllers/';
