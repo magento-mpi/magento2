@@ -75,15 +75,39 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     protected static $_urlModel;
 
     /**
+     * @var Mage_Core_Model_Event_Manager
+     */
+    protected $_eventManager;
+
+    /**
      * Class constructor
      *
      * @param array $data
      */
     public function __construct(array $data = array())
     {
-        parent::__construct($data);
-        $this->_construct();
+        $this->_eventManager = isset($data['eventManager']) ?
+            $data['eventManager'] :
+            null;
 
+        parent::__construct($data);
+        if (isset($data['layout'])) {
+            $this->_layout = $data['layout'];
+        }
+        $this->_construct();
+    }
+
+    /**
+     * Get Event Manager
+     * @return Mage_Core_Model_Event_Manager
+     */
+    protected function _getEventManager()
+    {
+        if (null === $this->_eventManager) {
+            $this->_eventManager = Mage::getSingleton('Mage_Core_Model_Event_Manager');
+        }
+
+        return $this->_eventManager;
     }
 
     /**
@@ -153,9 +177,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     public function setLayout(Mage_Core_Model_Layout $layout)
     {
         $this->_layout = $layout;
-        Mage::dispatchEvent('core_block_abstract_prepare_layout_before', array('block' => $this));
+        $this->_getEventManager()->dispatch('core_block_abstract_prepare_layout_before', array('block' => $this));
         $this->_prepareLayout();
-        Mage::dispatchEvent('core_block_abstract_prepare_layout_after', array('block' => $this));
+        $this->_getEventManager()->dispatch('core_block_abstract_prepare_layout_after', array('block' => $this));
         return $this;
     }
 
