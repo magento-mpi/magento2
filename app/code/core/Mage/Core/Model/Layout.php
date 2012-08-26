@@ -176,6 +176,11 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected $_scheduledRemoves = array();
 
     /**
+     * @var Mage_Core_Model_Layout_Argument_Processor
+     */
+    public $_argumentProcessor;
+
+    /**
      * Class constructor
      *
      * @param array $arguments
@@ -193,6 +198,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         } else {
             $this->_structure = Mage::getModel('Magento_Data_Structure');
         }
+
+        $this->_argumentProcessor = isset($arguments['processor']) ? $arguments['processor'] : null;
+
         $this->_elementClass = Mage::getConfig()->getModelClassName('Mage_Core_Model_Layout_Element');
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
         $this->_renderingOutput = new Varien_Object;
@@ -365,8 +373,8 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     protected function _readStructure($parent)
     {
-        /** @var Mage_Core_Model_Layout_Element $node */
         foreach ($parent as $node) {
+            /** @var $node Mage_Core_Model_Layout_Element */
             switch ($node->getName()) {
                 case self::TYPE_CONTAINER:
                 case self::TYPE_BLOCK:
@@ -385,13 +393,12 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
 
                 case self::TYPE_ARGUMENTS:
                     $referenceName = $parent->getAttribute('name');
+                    $arguments = $this->_readArguments($node);
                     if (isset($this->_scheduledStructure[$referenceName]['arguments'])) {
                         $this->_scheduledStructure[$referenceName]['arguments'] = array_merge(
-                            $this->_scheduledStructure[$referenceName]['arguments'],
-                            $node->asArray()
-                        );
+                            $this->_scheduledStructure[$referenceName]['arguments'], $arguments);
                     } else {
-                        $this->_scheduledStructure[$referenceName]['arguments'] = $node->asArray();
+                        $this->_scheduledStructure[$referenceName]['arguments'] = $arguments;
                     }
                     break;
 
@@ -407,6 +414,26 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     break;
             }
         }
+    }
+
+    /**
+     * Read arguments node and create prepared array of them
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return array
+     */
+    protected function _readArguments(Mage_Core_Model_Layout_Element $node)
+    {
+        $arguments = array();
+        foreach ($node->children() as $child) {
+            /** @var $child Mage_Core_Model_Layout_Element */
+            $type = $child->getAttribute('type');
+            if ($type) {
+                $arguments[$child->getName()]['type'] = $type;
+            }
+            $arguments[$child->getName()]['value'] = $child->__toString();
+        }
+        return $arguments;
     }
 
     /**
@@ -622,6 +649,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         } else {
             $className = (string)$node['type'];
         }
+
+        $arguments = $this->_getArgumentProcessor()->process($arguments);
+
         $block = $this->_createBlock($className, $elementName, $arguments);
         if (!empty($node['template'])) {
             $block->setTemplate((string)$node['template']);
@@ -1237,6 +1267,22 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         $this->_structure->renameElement($oldName, $newName);
 
         return $this;
+    }
+
+    /**
+     * Initialize and retrieve argument processor
+     *
+     * @return Mage_Core_Model_Layout_Argument_Processor
+     */
+    protected function _getArgumentProcessor()
+    {
+        if (null === $this->_argumentProcessor) {
+            $this->_argumentProcessor = Mage::getModel('Mage_Core_Model_Layout_Argument_Processor', array(
+                'processorConfig' => Mage::getModel('Mage_Core_Model_Layout_Argument_ProcessorConfig'),
+                'objectFactory' => Mage::getConfig()
+            ));
+        }
+        return $this->_argumentProcessor;
     }
 
     /**
