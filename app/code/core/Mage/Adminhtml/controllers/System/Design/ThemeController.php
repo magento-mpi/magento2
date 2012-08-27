@@ -77,7 +77,7 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
      */
     public function saveAction()
     {
-        if ($this->getRequest()->getPost()) {
+        if (!$this->getRequest()->getPost()) {
             $this->_redirect('*/*/');
             return;
         }
@@ -100,6 +100,7 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
             $this->_redirect('*/*/edit', array('id' => $theme->getId()));
             return;
         }
+        $this->_redirect('*/*/');
     }
 
     /**
