@@ -56,11 +56,13 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($this->__($e->getMessage()));
-                return $this->_redirect('*/*/');
+                $this->_redirect('*/*/');
+                return;
             } catch (Exception $e) {
                 $this->_getSession()->addError($this->__('The theme was not found.'));
                 Mage::logException($e);
-                return $this->_redirect('*/*/');
+                $this->_redirect('*/*/');
+                return;
             }
         }
         Mage::register('theme', $theme);
@@ -76,7 +78,8 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
     public function saveAction()
     {
         if ($this->getRequest()->getPost()) {
-            return $this->_redirect('*/*/');
+            $this->_redirect('*/*/');
+            return;
         }
         $themeData = $this->getRequest()->getParam('theme');
         try {
@@ -89,11 +92,13 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
             $this->_getSession()->addSuccess($this->__('The theme has been saved.'));
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($this->__($e->getMessage()));
-            return $this->_redirect('*/*/');
+            $this->_redirect('*/*/');
+            return;
         } catch (Exception $e) {
             $this->_getSession()->addError('The theme was not saved');
             Mage::logException($e);
-            return $this->_redirect('*/*/edit', array('id' => $theme->getId()));
+            $this->_redirect('*/*/edit', array('id' => $theme->getId()));
+            return;
         }
     }
 
@@ -104,7 +109,8 @@ class Mage_Adminhtml_System_Design_ThemeController extends Mage_Adminhtml_Contro
     {
         $themeId = $this->getRequest()->getParam('theme_id');
         if (!$themeId) {
-            return $this->_redirect('*/*/');
+            $this->_redirect('*/*/');
+            return;
         }
         try {
             Mage::getModel('Mage_Core_Model_Theme')->load($themeId)->delete();
