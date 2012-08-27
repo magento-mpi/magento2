@@ -757,12 +757,11 @@ final class Mage
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
                 $formatter = new Zend_Log_Formatter_Simple($format);
                 $writerModel = (string)self::getConfig()->getNode('global/log/core/writer_model');
-                if (!self::$_app || !$writerModel) {
-                    $writer = new Zend_Log_Writer_Stream($logFile);
+                if (!self::$_app || !$writerModel || !is_subclass_of($writerModel, 'Zend_Log_Writer_Stream')) {
+                    $writerModel = 'Zend_Log_Writer_Stream';
                 }
-                else {
-                    $writer = new $writerModel($logFile);
-                }
+                /** @var $writer Zend_Log_Writer_Stream */
+                $writer = new $writerModel($logFile);
                 $writer->setFormatter($formatter);
                 $loggers[$file] = new Zend_Log($writer);
             }
