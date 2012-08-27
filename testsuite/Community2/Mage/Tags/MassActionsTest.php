@@ -374,6 +374,15 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
         }
     }
     /**
+     * @return array
+     * @test
+     * @skipTearDown
+     */
+    public function preconditionsForTests()
+    {
+        return parent::_preconditionsForMassActionsTests();
+    }
+    /**
      * Selecting tags options
      * Precondition: two pages of tags with "Pending" status.
      * Steps:
@@ -389,22 +398,11 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
      *
      * @test
      * @dataProvider tagDataProvider
+     * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2340, TL-MAGE-2364
      */
-    public function selectingTagsOptions($tagArea)
+    public function selectingTagsOptions($tagArea, $tagData)
     {
-        $tagData = array();
-        //Precondition
-        $this->navigate('all_tags');
-        for ($i = 0; $i < 21; $i++) {
-            $tagData[$i] = array(
-                'tag_name' => 'tag_' . str_pad($i, 2, 0, STR_PAD_LEFT),
-                'tag_status' => 'Pending',
-            );
-            $this->tagsHelper()->addTag($tagData[$i]);
-            $this->assertTrue($this->checkCurrentPage('all_tags'), $this->getParsedMessages());
-            $this->assertMessagePresent('success', 'success_saved_tag');
-        }
         //Step 1
         $this->navigate($tagArea);
         //Step 2
