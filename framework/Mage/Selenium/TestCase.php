@@ -65,6 +65,7 @@
  * @method Community2_Mage_Reports_Helper|Enterprise2_Mage_Reports_Helper reportsHelper() reportsHelper()
  * @method Enterprise2_Mage_CacheStorageManagement_Helper cacheStorageManagementHelper() cacheStorageManagementHelper()
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ * @mathod Community2_Mage_Csv_Helper csvHelper() csvHelper()
  *
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase

@@ -15,7 +15,6 @@
  * @package     selenium
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Community2_Mage_Csv_Helper csvHelper()
  */
 class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
 {
