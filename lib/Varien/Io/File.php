@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category   Varien
- * @package    Varien_Io
  * @copyright  {copyright}
  * @license    {license_link}
  */

@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Varien
- * @package     Varien_Io
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -29,12 +26,10 @@ class Varien_Io_FileTest extends PHPUnit_Framework_TestCase
         try {
             $this->_prepare();
             if (substr(PHP_OS, 0, 3) == 'WIN') {
-                $permsBefore = 0600;
-                $expected = 0666;
-            } else {
-                $permsBefore = 0700;
-                $expected = 0777;
+                $this->markTestSkipped("chmod is may does not work for Windows");
             }
+            $permsBefore = 0700;
+            $expected = 0777;
             $this->assertEquals($permsBefore, fileperms($this->_dir) & $permsBefore,
                 "Wrong permissions set for " . $this->_dir);
             $this->assertEquals($permsBefore, fileperms($this->_file) & $permsBefore,
