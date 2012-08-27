@@ -747,7 +747,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>Will be opened 404 page</p>
      *
      * @test
-     * @TestlinkId TL-MAGE-5512
+     * @TestlinkId TL-MAGE-5510
      */
     public function productRewriteToOtherWebsite ()
     {
@@ -902,5 +902,78 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
         //Verifying page of URL rewrite for category
         $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
+    }
+
+    /**
+     * <p>URL Rewrite for product in scope of two different Websites</p>
+     * <p>Steps</p>
+     * <p>1. Press Add URL Rewrite button</p>
+     * <p>2. Create URL Rewrite select Product</p>
+     * <p>3. Select category </p>
+     * <p>4. Request store dropdown Store 2 doesn't available </p>
+     * @test
+     * @TestlinkId TL-MAGE-5512
+     */
+    public function productRewriteToOtherStore ()
+    {
+        //Create Root for Store 2
+        $this->navigate('manage_categories');
+        $category = $this->loadDataSet('Category', 'root_category_required');
+        $this->categoryHelper()->createCategory($category);
+        $this->navigate('manage_stores');
+
+        // Crete Store 2 and Store View 2
+        $storeData = $this->loadDataSet('Store', 'generic_store', array('root_category' => $category['name']));
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertMessagePresent('success', 'success_saved_store');
+
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view',
+            array('store_name' => $storeData['store_name']));
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+
+        //Create product and assign to Website2
+        $this->navigate('manage_products');
+        $productData = $this->loadDataSet('UrlRewrite', 'simple_product_required',
+            array('categories' => $category['name']));
+        $productSearch =
+            $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
+        $this->productHelper()->createProduct($productData);
+        $this->assertMessagePresent('success', 'success_saved_product');
+
+        //Open Manage URL rewrite page
+        $this->admin('url_rewrite_management');
+
+        //Click 'Add new rewrite' button
+        $this->clickButton('add_new_rewrite', true);
+        $this->waitForAjax();
+
+        //Select "For Product"
+        $this->fillDropdown('create_url_rewrite_dropdown', 'For product');
+        $this->waitForPageToLoad();
+
+        //Find product in the Grid and open it
+        $this->validatePage('add_new_urlrewrite_product');
+        $this->searchAndOpen($productSearch, false, 'product_rewrite');
+        $this->waitForPageToLoad();
+        $this->addParameter('id', $this->defineParameterFromUrl('product'));
+        $this->validatePage();
+
+        //Select Category
+        $categorySearch = $productData['categories'];
+        $this->addParameter('rootName', $categorySearch);
+        $this->clickControl('link', 'root_category', false);
+        $this->waitForPageToLoad();
+        $this->addParameter('categoryId', $this->defineParameterFromUrl('category'));
+        $this->validatePage();
+
+        //Check that 'Dafault Store View' isn\t present in request store
+        try {
+            $this->fillDropdown('request_store', 'Default Store View');
+        } catch (Exception $e) {
+            if (false === strpos($e->getMessage(), "ERROR: Option with label 'regexp:Default Store View' not found")) {
+                throw $e;
+            }
+        }
     }
 }
