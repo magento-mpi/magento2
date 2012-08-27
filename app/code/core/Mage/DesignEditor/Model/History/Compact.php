@@ -18,10 +18,7 @@ class Mage_DesignEditor_Model_History_Compact
      *
      * @var array
      */
-    protected $_config = array(
-        'Mage_DesignEditor_Model_History_Compact_Layout',
-        'Mage_DesignEditor_Model_History_Compact_Diff',
-    );
+    protected $_config = array('Mage_DesignEditor_Model_History_Compact_Layout');
 
     /**
      * Storage of compact strategies
