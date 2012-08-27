@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Returns an array containing the configuration used to generate the JsTestDriver configuration
+ * file that gets used by JsTestDriver when it executes the Javascript unit tests.
+ *
+ * @return array
+ */
 return array(
     'server' => 'http://localhost:9876',
     'proxy' => array(array('matcher' => '/pub/lib/*', 'server' => '%s/test/pub/lib/')),
