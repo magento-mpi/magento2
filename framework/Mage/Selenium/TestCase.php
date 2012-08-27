@@ -66,7 +66,7 @@
  * @method Enterprise_Mage_GiftWrapping_Helper giftWrappingHelper()
  * @method Enterprise_Mage_Rollback_Helper rollbackHelper()
  */
-class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
+class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 {
     ################################################################################
     #              Framework variables and constant                                #
@@ -160,13 +160,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @var string
      */
     private $_urlPostfix;
-
-    /**
-     * Testcase error
-     * @var boolean
-     * @deprecated
-     */
-    protected $_error = false;
 
     /**
      * Type of uimap elements
@@ -525,8 +518,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 
     /**
      * Retrieve instance of helper
-     * @deprecated
-     * @see _loadHelper()
      *
      * @param  string $className
      *
@@ -557,16 +548,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     * Checks if there was error during last operations
-     * @return boolean
-     * @deprecated
-     */
-    public function hasError()
-    {
-        return $this->_error;
-    }
-
-    /**
      * @param string $message
      */
     public function skipTestWithScreenshot($message)
@@ -591,16 +572,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Asserts that $condition is true. Reports an error $message if $condition is false.
      * @static
      *
-     * @param bool|Mage_Selenium_TestCase $condition Condition to assert
+     * @param bool $condition Condition to assert
      * @param string|array $message Message to report if the condition is false (by default = '')
      */
     public static function assertTrue($condition, $message = '')
     {
         $message = self::messagesToString($message);
-
-        if (is_object($condition)) {
-            $condition = (false === $condition->hasError());
-        }
 
         self::assertThat($condition, self::isTrue(), $message);
     }
@@ -609,16 +586,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Asserts that $condition is false. Reports an error $message if $condition is true.
      * @static
      *
-     * @param bool|Mage_Selenium_TestCase $condition Condition to assert
+     * @param bool $condition Condition to assert
      * @param string $message Message to report if the condition is true (by default = '')
      */
     public static function assertFalse($condition, $message = '')
     {
         $message = self::messagesToString($message);
-
-        if (is_object($condition)) {
-            $condition = (false === $condition->hasError());
-        }
 
         self::assertThat($condition, self::isFalse(), $message);
     }
@@ -951,179 +924,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         }
 
         return $dataArray;
-    }
-
-    ################################################################################
-    #                    Deprecated data helper methods                            #
-    ################################################################################
-    /**
-     * Loads test data from DataSet, specified in the $dataSource
-     *
-     * @deprecated
-     * @see loadDataSet()
-     *
-     * @param string $dataSource Data source (e.g. filename in ../data without .yml extension)
-     * @param null|array $override value to override in original data from data source
-     * @param null|array|string $randomize Value to randomize
-     *
-     * @return array
-     */
-    public function loadData($dataSource, $override = null, $randomize = null)
-    {
-        $data = $this->_dataHelper->getDataValue($dataSource);
-
-        if (!is_array($data)) {
-            $this->fail('Data \'' . $dataSource . '\' is not loaded');
-        }
-
-        array_walk_recursive($data, array($this, 'setDataParams'));
-
-        if (!empty($randomize)) {
-            $randomize = (!is_array($randomize)) ? array($randomize) : $randomize;
-            array_walk_recursive($data, array($this, 'randomizeData'), $randomize);
-        }
-
-        if (!empty($override) && is_array($override)) {
-            $withSubArray = array();
-            $withOutSubArray = array();
-            foreach ($override as $key => $value) {
-                if (preg_match('|/|', $key)) {
-                    $withSubArray[$key]['subArray'] = preg_replace('#/[a-z0-9_]+$#i', '', $key);
-                    $withSubArray[$key]['name'] = preg_replace('#^[a-z0-9_]+/#i', '', $key);
-                    $withSubArray[$key]['value'] = $value;
-                } else {
-                    $withOutSubArray[$key] = $value;
-                }
-            }
-            foreach ($withOutSubArray as $key => $value) {
-                if (!$this->overrideData($key, $value, $data)) {
-                    $data[$key] = $value;
-                }
-            }
-            foreach ($withSubArray as $value) {
-                if (!$this->overrideDataInSubArray($value['subArray'], $value['name'], $value['value'], $data)) {
-                    $data[$value['subArray']][$value['name']] = $value['value'];
-                }
-            }
-        }
-
-        return $data;
-    }
-
-    /**
-     * Remove array elements that have '%noValue%' value
-     *
-     * @deprecated
-     * @see clearDataArray()
-     *
-     * @param array $array
-     *
-     * @return array
-     */
-    public function arrayEmptyClear(array $array)
-    {
-        foreach ($array as $k => $v) {
-            if (is_array($v)) {
-                $array[$k] = $this->arrayEmptyClear($v);
-                if (count($array[$k]) == false) {
-                    unset($array[$k]);
-                }
-            } else {
-                if ($v === '%noValue%') {
-                    unset($array[$k]);
-                }
-            }
-        }
-
-        return $array;
-    }
-
-    /**
-     * Override data with index $key on-fly in the $overrideArray by new value (&$value)
-     * @deprecated
-     * @see overrideDataByCondition()
-     *
-     * @param string $overrideKey Index of the target to override
-     * @param string $overrideValue Value for override
-     * @param array $overrideArray Target array, which contains some index(es) to override
-     *
-     * @return bool
-     */
-    public function overrideData($overrideKey, $overrideValue, &$overrideArray)
-    {
-        $overrideResult = false;
-        foreach ($overrideArray as $key => &$value) {
-            if ($key === $overrideKey) {
-                $overrideArray[$key] = $overrideValue;
-                $overrideResult = true;
-            } elseif (is_array($value)) {
-                $result = $this->overrideData($overrideKey, $overrideValue, $value);
-                if ($result || $overrideResult) {
-                    $overrideResult = true;
-                }
-            }
-        }
-
-        return $overrideResult;
-    }
-
-    /**
-     * @deprecated
-     * @see overrideDataByCondition()
-     *
-     * @param string $subArray
-     * @param string $overrideKey
-     * @param string $overrideValue
-     * @param array $overrideArray
-     *
-     * @return bool
-     */
-    public function overrideDataInSubArray($subArray, $overrideKey, $overrideValue, &$overrideArray)
-    {
-        $overrideResult = false;
-        foreach ($overrideArray as $key => &$value) {
-            if (is_array($value)) {
-                if ($key === $subArray) {
-                    foreach ($value as $k => $v) {
-                        if ($k === $overrideKey) {
-                            $value[$k] = $overrideValue;
-                            $overrideResult = true;
-                        }
-                        if (is_array($v)) {
-                            $result = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue, $value);
-                            if ($result || $overrideResult) {
-                                $overrideResult = true;
-                            }
-                        }
-                    }
-                } else {
-                    $result = $this->overrideDataInSubArray($subArray, $overrideKey, $overrideValue, $value);
-                    if ($result || $overrideResult) {
-                        $overrideResult = true;
-                    }
-                }
-            }
-        }
-        return $overrideResult;
-    }
-
-    /**
-     * Randomize data with index $key on-fly in the $randomizeArray by new value (&$value)
-     *
-     * @deprecated
-     * @see setDataParams()
-     *
-     * @param string $value Value for randomization (in this case - value will be as a suffix)
-     * @param string $key Index of the target to randomize
-     * @param array $randomizeArray Target array, which contains some index(es) to randomize
-     */
-    public function randomizeData(&$value, $key, $randomizeArray)
-    {
-        foreach ($randomizeArray as $randomizeField) {
-            if ($randomizeField === $key) {
-                $value = $this->generate('string', 5, ':lower:') . '_' . $value;
-            }
-        }
     }
 
     ################################################################################
@@ -1795,7 +1595,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         //Delete action part of mca if it's ?SID=
         $mca = preg_replace('|(\?)?SID=([a-zA-Z\d]+)?|', '', $mca);
         //@TODO Temporary fix for magento2
-        $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '',$mca);
+        $mca = preg_replace('/^(\/)?(admin|backend)(\/)?/', '', $mca);
 
         return preg_replace('|^/|', '', $mca);
     }
@@ -2154,6 +1954,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
      *
      * @param string $filePath
+     *
      * @return string Error message(snapsie initialization error) or empty string(if script fails)
      */
     private function takeScreenshotIE($filePath)
@@ -2170,8 +1971,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($checkResult != 1) {
             return "Could not initialize Snapsie. Error: $checkResult";
         }
-        $screenShotScript = @file_get_contents(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' .
-                                               DIRECTORY_SEPARATOR . 'snapsie.js');
+        $screenShotScript = @file_get_contents(
+            SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'snapsie.js');
         $filePath = str_replace('\\', '/', $filePath);
         $screenShotScript = str_replace('%filePath%', $filePath, $screenShotScript);
         $this->runScript($screenShotScript);
@@ -3587,14 +3388,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         if ($this->_findCurrentPageFromUrl() != $this->_firstPageAfterAdminLogin) {
             $this->validatePage('log_in_to_admin');
             $dashboardLogo = $this->_getControlXpath('pageelement', 'admin_logo');
-//            $closeButton = $this->_getControlXpath('button', 'close');
+            //$closeButton = $this->_getControlXpath('button', 'close');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
             $this->waitForElement(array($dashboardLogo, $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
-//            if ($this->controlIsPresent('link', 'go_to_notifications') && $this->waitForElement($closeButton, 5)) {
-//                $this->click($closeButton);
-//            }
+            //if ($this->controlIsPresent('link', 'go_to_notifications') && $this->waitForElement($closeButton, 5)) {
+            //    $this->click($closeButton);
+            //}
         }
         $this->validatePage($this->_firstPageAfterAdminLogin);
         return $this;
@@ -3704,7 +3505,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
     }
 
     /**
-     *
      * @throws RuntimeException
      */
     public function waitForNewPage()
@@ -3860,7 +3660,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @throws Exception|RuntimeException
      */
-    protected function onNotSuccessfulTest(Exception $e)
+    public function onNotSuccessfulTest(Exception $e)
     {
         if ($this->frameworkConfig['shareSession']) {
             //Remove sessionId used for sharing session.
