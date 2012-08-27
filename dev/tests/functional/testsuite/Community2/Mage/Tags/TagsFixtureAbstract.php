@@ -87,6 +87,25 @@ abstract class Community2_Mage_Tags_TagsFixtureAbstract extends Mage_Selenium_Te
     /**
      * @return array
      */
+    protected function _preconditionsForMassActionsTests()
+    {
+        $tagData = array();
+        //Precondition
+        $this->navigate('all_tags');
+        $this->tagsHelper()->deleteAllTags();
+        for ($i = 0; $i < 21; $i++) {
+            $tagData[$i] = array(
+                'tag_name' => 'tag_' . str_pad($i, 2, 0, STR_PAD_LEFT),
+                'tag_status' => 'Pending',
+            );
+            $this->tagsHelper()->addTag($tagData[$i]);
+            $this->assertMessagePresent('success', 'success_saved_tag');
+        }
+        return $tagData;
+    }
+    /**
+     * @return array
+     */
     protected function _preconditionsForReportEntriesTest()
     {
         //Create a customer
