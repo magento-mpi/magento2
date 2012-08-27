@@ -171,7 +171,8 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_getColumnSet()->setChild($columnId,
+            $this->_getColumnSet()->setChild(
+                $columnId,
                 $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
                     ->setData($column)
                     ->setId($columnId)
@@ -250,24 +251,14 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
         $values = array_values($this->_columns);
 
         foreach ($this->getColumnsOrder() as $columnId => $after) {
-            if (array_search($after, $keys) !== false) {
-                // Moving grid column
-                $positionCurrent = array_search($columnId, $keys);
-
-                $key = array_splice($keys, $positionCurrent, 1);
-                $value = array_splice($values, $positionCurrent, 1);
-
-                $positionTarget = array_search($after, $keys) + 1;
-
-                array_splice($keys, $positionTarget, 0, $key);
-                array_splice($values, $positionTarget, 0, $value);
-
-                $this->_columns = array_combine($keys, $values);
-            }
+            $this->getLayout()->reorderChild(
+                $this->_getColumnSet()->getNameInLayout(),
+                $columnId,
+                $after
+            );
         }
 
-        end($this->_columns);
-        $this->_lastColumnId = key($this->_columns);
+        $this->_lastColumnId = array_pop($this->_getColumnSet()->getChildNames());
         return $this;
     }
 
