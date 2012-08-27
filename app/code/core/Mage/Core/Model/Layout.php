@@ -395,7 +395,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     $referenceName = $parent->getAttribute('name');
                     $arguments = $this->_readArguments($node);
                     if (isset($this->_scheduledStructure[$referenceName]['arguments'])) {
-                        $this->_scheduledStructure[$referenceName]['arguments'] = array_merge(
+                        $this->_scheduledStructure[$referenceName]['arguments'] = array_replace_recursive(
                             $this->_scheduledStructure[$referenceName]['arguments'], $arguments);
                     } else {
                         $this->_scheduledStructure[$referenceName]['arguments'] = $arguments;
@@ -428,7 +428,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
         foreach ($node->children() as $child) {
             /** @var $child Mage_Core_Model_Layout_Element */
             $type = $child->getAttribute('type');
-            if ($type) {
+            if (null !== $type) {
                 $arguments[$child->getName()]['type'] = $type;
             }
             $arguments[$child->getName()]['value'] = $child->__toString();

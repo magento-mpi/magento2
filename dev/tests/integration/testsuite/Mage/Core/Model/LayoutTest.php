@@ -163,6 +163,16 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('3', $layout->getBlock('block_with_args')->getThree());
     }
 
+    public function testLayoutObjectArgumentsDirective()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_arguments_object_type'));
+        $layout->generateXml()->generateElements();
+        $this->assertInstanceOf('Mage_Core_Block_Text', $layout->getBlock('block_with_object_args')->getOne());
+        $this->assertInstanceOf('Mage_Core_Block_Messages', $layout->getBlock('block_with_object_args')->getTwo());
+        $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
+    }
+
     public function testLayoutMoveDirective()
     {
         $layout = new Mage_Core_Model_Layout();

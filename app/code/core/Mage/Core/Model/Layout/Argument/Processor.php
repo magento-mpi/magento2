@@ -1,5 +1,20 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
+/**
+ * Layout argument processor
+ *
+ * @category    Mage
+ * @package     Mage_Core
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Core_Model_Layout_Argument_Processor
 {
     /**
@@ -43,27 +58,30 @@ class Mage_Core_Model_Layout_Argument_Processor
     {
         $processedArguments = array();
         foreach ($arguments as $argumentKey => $argumentValue) {
-            if (isset($argumentValue['value'])) {
-                $processedArguments[$argumentKey] = $argumentValue['value'];
+            $processedArguments[$argumentKey] = isset($argumentValue['value']) ? $argumentValue['value'] : null;
 
-                if (!isset($argumentValue['type'])) {
-                    continue;
-                }
-
-                $handlerClassName = $this->_config->getArgumentHandlerByType($argumentValue['type']);
-
-                /** @var $handler Mage_Core_Model_Layout_Argument_Processor_TypeInterface */
-                $handler = $this->_objectFactory->getModelInstance($handlerClassName, array(
-                    'objectFactory' => $this->_objectFactory
-                ));
-
-                if (false === ($handler instanceof Mage_Core_Model_Layout_Argument_Processor_TypeInterface)) {
-                    throw new InvalidArgumentException($argumentValue['type']
-                        . ' type handler should implement Mage_Core_Model_Layout_Argument_Processor_TypeInterface');
-                }
-                $processedArguments[$argumentKey] = $handler->process($argumentValue['value']);
+            if (false == isset($argumentValue['type']) || empty($argumentValue['type'])) {
+                continue;
             }
+
+            if (true == empty($processedArguments[$argumentKey])) {
+                throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
+            }
+
+            $handlerClassName = $this->_config->getArgumentHandlerByType($argumentValue['type']);
+
+            /** @var $handler Mage_Core_Model_Layout_Argument_Processor_TypeInterface */
+            $handler = $this->_objectFactory->getModelInstance($handlerClassName, array(
+                'objectFactory' => $this->_objectFactory
+            ));
+
+            if (false === ($handler instanceof Mage_Core_Model_Layout_Argument_Processor_TypeInterface)) {
+                throw new InvalidArgumentException($argumentValue['type']
+                    . ' type handler should implement Mage_Core_Model_Layout_Argument_Processor_TypeInterface');
+            }
+            $processedArguments[$argumentKey] = $handler->process($argumentValue['value']);
         }
+
         return $processedArguments;
     }
 }
