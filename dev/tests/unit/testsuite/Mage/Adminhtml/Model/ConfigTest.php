@@ -29,7 +29,8 @@ class Mage_Adminhtml_Model_ConfigTest extends PHPUnit_Framework_TestCase
             ->method('isSingleStoreMode')
             ->will($this->returnValue($isSingleStoreMode));
 
-        $config = new Mage_Adminhtml_Model_Config($xmlData, array(
+        $config = new Mage_Adminhtml_Model_Config(array(
+            'data' => $xmlData,
             'app' => $app,
         ));
         $result = $config->hasChildren($node, $website, $store);
@@ -41,22 +42,22 @@ class Mage_Adminhtml_Model_ConfigTest extends PHPUnit_Framework_TestCase
         $data = file_get_contents(__DIR__ . '/_files/system.xml');
         $xmlData = new Varien_Simplexml_Element($data);
         return array(
-            array($xmlData, false, $xmlData->sections->dev, null, null, true,                           'Case 1'),
-            array($xmlData, false, $xmlData->sections->dev->groups->css, null, null, true,              'Case 2'),
-            array($xmlData, false, $xmlData->sections->dev->groups->css, 'base', null, true,            'Case 3'),
-            array($xmlData, false, $xmlData->sections->dev->groups->css, 'base', 'default', true,       'Case 4'),
-            array($xmlData, false, $xmlData->sections->dev->groups->debug, null, null, false,           'Case 5'),
-            array($xmlData, false, $xmlData->sections->dev->groups->debug, 'base', null, true,          'Case 6'),
-            array($xmlData, false, $xmlData->sections->dev->groups->debug, 'base', 'default', true,     'Case 7'),
-            array($xmlData, false, $xmlData->sections->dev->groups->js, null, null, false,              'Case 8'),
-            array($xmlData, false, $xmlData->sections->dev->groups->js, 'base', null, false,            'Case 9'),
-            array($xmlData, false, $xmlData->sections->dev->groups->js, 'base', 'default', true,        'Case 10'),
-            array($xmlData, true, $xmlData->sections->dev->groups->debug, null, null, true,             'Case 11'),
-            array($xmlData, true, $xmlData->sections->dev->groups->debug, 'base', null, true,           'Case 12'),
-            array($xmlData, true, $xmlData->sections->dev->groups->debug, 'base', 'default', true,      'Case 13'),
-            array($xmlData, true, $xmlData->sections->dev->groups->js, null, null, true,                'Case 14'),
-            array($xmlData, true, $xmlData->sections->dev->groups->js, 'base', null, true,              'Case 15'),
-            array($xmlData, true, $xmlData->sections->dev->groups->js, 'base', 'default', true,         'Case 16'),
+            array($xmlData, false, $xmlData->sections->dev, null, null, true, 'Case 1'),
+            array($xmlData, false, $xmlData->sections->dev->groups->css, null, null, true, 'Case 2'),
+            array($xmlData, false, $xmlData->sections->dev->groups->css, 'base', null, true, 'Case 3'),
+            array($xmlData, false, $xmlData->sections->dev->groups->css, 'base', 'default', true, 'Case 4'),
+            array($xmlData, false, $xmlData->sections->dev->groups->debug, null, null, false, 'Case 5'),
+            array($xmlData, false, $xmlData->sections->dev->groups->debug, 'base', null, true, 'Case 6'),
+            array($xmlData, false, $xmlData->sections->dev->groups->debug, 'base', 'default', true, 'Case 7'),
+            array($xmlData, false, $xmlData->sections->dev->groups->js, null, null, false, 'Case 8'),
+            array($xmlData, false, $xmlData->sections->dev->groups->js, 'base', null, false, 'Case 9'),
+            array($xmlData, false, $xmlData->sections->dev->groups->js, 'base', 'default', true, 'Case 10'),
+            array($xmlData, true, $xmlData->sections->dev->groups->debug, null, null, true, 'Case 11'),
+            array($xmlData, true, $xmlData->sections->dev->groups->debug, 'base', null, true, 'Case 12'),
+            array($xmlData, true, $xmlData->sections->dev->groups->debug, 'base', 'default', true, 'Case 13'),
+            array($xmlData, true, $xmlData->sections->dev->groups->js, null, null, true, 'Case 14'),
+            array($xmlData, true, $xmlData->sections->dev->groups->js, 'base', null, true, 'Case 15'),
+            array($xmlData, true, $xmlData->sections->dev->groups->js, 'base', 'default', true, 'Case 16'),
         );
     }
 }

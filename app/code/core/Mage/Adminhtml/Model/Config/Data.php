@@ -127,7 +127,7 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
                     ->setFieldConfig($fieldConfig)
                     ->setFieldsetData($fieldsetData);
 
-                $this->_checkSingleStoreMode($website, $fieldConfig, $dataObject);
+                $this->_checkSingleStoreMode($fieldConfig, $dataObject);
 
                 if (!isset($fieldData['value'])) {
                     $fieldData['value'] = null;
@@ -291,17 +291,17 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
     /**
      * Set correct scope if isSingleStoreMode = true
      *
-     * @param string $website
      * @param Varien_Simplexml_Element $fieldConfig
      * @param Mage_Core_Model_Config_Data $dataObject
      */
-    protected function _checkSingleStoreMode($website, $fieldConfig, $dataObject)
+    protected function _checkSingleStoreMode($fieldConfig, $dataObject)
     {
         $isSingleStoreMode = Mage::app()->isSingleStoreMode();
-        if ($isSingleStoreMode && empty($website)) {
-            $singleStoreWebsite = array_shift(Mage::app()->getWebsites());
+        if (!$isSingleStoreMode) {
+            return;
         }
-        if ($isSingleStoreMode && !(int)$fieldConfig->show_in_default) {
+        if (!(int)$fieldConfig->show_in_default) {
+            $singleStoreWebsite = array_shift(Mage::app()->getWebsites());
             $dataObject->setScope('websites');
             $dataObject->setWebsiteCode($singleStoreWebsite->getCode());
             $dataObject->setScopeId($singleStoreWebsite->getId());

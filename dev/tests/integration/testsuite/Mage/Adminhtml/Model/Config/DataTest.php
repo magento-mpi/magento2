@@ -14,11 +14,6 @@
  */
 class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
 {
-    public function testConstructor()
-    {
-        $this->assertInstanceOf('Mage_Adminhtml_Model_Config_Data', Mage::getModel('Mage_Adminhtml_Model_Config_Data'));
-    }
-
     /**
      * @param array $groups
      * @magentoDbIsolation enabled
@@ -26,30 +21,30 @@ class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
      */
     public function testSave($groups)
     {
-        $_configData = Mage::getModel('Mage_Adminhtml_Model_Config_Data')
-            ->setSection('dev')
+        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        $_configData = $_configDataObject->setSection('dev')
             ->setWebsite('base')
             ->load();
         $this->assertEmpty($_configData);
 
-        Mage::getModel('Mage_Adminhtml_Model_Config_Data')
-            ->setSection('dev')
+        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        $_configDataObject->setSection('dev')
             ->setGroups($groups)
             ->save();
 
         Mage::getConfig()->reinit();
         Mage::app()->reinitStores();
 
-        $_configDataObject = Mage::getModel('Mage_Adminhtml_Model_Config_Data')
-            ->setSection('dev')
+        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        $_configDataObject->setSection('dev')
             ->setWebsite('base');
 
         $_configData = $_configDataObject->load();
         $this->assertArrayHasKey('dev/debug/template_hints', $_configData);
         $this->assertArrayHasKey('dev/debug/template_hints_blocks', $_configData);
 
-        $_configDataObject = Mage::getModel('Mage_Adminhtml_Model_Config_Data')
-            ->setSection('dev');
+        $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
+        $_configDataObject->setSection('dev');
         $_configData = $_configDataObject->load();
         $this->assertArrayNotHasKey('dev/debug/template_hints', $_configData);
         $this->assertArrayNotHasKey('dev/debug/template_hints_blocks', $_configData);

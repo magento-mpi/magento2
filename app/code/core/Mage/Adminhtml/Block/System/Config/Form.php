@@ -671,18 +671,19 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             return true;
         }
 
+        $result = true;
         switch ($this->getScope()) {
             case self::SCOPE_DEFAULT:
-                return (int)$field->show_in_default;
+                $result = (int)$field->show_in_default;
                 break;
             case self::SCOPE_WEBSITES:
-                return (int)$field->show_in_website;
+                $result = (int)$field->show_in_website;
                 break;
             case self::SCOPE_STORES:
-                return (int)$field->show_in_store;
+                $result = (int)$field->show_in_store;
                 break;
         }
-        return true;
+        return $result;
     }
 
     /**

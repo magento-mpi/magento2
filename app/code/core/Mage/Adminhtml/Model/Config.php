@@ -43,12 +43,12 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     /**
      * Initializes XML for this configuration
      *
-     * @param string|Varien_Simplexml_Element $sourceData
      * @param array $arguments
      */
-    public function __construct($sourceData = null, array $arguments = array())
+    public function __construct(array $arguments = array())
     {
         $this->_app = isset($arguments['app']) ? $arguments['app'] : Mage::app();
+        $sourceData = isset($arguments['data']) ? $arguments['data'] : array();
         return parent::__construct($sourceData);
     }
 
@@ -126,14 +126,16 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
      */
     public function hasChildren($node, $websiteCode = null, $storeCode = null)
     {
-        $showTab = $this->_app->isSingleStoreMode();
+        $showTab = false;
         if ($storeCode) {
-            $showTab |= !empty($node->show_in_store);
+            $showTab = (int)$node->show_in_store;
         } elseif ($websiteCode) {
-            $showTab |= !empty($node->show_in_website);
+            $showTab = (int)$node->show_in_website;
         } elseif (!empty($node->show_in_default)) {
             $showTab = true;
         }
+
+        $showTab = $showTab || $this->_app->isSingleStoreMode();
 
         if (!$showTab) {
             return false;
