@@ -3673,4 +3673,61 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
         throw $e;
     }
+
+    ################################################################################
+    #                                                                              #
+    #                               SELENIUM 2 FUNCTIONS                           #
+    #                                                                              #
+    ################################################################################
+    /**
+     * @param $locator
+     *
+     * @return string
+     */
+    public function getLocatorStrategy($locator)
+    {
+        $locatorType = 'xpath';
+        if (preg_match('/^css=/', $locator)) {
+            $locatorType = 'css locator';
+        }
+        return $locatorType;
+    }
+
+    /**
+     * @param string $locator
+     * @param bool $failIfEmpty
+     *
+     * @return array
+     */
+    public function getElements($locator, $failIfEmpty = true)
+    {
+        $locatorType = $this->getLocatorStrategy($locator);
+        $elements = $this->elements($this->using($locatorType)->value($locator));
+        if (empty($elements) && $failIfEmpty) {
+            $this->fail('Element(s) with locator: "' . $locator . '" is not found on page');
+        }
+        return $elements;
+    }
+
+    /**
+     * @param string $locator
+     *
+     * @return PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function getElement($locator)
+    {
+        $elements = $this->getElements($locator);
+        return array_shift($elements);
+    }
+
+    /**
+     * @param string $locator
+     *
+     * @return bool|PHPUnit_Extensions_Selenium2TestCase_Element
+     */
+    public function elementIsPresent($locator)
+    {
+        $elements = $this->getElements($locator, false);
+        return empty($elements) ? false : array_shift($elements);
+    }
 }
