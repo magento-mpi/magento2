@@ -119,11 +119,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public $frameworkConfig;
 
-    //    /**
-    //     * Saves HTML content of the current page if the test failed
-    //     * @var bool
-    //     */
-    //    protected $_saveHtmlPageOnFailure = false;
+    /**
+     * Saves HTML content of the current page if the test failed
+     * @var bool
+     */
+    protected $_saveHtmlPageOnFailure = false;
+
+    /**
+     * @var bool
+     */
+    protected $_saveScreenshotOnFailure = false;
+
+    /**
+     * @var null
+     */
+    protected $_screenshotPath = null;
 
     /**
      * Timeout in seconds
@@ -197,24 +207,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     const FIELD_TYPE_PAGEELEMENT = 'pageelement';
 
-    //    ################################################################################
-    //    #                      Selenium variables(do not rename)                       #
-    //    ################################################################################
-    //    /**
-    //     * @var Mage_Selenium_Driver[]
-    //     */
-    //    protected $drivers = array();
-    //
-    //    /**
-    //     * @var string
-    //     */
-    //    protected $coverageScriptUrl = '';
-    //
-    //    /**
-    //     * @var bool
-    //     */
-    //    protected $captureScreenshotOnFailure = false;
-
     ################################################################################
     #                             Else variables                                   #
     ################################################################################
@@ -243,10 +235,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
         parent::__construct($name, $data, $dataName);
 
-        //$this->captureScreenshotOnFailure = $this->frameworkConfig['captureScreenshotOnFailure'];
-        //$this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
-        //$this->coverageScriptUrl = $this->frameworkConfig['coverageScriptUrl'];
-        //$this->screenshotPath = $this->screenshotUrl = $this->getDefaultScreenshotPath();
+        $this->_screenshotPath = $this->getDefaultScreenshotPath();
+        $this->_saveScreenshotOnFailure = $this->frameworkConfig['saveScreenshotOnFailure'];
+        $this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
     }
 
     /**
@@ -305,7 +296,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $browsers = $this->_configHelper->getConfigBrowsers();
         $this->setupSpecificBrowser($browsers['default']);
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
-        $this->shareSession($this->frameworkConfig['shareSession']);
         //$this->setLogHandle($this->_testConfig->getLogFile());
         $this->session = $this->prepareSession();
     }
@@ -356,12 +346,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     final function tearDown()
     {
         if ($this->hasFailed()) {
-            //if ($this->_saveHtmlPageOnFailure) {
-            //    $this->saveHtmlPage();
-            //}
-            //if ($this->captureScreenshotOnFailure) {
-            //    $this->takeScreenshot();
-            //}
+            if ($this->_saveHtmlPageOnFailure) {
+                $this->saveHtmlPage();
+            }
+            if ($this->_saveScreenshotOnFailure) {
+                $this->takeScreenshot();
+            }
         } else {
             $this->assertEmptyVerificationErrors();
         }
@@ -385,12 +375,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         if (isset($e) && !$this->hasFailed()) {
-            //if ($this->_saveHtmlPageOnFailure) {
-            //    $this->saveHtmlPage();
-            //}
-            //if ($this->captureScreenshotOnFailure) {
-            //    $this->takeScreenshot();
-            //}
+            if ($this->_saveHtmlPageOnFailure) {
+                $this->saveHtmlPage();
+            }
+            if ($this->_saveScreenshotOnFailure) {
+                $this->takeScreenshot();
+            }
         }
 
         //if (!$this->frameworkConfig['shareSession']) {
@@ -1649,6 +1639,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getControlAttribute($controlType, $controlName, $attribute)
     {
         $locator = $this->_getControlXpath($controlType, $controlName);
+        $element = $this->getElement($locator);
         switch ($attribute) {
             case 'selectedValue':
                 if ($controlType == 'dropdown') {
@@ -1656,7 +1647,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 } elseif ($controlType == 'multiselect') {
                     $elementValue = $this->getSelectedValues($locator);
                 } else {
-                    $elementValue = $this->getAttribute($locator . '@value');
+                    $elementValue = $element->attribute('value');
                 }
                 break;
             case 'selectedId':
@@ -1665,7 +1656,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 } elseif ($controlType == 'multiselect') {
                     $elementValue = $this->getSelectedIds($locator);
                 } else {
-                    $elementValue = $this->getAttribute($locator . '@id');
+                    $elementValue = $element->attribute('id');
                 }
                 break;
             case 'selectedLabel':
@@ -1674,17 +1665,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 } elseif ($controlType == 'multiselect') {
                     $elementValue = $this->getSelectedLabels($locator);
                 } else {
-                    $elementValue = $this->getText($locator);
+                    $elementValue = $element->text();
                 }
                 break;
             case 'value':
-                $elementValue = $this->getValue($locator);
+                $elementValue = $element->value();
                 break;
             case 'text':
-                $elementValue = $this->getText($locator);
+                $elementValue = $element->text();
                 break;
             default:
-                $elementValue = $this->getElement($locator)->attribute($attribute);
+                $elementValue = $element->attribute($attribute);
                 break;
         }
 
@@ -1842,114 +1833,65 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         return $response['http_code'] == 200;
     }
 
-    //    /**
-    //     * SavesHTML content of the current page and return information about it.
-    //     * Return an empty string if the screenshotPath property is empty.
-    //     *
-    //     * @param null|string $fileName
-    //     *
-    //     * @return string
-    //     */
-    //    public function saveHtmlPage($fileName = null)
-    //    {
-    //        if (empty($this->screenshotPath)) {
-    //            return '';
-    //        }
-    //        if ($fileName == null) {
-    //            $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
-    //        }
-    //        $filePath = $this->getScreenshotPath() . $fileName;
-    //        $file = fopen($filePath . '.html', 'a+');
-    //        fputs($file, $this->drivers[0]->getHtmlSource());
-    //        fflush($file);
-    //        fclose($file);
-    //        return 'HTML Page: ' . $filePath . ".html\n";
-    //    }
-    //
-    //    /**
-    //     * Take a screenshot in IE browser
-    //     *
-    //     * Note: Download and register SnapsIE to get this work
-    //     * http://sourceforge.net/projects/snapsie/files/latest/download
-    //     * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
-    //     *
-    //     * @param string $filePath
-    //     *
-    //     * @return string Error message(snapsie initialization error) or empty string(if script fails)
-    //     */
-    //    private function takeScreenshotIE($filePath)
-    //    {
-    //        $checkScript = "function load(){
-    //                    try {
-    //                		var nativeObj = new ActiveXObject('Snapsie.CoSnapsie');
-    //                		return 1;
-    //                    } catch (e) {
-    //                		return e.message;
-    //                	}
-    //                }load();";
-    //        $checkResult = $this->getEval($checkScript);
-    //        if ($checkResult != 1) {
-    //            return "Could not initialize Snapsie. Error: $checkResult";
-    //        }
-    //        $screenShotScript = @file_get_contents(
-    //            SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'snapsie.js');
-    //        $filePath = str_replace('\\', '/', $filePath);
-    //        $screenShotScript = str_replace('%filePath%', $filePath, $screenShotScript);
-    //        $this->runScript($screenShotScript);
-    //        return '';
-    //    }
-    //
-    //    /**
-    //     * Take a screenshot and return information about it.
-    //     * Return an empty string if the screenshotPath property is empty.
-    //     *
-    //     * @param null|string $fileName
-    //     *
-    //     * @return string
-    //     */
-    //    public function takeScreenshot($fileName = null)
-    //    {
-    //        if (empty($this->screenshotPath)) {
-    //            return '';
-    //        }
-    //        $methodResult = '';
-    //
-    //        if ($fileName == null) {
-    //            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
-    //            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
-    //            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
-    //        }
-    //        $filePath = $this->getScreenshotPath() . $fileName . '.png';
-    //
-    //        //
-    //        $browserUserAgent = $this->getEval('navigator.userAgent');
-    //        //Run specific function only for IE
-    //        if (preg_match('|MSIE ([0-9]{1,}[\.0-9]{0,})|', $browserUserAgent)) {
-    //            $methodResult = $this->takeScreenshotIE($filePath);
-    //        } else {
-    //            try {
-    //                $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
-    //
-    //                if (empty($screenshotContent)) {
-    //                    return '';
-    //                }
-    //
-    //                $file = fopen($filePath, 'a+');
-    //                fputs($file, $screenshotContent);
-    //                fflush($file);
-    //                fclose($file);
-    //
-    //            } catch (Exception $e) {
-    //                return '';
-    //            }
-    //        }
-    //
-    //        if (file_exists($filePath)) {
-    //            return 'Screenshot: ' . $filePath . ".png\n";
-    //        }
-    //
-    //        return $methodResult;
-    //    }
+    /**
+     * SavesHTML content of the current page and return information about it.
+     * Return an empty string if the screenshotPath property is empty.
+     *
+     * @param null|string $fileName
+     *
+     * @return string
+     */
+    public function saveHtmlPage($fileName = null)
+    {
+        $screenshotPath = $this->getScreenshotPath();
+        if (empty($screenshotPath)) {
+            $this->fail('Screenshot Path is empty');
+        }
+
+        if ($fileName == null) {
+            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
+            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
+            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
+        }
+        $filePath = $screenshotPath . $fileName . '.html';
+        $file = fopen($filePath, 'a+');
+        fputs($file, $this->source());
+        fflush($file);
+        fclose($file);
+        return 'HTML Page: ' . $filePath . "\n";
+    }
+
+    /**
+     * Take a screenshot and return information about it.
+     * Return an empty string if the screenshotPath property is empty.
+     *
+     * @param null|string $fileName
+     *
+     * @return string
+     */
+    public function takeScreenshot($fileName = null)
+    {
+        $screenshotPath = $this->getScreenshotPath();
+        if (empty($screenshotPath)) {
+            $this->fail('Screenshot Path is empty');
+        }
+
+        if ($fileName == null) {
+            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
+            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
+            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
+        }
+        $filePath = $screenshotPath . $fileName . '.png';
+        $screenshotContent = $this->currentScreenshot();
+        $file = fopen($filePath, 'a+');
+        fputs($file, $screenshotContent);
+        fflush($file);
+        fclose($file);
+        if (file_exists($filePath)) {
+            return 'Screenshot: ' . $filePath . ".png\n";
+        }
+        return '';
+    }
 
     /**
      * Operation System definition
@@ -1993,54 +1935,60 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     //        $this->testId = $testId;
     //        return $this;
     //    }
-    //
-    //    /**
-    //     * Returns correct path to screenshot save path.
-    //     *
-    //     * @return string
-    //     */
-    //    public function getScreenshotPath()
-    //    {
-    //        return parent::getScreenshotPath();
-    //    }
-    //
-    //    /**
-    //     * Set screenshot path (current test)
-    //     *
-    //     * @param $path
-    //     *
-    //     * @return Mage_Selenium_TestCase
-    //     */
-    //    public function setScreenshotPath($path)
-    //    {
-    //        $this->screenshotPath = $path;
-    //        return $this;
-    //    }
-    //
-    //    /**
-    //     * Set default screenshot path (config)
-    //     *
-    //     * @param string $path
-    //     *
-    //     * @return Mage_Selenium_TestCase
-    //     */
-    //    public function setDefaultScreenshotPath($path)
-    //    {
-    //        $this->_configHelper->setScreenshotDir($path);
-    //        $this->setScreenshotPath($path);
-    //
-    //        return $this;
-    //    }
-    //
-    //    /**
-    //     * Get default screenshot path (config)
-    //     *
-    //     * @return string
-    //     */
-    //    public function getDefaultScreenshotPath()
-    //    {
-    //        return $this->_configHelper->getScreenshotDir();
-    //    }
+
+    /**
+     * Returns correct path to screenshot save path.
+     *
+     * @return string
+     */
+    public function getScreenshotPath()
+    {
+        $path = $this->_screenshotPath;
+
+        if (!in_array(substr($path, strlen($path) -1, 1), array("/","\\"))) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+
+        return $path;
+    }
+
+    /**
+     * Set screenshot path (current test)
+     *
+     * @param $path
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function setScreenshotPath($path)
+    {
+        $this->_screenshotPath = $path;
+        return $this;
+    }
+
+    /**
+     * Set default screenshot path (config)
+     *
+     * @param string $path
+     *
+     * @return Mage_Selenium_TestCase
+     */
+    public function setDefaultScreenshotPath($path)
+    {
+        $this->_configHelper->setScreenshotDir($path);
+        $this->setScreenshotPath($path);
+
+        return $this;
+    }
+
+    /**
+     * Get default screenshot path (config)
+     *
+     * @return string
+     */
+    public function getDefaultScreenshotPath()
+    {
+        return $this->_configHelper->getScreenshotDir();
+    }
 
     /**
      * Clicks a control with the specified name and type.
@@ -2092,44 +2040,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $controlName Name of a control from UIMap
      * @param string $message Confirmation message
      * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
-     * in page reloading, should be false (by default = true).
-     *
-     * @return bool
+     *                             in page reloading, should be false (by default = true).
      */
     public function clickControlAndConfirm($controlType, $controlName, $message, $willChangePage = true)
     {
-        $buttonXpath = $this->_getControlXpath($controlType, $controlName);
-        if ($this->isElementPresent($buttonXpath)) {
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        $availableElement = $this->elementIsPresent($locator);
+        if ($availableElement) {
             $confirmation = $this->_getMessageXpath($message);
-            $this->chooseCancelOnNextConfirmation();
-            $this->click($buttonXpath);
-            if ($this->isConfirmationPresent()) {
-                $text = $this->getConfirmation();
-                if ($text == $confirmation) {
-                    $this->chooseOkOnNextConfirmation();
-                    $this->click($buttonXpath);
-                    $this->getConfirmation();
-                    if ($willChangePage) {
-                        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                        $this->validatePage();
-                    }
-                    return true;
-                } else {
-                    $this->addVerificationMessage("The confirmation text incorrect: {$text}");
-                }
-            } else {
-                $this->addVerificationMessage('The confirmation does not appear');
+            $availableElement->click();
+            $actualText = $this->alertText();
+            if ($actualText == $confirmation) {
+                $this->acceptAlert();
                 if ($willChangePage) {
                     $this->waitForPageToLoad($this->_browserTimeoutPeriod);
                     $this->validatePage();
                 }
-                return true;
+            } else {
+                $this->fail("The confirmation text incorrect: '$actualText' != '$confirmation''");
             }
         } else {
-            $this->addVerificationMessage("There is no way to click on control(There is no '$controlName' control)");
+            $this->fail("There is no way to click on control(There is no '$controlName' $controlType)");
         }
-
-        return false;
     }
 
     /**
@@ -2138,13 +2070,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $buttonName Name of a button from UIMap
      * @param string $message Confirmation message id from UIMap
      * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
-     * in page reloading, should be false (by default = true).
-     *
-     * @return bool
+     *                             in page reloading, should be false (by default = true).
      */
     public function clickButtonAndConfirm($buttonName, $message, $willChangePage = true)
     {
-        return $this->clickControlAndConfirm('button', $buttonName, $message, $willChangePage);
+        $this->clickControlAndConfirm('button', $buttonName, $message, $willChangePage);
     }
 
     /**
@@ -2525,11 +2455,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeoutPeriod;
         }
-        $jsCondition = 'var c = function(){if(typeof selenium.browserbot.getCurrentWindow().Ajax != "undefined"){'
-                       . 'if(selenium.browserbot.getCurrentWindow().Ajax.activeRequestCount){return false;};};'
-                       . 'if(typeof selenium.browserbot.getCurrentWindow().jQuery != "undefined"){'
-                       . 'if(selenium.browserbot.getCurrentWindow().jQuery.active){return false;};};return true;};c();';
-        $this->waitForCondition($jsCondition, $timeout);
+        $ajax = 'return Ajax.activeRequestCount;';
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            $ajaxResult = $this->execute(array('script' => $ajax, 'args' => array()));
+            if ($ajaxResult == 0 || $ajaxResult == null) {
+                return;
+            }
+            sleep(1);
+        }
+//        if (is_null($timeout)) {
+//            $timeout = $this->_browserTimeoutPeriod;
+//        }
+//        $jsCondition = 'var c = function(){if(typeof selenium.browserbot.getCurrentWindow().Ajax != "undefined"){'
+//                       . 'if(selenium.browserbot.getCurrentWindow().Ajax.activeRequestCount){return false;};};'
+//                       . 'if(typeof selenium.browserbot.getCurrentWindow().jQuery != "undefined"){'
+//                       . 'if(selenium.browserbot.getCurrentWindow().jQuery.active){return false;};};return true;};c();';
+//        $this->waitForCondition($jsCondition, $timeout);
     }
 
     /**
@@ -2760,9 +2702,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $jsName = $resetButtonElement->attribute('onclick');
         $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
         $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        $waitAjax = $this->elementIsPresent($scriptXpath);
+        $pageToLoad = $this->elementIsPresent($scriptXpath);
         $resetButtonElement->click();
-        if ($waitAjax) {
+        if (!$pageToLoad) {
             $this->waitForAjax();
         } else {
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -3559,13 +3501,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function onNotSuccessfulTest(Exception $e)
     {
-        //if ($this->frameworkConfig['shareSession']) {
-        //    //Remove sessionId used for sharing session.
-        //    $this->shareSession(null);
-        //}
-        //try {
+        //if (!$this->frameworkConfig['shareSession']) {
         //    $this->drivers[0]->stopBrowserSession();
-        //} catch (RuntimeException $_e) {
         //}
 
         throw $e;
