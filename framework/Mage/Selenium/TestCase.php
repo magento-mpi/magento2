@@ -2981,9 +2981,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * @param array $data Array of data to look up
      * @param bool $willChangePage Triggers page reloading. If clicking the control doesn't result<br>
      * in page reloading, should be false (by default = true).
-     * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     * @param string $fieldSetName Fieldset name that contains the grid
      */
-    public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName = null)
+    public function searchAndOpen(array $data, $willChangePage = true, $fieldSetName)
     {
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, $fieldSetName);
@@ -3008,9 +3008,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Searches for the specified data in specific the grid and selects the found item.
      *
      * @param array $data Array of data to look up
-     * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     * @param string $fieldSetName Fieldset name that contains the grid
      */
-    public function searchAndChoose(array $data, $fieldSetName = null)
+    public function searchAndChoose(array $data, $fieldSetName)
     {
         $this->_prepareDataForSearch($data);
         $xpathTR = $this->search($data, $fieldSetName);
@@ -3047,27 +3047,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      * Searches the specified data in the specific grid. Returns null or XPath of the found data.
      *
      * @param array $data Array of data to look up.
-     * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     * @param string $fieldsetName Fieldset name that contains the grid
      *
-     * @return string|null
+     * @return string
      */
-    public function search(array $data, $fieldSetName = null)
+    public function search(array $data, $fieldsetName)
     {
-        $waitAjax = true;
-        $xpath = '';
-        $xpathContainer = null;
-        if ($fieldSetName) {
-            $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
-            $xpath = $xpathContainer->getXpath($this->_paramsHelper);
-        }
-        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
-        $jsName = $this->getAttribute($resetXpath . '@onclick');
+        $fieldsetUimap = $this->_findUimapElement('fieldset', $fieldsetName);
+        $fieldsetLocator = $fieldsetUimap->getXpath($this->_paramsHelper);
+        $resetButtonLocator = $this->_getControlXpath('button', 'reset_filter', $fieldsetUimap);
+        $jsName = $this->getAttribute($resetButtonLocator . '@onclick');
         $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
         $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        if ($this->isElementPresent($scriptXpath)) {
-            $waitAjax = false;
-        }
-        $this->click($resetXpath);
+        $waitAjax = $this->isElementPresent($scriptXpath);
+        $this->click($resetButtonLocator);
         if ($waitAjax) {
             $this->waitForAjax();
         } else {
@@ -3077,20 +3070,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
 
         //Forming xpath that contains string 'Total $number records found' where $number - number of items in table
-        $totalCount = intval($this->getText($xpath . $qtyElementsInTable));
-        $xpathPager = $xpath . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
+        $totalCount = intval($this->getText($fieldsetLocator . $qtyElementsInTable));
+        $xpathPager = $fieldsetLocator . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
 
         $xpathTR = $this->formSearchXpath($data);
 
-        if (!$this->isElementPresent($xpath . $xpathTR) && $totalCount > 20) {
+        if (!$this->isElementPresent($fieldsetLocator . $xpathTR) && $totalCount > 20) {
             // Fill in search form and click 'Search' button
-            $this->fillForm($data);
-            $this->clickButton('search', false);
+            $this->fillFieldset($data, $fieldsetName);
+            $this->click($this->_getControlXpath('button', 'search', $fieldsetUimap));
             $this->waitForElement($xpathPager);
         }
 
-        if ($this->isElementPresent($xpath . $xpathTR)) {
-            return $xpath . $xpathTR;
+        if ($this->isElementPresent($fieldsetLocator . $xpathTR)) {
+            return $fieldsetLocator . $xpathTR;
         }
         return null;
     }
