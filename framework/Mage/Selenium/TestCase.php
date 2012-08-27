@@ -484,15 +484,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function skipTestWithScreenshot($message)
     {
-        $name = '';
-        foreach (debug_backtrace() as $line) {
-            if (preg_match('/Test$/', $line['class'])) {
-                $name = 'Skipped-' . time() . '-' . $line['class'] . '-' . $line['function'];
-                break;
-            }
-        }
-        $url = $this->takeScreenshot($name);
-        $this->markTestSkipped($url . $message);
+        //$name = '';
+        //foreach (debug_backtrace() as $line) {
+        //    if (preg_match('/Test$/', $line['class'])) {
+        //        $name = 'Skipped-' . time() . '-' . $line['class'] . '-' . $line['function'];
+        //        break;
+        //    }
+        //}
+        //$url = $this->takeScreenshot($name);
+        //$this->markTestSkipped($url . $message);
+        $this->markTestSkipped($message);
     }
 
     ################################################################################
@@ -1182,14 +1183,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function navigate($page, $validatePage = true)
     {
         $area = $this->_configHelper->getArea();
-        $clickXpath = $this->_uimapHelper->getPageClickXpath($area, $page, $this->_paramsHelper);
-        if ($clickXpath && $this->isElementPresent($clickXpath)) {
-            $this->click($clickXpath);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-        } elseif (isset($this->_urlPostfix)) {
-            $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper) . $this->_urlPostfix);
+        $clickLocator = $this->_uimapHelper->getPageClickXpath($area, $page, $this->_paramsHelper);
+        $availableElement = ($clickLocator) ? $this->elementIsPresent($clickLocator) : false;
+        if ($availableElement) {
+            $this->url($availableElement->attribute('href'));
         } else {
-            $this->open($this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper));
+            $url = $this->_uimapHelper->getPageUrl($area, $page, $this->_paramsHelper);
+            $url = isset($this->_urlPostfix) ? $url . $this->_urlPostfix : $url;
+            $this->url($url);
         }
         if ($validatePage) {
             $this->validatePage($page);
@@ -1464,22 +1465,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        $this->assertTextNotPresent('Fatal error', 'Fatal error on page');
-        $this->assertTextNotPresent('There has been an error processing your request',
-            'Fatal error on page: \'There has been an error processing your request\'');
-        $this->assertTextNotPresent('Notice:', 'Notice error on page');
-        $this->assertTextNotPresent('Parse error', 'Parse error on page');
-        if (!$this->controlIsPresent('message', 'general_notice')) {
-            $this->assertTextNotPresent('Warning:', 'Warning on page');
-        }
-        $this->assertTextNotPresent('If you typed the URL directly', 'The requested page was not found.');
-        $this->assertTextNotPresent('was not found', 'Something was not found:)');
-        $this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
-        $this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
-        $this->assertTextNotPresent('Internal server error', 'HTTP Error 500 Internal server error');
+        //$this->assertTextNotPresent('Fatal error', 'Fatal error on page');
+        //$this->assertTextNotPresent('There has been an error processing your request',
+        //    'Fatal error on page: \'There has been an error processing your request\'');
+        //$this->assertTextNotPresent('Notice:', 'Notice error on page');
+        //$this->assertTextNotPresent('Parse error', 'Parse error on page');
+        //if (!$this->controlIsPresent('message', 'general_notice')) {
+        //    $this->assertTextNotPresent('Warning:', 'Warning on page');
+        //}
+        //$this->assertTextNotPresent('If you typed the URL directly', 'The requested page was not found.');
+        //$this->assertTextNotPresent('was not found', 'Something was not found:)');
+        //$this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
+        //$this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
+        //$this->assertTextNotPresent('Internal server error', 'HTTP Error 500 Internal server error');
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
         if (!is_null($expectedTitle)) {
-            $this->assertSame($expectedTitle, $this->getTitle(),
+            $this->assertSame($expectedTitle, $this->title(),
                 'Current url: \'' . $this->url() . "\n" . 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
@@ -1854,114 +1855,114 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         return $response['http_code'] == 200;
     }
 
-    /**
-     * SavesHTML content of the current page and return information about it.
-     * Return an empty string if the screenshotPath property is empty.
-     *
-     * @param null|string $fileName
-     *
-     * @return string
-     */
-    public function saveHtmlPage($fileName = null)
-    {
-        if (empty($this->screenshotPath)) {
-            return '';
-        }
-        if ($fileName == null) {
-            $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
-        }
-        $filePath = $this->getScreenshotPath() . $fileName;
-        $file = fopen($filePath . '.html', 'a+');
-        fputs($file, $this->drivers[0]->getHtmlSource());
-        fflush($file);
-        fclose($file);
-        return 'HTML Page: ' . $filePath . ".html\n";
-    }
-
-    /**
-     * Take a screenshot in IE browser
-     *
-     * Note: Download and register SnapsIE to get this work
-     * http://sourceforge.net/projects/snapsie/files/latest/download
-     * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
-     *
-     * @param string $filePath
-     *
-     * @return string Error message(snapsie initialization error) or empty string(if script fails)
-     */
-    private function takeScreenshotIE($filePath)
-    {
-        $checkScript = "function load(){
-                    try {
-                		var nativeObj = new ActiveXObject('Snapsie.CoSnapsie');
-                		return 1;
-                    } catch (e) {
-                		return e.message;
-                	}
-                }load();";
-        $checkResult = $this->getEval($checkScript);
-        if ($checkResult != 1) {
-            return "Could not initialize Snapsie. Error: $checkResult";
-        }
-        $screenShotScript = @file_get_contents(
-            SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'snapsie.js');
-        $filePath = str_replace('\\', '/', $filePath);
-        $screenShotScript = str_replace('%filePath%', $filePath, $screenShotScript);
-        $this->runScript($screenShotScript);
-        return '';
-    }
-
-    /**
-     * Take a screenshot and return information about it.
-     * Return an empty string if the screenshotPath property is empty.
-     *
-     * @param null|string $fileName
-     *
-     * @return string
-     */
-    public function takeScreenshot($fileName = null)
-    {
-        if (empty($this->screenshotPath)) {
-            return '';
-        }
-        $methodResult = '';
-
-        if ($fileName == null) {
-            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
-            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
-            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
-        }
-        $filePath = $this->getScreenshotPath() . $fileName . '.png';
-
-        //
-        $browserUserAgent = $this->getEval('navigator.userAgent');
-        //Run specific function only for IE
-        if (preg_match('|MSIE ([0-9]{1,}[\.0-9]{0,})|', $browserUserAgent)) {
-            $methodResult = $this->takeScreenshotIE($filePath);
-        } else {
-            try {
-                $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
-
-                if (empty($screenshotContent)) {
-                    return '';
-                }
-
-                $file = fopen($filePath, 'a+');
-                fputs($file, $screenshotContent);
-                fflush($file);
-                fclose($file);
-
-            } catch (Exception $e) {
-                return '';
-            }
-        }
-
-        if (file_exists($filePath)) {
-            return 'Screenshot: ' . $filePath . ".png\n";
-        }
-
-        return $methodResult;
-    }
+//    /**
+//     * SavesHTML content of the current page and return information about it.
+//     * Return an empty string if the screenshotPath property is empty.
+//     *
+//     * @param null|string $fileName
+//     *
+//     * @return string
+//     */
+//    public function saveHtmlPage($fileName = null)
+//    {
+//        if (empty($this->screenshotPath)) {
+//            return '';
+//        }
+//        if ($fileName == null) {
+//            $fileName = date('d-m-Y-H-i-s') . '_' . $this->getName();
+//        }
+//        $filePath = $this->getScreenshotPath() . $fileName;
+//        $file = fopen($filePath . '.html', 'a+');
+//        fputs($file, $this->drivers[0]->getHtmlSource());
+//        fflush($file);
+//        fclose($file);
+//        return 'HTML Page: ' . $filePath . ".html\n";
+//    }
+//
+//    /**
+//     * Take a screenshot in IE browser
+//     *
+//     * Note: Download and register SnapsIE to get this work
+//     * http://sourceforge.net/projects/snapsie/files/latest/download
+//     * Register on Win7 x64: c:\Windows\SysWOW64>regsvr32 {path_to_file}snapsie.dll
+//     *
+//     * @param string $filePath
+//     *
+//     * @return string Error message(snapsie initialization error) or empty string(if script fails)
+//     */
+//    private function takeScreenshotIE($filePath)
+//    {
+//        $checkScript = "function load(){
+//                    try {
+//                		var nativeObj = new ActiveXObject('Snapsie.CoSnapsie');
+//                		return 1;
+//                    } catch (e) {
+//                		return e.message;
+//                	}
+//                }load();";
+//        $checkResult = $this->getEval($checkScript);
+//        if ($checkResult != 1) {
+//            return "Could not initialize Snapsie. Error: $checkResult";
+//        }
+//        $screenShotScript = @file_get_contents(
+//            SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'snapsie.js');
+//        $filePath = str_replace('\\', '/', $filePath);
+//        $screenShotScript = str_replace('%filePath%', $filePath, $screenShotScript);
+//        $this->runScript($screenShotScript);
+//        return '';
+//    }
+//
+//    /**
+//     * Take a screenshot and return information about it.
+//     * Return an empty string if the screenshotPath property is empty.
+//     *
+//     * @param null|string $fileName
+//     *
+//     * @return string
+//     */
+//    public function takeScreenshot($fileName = null)
+//    {
+//        if (empty($this->screenshotPath)) {
+//            return '';
+//        }
+//        $methodResult = '';
+//
+//        if ($fileName == null) {
+//            $fileName = time() . '-' . get_class($this) . '-' . $this->getName();
+//            $fileName = preg_replace('/ /', '_', preg_replace('/"/', '\'', $fileName));
+//            $fileName = preg_replace('/_with_data_set/', '-set', $fileName);
+//        }
+//        $filePath = $this->getScreenshotPath() . $fileName . '.png';
+//
+//        //
+//        $browserUserAgent = $this->getEval('navigator.userAgent');
+//        //Run specific function only for IE
+//        if (preg_match('|MSIE ([0-9]{1,}[\.0-9]{0,})|', $browserUserAgent)) {
+//            $methodResult = $this->takeScreenshotIE($filePath);
+//        } else {
+//            try {
+//                $screenshotContent = base64_decode($this->drivers[0]->captureEntirePageScreenshotToString());
+//
+//                if (empty($screenshotContent)) {
+//                    return '';
+//                }
+//
+//                $file = fopen($filePath, 'a+');
+//                fputs($file, $screenshotContent);
+//                fflush($file);
+//                fclose($file);
+//
+//            } catch (Exception $e) {
+//                return '';
+//            }
+//        }
+//
+//        if (file_exists($filePath)) {
+//            return 'Screenshot: ' . $filePath . ".png\n";
+//        }
+//
+//        return $methodResult;
+//    }
 
     /**
      * Operation System definition
@@ -1982,77 +1983,77 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         return 'Unknown OS';
     }
 
-    /**
-     * Get TestCase Id
-     *
-     * @return string
-     */
-    public function getTestId()
-    {
-        return $this->testId;
-    }
-
-    /**
-     * Set test case Id
-     *
-     * @param $testId
-     *
-     * @return Mage_Selenium_TestCase
-     */
-    public function setTestId($testId)
-    {
-        $this->drivers[0]->setTestId($testId);
-        $this->testId = $testId;
-        return $this;
-    }
-
-    /**
-     * Returns correct path to screenshot save path.
-     *
-     * @return string
-     */
-    public function getScreenshotPath()
-    {
-        return parent::getScreenshotPath();
-    }
-
-    /**
-     * Set screenshot path (current test)
-     *
-     * @param $path
-     *
-     * @return Mage_Selenium_TestCase
-     */
-    public function setScreenshotPath($path)
-    {
-        $this->screenshotPath = $path;
-        return $this;
-    }
-
-    /**
-     * Set default screenshot path (config)
-     *
-     * @param string $path
-     *
-     * @return Mage_Selenium_TestCase
-     */
-    public function setDefaultScreenshotPath($path)
-    {
-        $this->_configHelper->setScreenshotDir($path);
-        $this->setScreenshotPath($path);
-
-        return $this;
-    }
-
-    /**
-     * Get default screenshot path (config)
-     *
-     * @return string
-     */
-    public function getDefaultScreenshotPath()
-    {
-        return $this->_configHelper->getScreenshotDir();
-    }
+//    /**
+//     * Get TestCase Id
+//     *
+//     * @return string
+//     */
+//    public function getTestId()
+//    {
+//        return $this->testId;
+//    }
+//
+//    /**
+//     * Set test case Id
+//     *
+//     * @param $testId
+//     *
+//     * @return Mage_Selenium_TestCase
+//     */
+//    public function setTestId($testId)
+//    {
+//        $this->drivers[0]->setTestId($testId);
+//        $this->testId = $testId;
+//        return $this;
+//    }
+//
+//    /**
+//     * Returns correct path to screenshot save path.
+//     *
+//     * @return string
+//     */
+//    public function getScreenshotPath()
+//    {
+//        return parent::getScreenshotPath();
+//    }
+//
+//    /**
+//     * Set screenshot path (current test)
+//     *
+//     * @param $path
+//     *
+//     * @return Mage_Selenium_TestCase
+//     */
+//    public function setScreenshotPath($path)
+//    {
+//        $this->screenshotPath = $path;
+//        return $this;
+//    }
+//
+//    /**
+//     * Set default screenshot path (config)
+//     *
+//     * @param string $path
+//     *
+//     * @return Mage_Selenium_TestCase
+//     */
+//    public function setDefaultScreenshotPath($path)
+//    {
+//        $this->_configHelper->setScreenshotDir($path);
+//        $this->setScreenshotPath($path);
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get default screenshot path (config)
+//     *
+//     * @return string
+//     */
+//    public function getDefaultScreenshotPath()
+//    {
+//        return $this->_configHelper->getScreenshotDir();
+//    }
 
     /**
      * Clicks a control with the specified name and type.
