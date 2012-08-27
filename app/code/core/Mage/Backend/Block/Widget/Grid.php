@@ -178,13 +178,23 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
+     * Retrieve column set block
+     *
+     * @return Mage_Backend_Block_Widget_Grid_ColumnSet
+     */
+    protected function _getColumnSet()
+    {
+        return $this->getChildBlock('grid.columnSet');
+    }
+
+    /**
      * Retrieve list of grid columns
      *
      * @return array
      */
     public function getColumns()
     {
-        return $this->getLayout()->getChildBlocks($this->getChildBlock('columnSet')->getNameInLayout());
+        return $this->_getColumnSet()->getColumns();
     }
 
     /**
@@ -205,7 +215,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumn($columnId)
     {
-        return $this->getChildBlock('grid.columnSet')->getChildBlock($columnId);
+        return $this->_getColumnSet()->getChildBlock($columnId);
     }
 
     /**
@@ -337,13 +347,17 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected function _prepareGrid()
     {
         $this->_prepareCollection();
-        foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {
-            $this->getChildBlock('grid.columnSet')->setRendererType($renderer, $rendererClass);
+        if ($this->hasColumnRenderers()) {
+            foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {
+                $this->_getColumnSet()->setRendererType($renderer, $rendererClass);
+            }
         }
-        foreach ($this->getColumnFilters() as $filter => $filterClass) {
-            $this->getChildBlock('grid.columnSet')->setFilterType($filter, $filterClass);
+        if ($this->hasColumnFilters()) {
+            foreach ($this->getColumnFilters() as $filter => $filterClass) {
+                $this->_getColumnSet()->setFilterType($filter, $filterClass);
+            }
         }
-        $this->getChildBlock('grid.columnSet')->setSortable($this->getSortable());
+        $this->_getColumnSet()->setSortable($this->getSortable());
     }
 
     /**
@@ -354,6 +368,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected function _beforeToHtml()
     {
         $this->_prepareGrid();
+        $this->_getColumnSet()->initColumns();
         return parent::_beforeToHtml();
     }
 

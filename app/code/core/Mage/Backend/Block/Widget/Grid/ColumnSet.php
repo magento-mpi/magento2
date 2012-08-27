@@ -66,6 +66,11 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Text_List
         return $this;
     }
 
+    public function initColumns()
+    {
+        $this->_beforeToHtml();
+    }
+
     /**
      * Prepare block for rendering
      *
@@ -74,6 +79,9 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Text_List
     protected function _beforeToHtml()
     {
         $columns = $this->getColumns();
+        foreach ($columns as $column) {
+            $column->setGrid($this->getParentBlock());
+        }
         $last = array_pop($columns);
         $last->addHeaderCssClass('last');
     }

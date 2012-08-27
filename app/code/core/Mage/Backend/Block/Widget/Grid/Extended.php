@@ -102,6 +102,21 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     }
 
     /**
+     * Retrieve column set block
+     *
+     * @return Mage_Core_Block_Abstract
+     */
+    protected function _getColumnSet()
+    {
+        if (!$this->getChildBlock('grid.columnSet')) {
+            $this->setChild('grid.columnSet',
+                $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_ColumnSet')
+            );
+        }
+        return parent::_getColumnSet();
+    }
+
+    /**
      * Generate export button
      *
      * @return string
@@ -156,14 +171,15 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_columns[$columnId] = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
-                ->setData($column)
-                ->setGrid($this);
+            $this->_getColumnSet()->setChild($columnId,
+                $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
+                    ->setData($column)
+                    ->setId($columnId)
+            );
         } else {
             throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong column format.'));
         }
 
-        $this->_columns[$columnId]->setId($columnId);
         $this->_lastColumnId = $columnId;
         return $this;
     }
@@ -176,10 +192,10 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
      */
     public function removeColumn($columnId)
     {
-        if (isset($this->_columns[$columnId])) {
-            unset($this->_columns[$columnId]);
+        if ($this->_getColumnSet()->getChildBlock($columnId)) {
+            $this->_getColumnSet()->unsetChild($columnId);
             if ($this->_lastColumnId == $columnId) {
-                $this->_lastColumnId = key($this->_columns);
+                $this->_lastColumnId = array_pop($this->_getColumnSet()->getChildNames());
             }
         }
         return $this;
@@ -266,30 +282,6 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     }
 
     /**
-     * Retrieve grid column by column id
-     *
-     * @param   string $columnId
-     * @return  Varien_Object || false
-     */
-    public function getColumn($columnId)
-    {
-        if (!empty($this->_columns[$columnId])) {
-            return $this->_columns[$columnId];
-        }
-        return false;
-    }
-
-    /**
-     * Retrieve all grid columns
-     *
-     * @return array
-     */
-    public function getColumns()
-    {
-        return $this->_columns;
-    }
-
-    /**
      * Initialize grid columns
      *
      * @return Mage_Backend_Block_Widget_Grid_Extended
@@ -351,10 +343,7 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
             ->setGrid($this)
             ->setId($columnId);
 
-        $oldColumns = $this->_columns;
-        $this->_columns = array();
-        $this->_columns[$columnId] = $massactionColumn;
-        $this->_columns = array_merge($this->_columns, $oldColumns);
+        $this->_getColumnSet()->setChild($columnId, $massactionColumn);
         return $this;
     }
 

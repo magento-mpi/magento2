@@ -29,11 +29,14 @@ class Mage_Backend_Block_Widget_Grid_ColumnSetTest extends PHPUnit_Framework_Tes
     protected function setUp()
     {
         $this->_columnMock = $this->getMock('Mage_Backend_Block_Widget_Grid_Column',
-            array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass'), array(), '', false);
+            array('setSortable', 'setRendererType', 'setFilterType', 'addHeaderCssClass', 'setGrid'),
+            array(), '', false
+        );
         $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false);
         $this->_layoutMock->expects($this->any())->method('getChildBlocks')->will($this->returnValue(
             array($this->_columnMock)
         ));
+
         $this->_layoutMock->expects($this->once())->method('getChildNames')->will($this->returnValue(array('column')));
         $this->_block = new Mage_Backend_Block_Widget_Grid_ColumnSet(array('layout' => $this->_layoutMock));
     }
