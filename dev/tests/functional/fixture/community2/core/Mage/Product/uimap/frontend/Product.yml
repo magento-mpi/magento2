@@ -1,0 +1,26 @@
+#
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Product
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+product_page:
+    uimap:
+        form:
+            fieldsets: &productFieldsets
+                -
+                    product_info:
+                        links:
+                            what_is_this: //a[contains(., concat("What", "'s this?"))]
+                        buttons:
+                            close: //a[@id='map-popup-close']
+                        pageelements:
+                            price_box_map_info: //div[@class='price-box map-info']//span[@class='msrp-price-hide-message'and contains(.,'See price before order confirmation.')]
+                            map_popup: //div[@id='map-popup']

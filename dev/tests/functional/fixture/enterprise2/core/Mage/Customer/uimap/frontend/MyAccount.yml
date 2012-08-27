@@ -90,6 +90,8 @@ create_new_return:
                            reason: //*[@id='items:reason%param%']
                        buttons:
                            submit: //*[@id='submit.save']
+                       pageelements:
+                           custom_items_attribute: //*[@id='items:%attributeCode%%param%']
        messages:
            specify_product_quantity: //li[normalize-space(@class)='error-msg' and contains(.,'Quantity of %productName% is greater than you can return.')]
 

@@ -45,6 +45,11 @@ category_page_before_reindex:
                 -
                     layered_navigation:
                         xpath: //*[@id='narrow-by-list2']
+                -
+                    category_view:
+                        xpath: //div[@class='category-products']
+                        links:
+                            click_for_price: //a[contains(text(),'Click for price')]
 
 category_layered_navigation:
     uimap: *categoryUIMap
