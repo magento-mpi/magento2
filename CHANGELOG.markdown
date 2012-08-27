@@ -1,4 +1,4 @@
-Update as of 8/24/2012
+Update as of 8/26/2012
 ======================
 * Decoupled Tag module functionality from other modules
 * Visual Design Editor:
@@ -16,6 +16,7 @@ Update as of 8/24/2012
   * Marked several integration tests in `Mage_Adminhtml_CustomerControllerTest` as incomplete, as the tested functionality was not MMDB-compliant
   * Fixed issue with unit tests failure, when there was a Zend Framework installed as PEAR package
   * Fixed `advanced_search` performance scenario to fail, if the searched product doesn't exist
+  * Fixed issue with non-escaped latest message link in admin backend
 * GitHub requests:
   * [#48](https://github.com/magento/magento2/pull/48) -- fixed usage of a collection at the place, where just a single object was needed
 
