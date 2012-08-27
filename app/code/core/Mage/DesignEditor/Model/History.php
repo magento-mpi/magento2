@@ -110,8 +110,8 @@ class Mage_DesignEditor_Model_History
      */
     public function setChanges(Traversable $changes)
     {
-        $changesCollectionClass = self::CHANGE_COLLECTION_CLASS;
-        if ($changes instanceof $changesCollectionClass) {
+        $collectionClass = self::CHANGE_COLLECTION_CLASS;
+        if ($changes instanceof $collectionClass) {
             $this->_collection = $changes;
         } else {
             $this->_initCollection();

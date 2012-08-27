@@ -59,7 +59,7 @@ class Mage_DesignEditor_Model_History_Compact
     protected function _getCompactModels()
     {
         if (!$this->_compactModels) {
-            foreach ($this->_getConfig() as $class) {
+            foreach($this->_getConfig() as $class) {
                 $this->_compactModels[] = Mage::getModel($class);
             }
         }
