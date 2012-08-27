@@ -21,17 +21,17 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
      */
     public function compact(Mage_DesignEditor_Model_Change_Collection $collection)
     {
-        /** @var $change Mage_DesignEditor_Model_Change_Layout */
+        /** @var $change Mage_DesignEditor_Model_Change_LayoutAbstract */
         foreach ($collection as $changeKey => $change) {
-            if (!$change instanceof Mage_DesignEditor_Model_Change_Layout) {
+            if (!$change instanceof Mage_DesignEditor_Model_Change_LayoutAbstract) {
                 continue;
             }
             switch ($change->getData('action_name')) {
-                case Mage_DesignEditor_Model_Change_Layout_Remove::LAYOUT_DIRECTIVE:
+                case Mage_DesignEditor_Model_Change_Layout_Remove::LAYOUT_DIRECTIVE_REMOVE:
                     $this->_compactRemove($collection, $change, $changeKey);
                     break;
 
-                case Mage_DesignEditor_Model_Change_Layout_Move::LAYOUT_DIRECTIVE:
+                case Mage_DesignEditor_Model_Change_Layout_Move::LAYOUT_DIRECTIVE_MOVE:
                     $this->_compactMove($collection, $change, $changeKey);
                     break;
 
@@ -45,21 +45,21 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
      * Run compact for remove action
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
-     * @param Mage_DesignEditor_Model_Change_Layout $change
+     * @param Mage_DesignEditor_Model_Change_LayoutAbstract $change
      * @param int $changeKey
      * @return Mage_DesignEditor_Model_History_Compact_Layout
      */
     protected function _compactRemove($collection, $change, $changeKey)
     {
         $target = $change->getData('element_name');
-        /** @var $item Mage_DesignEditor_Model_Change_Layout */
+        /** @var $item Mage_DesignEditor_Model_Change_LayoutAbstract */
         foreach ($collection as $key => $item) {
-            if (!$item instanceof Mage_DesignEditor_Model_Change_Layout) {
+            if (!$item instanceof Mage_DesignEditor_Model_Change_LayoutAbstract) {
                 continue;
             }
             $isMoveOrRemove = in_array($item->getData('action_name'), array(
-                Mage_DesignEditor_Model_Change_Layout_Remove::LAYOUT_DIRECTIVE,
-                Mage_DesignEditor_Model_Change_Layout_Move::LAYOUT_DIRECTIVE
+                Mage_DesignEditor_Model_Change_Layout_Remove::LAYOUT_DIRECTIVE_REMOVE,
+                Mage_DesignEditor_Model_Change_Layout_Move::LAYOUT_DIRECTIVE_MOVE
             ));
 
             if ($item->getData('element_name') == $target && $isMoveOrRemove && $key != $changeKey) {
@@ -74,7 +74,7 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
      * Run compact for move action
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
-     * @param Mage_DesignEditor_Model_Change_Layout $change
+     * @param Mage_DesignEditor_Model_Change_LayoutAbstract $change
      * @param int $changeKey
      * @return Mage_DesignEditor_Model_History_Compact_Layout
      */
@@ -86,7 +86,7 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
         $target = $change->getData('element_name');
         $lastMove = null;
         $lastKey = null;
-        /** @var $item Mage_DesignEditor_Model_Change_Layout */
+        /** @var $item Mage_DesignEditor_Model_Change_LayoutAbstract */
         foreach ($collection as $key => $item) {
             if (!$item instanceof Mage_DesignEditor_Model_Change_Layout_Move ||
                     $item->getData('element_name') != $target) {

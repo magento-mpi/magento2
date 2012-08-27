@@ -11,12 +11,12 @@
 /**
  * Layout remove change model
  */
-class Mage_DesignEditor_Model_Change_Layout_Remove extends Mage_DesignEditor_Model_Change_Layout
+class Mage_DesignEditor_Model_Change_Layout_Remove extends Mage_DesignEditor_Model_Change_LayoutAbstract
 {
     /**
      * Layout directive associated with this change
      */
-    const LAYOUT_DIRECTIVE   = 'remove';
+    const LAYOUT_DIRECTIVE_REMOVE = 'remove';
 
     /**
      * Get data to render layout update directive
@@ -25,8 +25,16 @@ class Mage_DesignEditor_Model_Change_Layout_Remove extends Mage_DesignEditor_Mod
      */
     public function getLayoutUpdateData()
     {
-        return array(
-            'name'         => $this->getData('element_name'),
-        );
+        return array('name' => $this->getData('element_name'));
+    }
+
+    /**
+     * Get layout update directive for given layout change
+     *
+     * @return string
+     */
+    public function getLayoutDirective()
+    {
+        return self::LAYOUT_DIRECTIVE_REMOVE;
     }
 }

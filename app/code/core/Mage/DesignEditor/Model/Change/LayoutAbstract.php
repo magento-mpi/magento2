@@ -11,15 +11,18 @@
 /**
  * Layout change model
  */
-abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_Model_ChangeAbstract
+abstract class Mage_DesignEditor_Model_Change_LayoutAbstract extends Mage_DesignEditor_Model_ChangeAbstract
 {
+    /**
+     * Layout change type identifier
+     */
     const CHANGE_TYPE = 'layout';
 
     /**
      * Validate layout move change data passed to constructor
      *
      * @throws Mage_Core_Exception
-     * @return Mage_DesignEditor_Model_ChangeAbstract|Mage_DesignEditor_Model_Change_Layout
+     * @return Mage_DesignEditor_Model_Change_LayoutAbstract
      */
     protected function _validate()
     {
@@ -31,13 +34,17 @@ abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_M
         }
 
         if (count($errors)) {
-            Mage::throwException(
-                Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid change data: %s', join(' ', $errors))
-            );
+            Mage::throwException(join("\n", $errors));
         }
         return $this;
     }
 
+    /**
+     * Get data to render layout update directive
+     *
+     * @abstract
+     * @return array
+     */
     abstract public function getLayoutUpdateData();
 
     /**
@@ -55,8 +62,5 @@ abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_M
      *
      * @return string
      */
-    public function getLayoutDirective()
-    {
-        return self::LAYOUT_DIRECTIVE;
-    }
+    abstract public function getLayoutDirective();
 }
