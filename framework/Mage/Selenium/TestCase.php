@@ -119,11 +119,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public $frameworkConfig;
 
-    /**
-     * Saves HTML content of the current page if the test failed
-     * @var bool
-     */
-    protected $_saveHtmlPageOnFailure = false;
+//    /**
+//     * Saves HTML content of the current page if the test failed
+//     * @var bool
+//     */
+//    protected $_saveHtmlPageOnFailure = false;
 
     /**
      * Timeout in ms
@@ -197,23 +197,23 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     const FIELD_TYPE_PAGEELEMENT = 'pageelement';
 
-    ################################################################################
-    #                      Selenium variables(do not rename)                       #
-    ################################################################################
-    /**
-     * @var Mage_Selenium_Driver[]
-     */
-    protected $drivers = array();
-
-    /**
-     * @var string
-     */
-    protected $coverageScriptUrl = '';
-
-    /**
-     * @var bool
-     */
-    protected $captureScreenshotOnFailure = false;
+//    ################################################################################
+//    #                      Selenium variables(do not rename)                       #
+//    ################################################################################
+//    /**
+//     * @var Mage_Selenium_Driver[]
+//     */
+//    protected $drivers = array();
+//
+//    /**
+//     * @var string
+//     */
+//    protected $coverageScriptUrl = '';
+//
+//    /**
+//     * @var bool
+//     */
+//    protected $captureScreenshotOnFailure = false;
 
     ################################################################################
     #                             Else variables                                   #
@@ -243,10 +243,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
 
         parent::__construct($name, $data, $dataName);
 
-        $this->captureScreenshotOnFailure = $this->frameworkConfig['captureScreenshotOnFailure'];
-        $this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
-        $this->coverageScriptUrl = $this->frameworkConfig['coverageScriptUrl'];
-        $this->screenshotPath = $this->screenshotUrl = $this->getDefaultScreenshotPath();
+        //$this->captureScreenshotOnFailure = $this->frameworkConfig['captureScreenshotOnFailure'];
+        //$this->_saveHtmlPageOnFailure = $this->frameworkConfig['saveHtmlPageOnFailure'];
+        //$this->coverageScriptUrl = $this->frameworkConfig['coverageScriptUrl'];
+        //$this->screenshotPath = $this->screenshotUrl = $this->getDefaultScreenshotPath();
     }
 
     /**
@@ -270,63 +270,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-     * Stops any shared session still open at the end of the current PHPUnit process.
-     */
-    public function __destruct()
-    {
-        try {
-            $this->drivers[0]->stopBrowserSession();
-        } catch (RuntimeException $e) {
-        }
-    }
-
-    /**
-     * Loads a specific driver for the specified browser
-     *
-     * @param array $browser Defines what kind of driver, for a what browser will be loaded
-     *
-     * @return \Mage_Selenium_Driver|\PHPUnit_Extensions_SeleniumTestCase_Driver
-     */
-    protected function getDriver(array $browser)
-    {
-        if (!isset($browser['name'])) {
-            $browser['name'] = '';
-        }
-        if (!isset($browser['browser'])) {
-            $browser['browser'] = '';
-        }
-        if (!isset($browser['host'])) {
-            $browser['host'] = 'localhost';
-        }
-        if (!isset($browser['port'])) {
-            $browser['port'] = 4444;
-        }
-        if (!isset($browser['timeout'])) {
-            $browser['timeout'] = 30;
-        }
-        if (!isset($browser['httpTimeout'])) {
-            $browser['httpTimeout'] = 45;
-        }
-        $driver = new Mage_Selenium_Driver();
-        $driver->setName($browser['name']);
-        $driver->setBrowser($browser['browser']);
-        $driver->setHost($browser['host']);
-        $driver->setPort($browser['port']);
-        $driver->setTimeout($browser['timeout']);
-        $driver->setHttpTimeout($browser['httpTimeout']);
-        $driver->setTestCase($this);
-        $driver->setTestId($this->testId);
-
-        $driver->setLogHandle($this->_testConfig->getLogFile());
-        $driver->setBrowserUrl($this->_configHelper->getBaseUrl());
-        $this->_browserTimeoutPeriod = $browser['timeout'] * 1000;
-
-        $this->drivers[0] = $driver;
-
-        return $driver;
-    }
-
-    /**
      * Implementation of setUpBeforeClass() method in the object context, called as setUpBeforeTests()<br>
      * Used ONLY one time before execution of each class (tests in test class)
      * @throws Exception
@@ -337,12 +280,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         static $setUpBeforeTestsError = null;
         if (self::$_testClass != $currentTestClass) {
             self::$_testClass = $currentTestClass;
-            //work with xpath for IE
-            $browser = $this->drivers[0]->getBrowserSettings();
-            if (strstr($browser['browser'], '*ie') !== false) {
-                $this->useXpathLibrary('javascript-xpath');
-                $this->allowNativeXpath(true);
-            }
             $this->setLastTestNameInClass();
             try {
                 $setUpBeforeTestsError = null;
@@ -366,16 +303,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function prepareBrowserSession()
     {
         $browsers = $this->_configHelper->getConfigBrowsers();
-        if ($this->frameworkConfig['shareSession'] && empty(self::$browsers)) {
-            $this->setupSpecificBrowser($browsers['default']);
-            $this->shareSession($this->prepareTestSession());
-        } elseif (empty(self::$browsers)) {
-            $this->setupSpecificBrowser($browsers['default']);
-            $this->prepareTestSession();
-        } else {
-            $this->frameworkConfig['shareSession'] = false;
-            $this->prepareTestSession();
-        }
+        $this->setupSpecificBrowser($browsers['default']);
+        $this->setBrowserUrl($this->_configHelper->getBaseUrl());
+        //$this->shareSession($this->frameworkConfig['shareSession']);
+        //$this->setLogHandle($this->_testConfig->getLogFile());
+        return $this->prepareSession();
     }
 
     final function setUp()
@@ -424,12 +356,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     final function tearDown()
     {
         if ($this->hasFailed()) {
-            if ($this->_saveHtmlPageOnFailure) {
-                $this->saveHtmlPage();
-            }
-            if ($this->captureScreenshotOnFailure) {
-                $this->takeScreenshot();
-            }
+            //if ($this->_saveHtmlPageOnFailure) {
+            //    $this->saveHtmlPage();
+            //}
+            //if ($this->captureScreenshotOnFailure) {
+            //    $this->takeScreenshot();
+            //}
         } else {
             $this->assertEmptyVerificationErrors();
         }
@@ -453,17 +385,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         if (isset($e) && !$this->hasFailed()) {
-            if ($this->_saveHtmlPageOnFailure) {
-                $this->saveHtmlPage();
-            }
-            if ($this->captureScreenshotOnFailure) {
-                $this->takeScreenshot();
-            }
+            //if ($this->_saveHtmlPageOnFailure) {
+            //    $this->saveHtmlPage();
+            //}
+            //if ($this->captureScreenshotOnFailure) {
+            //    $this->takeScreenshot();
+            //}
         }
 
-        if (!$this->frameworkConfig['shareSession']) {
-            $this->drivers[0]->stopBrowserSession();
-        }
+        //if (!$this->frameworkConfig['shareSession']) {
+        //    $this->drivers[0]->stopBrowserSession();
+        //}
 
         if (isset($e)) {
             throw $e;
@@ -652,7 +584,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function defineParameterFromUrl($paramName, $url = null)
     {
         if (is_null($url)) {
-            $url = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->getLocation());
+            $url = self::_getMcaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->url());
         }
         $title_arr = explode('/', $url);
         if (in_array($paramName, $title_arr) && isset($title_arr[array_search($paramName, $title_arr) + 1])) {
@@ -1136,7 +1068,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $result = $this->$method($message);
         if (!$result['success']) {
             $location =
-                'Current url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
+                'Current url: \'' . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
             if (is_null($message)) {
                 $error = "Failed looking for '" . $type . "' message.\n";
             } else {
@@ -1336,7 +1268,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getCurrentLocationArea()
     {
-        $currentArea = self::_getAreaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->getLocation());
+        $currentArea = self::_getAreaFromCurrentUrl($this->_configHelper->getConfigAreas(), $this->url());
         $this->_configHelper->setArea($currentArea);
         return $currentArea;
     }
@@ -1446,7 +1378,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function getCurrentLocationUimapPage()
     {
         $areasConfig = $this->_configHelper->getConfigAreas();
-        $currentUrl = $this->getLocation();
+        $currentUrl = $this->url();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $currentUrl);
         $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
         return $this->_uimapHelper->getUimapPageByMca($area, $mca, $this->_paramsHelper);
@@ -1489,7 +1421,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
-            $url = str_replace($this->_urlPostfix, '', $this->getLocation());
+            $url = str_replace($this->_urlPostfix, '', $this->url());
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);
@@ -1548,7 +1480,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
         if (!is_null($expectedTitle)) {
             $this->assertSame($expectedTitle, $this->getTitle(),
-                'Current url: \'' . $this->getLocation() . "\n" . 'Title for page "' . $page . '" is unexpected.');
+                'Current url: \'' . $this->url() . "\n" . 'Title for page "' . $page . '" is unexpected.');
         }
         $this->setCurrentPage($page);
     }
@@ -1653,7 +1585,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } catch (Exception $e) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             $errorMessage =
-                'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+                'Current location url: ' . $this->url() . "\n" . 'Current page "' . $this->getCurrentPage()
                 . '": ' . $e->getMessage() . ' - "' . $elementName . '"';
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
@@ -1795,7 +1727,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($messageLocator === null) {
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             $errorMessage =
-                'Current location url: ' . $this->getLocation() . "\n" . 'Current page "' . $this->getCurrentPage()
+                'Current location url: ' . $this->url() . "\n" . 'Current page "' . $this->getCurrentPage()
                 . '": ' . 'Message "' . $message . '" is not found';
             if (strlen($messagesOnPage) > 0) {
                 $errorMessage .= "\nMessages on current page:\n" . $messagesOnPage;
@@ -2137,7 +2069,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $xpath = $this->_getControlXpath($controlType, $controlName);
         if (!$this->isElementPresent($xpath) || !$this->isVisible($xpath)) {
             $this->fail(
-                "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
+                "Current location url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage()
                 . "'\nProblem with $controlType '$controlName', xpath '$xpath':\n"
                 . 'Control is not present on the page');
         }
@@ -3662,14 +3594,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function onNotSuccessfulTest(Exception $e)
     {
-        if ($this->frameworkConfig['shareSession']) {
-            //Remove sessionId used for sharing session.
-            $this->shareSession(null);
-        }
-        try {
-            $this->drivers[0]->stopBrowserSession();
-        } catch (RuntimeException $_e) {
-        }
+        //if ($this->frameworkConfig['shareSession']) {
+        //    //Remove sessionId used for sharing session.
+        //    $this->shareSession(null);
+        //}
+        //try {
+        //    $this->drivers[0]->stopBrowserSession();
+        //} catch (RuntimeException $_e) {
+        //}
 
         throw $e;
     }

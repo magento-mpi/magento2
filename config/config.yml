@@ -32,23 +32,26 @@
 ################################################################################
 browsers:
     googlechrome: &googlechrome
-         name: 'Google Chrome'
-         browser: '*googlechrome'
+         browser: 'Google Chrome'
+         browserName: 'chrome'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
     firefox: &firefox
-         name: 'Firefox'
-         browser: '*chrome'
+         browser: 'Firefox'
+         browserName: 'firefox'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
     iexplorer: &iexplorer
-         name: 'Internet Explorer'
-         browser: '*iexplore'
+         browser: 'Internet Explorer'
+         browserName: 'iexplore'
          host: 'localhost'
          port: 4444
-         timeout: 60
+         seleniumServerRequestsTimeout: 60
+         sessionStrategy: shared
     default: *firefox
 ################################################################################
 #                                                                              #
