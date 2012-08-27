@@ -52,7 +52,7 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
         if (!$product) {
             $this->fail('Data for selecting product for review is not set');
         }
-        $this->searchAndOpen($product, false, 'select_product_grid');
+        $this->searchAndOpen($product, 'select_product_grid', false);
         $this->validatePage();
         $this->fillInfo($reviewData);
         $this->saveForm('save_review');

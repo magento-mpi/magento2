@@ -85,9 +85,13 @@ admin_header:
                             element_with_class_not_active: "%elementXpath%[not(contains(@class,'active'))]"
                             element_by_id: "//*[@id='%elementId%']"
         messages:
-            general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
-            general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
-            general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"
-            general_validation: "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]"
+            general_notice: "//*[normalize-space(@class)='notice-msg']"
+            general_success: "//*[normalize-space(@class)='success-msg']"
+            general_error: "//*[normalize-space(@class)='error-msg']"
+            general_validation: "//*[normalize-space(@class)='validation-advice']"
+            #general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
+            #general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
+            #general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"
+            #general_validation: "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]"
             no_records_found: //td[text()='No records found.']
             specific_table_no_records_found: %tableXpath%//td[text()='No records found.']

@@ -516,7 +516,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 $fileName = (count($elements) > 1) ? array_shift($elements) : '';
                 $customerData = $this->loadDataSet($fileName, implode('/', $elements));
             }
-            $this->searchAndOpen($customerData, false, 'order_customer_grid');
+            $this->searchAndOpen($customerData, 'order_customer_grid', false);
         }
 
         // Select a store if there is more then one default store
@@ -641,7 +641,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $key = trim(strtolower(preg_replace('#[^0-9a-z]+#i', '_', $value)), '_');
             $this->addParameter('tableLineXpath', $this->_getControlXpath('pageelement', 'product_table_tfoot'));
             $this->addParameter('cellIndex', $number);
-            $actualData[$key] = $this->getTabAttribute('pageelement', 'table_line_cell_index', 'text');
+            $actualData[$key] = $this->getControlAttribute('pageelement', 'table_line_cell_index', 'text');
         }
         $this->shoppingCartHelper()->compareArrays($actualData, $verificationData, 'Total');
 
