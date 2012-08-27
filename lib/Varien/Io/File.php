@@ -358,20 +358,57 @@ class Varien_Io_File extends Varien_Io_Abstract
     public static function rmdirRecursive($dir, $recursive = true)
     {
         if ($recursive) {
-            if (is_dir($dir)) {
-                foreach (scandir($dir) as $item) {
-                    if (!strcmp($item, '.') || !strcmp($item, '..')) {
-                        continue;
-                    }
-                    self::rmdirRecursive($dir . "/" . $item, $recursive);
-                }
-                $result = @rmdir($dir);
-            } else {
-                $result = @unlink($dir);
-            }
+            $result = self::_recursiveCallback($dir, array('unlink'), array('rmdir'));
         } else {
             $result = @rmdir($dir);
         }
+        return $result;
+    }
+
+    /**
+     * Applies specified callback for a directory/file recursively
+     *
+     * $fileCallback and $dirCallback format: array($callback, $parameters)
+     * - $callback - callable
+     * - $parameters (optional) - array with parameters to be passed to the $callback
+     *
+     * @static
+     * @param string $dir
+     * @param array $fileCallback
+     * @param array $dirCallback
+     * @return mixed
+     * @throws InvalidArgumentException
+     */
+    protected static function _recursiveCallback($dir, array $fileCallback, array $dirCallback = array())
+    {
+        if (empty($fileCallback) || !is_array($fileCallback) || !is_array($dirCallback)) {
+            throw new InvalidArgumentException("file/dir callback is not specified");
+        }
+        if (empty($dirCallback)) {
+            $dirCallback = $fileCallback;
+        }
+        if (is_dir($dir)) {
+            foreach (scandir($dir) as $item) {
+                if (!strcmp($item, '.') || !strcmp($item, '..')) {
+                    continue;
+                }
+                self::_recursiveCallback($dir . DIRECTORY_SEPARATOR . $item, $fileCallback, $dirCallback);
+            }
+            $callback = $dirCallback[0];
+            if (!is_callable($callback)) {
+                throw new InvalidArgumentException("'dirCallback' parameter is not callable");
+            }
+            $parameters = isset($dirCallback[1]) ? $dirCallback[1] : array();
+        } else {
+            $callback = $fileCallback[0];
+            if (!is_callable($callback)) {
+                throw new InvalidArgumentException("'fileCallback' parameter is not callable");
+            }
+            $parameters = isset($fileCallback[1]) ? $fileCallback[1] : array();
+        }
+        array_unshift($parameters, $dir);
+        $result = call_user_func_array($callback, $parameters);
+
         return $result;
     }
 
@@ -621,18 +658,36 @@ class Varien_Io_File extends Varien_Io_Abstract
      *
      * @param string $filename
      * @param int $mode
+     * @param boolean $recursive
      * @return boolean
      */
-    public function chmod($filename, $mode)
+    public function chmod($filename, $mode, $recursive = false)
     {
         if ($this->_cwd) {
             chdir($this->_cwd);
         }
-        $result = @chmod($filename, $mode);
+        if ($recursive) {
+            $result = self::chmodRecursive($filename, $mode);
+        } else {
+            $result = @chmod($filename, $mode);
+        }
         if ($this->_iwd) {
             chdir($this->_iwd);
         }
         return $result;
+    }
+
+    /**
+     * Change mode of a directory/file recursively
+     *
+     * @static
+     * @param string $dir
+     * @param int $mode
+     * @return bool
+     */
+    public static function chmodRecursive($dir, $mode)
+    {
+        return self::_recursiveCallback($dir, array('chmod', array($mode)));
     }
 
     /**
