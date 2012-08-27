@@ -76,7 +76,7 @@ new_admin_user:
             tabs:
                 -
                     user_info:
-                        xpath: //a[@id='page_tabs_main_section']/span
+                        xpath: //a[@id='page_tabs_main_section']
                         fieldsets:
                             -
                                 account_information:
@@ -93,7 +93,7 @@ new_admin_user:
                                     required: [user_name, first_name, last_name, email, password, password_confirmation]
                 -
                     user_role:
-                        xpath: //a[@id='page_tabs_roles_section']/span
+                        xpath: //a[@id='page_tabs_roles_section']
                         fieldsets:
                             -
                                 permissions_user_roles:

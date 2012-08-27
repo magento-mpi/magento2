@@ -76,7 +76,7 @@ new_product_attribute:
             tabs:
                 -
                     properties: &productAttributeProperties
-                        xpath: //a[@id='product_attribute_tabs_main']/span
+                        xpath: //a[@id='product_attribute_tabs_main']
                         fieldsets:
                             -
                                 attribute_properties:
@@ -118,7 +118,7 @@ new_product_attribute:
                                         position: //input[@id='position'][not(@disabled)]
                 -
                     manage_labels_options:
-                        xpath: //a[@id='product_attribute_tabs_labels']/span
+                        xpath: //a[@id='product_attribute_tabs_labels']
                         fieldsets:
                             -
                                 manage_titles:
@@ -161,7 +161,7 @@ edit_product_attribute:
                     properties: *productAttributeProperties
                 -
                     manage_labels_options:
-                        xpath: //a[@id='product_attribute_tabs_labels']/span
+                        xpath: //a[@id='product_attribute_tabs_labels']
                         fieldsets:
                             -
                                 manage_titles:

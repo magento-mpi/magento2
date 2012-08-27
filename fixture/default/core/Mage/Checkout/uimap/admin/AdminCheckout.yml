@@ -450,7 +450,7 @@ view_order:
             tabs:
                 -
                     information:
-                        xpath: //a[@name='order_info']/span
+                        xpath: //a[@name='order_info']
                         fieldsets:
                             -
                                 order_information:
@@ -536,7 +536,7 @@ view_order:
                                         ex_t_total_total_due: //tr[normalize-space(td)='Total Due']
                 -
                     invoices:
-                        xpath: //a[@name='order_invoices']/span
+                        xpath: //a[@name='order_invoices']
                         fieldsets:
                             -
                                 sales_order_view:
@@ -555,7 +555,7 @@ view_order:
                                         filter_amount_to: //input[@id='filter_base_grand_total_to']
                 -
                     credit_memos:
-                        xpath: //a[@name='order_creditmemos']/span
+                        xpath: //a[@name='order_creditmemos']
                         fieldsets:
                             -
                                 sales_order_view:
@@ -574,7 +574,7 @@ view_order:
                                         filter_amount_to: //input[@id='filter_base_grand_total_to']
                 -
                     shipments:
-                        xpath: //a[@name='order_shipments']/span
+                        xpath: //a[@name='order_shipments']
                         fieldsets:
                             -
                                 sales_order_view:
@@ -591,14 +591,14 @@ view_order:
                                         filter_total_qty_to: //input[@id='filter_total_qty_to']
                 -
                     comments_history:
-                        xpath: //a[@name='order_history']/span
+                        xpath: //a[@name='order_history']
                         fieldsets:
                             -
                                 order_history_content:
                                     xpath: //div[@id='sales_order_view_tabs_order_history_content']
                 -
                     transactions_history:
-                        xpath: //a[@name='order_transactions']/span
+                        xpath: //a[@name='order_transactions']
                         fieldsets:
                             -
                                 sales_order_view:

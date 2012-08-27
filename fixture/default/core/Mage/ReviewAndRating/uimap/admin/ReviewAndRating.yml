@@ -63,7 +63,7 @@ new_rating:
             tabs:
                 -
                     rating_information:
-                        xpath: //a[@title='Rating Information']/span
+                        xpath: //a[@title='Rating Information']
                         fieldsets:
                             -
                                 rating_title:

@@ -93,7 +93,7 @@ new_product_settings:
             tabs:
                 -
                     settings: &settingsTab
-                        xpath: //a[@title='Settings']/span
+                        xpath: //a[@title='Settings']
                         fieldsets:
                             -
                                 product_settings:
@@ -113,7 +113,7 @@ new_product:
             tabs:
                 -
                     configurable_product_settings: &configurableProductsettings
-                        xpath: //a[@title='Configurable Product Settings']/span
+                        xpath: //a[@title='Configurable Product Settings']
                         fieldsets:
                             -
                                 select_configurable_attributes:
@@ -124,7 +124,7 @@ new_product:
                                         configurable_attribute_title: //input[@type='checkbox' and @title='%attributeTitle%']
                 -
                     general: &generalTab
-                        xpath: //a[@title='General']/span
+                        xpath: //a[@title='General']
                         fieldsets:
                             -
                                 product_general:
@@ -153,7 +153,7 @@ new_product:
                                         general_user_attr_multiselect: //select[@id='%attributeCodeMultiselect%']
                 -
                     prices: &pricesTab
-                        xpath: //a[@title='Prices']/span
+                        xpath: //a[@title='Prices']
                         fieldsets:
                             -
                                 product_prices:
@@ -186,7 +186,7 @@ new_product:
                                         prices_tier_price_price: //input[@id='tier_price_row_%tierPriceId%_price']
                 -
                     meta_information: &metaInformationTab
-                        xpath: //a[@title='Meta Information']/span
+                        xpath: //a[@title='Meta Information']
                         fieldsets:
                             -
                                 product_meta_information:
@@ -199,14 +199,14 @@ new_product:
                                         meta_information_meta_description: //textarea[@id='meta_description']
                 -
                     images: &imagesTab
-                        xpath: //a[@title='Images']/span
+                        xpath: //a[@title='Images']
                         fieldsets:
                             -
                                 product_images:
                                     xpath: //div[contains(div/div/h4,'Images')]
                 -
                     recurring_profile: &recurringProfileTab
-                        xpath: //a[@title='Recurring Profile']/span
+                        xpath: //a[@title='Recurring Profile']
                         fieldsets:
                             -
                                 product_recurring_profile:
@@ -231,7 +231,7 @@ new_product:
                                         recurring_profile_initial_fee: //input[@id='recurring_profileinit_amount']
                 -
                     design: &designTab
-                        xpath: //a[@title='Design']/span
+                        xpath: //a[@title='Design']
                         fieldsets:
                             -
                                 product_design:
@@ -248,7 +248,7 @@ new_product:
                                         design_custom_layout_update: //textarea[@id='custom_layout_update']
                 -
                     gift_options: &giftOptionsTab
-                        xpath: //a[@title='Gift Options']/span
+                        xpath: //a[@title='Gift Options']
                         fieldsets:
                             -
                                 product_gift_options:
@@ -261,7 +261,7 @@ new_product:
                                         gift_options_allow_gift_message: //select[@id='gift_message_available']
                 -
                     inventory: &inventoryTab
-                        xpath: //a[@title='Inventory']/span
+                        xpath: //a[@title='Inventory']
                         fieldsets:
                             -
                                 product_inventory:
@@ -290,7 +290,7 @@ new_product:
                                         inventory_qty_increments: //input[@id='inventory_qty_increments' and not(@disabled)]
                 -
                     websites: &websitesTab
-                        xpath: //a[@title='Websites']/span
+                        xpath: //a[@title='Websites']
                         fieldsets:
                             -
                                 product_websites:
@@ -299,7 +299,7 @@ new_product:
                                         websites: //div[@class='website-name'][.//text()='%websiteName%']/input[@type='checkbox']
                 -
                     categories: &categoriesTab
-                        xpath: //a[@title='Categories']/span
+                        xpath: //a[@title='Categories']
                         fieldsets:
                             -
                                 select_category:
@@ -316,7 +316,7 @@ new_product:
                                         select_category_category_index_link: %categoryXpath%[%index%]/div/a
                 -
                     related: &relatedProductsTab
-                        xpath: //a[@title='Related Products']/span
+                        xpath: //a[@title='Related Products']
                         fieldsets:
                             -
                                 related:
@@ -344,7 +344,7 @@ new_product:
                                         selected_related_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     up_sells: &upSellsProductsTab
-                        xpath: //a[@title='Up-sells']/span
+                        xpath: //a[@title='Up-sells']
                         fieldsets:
                             -
                                 up_sells:
@@ -372,7 +372,7 @@ new_product:
                                         selected_up_sells_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     cross_sells: &crossSellsProductsTab
-                        xpath: //a[@title='Cross-sells']/span
+                        xpath: //a[@title='Cross-sells']
                         fieldsets:
                             -
                                 cross_sells:
@@ -400,7 +400,7 @@ new_product:
                                         selected_cross_sells_product: //tbody/tr%index%//input[@checked='checked']
                 -
                     custom_options: &customOptionsTab
-                        xpath: //a[@title='Custom Options']/span
+                        xpath: //a[@title='Custom Options']
                         fieldsets:
                             -
                                 custom_options:
@@ -433,7 +433,7 @@ new_product:
                                         custom_option_row: //tr[contains(@id,'product_option_')][not(@style)]
                 -
                     bundle_items: &bundleItemsTab
-                        xpath: //a[@title='Bundle Items']/span
+                        xpath: //a[@title='Bundle Items']
                         fieldsets:
                             -
                                 shipment:
@@ -488,7 +488,7 @@ new_product:
                                         bundle_items_qty_to_add: //input[@name='qty']
                 -
                     associated: &associatedProductsTab
-                        xpath: //a[@title='Associated Products']/span
+                        xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
                                 create_simple_assosiated_product:
@@ -532,7 +532,7 @@ new_product:
                                         associated_table: //table[@id]
                 -
                     downloadable_information: &downloadableInformationTab
-                        xpath: //a[@title='Downloadable Information']/span
+                        xpath: //a[@title='Downloadable Information']
                         fieldsets:
                             -
                                 downloadable_info:
@@ -644,7 +644,7 @@ edit_product:
                     cross_sells: *crossSellsProductsTab
                 -
                     product_tags:
-                        xpath: //a[@title='Product Tags']/span
+                        xpath: //a[@title='Product Tags']
                         fieldsets:
                             -
                                 product_tags:
@@ -664,7 +664,7 @@ edit_product:
                     bundle_items: *bundleItemsTab
                 -
                     associated:
-                        xpath: //a[@title='Associated Products']/span
+                        xpath: //a[@title='Associated Products']
                         fieldsets:
                             -
                                 create_simple_assosiated_product:

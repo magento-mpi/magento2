@@ -62,7 +62,7 @@ manage_categories:
             tabs:
                 -
                     general_information:
-                        xpath: //a[@title='General Information']/span
+                        xpath: //a[@title='General Information']
                         fieldsets:
                             -
                                 general_info:
@@ -86,7 +86,7 @@ manage_categories:
                                         meta_description: //textarea[@name='general[meta_description]']
                 -
                     display_settings:
-                        xpath: //a[@title='Display Settings']/span
+                        xpath: //a[@title='Display Settings']
                         fieldsets:
                             -
                                 display_settings:
@@ -106,7 +106,7 @@ manage_categories:
                                         available_product_listing: //select[@name='general[available_sort_by][]']
                 -
                     custom_design:
-                        xpath: //a[@title='Custom Design']/span
+                        xpath: //a[@title='Custom Design']
                         fieldsets:
                             -
                                 custom_design:
@@ -122,7 +122,7 @@ manage_categories:
                                         custom_layout_update: //textarea[@name='general[custom_layout_update]']
                 -
                      category_products:
-                        xpath: //a[@title='Category Products']/span
+                        xpath: //a[@title='Category Products']
                         fieldsets:
                             -
                                 category_products:

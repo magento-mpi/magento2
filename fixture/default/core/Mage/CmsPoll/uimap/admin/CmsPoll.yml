@@ -73,7 +73,7 @@ new_poll:
             tabs:
                 -
                     poll_information: &pollInformationTab
-                        xpath: //a[@title='Poll Information']/span
+                        xpath: //a[@title='Poll Information']
                         fieldsets:
                             -
                                 information:
@@ -86,7 +86,7 @@ new_poll:
                                         visible_in: //select[@name='store_ids[]']
                 -
                     poll_answers: &pollAnswersTab
-                        xpath: //a[@title='Poll Answers']/span
+                        xpath: //a[@title='Poll Answers']
                         fieldsets:
                             -
                                 assigned_answers:

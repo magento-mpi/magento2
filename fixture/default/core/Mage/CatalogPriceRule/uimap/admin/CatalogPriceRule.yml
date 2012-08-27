@@ -76,7 +76,7 @@ add_new_rule:
             tabs:
                 -
                     rule_information:
-                        xpath: //a[@title='Rule Information']/span
+                        xpath: //a[@title='Rule Information']
                         fieldsets:
                             -
                                 rule_information_fieldset:
@@ -94,7 +94,7 @@ add_new_rule:
                                         websites: //select[@id='rule_website_ids']
                 -
                     rule_conditions:
-                        xpath: //a[@title='Conditions']/span
+                        xpath: //a[@title='Conditions']
                         fieldsets:
                             -
                                 apply_for_rule_condition:
@@ -140,7 +140,7 @@ add_new_rule:
                                         category: //div[contains(a/span,'%categoryName%')]//input
                 -
                     rule_actions:
-                        xpath: //a[@title='Actions']/span
+                        xpath: //a[@title='Actions']
                         fieldsets:
                             -
                                 actions_fieldset:

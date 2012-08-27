@@ -35,7 +35,7 @@ fieldset:
         second_checkbox: //input[@id='the-second-checkbox']
 
 tab:
-    xpath: //a[@name='the-tab']/span
+    xpath: //a[@name='the-tab']
     fieldsets:
         -
             first_fieldset:
@@ -47,7 +47,7 @@ tab:
 tabs:
     -
         first_tab:
-            xpath: //a[@name='the-first-tab']/span
+            xpath: //a[@name='the-first-tab']
             fieldsets:
                 -
                     first_fieldset:
@@ -57,7 +57,7 @@ tabs:
                         xpath: //div[@id='the-second-fieldset']
     -
         second_tab:
-            xpath: //a[@name='the-second-tab']/span
+            xpath: //a[@name='the-second-tab']
             fieldsets:
                 -
                     first_fieldset:
