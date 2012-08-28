@@ -58,9 +58,6 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
         if ($isAllowedForcedImport || $result) {
             $result = $this->importSource();
         }
-        if ($result) {
-            $this->reindexAll();
-        }
         return (bool)$result;
     }
 
