@@ -28,6 +28,11 @@ class Mage_Core_Model_Layout_Argument_Processor
     protected $_objectFactory;
 
     /**
+     * @var Mage_Core_Model_Layout_Argument_Updater
+     */
+    protected $_argumentUpdater;
+
+    /**
      * @param array $args
      * @throws InvalidArgumentException
      */
@@ -58,30 +63,50 @@ class Mage_Core_Model_Layout_Argument_Processor
     {
         $processedArguments = array();
         foreach ($arguments as $argumentKey => $argumentValue) {
-            $processedArguments[$argumentKey] = isset($argumentValue['value']) ? $argumentValue['value'] : null;
+            $value = isset($argumentValue['value']) ? $argumentValue['value'] : null;
 
-            if (false == isset($argumentValue['type']) || empty($argumentValue['type'])) {
-                continue;
+            if (true == isset($argumentValue['type']) && false == empty($argumentValue['type'])) {
+
+                if (true == empty($value)) {
+                    throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
+                }
+
+                $handlerClassName = $this->_config->getArgumentHandlerByType($argumentValue['type']);
+
+                /** @var $handler Mage_Core_Model_Layout_Argument_Processor_TypeInterface */
+                $handler = $this->_objectFactory->getModelInstance($handlerClassName, array(
+                    'objectFactory' => $this->_objectFactory
+                ));
+
+                if (false === ($handler instanceof Mage_Core_Model_Layout_Argument_Processor_TypeInterface)) {
+                    throw new InvalidArgumentException($argumentValue['type']
+                        . ' type handler should implement Mage_Core_Model_Layout_Argument_Processor_TypeInterface');
+                }
+
+                $value = $handler->process($value);
             }
 
-            if (true == empty($processedArguments[$argumentKey])) {
-                throw new InvalidArgumentException('Argument value is required for type ' . $argumentValue['type']);
+            if (true == isset($argumentValue['updater']) && false == empty($argumentValue['updater'])) {
+                $value = $this->_getArgumentUpdater()->applyUpdaters($value, $argumentValue['updater']);
             }
-
-            $handlerClassName = $this->_config->getArgumentHandlerByType($argumentValue['type']);
-
-            /** @var $handler Mage_Core_Model_Layout_Argument_Processor_TypeInterface */
-            $handler = $this->_objectFactory->getModelInstance($handlerClassName, array(
-                'objectFactory' => $this->_objectFactory
-            ));
-
-            if (false === ($handler instanceof Mage_Core_Model_Layout_Argument_Processor_TypeInterface)) {
-                throw new InvalidArgumentException($argumentValue['type']
-                    . ' type handler should implement Mage_Core_Model_Layout_Argument_Processor_TypeInterface');
-            }
-            $processedArguments[$argumentKey] = $handler->process($argumentValue['value']);
+            $processedArguments[$argumentKey] = $value;
         }
 
         return $processedArguments;
+    }
+
+    /**
+     * Get argument updater instance
+     *
+     * @return Mage_Core_Model_Layout_Argument_Updater
+     */
+    protected function _getArgumentUpdater()
+    {
+        if (null === $this->_argumentUpdater) {
+           $this->_argumentUpdater = $this->_objectFactory
+               ->getModelInstance('Mage_Core_Model_Layout_Argument_Updater',
+                   array('objectFactory' => $this->_objectFactory));
+        }
+        return $this->_argumentUpdater;
     }
 }
