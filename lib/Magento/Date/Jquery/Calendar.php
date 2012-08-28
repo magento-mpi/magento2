@@ -103,7 +103,7 @@ class Magento_Date_Jquery_Calendar
      *
      * @return string
      */
-    private static function _convert($value, $dictionary)
+    protected static function _convert($value, $dictionary)
     {
         foreach ($dictionary as $search => $replace) {
             $value = preg_replace('/(^|[^%])' . $search . '/', '$1' . $replace, $value);
