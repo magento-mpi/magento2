@@ -24,55 +24,6 @@ class Community2_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Sele
     }
 
     /**
-     * <p>Test navigation.</p>
-     * <p>Steps:</p>
-     * <p>1. Verify that 'Add New Template' button is present and click her.</p>
-     * <p>2. Verify that the create new tem[late page is opened.</p>
-     * <p>3. Verify that 'Back' button is present.</p>
-     * <p>4. Verify that 'Reset' button is present.</p>
-     * <p>5. Verify that 'Convert to Plain Text' button is present.</p>
-     * <p>6. Verify that 'Preview Template' button is present.</p>
-     * <p>7. Verify that 'Save Template' button is present.</p>
-     * <p>8. Verify that 'Load Default Template' fieldset with required fields is present.</p>
-     * <p>9. Verify that 'Template Information' fieldset with required fields is present.</p>
-     *
-     * @test
-     */
-    public function navigation()
-    {
-        $this->assertTrue($this->buttonIsPresent('add_new_template'),
-            'There is no "Add New Template" button on the page');
-        $this->clickButton('add_new_template');
-        $this->assertTrue($this->checkCurrentPage('new_email_template'), $this->getParsedMessages());
-        $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
-        $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
-        $this->assertTrue($this->buttonIsPresent('convert_to_plain_text'),
-            'There is no "Convert to Plain Text" button on the page');
-        $this->assertTrue($this->buttonIsPresent('preview_template'),
-            'There is no "Preview Template" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_template'), 'There is no "Save Template" button on the page');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'load_default_template'),
-            'There is no "Load default template" fieldset on the page');
-        $this->assertTrue($this->controlIsPresent('fieldset', 'template_information'),
-            'There is no "Template Information" fieldset on the page');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'template'),
-            'There is no "Template" dropdown on the page');
-        $this->assertTrue($this->buttonIsPresent('load_template'), 'There is no "Load Template" button on the page');
-        $this->assertTrue($this->controlIsPresent('dropdown', 'template'),
-            'There is no "Template" dropdown on the page');
-        $this->assertTrue($this->controlIsPresent('field', 'template_name'),
-            'There is no "Template Name" field on the page');
-        $this->assertTrue($this->controlIsPresent('field', 'template_subject'),
-            'There is no "Template Subject" field on the page');
-        $this->assertTrue($this->buttonIsPresent('insert_variable'),
-            'There is no "Insert Variable" button on the page');
-        $this->assertTrue($this->controlIsPresent('field', 'template_content'),
-            'There is no "Template Content" textarea on the page');
-        $this->assertTrue($this->controlIsPresent('field', 'template_styles'),
-            'There is no "Template Styles" textarea on the page');
-    }
-
-    /**
      * <p>Insert Variable in Forgot Password Template</p>
      * <p>Steps:</p>
      * <p>1.Go to System - Transactional Emails.</p>
@@ -83,7 +34,6 @@ class Community2_Mage_TransactionalEmails_PasswordTemplateTest extends Mage_Sele
      * <p>Expected result</p>
      * <p>"Reset Password URL" is displayed on the "Template Variables" tab.</p>
      *
-     * @depends navigation
      * @test
      * @TestlinkId TL-MAGE-2068
      */

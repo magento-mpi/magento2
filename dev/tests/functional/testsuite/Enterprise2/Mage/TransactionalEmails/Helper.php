@@ -33,8 +33,20 @@ class Enterprise2_Mage_TransactionalEmails_Helper extends Mage_Selenium_TestCase
         }
     }
 
+    /** <p>Fill fields in Template form according to the resulting array</p>
+     *
+     * @param array $templateData
+     * @param string
+     */
+    public function fillTemplateForm(array $templateData, $fieldName)
+    {
+        if (!empty($templateData)) {
+            $this->fillFieldset($templateData, $fieldName);
+        }
+    }
+
     /**
-     * Create new template
+     * <p>Create new template</p>
      *
      * @param array $templateData
      * @param array $templateName
@@ -44,16 +56,55 @@ class Enterprise2_Mage_TransactionalEmails_Helper extends Mage_Selenium_TestCase
     {
         $this->clickButton('add_new_template');
         if (!empty($templateData)) {
-            $this->fillFieldset($templateData, 'load_default_template');
+            $this->fillTemplateForm($templateData, 'load_default_template');
             $this->clickButton('load_template', false);
             $this->waitForAjax();
             if (!empty($variable)) {
                 $this->insertVariable($variable);
             }
             if (!empty($templateName)) {
-                $this->fillFieldset($templateName, 'template_information');
+                $this->fillTemplateForm($templateName, 'template_information');
                 $this->clickButton('save_template');
             }
         }
+    }
+
+    /**
+     * <p>Delete template</p>
+     *
+     * @param array $searchData
+     */
+    public function deleteTemplate(array $searchData)
+    {
+        if (!isset($searchData['filter_template_name'])) {
+            $this->fail('Required data for deleting are empty');
+        }
+        //Data
+        $this->addParameter('template_name', $searchData['filter_template_name']);
+        //Steps
+        $this->searchAndOpen($searchData);
+        //Verifying
+        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
+    }
+
+    /**
+     * <p>Edit template</p>
+     *
+     * @param array $searchData
+     * @param array $newTemplateData
+     */
+    public function editTemplate(array $searchData, array $newTemplateData)
+    {
+        if (empty($newTemplateData)) {
+            $this->fail('$newTemplateData is empty');
+        }
+        if (!isset($searchData['filter_template_name'])) {
+            $this->fail('filter_template_name is empty');
+        }
+        $this->addParameter('template_name', $searchData['filter_template_name']);
+        //Steps
+        $this->searchAndOpen($searchData);
+        $this->fillTemplateForm($newTemplateData, 'template_information');
+        $this->clickButton('save_template');
     }
 }
