@@ -37,6 +37,16 @@
             <stringProp name="Argument.value">123123q</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="products_number" elementType="Argument">
+            <stringProp name="Argument.name">products_number</stringProp>
+            <stringProp name="Argument.value">${__P(products_number,100000)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="customers_number" elementType="Argument">
+            <stringProp name="Argument.name">customers_number</stringProp>
+            <stringProp name="Argument.value">${__P(customers_number,0)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -85,7 +95,7 @@
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Total Number of Products" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="-1674153537">Manage Products</stringProp>
-              <stringProp name="681676767">Total 100000 records found</stringProp>
+              <stringProp name="-1952867632">Total ${products_number} records found</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -93,7 +103,7 @@
           </ResponseAssertion>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Manage Customers Grid" enabled="false">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Manage Customers Grid" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
@@ -117,7 +127,7 @@
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Total Number of Customers" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="-1990727846">Manage Customers</stringProp>
-              <stringProp name="681676767">Total 100000 records found</stringProp>
+              <stringProp name="1843270971">Total ${customers_number} records found</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>

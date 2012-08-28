@@ -50,6 +50,12 @@ return array(
             'users' => 1,
             'loops' => 100,
         ),
+        'scenario_params' => array(
+            'testsuite/backend.jmx' => array(
+                'products_number'  => 100000,
+                'customers_number' => 100000,
+            ),
+        ),
     ),
     'report_dir' => 'report',
 );
