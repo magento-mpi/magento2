@@ -34,7 +34,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
      * Import File with not supported extensions
      * Steps
      * 1. In System -> Import/ Export -> Import in drop-down "Entity Type" select "Customers Main File"
-     * 2. Select "Add/Update Complex Data" in selector "Import Behavior" 
+     * 2. Select "Add/Update Complex Data" in selector "Import Behavior"
      * 3. Select .txt file in the are "File to Import"
      * Press "Check Data" button
      * Expected: Warning about incorrect file appears
@@ -45,6 +45,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
      */
     public function importFileWithNotSupportedExtensions($dataFileName)
     {
+        $this->markTestSkipped('Skipped due to bug MAGETWO-1766');
         $customerDataRow = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array(
                 'email' => 'test_admin_' . $this->generate('string', 5) . '@unknown-domain.com',
@@ -65,7 +66,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
             $this->assertArrayHasKey('error', $report['validation'],
                 'Error notification is missing on the Check Data');
             foreach ($report['validation']['error'] as $errorMessage) {
-                $this->assertNotContains('Fatal error', $errorMessage, 
+                $this->assertNotContains('Fatal error', $errorMessage,
                     'Fatal error is occurred');
             }
             foreach ($report['validation']['error'] as $errorMessage) {
