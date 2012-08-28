@@ -15,33 +15,15 @@
 class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Catalog_Model_Product_Attribute_Backend_Sku
-     */
-    protected $_sku;
-
-    protected function setUp()
-    {
-        $this->_sku = new Mage_Catalog_Model_Product_Attribute_Backend_Sku();
-        $this->_sku->setAttribute(
-            Mage::getSingleton('Mage_Eav_Model_Config')->getAttribute('catalog_product', 'sku')
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->_sku = null;
-    }
-
-    /**
      * @magentoDataFixture Mage/Catalog/_files/product_simple.php
      */
     public function testGenerateUniqueSkuExistingProduct()
     {
         $product = new Mage_Catalog_Model_Product();
         $product->load(1);
-        $product->setId('');
+        $product->setId(null);
         $this->assertEquals('simple', $product->getSku());
-        $this->_sku->generateUniqueSku($product);
+        $product->getResource()->getAttribute('sku')->getBackend()->beforeSave($product);
         $this->assertEquals('simple-1', $product->getSku());
     }
 
@@ -52,7 +34,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_SkuTest extends PHPUnit_Frame
     public function testGenerateUniqueSkuNotExistingProduct($product)
     {
         $this->assertEquals('simple', $product->getSku());
-        $this->_sku->generateUniqueSku($product);
+        $product->getResource()->getAttribute('sku')->getBackend()->beforeSave($product);
         $this->assertEquals('simple', $product->getSku());
     }
 

@@ -910,33 +910,6 @@ abstract class Mage_Eav_Model_Entity_Abstract extends Mage_Core_Model_Resource_A
     }
 
     /**
-     * Return increment needed for SKU uniqueness
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @param Mage_Catalog_Model_Product $object
-     * @return int
-     */
-    public function getLastSimilarAttributeValueIncrement(Mage_Eav_Model_Entity_Attribute_Abstract $attribute, $object)
-    {
-        $adapter = $this->_getReadAdapter();
-        $select = $adapter->select();
-        $value = $object->getData($attribute->getAttributeCode());
-        $bind = array(
-            'entity_type_id' => $this->getTypeId(),
-            'attribute_code' => trim($value) . '%'
-        );
-
-        $select
-            ->from($this->getEntityTable(), 'sku')
-            ->where('entity_type_id = :entity_type_id')
-            ->where($attribute->getAttributeCode() . ' LIKE :attribute_code')
-            ->order(array('entity_id DESC'))
-            ->limit(1);
-        $data = $adapter->fetchCol($select, $bind);
-        return abs((int)str_replace($value, '', $data[0]));
-    }
-
-    /**
      * Retreive default source model
      *
      * @return string
