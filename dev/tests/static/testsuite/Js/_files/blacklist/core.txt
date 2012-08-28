@@ -1,0 +1,2 @@
+pub/lib/mage/localization
+pub/lib/mage/components/install/begin.js
