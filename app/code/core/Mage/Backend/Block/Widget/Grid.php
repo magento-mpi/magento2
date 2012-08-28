@@ -182,7 +182,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      *
      * @return Mage_Backend_Block_Widget_Grid_ColumnSet
      */
-    protected function _getColumnSet()
+    public function getColumnSet()
     {
         return $this->getChildBlock('grid.columnSet');
     }
@@ -194,7 +194,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumns()
     {
-        return $this->_getColumnSet()->getColumns();
+        return $this->getColumnSet()->getColumns();
     }
 
     /**
@@ -215,7 +215,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumn($columnId)
     {
-        return $this->_getColumnSet()->getChildBlock($columnId);
+        return $this->getColumnSet()->getChildBlock($columnId);
     }
 
     /**
@@ -349,15 +349,15 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         $this->_prepareCollection();
         if ($this->hasColumnRenderers()) {
             foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {
-                $this->_getColumnSet()->setRendererType($renderer, $rendererClass);
+                $this->getColumnSet()->setRendererType($renderer, $rendererClass);
             }
         }
         if ($this->hasColumnFilters()) {
             foreach ($this->getColumnFilters() as $filter => $filterClass) {
-                $this->_getColumnSet()->setFilterType($filter, $filterClass);
+                $this->getColumnSet()->setFilterType($filter, $filterClass);
             }
         }
-        $this->_getColumnSet()->setSortable($this->getSortable());
+        $this->getColumnSet()->setSortable($this->getSortable());
     }
 
     /**
@@ -368,7 +368,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected function _beforeToHtml()
     {
         $this->_prepareGrid();
-        $this->_getColumnSet()->initColumns();
+        $this->getColumnSet()->initColumns();
         return parent::_beforeToHtml();
     }
 

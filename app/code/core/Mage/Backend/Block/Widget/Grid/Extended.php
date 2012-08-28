@@ -106,14 +106,14 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
      *
      * @return Mage_Core_Block_Abstract
      */
-    protected function _getColumnSet()
+    public function getColumnSet()
     {
         if (!$this->getChildBlock('grid.columnSet')) {
             $this->setChild('grid.columnSet',
                 $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_ColumnSet')
             );
         }
-        return parent::_getColumnSet();
+        return parent::getColumnSet();
     }
 
     /**
@@ -171,7 +171,7 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     public function addColumn($columnId, $column)
     {
         if (is_array($column)) {
-            $this->_getColumnSet()->setChild(
+            $this->getColumnSet()->setChild(
                 $columnId,
                 $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
                     ->setData($column)
@@ -193,10 +193,10 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
      */
     public function removeColumn($columnId)
     {
-        if ($this->_getColumnSet()->getChildBlock($columnId)) {
-            $this->_getColumnSet()->unsetChild($columnId);
+        if ($this->getColumnSet()->getChildBlock($columnId)) {
+            $this->getColumnSet()->unsetChild($columnId);
             if ($this->_lastColumnId == $columnId) {
-                $this->_lastColumnId = array_pop($this->_getColumnSet()->getChildNames());
+                $this->_lastColumnId = array_pop($this->getColumnSet()->getChildNames());
             }
         }
         return $this;
@@ -247,18 +247,16 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
      */
     public function sortColumnsByOrder()
     {
-        $keys = array_keys($this->_columns);
-        $values = array_values($this->_columns);
-
         foreach ($this->getColumnsOrder() as $columnId => $after) {
             $this->getLayout()->reorderChild(
-                $this->_getColumnSet()->getNameInLayout(),
-                $columnId,
-                $after
+                $this->getColumnSet()->getNameInLayout(),
+                $this->getColumn($columnId)->getNameInLayout(),
+                $this->getColumn($after)->getNameInLayout()
             );
         }
 
-        $this->_lastColumnId = array_pop($this->_getColumnSet()->getChildNames());
+        $columns = $this->getColumnSet()->getChildNames();
+        $this->_lastColumnId = array_pop($columns);
         return $this;
     }
 
@@ -334,7 +332,7 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
             ->setGrid($this)
             ->setId($columnId);
 
-        $this->_getColumnSet()->setChild($columnId, $massactionColumn);
+        $this->getColumnSet()->setChild($columnId, $massactionColumn);
         return $this;
     }
 
