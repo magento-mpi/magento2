@@ -22,6 +22,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     const ENTITY_TYPE_BLOCK    = 'Block';
     const ENTITY_TYPE_RESOURCE = 'Model_Resource';
 
+    const CONFIG_KEY_PATH_TO_MAP_FILE = 'global/migration/path_to_aliases_map_file';
+
     protected $_entityTypes = array(self::ENTITY_TYPE_MODEL, self::ENTITY_TYPE_BLOCK, self::ENTITY_TYPE_RESOURCE);
 
     protected $_rowsPerPage = 1;
@@ -29,6 +31,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected $_replaceRules = array();
 
     protected $_replacements = array();
+
+    protected $_aliasesMap;
 
     public function appendClassAliasReplace($tableName, $fieldName, $entityType = '',
         $fieldContentType = self::FIELD_CONTENT_TYPE_PLAIN, $additionalWhere = ''
@@ -166,6 +170,10 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected function _getCorrespondingClassName($alias, $entityType = '')
     {
         if ($this->_isFactoryName($alias)) {
+            if ($className = $this->_getAliasFromMap($alias, $entityType)) {
+                return $className;
+            }
+
             list($module, $name) = $this->_getModuleName($alias);
 
             if (!empty($entityType)) {
@@ -234,5 +242,58 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $module = "Mage_{$module}";
         }
         return array($module, $name);
+    }
+
+    protected function _getAliasFromMap($alias, $entityType = '')
+    {
+        if ($map = $this->_getAliasesMap()) {
+            if (!empty($entityType) && isset($map[$entityType]) && !empty($map[$entityType][$alias])) {
+                return $map[$entityType][$alias];
+            } else {
+                $className = '';
+                foreach ($this->_entityTypes as $entityType) {
+                    if (empty($className)) {
+                        if (isset($map[$entityType]) && !empty($map[$entityType][$alias])) {
+                            $className = $map[$entityType][$alias];
+                        }
+                    } else {
+                        return '';
+                    }
+                }
+                return $className;
+            }
+        }
+
+        return '';
+    }
+
+    protected function _getAliasesMap()
+    {
+        if (is_null($this->_aliasesMap)) {
+            $this->_aliasesMap = array();
+
+            $map = $this->_loadMap($this->_getPathToMapFile());
+
+            if (!empty($map)) {
+                $this->_aliasesMap = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($map);
+            }
+        }
+
+        return $this->_aliasesMap;
+    }
+
+    protected function _loadMap($pathToMapFile)
+    {
+        $pathToMapFile = Mage::getBaseDir() . DS . $pathToMapFile;
+        if (file_exists($pathToMapFile)) {
+            return file_get_contents($pathToMapFile);
+        }
+
+        return '';
+    }
+
+    protected function _getPathToMapFile()
+    {
+        return Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
     }
 }
