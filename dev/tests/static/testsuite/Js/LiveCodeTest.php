@@ -16,7 +16,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected static $_reportDir = '';
+    protected static $_reportFile = '';
 
     /**
      * @var array
@@ -29,10 +29,15 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     protected static $_blackListJsFiles = array();
 
 
-
+    /**
+     * @static return all files under a path
+     * @param string $path
+     * @param array $name
+     * @return array
+     */
     protected static function _scanFileNameRecursivly($path = '', &$name = array())
     {
-        if (is_file($path)){
+        if (is_file($path)) {
             return array($path);
         }
         $path = $path == '' ? dirname(__FILE__) : $path;
@@ -49,68 +54,105 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         return $name;
     }
 
+    /**
+     * @static setup report file, black list and white list
+     *
+     */
     public static function setUpBeforeClass()
     {
-        self::$_reportDir = Utility_Files::init()->getPathToSource() . '/dev/tests/static/report';
-        if (!is_dir(self::$_reportDir)) {
-            mkdir(self::$_reportDir, 0777);
+        $reportDir = Utility_Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . 'dev' . DIRECTORY_SEPARATOR .
+            'tests' . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . 'report';
+        if (!is_dir($reportDir)) {
+            mkdir($reportDir, 0777);
         }
-        $whiteList = self::_readLists(__DIR__ . '/_files/whitelist/*.txt');
-        $blackList = self::_readLists(__DIR__ . '/_files/blacklist/*.txt');
-        foreach ($blackList as $listFiles){
+        self::$_reportFile = $reportDir . DIRECTORY_SEPARATOR . 'js_report.txt';
+        @unlink(self::$_reportFile);
+        $whiteList = self::_readLists(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR .
+            'whitelist' . DIRECTORY_SEPARATOR . '*.txt');
+        $blackList = self::_readLists(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR .
+            'blacklist' . DIRECTORY_SEPARATOR .'*.txt');
+        foreach ($blackList as $listFiles) {
             self::$_blackListJsFiles = array_merge(self::$_blackListJsFiles, self::_scanFileNameRecursivly($listFiles));
         }
-        foreach ($whiteList as $listFiles){
+        foreach ($whiteList as $listFiles) {
             self::$_whiteListJsFiles = array_merge(self::$_whiteListJsFiles, self::_scanFileNameRecursivly($listFiles));
         }
         $blackListJsFiles = self::$_blackListJsFiles;
-        $filter = function($value) use($blackListJsFiles){
+        $filter = function($value) use($blackListJsFiles)
+        {
             return !in_array($value, $blackListJsFiles);
         };
         self::$_whiteListJsFiles = array_filter(self::$_whiteListJsFiles, $filter);
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider testCodeJsHintDataProvider
      */
-    public function testCodeJsHint($command, $filename, $option)
+    public function testCodeJsHint($filename)
     {
-        $result = $this->executeJsHint($command, $filename, $option);
+        $result = $this->_executeJsHint($filename);
         if (!$result) {
-            $this->fail("testJsHint failed with argument " . $filename);
+            $this->fail("failed jsHint.");
         }
     }
 
-    public function provider()
+    /**
+     * build data provider array with command, js file name, and option
+     * @return array
+     */
+    public function testCodeJsHintDataProvider()
     {
         self::setUpBeforeClass();
-        $command = $this->getCommand();
-        $option = $this->getOption();
-        $map = function($value) use ($command, $option)
+        $map = function($value)
         {
-            return array($command, $value, $option);
+            return array($value);
         };
         return array_map($map, self::$_whiteListJsFiles);
     }
 
-    protected function getCommand(){
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
-            return 'cscript c:\git_workspace\required\jshint\env\wsh.js';
-        }
-    }
-
-    protected function getOption(){
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'){
-            return '/global:document:true,mage:true /jquery:true';
-        }
-    }
-
-    protected function executeJsHint($command, $filename, $option)
+    /**
+     * returns cscript for windows and rhino for linux
+     * @return string
+     */
+    protected function _getCommand()
     {
-        exec($command . ' ' . $filename . ' ' . $option, $output);
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return 'cscript ' . TESTS_JSHINT_WIN_PATH;
+        }
+    }
+
+    /**
+     * returns jshint option
+     * @return string
+     */
+    protected function _getOption()
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return '/global:document:true,mage:true,setTimeout:true,clearTimeout:true,head:true,window:true ' .
+                '/jquery:true /eqnull:true';
+        }
+    }
+
+    /**
+     * run jsHint againt js file; if failed output error to report file
+     * @param $command - OS specific command
+     * @param $filename - js file name with full path
+     * @param $option - jsHint option
+     * @return bool
+     */
+    protected function _executeJsHint($filename)
+    {
+        exec($this->_getCommand() . ' ' . $filename . ' ' . $this->_getOption(), $output);
         if (count($output) == 3) {
             return true;
         }
+        $fh = fopen(self::$_reportFile, 'a');
+        foreach ($output as $key => $line) {
+            if ($key >= 3 && strlen(trim($line)))
+                fwrite($fh, $line . PHP_EOL);
+        }
+        fwrite($fh, PHP_EOL);
+        fclose($fh);
         return false;
     }
 

@@ -39,7 +39,7 @@
 
     function parseNumber(value) {
         if (typeof value != 'string') {
-            return parseFloat(v);
+            return parseFloat(value);
         }
         var isDot = value.indexOf('.');
         var isComa = value.indexOf(',');
