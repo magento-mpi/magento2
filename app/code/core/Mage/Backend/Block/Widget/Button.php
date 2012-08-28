@@ -76,21 +76,4 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
 
         return $html;
     }
-
-    /**
-     * Remove all line breaks
-     *
-     * Such behaviour was added just to keep backward compatibility.
-     * Earlier this block returned its html right from _toHtml() method (there was no template), and there were
-     * no line breaks in it.
-     * Without this workaround many issues appears, cause we have code that relies on 'none-linebreaks' html.
-     *
-     * @link https://jira.magento.com/browse/MAGETWO-2859
-     * @param string $html
-     * @return string
-     */
-    protected function _afterToHtml($html)
-    {
-        return str_replace("\n", '', parent::_afterToHtml($html));
-    }
 }
