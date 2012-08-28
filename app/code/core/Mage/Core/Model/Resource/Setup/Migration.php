@@ -89,6 +89,22 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected $_aliasesMap;
 
     /**
+     * Replacement regexps for specified content types
+     *
+     * @var array
+     */
+    protected $_replaceRegexps = array(
+        self::FIELD_CONTENT_TYPE_WIKI => array(
+            'regexp'       => '/{{(block|widget).*?type=\"([\w\/]*?)\".*?}}/s',
+            'result_index' => 2,
+        ),
+        self::FIELD_CONTENT_TYPE_XML  => array(
+            'regexp'       => '/<block.*?type=\"([\w\/]*?)\".*?>/s',
+            'result_index' => 1,
+        ),
+    );
+
+    /**
      * Add alias replace rule
      *
      * @param string $tableName name of table to replace aliases in
@@ -274,6 +290,10 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             return $this->_getCorrespondingClassName($data, $entityType);
         }
 
+        if ($contentType == self::FIELD_CONTENT_TYPE_WIKI || $contentType == self::FIELD_CONTENT_TYPE_XML) {
+            return $this->_getRegexpReplacement($data, $contentType, $entityType);
+        }
+
         // TODO add appropriate behavior for all exist FIELD CONTENT TYPES
 
         return $data;
@@ -312,6 +332,41 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         }
 
         return '';
+    }
+
+    /**
+     * Replaces class aliases using regexp
+     *
+     * @param string $data
+     * @param string $contentType
+     * @param string $entityType
+     * @return string|null
+     */
+    protected function _getRegexpReplacement($data, $contentType, $entityType = '')
+    {
+        if (!array_key_exists($contentType, $this->_replaceRegexps)) {
+            return null;
+        }
+
+        $replacements = array();
+        $regexp       = $this->_replaceRegexps[$contentType]['regexp'];
+        $resultIndex  = $this->_replaceRegexps[$contentType]['result_index'];
+        preg_match_all($regexp, $data, $matches, PREG_PATTERN_ORDER);
+        if (isset($matches[$resultIndex])) {
+            $matches = array_unique($matches[$resultIndex]);
+            foreach ($matches as $classAlias) {
+                $className = $this->_getCorrespondingClassName($classAlias, $entityType);
+                if ($className) {
+                    $replacements[$classAlias] = $className;
+                }
+            }
+        }
+
+        foreach ($replacements as $classAlias => $className) {
+            $data = str_replace($classAlias, $className, $data);
+        }
+
+        return $data;
     }
 
     /**
