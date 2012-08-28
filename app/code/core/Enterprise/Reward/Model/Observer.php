@@ -150,31 +150,6 @@ class Enterprise_Reward_Model_Observer
     }
 
     /**
-     * Update points balance after tag submit
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_Reward_Model_Observer
-     */
-    public function tagSubmit($observer)
-    {
-        /* @var $tag Mage_Tag_Model_Tag */
-        $tag = $observer->getEvent()->getObject();
-        $websiteId = Mage::app()->getStore($tag->getFirstStoreId())->getWebsiteId();
-        if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront($websiteId)) {
-            return $this;
-        }
-        if (($tag->getApprovedStatus() == $tag->getStatus()) && $tag->getFirstCustomerId()) {
-            $reward = Mage::getModel('Enterprise_Reward_Model_Reward')
-                ->setCustomerId($tag->getFirstCustomerId())
-                ->setStore($tag->getFirstStoreId())
-                ->setAction(Enterprise_Reward_Model_Reward::REWARD_ACTION_TAG)
-                ->setActionEntity($tag)
-                ->updateRewardPoints();
-        }
-        return $this;
-    }
-
-    /**
      * Update points balance after first successful subscribtion
      *
      * @param Varien_Event_Observer $observer
@@ -512,7 +487,7 @@ class Enterprise_Reward_Model_Observer
     {
         if (!Mage::helper('Enterprise_Reward_Helper_Data')->isEnabledOnFront()
             || (Mage::app()->getStore()->isAdmin()
-                && !Mage::getSingleton('Mage_Backend_Model_Auth_Session')
+                && !Mage::getSingleton('Mage_Core_Model_Authorization')
                     ->isAllowed(Enterprise_Reward_Helper_Data::XML_PATH_PERMISSION_AFFECT))
         ) {
             return $this;

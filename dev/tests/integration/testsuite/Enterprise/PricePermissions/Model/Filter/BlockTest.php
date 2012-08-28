@@ -17,6 +17,7 @@ class Enterprise_PricePermissions_Model_Filter_BlockTest extends PHPUnit_Framewo
     protected function setUp()
     {
         parent::setUp();
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
         $this->_layout = new Mage_Core_Model_Layout;
     }
 
@@ -82,7 +83,7 @@ class Enterprise_PricePermissions_Model_Filter_BlockTest extends PHPUnit_Framewo
     protected function _initSession()
     {
         $user = new Mage_User_Model_User;
-        $user->setId(1)->setRole(true);
+        $user->setId(2)->setRole(true);
         $session = new Mage_Backend_Model_Auth_Session;
         $session->setUpdatedAt(time())->setUser($user);
     }
