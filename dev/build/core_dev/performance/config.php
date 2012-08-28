@@ -36,11 +36,14 @@ return array(
                 'admin_no_form_key'          => 'yes',
                 'cleanup_database'           => 'yes',
             ),
-            'fixture_files' => 'testsuite/fixtures/*.php',
+            'fixture_files' => 'testsuite/fixtures/{catalog_category,catalog_product}.php',
         ),
     ),
     'scenario' => array(
-        'files' => 'testsuite/*.jmx',
+        'files' => 'testsuite/{' . implode(',', array(
+            'add_to_cart', 'advanced_search', 'category_view', 'checkout',
+            'home_page', 'product_edit', 'product_view', 'quick_search'
+         )) . '}.jmx',
         'common_params' => array(
             'users' => 10,
             'loops' => 100,
