@@ -48,9 +48,7 @@ class Mage_DesignEditor_Model_HistoryTest extends PHPUnit_Framework_TestCase
     public function testAddChangeWithInvalidData($change)
     {
         $historyModel = $this->getClearHistoryModel();
-        $collection = $historyModel->addChange($change)->getChanges();
-
-        $this->assertEquals(array($change), $collection->toArray());
+        $historyModel->addChange($change)->getChanges();
     }
 
     /**
