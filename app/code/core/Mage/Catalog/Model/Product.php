@@ -466,7 +466,6 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             $this->setRequiredOptions(false);
         }
 
-        $this->getResource()->getAttribute('sku')->getBackend()->generateUniqueSku($this);
         parent::_beforeSave();
     }
 
