@@ -22,14 +22,15 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     const ENTITY_TYPE_BLOCK    = 'Block';
     const ENTITY_TYPE_RESOURCE = 'Model_Resource';
 
-    protected $_rowsPerPage = 1;
+    protected $_entityTypes = array(self::ENTITY_TYPE_MODEL, self::ENTITY_TYPE_BLOCK, self::ENTITY_TYPE_RESOURCE);
 
+    protected $_rowsPerPage = 1;
 
     protected $_replaceRules = array();
 
     protected $_replacements = array();
 
-    public function appendClassAliasReplace($tableName, $fieldName, $entityType,
+    public function appendClassAliasReplace($tableName, $fieldName, $entityType = '',
         $fieldContentType = self::FIELD_CONTENT_TYPE_PLAIN, $additionalWhere = ''
     ) {
         if (!isset($this->_replaceRules[$tableName])) {
@@ -68,8 +69,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
                 $this->_applyFieldRule($tableName, $fieldName, $fieldRule, $page);
             }
         }
-
-        exit;
     }
 
     protected function _getRowsCount($tableName, $fieldName, $additionalWhere = '')
@@ -104,8 +103,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
                     $replacement =
                         $this->_getReplacement(
                             $rowData[$fieldName],
-                            $fieldRule['entity_type'],
-                            $fieldRule['content_type']
+                            $fieldRule['content_type'],
+                            $fieldRule['entity_type']
                         );
 
                     if ($replacement) {
@@ -153,7 +152,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         return $adapter->fetchAll($query);
     }
 
-    protected function _getReplacement($data, $entityType, $contentType)
+    protected function _getReplacement($data, $contentType, $entityType = '')
     {
         if ($contentType == self::FIELD_CONTENT_TYPE_PLAIN) {
             return $this->_getCorrespondingClassName($data, $entityType);
@@ -164,13 +163,22 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         return $data;
     }
 
-    protected function _getCorrespondingClassName($alias, $entityType)
+    protected function _getCorrespondingClassName($alias, $entityType = '')
     {
         if ($this->_isFactoryName($alias)) {
             list($module, $name) = $this->_getModuleName($alias);
-            $className = $this->_getClassName($module, $entityType, $name);
 
-            if (Magento_Autoload::getInstance()->classExists($className)) {
+            if (!empty($entityType)) {
+                return $this->_getClassName($module, $entityType, $name);
+            } else {
+                $className = '';
+                foreach ($this->_entityTypes as $entityType) {
+                    if (empty($className)) {
+                        $className = $this->_getClassName($module, $entityType, $name);
+                    } else {
+                        return '';
+                    }
+                }
                 return $className;
             }
         }
@@ -188,7 +196,13 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     protected function _getClassName($module, $type, $name = null)
     {
-        return implode('_', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
+        $className = implode('_', array_map('ucfirst', explode('_', $module . '_' . $type . '_' . $name)));
+
+        if (Magento_Autoload::getInstance()->classExists($className)) {
+            return $className;
+        }
+
+        return '';
     }
 
     /**
