@@ -75,3 +75,11 @@ url_cms_page_req:
 
 url_search_url:
     url_key: %noValue%
+
+url_sub_category_required:
+    parent_category: Default Category
+    name: Sub Category Required(%randomize%)
+    url_key: %noValue%
+    is_active: Yes
+    available_product_listing_config: No
+    available_product_listing: Best Value, Name, Price

@@ -737,6 +737,65 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     }
 
     /**
+     * <p> Category URl rewrite for two different websites</p>
+     * <p>1. Create two websites</p>
+     * <p>2. Create Category and assigned to each website</p>
+     * <p>3. Press "Add URl rewrite button"</p>
+     * <p>4. Select Category</p>
+     * <p>5. Select Request Store and Target Store</p>
+     * <p>6. Save URL Rewrite</p>
+     * <p>Expected result:</p>
+     * <p>Request path should work correctly</p>
+     *
+     * @test
+     * @TestlinkId TL-MAGE-5533
+     */
+
+    public function forCategoryLinkToOtherWebsite ()
+    {
+        //Create Root for Website 2
+        $this->navigate('manage_categories');
+        $category = $this->loadDataSet('Category', 'root_category_required');
+        $this->categoryHelper()->createCategory($category);
+
+        //Create SubCategory
+        $this->navigate('manage_categories', false);
+        $this->categoryHelper()->checkCategoriesPage();
+        $categoryData = $this->loadDataSet('Category', 'url_sub_category_required',
+            array ('parent_category' => $category['name'], 'url_key' => 'testCategory'));
+        $this->categoryHelper()->createCategory($categoryData);
+        $this->assertMessagePresent('success', 'success_saved_category');
+        $this->categoryHelper()->checkCategoriesPage();
+        $categoryId = $categoryData['parent_category'] . '/' . $categoryData['name'];
+        $this->navigate('manage_stores');
+
+        // Crete Website 2 with Store and Store View
+        $websiteDataOne = $this->loadDataSet('Website', 'generic_website');
+        $this->storeHelper()->createStore($websiteDataOne, 'website');
+        $this->assertMessagePresent('success', 'success_saved_website');
+
+        $storeData = $this->loadDataSet('Store', 'generic_store', array('website' => $websiteDataOne['website_name'],
+            'root_category' => $category['name']));
+        $this->storeHelper()->createStore($storeData, 'store');
+        $this->assertMessagePresent('success', 'success_saved_store');
+
+        $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view',
+            array('store_name' => $storeData['store_name']));
+        $this->storeHelper()->createStore($storeViewData, 'store_view');
+        $this->assertMessagePresent('success', 'success_saved_store_view');
+
+        //Generate request path and open it
+        $urlKeyReplace = str_replace(array('(',')'), array('-',''), $categoryData['url_key']);
+        $uri = $urlKeyReplace . '.html';
+
+        //Open product URl
+        $this->frontend();
+        $this->open($uri);
+        $this->waitForPageToLoad();
+        $this->assertSame($this->getTitle(), '404 Not Found', 'Wrong page is opened');
+    }
+
+    /**
      * <p>URL Rewrite for product in scope of two different Websites</p>
      * <p>Steps</p>
      * <p>1. Create Product </p>
