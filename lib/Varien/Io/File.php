@@ -405,7 +405,7 @@ class Varien_Io_File extends Varien_Io_Abstract
             $parameters = isset($fileCallback[1]) ? $fileCallback[1] : array();
         }
         array_unshift($parameters, $dir);
-        $result = call_user_func_array($callback, $parameters);
+        $result = @call_user_func_array($callback, $parameters);
 
         return $result;
     }
