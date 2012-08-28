@@ -51,18 +51,18 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
     protected function _prepareColumns()
     {
         $this->addColumn('real_order_id', array(
-            'header'=> Mage::helper('Mage_Sales_Helper_Data')->__('Order #'),
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Order #'),
             'width' => '80px',
-            'type'  => 'text',
+            'type' => 'text',
             'index' => 'increment_id',
         ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('store_id', array(
-                'header'    => Mage::helper('Mage_Sales_Helper_Data')->__('Purchased From (Store)'),
-                'index'     => 'store_id',
-                'type'      => 'store',
-                'store_view'=> true,
+                'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Purchased From (Store)'),
+                'index' => 'store_id',
+                'type' => 'store',
+                'store_view' => true,
                 'display_deleted' => true,
             ));
         }
@@ -87,15 +87,23 @@ class Enterprise_Rma_Block_Adminhtml_Rma_Create_Order_Grid extends Mage_Adminhtm
         $this->addColumn('base_grand_total', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('G.T. (Base)'),
             'index' => 'base_grand_total',
-            'type'  => 'currency',
+            'type' => 'currency',
             'currency' => 'base_currency_code',
         ));
 
         $this->addColumn('grand_total', array(
             'header' => Mage::helper('Mage_Sales_Helper_Data')->__('G.T. (Purchased)'),
             'index' => 'grand_total',
-            'type'  => 'currency',
+            'type' => 'currency',
             'currency' => 'order_currency_code',
+        ));
+
+        $this->addColumn('status', array(
+            'header' => Mage::helper('Mage_Sales_Helper_Data')->__('Status'),
+            'index' => 'status',
+            'type' => 'options',
+            'width' => '70px',
+            'options' => Mage::getSingleton('Mage_Sales_Model_Order_Config')->getStatuses(),
         ));
 
         return parent::_prepareColumns();

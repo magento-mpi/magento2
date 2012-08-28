@@ -92,6 +92,6 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward
      */
     public function getAfter()
     {
-        return 'tags';
+        return 'reviews';
     }
 }
