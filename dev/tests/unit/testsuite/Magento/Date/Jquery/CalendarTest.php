@@ -15,7 +15,7 @@ class Magento_Date_Jquery_CalendarTest extends PHPUnit_Framework_TestCase
      * Test conversions from old calendar date/time formats to jQuery datepicker compatible formats.
      *
      * @param string  $expected
-     * @param string  $dateFormat - Date format to convert
+     * @param string  $formatString - Date and/or time string to convert
      * @param boolean $formatDate - Whether to convert date (true) or not (false)
      * @param boolean $formatTime - Whether to convert time (true) or not (false)
      *
