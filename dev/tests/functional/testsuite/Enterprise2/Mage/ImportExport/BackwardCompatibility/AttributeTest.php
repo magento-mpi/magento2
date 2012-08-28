@@ -167,6 +167,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      *
      * @test
      * @depends customerAttributeCreate
+     * @param $attrData
      * @TestlinkId TL-MAGE-1312
      * @group skip_due_to_bug
      *
@@ -204,7 +205,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
             ),
             'grid_and_filter'
         );
-        $this->assertNull($isFound, 'Attribute was found after deleting');
+        $this->assertFalse((bool) $isFound, 'Attribute was found after deleting');
     }
 
     /**
