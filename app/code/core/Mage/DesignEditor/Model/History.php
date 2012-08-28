@@ -90,10 +90,10 @@ class Mage_DesignEditor_Model_History
     /**
      * Add changes to internal collection
      *
-     * @param Traversable $changes
+     * @param array|Traversable $changes
      * @return Mage_DesignEditor_Model_History
      */
-    public function addChanges(Traversable $changes)
+    public function addChanges($changes)
     {
         foreach ($changes as $change) {
             $this->addChange($change);
@@ -105,10 +105,10 @@ class Mage_DesignEditor_Model_History
     /**
      *  Set changes to internal collection
      *
-     * @param Traversable $changes
+     * @param array|Traversable $changes
      * @return Mage_DesignEditor_Model_History
      */
-    public function setChanges(Traversable $changes)
+    public function setChanges($changes)
     {
         $collectionClass = self::CHANGE_COLLECTION_CLASS;
         if ($changes instanceof $collectionClass) {

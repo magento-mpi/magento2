@@ -89,7 +89,9 @@ class Mage_Core_Model_Resource_Theme extends Mage_Core_Model_Resource_Db_Abstrac
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
-        $this->loadPackageData($object);
+        if ($object->getId()) {
+            $this->loadPackageData($object);
+        }
         return parent::_afterLoad($object);
     }
 
