@@ -59,6 +59,8 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
      * Login Admin User
      *
      * @param array $loginData
+     *
+     * @throws RuntimeException
      */
     public function loginAdmin($loginData)
     {
@@ -68,6 +70,15 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
         $this->clickButton('login', false);
         $this->waitForElement($waitCondition);
         $this->validatePage();
+        if ($this->controlIsPresent('link', 'go_to_notifications')) {
+            try {
+                $this->waitForElement($this->_getControlXpath('button', 'close'), 5)->click();
+            } catch (RuntimeException $e) {
+                if ($e->getMessage() !== 'Timeout after 5 seconds.') {
+                    throw $e;
+                }
+            }
+        }
     }
 
     /**
