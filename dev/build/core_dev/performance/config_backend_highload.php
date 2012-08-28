@@ -34,34 +34,21 @@ return array(
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',
                 'admin_no_form_key'          => 'yes',
+                'enable_charts'              => 'no',
                 'cleanup_database'           => 'yes',
             ),
             'fixture_files' => array(
-                'testsuite/fixtures/catalog_category.php',
-                'testsuite/fixtures/catalog_product.php',
+                'testsuite/fixtures/catalog_100k_products.php',
             ),
         ),
     ),
     'scenario' => array(
         'files' => array(
-            'testsuite/add_to_cart.jmx',
-            'testsuite/advanced_search.jmx',
-            'testsuite/category_view.jmx',
-            'testsuite/checkout.jmx',
-            'testsuite/home_page.jmx',
-            'testsuite/product_edit.jmx',
-            'testsuite/product_view.jmx',
-            'testsuite/quick_search.jmx',
+            'testsuite/backend.jmx',
         ),
         'common_params' => array(
-            'users' => 10,
+            'users' => 1,
             'loops' => 100,
-        ),
-        'scenario_params' => array(
-            'testsuite/product_view.jmx' => array(
-                'product_url_key' => 'product-1.html',
-                'product_name'    => 'Product 1',
-            ),
         ),
     ),
     'report_dir' => 'report',
