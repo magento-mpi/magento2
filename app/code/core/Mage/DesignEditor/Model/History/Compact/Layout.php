@@ -23,7 +23,7 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
     {
         /** @var $change Mage_DesignEditor_Model_Change_LayoutAbstract */
         foreach ($collection as $changeKey => $change) {
-            if (!$change instanceof Mage_DesignEditor_Model_Change_LayoutAbstract) {
+            if (!$change instanceof Mage_DesignEditor_Model_Change_LayoutAbstract || $change->getIsRemoved()) {
                 continue;
             }
             switch ($change->getData('action_name')) {
@@ -64,6 +64,7 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
 
             if ($item->getData('element_name') == $target && $isMoveOrRemove && $key != $changeKey) {
                 $collection->removeItemByKey($key);
+                $item->setIsRemoved(true);
             }
         }
 
@@ -94,6 +95,7 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
 
             if ($lastMove) {
                 $collection->removeItemByKey($lastKey);
+                $lastMove->setIsRemoved(true);
             }
             $lastMove = $item;
             $lastKey = $key;
@@ -105,6 +107,7 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
                 $hasOrderChanged = $lastMove->getData('destination_order') != $originOrder;
                 if (!$hasOrderChanged) {
                     $collection->removeItemByKey($lastKey);
+                    $lastMove->setIsRemoved(true);
                 }
             }
         }
