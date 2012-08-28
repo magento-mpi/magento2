@@ -486,7 +486,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
         $layout = $this->loadLayout()
             ->getLayout()
             ->getBlock('admin.customer.view.cart')
-            ->setWebsiteId();
+            ->setWebsiteId((int)$this->getRequest()->getParam('website_id'));
         $this->renderLayout();
     }
 
@@ -513,31 +513,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             ->getBlock('admin.customer.reviews')
             ->setCustomerId(Mage::registry('current_customer')->getId())
             ->setUseAjax(true);
-        $this->renderLayout();
-    }
-
-    /**
-     * Get customer's tags list
-     *
-     */
-    public function productTagsAction()
-    {
-        $this->_initCustomer();
-        $this->loadLayout()
-            ->getLayout()
-            ->getBlock('admin.customer.tags')
-            ->setCustomerId(Mage::registry('current_customer')->getId())
-            ->setUseAjax(true);
-        $this->renderLayout();
-    }
-
-    public function tagGridAction()
-    {
-        $this->_initCustomer();
-        $this->loadLayout();
-        $this->getLayout()->getBlock('admin.customer.tags')->setCustomerId(
-            Mage::registry('current_customer')
-        );
         $this->renderLayout();
     }
 

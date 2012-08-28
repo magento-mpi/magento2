@@ -10,32 +10,38 @@
 
 class Enterprise_PageCache_Model_Validator
 {
-    protected $_dataChangeDependency = array(
-        'Mage_Catalog_Model_Product',
-        'Mage_Catalog_Model_Category',
-        'Mage_Catalog_Model_Resource_Eav_Attribute',
-        'Mage_Tag_Model_Tag',
-        'Mage_Review_Model_Review',
-        'Enterprise_Cms_Model_Hierarchy_Node',
-        'Enterprise_Banner_Model_Banner',
-        'Mage_Core_Model_Store_Group',
-        'Mage_Poll_Model_Poll',
-    );
-    protected $_dataDeleteDependency = array(
-        'Mage_Catalog_Model_Category',
-        'Mage_Catalog_Model_Resource_Eav_Attribute',
-        'Mage_Tag_Model_Tag',
-        'Mage_Review_Model_Review',
-        'Enterprise_Cms_Model_Hierarchy_Node',
-        'Enterprise_Banner_Model_Banner',
-        'Mage_Core_Model_Store_Group',
-        'Mage_Poll_Model_Poll',
-    );
+    /**#@+
+     * XML paths for lists of change nad delete dependencies
+     */
+    const XML_PATH_DEPENDENCIES_CHANGE = 'adminhtml/cache/dependency/change';
+    const XML_PATH_DEPENDENCIES_DELETE = 'adminhtml/cache/dependency/delete';
+    /**#@-*/
+
+    /**
+     * General config object
+     *
+     * @var Mage_Core_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Constructor dependency injection
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        if (isset($data['config'])) {
+            $this->_config = $data['config'];
+        } else {
+            $this->_config = Mage::getConfig();
+        }
+    }
 
     /**
      * Mark full page cache as invalidated
      */
-    protected function _invelidateCache()
+    protected function _invalidateCache()
     {
         Mage::app()->getCacheInstance()->invalidateType('full_page');
     }
@@ -69,9 +75,9 @@ class Enterprise_PageCache_Model_Validator
     public function checkDataChange($object)
     {
         $classes = $this->_getObjectClasses($object);
-        $intersect = array_intersect($this->_dataChangeDependency, $classes);
+        $intersect = array_intersect($this->_getDataChangeDependencies(), $classes);
         if (!empty($intersect)) {
-            $this->_invelidateCache();
+            $this->_invalidateCache();
         }
 
         return $this;
@@ -86,10 +92,34 @@ class Enterprise_PageCache_Model_Validator
     public function checkDataDelete($object)
     {
         $classes = $this->_getObjectClasses($object);
-        $intersect = array_intersect($this->_dataDeleteDependency, $classes);
+        $intersect = array_intersect($this->_getDataDeleteDependencies(), $classes);
         if (!empty($intersect)) {
-            $this->_invelidateCache();
+            $this->_invalidateCache();
         }
         return $this;
+    }
+
+    /**
+     * Returns array of data change dependencies from config
+     *
+     * @return array
+     */
+    protected function _getDataChangeDependencies()
+    {
+        $dependencies = $this->_config->getNode(self::XML_PATH_DEPENDENCIES_CHANGE)
+            ->asArray();
+        return array_values($dependencies);
+    }
+
+    /**
+     * Returns array of data delete dependencies from config
+     *
+     * @return array
+     */
+    protected function _getDataDeleteDependencies()
+    {
+        $dependencies = $this->_config->getNode(self::XML_PATH_DEPENDENCIES_DELETE)
+            ->asArray();
+        return array_values($dependencies);
     }
 }
