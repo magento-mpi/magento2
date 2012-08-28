@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_EditTest extends PHPUnit_
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        $layout = Mage::app()->getLayout();
+        $layout = new Mage_Core_Model_Layout(array('area' => 'adminhtml'));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Catalog_Category_Edit', '', $blockAttributes);

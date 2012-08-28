@@ -48,10 +48,10 @@ class Enterprise_AdminGws_Model_BlocksTest extends Magento_Test_TestCase_Control
     public function testValidateCatalogPermissionsStoreGroups()
     {
         $this->dispatch('backend/admin/catalog_category/edit/id/3');
-        $result = $this->getResponse()->getBody();
-        $expected = 'title="New Permission" type="button" class="scalable delete disabled disabled" onclick="" style=""'
-            . ' disabled="disabled">';
-        $this->assertContains($expected, $result);
+        $this->assertContains(
+            'title="New Permission" type="button" class="scalable delete disabled disabled" disabled="disabled"',
+            $this->getResponse()->getBody()
+        );
     }
 
     /**

@@ -27,13 +27,16 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Retrieve type
+     * Retrieve button type
      *
      * @return string
      */
     public function getType()
     {
-        return $this->getData('type') ?: 'button';
+        if (in_array($this->getData('type'), array('reset', 'submit'))) {
+            return $this->getData('type');
+        }
+        return 'button';
     }
 
     /**
@@ -71,7 +74,7 @@ class Mage_Backend_Block_Widget_Button extends Mage_Backend_Block_Widget
                 continue;
             }
             $html .= $attributeKey . '="'
-                . $this->helper('Mage_Backend_Helper_Data')->quoteEscape($attributeValue) . '" ';
+                . $this->helper('Mage_Backend_Helper_Data')->escapeHtml($attributeValue) . '" ';
         }
 
         return $html;
