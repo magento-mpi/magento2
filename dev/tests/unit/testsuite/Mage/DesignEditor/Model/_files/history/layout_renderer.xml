@@ -11,5 +11,11 @@
  */
 -->
 <layout>
-    <move element="customer_account_navigation" as="customer_account_navigation_alias" destination="top.menu" after="-"/>
+    <catalog_category_view>
+        <move element="category.products" after="-" destination="right"/>
+    </catalog_category_view>
+    <customer_account>
+        <remove name="customer_account_navigation"/>
+    </customer_account>
 </layout>
+
