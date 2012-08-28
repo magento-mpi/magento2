@@ -39,7 +39,7 @@
           </elementProp>
           <elementProp name="products_number" elementType="Argument">
             <stringProp name="Argument.name">products_number</stringProp>
-            <stringProp name="Argument.value">${__P(products_number,100000)}</stringProp>
+            <stringProp name="Argument.value">${__P(products_number,0)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="customers_number" elementType="Argument">
