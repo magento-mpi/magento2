@@ -2355,7 +2355,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException('Timeout after ' . $timeout . 'seconds');
     }
 
     /**
@@ -2385,7 +2385,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException('Timeout after ' . $timeout . 'seconds');
     }
 
     /**

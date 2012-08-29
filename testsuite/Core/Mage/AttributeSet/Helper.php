@@ -78,9 +78,9 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
         foreach ($attrGroup as $value) {
             $this->addParameter('folderName', $value);
             if (!$this->controlIsPresent('link', 'group_folder')) {
-                $this->answerOnNextPrompt($value);
                 $this->clickButton('add_group', false);
-                $this->getPrompt();
+                $this->alertText($value);
+                $this->acceptAlert();
             }
         }
     }
@@ -101,23 +101,22 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
                 $attributeCode = array_map('trim', $attributeCode);
             }
             $this->addParameter('folderName', $groupName);
+            if (!$this->controlIsPresent('link', 'group_folder')) {
+                $this->addNewGroup($groupName);
+            }
+            $moveToElement = $this->getElement($this->_getControlXpath('link', 'group_folder'));
+            $moveToElement->click();
             foreach ($attributeCode as $value) {
                 $this->addParameter('attributeName', $value);
-                if (!$this->controlIsPresent('link', 'group_folder')) {
-                    $this->addNewGroup($groupName);
-                }
                 if (!$this->controlIsPresent('link', 'unassigned_attribute')) {
                     $this->fail("Attribute with title '$value' does not exist");
                 }
-                $this->moveElementOverTree('link', 'unassigned_attribute', 'fieldset', 'unassigned_attributes');
-                $this->moveElementOverTree('link', 'group_folder', 'fieldset', 'groups_content');
-                $elFrom = $this->_getControlXpath('link', 'unassigned_attribute');
-                $elTo = $this->_getControlXpath('link', 'group_folder');
-                $this->clickAt($elFrom, '1,1');
-                $this->clickAt($elTo, '1,1');
-                $this->mouseDownAt($elFrom, '1,1');
-                $this->mouseMoveAt($elTo, '1,1');
-                $this->mouseUpAt($elTo, '10,10');
+                $moveElement = $this->getElement($this->_getControlXpath('link', 'unassigned_attribute'));
+                $moveElement->click();
+                $this->moveto($moveElement);
+                $this->buttondown();
+                $this->moveto($moveToElement);
+                $this->buttonup();
             }
         }
     }

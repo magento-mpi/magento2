@@ -558,8 +558,8 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->navigate('manage_sales_orders');
         $this->addParameter('elementTitle', '#' . $orderId);
         $this->searchAndOpen(array('filter_order_id' => $orderId), 'sales_order_grid');
-        $priceXpath = $this->_getControlXpath('pageelement', 'printed_card_price');
-        $printedCardPrice = trim($this->getElementByXpath($priceXpath), '$\t\n\r');
+        $priceElement = $this->getElement($this->_getControlXpath('pageelement', 'printed_card_price'));
+        $printedCardPrice = trim($priceElement->text(), '$\t\n\r');
         $this->assertEquals($expectedPrintedCardPrice, $printedCardPrice,
             "Printed Card price is different. Actual: $printedCardPrice. Expected:  . $expectedPrintedCardPrice");
     }

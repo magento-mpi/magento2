@@ -151,11 +151,11 @@ class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
         $resultFlag = true;
         $elementXpath = $this->_getControlXpath('pageelement', $elementName);
         if ($this->controlIsPresent('pageelement', $elementName)) {
-            $val = $this->getElementByXpath($elementXpath);
+            $val = $this->getElement($elementXpath)->text();
             if ($val != $expectedValue) {
                 $this->addVerificationMessage(
-                    $elementName . ": The stored value is not equal to specified: (" . $expectedValue
-                    . "' != '" . $val . "')");
+                    $elementName . ": The stored value is not equal to specified: ('" . $expectedValue . "' != '"
+                    . $val . "')");
                 $resultFlag = false;
             }
         } else {
