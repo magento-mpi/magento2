@@ -97,6 +97,11 @@ paypal_reports:
     mca: paypal_reports/
     click_xpath: //div[@class='nav-bar']//a[span='PayPal Settlement Reports']
     title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
+    uimap:
+        form:
+        buttons:
+            fetch_updates: //button[span='Fetch Updates']
+
 
 # Shopping Cart: Products in carts page
 report_shopcart_product:
