@@ -30,6 +30,13 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     const ENTITY_TYPE_RESOURCE = 'Model_Resource';
     /**#@-*/
 
+    /**#@+
+     *  Find/replace patterns
+     */
+    const SERIALIZED_FIND_PATTERN    = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#iu';
+    const SERIALIZED_REPLACE_PATTERN = 's:%d:"%s"';
+    /**#@-*/
+
     /**
      * Config key for path to aliases map file
      */
@@ -326,6 +333,9 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected function _getReplacement($data, $contentType, $entityType = '')
     {
         switch ($contentType) {
+            case self::FIELD_CONTENT_TYPE_SERIALIZED:
+                $data = $this->_getAliasInSerializedStringReplacement($data, $entityType);
+                break;
             case self::FIELD_CONTENT_TYPE_WIKI:
             case self::FIELD_CONTENT_TYPE_XML:
                 $data = $this->_getRegexpReplacement($data, $contentType, $entityType);
@@ -335,7 +345,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
                 $data = $this->_getCorrespondingClassName($data, $entityType);
                 break;
         }
-
+        
         return $data;
     }
 
@@ -540,5 +550,44 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected function _getPathToMapFile()
     {
         return Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
+    }
+
+    /**
+     * @param string $data
+     * @param string $entityType
+     * @return mixed
+     */
+    protected function _getAliasInSerializedStringReplacement($data, $entityType = '')
+    {
+        $matches = $this->_parseSerializedString($data);
+        if (isset($matches['alias']) && count($matches['alias']) > 0) {
+            foreach ($matches['alias'] as $key => $alias) {
+                $className = $this->_getCorrespondingClassName($alias, $entityType);
+
+                if (!empty($className)) {
+                    $replaceString = sprintf(self::SERIALIZED_REPLACE_PATTERN, strlen($className), $className);
+                    $data = str_replace($matches['string'][$key], $replaceString, $data);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Parse class aliases from serialized string
+     *
+     * @param $string
+     * @return array
+     */
+    protected function _parseSerializedString($string)
+    {
+        if ($string
+            && preg_match_all(self::SERIALIZED_FIND_PATTERN, $string, $matches)) {
+            unset($matches[0], $matches[1], $matches[2]);
+            return $matches;
+        } else {
+            return array();
+        }
     }
 }
