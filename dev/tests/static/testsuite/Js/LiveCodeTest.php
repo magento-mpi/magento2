@@ -70,7 +70,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         $whiteList = self::_readLists(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR .
             'whitelist' . DIRECTORY_SEPARATOR . '*.txt');
         $blackList = self::_readLists(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR .
-            'blacklist' . DIRECTORY_SEPARATOR .'*.txt');
+            'blacklist' . DIRECTORY_SEPARATOR . '*.txt');
         foreach ($blackList as $listFiles) {
             self::$_blackListJsFiles = array_merge(self::$_blackListJsFiles, self::_scanFileNameRecursivly($listFiles));
         }
@@ -118,6 +118,8 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return 'cscript ' . TESTS_JSHINT_WIN_PATH;
+        } else {
+            return 'rhino ' . TESTS_JSHINT_LINUX_PATH;
         }
     }
 
@@ -130,6 +132,8 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             return '/global:document:true,mage:true,setTimeout:true,clearTimeout:true,head:true,window:true ' .
                 '/jquery:true /eqnull:true';
+        } else {
+            return "";
         }
     }
 
