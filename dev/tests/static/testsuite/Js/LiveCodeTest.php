@@ -130,10 +130,9 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     protected function _getOption()
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            return '/global:document:true,mage:true,setTimeout:true,clearTimeout:true,head:true,window:true ' .
-                '/jquery:true /eqnull:true';
+            return TESTS_JSHINT_WIN_OPTIONS;
         } else {
-            return "";
+            return TESTS_JSHINT_LINUX_OPTIONS;
         }
     }
 
@@ -147,17 +146,31 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     protected function _executeJsHint($filename)
     {
         exec($this->_getCommand() . ' ' . $filename . ' ' . $this->_getOption(), $output);
-        if (count($output) == 3) {
-            return true;
-        }
-        $fh = fopen(self::$_reportFile, 'a');
-        foreach ($output as $key => $line) {
-            if ($key >= 3 && strlen(trim($line)))
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            if (count($output) == 3) {
+                return true;
+            }
+            $fh = fopen(self::$_reportFile, 'a');
+            foreach ($output as $key => $line) {
                 fwrite($fh, $line . PHP_EOL);
+            }
+            fwrite($fh, PHP_EOL);
+            fclose($fh);
+
+        } else {
+            if (count($output) === 0) {
+                return true;
+            } else {
+                $fh = fopen(self::$_reportFile, 'a');
+                foreach ($output as $key => $line) {
+                    fwrite($fh, $line . PHP_EOL);
+                }
+                fwrite($fh, PHP_EOL);
+                fclose($fh);
+                return false;
+            }
         }
-        fwrite($fh, PHP_EOL);
-        fclose($fh);
-        return false;
     }
 
     /**
