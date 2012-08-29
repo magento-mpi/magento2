@@ -25,6 +25,6 @@
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-        <const name="TESTS_JSHINT_WIN_PATH" value="c:\git_workspace\required\jshint\env\wsh.js"/>
+        <const name="TESTS_JSHINT_LINUX_PATH" value="/home/bamboo/jshint-rhino.js"/>
     </php>
 </phpunit>
