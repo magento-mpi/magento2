@@ -2,13 +2,21 @@
 # {license_notice}
 #
 # @category    Magento
-# @package     Mage_Tag
+# @package     Mage_CmsPage
 # @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
 #
 #
 ---
+# CMS Edit page after click "Save and Continue" button
+save_and_continue_edit_cms_page:
+    mca: cms_page/edit/page_id/%id%/back/edit/active_tab/%tab%/
+    title: %pageName% / Pages / CMS / Magento Admin
+    uimap:
+        messages:
+            success_saved_cms_page: //li[normalize-space(@class)='success-msg' and contains(.,'The page has been saved.')]
+
 # Manage Pages Hierarchy page
 manage_pages_hierarchy:
     mca: cms_hierarchy/
