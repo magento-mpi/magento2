@@ -36,9 +36,9 @@ class Mage_Core_Helper_JsTest extends PHPUnit_Framework_TestCase
     public function testGetTranslatorScript()
     {
         $this->assertEquals(
-            '<script type="text/javascript">//<![CDATA['
+            "<script type=\"text/javascript\">//<![CDATA[\n"
                 . '(function($) {$.mage.translate.add(' . $this->_helper->getTranslateJson() . ')})(jQuery);'
-                . '//]]></script>',
+                . "\n//]]></script>",
             $this->_helper->getTranslatorScript()
         );
     }

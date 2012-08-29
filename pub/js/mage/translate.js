@@ -10,7 +10,7 @@
 (function($) {
     $.extend(true, $, {
         mage: {
-            translate: new (function() {
+            translate: new function() {
                 /**
                  * Key-value translations storage
                  * @type {Object}
@@ -39,7 +39,7 @@
                 this.translate = function(text) {
                     return _data[text] ? _data[text] : text;
                 }
-            })
+            }
         }
     });
     /**
