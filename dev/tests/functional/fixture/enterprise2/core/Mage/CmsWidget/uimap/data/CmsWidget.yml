@@ -119,8 +119,40 @@ catalog_events_carousel_widget:
         scroll: 2
         block_custom_width: %noValue%
 
+#<------------------------- Banner Rotator ---------------------------------->
+banner_rotator_widget:
+    settings:
+        type: Banner Rotator
+        design_package_theme: Enterprise / Enterprise
+    frontend_properties:
+        assign_to_store_views: All Store Views
+        widget_instance_title: Banner_rotator_%randomize%
+        sort_order: %noValue%
+    layout_updates: *layout_updates
+    widget_options:
+        banners_to_display: Specified Banners
+        restricted_baner_types: Footer
+        rotation_mode: Do not rotate, display all at once
+        active_banner_filter: Yes
+        banner_name: %noValue%
+
 
 #<---------------------Required Fields With Layout Updates--------------------->
+#<------------------------- Banner Rotator ---------------------------------->
+banner_rotator_widget_req:
+    settings:
+        type: Banner Rotator
+        design_package_theme: Enterprise / Enterprise
+    frontend_properties:
+        assign_to_store_views: All Store Views
+        widget_instance_title: Banner_rotator_%randomize%
+    layout_updates:
+        layout_1:
+            select_display_on: Anchor Categories
+            select_block_reference: Right Column
+    widget_options:
+        banners_to_display: Specified Banners
+
 #<-------------------------Wishlist Search---------------------------->
 wishlist_search_widget_req:
     settings:

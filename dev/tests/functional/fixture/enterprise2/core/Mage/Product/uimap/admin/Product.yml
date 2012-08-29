@@ -18,3 +18,58 @@ manage_products:
                       product_grid:
                           pageelements:
                               product_grid_columns_price: //div[@id='productGrid']//span[@class='sort-title' and text()='Price']
+
+# Add New Product page
+new_product:
+    uimap: &newProduct
+        form:
+            tabs:
+                -
+                    prices:
+                        fieldsets:
+                            -
+                                product_prices:
+                                    buttons:
+                                        add_gift_card_amount: //button[span='Add Amount']
+                                        delete_gift_card_amount: //button[span='Delete']
+                                    dropdowns:
+                                        prices_gift_card_allow_open_amount: //select[@id='allow_open_amount']
+                                    fields:
+                                        prices_gift_card_open_amount_min: //input[@id='open_amount_min']
+                                        prices_gift_card_open_amount_max: //input[@id='open_amount_max']
+                            -
+                                prices_gift_card_amounts:
+                                    xpath: //*[@id='giftcard_amounts_container']/tr
+                                    dropdowns:
+                                        prices_gift_card_website: //*[@id='giftcard_amounts_giftcard_amounts_row_%giftCardId%_website']
+                                    fields:
+                                        prices_gift_card_amount: //input[@name='product[giftcard_amounts][%giftCardId%][price]']
+                -
+                    giftcardinfo:
+                        xpath: //*[@id='product_info_tabs_giftcard_info']/span
+                        fieldsets:
+                            -
+                                product_gift_card_information:
+                                    xpath: //*[@id='product_info_tabs_giftcard_info_content']
+                                    dropdowns:
+                                        giftcardinfo_card_type: //select[@id='giftcard_type']
+                                        giftcardinfo_is_redeemable: //select[@id='giftcard_is_redeemable']
+                                        giftcardinfo_allow_message: //select[@id='giftcard_allow_message']
+                                        giftcardinfo_email_template: //select[@id='giftcard_email_template']
+                                    fields:
+                                        giftcardinfo_lifetime: //input[@id='giftcard_lifetime']
+                                    checkboxes:
+                                        giftcardinfo_is_redeemable_default: //input[@id='giftcard_use_config_is_redeemable']
+                                        giftcardinfo_lifetime_default: //input[@id='giftcard_use_config_lifetime']
+                                        giftcardinfo_allow_message_default: //input[@id='giftcard_use_config_allow_message']
+                                        giftcardinfo_email_template_default: //input[@id='giftcard_use_config_email_template']
+# Edit Product page
+edit_product:
+    uimap: *newProduct
+
+edit_saved_product:
+   uimap: *newProduct
+
+edit_product_save_and_continue:
+   uimap: *newProduct
+

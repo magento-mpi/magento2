@@ -3,11 +3,19 @@
 #
 # @category    Magento
 # @package     Mage_Checkout
-# @subpackage  functional_tests
+# @subpackage  test_data
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
+#<------------ELSE------------>
+andp_visa: &visaAndp
+    card_type: 'Visa'
+    card_number: '4000000000000002'
+    expiration_month: '01 - January'
+    expiration_year: '2013'
+    card_verification_number: '111'
+
 #*********************************************
 #*          Purchase Order Data              *
 #*********************************************
@@ -26,3 +34,11 @@ payment_cashondelivery:
 payment_purchaseorder:
     payment_method: Purchase Order
     payment_info: *OrderNumber
+
+#*********************************************
+#*         Authorize.net Direct Post         *
+#*********************************************
+
+payment_authorizenetdp:
+    payment_method: Credit Card Direct Post (Authorize.net)
+    payment_info: *visaAndp
