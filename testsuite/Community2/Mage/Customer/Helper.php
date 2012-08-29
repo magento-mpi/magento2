@@ -77,4 +77,15 @@ class Community2_Mage_Customer_Helper extends Core_Mage_Customer_Helper
         $this->waitForElement($waitCondition);
         $this->validatePage();
     }
+
+    /**
+     *Log Out Customer in Frontend
+     */
+    public function frontLogOutCustomer()
+    {
+        $this->frontend();
+        $this->clickControl('link', 'log_out');
+        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->validatePage('home_page');
+    }
 }
