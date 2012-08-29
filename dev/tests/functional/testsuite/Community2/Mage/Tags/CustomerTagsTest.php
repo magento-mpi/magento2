@@ -101,6 +101,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
      */
     public function searchTags($columnName, $testData)
     {
+        $this->markTestSkipped('Skipped due to bug MAGETWO-2854');
         //Setup
         $this->loginAdminUser();
         $this->navigate('manage_customers');
