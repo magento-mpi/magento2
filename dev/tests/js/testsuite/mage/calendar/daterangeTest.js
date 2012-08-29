@@ -1,7 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    mage.design_editor
+ * @category    mage.calendar
  * @package     test
  * @copyright   {copyright}
  * @license     {license_link}

@@ -1,7 +1,7 @@
 /**
  * {license_notice}
  *
- * @category    mage.design_editor
+ * @category    mage.calendar
  * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
@@ -39,11 +39,18 @@ CalendarTest.prototype.testGlobalConfigurationMerge = function() {
     assertEquals(false, calendar.calendar('option', 'showHour'));
     assertEquals(false, calendar.calendar('option', 'showMinute'));
     calendar.calendar('destroy');
+    delete $.calendarConfig;
 };
 CalendarTest.prototype.testEnableAMPM = function() {
     /*:DOC += <input type="text" id="calendar" /> */
     var calendar = $('#calendar').calendar({timeFormat: 'hh:mm tt', ampm: false});
     assertEquals(true, calendar.calendar('option', 'ampm'));
+    calendar.calendar('destroy');
+};
+CalendarTest.prototype.testDisableAMPM = function() {
+    /*:DOC += <input type="text" id="calendar" /> */
+    var calendar = $('#calendar').calendar({timeFormat: 'hh:mm'});
+    assertEquals(true, calendar.calendar('option', 'ampm') != true);
     calendar.calendar('destroy');
 };
 CalendarTest.prototype.testWithServerTimezoneOffset = function() {

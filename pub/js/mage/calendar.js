@@ -34,7 +34,7 @@
          * Fix for Timepicker - Set ampm option for Timepicker if timeformat contains string 'tt'
          */
         _enableAMPM: function() {
-            if (this.options.timeFormat && this.options.timeFormat.indexOf('tt')) {
+            if (this.options.timeFormat && this.options.timeFormat.indexOf('tt') >= 0) {
                 this.options.ampm = true;
             }
         },
@@ -133,9 +133,9 @@
 
             /**
              * Converting date or time format
-             * @param {String}
-             * @param {String}
-             * @return {String}
+             * @param {string}
+             * @param {string}
+             * @return {string}
              */
             _convertFormat: function(format, type) {
                 var symbols = format.match(/([a-z]+)/ig),
