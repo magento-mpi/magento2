@@ -33,6 +33,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     /**#@+
      *  Find/replace patterns
      */
+    const PLAIN_FIND_PATTERN         = '/^([a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/';
     const SERIALIZED_FIND_PATTERN    = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#iu';
     const SERIALIZED_REPLACE_PATTERN = 's:%d:"%s"';
     /**#@-*/
@@ -100,13 +101,13 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      *
      * @var array
      */
-    protected $_replaceRegexps = array(
+    protected $_replacePatterns = array(
         self::FIELD_CONTENT_TYPE_WIKI => array(
-            'regexp'       => '/{{(block|widget).*?type=\"([\w\/]*?)\".*?}}/s',
+            'pattern'      => '/{{(block|widget).*?type=\"([a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/s',
             'result_index' => 2,
         ),
         self::FIELD_CONTENT_TYPE_XML  => array(
-            'regexp'       => '/<block.*?type=\"([\w\/]*?)\".*?>/s',
+            'pattern'      => '/<block.*?type=\"([a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/s',
             'result_index' => 1,
         ),
     );
@@ -336,11 +337,14 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             case self::FIELD_CONTENT_TYPE_SERIALIZED:
                 $data = $this->_getAliasInSerializedStringReplacement($data, $entityType);
                 break;
+            // wiki and xml content types using the same replacement method
             case self::FIELD_CONTENT_TYPE_WIKI:
             case self::FIELD_CONTENT_TYPE_XML:
-                $data = $this->_getRegexpReplacement($data, $contentType, $entityType);
+                $data = $this->_getPatternReplacement($data, $contentType, $entityType);
                 break;
             case self::FIELD_CONTENT_TYPE_PLAIN:
+                $data = $this->_getModelReplacement($data, $entityType);
+                break;
             default:
                 $data = $this->_getCorrespondingClassName($data, $entityType);
                 break;
@@ -385,23 +389,43 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Replaces class aliases using regexp
+     * Replacement for module alias and module alias with method
+     *
+     * @param string $data
+     * @param string $entityType
+     * @return string
+     */
+    protected function _getModelReplacement($data, $entityType = '')
+    {
+        if (preg_match(self::PLAIN_FIND_PATTERN, $data, $matches)) {
+            $classAlias = $matches[1];
+            $className = $this->_getCorrespondingClassName($classAlias, $entityType);
+            if ($className) {
+                return str_replace($classAlias, $className, $data);
+            }
+        }
+
+        return $this->_getCorrespondingClassName($data, $entityType);
+    }
+
+    /**
+     * Replaces class aliases using pattern
      *
      * @param string $data
      * @param string $contentType
      * @param string $entityType
      * @return string|null
      */
-    protected function _getRegexpReplacement($data, $contentType, $entityType = '')
+    protected function _getPatternReplacement($data, $contentType, $entityType = '')
     {
-        if (!array_key_exists($contentType, $this->_replaceRegexps)) {
+        if (!array_key_exists($contentType, $this->_replacePatterns)) {
             return null;
         }
 
         $replacements = array();
-        $regexp       = $this->_replaceRegexps[$contentType]['regexp'];
-        $resultIndex  = $this->_replaceRegexps[$contentType]['result_index'];
-        preg_match_all($regexp, $data, $matches, PREG_PATTERN_ORDER);
+        $pattern      = $this->_replacePatterns[$contentType]['pattern'];
+        $resultIndex  = $this->_replacePatterns[$contentType]['result_index'];
+        preg_match_all($pattern, $data, $matches, PREG_PATTERN_ORDER);
         if (isset($matches[$resultIndex])) {
             $matches = array_unique($matches[$resultIndex]);
             foreach ($matches as $classAlias) {
