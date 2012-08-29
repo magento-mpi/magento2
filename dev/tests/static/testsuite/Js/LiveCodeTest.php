@@ -86,7 +86,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider testCodeJsHintDataProvider
+     * @dataProvider codeJsHintDataProvider
      */
     public function testCodeJsHint($filename)
     {
@@ -100,7 +100,7 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      * build data provider array with command, js file name, and option
      * @return array
      */
-    public function testCodeJsHintDataProvider()
+    public function codeJsHintDataProvider()
     {
         self::setUpBeforeClass();
         $map = function($value)
