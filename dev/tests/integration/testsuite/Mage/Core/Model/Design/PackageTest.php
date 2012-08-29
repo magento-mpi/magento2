@@ -140,11 +140,11 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $expected = array(
             'http://localhost/pub/media/skin/frontend/test/default/default/en_US/css/styles.css',
-            'http://localhost/pub/js/calendar/calendar-blue.css',
+            'http://localhost/pub/js/mage/translate_inline.css',
         );
         $params = array(
             'css/styles.css',
-            'calendar/calendar-blue.css',
+            'mage/translate_inline.css',
         );
         $this->assertEquals($expected, $this->_model->getOptimalCssUrls($params));
     }
@@ -164,8 +164,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('css/styles.css', 'calendar/calendar-blue.css'),
-                array('http://localhost/pub/media/skin/_merged/5594035976651f0a40d65ed577700fb5.css')
+                array('css/styles.css', 'jquery/jquery-ui-1.8.22.custom.css'),
+                array('http://localhost/pub/media/skin/_merged/4bf7872eee9b41a282f087e61f2f34f7.css')
             ),
             array(
                 array('css/styles.css'),
@@ -179,11 +179,13 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         $expected = array(
             'http://localhost/pub/media/skin/frontend/test/default/default/en_US/js/tabs.js',
-            'http://localhost/pub/js/calendar/calendar.js',
+            'http://localhost/pub/js/jquery/jquery-ui-timepicker-addon.js',
+            'http://localhost/pub/js/mage/calendar.js',
         );
         $params = array(
             'js/tabs.js',
-            'calendar/calendar.js',
+            'jquery/jquery-ui-timepicker-addon.js',
+            'mage/calendar.js',
         );
         $this->assertEquals($expected, $this->_model->getOptimalJsUrls($params));
     }
@@ -203,12 +205,12 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('js/tabs.js', 'calendar/calendar.js'),
-                array('http://localhost/pub/media/skin/_merged/c5a9f4afba4ff0ff979445892214fc8b.js',)
+                array('js/tabs.js', 'mage/calendar.js', 'jquery/jquery-ui-timepicker-addon.js'),
+                array('http://localhost/pub/media/skin/_merged/9618f79ac5a7d716fabb220ef0e5c0cb.js',)
             ),
             array(
-                array('calendar/calendar.js'),
-                array('http://localhost/pub/js/calendar/calendar.js',)
+                array('mage/calendar.js'),
+                array('http://localhost/pub/js/mage/calendar.js',)
             ),
         );
     }
