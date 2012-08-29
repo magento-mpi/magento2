@@ -14,21 +14,37 @@ require_once 'lib/Varien/Io/Interface.php';
 require_once 'lib/Varien/Io/Abstract.php';
 require_once 'lib/Varien/Io/File.php';
 
+$baseDir = getcwd();
+$configFile = $baseDir . '/dev/tests/js/jsTestDriver.php.dist';
+
 $options = getopt("", array("configFile:", "jsTestDriver:"));
-if (count($options) != 2) {
-    reportError('Usage: php -f run-js-tests.php -- --configFile "<path to file>" --jsTestDriver "<path to jar file>"');
+if (count($options) == 1) {
+    if (!array_key_exists("jsTestDriver", $options)) {
+        showUsage();
+    }
+} else {
+    if (count($options) == 2) {
+        if (!array_key_exists("configFile", $options) || !array_key_exists("jsTestDriver", $options)) {
+            showUsage();
+        }
+    } else {
+        showUsage();
+    }
 }
 
-$configFile = $options["configFile"];
-if (!file_exists($configFile)) {
-    reportError('Configuration file does not exist: ' . $configFile);
+if (array_key_exists("configFile", $options)) {
+    if (!file_exists($options["configFile"])) {
+        echo'Configuration file does not exist: ' . $options["configFile"]
+            . '. Falling back to default configuration file.' . PHP_EOL;
+    } else {
+        $configFile = $options["configFile"];
+    }
 }
+
 $jsTestDriver = $options["jsTestDriver"];
 if (!file_exists($jsTestDriver)) {
     reportError('JsTestDriver jar file does not exist: ' . $jsTestDriver);
 }
-
-$baseDir = getcwd();
 
 $config = require($configFile);
 
@@ -146,6 +162,16 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
         echo "Done."';
 
     system($shellCommand);
+}
+
+/**
+ * Show a message that displays how to use (invoke) this PHP script and exit.
+ */
+function showUsage()
+{
+    reportError(
+        'Usage: php -f run-js-tests.php -- [--configFile "<path to file>"] --jsTestDriver "<path to jar file>"'
+    );
 }
 
 /**
