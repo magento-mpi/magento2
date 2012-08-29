@@ -105,6 +105,45 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     );
 
     /**
+     * Correspondence between module aliases and names for modules with composite names
+     *
+     * @var array
+     */
+    protected $_compositeModules = array(
+        'adminnotification'               => 'Mage_AdminNotification',
+        'catalogindex'                    => 'Mage_CatalogIndex',
+        'cataloginventory'                => 'Mage_CatalogInventory',
+        'catalogrule'                     => 'Mage_CatalogRule',
+        'catalogsearch'                   => 'Mage_CatalogSearch',
+        'currencysymbol'                  => 'Mage_CurrencySymbol',
+        'giftmessage'                     => 'Mage_GiftMessage',
+        'googleanalytics'                 => 'Mage_GoogleAnalytics',
+        'googlebase'                      => 'Mage_GoogleBase',
+        'googlecheckout'                  => 'Mage_GoogleCheckout',
+        'importexport'                    => 'Mage_ImportExport',
+        'paypaluk'                        => 'Mage_PaypalUk',
+        'productalert'                    => 'Mage_ProductAlert',
+        'salesrule'                       => 'Mage_SalesRule',
+        'xmlconnect'                      => 'Mage_XmlConnect',
+        'enterprise_admingws'             => 'Enterprise_AdminGws',
+        'enterprise_catalogevent'         => 'Enterprise_CatalogEvent',
+        'enterprise_catalogpermissions'   => 'Enterprise_CatalogPermissions',
+        'enterprise_customerbalance'      => 'Enterprise_CustomerBalance',
+        'enterprise_customersegment'      => 'Enterprise_CustomerSegment',
+        'enterprise_giftcard'             => 'Enterprise_GiftCard',
+        'enterprise_giftcardaccount'      => 'Enterprise_GiftCardAccount',
+        'enterprise_giftregistry'         => 'Enterprise_GiftRegistry',
+        'enterprise_giftwrapping'         => 'Enterprise_GiftWrapping',
+        'enterprise_importexport'         => 'Enterprise_ImportExport',
+        'enterprise_pagecache'            => 'Enterprise_PageCache',
+        'enterprise_pricepermissions'     => 'Enterprise_PricePermissions',
+        'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
+        'enterprise_salesarchive'         => 'Enterprise_SalesArchive',
+        'enterprise_targetrule'           => 'Enterprise_TargetRule',
+        'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
+    );
+
+    /**
      * Add alias replace rule
      *
      * @param string $tableName name of table to replace aliases in
@@ -286,15 +325,16 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     protected function _getReplacement($data, $contentType, $entityType = '')
     {
-        if ($contentType == self::FIELD_CONTENT_TYPE_PLAIN) {
-            return $this->_getCorrespondingClassName($data, $entityType);
+        switch ($contentType) {
+            case self::FIELD_CONTENT_TYPE_WIKI:
+            case self::FIELD_CONTENT_TYPE_XML:
+                $data = $this->_getRegexpReplacement($data, $contentType, $entityType);
+                break;
+            case self::FIELD_CONTENT_TYPE_PLAIN:
+            default:
+                $data = $this->_getCorrespondingClassName($data, $entityType);
+                break;
         }
-
-        if ($contentType == self::FIELD_CONTENT_TYPE_WIKI || $contentType == self::FIELD_CONTENT_TYPE_XML) {
-            return $this->_getRegexpReplacement($data, $contentType, $entityType);
-        }
-
-        // TODO add appropriate behavior for all exist FIELD CONTENT TYPES
 
         return $data;
     }
@@ -416,7 +456,9 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $module = $factoryName;
             $name = false;
         }
-        if (false === strpos($module, '_')) {
+        if (array_key_exists($module, $this->_compositeModules)) {
+            $module = $this->_compositeModules[$module];
+        } elseif (false === strpos($module, '_')) {
             $module = "Mage_{$module}";
         }
         return array($module, $name);
