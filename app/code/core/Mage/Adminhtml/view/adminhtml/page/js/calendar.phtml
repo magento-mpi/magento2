@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
 //<![CDATA[
-(function( $ ) {
+(function($) {
     $.extend(true, $, {
         calendarConfig: {
             dayNames: <?php echo $days['wide']?>,
@@ -40,6 +40,8 @@
             dateFormat: $.datepicker.RFC_2822,
             showOn: "button",
             showAnim: "",
+            changeMonth: true,
+            changeYear: true,
             buttonImageOnly: true,
             showButtonPanel: true,
             showWeek: true,
@@ -51,7 +53,7 @@
             serverTimezoneSeconds:<?php echo $this->getStoreTimestamp() ?>
         }
     });
-})( jQuery );
+})(jQuery);
 
 enUS = <?php echo $enUS?>; // en_US locale reference
 
