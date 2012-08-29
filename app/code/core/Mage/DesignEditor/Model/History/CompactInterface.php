@@ -14,11 +14,26 @@
 interface Mage_DesignEditor_Model_History_CompactInterface
 {
     /**
+     * Set change collection
+     *
+     * @param Mage_DesignEditor_Model_Change_Collection $collection
+     * @return Mage_DesignEditor_Model_History_Compact_Layout
+     */
+    public function setChangesCollection(Mage_DesignEditor_Model_Change_Collection $collection);
+
+    /**
+     * Get change collection
+     *
+     * @return Mage_DesignEditor_Model_Change_Collection
+     */
+    public function getChangesCollection();
+
+    /**
      * Signature of compact method to implement in subclasses
      *
-     * @abstract
-     * @param Mage_DesignEditor_Model_Change_Collection $collection
+     * @param Mage_DesignEditor_Model_Change_Collection|null $collection
+     * @throws Magento_Exception
      * @return Mage_DesignEditor_Model_History_CompactInterface
      */
-    public function compact(Mage_DesignEditor_Model_Change_Collection $collection);
+    public function compact($collection = null);
 }
