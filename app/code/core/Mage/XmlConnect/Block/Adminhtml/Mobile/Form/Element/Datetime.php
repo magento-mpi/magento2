@@ -158,15 +158,15 @@ class Mage_XmlConnect_Block_Adminhtml_Mobile_Form_Element_Datetime
         $html .= sprintf('
             <script type="text/javascript">
             //<![CDATA[
-                (function( $ ) {
-                    $("#%s").calendar({
-                        buttonImage: "%s",
-                        buttonText: "%s",
-                        dateFormat: "%s",
-                        timeFormat: "%s",
-                        showsTime: %s
-                    })
-                })(jQuery);
+            (function($) {
+                $("#%s").calendar({
+                    buttonImage: "%s",
+                    buttonText: "%s",
+                    dateFormat: "%s",
+                    timeFormat: "%s",
+                    showsTime: %s
+                })
+            })(jQuery);
             //]]>
             </script>',
             $this->getHtmlId(),

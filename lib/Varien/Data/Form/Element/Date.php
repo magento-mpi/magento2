@@ -151,16 +151,16 @@ class Varien_Data_Form_Element_Date extends Varien_Data_Form_Element_Abstract
         $html .= sprintf('
             <script type="text/javascript">
             //<![CDATA[
-                (function( $ ) {
-                    $("#%s").calendar({
-                        dateFormat: "%s",
-                        showsTime: %s,
-                        timeFormat: "%s",
-                        buttonImage: "%s",
-                        buttonText: "%s",
-                        disabled: %s
-                    })
-                })(jQuery)
+            (function($) {
+                $("#%s").calendar({
+                    dateFormat: "%s",
+                    showsTime: %s,
+                    timeFormat: "%s",
+                    buttonImage: "%s",
+                    buttonText: "%s",
+                    disabled: %s
+                })
+            })(jQuery)
             //]]>
             </script>',
             $this->getHtmlId(),

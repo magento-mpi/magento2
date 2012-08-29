@@ -67,15 +67,15 @@
                             <input type="text" style="width: 120px;" class="schedule_merge_later schedule_merge_empty input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/>
                             <script type="text/javascript">
                             //<![CDATA[
-                                (function( $ ) {
-                                    $('#schedule_merge_later').calendar({
-                                        buttonImage: "<?php echo $this->getSkinUrl("images/grid-cal.gif");?>",
-                                        buttonText: "<?php echo $this->__('Select Date') ?>",
-                                        dateFormat: "<?php echo $this->getDateFormat() ?>",
-                                        timeFormat: "<?php echo $this->getTimeFormat() ?>",
-                                        showsTime: true
-                                    })
-                                })(jQuery)
+                            (function($) {
+                                $('#schedule_merge_later').calendar({
+                                    buttonImage: "<?php echo $this->getSkinUrl("images/grid-cal.gif");?>",
+                                    buttonText: "<?php echo $this->__('Select Date') ?>",
+                                    dateFormat: "<?php echo $this->getDateFormat() ?>",
+                                    timeFormat: "<?php echo $this->getTimeFormat() ?>",
+                                    showsTime: true
+                                })
+                            })(jQuery)
                             //]]>
                             </script>
                         </span>

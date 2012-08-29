@@ -27,19 +27,19 @@ class Mage_Core_Block_Html_Date extends Mage_Core_Block_Template
         $html .=
             '<script type="text/javascript">
             //<![CDATA[
-                (function( $ ) {
-                    $(document).ready(function(){
-                        $("#' . $this->getId() . '").calendar({
-                            showsTime: '. ($this->getTimeFormat() ? 'true' : 'false') .',
-                            '. ($this->getTimeFormat() ? "timeFormat: '{$this->getTimeFormat()}'," : '') . '
-                            dateFormat: "' . $this->getDateFormat() . '",
-                            buttonImage: "' . $this->getImage() . '",
-                            '. ($calendarYearsRange ? 'yearRange: ' . $calendarYearsRange . ',' : '') . '
-                            buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '"
-                        })
-                    });
-                })(jQuery)
-                //]]>
+            (function($) {
+                $(document).ready(function(){
+                    $("#' . $this->getId() . '").calendar({
+                        showsTime: ' . ($this->getTimeFormat() ? 'true' : 'false') . ',
+                        ' . ($this->getTimeFormat() ? "timeFormat: '{$this->getTimeFormat()}'," : '') . '
+                        dateFormat: "' . $this->getDateFormat() . '",
+                        buttonImage: "' . $this->getImage() . '",
+                        ' . ($calendarYearsRange ? 'yearRange: ' . $calendarYearsRange . ',' : '') . '
+                        buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '"
+                    })
+                });
+            })(jQuery)
+            //]]>
             </script>';
 
         return $html;
