@@ -668,7 +668,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         }
 
         if (Mage::app()->isSingleStoreMode()) {
-            return true;
+            return !(int)$field->hide_in_single_store_mode;
         }
 
         $result = true;
