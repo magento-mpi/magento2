@@ -53,7 +53,7 @@ return array(
         'scenario_params' => array(
             'testsuite/backend.jmx' => array(
                 'products_number'  => 100000,
-                'customers_number' => 100000,
+                'customers_number' => 0,
             ),
         ),
     ),

@@ -94,7 +94,7 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Total Number of Products" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1674153537">Manage Products</stringProp>
+              <stringProp name="-1674153537"><h3 class="icon-head head-products">Manage Products</h3></stringProp>
               <stringProp name="-1952867632">Total ${products_number} records found</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
@@ -126,7 +126,7 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Total Number of Customers" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="-1990727846">Manage Customers</stringProp>
+              <stringProp name="-1990727846"><h3 class="icon-head head-customer">Manage Customers</h3></stringProp>
               <stringProp name="1843270971">Total ${customers_number} records found</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
