@@ -24,7 +24,7 @@ class Mage_Adminhtml_Block_Urlrewrite_Cms_Page_EditTest extends PHPUnit_Framewor
      */
     public function testPrepareLayout($blockAttributes, $expected)
     {
-        $layout = new Mage_Core_Model_Layout(array('area' => 'adminhtml'));
+        $layout = new Mage_Core_Model_Layout(array('area' => Mage_Core_Model_App_Area::AREA_ADMINHTML));
 
         /** @var $block Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit */
         $block = $layout->createBlock('Mage_Adminhtml_Block_Urlrewrite_Cms_Page_Edit', '', $blockAttributes);

@@ -146,7 +146,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $frontendPageTypes = $model->getPageHandlesHierarchy();
         $this->assertNotEmpty($frontendPageTypes);
 
-        Mage::getDesign()->setArea('adminhtml');
+        Mage::getDesign()->setArea(Mage_Core_Model_App_Area::AREA_ADMINHTML);
         try {
             $backendPageTypes = $this->_model->getPageHandlesHierarchy();
             $this->assertSame($frontendPageTypes, $backendPageTypes);
