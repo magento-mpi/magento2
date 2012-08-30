@@ -54,7 +54,7 @@
         },
 
         /**
-         * Set current date if the date is not setted
+         * Set current date if the date is not set
          * @protected
          * @param {Element}
          */
