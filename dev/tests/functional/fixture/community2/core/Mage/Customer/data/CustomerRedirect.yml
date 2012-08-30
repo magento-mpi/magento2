@@ -1,0 +1,18 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#*********************************************
+#*Customer redirect to account Dashboard "Yes" *
+#*********************************************
+customers_customer_configuration_redirect:
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            redirect_customer_to_account_dashboard_after_logging_in: Yes

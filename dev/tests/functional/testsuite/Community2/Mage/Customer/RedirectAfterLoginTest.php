@@ -30,7 +30,7 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
     }
 
     /**
-     * PreConditions for Redirect After Login Test
+     * <p>PreConditions for Redirect After Login Test</p>
      * @test
      */
     public function preconditionsForTests()
@@ -53,10 +53,10 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
      * <p>Redirect to account Dashboard after LogIn </p>
      * <p>Preconditions:</p>
      * <p>LogIn to Backend </p>
-     * <p>Register new Customer
+     * <p>Register new Customer</p>
      * <p>Create simple Product</p>
      * <p>Steps:</p>
-     * <p>1.Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"
+     * <p>1.Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"</p>
      * <p>2.Go to frontend as non registered customer</p>
      * <p>3.Go to created in PreConditions Product Page</p>
      * <p>4.Log In as a registered Customer</p>
@@ -65,8 +65,8 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
      *
      * @depends preconditionsForTests
      * @param $userData
-     * @ test
-     * @TestlinkId
+     * @test
+     * @TestlinkId -6161
      */
     public function redirectToAccountDashboardAfterLogin($userData)
     {
@@ -89,19 +89,19 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
      * <p>Redirect to page from where the customer logged in </p>
      * <p>Preconditions:</p>
      * <p>LogIn to Backend </p>
-     * <p>Register new Customer
+     * <p>Register new Customer</p>
      * <p>Steps:</p>
-     * <p>1.Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "NO"
+     * <p>1.Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "NO"</p>
      * <p>2.Go to frontend as non registered  customer</p>
      * <p>3.Go to created from PreConditions Product Page</p>
-     * <p>4.Log In as a registered from PreConditions customer
+     * <p>4.Log In as a registered from PreConditions customer</p>
      * <p>Expected result:</p>
      * <p>Product Page is opened </p>
      *
      * @depends preconditionsForTests
      * @param $userData
      * @test
-     * @TestlinkId
+     * @TestlinkId -6162
      */
     public function redirectToPreviousPageAfterLogin($userData)
     {
