@@ -16,6 +16,7 @@ $>./get_aliases_map.php -- [-ph]
     Additional parameters:
     -p          path to code scope of magento instance
     -h          print usage
+
 USAGE
 );
 
@@ -145,8 +146,60 @@ function getModuleName($factoryName)
         $module = $factoryName;
         $name = false;
     }
-    if (false === strpos($module, '_')) {
+    $compositeModuleName = getCompositeModuleName($module);
+    if (null !== $compositeModuleName) {
+        $module = $compositeModuleName;
+    } elseif (false === strpos($module, '_')) {
         $module = "Mage_{$module}";
     }
     return array($module, $name);
+}
+
+/**
+ * Get composite module name by module alias
+ *
+ * @param string $moduleAlias
+ * @return string|null
+ */
+function getCompositeModuleName($moduleAlias)
+{
+    $compositeModules = array(
+        'adminnotification'               => 'Mage_AdminNotification',
+        'catalogindex'                    => 'Mage_CatalogIndex',
+        'cataloginventory'                => 'Mage_CatalogInventory',
+        'catalogrule'                     => 'Mage_CatalogRule',
+        'catalogsearch'                   => 'Mage_CatalogSearch',
+        'currencysymbol'                  => 'Mage_CurrencySymbol',
+        'giftmessage'                     => 'Mage_GiftMessage',
+        'googleanalytics'                 => 'Mage_GoogleAnalytics',
+        'googlebase'                      => 'Mage_GoogleBase',
+        'googlecheckout'                  => 'Mage_GoogleCheckout',
+        'importexport'                    => 'Mage_ImportExport',
+        'paypaluk'                        => 'Mage_PaypalUk',
+        'productalert'                    => 'Mage_ProductAlert',
+        'salesrule'                       => 'Mage_SalesRule',
+        'xmlconnect'                      => 'Mage_XmlConnect',
+        'enterprise_admingws'             => 'Enterprise_AdminGws',
+        'enterprise_catalogevent'         => 'Enterprise_CatalogEvent',
+        'enterprise_catalogpermissions'   => 'Enterprise_CatalogPermissions',
+        'enterprise_customerbalance'      => 'Enterprise_CustomerBalance',
+        'enterprise_customersegment'      => 'Enterprise_CustomerSegment',
+        'enterprise_giftcard'             => 'Enterprise_GiftCard',
+        'enterprise_giftcardaccount'      => 'Enterprise_GiftCardAccount',
+        'enterprise_giftregistry'         => 'Enterprise_GiftRegistry',
+        'enterprise_giftwrapping'         => 'Enterprise_GiftWrapping',
+        'enterprise_importexport'         => 'Enterprise_ImportExport',
+        'enterprise_pagecache'            => 'Enterprise_PageCache',
+        'enterprise_pricepermissions'     => 'Enterprise_PricePermissions',
+        'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
+        'enterprise_salesarchive'         => 'Enterprise_SalesArchive',
+        'enterprise_targetrule'           => 'Enterprise_TargetRule',
+        'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
+    );
+
+    if (isset($compositeModules[$moduleAlias])) {
+        return $compositeModules[$moduleAlias];
+    }
+
+    return null;
 }
