@@ -15,7 +15,7 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Core_Mage_AdminUser_Helper adminUserHelper()
+ * @method Core_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper adminUserHelper()
  * @method Core_Mage_AttributeSet_Helper attributeSetHelper()
  * @method Core_Mage_Category_Helper|Enterprise2_Mage_Category_Helper categoryHelper()
  * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
