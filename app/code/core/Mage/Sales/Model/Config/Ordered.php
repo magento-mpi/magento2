@@ -108,35 +108,29 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     /**
      * Aggregate before/after information from all items and sort totals based on this data
      *
-     * @param array $configArray
+     * @param array $config
      * @return array
      */
-    protected function _getSortedCollectorCodes(array $configArray)
+    protected function _getSortedCollectorCodes(array $config)
     {
-        if (Mage::app()->useCache('config')) {
-            $cachedData = Mage::app()->loadCache($this->_collectorsCacheKey);
-            if ($cachedData) {
-                return unserialize($cachedData);
-            }
-        }
         // invoke simple sorting if the first element contains the "sort_order" key
-        reset($configArray);
-        $element = current($configArray);
+        reset($config);
+        $element = current($config);
         if (isset($element['sort_order'])) {
-            uasort($configArray, array($this, '_compareSortOrder'));
-            $result = array_keys($configArray);
+            uasort($config, array($this, '_compareSortOrder'));
+            $result = array_keys($config);
         } else {
-            $result = array_keys($configArray);
+            $result = array_keys($config);
             // Move all totals with before specification in front of related total
-            foreach ($configArray as $code => &$data) {
+            foreach ($config as $code => &$data) {
                 foreach ($data['before'] as $positionCode) {
-                    if (!isset($configArray[$positionCode])) {
+                    if (!isset($config[$positionCode])) {
                         continue;
                     }
-                    if (!in_array($code, $configArray[$positionCode]['after'], true)) {
+                    if (!in_array($code, $config[$positionCode]['after'], true)) {
                         // Also add additional after condition for related total,
                         // to keep it always after total with before value specified
-                        $configArray[$positionCode]['after'][] = $code;
+                        $config[$positionCode]['after'][] = $code;
                     }
                     $currentPosition = array_search($code, $result, true);
                     $desiredPosition = array_search($positionCode, $result, true);
@@ -148,7 +142,7 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
                 }
             }
             // Sort out totals with after position specified
-            foreach ($configArray as $code => &$data) {
+            foreach ($config as $code => &$data) {
                 $maxAfter = null;
                 $currentPosition = array_search($code, $result, true);
 
@@ -163,12 +157,6 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
                 }
             }
         }
-        if (Mage::app()->useCache('config')) {
-            Mage::app()->saveCache(serialize($result), $this->_collectorsCacheKey, array(
-                    Mage_Core_Model_Config::CACHE_TAG
-                )
-            );
-        }
         return $result;
     }
 
@@ -180,7 +168,27 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
      */
     protected function _initCollectors()
     {
-        $sortedCodes = $this->_getSortedCollectorCodes($this->_modelsConfig);
+        $useCache = Mage::app()->useCache('config');
+        $sortedCodes = array();
+        if ($useCache) {
+            $cachedData = Mage::app()->loadCache($this->_collectorsCacheKey);
+            if ($cachedData) {
+                $sortedCodes = unserialize($cachedData);
+            }
+        }
+        if (!$sortedCodes) {
+            $sortedCodes = $this->_getSortedCollectorCodes($this->_modelsConfig);
+            if ($useCache) {
+                Mage::app()->saveCache(serialize($sortedCodes), $this->_collectorsCacheKey, array(
+                    Mage_Core_Model_Config::CACHE_TAG
+                ));
+            }
+            try {
+                self::validateCollectorDeclarations($this->_modelsConfig);
+            } catch (Exception $e) {
+                Mage::logException($e);
+            }
+        }
         foreach ($sortedCodes as $code) {
             $this->_collectors[$code] = $this->_models[$code];
         }
@@ -208,5 +216,67 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
             $res = 0;
         }
         return $res;
+    }
+
+    /**
+     * Validate specified configuration array as sales totals declaration
+     *
+     * If there are contradictions, the totals cannot be sorted correctly. Possible contradictions:
+     * - A relation between totals leads to cycles
+     * - Two relations combined lead to cycles
+     *
+     * @param array $config
+     * @throws Magento_Exception
+     */
+    public static function validateCollectorDeclarations($config)
+    {
+        $before = self::_instantiateGraph($config, 'before');
+        $after  = self::_instantiateGraph($config, 'after');
+
+        // cycle in "before" declarations
+        $cycle = $before->findCycle();
+        $key = 'before';
+
+        // cycle in "after" declarations
+        if (!$cycle) {
+            $cycle = $after->findCycle();
+            $key = 'after';
+        }
+
+        // "before" and "after" are inverse by definition. Merge them into one graph to detect contradictions
+        if (!$cycle) {
+            foreach ($after->getRelations(true) as $from => $relations) {
+                foreach ($relations as $to) {
+                    $before->addRelation($from, $to);
+                }
+            }
+            $cycle = $before->findCycle();
+            $key = 'before & after';
+        }
+
+        if ($cycle) {
+            throw new Magento_Exception(sprintf(
+                'Found cycle in sales total "%s" declarations: %s', $key, implode(' -> ', $cycle)
+            ));
+        }
+    }
+
+    /**
+     * Parse "config" array by specified key and instantiate a graph based on that
+     *
+     * @param array $config
+     * @param string $key
+     * @return Magento_Data_Graph
+     */
+    private static function _instantiateGraph($config, $key)
+    {
+        $nodes = array_keys($config);
+        $graph = array();
+        foreach ($config as $from => $row) {
+            foreach ($row[$key] as $to) {
+                $graph[] = array($from, $to);
+            }
+        }
+        return new Magento_Data_Graph($nodes, $graph);
     }
 }
