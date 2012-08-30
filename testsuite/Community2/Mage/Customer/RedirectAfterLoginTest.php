@@ -18,7 +18,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
+class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -83,7 +83,6 @@ class Enterprise2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Tes
                                                           'password' => $userData['password']));
         //Validate that Customer Account Dashboard page is opened
         $this->validatePage('customer_account');
-        $this->customerHelper()->frontLogOutCustomer();
     }
 
     /**
@@ -116,6 +115,13 @@ class Enterprise2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Tes
         //Open Product Page created from PreConditions page
         $this->productHelper()->frontOpenProduct($userData['name']);
         //Log in as registered from PreConditions customer
+        if ($this->getCurrentPage() == 'customer_account') {
+            $this->clickControl('link', 'log_out', false);
+            $this->waitForTextPresent('You are now logged out');
+            $this->waitForTextNotPresent('You are now logged out');
+            $this->deleteAllVisibleCookies();
+            $this->validatePage('home_page');
+        }
         $this->customerHelper()->clickControl('link', 'log_in', false);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->addParameter('referer', $this->defineParameterFromUrl('referer'));
@@ -126,6 +132,5 @@ class Enterprise2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Tes
         //Validate that Product page is opened
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage('product_page');
-        $this->customerHelper()->frontLogOutCustomer();
     }
 }
