@@ -42,7 +42,7 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
         $this->assertMessagePresent('success', 'success_saved_customer');
         //create Simple Product
         $this->navigate('manage_products');
-        $productData = $this->loadDataSet('Product', 'simple_product_required');
+        $productData = $this->loadDataSet('Product', 'simple_product_visible');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
         return array('email' => $userData['email'], 'password' => $userData['password'],
@@ -115,13 +115,7 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
         //Open Product Page created from PreConditions page
         $this->productHelper()->frontOpenProduct($userData['name']);
         //Log in as registered from PreConditions customer
-        if ($this->getCurrentPage() == 'customer_account') {
-            $this->clickControl('link', 'log_out', false);
-            $this->waitForTextPresent('You are now logged out');
-            $this->waitForTextNotPresent('You are now logged out');
-            $this->deleteAllVisibleCookies();
-            $this->validatePage('home_page');
-        }
+        $this->logoutCustomer();
         $this->customerHelper()->clickControl('link', 'log_in', false);
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->addParameter('referer', $this->defineParameterFromUrl('referer'));
