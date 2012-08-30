@@ -90,6 +90,13 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
         return true;
     }
 
+    /**
+     * Callback for Varien_Db_Select::update
+     *
+     * @param $table
+     * @param array $bind
+     * @param $where
+     */
     public function updateCallback($table, array $bind, $where)
     {
         $fields = array_keys($bind);
@@ -145,7 +152,11 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
 
         $setupModel->doUpdateClassAliases();
 
-        $this->assertEquals($expected, $this->_actualUpdateResult);
+        $this->assertEquals($expected['updates'], $this->_actualUpdateResult);
+
+        if (isset($expected['aliases_map'])) {
+            $this->assertAttributeEquals($expected['aliases_map'], '_aliasesMap', $setupModel);
+        }
     }
 
     /**
@@ -172,18 +183,26 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
                     array('field' => 'Mage_Customer_Model_Customer')
                 ),
                 '$expected' => array(
-                    array(
-                        'table' => 'table',
-                        'field' => 'field',
-                        'to'    => 'Mage_Customer_Model_Customer_FROM_MAP',
-                        'from'  => 'customer/customer'
+                    'updates' => array(
+                        array(
+                            'table' => 'table',
+                            'field' => 'field',
+                            'to'    => 'Mage_Customer_Model_Customer_FROM_MAP',
+                            'from'  => 'customer/customer'
+                        ),
+                        array(
+                            'table' => 'table',
+                            'field' => 'field',
+                            'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode',
+                            'from'  => 'customer/attribute_data_postcode'
+                        ),
                     ),
-                    array(
-                        'table' => 'table',
-                        'field' => 'field',
-                        'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode',
-                        'from'  => 'customer/attribute_data_postcode'
-                    ),
+                    'aliases_map' => array(
+                        Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
+                            'customer/customer' => 'Mage_Customer_Model_Customer_FROM_MAP',
+                            'customer/attribute_data_postcode' => 'Mage_Customer_Model_Attribute_Data_Postcode'
+                        )
+                    )
                 ),
                 '$aliasesMap' => array(
                     Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(

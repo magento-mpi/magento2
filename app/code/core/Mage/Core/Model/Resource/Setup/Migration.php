@@ -152,7 +152,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     );
 
     /**
-     * @var Mage_Core_Helper_Abstract
+     * @var Mage_Core_Helper_Data
      */
     protected $_coreHelper;
 
@@ -178,7 +178,21 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     public function __construct($resourceName, array $data = array())
     {
-        $this->_resourceName = $resourceName;
+        if (!isset($data['resource_config'])
+            || !isset($data['connection_config'])
+            || !isset($data['module_config'])
+            || !isset($data['connection'])
+        ) {
+            parent::__construct($resourceName);
+        } else {
+            $this->_resourceName = $resourceName;
+
+            if (isset($data['connection'])) {
+                $this->_conn = $data['connection'];
+            }
+
+            $this->_initConfigs($data);
+        }
 
         if (isset($data['autoload'])) {
             $this->_autoload = $data['autoload'];
@@ -198,21 +212,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $this->_baseDir = Mage::getBaseDir();
         }
 
-        if (isset($data['connection'])) {
-            $this->_conn = $data['connection'];
-        }
-
-        $this->_initConfigs($data);
-
         $this->_initAliasesMapConfiguration($data);
-
-        if (!isset($data['resource_config'])
-            || !isset($data['connection_config'])
-            || !isset($data['module_config'])
-            || !isset($data['connection'])
-        ) {
-            parent::__construct($resourceName);
-        }
     }
 
     /**
@@ -279,7 +279,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     }
 
     /**
-     * start process of replacing aliases with class names using rules
+     * Start process of replacing aliases with class names using rules
      */
     public function doUpdateClassAliases()
     {
@@ -473,18 +473,24 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             list($module, $name) = $this->_getModuleName($alias);
 
             if (!empty($entityType)) {
-                return $this->_getClassName($module, $entityType, $name);
+                $className = $this->_getClassName($module, $entityType, $name);
+                $properEntityType = $entityType;
             } else {
+                // Try to find appropriate class name for all entity types
                 $className = '';
+                $properEntityType = '';
                 foreach ($this->_entityTypes as $entityType) {
                     if (empty($className)) {
                         $className = $this->_getClassName($module, $entityType, $name);
+                        $properEntityType = $entityType;
                     } else {
+                        // If was found more than one match - alias cannot be replaced
                         return '';
                     }
                 }
-                return $className;
             }
+            $this->_pushToMap($properEntityType, $alias, $className);
+            return $className;
         }
 
         return '';
@@ -632,6 +638,27 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     }
 
     /**
+     * Store already generated class name for alias
+     *
+     * @param $entityType
+     * @param $alias
+     * @param $className
+     */
+    protected function _pushToMap($entityType, $alias, $className)
+    {
+        // Load map from file if it wasn't loaded
+        $this->_getAliasesMap();
+
+        if (!isset($entityType)) {
+            $this->_aliasesMap[$entityType] = array();
+        }
+
+        if (!isset($this->_aliasesMap[$entityType][$alias])) {
+            $this->_aliasesMap[$entityType][$alias] = $className;
+        }
+    }
+
+    /**
      * Retrieve aliases to classes map if exit
      *
      * @return array
@@ -698,8 +725,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     protected function _parseSerializedString($string)
     {
-        if ($string
-            && preg_match_all(self::SERIALIZED_FIND_PATTERN, $string, $matches)) {
+        if ($string && preg_match_all(self::SERIALIZED_FIND_PATTERN, $string, $matches)) {
             unset($matches[0], $matches[1], $matches[2]);
             return $matches;
         } else {
