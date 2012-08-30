@@ -26,7 +26,7 @@ class Varien_Io_FileTest extends PHPUnit_Framework_TestCase
         try {
             $this->_prepare();
             if (substr(PHP_OS, 0, 3) == 'WIN') {
-                $this->markTestSkipped("chmod is may not work for Windows");
+                $this->markTestSkipped("chmod may not work for Windows");
             }
             $permsBefore = 0700;
             $expected = 0777;

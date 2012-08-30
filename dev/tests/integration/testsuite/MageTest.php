@@ -44,24 +44,10 @@ class MageTest extends PHPUnit_Framework_TestCase
      */
     public function testReset()
     {
-        $logFile = Mage::getConfig()->getVarDir('log') . DIRECTORY_SEPARATOR . 'test.log';
-        try {
-            Mage::setRoot(dirname(__FILE__));
-            $this->assertNotNull(Mage::getRoot());
-            Mage::log('test message', null, 'test.log', true);
-            $this->assertFileExists($logFile, "Could not write to '$logFile'");
-            @unlink($logFile);
-            $this->assertFileExists($logFile, "'$logFile' file was not locked by Mage::log() method and was removed");
-            Mage::reset();
-            $this->assertNull(Mage::getRoot());
-            @unlink($logFile);
-            $this->assertFileNotExists($logFile, "Could not delete '$logFile'. It is still locked.");
-        } catch (Exception $e) {
-            if (file_exists($logFile)) {
-                unlink($logFile);
-            }
-            throw $e;
-        }
+        Mage::setRoot(dirname(__FILE__));
+        $this->assertNotNull(Mage::getRoot());
+        Mage::reset();
+        $this->assertNull(Mage::getRoot());
     }
 
     /**
