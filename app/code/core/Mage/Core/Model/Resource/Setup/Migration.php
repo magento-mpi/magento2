@@ -55,7 +55,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      *
      * @var int
      */
-    protected $_rowsPerPage = 1;
+    protected $_rowsPerPage = 100;
 
     /**
      * Replace rules for tables
@@ -150,6 +150,108 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         'enterprise_targetrule'           => 'Enterprise_TargetRule',
         'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
     );
+
+    /**
+     * @var Mage_Core_Helper_Abstract
+     */
+    protected $_coreHelper;
+
+    /**
+     * Application root absolute path
+     *
+     * @var string
+     */
+    protected $_baseDir;
+
+    /**
+     * Path to map file from config
+     *
+     * @var string
+     */
+    protected $_pathToMapFile;
+
+    /**
+     * Constructor
+     *
+     * @param string $resourceName
+     * @param array $data
+     */
+    public function __construct($resourceName, array $data = array())
+    {
+        $this->_resourceName = $resourceName;
+
+        if (isset($data['autoload'])) {
+            $this->_autoload = $data['autoload'];
+        } else {
+            $this->_autoload = Magento_Autoload::getInstance();
+        }
+
+        if (isset($data['core_helper'])) {
+            $this->_coreHelper = $data['core_helper'];
+        } else {
+            $this->_coreHelper = Mage::helper('Mage_Core_Helper_Data');
+        }
+
+        if (isset($data['base_dir'])) {
+            $this->_baseDir = $data['base_dir'];
+        } else {
+            $this->_baseDir = Mage::getBaseDir();
+        }
+
+        if (isset($data['connection'])) {
+            $this->_conn = $data['connection'];
+        }
+
+        $this->_initConfigs($data);
+
+        $this->_initAliasesMapConfiguration($data);
+
+        if (!isset($data['resource_config'])
+            || !isset($data['connection_config'])
+            || !isset($data['module_config'])
+            || !isset($data['connection'])
+        ) {
+            parent::__construct($resourceName);
+        }
+    }
+
+    /**
+     * Init configs
+     *
+     * @param array $data
+     */
+    protected function _initConfigs(array $data = array())
+    {
+        if (isset($data['resource_config'])) {
+            $this->_resourceConfig = $data['resource_config'];
+        }
+
+        if (isset($data['connection_config'])) {
+            $this->_connectionConfig = $data['connection_config'];
+        }
+
+        if (isset($data['module_config'])) {
+            $this->_moduleConfig = $data['module_config'];
+        }
+    }
+
+    /**
+     * Init aliases map configuration
+     *
+     * @param array $data
+     */
+    protected function _initAliasesMapConfiguration(array $data = array())
+    {
+        if (isset($data['path_to_map_file'])) {
+            $this->_pathToMapFile = $data['path_to_map_file'];
+        } else {
+            $this->_pathToMapFile = Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
+        }
+
+        if (isset($data['aliases_map'])) {
+            $this->_aliasesMap = $data['aliases_map'];
+        }
+    }
 
     /**
      * Add alias replace rule
@@ -349,7 +451,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
                 $data = $this->_getCorrespondingClassName($data, $entityType);
                 break;
         }
-        
+
         return $data;
     }
 
