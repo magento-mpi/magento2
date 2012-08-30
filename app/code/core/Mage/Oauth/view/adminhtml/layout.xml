@@ -88,8 +88,7 @@
             <action method="removeItem"><type>js_css</type><name>extjs/resources/css/ytheme-magento.css</name></action>
             <action method="removeItem"><type>skin_css</type><name>menu.css</name></action>
 
-            <action method="removeItem"><type>js_css</type><name>jquery/jquery-ui-1.8.22.custom.css</name></action>
-            <action method="removeItem"><type>js_css</type><name>jquery/jquery-ui-timepicker-addon.css</name></action>
+            <action method="removeItem"><type>js_css</type><name>mage/calendar.css</name></action>
             <action method="removeItem"><type>js</type><name>jquery/jquery-1.7.1.min.js</name></action>
             <action method="removeItem"><type>js</type><name>mage/jquery-no-conflict.js</name></action>
             <action method="removeItem"><type>js</type><name>jquery/jquery-ui-1.8.18.custom.min.js</name></action>
