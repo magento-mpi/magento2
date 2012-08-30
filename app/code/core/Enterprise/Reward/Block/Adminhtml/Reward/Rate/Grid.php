@@ -54,12 +54,14 @@ class Enterprise_Reward_Block_Adminhtml_Reward_Rate_Grid extends Mage_Adminhtml_
             'width'  => 1,
         ));
 
-        $this->addColumn('website_id', array(
-            'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'index'   => 'website_id',
-            'type'    => 'options',
-            'options' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray()
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('website_id', array(
+                'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+                'index'   => 'website_id',
+                'type'    => 'options',
+                'options' => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray()
+            ));
+        }
 
         $this->addColumn('customer_group_id', array(
             'header'  => Mage::helper('Enterprise_Reward_Helper_Data')->__('Customer Group'),

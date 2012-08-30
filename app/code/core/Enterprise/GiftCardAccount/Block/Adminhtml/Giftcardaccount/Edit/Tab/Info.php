@@ -16,7 +16,11 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         parent::__construct();
         $this->setTemplate('edit/tab/info.phtml');
     }
-
+    /**
+     * Init form fields
+     *
+     * @return Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info
+     */
     public function initForm()
     {
         $form = new Varien_Data_Form();
@@ -74,25 +78,33 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             $model->setData('is_redeemable', Enterprise_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE);
         }
 
-        $field = $fieldset->addField('website_id', 'select', array(
-            'name'      => 'website_id',
-            'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
-            'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
-            'required'  => true,
-            'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(true),
-        ));
-        $renderer = $this->getLayout()->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
-        $field->setRenderer($renderer);
+        if (!Mage::app()->isSingleStoreMode()) {
+            $field = $fieldset->addField('website_id', 'select', array(
+                'name'      => 'website_id',
+                'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
+                'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteValuesForForm(true),
+            ));
+            $renderer = $this->getLayout()
+                ->createBlock('Mage_Adminhtml_Block_Store_Switcher_Form_Renderer_Fieldset_Element');
+            $field->setRenderer($renderer);
+        }
 
         $fieldset->addType('price', 'Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Form_Price');
 
+        $note = '';
+        if (Mage::app()->isSingleStoreMode()) {
+            $currencies = $this->_getCurrency();
+            $note = '<b>[' . array_shift($currencies) . ']</b>';
+        }
         $fieldset->addField('balance', 'price', array(
             'label'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance'),
             'title'     => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Balance'),
             'name'      => 'balance',
             'class'     => 'validate-number',
             'required'  => true,
-            'note'      => '<div id="balance_currency"></div>'
+            'note'      => '<div id="balance_currency">' . $note . '</div>',
         ));
 
         $fieldset->addField('date_expires', 'date', array(
@@ -109,14 +121,29 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         return $this;
     }
 
-    public function getCurrencyJson()
+    /**
+     * Get array of base currency codes among all existing web sites
+     *
+     * @return array
+     */
+    protected function _getCurrency()
     {
         $result = array();
         $websites = Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteCollection();
-        foreach ($websites as $id=>$website) {
+        foreach ($websites as $id => $website) {
             $result[$id] = $website->getBaseCurrencyCode();
         }
+        return $result;
+    }
 
+    /**
+     * Encode currency array to Json string
+     *
+     * @return string
+     */
+    public function getCurrencyJson()
+    {
+        $result = $this->_getCurrency();
         return Mage::helper('Mage_Core_Helper_Data')->jsonEncode($result);
     }
 }

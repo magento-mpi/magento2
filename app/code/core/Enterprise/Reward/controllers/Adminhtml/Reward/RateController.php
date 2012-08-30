@@ -159,6 +159,9 @@ class Enterprise_Reward_Adminhtml_Reward_RateController extends Mage_Adminhtml_C
         $response = new Varien_Object(array('error' => false));
         $post     = $this->getRequest()->getParam('rate');
         $message  = null;
+        if (Mage::app()->isSingleStoreMode()) {
+            $post['website_id'] = Mage::app()->getStore(true)->getWebsiteId();
+        }
 
         if (!isset($post['customer_group_id'])
             || !isset($post['website_id'])
