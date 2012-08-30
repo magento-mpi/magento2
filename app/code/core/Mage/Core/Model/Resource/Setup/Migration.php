@@ -649,7 +649,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         // Load map from file if it wasn't loaded
         $this->_getAliasesMap();
 
-        if (!isset($entityType)) {
+        if (!isset($this->_aliasesMap[$entityType])) {
             $this->_aliasesMap[$entityType] = array();
         }
 
