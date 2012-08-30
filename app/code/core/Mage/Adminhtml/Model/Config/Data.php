@@ -301,7 +301,8 @@ class Mage_Adminhtml_Model_Config_Data extends Varien_Object
             return;
         }
         if (!(int)$fieldConfig->show_in_default) {
-            $singleStoreWebsite = array_shift(Mage::app()->getWebsites());
+            $websites = Mage::app()->getWebsites();
+            $singleStoreWebsite = array_shift($websites);
             $dataObject->setScope('websites');
             $dataObject->setWebsiteCode($singleStoreWebsite->getCode());
             $dataObject->setScopeId($singleStoreWebsite->getId());
