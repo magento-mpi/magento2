@@ -3,12 +3,11 @@
 #
 # @category    Magento
 # @package     Mage_SystemConfiguration
-# @subpackage  functional_tests
+# @subpackage  test_data
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
-
 #<-------------Bank Transfer Payment------------------------>
 banktransfer:
     configuration_scope: Default Config
@@ -78,3 +77,37 @@ purchaseorder_disable:
         tab_name: sales_payment_methods
         configuration:
             po_enabled: No
+
+#<-------------Authorize.Net Direct Post------------------------>
+authorizenetdp_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            andp_enabled: Yes
+            andp_payment_action: Authorize Only
+            andp_title: Credit Card Direct Post (Authorize.net)
+            andp_api_login_id: 36sCtGS8w
+            andp_transaction_key: 3W532Za62p5u8hWr
+            andp_merchant_md5: varienmd5
+            andp_new_order_status: %noValue%
+            andp_test_mode: No
+            andp_gateway_url: https://test.authorize.net/gateway/transact.dll
+            andp_accepted_currency: US Dollar
+            andp_debug: Yes
+            andp_email_customer: %noValue%
+            andp_merchants_email: %noValue%
+            andp_credit_card_types: all
+            andp_credit_card_verification: Yes
+            andp_payment_from_applicable_countries: All Allowed Countries
+            andp_payment_from_specific_coutries: %noValue%
+            andp_minimum_order_total: %noValue%
+            andp_maximum_order_total: %noValue%
+            andp_sort_order: %noValue%
+
+authorizenetdp_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            andp_enabled: No

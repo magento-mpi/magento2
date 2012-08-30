@@ -74,6 +74,7 @@ class Enterprise2_Mage_CmsWidgets_DeleteTest extends Mage_Selenium_TestCase
     public function widgetTypesReqDataProvider()
     {
         return array(
+            array('banner_rotator'),
             array('catalog_events_carousel'),
             array('giftregistry_search'),
             array('wishlist_search'),

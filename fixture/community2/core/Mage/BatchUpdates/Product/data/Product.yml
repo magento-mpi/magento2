@@ -1,0 +1,111 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AdminUser
+# @subpackage  test-data
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+# Test Datasets for Updating products through Mass Action
+
+#*********************************************
+#*         Product Updating Data               *
+#*********************************************
+
+product_update_attributes_tab:
+    attributes_change_name: Yes
+    attributes_name: Updated Simple Product(%randomize%)
+    attributes_change_description: Yes
+    attributes_description: Updated Description for Simple Product
+    attributes_change_short_description: Yes
+    attributes_short_description: Updated Short Description for Simple Product
+    attributes_change_price: Yes
+    attributes_price: 4.95
+    attributes_change_special_price: Yes
+    attributes_special_price: 3.99
+    attributes_change_news_from: Yes
+    attributes_news_from: %currentDate%
+    attributes_change_news_to: Yes
+    attributes_news_to: %currentDate%
+    attributes_change_weight: Yes
+    attributes_weight: 2.56
+    attributes_change_meta_title: Yes
+    attributes_meta_title: Updated Meta Title for Simple Product
+    attributes_change_meta_keywords: Yes
+    attributes_meta_keywords: Updated Meta Keywords for Simple Product
+    attributes_change_meta_description: Yes
+    attributes_meta_description: Updated Meta Description for Simple Product
+    attributes_change_set_product_as_new_from_date: Yes
+    attributes_set_product_as_new_from_date: %currentDate%
+    attributes_change_set_product_as_new_to_date: Yes
+    attributes_set_product_as_new_to_date: %currentDate%
+    attributes_change_status: Yes
+    attributes_status: Disabled
+    attributes_change_enable_recurring_profile: Yes
+    attributes_enable_recurring_profile: Yes
+    attributes_change_visibility: Yes
+    attributes_visibility: Catalog, Search
+    attributes_change_custom_design: Yes
+    attributes_custom_design: default
+    attributes_change_active_from: Yes
+    attributes_active_from: %currentDate%
+    attributes_change_active_to: Yes
+    attributes_active_to: %currentDate%
+    attributes_change_custom_layout_update: Yes
+    attributes_custom_layout_update: Custom Layout Update
+    attributes_change_page_layaout: Yes
+    attributes_page_layaout: 3 columns
+    attributes_change_display_product_options_in: Yes
+    attributes_display_product_options_in: Product Info Column
+    attributes_change_country_of_manufacture: Yes
+    attributes_country_of_manufacture: United States
+    attributes_change_apply_map: Yes
+    attributes_apply_map: Yes
+    attributes_change_display_actual_price: Yes
+    attributes_display_actual_price: In Cart
+    attributes_change_manufacturer's_suggested_retail_price: Yes
+    attributes_manufacturer's_suggested_retail_price: 1.99
+    attributes_ucs_allow_gift_message: No
+    attributes_change_allow_gift_message: Yes
+    attributes_allow_gift_message: Yes
+    attributes_change_tax_class: Yes
+    attributes_tax_class: Taxable Goods
+    attributes_change_is_product_available_for_purchase_with_google_checkout: Yes
+    attributes_is_product_available_for_purchase_with_google_checkout: Yes
+
+product_update_inventory_tab:
+    inventory_change_manage_stock: Yes
+    inventory_ucs_manage_stock: No
+    inventory_manage_stock: Yes
+    inventory_change_qty: Yes
+    inventory_qty: 3
+    inventory_change_minimum_qty_for_item's_status_to_be_out_of_stock: Yes
+    inventory_ucs_minimum_qty_for_item's_status_to_be_out_of_stock: No
+    inventory_minimum_qty_for_item's_status_to_be_out_of_stock: 3
+    inventory_change_minimum_qty_allowed_in_shopping_cart: Yes
+    inventory_ucs_minimum_qty_allowed_in_shopping_cart: No
+    inventory_minimum_qty_allowed_in_shopping_cart: 4
+    inventory_change_maximum_qty_allowed_in_shopping_cart: Yes
+    inventory_ucs_maximum_qty_allowed_in_shopping_cart: No
+    inventory_maximum_qty_allowed_in_shopping_cart: 100
+    inventory_change_qty_uses_decimals: Yes
+    inventory_qty_uses_decimals: Yes
+    inventory_change_backorders: Yes
+    inventory_ucs_backorders: No
+    inventory_backorders: Allow Qty Below 0 and Notify Customer
+    inventory_change_notify_for_quantity_below: Yes
+    inventory_ucs_notify_for_quantity_below: No
+    inventory_notify_for_quantity_below: 5
+    inventory_change_enable_qty_increments: Yes
+    inventory_ucs_enable_qty_increments: No
+    inventory_enable_qty_increments: Yes
+    inventory_change_qty_increments: Yes
+    inventory_ucs_qty_increments: No
+    inventory_qty_increments: 3
+    inventory_change_stock_availability: Yes
+    inventory_stock_availability: In Stock
+
+product_update_websites_tab:
+    websites_remove_from_main_website: Yes
