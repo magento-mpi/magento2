@@ -72,9 +72,9 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
             $this->getElementsByXpath($this->_getControlXpath('dropdown', 'entity_type') . '/option', 'text');
         $oldEntityTypeValues = array('Products', 'Customers');
         $newEntityTypeValues = $this->importExportHelper()->getCustomerEntityType();
-        $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products', 'Customers'),
+        $expectedEntityTypes = array_merge(array('-- Please Select --', 'Products', 'Customers'),
             $newEntityTypeValues);
-        $this->assertEquals($expectedEntityTypeValues, $entityTypes, 'Entity Type dropdown contains incorrect values');
+        $this->assertEquals($expectedEntityTypes, $entityTypes, 'Entity Type dropdown contains incorrect values');
 
         //Verifying Import Behavior dropdown
         $oldImportBehavior = array('Append Complex Data', 'Replace Existing Complex Data', 'Delete Entities');
@@ -82,20 +82,20 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
 
         foreach ($oldEntityTypeValues as $value) {
             $this->importExportHelper()->chooseImportOptions($value);
-            $expectedImportBehavior = array_merge(array('-- Please Select --'), $oldImportBehavior);
+            $expectedBehavior = array_merge(array('-- Please Select --'), $oldImportBehavior);
             $actualImportBehavior =
                 $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
-            $this->assertEquals($expectedImportBehavior, $actualImportBehavior,
+            $this->assertEquals($expectedBehavior, $actualImportBehavior,
                 'Import Behavior dropdown contains incorrect values');
             $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
         }
 
         foreach ($newEntityTypeValues as $value) {
             $this->importExportHelper()->chooseImportOptions($value);
-            $expectedImportBehavior = array_merge(array('-- Please Select --'), $newImportBehavior);
+            $expectedBehavior = array_merge(array('-- Please Select --'), $newImportBehavior);
             $actualImportBehavior =
                 $this->getElementsByXpath($this->_getControlXpath('dropdown', 'import_behavior') . '/option', 'text');
-            $this->assertEquals($expectedImportBehavior, $actualImportBehavior,
+            $this->assertEquals($expectedBehavior, $actualImportBehavior,
                 'Import Behavior dropdown contains incorrect values');
             $this->assertTrue($this->controlIsVisible('field', 'file_to_import'), 'File to Import field is missing');
         }
@@ -233,11 +233,11 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     /**
      * Not required columns
      * Verify that all  not required values are imported.
-     * Precondition: at least one customer exists,
-     * csv file contains two customers: existing (with new attribute values) and new one
-     * Steps
+     * Precondition: at least one customer exists, csv file contains two customers:
+     * existing (with new attribute values) and new one
+     * Steps:
      * 1. Go to System -> Import/ Export -> Import
-     * 2. In the drop-down "Entity Type" select Customers Main File/Customer Addresses
+     * 2. In the drop-down "Entity Type" select Customers Main File
      * 3. In the drop-down "Import Behavior" select "Add/Update Complex Data"
      * 4. Choose file from precondition and click "Check Data" button
      * 5. Press "Import" button
@@ -246,72 +246,52 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * new customer is added with proper values of not required attributes
      *
      * @test
-     * @dataProvider notRequiredColumnsData
+     * @dataProvider notRequiredColumnsMainData
      * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
      */
-    public function notRequiredColumns($customerType, $csvData, $updatedData)
+    public function notRequiredColumnsMain($csvData, $updatedData)
     {
         //Set correct email and entity id for csv and updated customer/address data
         foreach ($csvData as $key => $value) {
-            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>') {
+            if (array_key_exists('email', $value) && $value['email'] == '<realEmail>') {
                 $csvData[$key]['email'] = self::$_customerData['email'];
-            }
-            if (array_key_exists('_email', $csvData[$key]) && $csvData[$key]['_email'] == '<realEmail>') {
-                $csvData[$key]['_email'] = self::$_customerData['email'];
-            }
-            if (array_key_exists('_entity_id', $csvData[$key]) && $csvData[$key]['_entity_id'] == '<realEntityID>') {
-                $csvData[$key]['_entity_id'] = self::$_addressData['address_id'];
             }
         }
         foreach ($updatedData as $key => $value) {
-            if (array_key_exists('email', $updatedData[$key]) && $updatedData[$key]['email'] == '<realEmail>') {
+            if (array_key_exists('email', $value) && $value['email'] == '<realEmail>') {
                 $updatedData[$key]['email'] = self::$_customerData['email'];
             }
         }
         //Step 1
         $this->navigate('import');
         //Steps 2-3
-        $this->importExportHelper()->chooseImportOptions($customerType, 'Add/Update Complex Data');
+        $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
         //Steps 4-5
         $importData = $this->importExportHelper()->import($csvData);
         //Verifying import
         $this->assertArrayHasKey('import', $importData,
-            "$customerType file import has not been finished successfully: " . print_r($importData, true));
+            "File import has not been finished successfully: " . print_r($importData, true));
         $this->assertArrayHasKey('success', $importData['import'],
-            "$customerType file import has not been finished successfully" . print_r($importData, true));
+            "File import has not been finished successfully" . print_r($importData, true));
         //Step 6
-        if ($customerType == 'Customers Main File') {
-            foreach ($updatedData as $key => $value) {
-                $this->navigate('manage_customers');
-                $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($updatedData[$key]),
-                    'New customer has not been created');
-                $this->addParameter('customer_first_last_name',
-                    $updatedData[$key]['first_name'] . ' ' . $updatedData[$key]['last_name']);
-                $this->customerHelper()->openCustomer(array('email' => $updatedData[$key]['email']));
-                //Verifying customer data
-                $this->assertTrue($this->verifyForm($updatedData[$key], 'account_information'),
-                    'Customer has not been updated');
-                //Update original customer data
-                if ($key == 1) {
-                    self::$_customerData = $updatedData[$key];
-                }
-            }
-        }
-        //Verifying address data
-        if ($customerType == 'Customer Addresses') {
+        foreach ($updatedData as $key => $value) {
             $this->navigate('manage_customers');
+            $this->assertTrue($this->customerHelper()->isCustomerPresentInGrid($value),
+                'New customer has not been created');
             $this->addParameter('customer_first_last_name',
-                self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']);
-            $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
-            $this->openTab('addresses');
-            foreach ($updatedData as $key => $value) {
-                $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($updatedData[$key]),
-                    'Customer address has not been added/updated');
+                $value['first_name'] . ' ' . $value['last_name']);
+            $this->customerHelper()->openCustomer(array('email' => $value['email']));
+            //Verifying customer data
+            $this->assertTrue($this->verifyForm($value, 'account_information'),
+                'Customer has not been updated');
+            //Update original customer data
+            if ($key == 1) {
+                self::$_customerData = $value;
             }
         }
     }
 
-    public function notRequiredColumnsData()
+    public function notRequiredColumnsMainData()
     {
         $csvMain[0] = $this->loadDataSet('ImportExport', 'generic_customer_csv',
             array('firstname' => 'First Name', 'lastname' => 'Last Name', 'middlename' => 'Middle Name',
@@ -331,30 +311,89 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
         $mainCsvRows = array($csvMain[0], $csvMain[1]);
         $updatedCustomerData = array($customerUpdatedData[0], $customerUpdatedData[1]);
 
+        return array(
+            array($mainCsvRows, $updatedCustomerData),
+        );
+    }
+
+    /**
+     * Not required columns
+     * Verify that all  not required values are imported.
+     * Precondition: at least one customer exists,
+     * csv file contains two customers: existing (with new attribute values) and new one
+     * Steps
+     * 1. Go to System -> Import/ Export -> Import
+     * 2. In the drop-down "Entity Type" select Customer Addresses
+     * 3. In the drop-down "Import Behavior" select "Add/Update Complex Data"
+     * 4. Choose file from precondition and click "Check Data" button
+     * 5. Press "Import" button
+     * 6. Go to Customer-> Manage Customers and open each of imported customers
+     * Expected: values of not required attributes is updated for existing customer,
+     * new customer is added with proper values of not required attributes
+     *
+     * @test
+     * @dataProvider notRequiredColumnsAddressData
+     * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
+     */
+    public function notRequiredColumnsAddress($csvData, $updatedData)
+    {
+        //Set correct email and entity id for csv and updated customer/address data
+        foreach ($csvData as $key => $value) {
+            if (array_key_exists('_email', $value) && $value['_email'] == '<realEmail>') {
+                $csvData[$key]['_email'] = self::$_customerData['email'];
+            }
+            if (array_key_exists('_entity_id', $value) && $value['_entity_id'] == '<realEntityID>') {
+                $csvData[$key]['_entity_id'] = self::$_addressData['address_id'];
+            }
+        }
+        //Step 1
+        $this->navigate('import');
+        //Steps 2-3
+        $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
+        //Steps 4-5
+        $importData = $this->importExportHelper()->import($csvData);
+        //Verifying import
+        $this->assertArrayHasKey('import', $importData,
+            "File import has not been finished successfully: " . print_r($importData, true));
+        $this->assertArrayHasKey('success', $importData['import'],
+            "File import has not been finished successfully" . print_r($importData, true));
+        //Step 6
+        $this->navigate('manage_customers');
+        $this->addParameter('customer_first_last_name',
+            self::$_customerData['first_name'] . ' ' . self::$_customerData['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => self::$_customerData['email']));
+        $this->openTab('addresses');
+        foreach ($updatedData as $value) {
+            $this->assertNotEquals(0, $this->customerHelper()->isAddressPresent($value),
+                'Customer address has not been added/updated');
+        }
+    }
+
+    public function notRequiredColumnsAddressData()
+    {
         $csvAddress[0] = $this->loadDataSet('ImportExport', 'generic_address_csv', array('_email' => '<realEmail>',));
         $addressUpdatedData[0] = $this->loadDataSet('Customers', 'generic_address',
             array('prefix'                => 'Mr.', 'first_name' => 'Alvin', 'middle_name' => 'C.',
-                  'last_name'             => 'Plyler', 'company' => 'Earl Abel\'s',
-                  'street_address_line_1' => '539 Russell Street', 'street_address_line_2' => '', 'city' => 'New York',
-                  'state'                 => 'Massachusetts', 'zip_code' => '57428', 'telephone' => '978-875-6394',
-                  'fax'                   => '978-875-6394',));
+                'last_name'             => 'Plyler', 'company' => 'Earl Abel\'s',
+                'street_address_line_1' => '539 Russell Street', 'street_address_line_2' => '', 'city' => 'New York',
+                'state'                 => 'Massachusetts', 'zip_code' => '57428', 'telephone' => '978-875-6394',
+                'fax'                   => '978-875-6394',));
         $csvAddress[1] = $this->loadDataSet('ImportExport', 'generic_address_csv',
             array('_email'   => '<realEmail>', '_entity_id' => '<realEntityID>', 'city' => 'Camden',
-                  'company'  => 'Team Electronics', 'fax' => '609-504-6350', 'firstname' => 'William',
-                  'lastname' => 'Holler', 'middlename' => 'E.', 'postcode' => '08102', 'prefix' => '',
-                  'region'   => 'New Jersey', 'street' => '3186 Lincoln Street', 'telephone' => '609-504-6350',));
+                'company'  => 'Team Electronics', 'fax' => '609-504-6350', 'firstname' => 'William',
+                'lastname' => 'Holler', 'middlename' => 'E.', 'postcode' => '08102', 'prefix' => '',
+                'region'   => 'New Jersey', 'street' => '3186 Lincoln Street', 'telephone' => '609-504-6350',));
         $addressUpdatedData[1] = $this->loadDataSet('Customers', 'generic_address',
             array('first_name'            => 'William', 'middle_name' => 'E.', 'last_name' => 'Holler',
-                  'company'               => 'Team Electronics', 'street_address_line_1' => '3186 Lincoln Street',
-                  'street_address_line_2' => '', 'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102',
-                  'telephone'             => '609-504-6350', 'fax' => '609-504-6350',));
+                'company'               => 'Team Electronics', 'street_address_line_1' => '3186 Lincoln Street',
+                'street_address_line_2' => '', 'city' => 'Camden', 'state' => 'New Jersey', 'zip_code' => '08102',
+                'telephone'             => '609-504-6350', 'fax' => '609-504-6350',));
 
         $addressCsvRows = array($csvAddress[0], $csvAddress[1]);
         $updatedAddressData = array($addressUpdatedData[0], $addressUpdatedData[1]);
 
         return array(
-            array('Customers Main File', $mainCsvRows, $updatedCustomerData),
-            array('Customer Addresses', $addressCsvRows, $updatedAddressData),
+            array($addressCsvRows, $updatedAddressData),
         );
     }
 
@@ -388,7 +427,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     {
         //Set correct email for csv data
         foreach ($csvData as $key => $value) {
-            if (array_key_exists('email', $csvData[$key]) && $csvData[$key]['email'] == '<realEmail>') {
+            if (array_key_exists('email', $value) && $value['email'] == '<realEmail>') {
                 $csvData[$key]['email'] = self::$_customerData['email'];
             }
         }
@@ -469,7 +508,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     {
         //Step 1
         $this->importExportHelper()->chooseImportOptions('Customers', 'Append Complex Data');
-        $report = $this->importExportHelper()->import($data);
+        $this->importExportHelper()->import($data);
     }
 
     public function importData()

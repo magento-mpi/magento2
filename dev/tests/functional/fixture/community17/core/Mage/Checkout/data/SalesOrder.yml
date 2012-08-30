@@ -44,7 +44,7 @@ billing_address_req:
 
 billing_address_req_usa: &billingReqUsa
     address_choice: new
-    billing_first_name: 'billing_Steven'
+    billing_first_name: billing_Steven_%randomize%
     billing_last_name: 'billing_Stevenson'
     billing_street_address_1: '11832 W. Pico Blvd'
     billing_city: 'Los Angeles'
@@ -905,3 +905,6 @@ verification_3d_secure:
         EciFlag: "05"
         Xid: xid_value
         Cavv: cavv_value
+
+backend_search_order:
+    filter_billing_name: %noValue%

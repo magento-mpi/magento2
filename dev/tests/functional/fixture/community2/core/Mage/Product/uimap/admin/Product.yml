@@ -1,0 +1,149 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_AdminUser
+# @subpackage  uimaps
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+
+# Manage Product page
+manage_products_store:
+    uimap:
+        messages:
+            success_updated_products_status_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedProducts% record(s) have been updated.')]
+            success_updated_products_attributes_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'Total of %qtyUpdatedAtrProducts% record(s) were updated')]
+# Update products attributes by Mass Action page
+updating_products:
+    mca: catalog_product_action_attribute/edit/
+    title: Magento Admin
+    uimap:
+        form:
+            tabs:
+                -
+                    attributes:
+                        xpath: //a[@title='Attributes']/span
+                        fieldsets:
+                            -
+                                attributes:
+                                    xpath: //div[contains(div/div/h4,'Attributes')]
+                                    checkboxes:
+                                        attributes_change_name: //*[@id='name-checkbox']
+                                        attributes_change_description: //*[@id='description-checkbox']
+                                        attributes_change_short_description: //*[@id='short_description-checkbox']
+                                        attributes_change_price: //*[@id='price-checkbox']
+                                        attributes_change_special_price: //*[@id='special_price-checkbox']
+                                        attributes_change_news_from: //*[@id='special_from_date-checkbox']
+                                        attributes_change_news_to: //*[@id='special_to_date-checkbox']
+                                        attributes_change_weight: //*[@id='weight-checkbox']
+                                        attributes_change_meta_title: //*[@id='meta_title-checkbox']
+                                        attributes_change_meta_keywords: //*[@id='meta_keyword-checkbox']
+                                        attributes_change_meta_description: //*[@id='meta_description-checkbox']
+                                        attributes_change_set_product_as_new_from_date: //*[@id='news_from_date-checkbox']
+                                        attributes_change_set_product_as_new_to_date: //*[@id='news_to_date-checkbox']
+                                        attributes_change_status: //*[@id='status-checkbox']
+                                        attributes_change_enable_recurring_profile: //*[@id='is_recurring-checkbox']
+                                        attributes_change_visibility: //*[@id='visibility-checkbox']
+                                        attributes_change_custom_design: //*[@id='custom_design-checkbox']
+                                        attributes_change_active_from: //*[@id='custom_design_from-checkbox']
+                                        attributes_change_active_to: //*[@id='custom_design_to-checkbox']
+                                        attributes_change_custom_layout_update: //*[@id='custom_layout_update-checkbox']
+                                        attributes_change_page_layaout: //*[@id='page_layout-checkbox']
+                                        attributes_change_display_product_options_in: //*[@id='options_container-checkbox']
+                                        attributes_change_country_of_manufacture: //*[@id='country_of_manufacture-checkbox']
+                                        attributes_change_apply_map: //*[@id='msrp_enabled-checkbox']
+                                        attributes_change_display_actual_price: //*[@id='msrp_display_actual_price_type-checkbox']
+                                        attributes_change_manufacturer's_suggested_retail_price: //*[@id='msrp-checkbox']
+                                        attributes_change_allow_gift_message: //*[@id='gift_message_available-checkbox']
+                                        attributes_ucs_allow_gift_message: //*[@id='use_config_gift_message_available']
+                                        attributes_change_tax_class: //*[@id='tax_class_id-checkbox']
+                                        attributes_change_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout-checkbox']
+                                    dropdowns:
+                                        attributes_status: //*[@id='status']
+                                        attributes_enable_recurring_profile: //*[@id='is_recurring']
+                                        attributes_visibility: //*[@id='visibility']
+                                        attributes_custom_design: //*[@id='custom_design']
+                                        attributes_page_layaout: //*[@id='page_layout']
+                                        attributes_display_product_options_in: //*[@id='options_container']
+                                        attributes_country_of_manufacture: //*[@id='country_of_manufacture']
+                                        attributes_apply_map: //*[@id='msrp_enabled']
+                                        attributes_display_actual_price: //*[@id='msrp_display_actual_price_type']
+                                        attributes_allow_gift_message: //*[@id='gift_message_available']
+                                        attributes_tax_class: //*[@id='tax_class_id']
+                                        attributes_is_product_available_for_purchase_with_google_checkout: //*[@id='enable_googlecheckout']
+                                    fields:
+                                        attributes_name: //input[@id='name']
+                                        attributes_description: //textarea[@id='description']
+                                        attributes_short_description: //textarea[@id='short_description']
+                                        attributes_price: //*[@id='price']
+                                        attributes_special_price: //*[@id='special_price']
+                                        attributes_news_from: //*[@id='special_from_date']
+                                        attributes_news_to: //*[@id='special_to_date']
+                                        attributes_weight: //*[@id='weight']
+                                        attributes_meta_title: //*[@id='meta_title']
+                                        attributes_meta_keywords: //*[@id='meta_keyword']
+                                        attributes_meta_description: //*[@id='meta_description']
+                                        attributes_set_product_as_new_from_date: //*[@id='news_from_date']
+                                        attributes_set_product_as_new_to_date: //*[@id='news_to_date']
+                                        attributes_active_from: //*[@id='custom_design_from']
+                                        attributes_active_to: //*[@id='custom_design_to']
+                                        attributes_custom_layout_update: //*[@id='custom_layout_update']
+                                        attributes_manufacturer's_suggested_retail_price: //*[@id='msrp']
+                -
+                    inventory:
+                        xpath: //a[@title='Inventory']/span
+                        fieldsets:
+                            -
+                                inventory:
+                                    xpath: //div[contains(div/div/h4,'Inventory')]
+                                    checkboxes:
+                                        inventory_change_manage_stock: //*[@id='inventory_manage_stock_checkbox']
+                                        inventory_ucs_manage_stock: //*[@id='inventory_use_config_manage_stock']
+                                        inventory_change_qty: //*[@id='inventory_qty_checkbox']
+                                        inventory_change_minimum_qty_for_item's_status_to_be_out_of_stock: //*[@id='inventory_min_qty_checkbox']
+                                        inventory_ucs_minimum_qty_for_item's_status_to_be_out_of_stock: //*[@id='inventory_use_config_min_qty']
+                                        inventory_change_minimum_qty_allowed_in_shopping_cart: //*[@id='inventory_min_sale_qty_checkbox']
+                                        inventory_ucs_minimum_qty_allowed_in_shopping_cart: //*[@id='inventory_use_config_min_sale_qty']
+                                        inventory_change_maximum_qty_allowed_in_shopping_cart: //*[@id='inventory_max_sale_checkbox']
+                                        inventory_ucs_maximum_qty_allowed_in_shopping_cart: //*[@id='inventory_use_config_max_sale_qty']
+                                        inventory_change_qty_uses_decimals: //*[@id='inventory_is_qty_decimal_checkbox']
+                                        inventory_change_backorders: //*[@id='inventory_backorders_checkbox']
+                                        inventory_ucs_backorders: //*[@id='inventory_use_config_backorders']
+                                        inventory_change_notify_for_quantity_below: //*[@id='inventory_notify_stock_qty_checkbox']
+                                        inventory_ucs_notify_for_quantity_below: //*[@id='inventory_use_config_notify_stock_qty']
+                                        inventory_change_enable_qty_increments: //*[@id='inventory_enable_qty_increments_checkbox']
+                                        inventory_ucs_enable_qty_increments: //*[@id='inventory_use_config_enable_qty_increments']
+                                        inventory_change_qty_increments: //*[@id='inventory_qty_increments_checkbox']
+                                        inventory_ucs_qty_increments: //*[@id='inventory_use_config_qty_increments']
+                                        inventory_change_stock_availability: //*[@id='inventory_stock_availability_checkbox']
+                                    dropdowns:
+                                        inventory_manage_stock: //*[@id='inventory_manage_stock']
+                                        inventory_qty_uses_decimals: //*[@id='inventory_is_qty_decimal']
+                                        inventory_backorders: //*[@id='inventory_backorders']
+                                        inventory_enable_qty_increments: //*[@id='inventory_enable_qty_increments']
+                                        inventory_stock_availability: //*[@id='inventory_stock_availability']
+                                    fields:
+                                        inventory_qty: //*[@id='inventory_qty']
+                                        inventory_minimum_qty_for_item's_status_to_be_out_of_stock: //*[@id='inventory_min_qty']
+                                        inventory_minimum_qty_allowed_in_shopping_cart: //*[@id='inventory_min_sale_qty']
+                                        inventory_maximum_qty_allowed_in_shopping_cart: //*[@id='inventory_max_sale_qty']
+                                        inventory_notify_for_quantity_below: //*[@id='inventory_notify_stock_qty']
+                                        inventory_qty_increments: //*[@id='inventory_qty_increments']
+                -
+                    websites:
+                        xpath: //a[@title='Websites']/span
+                        fieldsets:
+                            -
+                                websites:
+                                    xpath: //*[@id='attributes_update_tabs_websites_content']
+                                    checkboxes:
+                                        websites_add_to_main_website: //*[@id='add_product_website_1']
+                                        websites_remove_from_main_website: //*[@id='remove_product_website_1']
+
+        buttons:
+            back: //button[span='Back']
+            reset: //button[span='Reset']
+            save: //button[span='Save']
+        messages:

@@ -49,16 +49,16 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         $entityTypes = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'entity_type') . '/option',
             'text');
-        $expectedEntityTypeValues = array_merge(array('-- Please Select --', 'Products'),
+        $expectedEntityTypes = array_merge(array('-- Please Select --', 'Products'),
             $this->importExportHelper()->getCustomerEntityType());
-        $this->assertEquals($expectedEntityTypeValues, $entityTypes, 'Entity Type dropdown contains incorrect values');
+        $this->assertEquals($expectedEntityTypes, $entityTypes, 'Entity Type dropdown contains incorrect values');
         $fileFormat = $this->getElementsByXpath(
             $this->_getControlXpath('dropdown', 'file_format') . '/option',
             'text');
         $this->assertEquals(array('CSV'), $fileFormat,
             'Export File Format dropdown contains incorrect values');
         //Step 2
-        $allEntityTypes = $expectedEntityTypeValues;
+        $allEntityTypes = $expectedEntityTypes;
         unset($allEntityTypes[0]);
         foreach ($allEntityTypes as $value) {
             $this->fillDropdown('entity_type', $value);
@@ -86,7 +86,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 1
         $this->navigate('export');
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
-        $report = $this->importExportHelper()->export();
+        $this->importExportHelper()->export();
     }
 
     /**
@@ -97,7 +97,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         //Step 1
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
         $report = $this->importExportHelper()->export();
-        $csv =  $this->importExportHelper()->arrayToCsv($report);
+        $this->importExportHelper()->arrayToCsv($report);
     }
 
     /**
@@ -177,9 +177,9 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
     {
         //Step 1
         $this->importExportHelper()->chooseExportOptions('Customers Main File');
-        $customersMain = $this->importExportHelper()->export();
+        $this->importExportHelper()->export();
         $this->importExportHelper()->chooseExportOptions('Customer Addresses');
-        $customerAddresses = $this->ImportExportHelper()->export();
+        $this->ImportExportHelper()->export();
     }
 
     /**
@@ -393,8 +393,8 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
         // 0.2. create female customer with address
         $this->navigate('manage_customers');
         $femaleUserData = $this->loadDataSet('Customers', 'all_fields_customer_account', array('gender' => 'Female'));
-        $femaleUserAddressData = $this->loadDataSet('Customers', 'generic_address');
-        $this->customerHelper()->createCustomer($femaleUserData, $femaleUserAddressData);
+        $femaleAddressData = $this->loadDataSet('Customers', 'generic_address');
+        $this->customerHelper()->createCustomer($femaleUserData, $femaleAddressData);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Step 1
         $this->navigate('export');

@@ -1,0 +1,78 @@
+#
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    Magento
+# @package     Mage_AdvancedSearch
+# @subpackage  functional_tests
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+# Catalog Advanced Search page
+advanced_search:
+    mca: catalogsearch/advanced/
+    click_xpath: //div[@class='footer']//a[@title='Advanced Search']
+    title: Advanced Search
+    uimap: &advancedSearch
+        form:
+            fieldsets:
+                -
+                    advanced_search_information:
+                        xpath: //form[@id='form-validate']/div[@class='fieldset advanced-search']
+                        fields:
+                            name: //input[@id='name']
+                            description: //input[@id='description']
+                            short_description: //input[@id='short_description']
+                            sku: //input[@id='sku']
+                            price_from: //input[@id='price']
+                            price_to: //input[@id='price_to']
+                        multiselects:
+                            tax_class: //select[@id='tax_class_id']
+        buttons:
+            search: //div[@class='buttons-set']/button[span='Search']
+        messages: &AdvancedSearchMessages
+            error_message: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify at least one search term.')]
+            error_message_wrong_entered_data: //p[normalize-space(@class)='error-msg' and contains(.,'No items were found using the following search criteria.')]
+            required_price: //div[@id='advice-validate-number-price' and text()='Please enter a valid number in this field.']
+            required_price_to: //div[@id='advice-validate-number-price_to' and text()='Please enter a valid number in this field.']
+
+advanced_search_no_data:
+    mca: catalogsearch/advanced/?description=&name=&price%5Bfrom%5D=&price%5Bto%5D=&short_description=&sku=
+    title: Advanced Search
+    uimap: *advancedSearch
+
+advanced_search_result:
+    mca: catalogsearch/advanced/result/?%searchResult%
+    title: Magento Commerce
+    uimap:
+        form:
+            fieldsets:
+                -
+                    search_result:
+                        xpath: //div[@class='advanced-search-summary']
+                        links:
+                            modify_your_search: //div[@class='advanced-search-summary']//a[contains(@href, 'advanced/')]
+                        pageelements:
+                            name: //li[.//*[normalize-space(text())='Name:']][contains(text(), '%name%')]
+                            description: //li[.//*[normalize-space(text())='Description:']][contains(text(), '%description%')]
+                            short_description: //li[.//*[normalize-space(text())='Short Description:']][contains(text(), '%short_description%')]
+                            sku: //li[.//*[normalize-space(text())='SKU:']][contains(text(), '%sku%')]
+                            price: //li[.//*[normalize-space(text())='Price:']][contains(text(), '%price_from% - %price_to%')]
+        messages: *AdvancedSearchMessages

@@ -1063,7 +1063,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    private function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
+    protected function _formXpathesForFieldsArray(array $value, $i, $priceToCalc)
     {
         $xpathArray = array();
         if (array_key_exists('custom_options_price_type', $value)) {
@@ -1095,7 +1095,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    private function _defineXpathForAdditionalOptions(array $value, $i, $xpath)
+    protected function _defineXpathForAdditionalOptions(array $value, $i, $xpath)
     {
         $xpathArray = array();
         $count = 0;
@@ -1138,7 +1138,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
      *
      * @return array
      */
-    private function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
+    protected function _formXpathForCustomOptionsRows(array $options, $priceToCalc, $i, $pageelement)
     {
         $xpathArray = array();
         $count = 0;
