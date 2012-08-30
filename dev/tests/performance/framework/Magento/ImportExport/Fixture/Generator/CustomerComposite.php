@@ -35,7 +35,7 @@ class Magento_ImportExport_Fixture_Generator_CustomerComposite
      */
     protected function _isDynamicColumn($column, $pattern)
     {
-        if (isset($this->_generateMethods[$column]) && $pattern = '%x') {
+        if (isset($this->_generateMethods[$column]) && $pattern == '%x') {
             return true;
         }
         return parent::_isDynamicColumn($column, $pattern);
@@ -50,7 +50,7 @@ class Magento_ImportExport_Fixture_Generator_CustomerComposite
      */
     protected function _generateValue($column, $pattern)
     {
-        if (isset($this->_generateMethods[$column]) && $pattern = '%x') {
+        if (isset($this->_generateMethods[$column]) && $pattern == '%x') {
             $methodName = $this->_generateMethods[$column];
             return $this->$methodName();
         }

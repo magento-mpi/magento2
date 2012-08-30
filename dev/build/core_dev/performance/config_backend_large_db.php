@@ -39,6 +39,7 @@ return array(
             ),
             'fixture_files' => array(
                 'testsuite/fixtures/catalog_100k_products.php',
+                'testsuite/fixtures/customer_100k_customers.php',
             ),
         ),
     ),
@@ -53,7 +54,7 @@ return array(
         'scenario_params' => array(
             'testsuite/backend.jmx' => array(
                 'products_number'  => 100000,
-                'customers_number' => 0,
+                'customers_number' => 100000,
             ),
         ),
     ),
