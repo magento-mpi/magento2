@@ -59,14 +59,14 @@ CalendarTest.prototype.testWithServerTimezoneOffset = function() {
         calendar = $('#calendar').calendar({serverTimezoneSeconds: serverTimezoneSeconds}),
         currentDate = new Date();
     currentDate.setTime((serverTimezoneSeconds + currentDate.getTimezoneOffset() * 60) * 1000);
-    assertEquals(true, currentDate.getDate() == calendar.calendar('getTimezoneDate').getDate());
+    assertEquals(true, currentDate.getDate() === calendar.calendar('getTimezoneDate').getDate());
     calendar.calendar('destroy');
 }
 CalendarTest.prototype.testWithoutServerTimezoneOffset = function() {
     /*:DOC += <input type="text" id="calendar" /> */
     var calendar = $('#calendar').calendar(),
         currentDate = new Date();
-    assertEquals(true, currentDate.getDate() == calendar.calendar('getTimezoneDate').getDate());
+    assertEquals(true, currentDate.getDate() === calendar.calendar('getTimezoneDate').getDate());
     calendar.calendar('destroy');
 }
 CalendarTest.prototype.testInitDateTimePicker = function() {

@@ -46,7 +46,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Date extends Mage_Backend_Blo
             . ' value="'.$this->getLocale()->getLocaleCode().'"/>';
         $html.= '<script type="text/javascript">
             (function( $ ) {
-                $("#'.$htmlId.'_range").date_range({
+                $("#'.$htmlId.'_range").dateRange({
                     dateFormat: "'.$format.'",
                     buttonImage: "' . Mage::getDesign()->getSkinUrl('images/grid-cal.gif') . '",
                     buttonText: "'.$this->escapeHtml(Mage::helper('Mage_Backend_Helper_Data')->__('Date selector')).'",

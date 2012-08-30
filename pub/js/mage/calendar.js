@@ -13,7 +13,7 @@
     $.widget('mage.calendar', {
         /**
          * Merge global options with options passed to widget invoke
-         * @constructor
+         * @protected
          */
         _create: function() {
             this._enableAMPM();
@@ -32,6 +32,7 @@
 
         /**
          * Fix for Timepicker - Set ampm option for Timepicker if timeformat contains string 'tt'
+         * @protected
          */
         _enableAMPM: function() {
             if (this.options.timeFormat && this.options.timeFormat.indexOf('tt') >= 0) {
@@ -54,6 +55,7 @@
 
         /**
          * Set current date if the date is not setted
+         * @protected
          * @param {Element}
          */
         _setCurrentDate: function(element) {
@@ -66,6 +68,7 @@
 
         /**
          * Init Datetimepicker
+         * @protected
          * @param {Element}
          */
         _initPicker: function(element) {
@@ -81,7 +84,7 @@
          */
         destroy: function(){
             this.element.datetimepicker('destroy');
-            $.Widget.prototype.destroy.call( this );
+            $.Widget.prototype.destroy.call(this);
         }
     });
 
@@ -119,7 +122,7 @@
 
             /**
              * Add Date and Time converting to _create method
-             * @constructor
+             * @protected
              */
             _create: function() {
                 if (this.options.dateFormat) {
@@ -128,11 +131,12 @@
                 if (this.options.timeFormat) {
                     this.options.timeFormat = this._convertFormat(this.options.timeFormat, 'time');
                 }
-                calendarBasePrototype._create.apply(this, arguments);
+                calendarBasePrototype._create.call(this, arguments);
             },
 
             /**
              * Converting date or time format
+             * @protected
              * @param {string}
              * @param {string}
              * @return {string}
@@ -154,12 +158,13 @@
     }));
 
     /**
-     * Widget date_range
+     * Widget dateRange
      * @extends $.mage.calendar
      */
-    $.widget('mage.date_range', $.mage.calendar, {
+    $.widget('mage.dateRange', $.mage.calendar, {
         /**
          * creates two instances of datetimepicker for date range selection
+         * @protected
          */
         _initPicker: function() {
             if (this.options.from && this.options.to) {
@@ -168,11 +173,11 @@
                 this.options.onSelect = function(selectedDate) {
                     to.datetimepicker('option', 'minDate', selectedDate);
                 }
-                $.mage.calendar.prototype._initPicker.apply(this, [from]);
+                $.mage.calendar.prototype._initPicker.call(this, from);
                 this.options.onSelect = function(selectedDate) {
                     from.datetimepicker('option', 'maxDate', selectedDate);
                 }
-                $.mage.calendar.prototype._initPicker.apply(this, [to]);
+                $.mage.calendar.prototype._initPicker.call(this, to);
             }
         },
 
@@ -186,7 +191,7 @@
             if(this.options.to) {
                 this.element.find('#' + this.options.to.id).datetimepicker('destroy');
             }
-            $.Widget.prototype.destroy.call( this );
+            $.Widget.prototype.destroy.call(this);
         }
     })
 })(jQuery);

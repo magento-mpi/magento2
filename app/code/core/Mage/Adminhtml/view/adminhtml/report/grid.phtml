@@ -56,7 +56,7 @@ $numColumns = sizeof($this->getColumns());
                 </div>
                 <script type="text/javascript">
                 (function( $ ) {
-                    $("#<?php echo $this->getSuffixId('period_date_range') ?>").date_range({
+                    $("#<?php echo $this->getSuffixId('period_date_range') ?>").dateRange({
                         dateFormat: "<?php echo $this->getDateFormat() ?>",
                         buttonImage: "<?php echo $this->getSkinUrl('images/grid-cal.gif') ?>",
                         buttonText: "<?php echo $this->__('Select Date') ?>",

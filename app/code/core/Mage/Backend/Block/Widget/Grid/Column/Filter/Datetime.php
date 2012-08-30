@@ -113,7 +113,7 @@ class Mage_Backend_Block_Widget_Grid_Column_Filter_Datetime extends Mage_Backend
             . ' value="'.$this->getLocale()->getLocaleCode().'"/>';
         $html.= '<script type="text/javascript">
             (function( $ ) {
-                    $("#'.$htmlId.'_range").date_range({
+                    $("#'.$htmlId.'_range").dateRange({
                         dateFormat: "' . $format . '",
                         timeFormat: "' . $timeFormat . '",
                         showsTime: '. ( $this->getColumn()->getFilterTime() ? 'true' : 'false') .',

@@ -11,8 +11,8 @@ DaterangeTest.prototype.testInit = function() {
     /*:DOC +=
      <div id="date-range" />
      */
-    var dateRange = jQuery('#date-range').date_range();
-    assertEquals(true, dateRange.is(':mage-date_range'));
+    var dateRange = jQuery('#date-range').dateRange();
+    assertEquals(true, dateRange.is(':mage-dateRange'));
     dateRange.calendar('destroy');
 };
 DaterangeTest.prototype.testInitDateRangeDatepickers = function() {
@@ -30,13 +30,13 @@ DaterangeTest.prototype.testInitDateRangeDatepickers = function() {
                 id: "to"
             }
         },
-        dateRange = $('#date-range').date_range(options),
+        dateRange = $('#date-range').dateRange(options),
         from = $('#'+options.from.id),
         to = $('#'+options.to.id);
 
     assertEquals(true, from.hasClass('hasDatepicker'));
     assertEquals(true, to.hasClass('hasDatepicker'));
-    dateRange.date_range('destroy');
+    dateRange.dateRange('destroy');
 };
 DaterangeTest.prototype.testDestroy = function() {
     /*:DOC +=
@@ -53,15 +53,15 @@ DaterangeTest.prototype.testDestroy = function() {
             id: "to"
         }
     },
-        dateRange = $('#date-range').date_range(options),
+        dateRange = $('#date-range').dateRange(options),
         from = $('#'+options.from.id),
         to = $('#'+options.to.id),
-        dateRangeExist = dateRange.is(':mage-date_range'),
+        dateRangeExist = dateRange.is(':mage-dateRange'),
         fromExist = from.hasClass('hasDatepicker'),
         toExist = to.hasClass('hasDatepicker');
 
-    dateRange.date_range('destroy');
-    assertEquals(true, dateRangeExist != dateRange.is(':mage-date_range'));
+    dateRange.dateRange('destroy');
+    assertEquals(true, dateRangeExist != dateRange.is(':mage-dateRange'));
     assertEquals(true, fromExist != from.hasClass('hasDatepicker'));
     assertEquals(true, toExist != to.hasClass('hasDatepicker'));
 };
