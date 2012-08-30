@@ -85,4 +85,22 @@ class Enterprise2_Mage_CmsWidgets_Helper extends Core_Mage_CmsWidgets_Helper
             $this->select($fieldXpath, 'label=' . 'regexp:^\s+' . preg_quote($theme));
         }
     }
+
+    /**
+     * Fills "Widget Options" tab
+     *
+     * @param array $widgetOptions
+     */
+    public function fillWidgetOptions(array $widgetOptions)
+    {
+        $options = (isset($widgetOptions['chosen_option'])) ? $widgetOptions['chosen_option'] : array();
+        $this->fillForm($widgetOptions, 'widgets_options');
+        if ($options) {
+            $this->cmsPagesHelper()->selectOptionItem($options);
+        }
+        if (array_key_exists('banner_name', $widgetOptions)) {
+            $this->searchAndChoose(array('filter_banner_name' => $widgetOptions['banner_name']),
+                'specify_banner_grid');
+        }
+    }
 }

@@ -3,13 +3,14 @@
 #
 # @category    Magento
 # @package     Mage_Checkout
-# @subpackage  functional_tests
+# @subpackage  uimaps
 # @copyright   {copyright}
 # @license     {license_link}
 #
 ---
 # 'Checkout' page
 onepage_checkout:
+    mca: checkout/onepage/
     uimap:
         form: &checkoutForm
             fieldsets:
@@ -35,7 +36,32 @@ onepage_checkout:
                 -
                     payment_method:
                         fields:
-                            purchase_order_number: //input[@id='po_number']            
+                            purchase_order_number: //input[@id='po_number']
+                -
+                    order_review:
+                        checkboxes:
+                           agreement_select: //input[@id='agreement-%termsId%']
+                        pageelements:
+                            agreement_content: //li[p/input/@id='agreement-%termsId%']//div[@class='agreement-content']
+                            agreement_checkbox_text: //p[input/@id='agreement-%termsId%']/label
+                -
+                    order_review_andp:
+                        xpath: //ol[@id='checkoutSteps']//li[@id='opc-review']//div[@id='checkout-review-load']/div[@class='buttons-set']
+                        pageelements:
+                            andp_iframe: //iframe[@id='directpost-iframe']
+                -
+                    andp_frame:
+                        xpath: //form[@id='co-directpost-form']//ul[@id='payment_form_authorizenet_directpost' and (not (@style='') and (not (@style='display: none')))]
+                        fields:
+                            card_number: //input[@id='%paymentId%_cc_number']
+                            card_verification_number : //input[@id='%paymentId%_cc_cid']
+                        dropdowns:
+                            card_type: //select[@id='%paymentId%_cc_type']
+                            expiration_month: //select[@id='%paymentId%_expiration']
+                            expiration_year: //select[@id='%paymentId%_expiration_yr']
+                        links:
+                            what_is_this: //a[contains(.,'What is this?')]
+                        required: [card_type, card_number, expiration_month, expiration_year, card_verification_number]
             messages:
                 empty_captcha_user_login: //*[@id='advice-required-entry-captcha_user_login']
                 empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']

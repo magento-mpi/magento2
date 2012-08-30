@@ -1,0 +1,101 @@
+# Magento
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Academic Free License (AFL 3.0)
+# that is bundled with this package in the file LICENSE_AFL.txt.
+# It is also available through the world-wide-web at this URL:
+# http://opensource.org/licenses/afl-3.0.php
+# If you did not receive a copy of the license and are unable to
+# obtain it through the world-wide-web, please send an email
+# to license@magentocommerce.com so we can send you a copy immediately.
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade Magento to newer
+# versions in the future. If you wish to customize Magento for your
+# needs please refer to http://www.magentocommerce.com for more information.
+#
+# @category    tests
+# @package     selenium
+# @subpackage  uimaps
+# @author      Magento Core Team <core@magentocommerce.com>
+# @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+# @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+#
+---
+#Sales Terms and Conditions page
+manage_checkout_terms_and_conditions:
+    mca: checkout_agreement/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'checkout_agreement/')]
+    title: Terms and Conditions / Sales / Magento Admin
+    uimap:
+        form: &salesCheckoutTermsConditions
+            fieldsets:
+                -
+                    sales_checkout_terms_and_conditions_grid:
+                        xpath: //div[@id='agreementGrid']
+                        buttons:
+                            reset_filter: //button[span='Reset Filter']
+                            search: //button[span='Search']
+                        dropdowns:
+                            view_per_page: //select[@name='limit']
+                            filter_store_view: //select[@name='store_id']
+                            filter_is_active: //select[@name='is_active']
+                        fields:
+                            agreement_id: //input[@id='agreementGrid_filter_agreement_id']
+                            page: //input[@name='page']
+                            filter_agreement_id: //input[@name='agreement_id']
+                            filter_condition_name: //input[@name='name']
+                        pageelements:
+                            select_terms_in_grid: //table[@id='agreementGrid_table']//td[%columnId%]
+        buttons:
+            create_new_terms_and_conditions: //button[span='Add New Condition']
+            save_condition: // p[@class='form-buttons']//button[span='Save Condition']
+        messages: &conditionMessages
+            condition_saved: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been saved.')]
+            condition_deleted: //li[normalize-space(@class)='success-msg' and contains(.,'The condition has been deleted')]
+            empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
+            confirmation_for_delete: Are you sure you want to do this?
+            content_height: //div[@id='advice-validate-css-length-content_height']
+            no_records_found: //table[@id='agreementGrid_table']//td[text()='No records found.']
+
+# Create new condition agreement
+create_condition:
+    mca: checkout_agreement/new/
+    title: New Condition / Terms and Conditions / Sales / Magento Admin
+    uimap:
+        form: &salesNewCondition
+            fieldsets:
+                -
+                    sales_new_condition:
+                        xpath: //form[@id='edit_form']
+                        fields:
+                            condition_name: //input[@id='name']
+                            checkbox_text: //textarea[@id='checkbox_text']
+                            content: //textarea[@id='content']
+                            content_height: //input[@id='content_height']
+                        dropdowns:
+                            status: //select[@id='is_active']
+                            show_content_as: //select[@id='is_html']
+                        multiselects:
+                            store_view: //select[@id='store_id']
+                        required: [condition_name, status, show_content_as, store_view, checkbox_text, content]
+        buttons:
+            back: //p[@class='form-buttons']//button[span='Back']
+            reset: //p[@class='form-buttons']//button[span='Reset']
+            save_condition: //p[@class='form-buttons']//button[span='Save Condition']
+        messages: *conditionMessages
+
+# Edit an existing one condition agreement
+edit_condition:
+    mca: checkout_agreement/edit/id/%id%/
+    title: %elementTitle% / Terms and Conditions / Sales / Magento Admin
+    uimap:
+        form: *salesNewCondition
+        buttons:
+            back: //p[@class='form-buttons']//button[span='Back']
+            reset: //p[@class='form-buttons']//button[span='Reset']
+            delete_condition: //p[@class='form-buttons']//button[span='Delete Condition']
+            save_condition: //p[@class='form-buttons']//button[span='Save Condition']
+        messages: *conditionMessages

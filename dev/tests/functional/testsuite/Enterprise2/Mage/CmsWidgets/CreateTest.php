@@ -30,6 +30,7 @@ class Enterprise2_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function preconditionsForTests()
     {
         $productData = $this->productHelper()->createConfigurableProduct(true);
+        $bannerData = $this->loadDataSet('CmsBanners', 'new_cms_banner_req');
         $categoryPath = $productData['category']['path'];
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order', array('categories' => $categoryPath),
             array('add_product_1' => $productData['simple']['product_sku'],
@@ -42,8 +43,13 @@ class Enterprise2_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($grouped, 'grouped');
         $this->assertMessagePresent('success', 'success_saved_product');
+        //Creating Banner
+        $this->navigate('manage_cms_banners');
+        $this->cmsBannersHelper()->createCmsBanner($bannerData);
+        $this->assertMessagePresent('success', 'success_saved_cms_banner');
 
         return array('category' => array('category_path' => $productData['category']['path']),
+                     'banner_name' => $bannerData['banner_properties']['banner_properties_name'],
                      'products' => array('product_1' => $productData['simple']['product_sku'],
                                          'product_2' => $grouped['general_sku'],
                                          'product_3' => $productData['configurable']['product_sku'],
@@ -64,6 +70,7 @@ class Enterprise2_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
      * @param array $testData
      *
      * @test
+     *
      * @dataProvider widgetTypesDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-3229
@@ -71,8 +78,11 @@ class Enterprise2_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function createAllTypesOfWidgetsAllFields($dataWidgetType, $testData)
     {
         //Data
-        $widgetData =
-            $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget', $testData['category'], $testData['products']);
+        $widgetData = $this->loadDataSet('CmsWidget', $dataWidgetType . '_widget', $testData['category'],
+            $testData['products']);
+        if ($dataWidgetType == 'banner_rotator'){
+            $widgetData['widget_options']['banner_name'] = $testData['banner_name'];
+        }
         //Steps
         $this->navigate('manage_cms_widgets');
         $this->cmsWidgetsHelper()->createWidget($widgetData);
@@ -83,9 +93,10 @@ class Enterprise2_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function widgetTypesDataProvider()
     {
         return array(
-            array('catalog_events_carousel'),
-            array('giftregistry_search'),
-            array('wishlist_search'),
+              array('banner_rotator'),
+              array('catalog_events_carousel'),
+              array('giftregistry_search'),
+              array('wishlist_search'),
         );
     }
 
@@ -178,6 +189,9 @@ class Enterprise2_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
     public function withEmptyFieldsDataProvider()
     {
         return array(
+            array('banner_rotator', 'widget_instance_title', 'field'),
+            array('banner_rotator', 'select_display_on', 'dropdown'),
+            array('banner_rotator', 'select_block_reference', 'dropdown'),
             array('catalog_events_carousel', 'widget_instance_title', 'field'),
             array('catalog_events_carousel', 'frame_size', 'field'),
             array('catalog_events_carousel', 'scroll', 'field'),
