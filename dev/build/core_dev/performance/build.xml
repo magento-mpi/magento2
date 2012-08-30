@@ -17,7 +17,10 @@
     <target name="_performance_tests_configuration" depends="_product_location" description="Generation of configuration for product performance tests">
         <fail unless="env.web_access_host" message="Environment variable 'web_access_host' must be defined"/>
         <fail unless="env.web_access_path" message="Environment variable 'web_access_path' must be defined"/>
-        <copy file="${basedir}/dev/build/core_dev/performance/config.php" todir="${product_root_dir}/dev/tests/performance" overwrite="true"/>
+        <condition property="performance_tests_config_file" value="${basedir}/dev/build/core_dev/performance/config.php">
+            <not><isset property="performance_tests_config_file"/></not>
+        </condition>
+        <copy file="${performance_tests_config_file}" todir="${product_root_dir}/dev/tests/performance" overwrite="true"/>
         <antcall target="_database_credential_substitution">
             <param name="db_config_file" value="${product_root_dir}/dev/tests/performance/config.php"/>
         </antcall>
@@ -34,6 +37,13 @@
 
     <target name="performance_tests_ce_mysql" depends="_community_edition" description="Performance tests on MySQL for CE">
         <antcall target="_performance_tests_configuration"/>
+        <antcall target="_performance_tests_magento"/>
+    </target>
+
+    <target name="performance_tests_ce_mysql_backend" depends="_community_edition" description="Backend performance tests on MySQL for CE">
+        <antcall target="_performance_tests_configuration">
+            <param name="performance_tests_config_file" value="${basedir}/dev/build/core_dev/performance/config_backend_large_db.php"/>
+        </antcall>
         <antcall target="_performance_tests_magento"/>
     </target>
 
