@@ -137,10 +137,10 @@ class Mage_Core_Model_Design_PackageMergingTest extends PHPUnit_Framework_TestCa
             array(
                 Mage_Core_Model_Design_Package::CONTENT_TYPE_CSS,
                 array(
-                    'jquery/jquery-ui-1.8.22.custom.css',
+                    'mage/calendar.css',
                     'css/file.css',
                 ),
-                'd3ab4bcdb6bf17589d6e27b83fb874fc.css',
+                '16f3dae4a78f603c9afa37606b0f51e7.css',
                 array(
                     'css/file.css',
                     'recursive.css',

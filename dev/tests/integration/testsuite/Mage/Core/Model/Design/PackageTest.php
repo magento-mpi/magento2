@@ -164,8 +164,8 @@ class Mage_Core_Model_Design_PackageTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('css/styles.css', 'jquery/jquery-ui-1.8.22.custom.css'),
-                array('http://localhost/pub/media/skin/_merged/4bf7872eee9b41a282f087e61f2f34f7.css')
+                array('css/styles.css', 'mage/calendar.css'),
+                array('http://localhost/pub/media/skin/_merged/808bc0a77c00a5d3c5c0bc388a6e93cf.css')
             ),
             array(
                 array('css/styles.css'),
