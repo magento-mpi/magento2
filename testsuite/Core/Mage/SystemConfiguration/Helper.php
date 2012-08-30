@@ -83,9 +83,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
     public function openConfigurationTab($tab)
     {
         if (!$this->controlIsPresent('tab', $tab)) {
-            $this->fail(
-                "Current location url: '" . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage()
-                . "'\nTab '$tab' is not present on the page");
+            $this->fail("Current location url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage()
+                        . "'\nTab '$tab' is not present on the page");
         }
         $this->defineParameters('tab', $tab, 'href');
         $this->clickControl('tab', $tab);

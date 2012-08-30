@@ -124,8 +124,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function verifyNotPresetAlert()
     {
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
+        if ($this->alertIsPresent()) {
+            $text = $this->alertText();
             $this->_parseMessages();
             $this->addVerificationMessage($text);
             return false;
@@ -320,7 +320,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $this->skipTestWithScreenshot('3D Secure frame is not loaded(maybe wrong card)');
                 //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
             }
-            $this->selectFrame($this->_getControlXpath('pageelement', '3d_secure_iframe'));
+            $this->frame('centinel_authenticate_iframe');
             $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
             $this->fillField('3d_password', $password);
             $this->clickButton('3d_submit', false);
@@ -329,7 +329,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                 $this->clickButton('3d_continue', false);
                 $this->waitForElement($this->_getControlXpath('pageelement', 'element_with_disabled_style'));
             }
-            $this->selectFrame('relative=top');
+            $this->frame(null);
         }
     }
 
@@ -504,7 +504,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     public function frontVerifyTypedAddress($addressData, $skipFields, $type)
     {
         $xpath = $this->_getControlXpath('field', $type . '_address_checkout') . '/text()';
-        $count = $this->getXpathCount($xpath);
+        $count = count($this->getElements($xpath, false));
         $actualAddress = array();
         for ($i = 1; $i <= $count; $i++) {
             $this->addParameter('index', $i);

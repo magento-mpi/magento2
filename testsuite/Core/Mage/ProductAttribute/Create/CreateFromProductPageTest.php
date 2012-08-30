@@ -83,7 +83,7 @@ class Core_Mage_ProductAttribute_Create_CreateFromProductPageTest extends Mage_S
         $this->productHelper()->fillProductSettings($productData);
         $this->productAttributeHelper()->createAttributeOnGeneralTab($attrData);
         //Verifying
-        $this->selectWindow(null);
+        $this->window('');
         $code = ($attributeType != 'product_attribute_fpt')
             ? $attrData['attribute_code']
             : $attrData['attribute_code'] . '_table';

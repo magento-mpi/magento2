@@ -75,7 +75,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             return false;
         }
         if ($this->controlIsPresent('link', 'compare_clear_all')) {
-            return $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
+            $this->clickControlAndConfirm('link', 'compare_clear_all', 'confirmation_clear_all_from_compare');
         }
         return true;
     }
@@ -85,13 +85,11 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      * Preconditions: page with Compare Products block is opened
      *
      * @param string $productName Name of product to be deleted
-     *
-     * @return bool
      */
     public function frontRemoveProductFromCompareBlock($productName)
     {
         $this->addParameter('productName', $productName);
-        return $this->clickControlAndConfirm('link', 'compare_delete_product',
+        $this->clickControlAndConfirm('link', 'compare_delete_product',
             'confirmation_for_removing_product_from_compare');
     }
 
@@ -279,9 +277,9 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
         if (!$popupId) {
             return;
         }
-        $this->selectWindow("name=" . $popupId);
+        $this->closeWindow($popupId);
         $this->clickButton('close_window', false);
         //Select parent window
-        $this->selectWindow(null);
+        $this->window('');
     }
 }

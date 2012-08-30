@@ -594,7 +594,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simpleEmpty);
         $this->saveForm('save', false);
-        $this->selectWindow(null);
+        $this->window('');
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simpleEmpty['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');
@@ -632,7 +632,7 @@ class Core_Mage_Product_Create_SimpleTest extends Mage_Selenium_TestCase
         $this->selectLastWindow();
         $this->productHelper()->fillProductInfo($simple);
         $this->saveForm('save', false);
-        $this->selectWindow(null);
+        $this->window('');
         $this->waitForAjax();
         $xpath = $this->search(array('associated_search_sku' => $simple['general_sku']), 'associated');
         $this->assertNotEquals(null, $xpath, 'Product is not found');

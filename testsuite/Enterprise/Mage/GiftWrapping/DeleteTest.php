@@ -142,16 +142,17 @@ class Enterprise_Mage_GiftWrapping_DeleteTest extends Mage_Selenium_TestCase
         $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
             'gift_wrapping_grid');
         $this->fillDropdown('massaction_action', 'Delete');
-        $this->chooseCancelOnNextConfirmation();
         $this->clickButton('submit', false);
-        $this->getConfirmation();
+        $this->dismissAlert();
         $this->navigate('manage_gift_wrapping');
         $this->searchAndChoose(array('filter_gift_wrapping_design' => $giftWrappingData['gift_wrapping_design']),
             'gift_wrapping_grid');
         $this->fillDropdown('massaction_action', 'Delete');
         $this->addParameter('itemCount', '1');
-        $this->saveForm('submit');
-        $this->getConfirmation();
+        $this->clickButton('submit', false);
+        $this->acceptAlert();
+        $this->waitForElement($this->_getMessageXpath('general_success'));
+        $this->validatePage('manage_gift_wrapping');
         //Verification
         $this->assertMessagePresent('success', 'success_massaction_delete');
     }

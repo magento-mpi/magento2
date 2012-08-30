@@ -156,8 +156,8 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
                         $this->clickButton('add_new_store_view_map', false);
                         $this->waitForAjax();
                         $this->fillFieldset($storeViews, 'merge_configuration');
-                        if ($this->isAlertPresent()) {
-                            $this->fail($this->getAlert());
+                        if ($this->alertIsPresent()) {
+                            $this->fail($this->alertText());
                         }
                     }
                 }

@@ -102,9 +102,10 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
             $url = $this->getControlAttribute('pageelement', 'cell_store_link', 'href');
             //Open element
             $this->addParameter('id', $this->defineIdFromUrl($url));
-            $this->openWindow($url, 'edit');
-            $this->selectWindow('name=edit');
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->execute(array('script' => "window.open()", 'args' => array()));
+            $windows = $this->windowHandles();
+            $this->window(end($windows));
+            $this->url($url);
             $this->validatePage('edit_' . $element);
             //Searching a necessary element
             if ($this->verifyForm($storeData)) {
@@ -114,14 +115,17 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
                     $this->clickButton('delete_' . $element);
                     $this->assertMessagePresent('success', 'success_deleted_' . $element);
                     $this->closeWindow();
+                    $this->window('');
 
                     return true;
                 } else {
                     $error = true;
                     $this->closeWindow();
+                    $this->window('');
                 }
             } else {
                 $this->closeWindow();
+                $this->window('');
             }
         }
 
@@ -130,14 +134,5 @@ class Core_Mage_Store_Helper extends Mage_Selenium_TestCase
         }
 
         return false;
-    }
-
-    /**
-     *  Close Window
-     */
-    public function closeWindow()
-    {
-        $this->close();
-        $this->selectWindow(null);
     }
 }

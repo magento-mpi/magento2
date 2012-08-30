@@ -124,9 +124,8 @@ class Enterprise_Mage_GiftWrapping_Helper extends Mage_Selenium_TestCase
         if ($cancelDelete == false) {
             $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         } else {
-            $this->chooseCancelOnNextConfirmation();
             $this->clickButton('delete', false);
-            $this->getConfirmation();
+            $this->dismissAlert();
         }
     }
 

@@ -253,6 +253,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     {
         $optionId = $this->getControlCount('fieldset', 'custom_option_set') + 1;
         $this->addParameter('optionId', $optionId);
+        $this->hideFloatingHeader();
         $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
         foreach ($customOptionData as $rowKey => $rowValue) {
@@ -522,6 +523,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                 unset($productData[$key]);
             }
         }
+        //@TODO selenium2
         $this->verifyForm($productData, null, $skipElements);
         // Verify tier prices
         if (array_key_exists('prices_tier_price_data', $nestedArrays)) {
@@ -942,7 +944,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
         $xpathArray = $this->getCustomOptionsXpathes($productData);
         foreach ($xpathArray as $fieldName => $data) {
             if (is_string($data)) {
-                if (!$this->isElementPresent($data)) {
+                if (!$this->elementIsPresent($data)) {
                     $this->addVerificationMessage('Could not find element ' . $fieldName);
                 }
             } else {
@@ -951,7 +953,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
                         if (!preg_match('/xpath/', $x)) {
                             continue;
                         }
-                        if (!$this->isElementPresent($y)) {
+                        if (!$this->elementIsPresent($y)) {
                             $this->addVerificationMessage(
                                 'Could not find element type "' . $optionData['type'] . '" and title "'
                                 . $optionData['title'] . '"');

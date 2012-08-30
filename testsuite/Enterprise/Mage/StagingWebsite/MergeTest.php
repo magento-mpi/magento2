@@ -138,13 +138,10 @@ class Enterprise_Mage_StagingWebsite_MergeTest extends Mage_Selenium_TestCase
         //TL-MAGE-2013 verification
         $alert = $this->getCurrentUimapPage()->findMessage('confirmation_select_website_to_map');
         $this->clickButton('merge_now', false);
-        if ($this->isAlertPresent()) {
-            $text = $this->getAlert();
-            if ($text != $alert) {
-                $this->fail('Alert text should be: ' . $alert . ', but actually is: ' . $text);
-            }
-        } else {
-            $this->fail('Alert "' . $alert . '" is not present');
+        $textAlert = $this->alertText();
+        $this->acceptAlert();
+        if ($textAlert != $alert) {
+            $this->fail('Alert text should be: ' . $alert . ', but actually is: ' . $textAlert);
         }
         //Steps
         $this->navigate('manage_staging_websites');

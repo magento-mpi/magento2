@@ -95,7 +95,7 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
     {
         $xpathTR = $this->search($taxSearchData, 'manage_tax_' . $type);
         $this->assertNotNull($xpathTR, 'Search item is not found');
-        $url = $this->getAttribute($xpathTR . '@title');
+        $url = $this->getElement($xpathTR)->attribute('title');
         switch ($type) {
             case 'rate':
                 $cellId = $this->getColumnIdByName('Name');
@@ -125,13 +125,11 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      *
      * @param array $taxSearchData Data for search
      * @param string $type search type rate|rule|customer_class|product_class
-     *
-     * @return boolean
      */
     public function deleteTaxItem(array $taxSearchData, $type)
     {
         $this->openTaxItem($taxSearchData, $type);
-        return $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
+        $this->clickButtonAndConfirm('delete_' . $type, 'confirmation_for_delete');
     }
 
     /**

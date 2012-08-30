@@ -349,7 +349,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
             } else {
                 $header = $z;
             }
-            $count = $this->getXpathCount($xpath);
+            $count = count($this->getElements($xpath, false));
             for ($i = 1; $i <= $count; $i++) {
                 $this->addParameter('index', $i);
                 $this->addParameter('elementXpath', $xpath);
@@ -556,11 +556,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $this->assertMultipleCheckoutPageOpened('place_order');
         $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
         if ($this->controlIsPresent('pageelement', '3d_secure_header')) {
-            $this->assertTrue($this->waitForElement($this->_getControlXpath('pageelement',
-                'element_not_disabled_style')), '3D Secure frame not loaded');
+            $this->waitForElement($this->_getControlXpath('pageelement', 'element_not_disabled_style'));
             $this->checkoutOnePageHelper()->frontValidate3dSecure();
-            $this->assertTrue($this->waitForElement($this->_getControlXpath('button', 'place_order')),
-                'Button "place_order" is not present');
+            $this->waitForElement($this->_getControlXpath('button', 'place_order'));
         }
         //Data
         $paymentData = (isset($checkout['payment_data'])) ? $checkout['payment_data'] : array();

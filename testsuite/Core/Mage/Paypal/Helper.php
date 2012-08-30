@@ -98,7 +98,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function openPaypalTab($tabName = '')
     {
         $page = $this->getUimapPage('paypal_developer', 'paypal_developer_logged_in');
-        $this->click($this->_getControlXpath('tab', $tabName, $page));
+        $this->getElement($this->_getControlXpath('tab', $tabName, $page))->click();
         $this->waitForNewPage();
         $result = $this->errorMessage();
         $this->assertFalse($result['success'], $this->getMessagesOnPage());

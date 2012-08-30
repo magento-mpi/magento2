@@ -135,10 +135,13 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->fillOrderAddress($billingAddress, $billingChoice, 'billing');
         }
         if ($shippingAddress) {
+            $this->hideFloatingHeader();
             $shippingChoice = $shippingAddress['address_choice'];
             $this->fillOrderAddress($shippingAddress, $shippingChoice, 'shipping');
         }
         if ($shippingMethod) {
+            $this->getElement($this->_getControlXpath('fieldset', 'shipping_method'))->click();
+            sleep(1);
             $this->clickControl('link', 'get_shipping_methods_and_rates', false);
             $this->pleaseWait();
             $this->selectShippingMethod($shippingMethod, $validate);
@@ -421,6 +424,8 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function validate3dSecure($password = '1234')
     {
         if ($this->controlIsPresent('button', 'start_reset_validation')) {
+            $this->getElement($this->_getControlXpath('fieldset', '3d_secure_card_validation'))->click();
+            sleep(1);
             $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
             $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
@@ -434,7 +439,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                     $this->skipTestWithScreenshot('3D Secure frame is not loaded(maybe wrong card)');
                     //$this->fail('3D Secure frame is not loaded(maybe wrong card)');
                 }
-                $this->selectFrame($this->_getControlXpath('pageelement', '3d_secure_iframe'));
+                $this->frame('centinel_authenticate_iframe');
                 $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
                 $this->fillField('3d_password', $password);
                 $this->clickButton('3d_submit', false);
@@ -443,7 +448,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                     $this->clickButton('3d_continue', false);
                     $this->waitForElement($this->_getControlXpath('pageelement', 'verification_successful'));
                 }
-                $this->selectFrame('relative=top');
+                $this->frame(null);
             }
         }
     }
