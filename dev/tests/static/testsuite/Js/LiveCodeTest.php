@@ -153,10 +153,13 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
             }
             $fh = fopen(self::$_reportFile, 'a');
             foreach ($output as $key => $line) {
-                fwrite($fh, $line . PHP_EOL);
+                if ($key > 2 && strlen(trim($line))){
+                    fwrite($fh, $line . PHP_EOL);
+                }
             }
             fwrite($fh, PHP_EOL);
             fclose($fh);
+            return false;
 
         } else {
             if (count($output) === 0) {
