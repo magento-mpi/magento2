@@ -9,7 +9,7 @@
  */
 
 /** @var $installer Mage_Core_Model_Resource_Setup_Migration */
-$installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup_Migration', 'core_setup');
+$installer = Mage::getResourceModel('Enterprise_Enterprise_Model_Resource_Setup_Migration', 'core_setup');
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_customersegment_segment', 'conditions_serialized',

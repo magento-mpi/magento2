@@ -111,6 +111,9 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
         );
     }
 
+    /**
+     * @covers Mage_Core_Model_Resource_Setup_Migration::appendClassAliasReplace
+     */
     public function testAppendClassAliasReplace()
     {
         $setupModel = new Mage_Core_Model_Resource_Setup_Migration('core_setup', $this->_getModelDependencies());
@@ -134,6 +137,25 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
 
     /**
      * @dataProvider updateClassAliasesDataProvider
+     * @covers Mage_Core_Model_Resource_Setup_Migration::doUpdateClassAliases
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_updateClassAliasesInTable
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getRowsCount
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_applyFieldRule
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_updateRowsData
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getTableData
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getReplacement
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getCorrespondingClassName
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getModelReplacement
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getPatternReplacement
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getClassName
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_isFactoryName
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getModuleName
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getCompositeModuleName
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getAliasFromMap
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_pushToMap
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getAliasesMap
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_getAliasInSerializedStringReplacement
+     * @covers Mage_Core_Model_Resource_Setup_Migration::_parseSerializedString
      */
     public function testDoUpdateClassAliases($replaceRules, $tableData, $expected, $aliasesMap = array())
     {
@@ -167,49 +189,26 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     public function updateClassAliasesDataProvider()
     {
         return array(
-            'plain text replace' => array(
-                '$replaceRules' => array(
-                    array(
-                        'table',
-                        'field',
-                        Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-                        Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
-                        ''
-                    )
-                ),
-                '$tableData' => array(
-                    array('field' => 'customer/customer'),
-                    array('field' => 'customer/attribute_data_postcode'),
-                    array('field' => 'Mage_Customer_Model_Customer')
-                ),
-                '$expected' => array(
-                    'updates' => array(
-                        array(
-                            'table' => 'table',
-                            'field' => 'field',
-                            'to'    => 'Mage_Customer_Model_Customer_FROM_MAP',
-                            'from'  => 'customer/customer'
-                        ),
-                        array(
-                            'table' => 'table',
-                            'field' => 'field',
-                            'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode',
-                            'from'  => 'customer/attribute_data_postcode'
-                        ),
-                    ),
-                    'aliases_map' => array(
-                        Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
-                            'customer/customer' => 'Mage_Customer_Model_Customer_FROM_MAP',
-                            'customer/attribute_data_postcode' => 'Mage_Customer_Model_Attribute_Data_Postcode'
-                        )
-                    )
-                ),
-                '$aliasesMap' => array(
-                    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
-                        'customer/customer' => 'Mage_Customer_Model_Customer_FROM_MAP'
-                    )
-                )
-            ),
+            'plain text replace'     => include __DIR__ . '/_files/data_content_plain.php',
+            'xml replace'            => include __DIR__ . '/_files/data_content_xml.php',
+            'wiki markup replace'    => include __DIR__ . '/_files/data_content_wiki.php',
+            'serialized php replace' => include __DIR__ . '/_files/data_content_serialized.php',
         );
+    }
+
+    /**
+     * @covers Mage_Core_Model_Resource_Setup_Migration::getCompositeModules
+     */
+    public function testGetCompositeModules()
+    {
+        $compositeModules = Mage_Core_Model_Resource_Setup_Migration::getCompositeModules();
+        $this->assertInternalType('array', $compositeModules);
+        $this->assertNotEmpty($compositeModules);
+        foreach ($compositeModules as $classAlias => $className) {
+            $this->assertInternalType('string', $classAlias);
+            $this->assertInternalType('string', $className);
+            $this->assertNotEmpty($classAlias);
+            $this->assertNotEmpty($className);
+        }
     }
 }

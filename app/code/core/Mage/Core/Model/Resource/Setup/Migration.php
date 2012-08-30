@@ -113,45 +113,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     );
 
     /**
-     * Correspondence between module aliases and names for modules with composite names
-     *
-     * @var array
-     */
-    public static $compositeModules = array(
-        'adminnotification'               => 'Mage_AdminNotification',
-        'catalogindex'                    => 'Mage_CatalogIndex',
-        'cataloginventory'                => 'Mage_CatalogInventory',
-        'catalogrule'                     => 'Mage_CatalogRule',
-        'catalogsearch'                   => 'Mage_CatalogSearch',
-        'currencysymbol'                  => 'Mage_CurrencySymbol',
-        'giftmessage'                     => 'Mage_GiftMessage',
-        'googleanalytics'                 => 'Mage_GoogleAnalytics',
-        'googlebase'                      => 'Mage_GoogleBase',
-        'googlecheckout'                  => 'Mage_GoogleCheckout',
-        'importexport'                    => 'Mage_ImportExport',
-        'paypaluk'                        => 'Mage_PaypalUk',
-        'productalert'                    => 'Mage_ProductAlert',
-        'salesrule'                       => 'Mage_SalesRule',
-        'xmlconnect'                      => 'Mage_XmlConnect',
-        'enterprise_admingws'             => 'Enterprise_AdminGws',
-        'enterprise_catalogevent'         => 'Enterprise_CatalogEvent',
-        'enterprise_catalogpermissions'   => 'Enterprise_CatalogPermissions',
-        'enterprise_customerbalance'      => 'Enterprise_CustomerBalance',
-        'enterprise_customersegment'      => 'Enterprise_CustomerSegment',
-        'enterprise_giftcard'             => 'Enterprise_GiftCard',
-        'enterprise_giftcardaccount'      => 'Enterprise_GiftCardAccount',
-        'enterprise_giftregistry'         => 'Enterprise_GiftRegistry',
-        'enterprise_giftwrapping'         => 'Enterprise_GiftWrapping',
-        'enterprise_importexport'         => 'Enterprise_ImportExport',
-        'enterprise_pagecache'            => 'Enterprise_PageCache',
-        'enterprise_pricepermissions'     => 'Enterprise_PricePermissions',
-        'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
-        'enterprise_salesarchive'         => 'Enterprise_SalesArchive',
-        'enterprise_targetrule'           => 'Enterprise_TargetRule',
-        'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
-    );
-
-    /**
      * @var Mage_Core_Helper_Data
      */
     protected $_coreHelper;
@@ -169,6 +130,13 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      * @var string
      */
     protected $_pathToMapFile;
+
+    /**
+     * List of composite module names
+     *
+     * @var array
+     */
+    protected $_compositeModules;
 
     /**
      * Constructor
@@ -598,12 +566,31 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $module = $factoryName;
             $name = false;
         }
-        if (array_key_exists($module, self::$compositeModules)) {
-            $module = self::$compositeModules[$module];
+        $compositeModuleName = $this->_getCompositeModuleName($module);
+        if (null !== $compositeModuleName) {
+            $module = $compositeModuleName;
         } elseif (false === strpos($module, '_')) {
             $module = "Mage_{$module}";
         }
         return array($module, $name);
+    }
+
+    /**
+     * Get composite module name by module alias
+     *
+     * @param $moduleAlias
+     *
+     * @return string|null
+     */
+    protected function _getCompositeModuleName($moduleAlias)
+    {
+        if (null === $this->_compositeModules) {
+            $this->_compositeModules = static::getCompositeModules();
+        }
+        if (array_key_exists($moduleAlias, $this->_compositeModules)) {
+            return $this->_compositeModules[$moduleAlias];
+        }
+        return null;
     }
 
     /**
@@ -731,5 +718,32 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         } else {
             return array();
         }
+    }
+
+    /**
+     * List of composite module aliases and modules
+     *
+     * @static
+     * @return array
+     */
+    public static function getCompositeModules()
+    {
+        return array(
+            'adminnotification' => 'Mage_AdminNotification',
+            'catalogindex'      => 'Mage_CatalogIndex',
+            'cataloginventory'  => 'Mage_CatalogInventory',
+            'catalogrule'       => 'Mage_CatalogRule',
+            'catalogsearch'     => 'Mage_CatalogSearch',
+            'currencysymbol'    => 'Mage_CurrencySymbol',
+            'giftmessage'       => 'Mage_GiftMessage',
+            'googleanalytics'   => 'Mage_GoogleAnalytics',
+            'googlebase'        => 'Mage_GoogleBase',
+            'googlecheckout'    => 'Mage_GoogleCheckout',
+            'importexport'      => 'Mage_ImportExport',
+            'paypaluk'          => 'Mage_PaypalUk',
+            'productalert'      => 'Mage_ProductAlert',
+            'salesrule'         => 'Mage_SalesRule',
+            'xmlconnect'        => 'Mage_XmlConnect',
+        );
     }
 }

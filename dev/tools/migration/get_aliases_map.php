@@ -33,6 +33,14 @@ require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/app/code/core/Mage
 require_once realpath(dirname(dirname(dirname(__DIR__))))
     . '/app/code/core/Mage/Core/Model/Resource/Setup/Migration.php';
 
+$enterpriseMigrationFile = realpath(dirname(dirname(dirname(__DIR__))))
+    . '/app/code/core/Enterprise/Enterprise/Model/Resource/Setup/Migration.php';
+if (file_exists($enterpriseMigrationFile)) {
+    require_once $enterpriseMigrationFile;
+    $compositeModules = Enterprise_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();
+} else {
+    $compositeModules = Mage_Core_Model_Resource_Setup_Migration::getCompositeModules();
+}
 
 $magentoBaseDir = dirname(__DIR__) . '/../../';
 if (isset($options['p'])) {
@@ -48,7 +56,7 @@ foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
     if ($classes) {
         $factoryNames = array_filter($classes, 'isFactoryName');
         foreach ($factoryNames as $factoryName) {
-            list($module, $name) = getModuleName($factoryName);
+            list($module, $name) = getModuleName($factoryName, $compositeModules);
             $patterns = array(
                 '::getModel(\'%s\''             => 'Model',
                 '::getSingleton(\'%s\''         => 'Model',
@@ -84,7 +92,7 @@ foreach ($layouts as $file) {
         continue;
     }
     foreach ($factoryNames as $factoryName) {
-        list($module, $name) = getModuleName($factoryName);
+        list($module, $name) = getModuleName($factoryName, $compositeModules);
         $map[$classType][$factoryName] = getClassName($module, $classType, $name);
     }
 }
@@ -142,7 +150,7 @@ function isFactoryName($class)
  * @param string $factoryName
  * @return array
  */
-function getModuleName($factoryName)
+function getModuleName($factoryName, $compositeModules = array())
 {
     if (false !== strpos($factoryName, '/')) {
         list($module, $name) = explode('/', $factoryName);
@@ -150,26 +158,10 @@ function getModuleName($factoryName)
         $module = $factoryName;
         $name = false;
     }
-    $compositeModuleName = getCompositeModuleName($module);
-    if (null !== $compositeModuleName) {
-        $module = $compositeModuleName;
+    if (array_key_exists($module, $compositeModules)) {
+        $module = $compositeModules[$module];
     } elseif (false === strpos($module, '_')) {
         $module = "Mage_{$module}";
     }
     return array($module, $name);
-}
-
-/**
- * Get composite module name by module alias
- *
- * @param string $moduleAlias
- * @return string|null
- */
-function getCompositeModuleName($moduleAlias)
-{
-    if (isset(Mage_Core_Model_Resource_Setup_Migration::$compositeModules[$moduleAlias])) {
-        return Mage_Core_Model_Resource_Setup_Migration::$compositeModules[$moduleAlias];
-    }
-
-    return null;
 }
