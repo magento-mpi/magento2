@@ -35,7 +35,7 @@ var attributeTemplate =
             '<th class="opt-title"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Label') ?> <span class="required">*</span></th>'+
             '<th class="opt-req"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Is Required') ?></th>'+
             '<th class="opt-order"><?php echo Mage::helper('Enterprise_GiftRegistry_Helper_Data')->__('Sort Order') ?></th>'+
-            '<th class="a-right"><?php echo $this->jsQuoteEscape($this->getDeleteButtonHtml()) ?></th>'+
+            '<th class="a-right">' + <?php echo Mage::helper('Mage_Core_Helper_Data')->jsonEncode($this->getDeleteButtonHtml()) ?> + '</th>'+
         '</tr>'+
     '</thead>'+
     '<tr>'+
