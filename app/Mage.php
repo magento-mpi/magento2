@@ -84,6 +84,13 @@ final class Mage
     static private $_isInstalled;
 
     /**
+     * Logger entities
+     *
+     * @var array
+     */
+    static private $_loggers = array();
+
+    /**
      * Magento edition constants
      */
     const EDITION_COMMUNITY    = 'Community';
@@ -156,6 +163,7 @@ final class Mage
         self::$_isDownloader    = false;
         self::$_isDeveloperMode = false;
         self::$_isInstalled     = null;
+        self::$_loggers         = array();
         // do not reset $headersSentThrowsException
     }
 
@@ -745,13 +753,11 @@ final class Mage
             return;
         }
 
-        static $loggers = array();
-
         $level  = is_null($level) ? Zend_Log::DEBUG : $level;
         $file = empty($file) ? 'system.log' : $file;
 
         try {
-            if (!isset($loggers[$file])) {
+            if (!isset(self::$_loggers[$file])) {
                 $logFile = self::_expandLogFileName($file);
 
                 $format = '%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL;
@@ -763,14 +769,14 @@ final class Mage
                 /** @var $writer Zend_Log_Writer_Stream */
                 $writer = new $writerModel($logFile);
                 $writer->setFormatter($formatter);
-                $loggers[$file] = new Zend_Log($writer);
+                self::$_loggers[$file] = new Zend_Log($writer);
             }
 
             if (is_array($message) || is_object($message)) {
                 $message = print_r($message, true);
             }
 
-            $loggers[$file]->log($message, $level);
+            self::$_loggers[$file]->log($message, $level);
         }
         catch (Exception $e) {
         }
