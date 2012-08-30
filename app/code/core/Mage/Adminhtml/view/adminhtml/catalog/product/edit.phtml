@@ -108,98 +108,64 @@ Event.observe(window, 'load', function() {
         product_info_tabsJsTabs.showTabContent(obj);
     }
     Product.AttributesBridge.setTabsObject(product_info_tabsJsTabs);
-    //Fields auto-population
 
-    //todo: get list of allowed placeholders for each field. Current implementation allows us to use
-    //      any field, existing on product creation page
     (function ($) {
-        var fieldsObject = {};
-        fieldsObject._boundFields = {};
-        //save relationship between fields
-        fieldsObject._addBoundField = function (name, fieldToPopulateName, mask) {
-            if ('undefined' === typeof this._boundFields[name]) {
-                this._boundFields[name] = {};
-                this._boundFields[name][fieldToPopulateName] = {};
-            }
-            this._boundFields[name][fieldToPopulateName] = {
-                mask:mask,
-                matches:mask.match(/{{([\w_]+?)}}/g)
-            };
+        var masks = <?php echo $this->helper('Mage_Core_Helper_Data')->jsonEncode($this->getFieldsAutogenerationMasks())?>;
+        var Autogenerator = function(masks) {
+            this._masks = masks || {};
+            this._fieldReverseIndex = this._buildReverseIndex(this._masks);
         };
 
-        fieldsObject._getBoundFields = function () {
-            return this._boundFields;
-        };
-
-        fieldsObject._getBoundField = function (name) {
-            return this._boundFields[name];
-        }
-        var masks = <?php echo json_encode($this->getFieldsAutogenerationMasks())?>;
-
-        for (var fieldToPopulateName in masks) {
-            if (masks.hasOwnProperty(fieldToPopulateName)) {
-                var mask = masks[fieldToPopulateName],
-                    matches = mask.match(/{{([\w_]+?)}}/g),
-                    fieldToPopulate = $('#' + fieldToPopulateName);
-                if (null === matches) {
-                    matches = [];
-                }
-                //fill in bound fields object
-                if ('' !== mask && '' === fieldToPopulate.val()) {
-                    var matchesCount = matches.length;
-                    for (var i = 0; i < matchesCount; i++) {
-                        var name = matches[i].slice(2, -2);
-                        fieldsObject._addBoundField(name, fieldToPopulateName, mask);
-                    }
-                }
-            }
-        }
-        //binding events
-        var fields = fieldsObject._getBoundFields();
-        for (var field in fields) {
-            //bind updating fields on keyup
-            if (fields.hasOwnProperty(field)) {
-                $('#' + field).on('keyup', {'fieldName':field}, _populateField);
-            }
-
-            //observe binded fields
-            for (var fieldToObserve in fields[field]) {
-                if (fields[field].hasOwnProperty(fieldToObserve)) {
-                    $('#' + fieldToObserve).bind('change', function () {
-                        if ('' === this.value) {
-                            //todo: bind event if value was cleared
-                        } else {
-                            //todo: unbind event if value was changed
-                        }
+        $.extend(Autogenerator.prototype, {
+            varsRegexp : /{{([\w_]+?)}}/g,
+            data: {
+                mask: 'autogenerator-mask-values',
+                disabled: 'autogenerator-disabled'
+            },
+            bindAll: function(events) {
+                var self = this;
+                $.each(self._masks, function(field) {
+                    $('#' + field).bind('blur change', function() {
+                        $(this).data(self.data.disabled, $(this).val() != '');
                     });
-                }
+                });
+                $.each(self._fieldReverseIndex, function(field) {
+                    var fields = this, $field = $('#' + field);
+                    var filler = function() {
+                        $.each(fields, function() {
+                            var $el = $('#' + this), data = $el.data(self.data.mask) || {};
+                            if ($el.data(self.data.disabled)) {
+                                return;
+                            }
+                            data[field] = $field.val();
+                            var value = self._masks[this].replace(self.varsRegexp, function(maskfieldName) {
+                                return data[maskfieldName.slice(2, -2)] || '';
+                            });
+                            $el.data('mask-elements', data)
+                                .val(value);
+                        });
+                    };
+                    $field.bind(events || 'keyup', filler);
+                    filler.call($field);
+                });
+            },
+            _buildReverseIndex: function(masks) {
+                var self = this;
+                var fieldReverseIndex = {};
+                $.each(masks, function(field, mask) {
+                    $.each(mask.toString().match(self.varsRegexp), function(key, maskName) {
+                        var filedName = maskName.slice(2, -2);
+                        if (!(filedName in fieldReverseIndex)) {
+                            fieldReverseIndex[filedName] = [];
+                        }
+                        fieldReverseIndex[filedName].push(field);
+                    })
+                });
+                return fieldReverseIndex;
             }
-        }
+        });
 
-        /**
-         * Fields population by name of observed field
-         *
-         * @param e
-         * @private
-         */
-        function _populateField(e) {
-            var fieldName = e.data.fieldName,
-                fieldsToPopulate = fieldsObject._getBoundField(fieldName),
-                value = $('#' + fieldName).val();
-            for (var field in fieldsToPopulate) {
-                if (fieldsToPopulate.hasOwnProperty(field)) {
-                    var mask = fieldsToPopulate[field]['mask'],
-                        matches = fieldsToPopulate[field]['matches'],
-                        matchesCount = matches.length;
-
-                    // Replace all placeholders in mask before updating field's value
-                    for (var i = 0; i < matchesCount; i++) {
-                        mask = mask.replace(matches[i], $('#' + matches[i].slice(2, -2)).val());
-                    }
-                    $('#' + field).val(mask);
-                }
-            }
-        }
+        new Autogenerator(masks).bindAll();
     })(jQuery);
 });
 

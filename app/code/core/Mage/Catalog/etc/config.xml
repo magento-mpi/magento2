@@ -370,10 +370,10 @@
                 <max_depth>0</max_depth>
             </navigation>
             <product_creation>
-                <sku_mask>{{name}}</sku_mask>
-                <meta_title_mask>{{name}}</meta_title_mask>
-                <meta_keywords_mask>{{name}},{{sku}}</meta_keywords_mask>
-                <meta_description_mask>{{name}} {{description}}</meta_description_mask>
+                <sku>{{name}}</sku>
+                <meta_title>{{name}}</meta_title>
+                <meta_keywords>{{name}},{{sku}}</meta_keywords>
+                <meta_description>{{name}} {{description}}</meta_description>
             </product_creation>
             <frontend>
                 <list_mode>grid-list</list_mode>

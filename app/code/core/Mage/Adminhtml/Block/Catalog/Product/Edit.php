@@ -34,6 +34,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
         return Mage::registry('current_product');
     }
 
+    /**
+     * Add elements in layout
+     *
+     * @return Mage_Adminhtml_Block_Catalog_Product_Edit
+     */
     protected function _prepareLayout()
     {
         if (!$this->getRequest()->getParam('popup')) {
@@ -259,17 +264,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     /**
      * Get fields masks from config
      *
-     * retun array
+     * return array
      */
     public function getFieldsAutogenerationMasks()
     {
-        /** @var $helper Mage_Catalog_Helper_Product */
-        $helper = Mage::helper('Mage_Catalog_Helper_Product');
-        return array(
-            'sku' => $helper->getSkuAutogenerationMask(),
-            'meta_title' => $helper->getMetaTitleAutogenerationMask(),
-            'meta_keyword' => $helper->getMetaKeywordsAutogenerationMask(),
-            'meta_description' => $helper->getMetaDescriptionAutogenerationMask(),
-        );
+        return $this->helper('Mage_Catalog_Helper_Product')->getFieldsAutogenerationMasks();
     }
 }
