@@ -48,7 +48,7 @@ class MageTest extends PHPUnit_Framework_TestCase
         try {
             Mage::setRoot(dirname(__FILE__));
             $this->assertNotNull(Mage::getRoot());
-            Mage::log('test message', 0, 'test.log');
+            Mage::log('test message', null, 'test.log', true);
             $this->assertFileExists($logFile, "Could not write to '$logFile'");
             @unlink($logFile);
             $this->assertFileExists($logFile, "'$logFile' file was not locked by Mage::log() method and was removed");
