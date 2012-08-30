@@ -55,6 +55,7 @@ class Magento_ImportExport_Fixture_Generator_Default extends Mage_ImportExport_M
      * @param string $column
      * @param mixed $pattern
      * @return bool
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _isDynamicColumn($column, $pattern)
     {
@@ -90,6 +91,7 @@ class Magento_ImportExport_Fixture_Generator_Default extends Mage_ImportExport_M
      * @param string $column
      * @param string $pattern
      * @return mixed
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _generateValue($column, $pattern)
     {
