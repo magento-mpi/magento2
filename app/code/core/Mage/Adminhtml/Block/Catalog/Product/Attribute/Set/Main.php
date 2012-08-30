@@ -163,6 +163,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $configurable = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute')
             ->getUsedAttributes($setId);
 
+        $mandatoryAttributes = Mage::helper('Mage_Catalog_Helper_Data')->getMandatoryAttributes();
+
         /* @var $node Mage_Eav_Model_Entity_Attribute_Group */
         foreach ($groups as $node) {
             $item = array();
@@ -190,6 +192,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
                         'leaf'              => true,
                         'is_user_defined'   => $child->getIsUserDefined(),
                         'is_configurable'   => (int)in_array($child->getAttributeId(), $configurable),
+                        'is_mandatory'      => in_array($child->getAttributeCode(), $mandatoryAttributes),
                         'entity_id'         => $child->getEntityAttributeId()
                     );
 
