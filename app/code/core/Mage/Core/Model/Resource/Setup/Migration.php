@@ -641,10 +641,10 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         if (is_null($this->_aliasesMap)) {
             $this->_aliasesMap = array();
 
-            $map = $this->_loadMap($this->_getPathToMapFile());
+            $map = $this->_loadMap($this->_pathToMapFile);
 
             if (!empty($map)) {
-                $this->_aliasesMap = Mage::helper('Mage_Core_Helper_Data')->jsonDecode($map);
+                $this->_aliasesMap = $this->_coreHelper->jsonDecode($map);
             }
         }
 
@@ -660,22 +660,12 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     protected function _loadMap($pathToMapFile)
     {
-        $pathToMapFile = Mage::getBaseDir() . DS . $pathToMapFile;
+        $pathToMapFile = $this->_baseDir . DS . $pathToMapFile;
         if (file_exists($pathToMapFile)) {
             return file_get_contents($pathToMapFile);
         }
 
         return '';
-    }
-
-    /**
-     * Get path to map file from config
-     *
-     * @return Mage_Core_Model_Config_Element
-     */
-    protected function _getPathToMapFile()
-    {
-        return Mage::getConfig()->getNode(self::CONFIG_KEY_PATH_TO_MAP_FILE);
     }
 
     /**
