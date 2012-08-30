@@ -139,14 +139,16 @@ class Core_Mage_Tax_Helper extends Mage_Selenium_TestCase
      */
     public function deleteRulesExceptSpecified(array $excludeList)
     {
-        $tableXpath = $this->_getControlXpath('pageelement', 'rules_table');
-        $titleRowCount = $this->getControlCount('pageelement', 'rule_line');
-        $columnId = $this->getColumnIdByName('Name') - 1;
         $rules = array();
-        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
-            $rule = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
-            if (!in_array($rule, $excludeList)) {
-                $rules[] = $rule;
+        $columnId = $this->getColumnIdByName('Name');
+        $elements = $this->getElements($this->_getControlXpath('pageelement', 'rule_line'), false);
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            $name = trim($element->element($this->using('xpath')->value("td[$columnId]"))->text());
+            if (!in_array($name, $excludeList)) {
+                $rules[] = $name;
             }
         }
         foreach ($rules as $rule) {

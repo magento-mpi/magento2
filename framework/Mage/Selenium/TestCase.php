@@ -1221,6 +1221,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $windowHandles = $this->windowHandles();
         $windowHandle = end($windowHandles);
         $this->window($windowHandle);
+        $this->waitForPageToLoad();
 
         return $windowHandle;
     }

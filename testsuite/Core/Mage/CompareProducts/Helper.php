@@ -121,19 +121,25 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
      */
     public function getProductDetailsOnComparePage()
     {
-        $xpath = $this->_getControlXpath('fieldset', 'compare_products');
-        $rowCount = $this->getControlCount('pageelement', 'compare_products_row');
-        $columnCount = $this->getControlCount('pageelement', 'compare_products_column');
-
         $data = array();
-        for ($column = 0; $column < $columnCount; $column++) {
-            for ($row = 0; $row < $rowCount; $row++) {
-                $data[$column][$row] = $this->getTable($xpath . '.' . $row . '.' . $column);
-            }
+        $names = array();
+        $table = $this->getElement($this->_getControlXpath('fieldset', 'compare_products'));
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $cellData
+         */
+        $nameCells = $table->elements($this->using('xpath')->value('//th'));
+        $productCount = count($table->elements($this->using('xpath')->value('tbody[1]/tr/*'))) - 1;
+        foreach ($nameCells as $cellData) {
+            $names[] = trim($cellData->text());
         }
+        for ($i = 1; $i <= $productCount; $i++) {
+            $columnData = $table->elements($this->using('xpath')->value("//td[$i]"));
+            foreach ($columnData as $cellData) {
+                $data[$i][] = $cellData->text();
+            }
 
+        }
         //Get Field Names
-        $names = array_shift($data);
         $arrayNames = array();
         foreach ($names as $key => $value) {
             if ($value == null) {
@@ -156,7 +162,7 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
         $returnArray = array();
         foreach ($data as $number => $productData) {
             foreach ($productData as $key => $value) {
-                $returnArray['product_' . ($number + 1)][$arrayNames[$key]] = $value;
+                $returnArray['product_' . ($number)][$arrayNames[$key]] = $value;
             }
             unset($data[$number]);
         }
@@ -278,7 +284,6 @@ class Core_Mage_CompareProducts_Helper extends Mage_Selenium_TestCase
             return;
         }
         $this->closeWindow($popupId);
-        $this->clickButton('close_window', false);
         //Select parent window
         $this->window('');
     }

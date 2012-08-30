@@ -244,17 +244,25 @@ class Core_Mage_Review_Helper extends Mage_Selenium_TestCase
             //Define actual review summary
             $actualSummary = $this->getControlAttribute('link', 'review_summary', 'text');
             //Define actual review text and rating names
-            $xpathReviewRatings = $this->_getControlXpath('pageelement', 'review_details_ratings');
             $text = preg_quote($this->getControlAttribute('pageelement', 'review_post_date', 'text'));
             $actualReview = $this->getControlAttribute('pageelement', 'review_details', 'text');
             $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview));
             if ($this->controlIsPresent('pageelement', 'review_details_ratings')) {
                 $text = preg_quote($this->getControlAttribute('pageelement', 'review_details_ratings', 'text'));
                 $actualReview = trim(preg_replace('#' . $text . '#', '', $actualReview), " \t\n\r\0\x0B");
-                $ratingsCount = $this->getControlCount('pageelement', 'review_details_ratings_line');
-                for ($i = 0; $i < $ratingsCount; $i++) {
-                    $actualRatings[] = $this->getTable($xpathReviewRatings . '.' . $i . '.0');
+                $elements =
+                    $this->getElements($this->_getControlXpath('pageelement', 'review_details_ratings_line'), false);
+                /**
+                 * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+                 */
+                foreach ($elements as $element) {
+                    $actualRatings[] = trim($element->element($this->using('xpath')->value('td[1]'))->text());
                 }
+                //@TODO Verify
+                //$ratingsCount = $this->getControlCount('pageelement', 'review_details_ratings_line');
+                //for ($i = 0; $i < $ratingsCount; $i++) {
+                //    $actualRatings[] = $this->getTable($xpathReviewRatings . '.' . $i . '.0');
+                //}
             }
             //Verification on product page
             $this->assertEquals($summary, $actualSummary,

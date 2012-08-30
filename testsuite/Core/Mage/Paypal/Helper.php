@@ -172,12 +172,15 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
     public function getPaypalSandboxAccountInfo(array $parameters)
     {
         $this->addParameter('accountEmail', $parameters['login_email']);
-        $detailTable = $this->_getControlXpath('fieldset', 'account_details');
-        $countRows = $this->getControlCount('pageelement', 'account_details_line');
-        for ($i = 0; $i < $countRows; $i++) {
-            $key = $this->getTable($detailTable . '.' . $i . '.0');
+        $this->getElement($this->_getControlXpath('link', 'view_details'))->click();
+        $elements = $this->getElements($this->_getControlXpath('pageelement', 'account_details_line'), false);
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            $key = $element->element($this->using('xpath')->value('td[1]'))->text();
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $this->getTable($detailTable . '.' . $i . '.2');
+            $value = $element->element($this->using('xpath')->value('td[3]'))->text();
             if ($key == 'credit_card') {
                 $cardData = explode(':', $value);
                 $number = preg_replace('/\D/', '', $cardData[0]);
@@ -205,12 +208,14 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         $this->addParameter('accountEmail', $email);
         $this->openPaypalTab('api_credentials');
         $apiCredentials = array();
-        $detailTable = $this->_getControlXpath('fieldset', 'account_api_credentials');
-        $countRows = $this->getControlCount('pageelement', 'account_api_credentials_line');
-        for ($i = 0; $i < $countRows; $i++) {
-            $key = $this->getTable($detailTable . '.' . $i . '.0');
+        $elements = $this->getElements($this->_getControlXpath('pageelement', 'account_api_credentials_line'), false);
+        /**
+         * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
+         */
+        foreach ($elements as $element) {
+            $key = $element->element($this->using('xpath')->value('td[1]'))->text();
             $key = preg_replace('/ /', '_', strtolower(trim($key, ':')));
-            $value = $this->getTable($detailTable . '.' . $i . '.1');
+            $value = $element->element($this->using('xpath')->value('td[2]'))->text();
             if ($key == 'test_account') {
                 $apiCredentials['email_associated_with_paypal_merchant_account'] = trim($value);
             } elseif ($key == 'signature') {
