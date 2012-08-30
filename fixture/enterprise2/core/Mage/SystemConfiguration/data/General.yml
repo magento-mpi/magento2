@@ -32,3 +32,38 @@ disable_httponly:
         tab_name: general_web
         configuration:
             use_http_only: No
+
+enable_reward_points:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customer_reward_points
+        configuration:
+            enable_reward_points: Yes
+
+enable_reward_points_for_tag_submission:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customer_reward_points
+        configuration:
+            new_tag_submission: 10
+
+disable_reward_points_for_tag_submission:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customer_reward_points
+        configuration:
+            new_tag_submission:
+
+set_rewarded_tag_submission_quantity_limit:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customer_reward_points
+        configuration:
+            rewarded_tag_submission_limit: 3
+
+unset_rewarded_tag_submission_quantity_limit:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customer_reward_points
+        configuration:
+            rewarded_tag_submission_limit:

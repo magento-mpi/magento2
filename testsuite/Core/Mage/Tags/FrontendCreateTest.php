@@ -174,6 +174,6 @@ class Core_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->assertTrue($this->checkCurrentPage('customer_login'), $this->getParsedMessages());
         $this->loginAdminUser();
         $this->navigate('all_tags');
-        $this->assertNull($this->search($searchTag, 'tags_grid'), $this->getMessagesOnPage());
+        $this->assertNull($this->search($searchTag, 'all_tags_grid'), $this->getMessagesOnPage());
     }
 }

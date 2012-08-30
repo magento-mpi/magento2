@@ -22,7 +22,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Precondition:
      * Delete all existing tags
      */
-    public function setUpBeforeTests()
+    public function setUpBeforeTestsClass()
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');
@@ -68,13 +68,14 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Expected: The message "Please select items" should be appeared.
      *
      * @test
-     * @TestlinkId TL-MAGE-2329, TL-MAGE-2332
+     * @dataProvider tagDataProvider
+     * @TestlinkId TL-MAGE-2329, TL-MAGE-2332, TL-MAGE-2352, TL-MAGE-2353
      */
-    public function deletingTagsUsingMassAction()
+    public function deletingTagsUsingMassAction($tagArea)
     {
         $tagData = array();
         //Precondition
-        for ($i=0; $i<4; $i++) {
+        for ($i = 0; $i < 4; $i++) {
             $tagData[$i] = array(
                 'tag_name' => 'tag_' . $this->generate('string', 5, ':lower:'),
                 'tag_status' => 'Pending',
@@ -84,7 +85,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 2
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         //Step 3
         $this->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
         //Step 4
@@ -106,11 +107,11 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addParameter('qtyDeletedTags', '3');
         $this->assertMessagePresent('success', 'success_deleted_products_massaction');
-        for ($i=1; $i<4; $i++) {
+        for ($i = 1; $i < 4; $i++) {
             $this->assertNull($this->search(array('tag_name' => $tagData[$i]['tag_name'])), 'Tag has been found');
         }
         //Step 11
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         $this->fillDropdown('tags_massaction', 'Delete');
         //Step 12
         $this->clickButton('submit', false);
@@ -141,23 +142,22 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Expected Result: Tags should have "Disabled" status
      *
      * @test
-     * @TestlinkId TL-MAGE-2331
+     * @dataProvider tagDataProvider
+     * @TestlinkId TL-MAGE-2331, TL-MAGE-2354
      */
 
-    public function changingStatusToDisabledUsingMassAction()
+    public function changingStatusToDisabledUsingMassAction($tagArea)
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagData[0], $tagData[1], $tagData[2]);
-        foreach ($arr as $value) {
-            $this->tagsHelper()->addTag($value);
+        $tagData = array();
+        for ($i = 0; $i < 3; $i++) {
+            $tagData[$i] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+            $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         // Step 2
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
         $tagsUpdatedCount = 1;
@@ -168,7 +168,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Step 5
         $this->clickButton('submit');
         // Verifying
-        $this->checkCurrentPage('pending_tags');
+        $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsUpdatedCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Step 6
@@ -178,7 +178,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
             'tag_name' => $tagData[0]['tag_name'],
             'tags_status' => 'Disabled')));
         //Step 7
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         //Step 8
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
@@ -190,7 +190,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Step 11
         $this->clickButton('submit');
         // Verifying
-        $this->checkCurrentPage('pending_tags');
+        $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Step 12
@@ -223,22 +223,21 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Expected Result: Tags should receive "Pending" status
      *
      * @test
-     * @TestlinkId TL-MAGE-2335
+     * @dataProvider tagDataProvider
+     * @TestlinkId TL-MAGE-2335, TL-MAGE-2359
      */
-    public function changingStatusToPendingUsingMassAction()
+    public function changingStatusToPendingUsingMassAction($tagArea)
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagData[0], $tagData[1], $tagData[2]);
-        foreach ($arr as $value) {
-            $this->tagsHelper()->addTag($value);
+        $tagData = array();
+        for ($i = 0; $i < 3; $i++) {
+            $tagData[$i] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+            $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         // Step 2
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
         $tagsCount = 1;
@@ -249,13 +248,13 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Step 5
         $this->clickButton('submit');
         // Verifying
-        $this->checkCurrentPage('pending_tags');
+        $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         $this->assertTrue((bool) $this->tagsHelper()->search(array(
             'tag_name' => $tagData[0]['tag_name'])));
         //Step 6
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
         $tagsCount = 2;
@@ -266,7 +265,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Step 9
         $this->clickButton('submit');
         // Verify message
-        $this->checkCurrentPage('pending_tags');
+        $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Verify status of second tag
@@ -275,7 +274,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
             )
         ));
         //Verify status of third tag
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         $this->assertTrue((bool) $this->tagsHelper()->search(array(
                 'tag_name' => $tagData[2]['tag_name']
             )
@@ -304,23 +303,22 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Expected Result: Tags should have "Approved" status
      *
      * @test
-     * @TestlinkId TL-MAGE-2338
+     * @dataProvider tagDataProvider
+     * @TestlinkId TL-MAGE-2338, TL-MAGE-2362
      */
 
-    public function changingStatusToApprovedUsingMassAction()
+    public function changingStatusToApprovedUsingMassAction($tagArea)
     {
         //Preconditions
         // Create three tags with the status "Pending"
-        $tagData[0] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[1] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $tagData[2] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
-        $arr = array($tagData[0], $tagData[1], $tagData[2]);
-        foreach ($arr as $value) {
-            $this->tagsHelper()->addTag($value);
+        $tagData = array();
+        for ($i = 0; $i < 3; $i++) {
+            $tagData[$i] = $this->loadDataSet('Tag', 'backend_new_tag', array('tag_status' => 'Pending'));
+            $this->tagsHelper()->addTag($tagData[$i]);
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         // Step 2
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[0]['tag_name']));
         $tagsCount = 1;
@@ -331,7 +329,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Step 5
         $this->clickButton('submit');
         // Verifying
-        $this->checkCurrentPage('pending_tags');
+        $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Step 6
@@ -342,7 +340,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
                 'tags_status' => 'Approved')
         ));
         //Step 7
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         //Step 8
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[1]['tag_name']));
         $this->tagsHelper()->searchAndChoose(array('tag_name' => $tagData[2]['tag_name']));
@@ -354,7 +352,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         //Step 11
         $this->clickButton('submit');
         // Verifying
-        $this->checkCurrentPage('pending_tags');
+        $this->checkCurrentPage($tagArea);
         $this->addParameter('qtyDeletedTags', $tagsCount);
         $this->assertMessagePresent('success', 'success_changed_status');
         //Step 12
@@ -382,13 +380,14 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Expected: The message "Please select items" should appear.
      *
      * @test
-     * @TestlinkId TL-MAGE-2334, TL-MAGE-2337, TL-MAGE-2339
+     * @dataProvider tagDataProvider
+     * @TestlinkId TL-MAGE-2334, TL-MAGE-2337, TL-MAGE-2339, TL-MAGE-2358, TL-MAGE-2361, TL-MAGE-2363
      */
 
-    public function changingStatusUsingMassActionNegative()
+    public function changingStatusUsingMassActionNegative($tagArea)
     {
         //Step 1
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         $tagStatuses = array(
             'Disabled',
             'Pending',
@@ -422,14 +421,15 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
      * Expected: all tags on the current page should be unselected.
      *
      * @test
-     * @TestlinkId TL-MAGE-2340
+     * @dataProvider tagDataProvider
+     * @TestlinkId TL-MAGE-2340, TL-MAGE-2364
      */
-
-    public function selectingTagsOptions()
+    public function selectingTagsOptions($tagArea)
     {
         $tagData = array();
         //Precondition
-        for ($i=0; $i<21; $i++) {
+        $this->navigate('all_tags');
+        for ($i = 0; $i < 21; $i++) {
             $tagData[$i] = array(
                 'tag_name' => 'tag_' . str_pad($i, 2, 0, STR_PAD_LEFT),
                 'tag_status' => 'Pending',
@@ -439,7 +439,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
             $this->assertMessagePresent('success', 'success_saved_tag');
         }
         //Step 1
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         //Step 2
         $this->clickControl('link', 'select_all', false);
         //Verifying
@@ -456,7 +456,7 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         }
         //Step 4
         $this->clickButton('reset_filter', false);
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         $this->clickControl('link', 'select_visible', false);
         //Verifying
         foreach ($tagData as $key => $value) {
@@ -470,12 +470,19 @@ class Community2_Mage_Tags_MassActionsTest extends Mage_Selenium_TestCase
         }
         //Step 5
         $this->clickButton('reset_filter', false);
-        $this->navigate('pending_tags');
+        $this->navigate($tagArea);
         $this->clickControl('link', 'unselect_visible', false);
         //Verifying
         foreach ($tagData as $value) {
             $this->assertFalse($this->tagsHelper()->isTagSelected(array('tag_name' => $value['tag_name'])),
                 'Tag ' . $value['tag_name'] . ' is selected');
         }
+    }
+    public function tagDataProvider()
+    {
+        return array(
+            array('pending_tags'),
+            array('all_tags')
+        );
     }
 }

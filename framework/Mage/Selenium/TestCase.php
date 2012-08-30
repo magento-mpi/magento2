@@ -60,8 +60,12 @@
  * @method Enterprise2_Mage_customerAttribute_Helper attributesHelper()
  * @method Enterprise2_Mage_customerAddressAttribute_Helper attributesHelper()
  * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
- * @method Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+ * @method Community2_Mage_ImportExport_Helper|Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
+ * @method Community2_Mage_RssFeeds_Helper|Enterprise2_Mage_RssFeeds_Helper rssFeedsHelper() rssFeedsHelper()
+ * @method Community2_Mage_Reports_Helper|Enterprise2_Mage_Reports_Helper reportsHelper() reportsHelper()
+ * @method Community2_Mage_CacheStorageManagement_Helper|Enterprise2_Mage_CacheStorageManagement_Helper cacheStorageManagementHelper() cacheStorageManagementHelper()
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ *
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
@@ -1352,7 +1356,53 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $this->fail($error);
         }
     }
-
+    /**
+     * Verify that the specified message of the specified type is present on the current page
+     *
+     * @param string $type success|validation|error
+     * @param null|string $message Message ID from UIMap
+     */
+    public function verifyMessagePresent($type, $message = null)
+    {
+        $method = strtolower($type) . 'Message';
+        $result = $this->$method($message);
+        if (!$result['success']) {
+            $location =
+                'Current url: \'' . $this->getLocation() . "'\nCurrent page: '" . $this->getCurrentPage() . "'\n";
+            if (is_null($message)) {
+                $error = "Failed looking for '" . $type . "' message.\n";
+            } else {
+                $error = "Failed looking for '" . $message . "' message.\n[xpath: " . $result['xpath'] . "]\n";
+            }
+            if ($result['found']) {
+                $error .= "Found  messages instead:\n" . $result['found'];
+            }
+            $this->addVerificationMessage($location . $error);
+        }
+    }
+    /**
+     * Asserts that the specified message of the specified type is not present on the current page
+     *
+     * @param string $type success|validation|error
+     * @param null|string $message Message ID from UIMap
+     */
+    public function verifyMessageNotPresent($type, $message = null)
+    {
+        $method = strtolower($type) . 'Message';
+        $result = $this->$method($message);
+        if ($result['success']) {
+            if (is_null($message)) {
+                $error = "'" . $type . "' message is on the page.";
+            } else {
+                $error = "'" . $message . "' message is on the page.";
+            }
+            $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
+            if ($messagesOnPage) {
+                $error .= "\n" . $messagesOnPage;
+            }
+            $this->addVerificationMessage($error);
+        }
+    }
     /**
      * Assert there are no verification errors
      */
@@ -1743,6 +1793,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $mca = preg_replace('|/filter/((\S)+)?/form_key/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete secret key from url
             $mca = preg_replace('|/(index/)?key/[A-Za-z0-9]+/?|', '/', $mca);
+            //Delete store view part of mca
+            $mca = preg_replace('|/store/[A-Za-z0-9]+/?|', '/', $mca);
             //Delete action part of mca if it's index
             $mca = preg_replace('|/index/?$|', '/', $mca);
         } elseif ($currentArea == 'frontend') {
@@ -2848,10 +2900,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
      *
      * @param array $data Array of data to look up.
      * @param string|null $fieldSetName Fieldset name that contains the grid (by default = null)
+     * @param bool $resetFilter Click reset filter before search
      *
      * @return string|null
      */
-    public function search(array $data, $fieldSetName = null)
+    public function search(array $data, $fieldSetName = null, $resetFilter = true)
     {
         $waitAjax = true;
         $xpath = '';
@@ -2860,19 +2913,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
             $xpathContainer = $this->_findUimapElement('fieldset', $fieldSetName);
             $xpath = $xpathContainer->getXpath($this->_paramsHelper);
         }
-        $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
-        $jsName = $this->getAttribute($resetXpath . '@onclick');
-        $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
-        $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
-        if ($this->isElementPresent($scriptXpath)) {
-            $waitAjax = false;
-        }
-        $this->click($resetXpath);
-        if ($waitAjax) {
-            $this->waitForAjax();
-        } else {
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            $this->validatePage();
+        if ($resetFilter) {
+            $resetXpath = $this->_getControlXpath('button', 'reset_filter', $xpathContainer);
+            $jsName = $this->getAttribute($resetXpath . '@onclick');
+            $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
+            $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
+            if ($this->isElementPresent($scriptXpath)) {
+                $waitAjax = false;
+            }
+            $this->click($resetXpath);
+            if ($waitAjax) {
+                $this->waitForAjax();
+            } else {
+                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+                $this->validatePage();
+            }
         }
         $qtyElementsInTable = $this->_getControlXpath('pageelement', 'qtyElementsInTable');
 
@@ -2919,6 +2974,64 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase
         return $xpathTR;
     }
 
+    /*
+    * Get info from table as array
+    *
+    * @param array $tableHeaderNames Columns headers
+    * @param string $tableXpath Table xPath
+    *
+    * @return array Associative array  Column Header => Value
+    */
+    public function getInfoInTable(array $tableHeaderNames, $tableXpath = '//table[@id]')
+    {
+        //Get columns' numbers
+        if (count($tableHeaderNames) < 1) {
+            //Get all available columns
+            $tableHeaderNames = $this->getTableHeadRowNames($tableXpath);
+        }
+        $columnsId = array();
+        foreach ($tableHeaderNames as $tableHeaderName) {
+            $columnsId[$tableHeaderName] = $this->getColumnIdByName($tableHeaderName, $tableXpath) - 1;
+        }
+        //Get records count on the page
+        $cellNum = $this->getXpathCount($tableXpath . '/tbody/tr');
+        //Get columns value
+        $tableValues = array();
+        for ($row = 1; $row <= $cellNum; $row++) {
+            $rowValues = array();
+            foreach ($columnsId as $columnName => $columnIndex) {
+                $rowValues[$columnName] = $this->getTable($tableXpath . '.' . $row . '.' . $columnIndex);
+            }
+            $tableValues[] = $rowValues;
+        }
+        return $tableValues;
+    }
+
+    /*
+     * Set sort order in grid
+     *
+     * @param string $tableColumnName Column name
+     * @param string $tableOrder desc or asc
+     * @param string $tableXpath Table xPath
+     */
+    public function orderByInTable($tableColumnName, $tableOrder, $tableXpath = '//table[@id]')
+    {
+        //Get records count on the page
+        $tableXpath .=  "/thead//th//a[contains(., '$tableColumnName')]";
+        if ($this->isElementPresent($tableXpath)) {
+            $currentState = $this->getAttribute($tableXpath . "@class");
+            if ($currentState == 'not-sort') {
+                $this->click($tableXpath) ;
+                $this->waitForAjax();
+            }
+            //get current state
+            $currentOrder = $this->getAttribute($tableXpath . "@title");
+            if ($currentOrder == $tableOrder) {
+                $this->click($tableXpath);
+                $this->waitForAjax();
+            }
+        }
+    }
     /**
      * Fill fieldset
      *

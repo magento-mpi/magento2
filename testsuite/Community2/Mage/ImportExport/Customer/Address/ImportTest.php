@@ -38,7 +38,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
     /**
      * Preconditions:
      * Log in to Backend.
-     * Navigate to System -> Export/p>
+     * Navigate to System -> Export
      */
     protected function assertPreConditions()
     {
@@ -89,17 +89,17 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $addressIdExisting = $this->customerHelper()->isAddressPresent($existingAddressData);
         $this->navigate('manage_customers');
         //Create customers without address
-        $userWithoutAddressData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->customerHelper()->createCustomer($userWithoutAddressData);
+        $userWithoutAddress = $this->loadDataSet('Customers', 'generic_customer_account');
+        $this->customerHelper()->createCustomer($userWithoutAddress);
         $this->assertMessagePresent('success', 'success_saved_customer');
         //Step 1
         $this->navigate('import');
         //Steps 2-3
         $this->importExportHelper()->chooseImportOptions('Customer Addresses', 'Add/Update Complex Data');
         //Generated CSV data
-        $userWithoutAddressCsv = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
+        $userWoAddressCsv = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
             '_entity_id' => '',
-            '_email' => $userWithoutAddressData['email'],
+            '_email' => $userWithoutAddress['email'],
             'city' => 'Lincoln',
             'country_id' => 'US',
             'firstname'  => 'Jana',
@@ -109,8 +109,8 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
             'telephone' => '402-219-4835'
             )
         );
-        $unformattedStreet = $userWithoutAddressCsv['street'];
-        $userWithoutAddressCsv['street'] = stripcslashes($userWithoutAddressCsv['street']);
+        $unformattedStreet = $userWoAddressCsv['street'];
+        $userWoAddressCsv['street'] = stripcslashes($userWoAddressCsv['street']);
         $userWithAddressCsv = $this->loadDataSet('ImportExport', 'generic_address_csv', array(
             '_entity_id' => $addressIdExisting,
             '_email' => $userWithAddressData['email'],
@@ -124,7 +124,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
             )
         );
         //Build CSV array
-        $data = array($userWithoutAddressCsv, $userWithAddressCsv);
+        $data = array($userWoAddressCsv, $userWithAddressCsv);
         //Import file with default flow
         $report = $this->importExportHelper()->import($data);
         //Check import
@@ -136,8 +136,8 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
         $this->navigate('manage_customers');
         //Check updated customer
         $this->addParameter('customer_first_last_name',
-            $userWithoutAddressData['first_name'] . ' ' . $userWithoutAddressData['last_name']);
-        $this->customerHelper()->openCustomer(array('email' => $userWithoutAddressData['email']));
+            $userWithoutAddress['first_name'] . ' ' . $userWithoutAddress['last_name']);
+        $this->customerHelper()->openCustomer(array('email' => $userWithoutAddress['email']));
         $newAddressData = array(
             'city'                  => $data[0]['city'],
             'first_name'            => $data[0]['firstname'],
@@ -197,7 +197,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
     {
         //Set correct email for csv data
         foreach ($csvData as $key => $value) {
-            if (array_key_exists('_email', $csvData[$key]) && $csvData[$key]['_email'] == '<realEmail>') {
+            if (array_key_exists('_email', $value) && $value['_email'] == '<realEmail>') {
                 $csvData[$key]['_email'] = self::$_customerData['email'];
             }
         }

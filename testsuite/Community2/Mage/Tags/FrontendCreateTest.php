@@ -23,7 +23,7 @@ class Community2_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
     }
 
-    protected function tearDownAfterTest()
+    protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->navigate('all_tags');

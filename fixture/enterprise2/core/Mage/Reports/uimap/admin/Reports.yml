@@ -97,6 +97,11 @@ paypal_reports:
     mca: paypal_reports/
     click_xpath: //div[@class='nav-bar']//a[span='PayPal Settlement Reports']
     title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
+    uimap:
+        form:
+        buttons:
+            fetch_updates: //button[span='Fetch Updates']
+
 
 # Shopping Cart: Products in carts page
 report_shopcart_product:
@@ -157,18 +162,100 @@ report_tag_customer:
     mca: report_tag/customer/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/customer/')]
     title: Customers / Tags / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_tag_customer_grid:
+                        xpath: //div[@id='grid']
+                        links:
+                            id: //a[contains(.,'ID')]
+                            first_name: //a[contains(.,'First Name')]
+                            last_name: //a[contains(.,'Last Name')]
+                            total_tags: //a[contains(.,'Total Tags')]
+                            action: //th[contains(.,'Action')]
+                            show_tags: //a[contains(.,'Show Tags') and parent::td[preceding-sibling::td[contains(.,'%firstName%')] and preceding-sibling::td[contains(.,'%lastName%')]]]
+                        dropdowns:
+                            view_limit: //select[@name='limit']
+                            export_to: //select[@id='grid_export']
+                        buttons:
+                            export: //button[span='Export']
+
+# Tags: Tags Submitted by Customer
+tags_submitted_by_customer:
+    mca: report_tag/customerDetail/id/%id%/
+    title: Tags Submitted by %customer_first_last_name% / Customers / Tags / Reports / Magento Admin
+    uimap:
+        buttons:
+            back: //button[span='Back']
+        dropdowns:
+            export_to: //select[@id='customers_grid_export']
 
 # Tags: Products Tags page
 report_tag_product:
     mca: report_tag/product/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/product/')]
     title: Products / Tags / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_tag_product_grid:
+                        xpath: //div[@id='gridProducts']
+                        links:
+                            id: //a[contains(.,'ID')]
+                            product_name: //a[contains(.,'Product Name')]
+                            unique_tags_number: //a[contains(.,'Number of Unique Tags')]
+                            total_tags_number: //a[contains(.,'Number of Total Tags')]
+                            action: //th[contains(.,'Action')]
+                            show_tags: //a[contains(.,'Show Tags') and parent::td[preceding-sibling::td[contains(.,'%productName%')]]]
+                        dropdowns:
+                            view_limit: //select[@name='limit']
+                            export_to: //select[@id='gridProducts_export']
+                        buttons:
+                            export: //button[span='Export']
+
+# Tags: Tags Submitted to Product
+tags_submitted_to_product:
+    mca: report_tag/productDetail/id/%id%/
+    title: Tags submitted to %productName% / Products / Tags / Reports / Magento Admin
+    uimap:
+        buttons:
+            back: //button[span='Back']
+        dropdowns:
+            export_to: //select[@id='grid_export']
 
 # Tags: Popular Tags page
 report_tag_popular:
     mca: report_tag/popular/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/popular/')]
     title: Popular / Tags / Reports / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    report_tag_popular_grid:
+                        xpath: //div[@id='grid']
+                        links:
+                            tag_name: //a[contains(.,'Tag Name')]
+                            popularity: //a[contains(.,'Popularity')]
+                            action: //th[contains(.,'Action')]
+                            show_details: //a[contains(.,'Show Details') and parent::td[preceding-sibling::td[contains(.,'%tagName%')]]]
+                        dropdowns:
+                            view_limit: //select[@name='limit']
+                            export_to: //select[@id='grid_export']
+                        buttons:
+                            export: //button[span='Export']
+
+# Tags: Tag Details
+tag_details:
+    mca: report_tag/tagDetail/id/%id%/
+    title: Tag "%tagName%" details / Popular / Tags / Reports / Magento Admin
+    uimap:
+        buttons:
+            back: //button[span='Back']
+        dropdowns:
+            export_to: //select[@id='tag_grid_export']
 
 # Reviews: Customers Reviews page
 report_review_customer:

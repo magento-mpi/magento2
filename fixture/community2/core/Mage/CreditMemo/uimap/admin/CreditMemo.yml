@@ -1,0 +1,28 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_CreditMemo
+# @subpackage  uimaps
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+create_credit_memo:
+    uimap: &orderCreditmemo
+        form:
+            fieldsets:
+                -
+                    items_to_refund:
+                        checkboxes:
+                            return_to_stock: //tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[contains(@name,'[back_to_stock]')]
+                        fields:
+                            qty_to_refund: //tbody[@class='even'][//*[contains(text(),'%sku%')]]//input[contains(@name,'[qty]')]
+        messages:
+            failed_authorizedp_online_refund: //li[normalize-space(@class)='error-msg' and contains(.,'Gateway error: The referenced transaction does not meet the criteria for issuing a credit.')]
+
+create_credit_memo_for_invoice:
+    mca: sales_order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
+    title: New Memo for %invoiceId% / Credit Memos / Sales / Magento Admin
+    uimap: *orderCreditmemo
