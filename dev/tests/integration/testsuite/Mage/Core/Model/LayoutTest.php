@@ -173,6 +173,26 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, $layout->getBlock('block_with_object_args')->getThree());
     }
 
+    public function testLayoutObjectArgumentUpdatersDirective()
+    {
+        $layout = new Mage_Core_Model_Layout();
+        $layout->getUpdate()->load(array('layout_test_handle_arguments_object_type_updaters'));
+        $layout->generateXml()->generateElements();
+
+        $expectedObjectData = array(
+            0 => 'updater call',
+            1 => 'updater call',
+            2 => 'updater call',
+        );
+
+        $expectedSimpleData = 2;
+
+        $block = $layout->getBlock('block_with_object_updater_args')->getOne();
+        $this->assertInstanceOf('Mage_Core_Block_Text', $block);
+        $this->assertEquals($expectedObjectData, $block->getUdaterCall());
+        $this->assertEquals($expectedSimpleData, $layout->getBlock('block_with_object_updater_args')->getTwo());
+    }
+
     public function testLayoutMoveDirective()
     {
         $layout = new Mage_Core_Model_Layout();

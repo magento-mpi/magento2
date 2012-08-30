@@ -431,9 +431,37 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (null !== $type) {
                 $arguments[$child->getName()]['type'] = $type;
             }
-            $arguments[$child->getName()]['value'] = $child->__toString();
+
+            $value = trim((string)$child);
+            if (strlen($value)) {
+                $arguments[$child->getName()]['value'] = $value;
+            }
+
+            $updaters = $this->_readArgumentUpdaters($child);
+            if (false === empty($updaters)) {
+                $arguments[$child->getName()]['updater'] = $updaters;
+            }
         }
         return $arguments;
+    }
+
+    /**
+     * Read argument updaters
+     *
+     * @param Mage_Core_Model_Layout_Element $node
+     * @return array
+     */
+    protected function _readArgumentUpdaters(Mage_Core_Model_Layout_Element $node)
+    {
+        $updaters = array();
+        /** @var $child Mage_Core_Model_Layout_Element */
+        foreach ($node->children() as $child) {
+            if ('updater' !== $child->getName()) {
+                continue;
+            }
+            $updaters[uniqid()] = trim((string)$child);
+        }
+        return $updaters;
     }
 
     /**

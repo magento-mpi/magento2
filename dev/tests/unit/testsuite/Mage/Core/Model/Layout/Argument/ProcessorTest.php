@@ -150,4 +150,28 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
             )
         );
     }
+
+    public function testProcessWithArgumentUpdaters()
+    {
+        $arguments = array(
+            'one' => array(
+                'value' => 1,
+                'updater' => array('Dummy_Updater_1', 'Dummy_Updater_2')
+            )
+        );
+
+        $argumentUpdaterMock = $this->getMock('Mage_Core_Model_Layout_Argument_Updater', array(), array(), '', false);
+        $argumentUpdaterMock->expects($this->once())->method('applyUpdaters')->will($this->returnValue(1));
+
+        $this->_objectFactoryMock
+            ->expects($this->once())
+            ->method('getModelInstance')
+            ->with('Mage_Core_Model_Layout_Argument_Updater')
+            ->will($this->returnValue($argumentUpdaterMock));
+
+        $expected = array(
+            'one' => 1,
+        );
+        $this->assertEquals($expected, $this->_model->process($arguments));
+    }
 }
