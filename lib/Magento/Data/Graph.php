@@ -7,6 +7,14 @@
  */
 class Magento_Data_Graph
 {
+    /**#@+
+     * Search modes
+     */
+    const DIRECTIONAL     = 1;
+    const INVERSE         = 2;
+    const NON_DIRECTIONAL = 3;
+    /**#@-*/
+
     /**
      * Registry of nodes
      *
@@ -107,18 +115,33 @@ class Magento_Data_Graph
      *
      * @param mixed $from
      * @param mixed $to
-     * @param bool $directional
+     * @param int $mode
      * @return array
+     * @throws InvalidArgumentException
      */
-    public function dfs($from, $to, $directional = true)
+    public function dfs($from, $to, $mode = self::DIRECTIONAL)
     {
         $this->_assertNode($from, true);
         $this->_assertNode($to, true);
-        $result = $this->_dfs($from, $to, $this->_from);
-        if (!$result && !$directional) {
-            $result = $this->_dfs($from, $to, $this->_to);
+        switch ($mode) {
+            case self::DIRECTIONAL:
+                $graph = $this->_from;
+                break;
+            case self::INVERSE:
+                $graph = $this->_to;
+                break;
+            case self::NON_DIRECTIONAL:
+                $graph = $this->_from;
+                foreach ($this->_to as $idTo => $relations) {
+                    foreach ($relations as $idFrom) {
+                        $graph[$idTo][$idFrom] = $idFrom;
+                    }
+                }
+                break;
+            default:
+                throw new InvalidArgumentException("Unknown search mode: '{$mode}'");
         }
-        return $result;
+        return $this->_dfs($from, $to, $graph);
     }
 
     /**

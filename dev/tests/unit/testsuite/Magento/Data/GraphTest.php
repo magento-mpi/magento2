@@ -79,15 +79,21 @@ class Magento_Data_GraphTest extends PHPUnit_Framework_TestCase
 
     public function testDfs()
     {
-        $model = new Magento_Data_Graph(array(1, 2, 3, 4, 5), array(
-            array(1, 2), array(2, 3), array(4, 5),
-        ));
+        $model = new Magento_Data_Graph(array(1, 2, 3, 4, 5), array(array(1, 2), array(2, 3), array(4, 5)));
+
+        // directional
         $this->assertEquals(array(1, 2, 3), $model->dfs(1, 3));
         $this->assertEquals(array(), $model->dfs(3, 1));
         $this->assertEquals(array(4, 5), $model->dfs(4, 5));
         $this->assertEquals(array(), $model->dfs(1, 5));
 
+        // inverse
+        $this->assertEquals(array(3, 2, 1), $model->dfs(3, 1, Magento_Data_Graph::INVERSE));
+
         // non-directional
-        $this->assertEquals(array(3, 2, 1), $model->dfs(3, 1, false));
+        $model = new Magento_Data_Graph(array(1, 2, 3), array(array(2, 1), array(2, 3)));
+        $this->assertEquals(array(), $model->dfs(1, 3, Magento_Data_Graph::DIRECTIONAL));
+        $this->assertEquals(array(), $model->dfs(3, 1, Magento_Data_Graph::INVERSE));
+        $this->assertEquals(array(1, 2, 3), $model->dfs(1, 3, Magento_Data_Graph::NON_DIRECTIONAL));
     }
 }
