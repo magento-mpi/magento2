@@ -117,7 +117,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      *
      * @var array
      */
-    protected $_compositeModules = array(
+    public static $compositeModules = array(
         'adminnotification'               => 'Mage_AdminNotification',
         'catalogindex'                    => 'Mage_CatalogIndex',
         'cataloginventory'                => 'Mage_CatalogInventory',
@@ -439,7 +439,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             case self::FIELD_CONTENT_TYPE_SERIALIZED:
                 $data = $this->_getAliasInSerializedStringReplacement($data, $entityType);
                 break;
-            // wiki and xml content types using the same replacement method
+            // wiki and xml content types use the same replacement method
             case self::FIELD_CONTENT_TYPE_WIKI:
             case self::FIELD_CONTENT_TYPE_XML:
                 $data = $this->_getPatternReplacement($data, $contentType, $entityType);
@@ -491,7 +491,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     }
 
     /**
-     * Replacement for module alias and module alias with method
+     * Replacement for model alias and model alias with method
      *
      * @param string $data
      * @param string $entityType
@@ -592,8 +592,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $module = $factoryName;
             $name = false;
         }
-        if (array_key_exists($module, $this->_compositeModules)) {
-            $module = $this->_compositeModules[$module];
+        if (array_key_exists($module, self::$compositeModules)) {
+            $module = self::$compositeModules[$module];
         } elseif (false === strpos($module, '_')) {
             $module = "Mage_{$module}";
         }

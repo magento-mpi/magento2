@@ -27,8 +27,12 @@ if (isset($options['h'])) {
     exit(0);
 }
 
-require realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
-require realpath(dirname(dirname(dirname(__DIR__)))) . '/lib/Zend/Json.php';
+require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
+require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/lib/Zend/Json.php';
+require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/app/code/core/Mage/Core/Model/Resource/Setup.php';
+require_once realpath(dirname(dirname(dirname(__DIR__))))
+    . '/app/code/core/Mage/Core/Model/Resource/Setup/Migration.php';
+
 
 $magentoBaseDir = dirname(__DIR__) . '/../../';
 if (isset($options['p'])) {
@@ -163,42 +167,8 @@ function getModuleName($factoryName)
  */
 function getCompositeModuleName($moduleAlias)
 {
-    $compositeModules = array(
-        'adminnotification'               => 'Mage_AdminNotification',
-        'catalogindex'                    => 'Mage_CatalogIndex',
-        'cataloginventory'                => 'Mage_CatalogInventory',
-        'catalogrule'                     => 'Mage_CatalogRule',
-        'catalogsearch'                   => 'Mage_CatalogSearch',
-        'currencysymbol'                  => 'Mage_CurrencySymbol',
-        'giftmessage'                     => 'Mage_GiftMessage',
-        'googleanalytics'                 => 'Mage_GoogleAnalytics',
-        'googlebase'                      => 'Mage_GoogleBase',
-        'googlecheckout'                  => 'Mage_GoogleCheckout',
-        'importexport'                    => 'Mage_ImportExport',
-        'paypaluk'                        => 'Mage_PaypalUk',
-        'productalert'                    => 'Mage_ProductAlert',
-        'salesrule'                       => 'Mage_SalesRule',
-        'xmlconnect'                      => 'Mage_XmlConnect',
-        'enterprise_admingws'             => 'Enterprise_AdminGws',
-        'enterprise_catalogevent'         => 'Enterprise_CatalogEvent',
-        'enterprise_catalogpermissions'   => 'Enterprise_CatalogPermissions',
-        'enterprise_customerbalance'      => 'Enterprise_CustomerBalance',
-        'enterprise_customersegment'      => 'Enterprise_CustomerSegment',
-        'enterprise_giftcard'             => 'Enterprise_GiftCard',
-        'enterprise_giftcardaccount'      => 'Enterprise_GiftCardAccount',
-        'enterprise_giftregistry'         => 'Enterprise_GiftRegistry',
-        'enterprise_giftwrapping'         => 'Enterprise_GiftWrapping',
-        'enterprise_importexport'         => 'Enterprise_ImportExport',
-        'enterprise_pagecache'            => 'Enterprise_PageCache',
-        'enterprise_pricepermissions'     => 'Enterprise_PricePermissions',
-        'enterprise_promotionpermissions' => 'Enterprise_PromotionPermissions',
-        'enterprise_salesarchive'         => 'Enterprise_SalesArchive',
-        'enterprise_targetrule'           => 'Enterprise_TargetRule',
-        'enterprise_websiterestriction'   => 'Enterprise_WebsiteRestriction',
-    );
-
-    if (isset($compositeModules[$moduleAlias])) {
-        return $compositeModules[$moduleAlias];
+    if (isset(Mage_Core_Model_Resource_Setup_Migration::$compositeModules[$moduleAlias])) {
+        return Mage_Core_Model_Resource_Setup_Migration::$compositeModules[$moduleAlias];
     }
 
     return null;
