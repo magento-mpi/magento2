@@ -16,7 +16,6 @@ return array(
             'field',
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
             Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
-            ''
         )
     ),
     '$tableData' => array(
@@ -29,7 +28,7 @@ return array(
                 'table' => 'table',
                 'field' => 'field',
                 'to'    => '<reference><block type="Mage_Catalog_Block_Product_New" /></reference>',
-                'from'  => '<reference><block type="catalog/product_new" /></reference>'
+                'from'  => array('`field` = ?' => '<reference><block type="catalog/product_new" /></reference>')
             ),
         ),
         'aliases_map' => array(

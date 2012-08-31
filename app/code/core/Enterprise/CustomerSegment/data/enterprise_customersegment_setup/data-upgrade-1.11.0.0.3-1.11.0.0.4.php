@@ -14,7 +14,8 @@ $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_customersegment_segment', 'conditions_serialized',
     Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED,
+    array('segment_id')
 );
 $installer->doUpdateClassAliases();
 

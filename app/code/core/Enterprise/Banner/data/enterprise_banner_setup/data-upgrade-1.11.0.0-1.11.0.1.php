@@ -14,7 +14,8 @@ $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_banner_content', 'banner_content',
     Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
+    array('banner_id', 'store_id')
 );
 $installer->doUpdateClassAliases();
 

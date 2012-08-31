@@ -73,19 +73,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected $_replaceRules = array();
 
     /**
-     * Replacements cache
-     *
-     * [table name] => array(
-     *     [field name] => array(
-     *         [replace from] => [replace to]
-     *     )
-     * )
-     *
-     * @var array
-     */
-    protected $_replacements = array();
-
-    /**
      * Aliases to classes map
      *
      * [entity type] => array(
@@ -228,10 +215,12 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      * @param string $fieldName name of table column to replace aliases in
      * @param string $entityType entity type of alias
      * @param string $fieldContentType type of field content where class alias is used
+     * @param array $pkFields row pk field(s) to update by
      * @param string $additionalWhere additional where condition
+     * @return void
      */
     public function appendClassAliasReplace($tableName, $fieldName, $entityType = '',
-        $fieldContentType = self::FIELD_CONTENT_TYPE_PLAIN, $additionalWhere = ''
+        $fieldContentType = self::FIELD_CONTENT_TYPE_PLAIN, array $pkFields = array(), $additionalWhere = ''
     ) {
         if (!isset($this->_replaceRules[$tableName])) {
             $this->_replaceRules[$tableName] = array();
@@ -241,7 +230,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $this->_replaceRules[$tableName][$fieldName] = array(
                 'entity_type'      => $entityType,
                 'content_type'     => $fieldContentType,
-                'additional_where' => $additionalWhere
+                'pk_fields'        => $pkFields,
+                'additional_where' => $additionalWhere,
             );
         }
     }
@@ -268,10 +258,6 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $pagesCount = ceil(
                 $this->_getRowsCount($tableName, $fieldName, $fieldRule['additional_where']) / $this->_rowsPerPage
             );
-
-            if (!isset($this->_replacements[$tableName])) {
-                $this->_replacements[$tableName] = array();
-            }
 
             for ($page = 1; $page <= $pagesCount; $page++) {
                 $this->_applyFieldRule($tableName, $fieldName, $fieldRule, $page);
@@ -313,32 +299,36 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     protected function _applyFieldRule($tableName, $fieldName, array $fieldRule, $currPage = 0)
     {
-        $tableData = $this->_getTableData($tableName, $fieldName, $fieldRule['additional_where'], $currPage);
-
-        if (!isset($this->_replacements[$tableName][$fieldName])) {
-            $this->_replacements[$tableName][$fieldName] = array();
+        $fieldsToSelect = array($fieldName);
+        if (!empty($fieldRule['pk_fields'])) {
+            $fieldsToSelect = array_merge($fieldsToSelect, $fieldRule['pk_fields']);
         }
+        $tableData = $this->_getTableData($tableName, $fieldName, $fieldsToSelect, $fieldRule['additional_where'],
+            $currPage
+        );
 
         $fieldReplacements = array();
         foreach ($tableData as $rowData) {
-            if (!empty($rowData[$fieldName])) {
-                if (!isset($fieldReplacements[$rowData[$fieldName]])
-                    && !isset($this->_replacements[$tableName][$fieldName][$rowData[$fieldName]])
-                ) {
-                    $fieldReplacements[$rowData[$fieldName]] =
-                        $this->_getReplacement(
-                            $rowData[$fieldName],
-                            $fieldRule['content_type'],
-                            $fieldRule['entity_type']
-                        );
+            $replacement = $this->_getReplacement($rowData[$fieldName], $fieldRule['content_type'],
+                $fieldRule['entity_type']
+            );
+            if ($replacement !== $rowData[$fieldName]) {
+                $fieldReplacement = array(
+                    'to' => $replacement
+                );
+                if (empty($fieldRule['pk_fields'])) {
+                    $fieldReplacement['where_fields'] = array($fieldName => $rowData[$fieldName]);
+                } else {
+                    $fieldReplacement['where_fields'] = array();
+                    foreach ($fieldRule['pk_fields'] as $pkField) {
+                        $fieldReplacement['where_fields'][$pkField] = $rowData[$pkField];
+                    }
                 }
+                $fieldReplacements[] = $fieldReplacement;
             }
         }
 
         $this->_updateRowsData($tableName, $fieldName, $fieldReplacements);
-
-        $this->_replacements[$tableName][$fieldName] =
-            array_merge($this->_replacements[$tableName][$fieldName], $fieldReplacements);
     }
 
     /**
@@ -350,14 +340,18 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      */
     protected function _updateRowsData($tableName, $fieldName, array $fieldReplacements)
     {
-        $adapter = $this->getConnection();
+        if (count($fieldReplacements) > 0) {
+            $adapter = $this->getConnection();
 
-        foreach ($fieldReplacements as $from => $to) {
-            if ($to && $from != $to) {
+            foreach ($fieldReplacements as $fieldReplacement) {
+                $where = array();
+                foreach ($fieldReplacement['where_fields'] as $whereFieldName => $value) {
+                    $where[$adapter->quoteIdentifier($whereFieldName) . ' = ?'] = $value;
+                }
                 $adapter->update(
                     $adapter->getTableName($tableName),
-                    array($fieldName => $to),
-                    array($adapter->quoteIdentifier($fieldName) . ' = ?' => $from)
+                    array($fieldName => $fieldReplacement['to']),
+                    $where
                 );
             }
         }
@@ -368,17 +362,19 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      *
      * @param string $tableName name of table to replace aliases in
      * @param string $fieldName name of table column to replace aliases in
+     * @param array $fieldsToSelect array of fields to select
      * @param string $additionalWhere additional where condition
      * @param int $currPage
      *
      * @return array
      */
-    protected function _getTableData($tableName, $fieldName, $additionalWhere = '', $currPage = 0)
-    {
+    protected function _getTableData($tableName, $fieldName, array $fieldsToSelect, $additionalWhere = '',
+        $currPage = 0
+    ) {
         $adapter = $this->getConnection();
 
         $query = $adapter->select()
-            ->from($adapter->getTableName($tableName), array($fieldName))
+            ->from($adapter->getTableName($tableName), $fieldsToSelect)
             ->where($fieldName . ' IS NOT NULL');
 
         if (!empty($additionalWhere)) {
@@ -413,10 +409,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
                 $data = $this->_getPatternReplacement($data, $contentType, $entityType);
                 break;
             case self::FIELD_CONTENT_TYPE_PLAIN:
-                $data = $this->_getModelReplacement($data, $entityType);
-                break;
             default:
-                $data = $this->_getCorrespondingClassName($data, $entityType);
+                $data = $this->_getModelReplacement($data, $entityType);
                 break;
         }
 
@@ -481,7 +475,12 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             }
         }
 
-        return $this->_getCorrespondingClassName($data, $entityType);
+        $className = $this->_getCorrespondingClassName($data, $entityType);
+        if (!empty($className)) {
+            return $className;
+        } else {
+            return $data;
+        }
     }
 
     /**

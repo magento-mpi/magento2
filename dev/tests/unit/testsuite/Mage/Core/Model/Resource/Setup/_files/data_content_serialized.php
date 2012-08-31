@@ -15,8 +15,7 @@ return array(
             'table',
             'field',
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-            Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED,
-            ''
+            Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED
         )
     ),
     '$tableData' => array(
@@ -29,7 +28,7 @@ return array(
                 'table' => 'table',
                 'field' => 'field',
                 'to'    => 'a:1:{s:5:"model";s:45:"Mage_CatalogRule_Model_Rule_Condition_Combine";}',
-                'from'  => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}'
+                'from'  => array('`field` = ?' => 'a:1:{s:5:"model";s:34:"catalogrule/rule_condition_combine";}')
             ),
         ),
         'aliases_map' => array(

@@ -14,7 +14,8 @@ $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_reminder_rule', 'conditions_serialized',
     Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED,
+    array('rule_id')
 );
 $installer->doUpdateClassAliases();
 

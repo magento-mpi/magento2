@@ -12,34 +12,15 @@
 $installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup_Migration', 'core_setup');
 $installer->startSetup();
 
-$tables = array(
-    'core_config_data' => array(
-        array(
-            'name'         => 'value',
-            'entity_type'  => Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-            'content_type' => Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
-        ),
-    ),
-    'core_layout_update' => array(
-        array(
-            'name'         => 'xml',
-            'entity_type'  => Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-            'content_type' => Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
-        ),
-    ),
+$installer->appendClassAliasReplace('core_config_data', 'value',
+    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN
 );
-
-foreach ($tables as $table => $fields) {
-    foreach ($fields as $fieldData) {
-        $installer->appendClassAliasReplace(
-            $table,
-            $fieldData['name'],
-            $fieldData['entity_type'],
-            $fieldData['content_type']
-        );
-    }
-}
-
+$installer->appendClassAliasReplace('core_layout_update', 'xml',
+    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
+    array('layout_update_id')
+);
 $installer->doUpdateClassAliases();
 
 $installer->endSetup();

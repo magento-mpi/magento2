@@ -15,8 +15,7 @@ return array(
             'table',
             'field',
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-            Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
-            ''
+            Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI
         )
     ),
     '$tableData' => array(
@@ -29,7 +28,7 @@ return array(
                 'table' => 'table',
                 'field' => 'field',
                 'to'    => '<p>{{widget type="Mage_ProductAlert_Block_Product_View"}}</p>',
-                'from'  => '<p>{{widget type="productalert/product_view"}}</p>'
+                'from'  => array('`field` = ?' => '<p>{{widget type="productalert/product_view"}}</p>')
             ),
         ),
         'aliases_map' => array(

@@ -16,14 +16,6 @@ return array(
             'field',
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
             Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
-            ''
-        ),
-        array(
-            'table',
-            'collection',
-            Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE,
-            Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
-            'flag = 1'
         )
     ),
     '$tableData' => array(
@@ -31,7 +23,6 @@ return array(
         array('field'      => 'customer/attribute_data_postcode'),
         array('field'      => 'customer/attribute_data_postcode::someMethod'),
         array('field'      => 'Mage_Customer_Model_Customer'),
-        array('collection' => 'customer/attribute_collection'),
     ),
     '$expected' => array(
         'updates' => array(
@@ -39,37 +30,25 @@ return array(
                 'table' => 'table',
                 'field' => 'field',
                 'to'    => 'Mage_Customer_Model_Customer_FROM_MAP',
-                'from'  => 'customer/customer'
+                'from'  => array('`field` = ?' => 'customer/customer')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
                 'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode',
-                'from'  => 'customer/attribute_data_postcode'
+                'from'  => array('`field` = ?' => 'customer/attribute_data_postcode')
             ),
             array(
                 'table' => 'table',
                 'field' => 'field',
                 'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode::someMethod',
-                'from'  => 'customer/attribute_data_postcode::someMethod'
-            ),
-            array(
-                'table' => 'table',
-                'field' => 'collection',
-                'to'    => 'Mage_Customer_Model_Resource_Attribute_Collection',
-                'from'  => 'customer/attribute_collection'
-            ),
-        ),
-        'where' => array(
-            'flag = 1'
+                'from'  => array('`field` = ?' => 'customer/attribute_data_postcode::someMethod')
+            )
         ),
         'aliases_map' => array(
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL => array(
                 'customer/customer' => 'Mage_Customer_Model_Customer_FROM_MAP',
                 'customer/attribute_data_postcode' => 'Mage_Customer_Model_Attribute_Data_Postcode'
-            ),
-            Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_RESOURCE => array(
-                'customer/attribute_collection' => 'Mage_Customer_Model_Resource_Attribute_Collection'
             ),
         )
     ),

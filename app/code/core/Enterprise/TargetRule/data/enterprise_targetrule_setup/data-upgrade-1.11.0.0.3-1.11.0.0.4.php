@@ -14,11 +14,13 @@ $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_targetrule', 'conditions_serialized',
     Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED,
+    array('rule_id')
 );
 $installer->appendClassAliasReplace('enterprise_targetrule', 'actions_serialized',
     Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_SERIALIZED,
+    array('rule_id')
 );
 $installer->doUpdateClassAliases();
 

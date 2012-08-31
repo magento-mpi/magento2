@@ -115,13 +115,12 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     {
         $fields = array_keys($bind);
         $replacements = array_values($bind);
-        $aliases = array_values($where);
 
         $this->_actualUpdateResult[] = array(
             'table' => $table,
             'field' => $fields[0],
             'to' => $replacements[0],
-            'from' => $aliases[0]
+            'from' => $where
         );
     }
 
@@ -151,8 +150,8 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     {
         $setupModel = new Mage_Core_Model_Resource_Setup_Migration('core_setup', $this->_getModelDependencies());
 
-        $setupModel->appendClassAliasReplace(
-            'tableName', 'fieldName', 'entityType', 'fieldContentType', 'additionalWhere'
+        $setupModel->appendClassAliasReplace('tableName', 'fieldName', 'entityType', 'fieldContentType',
+            array('pk_field1', 'pk_field2'), 'additionalWhere'
         );
 
         $expectedRulesList = array (
@@ -160,6 +159,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
                 'fieldName' => array(
                     'entity_type'      => 'entityType',
                     'content_type'     => 'fieldContentType',
+                    'pk_fields'        => array('pk_field1', 'pk_field2'),
                     'additional_where' => 'additionalWhere'
                 )
             )
@@ -226,10 +226,12 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     public function updateClassAliasesDataProvider()
     {
         return array(
-            'plain text replace'     => include __DIR__ . '/_files/data_content_plain.php',
-            'xml replace'            => include __DIR__ . '/_files/data_content_xml.php',
-            'wiki markup replace'    => include __DIR__ . '/_files/data_content_wiki.php',
-            'serialized php replace' => include __DIR__ . '/_files/data_content_serialized.php',
+            'plain text replace model'         => include __DIR__ . '/_files/data_content_plain_model.php',
+            'plain text replace resource'      => include __DIR__ . '/_files/data_content_plain_resource.php',
+            'plain text replace with pk field' => include __DIR__ . '/_files/data_content_plain_pk_fields.php',
+            'xml replace'                      => include __DIR__ . '/_files/data_content_xml.php',
+            'wiki markup replace'              => include __DIR__ . '/_files/data_content_wiki.php',
+            'serialized php replace'           => include __DIR__ . '/_files/data_content_serialized.php',
         );
     }
 

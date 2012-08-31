@@ -12,27 +12,26 @@
 $installer = Mage::getResourceModel('Mage_Core_Model_Resource_Setup_Migration', 'core_setup');
 $installer->startSetup();
 
-$tables = array(
-    'cms_block' => array(
-        'content' => Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
-    ),
-    'cms_page' => array(
-        'content'                  => Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
-        'layout_update_xml'        => Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
-        'custom_layout_update_xml' => Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
-    ),
+$installer->appendClassAliasReplace('cms_block', 'content',
+    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
+    array('block_id')
 );
-
-foreach ($tables as $table => $fields) {
-    foreach ($fields as $field => $contentType) {
-        $installer->appendClassAliasReplace(
-            $table,
-            $field,
-            Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-            $contentType
-        );
-    }
-}
+$installer->appendClassAliasReplace('cms_page', 'content',
+    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI,
+    array('page_id')
+);
+$installer->appendClassAliasReplace('cms_page', 'layout_update_xml',
+    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
+    array('page_id')
+);
+$installer->appendClassAliasReplace('cms_page', 'custom_layout_update_xml',
+    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML,
+    array('page_id')
+);
 
 $installer->doUpdateClassAliases();
 
