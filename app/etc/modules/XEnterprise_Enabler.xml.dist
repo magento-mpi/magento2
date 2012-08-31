@@ -42,6 +42,7 @@
         <Enterprise_SalesArchive><active>true</active></Enterprise_SalesArchive>
         <Enterprise_Search><active>true</active></Enterprise_Search>
         <Enterprise_Staging><active>false</active></Enterprise_Staging>
+        <Enterprise_Tag><active>true</active></Enterprise_Tag>
         <Enterprise_TargetRule><active>true</active></Enterprise_TargetRule>
         <Enterprise_WebsiteRestriction><active>true</active></Enterprise_WebsiteRestriction>
         <Enterprise_Wishlist><active>true</active></Enterprise_Wishlist>

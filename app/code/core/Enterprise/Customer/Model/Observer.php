@@ -50,7 +50,7 @@ class Enterprise_Customer_Model_Observer
         $collection = $observer->getEvent()->getQuoteAddressCollection();
         if ($collection instanceof Varien_Data_Collection_Db) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Quote_Address')
-                ->attachDataToCollection($collection);
+                ->attachDataToEntities($collection->getItems());
         }
 
         return $this;
@@ -119,7 +119,7 @@ class Enterprise_Customer_Model_Observer
         $collection = $observer->getEvent()->getOrderAddressCollection();
         if ($collection instanceof Varien_Data_Collection_Db) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
-                ->attachDataToCollection($collection);
+                ->attachDataToEntities($collection->getItems());
         }
 
         return $this;
@@ -137,6 +137,23 @@ class Enterprise_Customer_Model_Observer
         if ($order instanceof Mage_Core_Model_Abstract) {
             Mage::getModel('Enterprise_Customer_Model_Sales_Order')
                 ->saveAttributeData($order);
+        }
+
+        return $this;
+    }
+
+    /**
+     * After load observer for order address
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Customer_Model_Observer
+     */
+    public function salesOrderAddressAfterLoad(Varien_Event_Observer $observer)
+    {
+        $address = $observer->getEvent()->getAddress();
+        if ($address instanceof Mage_Core_Model_Abstract) {
+            Mage::getModel('Enterprise_Customer_Model_Sales_Order_Address')
+                ->attachDataToEntities(array($address));
         }
 
         return $this;

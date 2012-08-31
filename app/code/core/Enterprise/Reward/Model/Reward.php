@@ -42,7 +42,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
     const REWARD_ACTION_INVITATION_CUSTOMER = 4;
     const REWARD_ACTION_INVITATION_ORDER    = 5;
     const REWARD_ACTION_REVIEW              = 6;
-    const REWARD_ACTION_TAG                 = 7;
     const REWARD_ACTION_ORDER_EXTRA         = 8;
     const REWARD_ACTION_CREDITMEMO          = 9;
     const REWARD_ACTION_SALESRULE           = 10;
@@ -76,7 +75,6 @@ class Enterprise_Reward_Model_Reward extends Mage_Core_Model_Abstract
             self::REWARD_ACTION_INVITATION_CUSTOMER => 'Enterprise_Reward_Model_Action_InvitationCustomer',
             self::REWARD_ACTION_INVITATION_ORDER    => 'Enterprise_Reward_Model_Action_InvitationOrder',
             self::REWARD_ACTION_REVIEW              => 'Enterprise_Reward_Model_Action_Review',
-            self::REWARD_ACTION_TAG                 => 'Enterprise_Reward_Model_Action_Tag',
             self::REWARD_ACTION_ORDER_EXTRA         => 'Enterprise_Reward_Model_Action_OrderExtra',
             self::REWARD_ACTION_CREDITMEMO          => 'Enterprise_Reward_Model_Action_Creditmemo',
             self::REWARD_ACTION_SALESRULE           => 'Enterprise_Reward_Model_Action_Salesrule',
