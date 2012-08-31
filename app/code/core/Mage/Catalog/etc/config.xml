@@ -383,12 +383,12 @@
             <navigation>
                 <max_depth>0</max_depth>
             </navigation>
-            <product_creation>
+            <fields_masks>
                 <sku>{{name}}</sku>
                 <meta_title>{{name}}</meta_title>
                 <meta_keywords>{{name}},{{sku}}</meta_keywords>
                 <meta_description>{{name}} {{description}}</meta_description>
-            </product_creation>
+            </fields_masks>
             <frontend>
                 <list_mode>grid-list</list_mode>
                 <grid_per_page_values>9,15,30</grid_per_page_values>

@@ -18,7 +18,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     const XML_PATH_PRODUCT_URL_SUFFIX           = 'catalog/seo/product_url_suffix';
     const XML_PATH_PRODUCT_URL_USE_CATEGORY     = 'catalog/seo/product_use_categories';
     const XML_PATH_USE_PRODUCT_CANONICAL_TAG    = 'catalog/seo/product_canonical_tag';
-    const XML_PATH_AUTOGENERATE_MASK        = 'catalog/product_creation';
+    const XML_PATH_AUTOGENERATE_MASK        = 'catalog/fields_masks';
 
 
     /**

@@ -154,11 +154,11 @@ Event.observe(window, 'load', function() {
                 var fieldReverseIndex = {};
                 $.each(masks, function(field, mask) {
                     $.each(mask.toString().match(self.varsRegexp), function(key, maskName) {
-                        var filedName = maskName.slice(2, -2);
-                        if (!(filedName in fieldReverseIndex)) {
-                            fieldReverseIndex[filedName] = [];
+                        var fieldName = maskName.slice(2, -2);
+                        if (!(fieldName in fieldReverseIndex)) {
+                            fieldReverseIndex[fieldName] = [];
                         }
-                        fieldReverseIndex[filedName].push(field);
+                        fieldReverseIndex[fieldName].push(field);
                     })
                 });
                 return fieldReverseIndex;

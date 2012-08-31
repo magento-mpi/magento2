@@ -28,7 +28,7 @@
             <show_in_store>1</show_in_store>
             <resource>Mage_Catalog::config_catalog</resource>
             <groups>
-                <product_creation translate="label">
+                <fields_masks translate="label">
                     <label>Product Fields Auto-Generation</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>90</sort_order>
@@ -77,7 +77,7 @@
                             <show_in_store>0</show_in_store>
                         </meta_description>
                     </fields>
-                </product_creation>
+                </fields_masks>
                 <frontend translate="label">
                     <label>Frontend</label>
                     <frontend_type>text</frontend_type>
