@@ -57,8 +57,9 @@ class Enterprise_CustomerBalance_Model_Observer
                     if (isset($data['store_id'])) {
                         $balance->setNotifyByEmail(true, $data['store_id']);
                     } elseif (Mage::app()->isSingleStoreMode()) {
-                        $store = array_shift(Mage::app()->getStores());
-                        $balance->setNotifyByEmail(true, $store->getId());
+                        $stores = Mage::app()->getStores();
+                        $singleStore = array_shift($stores);
+                        $balance->setNotifyByEmail(true, $singleStore->getId());
                     }
                 }
                 $balance->save();
