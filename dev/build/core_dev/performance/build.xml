@@ -20,7 +20,7 @@
         <condition property="performance_tests_config_file" value="${basedir}/dev/build/core_dev/performance/config.php">
             <not><isset property="performance_tests_config_file"/></not>
         </condition>
-        <copy file="${performance_tests_config_file}" todir="${product_root_dir}/dev/tests/performance/config.php" overwrite="true"/>
+        <copy file="${performance_tests_config_file}" tofile="${product_root_dir}/dev/tests/performance/config.php" overwrite="true"/>
         <antcall target="_database_credential_substitution">
             <param name="db_config_file" value="${product_root_dir}/dev/tests/performance/config.php"/>
         </antcall>
