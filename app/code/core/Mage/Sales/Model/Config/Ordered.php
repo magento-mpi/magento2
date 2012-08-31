@@ -177,16 +177,16 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
             }
         }
         if (!$sortedCodes) {
+            try {
+                self::validateCollectorDeclarations($this->_modelsConfig);
+            } catch (Exception $e) {
+                Mage::logException($e);
+            }
             $sortedCodes = $this->_getSortedCollectorCodes($this->_modelsConfig);
             if ($useCache) {
                 Mage::app()->saveCache(serialize($sortedCodes), $this->_collectorsCacheKey, array(
                     Mage_Core_Model_Config::CACHE_TAG
                 ));
-            }
-            try {
-                self::validateCollectorDeclarations($this->_modelsConfig);
-            } catch (Exception $e) {
-                Mage::logException($e);
             }
         }
         foreach ($sortedCodes as $code) {

@@ -50,13 +50,21 @@ class Magento_Data_GraphTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(array(1 => array(2 => 2), 2 => array(3 => 3), 3 => array(1 => 1)), $model->getRelations());
     }
 
-    /**
-     * Non-inverted case is covered by testAddRelation()
-     */
-    public function testGetRelationsInverted()
+    public function testGetRelations()
     {
+        // directional case is covered by testAddRelation()
+
+        // inverse
         $model = new Magento_Data_Graph(array(1, 2, 3), array(array(1, 2), array(2, 3)));
-        $this->assertEquals(array(2 => array(1 => 1), 3 => array(2 => 2)), $model->getRelations(true));
+        $this->assertEquals(
+            array(2 => array(1 => 1), 3 => array(2 => 2)), $model->getRelations(Magento_Data_Graph::INVERSE)
+        );
+
+        // non-directional
+        $this->assertEquals(
+            array(1 => array(2 => 2), 2 => array(1 => 1, 3 => 3), 3 => array(2 => 2)),
+            $model->getRelations(Magento_Data_Graph::NON_DIRECTIONAL)
+        );
     }
 
     public function testFindCycle()

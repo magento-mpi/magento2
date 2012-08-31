@@ -57,8 +57,8 @@ class Magento_Data_Graph
     /**
      * Set a relation between nodes
      *
-     * @param mixed $from
-     * @param mixed $to
+     * @param string|int $from
+     * @param string|int $to
      * @return Magento_Data_Graph
      * @throws InvalidArgumentException
      */
@@ -77,12 +77,28 @@ class Magento_Data_Graph
     /**
      * Export relations between nodes. Can return inverse relations
      *
-     * @param bool $inverse
+     * @param int $mode
      * @return array
+     * @throws InvalidArgumentException
      */
-    public function getRelations($inverse = false)
+    public function getRelations($mode = self::DIRECTIONAL)
     {
-        return $inverse ? $this->_to : $this->_from;
+        switch ($mode) {
+            case self::DIRECTIONAL:
+                return $this->_from;
+            case self::INVERSE:
+                return $this->_to;
+            case self::NON_DIRECTIONAL:
+                $graph = $this->_from;
+                foreach ($this->_to as $idTo => $relations) {
+                    foreach ($relations as $idFrom) {
+                        $graph[$idTo][$idFrom] = $idFrom;
+                    }
+                }
+                return $graph;
+            default:
+                throw new InvalidArgumentException("Unknown search mode: '{$mode}'");
+        }
     }
 
     /**
@@ -91,7 +107,7 @@ class Magento_Data_Graph
      * Returns first found cycle
      * Optionally may specify a node to return a cycle if it is in any
      *
-     * @param mixed $node
+     * @param string|int $node
      * @return array
      */
     public function findCycle($node = null)
@@ -111,44 +127,25 @@ class Magento_Data_Graph
      * "Depth-first search" of a path between nodes
      *
      * Returns path as array of nodes or empty array if path does not exist.
-     * Only first found path is found. It will be not necessary the shortest or optimal in any way.
+     * Only first found path is returned. It will be not necessary the shortest or optimal in any way.
      *
-     * @param mixed $from
-     * @param mixed $to
+     * @param string|int $from
+     * @param string|int $to
      * @param int $mode
      * @return array
-     * @throws InvalidArgumentException
      */
     public function dfs($from, $to, $mode = self::DIRECTIONAL)
     {
         $this->_assertNode($from, true);
         $this->_assertNode($to, true);
-        switch ($mode) {
-            case self::DIRECTIONAL:
-                $graph = $this->_from;
-                break;
-            case self::INVERSE:
-                $graph = $this->_to;
-                break;
-            case self::NON_DIRECTIONAL:
-                $graph = $this->_from;
-                foreach ($this->_to as $idTo => $relations) {
-                    foreach ($relations as $idFrom) {
-                        $graph[$idTo][$idFrom] = $idFrom;
-                    }
-                }
-                break;
-            default:
-                throw new InvalidArgumentException("Unknown search mode: '{$mode}'");
-        }
-        return $this->_dfs($from, $to, $graph);
+        return $this->_dfs($from, $to, $this->getRelations($mode));
     }
 
     /**
      * Recursive sub-routine of dfs()
      *
-     * @param mixed $from
-     * @param mixed $to
+     * @param string|int $from
+     * @param string|int $to
      * @param array $graph
      * @param array &$visited
      * @param array $stack
@@ -179,7 +176,7 @@ class Magento_Data_Graph
     /**
      * Verify existence or non-existence of a node
      *
-     * @param mixed $node
+     * @param string|int $node
      * @param bool $mustExist
      * @throws InvalidArgumentException according to assertion rules
      */
