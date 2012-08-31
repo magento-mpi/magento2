@@ -119,13 +119,12 @@ Event.observe(window, 'load', function() {
         $.extend(Autogenerator.prototype, {
             varsRegexp : /{{([\w_]+?)}}/g,
             data: {
-                mask: 'autogenerator-mask-values',
                 disabled: 'autogenerator-disabled'
             },
             bindAll: function(events) {
                 var self = this;
                 $.each(self._masks, function(field) {
-                    $('#' + field).bind('blur change', function() {
+                    $('#' + field).bind('focus blur change keyup click', function() {
                         $(this).data(self.data.disabled, $(this).val() != '');
                     });
                 });
@@ -133,19 +132,17 @@ Event.observe(window, 'load', function() {
                     var fields = this, $field = $('#' + field);
                     var filler = function() {
                         $.each(fields, function() {
-                            var $el = $('#' + this), data = $el.data(self.data.mask) || {};
+                            var $el = $('#' + this);
                             if ($el.data(self.data.disabled)) {
                                 return;
                             }
-                            data[field] = $field.val();
                             var value = self._masks[this].replace(self.varsRegexp, function(maskfieldName) {
-                                return data[maskfieldName.slice(2, -2)] || '';
+                                return $('#' + maskfieldName.slice(2, -2)).val();
                             });
-                            $el.data(self.data.mask, data)
-                                .val(value);
+                            $el.val(value);
                         });
                     };
-                    $field.bind(events || 'keyup', filler);
+                    $field.bind(events || 'keyup change blur click', filler);
                     filler.call($field);
                 });
             },
