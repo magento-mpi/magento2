@@ -117,20 +117,21 @@ Event.observe(window, 'load', function() {
         };
 
         $.extend(Autogenerator.prototype, {
-            varsRegexp : /{{([\w_]+?)}}/g,
+            varRegexp: /{{([\w_]+?)}}/,
+            varsRegexp: /{{([\w_]+?)}}/g,
             data: {
                 disabled: 'autogenerator-disabled'
             },
             bindAll: function(events) {
                 var self = this;
 
-                $.each(self._masks, function(field) {
+                $.each(self._masks, function(field, mask) {
                     var disabler = function() {
                         $(this).data(self.data.disabled, $(this).val() != '');
                     };
                     var $field = $('#' + field);
-                    if (this.length > 0 && !self.varsRegexp.test(this)) {
-                        $field.val(this);
+                    if (mask.length > 0 && !self.varRegexp.test(mask)) {
+                        $field.val(mask);
                     }
                     disabler.call($field);
                     $field.bind('focus blur change keyup click', disabler);
