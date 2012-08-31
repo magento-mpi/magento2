@@ -113,8 +113,8 @@ applications:
             paypal_sandbox: *paypalSandbox
             paypal_developer: *paypalDeveloper
     magento2enterprise: &magento2enterprise
-        fallbackOrderFixture: 'enterprise2, community2, default'
-        fallbackOrderHelper: 'Enterprise2, Community2, Core'
+        fallbackOrderFixture: 'enterprise2, enterprise, default'
+        fallbackOrderHelper: 'Enterprise2, Enterprise, Core'
         areas:
             admin:
                 url: 'http://www.localhost.com/magento2_enterprise/control/'

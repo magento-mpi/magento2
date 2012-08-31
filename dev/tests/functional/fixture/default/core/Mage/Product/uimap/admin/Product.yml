@@ -715,3 +715,13 @@ created_empty_simple_from_configurable:
         buttons:
             close_window: //button[span='Close Window']
         messages: *productMesssages
+
+new_product_after_changed_attribute_set:
+    mca: catalog_product/new/type/%productType%/?set=%setId%
+    title: New Product / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct
+
+edit_saved_product_after_changed_attribute_set:
+    mca: catalog_product/edit/id/%id%/?set=%setId%
+    title: %productName% / Manage Products / Catalog / Magento Admin
+    uimap: *newProduct

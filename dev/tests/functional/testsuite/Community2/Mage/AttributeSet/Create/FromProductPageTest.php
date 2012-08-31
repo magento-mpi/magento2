@@ -82,9 +82,9 @@ class Community2_Mage_AttributeSet_Create_FromProductPageTest extends Mage_Selen
         //Verifying
         $this->navigate('manage_attribute_sets');
         $this->attributeSetHelper()->openAttributeSet($newAttributeSet);
-        $this->attributeSetHelper()->verifyAttributeAssignedToSet(array($attributeData['attribute_code']));
+        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeData['attribute_code']));
         $this->attributeSetHelper()->openAttributeSet($baseAttributeSet);
-        $this->attributeSetHelper()->verifyAttributeAssignedToSet(array(), array($attributeData['attribute_code']));
+        $this->attributeSetHelper()->verifyAttributeAssignment(array($attributeData['attribute_code']), false);
     }
 
     /**

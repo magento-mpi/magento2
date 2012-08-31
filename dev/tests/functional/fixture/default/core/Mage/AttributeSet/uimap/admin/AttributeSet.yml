@@ -35,6 +35,8 @@ manage_attribute_sets:
             error_attribute_set_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Attribute set with the "%attributeSetName%" name already exists.')]
             empty_required_field: "//div[@id='advice-required-entry-%fieldId%' and not(contains(@style,'display: none;'))]"
             confirmation_for_delete: All products of this set will be deleted! Are you sure you want to delete this attribute set?
+            remove_system_attribute: You cannot remove system attribute from this set.
+            delete_group: This group contains system attributes. Please move system attributes to another group and try again
 
 add_new_attribute_set:
     mca: catalog_product_set/add/
@@ -83,6 +85,8 @@ edit_attribute_set:
                         xpath:  //div[@id='tree-div2']
                         links:
                             unassigned_attribute: //div[@id='tree-div2']//span[text()='%attributeName%']
+                        pageelements:
+                            node_icon: //img[@class="x-tree-node-icon"]
         buttons: &editAttributeButtons
             save_attribute_set: //button[span='Save Attribute Set']
             delete_attribute_set: //button[span='Delete Attribute Set']
