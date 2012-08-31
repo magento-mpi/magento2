@@ -18,8 +18,9 @@ class Mage_Adminhtml_Model_Config_DataTest extends PHPUnit_Framework_TestCase
      * @param array $groups
      * @magentoDbIsolation enabled
      * @dataProvider saveDataProvider
+     * @magentoConfigFixture current_store general/single_store_mode/enabled 1
      */
-    public function testSave($groups)
+    public function testSaveWithSingleStoreModeEnabled($groups)
     {
         $_configDataObject = new Mage_Adminhtml_Model_Config_Data();
         $_configData = $_configDataObject->setSection('dev')

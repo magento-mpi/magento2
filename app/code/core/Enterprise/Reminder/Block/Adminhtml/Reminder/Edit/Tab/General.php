@@ -67,7 +67,7 @@ class Enterprise_Reminder_Block_Adminhtml_Reminder_Edit_Tab_General
                 ->prepareElementHtml($field);
         }
 
-        if (Mage::app()->isSingleStoreMode()) {
+        if (Mage::app()->hasSingleStore()) {
             $websiteId = Mage::app()->getStore(true)->getWebsiteId();
             $fieldset->addField('website_ids', 'hidden', array(
                 'name'     => 'website_ids[]',

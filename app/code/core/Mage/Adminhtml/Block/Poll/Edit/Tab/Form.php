@@ -46,7 +46,7 @@ class Mage_Adminhtml_Block_Poll_Edit_Tab_Form extends Mage_Adminhtml_Block_Widge
             ),
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!Mage::app()->hasSingleStore()) {
             $fieldset->addField('store_ids', 'multiselect', array(
                 'label'     => Mage::helper('Mage_Poll_Helper_Data')->__('Visible In'),
                 'required'  => true,
