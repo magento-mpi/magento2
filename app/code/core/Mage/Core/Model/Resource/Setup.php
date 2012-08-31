@@ -624,7 +624,7 @@ class Mage_Core_Model_Resource_Setup
 
                 if ($result) {
                     $this->_setResourceVersion($actionType, $file['toVersion']);
-                    Mage::log("{$fileName}");
+                    Mage::log($fileName);
                 } else {
                     Mage::log("Failed resource setup: {$fileName}");
                 }

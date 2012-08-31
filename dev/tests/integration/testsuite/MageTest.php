@@ -30,7 +30,7 @@ class MageTest extends PHPUnit_Framework_TestCase
      * @magentoConfigFixture current_store dev/log/active 1
      * @magentoConfigFixture global/log/core/writer_model Zend_Log_Writer_Mail
      */
-    public function testLogStreamEnforced()
+    public function testLogUnsuppotedWrapper()
     {
         $logEntry = microtime();
         Mage::log($logEntry);
