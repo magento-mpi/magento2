@@ -386,7 +386,7 @@
             <fields_masks>
                 <sku>{{name}}</sku>
                 <meta_title>{{name}}</meta_title>
-                <meta_keywords>{{name}},{{sku}}</meta_keywords>
+                <meta_keyword>{{name}},{{sku}}</meta_keyword>
                 <meta_description>{{name}} {{description}}</meta_description>
             </fields_masks>
             <frontend>

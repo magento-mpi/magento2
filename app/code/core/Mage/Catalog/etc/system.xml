@@ -56,7 +56,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </meta_title>
-                        <meta_keywords translate="label comment">
+                        <meta_keyword translate="label comment">
                             <label>Mask for Meta Keywords</label>
                             <comment>You can use attribute code as placeholder. Example: {{name}}</comment>
                             <frontend_type>text</frontend_type>
@@ -65,7 +65,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </meta_keywords>
+                        </meta_keyword>
                         <meta_description translate="label comment">
                             <label>Mask for Meta Description</label>
                             <comment>You can use attribute code as placeholder. Example: {{name}}</comment>
