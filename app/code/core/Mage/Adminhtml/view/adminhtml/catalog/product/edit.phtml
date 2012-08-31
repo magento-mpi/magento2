@@ -153,7 +153,7 @@ Event.observe(window, 'load', function() {
                 var self = this;
                 var fieldReverseIndex = {};
                 $.each(masks, function(field, mask) {
-                    $.each(mask.toString().match(self.varsRegexp), function(key, maskName) {
+                    $.each(mask.toString().match(self.varsRegexp) || [], function(key, maskName) {
                         var fieldName = maskName.slice(2, -2);
                         if (!(fieldName in fieldReverseIndex)) {
                             fieldReverseIndex[fieldName] = [];
