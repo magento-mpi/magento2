@@ -29,18 +29,6 @@ if (isset($options['h'])) {
 
 require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/dev/tests/static/framework/bootstrap.php';
 require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/lib/Zend/Json.php';
-require_once realpath(dirname(dirname(dirname(__DIR__)))) . '/app/code/core/Mage/Core/Model/Resource/Setup.php';
-require_once realpath(dirname(dirname(dirname(__DIR__))))
-    . '/app/code/core/Mage/Core/Model/Resource/Setup/Migration.php';
-
-$enterpriseMigrationFile = realpath(dirname(dirname(dirname(__DIR__))))
-    . '/app/code/core/Enterprise/Enterprise/Model/Resource/Setup/Migration.php';
-if (file_exists($enterpriseMigrationFile)) {
-    require_once $enterpriseMigrationFile;
-    $compositeModules = Enterprise_Enterprise_Model_Resource_Setup_Migration::getCompositeModules();
-} else {
-    $compositeModules = Mage_Core_Model_Resource_Setup_Migration::getCompositeModules();
-}
 
 $magentoBaseDir = dirname(__DIR__) . '/../../';
 if (isset($options['p'])) {
@@ -49,6 +37,7 @@ if (isset($options['p'])) {
 
 $utilityFiles = new Utility_Files($magentoBaseDir);
 $map = array();
+$compositeModules = getFilesCombinedArray(dirname(__FILE__) . '/aliases_map', 'composite_modules_*.php');
 // PHP code
 foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
@@ -98,6 +87,23 @@ foreach ($layouts as $file) {
 }
 
 echo Zend_Json::prettyPrint(Zend_Json::encode($map));
+
+/**
+ * Get combined array from similar files by pattern
+ *
+ * @param $dirPath
+ * @param $filePattern
+ * @return array
+ */
+function getFilesCombinedArray($dirPath, $filePattern)
+{
+    $result = array();
+    foreach (glob($dirPath . '/' . $filePattern, GLOB_NOSORT | GLOB_BRACE) as $filePath) {
+        $arrayFromFile = include_once($filePath);
+        $result = array_merge($result, $arrayFromFile);
+    }
+    return $result;
+}
 
 /**
  * Check is pattern existed in file content

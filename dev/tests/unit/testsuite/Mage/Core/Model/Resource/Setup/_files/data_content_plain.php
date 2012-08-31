@@ -22,6 +22,7 @@ return array(
     '$tableData' => array(
         array('field' => 'customer/customer'),
         array('field' => 'customer/attribute_data_postcode'),
+        array('field' => 'customer/attribute_data_postcode::someMethod'),
         array('field' => 'Mage_Customer_Model_Customer')
     ),
     '$expected' => array(
@@ -37,6 +38,12 @@ return array(
                 'field' => 'field',
                 'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode',
                 'from'  => 'customer/attribute_data_postcode'
+            ),
+            array(
+                'table' => 'table',
+                'field' => 'field',
+                'to'    => 'Mage_Customer_Model_Attribute_Data_Postcode::someMethod',
+                'from'  => 'customer/attribute_data_postcode::someMethod'
             ),
         ),
         'aliases_map' => array(
