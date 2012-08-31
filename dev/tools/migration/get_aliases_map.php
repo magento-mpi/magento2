@@ -91,8 +91,8 @@ echo Zend_Json::prettyPrint(Zend_Json::encode($map));
 /**
  * Get combined array from similar files by pattern
  *
- * @param $dirPath
- * @param $filePattern
+ * @param string $dirPath
+ * @param string $filePattern
  * @return array
  */
 function getFilesCombinedArray($dirPath, $filePattern)

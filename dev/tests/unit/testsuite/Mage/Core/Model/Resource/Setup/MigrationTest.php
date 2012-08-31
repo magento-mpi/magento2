@@ -22,9 +22,23 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
      */
     protected $_actualUpdateResult;
 
+    /**
+     * Where conditions to compare with expected.
+     * Used in callback for Varien_Db_Select::where.
+     *
+     * @var array
+     */
+    protected $_actualWhere;
+
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject|Varien_Db_Select
+     */
+    protected $_selectMock;
+
     protected function tearDown()
     {
         unset($this->_actualUpdateResult);
+        unset($this->_actualWhere);
     }
 
     /**
@@ -43,20 +57,20 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             ->method('classExists')
             ->will($this->returnCallback(array($this, 'classExistCallback')));
 
-        $selectMock = $this->getMock('Varien_Db_Select', array(), array(), '', false);
-        $selectMock->expects($this->any())
+        $this->_selectMock = $this->getMock('Varien_Db_Select', array(), array(), '', false);
+        $this->_selectMock->expects($this->any())
                     ->method('from')
                     ->will($this->returnSelf());
-        $selectMock->expects($this->any())
+        $this->_selectMock->expects($this->any())
                     ->method('where')
-                    ->will($this->returnSelf());
+                    ->will($this->returnCallback(array($this, 'whereCallback')));
 
         $adapterMock = $this->getMock('Varien_Db_Adapter_Pdo_Mysql',
             array('select', 'update', 'fetchAll', 'fetchOne'), array(), '', false
         );
         $adapterMock->expects($this->any())
             ->method('select')
-            ->will($this->returnValue($selectMock));
+            ->will($this->returnValue($this->_selectMock));
         $adapterMock->expects($this->any())
             ->method('update')
             ->will($this->returnCallback(array($this, 'updateCallback')));
@@ -93,9 +107,9 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     /**
      * Callback for Varien_Db_Select::update
      *
-     * @param $table
+     * @param string $table
      * @param array $bind
-     * @param $where
+     * @param array $where
      */
     public function updateCallback($table, array $bind, $where)
     {
@@ -109,6 +123,25 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
             'to' => $replacements[0],
             'from' => $aliases[0]
         );
+    }
+
+    /**
+     * Callback for Varien_Db_Select::where
+     *
+     * @param string $condition
+     * @return PHPUnit_Framework_MockObject_MockObject|Varien_Db_Select
+     */
+    public function whereCallback($condition)
+    {
+        if (null === $this->_actualWhere) {
+            $this->_actualWhere = array();
+        }
+        if (!empty($condition) && false === strpos($condition, ' IS NOT NULL')
+            && !in_array($condition, $this->_actualWhere)
+        ) {
+            $this->_actualWhere[] = $condition;
+        }
+        return $this->_selectMock;
     }
 
     /**
@@ -175,6 +208,10 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
         $setupModel->doUpdateClassAliases();
 
         $this->assertEquals($expected['updates'], $this->_actualUpdateResult);
+
+        if (isset($expected['where'])) {
+            $this->assertEquals($expected['where'], $this->_actualWhere);
+        }
 
         if (isset($expected['aliases_map'])) {
             $this->assertAttributeEquals($expected['aliases_map'], '_aliasesMap', $setupModel);

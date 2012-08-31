@@ -9,7 +9,7 @@
  */
 
 /**
- * List on composite module names for Magento CE
+ * List on composite module names for Magento EE
  */
 
 require_once realpath(dirname(dirname(dirname(dirname(__DIR__)))))

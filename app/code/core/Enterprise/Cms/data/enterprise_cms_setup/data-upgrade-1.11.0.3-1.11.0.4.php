@@ -8,21 +8,21 @@
  * @license     {license_link}
  */
 
-/** @var $installer Mage_Core_Model_Resource_Setup_Migration */
+/** @var $installer Enterprise_Enterprise_Model_Resource_Setup_Migration */
 $installer = Mage::getResourceModel('Enterprise_Enterprise_Model_Resource_Setup_Migration', 'core_setup');
 $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_cms_page_revision', 'content',
-    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_WIKI
 );
 $installer->appendClassAliasReplace('enterprise_cms_page_revision', 'layout_update_xml',
-    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML
 );
 $installer->appendClassAliasReplace('enterprise_cms_page_revision', 'custom_layout_update_xml',
-    Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_XML
 );
 $installer->doUpdateClassAliases();
 

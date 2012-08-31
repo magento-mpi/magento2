@@ -14,7 +14,7 @@
 class Enterprise_Enterprise_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_Setup_Migration
 {
     /**
-     * List of composite module aliases and modules
+     * List of correspondence between composite module aliases and module names
      *
      * @static
      * @return array
