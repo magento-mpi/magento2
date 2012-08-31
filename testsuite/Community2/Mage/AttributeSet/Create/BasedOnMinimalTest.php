@@ -76,7 +76,7 @@ class Community2_Mage_AttributeSet_Create_BasedOnMinimalTest extends Mage_Seleni
         //Steps
         $this->attributeSetHelper()->openAttributeSet($setName);
         //Verifying
-        $this->attributeSetHelper()->verifyAttributeAssignedToSet($assignedAttributes, $unassignedAttributes);
-        $this->assertEmptyVerificationErrors();
+        $this->attributeSetHelper()->verifyAttributeAssignment($assignedAttributes);
+        $this->attributeSetHelper()->verifyAttributeAssignment($unassignedAttributes, false);
     }
 }

@@ -94,8 +94,6 @@ new_configurable_product:
     uimap: *newProduct
 
 new_product_after_changed_attribute_set:
-    mca: catalog_product/new/type/%productType%/?set=%setId%
-    title: New Product / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
 duplicated_configurable_product:
@@ -108,8 +106,6 @@ edit_saved_product:
     uimap: *newProduct
 
 edit_saved_product_after_changed_attribute_set:
-    mca: catalog_product/edit/id/%id%/?set=%setId%
-    title: %productName% / Manage Products / Catalog / Magento Admin
     uimap: *newProduct
 
 edit_product_save_and_continue:
