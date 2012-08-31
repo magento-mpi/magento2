@@ -43,6 +43,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Ma
      */
     public function addFromFrontendTags($tags, $status, $customer, $testData)
     {
+        $this->markTestSkipped('Skipped due to bug MAGE-3958');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][$customer]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
