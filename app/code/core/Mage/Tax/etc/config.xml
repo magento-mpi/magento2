@@ -134,6 +134,17 @@
                 </tax>
             </totals>
         </pdf>
+        <catalog>
+            <product>
+                <attribute>
+                    <set>
+                        <minimal>
+                            <tax_class_id/>
+                        </minimal>
+                    </set>
+                </attribute>
+            </product>
+        </catalog>
     </global>
     <adminhtml>
         <translate>

@@ -64,6 +64,14 @@
                         </types>
                     </bundle>
                 </options>
+                <attribute>
+                    <set>
+                        <minimal>
+                            <price_type/>
+                            <price_view/>
+                        </minimal>
+                    </set>
+                </attribute>
             </product>
         </catalog>
         <sales>
