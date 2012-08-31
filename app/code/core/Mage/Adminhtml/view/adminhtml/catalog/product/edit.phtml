@@ -141,7 +141,7 @@ Event.observe(window, 'load', function() {
                             var value = self._masks[this].replace(self.varsRegexp, function(maskfieldName) {
                                 return data[maskfieldName.slice(2, -2)] || '';
                             });
-                            $el.data('mask-elements', data)
+                            $el.data(self.data.mask, data)
                                 .val(value);
                         });
                     };
