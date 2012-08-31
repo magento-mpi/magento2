@@ -10,11 +10,8 @@
 
 /** @var $installer Mage_Sales_Model_Resource_Setup */
 $installer = $this;
-/** @var Mage_Sales_Model_Order_Payment $modelOrderPayment */
-$modelOrderPayment = Mage::getModel('Mage_Sales_Model_Order_Payment');
-
-/** @var Mage_Sales_Model_Quote_Payment $modelQuotePayment */
-$modelQuotePayment = Mage::getModel('Mage_Sales_Model_Quote_Payment');
+/** @var Mage_Core_Helper_Data $converter */
+$converter = Mage::helper('Mage_Core_Helper_Data');
 
 $installer->startSetup();
 $itemsPerPage = 1000;
@@ -35,18 +32,13 @@ do {
     $currentPosition += $itemsPerPage;
 
     foreach ($orders as $order) {
-        $modelOrderPayment->setData('method', $order['method']);
-        $modelOrderPayment->setCcExpMonth($order['cc_exp_month']);
-        $modelOrderPayment->setCcExpYear($order['cc_exp_year']);
-        $modelOrderPayment->setCcOwner($order['cc_owner']);
-
         $installer->getConnection()
             ->update(
                 $installer->getTable('sales_flat_order_payment'),
                 array(
-                    'cc_exp_month' => $modelOrderPayment->getData('cc_exp_month'),
-                    'cc_exp_year' => $modelOrderPayment->getData('cc_exp_year'),
-                    'cc_owner' => $modelOrderPayment->getData('cc_owner'),
+                    'cc_exp_month' => $converter->encrypt($order['cc_exp_month']),
+                    'cc_exp_year' => $converter->encrypt($order['cc_exp_year']),
+                    'cc_owner' => $converter->encrypt($order['cc_owner']),
                 ),
                 array('entity_id = ?' => $order['entity_id'])
         );
@@ -70,18 +62,13 @@ do {
     $currentPosition += $itemsPerPage;
 
     foreach ($quotes as $quote) {
-        $modelQuotePayment->setData('method', $quote['method']);
-        $modelQuotePayment->setCcExpMonth($quote['cc_exp_month']);
-        $modelQuotePayment->setCcExpYear($quote['cc_exp_year']);
-        $modelQuotePayment->setCcOwner($quote['cc_owner']);
-
         $installer->getConnection()
             ->update(
                 $installer->getTable('sales_flat_quote_payment'),
                 array(
-                    'cc_exp_month' => $modelQuotePayment->getData('cc_exp_month'),
-                    'cc_exp_year' => $modelQuotePayment->getData('cc_exp_year'),
-                    'cc_owner' => $modelQuotePayment->getData('cc_owner'),
+                    'cc_exp_month' => $converter->encrypt($quote['cc_exp_month']),
+                    'cc_exp_year' => $converter->encrypt($quote['cc_exp_year']),
+                    'cc_owner' => $converter->encrypt($quote['cc_owner']),
                 ),
                 array('payment_id = ?' => $quote['payment_id'])
         );
