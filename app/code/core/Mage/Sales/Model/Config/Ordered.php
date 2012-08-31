@@ -232,31 +232,15 @@ abstract class Mage_Sales_Model_Config_Ordered extends Mage_Core_Model_Config_Ba
     {
         $before = self::_instantiateGraph($config, 'before');
         $after  = self::_instantiateGraph($config, 'after');
-
-        // cycle in "before" declarations
-        $cycle = $before->findCycle();
-        $key = 'before';
-
-        // cycle in "after" declarations
-        if (!$cycle) {
-            $cycle = $after->findCycle();
-            $key = 'after';
-        }
-
-        // "before" and "after" are inverse by definition. Merge them into one graph to detect contradictions
-        if (!$cycle) {
-            foreach ($after->getRelations(true) as $from => $relations) {
-                foreach ($relations as $to) {
-                    $before->addRelation($from, $to);
-                }
+        foreach ($after->getRelations(Magento_Data_Graph::INVERSE) as $from => $relations) {
+            foreach ($relations as $to) {
+                $before->addRelation($from, $to);
             }
-            $cycle = $before->findCycle();
-            $key = 'before & after';
         }
-
+        $cycle = $before->findCycle();
         if ($cycle) {
             throw new Magento_Exception(sprintf(
-                'Found cycle in sales total "%s" declarations: %s', $key, implode(' -> ', $cycle)
+                'Found cycle in sales total declarations: %s', implode(' -> ', $cycle)
             ));
         }
     }
