@@ -184,18 +184,18 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
                 foreach ($nodeChildren->getItems() as $child) {
                     /* @var $child Mage_Eav_Model_Entity_Attribute */
 
-                    $isRemovable = !in_array($child->getAttributeCode(), $unassignableAttributes);
+                    $isUnassignable = !in_array($child->getAttributeCode(), $unassignableAttributes);
 
                     $attr = array(
                         'text'              => $child->getAttributeCode(),
                         'id'                => $child->getAttributeId(),
-                        'cls'               => $isRemovable ? 'leaf' : 'system-leaf',
+                        'cls'               => $isUnassignable ? 'leaf' : 'system-leaf',
                         'allowDrop'         => false,
                         'allowDrag'         => true,
                         'leaf'              => true,
                         'is_user_defined'   => $child->getIsUserDefined(),
                         'is_configurable'   => (int)in_array($child->getAttributeId(), $configurable),
-                        'is_removable'      => $isRemovable,
+                        'is_unassignable'   => $isUnassignable,
                         'entity_id'         => $child->getEntityAttributeId()
                     );
 

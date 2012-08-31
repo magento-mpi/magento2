@@ -379,7 +379,7 @@
                             return false;
                         }
 
-                        if (node.attributes.is_user_defined == 0 && node.attributes.is_removable == 0) {
+                        if (node.attributes.is_user_defined == 0 && node.attributes.is_unassignable == 0) {
                             alert('<?php echo Mage::helper('Mage_Core_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Catalog_Helper_Data')->__('You cannot remove system attribute from this set.')) ?>');
                             return false;
                         } else if (node.attributes.is_configurable == 1) {
