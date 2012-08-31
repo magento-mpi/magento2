@@ -15,9 +15,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Layout_Argument_Processor_ObjectType
-    extends Mage_Core_Model_Layout_Argument_Processor_TypeAbstract
-    implements Mage_Core_Model_Layout_Argument_Processor_TypeInterface
+class Mage_Core_Model_Layout_Argument_Handler_Object extends Mage_Core_Model_Layout_Argument_HandlerAbstract
 {
     /**
      * Instantiate model object

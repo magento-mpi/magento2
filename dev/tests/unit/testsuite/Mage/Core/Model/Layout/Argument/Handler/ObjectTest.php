@@ -10,12 +10,12 @@
  */
 
 /**
- * Test class for Mage_Core_Model_Layout_Argument_Processor_ObjectType
+ * Test class for Mage_Core_Model_Layout_Argument_Handler_Object
  */
-class Mage_Core_Model_Layout_Argument_Processor_ObjectTypeTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Layout_Argument_Handler_ObjectTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Layout_Argument_Processor_ObjectType
+     * @var Mage_Core_Model_Layout_Argument_Handler_Object
      */
     protected $_model;
 
@@ -28,15 +28,9 @@ class Mage_Core_Model_Layout_Argument_Processor_ObjectTypeTest extends PHPUnit_F
     protected function setUp()
     {
         $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
-        $this->_model = new Mage_Core_Model_Layout_Argument_Processor_ObjectType(
+        $this->_model = new Mage_Core_Model_Layout_Argument_Handler_Object(
             array('objectFactory' => $this->_objectFactoryMock)
         );
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_model);
-        unset($this->_objectFactoryMock);
     }
 
     public function testProcess()

@@ -70,7 +70,7 @@ class Mage_Core_Model_Layout_Argument_ProcessorConfigTest extends PHPUnit_Framew
     public function getArgumentHandlerByTypeWithValidTypeDataProvider()
     {
         return array(
-            'object' => array('object', 'Mage_Core_Model_Layout_Argument_Processor_ObjectType'),
+            'object' => array('object', 'Mage_Core_Model_Layout_Argument_Handler_Object'),
         );
     }
 }

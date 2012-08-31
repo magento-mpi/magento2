@@ -10,9 +10,9 @@
  */
 
 /**
- * Test class for Mage_Core_Model_Layout_Argument_Processor_TypeAbstract
+ * Test class for Mage_Core_Model_Layout_Argument_HandlerAbstract
  */
-class Mage_Core_Model_Layout_Argument_Processor_AbstractTypeTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Layout_Argument_HandlerAbstractTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -20,7 +20,7 @@ class Mage_Core_Model_Layout_Argument_Processor_AbstractTypeTest extends PHPUnit
      */
     public function testConstructWithoutObjectFactory()
     {
-        $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_Processor_TypeAbstract',
+        $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_HandlerAbstract',
             array(array('someParam' => true)),
             '',
             true
@@ -32,7 +32,7 @@ class Mage_Core_Model_Layout_Argument_Processor_AbstractTypeTest extends PHPUnit
      */
     public function testConstructWithInvalidObjectFactory()
     {
-        $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_Processor_TypeAbstract',
+        $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_HandlerAbstract',
             array(array('objectFactory' => new StdClass())),
             '',
             true
@@ -41,7 +41,7 @@ class Mage_Core_Model_Layout_Argument_Processor_AbstractTypeTest extends PHPUnit
 
     public function testConstructWithValidObjectFactory()
     {
-        $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_Processor_TypeAbstract',
+        $this->getMockForAbstractClass('Mage_Core_Model_Layout_Argument_HandlerAbstract',
             array(array('objectFactory' => $this->getMock('Mage_Core_Model_Config', array(), array(), '', false))),
             '',
             true

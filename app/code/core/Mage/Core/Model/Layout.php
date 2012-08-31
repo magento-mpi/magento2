@@ -178,7 +178,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     /**
      * @var Mage_Core_Model_Layout_Argument_Processor
      */
-    public $_argumentProcessor;
+    protected $_argumentProcessor;
 
     /**
      * Class constructor

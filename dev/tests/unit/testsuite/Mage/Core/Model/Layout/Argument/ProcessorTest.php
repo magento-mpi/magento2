@@ -44,7 +44,7 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
             '',
             false);
         $this->_dummyArgumentTypeMock = $this->getMock(
-            'Mage_Core_Model_Layout_Argument_Processor_TypeInterface',
+            'Mage_Core_Model_Layout_Argument_HandlerInterface',
             array(),
             array(),
             '',
@@ -54,14 +54,6 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
             'objectFactory' => $this->_objectFactoryMock,
             'processorConfig' => $this->_processorConfigMock
         ));
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_model);
-        unset($this->_dummyArgumentTypeMock);
-        unset($this->_objectFactoryMock);
-        unset($this->_processorConfigMock);
     }
 
     /**
@@ -95,6 +87,19 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
         $this->assertArrayHasKey('argKeyOne', $processedArguments);
         $this->assertArrayHasKey('argKeyTwo', $processedArguments);
         $this->assertArrayHasKey('argKeyCorrupted', $processedArguments);
+    }
+
+    public function argumentsDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'argKeyOne' => array('value' => 'argValue'),
+                    'argKeyTwo' => array('type' => 'dummy', 'value' => 'Dummy_Argument_Value_Class_Name'),
+                    'argKeyCorrupted' => array('no_value' => false)
+                )
+            )
+        );
     }
 
     /**
@@ -138,18 +143,7 @@ class Mage_Core_Model_Layout_Argument_ProcessorTest extends PHPUnit_Framework_Te
         );
     }
 
-    public function argumentsDataProvider()
-    {
-        return array(
-            array(
-                array(
-                    'argKeyOne' => array('value' => 'argValue'),
-                    'argKeyTwo' => array('type' => 'dummy', 'value' => 'Dummy_Argument_Value_Class_Name'),
-                    'argKeyCorrupted' => array('no_value' => false)
-                )
-            )
-        );
-    }
+
 
     public function testProcessWithArgumentUpdaters()
     {

@@ -15,7 +15,8 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Mage_Core_Model_Layout_Argument_Processor_TypeAbstract
+abstract class Mage_Core_Model_Layout_Argument_HandlerAbstract
+    implements Mage_Core_Model_Layout_Argument_HandlerInterface
 {
     /**
      * @var Mage_Core_Model_Config
