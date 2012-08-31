@@ -123,11 +123,19 @@ Event.observe(window, 'load', function() {
             },
             bindAll: function(events) {
                 var self = this;
+
                 $.each(self._masks, function(field) {
-                    $('#' + field).bind('focus blur change keyup click', function() {
+                    var disabler = function() {
                         $(this).data(self.data.disabled, $(this).val() != '');
-                    });
+                    };
+                    var $field = $('#' + field);
+                    if (this.length > 0 && !self.varsRegexp.test(this)) {
+                        $field.val(this);
+                    }
+                    disabler.call($field);
+                    $field.bind('focus blur change keyup click', disabler);
                 });
+
                 $.each(self._fieldReverseIndex, function(field) {
                     var fields = this, $field = $('#' + field);
                     var filler = function() {
