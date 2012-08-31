@@ -11,16 +11,16 @@ $pattern = array(
     '_website'                    => 'base',
     '_store'                      => '',
     'confirmation'                => NULL,
-    'created_at'                  => '%x',
+    'created_at'                  => '30-08-2012 17:43',
     'created_in'                  => 'Default',
     'default_billing'             => '1',
     'default_shipping'            => '1',
     'disable_auto_group_change'   => '0',
     'dob'                         => '12-10-1991',
-    'firstname'                   => '%x',
-    'gender'                      => '%x',
+    'firstname'                   => 'Firstname %s',
+    'gender'                      => 'Male',
     'group_id'                    => '1',
-    'lastname'                    => '%x',
+    'lastname'                    => 'Lastname %s',
     'middlename'                  => '',
     'password_hash'               => '',
     'prefix'                      => NULL,
@@ -50,7 +50,7 @@ $pattern = array(
     '_address_default_billing_'   => '1',
     '_address_default_shipping_'  => '1'
 );
-$generator = new Magento_ImportExport_Fixture_Generator_CustomerComposite($pattern, 100000);
+$generator = new Magento_ImportExport_Fixture_Generator($pattern, 100000);
 $import = new Mage_ImportExport_Model_Import(array('entity' => 'customer_composite', 'behavior' => 'append'));
 // it is not obvious, but the validateSource() will actually save import queue data to DB
 $import->validateSource($generator);

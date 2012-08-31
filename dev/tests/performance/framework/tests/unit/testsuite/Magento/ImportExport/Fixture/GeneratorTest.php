@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
-class Magento_ImportExport_Fixture_Generator_DefaultTest extends PHPUnit_Framework_TestCase
+class Magento_ImportExport_Fixture_GeneratorTest extends PHPUnit_Framework_TestCase
 {
     public function testIteratorInterface()
     {
-        $model = new Magento_ImportExport_Fixture_Generator_Default(array('id' => '%s', 'name' => 'Static'), 2);
+        $model = new Magento_ImportExport_Fixture_Generator(array('id' => '%s', 'name' => 'Static'), 2);
         $rows = array();
         foreach ($model as $row) {
             $rows[] = $row;
