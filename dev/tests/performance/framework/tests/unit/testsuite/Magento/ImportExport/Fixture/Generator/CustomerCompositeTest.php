@@ -47,7 +47,7 @@ class Magento_ImportExport_Fixture_Generator_CustomerCompositeTest extends PHPUn
                     'created_at'            => '/^\\d{2}-\\d{2}-\\d{4} \\d{2}:\\d{2}$/',
                     'firstname'             => '/^[A-Z][a-z]+$/',
                     'lastname'              => '/^[A-Z][a-z]+$/',
-                    'gender'                => '/(Male|Female)/',
+                    'gender'                => '/^Male|Female$/',
                     '_address_firstname'    => '/^[A-Z][a-z]+$/',
                     '_address_lastname'     => '/^[A-Z][a-z]+$/',
                     'nonspecial_column'     => '/^%x$/',
