@@ -163,7 +163,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $configurable = Mage::getResourceModel('Mage_Catalog_Model_Resource_Product_Type_Configurable_Attribute')
             ->getUsedAttributes($setId);
 
-        $mandatoryAttributes = Mage::helper('Mage_Catalog_Helper_Data')->getMandatoryAttributes();
+        $unassignableAttributes = Mage::helper('Mage_Catalog_Helper_Product')->getUnassignableAttributes();
 
         /* @var $node Mage_Eav_Model_Entity_Attribute_Group */
         foreach ($groups as $node) {
@@ -183,16 +183,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
                 $item['children'] = array();
                 foreach ($nodeChildren->getItems() as $child) {
                     /* @var $child Mage_Eav_Model_Entity_Attribute */
+
+                    $isRemovable = !in_array($child->getAttributeCode(), $unassignableAttributes);
+
                     $attr = array(
                         'text'              => $child->getAttributeCode(),
                         'id'                => $child->getAttributeId(),
-                        'cls'               => (!$child->getIsUserDefined()) ? 'system-leaf' : 'leaf',
+                        'cls'               => $isRemovable ? 'leaf' : 'system-leaf',
                         'allowDrop'         => false,
                         'allowDrag'         => true,
                         'leaf'              => true,
                         'is_user_defined'   => $child->getIsUserDefined(),
                         'is_configurable'   => (int)in_array($child->getAttributeId(), $configurable),
-                        'is_mandatory'      => in_array($child->getAttributeCode(), $mandatoryAttributes),
+                        'is_removable'      => $isRemovable,
                         'entity_id'         => $child->getEntityAttributeId()
                     );
 

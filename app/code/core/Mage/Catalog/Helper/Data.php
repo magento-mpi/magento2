@@ -446,15 +446,4 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_DISPLAY_PRODUCT_COUNT, $storeId);
     }
-
-    /**
-     * Retrieve list of attributes that cannot be removed
-     *
-     * @return array
-     */
-    public function getMandatoryAttributes()
-    {
-        $data = Mage::getConfig()->getNode('global/catalog/product/attribute/set/minimal');
-        return (false === $data || is_string($data->asArray())) ? array() : array_keys($data->asArray());
-    }
 }

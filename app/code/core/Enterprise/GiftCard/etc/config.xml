@@ -43,15 +43,13 @@
                         <price_indexer>Enterprise_GiftCard_Model_Resource_Indexer_Price</price_indexer>
                     </giftcard>
                 </type>
-                <attribute>
-                    <set>
-                        <minimal>
-                            <allow_open_amount/>
-                            <giftcard_amounts/>
-                            <giftcard_type/>
-                        </minimal>
-                    </set>
-                </attribute>
+                <attributes>
+                    <unassignable>
+                        <allow_open_amount/>
+                        <giftcard_amounts/>
+                        <giftcard_type/>
+                    </unassignable>
+                </attributes>
             </product>
         </catalog>
         <template>

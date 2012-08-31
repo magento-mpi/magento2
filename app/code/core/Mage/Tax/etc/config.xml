@@ -136,13 +136,11 @@
         </pdf>
         <catalog>
             <product>
-                <attribute>
-                    <set>
-                        <minimal>
-                            <tax_class_id/>
-                        </minimal>
-                    </set>
-                </attribute>
+                <attributes>
+                    <unassignable>
+                        <tax_class_id/>
+                    </unassignable>
+                </attributes>
             </product>
         </catalog>
     </global>

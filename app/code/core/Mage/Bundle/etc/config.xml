@@ -64,14 +64,12 @@
                         </types>
                     </bundle>
                 </options>
-                <attribute>
-                    <set>
-                        <minimal>
-                            <price_type/>
-                            <price_view/>
-                        </minimal>
-                    </set>
-                </attribute>
+                <attributes>
+                    <unassignable>
+                        <price_type/>
+                        <price_view/>
+                    </unassignable>
+                </attributes>
             </product>
         </catalog>
         <sales>

@@ -455,7 +455,6 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return $this->_skipSaleableCheck;
     }
 
-
     /**
      * Get masks for auto generation of fields
      *
@@ -466,5 +465,16 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
         return Mage::getConfig()
             ->getNode(Mage_Catalog_Helper_Product::XML_PATH_AUTO_GENERATE_MASK, 'default')
             ->asArray();
+    }
+
+    /**
+     * Retrieve list of attributes that cannot be removed
+     *
+     * @return array
+     */
+    public function getUnassignableAttributes()
+    {
+        $data = Mage::getConfig()->getNode('global/catalog/product/attributes/unassignable');
+        return false === $data || is_string($data->asArray()) ? array() : array_keys($data->asArray());
     }
 }
