@@ -176,8 +176,6 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
     protected function _preconditionScheduledExportSearchByFilter(&$importDataProducts, &$importDataAddresses,
         &$importDataMain, &$importDataFinances, &$importDataCustomers
     ) {
-        //Preconditions:
-        self::$_currentDate = date("m/d/Y");
         // 1. Create Product Import
         $importDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'entity_type' => 'Products',
@@ -240,6 +238,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportImportStatusFilterTest_Custom
                 'operation' => 'Import'
             )
         );
+        self::$_currentDate = date("m/d/Y");
         $this->assertMessagePresent('error', 'error_run');
     }
 
