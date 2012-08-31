@@ -28,7 +28,7 @@ class Mage_Core_Model_Layout_Argument_ProcessorConfig
     public function __construct()
     {
         $this->_argumentHandlers = array(
-            self::LAYOUT_ARGUMENT_TYPE_OBJECT => 'Mage_Core_Model_Layout_Argument_Processor_ObjectType'
+            self::LAYOUT_ARGUMENT_TYPE_OBJECT => 'Mage_Core_Model_Layout_Argument_Handler_Object'
         );
     }
 

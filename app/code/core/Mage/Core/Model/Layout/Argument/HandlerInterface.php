@@ -15,7 +15,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-interface Mage_Core_Model_Layout_Argument_Processor_TypeInterface
+interface Mage_Core_Model_Layout_Argument_HandlerInterface
 {
     /**
      * Process argument value
