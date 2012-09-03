@@ -28,9 +28,9 @@ class Mage_ImportExport_Model_ExportTest extends PHPUnit_Framework_TestCase
      */
     protected function _getMageImportExportModelExportMock()
     {
-        /** @var $mockEntityAbstract Mage_ImportExport_Model_Export_Entity_V2_Abstract */
+        /** @var $mockEntityAbstract Mage_ImportExport_Model_Export_EntityAbstract */
         $mockEntityAbstract = $this->getMockForAbstractClass(
-            'Mage_ImportExport_Model_Export_Entity_V2_Abstract',
+            'Mage_ImportExport_Model_Export_EntityAbstract',
             array(),
             '',
             false

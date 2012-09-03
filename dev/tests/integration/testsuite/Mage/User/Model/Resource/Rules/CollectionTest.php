@@ -36,7 +36,7 @@ class Mage_User_Model_Resource_Rules_CollectionTest extends PHPUnit_Framework_Te
         $this->_collection->getByRoles($user->getRole()->getId());
 
         $where = $this->_collection->getSelect()->getPart(Zend_Db_Select::WHERE);
-        $this->assertContains("(role_id = '" . $user->getRole()->getId()."')", $where);
+        $this->assertContains("(`role_id` = '" . $user->getRole()->getId()."')", $where);
     }
 
     public function testAddSortByLength()

@@ -259,18 +259,26 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
             }
             // parse complex filter
             if (isset($filters->complex_filter) && is_array($filters->complex_filter)) {
-                foreach ($filters->complex_filter as $field => $value) {
-                    if (is_object($value) && isset($value->key) && isset($value->value)) {
-                        $conditionOperator = $value->key;
-                        $conditionValue = $value->value;
-                        if (is_object($conditionValue) && isset($conditionValue->key)
-                            && isset($conditionValue->value)
-                        ) {
-                            $parsedFilters[$conditionOperator] = array($conditionValue->key => $conditionValue->value);
-                        } elseif (is_array($conditionValue)) {
-                            $parsedFilters[$field] = array($conditionOperator => $conditionValue);
-                        } else {
-                            $parsedFilters[$conditionOperator] = $conditionValue;
+                if ($this->isComplianceWSI()) {
+                    // WS-I compliance mode
+                    foreach ($filters->complex_filter as $fieldName => $condition) {
+                        if (is_object($condition) && isset($condition->key) && isset($condition->value)) {
+                            $conditionName = $condition->key;
+                            $conditionValue = $condition->value;
+                            $this->formatFilterConditionValue($conditionName, $conditionValue);
+                            $parsedFilters[$fieldName] = array($conditionName => $conditionValue);
+                        }
+                    }
+                } else {
+                    // non WS-I compliance mode
+                    foreach ($filters->complex_filter as $value) {
+                        if (is_object($value) && isset($value->key) && isset($value->value)) {
+                            $fieldName = $value->key;
+                            $condition = $value->value;
+                            if (is_object($condition) && isset($condition->key) && isset($condition->value)) {
+                                $this->formatFilterConditionValue($condition->key, $condition->value);
+                                $parsedFilters[$fieldName] = array($condition->key => $condition->value);
+                            }
                         }
                     }
                 }
@@ -293,4 +301,22 @@ class Mage_Api_Helper_Data extends Mage_Core_Helper_Abstract
         }
         return $filters;
     }
-} // Class Mage_Api_Helper_Data End
+
+    /**
+     * Convert condition value from the string into the array
+     * for the condition operators that require value to be an array.
+     * Condition value is changed by reference
+     *
+     * @param string $conditionOperator
+     * @param string $conditionValue
+     */
+    public function formatFilterConditionValue($conditionOperator, &$conditionValue)
+    {
+        if (is_string($conditionOperator) && in_array($conditionOperator, array('in', 'nin', 'finset'))
+            && is_string($conditionValue)
+        ) {
+            $delimiter = ',';
+            $conditionValue = explode($delimiter, $conditionValue);
+        }
+    }
+}

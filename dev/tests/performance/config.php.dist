@@ -12,11 +12,11 @@ return array(
     'application' => array(
         'url_host' => '127.0.0.1',
         'url_path' => '/magento/',
-        /**
-         * Path to JMeter executable. If empty, then env value 'jmeter_jar_file' is taken. If this value is empty as
-         * well, then default value is used.
-         */
-        'jmeter_jar_file' => '',
+        'admin' => array(
+            'frontname' => 'backend',
+            'username' => 'admin',
+            'password' => '123123q', // must be at least of 7 both numeric and alphanumeric chars
+        ),
         /* Optional installation configuration. If omitted, no installation occurs. */
         'installation' => array(
             /**
@@ -38,14 +38,18 @@ return array(
                 'admin_lastname'             => 'Admin',
                 'admin_firstname'            => 'Admin',
                 'admin_email'                => 'admin@example.com',
-                'admin_username'             => 'admin',
-                'admin_password'             => '123123q', // must be at least of 7 both numeric and alphanumeric chars
+                'admin_no_form_key'          => 'yes',
             ),
             'fixture_files' => 'testsuite/fixtures/*.php',
         ),
     ),
     'scenario' => array(
         'files' => 'testsuite/*.jmx',
+        /**
+         * Path to JMeter executable. If empty, then env value 'jmeter_jar_file' is taken. If this value is empty as
+         * well, then default value is used.
+         */
+        'jmeter_jar_file' => '',
         /* Common parameters for all scenarios */
         'common_params' => array(
             'users' => 1,
@@ -56,7 +60,7 @@ return array(
             'testsuite/product_view.jmx' => array(
                 'product_url_key' => 'product-1.html',
                 'product_name'    => 'Product 1',
-            ),
+            )
         ),
     ),
     'report_dir' => 'report',

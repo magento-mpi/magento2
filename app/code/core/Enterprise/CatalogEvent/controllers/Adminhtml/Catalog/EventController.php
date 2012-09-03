@@ -253,7 +253,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/events');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_CatalogEvent::events');
     }
 
     /**

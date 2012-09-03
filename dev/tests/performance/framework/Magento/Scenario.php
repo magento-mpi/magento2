@@ -20,6 +20,9 @@ class Magento_Scenario
     const PARAM_PATH  = 'path';
     const PARAM_LOOPS = 'loops';
     const PARAM_USERS = 'users';
+    const PARAM_ADMIN_USERNAME = 'admin_username';
+    const PARAM_ADMIN_PASSWORD = 'admin_password';
+    const PARAM_ADMIN_FRONTNAME = 'admin_frontname';
 
     /**
      * @var Magento_Shell
@@ -89,6 +92,9 @@ class Magento_Scenario
             ));
         }
 
+        // Run before-the-scenario PHP script (if exists)
+        $beforeOutput = $this->_runScenarioAdditionalScript($scenarioFile, 'before');
+
         // Dry run - just to warm-up the system
         $dryScenarioParams = array_merge($scenarioParams, array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 2));
         $this->_runScenario($scenarioFile, $dryScenarioParams);
@@ -97,6 +103,15 @@ class Magento_Scenario
         $fullScenarioParams = $scenarioParams + array(self::PARAM_USERS => 1, self::PARAM_LOOPS => 1);
         $reportFile = $this->_reportDir . DIRECTORY_SEPARATOR . basename($scenarioFile, '.jmx') . '.jtl';
         $this->_runScenario($scenarioFile, $fullScenarioParams, $reportFile);
+
+        // Run after-the-scenario PHP script (if exists)
+        $scenarioExecutions = $dryScenarioParams[self::PARAM_USERS] * $dryScenarioParams[self::PARAM_LOOPS]
+            + $fullScenarioParams[self::PARAM_USERS] * $fullScenarioParams[self::PARAM_LOOPS];
+        $params = array(
+            'beforeOutput' => $beforeOutput,
+            'scenarioExecutions' => $scenarioExecutions,
+        );
+        $this->_runScenarioAdditionalScript($scenarioFile, 'after', $params);
     }
 
     /**
@@ -164,5 +179,35 @@ class Magento_Scenario
             }
             throw new Magento_Exception(implode(PHP_EOL, $failureMessages));
         }
+    }
+
+    /**
+     * Execute additional before/after scenario PHP script, if it exists
+     *
+     * @param string $scenarioFile
+     * @param string $suffix
+     * @param array $params
+     * @return null|string
+     * @throws Magento_Exception
+     */
+    protected function _runScenarioAdditionalScript($scenarioFile, $suffix, $params = array())
+    {
+        // Check existence of additional script
+        $pathinfo = pathinfo($scenarioFile);
+        $scriptFile = $pathinfo['dirname'] . DIRECTORY_SEPARATOR . "{$pathinfo['filename']}_{$suffix}.php";
+        if (!file_exists($scriptFile)) {
+            return null;
+        }
+
+        // Run script
+        $cmd = 'php %s';
+        $execParams = array($scriptFile);
+        foreach ($params as $key => $value) {
+            $cmd .= " --{$key}=%s";
+            $execParams[] = $value;
+        }
+        $output = $this->_shell->execute($cmd, $execParams);
+
+        return $output;
     }
 }

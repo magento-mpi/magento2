@@ -120,7 +120,6 @@ class Utility_Files
                     )
                 );
             }
-            $files = self::_getFiles(array("{$this->_path}/dev/api-tests"), '*.php');
             self::$_cache[$key] = $files;
         }
 

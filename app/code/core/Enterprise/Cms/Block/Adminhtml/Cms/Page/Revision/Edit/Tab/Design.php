@@ -43,8 +43,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Design
      */
     protected function _isAllowedAction($action)
     {
-        if ($action == 'save') {
-            $action = 'save_revision';
+        if ($action == 'Mage_Cms::save') {
+            $action = 'Enterprise_Cms::save_revision';
         }
         return parent::_isAllowedAction($action);
     }

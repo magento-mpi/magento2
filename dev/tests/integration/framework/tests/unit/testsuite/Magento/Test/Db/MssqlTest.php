@@ -67,7 +67,7 @@ class Magento_Test_Db_MssqlTest extends PHPUnit_Framework_TestCase
     {
         $this->_model->expects($this->once())
             ->method('_exec')
-            ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_restore_script.sql'));
+            ->with($this->_commandPrefix . ' < ' . escapeshellarg($this->_varDir . '/mssql_cleanup_database.sql'));
         $this->_model->cleanup();
     }
 

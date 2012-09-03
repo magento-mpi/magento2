@@ -3,8 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Framework
- * @subpackage  Config
+ * @package     Magento_Validator
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,6 +45,25 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
         $groupRules = $this->_data[$entityName]['groups'][$groupName];
         foreach ($groupRules as $ruleName) {
             $rule = $this->_data[$entityName]['rules'][$ruleName];
+            if ($constraints = $this->_getRuleConstraints($rule)) {
+                $result[$ruleName] = $constraints;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get array of constraints and fields for rule
+     *
+     * @param type $rule
+     * @throws InvalidArgumentException 
+     * @return array
+     */
+    protected function _getRuleConstraints($rule)
+    {
+        $result = array();
+        if (isset($rule['constraints']) && is_array($rule['constraints'])) {
             foreach ($rule['constraints'] as $constraintConfig) {
                 $className = $constraintConfig['class'];
                 $constraint = new $className();
@@ -58,7 +76,7 @@ class Magento_Validator_Config extends Magento_Config_XmlAbstract
                     throw new InvalidArgumentException(sprintf('Constraint "%s" must have "field" attribute defined.',
                         $className));
                 }
-                $result[$ruleName][] = array(
+                $result[] = array(
                     'constraint' => $constraint,
                     'field' => $constraintConfig['field'],
                 );

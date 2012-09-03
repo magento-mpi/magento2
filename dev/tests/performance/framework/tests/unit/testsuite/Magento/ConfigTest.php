@@ -23,6 +23,11 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
         'application' => array(
             'url_host' => '127.0.0.1',
             'url_path' => '/',
+            'admin' => array(
+                'frontname' => 'backend',
+                'username' => 'admin',
+                'password' => 'password1',
+            ),
             'installation' => array(
                 'options' => array(
                     'option1' => 'value 1',
@@ -97,6 +102,16 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/', $this->_object->getApplicationUrlPath());
     }
 
+    public function testGetAdminOptions()
+    {
+        $expectedOptions = array(
+            'frontname' => 'backend',
+            'username' => 'admin',
+            'password' => 'password1',
+        );
+        $this->assertEquals($expectedOptions, $this->_object->getAdminOptions());
+    }
+
     public function testGetInstallOptions()
     {
         $expectedOptions = array('option1' => 'value 1', 'option2' => 'value 2');
@@ -116,6 +131,10 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
                 'param2' => 'value 2',
             ),
             $dir . '/scenario_failure.jmx' => array(
+                'param1' => 'value 1',
+                'param2' => 'value 2',
+            ),
+            $dir . '/scenario_with_scripts.jmx' => array(
                 'param1' => 'value 1',
                 'param2' => 'value 2',
             ),
@@ -146,11 +165,11 @@ class Magento_ConfigTest extends PHPUnit_Framework_TestCase
             $expectedPath = '/path/to/custom/JMeterFile.jar';
 
             $configData = $this->_sampleConfigData;
-            $configData['jmeter_jar_file'] = $expectedPath;
+            $configData['scenario']['jmeter_jar_file'] = $expectedPath;
             $object = new Magento_Config($configData, $baseDir);
             $this->assertEquals($expectedPath, $object->getJMeterPath());
 
-            $configData['jmeter_jar_file'] = null;
+            $configData['scenario']['jmeter_jar_file'] = '';
             putenv("jmeter_jar_file={$expectedPath}");
             $object = new Magento_Config($configData, $baseDir);
             $this->assertEquals($expectedPath, $object->getJMeterPath());

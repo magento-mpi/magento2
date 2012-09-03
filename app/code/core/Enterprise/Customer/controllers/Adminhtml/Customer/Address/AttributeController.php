@@ -266,10 +266,6 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
 
             try {
                 $attributeObject->save();
-                Mage::dispatchEvent('enterprise_customer_address_attribute_save', array(
-                    'attribute' => $attributeObject
-                ));
-
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_Customer_Helper_Data')->__('The customer address attribute has been saved.')
                 );
@@ -321,9 +317,6 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
             }
             try {
                 $attributeObject->delete();
-                Mage::dispatchEvent('enterprise_customer_address_attribute_delete', array(
-                    'attribute' => $attributeObject
-                ));
                 $this->_getSession()->addSuccess(
                     Mage::helper('Enterprise_Customer_Helper_Data')->__('The customer address attribute has been deleted.')
                 );
@@ -353,6 +346,6 @@ class Enterprise_Customer_Adminhtml_Customer_Address_AttributeController
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/customer/attributes/customer_address_attributes');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Customer::customer_address_attributes');
     }
 }

@@ -56,6 +56,27 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
     }
 
     /**
+     * Make filter of appropriate format for list method
+     *
+     * @deprecated since 1.7.0.1
+     * @param array|null $filter
+     * @return array|null
+     */
+    protected function _prepareListFilter($filter = null)
+    {
+        // prepare filter, map field creditmemo_id to entity_id
+        if (is_array($filter)) {
+            foreach ($filter as $field => $value) {
+                if (isset($this->_attributesMap['creditmemo'][$field])) {
+                    $filter[$this->_attributesMap['creditmemo'][$field]] = $value;
+                    unset($filter[$field]);
+                }
+            }
+        }
+        return $filter;
+    }
+
+    /**
      * Retrieve credit memo information
      *
      * @param string $creditmemoIncrementId
@@ -125,7 +146,7 @@ class Mage_Sales_Model_Order_Creditmemo_Api extends Mage_Sales_Model_Api_Resourc
                 $refundToStoreCreditAmount = $creditmemo->getStore()->roundPrice($refundToStoreCreditAmount);
                 $creditmemo->setBaseCustomerBalanceTotalRefunded($refundToStoreCreditAmount);
                 $refundToStoreCreditAmount = $creditmemo->getStore()->roundPrice(
-                    $refundToStoreCreditAmount*$order->getBaseToOrderRate()
+                    $refundToStoreCreditAmount*$order->getStoreToOrderRate()
                 );
                 // this field can be used by customer balance observer
                 $creditmemo->setBsCustomerBalTotalRefunded($refundToStoreCreditAmount);

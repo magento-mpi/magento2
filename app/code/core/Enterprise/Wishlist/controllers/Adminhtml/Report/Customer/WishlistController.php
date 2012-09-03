@@ -100,6 +100,6 @@ class Enterprise_Wishlist_Adminhtml_Report_Customer_WishlistController extends M
      */
     protected function _isAllowed()
     {
-        return  Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('admin/report/customers/wishlist');
+        return  Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_Wishlist::wishlist');
     }
 }
