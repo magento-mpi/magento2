@@ -1232,11 +1232,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function closeLastWindow()
     {
         $windowHandles = $this->windowHandles();
-        list($generalWindow) = $windowHandles;
         if (count($windowHandles) > 1) {
             $this->window(end($windowHandles));
             $this->closeWindow();
-            $this->window($generalWindow);
+            $this->window('');
         }
     }
 
@@ -1449,19 +1448,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        //$this->assertTextNotPresent('Fatal error', 'Fatal error on page');
-        //$this->assertTextNotPresent('There has been an error processing your request',
-        //    'Fatal error on page: \'There has been an error processing your request\'');
-        //$this->assertTextNotPresent('Notice:', 'Notice error on page');
-        //$this->assertTextNotPresent('Parse error', 'Parse error on page');
-        //if (!$this->controlIsPresent('message', 'general_notice')) {
-        //    $this->assertTextNotPresent('Warning:', 'Warning on page');
-        //}
-        //$this->assertTextNotPresent('If you typed the URL directly', 'The requested page was not found.');
-        //$this->assertTextNotPresent('was not found', 'Something was not found:)');
-        //$this->assertTextNotPresent('Service Temporarily Unavailable', 'Service Temporarily Unavailable');
-        //$this->assertTextNotPresent('The page isn\'t redirecting properly', 'The page isn\'t redirecting properly');
-        //$this->assertTextNotPresent('Internal server error', 'HTTP Error 500 Internal server error');
+        $this->assertFalse($this->textIsPresent('Fatal error'), 'Fatal error on page');
+        $this->assertFalse($this->textIsPresent('There has been an error processing your request'),
+            'Fatal error on page: "There has been an error processing your request"');
+        $this->assertFalse($this->textIsPresent('Notice:'), 'PHP Notice error on page');
+        $this->assertFalse($this->textIsPresent('Parse error'), 'Parse error on page');
+        $this->assertFalse($this->textIsPresent('If you typed the URL directly'), 'The requested page was not found.');
+        $this->assertFalse($this->textIsPresent('was not found'), 'Something was not found:)');
+        $this->assertFalse($this->textIsPresent('Service Temporarily Unavailable'), 'Service Temporarily Unavailable');
+        $this->assertFalse($this->textIsPresent('The page isn\'t redirecting properly'),
+            'The page isn\'t redirecting properly');
+        $this->assertFalse($this->textIsPresent('Internal server error'), 'HTTP Error 500 Internal server error');
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
         if (!is_null($expectedTitle)) {
             $this->assertSame($expectedTitle, $this->title(),
@@ -1916,8 +1913,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function detectOS()
     {
-
-        $osName = $this->getEval('navigator.userAgent');
+        $osName = $this->execute(array('script' => 'return navigator.appVersion;', 'args' => array()));
         if (preg_match('/Windows/i', $osName)) {
             return 'Windows';
         } elseif (preg_match('/Linux/i', $osName)) {
@@ -1961,7 +1957,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $path = $this->_screenshotPath;
 
-        if (!in_array(substr($path, strlen($path) -1, 1), array("/","\\"))) {
+        if (!in_array(substr($path, strlen($path) - 1, 1), array("/", "\\"))) {
             $path .= DIRECTORY_SEPARATOR;
         }
 
@@ -2929,7 +2925,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $element = $this->waitForElementEditable($locator);
         $element->clear();
-        $element->value((string) $value);
+        $element->value((string)$value);
     }
 
     /**
@@ -2981,6 +2977,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $value
      * @param string|null $locator
      *
+     * @TODO not work correct for store_switcher dropdown
      * @throws RuntimeException
      */
     protected function fillDropdown($name, $value, $locator = null)
@@ -3249,7 +3246,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
-            $this->cookie()->clear();
             $this->validatePage('home_page');
         }
 
@@ -3263,92 +3259,78 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function selectFrontStoreView($storeViewName = 'Default Store View')
     {
-        $dropdown = ($this->controlIsPresent('dropdown', 'your_language')) ? $this->_getControlXpath('dropdown',
-            'your_language') : false;
-        if ($dropdown != false) {
-            $toSelect = $dropdown . '//option[normalize-space(text())="' . $storeViewName . '"]';
-            $isSelected = $toSelect . '[@selected]';
-            if (!$this->isElementPresent($isSelected)) {
-                $this->select($dropdown, $storeViewName);
-                $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-            }
-            $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
-        } else {
-            $this->addParameter('storeView', $storeViewName);
-            $isSelected = $this->_getControlXpath('pageelement', 'selected_store_view');
-            $storeViewXpath = $this->_getControlXpath('link', 'your_language');
-            if (!$this->controlIsPresent('pageelement', 'selected_store_view')) {
-                $this->clickControl('pageelement', 'change_store_view', false);
-                if ($this->waitForElementVisible($storeViewXpath, $this->_browserTimeoutPeriod)) {
-                    $this->clickControl('link', 'your_language', false);
-                    $this->waitForPageToLoad($this->_browserTimeoutPeriod);
-                } else {
-                    $this->fail('Store view cannot be changed to ' . $storeViewName);
-                }
-            }
-            $this->assertElementPresent($isSelected, '\'' . $storeViewName . '\' store view not selected');
+        if ($this->controlIsPresent('dropdown', 'your_language')) {
+            $this->selectStoreScope('dropdown', 'your_language', $storeViewName);
+            return;
         }
+        $this->addParameter('storeView', $storeViewName);
+        $isSelectedLocator = $this->_getControlXpath('pageelement', 'selected_store_view');
+        $isSelected = $this->elementIsPresent($isSelectedLocator) ? true : false;
+        if (!$isSelected) {
+            $this->clickControl('pageelement', 'change_store_view', false);
+            $this->waitForElementVisible($this->_getControlXpath('link', 'your_language'))->click();
+            $isSelected = $this->elementIsPresent($isSelectedLocator) ? true : false;
+        }
+        $this->assertTrue($isSelected, 'Store view not changed to ' . $storeViewName);
     }
 
     /**
-     * @TODO
+     * Select Store Scope
      *
      * @param string $controlType
      * @param string $controlName
      * @param null|string $scopePath
-     * @param string $scopeName
+     * @param string $scopeType
      *
+     * @throws OutOfRangeException
      * @return bool
      */
-    public function selectStoreScope($controlType, $controlName, $scopePath = null, $scopeName = 'storeView')
+    public function selectStoreScope($controlType, $controlName, $scopePath = null, $scopeType = 'storeView')
     {
         if (is_null($scopePath)) {
             $scopePath = 'Main Website/Main Website Store/Default Store View';
         }
         //Define scope parameters
         $scopePath = explode('/', $scopePath);
-        $storeView = array_pop($scopePath);
-        $website = $store = '';
-        if (!empty($scopePath)) {
-            if (count($scopePath) == 2) {
-                list($website, $store) = $scopePath;
-            } elseif (count($scopePath) == 1) {
-                list($store) = $scopePath;
-            }
-        }
         $method = 'fill' . ucfirst(strtolower($controlType));
-        $xpath = $this->_getControlXpath($controlType, $controlName);
-        //Select value if only Store View name specified
-        if (!$website && !$store) {
-            if (!$this->isElementPresent($xpath . "//option[normalize-space(text())='$storeView'][@selected]")) {
-                $this->$method($controlName, $storeView);
-                return true;
-            }
-            return false;
+        $locator = $this->_getControlXpath($controlType, $controlName);
+        $element = $this->getElement($locator);
+        switch ($scopeType) {
+            case 'storeView':
+                $countElements = count($scopePath);
+                switch ($countElements) {
+                    case 1:
+                        list($storeView) = $scopePath;
+                        $this->$method($controlName, $storeView);
+                        break;
+                    case 2:
+                        //@TODO list($store, $storeView) = $scopePath;
+                        break;
+                    case 3:
+                        //@TODO(if change -> test on manage_products page)
+                        //and add page name
+                        list($website, $store, $storeView) = $scopePath;
+                        $websiteElement =
+                            $element->element($this->using('xpath')->value("*[normalize-space(@label)='$website']"));
+                        $storeElement = $websiteElement->element($this->using('xpath')
+                            ->value("following-sibling::*[contains(@label,'$store')]"));
+                        $storeViewElement = $storeElement->element($this->using('xpath')
+                            ->value("option[contains(text(),'$storeView')]"));
+                        $value = $storeViewElement->attribute('value');
+                        $this->$method($controlName, $value);
+                        break;
+                }
+                break;
+            case 'store':
+                //@TODO
+                break;
+            case 'website':
+                //@TODO
+                break;
+            default:
+                throw new OutOfRangeException('Wrong scope type');
+                break;
         }
-
-        if ($website && $store) {
-            $isSelectWebsite = false;
-            if ($this->getXpathCount($xpath . '/option') > 1) {
-                $isSelectWebsite = true;
-            }
-            if ($isSelectWebsite) {
-                $websiteXpath = $xpath . "/*[normalize-space(text())='$website']";
-                $storeXpath = $websiteXpath . "/following-sibling::*[normalize-space(@label)='$store']";
-                $storeViewXpath = $storeXpath . "/option[normalize-space(text())='$storeView']";
-            } else {
-                $websiteXpath = $xpath . "/*[normalize-space(@label)='$website']";
-                $storeXpath = $websiteXpath . "/following-sibling::*[contains(@label, '$store')]";
-                $storeViewXpath = $storeXpath . "/option[contains(text(),'$storeView')]";
-            }
-            $value = $this->getAttribute($storeViewXpath . '@value');
-            if (!$this->isElementPresent($xpath . "//option[@value='$value'][@selected]")) {
-                $this->$method($controlName, $value);
-                return true;
-            }
-            return false;
-        }
-        return false;
     }
 
     ################################################################################
@@ -3483,5 +3465,64 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } catch (RuntimeException $e) {
             return false;
         }
+    }
+
+    /**
+     * @param $pageText
+     *
+     * @return bool
+     */
+    public function textIsPresent($pageText)
+    {
+        $isPresent = $this->execute(array('script' => 'return window.find("' . $pageText . '");', 'args' => array()));
+        if ($isPresent) {
+            $clearSelectedText = 'function clearSelection(){ if(document.selection && document.selection.empty){'
+                                 . 'document.selection.empty();} else if(window.getSelection){'
+                                 . 'var sel = window.getSelection();sel.removeAllRanges();}}clearSelection();';
+            $this->execute(array('script' => $clearSelectedText, 'args' => array()));
+        }
+        return $isPresent;
+    }
+
+    /**
+     * @param $pageText
+     * @param null $timeout
+     *
+     * @throws RuntimeException
+     */
+    public function waitForTextPresent($pageText, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeoutPeriod;
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            if ($this->textIsPresent($pageText)) {
+                return;
+            }
+            sleep(1);
+        }
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+    }
+
+    /**
+     * @param $pageText
+     * @param null $timeout
+     *
+     * @throws RuntimeException
+     */
+    public function waitForTextNotPresent($pageText, $timeout = null)
+    {
+        if (is_null($timeout)) {
+            $timeout = $this->_browserTimeoutPeriod;
+        }
+        $iStartTime = time();
+        while ($timeout > time() - $iStartTime) {
+            if (!$this->textIsPresent($pageText)) {
+                return;
+            }
+            sleep(1);
+        }
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
     }
 }
