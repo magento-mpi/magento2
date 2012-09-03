@@ -33,7 +33,10 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     /**#@+
      *  Find/replace patterns
      */
-    const PLAIN_FIND_PATTERN         = '/^([a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/';
+    const PLAIN_FIND_PATTERN         = '/^(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/';
+    const WIKI_FIND_PATTERN
+        = '/{{(block|widget).*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/s';
+    const XML_FIND_PATTERN           = '/<block.*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/s';
     const SERIALIZED_FIND_PATTERN    = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#iu';
     const SERIALIZED_REPLACE_PATTERN = 's:%d:"%s"';
     /**#@-*/
@@ -89,14 +92,8 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      * @var array
      */
     protected $_replacePatterns = array(
-        self::FIELD_CONTENT_TYPE_WIKI => array(
-            'pattern'      => '/{{(block|widget).*?type=\"([a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/s',
-            'result_index' => 2,
-        ),
-        self::FIELD_CONTENT_TYPE_XML  => array(
-            'pattern'      => '/<block.*?type=\"([a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/s',
-            'result_index' => 1,
-        ),
+        self::FIELD_CONTENT_TYPE_WIKI => self::WIKI_FIND_PATTERN,
+        self::FIELD_CONTENT_TYPE_XML  => self::XML_FIND_PATTERN,
     );
 
     /**
@@ -468,7 +465,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     protected function _getModelReplacement($data, $entityType = '')
     {
         if (preg_match(self::PLAIN_FIND_PATTERN, $data, $matches)) {
-            $classAlias = $matches[1];
+            $classAlias = $matches['alias'];
             $className = $this->_getCorrespondingClassName($classAlias, $entityType);
             if ($className) {
                 return str_replace($classAlias, $className, $data);
@@ -498,11 +495,10 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
         }
 
         $replacements = array();
-        $pattern      = $this->_replacePatterns[$contentType]['pattern'];
-        $resultIndex  = $this->_replacePatterns[$contentType]['result_index'];
+        $pattern      = $this->_replacePatterns[$contentType];
         preg_match_all($pattern, $data, $matches, PREG_PATTERN_ORDER);
-        if (isset($matches[$resultIndex])) {
-            $matches = array_unique($matches[$resultIndex]);
+        if (isset($matches['alias'])) {
+            $matches = array_unique($matches['alias']);
             foreach ($matches as $classAlias) {
                 $className = $this->_getCorrespondingClassName($classAlias, $entityType);
                 if ($className) {

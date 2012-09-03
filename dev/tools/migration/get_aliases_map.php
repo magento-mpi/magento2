@@ -37,7 +37,7 @@ if (isset($options['p'])) {
 
 $utilityFiles = new Utility_Files($magentoBaseDir);
 $map = array();
-$compositeModules = getFilesCombinedArray(dirname(__FILE__) . '/aliases_map', 'composite_modules_*.php');
+$compositeModules = getFilesCombinedArray(dirname(__FILE__) . '/aliases_map', '/^composite_modules_.*\.php$/');
 // PHP code
 foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
     $content = file_get_contents($file);
@@ -58,7 +58,7 @@ foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
             );
 
             foreach ($patterns as $pattern => $classType) {
-                if (isPatternExisted($content, $pattern, $factoryName)) {
+                if (isPatternExist($content, $pattern, $factoryName)) {
                     if (!isset($map[$classType])) {
                         $map[$classType] = array();
                     }
@@ -98,22 +98,25 @@ echo Zend_Json::prettyPrint(Zend_Json::encode($map));
 function getFilesCombinedArray($dirPath, $filePattern)
 {
     $result = array();
-    foreach (glob($dirPath . '/' . $filePattern, GLOB_NOSORT | GLOB_BRACE) as $filePath) {
-        $arrayFromFile = include_once($filePath);
+    $directoryIterator = new DirectoryIterator($dirPath);
+    $patternIterator = new RegexIterator($directoryIterator, $filePattern);
+
+    foreach ($patternIterator as $fileInfo) {
+        $arrayFromFile = include_once($fileInfo->getPathname());
         $result = array_merge($result, $arrayFromFile);
     }
     return $result;
 }
 
 /**
- * Check is pattern existed in file content
+ * Check if pattern exist in file content
  *
  * @param string $content
  * @param string $pattern
  * @param string $alias
  * @return bool
  */
-function isPatternExisted($content, $pattern, $alias)
+function isPatternExist($content, $pattern, $alias)
 {
     $search = sprintf($pattern, $alias);
     return strpos($content, $search) !== false;

@@ -39,6 +39,7 @@ class Mage_Core_Model_Resource_Setup_MigrationTest extends PHPUnit_Framework_Tes
     {
         unset($this->_actualUpdateResult);
         unset($this->_actualWhere);
+        unset($this->_selectMock);
     }
 
     /**
