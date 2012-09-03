@@ -29,10 +29,10 @@ class Mage_Core_Model_Config_OptionsTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $rootDir = dirname(__FILE__);
-        $io = $this->getMock('Varien_Io_File', array('checkAndCreateFolder'));
+        $ioModel = $this->getMock('Varien_Io_File', array('checkAndCreateFolder'));
         $this->_sourceData = array(
             'app_dir' => $rootDir . DIRECTORY_SEPARATOR . 'app',
-            'io' => $io,
+            'io' => $ioModel,
         );
         $this->_varDir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'var';
     }
