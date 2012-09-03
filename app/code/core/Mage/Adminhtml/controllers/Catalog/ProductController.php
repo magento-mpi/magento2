@@ -735,13 +735,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
 
                 $this->_getSession()->addSuccess($this->__('The product has been saved.'));
                 if ($product->getSku() != $originalSku) {
-                    $this->_getSession()->addNotice(
-                        $this->__(
-                            'SKU for product %s has been changed to %s',
-                            Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()),
-                            Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku())
-                        )
-                    );
+                    $this->_getSession()->addNotice($this->__('SKU for product %s has been changed to %s.', Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getName()), Mage::helper('Mage_Core_Helper_Data')->escapeHtml($product->getSku())));
                 }
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage())

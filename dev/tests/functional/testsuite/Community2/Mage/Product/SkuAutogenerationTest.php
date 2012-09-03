@@ -233,7 +233,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $this->addParameter('productSku', $productData['general_sku']);
         $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->assertMessagePresent('success', 'sku_autoincrementing');
+        $this->assertMessagePresent('success', 'sku_autoincremented');
         $this->productHelper()->verifyProductInfo(array('general_sku' => $productData['general_sku']));
     }
 
