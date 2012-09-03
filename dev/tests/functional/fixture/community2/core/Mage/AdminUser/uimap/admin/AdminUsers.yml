@@ -12,7 +12,7 @@
 #Manage Users and related pages
 
 # 'Users' page
-manage_admin_users:
+manage admin_users:
     mca: user/
     click_xpath: //ul[@id='nav']//a[span='Users']
 

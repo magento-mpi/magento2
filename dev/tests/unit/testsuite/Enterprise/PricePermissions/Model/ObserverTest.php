@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-class Enterprise_PricePermissions_Model_Filter_BlockTest extends PHPUnit_Framework_TestCase
+class Enterprise_PricePermissions_Model_ObserverTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Enterprise_PricePermissions_Model_Observer
@@ -28,7 +28,7 @@ class Enterprise_PricePermissions_Model_Filter_BlockTest extends PHPUnit_Framewo
 
     protected function setUp()
     {
-        $this->_observer = $this->getMock('Enterprise_PricePermissions_Model_Filter_Block',
+        $this->_observer = $this->getMock('Enterprise_PricePermissions_Model_Observer',
             array('_removeColumnFromGrid', '_hidePriceElements'),
             array(array(
                 'request' => false,
