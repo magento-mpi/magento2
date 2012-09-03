@@ -20,6 +20,7 @@ return array(
     ),
     '$tableData' => array(
         array('field' => '<reference><block type="catalog/product_new" /></reference>'),
+        array('field' => '<reference><block type="catalogSearch/result" /></reference>'),
         array('field' => '<reference></reference>'),
     ),
     '$expected' => array(
@@ -30,10 +31,17 @@ return array(
                 'to'    => '<reference><block type="Mage_Catalog_Block_Product_New" /></reference>',
                 'from'  => array('`field` = ?' => '<reference><block type="catalog/product_new" /></reference>')
             ),
+            array(
+                'table' => 'table',
+                'field' => 'field',
+                'to'    => '<reference><block type="Mage_CatalogSearch_Block_Result" /></reference>',
+                'from'  => array('`field` = ?' => '<reference><block type="catalogSearch/result" /></reference>')
+            ),
         ),
         'aliases_map' => array(
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK => array(
-                'catalog/product_new' => 'Mage_Catalog_Block_Product_New',
+                'catalog/product_new'  => 'Mage_Catalog_Block_Product_New',
+                'catalogSearch/result' => 'Mage_CatalogSearch_Block_Result',
             )
         )
     ),

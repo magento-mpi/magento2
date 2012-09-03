@@ -20,6 +20,7 @@ return array(
     ),
     '$tableData' => array(
         array('field' => '<p>{{widget type="productalert/product_view"}}</p>'),
+        array('field' => '<p>{{widget type="catalogSearch/result"}}</p>'),
         array('field' => '<p>Some HTML code</p>'),
     ),
     '$expected' => array(
@@ -30,10 +31,17 @@ return array(
                 'to'    => '<p>{{widget type="Mage_ProductAlert_Block_Product_View"}}</p>',
                 'from'  => array('`field` = ?' => '<p>{{widget type="productalert/product_view"}}</p>')
             ),
+            array(
+                'table' => 'table',
+                'field' => 'field',
+                'to'    => '<p>{{widget type="Mage_CatalogSearch_Block_Result"}}</p>',
+                'from'  => array('`field` = ?' => '<p>{{widget type="catalogSearch/result"}}</p>')
+            ),
         ),
         'aliases_map' => array(
             Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK => array(
                 'productalert/product_view' => 'Mage_ProductAlert_Block_Product_View',
+                'catalogSearch/result'      => 'Mage_CatalogSearch_Block_Result',
             )
         )
     ),

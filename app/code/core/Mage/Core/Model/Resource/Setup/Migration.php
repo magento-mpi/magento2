@@ -33,11 +33,11 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
     /**#@+
      *  Find/replace patterns
      */
-    const PLAIN_FIND_PATTERN         = '/^(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/';
+    const PLAIN_FIND_PATTERN         = '/^(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)::.*?$/sui';
     const WIKI_FIND_PATTERN
-        = '/{{(block|widget).*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/s';
-    const XML_FIND_PATTERN           = '/<block.*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/s';
-    const SERIALIZED_FIND_PATTERN    = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#iu';
+        = '/{{(block|widget).*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?}}/sui';
+    const XML_FIND_PATTERN           = '/<block.*?type=\"(?P<alias>[a-z]+[_a-z\d]*?\/[a-z]+[_a-z\d]*?)\".*?>/sui';
+    const SERIALIZED_FIND_PATTERN    = '#(?P<string>s:\d+:"(?P<alias>[a-z]+[_a-z\d]*?/[a-z]+[_a-z\d]*?)")#sui';
     const SERIALIZED_REPLACE_PATTERN = 's:%d:"%s"';
     /**#@-*/
 
