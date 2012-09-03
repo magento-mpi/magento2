@@ -109,7 +109,10 @@ class Core_Mage_Product_Create_GroupedTest extends Mage_Selenium_TestCase
         $this->productHelper()->createProduct($productData, 'grouped', false);
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
+        $this->addParameter('productSku',  $this->productHelper()->getGeneratedSku($productData['general_sku']));
+        $this->addParameter('productName', $productData['general_name']);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->assertMessagePresent('success', 'sku_autoincrementing');
         $this->productHelper()->verifyProductInfo(array('general_sku' => $this->productHelper()->getGeneratedSku(
             $productData['general_sku'])));
     }

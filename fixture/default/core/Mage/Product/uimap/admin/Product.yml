@@ -61,6 +61,7 @@ manage_products:
             select_type_of_option: //div[@id='advice-required-option-select-product_option_%optionId%_type']
             confirmation_for_delete: Are you sure?
             no_records_found: //td[text()='No records found.']
+            sku_autoincrementing: //*[normalize-space(@class)='notice-msg' and contains(.,'SKU for product %productName% has been changed to %productSku%')]
 
 manage_products_store:
     mca: catalog_product/index/store/%storeId%/
