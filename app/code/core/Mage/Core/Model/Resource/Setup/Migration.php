@@ -212,12 +212,12 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      * @param string $fieldName name of table column to replace aliases in
      * @param string $entityType entity type of alias
      * @param string $fieldContentType type of field content where class alias is used
-     * @param array $pkFields row pk field(s) to update by
+     * @param array $primaryKeyFields row pk field(s) to update by
      * @param string $additionalWhere additional where condition
      * @return void
      */
     public function appendClassAliasReplace($tableName, $fieldName, $entityType = '',
-        $fieldContentType = self::FIELD_CONTENT_TYPE_PLAIN, array $pkFields = array(), $additionalWhere = ''
+        $fieldContentType = self::FIELD_CONTENT_TYPE_PLAIN, array $primaryKeyFields = array(), $additionalWhere = ''
     ) {
         if (!isset($this->_replaceRules[$tableName])) {
             $this->_replaceRules[$tableName] = array();
@@ -227,7 +227,7 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
             $this->_replaceRules[$tableName][$fieldName] = array(
                 'entity_type'      => $entityType,
                 'content_type'     => $fieldContentType,
-                'pk_fields'        => $pkFields,
+                'pk_fields'        => $primaryKeyFields,
                 'additional_where' => $additionalWhere,
             );
         }
@@ -292,16 +292,16 @@ class Mage_Core_Model_Resource_Setup_Migration extends Mage_Core_Model_Resource_
      * @param string $tableName name of table to replace aliases in
      * @param string $fieldName name of table column to replace aliases in
      * @param array $fieldRule
-     * @param int $currPage
+     * @param int $currentPage
      */
-    protected function _applyFieldRule($tableName, $fieldName, array $fieldRule, $currPage = 0)
+    protected function _applyFieldRule($tableName, $fieldName, array $fieldRule, $currentPage = 0)
     {
         $fieldsToSelect = array($fieldName);
         if (!empty($fieldRule['pk_fields'])) {
             $fieldsToSelect = array_merge($fieldsToSelect, $fieldRule['pk_fields']);
         }
         $tableData = $this->_getTableData($tableName, $fieldName, $fieldsToSelect, $fieldRule['additional_where'],
-            $currPage
+            $currentPage
         );
 
         $fieldReplacements = array();

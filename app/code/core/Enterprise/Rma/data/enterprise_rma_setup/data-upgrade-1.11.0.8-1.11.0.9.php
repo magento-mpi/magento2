@@ -14,7 +14,8 @@ $installer->startSetup();
 
 $installer->appendClassAliasReplace('enterprise_rma_item_eav_attribute', 'data_model',
     Enterprise_Enterprise_Model_Resource_Setup_Migration::ENTITY_TYPE_MODEL,
-    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN
+    Enterprise_Enterprise_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
+    array('attribute_id')
 );
 $installer->doUpdateClassAliases();
 

@@ -32,7 +32,8 @@ $installer->appendClassAliasReplace('catalog_product_entity_text', 'value',
 
 $installer->appendClassAliasReplace('catalog_eav_attribute', 'frontend_input_renderer',
     Mage_Core_Model_Resource_Setup_Migration::ENTITY_TYPE_BLOCK,
-    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN
+    Mage_Core_Model_Resource_Setup_Migration::FIELD_CONTENT_TYPE_PLAIN,
+    array('attribute_id')
 );
 $installer->doUpdateClassAliases();
 
