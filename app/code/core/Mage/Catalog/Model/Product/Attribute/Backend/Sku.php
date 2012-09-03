@@ -61,15 +61,15 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Sku extends Mage_Eav_Model_En
         $increment = $this->_getLastSimilarAttributeValueIncrement($attribute, $object);
         $attributeValue = $object->getData($attribute->getAttributeCode());
         while (!$entity->checkAttributeUniqueValue($attribute, $object)) {
-            $object->setData($attribute->getAttributeCode(), trim($attributeValue) . '-' . ++ $increment);
+            $object->setData($attribute->getAttributeCode(), trim($attributeValue) . '-' . ++$increment);
         }
     }
 
     /**
-     * Before save method
+     * Make SKU unique before save
      *
      * @param Varien_Object $object
-     * @return Mage_Eav_Model_Entity_Attribute_Backend_Abstract
+     * @return Mage_Catalog_Model_Product_Attribute_Backend_Sku
      */
     public function beforeSave($object)
     {
