@@ -269,14 +269,6 @@
                     </enterprise_reward>
                 </observers>
             </review_save_commit_after>
-            <tag_save_commit_after>
-                <observers>
-                    <enterprise_reward>
-                        <class>Enterprise_Reward_Model_Observer</class>
-                        <method>tagSubmit</method>
-                    </enterprise_reward>
-                </observers>
-            </tag_save_commit_after>
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_reward>

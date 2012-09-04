@@ -434,29 +434,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove control buttons if user does not have exclusive access to current tag
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removeTagButtons($observer)
-    {
-        $model = Mage::registry('current_tag');
-        if ($model && $model->getId()) {
-            $storeIds = (array)$model->getVisibleInStoreIds();
-            $storeIds = array_filter($storeIds); // remove admin store with id 0
-            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $block = $observer->getEvent()->getBlock();
-                $block->removeButton('save');
-                $block->removeButton('save_and_edit_button');
-                $block->removeButton('delete');
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Remove fetch button if user doesn't have exclusive access to order
      *
      * @param Varien_Event_Observer $observer
@@ -470,28 +447,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
                 $block = $observer->getEvent()->getBlock();
                 $block->removeButton('fetch');
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Disable fields in edit form if user does not have exclusive access to current tag
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function disableTagEditFormFields($observer)
-    {
-        $model = Mage::registry('current_tag');
-        if ($model && $model->getId()) {
-            $storeIds = (array)$model->getVisibleInStoreIds();
-            $storeIds = array_filter($storeIds); // remove admin store with id 0
-            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $elements = $observer->getEvent()->getBlock()->getForm()->getElement('base_fieldset')->getElements();
-                $elements->searchById('name')->setReadonly(true, true);
-                $elements->searchById('status')->setReadonly(true, true);
-                $elements->searchById('base_popularity')->setReadonly(true, true);
             }
         }
         return $this;
@@ -717,23 +672,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
                     ->removeButton('publish');
             }
         }
-    }
-
-    /**
-     * Remove massactions for limited user
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_AdminGws_Model_Blocks
-     */
-    public function removeTagGridActions($observer)
-    {
-        $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-        /* @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
-        if ($massBlock) {
-            $massBlock->removeItem('delete');
-        }
-
-        return $this;
     }
 
     /**

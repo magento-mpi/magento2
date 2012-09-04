@@ -96,7 +96,6 @@ $_product = $this->getProduct();
             <div class="clearer"></div>
             <?php echo $this->getChildHtml('relatedProducts') ?>
             <?php echo $this->getChildHtml('upsell_products') ?>
-            <?php echo $this->getChildHtml('productTagList') ?>
             <?php echo $this->getChildHtml('product_additional_data') ?>
         </div>
         <form action="<?php echo $this->getSubmitUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>

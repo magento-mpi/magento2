@@ -96,7 +96,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
      */
     public function getAfter()
     {
-        return 'tags';
+        return 'reviews';
     }
 
     /**
