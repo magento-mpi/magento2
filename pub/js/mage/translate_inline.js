@@ -29,6 +29,33 @@ TranslateInline.prototype = {
                 $(this).select('*[translate]').each(scope.initializeElement.bind(scope));
             }
         }
+        this.translateDialog = jQuery('<div id="translate-inline" />')
+            .prependTo('body')
+            .dialog({
+                draggable: true,
+                resizable: true,
+                modal: true,
+                dialogClass: "dialog",
+                title: "Translation",
+                width: 650,
+                height: 470,
+                zIndex: 2100,
+                position: 'center',
+                buttons : [{
+                        text: 'Submit',
+                        class: 'form-button button',
+                        click: this.formOk.bind(this)
+                    },
+                    {
+                        text: 'Close',
+                        class: 'form-button button',
+                        click: function() {
+                            jQuery(this).dialog("close");
+                        }
+                    }],
+                close: this.formClose.bind(this)
+            })
+            .dialog('close');
         this.trigEl = $(trigEl);
         this.trigEl.observe('click', this.formShow.bind(this));
 
@@ -132,30 +159,9 @@ TranslateInline.prototype = {
         }
         content += '</form><p class="a-center accent">Please refresh the page to see your changes after submitting this form.</p>';
 
-        this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
-        this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
-        Windows.overlayShowEffectOptions = {duration: 0};
-        Windows.overlayHideEffectOptions = {duration: 0};
-
-        Dialog.confirm(content, {
-            draggable: true,
-            resizable: true,
-            closable: true,
-            className: "magento",
-            title: "Translation",
-            width: 650,
-            height: 470,
-            zIndex: 2100,
-            recenterAuto: false,
-            hideEffect: Element.hide,
-            showEffect: Element.show,
-            id: "translate-inline",
-            buttonClass: "form-button button",
-            okLabel: "Submit",
-            ok: this.formOk.bind(this),
-            cancel: this.formClose.bind(this),
-            onClose: this.formClose.bind(this)
-        });
+        this.translateDialog
+            .html(content)
+            .dialog('open');
         this.trigHide();
     },
 
@@ -188,13 +194,12 @@ TranslateInline.prototype = {
     },
 
     ajaxComplete: function(win, transport) {
-        win.close();
+        jQuery(win).dialog('close');
         this.formClose(win);
     },
 
     formClose: function(win) {
-        Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
-        Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+        jQuery(win).html('');
         this.formIsShown = false;
     },
 
