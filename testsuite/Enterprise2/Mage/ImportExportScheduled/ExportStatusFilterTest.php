@@ -227,7 +227,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
                 'operation' => 'Export'
             )
         );
-        self::$_currentDate = date("m/d/Y");
+        self::$_currentDate = $this->importExportScheduledHelper()->getLastRunDate(array(
+            'name' => $exportDataFinances['name'],
+            'operation' => 'Export'
+        ));
+        //Convert to M/d/Y
+        self::$_currentDate = date("m/d/Y", strtotime(self::$_currentDate));
         $this->assertMessagePresent('error', 'error_run');
     }
 
