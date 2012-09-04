@@ -249,7 +249,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('reset_to_default_robots', false);
-        //$this->waitForAjax();
+        $this->waitForAjax();
         $this->clickButton('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
 
@@ -310,7 +310,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('reset_to_default_robots', false);
-        //$this->waitForAjax();
+        $this->waitForAjax();
         $this->clickButton('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
 

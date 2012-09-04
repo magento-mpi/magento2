@@ -242,10 +242,11 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     {
         $websiteData = $this->loadDataSet('Website', 'generic_website');
         //Steps
+        $this->navigate('manage_stores');
         $this->storeHelper()->createStore($websiteData, 'website');
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_website');
-
+        $this->navigate('system_configuration');
         //Enable Submission to Robots.txt = "No" and save config
         $this->systemConfigurationHelper()->configure('admin_disable_push_to_robots');
 
@@ -255,7 +256,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('reset_to_default_robots', false);
-        //$this->waitForAjax();
+        $this->waitForAjax();
         $this->clickButton('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
 
@@ -316,7 +317,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
         //Fill "Edit custom instruction of robots.txt File" filed and save config
         $this->fillField('edit_custom_instruction', 'edit_custom_instruction_test');
         $this->clickButton('reset_to_default_robots', false);
-        //$this->waitForAjax();
+        $this->waitForAjax();
         $this->clickButton('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
 
