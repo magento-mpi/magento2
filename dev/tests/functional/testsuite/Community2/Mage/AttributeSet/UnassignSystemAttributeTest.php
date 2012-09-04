@@ -121,7 +121,7 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
      * @param string $setName
      *
      * @test
-     * @dataProvider unassignedSystemAttributeDataProvider
+     * @dataProvider unassignableSystemAttributesDataProvider
      * @depends preconditionsForTests
      * @TestLinkId TL-MAGE-6124
      */
@@ -151,7 +151,7 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
      * @param string $attributeCode
      *
      * @test
-     * @dataProvider unassignedSystemAttributeDataProvider
+     * @dataProvider unassignableSystemAttributesDataProvider
      * @TestLinkId TL-MAGE-6127
      */
     public function fromMinimalAttributeSet($attributeCode)
@@ -168,11 +168,11 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
     }
 
     /**
-     * <p>DataProvider with list of not required system attributes</p>
+     * <p>DataProvider with list of unassignable system attributes</p>
      *
      * @return array
      */
-    public function unassignedSystemAttributeDataProvider()
+    public function unassignableSystemAttributesDataProvider()
     {
         return array(
             array('cost'),
@@ -258,7 +258,7 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
      * @param string $attributeCode
      *
      * @test
-     * @dataProvider requiredSystemAttributeDataProvider
+     * @dataProvider nonUnassignableSystemAttributesDataProvider
      * @TestLinkId TL-MAGE-6128
      */
     public function verifyBasicAttributes($attributeCode)
@@ -273,11 +273,11 @@ class Community2_Mage_AttributeSet_UnassignSystemAttributeTest extends Mage_Sele
     }
 
     /**
-     * <p>DataProvider with list of required system attributes</p>
+     * <p>DataProvider with list of non unassignable system attributes</p>
      *
      * @return array
      */
-    public function requiredSystemAttributeDataProvider()
+    public function nonUnassignableSystemAttributesDataProvider()
     {
         return array(
             array('description'),
