@@ -27,16 +27,17 @@ abstract class Enterprise_Customer_Model_Resource_Sales_Address_Abstract
     protected $_columnPrefix     = null;
 
     /**
-     * Attachs data to collection
+     * Attach data to models
      *
-     * @param Varien_Data_Collection_Db $collection
+     * @param array $entities
      * @return Enterprise_Customer_Model_Resource_Sales_Address_Abstract
      */
-    public function attachDataToCollection(Varien_Data_Collection_Db $collection)
+    public function attachDataToEntities(array $entities)
     {
         $items      = array();
         $itemIds    = array();
-        foreach($collection->getItems() as $item) {
+        foreach ($entities as $item) {
+            /** @var $item Varien_Object */
             $itemIds[] = $item->getId();
             $items[$item->getId()] = $item;
         }
