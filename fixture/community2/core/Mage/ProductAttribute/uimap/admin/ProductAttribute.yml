@@ -16,7 +16,7 @@ new_product_attribute:
         form:
             tabs:
                 -
-                    properties:
+                    properties: &attributeProperties
                         xpath: //a[@id='product_attribute_tabs_main']/span
                         fieldsets:
                             -
@@ -115,3 +115,5 @@ edit_product_attribute:
                                         default_value: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-radio']
                                     fields:
                                         admin_option_name_disabled: //tr[contains(@class,'option-row')][%rowNumber%]//input[@class='input-text required-option' and @disabled='disabled']
+                -
+                    properties: *attributeProperties

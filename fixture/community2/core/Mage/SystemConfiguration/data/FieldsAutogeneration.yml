@@ -9,10 +9,14 @@
 # @license     {license_link}
 #
 ---
-# Mask for SKU Auto-Generation
-sku_autogeneration_mask:
+# Mask for Product fields Auto-Generation
+fields_autogeneration_masks:
     configuration_scope: Default Config
     tab_1:
         tab_name: catalog_catalog
         configuration:
             sku_mask: %noValue%
+            meta_title_mask: %noValue%
+            meta_description_mask: %noValue%
+            meta_keyword_mask: %noValue%
+

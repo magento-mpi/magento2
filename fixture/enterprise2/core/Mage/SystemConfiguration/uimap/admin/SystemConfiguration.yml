@@ -21,10 +21,14 @@ system_configuration:
                         xpath: //a[contains(@href, 'edit/section/catalog/')]
                         fieldsets:
                             -
-                                fields_masks:
+                                product_creation:
                                     xpath: //fieldset[@id='catalog_fields_masks']
                                     fields:
-                                        sku_mask: //*[@id='catalog_fields_masks_sku_mask']
+                                        sku_mask: //*[@id='catalog_fields_masks_sku']
+                                        meta_title_mask: //*[@id='catalog_fields_masks_meta_title']
+                                        meta_description_mask: //*[@id='catalog_fields_masks_meta_description']
+                                        meta_keyword_mask: //*[@id='catalog_fields_masks_meta_keyword']
+
 
 system_configuration_tabs:
     uimap: *systemConfiguration
