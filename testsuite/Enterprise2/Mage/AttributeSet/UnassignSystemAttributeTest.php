@@ -65,11 +65,11 @@ class Enterprise2_Mage_AttributeSet_UnassignSystemAttributeTest
     }
 
     /**
-     * <p>DataProvider with list of required system attributes</p>
+     * <p>DataProvider with list of non unassignable system attributes</p>
      *
      * @return array
      */
-    public function requiredSystemAttributeDataProvider()
+    public function nonUnassignableSystemAttributesDataProvider()
     {
         return array(
             array('allow_open_amount'),
