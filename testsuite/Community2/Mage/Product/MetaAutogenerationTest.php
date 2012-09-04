@@ -21,7 +21,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     /**
      * <p>Preconditions:</p>
      * <p>1. Log in to admin</p>
-     * <p>1. Navigate System-Configuration</p>
+     * <p>1. Navigate System - Configuration</p>
      */
     protected function assertPreConditions()
     {
@@ -79,7 +79,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      */
     public function verifyDefaultMask($metaCode, $metaField, $metaMask)
     {
-        //System settings
+        //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask'   => $metaMask));
         $this->systemConfigurationHelper()->configure($systemConfig);
@@ -136,7 +136,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        //Precondition
+        //Preconditions
         $this->navigate('manage_products');
         $this->productHelper()->createProductWithAutogeneration($productData, true);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -309,9 +309,11 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *  <p>7. Open Meta Information Tab.</p>
      *  <p>8. Enter new valid values to Meta Title, Meta Keywords, Meta Description fields
      *  <p>9. Save product and open it
+     *
      * <p>Expected results:</p>
      *  <p>7. Fields on Meta Information tab is displayed information generated according masks.</p>
      *  <p>7. Fields on Meta Information tab is displayed information entered by user</p>
+     *
      * @param $metaCode
      * @param $metaField
      * @param $fieldType
