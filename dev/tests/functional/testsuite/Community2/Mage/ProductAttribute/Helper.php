@@ -156,13 +156,13 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
     /**
      * Edit product attribute
      *
-     * @param string $attrCode
+     * @param string $attributeCode
      * @param array $editedData
      */
-    public function editAttribute($attrCode, array $editedData)
+    public function editAttribute($attributeCode, array $editedData)
     {
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attrCode));
+        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attributeCode));
         $this->fillTab($editedData, 'properties', false);
         $this->fillTab($editedData, 'manage_labels_options', false);
         $this->storeViewTitles($editedData);
