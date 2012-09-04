@@ -20,8 +20,8 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
 
     /**
      * <p>Preconditions:</p>
-     * <p>1. Log in to admin</p>
-     * <p>1. Navigate System - Configuration</p>
+     *  <p>1. Log in to admin</p>
+     *  <p>2. Navigate System - Configuration</p>
      */
     protected function assertPreConditions()
     {
@@ -37,7 +37,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     {
         //System settings
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
-            array('meta_title_mask'   => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
+            array('meta_title_mask' => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
                   'meta_keyword_mask' => '{{name}}, {{sku}}', 'sku_mask'   => '{{name}}'));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($systemConfig);
@@ -81,13 +81,13 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     {
         //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
-            array($metaCode . '_mask'   => $metaMask));
+            array($metaCode . '_mask' => $metaMask));
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false);
+        $this->productHelper()->createProductWithAutogeneration($productData);
         $testData = $this->productHelper()->formFieldValueFromMask($metaMask, self::$placeholders);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -189,11 +189,11 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
-            array($metaCode . '_mask'   => $metaMask));
+            array($metaCode . '_mask' => $metaMask));
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false);
+        $this->productHelper()->createProductWithAutogeneration($productData);
         $testData = $this->productHelper()->formFieldValueFromMask($metaMask, self::$placeholders);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -256,7 +256,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * @param $fieldType
      *
      * @test
-     * @dataProvider metaFieldsDataProvider()
+     * @dataProvider metaFieldsDataProvider
      * @TestLinkId TL-MAGE-6193
      */
     public function textAttributeDefaultValue($metaCode, $metaField, $fieldType, $mask)
@@ -266,7 +266,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $editedElement = $this->generate('string', 15, ':alnum:');
         //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
-            array($metaCode . '_mask'   => $mask));
+            array($metaCode . '_mask' => $mask));
         $this->systemConfigurationHelper()->configure($systemConfig);
         $this->navigate('manage_attributes');
         $this->productAttributeHelper()->editAttribute($metaCode,
@@ -333,7 +333,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $metaMask = $this->generate('string', 255, ':alnum:');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false);
+        $this->productHelper()->createProductWithAutogeneration($productData);
         $this->openTab('meta_information');
         $this->fillField($metaField, $metaMask);
         $this->saveForm('save');
@@ -346,11 +346,13 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     /**
      * <p>Verify that product with Meta fields autogeneration has been created without verification errors </p>
      * <p>when meta attributes setted as required</p>
+     *
      * <p>Preconditions:</p>
      *  <p>1. Setup meta attributes as required</p>
      *  <p>2a. Mask for Meta Title auto-generation = {{name}}</p>
      *  <p>2b. Mask for Meta Keyword auto-generation = {{name}}, {{sku}}</p>
      *  <p>2c. Mask for Meta Description auto-generation = {{name}} {{description}}</p>
+     *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
      *  <p>2. Go Catalog - Manage Products.</p>
@@ -387,8 +389,9 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * <p>Preconditions:</p>
      *  <p>1. Setup empty mask in Product Fields Auto-generation fieldset:</p>
      *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p
-     *  p>2. Setup empty default value for meta_title, meta_description, meta_keyword product attributes</p>
-     *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p
+     *  <p>2. Setup empty default value for meta_title, meta_description, meta_keyword product attributes</p>
+     *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p>
+     *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
      *  <p>2. Go Catalog - Manage Products.</p>
@@ -405,7 +408,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * @param $fieldType
      *
      * @test
-     * @dataProvider metaFieldsDataProvider()
+     * @dataProvider metaFieldsDataProvider
      * @TestLinkId TL-MAGE-6191
      */
     public function emptyMetaMask($metaCode, $metaField, $fieldType)
