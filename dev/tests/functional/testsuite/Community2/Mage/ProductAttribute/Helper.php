@@ -152,4 +152,25 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
             $this->saveForm('save_attribute', false);
         }
     }
+
+    /**
+     * @param array $attrCodes
+     * @param $editedData
+     */
+
+
+    public function editAttribute(array $attrCodes, $editedData)
+    {
+        {
+            foreach ($attrCodes as $value) {
+                $this->navigate('manage_attributes');
+                $this->productAttributeHelper()->openAttribute(array('attribute_code' => $value));
+                $this->fillTab($editedData, 'properties', false);
+                $this->fillTab($editedData, 'manage_labels_options', false);
+                $this->storeViewTitles($editedData);
+                $this->attributeOptions($editedData);
+                $this->saveForm('save_attribute', false);
+            }
+        }
+    }
 }
