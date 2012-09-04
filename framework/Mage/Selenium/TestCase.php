@@ -323,6 +323,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $testMethods = array();
         $class = new ReflectionClass(self::$_testClass);
+        /**
+         * @var ReflectionMethod $method
+         */
         foreach ($class->getMethods() as $method) {
             if (PHPUnit_Framework_TestSuite::isPublicTestMethod($method)) {
                 $testMethods[] = $method->getName();
@@ -382,10 +385,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->takeScreenshot();
             }
         }
-
-        //if (!$this->frameworkConfig['shareSession']) {
-        //    $this->drivers[0]->stopBrowserSession();
-        //}
 
         if (isset($e)) {
             throw $e;
@@ -2951,12 +2950,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         foreach ($options as $option) {
             try {
-                $this->select($element)->selectOptionByLabel($value);
+                $this->select($element)->selectOptionByLabel($option);
                 continue;
             } catch (RuntimeException $e) {
             }
             try {
-                $this->select($element)->selectOptionByValue($value);
+                $this->select($element)->selectOptionByValue($option);
                 continue;
             } catch (RuntimeException $_e) {
             }
@@ -3331,25 +3330,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 throw new OutOfRangeException('Wrong scope type');
                 break;
         }
-    }
-
-    ################################################################################
-    #                                                                              #
-    #       Should be removed when onNotSuccessfulTest is fixed                    #
-    #                                                                              #
-    ################################################################################
-    /**
-     * @param Exception $e
-     *
-     * @throws Exception|RuntimeException
-     */
-    public function onNotSuccessfulTest(Exception $e)
-    {
-        //if (!$this->frameworkConfig['shareSession']) {
-        //    $this->drivers[0]->stopBrowserSession();
-        //}
-
-        throw $e;
     }
 
     ################################################################################
