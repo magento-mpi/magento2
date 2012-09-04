@@ -154,23 +154,19 @@ class Community2_Mage_ProductAttribute_Helper extends Core_Mage_ProductAttribute
     }
 
     /**
-     * @param array $attrCodes
-     * @param $editedData
+     * Edit product attribute
+     *
+     * @param string $attrCode
+     * @param array $editedData
      */
-
-
-    public function editAttribute(array $attrCodes, $editedData)
+    public function editAttribute($attrCode, array $editedData)
     {
-        {
-            foreach ($attrCodes as $value) {
-                $this->navigate('manage_attributes');
-                $this->productAttributeHelper()->openAttribute(array('attribute_code' => $value));
-                $this->fillTab($editedData, 'properties', false);
-                $this->fillTab($editedData, 'manage_labels_options', false);
-                $this->storeViewTitles($editedData);
-                $this->attributeOptions($editedData);
-                $this->saveForm('save_attribute', false);
-            }
-        }
+        $this->navigate('manage_attributes');
+        $this->productAttributeHelper()->openAttribute(array('attribute_code' => $attrCode));
+        $this->fillTab($editedData, 'properties', false);
+        $this->fillTab($editedData, 'manage_labels_options', false);
+        $this->storeViewTitles($editedData);
+        $this->attributeOptions($editedData);
+        $this->saveForm('save_attribute', false);
     }
 }
