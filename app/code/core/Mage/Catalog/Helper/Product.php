@@ -468,7 +468,7 @@ class Mage_Catalog_Helper_Product extends Mage_Core_Helper_Url
     }
 
     /**
-     * Retrieve list of attributes that cannot be removed
+     * Retrieve list of attributes that cannot be removed from attribute set
      *
      * @return array
      */
