@@ -29,9 +29,11 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $popupXpath = $this->_getControlXpath('fieldset', 'change_attribute_set');
         $actualTitle = $this->getText($fieldXpath);
         $newTitle = str_replace($newAttributeSet, $currentAttributeSet, $actualTitle);
-        $this->clickButton('change_attribute_set', false)->waitForElement($popupXpath);
+        $this->clickButton('change_attribute_set', false)
+            ->waitForElement($popupXpath);
         $this->fillDropdown('choose_attribute_set', $newAttributeSet);
-        $this->addParameter('setId', $dropdownXpath)->clickButton('apply')->validatePage();
+        $this->addParameter('setId', $dropdownXpath)->clickButton('apply')
+            ->validatePage();
         $this->assertNotSame($this->getText($fieldXpath), $newTitle,
             "Attribute set in title should be $newAttributeSet, but now it's $currentAttributeSet");
     }
@@ -61,9 +63,9 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $this->openTab('custom_options');
         while ($this->isElementPresent($this->_getControlXpath('fieldset', 'custom_option_set'))) {
             if (!$this->controlIsPresent('button', 'delete_custom_option')) {
-                $this->fail(
-                    'Current location url: ' . $this->getLocation() . "\n" . 'Current page: ' . $this->getCurrentPage()
-                    . "\nProblem with 'Delete Option' button.\n" . 'Control is not present on the page');
+                $this->fail('Current location url: ' . $this->getLocation() . "\n"
+                    . 'Current page: ' . $this->getCurrentPage() . "\nProblem with 'Delete Option' button.\n"
+                    . 'Control is not present on the page');
             }
             $this->clickButton('delete_custom_option', false);
         }
@@ -82,8 +84,8 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         $optionsQty = $this->getXpathCount($this->_getControlXpath('fieldset', 'custom_option_set'));
         $needCount = count($customOptionData);
         if ($needCount != $optionsQty) {
-            $this->addVerificationMessage(
-                'Product must be contains ' . $needCount . ' Custom Option(s), but contains ' . $optionsQty);
+            $this->addVerificationMessage('Product must be contains ' . $needCount
+                . ' Custom Option(s), but contains ' . $optionsQty);
             return false;
         }
         $numRow = 1;
@@ -172,14 +174,14 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
      * Creating product using fields autogeneration with variables on General tab
      *
      * @param array $productData
-     * @param $keyUp
-     * @param array $productFields
      * @param bool $isSave
+     * @param string $keyUp
+     * @param array $productFields
      * @param string $productType
      */
-    public function createProductWithAutogeneration(array $productData, $isSave = false, $keyUp = array('general_name'),
+    public function createProductWithAutogeneration(array $productData, $isSave = false, $keyUp = 'general_name',
         array $productFields = null, $productType = 'simple'
-    ){
+    ) {
         if (!empty($productFields)) {
             foreach ($productFields as $value) {
                 unset($productData[$value]);
@@ -187,22 +189,19 @@ class Community2_Mage_Product_Helper extends Core_Mage_Product_Helper
         }
         $this->productHelper()->createProduct($productData, $productType, false);
         $this->openTab('general');
-        foreach ($keyUp as $key) {
-            $this->keyUp($this->_getControlXpath('field', $key), ' ');
-        }
+        $this->keyUp($this->_getControlXpath('field', $keyUp), ' ');
         if ($isSave) {
             $this->saveForm('save');
-            $this->pleaseWait();
         }
     }
 
     /**
-     * Get value from configured mask for autogeneration
+     * Form mask's value replacing variable in mask with variable field's value on General tab
      *
-     * @param $mask
+     * @param string $mask
      * @param array $placeholders
      *
-     * @return mixed
+     * @return string
      */
     public function formFieldValueFromMask($mask, array $placeholders)
     {

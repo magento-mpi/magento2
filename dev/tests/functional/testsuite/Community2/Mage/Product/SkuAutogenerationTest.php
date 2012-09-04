@@ -38,7 +38,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $this->systemConfigurationHelper()->configure($systemConfig);
         //System attribute
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->editAttribute(array('attribute_code' => 'sku'),
+        $this->productAttributeHelper()->editAttribute('sku',
             array('default_text_field_value' => ''));
         $this->assertMessagePresent('success', 'success_saved_attribute');
     }
@@ -87,7 +87,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
             array('general_sku'));
         //Verifying
         $this->assertEquals($productData['general_name'],
-     $this->getValue($this->_getControlXpath('field', 'general_sku')), 'SKU is not equal to product name.');
+            $this->getValue($this->_getControlXpath('field', 'general_sku')), 'SKU is not equal to product name.');
     }
 
     /**
@@ -398,12 +398,13 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $sku = $this->generate('string', 15, ':alnum:');
         //Preconditions
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->editAttribute(array('attribute_code' => 'sku'),
+        $this->productAttributeHelper()->editAttribute('sku',
             array('default_text_field_value' => $sku));
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true);
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
+            array('general_sku'));
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $productData['general_sku'] = $sku;

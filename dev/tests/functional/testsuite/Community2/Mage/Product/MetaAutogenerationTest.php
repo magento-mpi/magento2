@@ -17,11 +17,11 @@
 class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestCase
 {
     public static $placeholders = array('{{name}}', '{{sku}}', '{{description}}', '{{short_description}}');
-    public static $keyUp = array('general_name', 'general_sku', 'general_description', 'general_short_description');
 
     /**
      * <p>Preconditions:</p>
      * <p>1. Log in to admin</p>
+     * <p>1. Navigate System-Configuration</p>
      */
     protected function assertPreConditions()
     {
@@ -30,46 +30,25 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     }
 
     /**
-     * Set default values for Meta fields Autogeneration mask.
-     * Set Meta attributes as non-required and without default values
+     * <p>1. Set default values for Meta fields Autogeneration mask.</p>
+     * <p>2. Set Meta attributes as non-required and without default values</p>
      */
     protected function tearDownAfterTestClass()
     {
+        //System settings
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array('meta_title_mask'   => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
                   'meta_keyword_mask' => '{{name}}, {{sku}}', 'sku_mask'   => '{{name}}'));
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure($systemConfig);
         //System attributes
-        $this->productAttributeHelper()->editAttribute(array('0' => 'meta_title'),
+        $this->productAttributeHelper()->editAttribute('meta_title',
             array('default_text_field_value' => '', 'values_required' => 'No'));
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()->editAttribute(array('1' => 'meta_description'),
+        $this->productAttributeHelper()->editAttribute('meta_description',
             array('default_text_area_value' => '', 'values_required' => 'No'));
         $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()->editAttribute(array('2' => 'meta_keyword'),
-            array('default_text_area_value' => '', 'values_required' => 'No'));
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-    }
-
-    /**
-     * @test
-     */
-    public function preconditionsForTests()
-    {
-        $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
-            array('meta_title_mask'   => '{{name}}', 'meta_description_mask' => '{{name}} {{description}}',
-                  'meta_keyword_mask' => '{{name}}, {{sku}}', 'sku_mask'   => '{{name}}'));
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure($systemConfig);
-        //System attributes
-        $this->productAttributeHelper()->editAttribute(array('0' => 'meta_title'),
-            array('default_text_field_value' => '', 'values_required' => 'No'));
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()->editAttribute(array('1' => 'meta_description'),
-            array('default_text_area_value' => '', 'values_required' => 'No'));
-        $this->assertMessagePresent('success', 'success_saved_attribute');
-        $this->productAttributeHelper()->editAttribute(array('2' => 'meta_keyword'),
+        $this->productAttributeHelper()->editAttribute('meta_keyword',
             array('default_text_area_value' => '', 'values_required' => 'No'));
         $this->assertMessagePresent('success', 'success_saved_attribute');
     }
@@ -83,7 +62,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage products.</p>
+     *  <p>2. Go Catalog - Manage Products.</p>
      *  <p>3. Start to create new simple product.</p>
      *  <p>4. Enter 'Name' text to Name field.</p>
      *  <p>5. Enter 'Description' text to Description field.</p>
@@ -95,7 +74,6 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *  <p>1c. Meta Description field is equal to Product Name and Product Description 'Name Description'.</p>
      *
      * @test
-     *
      * @dataProvider defaultMetaMaskDataProvider
      * @TestLinkId TL-MAGE-6164
      */
@@ -109,7 +87,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, false);
         $testData = $this->productHelper()->formFieldValueFromMask($metaMask, self::$placeholders);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -134,23 +112,23 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
 
 
     /**
-     * Verifying, that autogeneration of meta fields does't work for product duplication
-     *<p> Steps:</p>
-     *<p>1. Log in to Backend.</p>
-     *<p>2. Go Catalog - Manage products</p>
-     *<p>3. Create new simple product with SKU autogeneration</p>
-     *<p>4. Find created product in Manage Products grid and open it</p>
-     *<p>5. Change Product Name to Name #2 and save it</p>
-     *<p>6. Click on Meta Information Tab</p>
+     * <p>Verifying, that autogeneration of meta fields does't work for product duplication</p>
+     * <p> Steps:</p>
+     *  <p>1. Log in to Backend.</p>
+     *  <p>2. Go Catalog - Manage Products</p>
+     *  <p>3. Create new simple product with SKU autogeneration</p>
+     *  <p>4. Find created product in Manage Products grid and open it</p>
+     *  <p>5. Change Product Name to Name #2 and save it</p>
+     *  <p>6. Click on Meta Information Tab</p>
      *
-     *<p>Expected results:</p>
-     *<p>After Step 3. New product is created and is present in Manage Products grid with SKU = Product#1 Name</p>
-     *<p>After Step 5: Product Name has been changed to Name #2, SKU is 'Product#1 Name-1'</p>
-     *<p>After Step 7: a. Meta Title field is equal to 'Product #1 Name'</p>
-     *<p>b. Meta Keywords field is equal to 'Product #1 Name, Product #1 Name'</p>
-     *<p>c. Meta Description field is equal to 'Product #1 Name Product#1 Description'</p>
+     * <p>Expected results:</p>
+     *  <p>After Step 3. New product is created and is present in Manage Products grid with SKU = Product#1 Name</p>
+     *  <p>After Step 5: Product Name has been changed to Name #2, SKU is 'Product#1 Name-1'</p>
+     *  <p>After Step 7: a. Meta Title field is equal to 'Product #1 Name'</p>
+     *  <p>b. Meta Keywords field is equal to 'Product #1 Name, Product #1 Name'</p>
+     *  <p>c. Meta Description field is equal to 'Product #1 Name Product#1 Description'</p>
+     *
      * @test
-     *
      * @depends verifyDefaultMask
      * @TestLinkId TL-MAGE-6165
      */
@@ -160,7 +138,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Precondition
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, true);
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
@@ -188,7 +166,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
-     *  <p>2. Go Catalog - Manage products.</p>
+     *  <p>2. Go Catalog - Manage Products.</p>
      *  <p>3. Start to create new simple product.</p>
      *  <p>4. Fulfill all required fields and don't enter any information on Meta tab</p>
      *  <p>5. Save product.</p>
@@ -202,7 +180,6 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * @param $metaMask
      *
      * @test
-     *
      * @dataProvider templateMetaMaskDataProvider
      * @TestLinkId TL-MAGE-6179
      */
@@ -210,13 +187,13 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_required');
-        //System settings
+        //Preconditions
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask'   => $metaMask));
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, false);
         $testData = $this->productHelper()->formFieldValueFromMask($metaMask, self::$placeholders);
         $this->saveForm('save');
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -251,14 +228,36 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     }
 
     /**
+     * <p>Meta Fields auto-generation is disabled if default value for meta attribute has been defined</p>
+     * <p>Preconditions:</p>
+     *  <p>1. Setup default templates in Product Fields Auto-generation fieldset:</p>
+     *  <p>1a. Mask for Meta Title auto-generation = {{name}}</p>
+     *  <p>1b. Mask for Meta Keyword auto-generation = {{name}}, {{sku}}</p>
+     *  <p>1c. Mask for Meta Description auto-generation = {{name}} {{description}}</p>
+     *  <p>2a. Set valid default values for meta_title, meta_description, meta_keyword attributes</p>
+     *
+     * <p>Steps:</p>
+     *  <p>1. Log in to Backend.</p>
+     *  <p>2. Go Catalog - Manage Products.</p>
+     *  <p>3. Start to create new simple product.</p>
+     *  <p>4. Enter 'Name' text to Name field.</p>
+     *  <p>5. Enter 'Description' text to Description field.</p>
+     *  <p>6. Enter 'SKU' to SKU field.</p>
+     *  <p>7. Open Meta Information Tab.</p>
+     *
+     * <p>Expected results:</p>
+     *  <p>1a. Meta Title field is equal to default value for meta_title attribute.</p>
+     *  <p>1b. Meta Keywords field is equal to default value for meta_keyword attribute</p>
+     *  <p>1c. Meta Description field is equal to default value for meta_description atrribute.</p>
+     *
      * @param $metaCode
      * @param $metaField
      * @param $mask
      * @param $fieldType
      *
      * @test
-     *
      * @dataProvider metaFieldsDataProvider()
+     * @TestLinkId TL-MAGE-6193
      */
     public function textAttributeDefaultValue($metaCode, $metaField, $fieldType, $mask)
     {
@@ -270,12 +269,12 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
             array($metaCode . '_mask'   => $mask));
         $this->systemConfigurationHelper()->configure($systemConfig);
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()
-            ->editAttribute(array($metaCode), array('default_' . $fieldType . '_value' => $editedElement));
+        $this->productAttributeHelper()->editAttribute($metaCode,
+            array('default_' . $fieldType . '_value' => $editedElement));
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, true);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
@@ -292,18 +291,39 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
     }
 
     /**
+     * <p>Create product with user-defined values for Meta Tags</p>
+     * <p>Preconditions:</p>
+     *  <p>1. Setup default templates in Product Fields Auto-generation fieldset:</p>
+     *  <p>1a. Mask for Meta Title auto-generation = {{name}}</p>
+     *  <p>1b. Mask for Meta Keyword auto-generation = {{name}}, {{sku}}</p>
+     *  <p>1c. Mask for Meta Description auto-generation = {{name}} {{description}}</p>
+     *  <p>2a. Set empty default values for meta_title, meta_description, meta_keyword attributes</p>
+     *
+     * <p>Steps:</p>
+     *  <p>1. Log in to Backend.</p>
+     *  <p>2. Go Catalog - Manage Products.</p>
+     *  <p>3. Start to create new simple product.</p>
+     *  <p>4. Enter 'Name' text to Name field.</p>
+     *  <p>5. Enter 'Description' text to Description field.</p>
+     *  <p>6. Enter 'SKU' to SKU field.</p>
+     *  <p>7. Open Meta Information Tab.</p>
+     *  <p>8. Enter new valid values to Meta Title, Meta Keywords, Meta Description fields
+     *  <p>9. Save product and open it
+     * <p>Expected results:</p>
+     *  <p>7. Fields on Meta Information tab is displayed information generated according masks.</p>
+     *  <p>7. Fields on Meta Information tab is displayed information entered by user</p>
      * @param $metaCode
      * @param $metaField
      * @param $fieldType
      *
      * @test
-     *
      * @dataProvider defaultMetaMaskDataProvider
+     * @TestLinkId TL-MAGE-6194
      */
     public function saveWithUserDefinedValues($metaCode, $metaField, $fieldType)
     {
         //Preconditions
-        $this->productAttributeHelper()->editAttribute(array($metaCode),
+        $this->productAttributeHelper()->editAttribute($metaCode,
             array('values_required' => 'No', 'default_' . $fieldType . '_value' => ''));
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Data
@@ -311,7 +331,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $metaMask = $this->generate('string', 255, ':alnum:');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, false);
         $this->openTab('meta_information');
         $this->fillField($metaField, $metaMask);
         $this->saveForm('save');
@@ -320,10 +340,27 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
         $this->productHelper()->verifyProductInfo($productData, array($metaCode => $metaMask));
     }
+
     /**
-     * @test
+     * <p>Verify that product with Meta fields autogeneration has been created without verification errors </p>
+     * <p>when meta attributes setted as required</p>
+     * <p>Preconditions:</p>
+     *  <p>1. Setup meta attributes as required</p>
+     *  <p>2a. Mask for Meta Title auto-generation = {{name}}</p>
+     *  <p>2b. Mask for Meta Keyword auto-generation = {{name}}, {{sku}}</p>
+     *  <p>2c. Mask for Meta Description auto-generation = {{name}} {{description}}</p>
+     * <p>Steps:</p>
+     *  <p>1. Log in to Backend.</p>
+     *  <p>2. Go Catalog - Manage Products.</p>
+     *  <p>3. Start to create new simple product.</p>
+     *  <p>4. Fulfill all required fields and don't enter any information on Meta tab</p>
+     *  <p>5. Save product.</p>
      *
-     * @group preConditions
+     * <p>Expected results:</p>
+     *  <p> Success message appears, no verification errors for meta fields </p>
+     *
+     * @test
+     * @TestLinkId TL-MAGE-6192
      */
     public function setMetaTabRequired()
     {
@@ -333,20 +370,41 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_attributes');
-        $this->productAttributeHelper()->editAttribute($metaAttributes, $editedElement);
-        $this->assertMessagePresent('success', 'success_saved_attribute');
+        foreach ($metaAttributes as $value) {
+            $this->productAttributeHelper()->editAttribute($value, $editedElement);
+            $this->assertMessagePresent('success', 'success_saved_attribute');
+        }
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, true);
+        //Verifications
         $this->assertMessagePresent('success', 'success_saved_product');
     }
 
     /**
+     * <p>Meta fields Auto-generation is disabled if Autogeneration mask field is empty </p>
+     * <p>Preconditions:</p>
+     *  <p>1. Setup empty mask in Product Fields Auto-generation fieldset:</p>
+     *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p
+     *  p>2. Setup empty default value for meta_title, meta_description, meta_keyword product attributes</p>
+     *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p
+     * <p>Steps:</p>
+     *  <p>1. Log in to Backend.</p>
+     *  <p>2. Go Catalog - Manage Products.</p>
+     *  <p>3. Start to create new simple product.</p>
+     *  <p>4. Fulfill all required fields and don't enter any information on Meta tab</p>
+     *  <p>5. Save product.</p>
+     *  <p>6. Open created product.</p>
+     *
+     * <p>Expected results:</p>
+     *  <p> All Meta fields are empty according defined mask</p>
+     *
      * @param $metaCode
      * @param $metaField
      * @param $fieldType
      *
      * @test
      * @dataProvider metaFieldsDataProvider()
+     * @TestLinkId TL-MAGE-6191
      */
     public function emptyMetaMask($metaCode, $metaField, $fieldType)
     {
@@ -354,14 +412,14 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
             array($metaCode . '_mask'   => ''));
         $this->systemConfigurationHelper()->configure($systemConfig);
-        $this->productAttributeHelper()->editAttribute(array($metaCode),
+        $this->productAttributeHelper()->editAttribute($metaCode,
             array('values_required' => 'Yes', 'default_' . $fieldType . '_value' => ''));
         $this->assertMessagePresent('success', 'success_saved_attribute');
         //Steps
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, self::$keyUp);
+        $this->productHelper()->createProductWithAutogeneration($productData, true);
         //Verifying
         $this->openTab('meta_information');
         $this->addFieldIdToMessage('field', $metaField);
