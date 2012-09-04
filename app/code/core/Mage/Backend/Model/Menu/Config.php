@@ -10,6 +10,7 @@
 class Mage_Backend_Model_Menu_Config
 {
     const CACHE_ID = 'backend_menu_config';
+    const CACHE_MENU_OBJECT = 'backend_menu_object';
 
     /**
      * @var Mage_Core_Model_Cache
@@ -95,6 +96,15 @@ class Mage_Backend_Model_Menu_Config
     protected function _initMenu()
     {
         if (!$this->_menu) {
+
+            if ($this->_cache->canUse('config')) {
+                $cache = $this->_cache->load(self::CACHE_MENU_OBJECT);
+                if ($cache) {
+                    $this->_menu = new Mage_Backend_Model_Menu(array('logger' => $this->_logger));
+                    $this->_menu->unserialize($cache);
+                    return;
+                }
+            }
             /* @var $director Mage_Backend_Model_Menu_Director_Dom */
             $director = $this->_appConfig->getModelInstance(
                 'Mage_Backend_Model_Menu_Director_Dom',
@@ -107,6 +117,11 @@ class Mage_Backend_Model_Menu_Config
             $director->buildMenu($this->_menuBuilder);
             $this->_menu = $this->_menuBuilder->getResult();
             $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
+
+            if ($this->_cache->canUse('config')) {
+                $this->_cache->save($this->_menu->serialize(), self::CACHE_MENU_OBJECT, array(Mage_Core_Model_Config::CACHE_TAG));
+            }
+
         }
     }
 
