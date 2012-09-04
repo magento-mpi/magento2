@@ -83,7 +83,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, false, 'general_name',
             array('general_sku'));
         //Verifying
         $this->assertEquals($productData['general_name'],
@@ -117,7 +117,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
             array('general_sku'));
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -154,7 +154,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $productSku = $this->generate('string', 15, ':alnum:');
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, false, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, false, 'general_name',
             array('general_sku'));
         $this->fillField('general_sku', $productSku);
         $this->saveForm('save');
@@ -191,7 +191,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
             array('general_name' => $this->generate('string', 65, ':alnum:')));
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
             array('general_sku'));
         //Verifying
         $this->assertMessagePresent('validation', 'incorrect_sku_length');
@@ -226,11 +226,11 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Precondition
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
             array('general_sku'));
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
-        $this->productHelper()->createProductWithAutogeneration($productData, false, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, false, 'general_name',
             array('general_sku'));
         $this->saveAndContinueEdit('button', 'save_and_continue_edit');
         //Verifying
@@ -267,7 +267,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         //Precondition
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
             array('general_sku'));
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
@@ -308,7 +308,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
             array('general_sku'));
         //Verifying
         $this->addFieldIdToMessage('field', 'general_sku');
@@ -350,7 +350,7 @@ class Community2_Mage_Product_SkuAutogenerationTest extends Mage_Selenium_TestCa
         $this->systemConfigurationHelper()->configure($systemConfig);
         //Steps
         $this->navigate('manage_products');
-        $this->productHelper()->createProductWithAutogeneration($productData, true, array('general_name'),
+        $this->productHelper()->createProductWithAutogeneration($productData, true, 'general_name',
             array('general_sku'));
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
