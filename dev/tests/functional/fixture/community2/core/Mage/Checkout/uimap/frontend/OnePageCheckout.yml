@@ -67,3 +67,4 @@ onepage_checkout:
                 empty_captcha_guest_checkout: //*[@id='advice-required-entry-captcha_guest_checkout']
                 incorrect_captcha: //li[normalize-space(@class)='error-msg' and contains(.,'Incorrect CAPTCHA.')]
                 captcha_alert: Incorrect CAPTCHA.
+                zero_payment: //dt[contains(label,'No Payment Information Required')]

@@ -111,3 +111,26 @@ authorizenetdp_disable:
         tab_name: sales_payment_methods
         configuration:
             andp_enabled: No
+
+#<-------------Zero Subtotal Checkout------------------------>
+zerosubtotal_enable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            zsc_title: No Payment Information Required
+            zsc_enabled: Yes
+            zsc_new_order_status: %noValue%
+            zsc_automatically_invoice_all_items: %noValue%
+            zsc_payment_from_applicable_countries: All Allowed Countries
+            zsc_payment_from_specific_coutries: %noValue%
+            zsc_sort_order: %noValue%
+
+zerosubtotal_disable:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: sales_payment_methods
+        configuration:
+            zsc_title: No Payment Information Required
+            zsc_enabled: No
+            zsc_new_order_status: Pending

@@ -16,6 +16,26 @@ system_configuration:
         form:
             tabs:
                 -
+                    general_general:
+                        xpath: //a[contains(@href, 'edit/section/general/')]
+                        fieldsets:
+                            -
+                                states_options:
+                                    xpath: //fieldset[@id='general_region']
+                            -
+                                store_information:
+                                    xpath: //fieldset[@id='general_store_information']
+                                    fields:
+                                        vat_number: //input[@name='groups[store_information][fields][merchant_vat_number][value]']
+                                    links:
+                                        open_store_information_tab: //a[@id='general_store_information-head'][@class='open']
+                                    buttons:
+                                        validate_vat_number: //button[@id='general_store_information_validate_vat_number']
+                                        vat_number_is_valid: //button[span='VAT Number is Valid']
+                                        vat_number_is_invalid: //button[span='VAT Number is Invalid']
+                                    link:
+                                        store_information_tab: //a[@id='general_store_information-head']
+                -
                     customers_customer_configuration:
                         fieldsets:
                             -
@@ -27,7 +47,23 @@ system_configuration:
                             -
                                 captcha:
                                     fields:
-                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']            
+                                        captcha_number_of_attempts: //*[@id='customer_captcha_failed_attempts_login']
+                -
+                    customers_promotions:
+                        xpath: //a[contains(@href, 'edit/section/promo/')]
+                        fieldsets:
+                            -
+                                auto_generated_specific_coupon_codes:
+                                    xpath: //fieldset[@id='promo_auto_generated_coupon_codes']
+                                    links:
+                                        auto_generated_specific_coupon_codes_link: //parent::div//a[@id='promo_auto_generated_coupon_codes-head']
+                                    fields:
+                                        code_length: //input[@id='promo_auto_generated_coupon_codes_length']
+                                        code_prefix: //input[@id='promo_auto_generated_coupon_codes_prefix']
+                                        code_suffix: //input[@id='promo_auto_generated_coupon_codes_suffix']
+                                        dash_every_x_characters: //input[@id='promo_auto_generated_coupon_codes_dash']
+                                    dropdowns:
+                                        code_format: //select[@id='promo_auto_generated_coupon_codes_format']
                 -
                     sales_payment_methods:
                         fieldsets:
@@ -85,12 +121,6 @@ system_configuration:
                                         cod_new_order_status_use_default: //input[@name='groups[cashondelivery][fields][order_status][inherit]']
                                         cod_payment_from_applicable_countries_use_default: //input[@name='groups[cashondelivery][fields][allowspecific][inherit]']
                                         cod_payment_from_specific_countries_use_default: //input[@name='groups[cashondelivery][fields][specificcountry][inherit]']
-                -
-                    general_general:
-                        fieldsets:
-                            -
-                                states_options:
-                                    xpath: //fieldset[@id='general_region']
                 -
                     general_design:
                         fieldsets:
@@ -171,6 +201,15 @@ system_configuration:
                             -
                                 captcha_customer:
                                     xpath: //fieldset[@id='customer_captcha']
+                            -
+                                create_new_account_options:
+                                    xpath: //fieldset[@id='customer_create_account']
+                                    dropdowns:
+                                        enable_automatic_assignment_group: //select[@name='groups[create_account][fields][auto_group_assign][value]']
+                                        group_valid_vat_domestic: //select[@name='groups[create_account][fields][viv_domestic_group][value]']
+                                        group_valid_vat_intraunion: //select[@name='groups[create_account][fields][viv_intra_union_group][value]']
+                                        group_invalid_vat: //select[@name='groups[create_account][fields][viv_invalid_group][value]']
+                                        show_vat_number_frontend: //select[@name='groups[create_account][fields][vat_frontend_visibility][value]']
                 -
                     customers_wishlist:
                         fieldsets:
@@ -214,6 +253,9 @@ system_configuration:
                 -
                     all_tabs:
                         xpath: //*[@id='system_config_tabs']/li/dl/dd
+        messages:
+            validation_for_field_code_length: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_length']
+            validation_for_field_dash: //div[@id='advice-validate-digits-promo_auto_generated_coupon_codes_dash']
 
 system_configuration_tabs:
     uimap: *system_configuration_uimap

@@ -70,6 +70,10 @@ class Community2_Mage_CheckoutOnePage_Helper extends Core_Mage_CheckoutOnePage_H
 
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
         $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
+        if ($this->controlIsPresent('message', 'zero_payment')) {
+            $this->goToNextOnePageCheckoutStep('payment_method');
+            return;
+        }
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);
             $xpath = $this->_getControlXpath('radiobutton', 'check_payment_method');
