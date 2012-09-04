@@ -38,7 +38,7 @@
                     <fields>
                         <sku translate="label comment">
                             <label>Mask for SKU</label>
-                            <comment>You can use attribute code as placeholder. Example: {{name}}</comment>
+                            <comment>Use {{name}} as Product Name placeholder</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-length maximum-length-64</validate>
                             <sort_order>10</sort_order>
@@ -48,7 +48,7 @@
                         </sku>
                         <meta_title translate="label comment">
                             <label>Mask for Meta Title</label>
-                            <comment>You can use attribute code as placeholder. Example: {{name}}</comment>
+                            <comment>Use {{name}} as Product Name placeholder</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-length maximum-length-255</validate>
                             <sort_order>20</sort_order>
@@ -58,7 +58,7 @@
                         </meta_title>
                         <meta_keyword translate="label comment">
                             <label>Mask for Meta Keywords</label>
-                            <comment>You can use attribute code as placeholder. Example: {{name}}</comment>
+                            <comment>Use {{name}} and {{sku}} as Product Name and Product SKU placeholders</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-length maximum-length-255</validate>
                             <sort_order>30</sort_order>
@@ -68,7 +68,7 @@
                         </meta_keyword>
                         <meta_description translate="label comment">
                             <label>Mask for Meta Description</label>
-                            <comment>You can use attribute code as placeholder. Example: {{name}}</comment>
+                            <comment>Use {{name}} and {{description}} as Product Name and Product Description placeholders</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-length maximum-length-255</validate>
                             <sort_order>40</sort_order>
