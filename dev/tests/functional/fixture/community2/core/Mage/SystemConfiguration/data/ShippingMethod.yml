@@ -1,0 +1,37 @@
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  test_data
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+flatrate_zerosubtotal_enable:
+    configuration_scope: Default Config
+    tab_1: &flatrate
+        tab_name: sales_shipping_methods
+        configuration:
+            flat_rate_enabled: Yes
+            flat_rate_title: Flat Rate
+            flat_rate_method_name: Fixed
+            flat_rate_type: Per Item
+            flat_rate_price: '0.00'
+            flat_rate_calculate_handling_fee: Fixed
+            flat_rate_handling_fee: %noValue%
+            flat_rate_displayed_error_message: This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.
+            flat_rate_ship_to_applicable_countries: All Allowed Countries
+            flat_rate_ship_to_specific_countries: %noValue%
+            flat_rate_show_method_if_not_applicable: %noValue%
+            flat_rate_sort_order: %noValue%
+
+flatrate_zerosubtotal_disable:
+    configuration_scope: Default Config
+    tab_1: &flatrate
+        tab_name: sales_shipping_methods
+        configuration:
+            flat_rate_enabled: Yes
+            flat_rate_title: Flat Rate
+            flat_rate_method_name: Fixed
+            flat_rate_type: Per Item
+            flat_rate_price: 5.00

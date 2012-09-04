@@ -17,3 +17,5 @@ checkout_multishipping_payment_methods:
                     payment_method:
                         fields:
                             purchase_order_number: //input[@id='po_number']
+        messages:
+            zero_payment: //dt[contains(label,'No Payment Information Required')]
