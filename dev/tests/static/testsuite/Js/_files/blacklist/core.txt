@@ -1,2 +1,6 @@
-pub/lib/mage/localization
-pub/lib/mage/components/install/begin.js
+pub/lib/mage/adminhtml
+pub/lib/mage/captcha.js
+pub/lib/mage/directpost.js
+pub/lib/mage/jquery-no-conflict.js
+pub/lib/mage/translate.js
+pub/lib/mage/translate_inline.js

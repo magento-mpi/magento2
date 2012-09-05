@@ -6,8 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-var translateJson = {
+/*jshint unused:false */
+/*global translateJson:true */
+translateJson = {
     "This is a required field.": "Dieses Feld ist ein Pflichtfeld.",
     "Please enter no more than {0} characters.": "Geben Sie bitte maximal {0} Zeichen ein.",
     "Please enter at least {0} characters.": "Geben Sie bitte mindestens {0} Zeichen ein.",

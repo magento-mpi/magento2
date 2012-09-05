@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jslint unparam:false undef:false*/
 // Top level mage namespace
 var mage = {};
 
@@ -77,16 +77,6 @@ var mage = {};
         return uniqueArr;
     }
 
-    function loadScript() {
-        if (syncQueue.length === 0) {
-            asyncLoad();
-            return;
-        }
-        syncQueue = unique(syncQueue);
-        syncQueue.push(asyncLoad);
-        head.js.apply({}, syncQueue);
-    }
-
     function asyncLoad() {
         var x, s, i;
         head.js.apply({}, unique(asyncQueue));
@@ -98,6 +88,16 @@ var mage = {};
             s.href = cssQueue[i];
             x.parentNode.appendChild(s);
         }
+    }
+
+    function loadScript() {
+        if (syncQueue.length === 0) {
+            asyncLoad();
+            return;
+        }
+        syncQueue = unique(syncQueue);
+        syncQueue.push(asyncLoad);
+        head.js.apply({}, syncQueue);
     }
 
     $(window).on('load', loadScript);

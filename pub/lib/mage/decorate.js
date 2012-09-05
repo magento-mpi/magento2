@@ -8,9 +8,8 @@
  */
 
 /*jshint eqnull:true */
-
 (function ($) {
-    mage.decorator = {}
+    mage.decorator = {};
 
     mage.decorator.list = function (list, isRecursive) {
         var items;

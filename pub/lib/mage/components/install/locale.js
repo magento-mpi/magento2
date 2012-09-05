@@ -6,8 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /*jshint eqnull:true */
+/*global location:true */
 (function ($) {
     $(document).ready(function () {
         // Trigger initalize event

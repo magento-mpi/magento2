@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*global location:true, confirm:true */
 (function ($) {
     $(document).ready(function () {
         var checkout = {
