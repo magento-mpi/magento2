@@ -461,9 +461,6 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsCmsPageRewrite ()
     {
         //Create data
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
         $productData = $this->loadDataSet('UrlRewrite', 'url_rewrite_custom_sample');
         $pageData = $this->loadDataSet('UrlRewrite', 'new_cms_page_req_ee');
 
@@ -489,7 +486,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->waitForPageToLoad();
         $this->validatePage();
 
-        //Fill form and save sitemap
+        //Fill form
         $this->fillFieldset($productData, 'custom_rewrite');
         $this->fillField('id_path', $pageData['page_information']['url_key']);
         $this->fillField('request_path', $pageData['page_information']['url_key']);
@@ -539,7 +536,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->searchAndOpen($pageData, true, 'url_rewrite_grid');
         $this->addParameter('id', $this->defineParameterFromUrl('customId'));
 
-        //Fill form and save sitemap
+        //Fill form and save
         $this->fillField('target_path', 'http://google.com');
         $this->clickButton('save', true);
 
@@ -552,6 +549,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Open page on frontend
         $this->frontend();
         $this->open($rewriteUrl);
+        $this->waitForPageToLoad();
 
         //Verifying page of URL rewrite for product
         $this->assertSame($this->getTitle(), 'Google', 'Wrong page is opened');
@@ -612,11 +610,12 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
 
         //Verifying page of URL rewrite for product
         $this->frontend();
-        $this->addParameter('store', $storeData['store_name']);
-        $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->clickControl('link', 'select_store_link');
+        $storeCodeURL = "?___store=".$storeViewData['store_view_code'];
+        $storeURL = $this->xmlSitemapHelper()->getFileUrl($storeCodeURL);
+        $this->open($storeURL);
 
         $this->frontend('test_page', false);
+        $this->waitForPageToLoad();
 
         //Verifying page of URL rewrite for product
         $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
@@ -725,9 +724,10 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->assertMessagePresent('success', 'success_saved_store_view');
         //Select other store
         $this->frontend();
-        $this->addParameter('store', $storeData['store_name']);
-        $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->clickControl('link', 'select_store_link');
+        $storeCodeURL = "?___store=".$storeViewData['store_view_code'];
+        $storeURL = $this->xmlSitemapHelper()->getFileUrl($storeCodeURL);
+        $this->open($storeURL);
+        $this->waitForPageToLoad();
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($fieldData['request_path']);
         //Opening URL rewrite on selected store
@@ -792,7 +792,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->open($uri);
         $this->waitForPageToLoad();
-        $this->assertSame($this->getTitle(), '404 Not Found', 'Wrong page is opened');
+        $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
     }
 
     /**
@@ -947,11 +947,10 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->storeHelper()->createStore($storeViewData, 'store_view');
         $this->assertMessagePresent('success', 'success_saved_store_view');
         //Select other store
-        //Select other store
         $this->frontend();
-        $this->addParameter('store', $storeData['store_name']);
-        $this->addParameter('storeViewCode', $storeViewData['store_view_code']);
-        $this->clickControl('link', 'select_store_link');
+        $storeCodeURL = "?___store=".$storeViewData['store_view_code'];
+        $storeURL = $this->xmlSitemapHelper()->getFileUrl($storeCodeURL);
+        $this->open($storeURL);
         $this->waitForPageToLoad();
         //Generating URL rewrite link
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($uri);

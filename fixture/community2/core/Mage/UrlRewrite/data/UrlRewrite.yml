@@ -62,6 +62,7 @@ url_rewrite_category:
 url_rewrite_custom_sample:
     target_path: customer-service
     description: Test description
+    request_store: Default Store View
 
 url_cms_page_req:
     page_information:

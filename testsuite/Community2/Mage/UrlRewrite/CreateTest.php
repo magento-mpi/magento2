@@ -307,6 +307,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Open page on frontend
         $this->frontend();
         $this->open($rewriteUrl);
+        $this->waitForPageToLoad();
         //Verifying page of URL rewrite for product
         $this->setCurrentPage('product_page');
         $this->addParameter('productName', $productData['general_name']);
@@ -459,9 +460,6 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsCmsPageRewrite ()
     {
         //Create data
-        $this->navigate('manage_stores');
-        $this->storeHelper()->createStore('StoreView/generic_store_view', 'store_view');
-        $this->assertMessagePresent('success', 'success_saved_store_view');
         $productData = $this->loadDataSet('UrlRewrite', 'url_rewrite_custom_sample');
         $pageData = $this->loadDataSet('CmsPage', 'url_cms_page_req');
 
@@ -503,6 +501,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Open page on frontend
         $this->frontend();
         $this->open($rewriteUrl);
+        $this->waitForPageToLoad();
 
         //Verifying page of URL rewrite for product
         $this->assertSame($this->getTitle(), 'Customer Service', 'Wrong page is opened');
@@ -848,7 +847,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->open($uri);
         $this->waitForPageToLoad();
-        $this->assertSame($this->getTitle(), '404 Not Found', 'Wrong page is opened');
+        $this->assertSame($this->getTitle(), '404 Not Found 1', 'Wrong page is opened');
     }
 
     /**
