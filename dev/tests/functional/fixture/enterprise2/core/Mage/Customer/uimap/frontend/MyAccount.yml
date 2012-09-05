@@ -36,6 +36,13 @@ customer_account:
                         links:
                             sku_tab: //a[text()='Order by SKU']
                             my_returns_tab: //a[text()='My Returns']
+        messages: &myAccountMessages
+            vat_number_message: //li[normalize-space(@class)='success-msg' and contains(.,'If you are a registered VAT customer, please click here to enter you billing address for proper VAT calculation')]
+            success_validate_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will be charged tax.')]
+            success_validate_intraunion_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will not be charged tax.')]
+            invalid_vat_number: //li[normalize-space(@class)='error-msg' and contains(.,'The VAT ID entered (%VatNumber%) is not a valid VAT ID. You will be charged tax.')]
+            success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
+
 order_by_sku:
     mca: customer_order/sku/
     title: Order by SKU
