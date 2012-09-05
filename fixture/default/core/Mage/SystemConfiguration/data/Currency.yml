@@ -31,15 +31,17 @@ enable_gbp:
     tab_1:
         tab_name: general_currency_setup
         configuration:
-            base_currency: British Pound Sterling
-            default_display_currency: British Pound Sterling
-            allowed_currencies: British Pound Sterling
+            currency_options:
+                base_currency: British Pound Sterling
+                default_display_currency: British Pound Sterling
+                allowed_currencies: British Pound Sterling
 
 enable_usd:
     configuration_scope: Default Config
     tab_1:
         tab_name: general_currency_setup
         configuration:
-            base_currency: US Dollar
-            default_display_currency: US Dollar
-            allowed_currencies: US Dollar
+            currency_options:
+                base_currency: US Dollar
+                default_display_currency: US Dollar
+                allowed_currencies: US Dollar

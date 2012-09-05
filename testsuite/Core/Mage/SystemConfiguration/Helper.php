@@ -59,9 +59,21 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
             $settings = (isset($value['configuration'])) ? $value['configuration'] : null;
             if ($tab) {
                 $this->openConfigurationTab($tab);
-                $this->fillForm($settings, $tab);
+                foreach ($settings as $fieldsetName => $fieldsetData) {
+                    $fieldsetForm = $this->getElement($this->_getControlXpath('fieldset', $fieldsetName));
+                    if ($fieldsetForm->name() == 'fieldset') {
+                        $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                            $fieldsetLink->click();
+                        }
+                    }
+                    $this->fillFieldset($fieldsetData, $fieldsetName);
+                }
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
+                foreach ($settings as $fieldsetData) {
+                    $this->verifyForm($fieldsetData, $tab);
+                }
                 $this->verifyForm($settings, $tab);
                 if ($this->getParsedMessages('verification')) {
                     foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {

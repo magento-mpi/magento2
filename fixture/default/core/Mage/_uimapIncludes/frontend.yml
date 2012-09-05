@@ -77,11 +77,7 @@ frontend_header:
                             element_by_id: "//*[@id='%elementId%']"
         messages:
             success_registration: //li[normalize-space(@class)='success-msg' and contains(.,'Thank you for registering with')]
-            general_notice: "//*[normalize-space(@class)='notice-msg']"
-            general_success: "//*[normalize-space(@class)='success-msg']"
-            general_error: "//*[normalize-space(@class)='error-msg']"
-            general_validation: "//*[normalize-space(@class)='validation-advice']"
-            #general_notice: "//*/descendant::*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
-            #general_success: "//*/descendant::*[normalize-space(@class)='success-msg'][string-length(.)>1]"
-            #general_error: "//*/descendant::*[normalize-space(@class)='error-msg'][string-length(.)>1]"
-            #general_validation: "//*/descendant::*[normalize-space(@class)='validation-advice' and not(contains(@style,'display: none;'))][string-length(.)>1]"
+            general_notice: "//*[normalize-space(@class)='notice-msg'][string-length(.)>1]"
+            general_success: "//*[normalize-space(@class)='success-msg'][string-length(.)>1]"
+            general_error: "//*[normalize-space(@class)='error-msg'][string-length(.)>1]"
+            general_validation: "//*[normalize-space(@class)='validation-advice'][string-length(.)>1]"

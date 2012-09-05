@@ -31,11 +31,13 @@ display_out_of_stock_products:
     tab_1:
         tab_name: catalog_inventory
         configuration:
-            display_out_of_stock_products: Yes
+            stock_options:
+                display_out_of_stock_products: Yes
 
 not_display_out_of_stock_products:
     configuration_scope: Default Config
     tab_1:
         tab_name: catalog_inventory
         configuration:
-            display_out_of_stock_products: No
+            stock_options:
+                display_out_of_stock_products: No

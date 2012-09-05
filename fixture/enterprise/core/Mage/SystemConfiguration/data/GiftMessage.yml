@@ -33,62 +33,67 @@ gift_wrapping_all_enable:
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_receipt: Yes
-            allow_gift_printered_card: Yes
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_receipt: Yes
+                allow_gift_printered_card: Yes
+                default_price_for_printed_card: 18.53
 
 gift_wrapping_enable_order_items:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
 
 gift_wrapping_all_enable_on_website:
     configuration_scope: Main Website
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level_use_default: No
-            allow_gift_wrapping_for_order_items_use_default: No
-            allow_gift_receipt_use_default: No
-            allow_gift_printered_card_use_default: No
-            default_price_for_printed_card_use_default: No
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_receipt: Yes
-            allow_gift_printered_card: Yes
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_wrapping_on_order_level_use_default: No
+                allow_gift_wrapping_for_order_items_use_default: No
+                allow_gift_receipt_use_default: No
+                allow_gift_printered_card_use_default: No
+                default_price_for_printed_card_use_default: No
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_receipt: Yes
+                allow_gift_printered_card: Yes
+                default_price_for_printed_card: 18.53
 
 gift_wrapping_all_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_receipt: No
-            allow_gift_printered_card: No
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_receipt: No
+                allow_gift_printered_card: No
+                default_price_for_printed_card: 18.53
 
 gift_wrapping_all_disable_on_website:
     configuration_scope: Main Website
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level_use_default: No
-            allow_gift_wrapping_for_order_items_use_default: No
-            allow_gift_receipt_use_default: No
-            allow_gift_printered_card_use_default: No
-            default_price_for_printed_card_use_default: No
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_receipt: No
-            allow_gift_printered_card: No
-            default_price_for_printed_card: 0
+            gift_options:
+                allow_gift_wrapping_on_order_level_use_default: No
+                allow_gift_wrapping_for_order_items_use_default: No
+                allow_gift_receipt_use_default: No
+                allow_gift_printered_card_use_default: No
+                default_price_for_printed_card_use_default: No
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_receipt: No
+                allow_gift_printered_card: No
+                default_price_for_printed_card: 0
 
 #*********************************************
 #*      Gift Options Configuration Data      *
@@ -98,205 +103,221 @@ gift_message_and_wrapping_all_enable:
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_messages_for_order_items: Yes
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
+            gift_options:
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_messages_for_order_items: Yes
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
 
 gift_message_and_wrapping_all_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level: No
-            allow_gift_messages_for_order_items: No
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
+            gift_options:
+                allow_gift_messages_on_order_level: No
+                allow_gift_messages_for_order_items: No
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
 
 gift_options_disable_all:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level: No
-            allow_gift_messages_for_order_items: No
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_receipt: No
-            allow_gift_printered_card: No
-            default_price_for_printed_card: ''
+            gift_options:
+                allow_gift_messages_on_order_level: No
+                allow_gift_messages_for_order_items: No
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_receipt: No
+                allow_gift_printered_card: No
+                default_price_for_printed_card: ''
 
 gift_options_enable_all_website:
     configuration_scope: Main Website
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level_use_default: No
-            allow_gift_messages_for_order_items_use_default: No
-            allow_gift_wrapping_on_order_level_use_default: No
-            allow_gift_wrapping_for_order_items_use_default: No
-            allow_gift_receipt_use_default: No
-            allow_gift_printered_card_use_default: No
-            default_price_for_printed_card_use_default: No
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_messages_for_order_items: Yes
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_receipt: Yes
-            allow_gift_printered_card: Yes
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_messages_on_order_level_use_default: No
+                allow_gift_messages_for_order_items_use_default: No
+                allow_gift_wrapping_on_order_level_use_default: No
+                allow_gift_wrapping_for_order_items_use_default: No
+                allow_gift_receipt_use_default: No
+                allow_gift_printered_card_use_default: No
+                default_price_for_printed_card_use_default: No
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_messages_for_order_items: Yes
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_receipt: Yes
+                allow_gift_printered_card: Yes
+                default_price_for_printed_card: 18.53
 
 gift_options_disable_all_website:
     configuration_scope: Main Website
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level_use_default: No
-            allow_gift_messages_for_order_items_use_default: No
-            allow_gift_wrapping_on_order_level_use_default: No
-            allow_gift_wrapping_for_order_items_use_default: No
-            allow_gift_receipt_use_default: No
-            allow_gift_printered_card_use_default: No
-            default_price_for_printed_card_use_default: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_messages_for_order_items: No
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_receipt: No
-            allow_gift_printered_card: No
+            gift_options:
+                allow_gift_messages_on_order_level_use_default: No
+                allow_gift_messages_for_order_items_use_default: No
+                allow_gift_wrapping_on_order_level_use_default: No
+                allow_gift_wrapping_for_order_items_use_default: No
+                allow_gift_receipt_use_default: No
+                allow_gift_printered_card_use_default: No
+                default_price_for_printed_card_use_default: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_messages_for_order_items: No
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_receipt: No
+                allow_gift_printered_card: No
 
 gift_options_enable_all_default_config:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_messages_for_order_items: Yes
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_receipt: Yes
-            allow_gift_printered_card: Yes
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_messages_for_order_items: Yes
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_receipt: Yes
+                allow_gift_printered_card: Yes
+                default_price_for_printed_card: 18.53
 
 website_gift_message_yes_wrapping_no:
     configuration_scope: Main Website
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level_use_default: No
-            allow_gift_messages_for_order_items_use_default: No
-            allow_gift_wrapping_on_order_level_use_default: No
-            allow_gift_wrapping_for_order_items_use_default: No
-            allow_gift_receipt_use_default: No
-            allow_gift_printered_card_use_default: No
-            default_price_for_printed_card_use_default: No
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_messages_for_order_items: Yes
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_receipt: No
-            allow_gift_printered_card: No
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_messages_on_order_level_use_default: No
+                allow_gift_messages_for_order_items_use_default: No
+                allow_gift_wrapping_on_order_level_use_default: No
+                allow_gift_wrapping_for_order_items_use_default: No
+                allow_gift_receipt_use_default: No
+                allow_gift_printered_card_use_default: No
+                default_price_for_printed_card_use_default: No
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_messages_for_order_items: Yes
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_receipt: No
+                allow_gift_printered_card: No
+                default_price_for_printed_card: 18.53
 
 website_gift_message_no_wrapping_yes:
     configuration_scope: Main Website
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_messages_on_order_level_use_default: No
-            allow_gift_messages_for_order_items_use_default: No
-            allow_gift_wrapping_on_order_level_use_default: No
-            allow_gift_wrapping_for_order_items_use_default: No
-            allow_gift_receipt_use_default: No
-            allow_gift_printered_card_use_default: No
-            default_price_for_printed_card_use_default: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_messages_for_order_items: No
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_receipt: No
-            allow_gift_printered_card: No
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_messages_on_order_level_use_default: No
+                allow_gift_messages_for_order_items_use_default: No
+                allow_gift_wrapping_on_order_level_use_default: No
+                allow_gift_wrapping_for_order_items_use_default: No
+                allow_gift_receipt_use_default: No
+                allow_gift_printered_card_use_default: No
+                default_price_for_printed_card_use_default: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_messages_for_order_items: No
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_receipt: No
+                allow_gift_printered_card: No
+                default_price_for_printed_card: 18.53
 
 ind_items_all_yes_order_all_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: Yes
 
 ind_items_all_yes_order_wrapping_yes_message_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: Yes
 
 ind_items_all_yes_order_wrapping_no_message_yes:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: Yes
 
 ind_items_all_yes_order_all_yes:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: Yes
 #<-----------------------------------------Individual Items------------------------------------------------------------>
 ind_items_gift_wrapping_no_message_yes:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_messages_for_order_items: Yes
 
 ind_items_gift_wrapping_no_message_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_messages_for_order_items: No
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_messages_for_order_items: No
 
 ind_items_gift_wrapping_yes_message_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: No
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: No
 
 ind_items_gift_wrapping_yes_message_yes:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: Yes
 
 #<----------------------------------------------Order Level------------------------------------------------------------>
 order_gift_wrapping_no_message_yes:
@@ -304,40 +325,44 @@ order_gift_wrapping_no_message_yes:
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_messages_for_order_items: No
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_messages_for_order_items: No
 
 order_gift_wrapping_yes_message_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_messages_for_order_items: No
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_messages_for_order_items: No
 
 order_gift_wrapping_no_message_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
-            allow_gift_messages_on_order_level: No
-            allow_gift_wrapping_for_order_items: Yes
-            allow_gift_messages_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
+                allow_gift_messages_on_order_level: No
+                allow_gift_wrapping_for_order_items: Yes
+                allow_gift_messages_for_order_items: Yes
 
 order_gift_wrapping_yes_message_yes:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-            allow_gift_messages_on_order_level: Yes
-            allow_gift_wrapping_for_order_items: No
-            allow_gift_messages_for_order_items: No
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
+                allow_gift_messages_on_order_level: Yes
+                allow_gift_wrapping_for_order_items: No
+                allow_gift_messages_for_order_items: No
 
 #<-------------------------------------------Gift Card----------------------------------------------------------------->
 gift_card_enable_yes:
@@ -345,15 +370,17 @@ gift_card_enable_yes:
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_printered_card: Yes
-            default_price_for_printed_card: 10
+            gift_options:
+                allow_gift_printered_card: Yes
+                default_price_for_printed_card: 10
 
 gift_card_enable_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_printered_card: No
+            gift_options:
+                allow_gift_printered_card: No
 
 
 #<-------------------------------------------Gift Receipt-------------------------------------------------------------->
@@ -362,69 +389,78 @@ gift_receipt_enable_yes:
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_receipt: Yes
+            gift_options:
+                allow_gift_receipt: Yes
 
 gift_receipt_enable_no:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_receipt: No
+            gift_options:
+                allow_gift_receipt: No
 
 gift_wrapping_for_order_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: No
+            gift_options:
+                allow_gift_wrapping_on_order_level: No
 
 gift_wrapping_for_order_enable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_on_order_level: Yes
-
+            gift_options:
+                allow_gift_wrapping_on_order_level: Yes
 
 gift_wrapping_per_item_enable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_for_order_items: Yes
+            gift_options:
+                allow_gift_wrapping_for_order_items: Yes
 
 gift_wrapping_per_item_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_wrapping_for_order_items: No
+            gift_options:
+                allow_gift_wrapping_for_order_items: No
 
 gift_printed_card_enable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_printered_card: Yes
-            default_price_for_printed_card: 18.53
+            gift_options:
+                allow_gift_printered_card: Yes
+                default_price_for_printed_card: 18.53
 
 gift_printed_card_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_printered_card: No
+            gift_options:
+                allow_gift_printered_card: No
 
 gift_receipt_enable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_receipt: Yes
+            gift_options:
+                allow_gift_receipt: Yes
 
 gift_receipt_disable:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_sales
         configuration:
-            allow_gift_receipt: No
+            gift_options:
+                allow_gift_receipt: No
