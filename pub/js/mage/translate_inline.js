@@ -44,7 +44,7 @@ TranslateInline.prototype = {
                 buttons : [{
                         text: 'Submit',
                         class: 'form-button button',
-                        click: this.formOk.bind(this)
+                        click: jQuery.proxy(this.formOk, this)
                     },
                     {
                         text: 'Close',
@@ -53,7 +53,7 @@ TranslateInline.prototype = {
                             jQuery(this).dialog("close");
                         }
                     }],
-                close: this.formClose.bind(this)
+                close: jQuery.proxy(this.formClose, this)
             })
             .dialog('close');
         this.trigEl = $(trigEl);
@@ -132,40 +132,35 @@ TranslateInline.prototype = {
         }
         this.trigHideClear();
         eval('var data = ' + el.getAttribute('translate'));
-
-        var content = '<form id="translate-inline-form">';
-        var t = new Template(
-            '<div class="magento_table_container"><table cellspacing="0">' +
-                '<tr><th class="label">Location:</th><td class="value">#{location}</td></tr>' +
-                '<tr><th class="label">Scope:</th><td class="value">#{scope}</td></tr>' +
-                '<tr><th class="label">Shown:</th><td class="value">#{shown_escape}</td></tr>' +
-                '<tr><th class="label">Original:</th><td class="value">#{original_escape}</td></tr>' +
-                '<tr><th class="label">Translated:</th><td class="value">#{translated_escape}</td></tr>' +
-                '<tr><th class="label"><label for="perstore_#{i}">Store View Specific:</label></th><td class="value">' +
-                    '<input id="perstore_#{i}" name="translate[#{i}][perstore]" type="checkbox" value="1"/>' +
-                '</td></tr>' +
-                '<tr><th class="label"><label for="custom_#{i}">Custom:</label></th><td class="value">' +
-                    '<input name="translate[#{i}][original]" type="hidden" value="#{scope}::#{original_escape}"/>' +
-                    '<input id="custom_#{i}" name="translate[#{i}][custom]" class="input-text" value="#{translated_escape}" />' +
-                '</td></tr>' +
-            '</table></div>'
+        jQuery.template("translateInline", '<form id="translate-inline-form">' +
+                '{{each(i, item) data}}' +
+                '<div class="magento_table_container"><table cellspacing="0">' +
+                    '{{each item}}' +
+                        '<tr><th class="label" style="text-transform: capitalize;">${$index}:</th><td class="value">${$value}</td></tr>' +
+                    '{{/each}}' +
+                    '<tr><th class="label"><label for="perstore_${i}">Store View Specific:</label></th><td class="value">' +
+                        '<input id="perstore_${i}" name="translate[${i}][perstore]" type="checkbox" value="1"/>' +
+                    '</td></tr>' +
+                    '<tr><th class="label"><label for="custom_${i}">Custom:</label></th><td class="value">' +
+                        '<input name="translate[${i}][original]" type="hidden" value="${item.scope}::${escape(item.original)}"/>' +
+                        '<input id="custom_${i}" name="translate[${i}][custom]" class="input-text" value="${escape(item.translated)}" />' +
+                    '</td></tr>' +
+                '</table></div>' +
+                '{{/each}}' +
+            '</form><p class="a-center accent">Please refresh the page to see your changes after submitting this form.</p>'
         );
-        for (i = 0; i < data.length; i++) {
-            data[i]['i'] = i;
-            data[i]['shown_escape'] = this.escapeHTML(data[i]['shown']);
-            data[i]['translated_escape'] = this.escapeHTML(data[i]['translated']);
-            data[i]['original_escape'] = this.escapeHTML(data[i]['original']);
-            content += t.evaluate(data[i]);
-        }
-        content += '</form><p class="a-center accent">Please refresh the page to see your changes after submitting this form.</p>';
 
         this.translateDialog
-            .html(content)
+            .empty()
+            .append(jQuery.tmpl("translateInline", {
+                data: data,
+                escape:this.escapeHTML
+            }))
             .dialog('open');
         this.trigHide();
     },
 
-    formOk: function(win) {
+    formOk: function() {
         if (this.formIsSubmitted) {
             return;
         }
@@ -184,31 +179,29 @@ TranslateInline.prototype = {
         }
         parameters['area'] = this.area;
 
-        new Ajax.Request(this.ajaxUrl, {
+        new Ajax.Request(this.ajaxUrl.replace('admin', 'backend/admin'), {
             method: 'post',
             parameters: parameters,
-            onComplete: this.ajaxComplete.bind(this, win)
+            onComplete: jQuery.proxy(this.ajaxComplete, this)
         });
 
         this.formIsSubmitted = false;
     },
 
-    ajaxComplete: function(win, transport) {
-        jQuery(win).dialog('close');
-        this.formClose(win);
+    ajaxComplete: function() {
+        this.translateDialog.dialog('close');
     },
 
-    formClose: function(win) {
-        jQuery(win).html('');
+    formClose: function() {
+        if(this.translateDialog) {
+            this.translateDialog.empty();
+        }
         this.formIsShown = false;
     },
 
     escapeHTML: function(str) {
-        this.helperDiv.innerHTML = '';
-        var text = document.createTextNode(str);
-        this.helperDiv.appendChild(text);
-        var escaped = this.helperDiv.innerHTML;
-        escaped = escaped.replace(/"/g, '&quot;');
-        return escaped;
+        return str ?
+            jQuery('<div/>').text(str).html().replace(/"/g, '&quot;'):
+            false;
     }
 }
