@@ -73,13 +73,13 @@ applications:
         fallbackOrderHelper: 'Community2, Community17, Core'
         areas:
             admin:
-                url: 'http://tc.varien.com/evgeniy.maksimenko/dev/magento2ce_first/index.php/backend/'
+                url: 'http://tb.magento.com/ce-2.0-sprint-webdriver/current_m2ce_1/backend/'
                 base_page_uimap: 'log_in_to_admin'
                 uimap_path: 'admin'
                 login: 'admin'
                 password: '123123q'
             frontend:
-                url: 'http://tc.varien.com/evgeniy.maksimenko/dev/magento2ce_first/index.php/'
+                url: 'http://tb.magento.com/ce-2.0-sprint-webdriver/current_m2ce_1/'
                 base_page_uimap: 'home_page'
                 uimap_path: 'frontend'
             paypal_sandbox: &paypalSandbox
