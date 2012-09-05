@@ -15,7 +15,7 @@
  * @package     selenium
  * @subpackage  Mage_Selenium
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @method Core_Mage_AdminUser_Helper adminUserHelper()
+ * @method Core_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper adminUserHelper()
  * @method Core_Mage_AttributeSet_Helper attributeSetHelper()
  * @method Core_Mage_Category_Helper|Enterprise2_Mage_Category_Helper categoryHelper()
  * @method Core_Mage_CheckoutMultipleAddresses_Helper|Enterprise_Mage_CheckoutMultipleAddresses_Helper checkoutMultipleAddressesHelper()
@@ -57,14 +57,15 @@
  * @method Community2_Mage_AdminUser_Helper|Enterprise2_Mage_AdminUser_Helper adminUserHelper()
  * @method Community2_Mage_TransactionalEmails_Helper|Enterprise2_Mage_TransactionalEmails_Helper transactionalEmailsHelper()
  * @method Enterprise2_Mage_customerSegment_Helper CustomerSegmentHelper()
- * @method Enterprise2_Mage_customerAttribute_Helper attributesHelper()
+ * @method Enterprise2_Mage_Attributes_Helper attributesHelper()
  * @method Enterprise2_Mage_customerAddressAttribute_Helper attributesHelper()
  * @method Enterprise2_Mage_Attributes_Helper attributesHelper() attributesHelper()
  * @method Community2_Mage_ImportExport_Helper|Enterprise2_Mage_ImportExport_Helper importExportHelper() importExportHelper()
  * @method Community2_Mage_RssFeeds_Helper|Enterprise2_Mage_RssFeeds_Helper rssFeedsHelper() rssFeedsHelper()
  * @method Community2_Mage_Reports_Helper|Enterprise2_Mage_Reports_Helper reportsHelper() reportsHelper()
- * @method Community2_Mage_CacheStorageManagement_Helper|Enterprise2_Mage_CacheStorageManagement_Helper cacheStorageManagementHelper() cacheStorageManagementHelper()
+ * @method Enterprise2_Mage_CacheStorageManagement_Helper cacheStorageManagementHelper() cacheStorageManagementHelper()
  * @method Enterprise2_Mage_ImportExportScheduled_Helper  importExportScheduledHelper() importExportScheduledHelper()
+ * @method Enterprise2_Mage_Csv_Helper csvHelper() csvHelper()
  *
  */
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_SeleniumTestCase

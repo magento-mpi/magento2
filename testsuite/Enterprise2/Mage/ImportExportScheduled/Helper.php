@@ -132,7 +132,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
                 $exportData['file_mode'],
                 $exportData['file_path'],
                 $exportData['file_name']);
-            return $this->importExportHelper()->csvToArray($fileContent);
+            return $this->csvHelper()->csvToArray($fileContent);
         } else {
             return false;
         }
@@ -173,7 +173,7 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
     {
         $this->_fillConnectionParameters($importData);
         if ($this->_connectToFtp($importData['host'], $importData['user_name'], $importData['password'])) {
-            $fileContent = $this->importExportHelper()->arrayToCsv($fileContent);
+            $fileContent = $this->csvHelper()->arrayToCsv($fileContent);
             $importData['file_mode'] = (strtolower($importData['file_mode']) == 'binary') ? FTP_BINARY : FTP_ASCII;
             return $this->putFileToFtp(
                 $importData['file_mode'],
@@ -367,4 +367,18 @@ class Enterprise2_Mage_ImportExportScheduled_Helper extends Mage_Selenium_TestCa
         return null;
     }
 
+    /**
+     * Delete all scheduled import/export jobs
+     */
+    public function deleteAllJobs()
+    {
+        $this->admin('scheduled_import_export');
+        if ($this->isImportExportPresentInGrid(array('operation' => 'Export')) ||
+            $this->isImportExportPresentInGrid(array('operation' => 'Import'))
+        ) {
+            $this->clickControl('link', 'selectall', false);
+            $this->fillDropdown('grid_massaction_select', 'Delete');
+            $this->clickButtonAndConfirm('submit', 'delete_confirmation');
+        }
+    }
 }

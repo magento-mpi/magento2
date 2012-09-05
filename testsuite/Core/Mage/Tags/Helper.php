@@ -272,6 +272,8 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         if ($this->controlIsPresent('message', 'no_records_found')) {
             return true;
         }
+        $this->clickButton('reset_filter', false);
+        $this->waitForAjax();
         $this->clickControl('link', 'select_all', false);
         $this->waitForAjax();
         $this->fillDropdown('tags_massaction', 'Delete');

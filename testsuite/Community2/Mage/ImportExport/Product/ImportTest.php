@@ -394,16 +394,16 @@ class Community2_Mage_ImportExport_Import_ProductTest extends Mage_Selenium_Test
     }
 
     /**
-     * @test
+     * Delete products after test
      */
-    public function deleteProducts()
+    protected function tearDownAfterTestClass()
     {
         //Precondition: create product
         $this->navigate('manage_products');
         if ($this->search(array('status' => 'Enabled')) || $this->search(array('status' => 'Disabled'))) {
             $this->clickControl('link', 'selectall', false);
             $this->fillDropdown('product_massaction', 'Delete');
-            $this->clickButton('submit');
+            $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
         }
     }
 }

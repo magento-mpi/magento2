@@ -351,59 +351,6 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         return $importMessages;
     }
     /**
-     * Convert CSV string to associative array
-     *
-     * @param string $input Input csv string to be converted to array
-     * @param string $delimiter Delimiter
-     * @return array
-     */
-    public function csvToArray($input, $delimiter = ',')
-    {
-        $temp = tmpfile();
-        fwrite($temp, $input);
-        fseek($temp, 0);
-        $data   = array();
-        $header = null;
-        while (($line = fgetcsv($temp, 10000, $delimiter, '"', '\\')) !== FALSE) {
-            if (!$header) {
-                $header = $line;
-            } else {
-                try {
-                    $data[] = array_combine($header, $line);
-                } catch (Exception $e) {
-                    print_r($e);
-                    return null;
-                }
-            }
-        }
-        return $data;
-    }
-    /**
-     * Convert associative array to CSV string
-     *
-     * @param array $input Input associative array to be converted to string
-     * @param string $delimiter Delimiter
-     * @return string
-     */
-    public function arrayToCsv(array $input, $delimiter = ',')
-    {
-        $temp = tmpfile();
-        $header = null;
-        foreach ($input as $line) {
-            if (!$header) {
-                $header = array_keys($line);
-                fputcsv($temp, $header, $delimiter, '"');
-            }
-            fputcsv($temp, array_values($line), $delimiter, '"');
-        }
-        fseek($temp, 0);
-        $csv = '';
-        while (!feof($temp)) {
-            $csv .= fread($temp, 1000);
-        }
-        return $csv;
-    }
-    /**
      * Perform import with current selected options
      *
      * @param array $data Associative multidimensional array to be uploaded
@@ -420,7 +367,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         $importUrl = $pageUrl . $this->_getImportFileUrl();
         $startUrl = $pageUrl . $this->_getImportFileUrl(false);
         //Convert array to CSV
-        $csv = $this->arrayToCsv($data);
+        $csv = $this->csvHelper()->arrayToCsv($data);
         //Prepare parameters
         $parameters = $this->_prepareImportParameters(array('import_file' => $csv));
         //Get response
@@ -446,7 +393,7 @@ class Community2_Mage_ImportExport_Helper extends Mage_Selenium_TestCase
         //Get CSV file
         $report = $this->_getFile($pageUrl, $exportUrl, $parameters);
         //Convert Csv to array
-        return $this->csvToArray($report);
+        return $this->csvHelper()->csvToArray($report);
     }
     /**
      * Choose Import dialog options
