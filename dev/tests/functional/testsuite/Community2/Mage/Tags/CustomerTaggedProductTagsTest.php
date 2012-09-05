@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tag creation tests for Backend
  *
@@ -16,25 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to Catalog -> Tags -> All tags</p>
-     */
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-    }
-
     /**
      * @return array
      * @test
@@ -42,26 +25,8 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
      */
     public function preconditionsForTests()
     {
-        //Data
-        $userData = array();
-        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
-        $userData[2] = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData[1]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->createCustomer($userData[2]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $simple = $this->productHelper()->createSimpleProduct(true);
-        $this->reindexInvalidedData();
-        $this->flushCache();
-        $userData[1] = array('email' => $userData[1]['email'], 'password' => $userData[1]['password']);
-        $userData[2] = array('email' => $userData[2]['email'], 'password' => $userData[2]['password']);
-        return array('user'     => $userData,
-            'simple'   => $simple['simple']['product_name'],
-            'category' => $simple['category']['path']);
+        return parent::_preconditionsForTaggedProductTests();
     }
-
     /**
      * Backend verification customer tagged product from frontend on the Product Page
      * Verify starting to edit customer
@@ -78,6 +43,7 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
      */
     public function addFromFrontendTags($tags, $status, $customer, $testData)
     {
+        $this->markTestSkipped('Skipped due to bug MAGE-3958');
         //Setup
         $this->customerHelper()->frontLoginCustomer($testData['user'][$customer]);
         $this->productHelper()->frontOpenProduct($testData['simple']);
@@ -121,7 +87,6 @@ class Community2_Mage_Tags_CustomerTaggedProductCreateTest extends Mage_Selenium
             array($this->generate('string', 4, ':alpha:'), 'Disabled', 2)
         );
     }
-
     /**
      * Backend verification customer tagged product from backend on the Product Page
      *

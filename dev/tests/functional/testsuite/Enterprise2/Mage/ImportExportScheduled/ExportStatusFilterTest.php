@@ -18,6 +18,7 @@
  */
 class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest extends Mage_Selenium_TestCase
 {
+    protected static $_currentDate;
     /**
      * Precondition:
      * Delete all existing imports/exports
@@ -25,14 +26,7 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     public function setUpBeforeTests()
     {
         $this->loginAdminUser();
-        $this->admin('scheduled_import_export');
-        if ($this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Export')) ||
-            $this->importExportScheduledHelper()->isImportExportPresentInGrid(array('operation' => 'Import'))
-        ) {
-            $this->clickControl('link', 'selectall', false);
-            $this->fillDropdown('grid_massaction_select', 'Delete');
-            $this->clickButtonAndConfirm('submit', 'delete_confirmation');
-        }
+        $this->importExportScheduledHelper()->deleteAllJobs();
     }
 
     protected function assertPreConditions()
@@ -186,7 +180,6 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
     protected function _preconditionScheduledExportSearchByFilter(&$exportDataProducts, &$exportDataAddresses,
         &$exportDataMain, &$exportDataFinances
     ) {
-        //Preconditions:
         // Create product export
         $exportDataProducts = $this->loadDataSet('ImportExportScheduled', 'scheduled_export', array(
             'entity_type' => 'Products',
@@ -234,6 +227,12 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
                 'operation' => 'Export'
             )
         );
+        self::$_currentDate = $this->importExportScheduledHelper()->getLastRunDate(array(
+            'name' => $exportDataFinances['name'],
+            'operation' => 'Export'
+        ));
+        //Convert to M/d/Y
+        self::$_currentDate = date("m/d/Y", strtotime(self::$_currentDate));
         $this->assertMessagePresent('error', 'error_run');
     }
 
@@ -344,20 +343,26 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         }
     }
 
+    /**
+     * @param $exportDataProducts
+     * @param $exportDataAddresses
+     * @param $exportDataMain
+     * @param $exportDataFinances
+     */
     protected function _checkScheduledExportSearchFilterDates(
         $exportDataProducts, $exportDataAddresses,
         $exportDataMain, $exportDataFinances
     ) {
         $this->_checkScheduledExportSearchFilter(
             array($exportDataProducts, $exportDataAddresses, $exportDataMain),
-            array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
+            array('date_from' => self::$_currentDate, 'date_to' => self::$_currentDate),
             false
         );
 
         // Step 11
         $this->_checkScheduledExportSearchFilter(
             array($exportDataFinances),
-            array('date_from' => date("m/d/Y"), 'date_to' => date("m/d/Y")),
+            array('date_from' => self::$_currentDate, 'date_to' => self::$_currentDate),
             true
         );
     }
@@ -538,13 +543,13 @@ class Enterprise2_Mage_ImportExportScheduled_ExportStatusFilterTest_CustomerTest
         $exportDataAddresses = array();
         $exportDataMain      = array();
         $exportDataFinances  = array();
-        //Step 1
+        //Precondition
         $this->_preconditionScheduledExportSearchByFilter(
             $exportDataProducts,
             $exportDataAddresses,
             $exportDataMain,
             $exportDataFinances);
-        //Step 2
+        //Step 1, 2
         $this->_verifyScheduledExportSearchByFilter(
             $exportDataProducts,
             $exportDataAddresses,

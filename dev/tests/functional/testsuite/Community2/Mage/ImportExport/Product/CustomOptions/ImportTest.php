@@ -404,11 +404,14 @@ class Community2_Mage_ImportExport_ImportCustomOptions_ProductTest extends Mage_
         $this->assertNotNull($csv,
             'Export has not been finished successfully');
         //Modify csv for Test Case condition: add new custom option
-        array_push($csv, $csv[2]);
-        //$csv = array_slice($csv, 0, 3);
-        $csv[count($csv)-1]['_custom_option_type'] = 'field';
-        $csv[count($csv)-1]['_custom_option_title'] = 'Custom Option Field';
-        $csv[count($csv)-1]['_custom_option_row_title'] = '';
+        $csv[0]['_custom_option_type'] = 'field';
+        $csv[0]['_custom_option_title'] = 'Custom Option Field';
+        $csv[0]['_custom_option_row_title'] = '';
+        $csv[0]['_custom_option_row_sort'] = '';
+        $csv[0]['_custom_option_price'] = '0.00';
+        $csv[0]['_custom_option_sku'] = '';
+        $csv[0]['_custom_option_sort_order'] = '';
+        $csv[0]['_custom_option_is_required'] = '0';
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Products', 'Append Complex Data');
         $importResult = $this->importExportHelper()->import($csv);

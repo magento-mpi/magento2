@@ -123,7 +123,7 @@ for /F "tokens=* delims=" %%i in (%workingDir%\%tufn%\%app%%browser%%phpunit%_%c
 	)
 )
 move %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\confignew.yml %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%\config\%defaultconfigfile%
-start cmd /X/V:ON/K "cd /d %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration %phpunit%.xml >var\logs\PHPUnitReport.txt"
+start cmd /X/V:ON/C "cd /d %workingDir%\%tufn%\%app%%browser%%phpunit%_%counter%&%PHPBIN% %PHP_PEAR_BIN_DIR%\phpunit --configuration %phpunit%.xml >var\logs\PHPUnitReport.txt"
 GOTO :EOF
 
 :EOF

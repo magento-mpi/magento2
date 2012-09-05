@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+require_once 'TagsFixtureAbstract.php';
 /**
  * Tags Validation on the frontend
  *
@@ -16,21 +16,8 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
+class Community2_Mage_Tags_FrontendCreateTest extends Community2_Mage_Tags_TagsFixtureAbstract
 {
-    protected function assertPreConditions()
-    {
-        $this->loginAdminUser();
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->loginAdminUser();
-        $this->navigate('all_tags');
-        $this->tagsHelper()->deleteAllTags();
-        $this->logoutCustomer();
-    }
-
     /**
      * @return array
      * @test
@@ -38,26 +25,8 @@ class Community2_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
      */
     public function preconditionsForTests()
     {
-        //Data
-        $userData = array();
-        $userData[1] = $this->loadDataSet('Customers', 'generic_customer_account');
-        $userData[2] = $this->loadDataSet('Customers', 'generic_customer_account');
-        //Steps and Verification
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData[1]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $this->customerHelper()->createCustomer($userData[2]);
-        $this->assertMessagePresent('success', 'success_saved_customer');
-        $simple = $this->productHelper()->createSimpleProduct(true);
-        $this->reindexInvalidedData();
-        $this->flushCache();
-        $userData[1] = array('email' => $userData[1]['email'], 'password' => $userData[1]['password']);
-        $userData[2] = array('email' => $userData[2]['email'], 'password' => $userData[2]['password']);
-        return array('user'     => $userData,
-                     'simple'   => $simple['simple']['product_name'],
-                     'category' => $simple['category']['path']);
+        return parent::_preconditionsForTaggedProductTests();
     }
-
     /**
      * Tag creating with Logged Customer:
      *  Adding single new tag
@@ -98,7 +67,6 @@ class Community2_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
             $this->tagsHelper()->verifyTag(array('tag_name' => $tag, 'status' => $status));
         }
     }
-
     public function tagNameDataProvider()
     {
         return array(
@@ -148,7 +116,6 @@ class Community2_Mage_Tags_FrontendCreateTest extends Mage_Selenium_TestCase
             'The same Tag has been added twice ' . print_r($tags, true));
         $this->tagsHelper()->verifyTag(array('tag_name' => $tags, 'status' => 'Approved'));
     }
-
     public function tagApprovedNameDataProvider()
     {
         $approvedTag = $this->generate('string', 4, ':alpha:');
