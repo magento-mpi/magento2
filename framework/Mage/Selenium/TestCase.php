@@ -3086,7 +3086,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                                         $this->_getMessageXpath('general_error'),
                                         $this->_getMessageXpath('general_validation')));
             if ($this->controlIsPresent('link', 'go_to_notifications')) {
-                $this->waitForElement($this->_getControlXpath('button', 'close'), 5)->click();
+                try {
+                    $this->waitForElement($this->_getControlXpath('button', 'close'), 5)->click();
+                } catch (RuntimeException $e) {
+                }
             }
         }
         $this->validatePage($this->_firstPageAfterAdminLogin);
