@@ -17,7 +17,8 @@
  */
 class Mage_Core_Model_Layout_Argument_ProcessorConfig
 {
-    const LAYOUT_ARGUMENT_TYPE_OBJECT = 'object';
+    const LAYOUT_ARGUMENT_TYPE_OBJECT  = 'object';
+    const LAYOUT_ARGUMENT_TYPE_OPTIONS = 'options';
 
     /**
      * Array of argument handlers
@@ -28,7 +29,8 @@ class Mage_Core_Model_Layout_Argument_ProcessorConfig
     public function __construct()
     {
         $this->_argumentHandlers = array(
-            self::LAYOUT_ARGUMENT_TYPE_OBJECT => 'Mage_Core_Model_Layout_Argument_Handler_Object'
+            self::LAYOUT_ARGUMENT_TYPE_OBJECT  => 'Mage_Core_Model_Layout_Argument_Handler_Object',
+            self::LAYOUT_ARGUMENT_TYPE_OPTIONS => 'Mage_Core_Model_Layout_Argument_Handler_Options'
         );
     }
 
