@@ -156,6 +156,10 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
             $this->deleteAccount($delete['email']);
             return $this->createPreconfiguredAccount($parameters);
         }
+        $error = $this->errorMessage('incorrect_information');
+        if ($error['success']) {
+            return $this->createPreconfiguredAccount($parameters);
+        }
         $this->assertMessagePresent('success', 'success_created_account');
         $this->validatePage('developer_created_test_account_us');
 
