@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jslint unparam:false undef:false*/
+/*jslint eqnull:true */
 // Top level mage namespace
 var mage = {};
 
