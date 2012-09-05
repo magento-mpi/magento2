@@ -1,0 +1,30 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Customer
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Test data for Customer Addresses
+generic_address:
+    prefix: %noValue%
+    first_name: First Name
+    middle_name: %noValue%
+    last_name: Last Name
+    suffix: %noValue%
+    company: %noValue%
+    street_address_line_1: 10441 Jefferson Blvd
+    street_address_line_2: Suite 200
+    city: Culver City
+    country: United States
+    state: California
+    vat_number: %noValue%
+    region: %noValue%
+    zip_code: 90232
+    telephone: 530-918-3581
+    fax: %noValue%
+    default_billing_address: %noValue%
+    default_shipping_address: %noValue%

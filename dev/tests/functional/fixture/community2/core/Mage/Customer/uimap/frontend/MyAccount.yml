@@ -1,0 +1,56 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Customer
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+customer_account:
+    uimap:
+        messages: &myAccountMessages
+            vat_number_message: //li[normalize-space(@class)='success-msg' and contains(.,'If you are a registered VAT customer, please click here to enter you billing address for proper VAT calculation')]
+            success_validate_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will be charged tax.')]
+            success_validate_intraunion_vat: //li[normalize-space(@class)='success-msg' and contains(.,'Your VAT ID was successfully validated. You will not be charged tax.')]
+            invalid_vat_number: //li[normalize-space(@class)='error-msg' and contains(.,'The VAT ID entered (%VatNumber%) is not a valid VAT ID. You will be charged tax.')]
+            success_saved_address: //li[normalize-space(@class)='success-msg' and contains(.,'The address has been saved.')]
+
+adding_new_address_book:
+    mca: customer/address/new/
+    title: Add New Address
+    uimap:
+        form:
+            fieldsets:
+                -
+                    address_book:
+                        xpath: //div[@class='my-account']
+                        links:
+                            back: //p[@class='back-link']
+                        dropdowns:
+                            state: //select[@id='region_id']
+                            country: //select[@id='country']
+                        fields:
+                            first_name: //input[@id='firstname']
+                            last_name: //input[@id='lastname']
+                            company: //input[@id='company']
+                            telephone: //input[@id='telephone']
+                            fax: //input[@id='fax']
+                            street_address_line_1: //input[@id='street_1']
+                            street_address_line_2: //input[@id='street_2']
+                            vat_number: //input[@id='vat_id']
+                            city: //input[@id='city']
+                            zip_code: //input[@id='zip']
+                        checkboxes:
+                            default_billing_address: //input[@id='primary_billing']
+                            default_shipping_address:  //input[@id='primary_shipping']
+                        buttons:
+                            save_address: //button[span='Save Address']
+        messages: *myAccountMessages
+
+address_book_page:
+    mca: customer/address/
+    title: Address Book
+    uimap:
+        messages: *myAccountMessages

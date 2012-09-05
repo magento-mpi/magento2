@@ -16,7 +16,7 @@
  * @subpackage  functional_tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Community2_Mage_Order_AuthorizeNetDP_Authorization_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
+class Community2_Mage_Order_AuthorizeNetDP_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
     /**
      * <p>Preconditions:</p>
@@ -91,7 +91,7 @@ class Community2_Mage_Order_AuthorizeNetDP_Authorization_NewCustomerWithSimpleSm
         $paymentData = $this->loadDataSet('Payment', 'payment_authorizenetdp');
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
             array('filter_sku'  => $simpleSku,
-                'payment_data' => $paymentData));
+                  'payment_data' => $paymentData));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

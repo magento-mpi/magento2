@@ -42,3 +42,9 @@ payment_purchaseorder:
 payment_authorizenetdp:
     payment_method: Credit Card Direct Post (Authorize.net)
     payment_info: *visaAndp
+
+#*********************************************
+#*         Zero Subtotal Checkout            *
+#*********************************************
+payment_zerosubtotal:
+    payment_method: No Payment Information Required
