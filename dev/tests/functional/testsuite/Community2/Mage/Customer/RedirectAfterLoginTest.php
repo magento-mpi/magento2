@@ -48,43 +48,6 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
         return array('email' => $userData['email'], 'password' => $userData['password'],
                      'name'  => $productData['general_name']);
     }
-
-    /**
-     * <p>Redirect to account Dashboard after LogIn </p>
-     * <p>Preconditions:</p>
-     * <p>LogIn to Backend </p>
-     * <p>Register new Customer</p>
-     * <p>Create simple Product</p>
-     * <p>Steps:</p>
-     * <p>1.Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"</p>
-     * <p>2.Go to frontend as non registered customer</p>
-     * <p>3.Go to created in PreConditions Product Page</p>
-     * <p>4.Log In as a registered Customer</p>
-     * <p>Expected result:</p>
-     * <p>Customer Account Dashboard page is opened</p>
-     *
-     * @depends preconditionsForTests
-     * @param $userData
-     * @test
-     * @TestlinkId -6161
-     */
-    public function redirectToAccountDashboardAfterLogin($userData)
-    {
-        //Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"
-        $this->navigate('system_configuration');
-        $redirectOption = $this->loadDataSet('CustomerRedirect', 'customers_customer_configuration_redirect');
-        $this->systemConfigurationHelper()->configure($redirectOption);
-        //Go to frontend as non registered customer
-        $this->frontend();
-        //Open Product page
-        $this->productHelper()->frontOpenProduct($userData['name']);
-        //Log in as registered from Preconditions customer
-        $this->customerHelper()->frontLoginCustomer(array('email'    => $userData['email'],
-                                                          'password' => $userData['password']));
-        //Validate that Customer Account Dashboard page is opened
-        $this->validatePage('customer_account');
-    }
-
     /**
      * <p>Redirect to page from where the customer logged in </p>
      * <p>Preconditions:</p>
@@ -126,5 +89,41 @@ class Community2_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_Test
         //Validate that Product page is opened
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage('product_page');
+    }
+
+    /**
+     * <p>Redirect to account Dashboard after LogIn </p>
+     * <p>Preconditions:</p>
+     * <p>LogIn to Backend </p>
+     * <p>Register new Customer</p>
+     * <p>Create simple Product</p>
+     * <p>Steps:</p>
+     * <p>1.Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"</p>
+     * <p>2.Go to frontend as non registered customer</p>
+     * <p>3.Go to created in PreConditions Product Page</p>
+     * <p>4.Log In as a registered Customer</p>
+     * <p>Expected result:</p>
+     * <p>Customer Account Dashboard page is opened</p>
+     *
+     * @depends preconditionsForTests
+     * @param $userData
+     * @test
+     * @TestlinkId -6161
+     */
+    public function redirectToAccountDashboardAfterLogin($userData)
+    {
+        //Set System-Configurations-Customer Configurations-Login options- Redirect Customer to Account Dashboard after Logging in to "Yes"
+        $this->navigate('system_configuration');
+        $redirectOption = $this->loadDataSet('CustomerRedirect', 'customers_customer_configuration_redirect');
+        $this->systemConfigurationHelper()->configure($redirectOption);
+        //Go to frontend as non registered customer
+        $this->frontend();
+        //Open Product page
+        $this->productHelper()->frontOpenProduct($userData['name']);
+        //Log in as registered from Preconditions customer
+        $this->customerHelper()->frontLoginCustomer(array('email'    => $userData['email'],
+                                                          'password' => $userData['password']));
+        //Validate that Customer Account Dashboard page is opened
+        $this->validatePage('customer_account');
     }
 }
