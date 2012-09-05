@@ -156,3 +156,20 @@ custom_options_data: &customOptionsData
     custom_options_radiobutton:  *radiobutton
     custom_options_checkbox: *checkbox
     custom_options_multipleselect: *multipleselect
+
+simple_product_zero_price:
+    product_attribute_set: Default
+    general_name: Simple Product Zero(%randomize%)
+    general_description: Description for Simple Product Zero
+    general_short_description: Short Description for Simple Product Zero
+    general_sku: simple_zero_sku_%randomize%
+    general_weight: 1.14
+    general_status: Enabled
+    general_visibility: Catalog, Search
+    prices_price: '0.00'
+    prices_tax_class: None
+    inventory_qty: 999
+    inventory_stock_availability: In Stock
+    websites: Main Website
+    categories: Default Category
+    custom_options_data: %noValue%

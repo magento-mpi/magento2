@@ -1,0 +1,33 @@
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_SystemConfiguration
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#<-------------Store Information  with  VAT Number------------------------>
+store_information_data:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: general_general
+        configuration:
+            store_name: Test Store Name
+            store_contact_telephone: 111-222-333-444
+            store_country: Germany
+            vat_number: 111607872
+
+#<-------------Settings for "Create New Account Options" tab------------------------>
+create_new_account_options:
+    configuration_scope: Default Config
+    tab_1:
+        tab_name: customers_customer_configuration
+        configuration:
+            enable_automatic_assignment_group: Yes
+            default_group: General
+            group_valid_vat_domestic: %noValue%
+            group_valid_vat_intraunion: %noValue%
+            group_invalid_vat: %noValue%
+            show_vat_number_frontend: Yes
