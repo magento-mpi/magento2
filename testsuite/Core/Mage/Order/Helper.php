@@ -135,13 +135,11 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $this->fillOrderAddress($billingAddress, $billingChoice, 'billing');
         }
         if ($shippingAddress) {
-            $this->hideFloatingHeader();
             $shippingChoice = $shippingAddress['address_choice'];
             $this->fillOrderAddress($shippingAddress, $shippingChoice, 'shipping');
         }
         if ($shippingMethod) {
-            $this->getElement($this->_getControlXpath('fieldset', 'shipping_method'))->click();
-            sleep(1);
+            $this->focusOnElement($this->getElement($this->_getControlXpath('fieldset', 'shipping_method')));
             $this->clickControl('link', 'get_shipping_methods_and_rates', false);
             $this->pleaseWait();
             $this->selectShippingMethod($shippingMethod, $validate);
@@ -409,7 +407,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
                 if ($card) {
                     $paymentId = $this->getControlAttribute('radiobutton', 'check_payment_method', 'selectedValue');
                     $this->addParameter('paymentId', $paymentId);
-                    $this->fillForm($card);
+                    $this->fillFieldset($card, 'order_payment_method');
                     $this->validate3dSecure();
                 }
             }

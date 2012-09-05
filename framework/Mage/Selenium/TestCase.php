@@ -2020,6 +2020,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         . "'\nProblem with $controlType '$controlName', xpath '$locator':\n"
                         . 'Control is not present on the page');
         }
+        $this->focusOnElement($availableElement);
         $availableElement->click();
         if ($willChangePage) {
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
@@ -2059,6 +2060,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $availableElement = $this->elementIsPresent($locator);
         if ($availableElement) {
             $confirmation = $this->_getMessageXpath($message);
+            $this->focusOnElement($availableElement);
             $availableElement->click();
             $actualText = $this->alertText();
             if ($actualText == $confirmation) {
@@ -2172,22 +2174,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if (preg_match('/ajax/', $isTabOpened)) {
                 $waitAjax = true;
             }
-            $this->hideFloatingHeader();
             $this->clickControl('tab', $tabName, false);
             if ($waitAjax) {
                 $this->pleaseWait();
             }
-        }
-    }
-
-    /**
-     *
-     */
-    public function hideFloatingHeader()
-    {
-        $floatingHeader = $this->getElement("//div[@class='content-header-floating']");
-        if ($floatingHeader->displayed()) {
-            $this->getElement("//div[@class='header-top']")->click();
         }
     }
 
@@ -2299,7 +2289,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
     }
 
     /**
@@ -2329,7 +2319,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
     }
 
     /**
@@ -2357,7 +2347,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException(
+            'Timeout after ' . $timeout . ' seconds. Element(s) not visible [locator = ' . $locator . ']');
     }
 
     /**
@@ -2385,7 +2376,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. [locator = ' . $locator . ']');
     }
 
     /**
@@ -2576,6 +2567,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $jsName = preg_replace('/\.[\D]+\(\)/', '', $jsName);
         $scriptXpath = "//script[contains(text(),\"$jsName.useAjax = ''\")]";
         $pageToLoad = $this->elementIsPresent($scriptXpath);
+        $this->focusOnElement($resetButtonElement);
         $resetButtonElement->click();
         if (!$pageToLoad) {
             $this->waitForAjax();
@@ -2923,8 +2915,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $locator = $this->_getControlXpath('field', $name);
         }
         $element = $this->waitForElementEditable($locator);
-        $element->clear();
-        $element->value((string)$value);
+        $currentValue = $element->value();
+        if ($currentValue != $value) {
+            $this->focusOnElement($element);
+            $element->clear();
+            $element->value((string)$value);
+            $this->clearActiveFocus();
+            $this->waitForAjax();
+        }
     }
 
     /**
@@ -2942,6 +2940,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $locator = $this->_getControlXpath('multiselect', $name);
         }
         $element = $this->waitForElementEditable($locator);
+        $this->focusOnElement($element);
         if (strtolower($value) == 'all') {
             $options = $this->select($element)->selectOptionValues();
         } else {
@@ -2986,25 +2985,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $element = $this->waitForElementEditable($locator);
         $defaultValue = trim($this->select($element)->selectedLabel(), chr(0xC2) . chr(0xA0));
-        if ($defaultValue != $value) {
-            try {
-                $this->select($element)->selectOptionByLabel($value);
-                return;
-            } catch (RuntimeException $e) {
-            }
-            try {
-                $this->select($element)->selectOptionByValue($value);
-                return;
-            } catch (RuntimeException $_e) {
-            }
-            try {
-                $this->select($element)->selectOptionByCriteria($this->using('xpath')
-                    ->value("//option[contains(text(),'$value')]"));
-                return;
-            } catch (RuntimeException $_e) {
-            }
-            throw $e;
+        if ($defaultValue == $value) {
+            return;
         }
+        $optionLocators = array("option[normalize-space(text())='$value']", "option[normalize-space(@value)='$value']",
+                                "option[contains(text(),'$value')]");
+        foreach ($optionLocators as $optionLocator) {
+            if ($this->elementIsPresent($locator . '//' . $optionLocator)) {
+                $this->focusOnElement($element);
+                $this->select($element)->selectOptionByCriteria($this->using('xpath')->value($optionLocator));
+                $this->clearActiveFocus();
+                $this->waitForAjax();
+                //$this->waitForElementEditable($locator);
+                return;
+            }
+        }
+        throw new RuntimeException('Option with value "' . $value . '" is not present in "' . $name . '" dropdown');
     }
 
     /**
@@ -3021,12 +3017,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $element = $this->getElement($locator);
         $isSelected = $element->selected();
-        if (strtolower($value) == 'yes' && !$isSelected) {
+        $value = strtolower($value);
+        if (($value == 'yes' && !$isSelected) || ($value == 'no' && $isSelected)) {
+            $this->focusOnElement($element);
             $element->click();
-            $this->waitForElementEditable($locator);
-        } elseif (strtolower($value) == 'no' && $isSelected) {
-            $element->click();
-            $this->waitForElementEditable($locator);
+            $this->clearActiveFocus();
+            $this->waitForAjax();
+            //$this->waitForElementEditable($locator);
         }
     }
 
@@ -3044,12 +3041,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $element = $this->getElement($locator);
         $isSelected = $element->selected();
-        if (strtolower($value) == 'yes' && !$isSelected) {
+        $value = strtolower($value);
+        if (($value == 'yes' && !$isSelected) || ($value == 'no' && $isSelected)) {
+            $this->focusOnElement($element);
             $element->click();
-            $this->waitForElementEditable($locator);
-        } elseif (strtolower($value) == 'no' && $isSelected) {
-            $element->click();
-            $this->waitForElementEditable($locator);
+            $this->clearActiveFocus();
+            $this->waitForAjax();
         }
     }
 
@@ -3105,6 +3102,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $logOutLocator = $this->_getControlXpath('link', 'log_out');
         $availableElement = $this->elementIsPresent($logOutLocator);
         if ($availableElement) {
+            $this->focusOnElement($availableElement);
             $availableElement->click();
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         }
@@ -3504,5 +3502,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             sleep(1);
         }
         throw new RuntimeException('Timeout after ' . $timeout . ' seconds.');
+    }
+
+    /**
+     * Focus on element
+     *
+     * @param PHPUnit_Extensions_Selenium2TestCase_Element $element
+     */
+    public function focusOnElement(PHPUnit_Extensions_Selenium2TestCase_Element $element)
+    {
+        $elementId = $element->attribute('id');
+        if ($elementId) {
+            $this->execute(array('script' => 'var element = document.getElementById("' . $elementId
+                                             . '");element.focus();element.scrollIntoView(false);',
+                                 'args'   => array()));
+        }
+    }
+
+    /**
+     * Clear active focus
+     */
+    public function clearActiveFocus()
+    {
+        $this->execute(array('script' => 'document.activeElement.blur()', 'args' => array()));
     }
 }
