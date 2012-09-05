@@ -114,8 +114,7 @@
 </form>
 <script type="text/javascript">
 mage.load.initValidate();
-mage.load.js('/pub/lib/mage/components/install/config.js');
-
+mage.load.js("<?php echo $this->getSkinUrl('Mage_Install::js/config.js') ?>");
 </script>
 <?php else: ?>
     <div><?php echo $this->__('Please set all required settings before clicking Continue') ?></div>

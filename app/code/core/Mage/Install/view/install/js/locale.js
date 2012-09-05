@@ -16,12 +16,7 @@
         // Setting php session for locale, timezone and currency
         $('#locale').on('change', function () {
             var url = mage.install.changeUrl + 'locale/' + $('#locale').val() + '/?timezone=' + $('#timezone').val() + '&amp;currency=' + $('#currency').val();
-            //demo
-            if ($('#locale').val() === 'de_DE') {
-                $.cookie(mage.language.cookieKey, 'de', { path: '/' });
-            }
             $(location).attr('href', url);
-
         });
     });
 }(jQuery));
