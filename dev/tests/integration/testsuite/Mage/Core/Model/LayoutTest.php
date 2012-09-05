@@ -95,7 +95,7 @@ class Mage_Core_Model_LayoutTest extends PHPUnit_Framework_TestCase
 
     public function testGetUpdate()
     {
-        $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $this->_layout->getUpdate());
+        $this->assertInstanceOf('Mage_Core_Model_Layout_Merge', $this->_layout->getUpdate());
     }
 
     public function testGetSetDirectOutput()

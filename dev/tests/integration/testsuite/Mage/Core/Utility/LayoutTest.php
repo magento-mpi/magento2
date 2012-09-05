@@ -39,7 +39,7 @@ class Mage_Core_Utility_LayoutTest extends PHPUnit_Framework_TestCase
      */
     protected function _assertLayoutUpdate($actualUpdate, $expectedUpdateFile)
     {
-        $this->assertInstanceOf('Mage_Core_Model_Layout_Update', $actualUpdate);
+        $this->assertInstanceOf('Mage_Core_Model_Layout_Merge', $actualUpdate);
 
         $layoutUpdateXml = $actualUpdate->getFileLayoutUpdatesXml();
         $this->assertInstanceOf('Mage_Core_Model_Layout_Element', $layoutUpdateXml);

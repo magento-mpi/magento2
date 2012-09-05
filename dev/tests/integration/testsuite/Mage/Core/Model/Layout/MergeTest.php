@@ -9,10 +9,10 @@
  * @license     {license_link}
  */
 
-class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
+class Mage_Core_Model_Layout_MergeTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Core_Model_Layout_Update
+     * @var Mage_Core_Model_Layout_Merge
      */
     protected $_model;
 
@@ -26,7 +26,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         /* Disable loading and saving layout cache */
         Mage::app()->getCacheInstance()->banUse('layout');
 
-        $this->_model = new Mage_Core_Model_Layout_Update(array(
+        $this->_model = new Mage_Core_Model_Layout_Merge(array(
             'area'    => 'frontend',
             'package' => 'test',
             'theme'   => 'default',
@@ -142,7 +142,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('frontend', $area, 'Test assumes that front-end is the current area.');
 
         /* use new instance to ensure that in-memory caching, if any, won't affect test results */
-        $model = new Mage_Core_Model_Layout_Update();
+        $model = new Mage_Core_Model_Layout_Merge();
         $frontendPageTypes = $model->getPageHandlesHierarchy();
         $this->assertNotEmpty($frontendPageTypes);
 
@@ -199,7 +199,7 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
     {
         $layoutHandle = 'layout_test_handle';
         $expectedText = 'Text declared in the frontend/test/test_theme';
-        $model = new Mage_Core_Model_Layout_Update(
+        $model = new Mage_Core_Model_Layout_Merge(
             array('area' => 'frontend', 'package' => 'test', 'theme'=> 'test_theme')
         );
         $this->assertNotContains($layoutHandle, $model->getHandles());
@@ -220,14 +220,14 @@ class Mage_Core_Model_Layout_UpdateTest extends PHPUnit_Framework_TestCase
         $expectedTextThemeOne = 'Text declared in the frontend/test/test_theme';
         $expectedTextThemeTwo = 'Text declared in the frontend/test/cache_test_theme';
 
-        $model = new Mage_Core_Model_Layout_Update(
+        $model = new Mage_Core_Model_Layout_Merge(
             array('area' => 'frontend', 'package' => 'test', 'theme'=> 'test_theme')
         );
         $model->load($layoutHandle);
         $this->assertContains($expectedTextThemeOne, $model->asString());
         $this->assertNotContains($expectedTextThemeTwo, $model->asString());
 
-        $model = new Mage_Core_Model_Layout_Update(
+        $model = new Mage_Core_Model_Layout_Merge(
             array('area' => 'frontend', 'package' => 'test', 'theme'=> 'cache_test_theme')
         );
         $model->load($layoutHandle);

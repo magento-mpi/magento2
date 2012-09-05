@@ -33,7 +33,7 @@ class Mage_Core_Utility_Layout
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
         $layoutUpdate = $this->_testCase->getMock(
-            'Mage_Core_Model_Layout_Update', array('getFileLayoutUpdatesXml')
+            'Mage_Core_Model_Layout_Merge', array('getFileLayoutUpdatesXml')
         );
         $layoutUpdatesXml = simplexml_load_file($layoutUpdatesFile, $layoutUpdate->getElementClass());
         $layoutUpdate->expects(PHPUnit_Framework_TestCase::any())
