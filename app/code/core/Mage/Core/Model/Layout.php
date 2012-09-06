@@ -460,25 +460,6 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     }
 
     /**
-     * Read argument updaters
-     *
-     * @param Mage_Core_Model_Layout_Element $node
-     * @return array
-     */
-    protected function _readArgumentUpdaters(Mage_Core_Model_Layout_Element $node)
-    {
-        $updaters = array();
-        /** @var $child Mage_Core_Model_Layout_Element */
-        foreach ($node->children() as $child) {
-            if ('updater' !== $child->getName()) {
-                continue;
-            }
-            $updaters[uniqid()] = trim((string)$child);
-        }
-        return $updaters;
-    }
-
-    /**
      * Schedule structural changes for move directive
      *
      * @param Mage_Core_Model_Layout_Element $node
