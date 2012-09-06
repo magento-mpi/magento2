@@ -38,7 +38,7 @@
         * File specific options will overwrite global options specified here.
         * const example
         * On Windows <const name="TESTS_JSHINT_OPTIONS" value="/global:document:true,mage:true /jquery:true /eqnull:true"/>
-        * On Linux <const name="TESTS_JSHINT_OPTIONS" value="eqnull:true"/>
+        * On Linux <const name="TESTS_JSHINT_OPTIONS" value="eqnull=true"/>
         -->
         <const name="TESTS_JSHINT_OPTIONS" value=""/>
     </php>
