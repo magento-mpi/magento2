@@ -124,12 +124,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         );
     }
 
-   /**
-    * Initialize attribute set
-    *
-    * @param Mage_Customer_Model_Form $customerFor
-    * @return Mage_Eav_Model_Entity_Attribute[]
-    */
+    /**
+     * Initialize attribute set
+     *
+     * @param Mage_Customer_Model_Form $customerFor
+     * @return Mage_Eav_Model_Entity_Attribute[]
+     */
     protected function _initCustomerAttributes(Mage_Customer_Model_Form $customerForm)
     {
         $attributes = $customerForm->getAttributes();
@@ -142,12 +142,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         return $attributes;
     }
 
-   /**
-    * Initialize customer form
-    *
-    * @param Mage_Customer_Model_Customer $customer
-    * @return Mage_Customer_Model_Form $customerForm
-    */
+    /**
+     * Initialize customer form
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return Mage_Customer_Model_Form $customerForm
+     */
     protected function _initCustomerForm(Mage_Customer_Model_Customer $customer)
     {
         /** @var $customerForm Mage_Customer_Model_Form */
@@ -159,12 +159,12 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         return $customerForm;
     }
 
-   /**
-    * Handle Read-Only customer
-    *
-    * @param Varien_Data_Form $form
-    * @param Mage_Customer_Model_Customer $customer
-    */
+    /**
+     * Handle Read-Only customer
+     *
+     * @param Varien_Data_Form $form
+     * @param Mage_Customer_Model_Customer $customer
+     */
     protected function _handleReadOnlyCustomer($form, $customer)
     {
         if (!$customer->isReadonly()) {
@@ -237,13 +237,14 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
             }
             $prefix = $form->getHtmlIdPrefix();
 
+            $note = Mage::helper('Mage_Customer_Helper_Data')->__('Please select a website which contains store view');
             $form->getElement('website_id')->setAfterElementHtml(
                 '<script type="text/javascript">'
                 . "
                 var {$prefix}_websites = " . Mage::helper('Mage_Core_Helper_Data')->jsonEncode($websites) .";
                 Validation.add(
                     'validate-website-has-store',
-                    '" . Mage::helper('Mage_Customer_Helper_Data')->__('Please select a website which contains store view') . "',
+                    '" . $note . "',
                     function(v, elem){
                         return {$prefix}_websites[elem.value] == true;
                     }
@@ -298,16 +299,16 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Account extends Mage_Adminhtml_Bloc
         // Prepare customer confirmation control (only for existing customers)
         $confirmationKey = $customer->getConfirmation();
         if ($confirmationKey || $customer->isConfirmationRequired()) {
-            $confirmationAttribute = $customer->getAttribute('confirmation');
+            $confirmationAttr = $customer->getAttribute('confirmation');
             if (!$confirmationKey) {
                 $confirmationKey = $customer->getRandomConfirmationKey();
             }
 
             $element = $fieldset->addField('confirmation', 'select', array(
                 'name'  => 'confirmation',
-                'label' => Mage::helper('Mage_Customer_Helper_Data')->__($confirmationAttribute->getFrontendLabel()),
+                'label' => Mage::helper('Mage_Customer_Helper_Data')->__($confirmationAttr->getFrontendLabel()),
             ));
-            $element->setEntityAttribute($confirmationAttribute);
+            $element->setEntityAttribute($confirmationAttr);
             $element->setValues(array(
                 '' => 'Confirmed',
                 $confirmationKey => 'Not confirmed'
