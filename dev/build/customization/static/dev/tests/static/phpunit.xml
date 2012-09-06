@@ -19,7 +19,7 @@
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-        <const name="TESTS_JSHINT_PATH" value="{{tests_jshint_linux_path}}"/>
+        <const name="TESTS_JSHINT_PATH" value="{{tests_jshint_path}}"/>
         <const name="TESTS_JSHINT_OPTIONS" value="eqnull:true"/>
     </php>
 </phpunit>
