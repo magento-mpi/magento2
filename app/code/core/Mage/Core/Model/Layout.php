@@ -432,12 +432,26 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                 $arguments[$child->getName()]['type'] = $type;
             }
 
-            $value = trim((string)$child);
-            if (strlen($value)) {
+            if ($child->hasChildren()) {
+                $complexValues = array();
+                $updaters = array();
+                foreach ($child->children() as $complexValueNode) {
+                    /** @var $complexValueNode Mage_Core_Model_Layout_Element */
+                    if ('updater' == $child->getName()) {
+                        $updaters[uniqid()] = trim((string)$complexValueNode);
+                    } else {
+                        $complexValues[$complexValueNode->getName()] = trim((string)$complexValueNode);
+                    }
+                }
+                $value = array(trim((string)$child) => $complexValues);
+            } else {
+                $value = trim((string)$child);
+            }
+
+            if ($value) {
                 $arguments[$child->getName()]['value'] = $value;
             }
 
-            $updaters = $this->_readArgumentUpdaters($child);
             if (false === empty($updaters)) {
                 $arguments[$child->getName()]['updater'] = $updaters;
             }
@@ -1306,8 +1320,9 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     {
         if (null === $this->_argumentProcessor) {
             $this->_argumentProcessor = Mage::getModel('Mage_Core_Model_Layout_Argument_Processor', array(
-                'processorConfig' => Mage::getModel('Mage_Core_Model_Layout_Argument_ProcessorConfig'),
-                'objectFactory' => Mage::getConfig()
+                'processorConfig' => Mage::getModel('Mage_Core_Model_Layout_Argument_ProcessorConfig', array(
+                    'objectFactory' => Mage::app()->getConfig())),
+                'objectFactory' => Mage::app()->getConfig()
             ));
         }
         return $this->_argumentProcessor;

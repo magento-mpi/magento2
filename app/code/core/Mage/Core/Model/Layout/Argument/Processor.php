@@ -87,7 +87,6 @@ class Mage_Core_Model_Layout_Argument_Processor
             }
             $processedArguments[$argumentKey] = $value;
         }
-
         return $processedArguments;
     }
 
@@ -99,9 +98,9 @@ class Mage_Core_Model_Layout_Argument_Processor
     protected function _getArgumentUpdater()
     {
         if (null === $this->_argumentUpdater) {
-           $this->_argumentUpdater = $this->_objectFactory
-               ->getModelInstance('Mage_Core_Model_Layout_Argument_Updater',
-                   array('objectFactory' => $this->_objectFactory));
+            $this->_argumentUpdater = $this->_objectFactory
+                ->getModelInstance('Mage_Core_Model_Layout_Argument_Updater',
+                    array('objectFactory' => $this->_objectFactory));
         }
         return $this->_argumentUpdater;
     }
@@ -119,12 +118,14 @@ class Mage_Core_Model_Layout_Argument_Processor
             return $this->_argumentHandlers[$type];
         }
 
-        $handlerClassName = $this->_config->getArgumentHandlerByType($type);
+        $handlerFactory = $this->_config->getArgumentHandlerFactoryByType($type);
+
+        if (false === ($handlerFactory instanceof Mage_Core_Model_Layout_Argument_HandlerFactoryInterface)) {
+            throw new InvalidArgumentException('Incorrect handler factory');
+        }
 
         /** @var $handler Mage_Core_Model_Layout_Argument_HandlerInterface */
-        $handler = $this->_objectFactory->getModelInstance($handlerClassName, array(
-            'objectFactory' => $this->_objectFactory
-        ));
+        $handler = $handlerFactory->createHandler();
 
         if (false === ($handler instanceof Mage_Core_Model_Layout_Argument_HandlerInterface)) {
             throw new InvalidArgumentException($type

@@ -48,7 +48,12 @@ class Mage_Core_Model_Layout_Argument_Handler_OptionsTest extends PHPUnit_Framew
     public function testProcess()
     {
         $optionArray = array('value' => 'LABEL');
-        $optionsModel = $this->getMock('Mage_Core_Model_Option_ArrayInterface', array(), array(), 'Option_Array_Model', false);
+        $optionsModel = $this->getMock(
+            'Mage_Core_Model_Option_ArrayInterface',
+            array(),
+            array(),
+            'Option_Array_Model',
+            false);
         $optionsModel->expects($this->once())->method('toOptionArray')->will($this->returnValue($optionArray));
         $this->_objectFactoryMock->expects($this->once())
             ->method('getModelInstance')
