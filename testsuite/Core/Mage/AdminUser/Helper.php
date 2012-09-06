@@ -74,7 +74,7 @@ class Core_Mage_AdminUser_Helper extends Mage_Selenium_TestCase
             try {
                 $this->waitForElement($this->_getControlXpath('button', 'close'), 5)->click();
             } catch (RuntimeException $e) {
-                if ($e->getMessage() !== 'Timeout after 5 seconds.') {
+                if (strpos($e->getMessage(), 'Timeout after 5 seconds.') === false) {
                     throw $e;
                 }
             }

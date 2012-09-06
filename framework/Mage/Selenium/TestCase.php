@@ -2390,7 +2390,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (is_null($timeout)) {
             $timeout = $this->_browserTimeoutPeriod;
         }
-        $ajax = 'return Ajax.activeRequestCount;';
+        $ajax = 'var c = function() {'
+                . 'if (typeof window.Ajax != "undefined") {return window.Ajax.activeRequestCount;};'
+                . 'if (typeof window.jQuery != "undefined") {return window.jQuery.active;};'
+                . 'return 0;};c();';
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
             $ajaxResult = $this->execute(array('script' => $ajax, 'args' => array()));
@@ -2959,6 +2962,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             $this->fail('Option with name "' . $value . '" is not exist in "' . $name . '" multiselect field');
         }
+        $this->clearActiveFocus();
+        $this->waitForAjax();
+        //$this->waitForElementEditable($locator)
     }
 
     /**
@@ -2968,7 +2974,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $value
      * @param string|null $locator
      *
-     * @TODO not work correct for store_switcher dropdown
      * @throws RuntimeException
      */
     protected function fillDropdown($name, $value, $locator = null)
