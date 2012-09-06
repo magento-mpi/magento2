@@ -71,7 +71,6 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest
     // @codingStandardsIgnoreEnd
     public function checkDefaultValue($attributeCode, $productType, $uimapName)
     {
-        $this->markTestIncomplete('MAGETWO-2816: data set 13');
         parent::checkDefaultValue($attributeCode, $productType, $uimapName);
     }
 
@@ -125,7 +124,6 @@ class Enterprise2_Mage_ProductAttribute_SystemDefaultValueTest
      */
     public function resetDefaultValue()
     {
-        $this->markTestIncomplete('MAGETWO-2816');
         parent::resetDefaultValue();
     }
 }
