@@ -70,7 +70,6 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
     // @codingStandardsIgnoreEnd
     public function checkDefaultValue($attributeCode, $productType, $uimapName)
     {
-        $this->markTestIncomplete('MAGETWO-2816: data set 11');
         //Data
         $attributeData = $this->loadDataSet('SystemAttributes', $attributeCode);
         $productData = $this->loadDataSet('Product', $productType . '_product_required');
@@ -148,7 +147,6 @@ class Community2_Mage_ProductAttribute_SystemDefaultValueTest extends Mage_Selen
      */
     public function resetDefaultValue()
     {
-        $this->markTestIncomplete('MAGETWO-2816');
         //Data
         $attributeData = $this->loadDataSet('SystemAttributes', 'tax_class_id');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
