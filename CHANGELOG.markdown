@@ -1,8 +1,8 @@
 Update as of 9/05/2012
 ======================
-* Implemented encryption of the credit card name and expiration date for the payment method "Credit Card (saved)" (CC Saved)
-* Implemented console utility `dev/tools/migration/get_aliases_map.php`, which generated map file "M1 class alias" to "M2 class name"
-* Implemented automatic data upgrades for replacing "M1 class aliases" to "M2 class names"
+* Implemented encryption of the credit card name and expiration date for the payment method "Credit Card (saved)"
+* Implemented console utility `dev/tools/migration/get_aliases_map.php`, which generates map file "M1 class alias" to "M2 class name"
+* Implemented automatic data upgrades for replacing "M1 class aliases" to "M2 class names" in a database
 * Implemented recursive `chmod` in the library class `Varien_Io_File`
 * Improved verbosity of the library class `Magento_Shell`
 * Migrated client-side translation mechanism to jQuery
@@ -16,7 +16,6 @@ Update as of 9/05/2012
     * Enhanced module `Mage_ImportExport` in order to utilize it for the fixture implementation
   * Implemented back-end performance testing scenario, which covers Dashboard, Manage Products, Manage Customers pages
 * Fixes:
-  * Fixed order creation from the backend using "CC Saved" payment method
   * Fixed Magento console installer to enable write permission recursively to the `var` directory
   * Fixed performance tests to enable write permission recursively to the `var` directory
   * Fixed integration test `Mage_Adminhtml_Model_System_Config_Source_Admin_PageTest::testToOptionArray` to not produce "Warning: DOMDocument::loadHTML(): htmlParseEntityRef: expecting ';' in Entity" in the developer mode
