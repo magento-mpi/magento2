@@ -309,7 +309,7 @@ class Community2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
     public function withRequiredFieldsEmptyReset ()
     {
         //Enable push to robots.txt option
-        $this->systemConfigurationHelper()->configure('admin_enable_push_to_robots');
+        //$this->systemConfigurationHelper()->configure('admin_enable_push_to_robots');
 
         //Open Search Engine Robots tab
         $this->systemConfigurationHelper()->openConfigurationTab('general_design');
