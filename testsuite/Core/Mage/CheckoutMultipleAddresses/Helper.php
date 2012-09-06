@@ -338,33 +338,28 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
     {
         $headerAddresses = array();
         for ($z = 1; $z <= $expectedShippingCount; $z++) {
-            $actualAddress = array();
             $this->addParameter('number', $z);
             if (!$this->controlIsPresent('pageelement', $addressType . '_method_address')) {
                 continue;
             }
-            $xpath = $this->_getControlXpath('pageelement', $addressType . '_method_address') . '/text()';
             if ($addressType == 'shipping') {
                 $header = $this->getControlAttribute('pageelement', 'shipping_method_address_header', 'text');
             } else {
                 $header = $z;
             }
-            $count = count($this->getElements($xpath, false));
-            for ($i = 1; $i <= $count; $i++) {
-                $this->addParameter('index', $i);
-                $this->addParameter('elementXpath', $xpath);
-                $text = $this->getControlAttribute('pageelement', 'element_index', 'text');
-                $text = trim(preg_replace('/^(T:)|(F:)/', '', $text));
-                if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $text)) {
-                    $actualAddress[] = $text;
+            $addressText = $this->getControlAttribute('pageelement', $addressType . '_method_address', 'text');
+            $addressText = explode("\n", $addressText);
+            foreach ($addressText as $addressLine) {
+                $addressLine = trim(preg_replace('/^(T:)|(F:)/', '', $addressLine));
+                if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $addressLine)) {
+                    $headerAddresses[$header][] = $addressLine;
                 } else {
-                    $text = explode(', ', $text);
+                    $text = explode(', ', $addressLine);
                     for ($y = 0; $y < count($text); $y++) {
-                        $actualAddress[] = $text[$y];
+                        $headerAddresses[$header][] = $text[$y];
                     }
                 }
             }
-            $headerAddresses[$header] = array_diff($actualAddress, array(''));
         }
         return $headerAddresses;
     }

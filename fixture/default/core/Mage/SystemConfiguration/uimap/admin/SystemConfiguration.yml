@@ -1776,6 +1776,7 @@ system_configuration:
                                         ups_userid: //input[@name='groups[ups][fields][username][value]']
                                         ups_gateway_xml_url: //input[@name='groups[ups][fields][gateway_xml_url][value]']
                                         ups_shipper_number: //input[@name='groups[ups][fields][shipper_number][value]']
+                                        ups_tracking_xml_url: //input[@id='carriers_ups_tracking_xml_url']
                                     dropdowns:
                                         ups_enabled: //select[@name='groups[ups][fields][active][value]']
                                         ups_ups_type: //select[@name='groups[ups][fields][type][value]']

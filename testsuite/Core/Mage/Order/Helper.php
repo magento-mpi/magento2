@@ -393,7 +393,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
             $paymentMethod = $this->loadDataSet($fileName, implode('/', $elements));
         }
         $payment = (isset($paymentMethod['payment_method'])) ? $paymentMethod['payment_method'] : null;
-        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : null;
+        $card = (isset($paymentMethod['payment_info'])) ? $paymentMethod['payment_info'] : array();
 
         if ($payment) {
             $this->addParameter('paymentTitle', $payment);

@@ -253,7 +253,6 @@ class Core_Mage_Product_Helper extends Mage_Selenium_TestCase
     {
         $optionId = $this->getControlCount('fieldset', 'custom_option_set') + 1;
         $this->addParameter('optionId', $optionId);
-        $this->hideFloatingHeader();
         $this->clickButton('add_option', false);
         $this->fillForm($customOptionData, 'custom_options');
         foreach ($customOptionData as $rowKey => $rowValue) {

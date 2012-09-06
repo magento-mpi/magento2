@@ -503,24 +503,20 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
      */
     public function frontVerifyTypedAddress($addressData, $skipFields, $type)
     {
-        $xpath = $this->_getControlXpath('field', $type . '_address_checkout') . '/text()';
-        $count = count($this->getElements($xpath, false));
+        $addressText = $this->getControlAttribute('field', $type . '_address_checkout', 'text');
+        $addressText = explode("\n", $addressText);
         $actualAddress = array();
-        for ($i = 1; $i <= $count; $i++) {
-            $this->addParameter('index', $i);
-            $this->addParameter('elementXpath', $xpath);
-            $text = $this->getControlAttribute('pageelement', 'element_index', 'text');
-            $text = trim(preg_replace('/^(T:)|(F:)/', '', $text));
-            if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $text)) {
-                $actualAddress[] = $text;
+        foreach ($addressText as $addressLine) {
+            $addressLine = trim(preg_replace('/^(T:)|(F:)/', '', $addressLine));
+            if (!preg_match('/((\w)|(\W))+, ((\w)|(\W))+, ((\w)|(\W))+/', $addressLine)) {
+                $actualAddress[] = $addressLine;
             } else {
-                $text = explode(', ', $text);
+                $text = explode(', ', $addressLine);
                 for ($y = 0; $y < count($text); $y++) {
                     $actualAddress[] = $text[$y];
                 }
             }
         }
-        $actualAddress = array_diff($actualAddress, array());
         if (array_key_exists($type . '_first_name', $addressData)
             && array_key_exists($type . '_last_name', $addressData)
         ) {
