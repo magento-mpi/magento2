@@ -34,6 +34,9 @@
                 </setup>
             </enterprise_enterprise_setup>
         </resources>
+        <rewrites>
+            <Mage_Core_Model_Resource_Setup_Migration>Enterprise_Enterprise_Model_Resource_Setup_Migration</Mage_Core_Model_Resource_Setup_Migration>
+        </rewrites>
     </global>
     <adminhtml>
         <events>

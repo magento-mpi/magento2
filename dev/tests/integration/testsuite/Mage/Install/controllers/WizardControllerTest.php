@@ -41,6 +41,9 @@ class Mage_Install_WizardControllerTest extends Magento_Test_TestCase_Controller
         parent::tearDown();
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testPreDispatch()
     {
         $this->dispatch('install/index');
