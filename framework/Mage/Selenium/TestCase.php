@@ -2947,24 +2947,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $options = explode(',', $value);
             $options = array_map('trim', $options);
         }
-        foreach ($options as $option) {
-            try {
-                $this->select($element)->selectOptionByLabel($option);
-                continue;
-            } catch (RuntimeException $e) {
+        foreach ($options as $value) {
+            $optionLocators = array("//option[normalize-space(text())='$value']",
+                                    "//option[normalize-space(@value)='$value']",
+                                    "//option[contains(text(),'$value')]");
+            foreach ($optionLocators as $optionLocator) {
+                if ($this->elementIsPresent($locator . $optionLocator)) {
+                    $this->select($element)->selectOptionByCriteria($this->using('xpath')->value('.' . $optionLocator));
+                    continue 2;
+                }
             }
-            try {
-                $this->select($element)->selectOptionByValue($option);
-                continue;
-            } catch (RuntimeException $_e) {
-            }
-            try {
-                $this->select($element)->selectOptionByCriteria($this->using('xpath')
-                    ->value("//option[contains(text(),'$option')]"));
-                continue;
-            } catch (RuntimeException $_e) {
-            }
-            throw $e;
+            $this->fail('Option with name "' . $value . '" is not exist in "' . $name . '" multiselect field');
         }
     }
 
@@ -2988,12 +2981,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($defaultValue == $value) {
             return;
         }
-        $optionLocators = array("option[normalize-space(text())='$value']", "option[normalize-space(@value)='$value']",
-                                "option[contains(text(),'$value')]");
+        $optionLocators = array("//option[normalize-space(text())='$value']",
+                                "//option[normalize-space(@value)='$value']",
+                                "//option[contains(text(),'$value')]");
         foreach ($optionLocators as $optionLocator) {
-            if ($this->elementIsPresent($locator . '//' . $optionLocator)) {
+            if ($this->elementIsPresent($locator . $optionLocator)) {
                 $this->focusOnElement($element);
-                $this->select($element)->selectOptionByCriteria($this->using('xpath')->value($optionLocator));
+                $this->select($element)->selectOptionByCriteria($this->using('xpath')->value('.' . $optionLocator));
                 $this->clearActiveFocus();
                 $this->waitForAjax();
                 //$this->waitForElementEditable($locator);
