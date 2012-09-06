@@ -6,7 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*jshint browser:true jquery:true*/
+/*global mage:true */
 (function ($) {
     // Default fields to initialize for poll
     var pollInit = {

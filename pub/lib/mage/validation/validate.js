@@ -6,7 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint regexdash:true eqnull:true */
+/*jshint regexdash:true eqnull:true browser:true jquery:true*/
+/*global mage:true */
 (function ($) {
     $.validator.addMethod("allowContainerClassName", function (element) {
         if (element.type == 'radio' || element.type == 'checkbox') {

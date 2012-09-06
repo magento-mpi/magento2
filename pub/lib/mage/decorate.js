@@ -6,8 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/*jshint eqnull:true */
+/*jshint browser:true jquery:true*/
+/*global mage:true */
 (function ($) {
     mage.decorator = {};
 

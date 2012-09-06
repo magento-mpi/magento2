@@ -6,8 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint eqnull:true */
-/*global Globalize:true translateJson:true*/
+/*jshint eqnull:true browser:true jquery:true*/
+/*global mage:true Globalize:true translateJson:true */
 (function ($) {
     //closure localize object
     var localize = function (locale) {

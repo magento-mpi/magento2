@@ -6,8 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/*jshint eqnull:true */
+/*jshint browser:true jquery:true*/
+/*global mage:true */
 (function ($) {
     $(document).ready(function () {
 
@@ -36,14 +36,14 @@
                 return  firstElement.is(':visible') ? firstElement : firstElement.next();
             }
             return false;
-        };
+        }
 
         function getLastElement() {
             if (responseList.indexList) {
                 return responseList.indexList.last();
             }
             return false;
-        };
+        }
 
         function resetResponseList(all) {
             // To reset the selected attribute on every ajax response,result hide and mouse out from list

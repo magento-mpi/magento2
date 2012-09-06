@@ -6,7 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jslint eqnull:true */
+/*jshint eqnull:true browser:true jquery:true*/
+/*global head:true */
 // Top level mage namespace
 var mage = {};
 

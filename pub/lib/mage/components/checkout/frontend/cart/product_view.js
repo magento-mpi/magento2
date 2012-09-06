@@ -6,6 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true*/
+/*global mage:true */
 (function ($) {
     $(document).ready(function () {
         var productView = {

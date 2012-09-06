@@ -6,8 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint evil:true*/
-/*global location:true */
+/*jshint evil:true browser:true jquery:true*/
 (function ($) {
     $(document).ready(function () {
         $('[data-mage-redirect]').each(function () {

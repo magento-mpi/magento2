@@ -6,9 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/*global document:true mage:true jQuery:true*/
 (function ($) {
-
     /*
      * Full documentation for the datepicker, including all options, APIs, and events can be found
      * here: http://docs.jquery.com/UI/Datepicker. Note that all of the required options must be set by

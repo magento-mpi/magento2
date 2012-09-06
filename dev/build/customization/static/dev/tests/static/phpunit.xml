@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Default test suites declaration: run verification of coding standards and code integrity test suites
+ * Test suite to run JSHint javascript static code analysis
  *
  * {license_notice}
  *
@@ -19,7 +19,7 @@
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-        <const name="TESTS_JSHINT_LINUX_PATH" value="{{tests_jshint_linux_path}}"/>
-        <const name="TESTS_JSHINT_LINUX_OPTIONS" value=""/>
+        <const name="TESTS_JSHINT_PATH" value="{{tests_jshint_linux_path}}"/>
+        <const name="TESTS_JSHINT_OPTIONS" value="eqnull:true"/>
     </php>
 </phpunit>

@@ -6,7 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*global location:true, confirm:true */
+/*jshint browser:true jquery:true*/
+/*global mage:true confirm:true*/
 (function ($) {
     $(document).ready(function () {
         var checkout = {
