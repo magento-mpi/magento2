@@ -2833,15 +2833,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     break;
                 case self::FIELD_TYPE_MULTISELECT:
                     $selectedLabels = $this->select($availableElement)->selectedLabels();
-                    foreach ($selectedLabels as $key => $label) {
-                        $selectedLabels[$key] = trim($label, chr(0xC2) . chr(0xA0));
-                    }
+                    $selectedLabels = array_map('trim', $selectedLabels, array(" \t\n\r\0\x0B"));
                     if (strtolower($formField['value']) == 'all') {
                         $expectedLabels = $this->select($availableElement)->selectOptionLabels();
                     } else {
                         $expectedLabels = explode(',', $formField['value']);
-                        $expectedLabels = array_map('trim', $expectedLabels);
                     }
+                    $expectedLabels = array_map('trim', $expectedLabels, array(" \t\n\r\0\x0B"));
                     $expectedLabels = array_diff($expectedLabels, array(''));
                     foreach ($expectedLabels as $value) {
                         if (!in_array($value, $selectedLabels)) {
