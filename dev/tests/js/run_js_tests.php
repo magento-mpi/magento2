@@ -136,7 +136,12 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 } else {
     $shellCommand
         = '#!/bin/bash
-        kill -9 `/usr/sbin/lsof -i :' . $port . ' -t`
+        LSOF=`/usr/sbin/lsof -i :' . $port . ' -t`
+        if [ "$LSOF" -neq "" ];
+        then
+            kill -9 $LSOF
+        fi
+
         pkill Xvfb
         XVFB=`which Xvfb`
         if [ "$?" -eq 1 ];
@@ -145,9 +150,9 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             exit 1
         fi
 
-        $XVFB :99 -screen 0 1024x768x24 -ac & # launch virtual frame buffer into the background
-        PID_XVFB="$!"        # take the process ID
-        export DISPLAY=:99.0 # set display to use that of the Xvfb
+        $XVFB :99 -screen 0 1024x768x24 -ac &  # launch virtual frame buffer into the background
+        PID_XVFB="$!"         # take the process ID
+        export DISPLAY=:99.0  # set display to use that of the Xvfb
 
         # run the tests
         ' . $command . '
