@@ -2311,10 +2311,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
-            if ($this->elementIsPresent($locator)) {
+            if ($this->alertIsPresent()) {
                 return true;
             }
-            if ($this->alertIsPresent()) {
+            if ($this->elementIsPresent($locator)) {
                 return true;
             }
             sleep(1);
