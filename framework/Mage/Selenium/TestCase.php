@@ -2836,8 +2836,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     foreach ($selectedLabels as $key => $label) {
                         $selectedLabels[$key] = trim($label, chr(0xC2) . chr(0xA0));
                     }
-                    $expectedLabels = explode(',', $formField['value']);
-                    $expectedLabels = array_map('trim', $expectedLabels);
+                    if (strtolower($formField['value']) == 'all') {
+                        $expectedLabels = $this->select($availableElement)->selectOptionLabels();
+                    } else {
+                        $expectedLabels = explode(',', $formField['value']);
+                        $expectedLabels = array_map('trim', $expectedLabels);
+                    }
                     $expectedLabels = array_diff($expectedLabels, array(''));
                     foreach ($expectedLabels as $value) {
                         if (!in_array($value, $selectedLabels)) {
