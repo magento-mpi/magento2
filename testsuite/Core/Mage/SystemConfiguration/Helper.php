@@ -60,24 +60,32 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
             if ($tab) {
                 $this->openConfigurationTab($tab);
                 foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $fieldsetForm = $this->getElement($this->_getControlXpath('fieldset', $fieldsetName));
-                    if ($fieldsetForm->name() == 'fieldset') {
-                        $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
-                        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-                            $fieldsetLink->click();
-                        }
+                    $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                    if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                        $this->focusOnElement($fieldsetLink);
+                        $fieldsetLink->click();
+                        $this->clearActiveFocus();
                     }
                     $this->fillFieldset($fieldsetData, $fieldsetName);
+                    $this->focusOnElement($fieldsetLink);
+                    $fieldsetLink->click();
+                    $this->clearActiveFocus();
                 }
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
-                foreach ($settings as $fieldsetData) {
+                foreach ($settings as $fieldsetName => $fieldsetData) {
+                    $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                    if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                        $this->focusOnElement($fieldsetLink);
+                        $fieldsetLink->click();
+                        $this->clearActiveFocus();
+                    }
                     $this->verifyForm($fieldsetData, $tab);
                 }
-                $this->verifyForm($settings, $tab);
                 if ($this->getParsedMessages('verification')) {
                     foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {
-                        if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
+                        if (preg_match('#|(\!\= \'\*\*)#i', $errorMessage)) {
+                        //if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
                             unset(self::$_messages['verification'][$key]);
                         }
                     }
@@ -99,7 +107,8 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_TestCase
                         . "'\nTab '$tab' is not present on the page");
         }
         $this->defineParameters('tab', $tab, 'href');
-        $this->clickControl('tab', $tab);
+        $url = $this->getElement($this->_getControlXpath('tab', $tab))->attribute('href');
+        $this->url($url);
     }
 
     /**

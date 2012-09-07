@@ -51,4 +51,5 @@ shipping_fedex:
 
 shipping_dhl:
     shipping_service: DHL
-    shipping_method: International Express
+    shipping_method: Express worldwide
+    #shipping_method: International Express

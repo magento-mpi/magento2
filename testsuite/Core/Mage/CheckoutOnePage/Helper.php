@@ -74,7 +74,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('place_order', false);
         $this->waitForElementOrAlert($waitConditions);
-        $this->verifyNotPresetAlert();
+        $this->assertTrue($this->verifyNotPresetAlert(), $this->getMessagesOnPage());
         //@TODO
         //Remove workaround for getting fails,
         //not skipping tests if payment methods are inaccessible
@@ -126,6 +126,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
     {
         if ($this->alertIsPresent()) {
             $text = $this->alertText();
+            $this->acceptAlert();
             $this->_parseMessages();
             $this->addVerificationMessage($text);
             return false;
@@ -156,14 +157,14 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                                $this->getBasicXpathMessagesExcludeCurrent('error'));
         $this->clickButton($buttonName, false);
         $this->waitForElementOrAlert($waitCondition);
+        if (!$this->verifyNotPresetAlert()) {
+            $messages = self::messagesToString($this->getMessagesOnPage());
+            $this->clearMessages('verification');
+            $this->fail($messages);
+        }
         if (!$this->controlIsPresent('pageelement', 'element_with_class_not_active')) {
-            $error = $this->errorMessage();
-            $validation = $this->validationMessage();
-            if (!$this->verifyNotPresetAlert() || $error['success'] || $validation['success']) {
-                $messages = self::messagesToString($this->getMessagesOnPage());
-                $this->clearMessages('verification');
-                $this->fail($messages);
-            }
+            $this->assertMessageNotPresent('error');
+            $this->assertMessageNotPresent('validation');
         }
         if ($fieldsetName !== 'checkout_method') {
             $this->waitForElement($this->_getControlXpath('link', $fieldsetName . '_change'));

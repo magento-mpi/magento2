@@ -117,7 +117,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $waitConditions = array($this->_getMessageXpath('success_checkout'), $this->_getMessageXpath('general_error'),
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('place_order', false);
-        $this->waitForElementOrAlert($waitConditions);
+        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
         $this->checkoutOnePageHelper()->verifyNotPresetAlert();
         //@TODO
         //Remove workaround for getting fails,
@@ -419,6 +419,7 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('continue_to_review_order', false);
         $this->waitForElementOrAlert($waitConditions);
+        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
         $this->validatePage();
     }
 
