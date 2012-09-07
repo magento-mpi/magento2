@@ -25,20 +25,12 @@
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-        <!--
-        * TESTS_JSHINT_PATH specify the path to wsh.js on Windows and jshint-rhino.js on Linux
-        * For example, on Windows <const name="TESTS_JSHINT_PATH" value="C:\jshint\env\wsh.js"/>
-        * On Linux <const name="TESTS_JSHINT_PATH" value="/var/jshint-rhino.js"/>
+        <!-- TESTS_JSHINT_PATH specify the path to wsh.js on Windows and jshint-rhino.js on Linux
+        See: http://https://wiki.corp.x.com/display/MAGE2/JS+coding+Standards+Tests
         -->
         <const name="TESTS_JSHINT_PATH" value="/path/to/wsh.js/or/jshint-rhino.js"/>
-        <!--
-        * Options specified here are JSHint global options that apply to all js files.
-        * For example eqnull:true will silence JSHint's complain to use === to compare to null
-        * File specific options can be included in each js file as /*jshint eqnull:true */ at top of the file.
-        * File specific options will overwrite global options specified here.
-        * const example
-        * On Windows <const name="TESTS_JSHINT_OPTIONS" value="/global:document:true,mage:true /jquery:true /eqnull:true"/>
-        * On Linux <const name="TESTS_JSHINT_OPTIONS" value="eqnull=true"/>
+        <!-- JSHint global options for code verification.
+        See: http://https://wiki.corp.x.com/display/MAGE2/JS+coding+Standards+Tests
         -->
         <const name="TESTS_JSHINT_OPTIONS" value=""/>
     </php>

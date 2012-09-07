@@ -34,21 +34,19 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      * @param array $name
      * @return array
      */
-    protected static function _scanFileNameRecursivly($path = '', &$name = array())
+    protected static function _scanJsFile($path)
     {
         if (is_file($path)) {
             return array($path);
         }
         $path = $path == '' ? dirname(__FILE__) : $path;
-        $dirs = glob($path . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR|GLOB_NOSORT);
-        $jsFiles = glob($path . DIRECTORY_SEPARATOR .'*.js', GLOB_NOSORT);
-        foreach ($dirs as $dir) {
-            self::_scanFileNameRecursivly($dir, &$name);
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+        $regexIterator = new RegexIterator($iterator, '/\\.js$/');
+        $filePaths = array();
+        foreach ($regexIterator as $filePath) {
+            $filePaths[] = $filePath->getPathname();
         }
-        foreach ($jsFiles as $jsFile) {
-            $name[] = $jsFile;
-        }
-        return $name;
+        return $filePaths;
     }
 
     /**
@@ -66,10 +64,10 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         $whiteList = self::_readLists(__DIR__ . '/_files/whitelist/*.txt');
         $blackList = self::_readLists(__DIR__ . '/_files/blacklist/*.txt');
         foreach ($blackList as $listFiles) {
-            self::$_blackListJsFiles = array_merge(self::$_blackListJsFiles, self::_scanFileNameRecursivly($listFiles));
+            self::$_blackListJsFiles = array_merge(self::$_blackListJsFiles, self::_scanJsFile($listFiles));
         }
         foreach ($whiteList as $listFiles) {
-            self::$_whiteListJsFiles = array_merge(self::$_whiteListJsFiles, self::_scanFileNameRecursivly($listFiles));
+            self::$_whiteListJsFiles = array_merge(self::$_whiteListJsFiles, self::_scanJsFile($listFiles));
         }
         $blackListJsFiles = self::$_blackListJsFiles;
         $filter = function($value) use($blackListJsFiles)
@@ -79,19 +77,18 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
         self::$_whiteListJsFiles = array_filter(self::$_whiteListJsFiles, $filter);
     }
 
-    protected function _isTestRunnable($filename){
+    protected function _verifyTestRunnable($filename){
         $command = 'which rhino';
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if ($this->_isOsWin()) {
             $command = 'cscript';
         }
         exec($command, $output, $retVal);
         if ($retVal != 0){
-            return array('retVal'=>false, 'message'=>$command . ' does not exist.');
+            throw new Exception($command . ' does not exist.');
         }
         if (!file_exists($filename)){
-            return array('retVal'=>false, 'message'=>$filename . ' does not exist.');
+            throw new Exception($filename . ' does not exist.');
         }
-        return array('retVal'=>true, 'message'=>'');
     }
 
     /**
@@ -99,14 +96,14 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     public function testCodeJsHint($filename)
     {
-        $isTestRunnable = $this->_isTestRunnable($filename);
-        if (!$isTestRunnable['retVal']){
-            $this->markTestSkipped($isTestRunnable['message']);
-        } else{
-            $result = $this->_executeJsHint($filename);
-            if (!$result) {
-                $this->fail("Failed JSHint.");
-            }
+        try{
+            $this->_verifyTestRunnable($filename);
+        } catch (Exception $e) {
+            $this->markTestSkipped($e->getMessage());
+        }
+        $result = $this->_executeJsHint($filename);
+        if (!$result) {
+            $this->fail("Failed JSHint.");
         }
     }
 
@@ -130,24 +127,19 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _getCommand()
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        if ($this->_isOsWin()) {
             return 'cscript ' . TESTS_JSHINT_PATH;
         } else {
             return 'rhino ' . TESTS_JSHINT_PATH;
         }
     }
 
-    /**
-     * Returns jshint option
-     * @return string
-     */
-    protected function _getOption()
-    {
-        return TESTS_JSHINT_OPTIONS;
+    protected function _isOsWin(){
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 
     /**
-     * Run jsHint againt js file; if failed output error to report file
+     * Run jsHint against js file; if failed output error to report file
      * @param $command - OS specific command
      * @param $filename - js file name with full path
      * @param $option - jsHint option
@@ -155,20 +147,15 @@ class Js_LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     protected function _executeJsHint($filename)
     {
-        exec($this->_getCommand() . ' ' . $filename . ' ' . $this->_getOption(), $output, $retVal);
-        $isOsWin = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
+        exec($this->_getCommand() . ' ' . $filename . ' ' . TESTS_JSHINT_OPTIONS, $output, $retVal);
         if ($retVal == 0){
             return true;
         }
-        $fh = fopen(self::$_reportFile, 'a');
-        foreach ($output as $key => $line) {
-            if (($isOsWin && $key < 2)){
-                continue;
-            }
-            fwrite($fh, $line . PHP_EOL);
+        if ($this->_isOsWin()) {
+            $output = array_slice($output, 2);
         }
-        fwrite($fh, PHP_EOL);
-        fclose($fh);
+        $output[] = ''; //empty line to separate each file output
+        file_put_contents(self::$_reportFile, implode(PHP_EOL, $output), FILE_APPEND);
         return false;
     }
 
