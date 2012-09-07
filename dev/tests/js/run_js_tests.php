@@ -98,7 +98,7 @@ fwrite($fh, "server: $server" . PHP_EOL);
 
 fwrite($fh, "proxy:" . PHP_EOL);
 foreach ($proxies as $proxy) {
-    $proxyServer = sprintf($proxy['server'], $server, str_replace("\\", "/", realpath(__DIR__ . '../../../..')));
+    $proxyServer = sprintf($proxy['server'], $server, str_replace("\\", "/", realpath(__DIR__ . '/../../..')));
     fwrite($fh, '  - {matcher: "' . $proxy['matcher'] . '", server: "' . $proxyServer . '"}' . PHP_EOL);
 }
 
