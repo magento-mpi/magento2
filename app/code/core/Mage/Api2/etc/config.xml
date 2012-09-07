@@ -22,6 +22,12 @@
         </Mage_Api2>
     </modules>
     <global>
+        <areas>
+            <api>
+                <frontName>api</frontName>
+                <front_controller>Mage_Api2_Controller_Front_Base</front_controller>
+            </api>
+        </areas>
         <cache>
             <types>
                 <config_api2 translate="label,description" module="Mage_Api2">

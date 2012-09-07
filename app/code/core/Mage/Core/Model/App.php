@@ -737,13 +737,38 @@ class Mage_Core_Model_App
      */
     protected function _initFrontController()
     {
-        // TODO: Remove hardcode when areas mechanism is implemented
-//        $this->_frontController = new Mage_Core_Controller_Varien_Front();
-        $this->_frontController = new Mage_Api2_Controller_Front_Base();
+        // TODO: Assure that everything work fine work in areas without routers (e.g. URL generation)
+        $this->_frontController = $this->_getFrontControllerByCurrentArea();
         Magento_Profiler::start('init_front_controller');
         $this->_frontController->init();
         Magento_Profiler::stop('init_front_controller');
         return $this;
+    }
+
+    /**
+     * Instantiate proper front controller instance depending on current area
+     *
+     * @return Mage_Core_Controller_FrontInterface
+     */
+    protected function _getFrontControllerByCurrentArea()
+    {
+        /** Default front controller class */
+        $frontControllerClass = 'Mage_Core_Controller_Varien_Front';
+        $pathParts = explode('/', trim($this->getRequest()->getPathInfo(), '/'));
+        if ($pathParts) {
+            /** If area front name is used it is expected to be set on the first place in path info */
+            $frontName = reset($pathParts);
+            foreach (Mage::getConfig()->getAreas() as $areaCode => $areaInfo) {
+                if (isset($areaInfo['front_controller'])
+                    && isset($areaInfo['frontName']) && ($frontName == $areaInfo['frontName'])
+                ) {
+                    $this->getConfig()->setCurrentAreaCode($areaCode);
+                    $frontControllerClass = $areaInfo['front_controller'];
+                    break;
+                }
+            }
+        }
+        return new $frontControllerClass();
     }
 
     /**

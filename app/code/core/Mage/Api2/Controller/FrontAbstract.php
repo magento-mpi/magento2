@@ -27,7 +27,8 @@ abstract class Mage_Api2_Controller_FrontAbstract implements Mage_Core_Controlle
      *
      * @var string
      */
-    protected $_baseActionController;
+    // TODO: Think about more elegant solution
+    protected $_baseActionController = '';
 
     abstract public function init();
 

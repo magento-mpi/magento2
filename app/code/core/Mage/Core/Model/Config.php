@@ -1582,22 +1582,22 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $nodeAreas = $this->getNode('global/areas');
         if (is_object($nodeAreas)) {
             foreach ($nodeAreas->asArray() as $areaCode => $areaInfo) {
-                if (empty($areaCode)
-                    || (!isset($areaInfo['base_controller']) || empty($areaInfo['base_controller']))
-                    || (!isset($areaInfo['routers']) || !is_array($areaInfo['routers']))
-                ) {
-                    continue;
-                }
+                /**
+                 * TODO: There could be several base action controllers in scope of one area for different API types.
+                 * TODO: These action controllers can be specified in the concrete implementations of API front controllers.
+                 * TODO: That is why:
+                 *
+                 * TODO: Check of 'base_controller' and 'routers' nodes existance is excessive:
+                 * TODO: 'base_controller' is checked in Mage_Core_Controller_Varien_Router_Base::__construct()
+                 * TODO: 'routers' check is moved Mage_Core_Model_Config::getRouters()
+                 */
 
-                foreach ($areaInfo['routers'] as $routerKey => $routerInfo) {
-                    if (empty($routerKey) || !isset($routerInfo['class'])) {
-                        unset($areaInfo[$routerKey]);
-                    }
-                }
-                if (empty($areaInfo['routers'])) {
-                    continue;
-                }
-
+                /**
+                 * TODO: Routers are not required in API.
+                 * TODO: That is why:
+                 *
+                 * TODO: Check for empty router class moved to Mage_Core_Model_Config::getRouters()
+                 */
                 $this->_allowedAreas[$areaCode] = $areaInfo;
             }
         }
@@ -1614,11 +1614,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $routers = array();
         foreach ($this->getAreas() as $areaCode => $areaInfo) {
-            foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
-                $routerInfo = array_merge($routerInfo, $areaInfo);
-                unset($routerInfo['routers']);
-                $routerInfo['area'] = $areaCode;
-                $routers[$routerKey] = $routerInfo;
+            if (isset($areaInfo['routers']) && is_array($areaInfo['routers'])) {
+                foreach ($areaInfo['routers'] as $routerKey => $routerInfo ) {
+                    if (!isset($routerInfo['class']) || empty($routerInfo['class'])) {
+                        continue;
+                    }
+                    $routerInfo = array_merge($routerInfo, $areaInfo);
+                    unset($routerInfo['routers']);
+                    $routerInfo['area'] = $areaCode;
+                    $routers[$routerKey] = $routerInfo;
+                }
             }
         }
         return $routers;

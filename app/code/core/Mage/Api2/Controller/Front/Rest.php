@@ -14,6 +14,8 @@
 // TODO: Add profiler calls
 class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 {
+    const BASE_ACTION_CONTROLLER = 'Mage_Api2_Controller_Rest_ActionAbstract';
+
     /**#@+
      * Resource types
      */
@@ -34,9 +36,8 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
 
     const DEFAULT_SHUTDOWN_FUNCTION = 'mageApiShutdownFunction';
 
-    // TODO: Take base controller from configuration
     /** @var string */
-    protected $_baseActionController = 'Mage_Api2_Controller_Rest_ActionAbstract';
+    protected $_baseActionController;
 
     /**
      * @var Mage_Api2_Model_Auth_User_Abstract
@@ -58,6 +59,7 @@ class Mage_Api2_Controller_Front_Rest extends Mage_Api2_Controller_FrontAbstract
      */
     public function init()
     {
+        $this->_baseActionController = self::BASE_ACTION_CONTROLLER;
         $configFiles = Mage::getConfig()->getModuleConfigurationFiles('api_rest.xml');
         /** @var Mage_Api2_Model_Config_Rest $restConfig */
         $restConfig = Mage::getModel('Mage_Api2_Model_Config_Rest', $configFiles);
