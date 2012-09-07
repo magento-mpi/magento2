@@ -6,7 +6,6 @@
 /.settings
 atlassian*
 /index.php
-/jsTestDriver.conf
 /nbproject
 /sitemap
 /staging
@@ -35,4 +34,4 @@ atlassian*
 dev/api-tests/config.php
 dev/api-tests/integration/tmp/*
 dev/api-tests/integration/framework/local-mysql.xml
-dev/tests/js/test-output/*
+

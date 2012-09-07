@@ -1,8 +1,14 @@
 <?php
-
 /**
- * Returns an array of Javascript files that should be loaded by JsTestDriver in the order that they
- * appear in the array when the Javascript unit tests are run.
+ * Returns an array of Javascript files that should be loaded first by JsTestDriver in the
+ * order that they appear in the array when the Javascript unit tests are run.
+ *
+ * {license_notice}
+ *
+ * @category    tests
+ * @package     js
+ * @copyright   {copyright}
+ * @license     {license_link}
  *
  * @return array
  */
