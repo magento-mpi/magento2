@@ -110,7 +110,6 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         );
     }
 
-
     /**
      * <p>Verifying, that autogeneration of meta fields does't work for product duplication</p>
      * <p> Steps:</p>
@@ -157,7 +156,6 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
         $this->assertEquals($metaKeywords, $this->getValue(
             $this->_getControlXpath('field', 'meta_information_meta_keywords')));
     }
-
 
     /**
      * <p>Meta fields Auto-generation template verification</p>
@@ -224,7 +222,79 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
             array('meta_description', 'meta_information_meta_description',
                   '{{name}}' . 'description' . '{{short_description}}'),
             array('meta_keyword', 'meta_information_meta_keywords',
-                  'sku' . ' ' . ' name' . ' ' . $this->generate('string', 10, ':alpha:')));
+                  'sku' . ' ' . ' name' . ' ' . $this->generate('string', 10, ':alpha:')),
+            array('meta_title', 'meta_information_meta_title', '{{weight}} {{name}}'),
+            array('meta_description', 'meta_information_meta_description', '{{nonexisted_attribute}}, {{name}}'),
+            array('meta_keyword', 'meta_information_meta_keywords',
+                  '{{name}}, {{name}}, {{name}}, {{name}}, {{name}}, {{name}}, {{name}}, {{name}}, {{name}}'));
+    }
+
+    /**
+     * <p>Verify, that autogeneration of Meta fields and SKU enabled if</p>
+     * <p>Attribute set has been changed before enter product data</p>
+     *
+     * <p>Preconditions:</p>
+     *  <p>1. at least 2 Attribute Sets exist - Default and Test Attribute set with Meta attributes -</p>
+     *  <p>meta_title, meta_description, meta_keyword</p>
+     *  <p>2. Default masks for fields autogeneration:</p>
+     *  <p>SKU - {{name}}</p>
+     *  <p>Meta Title - {{name}}</p>
+     *  <p>Meta Keywords - {{name}}, {{sku}}</p>
+     *  <p>Meta Description - {{name}} {{description}}</p>
+     *
+     * <p>Steps:</p>
+     *  <p>1. Login to backend</p>
+     *  <p>2. Navigate to Catalog - Manage Products</p>
+     *  <p>3. Press Add Product button</p>
+     *  <p>4. Press Change Attribute Set button, select "Test" Attribute set and apply changes</p>
+     *  <p>5. Start fill required fields on New Product(Test) page and enter in Name field - "Name",</p>
+     *  <p>   in Description field - "Description"</p>
+     *  <p>6. Click on Meta Tab</p>
+     *
+     * <p>Expected results:</p>
+     * <p>After Step 5: SKU field is equal to Name field - "Name"</p>
+     * <p> After Step 6: All Meta fields on Meta Information tab are prepopulated according to masks:</p>
+     * <p> Meta Title - "Name"</p>
+     * <p> Meta Keywords - "Name, Name"</p>
+     * <p> Meta Description - "Name Description"</p>
+     *
+     * @param $metaCode
+     * @param $metaField
+     * @param $metaMask
+     *
+     * @test
+     * @dataProvider templateMetaMaskDataProvider
+     * @dataProvider defaultMetaMaskDataProvider
+     * @TestLinkId TL-MAGE-6214
+     * @author Maryna_Ilnytska
+     */
+    public function afterChangeAttributeSet($metaCode, $metaField, $metaMask)
+    {
+        //Data
+        $testData = $this->loadDataSet('AttributeSet', 'attribute_set');
+        $systemConfig = $this->loadDataSet('FieldsAutogeneration', 'fields_autogeneration_masks',
+            array($metaCode . '_mask' => $metaMask, 'sku_mask' => '{{name}}'));
+        $productData = $this->loadDataSet('Product', 'simple_product_required',
+            array('product_attribute_set' => $testData['set_name']));
+        unset ($productData['general_sku']);
+        //Preconditions
+        $this->navigate('manage_attribute_sets');
+        $this->attributeSetHelper()->createAttributeSet($testData);
+        $this->assertMessagePresent('success', 'success_attribute_set_saved');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($systemConfig);
+        //Steps
+        $this->navigate('manage_products');
+        $this->productHelper()->createProduct($productData, 'simple', false);
+        $this->openTab('general');
+        $testData = $this->productHelper()->formFieldValueFromMask($metaMask, self::$placeholders);
+        $this->saveForm('save');
+        $this->assertMessagePresent('success', 'success_saved_product');
+        $this->productHelper()->openProduct(array('product_sku' => $productData['general_name']));
+        $this->assertEquals($productData['general_name'],
+            $this->getValue($this->_getControlXpath('field', 'general_sku')));
+        $this->openTab('meta_information');
+        $this->assertEquals($testData, $this->getValue($this->_getControlXpath('field', $metaField)));
     }
 
     /**
@@ -312,7 +382,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *
      * <p>Expected results:</p>
      *  <p>7. Fields on Meta Information tab is displayed information generated according masks.</p>
-     *  <p>7. Fields on Meta Information tab is displayed information entered by user</p>
+     *  <p>9. Fields on Meta Information tab is displayed information entered by user</p>
      *
      * @param $metaCode
      * @param $metaField
@@ -345,7 +415,7 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
 
     /**
      * <p>Verify that product with Meta fields autogeneration has been created without verification errors </p>
-     * <p>when meta attributes setted as required</p>
+     * <p>when meta attributes set as required</p>
      *
      * <p>Preconditions:</p>
      *  <p>1. Setup meta attributes as required</p>
@@ -389,8 +459,8 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      * <p>Preconditions:</p>
      *  <p>1. Setup empty mask in Product Fields Auto-generation fieldset:</p>
      *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p
-     *  <p>2. Setup empty default value for meta_title, meta_description, meta_keyword product attributes</p>
-     *  <p> "Mask for Meta Title" / "Mask for Meta Keywords" / "Mask for Meta Description" field</p>
+     *  <p>2. Setup empty default value for meta_title, meta_description, meta_keyword product attributes </p>
+     *  <p>3. Setup Values Required - Yes for meta_title, meta_description, meta_keyword product attributes </p>
      *
      * <p>Steps:</p>
      *  <p>1. Log in to Backend.</p>
@@ -398,10 +468,9 @@ class Community2_Mage_Product_MetaAutogenerationTest extends Mage_Selenium_TestC
      *  <p>3. Start to create new simple product.</p>
      *  <p>4. Fulfill all required fields and don't enter any information on Meta tab</p>
      *  <p>5. Save product.</p>
-     *  <p>6. Open created product.</p>
      *
      * <p>Expected results:</p>
-     *  <p> All Meta fields are empty according defined mask</p>
+     *  <p> Verify that meta fields are empty and messages "This is a required field." appear under all meta fields </p>
      *
      * @param $metaCode
      * @param $metaField
