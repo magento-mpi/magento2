@@ -37,7 +37,7 @@ browsers:
          host: 'localhost'
          port: 4444
          seleniumServerRequestsTimeout: 60
-         sessionStrategy: shared
+         sessionStrategy: isolated
 ################################################################################
 #                                                                              #
 #                     Framework configuration                                  #
@@ -47,7 +47,7 @@ framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
     coverageScriptUrl: ''
-    saveScreenshotOnFailure: true
+    saveScreenshotOnFailure: false
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
