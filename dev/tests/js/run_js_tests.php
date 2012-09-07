@@ -137,7 +137,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
     $shellCommand
         = '#!/bin/bash
         LSOF=`/usr/sbin/lsof -i :' . $port . ' -t`
-        if [ "$LSOF" -neq "" ];
+        if [ "$LSOF" != "" ];
         then
             kill -9 $LSOF
         fi
