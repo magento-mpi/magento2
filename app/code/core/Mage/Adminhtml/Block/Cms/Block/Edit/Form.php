@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
         /**
          * Check is single store mode
          */
-        if (!Mage::app()->hasSingleStore()) {
+        if (!Mage::app()->isSingleStoreMode()) {
             $field =$fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',
                 'label'     => Mage::helper('Mage_Cms_Helper_Data')->__('Store View'),
