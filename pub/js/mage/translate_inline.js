@@ -178,12 +178,9 @@ TranslateInline.prototype = {
             }
         }
         parameters['area'] = this.area;
-
-        new Ajax.Request(this.ajaxUrl.replace('admin', 'backend/admin'), {
-            method: 'post',
-            parameters: parameters,
-            onComplete: jQuery.proxy(this.ajaxComplete, this)
-        });
+        jQuery.post(this.ajaxUrl, parameters)
+            .complete(jQuery.proxy(this.ajaxComplete, this))
+            .error(function() { alert("error"); });
 
         this.formIsSubmitted = false;
     },
