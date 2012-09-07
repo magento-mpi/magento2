@@ -32,5 +32,16 @@ MageTest.prototype.testLoad = function () {
     assertEquals(1, mage.load.jsSync('test2'));
 };
 
+MageTest.prototype.testLoadLanguage = function () {
+    var mapping = {
+        'localize': ['/pub/lib/mage/globalize/globalize.js',
+            '/pub/lib/mage/globalize/cultures/globalize.culture.de.js',
+            '/pub/lib/mage/localization/json/translate_de.js',
+            '/pub/lib/mage/localization/localize.js']
+    };
+    assertEquals(1, mage.load.language('en', mapping));
+    assertEquals(1, mage.load.language());
+    assertEquals(5, mage.load.language('de', mapping));
+};
 
 

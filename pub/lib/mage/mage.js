@@ -121,7 +121,6 @@ var mage = {};
             if (language != null && language !== mage.language.en) {
                 addToQueue(jsMapping.localize, syncQueue);
             }
-            return;
             return syncQueue.length;
         }
     };
