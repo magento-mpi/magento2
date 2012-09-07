@@ -85,7 +85,8 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
             $jsFiles .= '"' . $localizedJsFilePath . '", ';
         }
 
-        $jsFiles .= '"/pub/lib/mage/calendar/calendar.js"'; /* Lastly, the datepicker. */
+        $jsFiles .= '"' . $this->getSkinUrl("mage/calendar/calendar.js") . '"'; /* Lastly, the datepicker. */
+        $cssFile = '"' . $this->getSkinUrl("mage/calendar/css/calendar.css") . '"';
 
         $html
             .= '
@@ -104,7 +105,7 @@ class Mage_Core_Block_Html_Date_Jquery_Calendar extends Mage_Core_Block_Html_Dat
                     };
                     initData.datepicker.push(datepicker);
                 });
-                mage.load.css("/pub/lib/mage/calendar/css/calendar.css");
+                mage.load.css( ' . $cssFile . ' );
                 mage.load.jsSync(' . $jsFiles . ');
                 //]]>
             </script>';

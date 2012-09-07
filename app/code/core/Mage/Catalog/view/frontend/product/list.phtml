@@ -84,7 +84,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
         mage.event.observe('mage.grid.initialize', function (event, initData) {
             initData.listId = '#products-list';
         });
-        mage.load.js('/pub/lib/mage/decorate.js');
+        mage.load.js("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
         mage.load.js('/pub/lib/mage/components/grid/frontend/grid.js');
         mage.load.js('/pub/lib/mage/components/util/mage_attributes_processing.js');
         //]]>
@@ -148,7 +148,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
             initData.genericSelector = 'ul.products-grid';
             initData.decoratorParam = ['odd', 'even', 'first', 'last'];
         });
-        mage.load.js('/pub/lib/mage/decorate.js');
+        mage.load.js("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
         mage.load.js('/pub/lib/mage/components/grid/frontend/grid.js');
         mage.load.js('/pub/lib/mage/components/util/mage_attributes_processing.js');
         //]]>

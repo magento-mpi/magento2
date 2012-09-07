@@ -116,24 +116,13 @@ var mage = {};
             addToQueue(arguments, cssQueue);
             return cssQueue.length;
         },
-        language: function (lang) {
+        language: function (lang, jsMapping) {
             var language = mage.language.code = lang;
             if (language != null && language !== mage.language.en) {
-                var mapping = {
-                    'localize': ['/pub/lib/globalize/globalize.js',
-                        '/pub/lib/globalize/cultures/globalize.culture.' + language + '.js',
-                        '/pub/lib/mage/localization/json/translate_' + language + '.js',
-                        '/pub/lib/mage/localization/localize.js']
-                };
-                addToQueue(mapping.localize, syncQueue);
+                addToQueue(jsMapping.localize, syncQueue);
             }
+            return;
             return syncQueue.length;
-        },
-        initValidate: function () {
-            var validatorFiles = ['/pub/lib/jquery/jquery.validate.js', '/pub/lib/jquery/additional-methods.js',
-                '/pub/lib/jquery/jquery.metadata.js', '/pub/lib/jquery/jquery.hook.js',
-                '/pub/lib/mage/validation/validate.js'];
-            addToQueue(validatorFiles, syncQueue);
         }
     };
 

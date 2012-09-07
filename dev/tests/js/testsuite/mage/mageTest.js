@@ -32,10 +32,5 @@ MageTest.prototype.testLoad = function () {
     assertEquals(1, mage.load.jsSync('test2'));
 };
 
-MageTest.prototype.testLoadLanguage = function () {
-    assertEquals(1, mage.load.language('en'));
-    assertEquals(1, mage.load.language());
-    assertEquals(5, mage.load.language('de'));
-};
 
 

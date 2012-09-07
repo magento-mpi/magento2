@@ -17,11 +17,11 @@
 ?>
 
 <script type="text/javascript">
-//<![CDATA[
-mage.event.observe('mage.cookie.initialize', function (e, o) {
-    o.path = '<?php echo $this->getPath()?>',
-    o.domain = '<?php echo $this->getDomain()?>'
-});
-mage.load.jsSync('/pub/lib/jquery/jquery.cookie.js', '/pub/lib/mage/components/cookie/cookie.js');
-//]]>
+    //<![CDATA[
+    mage.event.observe('mage.cookie.initialize', function (e, o) {
+        o.path = '<?php echo $this->getPath()?>',
+            o.domain = '<?php echo $this->getDomain()?>'
+    });
+    mage.load.jsSync("<?php echo $this->getSkinUrl('jquery/jquery.cookie.js') ?>", "<?php echo $this->getSkinUrl('mage/components/cookie/cookie.js') ?>");
+    //]]>
 </script>

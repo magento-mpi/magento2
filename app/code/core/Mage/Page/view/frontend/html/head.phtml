@@ -10,22 +10,37 @@
 ?>
 <meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
 <title><?php echo $this->getTitle() ?></title>
-<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
-<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
-<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
-<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
-<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
-<script type="text/javascript" src="/pub/lib/jquery/jquery.js"></script>
-<script type="text/javascript" src="/pub/lib/jquery/head.js"></script>
-<script type="text/javascript" src="/pub/lib/mage/mage.js"></script>
-<link rel="stylesheet" href="/pub/lib/jquery/ui/css/jquery-ui.css" type="text/css" media="all"/>
-<link rel="stylesheet" href="/pub/lib/mage/components/install/mage-js-style.css" type="text/css" media="all"/>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>"/>
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>"/>
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>"/>
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon"/>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery/jquery.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('jquery/head.js')?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('mage/mage.js')?>"></script>
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('jquery/ui/css/jquery-ui.css')?>" type="text/css"
+      media="all"/>
+<link rel="stylesheet" href="<?php echo $this->getSkinUrl('mage/validation/validator.css')?>" type="text/css"
+      media="all"/>
 <?php echo $this->getCssJsHtml() ?>
 <?php echo $this->getChildHtml() ?>
 <?php echo $this->getIncludes() ?>
 <script type="text/javascript">
     //<![CDATA[
-    mage.load.language('<?php echo substr(Mage::app()->getLocale()->getLocaleCode(), 0, 2)?>');
+    <?php
+    $lang = $this->getLocale();
+    if ($lang !== null && $lang !== 'en') {
+        $cultureJs = "globalize/cultures/globalize.culture." . $lang . ".js";
+        $translateJs = "mage/localization/json/translate_" . $lang . ".js";
+    }
+    ?>
+    var mapping = {
+        'localize': ["<?php echo $this->getSkinUrl('globalize/globalize.js')?>",
+            "<?php echo $this->getSkinUrl($cultureJs)?>",
+            "<?php echo $this->getSkinUrl($translateJs)?>",
+            "<?php echo $this->getSkinUrl('mage/localization/localize.js')?>"]
+    };
+    mage.load.language('<?php echo $lang?>', mapping);
     //]]>
 </script>
 
