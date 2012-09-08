@@ -1,0 +1,20 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_UrlRewrite
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage url rewrites
+
+# Edit url rewrite page page
+new_url_rewrite:
+    mca: urlrewrite/edit/id
+    title: URL Rewrite / Rewrite Rules / Magento Admin
+    uimap:
+        pageelements:
+            form: //form[@id='edit_form' and @method='post' and contains(@action, '/urlrewrite/save')]
