@@ -1597,7 +1597,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
          * @var Mage_Selenium_Uimap_Tab $tabUimap
          */
         foreach ($tabData as $tabUimap) {
-            $availableElement = $this->elementIsPresent($tabUimap->getTabId());
+            $availableElement = $this->elementIsPresent($tabUimap->getXPath());
             if ($availableElement) {
                 $tabClass = $availableElement->attribute('class');
                 if (preg_match('/active/', $tabClass)) {
