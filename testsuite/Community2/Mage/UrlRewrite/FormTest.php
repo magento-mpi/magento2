@@ -9,13 +9,10 @@
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
- *
  */
 
 /**
- * @package     selenium
- * @subpackage  tests
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * Verification of Url Rewrite backend functionality
  */
 class Community2_Mage_UrlRewrite_FormTest extends Mage_Selenium_TestCase
 {
@@ -25,18 +22,21 @@ class Community2_Mage_UrlRewrite_FormTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * Verify that url rewrite form is present at the admin page
-     *
-     * Steps to reproduce:
-     * 1. Navigate to the form to add new url rewrite
-     * 2. Verify, that there is one and only one form to enter url rewrite (and it matches by attributes according
-     *    to uimap xpath)
+     * <p>Verify that url rewrite form is present at the backend page<p>
+     * <p>Steps to reproduce:<p>
+     * <p>1. Navigate to the form to add new custom url rewrite<p>
+     * <p>Expected result:</p>
+     * <p>A form to enter url rewrite is present</p>
+     * <p>Only one instance of such form is present</p>
+     * <p>The form has proper attributes (matched by uimap xpath)<p>
      *
      * @test
      */
     public function testFormIsPresent()
     {
+        //Steps
         $this->navigate('new_url_rewrite');
+        //Verifying
         $xpath = $this->_getControlXpath('pageelement', 'form');
         $numForms = $this->getXpathCount($xpath);
         $this->assertEquals(1, $numForms, 'There must be present one form to enter url rewrite data');
