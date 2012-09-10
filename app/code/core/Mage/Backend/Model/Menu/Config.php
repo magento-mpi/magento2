@@ -102,6 +102,7 @@ class Mage_Backend_Model_Menu_Config
                 }
             }
 
+            /* @var $director Mage_Backend_Model_Menu_Builder */
             $menuBuilder = $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Builder', array(
                 'menu' => $this->_menu,
                 'itemFactory' => $this->_appConfig->getModelInstance('Mage_Backend_Model_Menu_Item_Factory'),
@@ -117,6 +118,7 @@ class Mage_Backend_Model_Menu_Config
                 )
             );
             $director->buildMenu($menuBuilder);
+            $this->_menu = $menuBuilder->getResult();
             $this->_eventManager->dispatch('backend_menu_load_after', array('menu' => $this->_menu));
 
             if ($this->_cache->canUse('config')) {
