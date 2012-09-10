@@ -3243,15 +3243,15 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function logoutCustomer()
     {
-        if ($this->getArea() !== 'frontend') {
+        if ($this->getArea() !== 'frontend' || $this->url() == 'about:blank') {
             $this->frontend();
         }
         if ($this->controlIsPresent('link', 'log_out')) {
             $this->clickControl('link', 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
-            $this->validatePage('home_page');
         }
+        $this->validatePage('home_page');
 
         return $this;
     }
