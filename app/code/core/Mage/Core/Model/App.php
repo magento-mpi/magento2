@@ -326,7 +326,7 @@ class Mage_Core_Model_App
 
         Magento_Profiler::stop('init');
 
-        if ($this->_cache->processRequest()) {
+        if ($this->_cache->processRequest($this->getResponse())) {
             $this->getResponse()->sendResponse();
         } else {
             Magento_Profiler::start('init');

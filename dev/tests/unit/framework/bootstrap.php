@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+require __DIR__ . '/../../../../app/code/core/Mage/Core/functions.php';
+
 define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
 
 $includePaths = array(
