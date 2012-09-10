@@ -26,12 +26,12 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
     /**
      * @var string
      */
-    protected $_containerRendererBlock;
+    protected $_containerRenderer;
 
     /**
      * @var string
      */
-    protected $_itemRendererBlock;
+    protected $_itemRenderer;
 
     /**
      * Backend URL instance
@@ -235,9 +235,9 @@ class Mage_Backend_Block_Menu extends Mage_Backend_Block_Template
             Mage::app()->getLocale()->getLocaleCode()
         );
         // Add additional key parameters if needed
-        $additionalCacheKeyInfo = $this->getAdditionalCacheKeyInfo();
-        if (is_array($additionalCacheKeyInfo) && !empty($additionalCacheKeyInfo)) {
-            $cacheKeyInfo = array_merge($cacheKeyInfo, $additionalCacheKeyInfo);
+        $newCacheKeyInfo = $this->getAdditionalCacheKeyInfo();
+        if (is_array($newCacheKeyInfo) && !empty($newCacheKeyInfo)) {
+            $cacheKeyInfo = array_merge($cacheKeyInfo, $newCacheKeyInfo);
         }
         return $cacheKeyInfo;
     }

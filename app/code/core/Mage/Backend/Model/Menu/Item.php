@@ -251,7 +251,7 @@ class Mage_Backend_Model_Menu_Item
     /**
      * Retrieve item click callback
      *
-     * @return bool
+     * @return string
      */
     public function getClickCallback()
     {
