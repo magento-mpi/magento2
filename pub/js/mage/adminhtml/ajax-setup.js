@@ -98,8 +98,9 @@
             this.element.on('complete.ajax', function(e){
                 e.stopImmediatePropagation();
                 $(e.target).is('body') ?
-                    $(e.target).loader('destroy') :
-                    $(e.target).loader('hide');
+                    $(e.target).loader('hide') :
+                    $(e.target).loader('destroy');
+
             });
         },
         /**
@@ -151,7 +152,7 @@
     });
     $(document).ready(function(){
         $('body').on('beforeSend.ajax', function(e){
-            $(e.target).loader().show();
+            $(e.target).loader().loader('show');
         });
     })
 })(jQuery);
