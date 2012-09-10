@@ -60,6 +60,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_TestCase
             $arrayId = explode('_', $id);
             $id = end($arrayId);
             $this->addParameter('address_number', $id);
+            $this->waitForElementVisible($this->_getControlXpath('fieldset', 'edit_address'));
             if ($this->verifyForm($addressData, 'addresses')) {
                 return $id;
             }

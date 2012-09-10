@@ -126,7 +126,9 @@ class Core_Mage_CmsPolls_Helper extends Mage_Selenium_TestCase
      */
     public function closeAllPolls()
     {
-        $xpathTR = $this->search(array('filter_status' => 'Open'), 'poll_grid');
+        $this->fillDropdown('filter_status', 'Open');
+        $this->clickButton('search');
+        $xpathTR = $this->formSearchXpath(array('filter_status' => 'Open'));
         $cellId = $this->getColumnIdByName('Poll Question');
         $this->addParameter('tableLineXpath', $xpathTR);
         $this->addParameter('cellIndex', $cellId);
