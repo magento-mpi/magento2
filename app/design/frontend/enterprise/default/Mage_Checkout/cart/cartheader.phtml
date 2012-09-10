@@ -86,21 +86,21 @@
         </div>
     </div>
     <script type="text/javascript">
-
         mage.event.observe('mage.checkout.initialize', function (e, o) {
             o.cartSelector = '#mini-cart',
-                o.isRecursive = true,
-                o.url = '<?php echo $this->getCheckoutUrl();?>',
-                o.button = ':button[title=' + '<?php echo $this->__('Checkout') ?>' + ']',
-                o.closeList = 'a[title=\'' + '<?php echo $this->__('Remove This Item')?>' + '\']',
-                o.container = '#topCartContent',
-                o.closeButton = '.close-btn',
-                o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
-
+            o.isRecursive = true,
+            o.url = '<?php echo $this->getCheckoutUrl();?>',
+            o.button = ':button[title=' + '<?php echo $this->__('Checkout') ?>' + ']',
+            o.closeList = 'a[title=\'' + '<?php echo $this->__('Remove This Item')?>' + '\']',
+            o.container = '#topCartContent',
+            o.closeButton = '.close-btn',
+            o.confirmMessage = '<?php echo $this->__('Are you sure you would like to remove this item from the shopping cart?') ?>'
         });
-        mage.load.jsSync("<?php echo $this->getSkinUrl('mage/decorate.js') ?>", '/pub/lib/mage/components/checkout/frontend/cart/sidebar.js', '/pub/lib/mage/components/enterprise/default/checkout_topcart.js');
-
-
+        mage.load.jsSync(
+            "<?php echo $this->getSkinUrl('mage/decorate.js') ?>",
+            "<?php echo $this->getSkinUrl('Mage_Checkout::cart/sidebar.js') ?>",
+            "<?php echo $this->getSkinUrl('Mage_Checkout::cart/checkout_topcart.js') ?>"
+         )
     </script>
     <?php endif;?>
 </div>

@@ -29,8 +29,10 @@
             mage.event.observe('mage.productView.initialize', function (e, o) {
                 o.recentlyViewedItemSelector = '#recently-viewed-items';
             });
-
-            mage.load.jsSync("<?php echo $this->getSkinUrl('mage/decorate.js') ?>", '/pub/lib/mage/components/checkout/frontend/cart/product_view.js');
+            mage.load.jsSync(
+                "<?php echo $this->getSkinUrl('mage/decorate.js') ?>",
+                "<?php echo $this->getSkinUrl('Mage_Checkout::cart/product_view.js') ?>"
+            );
             //]]>
         </script>
 

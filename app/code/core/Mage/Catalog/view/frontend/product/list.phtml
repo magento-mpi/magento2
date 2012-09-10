@@ -85,11 +85,10 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
             initData.listId = '#products-list';
         });
         mage.load.js("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
-        mage.load.js('/pub/lib/mage/components/grid/frontend/grid.js');
+        mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::grid.js') ?>");
         mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/product/mage_attributes_processing.js') ?>");
         //]]>
     </script>
-
     <?php else: ?>
 
     <?php // Grid Mode ?>
@@ -149,7 +148,7 @@ $_helper = $this->helper('Mage_Catalog_Helper_Output');
             initData.decoratorParam = ['odd', 'even', 'first', 'last'];
         });
         mage.load.js("<?php echo $this->getSkinUrl('mage/decorate.js') ?>");
-        mage.load.js('/pub/lib/mage/components/grid/frontend/grid.js');
+        mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::grid.js') ?>");
         mage.load.js("<?php echo $this->getSkinUrl('Mage_Catalog::js/product/mage_attributes_processing.js') ?>");
         //]]>
     </script>
