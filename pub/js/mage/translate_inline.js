@@ -151,8 +151,7 @@ TranslateInline.prototype = {
         );
 
         this.translateDialog
-            .empty()
-            .append(jQuery.tmpl("translateInline", {
+            .html(jQuery.tmpl("translateInline", {
                 data: data,
                 escape:this.escapeHTML
             }))
@@ -181,7 +180,8 @@ TranslateInline.prototype = {
         jQuery.ajax({
             url: this.ajaxUrl,
             type: 'POST',
-            data: parameters
+            data: parameters,
+            context: this.translateDialog
         })
             .complete(jQuery.proxy(this.ajaxComplete, this))
             .error(function() { alert("error"); });
