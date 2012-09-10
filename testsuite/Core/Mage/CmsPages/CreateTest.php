@@ -139,14 +139,13 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      *
      * @param string $fieldName
      * @param string $fieldType
-     * @param int $messCount
      *
      * @test
      * @dataProvider withEmptyRequiredFieldsDataProvider
      * @depends withRequiredFields
      * @TestlinkId TL-MAGE-3211
      */
-    public function withEmptyRequiredFields($fieldName, $fieldType, $messCount)
+    public function withEmptyRequiredFields($fieldName, $fieldType)
     {
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array($fieldName => '%noValue%'));
@@ -166,18 +165,18 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
             $fieldName = 'chosen_option';
         }
         $this->addFieldIdToMessage($fieldType, $fieldName);
-        $this->assertTrue($this->verifyMessagesCount($messCount), $this->getParsedMessages());
         $this->assertMessagePresent('validation', 'empty_required_field');
+        $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
     public function withEmptyRequiredFieldsDataProvider()
     {
         return array(
-            array('page_title', 'field', 1),
-            array('url_key', 'field', 1),
-            array('content', 'field', 1),
-            array('store_view', 'multiselect', 1),
-            array('widget_type', 'dropdown', 2)
+            array('page_title', 'field'),
+            array('url_key', 'field'),
+            array('content', 'field'),
+            array('store_view', 'multiselect'),
+            array('widget_type', 'dropdown')
         );
     }
 

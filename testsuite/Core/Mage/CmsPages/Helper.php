@@ -127,10 +127,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
             $text = $this->getControlAttribute('button', 'select_option', 'text');
             $name = trim(strtolower(preg_replace('#[^a-z]+#i', '_', $text)), '_');
             $this->clickButton('select_option', false);
-            $this->waitForAjax();
-            if (!$this->controlIsPresent('fieldset', $name)) {
-                $this->fail($name . ' fieldset is not loaded');
-            }
+            $this->waitForElement($this->_getControlXpath('fieldset', $name));
         } else {
             $this->fail('Button \'select_option\' is not present on the page ' . $this->getCurrentPage());
         }
@@ -192,7 +189,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
         } else {
             $this->clickButton('insert_variable', false);
         }
-        $this->waitForAjax();
+        $this->waitForElement($this->_getControlXpath('fieldset', 'variable_insertion'));
         $this->addParameter('variableName', $variable);
         $this->clickControl('link', 'variable', false);
     }
