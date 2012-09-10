@@ -2573,7 +2573,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->focusOnElement($resetButtonElement);
         $resetButtonElement->click();
         if (!$pageToLoad) {
-            $this->waitForAjax();
+            $this->pleaseWait();
         } else {
             $this->waitForPageToLoad($this->_browserTimeoutPeriod);
             $this->validatePage();
