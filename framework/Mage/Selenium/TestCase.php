@@ -625,7 +625,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $element = $this->getElement($this->_getControlXpath($fieldType, $fieldName));
         $fieldId = $element->attribute('id');
-        if (is_null($fieldId)) {
+        if (!$fieldId) {
             $fieldId = $element->attribute('name');
         }
         $this->addParameter('fieldId', $fieldId);
