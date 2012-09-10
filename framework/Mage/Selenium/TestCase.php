@@ -2953,6 +2953,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $options = array_map('trim', $options);
         }
         foreach ($options as $value) {
+            if ($value == '') {
+                continue;
+            }
             $optionLocators = array("//option[normalize-space(text())='$value']",
                                     "//option[normalize-space(@value)='$value']",
                                     "//option[contains(text(),'$value')]");
