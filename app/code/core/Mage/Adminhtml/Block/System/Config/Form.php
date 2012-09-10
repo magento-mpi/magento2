@@ -667,7 +667,10 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
             return false;
         }
 
-        if (Mage::app()->isSingleStoreMode()) {
+        $fieldIsDisplayable = (bool)$field->show_in_default
+            || (bool)$field->show_in_website
+            || (bool)$field->show_in_store;
+        if (Mage::app()->isSingleStoreMode() && $fieldIsDisplayable) {
             return !(int)$field->hide_in_single_store_mode;
         }
 
