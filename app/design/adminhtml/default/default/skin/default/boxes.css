@@ -59,7 +59,7 @@
     text-align:center;
     z-index:501;
     }
-#loading-mask {
+#loading-mask, .loading-mask {
     background:background:url(images/blank.gif) repeat;
     position:absolute;
     color:#d85909;
@@ -70,7 +70,7 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /* IE8 */
     z-index:500;
     }
-#loading-mask .loader {
+#loading-mask .loader, .loading-mask .loader {
     position:fixed;
     top:45%;
     left:50%;
@@ -84,7 +84,16 @@
     text-align:center;
     z-index:1000;
     }
-
+.loading-mask .loader {
+    position: absolute;
+    }
+.loading-mask {
+    filter:alpha(opacity=60);
+    -moz-opacity:.6;
+    opacity:.6;
+    -webkit-opacity:.6;
+    background: #ffffff;
+    }
 #message-popup-window-mask { position:absolute; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:980; background-color:#efefef; opacity:.5; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";/*IE8*/ }
 .message-popup { position:absolute; z-index:990; width:407px; top:-9999em; left:50%; margin:0 0 0 -203px; background:#f3bf8f; padding:0 4px 4px; }
 .message-popup.show { top:280px; }

@@ -178,7 +178,12 @@ TranslateInline.prototype = {
             }
         }
         parameters['area'] = this.area;
-        jQuery.post(this.ajaxUrl, parameters)
+        jQuery.ajax({
+            url: this.ajaxUrl,
+            type: 'POST',
+            data: parameters,
+            context: this.translateDialog
+        })
             .complete(jQuery.proxy(this.ajaxComplete, this))
             .error(function() { alert("error"); });
 
