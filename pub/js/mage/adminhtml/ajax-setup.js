@@ -97,7 +97,9 @@
         _bind: function(){
             this.element.on('complete.ajax', function(e){
                 e.stopImmediatePropagation();
-                $(e.target).loader('destroy');
+                $(e.target).is('body') ?
+                    $(e.target).loader('destroy') :
+                    $(e.target).loader('hide');
             });
         },
         /**
@@ -124,7 +126,7 @@
                 this.element.before(this.loader);
         },
         /**
-         * Set loader position
+         * Prepare object with css properties for loader
          * @protected
          */
         _getCssObj: function(){
@@ -149,7 +151,7 @@
     });
     $(document).ready(function(){
         $('body').on('beforeSend.ajax', function(e){
-            $(e.target).loader();
+            $(e.target).loader().show();
         });
     })
 })(jQuery);

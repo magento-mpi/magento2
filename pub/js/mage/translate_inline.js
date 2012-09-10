@@ -181,8 +181,7 @@ TranslateInline.prototype = {
         jQuery.ajax({
             url: this.ajaxUrl,
             type: 'POST',
-            data: parameters,
-            context: this.translateDialog
+            data: parameters
         })
             .complete(jQuery.proxy(this.ajaxComplete, this))
             .error(function() { alert("error"); });
