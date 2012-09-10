@@ -136,6 +136,7 @@ add_widget_options:
                                         layout_updates_body_category_text: %categoryXpath%/div/a/span
                                         layout_updates_body_category_index_text: %categoryXpath%[%index%]/div/a/span
                                         layout_updates_body_category_index_link: %categoryXpath%[%index%]/div/a
+                                        layout_updates_option_box: //div[@id='page_group_container_%layoutIndex%']
 #                                    checkboxes:
 #                                        select_category_non_anchor: //div[@id='page_group_container_%index%']//div[./a[span='%categoryName%']]//input[@type='checkbox']
                                     buttons:
