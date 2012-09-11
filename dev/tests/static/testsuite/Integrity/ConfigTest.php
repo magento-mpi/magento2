@@ -65,9 +65,9 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     public function testPaymentMethods($configFile, $moduleName)
     {
         $config = simplexml_load_file($configFile);
-        $nodes = $config->xpath("/config/*/payment//model") ?: array();
+        $nodes = $config->xpath("/config/default/payment/*/model") ?: array();
         foreach ($nodes as $node) {
-            $this->assertStringStartsWith($moduleName, (string)$node,
+            $this->assertStringStartsWith($moduleName . '_Model_', (string)$node,
                 "'$node' payment method is declared in '$configFile' module, but doesn't belong to '$moduleName' module"
             );
         }
@@ -92,7 +92,7 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
         $configFiles = Utility_Files::init()->getConfigFiles('config.xml', array(), false);
         $data = array();
         foreach ($configFiles as $configFile) {
-            preg_match('/\/([^\/]+?\/[^\/]+?)\/etc\/config\.xml$/', $configFile, $moduleName);
+            preg_match('#/([^/]+?/[^/]+?)/etc/config\.xml$#', $configFile, $moduleName);
             $moduleName = str_replace('/', '_', $moduleName[1]);
             if (in_array($moduleName, self::$_brokenModules)) {
                 continue;
