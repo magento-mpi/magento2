@@ -106,6 +106,8 @@ XML
 
     /**
      * @dataProvider constructorDataProvider
+     * @param array $options
+     * @param string $expectedBackendClass
      */
     public function testConstructor(array $options, $expectedBackendClass)
     {
@@ -147,6 +149,12 @@ XML
 
     /**
      * @dataProvider saveDataProvider
+     * @param string|mixed $inputData
+     * @param string $inputId
+     * @param array $inputTags
+     * @param string $expectedData
+     * @param string $expectedId
+     * @param array $expectedTags
      */
     public function testSave($inputData, $inputId, $inputTags, $expectedData, $expectedId, $expectedTags)
     {
@@ -402,7 +410,6 @@ XML
             ->with(serialize(array('single_tag' => 1)), strtoupper(Mage_Core_Model_Cache::INVALIDATED_TYPES))
         ;
         $this->_model->cleanType('multiple_tags');
-
     }
 
     public function testProcessRequestFalse()
@@ -429,5 +436,4 @@ XML
         $this->assertTrue($this->_model->processRequest($response));
         $this->assertEquals('Initial response body.Additional response text.', $response->getBody());
     }
-
 }

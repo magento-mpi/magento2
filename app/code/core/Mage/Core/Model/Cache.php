@@ -685,6 +685,9 @@ class Mage_Core_Model_Cache
 
     /**
      * Get request processor object
+     *
+     * @param string|object $processor Class or object
+     * @return object
      */
     protected function _getProcessor($processor)
     {
