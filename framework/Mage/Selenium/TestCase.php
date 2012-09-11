@@ -3145,13 +3145,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                  * @var PHPUnit_Extensions_Selenium2TestCase_Element $element
                  */
                 foreach ($elements as $element) {
-                    $element->click();
+                    $element->element($this->using('xpath')->value('.//input'))->click();
                 }
             }
             $this->fillDropdown('cache_action', 'Refresh');
             $selectedItems = $this->getElement($this->_getControlXpath('pageelement', 'selected_items'))->text();
             if ($selectedItems == 0) {
-                $this->fail('Please select items.');
+                $this->fail('Please select cache items for refresh.');
             }
             $this->addParameter('qtySelected', $selectedItems);
             $this->clickButton('submit', false);
