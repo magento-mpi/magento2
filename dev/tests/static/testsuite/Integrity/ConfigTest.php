@@ -65,7 +65,7 @@ class Integrity_ConfigTest extends PHPUnit_Framework_TestCase
     public function testPaymentMethods($configFile, $moduleName)
     {
         $config = simplexml_load_file($configFile);
-        $nodes = $config->xpath("/config/default/payment/*/model") ?: array();
+        $nodes = $config->xpath('/config/default/payment/*/model') ?: array();
         foreach ($nodes as $node) {
             $this->assertStringStartsWith($moduleName . '_Model_', (string)$node,
                 "'$node' payment method is declared in '$configFile' module, but doesn't belong to '$moduleName' module"
