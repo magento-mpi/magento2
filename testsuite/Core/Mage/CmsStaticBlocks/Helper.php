@@ -59,7 +59,10 @@ class Core_Mage_CmsStaticBlocks_Helper extends Mage_Selenium_TestCase
             $variableData = (isset($content['variables'])) ? $content['variables'] : array();
 
             foreach ($widgetsData as $widget) {
-                $this->cmsPagesHelper()->insertWidget($widget);
+                if ($this->cmsPagesHelper()->insertWidget($widget)) {
+                    //skip next steps, because widget insertion pop-up is opened
+                    return;
+                }
             }
             foreach ($variableData as $variable) {
                 $this->cmsPagesHelper()->insertVariable($variable);

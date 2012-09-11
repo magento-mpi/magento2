@@ -59,16 +59,19 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
             if (array_key_exists('store_view', $pageInfo) && !$this->controlIsPresent('multiselect', 'store_view')) {
                 unset($pageInfo['store_view']);
             }
-            $this->fillForm($pageInfo, 'page_information');
+            $this->fillTab($pageInfo, 'page_information');
         }
         if ($content) {
-            $this->fillContent($content);
+            if (!$this->fillContent($content)) {
+                //skip next steps, because widget insertion pop-up is opened
+                return;
+            }
         }
         if ($design) {
-            $this->fillForm($design, 'design');
+            $this->fillTab($design, 'design');
         }
         if ($metaData) {
-            $this->fillForm($metaData, 'meta_data');
+            $this->fillTab($metaData, 'meta_data');
         }
         $this->saveForm('save_page');
     }
@@ -77,6 +80,8 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
      * Fills Content tab
      *
      * @param array $content
+     *
+     * @return bool
      */
     public function fillContent(array $content)
     {
@@ -85,34 +90,41 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
 
         $this->fillForm($content, 'content');
         foreach ($widgetsData as $widget) {
-            $this->insertWidget($widget);
+            if (!$this->insertWidget($widget)) {
+                //skip next steps, because widget insertion pop-up is opened
+                return false;
+            }
         }
         foreach ($variableData as $variable) {
             $this->insertVariable($variable);
         }
+        return true;
     }
 
     /**
      * Insert widget
      *
      * @param array $widgetData
+     *
+     * @return bool
      */
     public function insertWidget(array $widgetData)
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
-        $widgetFieldset = $this->_getControlXpath('dropdown', 'widget_type');
         if ($this->controlIsPresent('fieldset', 'wysiwyg_editor_buttons')) {
             $this->clickControl('link', 'wysiwyg_insert_widget', false);
         } else {
             $this->clickButton('insert_widget', false);
         }
-        $this->waitForElement($widgetFieldset);
-        $this->fillForm($widgetData);
+        $this->waitForElement($this->_getControlXpath('dropdown', 'widget_type'));
+        $this->fillFieldset($widgetData, 'widget_insertion');
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);
         }
         $this->clickButton('submit_widget_insert', false);
-        $this->waitForAjax();
+        //@TODO wait for widget_insertion pop-up disappear or validation message appear
+        sleep(3);
+        return $this->elementIsPresent($this->_getControlXpath('fieldset', 'widget_insertion')) ? false : true;
     }
 
     /**
