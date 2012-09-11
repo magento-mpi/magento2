@@ -174,7 +174,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         $prodTagAdmin =
             (isset($tagData['products_tagged_by_admins'])) ? $tagData['products_tagged_by_admins'] : array();
         // Fill general options
-        $this->fillForm($tagData);
+        $this->fillFieldset($tagData, 'general_info');
         if ($prodTagAdmin) {
             // Add tag name to parameters
             $tagName = $this->getControlAttribute('field', 'tag_name', 'value');
@@ -184,7 +184,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             $this->clickButton('reset');
             if (!$this->controlIsPresent('field', 'prod_tag_admin_name')) {
                 $this->clickControl('link', 'prod_tag_admin_expand', false);
-                $this->waitForAjax();
+                $this->pleaseWait();
             }
             $this->searchAndChoose($prodTagAdmin, 'products_tagged_by_admins');
         }
@@ -270,7 +270,6 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             return true;
         }
         $this->clickControl('link', 'select_all', false);
-        $this->waitForAjax();
         $this->fillDropdown('tags_massaction', 'Delete');
         $this->_parseMessages();
         foreach (self::$_messages as $key => $value) {
