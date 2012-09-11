@@ -54,10 +54,17 @@
         </exec>
     </target>
 
-    <target name="js-test-php">
+    <target name="jstestdriver-path-substitution">
         <fail unless="env.JsTestDriver" message="Bamboo variable 'JsTestDriver' must be defined on your agent"/>
+        <copy file="${basedir}/dev/tests/js/jsTestDriver.php.dist" tofile="${basedir}/dev/tests/js/jsTestDriver.php"/>
+        <replace file="${basedir}/dev/tests/js/jsTestDriver.php">
+            <replacefilter token="path_to_jstestdriver_jar" value="${env.JsTestDriver}"/>
+        </replace>
+    </target>
+
+    <target name="js-test-php" depends="jstestdriver-path-substitution">
         <exec dir="${basedir}/dev/tests/js" executable="php" failonerror="true">
-            <arg line="-f run_js_tests.php -- --JsTestDriver=${env.JsTestDriver}"/>
+            <arg line="run_js_tests.php"/>
         </exec>
     </target>
 

@@ -22,5 +22,6 @@ return array(
         '/pub/lib/mage/validation',
         '/pub/lib/mage/components'),
     'test' => array('/dev/tests/js/testsuite'),
-    'serve' => array('/pub/lib/mage/calendar')
+    'serve' => array('/pub/lib/mage/calendar'),
+    'JsTestDriver' => 'path_to_jstestdriver_jar'
 );

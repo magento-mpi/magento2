@@ -10,42 +10,32 @@
  * @license     {license_link}
  */
 
-require_once __DIR__ . '/../../../lib/Magento/Autoload.php';
-Magento_Autoload::getInstance()->addIncludePath('../../../lib');
-require_once('Varien/Io/File.php');
+require_once normalize('../../../lib/Magento/Autoload.php');
+Magento_Autoload::getInstance()->addIncludePath(normalize('../../../lib'));
 
-$options = getopt("", array("Browser::", "JsTestDriver::"));
+$userConfig = normalize('jsTestDriver.php');
+$defaultConfig = normalize('jsTestDriver.php.dist');
 
-$configFile = file_exists('jsTestDriver.php') ? 'jsTestDriver.php' : 'jsTestDriver.php.dist';
+$configFile = file_exists($userConfig) ? $userConfig : $defaultConfig;
 $config = require($configFile);
 
-if (array_key_exists('JsTestDriver', $options)) {
-    $jsTestDriver = $options['JsTestDriver'];
-} elseif (isset($config['JsTestDriver'])) {
+if (isset($config['JsTestDriver'])) {
     $jsTestDriver = $config['JsTestDriver'];
 } else {
-    $jsTestDriver = getEnv('JsTestDriver');
-    if (!$jsTestDriver) {
-        echo "Value for the 'JsTestDriver' configuration parameter is not specified." . PHP_EOL;
-        showUsage();
-    }
+    echo "Value for the 'JsTestDriver' configuration parameter is not specified." . PHP_EOL;
+    showUsage();
 }
 if (!file_exists($jsTestDriver)) {
     reportError('JsTestDriver jar file does not exist: ' . $jsTestDriver);
 }
 
-if (array_key_exists('Browser', $options)) {
-    $browser = $options['Browser'];
-} elseif (isset($config['Browser'])) {
+if (isset($config['Browser'])) {
     $browser = $config['Browser'];
 } else {
-    $browser = getEnv('firefox');
-    if (!$browser) {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $browser = 'C:\Program Files (x86)\Mozilla Firefox\firefox.exe';
-        } else {
-            $browser = exec('which firefox');
-        }
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        $browser = 'C:\Program Files (x86)\Mozilla Firefox\firefox.exe';
+    } else {
+        $browser = exec('which firefox');
     }
 }
 if (!file_exists($browser)) {
@@ -71,7 +61,7 @@ $serveFiles = listFiles($serveFilesPath);
 
 $sortedFiles = array();
 
-$fileOrder = 'jsTestDriverOrder.php';
+$fileOrder = normalize('jsTestDriverOrder.php');
 if (file_exists($fileOrder)) {
     $loadOrder = require($fileOrder);
     foreach ($loadOrder as $i => $file) {
@@ -80,7 +70,7 @@ if (file_exists($fileOrder)) {
     foreach ($loadFiles as $loadFile) {
         $found = false;
         foreach ($loadOrder as $orderFile) {
-            if (strcmp('../../..' . $orderFile, $loadFile) == 0) {
+            if (strcmp(normalize('../../..' . $orderFile), normalize($loadFile)) == 0) {
                 $found = true;
                 break;
             }
@@ -91,7 +81,7 @@ if (file_exists($fileOrder)) {
     }
 }
 
-$jsTestDriverConf = "jsTestDriver.conf";
+$jsTestDriverConf = __DIR__ . '/jsTestDriver.conf';
 $fh = fopen($jsTestDriverConf, 'w');
 
 fwrite($fh, "server: $server" . PHP_EOL);
@@ -121,7 +111,7 @@ foreach ($serveFiles as $file) {
 
 fclose($fh);
 
-$testOutput = 'test-output';
+$testOutput = __DIR__ . '/test-output';
 Varien_Io_File::rmdirRecursive($testOutput);
 mkdir($testOutput);
 
@@ -150,7 +140,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             exit 1
         fi
 
-        $XVFB :99 -fp /usr/share/X11/fonts/misc -screen 0 1024x768x24 -ac &
+        $XVFB :99 -screen 0 1024x768x24 -ac &  # launch virtual frame buffer into the background
         PID_XVFB="$!"         # take the process ID
         export DISPLAY=:99.0  # set display to use that of the Xvfb
 
@@ -168,7 +158,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
  */
 function showUsage()
 {
-    reportError('Usage: php [-f] run_js_tests.php [-- --Browser=<path to browser> --JsTestDriver=<path to jar file>]');
+    reportError('Usage: php run_js_tests.php');
 }
 
 /**
@@ -185,6 +175,19 @@ function reportError($message)
 }
 
 /**
+ * Takes a file or directory path in any form and normalizes it to fully absolute canonical form
+ * relative to this PHP script's location.
+ *
+ * @param $filePath - File or directory path to be fully normalized to canonical form.
+ *
+ * @return string - The fully resolved path converted to absolute form.
+ */
+function normalize($filePath)
+{
+    return str_replace('\\', '/', realpath(__DIR__ . '/' . $filePath));
+}
+
+/**
  * Accepts an array of directories and generates a list of Javascript files (.js) in those directories and
  * all subdirectories recursively.
  *
@@ -195,7 +198,7 @@ function reportError($message)
  */
 function listFiles($dirs)
 {
-    $baseDir = '../../..';
+    $baseDir = normalize('../../..');
     $result = array();
     foreach ($dirs as $dir) {
         $path = $baseDir . $dir;
@@ -204,5 +207,5 @@ function listFiles($dirs)
         );
         $result = array_merge($result, glob($path . '/*.js'));
     }
-    return $result;
+    return str_replace($baseDir, '../../..', $result);
 }
