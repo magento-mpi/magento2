@@ -19,9 +19,17 @@ class Mage_Core_Model_Layout_Argument_ProcessorConfigTest extends PHPUnit_Framew
      */
     protected $_model;
 
+    /**
+     * @var PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectFactoryMock;
+
     protected function setUp()
     {
-        $this->_model = new Mage_Core_Model_Layout_Argument_ProcessorConfig();
+        $this->_objectFactoryMock = $this->getMock('Mage_Core_Model_Config', array(), array(), '', false);
+        $this->_model = new Mage_Core_Model_Layout_Argument_ProcessorConfig(array(
+            'objectFactory' => $this->_objectFactoryMock
+        ));
     }
 
     protected function tearDown()
@@ -32,14 +40,14 @@ class Mage_Core_Model_Layout_Argument_ProcessorConfigTest extends PHPUnit_Framew
     /**
      * @param $type
      * @expectedException InvalidArgumentException
-     * @dataProvider getArgumentHandlerByTypeWithNonStringTypeDataProvider
+     * @dataProvider getArgumentHandlerFactoryByTypeWithNonStringTypeDataProvider
      */
-    public function testGetArgumentHandlerByTypeWithNonStringType($type)
+    public function testGetArgumentHandlerFactoryByTypeWithNonStringType($type)
     {
-        $this->_model->getArgumentHandlerByType($type);
+        $this->_model->getArgumentHandlerFactoryByType($type);
     }
 
-    public function getArgumentHandlerByTypeWithNonStringTypeDataProvider()
+    public function getArgumentHandlerFactoryByTypeWithNonStringTypeDataProvider()
     {
         return array(
             'int value' => array(10),
@@ -52,25 +60,38 @@ class Mage_Core_Model_Layout_Argument_ProcessorConfigTest extends PHPUnit_Framew
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testGetArgumentHandlerByTypeWithInvalidType()
+    public function testGetArgumentHandlerFactoryByTypeWithInvalidType()
     {
-        $this->_model->getArgumentHandlerByType('dummy_type');
+        $this->_model->getArgumentHandlerFactoryByType('dummy_type');
     }
 
     /**
      * @param string $type
      * @param string $className
-     * @dataProvider getArgumentHandlerByTypeWithValidTypeDataProvider
+     * @dataProvider getArgumentHandlerFactoryByTypeWithValidTypeDataProvider
      */
-    public function testGetArgumentHandlerByTypeWithValidType($type, $className)
+    public function testGetArgumentHandlerFactoryByTypeWithValidType($type, $className)
     {
-        $this->assertEquals($className, $this->_model->getArgumentHandlerByType($type));
+        $factoryMock = $this->getMock(
+            'Mage_Core_Model_Layout_Argument_HandlerFactoryInterface',
+            array(),
+            array(),
+            $className,
+            false);
+        $this->_objectFactoryMock->expects($this->once())
+            ->method('getModelInstance')
+            ->with($className)
+            ->will($this->returnValue($factoryMock));
+
+        $this->assertInstanceOf($className, $this->_model->getArgumentHandlerFactoryByType($type));
     }
 
-    public function getArgumentHandlerByTypeWithValidTypeDataProvider()
+    public function getArgumentHandlerFactoryByTypeWithValidTypeDataProvider()
     {
         return array(
-            'object' => array('object', 'Mage_Core_Model_Layout_Argument_Handler_Object'),
+            'object'  => array('object', 'Mage_Core_Model_Layout_Argument_Handler_ObjectFactory'),
+            'options' => array('options', 'Mage_Core_Model_Layout_Argument_Handler_OptionsFactory'),
+            'url'     => array('url', 'Mage_Core_Model_Layout_Argument_Handler_UrlFactory')
         );
     }
 }

@@ -37,7 +37,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnTest extends PHPUnit_Framework_TestCa
     protected function setUp()
     {
         $this->_eventManagerMock = $this->getMock('Mage_Core_Model_Event_Manager', array(), array(), '', false, false);
-        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(),'', false, false);
+        $this->_layoutMock = $this->getMock('Mage_Core_Model_Layout', array(), array(), '', false, false);
 
         $this->_blockMock = $this->getMock(
             'Mage_Core_Block_Template',

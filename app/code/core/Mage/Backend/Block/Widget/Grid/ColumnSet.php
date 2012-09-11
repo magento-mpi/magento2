@@ -45,7 +45,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Text_List
      */
     public function setRendererType($type, $className)
     {
-        foreach($this->getColumns() as $column) {
+        foreach ($this->getColumns() as $column) {
             $column->setRendererType($type, $className);
         }
         return $this;
@@ -60,7 +60,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Text_List
      */
     public function setFilterType($type, $className)
     {
-        foreach($this->getColumns() as $column) {
+        foreach ($this->getColumns() as $column) {
             $column->setFilterType($type, $className);
         }
         return $this;
