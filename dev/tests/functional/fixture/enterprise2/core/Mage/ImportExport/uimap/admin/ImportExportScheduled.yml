@@ -11,7 +11,7 @@
 ---
 # Manage Scheduled Import/Export page
 
-import_export_scheduled:
+scheduled_import_export:
     mca: scheduled_operation/
     click_xpath: //div[@class='nav-bar']//a[span='Scheduled Import/Export']
     title: Scheduled Imports/Exports / Magento Admin
