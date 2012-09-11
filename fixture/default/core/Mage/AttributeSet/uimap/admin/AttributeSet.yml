@@ -95,6 +95,7 @@ edit_attribute_set:
                         links:
                             group_folder: //div[contains(@class,'x-tree-node-el folder')]//span[text()='%folderName%']
                             group_attribute: //ul[contains(@class,'x-tree-node-ct')]//span[text()='%attributeName%']
+                            attribute_in_group: //li[.//span='%folderName%']//li[.//span='%attributeName%']//span[@id]
                 -
                     unassigned_attributes:
                         xpath:  //div[@id='tree-div2']

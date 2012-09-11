@@ -117,6 +117,8 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_TestCase
                 $this->buttondown();
                 $this->moveto($moveToElement);
                 $this->buttonup();
+                $this->assertTrue($this->controlIsPresent('link', 'attribute_in_group'),
+                    'Attribute "' . $value . '" is not assigned to group "' . $groupName . '"');
             }
         }
     }
