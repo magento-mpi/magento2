@@ -88,7 +88,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
             $this->fillForm($settings);
         }
         $this->clickButton('continue', false);
-        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert());
+        $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
         $this->waitForPageToLoad($this->_browserTimeoutPeriod);
         $this->validatePage('add_widget_options');
     }

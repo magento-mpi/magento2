@@ -117,11 +117,9 @@ class Core_Mage_CheckoutMultipleAddresses_Helper extends Mage_Selenium_TestCase
         $waitConditions = array($this->_getMessageXpath('success_checkout'), $this->_getMessageXpath('general_error'),
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('place_order', false);
+        $this->waitForElementOrAlert($waitConditions);
         $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
-        $this->checkoutOnePageHelper()->verifyNotPresetAlert();
-        //@TODO
-        //Remove workaround for getting fails,
-        //not skipping tests if payment methods are inaccessible
+        //@TODO Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessageNotPresent('error');
         $this->validatePage('checkout_multishipping_success_order');

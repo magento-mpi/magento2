@@ -75,9 +75,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
         $this->clickButton('place_order', false);
         $this->waitForElementOrAlert($waitConditions);
         $this->assertTrue($this->verifyNotPresetAlert(), $this->getMessagesOnPage());
-        //@TODO
-        //Remove workaround for getting fails,
-        //not skipping tests if payment methods are inaccessible
+        //@TODO Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessageNotPresent('error');
         $this->validatePage('onepage_checkout_success');
@@ -157,11 +155,7 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_TestCase
                                $this->getBasicXpathMessagesExcludeCurrent('error'));
         $this->clickButton($buttonName, false);
         $this->waitForElementOrAlert($waitCondition);
-        if (!$this->verifyNotPresetAlert()) {
-            $messages = self::messagesToString($this->getMessagesOnPage());
-            $this->clearMessages('verification');
-            $this->fail($messages);
-        }
+        $this->assertTrue($this->verifyNotPresetAlert(), $this->getMessagesOnPage());
         if (!$this->controlIsPresent('pageelement', 'element_with_class_not_active')) {
             $this->assertMessageNotPresent('error');
             $this->assertMessageNotPresent('validation');

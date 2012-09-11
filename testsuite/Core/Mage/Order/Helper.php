@@ -422,11 +422,9 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     public function validate3dSecure($password = '1234')
     {
         if ($this->controlIsPresent('button', 'start_reset_validation')) {
-            $this->getElement($this->_getControlXpath('fieldset', '3d_secure_card_validation'))->click();
-            sleep(1);
             $this->clickButton('start_reset_validation', false);
             $this->pleaseWait();
-            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getParsedMessages());
+            $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
             $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
             if ($this->controlIsPresent('pageelement', 'element_not_disabled_style')) {
                 $waitCondition = array($this->_getControlXpath('button', '3d_continue'),
