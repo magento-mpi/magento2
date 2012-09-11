@@ -34,7 +34,7 @@ menu:
         manage_sales_transactions:
         manage_sales_recurring_profile:
         manage_sales_billing_agreements:
-        manage_sales_checkout_terms_conditions:
+        manage_checkout_terms_and_conditions:
         tax:
             manage_tax_rule:
             manage_import_export_tax_rates:
