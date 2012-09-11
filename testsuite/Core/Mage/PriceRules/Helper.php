@@ -240,6 +240,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
                 default:
                     throw new RuntimeException('Unsupported field type');
             }
+            $this->clearActiveFocus();
         }
     }
 
