@@ -111,6 +111,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: Check that among all customers your customer with attribute is present
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5487
      */
     public function simpleExportMasterFile()
@@ -145,6 +146,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5488
      */
     public function exportMasterFileWithFilters()
@@ -345,6 +347,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * Expected: Check that among all customers addresses your customer address with attribute is present
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5490
      */
     public function simpleExportAddressFile()

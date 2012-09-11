@@ -190,6 +190,7 @@ class Community2_Mage_ImportExport_Import_AddressTest extends Mage_Selenium_Test
      * Expected: valid address data information was imported correctly
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5636
      */

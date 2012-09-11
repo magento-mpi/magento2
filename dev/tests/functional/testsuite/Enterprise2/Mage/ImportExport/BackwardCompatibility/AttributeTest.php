@@ -49,6 +49,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * Expected: Check that added to system attribute is displayed in "Entity Attributes" list
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-1310
      * @group skip_due_to_bug
      *
@@ -104,6 +105,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * Expected: Check that changes are applied for attribute in "Entity Attributes" block
      *
      * @test
+     * @TestlinkId TL-MAGE-1310
      * @depends customerAttributeCreate
      * @TestlinkId TL-MAGE-1311
      * @group skip_due_to_bug
@@ -166,6 +168,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      * Expected: Check that "Entity Attributes" block doesn't contain the attribute any more
      *
      * @test
+     * @TestlinkId TL-MAGE-1310
      * @depends customerAttributeCreate
      * @param $attrData
      * @TestlinkId TL-MAGE-1312
@@ -236,6 +239,7 @@ class Enterprise2_Mage_ImportExport_Backward_Export_Attribute_CustomerTest
      *
      * @return void
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5925, TL-MAGE-5926, TL-MAGE-5927
      */
     public function productAttributeInFilterGrid()

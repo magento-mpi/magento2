@@ -177,6 +177,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5488
      */
     public function exportMasterFileWithFilters()

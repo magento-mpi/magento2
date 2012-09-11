@@ -48,6 +48,7 @@ class Community2_Mage_ImportExport_CustomActions_CustomerTest extends Mage_Selen
      * After step 8: required action applied to customer data
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider importCustomAction
      * @TestlinkId TL-MAGE-5683, 5684, 5685
      */
