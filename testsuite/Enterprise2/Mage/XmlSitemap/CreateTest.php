@@ -69,6 +69,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * <p>"Enable Submission to Robots.txt' = "No" (default)</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5999
      */
     public function withRequiredFieldsDefaultValue ()
@@ -94,6 +95,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The sitemap has been saved" is displayed</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5841
      */
     public function withRequiredFieldsSave ()
@@ -146,6 +148,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * @param string $messageCount
      *
      * @test
+     * @author denis.poloka
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5841
      */
@@ -190,6 +193,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * <p>Robots.txt should contained information from field "Edit custom instruction of robots.txt File"</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5876
      */
     public function withRequiredFieldsPushRobots ()
@@ -236,6 +240,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * <p>Message "The sitemap has been saved" is displayed</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5928
      */
     public function withRequiredFieldsSaveNotPush ()
@@ -297,6 +302,7 @@ class Enterprise2_Mage_XmlSitemap_CreateTest extends Mage_Selenium_TestCase
      * <p>Robots.txt should contained predefined fields"</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5932
      */
     public function withRequiredFieldsEmptyReset ()

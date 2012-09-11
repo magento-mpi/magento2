@@ -124,6 +124,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>"ID Path" & "Target Path" won't editable</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5517
      */
     public function withRequiredFieldsNotEditable()
@@ -186,6 +187,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *@depends withRequiredFieldsNotEditable
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5677
      */
     public function withRequiredFieldsNotEditableForCategory()
@@ -229,6 +231,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>"Type" & "ID Path" & "Target Path" won't editable</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5694
      */
     public function withRequiredFieldsNotEditableForCustom()
@@ -389,6 +392,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>When I'll open page with [url-key] should open http://magentocommerce.com</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-6123
      */
     public function cmsPageRewriteExtLink ()
@@ -456,6 +460,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-6049
      */
     public function withRequiredFieldsCmsPageRewrite ()
@@ -521,6 +526,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * @param array $data
      *
      * @test
+     * @author denis.poloka
      * @depends withRequiredFieldsCmsPageRewrite
      * @TestlinkId TL-MAGE-5507
      */
@@ -567,6 +573,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>404 page is opened</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5508
      */
     public function productRewriteOfOneStore ()
@@ -748,6 +755,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>Request path should work correctly</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5533
      */
 
@@ -806,6 +814,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>Will be opened 404 page</p>
      *
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5512
      */
     public function productRewriteToOtherWebsite ()
@@ -970,6 +979,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>3. Select category </p>
      * <p>4. Request store dropdown Store 2 doesn't available </p>
      * @test
+     * @author denis.poloka
      * @TestlinkId TL-MAGE-5512
      */
     public function productRewriteToOtherStore ()
