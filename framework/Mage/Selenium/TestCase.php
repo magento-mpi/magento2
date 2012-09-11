@@ -355,7 +355,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             if ($this->_saveScreenshotOnFailure) {
                 $this->takeScreenshot();
             }
-        } else {
+        } elseif (is_null($this->getExpectedException())) {
             $this->assertEmptyVerificationErrors();
         }
 
@@ -1076,9 +1076,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $result = $this->$method($message);
         if ($result['success']) {
             if (is_null($message)) {
-                $error = "'" . $type . "' message is on the page.";
+                $error = '"' . $type . '" message(s) is on the page:';
             } else {
-                $error = "'" . $message . "' message is on the page.";
+                $error = '"' . $message . '" message(s) is on the page:';
             }
             $messagesOnPage = self::messagesToString($this->getMessagesOnPage());
             if ($messagesOnPage) {
