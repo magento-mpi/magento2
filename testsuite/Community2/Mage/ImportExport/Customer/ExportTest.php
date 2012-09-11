@@ -76,6 +76,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
 
     /**
      * @test
+     * @author roman.grebenchuk
      */
     public function simpleExport()
     {
@@ -91,6 +92,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
 
     /**
      * @test
+     * @author roman.grebenchuk
      */
     public function simpleExportAddress()
     {
@@ -174,6 +176,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
 
     /**
      * @test
+     * @author roman.grebenchuk
      */
     public function simpleExportCustomer()
     {
@@ -186,6 +189,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
 
     /**
      * @test
+     * @author roman.grebenchuk
      */
     public function simpleAttributeFilterAndSearch()
     {
@@ -315,6 +319,7 @@ class Community2_Mage_ImportExport_Export_CustomerTest extends Mage_Selenium_Tes
      * 5. Verify exported file
      *
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5489
      */
     public function exportCustomerWithSkippedAttribute()

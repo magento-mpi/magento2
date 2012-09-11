@@ -36,6 +36,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2377, TL-MAGE-2379
@@ -95,6 +96,7 @@ class Community2_Mage_Tags_CustomerCreateTest extends Community2_Mage_Tags_TagsF
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2378

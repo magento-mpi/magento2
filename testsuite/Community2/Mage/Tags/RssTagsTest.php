@@ -35,6 +35,7 @@ class Community2_Mage_Tags_RssCreateTest extends Community2_Mage_Tags_TagsFixtur
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2288
@@ -80,6 +81,7 @@ class Community2_Mage_Tags_RssCreateTest extends Community2_Mage_Tags_TagsFixtur
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2290
      */

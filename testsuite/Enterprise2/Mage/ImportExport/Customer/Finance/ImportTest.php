@@ -62,6 +62,7 @@ class Enterprise2_Mage_ImportExport_ImportFinanceTest extends Mage_Selenium_Test
      * Verify that all Customers finance information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5624
      */
     public function importWithRequiredColumns()

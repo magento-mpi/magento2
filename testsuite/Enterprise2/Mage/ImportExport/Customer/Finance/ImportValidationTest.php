@@ -55,6 +55,7 @@ class Enterprise2_Mage_ImportExport_ImportValidation_FinanceTest extends Mage_Se
      * Expected: Warning about incorrect file appears
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importDataInvalid
      * @TestlinkId TL-MAGE-5643, TL-MAGE-5628
      */

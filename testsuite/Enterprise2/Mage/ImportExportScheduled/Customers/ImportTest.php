@@ -44,6 +44,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_S
      * @dataProvider customerImportData
      * @depends preconditionImport
      * @test
+     * @author roman.grebenchuk
      * @testLinkId TL-MAGE-5786, TL-MAGE-5791, TL-MAGE-5794
      */
     public function importValidData($customersCsv, $behavior, $customerData)
@@ -102,6 +103,7 @@ class Enterprise2_Mage_ImportExportScheduled_Import_CustomersTest extends Mage_S
      * @dataProvider customerInvalidImportData
      * @depends preconditionImport
      * @test
+     * @author roman.grebenchuk
      * @testLinkId TL-MAGE-5799
      */
     public function importInvalidData($customersCsv, $behavior, $customerData)

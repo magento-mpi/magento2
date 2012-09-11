@@ -41,6 +41,7 @@ class Community2_Mage_Tags_FrontendManagementTest extends Community2_Mage_Tags_T
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2292

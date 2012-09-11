@@ -63,6 +63,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * Expected: dropdowns contain correct values
      *
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5615, TL-MAGE-5712
      */
     public function importSettingsGeneralView()
@@ -168,7 +169,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * 6. Click on Import button
      * 7. Open Customers -> Manage Customers
      * 8. Open each of imported customers
-     * Expected: 
+     * Expected:
      * After step 5
      * Verify that file is valid, the message 'File is valid!' is displayed
      * After step 6
@@ -507,6 +508,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
     /**
      * @dataProvider importData
      * @test
+     * @author roman.grebenchuk
      */
     public function simpleImport($data)
     {

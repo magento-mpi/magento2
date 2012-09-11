@@ -35,6 +35,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2327
@@ -74,6 +75,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagEditDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2344
@@ -113,6 +115,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagSearchSelectedDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2365
@@ -163,6 +166,7 @@ class Community2_Mage_Tags_BackendCreateTest extends Community2_Mage_Tags_TagsFi
      * @param array $testData
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider tagSearchNameDataProvider
      * @depends preconditionsForTests
      * @TestlinkId TL-MAGE-2365
