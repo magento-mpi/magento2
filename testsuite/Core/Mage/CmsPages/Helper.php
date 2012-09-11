@@ -101,7 +101,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_TestCase
     {
         $chooseOption = (isset($widgetData['chosen_option'])) ? $widgetData['chosen_option'] : array();
         $widgetFieldset = $this->_getControlXpath('dropdown', 'widget_type');
-        if ($this->controlIsPresent('link', 'wysiwyg_insert_widget')) {
+        if ($this->controlIsPresent('fieldset', 'wysiwyg_editor_buttons')) {
             $this->clickControl('link', 'wysiwyg_insert_widget', false);
         } else {
             $this->clickButton('insert_widget', false);

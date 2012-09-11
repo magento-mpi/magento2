@@ -97,8 +97,8 @@ edit_cms_static_block:
                     wysiwyg_editor_buttons:
                         xpath: //span[@id='block_content_parent']
                         links:
-                            wysiwyg_insert_widget: //a[@id='block_content_magentowidget']/img
-                            wysiwyg_insert_variable: //a[@id='block_content_magentovariable']/img
+                            wysiwyg_insert_widget: //a[@id='block_content_magentowidget']
+                            wysiwyg_insert_variable: //a[@id='block_content_magentovariable']
 
                 -
 #                   TODO: add elements if needed
