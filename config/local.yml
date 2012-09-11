@@ -47,7 +47,7 @@ framework:
     fixture_base_path: 'fixture'
     testsuite_base_path: 'testsuite'
     coverageScriptUrl: ''
-    saveScreenshotOnFailure: false
+    saveScreenshotOnFailure: true
     saveHtmlPageOnFailure: false
     load_all_uimaps: true
     load_all_data: false
