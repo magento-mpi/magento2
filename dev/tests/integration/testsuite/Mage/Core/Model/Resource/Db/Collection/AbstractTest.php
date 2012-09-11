@@ -41,13 +41,13 @@ class Mage_Core_Model_Resource_Db_Collection_AbstractTest extends PHPUnit_Framew
     {
         $allIds = $this->_model->getAllIds();
         sort($allIds);
-        $this->assertEquals(array("0", "1"), $allIds);
+        $this->assertEquals(array('0', '1'), $allIds);
     }
 
     public function testGetAllIdsWithBind()
     {
-        $this->_model->getSelect()->where("code = :code");
+        $this->_model->getSelect()->where('code = :code');
         $this->_model->addBindParam('code', 'admin');
-        $this->assertEquals(array("0"), $this->_model->getAllIds());
+        $this->assertEquals(array('0'), $this->_model->getAllIds());
     }
 }
