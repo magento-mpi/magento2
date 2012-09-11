@@ -327,12 +327,15 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
 
         foreach ($this->_filters as $filter) {
             switch ($filter['type']) {
-                case 'or' :
+                case 'or':
                     $condition = $this->_conn->quoteInto($filter['field'].'=?', $filter['value']);
                     $this->_select->orWhere($condition);
                     break;
-                case 'string' :
+                case 'string':
                     $this->_select->where($filter['value']);
+                    break;
+                case 'or_string':
+                    $this->_select->orWhere($filter['value']);
                     break;
                 case 'public':
                     $field = $this->_getMappedField($filter['field']);
@@ -344,8 +347,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
                 default:
                     $condition = $this->_conn->quoteInto($filter['field'].'=?', $filter['value']);
                     $this->_select->where($condition);
+                    break;
             }
         }
+
         $this->_isFiltersRendered = true;
         return $this;
     }

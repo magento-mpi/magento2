@@ -403,8 +403,22 @@ class Mage_Core_Model_Layout_Merge
             $this->_merge($handle);
         }
 
+        foreach ($this->_loadDbUpdates() as $updateXml) {
+            $this->addUpdate($updateXml);
+        }
+
         $this->_saveCache($this->asString(), $cacheId, $this->getHandles());
         return $this;
+    }
+
+    /**
+     * Load DB layout updates
+     *
+     * @return array
+     */
+    protected function _loadDbUpdates()
+    {
+        return array();
     }
 
     /**
@@ -487,7 +501,7 @@ class Mage_Core_Model_Layout_Merge
      */
     protected function _getUpdateString($handle)
     {
-        return Mage::getResourceModel('Mage_Core_Model_Resource_Layout')->fetchUpdatesByHandle($handle);
+        return Mage::getResourceModel('Mage_Core_Model_Resource_Layout_Update')->fetchUpdatesByHandle($handle);
     }
 
     /**

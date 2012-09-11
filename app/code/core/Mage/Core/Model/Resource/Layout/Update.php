@@ -8,14 +8,10 @@
  * @license     {license_link}
  */
 
-
 /**
- * Core layout update resource model
- *
- * @category    Mage
- * @package     Mage_Core
+ * Layout update resource model
  */
-class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstract
+class Mage_Core_Model_Resource_Layout_Update extends Mage_Core_Model_Resource_Db_Abstract
 {
     /**
      * Define main table
@@ -85,6 +81,7 @@ class Mage_Core_Model_Resource_Layout extends Mage_Core_Model_Resource_Db_Abstra
                 'layout_update_id' => $object->getId(),
             ));
         }
+        Mage::app()->cleanCache(array('layout', Mage_Core_Model_Layout_Merge::LAYOUT_GENERAL_CACHE_TAG));
         return parent::_afterSave($object);
     }
 }
