@@ -182,8 +182,7 @@ TranslateInline.prototype = {
             type: 'POST',
             data: parameters,
             context: this.translateDialog
-        })
-            .complete(jQuery.proxy(this.ajaxComplete, this))
+        }).complete(jQuery.proxy(this.ajaxComplete, this))
             .error(function() { alert("error"); });
 
         this.formIsSubmitted = false;

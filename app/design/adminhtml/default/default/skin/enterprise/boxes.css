@@ -61,7 +61,8 @@
     text-align:center;
     z-index:501;
     }
-#loading-mask, .loading-mask {
+#loading-mask,
+.loading-mask {
     background:url(images/blank.gif) repeat;
     position:absolute;
     color:#d85909;
@@ -72,7 +73,8 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; /* IE8 */
     z-index:500;
     }
-#loading-mask .loader, .loading-mask .loader {
+#loading-mask .loader,
+.loading-mask .loader {
     position:fixed;
     top:45%;
     left:50%;
@@ -90,7 +92,7 @@
     position: absolute;
     }
 .loading-mask {
-    filter:alpha(opacity=60);
+    *filter:alpha(opacity=60);
     -moz-opacity:.6;
     opacity:.6;
     -webkit-opacity:.6;
