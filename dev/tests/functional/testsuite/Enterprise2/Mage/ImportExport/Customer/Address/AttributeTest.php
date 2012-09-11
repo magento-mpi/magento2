@@ -38,6 +38,7 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
      *    Attributes
      *
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5611
      * @return array
      */
@@ -70,6 +71,7 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
      *    the precondition.
      *
      * @test
+     * @author roman.grebenchuk
      * @param array $attrData
      * @return array
      * @depends addCustomerAddressAttribute
@@ -117,6 +119,7 @@ class Enterprise2_Mage_ImportExport_Attribute_AddressTest extends Mage_Selenium_
      *    the precondition.
      *
      * @test
+     * @author roman.grebenchuk
      * @param array $attrData
      * @return array
      * @depends simpleExportAddressFileWithCustomCustomerAddressAttribute

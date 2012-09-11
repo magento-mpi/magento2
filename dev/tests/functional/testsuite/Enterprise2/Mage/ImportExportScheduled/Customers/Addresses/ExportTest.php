@@ -49,6 +49,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_S
      *
      * @depends preconditionExport
      * @test
+     * @author roman.grebenchuk
      * @testLinkId TL-MAGE-5823
      */
     public function simpleExport(array $customerData)
@@ -92,6 +93,7 @@ class Enterprise2_Mage_ImportExportScheduled_Export_AddressesTest extends Mage_S
      *
      * @depends preconditionExport
      * @test
+     * @author roman.grebenchuk
      * @testLinkId TL-MAGE-5820
      */
     public function simpleExportWithFilterSkipped(array $customerData)

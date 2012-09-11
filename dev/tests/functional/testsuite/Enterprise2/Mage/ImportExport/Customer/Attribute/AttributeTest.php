@@ -39,6 +39,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
+     * @author roman.grebenchuk
      * @TestlinkId TL-MAGE-5484
      * @return array
      */
@@ -82,6 +83,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * 3. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
+     * @author roman.grebenchuk
      * @param $attrData
      * @depends addCustomerAttribute
      * @TestlinkId TL-MAGE-5485
@@ -130,6 +132,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * 4. In System-> Import/Export-> Export select "Master Type" file
      *
      * @test
+     * @author roman.grebenchuk
      * @param array $attrData
      * @depends editCustomerAttribute
      * @TestlinkId TL-MAGE-5486
@@ -177,6 +180,7 @@ class Enterprise2_Mage_ImportExport_Attribute_CustomerTest extends Mage_Selenium
      * Expected: In generated file just your customer with selected option of attribute is present
      *
      * @test
+     * @author roman.grebenchuk
      * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5488
      */

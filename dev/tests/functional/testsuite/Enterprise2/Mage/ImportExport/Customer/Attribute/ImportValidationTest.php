@@ -45,6 +45,7 @@ class Enterprise2_Mage_ImportExport_AttributeValidation_CustomerTest extends Mag
      * Expected: Warning about incorrect file appears
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importDataInvalid
      * @TestlinkId TL-MAGE-5630
      */

@@ -61,6 +61,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
      * "Last Outcome" changes from "Pending" to "Successful", message about successful operation is appeared
      *
      * @test
+     * @author roman.grebenchuk
      * TL-MAGE-1499
      */
     public function simpleScheduledExport()
@@ -119,6 +120,7 @@ class Enterprise2_Mage_ImportExportScheduled_Backward_Export_CustomerTest extend
      * @dataProvider simpleScheduledImportData
      * @depends simpleScheduledExport
      * @test
+     * @author roman.grebenchuk
      * TL-MAGE-1528
      */
     public function simpleScheduledImport($customersCsv, $productsCsv)

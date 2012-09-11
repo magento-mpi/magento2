@@ -50,6 +50,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * Verify that all Customers finance information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5689
      */
@@ -133,6 +134,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * Verify that all Customers finance information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importEmptyData
      * @TestlinkId TL-MAGE-5691
      */
@@ -216,6 +218,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * Verify that all Customers finance information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importDeletePositiveData
      * @TestlinkId TL-MAGE-5690
      */
@@ -286,6 +289,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * Verify that all Customers finance information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importDeleteNegativeData
      * @TestlinkId TL-MAGE-5690
      */
@@ -383,6 +387,7 @@ class Enterprise2_Mage_ImportExport_CustomActions_FinanceTest extends Mage_Selen
      * Expected: After step 6 the finances for both customers aren't deleted
      *
      * @test
+     * @author roman.grebenchuk
      * @dataProvider importFinance
      * @TestlinkId TL-MAGE-5717
      */

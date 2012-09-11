@@ -98,10 +98,11 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     /**
      * Custom import: update addresses
      * Need to verify that the customer addresses are updated if the action is "Update"
-     * After steps 
+     * After steps
      * Verify that all Customers Addresses information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @depends preconditionUpdate
      * @dataProvider importUpdateData
      * @TestlinkId TL-MAGE-5686
@@ -201,6 +202,7 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
      * Verify that all Customers Addresses information was imported
      *
      * @test
+     * @author roman.grebenchuk
      * @depends preconditionEmpty
      * @dataProvider importEmptyData
      * @TestlinkId TL-MAGE-5688
@@ -335,10 +337,11 @@ class Community2_Mage_ImportExport_CustomActions_AddressTest extends Mage_Seleni
     /**
      * Custom import: delete addresses
      * Verify that deleting customer address via import (custom behavior) works correctly
-     * After steps 
+     * After steps
      * Verify that all Customers addresses information was deleted
      *
      * @test
+     * @author roman.grebenchuk
      * @depends preconditionDelete
      * @dataProvider importDeleteData
      * @TestlinkId TL-MAGE-5687
