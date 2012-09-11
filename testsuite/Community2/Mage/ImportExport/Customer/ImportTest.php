@@ -114,6 +114,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * Expected: validation and success messages are correct
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5618, TL-MAGE-5619, TL-MAGE-5620
      */
     public function validationResultBlock()
@@ -246,6 +247,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * new customer is added with proper values of not required attributes
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider notRequiredColumnsMainData
      * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
      */
@@ -332,6 +334,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * new customer is added with proper values of not required attributes
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider notRequiredColumnsAddressData
      * @TestlinkId TL-MAGE-5622, TL-MAGE-5623
      */
@@ -420,6 +423,7 @@ class Community2_Mage_ImportExport_Import_CustomerTest extends Mage_Selenium_Tes
      * Expected: valid data information was imported correctly
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider partialImportData
      * @TestlinkId TL-MAGE-5635
      */

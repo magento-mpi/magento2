@@ -60,6 +60,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
      * Expected: scheduled Import/Export page is opened. Scheduled Import is not saved.
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-5765
      */
     public function addingNewScheduledImport()
@@ -154,6 +155,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
      * 13. Go back to Scheduled Import/Export page. Choose 'Edit' in column 'Action' for import from precondition.
      *
      * @test
+     * @author Iuliia Babenko
      * @depends addingNewScheduledImport
      * @TestlinkId TL-MAGE-5777,5782
      */
@@ -238,6 +240,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
      * The message "The scheduled import has been deleted." is appeared in the top area.
      *
      * @test
+     * @author Iuliia Babenko
      * @depends addingNewScheduledImport
      * @TestlinkId TL-MAGE-5785
      */
@@ -276,6 +279,7 @@ class Enterprise2_Mage_ImportExportScheduled_ImportForm_CustomerTest extends Mag
      * 5. Repeat steps 1-3 for other 2 imports/exports
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider massActionDelete
      * @TestlinkId TL-MAGE-5788, 5787, 5775, 5807
      */

@@ -41,6 +41,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
      * Expected: The message "Please select items" should be appeared.
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2329, TL-MAGE-2332, TL-MAGE-2352, TL-MAGE-2353
      */
@@ -349,6 +350,7 @@ class Community2_Mage_Tags_MassActionsTest extends Community2_Mage_Tags_TagsFixt
      * Expected: The message "Please select items" should appear.
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider tagDataProvider
      * @TestlinkId TL-MAGE-2334, TL-MAGE-2337, TL-MAGE-2339, TL-MAGE-2358, TL-MAGE-2361, TL-MAGE-2363
      */

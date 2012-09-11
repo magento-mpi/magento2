@@ -247,6 +247,7 @@ class Community2_Mage_ImportExport_ImportValidation_CustomerTest extends Mage_Se
      * 7. Repeat all steps for addresses file
      *
      * @test
+     * @author Iuliia Babenko
      * @depends duplicatedRowsPrecondition
      * @dataProvider fileDuplicatedRows
      *

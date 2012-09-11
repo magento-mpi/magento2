@@ -65,6 +65,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Expected: validation and success messages are correct
      *
      * @test
+     * @author Iuliia Babenko
      * @TestlinkId TL-MAGE-1108
      * @group skip_due_to_bug
      */
@@ -122,6 +123,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Verify that all Customer information was imported
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider importWithRequiredColumnsData
      * @TestlinkId TL-MAGE-1167
      */
@@ -211,6 +213,7 @@ class Community2_Mage_ImportExport_Backward_Import_CustomerTest extends Mage_Sel
      * Expected: customer information is updated for existing customer, new customer with address is added
      *
      * @test
+     * @author Iuliia Babenko
      * @dataProvider addressData
      * @TestlinkId TL-MAGE-1168
      */
