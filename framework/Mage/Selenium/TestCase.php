@@ -2384,6 +2384,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Method works only if AJAX request was sent by Prototype or JQuery framework.
      *
      * @param int $timeout Timeout period in milliseconds. If not set, uses a default period.
+     *
+     * @throws RuntimeException
      */
     public function waitForAjax($timeout = null)
     {
@@ -2393,7 +2395,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $ajax = 'var c = function() {'
                 . 'if (typeof window.Ajax != "undefined") {return window.Ajax.activeRequestCount;};'
                 . 'if (typeof window.jQuery != "undefined") {return window.jQuery.active;};'
-                . 'return 0;};c();';
+                . 'return 1;}; return c();';
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
             $ajaxResult = $this->execute(array('script' => $ajax, 'args' => array()));
@@ -2402,6 +2404,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
+        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. (Maybe incorrect js type)');
     }
 
     /**
