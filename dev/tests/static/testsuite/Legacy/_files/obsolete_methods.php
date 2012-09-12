@@ -100,7 +100,7 @@ return array(
     'addConstraint' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
     'addCustomersToAlertQueueAction',
     'addCustomerToSegments',
-    'addGroupByTag' => array('class_scope' => 'Mage_Reports_Model_Resource_Tag_Collection'),
+    'addGroupByTag' => array('class_scope' => 'Mage_Tag_Model_Resource_Reports_Collection'),
     'addKey' => array('class_scope' => 'Varien_Db_Adapter_Pdo_Mysql'),
     'addSaleableFilterToCollection',
     'addSearchQfFilter',
@@ -163,6 +163,10 @@ return array(
     'forsedSave',
     'generateBlocks' => array('suggestion' => 'generateElements()'),
     'getAccount' => array('class_scope' => 'Mage_GoogleAnalytics_Block_Ga'),
+    'getAclAssert' => array('class_scope' => 'Mage_Admin_Model_Config'),
+    'getAclPrivilegeSet' => array('class_scope' => 'Mage_Admin_Model_Config'),
+    'getAclResourceList' => array('class_scope' => 'Mage_Admin_Model_Config'),
+    'getAclResourceTree' => array('class_scope' => 'Mage_Admin_Model_Config'),
     'getAddNewButtonHtml' => array('class_scope' => 'Mage_Adminhtml_Block_Catalog_Product'),
     'getAddToCartItemUrl' => array('class_scope' => 'Mage_Wishlist_Block_Customer_Sidebar'),
     'getAddToCartUrlBase64' => array('suggestion' => '_getAddToCartUrl'),
@@ -359,4 +363,5 @@ return array(
     'validateDataArray' => array('class_scope' => 'Varien_Convert_Container_Abstract'),
     'validateFile' => array('class_scope' => 'Mage_Core_Model_Design_Package'),
     'validateOrder' => array('class_scope' => 'Mage_Checkout_Model_Type_Onepage'),
+    'prepareAttributesForSave' => array('class_scope' => 'Mage_ImportExport_Model_Import_Entity_Product')
 );

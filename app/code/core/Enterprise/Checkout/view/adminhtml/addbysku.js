@@ -143,7 +143,7 @@ AddBySku.prototype = {
             var skuAreaId = this.order.getAreaId('additional_area');
 
             this.controllerRequestParameterNames = {customerId: 'customerId', storeId: 'storeId'};
-            this.order.itemsArea.skuButton = new ControlButton(Translator.translate('Add Products By SKU'));
+            this.order.itemsArea.skuButton = new ControlButton(jQuery.mage.__('Add Products By SKU'));
             this.order.itemsArea.skuButton.onClick = function() {
                 $(skuAreaId).show();
                 var el = this;

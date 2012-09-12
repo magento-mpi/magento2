@@ -248,7 +248,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Backend_Model_Auth_Session')->isAllowed('catalog/targetrule');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_TargetRule::targetrule');
     }
 
 }

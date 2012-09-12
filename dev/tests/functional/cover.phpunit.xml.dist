@@ -48,11 +48,6 @@
         </testsuite>
         -->
     </testsuites>
-    <groups>
-        <exclude>
-            <group>skip_due_to_bug</group>
-        </exclude>
-    </groups>
     <filter>
         <whitelist>
             <directory>../app/code/core/Mage</directory>

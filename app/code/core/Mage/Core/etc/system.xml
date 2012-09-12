@@ -41,6 +41,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::advanced</resource>
             <groups>
                 <!--datashare translate="label">
                     <label>Datasharing</label>
@@ -92,6 +93,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::trans_email</resource>
             <groups>
                 <ident_custom1 translate="label">
                     <label>Custom Email 1</label>
@@ -254,6 +256,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::config_design</resource>
             <groups>
                 <theme translate="label">
                     <label>Design Theme</label>
@@ -370,6 +373,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::dev</resource>
             <groups>
                 <restrict translate="label">
                     <label>Developer Client Restrictions</label>
@@ -596,6 +600,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::config_general</resource>
             <groups>
                 <country translate="label">
                     <label>Countries Options</label>
@@ -747,6 +752,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::config_system</resource>
             <groups>
                 <smtp translate="label">
                     <label>Mail Sending Settings</label>
@@ -891,6 +897,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>0</show_in_website>
             <show_in_store>0</show_in_store>
+            <resource>Mage_Adminhtml::config_admin</resource>
             <groups>
                 <emails translate="label">
                     <label>Admin User Emails</label>
@@ -1069,6 +1076,7 @@
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
+            <resource>Mage_Adminhtml::web</resource>
             <groups>
                 <url translate="label">
                     <label>Url Options</label>

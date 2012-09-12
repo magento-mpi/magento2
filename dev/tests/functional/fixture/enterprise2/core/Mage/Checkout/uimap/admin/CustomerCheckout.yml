@@ -1,0 +1,69 @@
+# Magento
+#
+# {license_notice}
+#
+# @category    Magento
+# @package     Mage_Checkout
+# @subpackage  functional_tests
+# @copyright   {copyright}
+# @license     {license_link}
+#
+---
+#Manage Sales Orders and related pages
+
+# 'Orders' page
+customer_shopping_cart:
+    mca: checkout/index/store/%store%/customer/%customer%/    
+    title: Shopping Cart / First Name Last Name / Manage Customers / Customers / Magento Admin
+    uimap:
+        form:
+            fieldsets:
+                -
+                    add_to_shopping_cart:
+                        xpath: //*[@id='dd-sku.accordion']
+                        links:
+                            href_add_to_cart: //preceding-sibling::dt[a='Add to Shopping Cart by SKU']//a
+                        fields:
+                            sku: //input[@id='sku_%itemId%']
+                            sku_qty: //input[@id='sku_qty_%itemId%']
+                            sku_file: //input[@id='sku_upload']
+                        pageelements:
+                            file: //*[@id='dd-sku.accordion']/div/div/div/ul/li/label
+                            allowed_file: //*[@id='dd-sku.accordion']/div/div/div/ul/li/p/span
+                        buttons:
+                            add_sku: //button[@class="scalable add"]                            
+                            delete_sku: //tr[%del_row%]//td/button[@class='scalable delete']
+                            reset_file: //button[@class='button btn-reset']
+                -
+                    shopping_cart_items_head: 
+                        xpath: //*[@id='page:main-container']/div[4]/div
+                -        
+                    shopping_cart_items:
+                        xpath: //*[@id='checkout_items']                        
+                        pageelements:
+                            product_table_head: //table[@class='data order-tables']/thead
+                            product_table_tfoot: //table[@class='data order-tables']/tfoot
+                            product_line: //table[@class='data order-tables']/tbody
+                            no_items: //table[@class='data order-tables']/tbody/tr/td[@class='empty-text a-center']
+
+                -
+                    shopping_cart_error_grid: 
+                        xpath: //*[@id='checkout_errors'] 
+                        buttons:
+                          remove_all: //div/div[1]/div[1]/button[@class='scalable delete']                 
+                          
+                -
+                    shopping_cart_error:
+                        xpath: //*[@id='sku_errors_table']                        
+                        pageelements:
+                            product_table_head_error: //*[@id='sku_errors_table']/thead
+                            product_line_error: //*[@id='sku_errors_table']/tbody/tr
+                        buttons: 
+                            remove_button: //*[@id='sku_errors_table']/tbody/tr[%del_row%]/td[4]/button[@class='scalable delete']
+        buttons:
+            add_selected_products_to_shopping_cart: //button[span='Add Selected Product(s) to Shopping Cart']
+            clear_shop_cart: //button[@title='Clear Shopping Cart']
+        messages:
+            confirmation_to_clear_shopping_cart: Are you sure you want to delete all items from shopping cart?
+                                                             
+                            

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Enterprise
+ * @package     Enterprise_GiftWrapping
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Mage_Adminhtml::admin">
+                <resource id="Mage_Sales::sales">
+                    <resource id="Enterprise_GiftWrapping::enterprise_giftwrapping" module="Enterprise_GiftWrapping" title="Gift Wrapping" sortOrder="130" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -26,7 +26,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected $_conn;
 
     /**
-     * Select oblect
+     * Select object
      *
      * @var Zend_Db_Select
      */
@@ -49,7 +49,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected $_idFieldName;
 
     /**
-     * List of binded variables for select
+     * List of bound variables for select
      *
      * @var array
      */
@@ -64,7 +64,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     protected $_data = null;
 
     /**
-     * Fields map for corellation names & real selected fields
+     * Fields map for correlation names & real selected fields
      *
      * @var array
      */
@@ -84,7 +84,10 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected $_isOrdersRendered = false;
 
-    public function __construct($conn=null)
+    /**
+     * @param Zend_Db_Adapter_Abstract|null $conn
+     */
+    public function __construct($conn = null)
     {
         parent::__construct();
         if (!is_null($conn)) {
@@ -238,7 +241,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * @param   bool $stringMode
      * @return  string || Zend_Db_Select
      */
-    function getSelectSql($stringMode = false)
+    public function getSelectSql($stringMode = false)
     {
         if ($stringMode) {
             return $this->_select->__toString();
@@ -479,7 +482,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         if (!$this->_isOrdersRendered) {
             foreach ($this->_orders as $field => $direction) {
                 $this->_select->order(new Zend_Db_Expr($field . ' ' . $direction));
-             }
+            }
             $this->_isOrdersRendered = true;
         }
 
@@ -493,7 +496,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      */
     protected function _renderLimit()
     {
-        if($this->_pageSize){
+        if ($this->_pageSize) {
             $this->_select->limitPage($this->getCurPage(), $this->_pageSize);
         }
 
@@ -669,12 +672,13 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      *
      * @return  Varien_Data_Collection_Db
      */
-    public function printLogQuery($printQuery = false, $logQuery = false, $sql = null) {
+    public function printLogQuery($printQuery = false, $logQuery = false, $sql = null)
+    {
         if ($printQuery) {
             echo is_null($sql) ? $this->getSelect()->__toString() : $sql;
         }
 
-        if ($logQuery){
+        if ($logQuery) {
             Mage::log(is_null($sql) ? $this->getSelect()->__toString() : $sql);
         }
         return $this;
@@ -721,7 +725,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      * Load cached data for select
      *
      * @param Zend_Db_Select $select
-     * @return string | false
+     * @return string|boolean
      */
     protected function _loadCache($select)
     {
@@ -738,7 +742,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
      *
      * @param array $data
      * @param Zend_Db_Select $select
-     * @return unknown_type
+     * @return Varien_Data_Collection_Db
      */
     protected function _saveCache($data, $select)
     {
@@ -811,11 +815,29 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
     {
         if (is_null($this->_map)) {
             $this->_map = array($group => array());
-        } else if(is_null($this->_map[$group])) {
+        } elseif (is_null($this->_map[$group])) {
             $this->_map[$group] = array();
         }
         $this->_map[$group][$filter] = $alias;
 
         return $this;
+    }
+
+    /**
+     * Clone $this->_select during cloning collection, otherwise both collections will share the same $this->_select
+     */
+    public function __clone()
+    {
+        if (is_object($this->_select)) {
+            $this->_select = clone $this->_select;
+        }
+    }
+
+    /**
+     * Init select
+     */
+    protected function _initSelect()
+    {
+        // no implementation, should be overridden in children classes
     }
 }
