@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Category Attribute Default and Available Sort By Backend Model
  *
@@ -81,7 +80,8 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
      * @param Varien_Object $object
      * @return Mage_Catalog_Model_Category_Attribute_Backend_Sortby
      */
-    public function beforeSave($object) {
+    public function beforeSave($object)
+    {
         $attributeCode = $this->getAttribute()->getName();
         if ($attributeCode == 'available_sort_by') {
             $data = $object->getData($attributeCode);
@@ -96,7 +96,8 @@ class Mage_Catalog_Model_Category_Attribute_Backend_Sortby
         return $this;
     }
 
-    public function afterLoad($object) {
+    public function afterLoad($object)
+    {
         $attributeCode = $this->getAttribute()->getName();
         if ($attributeCode == 'available_sort_by') {
             $data = $object->getData($attributeCode);
