@@ -41,7 +41,7 @@ class Mage_DesignEditor_Model_Change_Factory
     public static function getClass($change)
     {
         $type = self::_getChangeType($change);
-        if ($type == Mage_DesignEditor_Model_Change_Layout::CHANGE_TYPE) {
+        if ($type == Mage_DesignEditor_Model_Change_LayoutAbstract::CHANGE_TYPE) {
             $directive = self::_getChangeLayoutDirective($change);
             $class = 'Mage_DesignEditor_Model_Change_' . ucfirst($type) . '_' . ucfirst($directive);
         } else {
