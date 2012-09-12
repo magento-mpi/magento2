@@ -29,7 +29,7 @@ TranslateInline.prototype = {
                 $(this).select('*[translate]').each(scope.initializeElement.bind(scope));
             }
         }
-        this.translateDialog = jQuery('<div id="translate-inline" />')
+        this.translateDialog = jQuery('<div />', {id: 'translate-inline'})
             .prependTo('body')
             .dialog({
                 draggable: true,
