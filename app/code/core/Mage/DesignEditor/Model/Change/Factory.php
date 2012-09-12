@@ -18,16 +18,14 @@ class Mage_DesignEditor_Model_Change_Factory
      *
      * @static
      * @param string $type
-     * @throws Exception
+     * @throws Magento_Exception
      * @return Mage_DesignEditor_Model_ChangeAbstract
      */
     public static function getInstance($type)
     {
         $model = Mage::getModel(self::getClass($type));
         if (!$model instanceof Mage_DesignEditor_Model_ChangeAbstract) {
-            throw new Exception(
-                Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid change type "%s"', $type)
-            );
+            throw new Magento_Exception(sprintf('Invalid change type "%s"', $type));
         }
         return $model;
     }

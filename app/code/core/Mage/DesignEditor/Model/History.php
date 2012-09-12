@@ -68,7 +68,7 @@ class Mage_DesignEditor_Model_History
      * Get change type
      *
      * @param mixed $change
-     * @throws Exception
+     * @throws Magento_Exception
      * @return string
      */
     protected function _getChangeType($change)
@@ -81,7 +81,7 @@ class Mage_DesignEditor_Model_History
         }
 
         if (!$type) {
-            throw new Exception('Impossible to get change type');
+            throw new Magento_Exception('Impossible to get change type');
         }
 
         return $type;
@@ -162,5 +162,16 @@ class Mage_DesignEditor_Model_History
     public function getChanges()
     {
         return $this->_collection;
+    }
+
+    /**
+     * Render all types of output
+     *
+     * @param Mage_DesignEditor_Model_History_RendererInterface $renderer
+     * @return Mage_DesignEditor_Model_History_RendererInterface
+     */
+    public function output(Mage_DesignEditor_Model_History_RendererInterface $renderer)
+    {
+        return $renderer->render($this->_collection);
     }
 }

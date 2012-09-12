@@ -28,7 +28,7 @@ abstract class Mage_DesignEditor_Model_ChangeAbstract extends Varien_Object
      * Signature of validation method to implement in subclasses
      *
      * @abstract
-     * @throws Exception
+     * @throws Magento_Exception
      * @return Mage_DesignEditor_Model_ChangeAbstract
      */
     abstract protected function _validate();
