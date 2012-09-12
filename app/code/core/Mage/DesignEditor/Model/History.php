@@ -11,117 +11,156 @@
 /**
  * Visual Design Editor history model
  */
-class Mage_DesignEditor_Model_History extends Mage_Backend_Model_Auth_Session
+class Mage_DesignEditor_Model_History
 {
     /**
-     * Required change fields
-     *
-     * @var array
+     * Base class for all change instances
      */
-    protected $_requiredFields = array('handle', 'change_type', 'element_name', 'action_name');
-
+    const BASE_CHANGE_CLASS = 'Mage_DesignEditor_Model_ChangeAbstract';
 
     /**
-     * Change log
-     *
-     * @var array
+     * Changes collection class
      */
-    protected $_changeLog = array();
+    const CHANGE_COLLECTION_CLASS = 'Mage_DesignEditor_Model_Change_Collection';
 
     /**
-     * Manager model
+     * Internal collection of changes
      *
-     * @var null|Mage_DesignEditor_Model_History_Manager
+     * @var Mage_DesignEditor_Model_Change_Collection
      */
-    protected $_managerModel;
+    protected $_collection;
 
     /**
-     * Get compact log
-     *
-     * @return array
+     * Initialize empty internal collection
      */
-    public function getCompactLog()
+    public function __construct()
     {
-        return $this->_compactLog()->_getManagerModel()->getHistoryLog();
+        $this->_initCollection();
     }
 
     /**
-     * Get compact xml
+     * Initialize changes collection
      *
+     * @return Mage_DesignEditor_Model_History
+     */
+    protected function _initCollection()
+    {
+        $this->_collection = Mage::getModel(self::CHANGE_COLLECTION_CLASS);
+        return $this;
+    }
+
+    /**
+     * Get change instance
+     *
+     * @param string $type
+     * @param array $data
+     * @return Mage_DesignEditor_Model_ChangeAbstract
+     */
+    protected function _getChangeItem($type, $data)
+    {
+        $item = Mage_DesignEditor_Model_Change_Factory::getInstance($type);
+        $item->setData($data);
+
+        return $item;
+    }
+
+    /**
+     * Get change type
+     *
+     * @param mixed $change
+     * @throws Exception
      * @return string
      */
-    public function getCompactXml()
+    protected function _getChangeType($change)
     {
-        return $this->_compactLog()->_getManagerModel()->getXml();
+        $type = null;
+        if (is_array($change)) {
+            $type = isset($change['type']) ? $change['type'] : null;
+        } elseif ($change instanceof Varien_Object) {
+            $type = $change->getType();
+        }
+
+        if (!$type) {
+            throw new Exception('Impossible to get change type');
+        }
+
+        return $type;
     }
 
     /**
-     * Set change log
+     * Load changes from DB. To be able to effectively compact changes they should be all loaded first.
      *
-     * @param array $changeLog
      * @return Mage_DesignEditor_Model_History
      */
-    public function setChangeLog($changeLog)
+    public function loadChanges()
     {
-        $this->_changeLog = $changeLog;
         return $this;
     }
 
     /**
-     * Compact log
+     * Add change to internal collection
      *
+     * @param mixed $item
+     * @param array|null $data
      * @return Mage_DesignEditor_Model_History
      */
-    protected function _compactLog()
+    public function addChange($item, $data = null)
     {
-        $managerModel = $this->_getManagerModel();
-        foreach ($this->_getChangeLog() as $change) {
-            $this->_validateChange($change);
-            $managerModel->addChange($change);
+        $baseChangeClass = self::BASE_CHANGE_CLASS;
+        if (!$item instanceof $baseChangeClass) {
+            $type = $item;
+            $item = $this->_getChangeItem($type, $data);
+        }
+        $this->_collection->addItem($item);
+
+        return $this;
+    }
+
+    /**
+     * Add changes to internal collection
+     *
+     * @param Traversable $changes
+     * @return Mage_DesignEditor_Model_History
+     */
+    public function addChanges(Traversable $changes)
+    {
+        foreach ($changes as $change) {
+            $type = $this->_getChangeType($change);
+            $this->addChange($type, $change);
         }
 
         return $this;
     }
 
     /**
-     * Get change log
+     *  Set changes to internal collection
      *
-     * @return array
-     */
-    protected function _getChangeLog()
-    {
-        return $this->_changeLog;
-    }
-
-    /**
-     * Get change model
-     *
-     * @return Mage_DesignEditor_Model_History_Manager
-     */
-    protected function _getManagerModel()
-    {
-        if ($this->_managerModel == null) {
-            $this->_managerModel = Mage::getModel('Mage_DesignEditor_Model_History_Manager');
-        }
-        return $this->_managerModel;
-    }
-
-    /**
-     * Validate change
-     *
-     * @throws Mage_DesignEditor_Exception
-     * @param array $change
+     * @param Traversable $changes
      * @return Mage_DesignEditor_Model_History
      */
-    protected function _validateChange($change)
+    public function setChanges(Traversable $changes)
     {
-        foreach ($this->_requiredFields as $field) {
-            if (!is_array($change) || !array_key_exists($field, $change) || empty($change[$field])) {
-                throw new Mage_DesignEditor_Exception(
-                    Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid change data')
-                );
+        $changesCollectionClass = self::CHANGE_COLLECTION_CLASS;
+        if ($changes instanceof $changesCollectionClass) {
+            $this->_collection = $changes;
+        } else {
+            $this->_initCollection();
+            foreach ($changes as $change) {
+                $type = $this->_getChangeType($change);
+                $this->addChange($type, $change);
             }
         }
+
         return $this;
+    }
+
+    /**
+     * Get changes collection
+     *
+     * @return Mage_DesignEditor_Model_Change_Collection
+     */
+    public function getChanges()
+    {
+        return $this->_collection;
     }
 }
