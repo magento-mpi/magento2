@@ -131,7 +131,7 @@
                 if (this.options.timeFormat) {
                     this.options.timeFormat = this._convertFormat(this.options.timeFormat, 'time');
                 }
-                calendarBasePrototype._create.call(this, arguments);
+                calendarBasePrototype._create.apply(this, arguments);
             },
 
             /**
