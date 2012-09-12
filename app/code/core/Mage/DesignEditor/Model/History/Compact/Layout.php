@@ -75,10 +75,9 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
      * @param Mage_DesignEditor_Model_Change_LayoutAbstract $change
-     * @param int $changeKey
      * @return Mage_DesignEditor_Model_History_Compact_Layout
      */
-    protected function _compactMove($collection, $change, $changeKey)
+    protected function _compactMove($collection, $change)
     {
         $originContainer = $change->getData('origin_container');
         $originOrder = $change->getData('origin_order');
