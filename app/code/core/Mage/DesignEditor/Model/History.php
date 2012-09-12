@@ -52,39 +52,12 @@ class Mage_DesignEditor_Model_History
     /**
      * Get change instance
      *
-     * @param string $type
      * @param array $data
      * @return Mage_DesignEditor_Model_ChangeAbstract
      */
-    protected function _getChangeItem($type, $data)
+    protected function _getChangeItem($data)
     {
-        $item = Mage_DesignEditor_Model_Change_Factory::getInstance($type);
-        $item->setData($data);
-
-        return $item;
-    }
-
-    /**
-     * Get change type
-     *
-     * @param mixed $change
-     * @throws Magento_Exception
-     * @return string
-     */
-    protected function _getChangeType($change)
-    {
-        $type = null;
-        if (is_array($change)) {
-            $type = isset($change['type']) ? $change['type'] : null;
-        } elseif ($change instanceof Varien_Object) {
-            $type = $change->getType();
-        }
-
-        if (!$type) {
-            throw new Magento_Exception('Impossible to get change type');
-        }
-
-        return $type;
+        return Mage_DesignEditor_Model_Change_Factory::getInstance($data);
     }
 
     /**
@@ -100,16 +73,15 @@ class Mage_DesignEditor_Model_History
     /**
      * Add change to internal collection
      *
-     * @param mixed $item
-     * @param array|null $data
+     * @param Mage_DesignEditor_Model_ChangeAbstract|Varien_Object|array $item
      * @return Mage_DesignEditor_Model_History
      */
-    public function addChange($item, $data = null)
+    public function addChange($item)
     {
+
         $baseChangeClass = self::BASE_CHANGE_CLASS;
         if (!$item instanceof $baseChangeClass) {
-            $type = $item;
-            $item = $this->_getChangeItem($type, $data);
+            $item = $this->_getChangeItem($item);
         }
         $this->_collection->addItem($item);
 
@@ -125,8 +97,7 @@ class Mage_DesignEditor_Model_History
     public function addChanges(Traversable $changes)
     {
         foreach ($changes as $change) {
-            $type = $this->_getChangeType($change);
-            $this->addChange($type, $change);
+            $this->addChange($change);
         }
 
         return $this;
@@ -145,10 +116,7 @@ class Mage_DesignEditor_Model_History
             $this->_collection = $changes;
         } else {
             $this->_initCollection();
-            foreach ($changes as $change) {
-                $type = $this->_getChangeType($change);
-                $this->addChange($type, $change);
-            }
+            $this->addChanges($changes);
         }
 
         return $this;

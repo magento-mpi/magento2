@@ -21,39 +21,67 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
      */
     public function render(Mage_DesignEditor_Model_Change_Collection $collection)
     {
+        $dom = new DOMDocument();
+        $dom->formatOutput = true;
+        $dom->loadXML($this->_getInitialXml());
+
         $layoutUpdate = '';
         foreach ($collection as $item) {
-            if ($item instanceof Mage_DesignEditor_Model_Change_Layout)
-                $layoutUpdate .= $this->_render($item);
+            if ($item instanceof Mage_DesignEditor_Model_Change_Layout) {
+                $layoutUpdate .= $this->_render($dom, $item);
+            }
         }
+
+        $layoutUpdate = $dom->saveXML();
 
         return $layoutUpdate;
     }
 
     /**
+     * Get initial XML structure
+     *
+     * @return string
+     */
+    protected function _getInitialXml()
+    {
+        return '<?xml version="1.0" encoding="UTF-8"?><design></design>';
+    }
+
+    /**
      * Render layout update for single layout change
      *
+     * @param DOMDocument $dom
      * @param Mage_DesignEditor_Model_Change_Layout $item
      * @throws Magento_Exception
      * @return string
      */
-    protected function _render($item)
+    protected function _render(DOMDocument $dom, $item)
     {
-        switch ($item->getData('action_name')) {
-            case Mage_DesignEditor_Model_Change_Layout::LAYOUT_DIRECTIVE_REMOVE:
-                $xml = sprintf('<remove name="%s" />', $item->getData('element_name'));
-                break;
+        $handle = $this->_getHandleNode($dom, $item->getData('handle'));
 
-            case Mage_DesignEditor_Model_Change_Layout::LAYOUT_DIRECTIVE_MOVE:
-                $xml = sprintf('<move element="%s" destination="%s" />',
-                    $item->getData('element_name'),
-                    $item->getData('destination')
-                );
-                break;
+        $directive = $dom->createElement($item->getLayoutDirective());
+        $handle->appendChild($directive);
 
-            default:
-                throw new Magento_Exception('Invalid layout directive');
+        foreach ($item->getLayoutUpdateData() as $attribute => $value) {
+            $directive->setAttribute($attribute, $value);
         }
-        return $xml;
+    }
+
+    /**
+     * Create or get existing handle node
+     *
+     * @param DOMDocument $dom
+     * @param string $handle
+     * @return DOMElement
+     */
+    protected function _getHandleNode($dom, $handle)
+    {
+        $node = $dom->getElementsByTagName($handle)->item(0);
+        if (!$node) {
+            $node = $dom->createElement($handle);
+            $dom->documentElement->appendChild($node);
+        }
+
+        return $node;
     }
 }
