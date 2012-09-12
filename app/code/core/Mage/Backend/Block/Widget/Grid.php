@@ -11,13 +11,6 @@
 class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
 {
     /**
-     * Collection object
-     *
-     * @var Varien_Data_Collection
-     */
-    protected $_collection = null;
-
-    /**
      * Page and sorting var names
      *
      * @var string
@@ -121,7 +114,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function setCollection($collection)
     {
-        $this->_collection = $collection;
+        $this->setData('dataSource', $collection);
     }
 
     /**
@@ -131,7 +124,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getCollection()
     {
-        return $this->_collection;
+        return $this->getData('dataSource');
     }
 
     /**

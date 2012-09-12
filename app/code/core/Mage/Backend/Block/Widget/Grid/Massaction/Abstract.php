@@ -27,13 +27,25 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     protected $_items = array();
 
     /**
+     * Backend helper
+     *
+     * @var Mage_Backend_Helper_Data
+     */
+    protected $_helper;
+
+    /**
      * Sets Massaction template
      */
     public function __construct(array $data = array())
     {
         parent::__construct($data);
         $this->setTemplate('Mage_Backend::widget/grid/massaction.phtml');
-        $this->setErrorText(Mage::helper('Mage_Backend_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Backend_Helper_Data')->__('Please select items.')));
+
+        $this->_helper = isset($data['helper'])? $data['helper'] : Mage::helper('Mage_Backend_Helper_Data');
+        if (!($this->_helper instanceof Mage_Backend_Helper_Data)) {
+            throw new InvalidArgumentException('Helper must be instance of Mage_Backend_Helper_Data');
+        }
+        $this->setErrorText($this->_helper->jsQuoteEscape($this->_helper->__('Please select items.')));
     }
 
     protected function _construct()
