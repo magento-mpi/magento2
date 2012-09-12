@@ -31,7 +31,7 @@ class Mage_DesignEditor_Model_History_CompactTest extends PHPUnit_Framework_Test
      *
      * @dataProvider getChanges
      */
-    public function testCompact($changes)
+    public function testCompact($changes, $compactResult)
     {
         /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
         $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
@@ -40,7 +40,7 @@ class Mage_DesignEditor_Model_History_CompactTest extends PHPUnit_Framework_Test
 
         $historyCompactModel->compact($collection);
 
-        $this->assertEquals($this->_compactResult(), $collection->toArray());
+        $this->assertEquals($compactResult, $collection->toArray());
     }
 
     /**
@@ -50,70 +50,70 @@ class Mage_DesignEditor_Model_History_CompactTest extends PHPUnit_Framework_Test
      */
     public function getChanges()
     {
-        return array(array(array(
+        return array(array(
             array(
-                'handle'                => 'catalog_category_view',
-                'type'                  => 'layout',
-                'element_name'          => 'category.products',
-                'action_name'           => 'move',
-                'destination_container' => 'content',
-                'destination_order'     => '-',
-                'origin_container'      => 'top.menu',
-                'origin_order'          => '-'
+                array(
+                    'handle'                => 'catalog_category_view',
+                    'type'                  => 'layout',
+                    'element_name'          => 'category.products',
+                    'action_name'           => 'move',
+                    'destination_container' => 'content',
+                    'destination_order'     => '-',
+                    'origin_container'      => 'top.menu',
+                    'origin_order'          => '-'
+                ),
+                array(
+                    'handle'                => 'catalog_category_view',
+                    'type'                  => 'layout',
+                    'element_name'          => 'category.products',
+                    'action_name'           => 'move',
+                    'destination_container' => 'right',
+                    'destination_order'     => '-',
+                    'origin_container'      => 'content',
+                    'origin_order'          => '-'
+                ),
+                array(
+                    'handle'                => 'customer_account',
+                    'type'                  => 'layout',
+                    'element_name'          => 'customer_account_navigation',
+                    'action_name'           => 'move',
+                    'destination_container' => 'content',
+                    'destination_order'     => '-',
+                    'origin_container'      => 'right',
+                    'origin_order'          => '-'
+                ),
+                array(
+                    'handle'                => 'customer_account',
+                    'type'                  => 'layout',
+                    'element_name'          => 'customer_account_navigation',
+                    'action_name'           => 'remove',
+                ),
+                array(
+                    'handle'                => 'customer_account',
+                    'type'                  => 'layout',
+                    'element_name'          => 'customer_account_navigation',
+                    'action_name'           => 'remove',
+                ),
             ),
+            /** Expected result for compact */
             array(
-                'handle'                => 'catalog_category_view',
-                'type'                  => 'layout',
-                'element_name'          => 'category.products',
-                'action_name'           => 'move',
-                'destination_container' => 'right',
-                'destination_order'     => '-',
-                'origin_container'      => 'content',
-                'origin_order'          => '-'
-            ),
-            array(
-                'handle'                => 'customer_account',
-                'type'                  => 'layout',
-                'element_name'          => 'customer_account_navigation',
-                'action_name'           => 'move',
-                'destination_container' => 'content',
-                'destination_order'     => '-',
-                'origin_container'      => 'right',
-                'origin_order'          => '-'
-            ),
-            array(
-                'handle'                => 'customer_account',
-                'type'                  => 'layout',
-                'element_name'          => 'customer_account_navigation',
-                'action_name'           => 'remove',
-            ),
-        )));
-    }
-
-    /**
-     * Get compact result
-     *
-     * @return array
-     */
-    protected function _compactResult()
-    {
-        return array(
-            array(
-                'handle'                => 'catalog_category_view',
-                'type'                  => 'layout',
-                'element_name'          => 'category.products',
-                'action_name'           => 'move',
-                'destination_container' => 'right',
-                'destination_order'     => '-',
-                'origin_container'      => 'content',
-                'origin_order'          => '-'
-            ),
-            array(
-                'handle'                => 'customer_account',
-                'type'                  => 'layout',
-                'element_name'          => 'customer_account_navigation',
-                'action_name'           => 'remove',
-            ),
-        );
+                array(
+                    'handle'                => 'catalog_category_view',
+                    'type'                  => 'layout',
+                    'element_name'          => 'category.products',
+                    'action_name'           => 'move',
+                    'destination_container' => 'right',
+                    'destination_order'     => '-',
+                    'origin_container'      => 'content',
+                    'origin_order'          => '-'
+                ),
+                array(
+                    'handle'                => 'customer_account',
+                    'type'                  => 'layout',
+                    'element_name'          => 'customer_account_navigation',
+                    'action_name'           => 'remove',
+                ),
+            )
+        ));
     }
 }
