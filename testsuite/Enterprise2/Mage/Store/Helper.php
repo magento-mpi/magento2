@@ -61,4 +61,26 @@ class Enterprise2_Mage_Store_Helper extends Core_Mage_Store_Helper
         $this->fillFieldSet($data, 'assignment_information');
         $this->saveForm('save_status_assignment');
     }
+
+    /**
+     * Delete all Store Views except specified in $excludeList
+     *
+     * @param array $excludeList
+     */
+    public function deleteStoreViewsExceptSpecified(array $excludeList)
+    {
+        $tableXpath = $this->_getControlXpath('pageelement', 'stores_table');
+        $titleRowCount = $this->getXpathCount($tableXpath . '//tr[@title]');
+        $columnId = $this->getColumnIdByName('Store View Name') - 1;
+        $storeViews = array();
+        for ($rowId = 0; $rowId < $titleRowCount; $rowId++) {
+            $storeView = $this->getTable($tableXpath . '.' . $rowId . '.' . $columnId);
+            if (!in_array($storeView, $excludeList)) {
+                $storeViews[] = $storeView;
+            }
+        }
+        foreach ($storeViews as $storeView) {
+            $this->storeHelper()->deleteStore(array('store_view_name' => $storeView));
+        }
+    }
 }
