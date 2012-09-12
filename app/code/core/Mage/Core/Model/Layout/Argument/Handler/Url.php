@@ -42,20 +42,12 @@ class Mage_Core_Model_Layout_Argument_Handler_Url extends Mage_Core_Model_Layout
      */
     public function process($value)
     {
-        if (true === is_string($value)) {
-            $value = array($value => array());
-        }
-
-        if (false === is_array($value)) {
+        if (false === is_array($value) || (!isset($value['path']) || !isset($value['params']))) {
             throw new InvalidArgumentException('Passed value has incorrect format');
         }
 
-        reset($value);
-        $path = key($value);
-        $params = $value[$path];
-
-        $url = $this->_urlModel->getUrl($path, $params);
-
-        return $url;
+        $path = $value['path'];
+        $params = $value['params'];
+        return $this->_urlModel->getUrl($path, $params);
     }
 }

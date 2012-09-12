@@ -425,39 +425,81 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
     protected function _readArguments(Mage_Core_Model_Layout_Element $node)
     {
         $arguments = array();
-        foreach ($node->children() as $child) {
-            /** @var $child Mage_Core_Model_Layout_Element */
-            $type = $child->getAttribute('type');
+        foreach ($node->children() as $argument) {
+            /** @var $argument Mage_Core_Model_Layout_Element */
+
+            $type = $argument->getAttribute('type');
             if (null !== $type) {
-                $arguments[$child->getName()]['type'] = $type;
+                $arguments[$argument->getName()]['type'] = $type;
             }
 
-            if ($child->hasChildren()) {
-                $complexValues = array();
+            if ($argument->hasChildren()) {
+
+                $value = $argument->asArray();
+                unset($value['updater']);
+                unset($value['@']);
+
                 $updaters = array();
-                foreach ($child->children() as $complexValueNode) {
-                    /** @var $complexValueNode Mage_Core_Model_Layout_Element */
-                    if ('updater' == $child->getName()) {
-                        $updaters[uniqid()] = trim((string)$complexValueNode);
-                    } else {
-                        $complexValues[$complexValueNode->getName()] = trim((string)$complexValueNode);
+                foreach ($argument->children() as $argumentChild) {
+                    /** @var $argumentChild Mage_Core_Model_Layout_Element */
+                    if ('updater' == $argumentChild->getName()) {
+                        $updaters[uniqid()] = trim((string)$argumentChild);
                     }
                 }
-                $value = array(trim((string)$child) => $complexValues);
+                if (false === empty($updaters)) {
+                    $arguments[$argument->getName()]['updater'] = $updaters;
+                }
             } else {
-                $value = trim((string)$child);
+                $value = trim((string)$argument);
             }
 
-            if ($value) {
-                $arguments[$child->getName()]['value'] = $value;
-            }
-
-            if (false === empty($updaters)) {
-                $arguments[$child->getName()]['updater'] = $updaters;
+            if (false === empty($value)) {
+                $arguments[$argument->getName()]['value'] = $value;
             }
         }
         return $arguments;
     }
+
+//    public function _readArgument(Mage_Core_Model_Layout_Element $node)
+//    {
+//        $argument = array();
+//        $type = $node->getAttribute('type');
+//        if (null !== $type) {
+//            $argument['type'] = $type;
+//        }
+//
+//        if ($node->hasChildren()) {
+//            $value = $node->asArray();
+//            if (isset($value['updater'])) {
+//                unset($value['updater']);
+//            }
+//
+//            $updaters = $this->_readArgumentUpdaters($node);
+//            if (false === empty($updaters)) {
+//                $arguments[$node->getName()]['updater'] = $updaters;
+//            }
+//        } else {
+//            $value = trim((string)$node);
+//        }
+//
+//        if (false === empty($value)) {
+//            $argument['value'] = $value;
+//        }
+//
+//        return $argument;
+//    }
+//
+//    public function _readArgumentUpdaters(Mage_Core_Model_Layout_Element $node)
+//    {
+//        $updaters = array();
+//        foreach ($node->children() as $child) {
+//            /** @var $child Mage_Core_Model_Layout_Element */
+//            if ('updater' == $child->getName()) {
+//                $updaters[uniqid()] = trim((string)$child);
+//            }
+//        }
+//        return $updaters;
+//    }
 
     /**
      * Schedule structural changes for move directive

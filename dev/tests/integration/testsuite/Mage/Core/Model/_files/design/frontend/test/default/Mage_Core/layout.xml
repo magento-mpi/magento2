@@ -92,6 +92,41 @@
         </reference>
     </layout_test_handle_arguments>
 
+    <layout_test_handle_arguments_complex_values>
+        <block type="Mage_Core_Block_Text" name="block_with_args_complex_values">
+            <arguments>
+                <one>
+                    <parameters>
+                        <first>1</first>
+                        <second>2</second>
+                    </parameters>
+                </one>
+                <two>
+                    <parameter_one>
+                        <value>Paramter One</value>
+                    </parameter_one>
+                    <parameter_two>2</parameter_two>
+                </two>
+                <three>
+                    <extra>
+                        <key1>value</key1>
+                    </extra>
+                </three>
+            </arguments>
+        </block>
+        <reference name="block_with_args_complex_values">
+            <arguments>
+                <two>two</two>
+                <three>
+                    <extra>
+                        <key1>value1</key1>
+                        <key2>value2</key2>
+                    </extra>
+                </three>
+            </arguments>
+        </reference>
+    </layout_test_handle_arguments_complex_values>
+
     <layout_test_handle_arguments_object_type>
         <block type="Mage_Core_Block_Text" name="block_with_object_args">
             <arguments>
@@ -138,6 +173,37 @@
             </arguments>
         </reference>
     </layout_test_handle_arguments_object_type_updaters>
+
+    <layout_test_handle_arguments_url_type>
+        <block type="Mage_Core_Block_Text" name="block_with_url_args">
+            <arguments>
+                <one type="url">
+                    <path>customer/account/login</path>
+                    <params>
+                        <_current>1</_current>
+                        <_secure>1</_secure>
+                    </params>
+                </one>
+                <two type="url">
+                    <path>customer/account/logout</path>
+                    <params>
+                        <_current>1</_current>
+                        <_secure>1</_secure>
+                        <customer_id>2</customer_id>
+                    </params>
+                </two>
+            </arguments>
+        </block>
+        <reference name="block_with_url_args">
+            <arguments>
+                <two>
+                    <params>
+                        <customer_id>3</customer_id>
+                    </params>
+                </two>
+            </arguments>
+        </reference>
+    </layout_test_handle_arguments_url_type>
 
 
     <layout_test_handle_move_broken>

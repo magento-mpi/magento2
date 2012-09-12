@@ -69,6 +69,53 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     protected $_emptyCellLabel = '';
 
     /**
+     * Columns to group by
+     *
+     * @var array
+     */
+    protected $_groupedColumn = array();
+
+    /**
+     * Column headers visibility
+     *
+     * @var boolean
+     */
+    protected $_headersVisibility = true;
+
+    /**
+     * Filter visibility
+     *
+     * @var boolean
+     */
+    protected $_filterVisibility = true;
+
+    /**
+     * Empty grid text
+     *
+     * @var sting|null
+     */
+    protected $_emptyText;
+
+    /**
+     * Empty grid text CSS class
+     *
+     * @var sting|null
+     */
+    protected $_emptyTextCss    = 'a-center';
+
+    /*
+    * @var boolean
+    */
+    public $_isCollapsed;
+
+    public function __construct(array $data = array())
+    {
+        parent::__construct($data);
+        $this->setTemplate('Mage_Backend::widget/grid/extended.phtml');
+        $this->_emptyText = Mage::helper('Mage_Backend_Helper_Data')->__('No records found.');
+    }
+
+    /**
      * Initialize child blocks
      *
      * @return Mage_Core_Block_Abstract
@@ -176,7 +223,9 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
                 $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
                     ->setData($column)
                     ->setId($columnId)
+                    ->setGrid($this)
             );
+            $this->_getColumnSet()->getChildBlock($columnId)->setGrid($this);
         } else {
             throw new Exception(Mage::helper('Mage_Backend_Helper_Data')->__('Wrong column format.'));
         }
@@ -494,5 +543,239 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     {
         $this->_emptyCellLabel = $label;
         return $this;
+    }
+
+    /**
+     * Return row url for js event handlers
+     *
+     * @param Mage_Catalog_Model_Product|Varien_Object
+     * @return string
+     */
+    public function getRowUrl($item)
+    {
+        $res = parent::getRowUrl($item);
+        return ($res ? $res : '#');
+    }
+
+    /**
+     * Get children of specified item
+     *
+     * @param Varien_Object $item
+     * @return array
+     */
+    public function getMultipleRows($item)
+    {
+        return $item->getChildren();
+    }
+
+    /**
+     * Retrieve columns for multiple rows
+     * @return array
+     */
+    public function getMultipleRowColumns()
+    {
+        $columns = $this->getColumns();
+        foreach ($this->_groupedColumn as $column) {
+            unset($columns[$column]);
+        }
+        return $columns;
+    }
+
+    /**
+     * Check whether subtotal should be rendered
+     *
+     * @param Varien_Object $item
+     * @return boolean
+     */
+    public function shouldRenderSubTotal($item) {
+        return ($this->_countSubTotals && count($this->_subtotals) > 0 && count($this->getMultipleRows($item)) > 0);
+    }
+
+    /**
+     * Retrieve rowspan number
+     *
+     * @param Varien_Object $item
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
+     * @return integer|boolean
+     */
+    public function getRowspan($item, $column)
+    {
+        if ($this->isColumnGrouped($column)) {
+            return count($this->getMultipleRows($item)) + count($this->_groupedColumn);
+        }
+        return false;
+    }
+
+    /**
+     * Check whether given column is grouped
+     *
+     * @param string|object $column
+     * @param string $value
+     * @return boolean|Mage_Backend_Block_Widget_Grid
+     */
+    public function isColumnGrouped($column, $value = null)
+    {
+        if (null === $value) {
+            if (is_object($column)) {
+                return in_array($column->getIndex(), $this->_groupedColumn);
+            }
+            return in_array($column, $this->_groupedColumn);
+        }
+        $this->_groupedColumn[] = $column;
+        return $this;
+    }
+
+    /**
+     * Check whether should render empty cell
+     *
+     * @param Varien_Object $item
+     * @param Mage_Backend_Block_Widget_Grid_Column $column
+     * @return boolean
+     */
+    public function shouldRenderEmptyCell($item, $column)
+    {
+        return ($item->getIsEmpty() && in_array($column['index'], $this->_groupedColumn));
+    }
+
+    /**
+     * Retrieve colspan for empty cell
+     *
+     * @return int
+     */
+    public function getEmptyCellColspan()
+    {
+        return $this->getColumnCount() - count($this->_groupedColumn);
+    }
+
+    /**
+     * Retrieve subtotal item
+     *
+     * @param Varien_Object $item
+     * @return Varien_Object
+     */
+    public function getSubTotalItem($item)
+    {
+        foreach ($this->_subtotals as $subtotalItem) {
+            foreach ($this->_groupedColumn as $groupedColumn) {
+                if ($subtotalItem->getData($groupedColumn) == $item->getData($groupedColumn)) {
+                    return $subtotalItem;
+                }
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Count columns
+     *
+     * @return int
+     */
+    public function getColumnCount()
+    {
+        return count($this->getColumns());
+    }
+
+    /**
+     * Set visibility of column headers
+     *
+     * @param boolean $visible
+     */
+    public function setHeadersVisibility($visible=true)
+    {
+        $this->_headersVisibility = $visible;
+    }
+
+    /**
+     * Return visibility of column headers
+     *
+     * @return boolean
+     */
+    public function getHeadersVisibility()
+    {
+        return $this->_headersVisibility;
+    }
+
+    /**
+     * Set visibility of filter
+     *
+     * @param boolean $visible
+     */
+    public function setFilterVisibility($visible=true)
+    {
+        $this->_filterVisibility = $visible;
+    }
+
+    /**
+     * Return visibility of filter
+     *
+     * @return boolean
+     */
+    public function getFilterVisibility()
+    {
+        return $this->_filterVisibility;
+    }
+
+    /**
+     * Set empty text for grid
+     *
+     * @param string $text
+     * @return Mage_Backend_Block_Widget_Grid
+     */
+    public function setEmptyText($text)
+    {
+        $this->_emptyText = $text;
+        return $this;
+    }
+
+    /**
+     * Return empty text for grid
+     *
+     * @return string
+     */
+    public function getEmptyText()
+    {
+        return $this->_emptyText;
+    }
+
+    /**
+     * Set empty text CSS class
+     *
+     * @param string $cssClass
+     * @return Mage_Backend_Block_Widget_Grid
+     */
+    public function setEmptyTextClass($cssClass)
+    {
+        $this->_emptyTextCss = $cssClass;
+        return $this;
+    }
+
+    /**
+     * Return empty text CSS class
+     *
+     * @return string
+     */
+    public function getEmptyTextClass()
+    {
+        return $this->_emptyTextCss;
+    }
+
+    /**
+     * Set flag whether is collapsed
+     * @param $isCollapsed
+     * @return Mage_Backend_Block_Widget_Grid_ColumnSet
+     */
+    public function setIsCollapsed($isCollapsed)
+    {
+        $this->_isCollapsed = $isCollapsed;
+        return $this;
+    }
+
+    /**
+     * Retrieve flag is collapsed
+     * @return mixed
+     */
+    public function getIsCollapsed()
+    {
+        return $this->_isCollapsed;
     }
 }
