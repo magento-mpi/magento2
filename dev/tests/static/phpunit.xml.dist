@@ -25,13 +25,9 @@
     </testsuites>
     <php>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-        <!-- TESTS_JSHINT_PATH specify the path to wsh.js on Windows and jshint-rhino.js on Linux
-        See: http://https://wiki.corp.x.com/display/MAGE2/JS+coding+Standards+Tests
-        -->
+        <!-- TESTS_JSHINT_PATH specify the path to wsh.js on Windows and jshint-rhino.js on Linux -->
         <const name="TESTS_JSHINT_PATH" value="/path/to/wsh.js/or/jshint-rhino.js"/>
-        <!-- JSHint global options for code verification.
-        See: http://https://wiki.corp.x.com/display/MAGE2/JS+coding+Standards+Tests
-        -->
+        <!-- JSHint global options for code verification. See: http://www.jshint.com/docs/ -->
         <const name="TESTS_JSHINT_OPTIONS" value=""/>
     </php>
 </phpunit>

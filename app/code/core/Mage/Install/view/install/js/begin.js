@@ -6,6 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+/*jshint browser:true jquery:true */
 (function ($) {
     $(document).ready(function () {
         $('#agree').on('click', function () {

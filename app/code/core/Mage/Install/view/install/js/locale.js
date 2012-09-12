@@ -6,8 +6,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint eqnull:true */
-/*global location:true */
+/*jshint browser:true jquery:true */
+/*global location:true mage:true */
 (function ($) {
     $(document).ready(function () {
         // Trigger initalize event
