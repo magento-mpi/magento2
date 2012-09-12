@@ -40,9 +40,6 @@
                     settings.data.form_key = FORM_KEY;
                 }
             }
-            $(this).get(0) instanceof HTMLElement ?
-                $(this).trigger('beforeSend.ajax') :
-                $('body').trigger('beforeSend.ajax');
         },
         /*
          * Ajax complete callback
@@ -63,9 +60,6 @@
                     }
                 }
             }
-            $(this).get(0) instanceof HTMLElement ?
-                $(this).trigger('complete.ajax') :
-                $('body').trigger('complete.ajax');
         }
     })
 })(jQuery);
@@ -95,11 +89,9 @@
          * @protected
          */
         _bind: function(){
-            this.element.on('complete.ajax', function(e){
+            this.element.on('ajaxComplete ajaxError', function(e){
                 e.stopImmediatePropagation();
-                $(e.target).is('body') ?
-                    $(e.target).loader('hide') :
-                    $(e.target).loader('destroy');
+                $(e.target).loader('hide');
 
             });
         },
@@ -151,7 +143,7 @@
         }
     });
     $(document).ready(function(){
-        $('body').on('beforeSend.ajax', function(e){
+        $('body').on('ajaxSend', function(e){
             $(e.target).loader().loader('show');
         });
     })
