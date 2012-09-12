@@ -101,6 +101,26 @@
                         </merge_files>
                     </fields>
                 </js>
+                <price translate="label">
+                    <label>Price Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <price_files translate="label">
+                            <label>Price Files</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Mage_Adminhtml_Model_System_Config_Source_Yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <hide_in_single_store_mode>1</hide_in_single_store_mode>
+                        </price_files>
+                    </fields>
+                </price>
             </groups>
         </dev>
     </sections>
