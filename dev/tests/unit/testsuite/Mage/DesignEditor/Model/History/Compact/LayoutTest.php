@@ -51,6 +51,17 @@ class Mage_DesignEditor_Model_History_Compact_LayoutTest extends PHPUnit_Framewo
     }
 
     /**
+     * Test compact logic with wrong collection
+     *
+     * @expectedException Magento_Exception
+     * @expectedExceptionMessage Compact collection is missed
+     */
+    public function testBrokenCompactCollection()
+    {
+        $this->_layout->compact();
+    }
+
+    /**
      * Test compact logic
      *
      * @param array $data
@@ -88,8 +99,8 @@ class Mage_DesignEditor_Model_History_Compact_LayoutTest extends PHPUnit_Framewo
                 array('type' => 'layout', 'action_name' => 'remove', 'element_name' => 'page.pools'),
                 array('type' => 'layout', 'action_name' => 'remove', 'element_name' => 'head')
             ), array(
+                array('type' => 'layout', 'action_name' => 'remove', 'element_name' => 'page.pools'),
                 array('type' => 'layout', 'action_name' => 'remove', 'element_name' => 'head'),
-                array('type' => 'layout', 'action_name' => 'remove', 'element_name' => 'page.pools')
             )),
             array(array(
                 array('type' => 'layout', 'action_name' => 'move', 'element_name' => 'head', 'origin_order' => 0,
@@ -101,6 +112,13 @@ class Mage_DesignEditor_Model_History_Compact_LayoutTest extends PHPUnit_Framewo
             ), array(
                 array('type' => 'layout', 'action_name' => 'move', 'element_name' => 'head', 'origin_order' => 2,
                     'origin_container' => 'page.pools', 'destination_container' => 'footer', 'destination_order' => 3)
+            )),
+            array(array(
+                array('type' => 'layout', 'action_name' => 'move', 'element_name' => 'head', 'origin_order' => 0,
+                    'origin_container' => 'root', 'destination_container' => 'footer', 'destination_order' => 1),
+                array('type' => 'layout', 'action_name' => 'move', 'element_name' => 'head', 'origin_order' => 1,
+                    'origin_container' => 'footer', 'destination_container' => 'root', 'destination_order' => 0),
+            ), array(
             )),
         );
     }
