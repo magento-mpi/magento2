@@ -16,8 +16,9 @@
  * @category   Mage
  * @package    Mage_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
+ * @deprecated support Magento 1.x grid massaction implementation
  */
-abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_Backend_Block_Widget
+class Mage_Backend_Block_Widget_Grid_Massaction_Extended extends Mage_Backend_Block_Widget
 {
     /**
      * Massaction items
@@ -29,17 +30,11 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     /**
      * Sets Massaction template
      */
-    public function __construct(array $data = array())
+    public function __construct()
     {
-        parent::__construct($data);
-        $this->setTemplate('Mage_Backend::widget/grid/massaction.phtml');
+        parent::__construct();
+        $this->setTemplate('Mage_Backend::widget/grid/massaction_extended.phtml');
         $this->setErrorText(Mage::helper('Mage_Backend_Helper_Data')->jsQuoteEscape(Mage::helper('Mage_Backend_Helper_Data')->__('Please select items.')));
-    }
-
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->_prepareMassaction();
     }
 
     /**
@@ -50,20 +45,23 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
      *      'complete' => string, // Only for ajax enabled grid (optional)
      *      'url'      => string,
      *      'confirm'  => string, // text of confirmation of this action (optional)
-     *      'additional' => string // (optional)
+     *      'additional' => string|array|Mage_Core_Block_Abstract // (optional)
      * );
      *
      * @param string $itemId
-     * @param array|Varien_Object $item
-     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
+     * @param array $item
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Extended
      */
-    public function addItem($itemId, $item)
+    public function addItem($itemId, array $item)
     {
-        if (is_array($item)) {
-            $item['id'] = $itemId;
-            $this->_items[$itemId] = new Varien_Object($item);
-        } elseif($item instanceof Varien_Object) {
-            $this->_items[$itemId] = $item;
+        $this->_items[$itemId] =  $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Massaction_Item')
+            ->setData($item)
+            ->setMassaction($this)
+            ->setId($itemId);
+
+        if($this->_items[$itemId]->getAdditional()) {
+            $this->_items[$itemId]->setAdditionalActionBlock($this->_items[$itemId]->getAdditional());
+            $this->_items[$itemId]->unsAdditional();
         }
 
         return $this;
@@ -126,7 +124,7 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
      */
     public function isAvailable()
     {
-        return $this->getCount() > 0 && $this->getMassactionIdField();
+        return $this->getCount() > 0 && $this->getParentBlock()->getMassactionIdField();
     }
 
     /**
@@ -212,13 +210,13 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
     public function getJavaScript()
     {
         return " var {$this->getJsObjectName()} = new varienGridMassaction('{$this->getHtmlId()}', "
-                . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
-                . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
-                . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
-                . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
-                . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
-                . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
-                . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
+            . "{$this->getGridJsObjectName()}, '{$this->getSelectedJson()}'"
+            . ", '{$this->getFormFieldNameInternal()}', '{$this->getFormFieldName()}');"
+            . "{$this->getJsObjectName()}.setItems({$this->getItemsJson()}); "
+            . "{$this->getJsObjectName()}.setGridIds('{$this->getGridIdsJson()}');"
+            . ($this->getUseAjax() ? "{$this->getJsObjectName()}.setUseAjax(true);" : '')
+            . ($this->getUseSelectAll() ? "{$this->getJsObjectName()}.setUseSelectAll(true);" : '')
+            . "{$this->getJsObjectName()}.errorText = '{$this->getErrorText()}';";
     }
 
     public function getGridIdsJson()
@@ -244,7 +242,7 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
      * Remove existing massaction item by its id
      *
      * @param string $itemId
-     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Extended
      */
     public function removeItem($itemId)
     {
@@ -269,75 +267,11 @@ abstract class Mage_Backend_Block_Widget_Grid_Massaction_Abstract extends Mage_B
      * Retrieve select all functionality flag check
      *
      * @param boolean $flag
-     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Extended
      */
     public function setUseSelectAll($flag)
     {
         $this->setData('use_select_all', (bool) $flag);
         return $this;
     }
-
-    /**
-     * Prepare grid massaction actions
-     *
-     * @return Mage_Backend_Block_Widget_Grid_Massaction
-     */
-    protected function _prepareMassaction()
-    {
-        $options = $this->getOptions();
-        if (null !== $options) {
-            foreach ($this->getOptions() as $optionId => $option) {
-                $this->addItem($optionId, $option);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Prepare grid massaction column
-     *
-     * @return Mage_Backend_Block_Widget_Grid_Extended
-     */
-    protected function _prepareMassactionColumn()
-    {
-        $columnId = 'massaction';
-        $massactionColumn = $this->getLayout()->createBlock('Mage_Backend_Block_Widget_Grid_Column')
-            ->setData(array(
-            'index'        => $this->getMassactionIdField(),
-            'filter_index' => $this->getMassactionIdFilter(),
-            'type'         => 'massaction',
-            'name'         => $this->getFormFieldName(),
-            'align'        => 'center',
-            'is_system'    => true
-        ));
-
-        if ($this->getNoFilterMassactionColumn()) {
-            $massactionColumn->setData('filter', false);
-        }
-
-        $gridBlock = $this->getParentBlock();
-        $massactionColumn->setSelected($this->getSelected())
-            ->setGrid($gridBlock)
-            ->setId($columnId);
-
-        $columnSetBlock = $gridBlock->getColumnSet();
-        $columnSetBlock->insert($massactionColumn, count($columnSetBlock->getColumns())+1, false, $columnId);
-        return $this;
-    }
-
-    /**
-     * Before rendering html, but after trying to load cache
-     *
-     * @return Mage_Core_Block_Abstract
-     */
-    protected function _beforeToHtml()
-    {
-        if($this->isAvailable()) {
-            $this->_prepareMassactionColumn();
-        }
-
-        return parent::_beforeToHtml();
-    }
-
 }

@@ -66,7 +66,7 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
      *
      * @var string
      */
-    protected $_massactionBlockName = 'Mage_Backend_Block_Widget_Grid_Massaction';
+    protected $_massactionBlockName = 'Mage_Backend_Block_Widget_Grid_Massaction_Extended';
 
     /**
      * Columns view order
@@ -413,7 +413,9 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
             ->setGrid($this)
             ->setId($columnId);
 
-        $this->getColumnSet()->setChild($columnId, $massactionColumn);
+        $this->getColumnSet()->insert(
+            $massactionColumn, count($this->getColumnSet()->getColumns())+1, false, $columnId
+        );
         return $this;
     }
 
@@ -538,7 +540,7 @@ class Mage_Backend_Block_Widget_Grid_Extended extends Mage_Backend_Block_Widget_
     /**
      * Retrive massaction block
      *
-     * @return Mage_Backend_Block_Widget_Grid_Massaction_Abstract
+     * @return Mage_Backend_Block_Widget_Grid_Massaction_Extended
      */
     public function getMassactionBlock()
     {
