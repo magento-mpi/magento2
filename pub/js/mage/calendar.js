@@ -111,7 +111,7 @@
                     'M': 'mm',
                     'yyyy': 'yy',
                     'y': 'yy',
-                    'yy': 'y'
+                    'yy': 'yy'
                 },
                 time: {
                     'a': 'tt',

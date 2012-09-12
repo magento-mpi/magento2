@@ -82,7 +82,7 @@ class Mage_Catalog_Block_Product_View_Options_Type_Date extends Mage_Catalog_Blo
             ->setImage($this->getSkinUrl('Mage_Core::calendar.gif'))
             ->setDateFormat(Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT))
             ->setValue($value)
-            ->setYearsRange('[' . $yearStart . ', ' . $yearEnd . ']');
+            ->setYearsRange($yearStart . ':' . $yearEnd);
         if (!$this->getSkipJsReloadPrice()) {
             $calendar->setExtraParams('onchange="opConfig.reloadPrice()"');
         }

@@ -23,7 +23,7 @@ class Mage_Core_Block_Html_Date extends Mage_Core_Block_Template
     {
         $html  = '<input type="text" name="' . $this->getName() . '" id="' . $this->getId() . '" ';
         $html .= 'value="' . $this->escapeHtml($this->getValue()) . '" class="' . $this->getClass() . '" ' . $this->getExtraParams() . '/> ';
-        $calendarYearsRange = "'" . implode(':', json_decode($this->getYearsRange())) . "'";
+        $calendarYearsRange = $this->getYearsRange();
         $html .=
             '<script type="text/javascript">
             //<![CDATA[
@@ -31,10 +31,10 @@ class Mage_Core_Block_Html_Date extends Mage_Core_Block_Template
                 $(document).ready(function(){
                     $("#' . $this->getId() . '").calendar({
                         showsTime: ' . ($this->getTimeFormat() ? 'true' : 'false') . ',
-                        ' . ($this->getTimeFormat() ? "timeFormat: '{$this->getTimeFormat()}'," : '') . '
+                        ' . ($this->getTimeFormat() ? ('timeFormat: "' . $this->getTimeFormat() . '",') : '') . '
                         dateFormat: "' . $this->getDateFormat() . '",
                         buttonImage: "' . $this->getImage() . '",
-                        ' . ($calendarYearsRange ? 'yearRange: ' . $calendarYearsRange . ',' : '') . '
+                        ' . ($calendarYearsRange ? 'yearRange: "' . $calendarYearsRange . '",' : '') . '
                         buttonText: "' . $this->helper('Mage_Core_Helper_Data')->__('Select Date') . '"
                     })
                 });

@@ -68,7 +68,6 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
         } else {
             $fieldset->addField('date','date',array(
                 'name'      => 'start_at',
-                'time'      => true,
                 'disabled'  => 'true',
                 'style'     => 'width:38%;',
                 'date_format' => $dateFormat,
