@@ -98,7 +98,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             if (empty($emails)) {
                 Mage::throwException(Mage::helper('Enterprise_Invitation_Helper_Data')->__('Please specify at least one email.'));
             }
-            if (Mage::app()->isSingleStoreMode()) {
+            if (Mage::app()->hasSingleStore()) {
                 $storeId = Mage::app()->getStore(true)->getId();
             }
             else {

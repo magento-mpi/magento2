@@ -34,6 +34,25 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     protected $_tabs;
 
     /**
+     * Main Application object
+     *
+     * @var Mage_Core_Model_App
+     */
+    protected $_app;
+
+    /**
+     * Initializes XML for this configuration
+     *
+     * @param array $arguments
+     */
+    public function __construct(array $arguments = array())
+    {
+        $this->_app = isset($arguments['app']) ? $arguments['app'] : Mage::app();
+        $sourceData = isset($arguments['data']) ? $arguments['data'] : array();
+        return parent::__construct($sourceData);
+    }
+
+    /**
      * Enter description here...
      *
      * @param string $sectionCode
@@ -98,55 +117,44 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Enter description here...
+     * Check whether node has child node that can be shown
      *
      * @param Varien_Simplexml_Element $node
      * @param string $websiteCode
      * @param string $storeCode
-     * @param boolean $isField
      * @return boolean
      */
-    public function hasChildren ($node, $websiteCode=null, $storeCode=null, $isField=false)
+    public function hasChildren($node, $websiteCode = null, $storeCode = null)
     {
         $showTab = false;
         if ($storeCode) {
-            if (isset($node->show_in_store)) {
-                if ((int)$node->show_in_store) {
-                    $showTab=true;
-                }
-            }
-        }elseif ($websiteCode) {
-            if (isset($node->show_in_website)) {
-                if ((int)$node->show_in_website) {
-                    $showTab=true;
-                }
-            }
-        } elseif (isset($node->show_in_default)) {
-                if ((int)$node->show_in_default) {
-                    $showTab=true;
-                }
+            $showTab = (int)$node->show_in_store;
+        } elseif ($websiteCode) {
+            $showTab = (int)$node->show_in_website;
+        } elseif (!empty($node->show_in_default)) {
+            $showTab = true;
         }
-        if ($showTab) {
-            if (isset($node->groups)) {
-                foreach ($node->groups->children() as $children){
-                    if ($this->hasChildren ($children, $websiteCode, $storeCode)) {
-                        return true;
-                    }
 
-                }
-            }elseif (isset($node->fields)) {
+        $showTab = $showTab || $this->_app->isSingleStoreMode();
 
-                foreach ($node->fields->children() as $children){
-                    if ($this->hasChildren ($children, $websiteCode, $storeCode, true)) {
-                        return true;
-                    }
-                }
-            } else {
+        if (!$showTab) {
+            return false;
+        }
+
+        if (isset($node->groups)) {
+            $children = $node->groups->children();
+        } elseif (isset($node->fields)) {
+            $children = $node->fields->children();
+        } else {
+            return true;
+        }
+
+        foreach ($children as $child) {
+            if ($this->hasChildren($child, $websiteCode, $storeCode)) {
                 return true;
             }
         }
         return false;
-
     }
 
     /**

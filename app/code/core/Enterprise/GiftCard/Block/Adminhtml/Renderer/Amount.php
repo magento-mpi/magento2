@@ -65,7 +65,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
 
     public function isMultiWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !Mage::app()->hasSingleStore();
     }
 
     public function getWebsites()
@@ -79,7 +79,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Renderer_Amount
             'currency'  => Mage::app()->getBaseCurrencyCode()
         );
 
-        if (!Mage::app()->isSingleStoreMode() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
+        if (!Mage::app()->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
                 $website = Mage::app()->getStore($storeId)->getWebsite();
                 $websites[$website->getId()] = array(

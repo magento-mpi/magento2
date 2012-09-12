@@ -46,7 +46,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function canEditWebsites()
     {
-        return !Mage::app()->isSingleStoreMode();
+        return !Mage::app()->hasSingleStore();
     }
 
     /**

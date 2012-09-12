@@ -49,14 +49,14 @@ class Enterprise_ImportExport_Model_Import extends Mage_ImportExport_Model_Impor
     public function runSchedule(Enterprise_ImportExport_Model_Scheduled_Operation $operation)
     {
         $sourceFile = $operation->getFileSource($this);
-        $result = $sourceFile && $this->validateSource($sourceFile);
+        $result = false;
+        if ($sourceFile) {
+            $result = $this->validateSource(Mage_ImportExport_Model_Import_Adapter::findAdapterFor($sourceFile));
+        }
         $isAllowedForcedImport = $operation->getForceImport()
             && $this->getProcessedRowsCount() != $this->getInvalidRowsCount();
         if ($isAllowedForcedImport || $result) {
             $result = $this->importSource();
-        }
-        if ($result) {
-            $this->reindexAll();
         }
         return (bool)$result;
     }

@@ -36,11 +36,23 @@ return array(
                 'admin_no_form_key'          => 'yes',
                 'cleanup_database'           => 'yes',
             ),
-            'fixture_files' => 'testsuite/fixtures/*.php',
+            'fixture_files' => array(
+                'testsuite/fixtures/catalog_category.php',
+                'testsuite/fixtures/catalog_product.php',
+            ),
         ),
     ),
     'scenario' => array(
-        'files' => 'testsuite/*.jmx',
+        'files' => array(
+            'testsuite/add_to_cart.jmx',
+            'testsuite/advanced_search.jmx',
+            'testsuite/category_view.jmx',
+            'testsuite/checkout.jmx',
+            'testsuite/home_page.jmx',
+            'testsuite/product_edit.jmx',
+            'testsuite/product_view.jmx',
+            'testsuite/quick_search.jmx',
+        ),
         'common_params' => array(
             'users' => 10,
             'loops' => 100,
