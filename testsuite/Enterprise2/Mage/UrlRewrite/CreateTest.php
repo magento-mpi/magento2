@@ -77,6 +77,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * @param string $messageCount
      *
      * @test
+     * @author Michael Banin
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5518
      */
@@ -209,8 +210,9 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $categorySearch = $productData['categories'];
         $this->addParameter('rootName', $categorySearch);
         $this->clickControl('link', 'root_category', false);
+        $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('category'));
-        $this->validatePage();
+        $this->validatePage('edit_urlrewrite_category');
 
         //Check fields id_path & target path isn't editable
         if ($this->isEditable('id_path')) {
@@ -268,6 +270,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5503
      */
     public function urlRewriteForProduct()
@@ -338,6 +341,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * @depends urlRewriteForProduct
      *
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5514
      */
     public function urlRewriteForProductExistingReqPath($fieldData)
@@ -549,6 +553,9 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_url_rewrite');
 
+        //Flush Magento cache
+        $this->flushCache();
+
         //Generate request path
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($pageData['url_key']);
 
@@ -642,6 +649,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5515
      */
     public function urlRewriteCategory ()
@@ -707,6 +715,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @param array $data
      * @test
+     * @author Michael Banin
      * @depends urlRewriteCategory
      * @TestlinkId TL-MAGE-5516
      */
@@ -873,6 +882,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>Product page is opened</p>
      *
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5565
      */
 
@@ -933,6 +943,7 @@ class Enterprise2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @param string $uri
      * @test
+     * @author Michael Banin
      * @depends customProductUrlRewriteSameStore
      * @TestlinkId TL-MAGE-5571
      */

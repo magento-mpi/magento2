@@ -74,6 +74,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * @param string $messageCount
      *
      * @test
+     * @author Michael Banin
      * @dataProvider withRequiredFieldsEmptyDataProvider
      * @TestlinkId TL-MAGE-5518
      */
@@ -208,7 +209,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         $this->clickControl('link', 'root_category', false);
         $this->waitForPageToLoad();
         $this->addParameter('id', $this->defineParameterFromUrl('category'));
-        $this->validatePage();
+        $this->validatePage('edit_urlrewrite_category');
 
         //Check fields id_path & target path isn't editable
         if ($this->isEditable('id_path')) {
@@ -266,6 +267,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @return array
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5503
      */
     public function urlRewriteForProduct()
@@ -337,6 +339,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * @depends urlRewriteForProduct
      *
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5514
      */
     public function urlRewriteForProductExistingReqPath($fieldData)
@@ -550,6 +553,9 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_url_rewrite');
 
+        //Flush Magento cache
+        $this->flushCache();
+
         //Generate request path
         $rewriteUrl = $this->xmlSitemapHelper()->getFileUrl($pageData['url_key']);
 
@@ -643,6 +649,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      * <p>URL rewrite created and category page is opened</p>
      *
      * @return array
+     * @author Michael Banin
      * @test
      * @TestlinkId TL-MAGE-5515
      */
@@ -706,6 +713,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @param array $data
      * @test
+     * @author Michael Banin
      * @depends urlRewriteCategory
      * @TestlinkId TL-MAGE-5516
      */
@@ -873,6 +881,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @return string
      * @test
+     * @author Michael Banin
      * @TestlinkId TL-MAGE-5565
      */
 
@@ -933,6 +942,7 @@ class Community2_Mage_UrlRewrite_CreateTest extends Mage_Selenium_TestCase
      *
      * @param string $uri
      * @test
+     * @author Michael Banin
      * @depends customProductUrlRewriteSameStore
      * @TestlinkId TL-MAGE-5571
      */
