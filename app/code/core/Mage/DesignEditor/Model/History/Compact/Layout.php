@@ -84,8 +84,8 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
 
             if ($lastMove) {
                 $collection->removeItemByKey($lastMove->getId());
-                $lastMove = $item;
             }
+            $lastMove = $item;
         }
 
         return $this;

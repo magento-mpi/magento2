@@ -39,7 +39,7 @@ abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_M
     }
 
     abstract public function getLayoutUpdateData();
-    
+
     /**
      * Get required data fields for layout change
      *
