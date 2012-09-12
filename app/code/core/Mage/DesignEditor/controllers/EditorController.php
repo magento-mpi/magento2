@@ -126,8 +126,11 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
     {
         $historyData = Mage::app()->getRequest()->getPost();
 
+        /** @var $helper Mage_Core_Helper_Data */
+        $helper = Mage::helper('Mage_Core_Helper_Data');
+
         if (!$historyData) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
+            $this->getResponse()->setBody($helper->jsonEncode(
                 array(Mage_Core_Model_Message::ERROR => array($this->__('Invalid post data')))
             ));
             return;
@@ -135,15 +138,25 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
 
         /** @var $historyModel Mage_DesignEditor_Model_History */
         $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
+
+        /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
+        $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
+
         try {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                Mage_Core_Model_Message::SUCCESS => array($historyModel->setChangeLog($historyData)->getCompactLog())
-            )));
+            /** @var $collection Mage_DesignEditor_Model_Change_Collection */
+            $collection = $historyModel->setChanges($historyData)->getChanges();
+            $historyCompactModel->compact($collection);
+
+            $response = array(
+                Mage_Core_Model_Message::SUCCESS => array($collection->toArray())
+            );
         } catch (Mage_Core_Exception $e) {
-            $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(
-                array(Mage_Core_Model_Message::ERROR => array($e->getMessage()))
-            ));
+            $response = array(
+                Mage_Core_Model_Message::ERROR => array($e->getMessage())
+            );
         }
+
+        $this->getResponse()->setBody($helper->jsonEncode($response));
     }
 
     /**

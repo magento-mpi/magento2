@@ -29,4 +29,20 @@ class Mage_DesignEditor_Model_Change_Collection extends Varien_Data_Collection
     {
         return $this->_itemObjectClass;
     }
+
+    /**
+     * Get array of changes suited for encoding to JSON
+     *
+     * @param array $fields
+     * @return array
+     */
+    public function toArray($fields = array())
+    {
+        $items = array();
+        /** @var $item Mage_DesignEditor_Model_ChangeAbstract */
+        foreach ($this as $item) {
+            $items[] = $item->toArray($fields);
+        }
+        return $items;
+    }
 }

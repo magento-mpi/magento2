@@ -24,7 +24,7 @@ class Mage_DesignEditor_Model_Change_Factory
     public static function getInstance($change)
     {
         $class = self::getClass($change);
-        $model = Mage::getModel($class);
+        $model = Mage::getModel($class, $change);
         if (!$model instanceof Mage_DesignEditor_Model_ChangeAbstract) {
             throw new Magento_Exception(sprintf('Invalid change class "%s"', $class));
         }
@@ -43,7 +43,7 @@ class Mage_DesignEditor_Model_Change_Factory
         $type = self::_getChangeType($change);
         if ($type == Mage_DesignEditor_Model_Change_Layout::CHANGE_TYPE) {
             $directive = self::_getChangeLayoutDirective($change);
-            $class = 'Mage_DesignEditor_Model_Change_' . ucfirst($type) . '_' . $directive;
+            $class = 'Mage_DesignEditor_Model_Change_' . ucfirst($type) . '_' . ucfirst($directive);
         } else {
             $class = 'Mage_DesignEditor_Model_Change_' . ucfirst($type);
         }

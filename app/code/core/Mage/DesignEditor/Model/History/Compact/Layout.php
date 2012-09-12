@@ -22,17 +22,17 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
     public function compact(Mage_DesignEditor_Model_Change_Collection $collection)
     {
         /** @var $change Mage_DesignEditor_Model_Change_Layout */
-        foreach ($collection as $change) {
+        foreach ($collection as $changeKey => $change) {
             if (!$change instanceof Mage_DesignEditor_Model_Change_Layout) {
                 continue;
             }
             switch ($change->getData('action_name')) {
-                case Mage_DesignEditor_Model_Change_Layout::LAYOUT_DIRECTIVE_REMOVE:
-                    $this->_compactRemove($collection, $change);
+                case Mage_DesignEditor_Model_Change_Layout_Remove::LAYOUT_DIRECTIVE:
+                    $this->_compactRemove($collection, $change, $changeKey);
                     break;
 
-                case Mage_DesignEditor_Model_Change_Layout::LAYOUT_DIRECTIVE_MOVE:
-                    $this->_compactMove($collection, $change);
+                case Mage_DesignEditor_Model_Change_Layout_Move::LAYOUT_DIRECTIVE:
+                    $this->_compactMove($collection, $change, $changeKey);
                     break;
 
                 default:
@@ -46,19 +46,24 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
      * @param Mage_DesignEditor_Model_Change_Layout $change
+     * @param int $changeKey
      * @return Mage_DesignEditor_Model_History_Compact_Layout
      */
-    protected function _compactRemove($collection, $change)
+    protected function _compactRemove($collection, $change, $changeKey)
     {
         $target = $change->getData('element_name');
         /** @var $item Mage_DesignEditor_Model_Change_Layout */
-        foreach ($collection as $item) {
+        foreach ($collection as $key => $item) {
+            if (!$item instanceof Mage_DesignEditor_Model_Change_Layout) {
+                continue;
+            }
             $isMoveOrRemove = in_array($item->getData('action_name'), array(
-                Mage_DesignEditor_Model_Change_Layout::LAYOUT_DIRECTIVE_REMOVE,
-                Mage_DesignEditor_Model_Change_Layout::LAYOUT_DIRECTIVE_MOVE
+                Mage_DesignEditor_Model_Change_Layout_Remove::LAYOUT_DIRECTIVE,
+                Mage_DesignEditor_Model_Change_Layout_Move::LAYOUT_DIRECTIVE
             ));
-            if ($item->getData('element_name') == $target && $isMoveOrRemove && $item->getId() != $change->getId()) {
-                $collection->removeItemByKey($item->getId());
+
+            if ($item->getData('element_name') == $target && $isMoveOrRemove && $key != $changeKey) {
+                $collection->removeItemByKey($key);
             }
         }
 
@@ -70,22 +75,39 @@ class Mage_DesignEditor_Model_History_Compact_Layout implements Mage_DesignEdito
      *
      * @param Mage_DesignEditor_Model_Change_Collection $collection
      * @param Mage_DesignEditor_Model_Change_Layout $change
+     * @param int $changeKey
      * @return Mage_DesignEditor_Model_History_Compact_Layout
      */
-    protected function _compactMove($collection, $change)
+    protected function _compactMove($collection, $change, $changeKey)
     {
+        $originContainer = $change->getData('origin_container');
+        $originOrder = $change->getData('origin_order');
+
         $target = $change->getData('element_name');
         $lastMove = null;
+        $lastKey = null;
         /** @var $item Mage_DesignEditor_Model_Change_Layout */
-        foreach ($collection as $item) {
-            if ($item->getData('element_name') != $target || $item->getData('action_name')) {
+        foreach ($collection as $key => $item) {
+            if (!$item instanceof Mage_DesignEditor_Model_Change_Layout_Move ||
+                    $item->getData('element_name') != $target) {
                 continue;
             }
 
             if ($lastMove) {
-                $collection->removeItemByKey($lastMove->getId());
+                $collection->removeItemByKey($lastKey);
             }
             $lastMove = $item;
+            $lastKey = $key;
+        }
+
+        if ($lastMove) {
+            $hasContainerChanged = $lastMove->getData('destination_container') != $originContainer;
+            if (!$hasContainerChanged) {
+                $hasOrderChanged = $lastMove->getData('destination_order') != $originOrder;
+                if (!$hasOrderChanged) {
+                    $collection->removeItemByKey($lastKey);
+                }
+            }
         }
 
         return $this;

@@ -25,7 +25,7 @@ abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_M
     {
         $errors = array();
         foreach ($this->_getRequiredFields() as $field) {
-            if (!$this->getData($field)) {
+            if ($this->getData($field) === null) {
                 $errors[] = Mage::helper('Mage_DesignEditor_Helper_Data')->__('Invalid "%s" data', $field);
             }
         }
@@ -47,7 +47,7 @@ abstract class Mage_DesignEditor_Model_Change_Layout extends Mage_DesignEditor_M
      */
     protected function _getRequiredFields()
     {
-        return array('type', 'handle', 'change_type', 'element_name', 'action_name');
+        return array('type', 'handle', 'element_name', 'action_name');
     }
 
     /**
