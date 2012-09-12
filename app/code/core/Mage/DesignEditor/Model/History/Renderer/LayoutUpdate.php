@@ -25,10 +25,9 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
         $dom->formatOutput = true;
         $dom->loadXML($this->_getInitialXml());
 
-        $layoutUpdate = '';
         foreach ($collection as $item) {
-            if ($item instanceof Mage_DesignEditor_Model_Change_Layout) {
-                $layoutUpdate .= $this->_render($dom, $item);
+            if ($item instanceof Mage_DesignEditor_Model_Change_LayoutAbstract) {
+                $this->_render($dom, $item);
             }
         }
 
@@ -51,9 +50,8 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
      * Render layout update for single layout change
      *
      * @param DOMDocument $dom
-     * @param Mage_DesignEditor_Model_Change_Layout $item
-     * @throws Magento_Exception
-     * @return string
+     * @param Mage_DesignEditor_Model_Change_LayoutAbstract $item
+     * @return DOMElement
      */
     protected function _render(DOMDocument $dom, $item)
     {
@@ -65,6 +63,7 @@ class Mage_DesignEditor_Model_History_Renderer_LayoutUpdate implements Mage_Desi
         foreach ($item->getLayoutUpdateData() as $attribute => $value) {
             $directive->setAttribute($attribute, $value);
         }
+        return $handle;
     }
 
     /**

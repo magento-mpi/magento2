@@ -136,20 +136,9 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             return;
         }
 
-        /** @var $historyModel Mage_DesignEditor_Model_History */
-        $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
-
-        /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
-        $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
-
         try {
-            /** @var $collection Mage_DesignEditor_Model_Change_Collection */
-            $collection = $historyModel->setChanges($historyData)->getChanges();
-            $historyCompactModel->compact($collection);
-
-            $response = array(
-                Mage_Core_Model_Message::SUCCESS => array($collection->toArray())
-            );
+            $historyModel = $this->_compactHistory($historyData);
+            $response = array(Mage_Core_Model_Message::SUCCESS => array($historyModel->getChanges()->toArray()));
         } catch (Mage_Core_Exception $e) {
             $response = array(
                 Mage_Core_Model_Message::ERROR => array($e->getMessage())
@@ -157,6 +146,24 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
         }
 
         $this->getResponse()->setBody($helper->jsonEncode($response));
+    }
+
+    /**
+     * Compact history
+     *
+     * @param array $historyData
+     * @return Mage_DesignEditor_Model_History
+     */
+    protected function _compactHistory($historyData)
+    {
+        /** @var $historyModel Mage_DesignEditor_Model_History */
+        $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
+        /** @var $historyCompactModel Mage_DesignEditor_Model_History_Compact */
+        $historyCompactModel = Mage::getModel('Mage_DesignEditor_Model_History_Compact');
+        /** @var $collection Mage_DesignEditor_Model_Change_Collection */
+        $collection = $historyModel->setChanges($historyData)->getChanges();
+        $historyCompactModel->compact($collection);
+        return $historyModel;
     }
 
     /**
@@ -173,11 +180,13 @@ class Mage_DesignEditor_EditorController extends Mage_Core_Controller_Front_Acti
             return;
         }
 
-        /** @var $historyModel Mage_DesignEditor_Model_History */
-        $historyModel = Mage::getModel('Mage_DesignEditor_Model_History');
         try {
+            $historyModel = $this->_compactHistory($historyData);
+            /** @var $layoutRenderer Mage_DesignEditor_Model_History_Renderer_LayoutUpdate */
+            $layoutRenderer = Mage::getModel('Mage_DesignEditor_Model_History_Renderer_LayoutUpdate');
+            $layoutUpdate = $historyModel->output($layoutRenderer);
             $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(array(
-                Mage_Core_Model_Message::SUCCESS => array($historyModel->setChangeLog($historyData)->getCompactXml())
+                Mage_Core_Model_Message::SUCCESS => array($layoutUpdate)
             )));
         } catch (Mage_Core_Exception $e) {
             $this->getResponse()->setBody(Mage::helper('Mage_Core_Helper_Data')->jsonEncode(

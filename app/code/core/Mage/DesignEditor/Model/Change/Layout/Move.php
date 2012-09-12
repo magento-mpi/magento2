@@ -11,12 +11,12 @@
 /**
  * Layout move change model
  */
-class Mage_DesignEditor_Model_Change_Layout_Move extends Mage_DesignEditor_Model_Change_Layout
+class Mage_DesignEditor_Model_Change_Layout_Move extends Mage_DesignEditor_Model_Change_LayoutAbstract
 {
     /**
      * Layout directive associated with this change
      */
-    const LAYOUT_DIRECTIVE = 'move';
+    const LAYOUT_DIRECTIVE_MOVE = 'move';
 
     /**
      * Get required data fields for move layout change
@@ -46,5 +46,15 @@ class Mage_DesignEditor_Model_Change_Layout_Move extends Mage_DesignEditor_Model
             'after'       => $this->getData('destination_order'),
             'destination' => $this->getData('destination_container')
         );
+    }
+
+    /**
+     * Get layout update directive for given layout change
+     *
+     * @return string
+     */
+    public function getLayoutDirective()
+    {
+        return self::LAYOUT_DIRECTIVE_MOVE;
     }
 }
