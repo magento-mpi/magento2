@@ -125,14 +125,19 @@ class Mage_Core_Model_Resource_Layout_Update_Collection extends Mage_Core_Model_
      */
     public function joinLayoutContext()
     {
-        $this->_mapLayoutContextFields()->addFieldToSelect('xml', 'layout_update')->getSelect()
-            ->columns(array('records_in_relation' => 'COUNT(*)'))->joinInner(
+        $this->_fieldsToSelect = array();
+        $this->_initialFieldsToSelect = array();
+        $this->_mapLayoutContextFields()->removeFieldFromSelect('*')
+            ->addFieldToSelect(array(
+                'layout_update' => new Zend_Db_Expr('MAX(main_table.xml)'),
+            ))
+            ->getSelect()
+            ->joinInner(
                 $this->_layoutContextTable,
                 'main_table.layout_update_id = ' . $this->_layoutContextTable . '.layout_update_id',
-                array($this->_getMappedField('relation_count'))
-        )->group($this->_getMappedField('relation_hash'))->having(
-            'records_in_relation='.$this->_getMappedField('relation_count')
-        );
+                array($this->_getMappedField('relation_hash')))
+            ->group($this->_getMappedField('relation_hash'))
+            ->having('COUNT(*)=AVG(' . $this->_getMappedField('relation_count') . ')');
 
         return $this;
     }
