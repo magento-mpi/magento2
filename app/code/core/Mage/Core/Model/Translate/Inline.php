@@ -251,7 +251,9 @@ class Mage_Core_Model_Translate_Inline
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/jquery-no-conflict.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('jquery/jquery-ui-1.8.18.custom.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('jquery/jquery.tmpl.min.js') ?>"></script>
-<?php if(Mage::app()->getStore()->isAdmin()) { ?><script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/adminhtml/ajax-setup.js') ?>"></script><?php } ?>
+<?php if(Mage::app()->getStore()->isAdmin()): ?>
+<script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/adminhtml/ajax-setup.js') ?>"></script>
+<?php endif; ?>
 <script type="text/javascript" src="<?php echo $design->getSkinUrl('mage/translate_inline.js') ?>"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $design->getSkinUrl('mage/translate_inline.css') ?>"/>
 
