@@ -35,11 +35,18 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_defaultFilter   = array();
 
     /**
-     * Export flag
+     * Empty grid text
      *
-     * @var bool
+     * @var sting|null
      */
-    protected $_isExport = false;
+    protected $_emptyText;
+
+    /**
+     * Empty grid text CSS class
+     *
+     * @var sting|null
+     */
+    protected $_emptyTextCss    = 'a-center';
 
     /**
      * Pager visibility
@@ -91,20 +98,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     protected $_subtotals = array();
 
     /**
-     * Grid export types
-     *
-     * @var array
-     */
-    protected $_exportTypes = array();
-
-    /**
-     * Rows per page for import
-     *
-     * @var int
-     */
-    protected $_exportPageSize = 1000;
-
-    /**
      * RSS list
      *
      * @var array
@@ -146,7 +139,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      *
      * @return Mage_Backend_Block_Widget_Grid_ColumnSet
      */
-    protected function _getColumnSet()
+    public function getColumnSet()
     {
         return $this->getChildBlock('grid.columnSet');
     }
@@ -158,14 +151,12 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumns()
     {
-        return $this->_getColumnSet()->getColumns();
+        return $this->getColumnSet()->getColumns();
     }
 
     /**
      * Count grid columns
      *
-
-
      * @return int
      */
     public function getColumnCount()
@@ -181,7 +172,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
      */
     public function getColumn($columnId)
     {
-        return $this->_getColumnSet()->getChildBlock($columnId);
+        return $this->getColumnSet()->getChildBlock($columnId);
     }
 
     /**
@@ -243,6 +234,12 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         return $this;
     }
 
+    public function getPreparedCollection()
+    {
+        $this->_prepareCollection();
+        return $this->getCollection();
+    }
+
     /**
      * Apply sorting and filtering to collection
      *
@@ -278,11 +275,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
                 $this->getColumn($columnId)->setDir($dir);
                 $this->_setCollectionOrder($this->getColumn($columnId));
             }
-
-            if (!$this->_isExport) {
-                $this->getCollection()->load();
-                $this->_afterLoadCollection();
-            }
         }
 
         return $this;
@@ -315,15 +307,15 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
         $this->_prepareCollection();
         if ($this->hasColumnRenderers()) {
             foreach ($this->getColumnRenderers() as $renderer => $rendererClass) {
-                $this->_getColumnSet()->setRendererType($renderer, $rendererClass);
+                $this->getColumnSet()->setRendererType($renderer, $rendererClass);
             }
         }
         if ($this->hasColumnFilters()) {
             foreach ($this->getColumnFilters() as $filter => $filterClass) {
-                $this->_getColumnSet()->setFilterType($filter, $filterClass);
+                $this->getColumnSet()->setFilterType($filter, $filterClass);
             }
         }
-        $this->_getColumnSet()->setSortable($this->getSortable());
+        $this->getColumnSet()->setSortable($this->getSortable());
     }
 
     /**
@@ -335,16 +327,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     {
         $this->_prepareGrid();
         return parent::_beforeToHtml();
-    }
-
-    /**
-     * Process collection after loading
-     *
-     * @return Mage_Backend_Block_Widget_Grid
-     */
-    protected function _afterLoadCollection()
-    {
-        return $this;
     }
 
     /**
@@ -558,34 +540,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     }
 
     /**
-     * Retrieve grid export types
-     *
-     * @return array|bool
-     */
-    public function getExportTypes()
-    {
-        return empty($this->_exportTypes) ? false : $this->_exportTypes;
-    }
-
-    /**
-     * Add new export type to grid
-     *
-     * @param   string $url
-     * @param   string $label
-     * @return  Mage_Backend_Block_Widget_Grid
-     */
-    public function addExportType($url, $label)
-    {
-        $this->_exportTypes[] = new Varien_Object(
-            array(
-                'url'   => $this->getUrl($url, array('_current'=>true)),
-                'label' => $label
-            )
-        );
-        return $this;
-    }
-
-    /**
      * Retrieve rss lists types
      *
      * @return array|bool
@@ -639,332 +593,6 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     {
         $this->_rssLists = array();
         return $this;
-    }
-
-    /**
-     * Retrieve file content from file container array
-     *
-     * @param array $fileData
-     * @return string
-     */
-    protected function _getFileContainerContent(array $fileData)
-    {
-        $io = new Varien_Io_File();
-        $path = $io->dirname($fileData['value']);
-        $io->open(array('path' => $path));
-        return $io->read($fileData['value']);
-    }
-
-    /**
-     * Retrieve Headers row array for Export
-     *
-     * @return array
-     */
-    protected function _getExportHeaders()
-    {
-        $row = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $row[] = $column->getExportHeader();
-            }
-        }
-        return $row;
-    }
-
-    /**
-     * Retrieve Totals row array for Export
-     *
-     * @return array
-     */
-    protected function _getExportTotals()
-    {
-        $totals = $this->getTotals();
-        $row    = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $row[] = ($column->hasTotalsLabel()) ? $column->getTotalsLabel() : $column->getRowFieldExport($totals);
-            }
-        }
-        return $row;
-    }
-
-    /**
-     * Iterate collection and call callback method per item
-     * For callback method first argument always is item object
-     *
-     * @param string $callback
-     * @param array $args additional arguments for callback method
-     * @return Mage_Backend_Block_Widget_Grid
-     */
-    public function _exportIterateCollection($callback, array $args)
-    {
-        $originalCollection = $this->getCollection();
-        $count = null;
-        $page  = 1;
-        $lPage = null;
-        $break = false;
-
-        while ($break !== true) {
-            $collection = clone $originalCollection;
-            $collection->setPageSize($this->_exportPageSize);
-            $collection->setCurPage($page);
-            $collection->load();
-            if (is_null($count)) {
-                $count = $collection->getSize();
-                $lPage = $collection->getLastPageNumber();
-            }
-            if ($lPage == $page) {
-                $break = true;
-            }
-            $page ++;
-
-            foreach ($collection as $item) {
-                call_user_func_array(array($this, $callback), array_merge(array($item), $args));
-            }
-        }
-    }
-
-    /**
-     * Write item data to csv export file
-     *
-     * @param Varien_Object $item
-     * @param Varien_Io_File $adapter
-     */
-    protected function _exportCsvItem(Varien_Object $item, Varien_Io_File $adapter)
-    {
-        $row = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $row[] = $column->getRowFieldExport($item);
-            }
-        }
-        $adapter->streamWriteCsv($row);
-    }
-
-    /**
-     * Retrieve a file container array by grid data as CSV
-     *
-     * Return array with keys type and value
-     *
-     * @return array
-     */
-    public function getCsvFile()
-    {
-        $this->_isExport = true;
-        $this->_prepareGrid();
-
-        $io = new Varien_Io_File();
-
-        $path = Mage::getBaseDir('var') . DS . 'export' . DS;
-        $name = md5(microtime());
-        $file = $path . DS . $name . '.csv';
-
-        $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $path));
-        $io->streamOpen($file, 'w+');
-        $io->streamLock(true);
-        $io->streamWriteCsv($this->_getExportHeaders());
-
-        $this->_exportIterateCollection('_exportCsvItem', array($io));
-
-        if ($this->getCountTotals()) {
-            $io->streamWriteCsv($this->_getExportTotals());
-        }
-
-        $io->streamUnlock();
-        $io->streamClose();
-
-        return array(
-            'type'  => 'filename',
-            'value' => $file,
-            'rm'    => true // can delete file after use
-        );
-    }
-
-    /**
-     * Retrieve Grid data as CSV
-     *
-     * @return string
-     */
-    public function getCsv()
-    {
-        $csv = '';
-        $this->_isExport = true;
-        $this->_prepareGrid();
-        $this->getCollection()->getSelect()->limit();
-        $this->getCollection()->setPageSize(0);
-        $this->getCollection()->load();
-        $this->_afterLoadCollection();
-
-        $data = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $data[] = '"'.$column->getExportHeader().'"';
-            }
-        }
-        $csv.= implode(',', $data)."\n";
-
-        foreach ($this->getCollection() as $item) {
-            $data = array();
-            foreach ($this->getColumns() as $column) {
-                if (!$column->getIsSystem()) {
-                    $data[] = '"' . str_replace(array('"', '\\'), array('""', '\\\\'),
-                        $column->getRowFieldExport($item)) . '"';
-                }
-            }
-            $csv.= implode(',', $data)."\n";
-        }
-
-        if ($this->getCountTotals())
-        {
-            $data = array();
-            foreach ($this->getColumns() as $column) {
-                if (!$column->getIsSystem()) {
-                    $data[] = '"' . str_replace(array('"', '\\'), array('""', '\\\\'),
-                        $column->getRowFieldExport($this->getTotals())) . '"';
-                }
-            }
-            $csv.= implode(',', $data)."\n";
-        }
-
-        return $csv;
-    }
-
-    /**
-     * Retrieve data in xml
-     *
-     * @return string
-     */
-    public function getXml()
-    {
-        $this->_isExport = true;
-        $this->_prepareGrid();
-        $this->getCollection()->getSelect()->limit();
-        $this->getCollection()->setPageSize(0);
-        $this->getCollection()->load();
-        $this->_afterLoadCollection();
-        $indexes = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $indexes[] = $column->getIndex();
-            }
-        }
-        $xml = '<?xml version="1.0" encoding="UTF-8"?>';
-        $xml.= '<items>';
-        foreach ($this->getCollection() as $item) {
-            $xml.= $item->toXml($indexes);
-        }
-        if ($this->getCountTotals())
-        {
-            $xml.= $this->getTotals()->toXml($indexes);
-        }
-        $xml.= '</items>';
-        return $xml;
-    }
-
-    /**
-     *  Get a row data of the particular columns
-     *
-     * @param Varien_Object $data
-     * @return array
-     */
-    public function getRowRecord(Varien_Object $data)
-    {
-        $row = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $row[] = $column->getRowFieldExport($data);
-            }
-        }
-        return $row;
-    }
-
-    /**
-     * Retrieve a file container array by grid data as MS Excel 2003 XML Document
-     *
-     * Return array with keys type and value
-     *
-     * @param string $sheetName
-     * @return array
-     */
-    public function getExcelFile($sheetName = '')
-    {
-        $this->_isExport = true;
-        $this->_prepareGrid();
-
-        $convert    = new Magento_Convert_Excel($this->getCollection()->getIterator(), array($this, 'getRowRecord'));
-        $io      = new Varien_Io_File();
-
-        $path = Mage::getBaseDir('var') . DS . 'export' . DS;
-        $name = md5(microtime());
-        $file = $path . DS . $name . '.xml';
-
-        $io->setAllowCreateFolders(true);
-        $io->open(array('path' => $path));
-        $io->streamOpen($file, 'w+');
-        $io->streamLock(true);
-
-        $convert->setDataHeader($this->_getExportHeaders());
-        if ($this->getCountTotals()) {
-            $convert->setDataFooter($this->_getExportTotals());
-        }
-
-        $convert->write($io, $sheetName);
-        $io->streamUnlock();
-        $io->streamClose();
-
-        return array(
-            'type'  => 'filename',
-            'value' => $file,
-            'rm'    => true // can delete file after use
-        );
-    }
-
-    /**
-     * Retrieve grid data as MS Excel 2003 XML Document
-     *
-     * @return string
-     */
-    public function getExcel()
-    {
-        $this->_isExport = true;
-        $this->_prepareGrid();
-        $this->getCollection()->getSelect()->limit();
-        $this->getCollection()->setPageSize(0);
-        $this->getCollection()->load();
-        $this->_afterLoadCollection();
-        $headers = array();
-        $data = array();
-        foreach ($this->getColumns() as $column) {
-            if (!$column->getIsSystem()) {
-                $headers[] = $column->getHeader();
-            }
-        }
-        $data[] = $headers;
-
-        foreach ($this->getCollection() as $item) {
-            $row = array();
-            foreach ($this->getColumns() as $column) {
-                if (!$column->getIsSystem()) {
-                    $row[] = $column->getRowField($item);
-                }
-            }
-            $data[] = $row;
-        }
-
-        if ($this->getCountTotals())
-        {
-            $row = array();
-            foreach ($this->getColumns() as $column) {
-                if (!$column->getIsSystem()) {
-                    $row[] = $column->getRowField($this->getTotals());
-                }
-            }
-            $data[] = $row;
-        }
-
-        $convert = new Magento_Convert_Excel(new ArrayIterator($data));
-        return $convert->convert('single_sheet');
     }
 
     /**
@@ -1063,7 +691,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Return count totals
      *
-     * @return boolean
+     * @return bool
      */
     public function getCountTotals()
     {
@@ -1073,7 +701,7 @@ class Mage_Backend_Block_Widget_Grid extends Mage_Backend_Block_Widget
     /**
      * Set totals
      *
-     * @param boolean $visible
+     * @param Varien_Object $totals
      */
     public function setTotals(Varien_Object $totals)
     {
