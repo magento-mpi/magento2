@@ -32,7 +32,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
+class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * <p>Creates staging for website</p>
@@ -181,7 +181,7 @@ class Enterprise_Mage_StagingWebsite_Helper extends Mage_Selenium_TestCase
      */
     public function buildFrontendUrl($stagingWebsiteCode)
     {
-        $oldFrontendUrl = $this->_configHelper->getAreaBaseUrl('frontend');
+        $oldFrontendUrl = $this->getConfigHelper()->getAreaBaseUrl('frontend');
         if (preg_match('/index.php/', $oldFrontendUrl)) {
             $nodes = explode('index.php', $oldFrontendUrl);
             $frontendUrl = $nodes[0] . 'staging/' . $stagingWebsiteCode . '/index.php/';

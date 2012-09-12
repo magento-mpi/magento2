@@ -45,13 +45,13 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
     {
         $this->loginAdminUser();
         //Load default application settings
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
     }
 
     protected function tearDownAfterTest()
     {
         //Load default application settings
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
     }
 
     /**
@@ -116,7 +116,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -691,7 +691,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftOptionsProductLevelTest e
         $this->assertMessagePresent('success', 'success_saved_product');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
             $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->customerHelper()->frontLoginCustomer($userData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);

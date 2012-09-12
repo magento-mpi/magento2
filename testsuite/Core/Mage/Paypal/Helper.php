@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
 {
     public static $monthMap = array('1'  => '01 - January', '2'  => '02 - February', '3'  => '03 - March',
                                     '4'  => '04 - April', '5'  => '05 - May', '6'  => '06 - June', '7'  => '07 - July',
@@ -76,7 +76,7 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        //$expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
+        //$expectedTitle = $this->getUimapPage($this->getConfigHelper()->getArea(), $page)->getTitle($this->_paramsHelper);
         //$this->assertSame($expectedTitle, $this->getTitle(), 'Title is unexpected for "' . $page . '" page');
         $this->setCurrentPage($page);
     }
@@ -115,8 +115,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_TestCase
         } catch (Exception $e) {
             $this->skipTestWithScreenshot($e->getMessage());
         }
-        $loginData = array('login_email'     => $this->_configHelper->getDefaultLogin(),
-                           'login_password'  => $this->_configHelper->getDefaultPassword());
+        $loginData = array('login_email'     => $this->getConfigHelper()->getDefaultLogin(),
+                           'login_password'  => $this->getConfigHelper()->getDefaultPassword());
         $this->validatePage();
         if ($this->controlIsPresent('button', 'button_login')) {
             $this->fillForm($loginData);

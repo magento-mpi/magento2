@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Generates array of strings for filling customer's billing/shipping form
@@ -747,7 +747,7 @@ class Core_Mage_Order_Helper extends Mage_Selenium_TestCase
     {
         $this->setArea('frontend');
         $fileUrl =
-            preg_replace('|/index.php/?|', '/', $this->_configHelper->getBaseUrl()) . '3DSecureLogVerification.php';
+            preg_replace('|/index.php/?|', '/', $this->getConfigHelper()->getBaseUrl()) . '3DSecureLogVerification.php';
         $logFileName = 'card_validation_3d_secure.log';
         $result = $this->compareArraysFromLog($fileUrl, $logFileName, $verificationData['response']);
         if (is_array($result)) {

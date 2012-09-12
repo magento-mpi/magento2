@@ -90,9 +90,12 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
             $this->verifyForm($fieldsetData, 'sales_payment_methods');
         }
         if ($this->getParsedMessages('verification')) {
-            foreach ($this->getParsedMessages('verification') as $key => $errorMessage) {
-                if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
-                    unset(self::$_messages['verification'][$key]);
+            $messages = $this->getParsedMessages('verification');
+            $this->clearMessages('verification');
+            foreach ($messages as $errorMessage) {
+                if (!preg_match('#|(\!\= \'\*\*)#i', $errorMessage)) {
+                    //if (preg_match('#(\'all\' \!\=)|(\!\= \'\*\*)|(\'all\')#i', $errorMessage)) {
+                    $this->addVerificationMessage($errorMessage);
                 }
             }
             $this->assertEmptyVerificationErrors();
@@ -139,7 +142,7 @@ class Community1701_Mage_SystemConfiguration_Helper extends Core_Mage_SystemConf
             $value = $this->getControlAttribute('pageelement', 'dropdown_option_text', 'value');
             $this->addParameter('country', $value);
             $this->fillDropdown('merchant_country', $country);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
             $this->validatePage();
         }
     }

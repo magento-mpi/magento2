@@ -32,7 +32,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Enterprise_Mage_Rollback_Helper extends Mage_Selenium_TestCase
+class Enterprise_Mage_Rollback_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * <p>Rollback backup</p>
@@ -94,7 +94,7 @@ class Enterprise_Mage_Rollback_Helper extends Mage_Selenium_TestCase
         $xpathTR = $this->_getControlXpath('pageelement', 'grid_tr');
         $this->addParameter('id', $this->defineIdFromTitle($xpathTR));
         $this->fillDropdown('action', 'Edit');
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->validatePage();
     }
 }

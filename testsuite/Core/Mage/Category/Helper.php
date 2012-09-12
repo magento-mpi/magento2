@@ -34,7 +34,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Find category with valid name
@@ -288,8 +288,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
             $this->fail('"' . $categoryPath . '" category page could not be opened');
         }
         //Determine category mca parameters
-        $areasConfig = $this->_configHelper->getConfigAreas();
-        $mca = self::_getMcaFromCurrentUrl($areasConfig, $availableElement->attribute('href'));
+        $mca = $this->getMcaFromUrl($availableElement->attribute('href'));
         if (preg_match('/\.html$/', $mca)) {
             if (preg_match('|/|', $mca)) {
                 $mcaNodes = explode('/', $mca);
@@ -313,7 +312,7 @@ class Core_Mage_Category_Helper extends Mage_Selenium_TestCase
             }
         }
         $availableElement->click();
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->validatePage();
 
     }

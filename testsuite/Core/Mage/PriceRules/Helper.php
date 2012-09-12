@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
+class Core_Mage_PriceRules_Helper extends Mage_Selenium_AbstractHelper
 {
     protected static $optionsNesting = 1;
     protected static $qtyOptionsNesting = 0;
@@ -203,7 +203,7 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
         if ($tabId && $uimapData->getTab($tabId)) {
             $uimapData = $uimapData->getTab($tabId);
         }
-        $fieldsets = $uimapData->getAllFieldsets($this->_paramsHelper);
+        $fieldsets = $uimapData->getAllFieldsets($this->getParamsHelper());
         $formDataMap = $this->_getFormDataMap($fieldsets, $data);
 
         foreach ($formDataMap as $formFieldName => $formField) {
@@ -221,25 +221,8 @@ class Core_Mage_PriceRules_Helper extends Mage_Selenium_TestCase
                 continue;
             }
             $this->clickControl('link', preg_replace('/(^select_)|(^type_)/', '', $formFieldName), false);
-            switch ($formField['type']) {
-                case self::FIELD_TYPE_INPUT:
-                    $this->fillField($formFieldName, $formField['value'], $formField['path']);
-                    break;
-                case self::FIELD_TYPE_CHECKBOX:
-                    $this->fillCheckbox($formFieldName, $formField['value'], $formField['path']);
-                    break;
-                case self::FIELD_TYPE_DROPDOWN:
-                    $this->fillDropdown($formFieldName, $formField['value'], $formField['path']);
-                    break;
-                case self::FIELD_TYPE_RADIOBUTTON:
-                    $this->fillRadiobutton($formFieldName, $formField['value'], $formField['path']);
-                    break;
-                case self::FIELD_TYPE_MULTISELECT:
-                    $this->fillMultiselect($formFieldName, $formField['value'], $formField['path']);
-                    break;
-                default:
-                    throw new RuntimeException('Unsupported field type');
-            }
+            $this->_fill(array('type'  => $formField['type'], 'name' => $formFieldName,
+                               'value' => $formField['value'], 'locator' => $formField['path']));
             $this->clearActiveFocus();
         }
     }

@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Tags_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Converts string with tags to an array for verification
@@ -81,7 +81,7 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
             $this->addParameter('tagName', $tag);
             $this->clickControl('link', 'tag_name');
             $this->clickButtonAndConfirm('delete_tag', 'confirmation_for_delete', false);
-            $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+            $this->waitForPageToLoad();
             $this->addParameter('uenc', $this->defineParameterFromUrl('uenc'));
             $this->validatePage('my_account_my_tags_after_delete');
         }
@@ -271,25 +271,9 @@ class Core_Mage_Tags_Helper extends Mage_Selenium_TestCase
         }
         $this->clickControl('link', 'select_all', false);
         $this->fillDropdown('tags_massaction', 'Delete');
-        $this->_parseMessages();
-        foreach (self::$_messages as $key => $value) {
-            self::$_messages[$key] = array_unique($value);
-        }
-        $success = $this->_getMessageXpath('general_success');
-        $error = $this->_getMessageXpath('general_error');
-        $validation = $this->_getMessageXpath('general_validation');
-        $types = array('success', 'error', 'validation');
-        foreach ($types as $message) {
-            if (array_key_exists($message, self::$_messages)) {
-                $exclude = '';
-                foreach (self::$_messages[$message] as $messageText) {
-                    $exclude .= "[not(..//.='$messageText')]";
-                }
-                ${$message} .= $exclude;
-            }
-        }
+        $waitCondition = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
         $this->clickButtonAndConfirm('submit', 'confirmation_for_massaction_delete', false);
-        $this->waitForElement(array($success, $error, $validation));
+        $this->waitForElement($waitCondition);
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->validatePage();
         $this->assertMessagePresent('success');

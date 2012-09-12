@@ -33,7 +33,7 @@
  * @subpackage  tests
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
+class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Creates widget
@@ -89,7 +89,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_TestCase
         }
         $this->clickButton('continue', false);
         $this->assertTrue($this->checkoutOnePageHelper()->verifyNotPresetAlert(), $this->getMessagesOnPage());
-        $this->waitForPageToLoad($this->_browserTimeoutPeriod);
+        $this->waitForPageToLoad();
         $this->validatePage('add_widget_options');
     }
 

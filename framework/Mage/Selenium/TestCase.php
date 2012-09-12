@@ -75,43 +75,37 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Configuration object instance
      * @var Mage_Selenium_TestConfiguration
      */
-    protected $_testConfig;
+    private $_testConfig;
 
     /**
      * Config helper instance
      * @var Mage_Selenium_Helper_Config
      */
-    protected $_configHelper;
+    private $_configHelper;
 
     /**
      * UIMap helper instance
      * @var Mage_Selenium_Helper_Uimap
      */
-    protected $_uimapHelper;
+    private $_uimapHelper;
 
     /**
      * Data helper instance
      * @var Mage_Selenium_Helper_Data
      */
-    protected $_dataHelper;
+    private $_dataHelper;
 
     /**
      * Params helper instance
      * @var Mage_Selenium_Helper_Params
      */
-    protected $_paramsHelper;
+    private $_paramsHelper;
 
     /**
      * Data Generator helper instance
      * @var Mage_Selenium_Helper_DataGenerator
      */
-    protected $_dataGeneratorHelper;
-
-    /**
-     * Array of Test Helper instances
-     * @var array
-     */
-    protected static $_testHelpers = array();
+    private $_dataGeneratorHelper;
 
     /**
      * Framework setting
@@ -420,20 +414,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         $helperClassName = $helpers[ucwords($testScope)];
-        if (!isset(self::$_testHelpers[$helperClassName])) {
-            if (class_exists($helperClassName)) {
-                self::$_testHelpers[$helperClassName] = new $helperClassName();
-            } else {
-                return false;
-            }
-        }
-        if (self::$_testHelpers[$helperClassName] instanceof Mage_Selenium_TestCase) {
-            foreach (get_object_vars($this) as $name => $value) {
-                self::$_testHelpers[$helperClassName]->$name = $value;
-            }
-        }
 
-        return self::$_testHelpers[$helperClassName];
+        return new $helperClassName($this);
     }
 
     /**
@@ -450,21 +432,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $className .= '_Helper';
         }
 
-        if (!isset(self::$_testHelpers[$className])) {
-            if (class_exists($className)) {
-                self::$_testHelpers[$className] = new $className;
-            } else {
-                return false;
-            }
-        }
-
-        if (self::$_testHelpers[$className] instanceof Mage_Selenium_TestCase) {
-            foreach (get_object_vars($this) as $name => $value) {
-                self::$_testHelpers[$className]->$name = $value;
-            }
-        }
-
-        return self::$_testHelpers[$className];
+        return new $className($this);
     }
 
     /**
@@ -483,6 +451,21 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->markTestSkipped($url . $message);
     }
 
+    /**
+     * @return Mage_Selenium_Helper_Config
+     */
+    public function getConfigHelper()
+    {
+        return $this->_configHelper;
+    }
+
+    /**
+     * @return Mage_Selenium_Helper_Params
+     */
+    public function getParamsHelper()
+    {
+        return $this->_paramsHelper;
+    }
     ################################################################################
     #                                                                              #
     #                               Assertions Methods                             #
@@ -865,7 +848,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     /**
      * Gets all messages on the pages
      */
-    protected function _parseMessages()
+    public function _parseMessages()
     {
         $area = $this->getArea();
         $page = $this->getCurrentUimapPage();
@@ -1109,7 +1092,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return string
      */
-    protected static function messagesToString($message)
+    public static function messagesToString($message)
     {
         if (is_array($message) && $message) {
             $message = implode("\n", call_user_func_array('array_merge', $message));
@@ -1401,7 +1384,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return string
      */
-    protected function _findCurrentPageFromUrl($url = null)
+    public function _findCurrentPageFromUrl($url = null)
     {
         if (is_null($url)) {
             $url = str_replace($this->_urlPostfix, '', $this->url());
@@ -1514,6 +1497,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * @param null $url
+     *
+     * @return string
+     */
+    public function getMcaFromUrl($url = null)
+    {
+        if (is_null($url)) {
+            $url = $this->url();
+        }
+        $areasConfig = $this->_configHelper->getConfigAreas();
+        return self::_getMcaFromCurrentUrl($areasConfig, $url);
+    }
+
+    /**
      * Get URL of the specified page
      *
      * @param string $area Application area
@@ -1536,7 +1533,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @return Mage_Selenium_Uimap_Fieldset|Mage_Selenium_Uimap_Tab
      * @throws PHPUnit_Framework_AssertionFailedError
      */
-    protected function _findUimapElement($elementType, $elementName, $uimap = null)
+    public function _findUimapElement($elementType, $elementName, $uimap = null)
     {
         $fieldSetsNotInTab = null;
         $errorMessage = null;
@@ -1590,7 +1587,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Get part of UIMap for opened tab
      * @return Mage_Selenium_Uimap_Tab
      */
-    protected function _getActiveTabUimap()
+    public function _getActiveTabUimap()
     {
         $tabData = $this->getCurrentUimapPage()->getAllTabs($this->_paramsHelper);
         /**
@@ -1617,7 +1614,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return string
      */
-    protected function _getControlXpath($controlType, $controlName, $uimap = null)
+    public function _getControlXpath($controlType, $controlName, $uimap = null)
     {
         if ($controlType === 'message') {
             return $this->_getMessageXpath($controlName);
@@ -1705,7 +1702,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @return string
      * @throws RuntimeException
      */
-    protected function _getMessageXpath($message)
+    public function _getMessageXpath($message)
     {
         $messages = $this->getCurrentUimapPage()->getAllElements('messages');
         /**
@@ -1733,7 +1730,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    protected function _getFormDataMap($fieldsets, $data)
+    public function _getFormDataMap($fieldsets, $data)
     {
         $dataMap = array();
         $fieldsetsElements = array();
@@ -1769,7 +1766,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    protected function getDataMapForFill(array $dataToFill, $containerType, $containerName)
+    public function getDataMapForFill(array $dataToFill, $containerType, $containerName)
     {
         $containerUimap = $this->_findUimapElement($containerType, $containerName);
         $getMethod = 'get' . ucfirst(strtolower($containerType)) . 'Elements';
@@ -2545,7 +2542,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    protected function _prepareDataForSearch(array &$data, array $checkFields = array('dropdown' => 'website'))
+    public function _prepareDataForSearch(array &$data, array $checkFields = array('dropdown' => 'website'))
     {
         foreach ($checkFields as $fieldType => $fieldName) {
             if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
@@ -2884,7 +2881,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @throws OutOfRangeException
      */
-    protected function _fill($fieldData)
+    public function _fill($fieldData)
     {
         switch ($fieldData['type']) {
             case self::FIELD_TYPE_INPUT:
@@ -2917,7 +2914,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @throws RuntimeException
      */
-    protected function fillField($name, $value, $locator = null)
+    public function fillField($name, $value, $locator = null)
     {
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('field', $name);
@@ -2942,7 +2939,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @throws RuntimeException
      */
-    protected function fillMultiselect($name, $value, $locator = null)
+    public function fillMultiselect($name, $value, $locator = null)
     {
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('multiselect', $name);
@@ -2984,7 +2981,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @throws RuntimeException
      */
-    protected function fillDropdown($name, $value, $locator = null)
+    public function fillDropdown($name, $value, $locator = null)
     {
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('dropdown', $name);
@@ -3017,7 +3014,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @throws RuntimeException
      */
-    protected function fillCheckbox($name, $value, $locator = null)
+    public function fillCheckbox($name, $value, $locator = null)
     {
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('checkbox', $name);
@@ -3041,7 +3038,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @throws RuntimeException
      */
-    protected function fillRadiobutton($name, $value, $locator = null)
+    public function fillRadiobutton($name, $value, $locator = null)
     {
         if (is_null($locator)) {
             $locator = $this->_getControlXpath('radiobutton', $name);

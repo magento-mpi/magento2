@@ -55,7 +55,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
     }
 
     /**
@@ -623,7 +623,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_GiftWrappingMessage
         $this->systemConfigurationHelper()->configure($wrappingWebsite);
         $this->systemConfigurationHelper()->configure($giftMessagesWebsite);
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($testData['code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');

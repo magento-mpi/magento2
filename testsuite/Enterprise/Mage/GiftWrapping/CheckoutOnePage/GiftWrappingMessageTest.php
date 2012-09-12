@@ -44,7 +44,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
     protected function tearDownAfterTest()
     {
         //Load default application settings
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
     }
 
     /**
@@ -147,7 +147,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         //Steps
         $newFrontendUrl =
             $this->stagingWebsiteHelper()->buildFrontendUrl($website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -1032,7 +1032,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         $newFrontendUrl =
             $this->stagingWebsiteHelper()->buildFrontendUrl($website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -1185,7 +1185,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutOnePage_GiftWrappingMessageTest exten
         $this->assertMessagePresent('success', 'success_saved_gift_wrapping');
         $newFrontendUrl =
             $this->stagingWebsiteHelper()->buildFrontendUrl($website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->customerHelper()->frontLoginCustomer($customerData);
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->checkoutOnePageHelper()->doOnePageCheckoutSteps($checkoutData);

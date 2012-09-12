@@ -73,8 +73,8 @@ class Core_Mage_AdminUser_LoginTest extends Mage_Selenium_TestCase
     public function loginValidUser()
     {
         //Data
-        $loginData = array('user_name' => $this->_configHelper->getDefaultLogin(),
-                           'password'  => $this->_configHelper->getDefaultPassword());
+        $loginData = array('user_name' => $this->getConfigHelper()->getDefaultLogin(),
+                           'password'  => $this->getConfigHelper()->getDefaultPassword());
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         //Verifying

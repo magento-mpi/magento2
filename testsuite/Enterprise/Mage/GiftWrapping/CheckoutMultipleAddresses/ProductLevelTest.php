@@ -52,7 +52,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->frontend();
         $this->shoppingCartHelper()->frontClearShoppingCart();
         $this->logoutCustomer();
-        $this->_configHelper->getConfigAreas(true);
+        $this->getConfigHelper()->getConfigAreas(true);
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GiftMessage/gift_options_disable_all');
@@ -117,7 +117,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl(
            $website['general_information']['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $this->logoutCustomer();
         $this->frontend('customer_login');
         $this->customerHelper()->registerCustomer($userData);
@@ -710,7 +710,7 @@ class Enterprise_Mage_GiftWrapping_CheckoutMultipleAddresses_ProductLevelTest ex
         $this->assertMessagePresent('success', 'success_saved_product');
         //Steps
         $newFrontendUrl = $this->stagingWebsiteHelper()->buildFrontendUrl($website['staging_website_code']);
-        $this->_configHelper->setAreaBaseUrl('frontend', $newFrontendUrl);
+        $this->getConfigHelper()->setAreaBaseUrl('frontend', $newFrontendUrl);
         $orderId = $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');

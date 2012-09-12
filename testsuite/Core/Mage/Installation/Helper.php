@@ -26,7 +26,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
+class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
 {
     /**
      * Delete installation files
@@ -35,7 +35,7 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_TestCase
      */
     public function removeInstallData()
     {
-        $basePath = $this->_configHelper->getBaseUrl();
+        $basePath = $this->getConfigHelper()->getBaseUrl();
         $localXml = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc'
                     . DIRECTORY_SEPARATOR . 'local.xml';
         $cacheDir = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache';

@@ -41,6 +41,7 @@ class Core_Mage_AdminUser_DeleteTest extends Mage_Selenium_TestCase
      */
     protected function assertPreConditions()
     {
+        new Core_Mage_AdminUser_Helper($this);
         $this->loginAdminUser();
         $this->navigate('manage_admin_users');
     }
