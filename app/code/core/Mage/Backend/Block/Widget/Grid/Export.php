@@ -25,6 +25,14 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
     protected $_exportPageSize = 1000;
 
     /**
+     * @param array $data
+     */
+    public function __construct(array $data = array())
+    {
+        $this->_exportTypes = isset($data['exportTypes']) ? $data['exportTypes'] : array();
+    }
+
+    /**
      * Retrieve grid columns
      *
      * @return Mage_Backend_Block_Widget_Grid_Column[]
@@ -258,7 +266,7 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
                         $column->getRowFieldExport($item)) . '"';
                 }
             }
-            $csv.= implode(',', $data)."\n";
+            $csv .= implode(',', $data)."\n";
         }
 
         if ($this->getCountTotals())
@@ -270,7 +278,7 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
                         $column->getRowFieldExport($this->_getTotals())) . '"';
                 }
             }
-            $csv.= implode(',', $data)."\n";
+            $csv .= implode(',', $data)."\n";
         }
 
         return $csv;
@@ -335,10 +343,9 @@ class Mage_Backend_Block_Widget_Grid_Export extends Mage_Backend_Block_Widget
     public function getExcelFile($sheetName = '')
     {
         $collection = $this->getParentBlock()->getPreparedCollection();
-        $collection->load();
 
-        $convert    = new Magento_Convert_Excel($collection->getIterator(), array($this, 'getRowRecord'));
-        $io      = new Varien_Io_File();
+        $convert = new Magento_Convert_Excel($collection->getIterator(), array($this, 'getRowRecord'));
+        $io = new Varien_Io_File();
 
         $path = Mage::getBaseDir('var') . DS . 'export' . DS;
         $name = md5(microtime());
