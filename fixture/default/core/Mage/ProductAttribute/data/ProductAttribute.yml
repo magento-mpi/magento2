@@ -179,7 +179,7 @@ product_attribute_multiselect_with_options: &productAttributeMultiselectWithOpti
     store_view_titles:
         Default Store View: Multiple_Select_Storeview
     option_1:
-        is_default: Yes
+        is_default: No
         admin_option_name: MultipleSelect_1_Admin
         option_position: 1
         store_view_titles:

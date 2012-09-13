@@ -2382,8 +2382,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Method works only if AJAX request was sent by Prototype or JQuery framework.
      *
      * @param int $timeout Timeout period in milliseconds. If not set, uses a default period.
-     *
-     * @throws RuntimeException
      */
     public function waitForAjax($timeout = null)
     {
@@ -2393,7 +2391,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $ajax = 'var c = function() {'
                 . 'if (typeof window.Ajax != "undefined") {return window.Ajax.activeRequestCount;};'
                 . 'if (typeof window.jQuery != "undefined") {return window.jQuery.active;};'
-                . 'return 1;}; return c();';
+                . 'return 0;}; return c();';
         $iStartTime = time();
         while ($timeout > time() - $iStartTime) {
             $ajaxResult = $this->execute(array('script' => $ajax, 'args' => array()));
@@ -2402,7 +2400,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             sleep(1);
         }
-        throw new RuntimeException('Timeout after ' . $timeout . ' seconds. (Maybe incorrect js type)');
     }
 
     /**
@@ -3523,10 +3520,22 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $elementId = $element->attribute('id');
         if ($elementId) {
-            $this->execute(array('script' => 'var element = document.getElementById("' . $elementId
-                                             . '");element.focus();element.scrollIntoView(false);',
-                                 'args'   => array()));
+            $script = 'Element.prototype.documentOffsetTop = function()'
+                      . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
+                      . 'var element = document.getElementById("' . $elementId . '");'
+                      . 'var top = element.documentOffsetTop() - (window.innerHeight / 2);'
+                      . 'element.focus();window.scrollTo( 0, top );';
+        } elseif ($element->attribute('name')) {
+            $elementId = $element->attribute('name');
+            $script = 'Element.prototype.documentOffsetTop = function()'
+                      . '{return this.offsetTop + (this.offsetParent ? this.offsetParent.documentOffsetTop() : 0);};'
+                      . 'var element = document.getElementsByName("' . $elementId . '");'
+                      . 'var top = element[0].documentOffsetTop() - (window.innerHeight / 2);'
+                      . 'element[0].focus();window.scrollTo( 0, top );';
+        } else {
+            return;
         }
+        $this->execute(array('script' => $script, 'args'   => array()));
     }
 
     /**
