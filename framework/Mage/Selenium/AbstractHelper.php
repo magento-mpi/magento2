@@ -282,7 +282,7 @@ class Mage_Selenium_AbstractHelper
             $reflectionMethod = new ReflectionMethod($className, $command);
             return $reflectionMethod->invokeArgs($this->_testInstance, $arguments);
         }
-        $this->_testInstance->__call($command, $arguments);
+        return $this->_testInstance->__call($command, $arguments);
     }
 
     /**

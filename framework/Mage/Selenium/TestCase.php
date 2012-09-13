@@ -291,7 +291,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $this->setupSpecificBrowser($browsers['default']);
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
         //$this->setLogHandle($this->_testConfig->getLogFile());
-        $this->session = $this->prepareSession();
+        $this->prepareSession();
     }
 
     final function setUp()
@@ -1157,6 +1157,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $url = isset($this->_urlPostfix) ? $url . $this->_urlPostfix : $url;
             $this->url($url);
         }
+        $this->waitForAjax();
         if ($validatePage) {
             $this->validatePage($page);
         }
