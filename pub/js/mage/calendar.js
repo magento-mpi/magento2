@@ -111,7 +111,7 @@
                     'M': 'mm',
                     'yyyy': 'yy',
                     'y': 'yy',
-                    'yy': 'yy'
+                    'yy': 'yy' // Always long year format on frontend
                 },
                 time: {
                     'a': 'tt',

@@ -16,6 +16,12 @@
  */
 class Mage_Adminhtml_Block_Newsletter_Queue_Edit_FormTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+    }
+
     public function testPrepareForm()
     {
         $block = new Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form;

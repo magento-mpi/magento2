@@ -16,6 +16,12 @@
  */
 class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_DesignTest extends PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        parent::setUp();
+        Mage::getConfig()->setCurrentAreaCode(Mage::helper("Mage_Backend_Helper_Data")->getAreaCode());
+    }
+
     public function testPrepareForm()
     {
         Mage::register('cms_page', Mage::getModel('Mage_Cms_Model_Page'));
