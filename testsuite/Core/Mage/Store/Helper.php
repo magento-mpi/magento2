@@ -81,8 +81,9 @@ class Core_Mage_Store_Helper extends Mage_Selenium_AbstractHelper
         $this->fillField($elementName, $storeData[$elementName]);
         $this->clickButton('search');
         //Determination of found items amount
-        $this->addParameter('tableHeadXpath', $this->_getControlXpath('fieldset', 'manage_stores'));
-        $foundItems = $this->getControlAttribute('pageelement', 'qty_elements_in_specific_table', 'text');
+        $fieldsetLocator = $this->_getControlXpath('fieldset', 'manage_stores');
+        list(, , $foundItems) = explode('|', $this->getElement($fieldsetLocator . "//td[@class='pager']")->text());
+        $foundItems = trim(preg_replace('/[A-Za-z]+/', '', $foundItems));
         if ($foundItems == 0) {
             $this->fail('No records found.');
         }
