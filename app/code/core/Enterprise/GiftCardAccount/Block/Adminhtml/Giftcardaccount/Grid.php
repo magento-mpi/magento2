@@ -70,14 +70,16 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'index' => 'code',
         ));
 
-        $this->addColumn('website',
-            array(
-                'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
-                'width'     => 100,
-                'index'     => 'website_id',
-                'type'      => 'options',
-                'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('website',
+                array(
+                    'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Website'),
+                    'width'     => 100,
+                    'index'     => 'website_id',
+                    'type'      => 'options',
+                    'options'   => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+            ));
+        }
 
         $this->addColumn('date_created',
             array(
@@ -111,6 +113,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 ),
         ));
 
+        $states = Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->getStatesAsOptionList();
         $this->addColumn('state',
             array(
                 'header'    => Mage::helper('Enterprise_GiftCardAccount_Helper_Data')->__('Status'),
@@ -118,7 +121,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'align'     => 'center',
                 'index'     => 'state',
                 'type'      => 'options',
-                'options'   => Mage::getModel('Enterprise_GiftCardAccount_Model_Giftcardaccount')->getStatesAsOptionList(),
+                'options'   => $states,
         ));
 
         $this->addColumn('balance',

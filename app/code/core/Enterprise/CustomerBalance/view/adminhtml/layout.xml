@@ -16,11 +16,6 @@
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance" name="customerbalance"/>
             <action method="addTab"><name>customerbalance</name><block>customerbalance</block></action>
         </reference>
-        <reference name="js">
-            <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Js" template="edit/js.phtml" name="customerbalance_edit_js">
-                <action method="setPrefix"><value>_customerbalance</value></action>
-            </block>
-        </reference>
 
         <reference name="customer_edit_tab_view">
             <block type="Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance" name="customerbalance.balance" template="balance.phtml" before="-">

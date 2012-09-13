@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid extends
+    Mage_Adminhtml_Block_Widget_Grid
 {
     public function __construct()
     {
@@ -30,6 +31,11 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare needed columns for Grid representation
+     *
+     * @return Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('amount', array(
@@ -40,13 +46,15 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'renderer' => 'Enterprise_CustomerBalance_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency',
         ));
 
-        $this->addColumn('website_id', array(
-            'header'   => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
-            'index'    => 'website_id',
-            'sortable' => false,
-            'type'     => 'options',
-            'options'  => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('website_id', array(
+                'header'   => Mage::helper('Enterprise_CustomerBalance_Helper_Data')->__('Website'),
+                'index'    => 'website_id',
+                'sortable' => false,
+                'type'     => 'options',
+                'options'  => Mage::getSingleton('Mage_Core_Model_System_Store')->getWebsiteOptionHash(),
+            ));
+        }
 
         return parent::_prepareColumns();
     }

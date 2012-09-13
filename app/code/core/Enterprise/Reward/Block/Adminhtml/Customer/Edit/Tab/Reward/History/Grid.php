@@ -126,13 +126,15 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_History_Grid
         ));
 
 // TODO: instead of source models move options to a getter
-        $this->addColumn('website', array(
-            'type'     => 'options',
-            'options'  => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(false),
-            'index'    => 'website_id',
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'sortable' => false,
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('website', array(
+                'type'     => 'options',
+                'options'  => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(false),
+                'index'    => 'website_id',
+                'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+                'sortable' => false,
+            ));
+        }
 
 // TODO: custom renderer for reason, which includes comments
         $this->addColumn('message', array(

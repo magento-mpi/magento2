@@ -104,6 +104,10 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 return;
             }
 
+            if (Mage::app()->isSingleStoreMode()) {
+                $data['website_id'] = Mage::app()->getStore(true)->getWebsiteId();
+            }
+
             if (!empty($data)) {
                 $model->addData($data);
             }
@@ -237,7 +241,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('Mage_Core_Model_Authorization')->isAllowed('Enterprise_GiftCardAccount::customer_giftcardaccount');
+        return Mage::getSingleton('Mage_Core_Model_Authorization')
+            ->isAllowed('Enterprise_GiftCardAccount::customer_giftcardaccount');
     }
 
     /**
@@ -253,7 +258,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')
+            $this->getLayout()
+                ->createBlock('Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History')
                 ->toHtml()
         );
     }

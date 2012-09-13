@@ -75,8 +75,14 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
         foreach ($this->getCollection() as $item) {
             $website = $item->getData('website_id');
             if ($website !== null) {
-                $minBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('min_points_balance', (int)$website);
-                $maxBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig('max_points_balance', (int)$website);
+                $minBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig(
+                    'min_points_balance',
+                    (int)$website
+                );
+                $maxBalance = Mage::helper('Enterprise_Reward_Helper_Data')->getGeneralConfig(
+                    'max_points_balance',
+                    (int)$website
+                );
                 $item->addData(array(
                     'min_points_balance' => (int)$minBalance,
                     'max_points_balance' => (!((int)$maxBalance)?Mage::helper('Mage_Adminhtml_Helper_Data')->__('Unlimited'):$maxBalance)
@@ -100,13 +106,15 @@ class Enterprise_Reward_Block_Adminhtml_Customer_Edit_Tab_Reward_Management_Bala
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('website_id', array(
-            'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
-            'index'    => 'website_id',
-            'sortable' => false,
-            'type'     => 'options',
-            'options'  => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(false)
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('website_id', array(
+                'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Website'),
+                'index'    => 'website_id',
+                'sortable' => false,
+                'type'     => 'options',
+                'options'  => Mage::getModel('Enterprise_Reward_Model_Source_Website')->toOptionArray(false)
+            ));
+        }
 
         $this->addColumn('points_balance', array(
             'header'   => Mage::helper('Enterprise_Reward_Helper_Data')->__('Balance'),

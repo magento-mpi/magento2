@@ -37,7 +37,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_B
             'onclick'   => 'deleteCurrentHierarchy()',
         ), -1, 1);
 
-        if (!Mage::app()->isSingleStoreMode()) {
+        if (!Mage::app()->hasSingleStore()) {
             $this->_addButton('delete_multiple', array(
                 'label'     => Mage::helper('Enterprise_Cms_Helper_Data')->getDeleteMultipleHierarchiesText(),
                 'class'     => 'delete',

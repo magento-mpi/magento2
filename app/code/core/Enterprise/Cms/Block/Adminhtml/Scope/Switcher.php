@@ -54,4 +54,14 @@ class Enterprise_Cms_Block_Adminhtml_Scope_Switcher extends Mage_Adminhtml_Block
 
         return '';
     }
+
+    /**
+     * Retrieve block HTML markup
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return Mage::app()->isSingleStoreMode() == false ? parent::_toHtml() : '';
+    }
 }
