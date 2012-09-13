@@ -486,7 +486,7 @@ class Mage_Backend_Block_Widget_Grid_ColumnSet extends Mage_Core_Block_Template
      */
     public function getGrid()
     {
-        $this->getParentBlock();
+        return $this->getParentBlock();
     }
 
     /**

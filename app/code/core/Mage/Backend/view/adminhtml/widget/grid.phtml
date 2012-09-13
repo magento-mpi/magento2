@@ -95,8 +95,8 @@
         </tr>
     </table>
 <?php endif; ?>
-<?php if($this->getMassactionBlock()->isAvailable()): ?>
-<?php echo $this->getMassactionBlockHtml() ?>
+<?php if($this->getChildBlock('grid.massaction')->isAvailable()): ?>
+<?php echo $this->getChildHtml('grid.massaction') ?>
 <?php endif ?>
 <div class="grid">
     <!-- Rendering column set -->
@@ -118,8 +118,8 @@
         <?php echo $this->getJsObjectName() ?>.initRowCallback = <?php echo $this->getRowInitCallback() ?>;
         <?php echo $this->getJsObjectName() ?>.initGridRows();
     <?php endif; ?>
-    <?php if($this->getMassactionBlock()->isAvailable()): ?>
-    <?php echo $this->getMassactionBlock()->getJavaScript() ?>
+    <?php if($this->getChildBlock('grid.massaction')->isAvailable()): ?>
+    <?php echo $this->getChildBlock('grid.massaction')->getJavaScript() ?>
     <?php endif ?>
     <?php echo $this->getAdditionalJavaScript(); ?>
 //]]>
