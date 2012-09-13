@@ -74,10 +74,11 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
                                 $this->_getMessageXpath('general_validation'));
         $this->clickButton('place_order', false);
         $this->waitForElementOrAlert($waitConditions);
-        $this->assertTrue($this->verifyNotPresetAlert(), $this->getMessagesOnPage());
+        $this->verifyNotPresetAlert();
         //@TODO Remove workaround for getting fails, not skipping tests if payment methods are inaccessible
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessageNotPresent('error');
+        $this->assertEmptyVerificationErrors();
         $this->validatePage('onepage_checkout_success');
         if ($this->controlIsPresent('link', 'order_number')) {
             return $this->getControlAttribute('link', 'order_number', 'text');
@@ -319,12 +320,12 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
             $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
             $this->fillField('3d_password', $password);
             $this->clickButton('3d_submit', false);
+            $this->frame(null);
             $this->waitForElement($waitCondition);
             if ($this->controlIsPresent('button', '3d_continue')) {
                 $this->clickButton('3d_continue', false);
                 $this->waitForElement($this->_getControlXpath('pageelement', 'element_with_disabled_style'));
             }
-            $this->frame(null);
         }
     }
 

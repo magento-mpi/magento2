@@ -439,12 +439,12 @@ class Core_Mage_Order_Helper extends Mage_Selenium_AbstractHelper
                 $this->waitForElement($this->_getControlXpath('button', '3d_submit'), 10);
                 $this->fillField('3d_password', $password);
                 $this->clickButton('3d_submit', false);
+                $this->frame(null);
                 $this->waitForElement($waitCondition);
                 if ($this->controlIsPresent('button', '3d_continue')) {
                     $this->clickButton('3d_continue', false);
                     $this->waitForElement($this->_getControlXpath('pageelement', 'verification_successful'));
                 }
-                $this->frame(null);
             }
         }
     }

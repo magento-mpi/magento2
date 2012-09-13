@@ -60,25 +60,33 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             if ($tab) {
                 $this->openConfigurationTab($tab);
                 foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
-                    if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                    $formLocator = $this->getElement($this->_getControlXpath('fieldset', $fieldsetName));
+                    if ($formLocator->name() == 'fieldset') {
+                        $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                            $this->focusOnElement($fieldsetLink);
+                            $fieldsetLink->click();
+                            $this->clearActiveFocus();
+                        }
+                        $this->fillFieldset($fieldsetData, $fieldsetName);
                         $this->focusOnElement($fieldsetLink);
                         $fieldsetLink->click();
                         $this->clearActiveFocus();
+                    } else {
+                        $this->fillFieldset($fieldsetData, $fieldsetName);
                     }
-                    $this->fillFieldset($fieldsetData, $fieldsetName);
-                    $this->focusOnElement($fieldsetLink);
-                    $fieldsetLink->click();
-                    $this->clearActiveFocus();
                 }
                 $this->saveForm('save_config');
                 $this->assertMessagePresent('success', 'success_saved_config');
                 foreach ($settings as $fieldsetName => $fieldsetData) {
-                    $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
-                    if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
-                        $this->focusOnElement($fieldsetLink);
-                        $fieldsetLink->click();
-                        $this->clearActiveFocus();
+                    $formLocator = $this->getElement($this->_getControlXpath('fieldset', $fieldsetName));
+                    if ($formLocator->name() == 'fieldset') {
+                        $fieldsetLink = $this->getElement($this->_getControlXpath('link', $fieldsetName . '_link'));
+                        if (strpos($fieldsetLink->attribute('class'), 'open') === false) {
+                            $this->focusOnElement($fieldsetLink);
+                            $fieldsetLink->click();
+                            $this->clearActiveFocus();
+                        }
                     }
                     $this->verifyForm($fieldsetData, $tab);
                 }

@@ -65,11 +65,11 @@ class Core_Mage_Various_PaymentConfigTest extends Mage_Selenium_TestCase
     public function paymentConfigVerification()
     {
         //Data
-        $paymentMethodData = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure',
-            array('scc_sort_order' =>''));
+        $paymentMethod = $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure', array('scc_sort_order' => ''));
         //Steps
-        $this->systemConfigurationHelper()->configure($paymentMethodData);
-        $paymentMethodData['tab_1']['configuration']['scc_sort_order'] = rand(1, 10);
-        $this->systemConfigurationHelper()->configure($paymentMethodData);
+        $this->systemConfigurationHelper()->configure($paymentMethod);
+        $paymentMethod =
+            $this->loadDataSet('PaymentMethod', 'savedcc_without_3Dsecure', array('scc_sort_order' => rand(1, 10)));
+        $this->systemConfigurationHelper()->configure($paymentMethod);
     }
 }
