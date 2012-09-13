@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Mage
+ * @package     Mage_Webapi
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+-->
+<config>
+    <modules>
+        <Mage_Webapi>
+            <version>1.0.0.0</version>
+            <active>true</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Core />
+                <Mage_Oauth />
+            </depends>
+        </Mage_Webapi>
+    </modules>
+    <global>
+        <areas>
+            <api>
+                <frontName>api</frontName>
+                <front_controller>Mage_Webapi_Controller_Front_Base</front_controller>
+            </api>
+        </areas>
+        <cache>
+            <types>
+                <config_webservice translate="label,description" module="Mage_Webapi">
+                    <label>Web Services Configuration</label>
+                    <description>REST and SOAP configurations, generated WSDL file.</description>
+                    <tags>WEBSERVICE</tags>
+                </config_webservice>
+            </types>
+        </cache>
+        <webapi>
+            <request>
+                <interpreters>
+                    <!-- JSON -->
+                    <application_json>
+                        <type>application/json</type>
+                        <model>Mage_Webapi_Model_Request_Interpreter_Json</model>
+                    </application_json>
+
+                    <!-- QUERY -->
+                    <text_plain>
+                        <type>text/plain</type>
+                        <model>Mage_Webapi_Model_Request_Interpreter_Query</model>
+                    </text_plain>
+
+                    <!-- XML -->
+                    <application_xml>
+                        <type>application/xml</type>
+                        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
+                    </application_xml>
+                    <application_xhtml_xml>
+                        <type>application/xhtml+xml</type>
+                        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
+                    </application_xhtml_xml>
+                    <text_xml>
+                        <type>text/xml</type>
+                        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
+                    </text_xml>
+                </interpreters>
+            </request>
+            <response>
+                <renders>
+                    <!-- JSON -->
+                    <default>
+                        <type>*/*</type>
+                        <model>Mage_Webapi_Model_Renderer_Json</model>
+                    </default>
+                    <application_json>
+                        <type>application/json</type>
+                        <model>Mage_Webapi_Model_Renderer_Json</model>
+                    </application_json>
+
+                    <!-- QUERY -->
+                    <text_plain>
+                        <type>text/plain</type>
+                        <model>Mage_Webapi_Model_Renderer_Query</model>
+                    </text_plain>
+
+                    <!-- XML -->
+                    <text_xml>
+                        <type>text/xml</type>
+                        <model>Mage_Webapi_Model_Renderer_Xml</model>
+                    </text_xml>
+                    <application_xml>
+                        <type>application/xml</type>
+                        <model>Mage_Webapi_Model_Renderer_Xml</model>
+                    </application_xml>
+                    <application_xhtml_xml>
+                        <type>application/xhtml+xml</type>
+                        <model>Mage_Webapi_Model_Renderer_Xml</model>
+                    </application_xhtml_xml>
+                </renders>
+            </response>
+        </webapi>
+    </global>
+</config>

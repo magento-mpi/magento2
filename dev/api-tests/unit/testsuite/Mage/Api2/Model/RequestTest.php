@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 Request model
+ * Test Webapi Request model
  */
-class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Request
+     * @var Mage_Webapi_Model_Request
      */
     protected $_request;
 
@@ -80,10 +80,10 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
         return array(
             // Each element is: array(Request method, CRUD operation name[, expected exception message])
             array('INVALID_METHOD', null, 'Invalid request method'),
-            array('GET', Mage_Api2_Model_Resource::OPERATION_RETRIEVE),
-            array('POST', Mage_Api2_Model_Resource::OPERATION_CREATE),
-            array('PUT', Mage_Api2_Model_Resource::OPERATION_UPDATE),
-            array('DELETE', Mage_Api2_Model_Resource::OPERATION_DELETE)
+            array('GET', Mage_Webapi_Model_Resource::OPERATION_RETRIEVE),
+            array('POST', Mage_Webapi_Model_Resource::OPERATION_CREATE),
+            array('PUT', Mage_Webapi_Model_Resource::OPERATION_UPDATE),
+            array('DELETE', Mage_Webapi_Model_Resource::OPERATION_DELETE)
         );
     }
 
@@ -95,7 +95,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_request = Mage::getModel('Mage_Api2_Model_Request', null);
+        $this->_request = Mage::getModel('Mage_Webapi_Model_Request', null);
     }
 
     /**
@@ -145,12 +145,12 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetFilter()
     {
-        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_FILTER] = 'filter_exists';
-        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_FILTER, 'filter_exists');
+        $_POST[Mage_Webapi_Model_Request::QUERY_PARAM_FILTER] = 'filter_exists';
+        $this->_request->setParam(Mage_Webapi_Model_Request::QUERY_PARAM_FILTER, 'filter_exists');
 
         $this->assertNull($this->_request->getFilter());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_FILTER] = 'filter_exists';
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_FILTER] = 'filter_exists';
 
         $this->assertEquals('filter_exists', $this->_request->getFilter());
     }
@@ -161,8 +161,8 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     public function testGetBodyParams()
     {
         $rawBody = 'a=123&b=145';
-        $interpreterMock = $this->getMock('Mage_Api2_Model_Request_Interpreter_Interface', array('interpret'));
-        $requestMock = $this->getMock('Mage_Api2_Model_Request', array('_getInterpreter', 'getRawBody'));
+        $interpreterMock = $this->getMock('Mage_Webapi_Model_Request_Interpreter_Interface', array('interpret'));
+        $requestMock = $this->getMock('Mage_Webapi_Model_Request', array('_getInterpreter', 'getRawBody'));
 
         $requestMock->expects($this->once())
             ->method('getRawBody')
@@ -194,7 +194,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
 
         try {
             $this->assertEquals($contentType, $this->_request->getContentType());
-        } catch (Mage_Api2_Exception $e) {
+        } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
                     $exceptionMessage, $e->getMessage(), 'Exception message does not match expected one'
@@ -251,7 +251,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
 
         try {
             $this->assertEquals($crudOperation, $this->_request->getActionName());
-        } catch (Mage_Api2_Exception $e) {
+        } catch (Mage_Webapi_Exception $e) {
             if ($exceptionMessage) {
                 $this->assertEquals(
                     $exceptionMessage, $e->getMessage(), 'Exception message does not match expected one'
@@ -271,12 +271,12 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetOrderDirection()
     {
-        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
-        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR, 'asc');
+        $_POST[Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $this->_request->setParam(Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_DIR, 'asc');
 
         $this->assertNull($this->_request->getOrderDirection());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_DIR] = 'asc';
 
         $this->assertEquals('asc', $this->_request->getOrderDirection());
     }
@@ -286,12 +286,12 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetOrderField()
     {
-        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
-        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD, 'order_exists');
+        $_POST[Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $this->_request->setParam(Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_FIELD, 'order_exists');
 
         $this->assertNull($this->_request->getOrderField());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_ORDER_FIELD] = 'order_exists';
 
         $this->assertEquals('order_exists', $this->_request->getOrderField());
     }
@@ -301,12 +301,12 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetPageNumber()
     {
-        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_NUM] = 5;
-        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_PAGE_NUM, 5);
+        $_POST[Mage_Webapi_Model_Request::QUERY_PARAM_PAGE_NUM] = 5;
+        $this->_request->setParam(Mage_Webapi_Model_Request::QUERY_PARAM_PAGE_NUM, 5);
 
         $this->assertNull($this->_request->getPageNumber());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_NUM] = 5;
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_PAGE_NUM] = 5;
 
         $this->assertEquals(5, $this->_request->getPageNumber());
     }
@@ -316,11 +316,11 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetPageSize()
     {
-        $_POST[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_SIZE] = 5;
-        $this->_request->setParam(Mage_Api2_Model_Request::QUERY_PARAM_PAGE_SIZE, 5);
+        $_POST[Mage_Webapi_Model_Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $this->_request->setParam(Mage_Webapi_Model_Request::QUERY_PARAM_PAGE_SIZE, 5);
         $this->assertNull($this->_request->getPageSize());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_PAGE_SIZE] = 5;
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_PAGE_SIZE] = 5;
         $this->assertEquals(5, $this->_request->getPageSize());
     }
 
@@ -329,13 +329,13 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testGetRequestedAttributes()
     {
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr1';
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_REQ_ATTRS][] = 'attr2';
 
         $this->assertInternalType('array', $this->_request->getRequestedAttributes());
         $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
 
-        $_GET[Mage_Api2_Model_Request::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
+        $_GET[Mage_Webapi_Model_Request::QUERY_PARAM_REQ_ATTRS] = 'attr1, attr2';
 
         $this->assertInternalType('array', $this->_request->getRequestedAttributes());
         $this->assertEquals(array('attr1', 'attr2'), $this->_request->getRequestedAttributes());
@@ -389,9 +389,9 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
      */
     public function testActionTypeAccessors()
     {
-        $this->_request->setParam('action_type', Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
+        $this->_request->setParam('action_type', Mage_Webapi_Model_Resource::ACTION_TYPE_COLLECTION);
         // test preset action type getting
-        $this->assertEquals(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION, $this->_request->getResourceType());
+        $this->assertEquals(Mage_Webapi_Model_Resource::ACTION_TYPE_COLLECTION, $this->_request->getResourceType());
     }
 
     /**
@@ -400,7 +400,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
     public function testIsAssocArrayInRequestBody()
     {
         $rawBodyIsAssocArray = array('key' => 'field');
-        $requestMock = $this->getMock('Mage_Api2_Model_Request', array('getBodyParams'));
+        $requestMock = $this->getMock('Mage_Webapi_Model_Request', array('getBodyParams'));
         $requestMock->expects($this->once())
             ->method('getBodyParams')
             ->will($this->returnValue($rawBodyIsAssocArray));
@@ -408,7 +408,7 @@ class Mage_Api2_Model_RequestUnitTest extends Mage_PHPUnit_TestCase
         $this->assertTrue($requestMock->isAssocArrayInRequestBody());
 
         $rawBodyIsNotAssocArray = array(0 => array('key' => 'field'));
-        $requestMock = $this->getMock('Mage_Api2_Model_Request', array('getBodyParams'));
+        $requestMock = $this->getMock('Mage_Webapi_Model_Request', array('getBodyParams'));
         $requestMock->expects($this->once())
             ->method('getBodyParams')
             ->will($this->returnValue($rawBodyIsNotAssocArray));

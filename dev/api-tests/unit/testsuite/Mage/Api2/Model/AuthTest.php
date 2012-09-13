@@ -3,26 +3,26 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 Auth model
+ * Test Webapi Auth model
  */
-class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_AuthTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Authentication manager object
      *
-     * @var Mage_Api2_Model_Auth
+     * @var Mage_Webapi_Model_Auth
      */
     protected $_authManager;
 
     /**
-     * Mock for API2 helper object
+     * Mock for Webapi helper object
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -31,7 +31,7 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Request
+     * @var Mage_Webapi_Model_Request
      */
     protected $_request;
 
@@ -43,9 +43,9 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_request     = Mage::getSingleton('Mage_Api2_Model_Request');
-        $this->_authManager = Mage::getModel('Mage_Api2_Model_Auth');
-        $this->_helperMock  = $this->getHelperMockBuilder('Mage_Api2_Helper_Data')->setMethods(array('getUserTypes'))->getMock();
+        $this->_request     = Mage::getSingleton('Mage_Webapi_Model_Request');
+        $this->_authManager = Mage::getModel('Mage_Webapi_Model_Auth');
+        $this->_helperMock  = $this->getHelperMockBuilder('Mage_Webapi_Helper_Data')->setMethods(array('getUserTypes'))->getMock();
     }
 
     /**
@@ -75,16 +75,16 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
     {
         $this->_helperMock->expects($this->once())
             ->method('getUserTypes')
-            ->will($this->returnValue(array('admin' => 'Mage_Api2_Model_Auth_User_Admin')));
+            ->will($this->returnValue(array('admin' => 'Mage_Webapi_Model_Auth_User_Admin')));
 
-        $this->getModelMockBuilder('Mage_Api2_Model_Auth_Adapter')
+        $this->getModelMockBuilder('Mage_Webapi_Model_Auth_Adapter')
             ->setMethods(array('getUserParams'))
             ->getMock()
             ->expects($this->once())
             ->method('getUserParams')
             ->will($this->returnValue((object) array('type' => 'guest', 'id' => null)));
 
-        $this->setExpectedException('Mage_Api2_Exception', 'Invalid user type or type is not allowed');
+        $this->setExpectedException('Mage_Webapi_Exception', 'Invalid user type or type is not allowed');
 
         $this->_authManager->authenticate($this->_request);
     }
@@ -100,7 +100,7 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             ->method('getUserTypes')
             ->will($this->returnValue(array($userType => 'Varien_Object')));
 
-        $this->getModelMockBuilder('Mage_Api2_Model_Auth_Adapter')
+        $this->getModelMockBuilder('Mage_Webapi_Model_Auth_Adapter')
             ->setMethods(array('getUserParams'))
             ->getMock()
             ->expects($this->once())
@@ -111,7 +111,7 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             $this->_authManager->authenticate($this->_request);
         } catch (Exception $e) {
             $this->assertEquals(
-                'User model must to extend Mage_Api2_Model_Auth_User_Abstract',
+                'User model must to extend Mage_Webapi_Model_Auth_User_Abstract',
                 $e->getMessage(),
                 'Expected exception message does not match'
             );
@@ -129,9 +129,9 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
 
         $this->_helperMock->expects($this->once())
             ->method('getUserTypes')
-            ->will($this->returnValue(array($userType => 'Mage_Api2_Model_Auth_User_Admin')));
+            ->will($this->returnValue(array($userType => 'Mage_Webapi_Model_Auth_User_Admin')));
 
-        $this->getModelMockBuilder('Mage_Api2_Model_Auth_Adapter')
+        $this->getModelMockBuilder('Mage_Webapi_Model_Auth_Adapter')
             ->setMethods(array('getUserParams'))
             ->getMock()
             ->expects($this->once())
@@ -139,7 +139,7 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue((object) array('type' => $userType, 'id' => 5)));
 
         $this->assertInstanceOf(
-            'Mage_Api2_Model_Auth_User_Abstract', $this->_authManager->authenticate($this->_request)
+            'Mage_Webapi_Model_Auth_User_Abstract', $this->_authManager->authenticate($this->_request)
         );
     }
 
@@ -152,16 +152,16 @@ class Mage_Api2_Model_AuthTest extends Mage_PHPUnit_TestCase
 
         $this->_helperMock->expects($this->once())
             ->method('getUserTypes')
-            ->will($this->returnValue(array($userType => 'Mage_Api2_Model_Auth_User_Admin')));
+            ->will($this->returnValue(array($userType => 'Mage_Webapi_Model_Auth_User_Admin')));
 
-        $this->getModelMockBuilder('Mage_Api2_Model_Auth_Adapter')
+        $this->getModelMockBuilder('Mage_Webapi_Model_Auth_Adapter')
             ->setMethods(array('getUserParams'))
             ->getMock()
             ->expects($this->once())
             ->method('getUserParams')
             ->will($this->returnValue((object) array('type' => $userType, 'id' => 5)));
 
-        $userMock = $this->getModelMockBuilder('Mage_Api2_Model_Auth_User_Admin')->setMethods(array('getType'))->getMock();
+        $userMock = $this->getModelMockBuilder('Mage_Webapi_Model_Auth_User_Admin')->setMethods(array('getType'))->getMock();
 
         $userMock->expects($this->once())
             ->method('getType')

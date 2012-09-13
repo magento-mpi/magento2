@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 filter ACL attribute resource model
+ * Test Webapi filter ACL attribute resource model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
+class Mage_Webapi_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
 {
     /**
      * Allowed attributes for ACL attribute
@@ -29,9 +29,9 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
     const ATTRIBUTE_RESOURCE_ID = 'test/resource';
 
     /**
-     * API2 attribute data fixture
+     * Webapi attribute data fixture
      *
-     * @var Mage_Api2_Model_Acl_Filter_Attribute
+     * @var Mage_Webapi_Model_Acl_Filter_Attribute
      */
     protected $_attribute;
 
@@ -50,7 +50,7 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
             'allowed_attributes' => self::ALLOWED_ATTRIBUTES
         );
 
-        $this->_attribute = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute');
+        $this->_attribute = Mage::getModel('Mage_Webapi_Model_Acl_Filter_Attribute');
         $this->_attribute->setData($data)
             ->save();
 
@@ -62,8 +62,8 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
      */
     public function testGetAllowedAttributes()
     {
-        /** @var $resource Mage_Api2_Model_Resource_Acl_Filter_Attribute */
-        $resource = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Filter_Attribute');
+        /** @var $resource Mage_Webapi_Model_Resource_Acl_Filter_Attribute */
+        $resource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Filter_Attribute');
 
         // Test method success
         $this->assertEquals(
@@ -90,11 +90,11 @@ class Mage_Api2_Model_Resource_Acl_Filter_AttributeTest extends Magento_TestCase
      */
     public function testIsAllAttributesAllowed()
     {
-        $this->_attribute->setResourceId(Mage_Api2_Model_Resource_Acl_Filter_Attribute::FILTER_RESOURCE_ALL)
+        $this->_attribute->setResourceId(Mage_Webapi_Model_Resource_Acl_Filter_Attribute::FILTER_RESOURCE_ALL)
             ->save();
 
-        /** @var $resource Mage_Api2_Model_Resource_Acl_Filter_Attribute */
-        $resource = Mage::getResourceModel('Mage_Api2_Model_Resource_Acl_Filter_Attribute');
+        /** @var $resource Mage_Webapi_Model_Resource_Acl_Filter_Attribute */
+        $resource = Mage::getResourceModel('Mage_Webapi_Model_Resource_Acl_Filter_Attribute');
 
         // Test method success
         $this->assertTrue($resource->isAllAttributesAllowed($this->_attribute->getUserType()));

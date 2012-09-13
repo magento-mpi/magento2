@@ -3,25 +3,25 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 data helper
+ * Test Webapi data helper
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Helper_DataTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Helper_DataTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * API2 data helper
+     * Webapi data helper
      *
-     * @var Mage_Api2_Helper_Data
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helper;
 
@@ -40,9 +40,9 @@ class Mage_Api2_Helper_DataTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_helper = Mage::helper('Mage_Api2_Helper_Data');
+        $this->_helper = Mage::helper('Mage_Webapi_Helper_Data');
         $this->_attributeResourceMock = $this
-            ->getResourceModelMockBuilder('Mage_Api2_Model_Resource_Acl_Filter_Attribute')
+            ->getResourceModelMockBuilder('Mage_Webapi_Model_Resource_Acl_Filter_Attribute')
             ->setMethods(array('getAllowedAttributes', 'isAllAttributesAllowed'))
             ->getMock();
     }

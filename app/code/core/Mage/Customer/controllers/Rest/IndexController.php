@@ -16,7 +16,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 // TODO: Change base class
-class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_ActionAbstract
+class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_ActionAbstract
 {
     public function __construct(Zend_Controller_Request_Abstract $request,
                                 Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
@@ -45,9 +45,9 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         try {
             $customer->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
+            $this->_error($e->getMessage(), Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
+            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
 
         return $customer;
@@ -68,7 +68,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
      * Update customer
      *
      * @param array $data
-     * @throws Mage_Api2_Exception
+     * @throws Mage_Webapi_Exception
      */
     public function updateV1(array $data)
     {
@@ -78,9 +78,9 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         try {
             $customer->save();
         } catch (Mage_Core_Exception $e) {
-            $this->_error($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
+            $this->_error($e->getMessage(), Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
+            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
     }
 
@@ -89,7 +89,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
      * Retrieve information about customer
      * Add last logged in datetime
      *
-     * @throws Mage_Api2_Exception
+     * @throws Mage_Webapi_Exception
      * @return array
      */
     public function getV1($customerId)
@@ -121,9 +121,9 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         try {
             $customer->delete();
         } catch (Mage_Core_Exception $e) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical($e->getMessage(), Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
+            Mage::helper('Mage_Webapi_Helper_Rest')->critical($e->getMessage(), Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR);
         } catch (Exception $e) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_INTERNAL_ERROR);
+            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_INTERNAL_ERROR);
         }
     }
 
@@ -131,7 +131,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
      * Load customer by id
      *
      * @param int $id
-     * @throws Mage_Api2_Exception
+     * @throws Mage_Webapi_Exception
      * @return Mage_Customer_Model_Customer
      */
     protected function _loadCustomerById($id)
@@ -139,7 +139,7 @@ class Mage_Customer_Rest_IndexController extends Mage_Api2_Controller_Rest_Actio
         /** @var $customer Mage_Customer_Model_Customer */
         $customer = Mage::getModel('Mage_Customer_Model_Customer')->load($id);
         if (!$customer->getId()) {
-            Mage::helper('Mage_Api2_Helper_Rest')->critical(Mage_Api2_Helper_Rest::RESOURCE_NOT_FOUND);
+            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_NOT_FOUND);
         }
         return $customer;
     }

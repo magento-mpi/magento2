@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}

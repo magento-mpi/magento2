@@ -1,6 +1,6 @@
 <?php
 //case
-$rootNode = Mage_Api2_Model_Renderer_Xml_Writer::XML_ROOT_NODE;
+$rootNode = Mage_Webapi_Model_Renderer_Xml_Writer::XML_ROOT_NODE;
 
 // case
 $xml[] = <<<XML

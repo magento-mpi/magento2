@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,10 +13,10 @@
  * Test request interpreter XML adapter
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Request_Interpreter_XmlTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Request_Interpreter_XmlTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Test interpret content
@@ -28,7 +28,7 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Mage_PHPUnit_TestCase
      */
     public function testInterpretContent($encoded, $decoded)
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
+        $adapter = new Mage_Webapi_Model_Request_Interpreter_Xml();
         $this->assertEquals($decoded, $adapter->interpret($encoded), 'Decoded data is not what is expected.');
     }
 
@@ -42,9 +42,9 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Mage_PHPUnit_TestCase
     public function testInterpretBadContent($data)
     {
         try {
-            $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
+            $adapter = new Mage_Webapi_Model_Request_Interpreter_Xml();
             $adapter->interpret($data);
-        } catch (Mage_Api2_Exception $e) {
+        } catch (Mage_Webapi_Exception $e) {
             $this->assertEquals(
                 'Decoding error.',
                 $e->getMessage(),
@@ -63,7 +63,7 @@ class Mage_Api2_Model_Request_Interpreter_XmlTest extends Mage_PHPUnit_TestCase
      */
     public function testInterpretContentNotString()
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Xml();
+        $adapter = new Mage_Webapi_Model_Request_Interpreter_Xml();
         try {
             $adapter->interpret(new stdClass());
         } catch (Exception $e) {

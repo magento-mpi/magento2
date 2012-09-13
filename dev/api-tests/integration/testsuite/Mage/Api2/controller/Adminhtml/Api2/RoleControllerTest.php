@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,10 +13,10 @@
  * Test model admin api role controller
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Api Team <api-team@magento.com>
  */
-class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_ControllerAbstract
+class Mage_Webapi_Adminhtml_Webapi_RoleControllerTest extends Magento_Test_TestCase_ControllerAbstract
 {
     /**
      * @var Mage_Adminhtml_Model_Url
@@ -38,8 +38,8 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
      */
     public function testRoleSaveCreate()
     {
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $roleName = uniqid('role_');
 
 
@@ -51,7 +51,7 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
                 'key'       => $this->_urlModel->getSecretKey()
             ));
 
-            $this->dispatch('admin/api2_role/save');
+            $this->dispatch('admin/webapi_role/save');
         } catch (Exception $e) {
             throw $e;
         }
@@ -68,8 +68,8 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
     public function testRoleSaveUpdate()
     {
         //generate test item
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $roleName = uniqid('role_');
         $role->setRoleName($roleName)->save();
         $this->setFixture('role', $role);
@@ -84,7 +84,7 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
                 'key'       => $this->_urlModel->getSecretKey()
             ));
 
-            $this->dispatch('admin/api2_role/save');
+            $this->dispatch('admin/webapi_role/save');
         } catch (Exception $e) {
             throw $e;
         }
@@ -100,8 +100,8 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
     public function testRoleGrid()
     {
         //generate test item
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $roleName = uniqid('role_');
         $role->setRoleName($roleName)->save();
         $this->setFixture('role', $role);
@@ -114,7 +114,7 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
                 'key'        => $this->_urlModel->getSecretKey()
             ));
 
-            $this->dispatch('admin/api2_role');
+            $this->dispatch('admin/webapi_role');
         } catch (Exception $e) {
             throw $e;
         }
@@ -128,8 +128,8 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
     public function testRoleDelete()
     {
         //generate test item
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $roleName = uniqid('role_');
         $role->setRoleName($roleName)->save();
 
@@ -140,13 +140,13 @@ class Mage_Api2_Adminhtml_Api2_RoleControllerTest extends Magento_Test_TestCase_
                 'key' => $this->_urlModel->getSecretKey()
             ));
 
-            $this->dispatch('admin/api2_role/delete');
+            $this->dispatch('admin/webapi_role/delete');
         } catch (Exception $e) {
             throw $e;
         }
 
-        /** @var $role2 Mage_Api2_Model_Acl_Global_Role */
-        $role2 = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role2 Mage_Webapi_Model_Acl_Global_Role */
+        $role2 = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
 
         $role2->load($role->getId());
         $this->assertEmpty($role2->getId());

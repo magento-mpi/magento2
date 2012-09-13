@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 server model
+ * Test Webapi server model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_ServerTest extends Magento_TestCase
+class Mage_Webapi_Model_ServerTest extends Magento_TestCase
 {
     /**
      * Product model data fixture

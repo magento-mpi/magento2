@@ -3,23 +3,23 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Api2_Model_Config_Resource
+     * @var Mage_Webapi_Model_Config_Resource
      */
     protected static $_model = null;
 
     public static function setUpBeforeClass()
     {
         // correct config
-        self::$_model = new Mage_Api2_Model_Config_Resource(glob(__DIR__ . '/_files/positive/*/resource.xml'));
+        self::$_model = new Mage_Webapi_Model_Config_Resource(glob(__DIR__ . '/_files/positive/*/resource.xml'));
     }
 
     public function testGetSchemaFile()
@@ -136,7 +136,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidOperationName()
     {
-        new Mage_Api2_Model_Config_Resource(
+        new Mage_Webapi_Model_Config_Resource(
             array(__DIR__ . '/_files/negative/resource_with_incorrect_operation_name.xml'));
     }
 
@@ -146,7 +146,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidMissingParams()
     {
-        new Mage_Api2_Model_Config_Resource(
+        new Mage_Webapi_Model_Config_Resource(
             array(__DIR__ . '/_files/negative/resource_missing_element_with_parameters.xml'));
     }
 
@@ -156,7 +156,7 @@ class Mage_Api2_Model_Config_ResourceTest extends PHPUnit_Framework_TestCase
      */
     public function testInvalidMissingParams2()
     {
-        new Mage_Api2_Model_Config_Resource(
+        new Mage_Webapi_Model_Config_Resource(
             array(__DIR__ . '/_files/negative/resource_missing_proper_message_node.xml'));
     }
 

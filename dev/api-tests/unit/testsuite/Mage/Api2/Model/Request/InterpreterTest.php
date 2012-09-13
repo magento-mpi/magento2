@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,20 +13,20 @@
  * Request content interpreter factory
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * API2 data helper mock
+     * Webapi data helper mock
      *
-     * @var Mage_Api2_Helper_Data
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helperMock;
 
     /**
-     * API2 interpreters data fixture
+     * Webapi interpreters data fixture
      *
      * @var array
      */
@@ -41,7 +41,7 @@ class Mage_Api2_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
         parent::setUp();
 
         $this->_interpreters = (array) simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/interpreters.xml');
-        $this->_helperMock = $this->getHelperMockBuilder('Mage_Api2_Helper_Data')->getMock();
+        $this->_helperMock = $this->getHelperMockBuilder('Mage_Webapi_Helper_Data')->getMock();
     }
 
     /**
@@ -56,14 +56,14 @@ class Mage_Api2_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue($this->_interpreters));
 
         $data = array(
-            'application/json'      => 'Mage_Api2_Model_Request_Interpreter_Json',
-            'text/plain'            => 'Mage_Api2_Model_Request_Interpreter_Query',
-            'application/xml'       => 'Mage_Api2_Model_Request_Interpreter_Xml',
-            'application/xhtml+xml' => 'Mage_Api2_Model_Request_Interpreter_Xml',
-            'text/xml'              => 'Mage_Api2_Model_Request_Interpreter_Xml'
+            'application/json'      => 'Mage_Webapi_Model_Request_Interpreter_Json',
+            'text/plain'            => 'Mage_Webapi_Model_Request_Interpreter_Query',
+            'application/xml'       => 'Mage_Webapi_Model_Request_Interpreter_Xml',
+            'application/xhtml+xml' => 'Mage_Webapi_Model_Request_Interpreter_Xml',
+            'text/xml'              => 'Mage_Webapi_Model_Request_Interpreter_Xml'
         );
         foreach ($data as $type => $expectedClass) {
-            $interpreter = Mage_Api2_Model_Request_Interpreter::factory($type);
+            $interpreter = Mage_Webapi_Model_Request_Interpreter::factory($type);
             $this->assertInstanceOf($expectedClass, $interpreter);
         }
     }
@@ -71,7 +71,7 @@ class Mage_Api2_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
     /**
      * Test request content interpreter factory with unknown accept type
      *
-     * @expectedException Mage_Api2_Exception
+     * @expectedException Mage_Webapi_Exception
      * @return void
      */
     public function testFactoryBadAcceptType()
@@ -84,6 +84,6 @@ class Mage_Api2_Model_Request_InterpreterTest extends Mage_PHPUnit_TestCase
          * Try get adapter via invalid content type
          * and must be throw exception
          */
-        Mage_Api2_Model_Request_Interpreter::factory('unknown/unknown');
+        Mage_Webapi_Model_Request_Interpreter::factory('unknown/unknown');
     }
 }

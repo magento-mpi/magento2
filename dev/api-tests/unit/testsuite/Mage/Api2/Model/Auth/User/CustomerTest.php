@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * API2 User Customer Mock Class
+ * Webapi User Customer Mock Class
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_Customer_Mock extends Mage_Api2_Model_Auth_User_Customer
+class Mage_Webapi_Model_Auth_User_Customer_Mock extends Mage_Webapi_Model_Auth_User_Customer
 {
     /**
      * User Role rewrite for test purposes
@@ -29,7 +29,7 @@ class Mage_Api2_Model_Auth_User_Customer_Mock extends Mage_Api2_Model_Auth_User_
      * Set user role
      *
      * @param int $role
-     * @return Mage_Api2_Model_Auth_User_Customer_Mock
+     * @return Mage_Webapi_Model_Auth_User_Customer_Mock
      */
     public function setRole($role)
     {
@@ -40,19 +40,19 @@ class Mage_Api2_Model_Auth_User_Customer_Mock extends Mage_Api2_Model_Auth_User_
 }
 
 /**
- * Test Api2 User Customer model
+ * Test Webapi User Customer model
  */
-class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * API2 User Customer model
+     * Webapi User Customer model
      *
-     * @var Mage_Api2_Model_Auth_User_Customer
+     * @var Mage_Webapi_Model_Auth_User_Customer
      */
     protected $_customer;
 
     /**
-     * API2 Role model mock
+     * Webapi Role model mock
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -66,8 +66,8 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_customer = Mage::getModel('Mage_Api2_Model_Auth_User_Customer');
-        $this->_roleMock = $this->getModelMockBuilder('Mage_Api2_Model_Acl_Global_Role')
+        $this->_customer = Mage::getModel('Mage_Webapi_Model_Auth_User_Customer');
+        $this->_roleMock = $this->getModelMockBuilder('Mage_Webapi_Model_Acl_Global_Role')
             ->setMethods(array('load', 'getId'))
             ->getMock();
     }
@@ -77,7 +77,7 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
      */
     public function testGuestRoleId()
     {
-        $this->assertInternalType('integer', Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
+        $this->assertInternalType('integer', Mage_Webapi_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
     }
 
     /**
@@ -91,9 +91,9 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
 
         $this->_roleMock->expects($this->once())
             ->method('getId')
-            ->will($this->returnValue(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID));
+            ->will($this->returnValue(Mage_Webapi_Model_Acl_Global_Role::ROLE_CUSTOMER_ID));
 
-        $this->assertEquals(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID, $this->_customer->getRole());
+        $this->assertEquals(Mage_Webapi_Model_Acl_Global_Role::ROLE_CUSTOMER_ID, $this->_customer->getRole());
     }
 
     /**
@@ -107,10 +107,10 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
         $this->_roleMock->expects($this->never())
             ->method('getId');
 
-        $customerMock = new Mage_Api2_Model_Auth_User_Customer_Mock;
-        $customerMock->setRole(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
+        $customerMock = new Mage_Webapi_Model_Auth_User_Customer_Mock;
+        $customerMock->setRole(Mage_Webapi_Model_Acl_Global_Role::ROLE_CUSTOMER_ID);
 
-        $this->assertEquals(Mage_Api2_Model_Acl_Global_Role::ROLE_CUSTOMER_ID, $customerMock->getRole());
+        $this->assertEquals(Mage_Webapi_Model_Acl_Global_Role::ROLE_CUSTOMER_ID, $customerMock->getRole());
     }
 
     /**
@@ -141,6 +141,6 @@ class Mage_Api2_Model_Auth_User_CustomerTest extends Mage_PHPUnit_TestCase
      */
     public function testGetType()
     {
-        $this->assertEquals('customer', Mage::getModel('Mage_Api2_Model_Auth_User_Customer')->getType());
+        $this->assertEquals('customer', Mage::getModel('Mage_Webapi_Model_Auth_User_Customer')->getType());
     }
 }

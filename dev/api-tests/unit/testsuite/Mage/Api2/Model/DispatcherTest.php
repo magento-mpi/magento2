@@ -3,21 +3,21 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 Dispatcher model
+ * Test Webapi Dispatcher model
  */
-class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Resource model name prefix
      */
-    const RESOURCE_MODEL = 'Mage_Api2_Model_Dispatcher_TestResource';
+    const RESOURCE_MODEL = 'Mage_Webapi_Model_Dispatcher_TestResource';
 
     /**
      * Resource type
@@ -34,7 +34,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     /**
      * Response object
      *
-     * @var Mage_Api2_Model_Response
+     * @var Mage_Webapi_Model_Response
      */
     protected $_response;
 
@@ -46,9 +46,9 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_response = Mage::getSingleton('Mage_Api2_Model_Response');
+        $this->_response = Mage::getSingleton('Mage_Webapi_Model_Response');
 
-        $this->_requestMock = $this->getSingletonMockBuilder('Mage_Api2_Model_Request')
+        $this->_requestMock = $this->getSingletonMockBuilder('Mage_Webapi_Model_Request')
             ->setMethods(array(
                 'getVersion', 'getModel', 'getParam', 'getApiType', 'getResourceType'
             ))
@@ -67,7 +67,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
         $userType = 'guest';
 
         // user mock
-        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
+        $userMock = $this->getMock('Mage_Webapi_Model_Auth_User_Guest', array('getType'));
         $userMock->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($userType));
@@ -79,7 +79,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 
         $this->_requestMock->expects($this->any())
             ->method('getApiType')
-            ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
+            ->will($this->returnValue(Mage_Webapi_Model_Server::API_TYPE_REST));
 
         $this->_requestMock->expects($this->any())
             ->method('getResourceType')
@@ -90,7 +90,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue($version));
 
         // resource model mock
-        $modelMock = $this->getModelMockBuilder('Mage_Api2_Model_Dispatcher_TestResource_Rest_Guest_V1')
+        $modelMock = $this->getModelMockBuilder('Mage_Webapi_Model_Dispatcher_TestResource_Rest_Guest_V1')
             ->setMethods(array('setRequest', 'setResponse', 'setApiUser', 'dispatch'))
             ->getMock();
 
@@ -110,7 +110,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
             ->method('dispatch');
 
         // dispatcher mock
-        $dispatcherMock = new Mage_Api2_Model_Dispatcher_Mock();
+        $dispatcherMock = new Mage_Webapi_Model_Dispatcher_Mock();
         $dispatcherMock->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
     }
 
@@ -123,7 +123,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
     {
         $invalidVersion = 'INVALID_VERSION';
 
-        $userMock = $this->getMock('Mage_Api2_Model_Auth_User_Guest', array('getType'));
+        $userMock = $this->getMock('Mage_Webapi_Model_Auth_User_Guest', array('getType'));
 
         $userMock->expects($this->any())
             ->method('getType')
@@ -139,15 +139,15 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 
         $this->_requestMock->expects($this->any())
             ->method('getApiType')
-            ->will($this->returnValue(Mage_Api2_Model_Server::API_TYPE_REST));
+            ->will($this->returnValue(Mage_Webapi_Model_Server::API_TYPE_REST));
 
-        /** @var $dispatcher Mage_Api2_Model_Dispatcher_Mock */
-        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
+        /** @var $dispatcher Mage_Webapi_Model_Dispatcher_Mock */
+        $dispatcher = new Mage_Webapi_Model_Dispatcher_Mock();
 
         $this->setExpectedException(
-            'Mage_Api2_Exception',
+            'Mage_Webapi_Exception',
             sprintf('Invalid version "%s" requested.', $invalidVersion),
-            Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST
+            Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
         );
 
         $dispatcher->setApiUser($userMock)->dispatch($this->_requestMock, $this->_response);
@@ -160,10 +160,10 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testSetApiUser()
     {
-        /** @var $userMock Mage_Api2_Model_Auth_User_Abstract */
-        $userMock = $this->getMockForAbstractClass('Mage_Api2_Model_Auth_User_Abstract');
-        /** @var $dispatcher Mage_Api2_Model_Dispatcher_Mock */
-        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
+        /** @var $userMock Mage_Webapi_Model_Auth_User_Abstract */
+        $userMock = $this->getMockForAbstractClass('Mage_Webapi_Model_Auth_User_Abstract');
+        /** @var $dispatcher Mage_Webapi_Model_Dispatcher_Mock */
+        $dispatcher = new Mage_Webapi_Model_Dispatcher_Mock();
 
         $dispatcher->setApiUser($userMock);
 
@@ -175,7 +175,7 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
      */
     public function testGetVersion()
     {
-        $dispatcher = new Mage_Api2_Model_Dispatcher_Mock();
+        $dispatcher = new Mage_Webapi_Model_Dispatcher_Mock();
         $this->assertEquals(1, $dispatcher->getVersion('product', 1));
         $this->assertEquals(2, $dispatcher->getVersion('product', 2));
         $this->assertEquals(2, $dispatcher->getVersion('product', 3));
@@ -186,16 +186,16 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 
         try {
             $dispatcher->getVersion('product', 0);
-        } catch (Mage_Api2_Exception $e) {
+        } catch (Mage_Webapi_Exception $e) {
             try {
                 $dispatcher->getVersion('product', -1);
-            } catch (Mage_Api2_Exception $e) {
+            } catch (Mage_Webapi_Exception $e) {
                 try {
                     $dispatcher->getVersion('product', 1.1);
-                } catch (Mage_Api2_Exception $e) {
+                } catch (Mage_Webapi_Exception $e) {
                     try {
                         $dispatcher->getVersion('product', '1m');
-                    } catch (Mage_Api2_Exception $e) {
+                    } catch (Mage_Webapi_Exception $e) {
                         return;
                     }
                 }
@@ -207,39 +207,39 @@ class Mage_Api2_Model_DispatcherTest extends Mage_PHPUnit_TestCase
 }
 
 /**
- * Webservice api2 dispatcher model mock
+ * Webservice webapi dispatcher model mock
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Dispatcher_Mock extends Mage_Api2_Model_Dispatcher
+class Mage_Webapi_Model_Dispatcher_Mock extends Mage_Webapi_Model_Dispatcher
 {
     /**
      * API User object
      * Make property public for test purposes
      *
-     * @var Mage_Api2_Model_Auth_User_Abstract
+     * @var Mage_Webapi_Model_Auth_User_Abstract
      */
     public $_apiUser;
 
     public function getConfig()
     {
-        return new Mage_Api2_Model_Config_For_Dispatcher;
+        return new Mage_Webapi_Model_Config_For_Dispatcher;
     }
 }
 
-class Mage_Api2_Model_Config_For_Dispatcher extends Mage_Api2_Model_Config
+class Mage_Webapi_Model_Config_For_Dispatcher extends Mage_Webapi_Model_Config
 {
     public function __construct()
     {
-        // Load data of config files api2.xml
+        // Load data of config files webapi.xml
         $config = Mage::getConfig();
 
         $mergeModel = new Mage_Core_Model_Config_Base();
 
-        $mergeModel->loadFile(dirname(__FILE__) . DS . '_fixtures' .DS . 'xml' . DS . 'api2.xml');
+        $mergeModel->loadFile(dirname(__FILE__) . DS . '_fixtures' .DS . 'xml' . DS . 'webapi.xml');
         $config->extend($mergeModel);
-        $this->setXml($config->getNode('api2'));
+        $this->setXml($config->getNode('webapi'));
     }
 }

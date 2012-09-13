@@ -3,32 +3,32 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 global ACL role resource model
+ * Test Webapi global ACL role resource model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
+class Mage_Webapi_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
 {
     /**
-     * API2 role data fixture
+     * Webapi role data fixture
      *
      * @var Mage_User_Model_User
      */
     protected $_admin;
 
     /**
-     * API2 role data fixture
+     * Webapi role data fixture
      *
-     * @var Mage_Api2_Model_Acl_Global_Role
+     * @var Mage_Webapi_Model_Acl_Global_Role
      */
     protected $_role;
 
@@ -70,7 +70,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
     /**
      * Get role data fixture
      *
-     * @return Mage_Api2_Model_Acl_Global_Role
+     * @return Mage_Webapi_Model_Acl_Global_Role
      */
     protected function _getRoleDataFixture()
     {
@@ -78,8 +78,8 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
             'role_name' => 'TestRoleName' . mt_rand()
         );
 
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $role->setData($data)->save();
 
         $this->addModelToDelete($role, true);
@@ -90,7 +90,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
     /**
      * Get another role data fixture
      *
-     * @return Mage_Api2_Model_Acl_Global_Role
+     * @return Mage_Webapi_Model_Acl_Global_Role
      */
     protected function _getOtherRoleDataFixture()
     {
@@ -98,8 +98,8 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
             'role_name' => 'TestOtherRoleName' . mt_rand()
         );
 
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $role->setData($data)->save();
 
         $this->addModelToDelete($role, true);
@@ -108,7 +108,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
     }
 
     /**
-     * Test create new relation row of admin user to API2 role
+     * Test create new relation row of admin user to Webapi role
      */
     public function testCreateAdminToRoleRelation()
     {
@@ -128,7 +128,7 @@ class Mage_Api2_Model_Resource_Acl_Global_RoleTest extends Magento_TestCase
     }
 
     /**
-     * Test update relation row of admin user to API2 role
+     * Test update relation row of admin user to Webapi role
      */
     public function testUpdateAdminToRoleRelation()
     {

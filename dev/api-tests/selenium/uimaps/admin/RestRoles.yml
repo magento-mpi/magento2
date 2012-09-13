@@ -27,8 +27,8 @@
 
 # 'Roles' page
 manage_rest_roles:
-    mca: api2_role/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'api2_role/')]
+    mca: webapi_role/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'webapi_role/')]
     title: REST Roles / Web Services / System / Magento Admin
     uimap:
         form:
@@ -52,14 +52,14 @@ manage_rest_roles:
 
 # 'New REST Role' page
 new_rest_role:
-    mca: api2_role/new/
+    mca: webapi_role/new/
     title: New Role / Rest Roles / Web Services / System / Magento Admin
     uimap:
         form: &newRestRoleForm
             tabs:
                 -
                     rest_role_info:
-                        xpath: //a[@id='role_info_tabs_api2_role_section_info']
+                        xpath: //a[@id='role_info_tabs_webapi_role_section_info']
                         fieldsets:
                             -
                                 rest_role_information:
@@ -68,7 +68,7 @@ new_rest_role:
                                         rest_role_name: //input[@id='role_name']
                 -
                     rest_role_resources:
-                        xpath: //a[@id='role_info_tabs_api2_role_section_resources']
+                        xpath: //a[@id='role_info_tabs_webapi_role_section_resources']
                         fieldsets:
                             -
                                  role_resources:
@@ -86,14 +86,14 @@ new_rest_role:
 
 # 'Edit REST Role' page
 edit_rest_role:
-    mca: api2_role/edit/id/%rest_role_id%/
+    mca: webapi_role/edit/id/%rest_role_id%/
     title: Edit Role / Rest Roles / Web Services / System / Magento Admin
     uimap:
         form:
             tabs:
                 -
                     rest_role_info:
-                        xpath: //a[@id='role_info_tabs_api2_role_section_info']
+                        xpath: //a[@id='role_info_tabs_webapi_role_section_info']
                         fieldsets:
                             -
                                 rest_role_information:
@@ -102,7 +102,7 @@ edit_rest_role:
                                         rest_role_name: //input[@id='role_name']
                 -
                     rest_role_resources:
-                        xpath: //a[@id='role_info_tabs_api2_role_section_resources']
+                        xpath: //a[@id='role_info_tabs_webapi_role_section_resources']
                         fieldsets:
                             -
                                  role_resources:

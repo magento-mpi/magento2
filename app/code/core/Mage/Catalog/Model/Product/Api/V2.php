@@ -114,7 +114,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         $this->_prepareDataForSave($product, $productData);
 
         // TODO: Temporary validation solution before global architectural changes
-        $validator = Mage_Catalog_Model_Api2_Product_Validator_ProductAbstract::getValidatorByProductType($type);
+        $validator = Mage_Catalog_Model_Webapi_Product_Validator_ProductAbstract::getValidatorByProductType($type);
         if (!$validator->isValidForCreate($product, $this->_prepareDataForValidator($product, $productData))) {
             $this->_processValidationErrors($validator);
         }
@@ -299,9 +299,9 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
     /**
      * Fetch validation errors from validator object and set them to rest response
      *
-     * @param Mage_Api2_Model_Resource_Validator $validator
+     * @param Mage_Webapi_Model_Resource_Validator $validator
      */
-    protected function _processValidationErrors(Mage_Api2_Model_Resource_Validator $validator)
+    protected function _processValidationErrors(Mage_Webapi_Model_Resource_Validator $validator)
     {
         $errors = $validator->getErrors();
         $this->_fault('data_invalid', implode("\n", $errors));

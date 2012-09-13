@@ -3,32 +3,32 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 config model
+ * Test Webapi config model
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_ConfigTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * API2 data helper mock
+     * Webapi data helper mock
      *
-     * @var Mage_Api2_Helper_Data
+     * @var Mage_Webapi_Helper_Data
      */
     protected $_helperMock;
 
     /**
      * Config object
      *
-     * @var Mage_Api2_Model_Config
+     * @var Mage_Webapi_Model_Config
      */
     protected $_config;
 
@@ -42,12 +42,12 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_helperMock = $this->getHelperMockBuilder('Mage_Api2_Helper_Data')->setMethods(array('isApiTypeSupported'))->getMock();
-        $this->_config = new Mage_Api2_Model_Config_Mock();
+        $this->_helperMock = $this->getHelperMockBuilder('Mage_Webapi_Helper_Data')->setMethods(array('isApiTypeSupported'))->getMock();
+        $this->_config = new Mage_Webapi_Model_Config_Mock();
     }
 
     /**
-     * Test get all resources from config files api2.xml
+     * Test get all resources from config files webapi.xml
      *
      * @return void
      */
@@ -99,7 +99,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test fetch all routes of the given api type from config files api2.xm
+     * Test fetch all routes of the given api type from config files webapi.xm
      *
      * @return void
      */
@@ -109,13 +109,13 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
             ->method('isApiTypeSupported')
             ->will($this->returnValue(true));
 
-        $routes = $this->_config->getRoutes(Mage_Api2_Model_Server::API_TYPE_REST);
+        $routes = $this->_config->getRoutes(Mage_Webapi_Model_Server::API_TYPE_REST);
         $this->assertInternalType('array', $routes);
         $this->assertEquals(2, count($routes));
 
-        /** @var $route Mage_Api2_Model_Route_Rest */
+        /** @var $route Mage_Webapi_Model_Route_Rest */
         foreach ($routes as $route) {
-            $this->assertInstanceOf('Mage_Api2_Model_Route_Rest', $route);
+            $this->assertInstanceOf('Mage_Webapi_Model_Route_Rest', $route);
 
             $defaults = $route->getDefaults();
             $this->assertArrayHasKey('model', $defaults);
@@ -125,7 +125,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test failed fetch all routes of the given api type from config files api2.xm
+     * Test failed fetch all routes of the given api type from config files webapi.xm
      *
      * @return void
      */
@@ -136,9 +136,9 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
 
         $wrongApiType = 'qwerty';
         $this->setExpectedException(
-            'Mage_Api2_Exception',
+            'Mage_Webapi_Exception',
             sprintf('API type "%s" is not supported', $wrongApiType),
-            Mage_Api2_Controller_Front_Rest::HTTP_BAD_REQUEST
+            Mage_Webapi_Controller_Front_Rest::HTTP_BAD_REQUEST
         );
 
         $this->_config->getRoutes($wrongApiType);
@@ -234,7 +234,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test get route with Mage_Api2_Model_Resource::ACTION_TYPE_ENTITY type
+     * Test get route with Mage_Webapi_Model_Resource::ACTION_TYPE_ENTITY type
      *
      * @return void
      */
@@ -244,7 +244,7 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
     }
 
     /**
-     * Test get wrong route with Mage_Api2_Model_Resource::ACTION_TYPE_ENTITY type
+     * Test get wrong route with Mage_Webapi_Model_Resource::ACTION_TYPE_ENTITY type
      *
      * @return void
      */
@@ -258,23 +258,23 @@ class Mage_Api2_Model_ConfigTest extends Mage_PHPUnit_TestCase
 }
 
 /**
- * API2 configuration class mock
+ * Webapi configuration class mock
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Config_Mock extends Mage_Api2_Model_Config
+class Mage_Webapi_Model_Config_Mock extends Mage_Webapi_Model_Config
 {
     public function __construct()
     {
-        // Load data of config files api2.xml
+        // Load data of config files webapi.xml
         $config = Mage::getConfig();
 
         $mergeModel = new Mage_Core_Model_Config_Base();
 
-        $mergeModel->loadFile(dirname(__FILE__) . DS . '_fixtures' .DS . 'xml' . DS . 'api2.xml');
+        $mergeModel->loadFile(dirname(__FILE__) . DS . '_fixtures' .DS . 'xml' . DS . 'webapi.xml');
         $config->extend($mergeModel);
-        $this->setXml($config->getNode('api2'));
+        $this->setXml($config->getNode('webapi'));
     }
 }

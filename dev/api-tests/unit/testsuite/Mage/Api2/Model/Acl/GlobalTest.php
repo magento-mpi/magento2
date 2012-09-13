@@ -3,16 +3,16 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 ACL Global model
+ * Test Webapi ACL Global model
  */
-class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
 {
     /**#@+
      * Test values
@@ -36,7 +36,7 @@ class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
     protected $_aclMock;
 
     /**
-     * @var Mage_Api2_Model_Auth_User_Abstract
+     * @var Mage_Webapi_Model_Auth_User_Abstract
      */
     protected $_apiUserMock;
 
@@ -48,12 +48,12 @@ class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_aclGlobal   = Mage::getModel('Mage_Api2_Model_Acl_Global');
+        $this->_aclGlobal   = Mage::getModel('Mage_Webapi_Model_Acl_Global');
         $this->_apiUserMock = $this->getMockForAbstractClass(
-            'Mage_Api2_Model_Auth_User_Abstract', array(), '', true, true, true, array('getRole')
+            'Mage_Webapi_Model_Auth_User_Abstract', array(), '', true, true, true, array('getRole')
         );
 
-        $this->_aclMock = $this->getModelMockBuilder('Mage_Api2_Model_Acl')
+        $this->_aclMock = $this->getModelMockBuilder('Mage_Webapi_Model_Acl')
             ->disableOriginalConstructor()
             ->setMethods(array('has', 'hasRole', 'isAllowed'))
             ->getMock();
@@ -108,7 +108,7 @@ class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(false));
 
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Resource not found', Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND
+            'Mage_Webapi_Exception', 'Resource not found', Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND
         );
 
         $this->_aclGlobal->isAllowed($this->_apiUserMock, self::RESOURCE_INVALID, 'any_operation');
@@ -128,7 +128,7 @@ class Mage_Api2_Model_Acl_GlobalTest extends Mage_PHPUnit_TestCase
             ->with(self::ROLE_INVALID)
             ->will($this->returnValue(false));
 
-        $this->setExpectedException('Mage_Api2_Exception', 'Role not found', Mage_Api2_Controller_Front_Rest::HTTP_UNAUTHORIZED);
+        $this->setExpectedException('Mage_Webapi_Exception', 'Role not found', Mage_Webapi_Controller_Front_Rest::HTTP_UNAUTHORIZED);
 
         $this->_aclGlobal->isAllowed($this->_apiUserMock, 'any_resource', 'any_operation');
     }

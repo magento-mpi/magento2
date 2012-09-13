@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 data helper
+ * Test Webapi data helper
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Helper_DataTest extends Magento_TestCase
+class Mage_Webapi_Helper_DataTest extends Magento_TestCase
 {
     /**
      * Test get interpreter type for Request body according to Content-type HTTP header
@@ -25,8 +25,8 @@ class Mage_Api2_Helper_DataTest extends Magento_TestCase
      */
     public function testGetRequestInterpreterAdapters()
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('Mage_Api2_Helper_Data');
+        /** @var $helper Mage_Webapi_Helper_Data */
+        $helper = Mage::helper('Mage_Webapi_Helper_Data');
 
         $adapters = $helper->getRequestInterpreterAdapters();
 
@@ -41,8 +41,8 @@ class Mage_Api2_Helper_DataTest extends Magento_TestCase
      */
     public function testGetResponseRenderAdapters()
     {
-        /** @var $helper Mage_Api2_Helper_Data */
-        $helper = Mage::helper('Mage_Api2_Helper_Data');
+        /** @var $helper Mage_Webapi_Helper_Data */
+        $helper = Mage::helper('Mage_Webapi_Helper_Data');
 
         $adapters = $helper->getResponseRenderAdapters();
 

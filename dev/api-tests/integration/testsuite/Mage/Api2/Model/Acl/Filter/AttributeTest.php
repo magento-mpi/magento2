@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 filter ACL attribute model
+ * Test Webapi filter ACL attribute model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Acl_Filter_AttributeTest extends Magento_TestCase
+class Mage_Webapi_Model_Acl_Filter_AttributeTest extends Magento_TestCase
 {
     /**
      * Get fixture data
@@ -34,8 +34,8 @@ class Mage_Api2_Model_Acl_Filter_AttributeTest extends Magento_TestCase
     public function testCrud()
     {
         $data = $this->_getFixture();
-        /** @var $model Mage_Api2_Model_Acl_Filter_Attribute */
-        $model = Mage::getModel('Mage_Api2_Model_Acl_Filter_Attribute');
+        /** @var $model Mage_Webapi_Model_Acl_Filter_Attribute */
+        $model = Mage::getModel('Mage_Webapi_Model_Acl_Filter_Attribute');
         $this->addModelToDelete($model);
         $model->setData($data['create']);
         $testEntity = new Magento_Test_Entity($model, $data['update']);

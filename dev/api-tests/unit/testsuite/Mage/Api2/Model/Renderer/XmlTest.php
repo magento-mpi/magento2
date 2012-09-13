@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,10 +13,10 @@
  * Test response renderer XML adapter
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Renderer_XmlTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Renderer_XmlTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Test render data
@@ -27,8 +27,8 @@ class Mage_Api2_Model_Renderer_XmlTest extends Mage_PHPUnit_TestCase
      */
     public function testRenderData($encoded, $decoded)
     {
-        /** @var $adapter Mage_Api2_Model_Renderer_Xml */
-        $adapter = Mage::getModel('Mage_Api2_Model_Renderer_Xml');
+        /** @var $adapter Mage_Webapi_Model_Renderer_Xml */
+        $adapter = Mage::getModel('Mage_Webapi_Model_Renderer_Xml');
 
         $xml = $adapter->render($decoded);
         $simpleXml = new SimpleXMLElement($xml);

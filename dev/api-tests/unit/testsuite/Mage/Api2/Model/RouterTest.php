@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 router model
+ * Test Webapi router model
  */
-class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_RouterTest extends Mage_PHPUnit_TestCase
 {
     /**#@+
      * Resource route values
      */
     const RESOURCE_TYPE  = 'product';
-    const RESOURCE_MODEL = 'Mage_Catalog_Model_Product_Api2';
+    const RESOURCE_MODEL = 'Mage_Catalog_Model_Product_Webapi';
     /**#@- */
 
     /**
@@ -29,14 +29,14 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Request
+     * @var Mage_Webapi_Model_Request
      */
     protected $_request;
 
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Router
+     * @var Mage_Webapi_Model_Router
      */
     protected $_router;
 
@@ -44,15 +44,15 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
      * Get route (emulates retrieve from helper)
      *
      * @param array $defaults Default values for parameters
-     * @return Mage_Api2_Model_Route_Rest
+     * @return Mage_Webapi_Model_Route_Rest
      */
     protected function _getConfigRoute(array $defaults)
     {
         return Mage::getModel(
-            'Mage_Api2_Model_Route_Rest',
+            'Mage_Webapi_Model_Route_Rest',
             array(
-                Mage_Api2_Model_Route_Abstract::PARAM_ROUTE    => 'products/:id',
-                Mage_Api2_Model_Route_Abstract::PARAM_DEFAULTS => $defaults
+                Mage_Webapi_Model_Route_Abstract::PARAM_ROUTE    => 'products/:id',
+                Mage_Webapi_Model_Route_Abstract::PARAM_DEFAULTS => $defaults
             )
         );
     }
@@ -65,8 +65,8 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_request = Mage::getModel('Mage_Api2_Model_Request', null);
-        $this->_router  = Mage::getSingleton('Mage_Api2_Model_Router');
+        $this->_request = Mage::getModel('Mage_Webapi_Model_Request', null);
+        $this->_router  = Mage::getSingleton('Mage_Webapi_Model_Router');
     }
 
     /**
@@ -75,7 +75,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
     public function testRouteNotMatched()
     {
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Request does not match any route.', Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND
+            'Mage_Webapi_Exception', 'Request does not match any route.', Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND
         );
 
         $this->_router->match($this->_request);
@@ -111,7 +111,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
 
         $this->assertNull($this->_request->getParam('type'));
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Matched resource is not properly set.', Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR
+            'Mage_Webapi_Exception', 'Matched resource is not properly set.', Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR
         );
 
         $this->_router->setRoutes(array($this->_getConfigRoute(array('type' => self::RESOURCE_TYPE))))
@@ -129,7 +129,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
 
         $this->assertNull($this->_request->getParam('model'));
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Matched resource is not properly set.', Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR
+            'Mage_Webapi_Exception', 'Matched resource is not properly set.', Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR
         );
 
         $this->_router->setRoutes(array($this->_getConfigRoute(array('model' => self::RESOURCE_MODEL))))
@@ -179,7 +179,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
      */
     public function testRouteApiTypeNotMatch()
     {
-        $apiTypeRouteMock = $this->getModelMockBuilder('Mage_Api2_Model_Route_ApiType')
+        $apiTypeRouteMock = $this->getModelMockBuilder('Mage_Webapi_Model_Route_ApiType')
             ->setConstructorArgs(array(null))
             ->setMethods(array('match'))
             ->getMock();
@@ -190,7 +190,7 @@ class Mage_Api2_Model_RouterTest extends Mage_PHPUnit_TestCase
             ->will($this->returnValue(false));
 
         $this->setExpectedException(
-            'Mage_Api2_Exception', 'Request does not match type route.', Mage_Api2_Controller_Front_Rest::HTTP_NOT_FOUND
+            'Mage_Webapi_Exception', 'Request does not match type route.', Mage_Webapi_Controller_Front_Rest::HTTP_NOT_FOUND
         );
 
         $this->_router->routeApiType($this->_request);

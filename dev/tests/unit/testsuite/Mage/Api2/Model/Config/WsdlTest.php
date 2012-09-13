@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Api2_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
 {
     public function testConstructEmptyResourceConfigException()
     {
         try {
-            new Mage_Api2_Model_Config_Wsdl(array(
+            new Mage_Webapi_Model_Config_Wsdl(array(
                 'resource_config' => null,
                 'endpoint_url' => 'http://magento.example/api/soap/',
             ));
@@ -28,7 +28,7 @@ class Mage_Api2_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
     {
         $invalidResourceConfigObject = new stdClass();
         try {
-            new Mage_Api2_Model_Config_Wsdl(array(
+            new Mage_Webapi_Model_Config_Wsdl(array(
                 'resource_config' => $invalidResourceConfigObject,
                 'endpoint_url' => 'http://magento.example/api/soap/',
             ));
@@ -41,10 +41,10 @@ class Mage_Api2_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
     public function testConstructEmptyEndpointUrlException()
     {
         try {
-            $resourceConfigMock = $this->getMockBuilder('Mage_Api2_Model_Config_Resource')
+            $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
                 ->disableOriginalConstructor()
                 ->getMock();
-            new Mage_Api2_Model_Config_Wsdl(array(
+            new Mage_Webapi_Model_Config_Wsdl(array(
                 'resource_config' => $resourceConfigMock,
                 'endpoint_url' => null,
             ));
@@ -59,7 +59,7 @@ class Mage_Api2_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
         $resourceConfigMock = $this->_getResourceConfigMock();
 
         $endpointUrl = 'http://magento.example/api/soap/';
-        $wsdlConfig = new Mage_Api2_Model_Config_Wsdl(array(
+        $wsdlConfig = new Mage_Webapi_Model_Config_Wsdl(array(
             'resource_config' => $resourceConfigMock,
             'endpoint_url' => $endpointUrl,
         ));
@@ -99,7 +99,7 @@ class Mage_Api2_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
     /**
      * Set up resource config mock with resources list and DOMDocument.
      *
-     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Api2_Model_Config_Resource
+     * @return PHPUnit_Framework_MockObject_MockObject|Mage_Webapi_Model_Config_Resource
      */
     protected function _getResourceConfigMock()
     {
@@ -116,7 +116,7 @@ class Mage_Api2_Model_Config_WsdlTest extends PHPUnit_Framework_TestCase
             )
         );
 
-        $resourceConfigMock = $this->getMockBuilder('Mage_Api2_Model_Config_Resource')
+        $resourceConfigMock = $this->getMockBuilder('Mage_Webapi_Model_Config_Resource')
             ->setMethods(array('getDom', 'getResources'))
             ->disableOriginalConstructor()
             ->getMock();

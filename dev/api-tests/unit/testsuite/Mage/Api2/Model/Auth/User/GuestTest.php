@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * API2 User Guest Mock Class
+ * Webapi User Guest Mock Class
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_Guest_Mock extends Mage_Api2_Model_Auth_User_Guest
+class Mage_Webapi_Model_Auth_User_Guest_Mock extends Mage_Webapi_Model_Auth_User_Guest
 {
     /**
      * User Role rewrite for test purposes
@@ -29,7 +29,7 @@ class Mage_Api2_Model_Auth_User_Guest_Mock extends Mage_Api2_Model_Auth_User_Gue
      * Set user role
      *
      * @param int $role
-     * @return Mage_Api2_Model_Auth_User_Guest_Mock
+     * @return Mage_Webapi_Model_Auth_User_Guest_Mock
      */
     public function setRole($role)
     {
@@ -40,23 +40,23 @@ class Mage_Api2_Model_Auth_User_Guest_Mock extends Mage_Api2_Model_Auth_User_Gue
 }
 
 /**
- * Test Api2 User Guest model
+ * Test Webapi User Guest model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_GuestTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Auth_User_GuestTest extends Mage_PHPUnit_TestCase
 {
     /**
-     * API2 User Guest model
+     * Webapi User Guest model
      *
-     * @var Mage_Api2_Model_Auth_User_Guest
+     * @var Mage_Webapi_Model_Auth_User_Guest
      */
     protected $_guest;
 
     /**
-     * API2 Role model mock
+     * Webapi Role model mock
      *
      * @var PHPUnit_Framework_MockObject_MockObject
      */
@@ -70,8 +70,8 @@ class Mage_Api2_Model_Auth_User_GuestTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_guest = Mage::getModel('Mage_Api2_Model_Auth_User_Guest');
-        $this->_roleMock = $this->getModelMockBuilder('Mage_Api2_Model_Acl_Global_Role')
+        $this->_guest = Mage::getModel('Mage_Webapi_Model_Auth_User_Guest');
+        $this->_roleMock = $this->getModelMockBuilder('Mage_Webapi_Model_Acl_Global_Role')
             ->setMethods(array('load', 'getId'))
             ->getMock();
     }
@@ -81,7 +81,7 @@ class Mage_Api2_Model_Auth_User_GuestTest extends Mage_PHPUnit_TestCase
      */
     public function testGuestRoleId()
     {
-        $this->assertInternalType('integer', Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID);
+        $this->assertInternalType('integer', Mage_Webapi_Model_Acl_Global_Role::ROLE_GUEST_ID);
     }
 
     /**
@@ -95,9 +95,9 @@ class Mage_Api2_Model_Auth_User_GuestTest extends Mage_PHPUnit_TestCase
 
         $this->_roleMock->expects($this->once())
             ->method('getId')
-            ->will($this->returnValue(Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID));
+            ->will($this->returnValue(Mage_Webapi_Model_Acl_Global_Role::ROLE_GUEST_ID));
 
-        $this->assertEquals(Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID, $this->_guest->getRole());
+        $this->assertEquals(Mage_Webapi_Model_Acl_Global_Role::ROLE_GUEST_ID, $this->_guest->getRole());
     }
 
     /**
@@ -111,10 +111,10 @@ class Mage_Api2_Model_Auth_User_GuestTest extends Mage_PHPUnit_TestCase
         $this->_roleMock->expects($this->never())
             ->method('getId');
 
-        $guestMock = new Mage_Api2_Model_Auth_User_Guest_Mock;
-        $guestMock->setRole(Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID);
+        $guestMock = new Mage_Webapi_Model_Auth_User_Guest_Mock;
+        $guestMock->setRole(Mage_Webapi_Model_Acl_Global_Role::ROLE_GUEST_ID);
 
-        $this->assertEquals(Mage_Api2_Model_Acl_Global_Role::ROLE_GUEST_ID, $guestMock->getRole());
+        $this->assertEquals(Mage_Webapi_Model_Acl_Global_Role::ROLE_GUEST_ID, $guestMock->getRole());
     }
 
     /**

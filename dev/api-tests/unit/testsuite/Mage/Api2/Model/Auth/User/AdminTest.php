@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * API2 User Admin Mock Class
+ * Webapi User Admin Mock Class
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_Admin_Mock extends Mage_Api2_Model_Auth_User_Admin
+class Mage_Webapi_Model_Auth_User_Admin_Mock extends Mage_Webapi_Model_Auth_User_Admin
 {
     /**
      * User Role rewrite for test purposes
@@ -27,18 +27,18 @@ class Mage_Api2_Model_Auth_User_Admin_Mock extends Mage_Api2_Model_Auth_User_Adm
 }
 
 /**
- * API2 global ACL role resource collection mock class
+ * Webapi global ACL role resource collection mock class
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+class Mage_Webapi_Model_Resource_Acl_Global_Role_Collection_Mock
 {
     /**
      * Add filter by admin user id and join table with appropriate information
      *
-     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+     * @return Mage_Webapi_Model_Resource_Acl_Global_Role_Collection_Mock
      */
     public function addFilterByAdminId()
     {
@@ -48,7 +48,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
     /**
      * Retrieve collection first item
      *
-     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+     * @return Mage_Webapi_Model_Resource_Acl_Global_Role_Collection_Mock
      */
     public function getFirstItem()
     {
@@ -58,7 +58,7 @@ class Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
     /**
      * Retrieve collection item id
      *
-     * @return Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
+     * @return Mage_Webapi_Model_Resource_Acl_Global_Role_Collection_Mock
      */
     public function getId()
     {
@@ -67,18 +67,18 @@ class Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock
 }
 
 /**
- * Test Api2 User Admin model
+ * Test Webapi User Admin model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
 {
     /**
      * API User object
      *
-     * @var Mage_Api2_Model_Auth_User_Admin_Mock
+     * @var Mage_Webapi_Model_Auth_User_Admin_Mock
      */
     protected $_userMock;
 
@@ -90,7 +90,7 @@ class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
     {
         parent::setUp();
 
-        $this->_userMock = new Mage_Api2_Model_Auth_User_Admin_Mock;
+        $this->_userMock = new Mage_Webapi_Model_Auth_User_Admin_Mock;
     }
 
     /**
@@ -124,13 +124,13 @@ class Mage_Api2_Model_Auth_User_AdminTest extends Mage_PHPUnit_TestCase
     public function testGetRoleNotSet()
     {
         /** @var $roleMock PHPUnit_Framework_MockObject_MockObject */
-        $roleMock = $this->getModelMockBuilder('Mage_Api2_Model_Acl_Global_Role')
+        $roleMock = $this->getModelMockBuilder('Mage_Webapi_Model_Acl_Global_Role')
             ->setMethods(array('getCollection'))
             ->getMock();
 
         $roleMock->expects($this->once())
             ->method('getCollection')
-            ->will($this->returnValue(new Mage_Api2_Model_Resource_Acl_Global_Role_Collection_Mock()));
+            ->will($this->returnValue(new Mage_Webapi_Model_Resource_Acl_Global_Role_Collection_Mock()));
 
         $this->_userMock->setUserId(1);
 

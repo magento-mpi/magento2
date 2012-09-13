@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 global ACL rule resource collection model
+ * Test Webapi global ACL rule resource collection model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Resource_Acl_Global_Rule_CollectionTest extends Magento_TestCase
+class Mage_Webapi_Model_Resource_Acl_Global_Rule_CollectionTest extends Magento_TestCase
 {
     /**
      * Get fixture data
@@ -37,8 +37,8 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_CollectionTest extends Magento_Te
         $cnt = 3;
         $ids = array();
         for ($i = $cnt; $i > 0; $i--) {
-            /** @var $model Mage_Api2_Model_Acl_Global_Rule */
-            $model = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule');
+            /** @var $model Mage_Webapi_Model_Acl_Global_Rule */
+            $model = Mage::getModel('Mage_Webapi_Model_Acl_Global_Rule');
             $setData = $data['create'];
             $setData['resource_id'] .= $i;
             $this->addModelToDelete($model, true);
@@ -46,13 +46,13 @@ class Mage_Api2_Model_Resource_Acl_Global_Rule_CollectionTest extends Magento_Te
             $model->save();
             $ids[] = $model->getId();
 
-            /** @var $role Mage_Api2_Model_Acl_Global_Role */
-            $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+            /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+            $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
             $this->addModelToDelete($role->load($model->getRoleId()), true);
         }
 
-        /** @var $model Mage_Api2_Model_Acl_Global_Rule */
-        $model = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule');
+        /** @var $model Mage_Webapi_Model_Acl_Global_Rule */
+        $model = Mage::getModel('Mage_Webapi_Model_Acl_Global_Rule');
         $collection = $model->getCollection();
         $collection->addFilter('main_table.entity_id', array('in' => $ids), 'public');
         $this->assertEquals($cnt, $collection->count());

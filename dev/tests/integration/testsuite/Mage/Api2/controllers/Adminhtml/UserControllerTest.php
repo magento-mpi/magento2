@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -11,18 +11,18 @@
 
 /**
  * Test class for Mage_User_Adminhtml_UserController
- * @group module:Mage_Api2
+ * @group module:Mage_Webapi
  */
-class Mage_Api2_Adminhtml_UserControllerTest extends Mage_Adminhtml_Utility_Controller
+class Mage_Webapi_Adminhtml_UserControllerTest extends Mage_Adminhtml_Utility_Controller
 {
     /**
-     * Test that a block added by Api2 layout is present in content of action
+     * Test that a block added by Webapi layout is present in content of action
      *
      * @return void
      */
     public function testNewActionTest()
     {
         $this->dispatch('backend/admin/user/new');
-        $this->assertContains('name="api2_roles_section"', $this->getResponse()->getBody());
+        $this->assertContains('name="webapi_roles_section"', $this->getResponse()->getBody());
     }
 }

@@ -3,22 +3,22 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
+class Mage_Webapi_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @var Mage_Api2_Model_Config_Rest
+     * @var Mage_Webapi_Model_Config_Rest
      */
     protected static $_model = null;
 
     public static function setUpBeforeClass()
     {
-        self::$_model = new Mage_Api2_Model_Config_Rest(glob(__DIR__ . '/_files/positive/*/rest.xml'));
+        self::$_model = new Mage_Webapi_Model_Config_Rest(glob(__DIR__ . '/_files/positive/*/rest.xml'));
     }
 
     /**
@@ -28,7 +28,7 @@ class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testRouteResourceTypeInvalidValue()
     {
-        new Mage_Api2_Model_Config_Rest(glob(__DIR__ . '/_files/negative/invalid_route_resource_type.xml'));
+        new Mage_Webapi_Model_Config_Rest(glob(__DIR__ . '/_files/negative/invalid_route_resource_type.xml'));
     }
 
     /**
@@ -38,7 +38,7 @@ class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
      */
     public function testNotUniqueRouteValue()
     {
-        new Mage_Api2_Model_Config_Rest(glob(__DIR__ . '/_files/negative/not_unique_routes.xml'));
+        new Mage_Webapi_Model_Config_Rest(glob(__DIR__ . '/_files/negative/not_unique_routes.xml'));
     }
 
     public function testGetSchemaFile()
@@ -49,9 +49,9 @@ class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
     public function testGetRoutes()
     {
         $actualRoutes = self::$_model->getRoutes();
-        /** @var Mage_Api2_Controller_Router_Route_Rest $route */
+        /** @var Mage_Webapi_Controller_Router_Route_Rest $route */
         foreach ($actualRoutes as $route) {
-            $this->assertInstanceOf('Mage_Api2_Controller_Router_Route_Rest', $route);
+            $this->assertInstanceOf('Mage_Webapi_Controller_Router_Route_Rest', $route);
         }
     }
 
@@ -65,7 +65,7 @@ class Mage_Api2_Model_Config_RestTest extends PHPUnit_Framework_TestCase
 
     public function testGetControllerClassByResourceName()
     {
-        /** @var Mage_Api2_Controller_Router_Route_Rest $route */
+        /** @var Mage_Webapi_Controller_Router_Route_Rest $route */
         $route = current(self::$_model->getRoutes());
         $resourceName = $route->getResourceName();
         $this->assertEquals('test_module_a', $resourceName);

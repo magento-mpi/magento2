@@ -4,7 +4,7 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,24 +12,24 @@
 <interpreters>
     <application_json>
         <type>application/json</type>
-        <model>Mage_Api2_Model_Request_Interpreter_Json</model>
+        <model>Mage_Webapi_Model_Request_Interpreter_Json</model>
     </application_json>
 
     <text_plain>
         <type>text/plain</type>
-        <model>Mage_Api2_Model_Request_Interpreter_Query</model>
+        <model>Mage_Webapi_Model_Request_Interpreter_Query</model>
     </text_plain>
 
     <application_xml>
         <type>application/xml</type>
-        <model>Mage_Api2_Model_Request_Interpreter_Xml</model>
+        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
     </application_xml>
     <application_xhtml_xml>
         <type>application/xhtml+xml</type>
-        <model>Mage_Api2_Model_Request_Interpreter_Xml</model>
+        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
     </application_xhtml_xml>
     <text_xml>
         <type>text/xml</type>
-        <model>Mage_Api2_Model_Request_Interpreter_Xml</model>
+        <model>Mage_Webapi_Model_Request_Interpreter_Xml</model>
     </text_xml>
 </interpreters>

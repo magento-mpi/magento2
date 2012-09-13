@@ -4,18 +4,18 @@
  * {license_notice}
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @copyright   {copyright}
  * @license     {license_link}
  */
 -->
 <config>
-    <api2>
+    <webapi>
        <resources>
             <product>
                 <type>product</type><!-- used in ACL -->
                 <title>Catalog Product</title><!-- not used now, probably useful in frontend -->
-                <model>Mage_Catalog_Model_Api2_Product</model><!-- used in dispatching -->
+                <model>Mage_Catalog_Model_Webapi_Product</model><!-- used in dispatching -->
                 <working_model>Mage_Catalog_Model_Product</working_model>
                 <attributes>
                     <review_id>ID</review_id>
@@ -72,5 +72,5 @@
             <test3><versions>1,,5</versions></test3>
             <test4><versions>1,2m,5</versions></test4>
         </resources>
-    </api2>
+    </webapi>
 </config>

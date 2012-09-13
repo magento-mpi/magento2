@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test Api2 response model
+ * Test Webapi response model
  */
-class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_ResponseTest extends Mage_PHPUnit_TestCase
 {
     protected $_messageFixture = array(
         'message' => 'test message',
-        'code'    => Mage_Api2_Controller_Front_Rest::HTTP_OK,
+        'code'    => Mage_Webapi_Controller_Front_Rest::HTTP_OK,
         'param1'  => 'param1',
         'param2'  => 'param2'
     );
@@ -26,14 +26,14 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
      */
     public function testAddMessage()
     {
-        /* @var $response Mage_Api2_Model_Response */
-        $response = Mage::getModel('Mage_Api2_Model_Response');
+        /* @var $response Mage_Webapi_Model_Response */
+        $response = Mage::getModel('Mage_Webapi_Model_Response');
 
         $fluent = $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_SUCCESS
         );
         $this->assertEquals($fluent, $response);
 
@@ -41,7 +41,7 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_ERROR
         );
         $this->assertEquals($fluent, $response);
 
@@ -49,14 +49,14 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_WARNING
         );
         $this->assertEquals($fluent, $response);
 
         $messages = $response->getMessages();
-        $this->assertEquals($this->_messageFixture, $messages[Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS][0]);
-        $this->assertEquals($this->_messageFixture, $messages[Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR][0]);
-        $this->assertEquals($this->_messageFixture, $messages[Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING][0]);
+        $this->assertEquals($this->_messageFixture, $messages[Mage_Webapi_Model_Response::MESSAGE_TYPE_SUCCESS][0]);
+        $this->assertEquals($this->_messageFixture, $messages[Mage_Webapi_Model_Response::MESSAGE_TYPE_ERROR][0]);
+        $this->assertEquals($this->_messageFixture, $messages[Mage_Webapi_Model_Response::MESSAGE_TYPE_WARNING][0]);
     }
 
     /**
@@ -64,13 +64,13 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
      */
     public function testHasMessage()
     {
-        /* @var $response Mage_Api2_Model_Response */
-        $response = Mage::getModel('Mage_Api2_Model_Response');
+        /* @var $response Mage_Webapi_Model_Response */
+        $response = Mage::getModel('Mage_Webapi_Model_Response');
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_WARNING
         );
         $this->assertEquals($response->hasMessages(), true);
     }
@@ -80,28 +80,28 @@ class Mage_Api2_Model_ResponseTest extends Mage_PHPUnit_TestCase
      */
     public function testClearMessages()
     {
-        /* @var $response Mage_Api2_Model_Response */
-        $response = Mage::getModel('Mage_Api2_Model_Response');
+        /* @var $response Mage_Webapi_Model_Response */
+        $response = Mage::getModel('Mage_Webapi_Model_Response');
 
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_SUCCESS
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_SUCCESS
         );
 
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_ERROR
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_ERROR
         );
 
         $response->addMessage(
             $this->_messageFixture['message'],
             $this->_messageFixture['code'],
             array('param1' => $this->_messageFixture['param1'], 'param2' => $this->_messageFixture['param2']),
-            Mage_Api2_Model_Response::MESSAGE_TYPE_WARNING
+            Mage_Webapi_Model_Response::MESSAGE_TYPE_WARNING
         );
 
         $response->clearMessages();

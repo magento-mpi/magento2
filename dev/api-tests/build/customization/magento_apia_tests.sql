@@ -179,115 +179,115 @@ LOCK TABLES `adminnotification_inbox` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `api2_acl_attribute`
+-- Table structure for table `webapi_acl_attribute`
 --
 
-DROP TABLE IF EXISTS `api2_acl_attribute`;
+DROP TABLE IF EXISTS `webapi_acl_attribute`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `api2_acl_attribute` (
+CREATE TABLE `webapi_acl_attribute` (
   `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
   `user_type` varchar(20) NOT NULL COMMENT 'Type of user',
   `resource_id` varchar(255) NOT NULL COMMENT 'Resource ID',
   `operation` varchar(20) NOT NULL COMMENT 'Operation',
   `allowed_attributes` text COMMENT 'Allowed attributes',
   PRIMARY KEY (`entity_id`),
-  UNIQUE KEY `UNQ_API2_ACL_ATTRIBUTE_USER_TYPE_RESOURCE_ID_OPERATION` (`user_type`,`resource_id`,`operation`),
-  KEY `IDX_API2_ACL_ATTRIBUTE_USER_TYPE` (`user_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Api2 Filter ACL Attributes';
+  UNIQUE KEY `UNQ_Webapi_ACL_ATTRIBUTE_USER_TYPE_RESOURCE_ID_OPERATION` (`user_type`,`resource_id`,`operation`),
+  KEY `IDX_Webapi_ACL_ATTRIBUTE_USER_TYPE` (`user_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Webapi Filter ACL Attributes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `api2_acl_attribute`
+-- Dumping data for table `webapi_acl_attribute`
 --
 
-LOCK TABLES `api2_acl_attribute` WRITE;
-/*!40000 ALTER TABLE `api2_acl_attribute` DISABLE KEYS */;
-INSERT INTO `api2_acl_attribute` VALUES (1,'admin','all','',NULL),(2,'customer','all','',NULL),(3,'guest','all','',NULL);
-/*!40000 ALTER TABLE `api2_acl_attribute` ENABLE KEYS */;
+LOCK TABLES `webapi_acl_attribute` WRITE;
+/*!40000 ALTER TABLE `webapi_acl_attribute` DISABLE KEYS */;
+INSERT INTO `webapi_acl_attribute` VALUES (1,'admin','all','',NULL),(2,'customer','all','',NULL),(3,'guest','all','',NULL);
+/*!40000 ALTER TABLE `webapi_acl_attribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `api2_acl_role`
+-- Table structure for table `webapi_acl_role`
 --
 
-DROP TABLE IF EXISTS `api2_acl_role`;
+DROP TABLE IF EXISTS `webapi_acl_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `api2_acl_role` (
+CREATE TABLE `webapi_acl_role` (
   `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Created At',
   `updated_at` timestamp NULL DEFAULT NULL COMMENT 'Updated At',
   `role_name` varchar(255) NOT NULL COMMENT 'Name of role',
   PRIMARY KEY (`entity_id`),
-  KEY `IDX_API2_ACL_ROLE_CREATED_AT` (`created_at`),
-  KEY `IDX_API2_ACL_ROLE_UPDATED_AT` (`updated_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Roles';
+  KEY `IDX_Webapi_ACL_ROLE_CREATED_AT` (`created_at`),
+  KEY `IDX_Webapi_ACL_ROLE_UPDATED_AT` (`updated_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='Webapi Global ACL Roles';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `api2_acl_role`
+-- Dumping data for table `webapi_acl_role`
 --
 
-LOCK TABLES `api2_acl_role` WRITE;
-/*!40000 ALTER TABLE `api2_acl_role` DISABLE KEYS */;
-INSERT INTO `api2_acl_role` VALUES (1,'2012-05-23 16:41:15',NULL,'Guest'),(2,'2012-05-23 16:41:15',NULL,'Customer'),(3,'2012-05-23 13:52:22',NULL,'Admin');
-/*!40000 ALTER TABLE `api2_acl_role` ENABLE KEYS */;
+LOCK TABLES `webapi_acl_role` WRITE;
+/*!40000 ALTER TABLE `webapi_acl_role` DISABLE KEYS */;
+INSERT INTO `webapi_acl_role` VALUES (1,'2012-05-23 16:41:15',NULL,'Guest'),(2,'2012-05-23 16:41:15',NULL,'Customer'),(3,'2012-05-23 13:52:22',NULL,'Admin');
+/*!40000 ALTER TABLE `webapi_acl_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `api2_acl_rule`
+-- Table structure for table `webapi_acl_rule`
 --
 
-DROP TABLE IF EXISTS `api2_acl_rule`;
+DROP TABLE IF EXISTS `webapi_acl_rule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `api2_acl_rule` (
+CREATE TABLE `webapi_acl_rule` (
   `entity_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Entity ID',
   `role_id` int(10) unsigned NOT NULL COMMENT 'Role ID',
   `resource_id` varchar(255) NOT NULL COMMENT 'Resource ID',
   `privilege` varchar(20) DEFAULT NULL COMMENT 'ACL Privilege',
   PRIMARY KEY (`entity_id`),
-  UNIQUE KEY `UNQ_API2_ACL_RULE_ROLE_ID_RESOURCE_ID_PRIVILEGE` (`role_id`,`resource_id`,`privilege`),
-  CONSTRAINT `FK_API2_ACL_RULE_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` FOREIGN KEY (`role_id`) REFERENCES `api2_acl_role` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Rules';
+  UNIQUE KEY `UNQ_Webapi_ACL_RULE_ROLE_ID_RESOURCE_ID_PRIVILEGE` (`role_id`,`resource_id`,`privilege`),
+  CONSTRAINT `FK_Webapi_ACL_RULE_ROLE_ID_Webapi_ACL_ROLE_ENTITY_ID` FOREIGN KEY (`role_id`) REFERENCES `webapi_acl_role` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Webapi Global ACL Rules';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `api2_acl_rule`
+-- Dumping data for table `webapi_acl_rule`
 --
 
-LOCK TABLES `api2_acl_rule` WRITE;
-/*!40000 ALTER TABLE `api2_acl_rule` DISABLE KEYS */;
-INSERT INTO `api2_acl_rule` VALUES (4,1,'all',NULL),(3,2,'all',NULL),(2,3,'all',NULL);
-/*!40000 ALTER TABLE `api2_acl_rule` ENABLE KEYS */;
+LOCK TABLES `webapi_acl_rule` WRITE;
+/*!40000 ALTER TABLE `webapi_acl_rule` DISABLE KEYS */;
+INSERT INTO `webapi_acl_rule` VALUES (4,1,'all',NULL),(3,2,'all',NULL),(2,3,'all',NULL);
+/*!40000 ALTER TABLE `webapi_acl_rule` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `api2_acl_user`
+-- Table structure for table `webapi_acl_user`
 --
 
-DROP TABLE IF EXISTS `api2_acl_user`;
+DROP TABLE IF EXISTS `webapi_acl_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `api2_acl_user` (
+CREATE TABLE `webapi_acl_user` (
   `admin_id` int(10) unsigned NOT NULL COMMENT 'Admin ID',
   `role_id` int(10) unsigned NOT NULL COMMENT 'Role ID',
-  UNIQUE KEY `UNQ_API2_ACL_USER_ADMIN_ID` (`admin_id`),
-  KEY `FK_API2_ACL_USER_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` (`role_id`),
-  CONSTRAINT `FK_API2_ACL_USER_ADMIN_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`admin_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_API2_ACL_USER_ROLE_ID_API2_ACL_ROLE_ENTITY_ID` FOREIGN KEY (`role_id`) REFERENCES `api2_acl_role` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Api2 Global ACL Users';
+  UNIQUE KEY `UNQ_Webapi_ACL_USER_ADMIN_ID` (`admin_id`),
+  KEY `FK_Webapi_ACL_USER_ROLE_ID_Webapi_ACL_ROLE_ENTITY_ID` (`role_id`),
+  CONSTRAINT `FK_Webapi_ACL_USER_ADMIN_ID_ADMIN_USER_USER_ID` FOREIGN KEY (`admin_id`) REFERENCES `admin_user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_Webapi_ACL_USER_ROLE_ID_Webapi_ACL_ROLE_ENTITY_ID` FOREIGN KEY (`role_id`) REFERENCES `webapi_acl_role` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Webapi Global ACL Users';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `api2_acl_user`
+-- Dumping data for table `webapi_acl_user`
 --
 
-LOCK TABLES `api2_acl_user` WRITE;
-/*!40000 ALTER TABLE `api2_acl_user` DISABLE KEYS */;
-INSERT INTO `api2_acl_user` VALUES (1,3);
-/*!40000 ALTER TABLE `api2_acl_user` ENABLE KEYS */;
+LOCK TABLES `webapi_acl_user` WRITE;
+/*!40000 ALTER TABLE `webapi_acl_user` DISABLE KEYS */;
+INSERT INTO `webapi_acl_user` VALUES (1,3);
+/*!40000 ALTER TABLE `webapi_acl_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3750,7 +3750,7 @@ CREATE TABLE `core_cache_option` (
 
 LOCK TABLES `core_cache_option` WRITE;
 /*!40000 ALTER TABLE `core_cache_option` DISABLE KEYS */;
-INSERT INTO `core_cache_option` VALUES ('block_html',1),('collections',1),('config',1),('config_api',1),('config_api2',1),('eav',1),('full_page',1),('layout',1),('translate',1);
+INSERT INTO `core_cache_option` VALUES ('block_html',1),('collections',1),('config',1),('config_api',1),('config_webapi',1),('eav',1),('full_page',1),('layout',1),('translate',1);
 /*!40000 ALTER TABLE `core_cache_option` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3950,7 +3950,7 @@ CREATE TABLE `core_resource` (
 
 LOCK TABLES `core_resource` WRITE;
 /*!40000 ALTER TABLE `core_resource` DISABLE KEYS */;
-INSERT INTO `core_resource` VALUES ('user_setup', '1.6.1.0', '1.6.1.0'),('adminnotification_setup','1.6.0.0','1.6.0.0'),('admin_setup','1.6.1.0','1.6.1.0'),('api2_setup','1.0.0.0','1.0.0.0'),('api_setup','1.6.0.0','1.6.0.0'),('backup_setup','1.6.0.0','1.6.0.0'),('bundle_setup','1.6.0.0.1','1.6.0.0.1'),('captcha_setup','1.7.0.0.0','1.7.0.0.0'),('cataloginventory_setup','1.6.0.0.2','1.6.0.0.2'),('catalogrule_setup','1.6.0.3','1.6.0.3'),('catalogsearch_setup','1.6.0.0','1.6.0.0'),('catalog_setup','1.6.0.0.16','1.6.0.0.16'),('checkout_setup','1.6.0.0','1.6.0.0'),('cms_setup','1.6.0.0.1','1.6.0.0.1'),('contacts_setup','1.6.0.0','1.6.0.0'),('core_setup','1.6.0.3','1.6.0.3'),('cron_setup','1.6.0.0','1.6.0.0'),('customer_setup','1.6.2.0.1','1.6.2.0.1'),('dataflow_setup','1.6.0.0','1.6.0.0'),('directory_setup','1.6.0.1','1.6.0.1'),('downloadable_setup','1.6.0.0.2','1.6.0.0.2'),('eav_setup','1.6.0.0','1.6.0.0'),('enterprise_admingws_setup','1.11.0.0','1.11.0.0'),('enterprise_banner_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogevent_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogpermissions_setup','1.11.0.0','1.11.0.0'),('enterprise_cms_setup','1.11.0.3','1.11.0.3'),('enterprise_customerbalance_setup','1.11.0.0','1.11.0.0'),('enterprise_customersegment_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_customer_setup','1.11.0.0','1.11.0.0'),('enterprise_enterprise_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcardaccount_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcard_setup','1.11.0.0','1.11.0.0'),('enterprise_giftregistry_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_giftwrapping_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_importexport_setup','1.11.0.1','1.11.0.1'),('enterprise_invitation_setup','1.11.0.0','1.11.0.0'),('enterprise_logging_setup','1.11.0.0','1.11.0.0'),('enterprise_pagecache_setup','1.11.0.0','1.11.0.0'),('enterprise_pci_setup','1.11.0.0','1.11.0.0'),('enterprise_reminder_setup','1.11.0.1','1.11.0.1'),('enterprise_reward_setup','1.11.0.1','1.11.0.1'),('enterprise_rma_setup','1.11.0.8','1.11.0.8'),('enterprise_salesarchive_setup','1.11.0.0','1.11.0.0'),('enterprise_search_setup','1.11.0.0','1.11.0.0'),('enterprise_staging_setup','1.11.0.0.2','1.11.0.0.2'),('enterprise_targetrule_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_websiterestriction_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_wishlist_setup','1.12.0.0','1.12.0.0'),('giftmessage_setup','1.6.0.0','1.6.0.0'),('googlecheckout_setup','1.6.0.1','1.6.0.1'),('googleoptimizer_setup','1.6.0.0','1.6.0.0'),('googleshopping_setup','1.6.0.0.1','1.6.0.0.1'),('importexport_setup','1.6.0.2','1.6.0.2'),('index_setup','1.6.0.0','1.6.0.0'),('log_setup','1.6.0.0','1.6.0.0'),('moneybookers_setup','1.6.0.0','1.6.0.0'),('newsletter_setup','1.6.0.1','1.6.0.1'),('oauth_setup','1.0.0.0','1.0.0.0'),('ogone_setup','1.6.0.0','1.6.0.0'),('paygate_setup','1.6.0.0','1.6.0.0'),('payment_setup','1.6.0.0','1.6.0.0'),('paypaluk_setup','1.6.0.0','1.6.0.0'),('paypal_setup','1.6.0.2','1.6.0.2'),('persistent_setup','1.0.0.0','1.0.0.0'),('poll_setup','1.6.0.0','1.6.0.0'),('productalert_setup','1.6.0.0','1.6.0.0'),('rating_setup','1.6.0.0','1.6.0.0'),('reports_setup','1.6.0.0.1','1.6.0.0.1'),('review_setup','1.6.0.0','1.6.0.0'),('salesrule_setup','1.6.0.3','1.6.0.3'),('sales_setup','1.6.0.8','1.6.0.8'),('sendfriend_setup','1.6.0.0','1.6.0.0'),('shipping_setup','1.6.0.0','1.6.0.0'),('sitemap_setup','1.6.0.0','1.6.0.0'),('social_facebook_setup','1.6.0.1','1.6.0.1'),('tag_setup','1.6.0.0','1.6.0.0'),('tax_setup','1.6.0.3','1.6.0.3'),('usa_setup','1.6.0.1','1.6.0.1'),('weee_setup','1.6.0.0','1.6.0.0'),('widget_setup','1.6.0.0','1.6.0.0'),('wishlist_setup','1.6.0.0','1.6.0.0'),('xmlconnect_setup','1.6.0.0','1.6.0.0');
+INSERT INTO `core_resource` VALUES ('user_setup', '1.6.1.0', '1.6.1.0'),('adminnotification_setup','1.6.0.0','1.6.0.0'),('admin_setup','1.6.1.0','1.6.1.0'),('webapi_setup','1.0.0.0','1.0.0.0'),('api_setup','1.6.0.0','1.6.0.0'),('backup_setup','1.6.0.0','1.6.0.0'),('bundle_setup','1.6.0.0.1','1.6.0.0.1'),('captcha_setup','1.7.0.0.0','1.7.0.0.0'),('cataloginventory_setup','1.6.0.0.2','1.6.0.0.2'),('catalogrule_setup','1.6.0.3','1.6.0.3'),('catalogsearch_setup','1.6.0.0','1.6.0.0'),('catalog_setup','1.6.0.0.16','1.6.0.0.16'),('checkout_setup','1.6.0.0','1.6.0.0'),('cms_setup','1.6.0.0.1','1.6.0.0.1'),('contacts_setup','1.6.0.0','1.6.0.0'),('core_setup','1.6.0.3','1.6.0.3'),('cron_setup','1.6.0.0','1.6.0.0'),('customer_setup','1.6.2.0.1','1.6.2.0.1'),('dataflow_setup','1.6.0.0','1.6.0.0'),('directory_setup','1.6.0.1','1.6.0.1'),('downloadable_setup','1.6.0.0.2','1.6.0.0.2'),('eav_setup','1.6.0.0','1.6.0.0'),('enterprise_admingws_setup','1.11.0.0','1.11.0.0'),('enterprise_banner_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogevent_setup','1.11.0.0','1.11.0.0'),('enterprise_catalogpermissions_setup','1.11.0.0','1.11.0.0'),('enterprise_cms_setup','1.11.0.3','1.11.0.3'),('enterprise_customerbalance_setup','1.11.0.0','1.11.0.0'),('enterprise_customersegment_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_customer_setup','1.11.0.0','1.11.0.0'),('enterprise_enterprise_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcardaccount_setup','1.11.0.0','1.11.0.0'),('enterprise_giftcard_setup','1.11.0.0','1.11.0.0'),('enterprise_giftregistry_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_giftwrapping_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_importexport_setup','1.11.0.1','1.11.0.1'),('enterprise_invitation_setup','1.11.0.0','1.11.0.0'),('enterprise_logging_setup','1.11.0.0','1.11.0.0'),('enterprise_pagecache_setup','1.11.0.0','1.11.0.0'),('enterprise_pci_setup','1.11.0.0','1.11.0.0'),('enterprise_reminder_setup','1.11.0.1','1.11.0.1'),('enterprise_reward_setup','1.11.0.1','1.11.0.1'),('enterprise_rma_setup','1.11.0.8','1.11.0.8'),('enterprise_salesarchive_setup','1.11.0.0','1.11.0.0'),('enterprise_search_setup','1.11.0.0','1.11.0.0'),('enterprise_staging_setup','1.11.0.0.2','1.11.0.0.2'),('enterprise_targetrule_setup','1.11.0.0.3','1.11.0.0.3'),('enterprise_websiterestriction_setup','1.11.0.0.1','1.11.0.0.1'),('enterprise_wishlist_setup','1.12.0.0','1.12.0.0'),('giftmessage_setup','1.6.0.0','1.6.0.0'),('googlecheckout_setup','1.6.0.1','1.6.0.1'),('googleoptimizer_setup','1.6.0.0','1.6.0.0'),('googleshopping_setup','1.6.0.0.1','1.6.0.0.1'),('importexport_setup','1.6.0.2','1.6.0.2'),('index_setup','1.6.0.0','1.6.0.0'),('log_setup','1.6.0.0','1.6.0.0'),('moneybookers_setup','1.6.0.0','1.6.0.0'),('newsletter_setup','1.6.0.1','1.6.0.1'),('oauth_setup','1.0.0.0','1.0.0.0'),('ogone_setup','1.6.0.0','1.6.0.0'),('paygate_setup','1.6.0.0','1.6.0.0'),('payment_setup','1.6.0.0','1.6.0.0'),('paypaluk_setup','1.6.0.0','1.6.0.0'),('paypal_setup','1.6.0.2','1.6.0.2'),('persistent_setup','1.0.0.0','1.0.0.0'),('poll_setup','1.6.0.0','1.6.0.0'),('productalert_setup','1.6.0.0','1.6.0.0'),('rating_setup','1.6.0.0','1.6.0.0'),('reports_setup','1.6.0.0.1','1.6.0.0.1'),('review_setup','1.6.0.0','1.6.0.0'),('salesrule_setup','1.6.0.3','1.6.0.3'),('sales_setup','1.6.0.8','1.6.0.8'),('sendfriend_setup','1.6.0.0','1.6.0.0'),('shipping_setup','1.6.0.0','1.6.0.0'),('sitemap_setup','1.6.0.0','1.6.0.0'),('social_facebook_setup','1.6.0.1','1.6.0.1'),('tag_setup','1.6.0.0','1.6.0.0'),('tax_setup','1.6.0.3','1.6.0.3'),('usa_setup','1.6.0.1','1.6.0.1'),('weee_setup','1.6.0.0','1.6.0.0'),('widget_setup','1.6.0.0','1.6.0.0'),('wishlist_setup','1.6.0.0','1.6.0.0'),('xmlconnect_setup','1.6.0.0','1.6.0.0');
 /*!40000 ALTER TABLE `core_resource` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -7490,7 +7490,7 @@ CREATE TABLE `enterprise_logging_event` (
 
 LOCK TABLES `enterprise_logging_event` WRITE;
 /*!40000 ALTER TABLE `enterprise_logging_event` DISABLE KEYS */;
-INSERT INTO `enterprise_logging_event` VALUES (1,2130706433,0,'admin_login','2012-05-17 09:01:26','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(2,2130706433,0,'admin_login','2012-05-17 10:33:09','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(3,2130706433,0,'customer','2012-05-17 10:33:45','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_customer_save',NULL),(4,2130706433,0,'api_users','2012-05-17 10:34:51','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_save',NULL),(5,2130706433,0,'api_users','2012-05-17 10:34:52','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(6,2130706433,0,'api_roles','2012-05-17 10:35:05','view','a:1:{s:7:\"general\";s:0:\"\";}','success','admin',1,'adminhtml_api_role_editrole',NULL),(7,2130706433,0,'api_roles','2012-05-17 10:35:17','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_role_saverole',NULL),(8,2130706433,0,'api_users','2012-05-18 11:12:33','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(9,2130706433,0,'api_users','2012-05-18 11:12:38','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_save',NULL),(10,2130706433,0,'api_users','2012-05-18 11:12:38','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(11,2130706433,0,'admin_login','2012-05-23 13:38:42','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_api2_role_edit',NULL),(12,2130706433,0,'adminhtml_system_config','2012-05-23 13:39:47','view','a:1:{s:7:\"general\";s:5:\"admin\";}','success','admin',1,'adminhtml_system_config_edit',NULL),(13,2130706433,0,'admin_login','2012-05-23 13:40:00','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL);
+INSERT INTO `enterprise_logging_event` VALUES (1,2130706433,0,'admin_login','2012-05-17 09:01:26','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(2,2130706433,0,'admin_login','2012-05-17 10:33:09','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL),(3,2130706433,0,'customer','2012-05-17 10:33:45','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_customer_save',NULL),(4,2130706433,0,'api_users','2012-05-17 10:34:51','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_save',NULL),(5,2130706433,0,'api_users','2012-05-17 10:34:52','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(6,2130706433,0,'api_roles','2012-05-17 10:35:05','view','a:1:{s:7:\"general\";s:0:\"\";}','success','admin',1,'adminhtml_api_role_editrole',NULL),(7,2130706433,0,'api_roles','2012-05-17 10:35:17','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_role_saverole',NULL),(8,2130706433,0,'api_users','2012-05-18 11:12:33','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(9,2130706433,0,'api_users','2012-05-18 11:12:38','save','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_save',NULL),(10,2130706433,0,'api_users','2012-05-18 11:12:38','view','a:1:{s:7:\"general\";s:1:\"1\";}','success','admin',1,'adminhtml_api_user_edit',NULL),(11,2130706433,0,'admin_login','2012-05-23 13:38:42','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_webapi_role_edit',NULL),(12,2130706433,0,'adminhtml_system_config','2012-05-23 13:39:47','view','a:1:{s:7:\"general\";s:5:\"admin\";}','success','admin',1,'adminhtml_system_config_edit',NULL),(13,2130706433,0,'admin_login','2012-05-23 13:40:00','login','a:1:{s:7:\"general\";N;}','success','admin',1,'adminhtml_index_index',NULL);
 /*!40000 ALTER TABLE `enterprise_logging_event` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,36 +13,36 @@
  * Resource abstract model test
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_ResourceTest extends Mage_PHPUnit_TestCase
 {
     /**
      * Abstract resource mock object
      *
-     * @var Mage_Api2_Model_ResourceMock
+     * @var Mage_Webapi_Model_ResourceMock
      */
     protected $_resource;
 
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Request
+     * @var Mage_Webapi_Model_Request
      */
     protected $_request;
 
     /**
      * Request object
      *
-     * @var Mage_Api2_Model_Response
+     * @var Mage_Webapi_Model_Response
      */
     protected $_response;
 
     /**
      * Guest user object
      *
-     * @var Mage_Api2_Model_Auth_User_Guest
+     * @var Mage_Webapi_Model_Auth_User_Guest
      */
     protected $_guest;
 
@@ -52,10 +52,10 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->_request = Mage::getSingleton('Mage_Api2_Model_Request');
-        $this->_response = Mage::getSingleton('Mage_Api2_Model_Response');
-        $this->_resource = $this->getMockForAbstractClass('Mage_Api2_Model_ResourceMock');
-        $this->_guest = Mage::getSingleton('Mage_Api2_Model_Auth_User_Guest');
+        $this->_request = Mage::getSingleton('Mage_Webapi_Model_Request');
+        $this->_response = Mage::getSingleton('Mage_Webapi_Model_Response');
+        $this->_resource = $this->getMockForAbstractClass('Mage_Webapi_Model_ResourceMock');
+        $this->_guest = Mage::getSingleton('Mage_Webapi_Model_Auth_User_Guest');
     }
 
     /**
@@ -63,7 +63,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testVersionAccessors()
     {
-        $resource = new Mage_CatalogInventory_Model_Api2_Stock_Item_Rest_Admin_V1;
+        $resource = new Mage_CatalogInventory_Model_Webapi_Stock_Item_Rest_Admin_V1;
         $this->assertEquals(1, $resource->getVersion());
     }
 
@@ -123,7 +123,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     {
         // test preset response getting
         $this->_resource->setResponse($this->_response);
-        $this->assertInstanceOf('Mage_Api2_Model_Response', $this->_resource->getResponse());
+        $this->assertInstanceOf('Mage_Webapi_Model_Response', $this->_resource->getResponse());
     }
 
     /**
@@ -133,7 +133,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     {
         // test preset request getting
         $this->_resource->setRequest($this->_request);
-        $this->assertInstanceOf('Mage_Api2_Model_Request', $this->_resource->getRequest());
+        $this->assertInstanceOf('Mage_Webapi_Model_Request', $this->_resource->getRequest());
     }
 
     /**
@@ -143,7 +143,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     {
         // test preset api user getting
         $this->_resource->setApiUser($this->_guest);
-        $this->assertInstanceOf('Mage_Api2_Model_Auth_User_Abstract', $this->_resource->getApiUser());
+        $this->assertInstanceOf('Mage_Webapi_Model_Auth_User_Abstract', $this->_resource->getApiUser());
     }
 
     /**
@@ -153,18 +153,18 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     {
         // test default renderer getting
         $availableRenderers = (array) simplexml_load_file(dirname(__FILE__) . '/_fixtures/xml/renders.xml');
-        $helperMock = $this->getHelperMockBuilder('Mage_Api2_Helper_Data')->getMock();
+        $helperMock = $this->getHelperMockBuilder('Mage_Webapi_Helper_Data')->getMock();
         $helperMock->expects($this->any())
             ->method('getResponseRenderAdapters')
             ->will($this->returnValue($availableRenderers));
         $_SERVER['HTTP_ACCEPT'] = 'application/json';
         $this->_resource->setRequest($this->_request);
-        $this->assertInstanceOf('Mage_Api2_Model_Renderer_Json', $this->_resource->getRenderer());
+        $this->assertInstanceOf('Mage_Webapi_Model_Renderer_Json', $this->_resource->getRenderer());
 
         // test preset renderer getting
-        $rendererXml = new Mage_Api2_Model_Renderer_Xml();
+        $rendererXml = new Mage_Webapi_Model_Renderer_Xml();
         $this->_resource->setRenderer($rendererXml);
-        $this->assertInstanceOf('Mage_Api2_Model_Renderer_Xml', $this->_resource->getRenderer());
+        $this->assertInstanceOf('Mage_Webapi_Model_Renderer_Xml', $this->_resource->getRenderer());
     }
 
     /**
@@ -172,8 +172,8 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
      */
     public function testCriticalWithPredefinedMessage()
     {
-        $message = Mage_Api2_Controller_Front_Rest::RESOURCE_METHOD_NOT_ALLOWED;
-        $this->setExpectedException('Mage_Api2_Exception', $message, Mage_Api2_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED);
+        $message = Mage_Webapi_Controller_Front_Rest::RESOURCE_METHOD_NOT_ALLOWED;
+        $this->setExpectedException('Mage_Webapi_Exception', $message, Mage_Webapi_Controller_Front_Rest::HTTP_METHOD_NOT_ALLOWED);
         $this->_resource->_critical($message);
     }
 
@@ -185,7 +185,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         try {
             $this->_resource->_critical('Unknown error message');
         } catch (Exception $e) {
-            $this->assertEquals(Mage_Api2_Controller_Front_Rest::HTTP_INTERNAL_ERROR, $e->getCode());
+            $this->assertEquals(Mage_Webapi_Controller_Front_Rest::HTTP_INTERNAL_ERROR, $e->getCode());
             return;
         }
         $this->fail('An expected exception has not been raised');
@@ -198,7 +198,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     {
         $message = 'Unknown error message';
         $code = 101;
-        $this->setExpectedException('Mage_Api2_Exception', $message, $code);
+        $this->setExpectedException('Mage_Webapi_Exception', $message, $code);
         $this->_resource->_critical($message, $code);
     }
 
@@ -213,8 +213,8 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         $this->assertEquals($this->_request->getActionName(), $this->_resource->getOperation());
 
         // test preset operation getting
-        $this->_resource->setOperation(Mage_Api2_Model_Resource::OPERATION_DELETE);
-        $this->assertEquals(Mage_Api2_Model_Resource::OPERATION_DELETE, $this->_resource->getOperation());
+        $this->_resource->setOperation(Mage_Webapi_Model_Resource::OPERATION_DELETE);
+        $this->assertEquals(Mage_Webapi_Model_Resource::OPERATION_DELETE, $this->_resource->getOperation());
     }
 
     /**
@@ -223,13 +223,13 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     public function testActionTypeAccessors()
     {
         // test default action type
-        $this->_request->setParam('action_type', Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
+        $this->_request->setParam('action_type', Mage_Webapi_Model_Resource::ACTION_TYPE_COLLECTION);
         $this->_resource->setRequest($this->_request);
         $this->assertEquals($this->_request->getResourceType(), $this->_resource->getActionType());
 
         // test preset action type getting
-        $this->_resource->setActionType(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION);
-        $this->assertEquals(Mage_Api2_Model_Resource::ACTION_TYPE_COLLECTION, $this->_resource->getActionType());
+        $this->_resource->setActionType(Mage_Webapi_Model_Resource::ACTION_TYPE_COLLECTION);
+        $this->assertEquals(Mage_Webapi_Model_Resource::ACTION_TYPE_COLLECTION, $this->_resource->getActionType());
     }
 
     public function testGetEavAttributes()
@@ -243,7 +243,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
         $type->expects($this->exactly('product'), $this->exactly('entity_model'))
             ->method('load');
 
-        $config = $this->getMock('Mage_Api2_Model_Config', array('getResourceWorkingModel'));
+        $config = $this->getMock('Mage_Webapi_Model_Config', array('getResourceWorkingModel'));
         $config->expects($this->once())
             ->method('getResourceWorkingModel')
             ->will($this->returnValue('Mage_Catalog_Model_Product'));
@@ -255,7 +255,7 @@ class Mage_Api2_Model_ResourceTest extends Mage_PHPUnit_TestCase
     }
 }
 
-abstract class Mage_Api2_Model_ResourceMock extends Mage_Api2_Model_Resource
+abstract class Mage_Webapi_Model_ResourceMock extends Mage_Webapi_Model_Resource
 {
     public function _critical($message, $code = null)
     {

@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Test API2 global ACL role model
+ * Test Webapi global ACL role model
  *
  * @category   Mage
- * @package    Mage_Api2
+ * @package    Mage_Webapi
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Acl_Global_RuleTest extends Magento_TestCase
+class Mage_Webapi_Model_Acl_Global_RuleTest extends Magento_TestCase
 {
     /**
      * Get fixture data
@@ -34,12 +34,12 @@ class Mage_Api2_Model_Acl_Global_RuleTest extends Magento_TestCase
     public function testCrud()
     {
         $data = $this->_getFixture();
-        /** @var $model Mage_Api2_Model_Acl_Global_Rule */
-        $model = Mage::getModel('Mage_Api2_Model_Acl_Global_Rule');
+        /** @var $model Mage_Webapi_Model_Acl_Global_Rule */
+        $model = Mage::getModel('Mage_Webapi_Model_Acl_Global_Rule');
         $model->setData($data['create']);
 
-        /** @var $role Mage_Api2_Model_Acl_Global_Role */
-        $role = Mage::getModel('Mage_Api2_Model_Acl_Global_Role');
+        /** @var $role Mage_Webapi_Model_Acl_Global_Role */
+        $role = Mage::getModel('Mage_Webapi_Model_Acl_Global_Role');
         $this->addModelToDelete($role->load($model->getRoleId()), true);
 
         $testEntity = new Magento_Test_Entity($model, $data['update']);

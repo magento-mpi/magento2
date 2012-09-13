@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -13,10 +13,10 @@
  * Test request interpreter query adapter
  *
  * @category    Mage
- * @package     Mage_Api2
+ * @package     Mage_Webapi
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCase
+class Mage_Webapi_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCase
 {
 
     /**
@@ -29,7 +29,7 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
      */
     public function testInterpretContent($encoded, $decoded)
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
+        $adapter = new Mage_Webapi_Model_Request_Interpreter_Query();
         $this->assertEquals($decoded, $adapter->interpret($encoded), 'Decoded data is not what is expected.');
     }
 
@@ -40,7 +40,7 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
      */
     public function testInterpretContentNotString()
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
+        $adapter = new Mage_Webapi_Model_Request_Interpreter_Query();
         try {
             $adapter->interpret(new stdClass());
         } catch (Exception $e) {
@@ -64,9 +64,9 @@ class Mage_Api2_Model_Request_Interpreter_QueryTest extends Mage_PHPUnit_TestCas
      */
     public function testInterpretContentNotValid($encoded)
     {
-        $adapter = new Mage_Api2_Model_Request_Interpreter_Query();
+        $adapter = new Mage_Webapi_Model_Request_Interpreter_Query();
 
-        $this->setExpectedException('Mage_Api2_Exception', 'Invalid data type. Check Content-Type.');
+        $this->setExpectedException('Mage_Webapi_Exception', 'Invalid data type. Check Content-Type.');
 
         $adapter->interpret($encoded);
     }
