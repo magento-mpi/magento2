@@ -17,10 +17,14 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
         $this->_frontController = $frontController;
     }
 
+    /**
+     * @param $method
+     * @return array
+     */
     // TODO: Think about AOP implementation if it is approved by Tech Leads group
     public function fetchRequestData($method)
     {
-        $processedInputData = null;
+        $processedInputData = array();
         switch ($method) {
             case 'create':
                 // request data must be checked before the create type identification
@@ -28,34 +32,30 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
                 // The create action has the dynamic type which depends on data in the request body
                 if ($this->getRequest()->isAssocArrayInRequestBody()) {
                     // TODO: Implement data filtration of item
-                    $processedInputData = $requestData;
                 } else {
                     // TODO: Implement fields filtration of collection
-                    $processedInputData = $requestData;
                 }
+                $processedInputData['data'] = $requestData;
                 break;
             case 'update':
                 // TODO: Implement data filtration
-                $processedInputData = $this->_getRequestData();
-                if (empty($processedInputData)) {
-                    Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_REQUEST_DATA_INVALID);
-                }
+                $requestData = $this->_getRequestData();
+                $processedInputData['id'] = $this->getRequest()->getParam('id');
+                $processedInputData['data'] = $requestData;
                 break;
             case 'multiUpdate':
                 // TODO: Implement fields filtration
-                $processedInputData = $this->_getRequestData();
-                if (empty($processedInputData)) {
-                    Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_REQUEST_DATA_INVALID);
-                }
+                $requestData = $this->_getRequestData();
+                $processedInputData['data'] = $requestData;
                 break;
             case 'multiDelete':
-                $processedInputData = $this->_getRequestData();
+                $processedInputData['data'] = $this->_getRequestData();
                 break;
             case 'get':
-                $processedInputData = array('id' => $this->getRequest()->getParam('id'));
+            case 'delete':
+                $processedInputData['id'] = $this->getRequest()->getParam('id');
                 break;
             case 'multiGet':
-            case 'delete':
                 break;
 
         }

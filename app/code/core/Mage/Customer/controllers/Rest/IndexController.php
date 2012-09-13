@@ -18,17 +18,6 @@
 // TODO: Change base class
 class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_ActionAbstract
 {
-    public function __construct(Zend_Controller_Request_Abstract $request,
-                                Zend_Controller_Response_Abstract $response, array $invokeArgs = array()
-    ) {
-        $this->_request = $request;
-        $this->_response = $response;
-
-        // TODO: Move to heigher level in hierarchy
-//        Mage::app()->getFrontController()->setAction($this);
-
-        $this->_construct();
-    }
 
     /**
      * Create customer
@@ -67,13 +56,14 @@ class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_Act
     /**
      * Update customer
      *
+     * @param string $customerId
      * @param array $data
      * @throws Mage_Webapi_Exception
      */
-    public function updateV1(array $data)
+    public function updateV1($customerId, array $data)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+        $customer = $this->_loadCustomerById($customerId);
         $customer->addData($data);
         try {
             $customer->save();
@@ -84,11 +74,11 @@ class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_Act
         }
     }
 
-
     /**
      * Retrieve information about customer
      * Add last logged in datetime
      *
+     * @param string $customerId
      * @throws Mage_Webapi_Exception
      * @return array
      */
@@ -112,11 +102,13 @@ class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_Act
 
     /**
      * Delete customer
+     *
+     * @param string $customerId
      */
-    public function deleteV1()
+    public function deleteV1($customerId)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($this->getRequest()->getParam('id'));
+        $customer = $this->_loadCustomerById($customerId);
 
         try {
             $customer->delete();

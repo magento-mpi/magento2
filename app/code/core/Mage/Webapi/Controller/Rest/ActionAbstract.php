@@ -10,12 +10,9 @@
 
 /**
  * Generic REST controller
- *
- * @method Mage_Webapi_Model_Request getRequest() getRequest()
- * @method Mage_Webapi_Model_Response getResponse() getResponse()
  */
 // TODO: Remove inheritance if possible
-abstract class Mage_Webapi_Controller_Rest_ActionAbstract extends Mage_Core_Controller_Varien_Action
+abstract class Mage_Webapi_Controller_Rest_ActionAbstract
 {
     /**#@+
      * Collection page sizes
@@ -41,7 +38,7 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract extends Mage_Core_Cont
     /**
      * Response
      *
-     * @var Zend_Controller_Response_Http
+     * @var Mage_Webapi_Model_Response
      */
     protected $_response;
 
@@ -78,7 +75,8 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract extends Mage_Core_Cont
     )
     {
         $this->_restHelper = Mage::helper('Mage_Webapi_Helper_Rest');
-        parent::__construct($request, $response, $invokeArgs);
+        $this->_request = $request;
+        $this->_response = $response;
     }
     /**
      * Set request
@@ -275,5 +273,36 @@ abstract class Mage_Webapi_Controller_Rest_ActionAbstract extends Mage_Core_Cont
     public function getActionMethodName($action)
     {
         return $action;
+    }
+
+    /**
+     * Check if specified action is defined in current controller
+     *
+     * @param string $actionName
+     * @return bool
+     */
+    public function hasAction($actionName)
+    {
+        return method_exists($this, $actionName);
+    }
+
+    /**
+     * Retrieve request object
+     *
+     * @return Mage_Webapi_Model_Request
+     */
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    /**
+     * Retrieve response object
+     *
+     * @return Mage_Webapi_Model_Response
+     */
+    public function getResponse()
+    {
+        return $this->_response;
     }
 }

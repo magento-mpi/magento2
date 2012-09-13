@@ -140,8 +140,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $action = $method . $this->_getAvailableMethodSuffix($method, $controllerInstance);
 
             $inputData = $this->_presentation->fetchRequestData($method);
-//            $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
-            $outputData = $controllerInstance->$action($inputData);
+            $outputData = call_user_func_array(array($controllerInstance, $action), $inputData);
             $this->_presentation->prepareResponse($method, $outputData);
         } catch (Exception $e) {
             Mage::logException($e);
@@ -218,7 +217,7 @@ class Mage_Webapi_Controller_Front_Rest extends Mage_Webapi_Controller_FrontAbst
             $methodVersion--;
         }
         // TODO: Think about better messages
-        Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_NOT_FOUND);
+        Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_METHOD_NOT_IMPLEMENTED);
     }
 
     /**
