@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/** Bug MAGETWO-3318 Segmentation Fault */
+return;
+
 /** @var $this Mage_Catalog_Model_Resource_Setup */
 
 /** @var $installer Mage_Core_Model_Resource_Setup_Migration */
