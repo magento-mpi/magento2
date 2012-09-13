@@ -142,7 +142,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      * <p>Expected result:</p>
      * <p>Guest is redirected to login/register page.</p>
      *
-     * @test
+     * @ test
      */
     public function guestCannotOpenWishlist()
     {
@@ -164,7 +164,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @param array $testData
      *
-     * @test
+     * @ test
      * @depends preconditionsForTests
      */
     public function guestCannotAddProductToWishlist($testData)
@@ -273,7 +273,7 @@ class Core_Mage_Wishlist_Wishlist extends Mage_Selenium_TestCase
      *
      * @param array $testData
      *
-     * @test
+     * @ test
      * @depends preconditionsForTests
      */
     public function removeProductsFromWishlist($testData)

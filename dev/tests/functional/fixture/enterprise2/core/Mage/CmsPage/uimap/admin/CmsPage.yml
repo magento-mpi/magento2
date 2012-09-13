@@ -22,6 +22,9 @@ manage_pages_hierarchy:
     mca: cms_hierarchy/
     click_xpath: //ul[@id='nav']//a[contains(@href, 'cms_hierarchy/')]
     title: Manage Hierarchy / Pages / CMS / Magento Admin
+    uimap:
+        dropdowns:
+            choose_scope: //select[@id='store_switcher']
 
 # Manage Banners page
 manage_banners:

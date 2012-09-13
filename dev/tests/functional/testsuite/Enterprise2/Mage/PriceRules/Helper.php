@@ -26,7 +26,7 @@ class Enterprise2_Mage_PriceRules_Helper extends Core_Mage_PriceRules_Helper
     public function createEmailReminderRule()
     {
         //Data
-        $ruleData = array('rule_name' => $this->generate('text', '10'));
+        $ruleData = array('rule_name' => $this->generate('text', '10'), 'assigned_to_website' => 'Main Website');
         //Steps
         $this->clickButton('add_new_rule');
         $this->validatePage('create_automated_email_reminder_rule');

@@ -37,7 +37,7 @@ menu:
         manage_sales_transactions:
         manage_sales_recurring_profile:
         manage_sales_billing_agreements:
-        manage_sales_checkout_terms_conditions:
+        manage_checkout_terms_and_conditions:
         manage_gift_wrapping:
         tax:
             manage_tax_rule:
