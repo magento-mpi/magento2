@@ -67,7 +67,7 @@ class Core_Mage_ProductAttribute_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openAttribute($searchData)
     {
-        $this->_prepareDataForSearch($searchData);
+        $searchData = $this->_prepareDataForSearch($searchData);
         $xpathTR = $this->search($searchData, 'attributes_grid');
         $this->assertNotNull($xpathTR, 'Attribute is not found');
         $this->addParameter('tableLineXpath', $xpathTR);

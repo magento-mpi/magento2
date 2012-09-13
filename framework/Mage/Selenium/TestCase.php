@@ -2494,7 +2494,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function searchAndOpen(array $data, $fieldSetName, $willChangePage = true)
     {
-        $this->_prepareDataForSearch($data);
+        $data = $this->_prepareDataForSearch($data);
         $trLocator = $this->search($data, $fieldSetName);
 
         if ($trLocator) {
@@ -2522,7 +2522,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function searchAndChoose(array $data, $fieldSetName)
     {
-        $this->_prepareDataForSearch($data);
+        $data = $this->_prepareDataForSearch($data);
         $trLocator = $this->search($data, $fieldSetName);
         if ($trLocator) {
             $trLocator .= "//input[contains(@class,'checkbox') or contains(@class,'radio')][not(@disabled)]";
@@ -2543,7 +2543,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function _prepareDataForSearch(array &$data, array $checkFields = array('dropdown' => 'website'))
+    public function _prepareDataForSearch(array $data, array $checkFields = array('dropdown' => 'website'))
     {
         foreach ($checkFields as $fieldType => $fieldName) {
             if (array_key_exists($fieldName, $data) && !$this->controlIsPresent($fieldType, $fieldName)) {
@@ -2592,7 +2592,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if (!$element && $totalCount > 20) {
             // Fill in search form and click 'Search' button
             $this->fillFieldset($data, $fieldsetName);
-            $this->getElement($this->_getControlXpath('button', 'search', $fieldsetUimap))->click();
+            $searchElement = $this->getElement($this->_getControlXpath('button', 'search', $fieldsetUimap));
+            $this->focusOnElement($searchElement);
+            $searchElement->click();
             $this->waitForElement($pagerLocator);
             $element = $this->elementIsPresent($fieldsetLocator . $trLocator);
         }

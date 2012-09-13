@@ -491,7 +491,7 @@ class Core_Mage_Product_Helper extends Mage_Selenium_AbstractHelper
      */
     public function openProduct(array $productSearch)
     {
-        $this->_prepareDataForSearch($productSearch);
+        $productSearch = $this->_prepareDataForSearch($productSearch);
         $xpathTR = $this->search($productSearch, 'product_grid');
         $this->assertNotNull($xpathTR, 'Product is not found');
         $cellId = $this->getColumnIdByName('Name');
