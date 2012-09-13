@@ -105,7 +105,6 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                 $this->addNewGroup($groupName);
             }
             $moveToElement = $this->getElement($this->_getControlXpath('link', 'group_folder'));
-            $this->focusOnElement($moveToElement);
             $moveToElement->click();
             foreach ($attributeCode as $value) {
                 $this->addParameter('attributeName', $value);
@@ -113,14 +112,16 @@ class Core_Mage_AttributeSet_Helper extends Mage_Selenium_AbstractHelper
                     $this->fail("Attribute with title '$value' does not exist");
                 }
                 $moveElement = $this->getElement($this->_getControlXpath('link', 'unassigned_attribute'));
-                $this->focusOnElement($moveElement);
                 $moveElement->click();
                 $this->moveto($moveElement);
                 $this->buttondown();
                 $this->moveto($moveToElement);
                 $this->buttonup();
-                $this->assertTrue($this->controlIsPresent('link', 'attribute_in_group'),
-                    'Attribute "' . $value . '" is not assigned to group "' . $groupName . '"');
+                try {
+                    $this->waitForElement($this->controlIsPresent('link', 'attribute_in_group'), 6);
+                } catch (RuntimeException $e) {
+                    $this->fail('Attribute "' . $value . '" is not assigned to group "' . $groupName . '"');
+                }
             }
         }
     }
