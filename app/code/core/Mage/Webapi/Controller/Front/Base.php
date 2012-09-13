@@ -59,11 +59,7 @@ class Mage_Webapi_Controller_Front_Base implements Mage_Core_Controller_FrontInt
         // TODO: Implement error handling on this stage
         $concreteFrontController = $this->_getConcreteFrontController();
 
-        $resourceConfigFiles = Mage::getConfig()->getModuleConfigurationFiles('api_resource.xml');
-        /** @var Mage_Webapi_Model_Config_Resource $resourceConfig */
-        $resourceConfig = Mage::getModel('Mage_Webapi_Model_Config_Resource', $resourceConfigFiles);
-        $concreteFrontController->setResourceConfig($resourceConfig)
-            ->setRequest($this->_request)
+        $concreteFrontController->setRequest($this->_request)
             ->setResponse($this->_response)
             ->init();
 

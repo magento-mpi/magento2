@@ -35,6 +35,21 @@ abstract class Mage_Webapi_Controller_FrontAbstract implements Mage_Core_Control
     abstract public function dispatch();
 
     /**
+     * Initialize resources config based on requested modules and versions.
+     *
+     * @param array $requestedModules
+     */
+    protected function _initResourceConfig($requestedModules)
+    {
+        if (is_null($this->getResourceConfig())) {
+            $resourceConfigFiles = Mage::app()->getConfig()->getModulesApiConfigurationFiles($requestedModules);
+            /** @var Mage_Webapi_Model_Config_Resource $resourceConfig */
+            $resourceConfig = Mage::getModel('Mage_Webapi_Model_Config_Resource', $resourceConfigFiles);
+            $this->setResourceConfig($resourceConfig);
+        }
+    }
+
+    /**
      * Retrieve config describing resources available in all APIs
      * The same resource config must be used in all API types
      *

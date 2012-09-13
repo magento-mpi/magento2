@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Magento"
+                  targetNamespace="urn:Magento"
+                  xmlns:tns="urn:Magento"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+            <xs:complexType name="customerEntityCreate">
+                <xs:sequence>
+                    <xs:element name="email" type="xs:string" minOccurs="1" />
+                    <xs:element name="firstname" type="xs:string" minOccurs="1" />
+                    <xs:element name="lastname" type="xs:string" minOccurs="1" />
+                    <xs:element name="password" type="xs:string" minOccurs="1" />
+                    <xs:element name="group_id" type="xs:int" minOccurs="1" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="customerEntity">
+                <xs:sequence>
+                    <xs:element name="customer_id" type="xs:int" minOccurs="0" />
+                    <xs:element name="created_at" type="xs:string" minOccurs="0" />
+                    <xs:element name="firstname" type="xs:string" minOccurs="0" />
+                    <xs:element name="middlename" type="xs:string" minOccurs="0" />
+                    <xs:element name="lastname" type="xs:string" minOccurs="0" />
+                    <xs:element name="password_hash" type="xs:string" minOccurs="0" />
+                    <xs:element name="group_id" type="xs:int" minOccurs="1" />
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:element name="customerCreateRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="customerData" type="tns:customerEntityCreate" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerCreateResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerInfoRequestParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="customerId" type="xs:int" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerInfoResponseParam">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="result" type="tns:customerEntity" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="customerCreateRequest">
+        <wsdl:part name="parameters" element="tns:customerCreateRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerCreateResponse">
+        <wsdl:part name="parameters" element="tns:customerCreateResponseParam" />
+    </wsdl:message>
+    <wsdl:message name="customerInfoRequest">
+        <wsdl:part name="parameters" element="tns:customerInfoRequestParam" />
+    </wsdl:message>
+    <wsdl:message name="customerInfoResponse">
+        <wsdl:part name="parameters" element="tns:customerInfoResponseParam" />
+    </wsdl:message>
+
+    <wsdl:portType name="customer">
+        <wsdl:operation name="customerCreate">
+            <wsdl:documentation>Create customer</wsdl:documentation>
+            <wsdl:input message="tns:customerCreateRequest" />
+            <wsdl:output message="tns:customerCreateResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="customerInfo">
+            <wsdl:documentation>Retrieve customer data</wsdl:documentation>
+            <wsdl:input message="tns:customerInfoRequest" />
+            <wsdl:output message="tns:customerInfoResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+
+</wsdl:definitions>

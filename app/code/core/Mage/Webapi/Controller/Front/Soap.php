@@ -145,12 +145,12 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
      */
     public function dispatch()
     {
-        $this->_setResponseContentType('application/soap+xml');
         try {
             if ($this->getRequest()->getParam('wsdl') !== null) {
-                $responseBody = $this->_getWsdlContent();
                 $this->_setResponseContentType('text/xml');
+                $responseBody = $this->_getWsdlContent();
             } else {
+                $this->_setResponseContentType('application/soap+xml');
                 $responseBody = $this->_getSoapServer()->handle();
             }
         } catch (Exception $e) {
@@ -164,26 +164,38 @@ class Mage_Webapi_Controller_Front_Soap extends Mage_Webapi_Controller_FrontAbst
     /**
      * Generate WSDL content based on resource config.
      *
+     * @throws InvalidArgumentException
      * @return string
      */
     protected function _getWsdlContent()
     {
-        if (Mage::app()->useCache(self::WEBSERVICE_CACHE_NAME)) {
-            $cachedWsdlContent = Mage::app()->getCache()->load(self::WSDL_CACHE_ID);
-            if ($cachedWsdlContent !== false) {
-                return $cachedWsdlContent;
+        try {
+            $requestedModules = $this->getRequest()->getParam('modules');
+            if (empty($requestedModules) || !is_array($requestedModules) || empty($requestedModules)) {
+                $helper = Mage::helper('Mage_Webapi_Helper_Data');
+                throw new InvalidArgumentException($helper->__('Invalid requested modules.'));
             }
-        }
+            $cacheId = self::WSDL_CACHE_ID . hash('md5', serialize($requestedModules));
+            if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
+                $cachedWsdlContent = Mage::app()->getCacheInstance()->load($cacheId);
+                if ($cachedWsdlContent !== false) {
+                    return $cachedWsdlContent;
+                }
+            }
 
-        /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
-        $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
-            'resource_config' => $this->getResourceConfig(),
-            'endpoint_url' => $this->_getEndpointUrl(),
-        ));
-        $wsdlContent = $wsdlConfig->generate();
+            $this->_initResourceConfig($requestedModules);
+            /** @var Mage_Webapi_Model_Config_Wsdl $wsdlConfig */
+            $wsdlConfig = Mage::getModel('Mage_Webapi_Model_Config_Wsdl', array(
+                'resource_config' => $this->getResourceConfig(),
+                'endpoint_url' => $this->_getEndpointUrl(),
+            ));
+            $wsdlContent = $wsdlConfig->generate();
 
-        if (Mage::app()->useCache(self::WEBSERVICE_CACHE_NAME)) {
-            Mage::app()->getCache()->save($wsdlContent, self::WSDL_CACHE_ID, array(self::WEBSERVICE_CACHE_TAG));
+            if (Mage::app()->getCacheInstance()->canUse(self::WEBSERVICE_CACHE_NAME)) {
+                Mage::app()->getCacheInstance()->save($wsdlContent, $cacheId, array(self::WEBSERVICE_CACHE_TAG));
+            }
+        } catch (InvalidArgumentException $e) {
+            $wsdlContent = $this->_getSoapFaultMessage($e->getMessage(), self::FAULT_CODE_SENDER);
         }
 
         return $wsdlContent;

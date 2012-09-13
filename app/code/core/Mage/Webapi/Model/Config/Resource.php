@@ -363,6 +363,7 @@ class Mage_Webapi_Model_Config_Resource extends Magento_Config_XmlAbstract
             '/wsdl:definitions/wsdl:portType/wsdl:operation' => 'name',
             '/wsdl:definitions/wsdl:message' => 'name',
             '/wsdl:definitions/wsdl:types/xs:schema/xs:complexType' => 'name',
+            '/wsdl:definitions/wsdl:types/xs:schema/xs:complexType/xs:sequence/xs:element' => 'name',
             '/wsdl:definitions/wsdl:types/xs:schema/xs:element' => 'name',
         );
     }
