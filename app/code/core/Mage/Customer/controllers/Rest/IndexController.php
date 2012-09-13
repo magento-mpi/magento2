@@ -56,14 +56,14 @@ class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_Act
     /**
      * Update customer
      *
-     * @param string $customerId
+     * @param string $id
      * @param array $data
      * @throws Mage_Webapi_Exception
      */
-    public function updateV1($customerId, array $data)
+    public function updateV1($id, array $data)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($customerId);
+        $customer = $this->_loadCustomerById($id);
         $customer->addData($data);
         try {
             $customer->save();
@@ -78,18 +78,18 @@ class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_Act
      * Retrieve information about customer
      * Add last logged in datetime
      *
-     * @param string $customerId
+     * @param string $id
      * @throws Mage_Webapi_Exception
      * @return array
      */
-    public function getV1($customerId)
+    public function getV1($id)
     {
         /** @var $log Mage_Log_Model_Customer */
         $log = Mage::getModel('Mage_Log_Model_Customer');
-        $log->loadByCustomer($customerId);
+        $log->loadByCustomer($id);
 
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($customerId);
+        $customer = $this->_loadCustomerById($id);
         $data = $customer->getData();
         $data['is_confirmed'] = (int)!(isset($data['confirmation']) && $data['confirmation']);
 
@@ -103,12 +103,12 @@ class Mage_Customer_Rest_IndexController extends Mage_Webapi_Controller_Rest_Act
     /**
      * Delete customer
      *
-     * @param string $customerId
+     * @param string $id
      */
-    public function deleteV1($customerId)
+    public function deleteV1($id)
     {
         /** @var $customer Mage_Customer_Model_Customer */
-        $customer = $this->_loadCustomerById($customerId);
+        $customer = $this->_loadCustomerById($id);
 
         try {
             $customer->delete();

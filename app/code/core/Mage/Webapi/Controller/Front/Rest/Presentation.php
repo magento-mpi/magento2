@@ -18,52 +18,58 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
     }
 
     /**
-     * @param $method
+     * Fetch data from request and prepare it for passing to specified action.
+     *
+     * @param string $methodName
+     * @param object $controllerInstance
+     * @param string $action
      * @return array
      */
     // TODO: Think about AOP implementation if it is approved by Tech Leads group
-    public function fetchRequestData($method)
+    // TODO: Think about interface refactoring
+    public function fetchRequestData($methodName, $controllerInstance, $action)
     {
-        $processedInputData = array();
-        switch ($method) {
-            case 'create':
-                // request data must be checked before the create type identification
-                $requestData = $this->_getRequestData();
-                // The create action has the dynamic type which depends on data in the request body
-                if ($this->getRequest()->isAssocArrayInRequestBody()) {
-                    // TODO: Implement data filtration of item
-                } else {
-                    // TODO: Implement fields filtration of collection
-                }
-                $processedInputData['data'] = $requestData;
-                break;
-            case 'update':
-                // TODO: Implement data filtration
-                $requestData = $this->_getRequestData();
-                $processedInputData['id'] = $this->getRequest()->getParam('id');
-                $processedInputData['data'] = $requestData;
-                break;
-            case 'multiUpdate':
-                // TODO: Implement fields filtration
-                $requestData = $this->_getRequestData();
-                $processedInputData['data'] = $requestData;
-                break;
-            case 'multiDelete':
-                $processedInputData['data'] = $this->_getRequestData();
-                break;
-            case 'get':
-            case 'delete':
-                $processedInputData['id'] = $this->getRequest()->getParam('id');
-                break;
-            case 'multiGet':
-                break;
-
-        }
-        return $processedInputData;
+        $methodReflection = new ReflectionMethod($controllerInstance, $action);
+        // TODO: Refactor this and take param initialized with post data from anotations
+        $parameters = array_merge(
+            $this->getRequest()->getParams(),
+            array('data' => $this->_getRequestData($methodName))
+        );
+        $actionArguments = $this->_prepareMethodArguments($methodReflection->getParameters(), $parameters);
+        return $actionArguments;
     }
 
     /**
-     * @param $method
+     * Convert request data into method arguments list.
+     * Sort in correct order, set default values for omitted parameters.
+     *
+     * @param ReflectionParameter[] $reflectionParameters
+     * @param array $requestData
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    protected function _prepareMethodArguments($reflectionParameters, $requestData) {
+
+        $methodArguments = array();
+        foreach($reflectionParameters as $parameter){
+            $parameterName = $parameter->getName();
+            if( isset( $requestData[$parameterName] ) ){
+                $methodArguments[$parameterName] = $requestData[$parameterName];
+            } else {
+                if($parameter->isOptional()){
+                    $methodArguments[$parameterName] = $parameter->getDefaultValue();
+                } else {
+                    throw new InvalidArgumentException("Required parameter \"$parameterName\" is missing.", 0);
+                }
+            }
+        }
+        return $methodArguments;
+    }
+
+    /**
+     * Perform rendering of action results.
+     *
+     * @param string $method
      * @param array|null $outputData
      */
     public function prepareResponse($method, $outputData = null)
@@ -148,13 +154,32 @@ class Mage_Webapi_Controller_Front_Rest_Presentation
      *
      * @return array
      */
-    protected function _getRequestData()
+    protected function _getRequestData($method)
     {
-        $requestData = $this->getRequest()->getBodyParams();
-        if (empty($requestData)) {
-            Mage::helper('Mage_Webapi_Helper_Rest')->critical(Mage_Webapi_Helper_Rest::RESOURCE_REQUEST_DATA_INVALID);
+        $processedInputData = $this->getRequest()->getBodyParams();
+        switch ($method) {
+            case 'create':
+                // request data must be checked before the create type identification
+                // The create action has the dynamic type which depends on data in the request body
+                if ($this->getRequest()->isAssocArrayInRequestBody()) {
+                    // TODO: Implement data filtration of item
+                } else {
+                    // TODO: Implement fields filtration of collection
+                }
+                break;
+            case 'update':
+                // TODO: Implement data filtration
+                break;
+            case 'multiUpdate':
+                // TODO: Implement fields filtration
+                break;
+            case 'multiDelete':
+            case 'get':
+            case 'delete':
+            case 'multiGet':
+                break;
         }
-        return $requestData;
+        return $processedInputData;
     }
 
     /**
